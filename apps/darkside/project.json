@@ -24,7 +24,8 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "darkside:build",
-        "dev": true
+        "dev": true,
+        "proxyConfig": "apps/darkside/proxy.conf.json"
       },
       "configurations": {
         "development": {
