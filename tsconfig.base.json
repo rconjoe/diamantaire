@@ -15,7 +15,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@diamantaire/core/constants": ["libs/core/constants/src/index.ts"]
+      "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
+      "@diamantaire/darkside/layout/global": [
+        "libs/darkside/layout/global/src/index.ts"
+      ],
+      "@diamantaire/darkside/layout/standard": [
+        "libs/darkside/layout/standard/src/index.ts"
+      ],
+      "@diamantaire/shared/constants": ["libs/shared/constants/src/index.ts"],
+      "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,14 +1,14 @@
 {
+  "name": "shared-types",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "core-constants",
-  "sourceRoot": "libs/core/constants/src",
+  "sourceRoot": "libs/shared/types/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/core/constants/**/*.ts"]
+        "lintFilePatterns": ["libs/shared/types/**/*.ts"]
       }
     }
   },
