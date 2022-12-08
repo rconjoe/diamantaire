@@ -1,7 +1,7 @@
 {
-  "name": "vrai-server",
+  "name": "gateway-api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/vrai-server/src",
+  "sourceRoot": "apps/gateway-api/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,10 +10,10 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/vrai-server",
-        "main": "apps/vrai-server/src/main.ts",
-        "tsConfig": "apps/vrai-server/tsconfig.app.json",
-        "assets": ["apps/vrai-server/src/assets"]
+        "outputPath": "dist/apps/gateway-api",
+        "main": "apps/gateway-api/src/main.ts",
+        "tsConfig": "apps/gateway-api/tsconfig.app.json",
+        "assets": ["apps/gateway-api/src/assets"]
       },
       "configurations": {
         "production": {
@@ -22,8 +22,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/vrai-server/src/environments/environment.ts",
-              "with": "apps/vrai-server/src/environments/environment.prod.ts"
+              "replace": "apps/gateway-api/src/environments/environment.ts",
+              "with": "apps/gateway-api/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -32,11 +32,11 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "vrai-server:build"
+        "buildTarget": "gateway-api:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "vrai-server:build:production"
+          "buildTarget": "gateway-api:build:production"
         }
       }
     },
@@ -44,14 +44,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/vrai-server/**/*.ts"]
+        "lintFilePatterns": ["apps/gateway-api/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/vrai-server/jest.config.ts",
+        "jestConfig": "apps/gateway-api/jest.config.ts",
         "passWithNoTests": true
       }
     }
