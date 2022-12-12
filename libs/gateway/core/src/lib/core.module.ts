@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import config from './config/app';
-import { CoreService } from './core.service';
 import { HealthModule } from '@diamantaire/gateway/health';
 
 @Module({
@@ -10,7 +9,7 @@ import { HealthModule } from '@diamantaire/gateway/health';
     HealthModule,
   ],
   controllers: [],
-  providers: [CoreService],
-  exports: [CoreService],
+  providers: [],
+  exports: [],
 })
 export class CoreModule {}

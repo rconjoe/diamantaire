@@ -1,22 +1,6 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
+import { bootstrap } from '@diamantaire/gateway/core';
 import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
 
-import CoreModule from './app/app.module';
-
-async function bootstrap() {
-  const app = await NestFactory.create(CoreModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
-}
-
-bootstrap();
+bootstrap().then((port) =>
+  Logger.log(`🚀 App successfully started on port ${port} !`)
+);
