@@ -9,7 +9,6 @@
   },
   "private": true,
   "dependencies": {
-    "@nestjs/apollo": "^10.1.6",
     "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
@@ -23,10 +22,14 @@
     "@nrwl/next": "15.2.1",
     "@nrwl/nx-cloud": "^15.0.2",
     "@nx-extend/vercel": "^1.6.0",
+    "@tanstack/react-query": "^4.20.4",
+    "@tanstack/react-query-devtools": "^4.20.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "compression": "^1.7.4",
     "core-js": "^3.6.5",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.0.0",
     "helmet": "^6.0.1",
     "mongoose": "^6.7.3",
     "next": "13.0.0",
@@ -40,6 +43,9 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/client-preset": "^1.2.3",
+    "@graphql-codegen/typescript": "^2.8.5",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cli": "15.2.1",
@@ -80,7 +86,7 @@
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "ts-jest": "28.0.5",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.1",
     "typescript": "~4.8.2"
   }
 }

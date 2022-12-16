@@ -1,7 +1,3 @@
 # darkside-core
 
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run `nx test darkside-core` to execute the unit tests via [Jest](https://jestjs.io).
+This library contains global configuration data that `darkside` needs to start up, **not** including any implementations of external libraries that aren't _directly_ related to the core Next.js app spinning up, e.g. data fetching.
