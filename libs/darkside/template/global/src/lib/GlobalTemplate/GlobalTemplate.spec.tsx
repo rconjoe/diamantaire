@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import GlobalLayout from './GlobalLayout';
+import GlobalTemplate from './GlobalTemplate';
 
-describe('GlobalLayout', () => {
+describe('GlobalTemplate', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<GlobalLayout />);
+    const { baseElement } = render(<GlobalTemplate />);
     expect(baseElement).toBeTruthy();
   });
 });

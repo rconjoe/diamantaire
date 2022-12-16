@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'darkside-layout-global',
+  displayName: 'darkside-template-global',
   preset: '../../../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': [
@@ -9,5 +9,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/darkside/layout/global',
+  coverageDirectory: '../../../../coverage/libs/darkside/template/global',
 };
