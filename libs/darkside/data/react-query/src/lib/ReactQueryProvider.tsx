@@ -10,7 +10,7 @@
 // > React Query can upgrade or hydrate those queries with the full functionality of the library.
 // > This includes refetching those queries on the client if they have become stale since the time they were rendered on the server.
 //
-// See https://react-query-v3.tanstack.com/guides/ssr#using-hydration
+// https://tanstack.com/query/v4/docs/guides/ssr#using-hydration
 
 import { ReactNode, useState } from 'react';
 import {
@@ -18,7 +18,9 @@ import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
-} from 'react-query';
+} from '@tanstack/react-query';
+
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 /* eslint-disable-next-line */
 type ReactQueryProviderProps = {
@@ -36,6 +38,7 @@ export function ReactQueryProvider({
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={dehydratedState}>{children}</Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
