@@ -17,14 +17,20 @@
     "baseUrl": ".",
     "paths": {
       "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
-      "@diamantaire/darkside/layout/global": [
-        "libs/darkside/layout/global/src/index.ts"
-      ],
-      "@diamantaire/darkside/layout/standard": [
-        "libs/darkside/layout/standard/src/index.ts"
+      "@diamantaire/darkside/data/react-query": [
+        "libs/darkside/data/react-query/src/index.ts"
       ],
       "@diamantaire/darkside/page/home": [
         "libs/darkside/page/home/src/index.ts"
+      ],
+      "@diamantaire/darkside/page/test-page": [
+        "libs/darkside/page/test-page/src/index.ts"
+      ],
+      "@diamantaire/darkside/template/global": [
+        "libs/darkside/template/global/src/index.ts"
+      ],
+      "@diamantaire/darkside/template/standard": [
+        "libs/darkside/template/standard/src/index.ts"
       ],
       "@diamantaire/gateway/core": ["libs/gateway/core/src/index.ts"],
       "@diamantaire/gateway/health": ["libs/gateway/health/src/index.ts"],
