@@ -1,7 +1,7 @@
 {
-  "name": "gateway-api",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/gateway-api/src",
+  "name": "gateways-darkside",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/gateways/darkside/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,10 +10,10 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/gateway-api",
-        "main": "apps/gateway-api/src/main.ts",
-        "tsConfig": "apps/gateway-api/tsconfig.app.json",
-        "assets": ["apps/gateway-api/src/assets"]
+        "outputPath": "dist/apps/gateways/darkside",
+        "main": "apps/gateways/darkside/src/main.ts",
+        "tsConfig": "apps/gateways/darkside/tsconfig.app.json",
+        "assets": ["apps/gateways/darkside/src/assets"]
       },
       "configurations": {
         "production": {
@@ -22,8 +22,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/gateway-api/src/environments/environment.ts",
-              "with": "apps/gateway-api/src/environments/environment.prod.ts"
+              "replace": "apps/gateways/darkside/src/environments/environment.ts",
+              "with": "apps/gateways/darkside/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -32,11 +32,11 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "gateway-api:build"
+        "buildTarget": "gateways-darkside:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "gateway-api:build:production"
+          "buildTarget": "gateways-darkside:build:production"
         }
       }
     },
@@ -44,14 +44,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/gateway-api/**/*.ts"]
+        "lintFilePatterns": ["apps/gateways/darkside/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/gateway-api/jest.config.ts",
+        "jestConfig": "apps/gateways/darkside/jest.config.ts",
         "passWithNoTests": true
       }
     }

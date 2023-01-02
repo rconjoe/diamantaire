@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
-  displayName: 'gateway-api',
-  preset: '../../jest.preset.js',
+  displayName: 'gateways-darkside',
+  preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/gateway-api',
+  coverageDirectory: '../../../coverage/apps/gateways/darkside',
 };
