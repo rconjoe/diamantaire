@@ -1,3 +1,3 @@
-import { CoreModule } from '@diamantaire/gateway/core';
+import { CoreModule } from '@diamantaire/gateways/darkside/core';
 
 export default CoreModule;
