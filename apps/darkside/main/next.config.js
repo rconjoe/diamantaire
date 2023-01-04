@@ -38,6 +38,9 @@ const nextConfig = {
     locales: ['en-US', 'fr', 'de', 'es'],
     defaultLocale: 'en-US',
   },
+  env: {
+    GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
+  },
 };
 
 module.exports = withNx(nextConfig);
