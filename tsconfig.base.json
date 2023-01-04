@@ -16,9 +16,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@diamantaire/darkside/components/header": [
+        "libs/darkside/components/header/src/index.ts"
+      ],
       "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
-      "@diamantaire/darkside/data/react-query": [
-        "libs/darkside/data/react-query/src/index.ts"
+      "@diamantaire/darkside/data/api": ["libs/darkside/data/api/src/index.ts"],
+      "@diamantaire/darkside/data/hooks": [
+        "libs/darkside/data/hooks/src/index.ts"
+      ],
+      "@diamantaire/darkside/data/queries": [
+        "libs/darkside/data/queries/src/index.ts"
       ],
       "@diamantaire/darkside/page/home": [
         "libs/darkside/page/home/src/index.ts"
@@ -32,8 +39,12 @@
       "@diamantaire/darkside/template/standard": [
         "libs/darkside/template/standard/src/index.ts"
       ],
-      "@diamantaire/gateway/core": ["libs/gateway/core/src/index.ts"],
-      "@diamantaire/gateway/health": ["libs/gateway/health/src/index.ts"],
+      "@diamantaire/gateways/darkside/core": [
+        "libs/gateways/darkside/core/src/index.ts"
+      ],
+      "@diamantaire/gateways/darkside/health": [
+        "libs/gateways/darkside/health/src/index.ts"
+      ],
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.ts"],
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"]
     }
