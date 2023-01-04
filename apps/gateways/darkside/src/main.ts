@@ -1,4 +1,4 @@
-import { bootstrap } from '@diamantaire/gateway/core';
+import { bootstrap } from '@diamantaire/gateways/darkside/core';
 import { Logger } from '@nestjs/common';
 
 bootstrap().then((port) =>
