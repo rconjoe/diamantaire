@@ -1,5 +1,6 @@
 {
   "name": "darkside-components-header",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/darkside/components/header/src",
   "projectType": "library",
   "tags": [],
