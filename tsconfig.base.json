@@ -39,12 +39,6 @@
       "@diamantaire/darkside/template/standard": [
         "libs/darkside/template/standard/src/index.ts"
       ],
-      "@diamantaire/gateways/darkside/core": [
-        "libs/gateways/darkside/core/src/index.ts"
-      ],
-      "@diamantaire/gateways/darkside/health": [
-        "libs/gateways/darkside/health/src/index.ts"
-      ],
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.ts"],
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"]
     }
