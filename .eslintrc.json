@@ -1,7 +1,19 @@
 {
   "root": true,
+  "parser": "@typescript-eslint/parser",
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "@typescript-eslint", "import", "security", "prettier", "unused-imports", "jest"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:security/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:jest/recommended"
+  ],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -17,6 +29,72 @@
                 "onlyDependOnLibsWithTags": ["*"]
               }
             ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "no-console": "error",
+        "func-names": "off",
+        "no-unused-vars": "warn",
+        "camelcase": "error",
+        "no-undef": "error",
+        "valid-jsdoc": "error",
+        "no-useless-constructor": "off",
+        "no-empty-function": "off",
+        "no-underscore-dangle": "off",
+        "consistent-return": "off",
+        "eqeqeq": ["error", "smart"],
+        "security/detect-object-injection": "off",
+        "@typescript-eslint/no-this-alias": "warn",
+        "no-self-assign": "warn",
+        "no-throw-literal": "error",
+        "prettier/prettier": "error",
+        "no-await-in-loop": "error",
+        "no-spaced-func": "error",
+        "prefer-arrow-callback": "error",
+        "no-promise-executor-return": "error",
+        "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
+        "import/prefer-default-export": "off", // Named export is easier to refactor automatically
+        "@typescript-eslint/no-unused-vars": "warn",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "import/extensions": "off",
+        "no-duplicate-imports": "error",
+        "import/no-unresolved": "warn",
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": ["**/test/**"]
+          }
+        ],
+        "import/no-internal-modules": [
+          "warn",
+          {
+            "allow": ["**/src/**"]
+          }
+        ],
+        "import/order": [
+          "error",
+          {
+            "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
+        ],
+        "max-len": [
+          "warn",
+          {
+            "code": 125
           }
         ]
       }
