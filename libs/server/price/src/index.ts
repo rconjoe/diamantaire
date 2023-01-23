@@ -1,1 +1,3 @@
-export * from './lib/server-price.module';
+export * from './price.module';
+export * from './entities/price.entity';
+export * from './repository/price.repository';

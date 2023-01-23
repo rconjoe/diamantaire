@@ -1,2 +1,3 @@
-export * from './lib/server-common-auth.service';
-export * from './lib/server-common-auth.module';
+export * from './lib/auth.service';
+export * from './lib/auth.module';
+export * from './lib/apiKey.strategy';

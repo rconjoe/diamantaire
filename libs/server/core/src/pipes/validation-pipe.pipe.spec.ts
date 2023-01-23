@@ -1,4 +1,4 @@
-import { ValidationPipePipe } from './validation-pipe.pipe';
+import { ValidationPipePipe } from './validation-pipe';
 
 describe('ValidationPipePipe', () => {
   it('should be defined', () => {

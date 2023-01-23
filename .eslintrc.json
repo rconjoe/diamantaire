@@ -1,6 +1,11 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.base.json",
+    "sourceType": "module",
+    "createDefaultProgram": true
+  },
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx", "@typescript-eslint", "import", "security", "prettier", "unused-imports", "jest"],
   "extends": [
@@ -14,94 +19,108 @@
     "plugin:import/typescript",
     "plugin:jest/recommended"
   ],
+  "rules": {
+    "@nrwl/nx/enforce-module-boundaries": [
+      "error",
+      {
+        "enforceBuildableLibDependency": true,
+        "allow": [],
+        "depConstraints": [
+          {
+            "sourceTag": "*",
+            "onlyDependOnLibsWithTags": ["*"]
+          }
+        ]
+      }
+    ],
+    "no-console": "error",
+    "func-names": "off",
+    "no-unused-vars": "warn",
+    "camelcase": "error",
+    "no-undef": "error",
+    "valid-jsdoc": "error",
+    "no-useless-constructor": "off",
+    "no-empty-function": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "eqeqeq": ["error", "smart"],
+    "security/detect-object-injection": "off",
+    "@typescript-eslint/no-this-alias": "warn",
+    "no-self-assign": "warn",
+    "no-throw-literal": "error",
+    "prettier/prettier": "error",
+    "no-await-in-loop": "error",
+    "no-spaced-func": "error",
+    "prefer-arrow-callback": "error",
+    "no-promise-executor-return": "error",
+    "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
+    "import/prefer-default-export": "off", // Named export is easier to refactor automatically
+    "@typescript-eslint/no-unused-vars": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "import/extensions": "off",
+    "no-duplicate-imports": "error",
+    "import/no-unresolved": "warn",
+    "import/no-extraneous-dependencies": [
+      "warn",
+      {
+        "devDependencies": false, 
+        "optionalDependencies": false,
+        "peerDependencies": false, 
+        "packageDir": "./"
+      }
+    ],
+    "import/no-internal-modules": [
+      "warn",
+      {
+        "allow": ["**/src/**"]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var"],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      },
+      { "blankLine": "always", "prev": "directive", "next": "*" },
+      { "blankLine": "any", "prev": "directive", "next": "directive" }
+    ],
+    "max-len": [
+      "warn",
+      {
+        "code": 125
+      }
+    ]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "no-console": "error",
-        "func-names": "off",
-        "no-unused-vars": "warn",
-        "camelcase": "error",
-        "no-undef": "error",
-        "valid-jsdoc": "error",
-        "no-useless-constructor": "off",
-        "no-empty-function": "off",
-        "no-underscore-dangle": "off",
-        "consistent-return": "off",
-        "eqeqeq": ["error", "smart"],
-        "security/detect-object-injection": "off",
-        "@typescript-eslint/no-this-alias": "warn",
-        "no-self-assign": "warn",
-        "no-throw-literal": "error",
-        "prettier/prettier": "error",
-        "no-await-in-loop": "error",
-        "no-spaced-func": "error",
-        "prefer-arrow-callback": "error",
-        "no-promise-executor-return": "error",
-        "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
-        "import/prefer-default-export": "off", // Named export is easier to refactor automatically
-        "@typescript-eslint/no-unused-vars": "warn",
-        "unused-imports/no-unused-imports": "error",
-        "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-        "@typescript-eslint/indent": "off",
-        "@typescript-eslint/interface-name-prefix": "off",
-        "@typescript-eslint/explicit-member-accessibility": "off",
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "import/extensions": "off",
-        "no-duplicate-imports": "error",
-        "import/no-unresolved": "warn",
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            "devDependencies": ["**/test/**"]
-          }
-        ],
-        "import/no-internal-modules": [
-          "warn",
-          {
-            "allow": ["**/src/**"]
-          }
-        ],
-        "import/order": [
-          "error",
-          {
-            "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
-            "newlines-between": "always",
-            "alphabetize": {
-              "order": "asc",
-              "caseInsensitive": true
-            }
-          }
-        ],
-        "max-len": [
-          "warn",
-          {
-            "code": 125
-          }
-        ]
-      }
+      "rules": {}
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nrwl/nx/typescript", "prettier"],
       "rules": {}
     },
     {

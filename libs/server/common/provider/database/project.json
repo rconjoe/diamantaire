@@ -1,0 +1,27 @@
+{
+  "name": "server-common-provider-database",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/common/provider/database/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/common/provider/database",
+        "tsConfig": "libs/server/common/provider/database/tsconfig.lib.json",
+        "packageJson": "libs/server/common/provider/database/package.json",
+        "main": "libs/server/common/provider/database/src/index.ts",
+        "assets": ["libs/server/common/provider/database/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/server/common/provider/database/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["backend"]
+}
