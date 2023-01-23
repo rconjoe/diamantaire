@@ -84,7 +84,7 @@ export class ProductsService {
       let parentProduct;
 
       products.forEach((product) => {
-        const match = product.variants.find((variant: Variant) => variant.id === variantId);
+        const match = product?.variants?.find((variant: Variant) => variant.id === variantId);
 
         if (match) {
           requestedVariant = match;
