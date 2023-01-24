@@ -46,6 +46,7 @@
       "@diamantaire/server/common/provider/database": ["libs/server/common/provider/database/src/index.ts"],
       "@diamantaire/server/common/utils": ["libs/server/common/utils/src/index.ts"],
       "@diamantaire/server/core": ["libs/server/core/src/index.ts"],
+      "@diamantaire/server/diamonds": ["libs/server/diamonds/src/index.ts"],
       "@diamantaire/server/health": ["libs/server/health/src/index.ts"],
       "@diamantaire/server/price": ["libs/server/price/src/index.ts"],
       "@diamantaire/server/products": ["libs/server/products/src/index.ts"],

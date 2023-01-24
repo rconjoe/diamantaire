@@ -7,10 +7,9 @@
  */
 
 import { AbstractRepository } from '@diamantaire/server/common/provider/database';
-import { PriceEntity } from '@diamantaire/server/price';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Model, Connection } from 'mongoose';
+import { Connection, PaginateModel } from 'mongoose';
 
 import { ProductEntity } from '../index';
 
@@ -21,7 +20,7 @@ import { ProductEntity } from '../index';
 export class ProductRepository extends AbstractRepository<ProductEntity> {
   protected logger = new Logger(ProductRepository.name);
   constructor(
-    @InjectModel(PriceEntity.name) private readonly productModel: Model<ProductEntity>,
+    @InjectModel('Products') private readonly productModel: PaginateModel<ProductEntity>,
     @InjectConnection() connection: Connection,
   ) {
     super(productModel, connection);

@@ -1,5 +1,7 @@
+import { AbstractDocument } from '@diamantaire/server/common/provider/database';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 export type PriceDocument = PriceEntity & Document;
 
@@ -7,7 +9,7 @@ export type PriceDocument = PriceEntity & Document;
   collection: 'prices',
   timestamps: true,
 })
-export class PriceEntity {
+export class PriceEntity extends AbstractDocument {
   @Prop()
   id?: string;
 
@@ -22,3 +24,4 @@ export class PriceEntity {
 }
 
 export const PriceSchema = SchemaFactory.createForClass(PriceEntity);
+PriceSchema.plugin(paginate);

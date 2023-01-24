@@ -3,6 +3,7 @@ import { GqlConfigService, JoiSchemaValidation } from '@diamantaire/server/commo
 import { DatabaseModule } from '@diamantaire/server/common/provider/database';
 import { UtilsModule } from '@diamantaire/server/common/utils';
 import { AuthMiddleware, CorsMiddleware, OriginMiddleware } from '@diamantaire/server/core';
+import { DiamondsModule } from '@diamantaire/server/diamonds';
 import { HealthModule } from '@diamantaire/server/health';
 import { PriceModule } from '@diamantaire/server/price';
 import { ProductsModule } from '@diamantaire/server/products';
@@ -28,6 +29,7 @@ import { AppService } from './app.service';
     UtilsModule,
     ProductsModule,
     PriceModule,
+    DiamondsModule,
     HealthModule,
     HttpModule,
     AuthModule,

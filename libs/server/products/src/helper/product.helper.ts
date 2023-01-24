@@ -73,7 +73,7 @@ export function findCanonivalVariant(variants: Variant[], requestedVariant: Vari
       return 0;
     });
 
-    canonicalCandidates[0].price = requestedVariant.price;
+    //canonicalCandidates[0].price = requestedVariant.price;
 
     return canonicalCandidates[0];
   }

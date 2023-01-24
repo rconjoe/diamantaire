@@ -1,23 +1,24 @@
 import { Logger } from '@nestjs/common';
 import {
   FilterQuery,
-  Model,
-  Types,
   UpdateQuery,
   SaveOptions,
   Connection,
   UpdateWithAggregationPipeline,
   QueryOptions,
+  PaginateModel,
+  Types,
 } from 'mongoose';
 
+import { AbstractDocument } from './abstract.schema';
 import { RemovedModel, UpdatedModel } from './types';
 
 // import { AbstractDocument } from './abstract.schema';
 
-export abstract class AbstractRepository<TDocument> {
+export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   protected abstract readonly logger: Logger;
 
-  constructor(protected readonly model: Model<TDocument>, private readonly connection: Connection) {}
+  constructor(protected readonly model: PaginateModel<TDocument>, private readonly connection: Connection) {}
 
   async create(document: object, options?: SaveOptions): Promise<TDocument> {
     const createdDocument: any = new this.model({
@@ -76,6 +77,11 @@ export abstract class AbstractRepository<TDocument> {
   async find(filterQuery: FilterQuery<TDocument>): Promise<any> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
+
+  async paginate<TDocument>(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {
+    return this.model.paginate(filterQuery, options);
+  }
+
   async remove<T>(filter: FilterQuery<T>): Promise<RemovedModel> {
     const { deletedCount } = await this.model.remove(filter);
 

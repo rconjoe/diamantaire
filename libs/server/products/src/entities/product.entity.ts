@@ -1,6 +1,7 @@
-import { Field, Int, ID, ObjectType } from '@nestjs/graphql';
+import { AbstractDocument } from '@diamantaire/server/common/provider/database';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 import { ProductCollection } from '../interface/product.interface';
 
@@ -90,11 +91,7 @@ class Variant {
   timestamps: true,
 })
 @ObjectType()
-export class ProductEntity implements ProductCollection {
-  @Field(() => ID)
-  @Prop()
-  readonly _id?: ObjectId;
-
+export class ProductEntity extends AbstractDocument implements ProductCollection {
   @Field(() => String)
   @Prop()
   handle?: string;
@@ -129,3 +126,4 @@ export class ProductEntity implements ProductCollection {
 }
 
 export const ProductsSchema = SchemaFactory.createForClass(ProductEntity);
+ProductsSchema.plugin(paginate);
