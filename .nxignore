@@ -1,0 +1,5 @@
+README.md
+schema.graphql
+nx-dev/**/jest.config.js
+.next
+dist

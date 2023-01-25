@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
-import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
+import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export function darksideMiddleware(
   request: NextRequest,
   response: NextResponse,
-  event: NextFetchEvent
+  _event: NextFetchEvent,
 ): NextMiddlewareResult {
   // an example of how you can make middleware functions only apply to certain routes:
   // if (request.nextUrl.pathname.startsWith('/about')) {
@@ -14,7 +13,7 @@ export function darksideMiddleware(
 
   // geo:
   if (!request.cookies.has('geo')) {
-    response.cookies.set('geo', request?.geo);
+    //response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
   }
 
   // we don't need to store our own locale cookie - only hook up our locale switcher to set the NEXT_LOCALE cookie.

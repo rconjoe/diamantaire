@@ -10,6 +10,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const now = Date.now();
     const request = context.switchToHttp().getRequest<Request>();
     const content = request?.method + ' -> ' + request?.url;
+
     return next
       .handle()
       .pipe(tap(() => this.logger.debug(`+++ req: ${content}`, `Request-Response time: ${Date.now() - now}ms`)));

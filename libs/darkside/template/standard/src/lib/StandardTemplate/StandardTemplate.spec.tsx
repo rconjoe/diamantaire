@@ -4,7 +4,9 @@ import StandardTemplate from './StandardTemplate';
 
 describe('StandardTemplate', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<StandardTemplate />);
+    // eslint-disable-next-line react/no-children-prop
+    const { baseElement } = render(<StandardTemplate children={''} />);
+
     expect(baseElement).toBeTruthy();
   });
 });

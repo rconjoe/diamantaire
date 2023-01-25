@@ -20,6 +20,4 @@ export const GlobalTemplate = ({ children }: GlobalTemplateProps) => {
   );
 };
 
-export const getTemplate = (page: ReactElement) => (
-  <GlobalTemplate>{page}</GlobalTemplate>
-);
+export const getTemplate = (page: ReactElement) => <GlobalTemplate>{page}</GlobalTemplate>;

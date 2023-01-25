@@ -38,6 +38,7 @@ export class UtilService {
         'X-Shopify-Storefront-Access-Token': `${this.configService.get('SHOPIFY_STOREFRONT_API_TOKEN')}`,
       },
     });
+
     return client;
   }
 
@@ -54,6 +55,7 @@ export class UtilService {
         'X-Shopify-Access-Token': `${this.configService.get('SHOPIFY_ADMIN_API_TOKEN')}`,
       },
     });
+
     return client;
   }
 
@@ -70,6 +72,7 @@ export class UtilService {
         Authorization: `Bearer ${this.configService.get('DATO_READ_ONLY_TOKEN')}`,
       },
     });
+
     return client;
   }
 
@@ -119,6 +122,7 @@ export class UtilService {
       method: 'GET',
       url: `${netsuiteDiamondAvailabilityRestletUri}${lotId}`,
     };
+
     try {
       // generate the Authorization header
       const authHeader = this.getAuthHeaderForRequest(configAxios);
@@ -129,9 +133,11 @@ export class UtilService {
         },
       };
       const response = await axios.get(configAxios.url, customHeader);
+
       return response.status === 200 ? response.data : null;
     } catch (err) {
       this.logger.error(`Error getting diamond from netsuite: ${err}`);
+
       return Promise.reject(err);
     }
   }
