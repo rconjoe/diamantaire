@@ -1,0 +1,27 @@
+{
+  "name": "shared-dato",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/dato/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/dato",
+        "tsConfig": "libs/shared/dato/tsconfig.lib.json",
+        "packageJson": "libs/shared/dato/package.json",
+        "main": "libs/shared/dato/src/index.ts",
+        "assets": ["libs/shared/dato/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/dato/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["backend"]
+}

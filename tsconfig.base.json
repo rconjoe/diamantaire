@@ -3,45 +3,57 @@
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": false,
+    "resolveJsonModule": true,
+    "strict": true,
+    "allowJs": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@diamantaire/darkside/components/header": [
-        "libs/darkside/components/header/src/index.ts"
-      ],
+      "@diamantaire/darkside/components/header": ["libs/darkside/components/header/src/index.ts"],
       "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
       "@diamantaire/darkside/data/api": ["libs/darkside/data/api/src/index.ts"],
-      "@diamantaire/darkside/data/hooks": [
-        "libs/darkside/data/hooks/src/index.ts"
-      ],
-      "@diamantaire/darkside/data/queries": [
-        "libs/darkside/data/queries/src/index.ts"
-      ],
-      "@diamantaire/darkside/page/home": [
-        "libs/darkside/page/home/src/index.ts"
-      ],
-      "@diamantaire/darkside/page/test-page": [
-        "libs/darkside/page/test-page/src/index.ts"
-      ],
-      "@diamantaire/darkside/template/global": [
-        "libs/darkside/template/global/src/index.ts"
-      ],
-      "@diamantaire/darkside/template/standard": [
-        "libs/darkside/template/standard/src/index.ts"
-      ],
+      "@diamantaire/darkside/data/hooks": ["libs/darkside/data/hooks/src/index.ts"],
+      "@diamantaire/darkside/data/queries": ["libs/darkside/data/queries/src/index.ts"],
+      "@diamantaire/darkside/page/home": ["libs/darkside/page/home/src/index.ts"],
+      "@diamantaire/darkside/page/test-page": ["libs/darkside/page/test-page/src/index.ts"],
+      "@diamantaire/darkside/template/global": ["libs/darkside/template/global/src/index.ts"],
+      "@diamantaire/darkside/template/standard": ["libs/darkside/template/standard/src/index.ts"],
+      "@diamantaire/server/common/auth": ["libs/server/common/auth/src/index.ts"],
+      "@diamantaire/server/common/configs": ["libs/server/common/configs/src/index.ts"],
+      "@diamantaire/server/common/provider/database": ["libs/server/common/provider/database/src/index.ts"],
+      "@diamantaire/server/common/utils": ["libs/server/common/utils/src/index.ts"],
+      "@diamantaire/server/core": ["libs/server/core/src/index.ts"],
+      "@diamantaire/server/diamonds": ["libs/server/diamonds/src/index.ts"],
+      "@diamantaire/server/health": ["libs/server/health/src/index.ts"],
+      "@diamantaire/server/price": ["libs/server/price/src/index.ts"],
+      "@diamantaire/server/products": ["libs/server/products/src/index.ts"],
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.ts"],
+      "@diamantaire/shared/dato": ["libs/shared/dato/src/index.ts"],
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "build", "dist"]
 }

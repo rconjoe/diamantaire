@@ -1,0 +1,27 @@
+{
+  "name": "server-health",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/health/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/health",
+        "tsConfig": "libs/server/health/tsconfig.lib.json",
+        "packageJson": "libs/server/health/package.json",
+        "main": "libs/server/health/src/index.ts",
+        "assets": ["libs/server/health/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/server/health/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["backend"]
+}
