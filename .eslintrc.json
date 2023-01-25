@@ -7,13 +7,25 @@
     "createDefaultProgram": true
   },
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "@typescript-eslint", "import", "security", "prettier", "unused-imports", "jest"],
+  "plugins": [
+    "@nrwl/nx",
+    "@typescript-eslint",
+    "import",
+    "security",
+    "prettier",
+    "unused-imports",
+    "jest",
+    "jsx-a11y",
+    "react-hooks"
+  ],
   "extends": [
+    "plugin:@nrwl/nx/typescript",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:security/recommended",
     "plugin:prettier/recommended",
+    "plugin:jest/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
@@ -67,9 +79,9 @@
     "import/no-extraneous-dependencies": [
       "warn",
       {
-        "devDependencies": false, 
+        "devDependencies": false,
         "optionalDependencies": false,
-        "peerDependencies": false, 
+        "peerDependencies": false,
         "packageDir": "./"
       }
     ],
@@ -116,12 +128,92 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript", "prettier"],
-      "rules": {}
+      "files": ["*.tsx"],
+      "extends": ["plugin:jsx-a11y/recommended", "plugin:react/recommended"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        /**
+         * https://eslint.org/docs/rules/curly
+         * We want to use brackets
+         */
+        "curly": "off",
+
+        "@next/next/no-document-import-in-page": "off",
+
+        /** namespaced imports must be able validated */
+        "import/namespace": ["error", { "allowComputed": true }],
+
+        /** hrefs in nextjs are usually added to <Link> instead of <a> */
+        "jsx-a11y/anchor-is-valid": 0,
+        "jsx-a11y/anchor-has-content": 2,
+
+        /** we often export components as both named and default for ez testing */
+        "import/no-named-as-default": 0,
+
+        /**
+         *  TODO: disable some accessibility rules for now during build phase
+         *  https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/click-events-have-key-events.md
+         */
+        "jsx-a11y/click-events-have-key-events": 0,
+
+        /**
+         * TODO: disable some accessibility rules for now during build phase
+         * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
+         */
+        "jsx-a11y/no-static-element-interactions": 0,
+
+        /** Due to the way we set up CheckCircle, we don't want nesting check */
+        "jsx-a11y/label-has-for": [
+          "error",
+          {
+            "required": {
+              "every": ["id"]
+            }
+          }
+        ],
+
+        /** We want to autoFocus our users */
+        "jsx-a11y/no-autofocus": 0,
+
+        /**
+         * We don't have captions on our videos
+         */
+        "jsx-a11y/media-has-caption": 0,
+
+        /** We want to enforce uniform handler names */
+        "react/jsx-handler-names": [
+          "error",
+          {
+            "eventHandlerPrefix": "handle",
+            "eventHandlerPropPrefix": "on"
+          }
+        ],
+
+        /**
+         * TODO: https://eslint.org/docs/rules/prefer-destructuring
+         */
+        "prefer-destructuring": [
+          "off",
+          {
+            "VariableDeclarator": {
+              "array": false,
+              "object": true
+            },
+            "AssignmentExpression": {
+              "array": true,
+              "object": false
+            }
+          },
+          {
+            "enforceForRenamedProperties": true
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
