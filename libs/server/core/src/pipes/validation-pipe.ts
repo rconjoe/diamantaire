@@ -10,6 +10,7 @@ import { validate } from 'class-validator';
 
 export const isUnverifiableMetaType = (metatype: any): metatype is undefined => {
   const basicTypes = [String, Boolean, Number, Array, Object];
+
   return !metatype || basicTypes.includes(metatype as any);
 };
 
@@ -26,6 +27,7 @@ export class ValidationPipe implements PipeTransform<any> {
 
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
+
     if (errors.length > 0) {
       const messages: string[] = [];
       const pushMessage = (constraints = {}) => {

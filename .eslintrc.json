@@ -132,11 +132,12 @@
       "rules": {}
     },
     {
-      "files": ["*.tsx"],
-      "extends": ["plugin:jsx-a11y/recommended", "plugin:react/recommended"],
+      "files": ["*.tsx", "*.jsx"],
+      "extends": ["plugin:jsx-a11y/recommended", "plugin:react/recommended", "next/core-web-vitals"],
       "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
+        "react/react-in-jsx-scope": "off",
         /**
          * https://eslint.org/docs/rules/curly
          * We want to use brackets

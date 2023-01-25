@@ -5,6 +5,7 @@ import { ClassTransformOptions } from 'class-transformer';
 export class InterceptorForClassSerializer extends ClassSerializerInterceptor {
   serialize(response: any, options: ClassTransformOptions) {
     const rawDataJSON = JSON.stringify(response);
+
     return super.serialize(JSON.parse(rawDataJSON), options);
   }
 }

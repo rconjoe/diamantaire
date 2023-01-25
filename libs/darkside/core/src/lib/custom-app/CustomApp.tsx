@@ -1,19 +1,10 @@
-import { ReactElement, ReactNode, useState } from 'react';
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
+import { ReactElement, ReactNode, useState } from 'react';
 
-import {
-  DehydratedState,
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-export type PageComponentWithTemplate<
-  P = Record<string, unknown>,
-  IP = P
-> = NextPage<P, IP> & {
+export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getTemplate?: (page: ReactElement) => ReactNode;
 };
 
@@ -33,9 +24,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        {getTemplate(<Component {...pageProps} />)}
-      </Hydrate>
+      <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
