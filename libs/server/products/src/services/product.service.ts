@@ -79,8 +79,8 @@ export class ProductsService {
       const products: any = await this.productRepository.find(query);
 
       // Get variant data based on requested ID
-      let requestedVariant = undefined;
-      let requestedDatoHandle = undefined;
+      let requestedVariant;
+      let requestedDatoHandle;
       let parentProduct;
 
       products.forEach((product) => {

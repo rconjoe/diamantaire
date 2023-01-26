@@ -78,7 +78,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 
-  async paginate<TDocument>(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {
+  async paginate(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {
     return this.model.paginate(filterQuery, options);
   }
 

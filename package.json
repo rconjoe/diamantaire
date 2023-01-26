@@ -8,12 +8,15 @@
   },
   "scripts": {
     "start": "nx serve",
-    "start:server": "nx serve server",
+    "start:server": "nx serve server --watch",
     "build": "nx build",
+    "clean": "rimraf dist",
     "test": "nx test",
     "lint": "npm run tsc:lint && nx workspace-lint && npm run nx -- run-many --target=lint --all",
     "lint:fix": "npm run tsc:lint && nx workspace-lint --fix && nx run-many --target=lint --all --fix && nx format:write --all",
     "tsc:lint": "tsc --noEmit -p tsconfig.base.json",
+    "dep-graph": "nx dep-graph",
+    "update": "nx migrate latest",
     "prepare": "husky install"
   },
   "private": true,

@@ -6,7 +6,7 @@ import {
   CANONICAL_OPTIONS_TO_MATCH,
   DEFAULT_RING_SIZE,
   DIAMOND_SHAPES_IN_ORDER,
-  DiamondType,
+  DiamondTypes,
   GoldPurityValue,
   MetalType,
   METAL_TYPES_IN_ORDER,
@@ -18,12 +18,12 @@ import { Variant } from '../index';
 
 /* Map of product option types and functions to sort the values */
 export const optionTypesComparators = {
-  [ProductOption.DiamondType]: (value: DiamondType) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
+  [ProductOption.DiamondType]: (value: DiamondTypes) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
   [ProductOption.Metal]: (value: MetalType) => METAL_TYPES_IN_ORDER.indexOf(value),
   [ProductOption.BandAccent]: (value: BandAccentType) => BAND_ACCENTS_IN_ORDER.indexOf(value),
   [ProductOption.RingSize]: (numStr: string) => parseFloat(numStr),
   [ProductOption.SideStoneCarat]: (carat: string) => parseFloat(carat.split('ct')[0]),
-  [ProductOption.SideStoneShape]: (value: DiamondType) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
+  [ProductOption.SideStoneShape]: (value: DiamondTypes) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
   [ProductOption.CaratWeight]: (carat: string) => {
     // ensure that "other" is always last option
     if (carat === 'other') {

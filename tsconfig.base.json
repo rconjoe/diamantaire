@@ -53,7 +53,8 @@
       "@diamantaire/server/products": ["libs/server/products/src/index.ts"],
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.ts"],
       "@diamantaire/shared/dato": ["libs/shared/dato/src/index.ts"],
-      "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"]
+      "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"],
+      "@diamantaire/shared/utils": ["libs/shared/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "build", "dist"]

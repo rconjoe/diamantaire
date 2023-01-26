@@ -97,7 +97,7 @@ export class DiamondRepository extends AbstractRepository<DiamondEntity> {
         return payload
           .pop()
           ?.variants?.all?.pop()
-          ?.presentmentPrices?.filter((v: any) => v.currencyCode === currencyCode)
+          ?.presentmentPrices?.filter((price: any) => price.currencyCode === currencyCode)
           .pop();
       }
     };
