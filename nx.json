@@ -34,21 +34,25 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/.eslintrc.json"
     ],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+    "sharedGlobals": []
   },
   "generators": {
     "@nrwl/react": {
-      "application": {
-        "babel": true
-      },
       "library": {
-        "unitTestRunner": "jest"
+        "unitTestRunner": "jest",
+        "buildable": true
       }
     },
     "@nrwl/next": {
       "application": {
         "style": "css",
-        "linter": "eslint"
+        "linter": "eslint",
+        "swc": true
+      },
+      "library": {
+        "unitTestRunner": "jest",
+        "swc": true,
+        "buildable": true
       }
     }
   },
