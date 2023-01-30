@@ -167,7 +167,7 @@ export const DEFAULT_LOCALE = 'en_US';
 export const DEFAULT_RING_SIZE = '4.5';
 
 // Defines all diamond types
-export enum DiamondType {
+export enum DiamondTypes {
   Asscher = 'asscher',
   Baguette = 'baguette',
   Cushion = 'cushion',
@@ -230,7 +230,7 @@ export enum GoldPurityValue {
   _14k = '14k',
 }
 
-export enum ProngStyle {
+export enum ProngStyles {
   Plain = 'plain',
   Pave = 'pave',
 }
@@ -254,8 +254,8 @@ export const CANONICAL_OPTIONS_SORT_ORDER = OPTIONS_SORT_ORDER.filter(
 
 // These configuration options are considered default
 export const PRODUCT_DEFAULT_OPTIONS = {
-  [ProductOption.DiamondType]: DiamondType.RoundBrilliant,
-  [ProductOption.SideStone]: DiamondType.RoundBrilliant,
+  [ProductOption.DiamondType]: DiamondTypes.RoundBrilliant,
+  [ProductOption.SideStone]: DiamondTypes.RoundBrilliant,
   [ProductOption.Metal]: MetalType.Platinum,
   [ProductOption.BandAccent]: BandAccentType.Plain,
   [ProductOption.RingSize]: DEFAULT_RING_SIZE,
@@ -263,25 +263,25 @@ export const PRODUCT_DEFAULT_OPTIONS = {
 };
 
 export const DIAMOND_SHAPES_IN_ORDER = [
-  DiamondType.RoundBrilliant,
-  DiamondType.Oval,
-  DiamondType.Emerald,
-  DiamondType.Marquise,
-  DiamondType.Cushion,
-  DiamondType.Pear,
-  DiamondType.Trillion,
-  DiamondType.Baguette,
-  DiamondType.TaperedBaguette,
-  DiamondType.Asscher,
-  DiamondType.Princess,
-  DiamondType.HalfMoon,
-  DiamondType.Shiled,
-  DiamondType.Octavia,
-  DiamondType.Lozenge,
-  DiamondType.LongHexagon,
-  DiamondType.Hexagon,
-  DiamondType.Keystone,
-  DiamondType.Radiant,
+  DiamondTypes.RoundBrilliant,
+  DiamondTypes.Oval,
+  DiamondTypes.Emerald,
+  DiamondTypes.Marquise,
+  DiamondTypes.Cushion,
+  DiamondTypes.Pear,
+  DiamondTypes.Trillion,
+  DiamondTypes.Baguette,
+  DiamondTypes.TaperedBaguette,
+  DiamondTypes.Asscher,
+  DiamondTypes.Princess,
+  DiamondTypes.HalfMoon,
+  DiamondTypes.Shiled,
+  DiamondTypes.Octavia,
+  DiamondTypes.Lozenge,
+  DiamondTypes.LongHexagon,
+  DiamondTypes.Hexagon,
+  DiamondTypes.Keystone,
+  DiamondTypes.Radiant,
 ];
 
 export const METAL_TYPES_IN_ORDER = [MetalType.Platinum, MetalType.YellowGold, MetalType.WhiteGold, MetalType.RoseGold];

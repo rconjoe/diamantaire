@@ -56,6 +56,8 @@ input GetCutToOrderDiamondInput {
   price: Int
   priceMax: Int
   priceMin: Int
+  sortBy: String
+  sortOrder: String
   type: String
 }
 

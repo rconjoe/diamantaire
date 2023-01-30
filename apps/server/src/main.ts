@@ -22,9 +22,7 @@ async function bootstrap() {
   process.env.TZ = 'UTC';
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
   const configService = app.get(ConfigService);
-  // const env: string = configService.get<string>('app.nodeEnv');
-
-  // process.env.NODE_ENV = env;
+  const env: string = configService.get<string>('app.nodeEnv');
 
   //app.enableCors();
   app.use(
@@ -68,8 +66,7 @@ async function bootstrap() {
   await app.listen(configService.get('app.port'));
 
   Logger.log(`==========================================================`);
-  // Logger.log(`Version: ${version}`, `NestApplication`);
-  // Logger.log(`Environment: ${env}`, `NestApplication`);
+  Logger.log(`Environment: ${env}`, `NestApplication`);
   Logger.log(`Server is up. ${`+${performance.now() | 0}ms`}`);
 
   Logger.log(`==========================================================`);

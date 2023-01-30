@@ -7,7 +7,9 @@
  */
 
 import { UtilService } from '@diamantaire/server/common/utils';
+import { getDataRanges } from '@diamantaire/shared/utils';
 import { Injectable, Logger } from '@nestjs/common';
+import { PaginateOptions } from 'mongoose';
 
 import { GetCutToOrderDiamondInput } from '../dto/cut-to-order.dto';
 import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
@@ -176,6 +178,7 @@ export class DiamondsService {
 
   async getCutToOrderDiamondAvailability(params: GetCutToOrderDiamondInput, input?: GetCutToOrderDiamondInput) {
     this.Logger.verbose(`Fetching cut to order diamond availability`);
+    const cachedKey = `cutToOrderDiamonds-${JSON.stringify(params)}-${JSON.stringify(input)}`;
     const labels = {
       totalDocs: 'itemCount',
       docs: 'items',
@@ -187,14 +190,36 @@ export class DiamondsService {
       pagingCounter: 'slNo',
       meta: 'paginator',
     };
-    const options = {
+
+    const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
+    const sortByKey = input?.sortBy || 'carat';
+    const sortByObj = {};
+
+    sortByObj[sortByKey] = sortOrder; // sortby any key
+    const options: PaginateOptions = {
       limit: input.limit || 20,
       page: input.page || 1,
+      sort: sortByObj,
       customLabels: labels,
     };
-    const find = this.optionalCTODiamondFilter(params);
 
-    return await this.cutToOrderRepository.paginate(find, options);
+    const filteredQuery = this.optionalCTODiamondFilter(params);
+
+    const cachedData = await this.utils.memGet(cachedKey);
+
+    if (cachedData) {
+      this.Logger.verbose(`cutToOrderDiamonds :: cache hit on key ${cachedKey}`);
+
+      return cachedData; // return the entire cached data
+    }
+
+    const allCtoDiamonds = await this.cutToOrderRepository.find({});
+    const result = await this.cutToOrderRepository.paginate(filteredQuery, options); // paginated result
+
+    result.ranges = getDataRanges(allCtoDiamonds);
+    this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
+
+    return result;
   }
 
   /**

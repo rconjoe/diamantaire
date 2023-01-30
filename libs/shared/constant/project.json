@@ -1,0 +1,27 @@
+{
+  "name": "shared-constant",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/constant/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/constant",
+        "tsConfig": "libs/shared/constant/tsconfig.lib.json",
+        "packageJson": "libs/shared/constant/package.json",
+        "main": "libs/shared/constant/src/index.ts",
+        "assets": ["libs/shared/constant/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/constant/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["backend"]
+}

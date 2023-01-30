@@ -9,10 +9,11 @@ import {
   PaginateModel,
   Types,
 } from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { AbstractDocument } from './abstract.schema';
 import { RemovedModel, UpdatedModel } from './types';
-
+mongoosePaginate.paginate.options = {};
 // import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
@@ -78,7 +79,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 
-  async paginate<TDocument>(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {
+  async paginate(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {
     return this.model.paginate(filterQuery, options);
   }
 

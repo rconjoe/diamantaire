@@ -16,9 +16,9 @@ export class DiamondsController {
   @ApiBody({ type: GetCutToOrderDiamondInput })
   async fetchDiamondCutToOrder(
     @Body() cutToOrderDto: GetCutToOrderDiamondInput,
-    @Query() { limit, page }: GetCutToOrderDiamondInput,
+    @Query() { limit, page, sortBy, sortOrder }: GetCutToOrderDiamondInput,
   ) {
-    return await this.diamondsService.getCutToOrderDiamondAvailability(cutToOrderDto, { limit, page });
+    return await this.diamondsService.getCutToOrderDiamondAvailability(cutToOrderDto, { limit, page, sortBy, sortOrder });
   }
 
   @Get(':lotId')

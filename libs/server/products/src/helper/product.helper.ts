@@ -1,29 +1,28 @@
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import {
-  BandAccentType,
-  BAND_ACCENTS_IN_ORDER,
-  CANONICAL_OPTIONS_SORT_ORDER,
-  CANONICAL_OPTIONS_TO_MATCH,
-  DEFAULT_RING_SIZE,
+  ProductOption,
+  DiamondTypes,
   DIAMOND_SHAPES_IN_ORDER,
-  DiamondType,
-  GoldPurityValue,
   MetalType,
   METAL_TYPES_IN_ORDER,
-  ProductOption,
+  BandAccentType,
+  BAND_ACCENTS_IN_ORDER,
+  CANONICAL_OPTIONS_TO_MATCH,
+  CANONICAL_OPTIONS_SORT_ORDER,
   ProductType,
-} from '@diamantaire/shared/constants';
+  DEFAULT_RING_SIZE,
+  GoldPurityValue,
+} from '@diamantaire/shared/constant';
 
 import { Variant } from '../index';
 
 /* Map of product option types and functions to sort the values */
 export const optionTypesComparators = {
-  [ProductOption.DiamondType]: (value: DiamondType) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
+  [ProductOption.DiamondType]: (value: DiamondTypes) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
   [ProductOption.Metal]: (value: MetalType) => METAL_TYPES_IN_ORDER.indexOf(value),
   [ProductOption.BandAccent]: (value: BandAccentType) => BAND_ACCENTS_IN_ORDER.indexOf(value),
   [ProductOption.RingSize]: (numStr: string) => parseFloat(numStr),
   [ProductOption.SideStoneCarat]: (carat: string) => parseFloat(carat.split('ct')[0]),
-  [ProductOption.SideStoneShape]: (value: DiamondType) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
+  [ProductOption.SideStoneShape]: (value: DiamondTypes) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
   [ProductOption.CaratWeight]: (carat: string) => {
     // ensure that "other" is always last option
     if (carat === 'other') {

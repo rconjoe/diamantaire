@@ -7,8 +7,7 @@
  */
 
 import { AbstractRepository } from '@diamantaire/server/common/provider/database';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { COUNTRY_CURRENCY_CODES } from '@diamantaire/shared/constants';
+import { COUNTRY_CURRENCY_CODES } from '@diamantaire/shared/constant';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, PaginateModel } from 'mongoose';
@@ -97,7 +96,7 @@ export class DiamondRepository extends AbstractRepository<DiamondEntity> {
         return payload
           .pop()
           ?.variants?.all?.pop()
-          ?.presentmentPrices?.filter((v: any) => v.currencyCode === currencyCode)
+          ?.presentmentPrices?.filter((price: any) => price.currencyCode === currencyCode)
           .pop();
       }
     };

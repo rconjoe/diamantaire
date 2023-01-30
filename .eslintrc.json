@@ -32,20 +32,16 @@
     "plugin:jest/recommended"
   ],
   "rules": {
-    "@nrwl/nx/enforce-module-boundaries": [
-      "error",
-      {
-        "enforceBuildableLibDependency": true,
-        "allow": [],
-        "depConstraints": [
-          {
-            "sourceTag": "*",
-            "onlyDependOnLibsWithTags": ["*"]
-          }
-        ]
-      }
-    ],
-    "no-console": "error",
+    "no-debugger": "error",
+    "no-empty": "off",
+    "no-eval": "error",
+    "no-fallthrough": "error",
+    "no-new-wrappers": "error",
+    "no-restricted-imports": ["error", "rxjs/Rx"],
+    "no-undef-init": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "radix": "error",
     "func-names": "off",
     "no-unused-vars": "warn",
     "camelcase": "error",
@@ -68,6 +64,12 @@
     "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
     "import/prefer-default-export": "off", // Named export is easier to refactor automatically
     "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-shadow": [
+      "error",
+      {
+        "hoist": "all"
+      }
+    ],
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/indent": "off",
@@ -129,7 +131,21 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "files": ["*.tsx", "*.jsx"],

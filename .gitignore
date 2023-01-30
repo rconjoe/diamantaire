@@ -125,3 +125,4 @@ build
 .jest
 
 reports
+env.list

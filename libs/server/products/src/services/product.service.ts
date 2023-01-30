@@ -5,7 +5,7 @@
  */
 import { UtilService } from '@diamantaire/server/common/utils';
 import { PriceRepository } from '@diamantaire/server/price';
-import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constant';
 import { ERPDP } from '@diamantaire/shared/dato';
 import { BadGatewayException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -79,8 +79,8 @@ export class ProductsService {
       const products: any = await this.productRepository.find(query);
 
       // Get variant data based on requested ID
-      let requestedVariant = undefined;
-      let requestedDatoHandle = undefined;
+      let requestedVariant;
+      let requestedDatoHandle;
       let parentProduct;
 
       products.forEach((product) => {
