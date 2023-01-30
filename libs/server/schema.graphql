@@ -31,9 +31,7 @@ type DiamondEntity {
   description: String!
   dfCertificateUrl: String!
 
-  """
-  Diamond Shape
-  """
+  """Diamond Shape"""
   diamondType: String!
   handle: String!
   lotId: String!
@@ -56,6 +54,8 @@ input GetCutToOrderDiamondInput {
   price: Int
   priceMax: Int
   priceMin: Int
+  sortBy: String
+  sortOrder: String
   type: String
 }
 
@@ -124,9 +124,7 @@ type ProductEntity {
 }
 
 input ProductVariantInput {
-  """
-  The variant ID of the product
-  """
+  """The variant ID of the product"""
   id: String!
   slug: String!
 }

@@ -9,10 +9,11 @@ import {
   PaginateModel,
   Types,
 } from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { AbstractDocument } from './abstract.schema';
 import { RemovedModel, UpdatedModel } from './types';
-
+mongoosePaginate.paginate.options = {};
 // import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {

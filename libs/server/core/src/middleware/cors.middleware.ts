@@ -4,8 +4,7 @@
  * @author Surmon <https://github.com/surmon-china>
  */
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { isDevEnv, CROSS_DOMAIN } from '@diamantaire/shared/constants';
+import { CROSS_DOMAIN, isDevEnv } from '@diamantaire/shared/constant';
 import { Injectable, NestMiddleware, HttpStatus, RequestMethod } from '@nestjs/common';
 import { Request, Response } from 'express';
 

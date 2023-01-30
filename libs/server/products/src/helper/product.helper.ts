@@ -1,18 +1,17 @@
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import {
-  BandAccentType,
-  BAND_ACCENTS_IN_ORDER,
-  CANONICAL_OPTIONS_SORT_ORDER,
-  CANONICAL_OPTIONS_TO_MATCH,
-  DEFAULT_RING_SIZE,
-  DIAMOND_SHAPES_IN_ORDER,
+  ProductOption,
   DiamondTypes,
-  GoldPurityValue,
+  DIAMOND_SHAPES_IN_ORDER,
   MetalType,
   METAL_TYPES_IN_ORDER,
-  ProductOption,
+  BandAccentType,
+  BAND_ACCENTS_IN_ORDER,
+  CANONICAL_OPTIONS_TO_MATCH,
+  CANONICAL_OPTIONS_SORT_ORDER,
   ProductType,
-} from '@diamantaire/shared/constants';
+  DEFAULT_RING_SIZE,
+  GoldPurityValue,
+} from '@diamantaire/shared/constant';
 
 import { Variant } from '../index';
 

@@ -3,8 +3,7 @@
  * @module middleware/origin
  */
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CROSS_DOMAIN, isProdEnv } from '@diamantaire/shared/constants';
+import { CROSS_DOMAIN, isProdEnv } from '@diamantaire/shared/constant';
 import { Injectable, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 

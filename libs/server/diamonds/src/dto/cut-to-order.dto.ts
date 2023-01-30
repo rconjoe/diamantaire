@@ -62,4 +62,16 @@ export class GetCutToOrderDiamondInput implements Partial<CutToOrderDiamondEntit
   @IsOptional()
   @Type(() => Number)
   readonly page?: number;
+
+  @Field(() => String, { nullable: true })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortOrder?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortBy?: string;
 }
