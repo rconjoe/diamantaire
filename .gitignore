@@ -126,3 +126,6 @@ build
 
 reports
 env.list
+
+# No envs plz :)
+.env*

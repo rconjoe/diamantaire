@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD:libs/shared/utils/package.json
   "name": "@diamantaire/shared/utils",
   "version": "0.0.1",
   "type": "commonjs"
+=======
+  "name": "@diamantaire/shared/constants",
+  "version": "0.0.1"
+>>>>>>> 6988aaa (feat: header + footer is stable. starting page by page block import):libs/shared/constants/package.json
 }

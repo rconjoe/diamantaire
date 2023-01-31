@@ -1,0 +1,171 @@
+// BASE.SCSS
+//
+// This file contains all of the base styles to be loaded at the very beginning inside of _document.js
+
+/* Add Normalize.css */
+@import '../../node_modules/normalize.css/normalize';
+
+// Need this for engraving font post new typography
+@import 'partials/fonts';
+
+/*
+ * Bootstrap 4 Grid Changes
+ *
+ * Added a new sm grid tier below 768px for more granular control.
+ * We now have xs, sm, md, lg, and xl.
+ * (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px)
+ *
+ * This also means every tier has been bumped up one level
+ * (so .col-md-6 in v3 is now .col-lg-6 in v4).
+ *
+ * xs grid classes have been modified to not require the infix to more
+ * accurately represent that they start applying styles at min-width: 0
+ * and not a set pixel value. Instead of .col-xs-6, it’s now .col-6.
+ * All other grid tiers require the infix (e.g., sm).
+ *
+ *
+ * Updated grid sizes, mixins, and variables.
+ *
+ * Updated grid mixins to utilize a make-col-ready prep mixin and a
+ * make-col to set the flex and max-width for individual column sizing.
+ *
+ * Media queries have also changed. Instead of repeating our media query
+ * declarations with the same value each time, we now have
+ * @include media-breakpoint-up/down/only. Now, instead of writing
+ * @media (min-width: @screen-sm-min) { ... }, you can write
+ * @include media-breakpoint-up(sm) { ... }.
+ */
+
+/* Bootstrap 8pt Grid */
+@at-root {
+  @-ms-viewport {
+    width: device-width;
+  } // stylelint-disable-line at-rule-no-vendor-prefix
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+  font-size: 10px;
+  overflow-anchor: none;
+}
+
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'futura-pt', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.3px;
+  line-height: 1.6rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Sticky Footer */
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* End Sticky Footer */
+
+/*
+ * Custom grid gutters sass map has been removed by
+ * Bootstrap in latest v4 release
+ * https://github.com/twbs/bootstrap/issues/22944
+ *
+ * Look below for Diamond Foundry modifier classes
+ */
+
+// $grid-gutter-width-base: 16px !default;
+// $grid-gutter-width-lg: 32px;
+
+// $grid-gutter-widths: (
+//   xs: $grid-gutter-width-base,
+//   sm: $grid-gutter-width-base,
+//   md: $grid-gutter-width-base,
+//   lg: $grid-gutter-width-lg,
+//   xl: $grid-gutter-width-lg
+// );
+
+// xxl is a custom extra breakpoint
+$grid-breakpoints: (
+  xs: 0,
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1200px,
+  xxl: 1440px,
+);
+
+$container-max-widths: (
+  sm: 420px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1380px,
+);
+
+$grid-gutter-width: 24px !default;
+
+/* custom grid gutters used in modifier classes below */
+$grid-gutter-width-custom-lg: 32px;
+
+@import 'functions';
+@import 'variables';
+
+@import 'mixins/breakpoints';
+@import 'mixins/grid-framework';
+@import 'mixins/grid';
+
+@import 'grid';
+@import 'utilities/display';
+@import 'utilities/flex';
+
+/* Modifier Classes */
+@include media-breakpoint-up(xs) {
+  .nopad {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .nomar {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  /* gutter modifiers are used in '.row' elements */
+  .gutter-lg {
+    margin-right: -($grid-gutter-width-custom-lg / 2);
+    margin-left: -($grid-gutter-width-custom-lg / 2);
+    > [class*='col-'] {
+      padding-right: ($grid-gutter-width-custom-lg / 2);
+      padding-left: ($grid-gutter-width-custom-lg / 2);
+    }
+  }
+}
+
+@import 'partials/link';
+@import 'partials/zonos';

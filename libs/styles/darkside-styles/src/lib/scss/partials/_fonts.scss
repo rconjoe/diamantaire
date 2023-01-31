@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Script MT Bold';
+  src: url('/static/fonts/SCRIPTBL.woff2') format('woff2'),
+    url('/static/fonts/SCRIPTBL.woff') format('woff'),
+    url('/static/fonts/SCRIPTBL.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lucida Sans Demibold Roman';
+  src: url('/static/fonts/Lucida Sans Demibold Roman.woff2') format('woff2'),
+    url('/static/fonts/Lucida Sans Demibold Roman.woff') format('woff'),
+    url('/static/fonts/Lucida Sans Demibold Roman.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monogram';
+  src: url('/static/fonts/Monogram.woff2') format('woff2'),
+    url('/static/fonts/Monogram.woff') format('woff'),
+    url('/static/fonts/Monogram.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

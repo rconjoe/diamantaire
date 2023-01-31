@@ -1,1 +1,1 @@
-export * from './lib/DarksideComponentsHeader';
+export * from './lib/Header';

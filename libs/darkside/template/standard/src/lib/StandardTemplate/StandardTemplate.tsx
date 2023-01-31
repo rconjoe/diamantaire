@@ -1,7 +1,8 @@
+import { Footer } from '@diamantaire/darkside/components/footer';
+import { Header } from '@diamantaire/darkside/components/header';
+import { useFooter, useGlobalContext, useHeader } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getGlobalTemplate } from '@diamantaire/darkside/template/global';
-import { ReactElement, ReactNode, useState } from 'react';
-
-import styles from './StandardTemplate.module.css';
+import { ReactElement, ReactNode } from 'react';
 
 /* eslint-disable-next-line */
 export interface StandardTemplateProps {
@@ -9,15 +10,17 @@ export interface StandardTemplateProps {
 }
 
 export function StandardTemplate({ children }: StandardTemplateProps) {
-  const [thing, setThing] = useState('default-state');
+  const headerData = useHeader('en_US');
+  const footerData = useFooter('en_US');
+  const { headerHeight } = useGlobalContext();
 
   return (
-    <div className={styles['container']}>
-      ****STANDARD TEMPLATE****
-      <h3>{thing}</h3>
-      <button onClick={() => setThing('mutated-state')}>MUTATE</button>
-      {children}
-    </div>
+    <>
+      {headerData?.data && <Header headerData={headerData.data} />}
+      {/* ****STANDARD TEMPLATE**** */}
+      <main style={{ paddingTop: headerHeight + 'px' }}>{children}</main>
+      {footerData?.data && <Footer footerData={footerData?.data} />}
+    </>
   );
 }
 
