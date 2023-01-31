@@ -118,4 +118,4 @@ workflows:
             - build-image
           filters:
             branches:
-              only: develop
+              only: feature/initial-server-build
