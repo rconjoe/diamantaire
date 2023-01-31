@@ -98,7 +98,7 @@ jobs:
 
 workflows:
   version: 2
-  ci:
+  pipeline:
     jobs:
       - checkout
       - dependencies:
