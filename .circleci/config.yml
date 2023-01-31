@@ -2,67 +2,120 @@ version: 2.1
 
 orbs:
   nx: nrwl/nx@1.6.1
+  node: circleci/node@5.0.3
+  aws-cli: circleci/aws-cli@3.1.1
 
+defaults: &defaults
+  working_directory: ~/repo
 jobs:
-  agent:
+  checkout:
+    working_directory: ~/repo
     docker:
       - image: cimg/node:lts-browsers
-    parameters:
-      ordinal:
-        type: integer
     steps:
       - checkout
+      - run: node --version
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/repo
+  dependencies:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - node/install-packages:
+          pkg-manager: yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/repo/node_modules
+
+  lint:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install dependencies
-          command: yarn install --frozen-lockfile
-      - run:
-          name: Start the agent << parameters.ordinal >>
-          command: yarn nx-cloud start-agent
-          no_output_timeout: 60m
-  main:
+          name: Run Lint
+          command: yarn lint:fix
+
+  build:
+    working_directory: ~/repo
     docker:
       - image: cimg/node:lts-browsers
     environment:
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'true'
     steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn install --frozen-lockfile
-      - nx/set-shas:
-          main-branch-name: 'main'
-      - run:
-          name: Initialize the Nx Cloud distributed CI run
-          command: yarn nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
-      - run:
-          name: Run workspace lint
-          command: yarn nx-cloud record -- yarn nx workspace-lint
-      - run:
-          name: Check format
-          command: yarn nx-cloud record -- yarn nx format:check --base=$NX_BASE --head=$NX_HEAD
-      - run:
-          name: Run lint
-          command: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
-      - run:
-          name: Run test
-          command: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=test --parallel=3 --ci --code-coverage
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Run build
-          command: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
+          command: yarn build:server
       - run:
           name: Stop all agents
           command: yarn nx-cloud stop-all-agents
           when: always
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ~/repo/dist
+  build-image:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - aws-cli/setup:
+          profile-name: ecr-dms
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+      - run:
+          name: docker_build
+          command: |
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
+            docker build -t vrai-server .
+            mkdir -p docker-cache
+            docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+            docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+      - save_cache:
+          key: docker-image-{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/repo/docker-cache
+
+  deploy-development:
+    executor: aws-cli/default
+    steps:
+      - build-docker:
+          tag: staging
+      - run: |
+          aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
 workflows:
   version: 2
-
   ci:
     jobs:
-      - agent:
-          name: Nx Cloud Agent << matrix.ordinal >>
-          matrix:
-            parameters:
-              ordinal: [1, 2, 3]
-      - main:
-          name: Nx Cloud Main
+      - checkout
+      - dependencies:
+          requires:
+            - checkout
+      - lint:
+          requires:
+            - dependencies
+      - build:
+          requires:
+            - lint
+      - build-image:
+          requires:
+            - build
+      - deploy-development:
+          requires:
+            - build-image
+          filters:
+            branches:
+              only: develop
