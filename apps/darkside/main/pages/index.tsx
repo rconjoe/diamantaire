@@ -14,8 +14,6 @@ export async function getServerSideProps({ req, locale }: { req: GetServerReques
   // locale
   const refinedLocale = locale.replace('en-US', 'en_US');
 
-  console.log('refinedLocale', refinedLocale);
-
   // device:
   const isMobile = Boolean(
     req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),

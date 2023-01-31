@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
-import { AnimatePresence } from 'framer-motion';
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
+import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
+import styled from '@emotion/styled';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 // import Search from 'components/search/Search';
 
@@ -9,11 +9,6 @@ import CompactHeader from './CompactHeader';
 import MegaMenu from './MegaMenu';
 import MobileHeader from './MobileHeader';
 import TopBar from './TopBar';
-import {
-  useDiamondIcons,
-  useGlobalContext,
-} from '@diamantaire/darkside/data/hooks';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 
 type HeaderProps = {
   headerData: {

@@ -1,7 +1,9 @@
-import { X } from '@diamantaire/shared/icons';
-import { TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from '@emotion/styled';
 import React, { FC, useEffect, useState } from 'react';
+
+import { TEAL } from '@diamantaire/styles/darkside-styles';
+
+import { X } from '@diamantaire/shared/icons';
 
 type TopBarTypes = {
   setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -68,10 +70,16 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   return (
     <TopBarContainer>
       <div className="top-bar__wrapper">
-        <div className="top-bar__content" dangerouslySetInnerHTML={{ __html: topbarText }}></div>
+        <div
+          className="top-bar__content"
+          dangerouslySetInnerHTML={{ __html: topbarText }}
+        ></div>
 
         <div className="close__container">
-          <button aria-label="Close Top Bar" onClick={() => setIsTopbarShowing(false)}>
+          <button
+            aria-label="Close Top Bar"
+            onClick={() => setIsTopbarShowing(false)}
+          >
             <X />
           </button>
         </div>

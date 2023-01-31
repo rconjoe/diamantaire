@@ -33,6 +33,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
       "@diamantaire/darkside/components/footer": ["libs/darkside/components/footer/src/index.ts"],
       "@diamantaire/darkside/components/header": ["libs/darkside/components/header/src/index.ts"],
       "@diamantaire/darkside/context/diamond-icon-context": ["libs/darkside/context/diamond-icon-context/src/index.ts"],
