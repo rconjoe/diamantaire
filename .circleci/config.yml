@@ -11,9 +11,8 @@ defaults: &defaults
 
 yarn_cache: &yarn_cache
   keys:
-    - node-deps-node-{{ checksum "yarn.lock" }}
+    - dependency-cache-{{ checksum "package.json" }}
     # fallback to using the latest cache if no exact match is found
-    - node-deps-node-
 
 deploy_cache: &deploy_cache
   key: last-deploy-sha
@@ -33,7 +32,7 @@ jobs:
       - run:
           <<: *yarn_install
       - save_cache:
-          key: node-deps-node-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ~/.cache
             - node_modules
