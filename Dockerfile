@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:18-alpine as builder
+FROM node:18-alpine as builder
 
 # Build application and add additional files
 WORKDIR /vrai-server
