@@ -92,7 +92,7 @@ jobs:
 
 workflows:
   version: 2
-  pr_check:
+  build-test-deploy:
     jobs:
       - install
       - lint:
