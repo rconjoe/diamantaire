@@ -11,8 +11,9 @@ defaults: &defaults
 
 yarn_cache: &yarn_cache
   keys:
-    - dependency-cache-{{ checksum "package.json" }}
+    - v1-dependency-cache-{{ checksum "package.json" }}
     # fallback to using the latest cache if no exact match is found
+    - node-deps-node
 
 deploy_cache: &deploy_cache
   key: last-deploy-sha
@@ -32,7 +33,7 @@ jobs:
       - run:
           <<: *yarn_install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: v1-dependency-cache-{{ checksum "package.json" }}
           paths:
             - ~/.cache
             - node_modules
@@ -54,7 +55,9 @@ jobs:
           <<: *deploy_cache
       - restore_cache:
           <<: *yarn_cache
-      - run: yarn build:server
+      - run:
+          name: Run build
+          command: yarn build:server
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
@@ -73,7 +76,7 @@ jobs:
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - aws-cli/setup:
-          profile-name: ecr-dms
+          profile-name: ecr-df
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
