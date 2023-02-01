@@ -7,10 +7,6 @@ const Dynamic = () => {
   return <p>dynamic</p>;
 };
 
-const Standard = () => {
-  return <p>standard</p>;
-};
-
 type configProps = {
   [key: string]: any;
 };
@@ -25,11 +21,18 @@ const config: configProps = {
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {
   const BlockComponent = config?.[_modelApiKey]?.standard;
 
+  console.log('modularBlockData', modularBlockData);
+
   return (
     <>
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
       {BlockComponent && (
-        <BlockComponent isMobile={isMobile} countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+        <BlockComponent
+          isMobile={isMobile}
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+          {...modularBlockData.blocks[0]}
+        />
       )}
     </>
   );

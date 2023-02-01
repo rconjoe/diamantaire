@@ -1,8 +1,8 @@
 import { BP_MD, BP_LG, BP_XL, BP_XXL } from '@diamantaire/shared/constants';
-import { css } from '@emotion/css';
+// import { css } from '@emotion/css';
 
 export const noHoverDevice = (noHoverStyles) => {
-  return css`
+  return `
     @media (hover: none) {
       background: inherit;
       color: inherit;
@@ -12,7 +12,7 @@ export const noHoverDevice = (noHoverStyles) => {
 };
 
 export const XXLDesktopAndUp = (XXLDesktopAndUpStyles) => {
-  return css`
+  return `
     @media (min-width: ${BP_XXL}) {
       ${XXLDesktopAndUpStyles};
     }
@@ -20,7 +20,7 @@ export const XXLDesktopAndUp = (XXLDesktopAndUpStyles) => {
 };
 
 export const XLDesktopAndUp = (XLDesktopAndUpStyles) => {
-  return css`
+  return `
     @media (min-width: ${BP_XL}) {
       ${XLDesktopAndUpStyles};
     }
@@ -35,7 +35,7 @@ export const desktopAndUp = (desktopAndUpStyles) => {
 };
 
 export const tabletAndUp = (tabletAndUpStyles) => {
-  return css`
+  return `
     @media (min-width: ${BP_MD}) {
       ${tabletAndUpStyles};
     }
@@ -43,7 +43,7 @@ export const tabletAndUp = (tabletAndUpStyles) => {
 };
 
 export const mobileOnly = (mobileOnlyStyles) => {
-  return css`
+  return `
     @media (max-width: ${calculateMaxWidthBP(BP_MD)}) {
       ${mobileOnlyStyles};
     }
@@ -51,7 +51,7 @@ export const mobileOnly = (mobileOnlyStyles) => {
 };
 
 export const customBPAndUp = (BP, customBPAndUpStyles) => {
-  return css`
+  return `
     @media (min-width: ${BP}) {
       ${customBPAndUpStyles};
     }
@@ -59,7 +59,7 @@ export const customBPAndUp = (BP, customBPAndUpStyles) => {
 };
 
 export const customBPAndDown = (BP, customBPAndDownStyles) => {
-  return css`
+  return `
     @media (max-width: ${calculateMaxWidthBP(BP)}) {
       ${customBPAndDownStyles};
     }
@@ -67,7 +67,7 @@ export const customBPAndDown = (BP, customBPAndDownStyles) => {
 };
 
 export const showMobileOnly = (mobileOnlyStyles) => {
-  return css`
+  return `
     ${mobileOnlyStyles};
 
     @media (min-width: ${BP_MD}) {
@@ -77,7 +77,7 @@ export const showMobileOnly = (mobileOnlyStyles) => {
 };
 
 export const showTabletAndUpOnly = (tabletAndUpOnlyStyles) => {
-  return css`
+  return `
     display: none;
 
     @media (min-width: ${BP_MD}) {

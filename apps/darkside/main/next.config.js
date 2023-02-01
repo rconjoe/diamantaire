@@ -13,6 +13,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: true,
   },
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -21,6 +24,7 @@ const nextConfig = {
       },
     ],
   },
+
   async rewrites() {
     return [
       {

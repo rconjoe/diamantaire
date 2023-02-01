@@ -64,6 +64,7 @@
 =======
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.js"],
       "@diamantaire/shared/dato": ["libs/shared/dato/src/index.ts"],
+      "@diamantaire/shared/helpers": ["libs/shared/helpers/src/index.ts"],
       "@diamantaire/shared/icons": ["libs/shared/icons/src/index.ts"],
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"],
       "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.js"]
