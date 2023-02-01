@@ -2,13 +2,12 @@ version: 2.1
 
 orbs:
   nx: nrwl/nx@1.6.1
-  node: circleci/node@5.0.3
   aws-cli: circleci/aws-cli@3.1.1
 
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:lts-browsers
+    - image: cimg/node:18.13.0
 
 yarn_cache: &yarn_cache
   keys:
