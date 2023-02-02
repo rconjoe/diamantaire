@@ -110,7 +110,7 @@ workflows:
             - install
       - build-app:
           requires:
-            - lint
+            - install
       - build-image:
           requires:
             - build-app
