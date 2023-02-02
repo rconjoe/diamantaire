@@ -99,8 +99,6 @@ jobs:
   deploy-development:
     executor: aws-cli/default
     steps:
-      - build-image:
-          tag: development
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
