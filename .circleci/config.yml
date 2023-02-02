@@ -65,7 +65,7 @@ jobs:
       - store_artifacts:
           path: dist
 
-  deploy-development:
+  build-image:
     <<: *defaults
     steps:
       - checkout
@@ -81,7 +81,7 @@ jobs:
           version: 20.10.14
           docker_layer_caching: true
       - run:
-          name: docker_build
+          name: Build docker image
           command: |
             aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
             docker build -t vrai-server .
@@ -92,6 +92,13 @@ jobs:
           key: last-deploy-sha
           paths:
             - dist
+
+  deploy-development:
+    executor: aws-cli/default
+    steps:
+      - run:
+          name: Update ECS Service
+          command: aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
 workflows:
   version: 2
@@ -104,6 +111,9 @@ workflows:
       - build:
           requires:
             - install
+      - build-image:
+          requires:
+            - build
       - deploy-development:
           filters:
             branches:
@@ -112,3 +122,4 @@ workflows:
           requires:
             - lint
             - build
+            - build-image
