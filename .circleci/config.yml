@@ -67,9 +67,6 @@ jobs:
 
   build-image:
     <<: *defaults
-    parameters:
-      tag:
-        type: string
     steps:
       - checkout
       - restore_cache:
