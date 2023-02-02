@@ -110,16 +110,14 @@ workflows:
             - install
       - build-app:
           requires:
-            - install
+            - lint
       - build-image:
           requires:
-            - install
+            - build-app
       - deploy-development:
           filters:
             branches:
               only:
                 - feature/initial-server-build
           requires:
-            - lint
-            - build-app
             - build-image
