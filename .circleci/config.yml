@@ -47,7 +47,7 @@ jobs:
           <<: *yarn_cache
       - run: ./node_modules/.bin/nx workspace-lint
       - run: yarn lint:fix
-  build:
+  build-app:
     <<: *defaults
     steps:
       - checkout
@@ -108,12 +108,12 @@ workflows:
       - lint:
           requires:
             - install
-      - build:
+      - build-app:
           requires:
             - install
       - build-image:
           requires:
-            - build
+            - install
       - deploy-development:
           filters:
             branches:
@@ -121,5 +121,5 @@ workflows:
                 - feature/initial-server-build
           requires:
             - lint
-            - build
+            - build-app
             - build-image
