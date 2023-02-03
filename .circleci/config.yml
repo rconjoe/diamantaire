@@ -90,8 +90,6 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - build-docker:
-          tag: development
       - run:
           name: Build docker image
           command: |
@@ -112,7 +110,7 @@ jobs:
       - aws-cli/setup
       - restore_cache:
           key: last-deploy-sha
-      - build-image:
+      - build-docker:
           tag: development
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
