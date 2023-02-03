@@ -92,7 +92,7 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - aws-ecr/build_and_push_image:
+      - aws-ecr/build-and-push-image:
           account-url: '${ECR_ENDPOINT}'
           repo: 'vrai-server'
           region: ${AWS_DEFAULT_REGION}
