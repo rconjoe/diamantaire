@@ -4,6 +4,10 @@ orbs:
   nx: nrwl/nx@1.6.1
   aws-cli: circleci/aws-cli@3.1.1
 
+parameters:
+  tag:
+    type: string
+
 defaults: &defaults
   working_directory: ~/repo
   docker:
@@ -65,11 +69,8 @@ jobs:
       - store_artifacts:
           path: dist
 
-commands:
   build-image:
-    parameters:
-      tag:
-        type: string
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
