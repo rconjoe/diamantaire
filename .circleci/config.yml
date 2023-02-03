@@ -92,7 +92,11 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - aws-ecr/build-and-push-image:
+          dockerfile: Dockerfile
           account-url: '${ECR_ENDPOINT}'
           repo: 'vrai-server'
           region: ${AWS_DEFAULT_REGION}
