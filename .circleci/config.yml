@@ -70,7 +70,6 @@ commands:
     parameters:
       tag:
         type: string
-    <<: *defaults
     steps:
       - checkout
       - restore_cache:
