@@ -44,7 +44,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - feature/initial-server-build
       - manual-approval:
           type: approval
           requires:
