@@ -131,6 +131,6 @@ workflows:
           filters:
             branches:
               only:
-                - feature/initial-server-build
+                - develop
           requires:
             - build-image
