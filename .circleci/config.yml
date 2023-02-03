@@ -107,7 +107,8 @@ jobs:
     executor: aws-cli/default
     steps:
       - checkout
-      - aws-cli/setup
+      - aws-cli/setup:
+          profile-name: ecr-df
       - restore_cache:
           key: last-deploy-sha
       - build-docker:
