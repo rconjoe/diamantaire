@@ -3,6 +3,8 @@ version: 2.1
 orbs:
   nx: nrwl/nx@1.6.1
   aws-cli: circleci/aws-cli@3.1.1
+  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-ecs: circleci/aws-ecs@3.2.0
 
 commands:
   build-docker:
@@ -71,9 +73,16 @@ jobs:
           paths:
             - dist
       - store_artifacts:
-          path: dist
+          path:
+            dist
 
-  build-image:
+            #       aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
+            # docker build -t vrai-server .
+            # mkdir -p docker-cache
+            # docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+            # docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+
+  deploy-development:
     <<: *defaults
     steps:
       - checkout
@@ -83,34 +92,31 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - aws-cli/setup:
-          profile-name: ecr-df
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
-      - run:
-          name: Build docker image
-          command: |
-            aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
-            docker build -t vrai-server .
-            mkdir -p docker-cache
-            docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
-            docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+      - aws-ecr/build_and_push_image:
+          account-url: '${ECR_ENDPOINT}'
+          repo: 'vrai-server'
+          region: ${AWS_DEFAULT_REGION}
+          tag: '${TAG_VERSION}'
+      - aws-ecs/deploy-service-update:
+          aws-region: ${AWS_DEFAULT_REGION}
+          family: '${vrai-server-dev-service}-service'
+          cluster-name: '${vra-server-cluster-dev}-cluster'
+          container-image-name-updates: 'container=${vrai-server-dev-service}-service,image-and-tag=${ECR_ENDPOINT}/${vrai-server}:${TAG_VERSION}'
       - save_cache:
           key: last-deploy-sha
           paths:
             - dist
 
-  deploy-development:
-    executor: aws-cli/default
-    steps:
-      - checkout
-      - restore_cache:
-          key: last-deploy-sha
-      - build-docker:
-          tag: development
-      - run: |
-          aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
+  # deploy-development:
+  #   executor: aws-cli/default
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         key: last-deploy-sha
+  #     - build-docker:
+  #         tag: development
+  #     - run: |
+  #         aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
 workflows:
   version: 2
@@ -123,13 +129,10 @@ workflows:
       - build-app:
           requires:
             - install
-      - build-image:
-          requires:
-            - build-app
       - deploy-development:
           filters:
             branches:
               only:
                 - feature/initial-server-build
           requires:
-            - build-image
+            - build-app
