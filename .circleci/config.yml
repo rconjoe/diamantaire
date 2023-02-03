@@ -73,16 +73,9 @@ jobs:
           paths:
             - dist
       - store_artifacts:
-          path:
-            dist
+          path: dist
 
-            #       aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
-            # docker build -t vrai-server .
-            # mkdir -p docker-cache
-            # docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
-            # docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
-
-  deploy-development:
+  build-image:
     <<: *defaults
     steps:
       - checkout
@@ -92,35 +85,37 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+      - aws-cli/setup:
+          profile-name: ecr-df
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - aws-ecr/build-and-push-image:
-          dockerfile: Dockerfile
-          account-url: '${ECR_ENDPOINT}'
-          repo: 'vrai-server'
-          region: ${AWS_DEFAULT_REGION}
-          tag: '${TAG_VERSION}'
-      - aws-ecs/deploy-service-update:
-          aws-region: ${AWS_DEFAULT_REGION}
-          family: '${vrai-server-dev-service}-service'
-          cluster-name: '${vra-server-cluster-dev}-cluster'
-          container-image-name-updates: 'container=${vrai-server-dev-service}-service,image-and-tag=${ECR_ENDPOINT}/${vrai-server}:${TAG_VERSION}'
+      - build-docker:
+          tag: development
+      - run:
+          name: Build docker image
+          command: |
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
+            docker build -t vrai-server .
+            mkdir -p docker-cache
+            docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+            docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
       - save_cache:
           key: last-deploy-sha
           paths:
             - dist
 
-  # deploy-development:
-  #   executor: aws-cli/default
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         key: last-deploy-sha
-  #     - build-docker:
-  #         tag: development
-  #     - run: |
-  #         aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
+  deploy-development:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup
+      - restore_cache:
+          key: last-deploy-sha
+      - build-image:
+          tag: development
+      - run: |
+          aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
 workflows:
   version: 2
@@ -133,10 +128,13 @@ workflows:
       - build-app:
           requires:
             - install
+      - build-image:
+          requires:
+            - build-app
       - deploy-development:
           filters:
             branches:
               only:
                 - feature/initial-server-build
           requires:
-            - build-app
+            - build-image
