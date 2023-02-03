@@ -112,11 +112,6 @@ jobs:
           tag: development
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
-      - run:
-          name: Post setup
-          command: |
-            curl --request GET 
-            --url https://api-dev.vrai.com/v1/health
 
 workflows:
   version: 2
