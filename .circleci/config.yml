@@ -4,9 +4,13 @@ orbs:
   nx: nrwl/nx@1.6.1
   aws-cli: circleci/aws-cli@3.1.1
 
-parameters:
-  tag:
-    type: string
+commands:
+  build-docker:
+    parameters:
+      tag:
+        type: string
+    steps:
+      - run: echo << parameters.tag >>
 
 defaults: &defaults
   working_directory: ~/repo
@@ -100,7 +104,7 @@ jobs:
   deploy-development:
     executor: aws-cli/default
     steps:
-      - build-image:
+      - build-docker:
           tag: development
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
