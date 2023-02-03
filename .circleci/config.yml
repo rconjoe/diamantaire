@@ -104,6 +104,9 @@ jobs:
   deploy-development:
     executor: aws-cli/default
     steps:
+      - checkout
+      - restore_cache:
+          key: last-deploy-sha
       - build-docker:
           tag: development
       - run: |
