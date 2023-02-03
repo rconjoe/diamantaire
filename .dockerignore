@@ -9,6 +9,5 @@
 **/.env
 **/.editorconfig
 **/.aws
-**/dist
 **/.husky
 **/docs

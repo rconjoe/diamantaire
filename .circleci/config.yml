@@ -1,6 +1,10 @@
 version: 2.1
+
 orbs:
+  nx: nrwl/nx@1.6.1
   aws-cli: circleci/aws-cli@3.1.1
+  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-ecs: circleci/aws-ecs@3.2.0
 
 commands:
   build-docker:
@@ -8,47 +12,125 @@ commands:
       tag:
         type: string
     steps:
+      - run: echo << parameters.tag >>
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: cimg/node:18.13.0
+
+yarn_cache: &yarn_cache
+  keys:
+    - v1-dependency-cache-{{ checksum "package.json" }}
+    # fallback to using the latest cache if no exact match is found
+    - node-deps-node
+
+deploy_cache: &deploy_cache
+  key: last-deploy-sha
+
+yarn_install: &yarn_install
+  name: Install Dependencies
+  command: yarn install --frozen-lockfile
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_cache
+      - run: rm -rf node_modules
+      - run:
+          <<: *yarn_install
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/.cache
+            - node_modules
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
+      - run: ./node_modules/.bin/nx workspace-lint
+      - run: yarn lint:fix
+  build-app:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
+      - run:
+          name: Run build
+          command: yarn build:server
+      - save_cache:
+          key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+          paths:
+            - dist
+      - store_artifacts:
+          path: dist
+
+  build-image:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
+      - restore_cache:
+          key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - aws-cli/setup:
           profile-name: ecr-df
-      - checkout
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - run: |
-          aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
-          docker build -t vrai-server .
-          docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
-          docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
-jobs:
+      - run:
+          name: Build docker image
+          command: |
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION --profile ecr-df | docker login --username AWS --password-stdin $ECR_ENDPOINT
+            docker build -t vrai-server .
+            mkdir -p docker-cache
+            docker tag vrai-server:latest ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+            docker push ${ECR_ENDPOINT}/vrai-server:${TAG_VERSION}
+      - save_cache:
+          key: last-deploy-sha
+          paths:
+            - dist
+
   deploy-development:
     executor: aws-cli/default
     steps:
+      - aws-cli/setup:
+          profile-name: ecr-df
       - build-docker:
           tag: development
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-dev-service --force-new-deployment
 
-  deploy-staging:
-    executor: aws-cli/default
-    steps:
-      - build-docker:
-          tag: staging
-      - run: |
-          aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-staging --force-new-deployment
-
 workflows:
   version: 2
-  deploy:
+  build-test-deploy:
     jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - build-app:
+          requires:
+            - install
+      - build-image:
+          requires:
+            - build-app
       - deploy-development:
           filters:
             branches:
               only:
                 - feature/initial-server-build
-      - manual-approval:
-          type: approval
           requires:
-            - deploy-development
-      - deploy-staging:
-          requires:
-            - manual-approval
+            - build-image
