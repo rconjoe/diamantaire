@@ -1,4 +1,4 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get, Res, VERSION_NEUTRAL } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -24,10 +24,14 @@ export class HealthController {
     private mongooseDb: MongooseHealthIndicator,
   ) {}
 
+  // @Get()
+  // @HealthCheck()
+  // check() {
+  //   return this.health.check([() => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com')]);
+  // }
   @Get()
-  @HealthCheck()
-  check() {
-    return this.health.check([() => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com')]);
+  check(@Res() res) {
+    return res.status(200).json({ status: 'ok' });
   }
 
   @Get('/database')

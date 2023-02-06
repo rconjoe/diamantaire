@@ -205,6 +205,8 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalCTODiamondFilter(params);
 
+    filteredQuery.isAvailable = true; // filter on available diamonds
+
     const cachedData = await this.utils.memGet(cachedKey);
 
     if (cachedData) {
