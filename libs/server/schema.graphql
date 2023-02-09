@@ -62,6 +62,7 @@ input GetCutToOrderDiamondInput {
 }
 
 input GetDiamondInput {
+  carat: String
   caratMax: Float
   caratMin: Float
   clarity: String
@@ -135,7 +136,7 @@ input ProductVariantInput {
 
 type Query {
   cuttoorderdiamonds(input: GetCutToOrderDiamondInput!): [CutToOrderDiamondEntity!]!
-  diamondsList(input: GetDiamondInput!): DiamondsList!
+  diamondsList(filter: GetDiamondInput!, input: GetDiamondInput!): DiamondsList!
   productVariant(input: ProductVariantInput!): [ProductEntity!]!
   products(input: GetProductInput!): [ProductEntity!]!
 }
