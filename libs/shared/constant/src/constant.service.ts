@@ -23,6 +23,18 @@ export const SHOPIFY_ITEM_TYPE = {
   PRICE: 'price',
 };
 
+export const PaginatedLabels = {
+  totalDocs: 'itemCount',
+  docs: 'items',
+  limit: 'perPage',
+  page: 'currentPage',
+  nextPage: 'next',
+  prevPage: 'prev',
+  totalPages: 'pageCount',
+  pagingCounter: 'slNo',
+  meta: 'paginator',
+};
+
 export const RTS_CATEGORY = 'ready-to-give-engagement-rings';
 export const EARRINGS_CATEGORY = 'earrings';
 export const NECKLACES_CATEGORY = 'necklaces';

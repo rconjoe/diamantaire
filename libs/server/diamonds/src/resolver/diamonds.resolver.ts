@@ -13,7 +13,7 @@ export class DiamondsResolver {
   // }
 
   @Query(() => DiamondsList)
-  async diamondsList(@Args('input') input: GetDiamondInput) {
-    return this.diamondsService.findDiamonds(input);
+  async diamondsList(@Args('filter') filter: GetDiamondInput, @Args('input') input: GetDiamondInput) {
+    return this.diamondsService.getdDiamonds(filter, input);
   }
 }

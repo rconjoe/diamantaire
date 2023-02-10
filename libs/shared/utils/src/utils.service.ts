@@ -9,7 +9,7 @@ import { DiamondsDataRanges } from './interface/diamond.interface';
 
 export const getDataRanges = (items: Array<string | number>): DiamondsDataRanges => {
   const numericalRanges = ['carat', 'price']; // carat and price range from the diamond set
-  const uniqueValues = ['type'];
+  const uniqueValues = ['type', 'diamondType'];
 
   // return an object with the min max range for carat and price
   return items.reduce<DiamondsDataRanges>((prevRanges, item) => {
