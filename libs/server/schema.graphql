@@ -31,9 +31,7 @@ type DiamondEntity {
   description: String!
   dfCertificateUrl: String!
 
-  """
-  Diamond Shape
-  """
+  """Diamond Shape"""
   diamondType: String!
   handle: String!
   lotId: String!
@@ -127,9 +125,7 @@ type ProductEntity {
 }
 
 input ProductVariantInput {
-  """
-  The variant ID of the product
-  """
+  """The variant ID of the product"""
   id: String!
   slug: String!
 }
