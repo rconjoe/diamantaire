@@ -307,3 +307,13 @@ export const OPTION_ORDER_BY_TYPE = {
   [ProductOption.SideStoneShape]: DIAMOND_SHAPES_IN_ORDER,
   // TODO: incomplete
 };
+
+export const JEWELRY_TYPES = [
+  '/all-jewelry/trillion',
+  '/all-jewelry/oval',
+  '/all-jewelry/round-brilliant',
+  '/all-jewelry/emerald-cut',
+  '/all-jewelry/pear-shaped',
+  '/all-jewelry/marquise',
+  '/all-jewelry/baguette',
+];

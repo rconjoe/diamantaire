@@ -5,7 +5,7 @@
  */
 import { UtilService } from '@diamantaire/server/common/utils';
 import { PriceRepository } from '@diamantaire/server/price';
-import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constant';
+import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constants';
 import { ERPDP } from '@diamantaire/shared/dato';
 import { BadGatewayException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

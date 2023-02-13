@@ -58,5 +58,6 @@
       }
     }
   },
-  "defaultProject": "darkside-main"
+  "defaultProject": "darkside-main",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }

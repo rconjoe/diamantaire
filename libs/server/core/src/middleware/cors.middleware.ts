@@ -4,7 +4,7 @@
  * @author Surmon <https://github.com/surmon-china>
  */
 
-import { CROSS_DOMAIN, isDevEnv } from '@diamantaire/shared/constant';
+import { CROSS_DOMAIN, isDevEnv } from '@diamantaire/shared/constants';
 import { Injectable, NestMiddleware, HttpStatus, RequestMethod } from '@nestjs/common';
 import { Request, Response } from 'express';
 

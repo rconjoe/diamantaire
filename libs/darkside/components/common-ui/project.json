@@ -1,5 +1,6 @@
 {
   "name": "darkside-components-common-ui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/darkside/components/common-ui/src",
   "projectType": "library",
   "tags": [],

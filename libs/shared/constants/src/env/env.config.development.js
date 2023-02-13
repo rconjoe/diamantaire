@@ -43,8 +43,7 @@ const PREVENT_JEWELRY_PRODUCT_REDIRECT = false;
 const ACUITY_USER_ID = '26511695';
 const ACUITY_API_KEY = '69d995ae21d1b73f4f3add164800d9a3';
 
-const PAYPAL_PAY_LATER_KEY =
-  'AeRsqLp2AZNJZZu9lyI-dsgG5YkEwwsJ79EfRwEK_083xVgKBux61sBaNyqgpQ3EqSLGebN2DBOQ98at';
+const PAYPAL_PAY_LATER_KEY = 'AeRsqLp2AZNJZZu9lyI-dsgG5YkEwwsJ79EfRwEK_083xVgKBux61sBaNyqgpQ3EqSLGebN2DBOQ98at';
 
 /**
  * These are for testing localization.
@@ -124,8 +123,7 @@ const RECAPTCHA_PUBLIC_KEY = '6LcVjPocAAAAAGvD8wPm7hWBoLDIFUcM3wIIAhmV';
 const SIGNING_SECRET = 'Hcti5SWBi2BV7Qi1RCxvoqHUyGXJN9CsPeYuSScXWL8=';
 
 // URL for sending messages to slack
-const SLACK_WEBHOOK_URL =
-  'https://hooks.slack.com/services/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';
+const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
 
 module.exports = {
   // GTM_CONTAINER_ID,

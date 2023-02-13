@@ -57,19 +57,13 @@
       "@diamantaire/server/health": ["libs/server/health/src/index.ts"],
       "@diamantaire/server/price": ["libs/server/price/src/index.ts"],
       "@diamantaire/server/products": ["libs/server/products/src/index.ts"],
-<<<<<<< HEAD
-      "@diamantaire/shared/constant": ["libs/shared/constant/src/index.ts"],
-      "@diamantaire/shared/dato": ["libs/shared/dato/src/index.ts"],
-      "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"],
-      "@diamantaire/shared/utils": ["libs/shared/utils/src/index.ts"]
-=======
       "@diamantaire/shared/constants": ["libs/shared/constants/src/index.js"],
+      "@diamantaire/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@diamantaire/shared/dato": ["libs/shared/dato/src/index.ts"],
       "@diamantaire/shared/helpers": ["libs/shared/helpers/src/index.ts"],
       "@diamantaire/shared/icons": ["libs/shared/icons/src/index.ts"],
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"],
       "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.js"]
->>>>>>> 6988aaa (feat: header + footer is stable. starting page by page block import)
     }
   },
   "exclude": ["node_modules", "tmp", "build", "dist"]

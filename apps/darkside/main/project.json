@@ -61,7 +61,7 @@
     },
     "typedoc": {
       "executor": "@enio.ai/typedoc:typedoc",
-      "outputs": ["docs/apps/darkside/main"],
+      "outputs": ["{workspaceRoot}/docs/apps/darkside/main"],
       "options": {
         "options": "typedoc.json"
       },
