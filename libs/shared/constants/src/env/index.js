@@ -1,4 +1,4 @@
-function getEnvConfig() {
+export function getEnvConfig() {
   switch (process.env.DEPLOYMENT_ENV) {
     case 'production':
       return require('./env.config.production');
@@ -14,5 +14,3 @@ function getEnvConfig() {
       return require('./env.config.development');
   }
 }
-
-export { getEnvConfig };
