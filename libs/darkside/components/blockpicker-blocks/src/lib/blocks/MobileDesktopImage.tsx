@@ -21,6 +21,7 @@ type MobileDesktopImage = {
     };
   };
   className?: string;
+  isLazyLoaded?: boolean;
 };
 
 const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImage) => {

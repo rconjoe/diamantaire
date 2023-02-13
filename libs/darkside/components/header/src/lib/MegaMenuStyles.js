@@ -1,7 +1,6 @@
-import styled from '@emotion/styled';
-import React from 'react';
-
 import { TEAL, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import React from 'react';
+import styled from 'styled-components';
 
 const MegaMenuStylesContainer = styled.div`
   border-bottom: 1px solid #000;

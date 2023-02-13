@@ -1,10 +1,9 @@
-import styled from '@emotion/styled';
+import { BP_LG } from '@diamantaire/shared/constants';
+import { Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import React, { FC } from 'react';
+import styled from 'styled-components';
 
-import { BP_LG } from '@diamantaire/shared/constants';
-
-import { Logo } from '@diamantaire/shared/icons';
 import { MenuLink, NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
 
@@ -49,6 +48,7 @@ const CompactHeaderStyles = styled.div`
 
               svg {
                 max-width: 60px;
+                height: auto;
               }
             }
           }
@@ -104,12 +104,7 @@ const CompactHeaderStyles = styled.div`
   }
 `;
 
-const CompactHeader: FC<CompactHeaderTypes> = ({
-  navItems,
-  toggleMegaMenuOpen,
-  menuIndex,
-  getRelativeUrl,
-}): JSX.Element => {
+const CompactHeader: FC<CompactHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, getRelativeUrl }): JSX.Element => {
   return (
     <CompactHeaderStyles>
       <div className="compact-header__container">

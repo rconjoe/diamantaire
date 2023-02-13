@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
 import React, { FC } from 'react';
+import styled from 'styled-components';
 
 // import CTAForm from 'components/general/CTAForm';
 // import { ReactComponent as FacebookIcon } from 'public/static/icons/social/facebook.svg';
@@ -203,17 +203,13 @@ const socialItems = [];
 // ];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
-  const { columns, copyright, emailSignUpColumn, emailSignUpCopy } =
-    footerData.footerNavigation;
+  const { columns, copyright, emailSignUpColumn, emailSignUpCopy } = footerData.footerNavigation;
   const { ctaCopy, copy, title } = emailSignUpColumn[0];
   const { emailInputPlaceholder } = emailSignUpCopy[0];
 
   const date = new Date();
 
-  function handleFormSubmit(
-    e: React.FormEvent<HTMLFormElement>,
-    state: object
-  ) {
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, state: object) {
     e.preventDefault();
     // do something
 
@@ -264,14 +260,10 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <ul>
                   {socialItems.map((item, index) => {
                     const { url, className, icon } = item;
+
                     return (
                       <li key={`footer-social-link-${index}`}>
-                        <a
-                          target="_blank"
-                          href={url}
-                          rel="noreferrer"
-                          className={className}
-                        >
+                        <a target="_blank" href={url} rel="noreferrer" className={className}>
                           {icon}
                         </a>
                       </li>

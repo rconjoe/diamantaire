@@ -5,6 +5,7 @@ html {
   line-height: 1.5;
   tab-size: 4;
   scroll-behavior: smooth;
+  overflow-x: hidden;
   /* All fonts sizes based on this: 1rem = 10px */
   font-size: 62.5%;
 }
@@ -12,6 +13,7 @@ body {
   line-height: inherit;
   margin: 0;
   font-family: 'futura-pt', sans-serif;
+  overflow-x: hidden;
 }
 h1,
 h2,

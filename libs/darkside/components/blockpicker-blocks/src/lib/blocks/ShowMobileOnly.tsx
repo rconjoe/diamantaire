@@ -1,8 +1,8 @@
 import { showMobileOnly } from '@diamantaire/styles/darkside-styles';
-import { cx, css } from '@emotion/css';
 import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
-const mobileOnlyStyles = css`
+const MobileOnlyStyles = styled.div`
   ${showMobileOnly()}
 `;
 
@@ -12,9 +12,9 @@ type ShowMobileOnlyProps = {
 };
 
 const ShowMobileOnly = ({ children, extraClass, ...restProps }: ShowMobileOnlyProps) => (
-  <div className={cx(mobileOnlyStyles, extraClass)} {...restProps}>
+  <MobileOnlyStyles className={extraClass} {...restProps}>
     {children}
-  </div>
+  </MobileOnlyStyles>
 );
 
 export default ShowMobileOnly;

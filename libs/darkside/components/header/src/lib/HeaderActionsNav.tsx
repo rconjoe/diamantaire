@@ -1,14 +1,8 @@
-import React, { useContext } from 'react';
-import styled from '@emotion/styled';
-import Link from 'next/link';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-
-import {
-  AccountIcon,
-  HeartIcon,
-  SearchIcon,
-  CartIcon,
-} from '@diamantaire/shared/icons';
+import { AccountIcon, HeartIcon, SearchIcon, CartIcon } from '@diamantaire/shared/icons';
+import Link from 'next/link';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
   ul {
@@ -118,16 +112,9 @@ const HeaderActionsNav = () => {
 
           if (link.type === 'link') {
             return (
-              <li
-                key={`header-action-${index}`}
-                className={title.toLowerCase()}
-              >
+              <li key={`header-action-${index}`} className={title.toLowerCase()}>
                 {href && (
-                  <Link
-                    href={getRelativeUrl(href)}
-                    aria-label={alt}
-                    legacyBehavior
-                  >
+                  <Link href={getRelativeUrl(href)} aria-label={alt} legacyBehavior>
                     {icon}
                   </Link>
                 )}
@@ -135,10 +122,7 @@ const HeaderActionsNav = () => {
             );
           } else {
             return (
-              <li
-                key={`header-action-${index}`}
-                className={link.title.toLowerCase()}
-              >
+              <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
                 <button onClick={onClick} aria-label={alt}>
                   {icon}
                 </button>

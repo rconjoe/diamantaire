@@ -1,7 +1,6 @@
-import styled from '@emotion/styled';
-import React from 'react';
-
 import { BP_LG, teal } from 'helpers/constants';
+import React from 'react';
+import styled from 'styled-components';
 import { MAIN_FONT } from 'styles/globalStyles';
 
 const StackedHeaderStylesContainer = styled.header`
@@ -93,9 +92,7 @@ const StackedHeaderStylesContainer = styled.header`
 `;
 
 const StackedHeaderStyles = ({ children }) => {
-  return (
-    <StackedHeaderStylesContainer>{children}</StackedHeaderStylesContainer>
-  );
+  return <StackedHeaderStylesContainer>{children}</StackedHeaderStylesContainer>;
 };
 
 export { StackedHeaderStyles };

@@ -1,4 +1,3 @@
-import { css } from '@emotion/css';
 import { invert } from 'lodash';
 
 import { tabletAndUp } from './mediaQueries';
@@ -33,7 +32,7 @@ export const ENGRAVING_FONT_SIZE_MAP_MOBILE = {
 };
 
 export const getRenderedEngravingFontStyles = (selectedEngravingFont) => {
-  return css`
+  return `
     font-family: '${ENGRAVING_FONT_RENDER_MAP[selectedEngravingFont]}';
     font-size: ${ENGRAVING_FONT_SIZE_MAP[selectedEngravingFont]};
   `;
@@ -48,17 +47,17 @@ const getFontSizeForRenderedFont = (engravingRenderedFont) => {
 };
 
 export const getRenderedEngravingFontStylesForCart = (engravingRenderedFont) => {
-  return css`
+  return `
     font-family: '${engravingRenderedFont}';
     font-size: ${getFontSizeForRenderedFont(engravingRenderedFont)};
   `;
 };
 
 export const getRenderedInputEngravingFontStyles = (selectedEngravingFont) => {
-  return css`
+  return `
     font-family: '${ENGRAVING_FONT_RENDER_MAP[selectedEngravingFont]}';
     font-size: ${ENGRAVING_FONT_SIZE_MAP_MOBILE[selectedEngravingFont]};
-    ${tabletAndUp(css`
+    ${tabletAndUp(`
       font-size: ${ENGRAVING_FONT_SIZE_MAP[selectedEngravingFont]};
     `)};
   `;

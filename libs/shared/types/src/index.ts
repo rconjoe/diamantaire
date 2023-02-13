@@ -1,6 +1,8 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+
 import 'styled-components';
+export * from './type-helpers/general';
 
 type QueryFunctionContextMeta = {
   locale: string;

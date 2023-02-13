@@ -1,11 +1,10 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { ChevronRight } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
-import { css } from '@emotion/css';
-import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { FC, useState, useContext } from 'react';
+import styled from 'styled-components';
 
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';
 
@@ -25,7 +24,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
   background-color: #fff;
   z-index: 10000;
 
-  ${desktopAndUp(css`
+  ${desktopAndUp(`
     display: none;
   `)};
 

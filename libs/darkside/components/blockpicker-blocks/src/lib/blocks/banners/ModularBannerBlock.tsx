@@ -1,19 +1,12 @@
 import { UniLink } from '@diamantaire/darkside/core';
-import {
-  replaceMoneyByCurrency,
-  makeContentImageUrl,
-  makeDatoImageUrl,
-  getBlockPictureAlt,
-  isCountrySupported,
-} from '@diamantaire/shared/helpers';
+import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
-import { cx } from '@emotion/css';
+import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 
-import MobileDesktopImage from './MobileDesktopImage';
 import {
   BannerTextContainer,
   BannerWrapper,
@@ -25,11 +18,12 @@ import {
   SubTitle,
   Title,
 } from './ModularBannerBlock.style';
-import Button from './molecules/Button';
-import Heading from './molecules/Heading';
-import Picture from './molecules/Picture';
-import ShowMobileOnly from './ShowMobileOnly';
-import ShowTabletAndUpOnly from './ShowTabletAndUpOnly';
+import MobileDesktopImage from '../MobileDesktopImage';
+import Button from '../molecules/Button';
+import Heading from '../molecules/Heading';
+// import Picture from '../molecules/Picture';
+import ShowMobileOnly from '../ShowMobileOnly';
+import ShowTabletAndUpOnly from '../ShowTabletAndUpOnly';
 
 const ReactPlayer = dynamic(() => import('react-player'));
 
@@ -99,43 +93,39 @@ type ModularBannerBlockProps = {
   subtitleAdditionalClass?: string;
 };
 
-const Banner = ({
-  title,
-  headingType,
-  headingAdditionalClass,
-  subTitle = '',
-  mobileTitle,
-  desktopCopy,
-  mobileCopy,
-  ctaCopy,
-  ctaRoute,
-  ctaButtonType = 'secondary',
-  desktopImage,
-  mobileImage,
-  desktopImageName,
-  mobileImageName,
-  textBlockAlignment,
-  isFullWidth = true,
-  textColor,
-  isTextBlockWide,
-  shouldLazyLoad = true,
-  ctaCopy2,
-  ctaRoute2,
-  ctaButtonType2 = 'secondary',
-  ctaCopy3,
-  ctaRoute3,
-  ctaButtonType3 = 'secondary',
-  middleLayerImage,
-  middleLayerImageMobile,
-  additionalClass,
-  currencyCode = 'USD',
-  copyPrices,
-  countryCode = 'US',
-  supportedCountries,
-  gtmClass,
-  isMobile,
-  subtitleAdditionalClass,
-}: ModularBannerBlockProps) => {
+const Banner = (props) => {
+  let { title, desktopCopy, mobileCopy, subTitle } = props?.blocks?.[0] || props;
+  const {
+    headingType,
+    headingAdditionalClass,
+    mobileTitle,
+    ctaCopy,
+    ctaRoute,
+    ctaButtonType = 'secondary',
+    desktopImage,
+    mobileImage,
+    textBlockAlignment,
+    isFullWidth = true,
+    textColor,
+    isTextBlockWide,
+    ctaCopy2,
+    ctaRoute2,
+    ctaButtonType2 = 'secondary',
+    ctaCopy3,
+    ctaRoute3,
+    ctaButtonType3 = 'secondary',
+    middleLayerImage,
+    middleLayerImageMobile,
+    additionalClass,
+    currencyCode = 'USD',
+    copyPrices,
+    countryCode = 'US',
+    supportedCountries,
+    gtmClass,
+    isMobile,
+    subtitleAdditionalClass,
+  }: ModularBannerBlockProps = props?.blocks?.[0] || props;
+
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -149,89 +139,59 @@ const Banner = ({
     mobileCopy = replaceMoneyByCurrency(mobileCopy, currencyCode, copyPrices);
   }
 
-  const desktopImg = (() => {
-    if (desktopImageName) {
-      return makeContentImageUrl(desktopImageName);
-    }
-
-    if (desktopImage) {
-      return makeDatoImageUrl(desktopImage.url);
-    }
-  })();
-
-  const mobileImg = (() => {
-    if (mobileImageName) {
-      return makeContentImageUrl(mobileImageName);
-    }
-
-    if (mobileImage) {
-      return makeDatoImageUrl(mobileImage.url);
-    }
-  })();
-
-  const fullWidthSizes = {
-    desktopSource: {
-      imageUrl: desktopImg,
-      mediaMinThreshold: 768,
-      sizes: `
-            (min-width: 1440px) 1440px,
-            (min-width: 768px) 100vw,
-          `,
-      srcSet1XSizes: [991, 1199, 1440],
-    },
-    mobileSource: {
-      imageUrl: mobileImg,
-      mediaMinThreshold: 0,
-      sizes: '100vw',
-      srcSet1XSizes: [375, 414, 767],
-    },
-    maxWidth: 1440,
-  };
-
-  const halfWidthSizes = {
-    desktopSource: {
-      imageUrl: desktopImg,
-      mediaMinThreshold: 768,
-      sizes: `
-              (min-width: 1440px) 864px,
-              (min-width: 768px) 60vw,
-            `,
-      srcSet1XSizes: [461, 595, 719, 864],
-    },
-    mobileSource: {
-      imageUrl: mobileImg,
-      mediaMinThreshold: 0,
-      sizes: '100vw',
-      srcSet1XSizes: [375, 575, 767],
-    },
-    maxWidth: 864,
-  };
-
   const hasResponsive = Boolean(desktopImage?.responsiveImage && mobileImage?.responsiveImage);
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
 
   const Block = isFullWidth ? (
     <FullWidthImageContainer>
-      <Picture
-        desktopSource={fullWidthSizes.desktopSource}
-        mobileSource={fullWidthSizes.mobileSource}
-        isLazyLoaded={shouldLazyLoad}
-        maxWidth={fullWidthSizes.maxWidth}
-        alt={alt}
-      />
+      <div className="image__desktop">
+        <Image
+          src={desktopImage?.url}
+          height={desktopImage?.responsiveImage?.height}
+          width={desktopImage?.responsiveImage?.width}
+          alt={alt}
+        />
+      </div>
+      <div className="image__mobile">
+        <Image
+          src={mobileImage?.url}
+          height={mobileImage?.responsiveImage?.height}
+          width={mobileImage?.responsiveImage?.width}
+          alt={alt}
+        />
+      </div>
     </FullWidthImageContainer>
   ) : (
     <HalfWidthImageContainer className={textBlockAlignment === 'right' ? '-right' : '-left'}>
-      <Picture
-        desktopSource={halfWidthSizes.desktopSource}
-        mobileSource={halfWidthSizes.mobileSource}
-        isLazyLoaded={shouldLazyLoad}
-        maxWidth={halfWidthSizes.maxWidth}
-        alt={alt}
-      />
+      <div className="half-width__image-wrapper">
+        <div className="image__desktop">
+          <Image
+            src={desktopImage?.url}
+            height={desktopImage?.responsiveImage?.height}
+            width={desktopImage?.responsiveImage?.width}
+            alt={alt}
+          />
+        </div>
+        <div className="image__mobile">
+          <Image
+            src={mobileImage?.url}
+            height={mobileImage?.responsiveImage?.height}
+            width={mobileImage?.responsiveImage?.width}
+            alt={alt}
+          />
+        </div>
+      </div>
     </HalfWidthImageContainer>
   );
+
+  const responsiveBlockClassNames = [];
+
+  if (textBlockAlignment !== 'right') {
+    responsiveBlockClassNames.push('-left');
+  } else {
+    responsiveBlockClassNames.push('-right');
+  }
 
   const getResponsiveBlock = () => {
     return isFullWidth ? (
@@ -241,10 +201,7 @@ const Banner = ({
     ) : (
       <HalfWidthImageContainer>
         <MobileDesktopImage
-          className={cx(styles.halfWidthImageContainer, {
-            '-left': textBlockAlignment !== 'right',
-            '-right': textBlockAlignment === 'right',
-          })}
+          className={clsx(responsiveBlockClassNames.join(' '))}
           desktopImage={desktopImage}
           mobileImage={mobileImage}
           alt={alt}
@@ -264,7 +221,7 @@ const Banner = ({
   const renderFullWidthBlockTitle = (title) => (
     <Heading
       type={headingType}
-      className={cx(headingAdditionalClass, Title, 'primary', {
+      className={clsx(headingAdditionalClass, Title, 'primary', {
         '-white': textColor === WHITE,
       })}
     >
@@ -272,17 +229,18 @@ const Banner = ({
     </Heading>
   );
 
-  const renderHalfWidthBlockTitle = (title) => (
-    <Heading
-      type={headingType ? headingType : 'h2'}
-      className={cx(headingAdditionalClass ? headingAdditionalClass : 'h1', styles.title, 'banner', 'primary', {
-        '-white': textColor === WHITE,
-      })}
-    >
-      <Markdown options={{ forceInline: true }}>{title}</Markdown>
-    </Heading>
-  );
-
+  const renderHalfWidthBlockTitle = (title) => {
+    return (
+      <Heading
+        type={headingType ? headingType : 'h2'}
+        className={clsx(headingAdditionalClass ? headingAdditionalClass : 'h1', Title, 'banner', 'primary', {
+          '-white': textColor === WHITE,
+        })}
+      >
+        <Markdown options={{ forceInline: true }}>{title}</Markdown>
+      </Heading>
+    );
+  };
   const isMobileWebMFile = mobileImage?.mimeType === 'video/webm' && isMobile;
 
   const isDesktopWebMFile = desktopImage?.mimeType === 'video/webm' && !isMobile;
@@ -313,41 +271,19 @@ const Banner = ({
     return Block;
   };
 
-  // headline
-  const bannerTextClassNames = [];
-
-  if (textBlockAlignment === 'left') bannerTextClassNames.push('-left');
-  if (textBlockAlignment === 'right') bannerTextClassNames.push('-right');
-  if (!isFullWidth) bannerTextClassNames.push('-bg');
-  if (isTextBlockWide) bannerTextClassNames.push('-wide');
-  if (textColor === WHITE) bannerTextClassNames.push('-white');
-  if (additionalClass) bannerTextClassNames.push(additionalClass);
-
-  // copy
-  const copyClassNames = [];
-
-  if (textColor === WHITE) copyClassNames.push('-white');
-  if (additionalClass) copyClassNames.push(additionalClass);
-
-  // subtitle
-  const subTitleClassNames = [];
-
-  if (textColor === WHITE) subTitleClassNames.push('-white');
-
-  // buttons
-
-  const buttonOneClassNames = ['-mobile-wide', ctaButtonType, additionalClass ? additionalClass : ''];
-  const buttonTwoClassNames = ['second-button', ctaButtonType2];
-  // this is how it was.....
-  const buttonThreeClassNames = ['second-button', ctaButtonType3];
-
-  if (textColor === WHITE) {
-    buttonOneClassNames.push('-inverse-tabletAndUp');
-    buttonTwoClassNames.push('-inverse-tabletAndUp');
-  }
-
   const bannerText = (
-    <BannerTextContainer className={bannerTextClassNames.join(' ')}>
+    <BannerTextContainer
+      className={clsx(
+        {
+          '-left': textBlockAlignment === 'left',
+          '-right': textBlockAlignment === 'right',
+          '-bg': !isFullWidth,
+          '-white': textColor === WHITE,
+          '-wide': isTextBlockWide,
+        },
+        additionalClass,
+      )}
+    >
       {title && mobileTitle && (
         <>
           <ShowMobileOnly>{renderBlocKTitle(mobileTitle)}</ShowMobileOnly>
@@ -356,12 +292,26 @@ const Banner = ({
       )}
       {title && !mobileTitle && renderBlocKTitle(title)}
       {subTitle && (
-        <SubTitle className={subTitleClassNames}>
+        <SubTitle
+          className={clsx(
+            {
+              '-white': textColor === WHITE,
+            },
+            subtitleAdditionalClass,
+          )}
+        >
           <Markdown options={{ forceInline: true }}>{subTitle}</Markdown>
         </SubTitle>
       )}
 
-      <Copy className={copyClassNames}>
+      <Copy
+        className={clsx(
+          {
+            '-white': textColor === WHITE,
+          },
+          additionalClass,
+        )}
+      >
         {desktopCopy && (
           <ShowTabletAndUpOnly>
             <Markdown options={{ forceBlock: true }}>{desktopCopy}</Markdown>
@@ -378,17 +328,35 @@ const Banner = ({
       <div className="cta">
         {ctaRoute && (
           <UniLink route={ctaRoute} className={gtmClass}>
-            <Button className={buttonOneClassNames.join(' ')}>{ctaCopy}</Button>
+            <Button
+              className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
+                '-inverse-tabletAndUp': textColor === WHITE,
+              })}
+            >
+              {ctaCopy}
+            </Button>
           </UniLink>
         )}
         {ctaRoute && ctaRoute2 && (
           <UniLink route={ctaRoute2}>
-            <Button className={buttonTwoClassNames.join(' ')}>{ctaCopy2}</Button>
+            <Button
+              className={clsx('second-button', ctaButtonType2, additionalClass, {
+                '-inverse-tabletAndUp': textColor === WHITE,
+              })}
+            >
+              {ctaCopy2}
+            </Button>
           </UniLink>
         )}
         {ctaRoute && ctaRoute2 && ctaRoute3 && (
           <UniLink route={ctaRoute3}>
-            <Button className={buttonThreeClassNames.join(' ')}>{ctaCopy3}</Button>
+            <Button
+              className={clsx('second-button', ctaButtonType3, additionalClass, {
+                '-inverse-tabletAndUp': textColor === WHITE,
+              })}
+            >
+              {ctaCopy3}
+            </Button>
           </UniLink>
         )}
       </div>
@@ -435,14 +403,15 @@ const Banner = ({
     </>
   );
 
-  const bannerWrapperClassNames = [];
-
-  if (!isFullWidth) bannerWrapperClassNames.push('-vertical-margins');
-  if (!additionalClass) bannerWrapperClassNames.push(additionalClass);
-
   return (
     <BannerWrapper>
-      <div className={bannerWrapperClassNames.join(' ')}>{bannerContent}</div>
+      <div
+        className={clsx(additionalClass, {
+          '-vertical-margins': !isFullWidth,
+        })}
+      >
+        {bannerContent}
+      </div>
     </BannerWrapper>
   );
 };

@@ -14,7 +14,6 @@ import {
   GREY_MED,
   GREY_LIGHT,
 } from '@diamantaire/styles/darkside-styles';
-import { css } from '@emotion/css';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -80,13 +79,13 @@ const ButtonStyles = styled.button`
     &.-mobile-wide {
       width: 100%;
 
-      ${tabletAndUp(css`
+      ${tabletAndUp(`
         width: ${setSpace(25)};
       `)};
     }
 
     &.-inverse-tabletAndUp {
-      ${tabletAndUp(css`
+      ${tabletAndUp(`
         color: ${WHITE};
         border-color: ${WHITE};
 
@@ -147,7 +146,7 @@ const ButtonStyles = styled.button`
       color: ${WHITE};
       border-bottom: 1px solid ${WHITE};
     }
-    ${tabletAndUp(css`
+    ${tabletAndUp(`
       &.-tall-block {
         margin-top: 0;
       }
@@ -178,7 +177,7 @@ const ButtonStyles = styled.button`
     &.-mobile-wide {
       width: 100%;
 
-      ${tabletAndUp(css`
+      ${tabletAndUp(`
         width: ${setSpace(25)};
       `)};
     }
@@ -225,10 +224,8 @@ const ButtonStyles = styled.button`
 `;
 
 const Button = (props) => {
-  const style = css;
-
   return (
-    <ButtonStyles {...props} className={classNames(style, props.className)}>
+    <ButtonStyles {...props} className={classNames(props.className)}>
       {props.children}
     </ButtonStyles>
   );

@@ -3,9 +3,9 @@ import LazyLoad from 'react-lazyload';
 
 type LazyLoadWrapperProps = {
   children: ReactNode;
-  height: number;
-  once: boolean;
-  resize: boolean;
+  height?: number;
+  once?: boolean;
+  resize?: boolean;
   offset?: number;
   placeholder?: any;
 };

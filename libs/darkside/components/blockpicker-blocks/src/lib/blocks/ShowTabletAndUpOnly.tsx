@@ -1,11 +1,9 @@
 import { showTabletAndUpOnly } from '@diamantaire/styles/darkside-styles';
-import { cx, css } from '@emotion/css';
 import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
-const mobileOnlyStyles = css`
-  ${showTabletAndUpOnly({
-    display: 'block',
-  })}
+const TabletOnlyStyles = styled.div`
+  ${showTabletAndUpOnly("display: 'block'")}
 `;
 
 type ShowTabletAndUpOnlyProps = {
@@ -14,9 +12,9 @@ type ShowTabletAndUpOnlyProps = {
 };
 
 const ShowTabletAndUpOnly = ({ children, extraClass, ...restProps }: ShowTabletAndUpOnlyProps) => (
-  <div className={cx(mobileOnlyStyles, extraClass)} {...restProps}>
+  <TabletOnlyStyles className={extraClass} {...restProps}>
     {children}
-  </div>
+  </TabletOnlyStyles>
 );
 
 export default ShowTabletAndUpOnly;

@@ -1,10 +1,10 @@
 import { BP_LG } from '@diamantaire/shared/constants';
 import { CalendarIcon, Logo } from '@diamantaire/shared/icons';
-import styled from '@emotion/styled';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
+import styled from 'styled-components';
 
 import { NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';

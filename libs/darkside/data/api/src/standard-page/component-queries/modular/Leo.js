@@ -6,6 +6,8 @@ const Leo = `
     title
     image {
       url
+      height
+      width
       alt
     }
   }

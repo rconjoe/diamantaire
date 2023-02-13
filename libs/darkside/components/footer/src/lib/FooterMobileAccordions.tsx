@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
+import styled from 'styled-components';
 
 // import ChevronRight from 'public/static/icons/general/chevron-right.svg';
 
@@ -15,19 +15,11 @@ const FooterMobileAccordionsContainer = styled.div`
   padding-top: 20px;
 `;
 
-const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({
-  columns,
-}): JSX.Element => {
+const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JSX.Element => {
   return (
     <FooterMobileAccordionsContainer>
       {columns?.map((col, index) => {
-        return (
-          <FooterAccordion
-            col={col}
-            key={`footer-accordion-${index}`}
-            colKey={index}
-          />
-        );
+        return <FooterAccordion col={col} key={`footer-accordion-${index}`} colKey={index} />;
       })}
     </FooterMobileAccordionsContainer>
   );
@@ -85,23 +77,14 @@ const FooterAccordionContainer = styled.div`
   }
 `;
 
-const FooterAccordion = ({
-  col,
-  colKey,
-}: {
-  col: FooterColumn;
-  colKey: number;
-}) => {
+const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { title, links } = col;
 
   return (
     <FooterAccordionContainer>
       <button onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
-        {title}{' '}
-        <span className={isAccordionOpen ? 'open' : ''}>
-          {/* <ChevronRight /> */}
-        </span>
+        {title} <span className={isAccordionOpen ? 'open' : ''}>{/* <ChevronRight /> */}</span>
       </button>
 
       <AnimatePresence>

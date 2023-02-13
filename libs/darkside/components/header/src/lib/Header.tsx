@@ -1,7 +1,7 @@
 import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import styled from '@emotion/styled';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 // import Search from 'components/search/Search';
 
@@ -35,11 +35,7 @@ const Header: FC<HeaderProps> = ({ headerData }): JSX.Element => {
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   // const [headerHeight, setHeaderHeight] = useState(0);
   // const [topBarHeight, setTopBarHeight] = useState(0);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  function toggleSearch() {
-    return setIsSearchOpen(!isSearchOpen);
-  }
+  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const { setHeaderHeight, headerHeight, getRelativeUrl } = useGlobalContext();
 
@@ -52,7 +48,6 @@ const Header: FC<HeaderProps> = ({ headerData }): JSX.Element => {
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!headerRef?.current?.offsetHeight) return;

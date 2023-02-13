@@ -25,8 +25,8 @@ import { CART_DRAWER_Z_INDEX, POPUP_Z_INDEX } from './zIndexMap';
 // }
 
 export const NORMAL_FONT_WEIGHT = '400 !important';
-export const MEDIUM_FONT_WEIGHT = '400 !important';
-export const BOLD_FONT_WEIGHT = '500 !important';
+export const MEDIUM_FONT_WEIGHT = '500 !important';
+export const BOLD_FONT_WEIGHT = '600 !important';
 
 export const MAIN_FONT = 'futura-pt, sans-serif';
 export const HEADLINE_SIZE = '2rem';
@@ -315,6 +315,12 @@ const GetExtraStyles = createGlobalStyle`
 `;
 
 const GlobalContainer = createGlobalStyle`
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+}
 .container-emotion {
       width: 100%;
       padding-left: ${setSpace(3)};
