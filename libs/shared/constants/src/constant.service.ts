@@ -35,6 +35,14 @@ export const PaginatedLabels = {
   meta: 'paginator',
 };
 
+// BP = Break Points
+export const BP_XS = '0px';
+export const BP_SM = '576px';
+export const BP_MD = '768px';
+export const BP_LG = '992px';
+export const BP_XL = '1200px';
+export const BP_XXL = '1440px';
+
 export const RTS_CATEGORY = 'ready-to-give-engagement-rings';
 export const EARRINGS_CATEGORY = 'earrings';
 export const NECKLACES_CATEGORY = 'necklaces';

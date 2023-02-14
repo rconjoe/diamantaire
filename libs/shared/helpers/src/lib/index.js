@@ -70,7 +70,7 @@ export { default as useQueryParams } from './useQueryParams';
 // component helpers
 
 export * from './language';
-export * from './reCaptcha';
+// export * from './reCaptcha';
 export * from './currency';
 export * from './getActiveGiftWithPurchaseProduct';
 export * from './imageUrls';

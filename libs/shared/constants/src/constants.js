@@ -21,7 +21,9 @@ import {
   PAVE_CLUSTER_SHAPE_HUMAN_NAMES,
 } from './maps/variantOptionMaps';
 
-const { ENV_SUBDOMAIN } = getEnvConfig();
+// TODO: Fix or remove
+// const { ENV_SUBDOMAIN } = getEnvConfig();
+const ENV_SUBDOMAIN = 'vrai.com';
 
 export const COMPANY = 'VRAI';
 
