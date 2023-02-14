@@ -13,14 +13,24 @@
       }
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/darkside/context/diamond-icon-context",
         "tsConfig": "libs/darkside/context/diamond-icon-context/tsconfig.lib.json",
-        "packageJson": "libs/darkside/context/diamond-icon-context/package.json",
+        "project": "libs/darkside/context/diamond-icon-context/package.json",
         "main": "libs/darkside/context/diamond-icon-context/src/index.ts",
-        "assets": ["libs/darkside/context/diamond-icon-context/*.md"]
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": ["@nrwl/react/plugins/bundle-rollup", "svg-rollup.js"],
+        "compiler": "swc",
+
+        "assets": [
+          {
+            "glob": "libs/darkside/context/diamond-icon-context/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "test": {

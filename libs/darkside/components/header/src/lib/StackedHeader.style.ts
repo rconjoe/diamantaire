@@ -1,9 +1,8 @@
-import { BP_LG, teal } from 'helpers/constants';
-import React from 'react';
+import { BP_LG } from '@diamantaire/shared/constants';
+import { MAIN_FONT, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
-import { MAIN_FONT } from 'styles/globalStyles';
 
-const StackedHeaderStylesContainer = styled.header`
+export const StackedHeaderStylesContainer = styled.header`
   display: none;
 
   @media (min-width: ${BP_LG}) {
@@ -69,7 +68,7 @@ const StackedHeaderStylesContainer = styled.header`
 
         &::before {
           content: '';
-          background: ${teal};
+          background: ${TEAL};
           display: block;
           position: absolute;
           bottom: -5px;
@@ -90,9 +89,3 @@ const StackedHeaderStylesContainer = styled.header`
     }
   }
 `;
-
-const StackedHeaderStyles = ({ children }) => {
-  return <StackedHeaderStylesContainer>{children}</StackedHeaderStylesContainer>;
-};
-
-export { StackedHeaderStyles };

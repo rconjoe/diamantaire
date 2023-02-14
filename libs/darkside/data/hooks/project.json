@@ -5,14 +5,23 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/darkside/data/hooks",
         "tsConfig": "libs/darkside/data/hooks/tsconfig.lib.json",
-        "packageJson": "libs/darkside/data/hooks/package.json",
+        "project": "libs/darkside/data/hooks/package.json",
         "main": "libs/darkside/data/hooks/src/index.ts",
-        "assets": ["libs/darkside/data/hooks/*.md"]
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/darkside/data/hooks/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {
@@ -22,6 +31,7 @@
         "lintFilePatterns": ["libs/darkside/data/hooks/**/*.ts"]
       }
     },
+
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

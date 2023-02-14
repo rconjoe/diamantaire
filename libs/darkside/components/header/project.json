@@ -13,14 +13,23 @@
       }
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/darkside/components/header",
         "tsConfig": "libs/darkside/components/header/tsconfig.lib.json",
-        "packageJson": "libs/darkside/components/header/package.json",
-        "main": "libs/darkside/components/header/src/index.ts",
-        "assets": ["libs/darkside/components/header/*.md"]
+        "project": "libs/darkside/components/header/package.json",
+        "entryFile": "libs/darkside/components/header/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/darkside/components/header/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "test": {

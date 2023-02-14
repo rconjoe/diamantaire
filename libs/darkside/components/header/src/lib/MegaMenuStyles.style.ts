@@ -1,8 +1,7 @@
 import { TEAL, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
-import React from 'react';
 import styled from 'styled-components';
 
-const MegaMenuStylesContainer = styled.div`
+export const MegaMenuStylesContainer = styled.div`
   border-bottom: 1px solid #000;
   padding-bottom: 2.4rem;
   position: fixed;
@@ -128,13 +127,3 @@ const MegaMenuStylesContainer = styled.div`
     }
   }
 `;
-
-const MegaMenuStyles = ({ children, headerHeight, className }) => {
-  return (
-    <MegaMenuStylesContainer $headerHeight={headerHeight} className={className}>
-      {children}
-    </MegaMenuStylesContainer>
-  );
-};
-
-export default MegaMenuStyles;

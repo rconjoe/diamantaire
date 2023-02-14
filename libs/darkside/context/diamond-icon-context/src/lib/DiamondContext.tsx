@@ -31,14 +31,9 @@ type RingStyleWithIconProps = {
   [key: string]: object;
 };
 
-const DiamondShapesContext =
-  createContext<DiamondShapesContextInterface | null>(null);
+const DiamondShapesContext = createContext<DiamondShapesContextInterface | null>(null);
 
-export const DiamondShapesProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const DiamondShapesProvider = ({ children }: { children: React.ReactNode }) => {
   const diamondShapes = {
     radiant: 'Radiant',
     'round-brilliant': 'Round Brilliant',
@@ -183,11 +178,7 @@ export const DiamondShapesProvider = ({
     iconsAltText,
   };
 
-  return (
-    <DiamondShapesContext.Provider value={{ ...diamondShapesContext }}>
-      {children}
-    </DiamondShapesContext.Provider>
-  );
+  return <DiamondShapesContext.Provider value={{ ...diamondShapesContext }}>{children}</DiamondShapesContext.Provider>;
 };
 
 export { DiamondShapesContext };

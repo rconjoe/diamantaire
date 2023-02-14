@@ -1,10 +1,10 @@
+import { Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
-import Logo from '../../public/static/logo.svg';
 import { MenuLink, NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
-import { StackedHeaderStyles } from './HeaderStyles';
+import { StackedHeaderStylesContainer } from './StackedHeader.style';
 
 type StackedHeaderTypes = {
   navItems: NavItemsProps;
@@ -13,15 +13,11 @@ type StackedHeaderTypes = {
 };
 
 // This header only appears on the home page. Stacks logo ontop of nac
-const StackedHeader: FC<StackedHeaderTypes> = ({
-  navItems,
-  toggleMegaMenuOpen,
-  menuIndex,
-}): JSX.Element => {
+const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex }): JSX.Element => {
   const locale = 'en_US';
 
   return (
-    <StackedHeaderStyles>
+    <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
@@ -71,7 +67,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
           </nav>
         </div>
       </div>
-    </StackedHeaderStyles>
+    </StackedHeaderStylesContainer>
   );
 };
 
