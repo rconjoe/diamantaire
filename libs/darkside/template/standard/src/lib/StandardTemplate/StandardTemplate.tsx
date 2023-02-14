@@ -7,6 +7,7 @@ import { ReactElement, ReactNode } from 'react';
 /* eslint-disable-next-line */
 export interface StandardTemplateProps {
   children: ReactNode;
+  headerData?: any;
 }
 
 export function StandardTemplate({ children }: StandardTemplateProps) {

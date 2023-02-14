@@ -19,7 +19,7 @@
         "outputPath": "dist/libs/shared/helpers",
         "tsConfig": "libs/shared/helpers/tsconfig.lib.json",
         "project": "libs/shared/helpers/package.json",
-        "entryFile": "libs/shared/helpers/src/index.ts",
+        "entryFile": "libs/shared/helpers/src/index.js",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",

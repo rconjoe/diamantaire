@@ -12,14 +12,13 @@ import styled from 'styled-components';
 import FooterMobileAccordions from './FooterMobileAccordions';
 
 type FooterTypes = {
-  footerData: {
-    footerNavigation: {
-      columns: Array<FooterColumn>;
-      copyright: string;
-      emailSignUpColumn: Array<FooterSignupColType>;
-      emailSignUpCopy: Array<FooterSignupFormType>;
-    };
-  };
+  footerData: any;
+  // footerNavigation: {
+  //   columns: Array<FooterColumn>;
+  //   copyright: string;
+  //   emailSignUpColumn: Array<FooterSignupColType>;
+  //   emailSignUpCopy: Array<FooterSignupFormType>;
+  // };
 };
 
 export type FooterColumn = {
@@ -34,24 +33,24 @@ type FooterLink = {
   supportedCountries: Array<string>;
 };
 
-type FooterSignupColType = {
-  ctaCopy: string;
-  copy: string;
-  title: string;
-};
+// type FooterSignupColType = {
+//   ctaCopy: string;
+//   copy: string;
+//   title: string;
+// };
 
-type FooterSignupFormType = {
-  emailInputBeingSent?: string;
-  emailInputEmpty?: string;
-  emailInputNotValid?: string;
-  emailInputPlaceholder?: string;
-  emailInputSuccessfullySent?: string;
-  emailInputUnsuccessfullySent?: string;
-  gdprCtaCopy?: string;
-  gdprCtaRoute?: string;
-  gdprOptInCopy?: string;
-  phoneInputPlaceholder?: string;
-};
+// type FooterSignupFormType = {
+//   emailInputBeingSent?: string;
+//   emailInputEmpty?: string;
+//   emailInputNotValid?: string;
+//   emailInputPlaceholder?: string;
+//   emailInputSuccessfullySent?: string;
+//   emailInputUnsuccessfullySent?: string;
+//   gdprCtaCopy?: string;
+//   gdprCtaRoute?: string;
+//   gdprOptInCopy?: string;
+//   phoneInputPlaceholder?: string;
+// };
 
 const FooterStyles = styled.footer`
   padding: 2rem 2.4rem 0;

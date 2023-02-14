@@ -9,13 +9,9 @@ import CompactHeader from './CompactHeader';
 import MegaMenu from './MegaMenu';
 import MobileHeader from './MobileHeader';
 import TopBar from './TopBar';
-
+// TODO: setup proper type
 type HeaderProps = {
-  headerData: {
-    headerNavigationDynamic: {
-      section: object;
-    };
-  };
+  headerData?: any;
 };
 
 const FullHeaderStyles = styled.header`

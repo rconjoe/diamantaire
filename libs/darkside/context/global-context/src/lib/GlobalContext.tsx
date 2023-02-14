@@ -25,6 +25,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     if (basePath) {
       url = url.replace(basePath, '');
     }
+
     return url;
   }
 
@@ -34,9 +35,5 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     getRelativeUrl,
   };
 
-  return (
-    <GlobalContext.Provider value={globalContext}>
-      {children}
-    </GlobalContext.Provider>
-  );
+  return <GlobalContext.Provider value={globalContext}>{children}</GlobalContext.Provider>;
 };

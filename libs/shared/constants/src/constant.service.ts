@@ -1,4 +1,4 @@
-export const environment = process.env.NODE_ENV;
+export const environment = process.env['NODE_ENV'];
 export const isDevEnv = Object.is(environment, 'development');
 export const isStagingEnv = Object.is(environment, 'staging');
 export const isProdEnv = Object.is(environment, 'production');
@@ -42,6 +42,96 @@ export const BP_MD = '768px';
 export const BP_LG = '992px';
 export const BP_XL = '1200px';
 export const BP_XXL = '1440px';
+
+// BlockPicker Blocks
+export const FULL_WIDTH_BANNER_BLOCK = 'full_width_banner_block';
+export const HALF_WIDTH_BANNER_BLOCK = 'half_width_banner_block';
+export const TRIO_BLOCK = 'trio_block';
+export const MODULAR_DUO_BLOCK = 'modular_duo_block';
+export const CELEBRITY_BLOCK = 'celebrity_block';
+export const QUOTE_BLOCK = 'quote_block';
+export const MODULAR_HERO_BANNER_BLOCK = 'modular_hero_banner_block';
+export const MODULAR_FULL_WIDTH_BANNER_BLOCK = 'modular_full_width_banner_block';
+export const MODULAR_HALF_WIDTH_BANNER_BLOCK = 'modular_half_width_banner_block';
+export const MODULAR_TEXT_ONLY_BLOCK = 'modular_text_only_block';
+export const MODULAR_TRIO_SVG_BLOCK = 'modular_triosvg_block';
+export const MODULAR_TRIO_1x1_BLOCK = 'modular_trio1x1_block';
+export const MODULAR_TRIO_9x7_BLOCK = 'modular_trio9x7_block';
+export const MODULAR_TRIO_STAGGERED_9x7_BLOCK = 'modular_trio_staggered9x7_block';
+export const MODULAR_TRIO_SLIDE_9x7_BLOCK = 'modular_trio_slide9x7_block';
+export const MODULAR_SIDE_BY_SIDE_BLOCK = 'modular_side_by_side_block';
+export const MODULAR_SINGLE_SVG_BLOCK = 'modular_singlesvg_block';
+export const MODULAR_SINGLE_VIDEO_BLOCK = 'modular_single_video_block';
+export const MODULAR_LEO_BLOCK = 'modular_leo_block';
+export const MODULAR_QUAD_GRID = 'modular_quad_grid';
+export const SOCIAL_MEDIA_SECTION = 'social_media_section';
+export const MODULAR_TRI_GRID_WITH_ORDER_TRACKING = 'modular_tri_grid_with_order_tracking';
+export const MODULAR_QUAD_BLOCK = 'modular_quad_block';
+export const MODULAR_QUOTE_BLOCK = 'modular_quote_block';
+export const MODULAR_COLLECTION_HERO_BLOCK = 'modular_collection_hero_block';
+export const MODULAR_HALF_WIDTH_QUAD_BLOCK = 'modular_half_width_quad_block';
+export const MODULAR_CAROUSEL_BLOCK = 'modular_carousel_block';
+export const MODULAR_ACCORDION_BLOCK = 'modular_accordion_block';
+export const MODULAR_CELEBRITY_CAROUSEL_BLOCK = 'modular_celebrity_carousel_block';
+export const MODULAR_CELEBRITY_REEL_BLOCK = 'modular_celebrity_reel_block';
+export const MODULAR_LOGO_BANNER_BLOCK = 'modular_logo_banner_block';
+export const MODULAR_PRODUCT_ICON_LIST_ITEM = 'modular_product_icon_list_item';
+export const MODULAR_SHIPPING_PRODUCT_ICON_LIST_ITEM = 'modular_shipping_product_icon_list_item';
+export const MODULAR_HORIZONTAL_LINE_BLOCK = 'modular_horizontal_line_block';
+export const MODULAR_SKINNY_HERO_BANNER_BLOCK = 'modular_skinny_hero_banner_block';
+export const MODULAR_LIST_TITLE_BLOCK = 'modular_list_title_block';
+export const MODULAR_PRODUCT_SLIDER_BLOCK = 'modular_product_slider_block';
+export const MODULAR_PRODUCT_SUGGESTION_QUAD_BLOCK = 'modular_product_suggestion_quad_block';
+export const MODULAR_BLOG_LIST_TRIO_BLOCK = 'modular_blog_list_trio_block';
+export const MODULAR_INSTAGRAM_REEL_BLOCK = 'modular_instagram_reel_block';
+export const MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK = 'modular_half_width_blog_summary_block';
+export const MODULAR_SLICK_CAROUSEL_BLOCK = 'modular_slick_carousel_block';
+export const MODULAR_SHOWROOM_BLOCK = 'modular_showroom_block';
+export const MODULAR_QUAD_LOGO_BLOCK = 'modular_quad_logo_block';
+export const MODULAR_QUAD_STATISTICS_BLOCK = 'modular_quad_statistics_block';
+export const DATO_NAVIGATION_IMAGE_LINK = 'navigation_image_link';
+export const DATO_NAVIGATION_LINK = 'navigation_link';
+export const MODULAR_RANDOM_BANNER_BLOCK = 'modular_random_banner_block';
+export const MODULAR_GRID_CAROUSEL_BLOCK = 'modular_grid_carousel_block';
+export const MODULAR_MINI_BANNER_BLOCK = 'modular_mini_banner_block';
+export const MODULAR_TALL_HALF_WIDTH_BLOCK = 'modular_tall_half_width_block';
+export const MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA = 'modular_tall_half_width_block_location_cta';
+export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
+export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
+
+// Showroom
+export const SHOWROOM_LOCATIONS = [
+  {
+    title: 'Visit our Los Angeles Showroom',
+    handle: 'los-angeles',
+    location: 'Los Angeles',
+  },
+  {
+    title: 'Visit our London Showroom',
+    handle: 'london',
+    location: 'London',
+  },
+  {
+    title: 'Visit our Chicago Showroom',
+    handle: 'chicago',
+    location: 'Chicago',
+  },
+  {
+    title: 'Visit our Madrid Showroom',
+    handle: 'madrid',
+    location: 'Madrid',
+  },
+  {
+    title: 'Visit our New York Showroom',
+    handle: 'new-york',
+    location: 'New York',
+  },
+  {
+    title: 'Visit our San Francisco Showroom',
+    handle: 'san-francisco',
+    location: 'San Francisco',
+  },
+];
 
 export const RTS_CATEGORY = 'ready-to-give-engagement-rings';
 export const EARRINGS_CATEGORY = 'earrings';

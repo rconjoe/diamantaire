@@ -13,23 +13,14 @@
       }
     },
     "build": {
-      "executor": "@nrwl/rollup:rollup",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/darkside/context/diamond-icon-context",
         "tsConfig": "libs/darkside/context/diamond-icon-context/tsconfig.lib.json",
-        "project": "libs/darkside/context/diamond-icon-context/package.json",
-        "entryFile": "libs/darkside/context/diamond-icon-context/src/index.ts",
-        "external": ["react/jsx-runtime"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "compiler": "swc",
-        "assets": [
-          {
-            "glob": "libs/darkside/context/diamond-icon-context/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "packageJson": "libs/darkside/context/diamond-icon-context/package.json",
+        "main": "libs/darkside/context/diamond-icon-context/src/index.ts",
+        "assets": ["libs/darkside/context/diamond-icon-context/*.md"]
       }
     },
     "test": {

@@ -1,4 +1,3 @@
-import { getEnvConfig } from './env';
 import getRootURL from './getRootURL';
 import {
   BAND_ACCENT_HUMAN_NAMES,

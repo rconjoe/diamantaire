@@ -4,4 +4,4 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run `nx build shared-constant` to build the library.
+Run `nx build shared-constants` to build the library.
