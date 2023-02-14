@@ -137,7 +137,6 @@
           {
             "enforceBuildableLibDependency": true,
             "allow": [],
-            "import/no-unresolved": "off",
             "depConstraints": [
               {
                 "sourceTag": "*",

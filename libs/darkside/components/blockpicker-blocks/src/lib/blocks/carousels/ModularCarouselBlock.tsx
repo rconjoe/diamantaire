@@ -56,7 +56,7 @@ const ModularCarouselBlock = (props) => {
     },
   ];
 
-  const sliderType = sliderTypes.filter((sliderType) => sliderType.type === _modelApiKey)?.[0];
+  const sliderType = sliderTypes.filter((slider) => slider.type === _modelApiKey)?.[0];
   const SelectedSliderSlide = sliderType?.slide;
 
   return (
