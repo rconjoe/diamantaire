@@ -144,7 +144,7 @@ workflows:
           filters:
             branches:
               only:
-                - feature/build-ci
+                - develop
           requires:
             - build-image
       - manual-approval:
