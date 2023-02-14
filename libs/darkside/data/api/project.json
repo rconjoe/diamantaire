@@ -3,23 +3,33 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/darkside/data/api/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/darkside/data/api",
-        "tsConfig": "libs/darkside/data/api/tsconfig.lib.json",
-        "packageJson": "libs/darkside/data/api/package.json",
-        "main": "libs/darkside/data/api/src/index.ts",
-        "assets": ["libs/darkside/data/api/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/darkside/data/api/**/*.ts"]
+        "lintFilePatterns": ["libs/darkside/data/api/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/darkside/data/api",
+        "tsConfig": "libs/darkside/data/api/tsconfig.lib.json",
+        "project": "libs/darkside/data/api/package.json",
+        "entryFile": "libs/darkside/data/api/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/darkside/data/api/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "test": {
@@ -28,8 +38,13 @@
       "options": {
         "jestConfig": "libs/darkside/data/api/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
-  },
-  "tags": []
+  }
 }

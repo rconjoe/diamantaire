@@ -40,6 +40,9 @@
       "library": {
         "unitTestRunner": "jest",
         "buildable": true
+      },
+      "application": {
+        "babel": true
       }
     },
     "@nrwl/next": {

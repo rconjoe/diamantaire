@@ -1,5 +1,4 @@
 import { Html, Main, NextScript, Head } from 'next/document';
-import { renderStatic } from 'react';
 
 export default function Document() {
   return (
@@ -15,21 +14,4 @@ export default function Document() {
       </body>
     </Html>
   );
-}
-
-// This is temp until we are fully off emotion
-export async function getInitialProps(ctx) {
-  const page = await ctx.renderPage();
-  const { css, ids } = await renderStatic(page.html);
-  const initialProps = await Document.getInitialProps(ctx);
-
-  return {
-    ...initialProps,
-    styles: (
-      <>
-        {initialProps.styles}
-        <style data-emotion={`css ${ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: css }} />
-      </>
-    ),
-  };
 }
