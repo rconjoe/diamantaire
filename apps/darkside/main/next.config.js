@@ -45,10 +45,10 @@ const nextConfig = {
       },
     ];
   },
-  i18n: {
-    locales: ['en-US', 'fr', 'de', 'es'],
-    defaultLocale: 'en-US',
-  },
+  // i18n: {
+  //   locales: ['en-US', 'fr', 'de', 'es'],
+  //   defaultLocale: 'en-US',
+  // },
   env: {
     GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
   },
