@@ -1,5 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
+console.log('tempppp', process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN']);
+
 export function queryDatoGQL({
   query,
   variables,
