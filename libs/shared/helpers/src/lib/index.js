@@ -17,7 +17,7 @@ export { default as ScriptLoader } from './ScriptLoader';
 export { default as validateQuery } from './validateQuery';
 
 export { default as isEmptyObject } from './isEmptyObject';
-export { default as getIsDiamondFlow } from './getIsDiamondFlow';
+
 export { default as orderBySlugs } from './orderBySlugs';
 
 export { default as getIsJewelryProduct } from './getIsJewelryProduct';
