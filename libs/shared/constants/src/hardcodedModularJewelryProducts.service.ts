@@ -1,9 +1,9 @@
+import { RANDM_RING_SLUGS } from './constants';
 /**
  * The slugs in this file correspond to the Jewelry Product
  * model on Dato.
- */
 
-import { RANDM_RING_SLUGS } from './constants';
+*/
 
 export const MODULAR_EARRING_PRODUCT_SLUGS = [
   'solitaire-diamond-studs',
