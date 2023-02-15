@@ -1,5 +1,5 @@
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { AccountIcon, HeartIcon, SearchIcon, CartIcon } from '@diamantaire/shared/icons';
+import { AccountIcon, HeartIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
@@ -98,7 +98,7 @@ const HeaderActionsNav = () => {
     },
     {
       title: 'Cart',
-      icon: <CartIcon />,
+      icon: <ShoppingBagIcon />,
       type: 'button',
       alt: 'Cart Toggle Button',
     },

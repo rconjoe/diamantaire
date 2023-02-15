@@ -31,7 +31,6 @@
         "lintFilePatterns": ["libs/darkside/data/hooks/**/*.ts"]
       }
     },
-
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

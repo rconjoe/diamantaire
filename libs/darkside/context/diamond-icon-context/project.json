@@ -23,7 +23,6 @@
         "external": ["react/jsx-runtime"],
         "rollupConfig": ["@nrwl/react/plugins/bundle-rollup"],
         "compiler": "swc",
-
         "assets": [
           {
             "glob": "libs/darkside/context/diamond-icon-context/README.md",

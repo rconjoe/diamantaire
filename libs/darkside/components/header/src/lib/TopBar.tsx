@@ -1,4 +1,4 @@
-import { X } from '@diamantaire/shared/icons';
+import { XIcon } from '@diamantaire/shared/icons';
 import { TEAL } from '@diamantaire/styles/darkside-styles';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -72,7 +72,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 
         <div className="close__container">
           <button aria-label="Close Top Bar" onClick={() => setIsTopbarShowing(false)}>
-            <X />
+            <XIcon />
           </button>
         </div>
       </div>

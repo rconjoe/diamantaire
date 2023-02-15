@@ -1,5 +1,5 @@
 import { BP_LG } from '@diamantaire/shared/constants';
-import { CalendarIcon, Logo } from '@diamantaire/shared/icons';
+import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
@@ -111,7 +111,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight }): JSX.El
                   <Hamburger toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={18} />
                 </li>
                 <li className="calendar">
-                  <CalendarIcon />
+                  <EmptyCalendarIcon />
                 </li>
               </ul>
             </nav>

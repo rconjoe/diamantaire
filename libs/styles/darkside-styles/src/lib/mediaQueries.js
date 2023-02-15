@@ -1,5 +1,4 @@
 import { BP_MD, BP_LG, BP_XL, BP_XXL } from '@diamantaire/shared/constants';
-// import { css } from '@emotion/css';
 
 export const noHoverDevice = (noHoverStyles) => {
   return `

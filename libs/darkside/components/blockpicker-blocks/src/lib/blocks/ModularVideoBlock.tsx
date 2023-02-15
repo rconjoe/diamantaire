@@ -1,4 +1,4 @@
-import { PlayVideoTriangle } from '@diamantaire/shared/icons';
+import { PlayVideoTriangleIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
@@ -68,7 +68,7 @@ const ModularVideoBlock = ({
             videoPlaying: isVideoPlaying,
           })}
         >
-          <PlayVideoTriangle />
+          <PlayVideoTriangleIcon />
         </div>
       </div>
       {title && (

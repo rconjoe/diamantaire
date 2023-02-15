@@ -1,24 +1,25 @@
+import {
+  AsscherIcon,
+  BaguetteIcon,
+  CushionIcon,
+  EmeraldIcon,
+  MarquiseIcon,
+  OvalIcon,
+  PearIcon,
+  PrincessIcon,
+  RadiantIcon,
+  RoundBrilliantIcon,
+  TrillionIcon,
+  BezelIcon,
+  CathedralIcon,
+  HaloIcon,
+  HiddenHaloIcon,
+  SolitaireIcon,
+  ThreeStoneIcon,
+  TwoToneIcon,
+  VintageInspiredIcon,
+} from '@diamantaire/shared/icons';
 import React, { createContext } from 'react';
-
-import { ReactComponent as AsscherIcon } from '../assets/diamondShapes/asscher.svg';
-import { ReactComponent as BaguetteIcon } from '../assets/diamondShapes/baguette.svg';
-import { ReactComponent as CushionIcon } from '../assets/diamondShapes/cushion.svg';
-import { ReactComponent as EmeraldIcon } from '../assets/diamondShapes/emerald.svg';
-import { ReactComponent as MarquiseIcon } from '../assets/diamondShapes/marquise.svg';
-import { ReactComponent as OvalIcon } from '../assets/diamondShapes/oval.svg';
-import { ReactComponent as PearIcon } from '../assets/diamondShapes/pear.svg';
-import { ReactComponent as PrincessIcon } from '../assets/diamondShapes/princess.svg';
-import { ReactComponent as RadiantIcon } from '../assets/diamondShapes/radiant.svg';
-import { ReactComponent as RoundBrilliantIcon } from '../assets/diamondShapes/round-brilliant.svg';
-import { ReactComponent as TrillionIcon } from '../assets/diamondShapes/trillion.svg';
-import { ReactComponent as BezelIcon } from '../assets/ringStyles/bezel.svg';
-import { ReactComponent as CathedralIcon } from '../assets/ringStyles/cathedral.svg';
-import { ReactComponent as HaloIcon } from '../assets/ringStyles/halo.svg';
-import { ReactComponent as HiddenHaloIcon } from '../assets/ringStyles/hidden-halo.svg';
-import { ReactComponent as SolitaireIcon } from '../assets/ringStyles/solitaire.svg';
-import { ReactComponent as ThreeStoneIcon } from '../assets/ringStyles/three-stone.svg';
-import { ReactComponent as TwoToneIcon } from '../assets/ringStyles/two-tone.svg';
-import { ReactComponent as VintageInspiredIcon } from '../assets/ringStyles/vintage-inspired.svg';
 
 interface DiamondShapesContextInterface {
   diamondShapes: any; // { [key: string]: string };

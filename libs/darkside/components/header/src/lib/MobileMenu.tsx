@@ -1,5 +1,5 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
-import { ChevronRight } from '@diamantaire/shared/icons';
+import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -193,7 +193,7 @@ const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
       >
         {item?.title}{' '}
         <span>
-          <ChevronRight />
+          <ChevronRightIcon />
         </span>
       </button>
 
