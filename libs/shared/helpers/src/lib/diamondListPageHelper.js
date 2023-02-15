@@ -1,5 +1,4 @@
 import {
-  DIAMOND_LIST_PAGE_SLUGS,
   JEWELRY_EMERALD_CUT,
   JEWELRY_PEAR_SHAPED,
   JEWELRY_ROUND_BRILLIANT,
@@ -7,24 +6,7 @@ import {
   JEWELRY_MARQUISE,
   JEWELRY_TRILLION,
   JEWELRY_BAGUETTE,
-  DIAMOND_TYPES,
 } from '@diamantaire/shared/constants';
-
-export const getIsDiamondListPageSlug = (slug) => {
-  return DIAMOND_LIST_PAGE_SLUGS.includes(slug);
-};
-
-export const getIsValidDiamondForDiamondListPageSlug = (diamondType) => {
-  return DIAMOND_TYPES.includes(diamondType);
-};
-
-export const getDiamondListPageType = (slug) => {
-  if (slug.includes('round')) {
-    return 'round-brilliant';
-  }
-
-  return slug.replace('-cut-diamonds', '');
-};
 
 export const mapShapeToSeoTitle = (path) => {
   if (path === JEWELRY_TRILLION) {

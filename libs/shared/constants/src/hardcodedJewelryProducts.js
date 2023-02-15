@@ -22,10 +22,7 @@ const PREVIOUS_SLUGS_OF_MODULAR_BRACELETS = [
   'baguette-tennis-bracelet',
 ];
 
-export const BRACELET_PRODUCT_SLUGS = [
-  ...PREVIOUS_SLUGS_OF_MODULAR_BRACELETS,
-  ...MODULAR_BRACELET_PRODUCT_SLUGS,
-];
+export const BRACELET_PRODUCT_SLUGS = [...PREVIOUS_SLUGS_OF_MODULAR_BRACELETS, ...MODULAR_BRACELET_PRODUCT_SLUGS];
 
 const PREVIOUS_SLUGS_OF_MODULAR_NECKLACES = [
   // Used to redirect to their associated modular version
@@ -47,10 +44,7 @@ const PREVIOUS_SLUGS_OF_MODULAR_NECKLACES = [
   'trillion-diamond-bezel-necklace',
 ];
 
-export const NECKLACE_PRODUCT_SLUGS = [
-  ...PREVIOUS_SLUGS_OF_MODULAR_NECKLACES,
-  ...MODULAR_NECKLACE_PRODUCT_SLUGS,
-];
+export const NECKLACE_PRODUCT_SLUGS = [...PREVIOUS_SLUGS_OF_MODULAR_NECKLACES, ...MODULAR_NECKLACE_PRODUCT_SLUGS];
 
 export const PREVIOUS_SLUGS_OF_MODULAR_RINGS = [
   // Used to redirect to their associated modular version
@@ -67,10 +61,7 @@ export const PREVIOUS_SLUGS_OF_MODULAR_RINGS = [
   'the-oval-signet-ring',
 ];
 
-export const RING_PRODUCT_SLUGS = [
-  ...PREVIOUS_SLUGS_OF_MODULAR_RINGS,
-  ...MODULAR_RING_PRODUCT_SLUGS,
-];
+export const RING_PRODUCT_SLUGS = [...PREVIOUS_SLUGS_OF_MODULAR_RINGS, ...MODULAR_RING_PRODUCT_SLUGS];
 
 const PREVIOUS_SLUGS_OF_MODULAR_EARRINGS = [
   // Used to redirect to their associated modular version
@@ -107,10 +98,7 @@ const PREVIOUS_SLUGS_OF_MODULAR_EARRINGS = [
   'trillion-diamond-bezel-earrings',
 ];
 
-export const EARRING_PRODUCT_SLUGS = [
-  ...PREVIOUS_SLUGS_OF_MODULAR_EARRINGS,
-  ...MODULAR_EARRING_PRODUCT_SLUGS,
-];
+export const EARRING_PRODUCT_SLUGS = [...PREVIOUS_SLUGS_OF_MODULAR_EARRINGS, ...MODULAR_EARRING_PRODUCT_SLUGS];
 
 export const JEWELRY_PRODUCT_SLUGS = [
   ...BRACELET_PRODUCT_SLUGS,

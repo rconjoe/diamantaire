@@ -21,10 +21,8 @@ const JEWELRY_PRODUCT_TYPES = [
   GWP_PRODUCT_TYPE,
 ];
 
-const getIsJewelryProduct = (productType) =>
-  JEWELRY_PRODUCT_TYPES.includes(productType);
+const getIsJewelryProduct = (productType) => JEWELRY_PRODUCT_TYPES.includes(productType);
 
-export const getIsJewelryProductSlug = (slug) =>
-  MODULAR_JEWELRY_PRODUCT_SLUGS.includes(slug);
+export const getIsJewelryProductSlug = (slug) => MODULAR_JEWELRY_PRODUCT_SLUGS.includes(slug);
 
 export default getIsJewelryProduct;

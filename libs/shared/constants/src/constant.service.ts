@@ -35,104 +35,6 @@ export const PaginatedLabels = {
   meta: 'paginator',
 };
 
-// BP = Break Points
-export const BP_XS = '0px';
-export const BP_SM = '576px';
-export const BP_MD = '768px';
-export const BP_LG = '992px';
-export const BP_XL = '1200px';
-export const BP_XXL = '1440px';
-
-// BlockPicker Blocks
-export const FULL_WIDTH_BANNER_BLOCK = 'full_width_banner_block';
-export const HALF_WIDTH_BANNER_BLOCK = 'half_width_banner_block';
-export const TRIO_BLOCK = 'trio_block';
-export const MODULAR_DUO_BLOCK = 'modular_duo_block';
-export const CELEBRITY_BLOCK = 'celebrity_block';
-export const QUOTE_BLOCK = 'quote_block';
-export const MODULAR_HERO_BANNER_BLOCK = 'modular_hero_banner_block';
-export const MODULAR_FULL_WIDTH_BANNER_BLOCK = 'modular_full_width_banner_block';
-export const MODULAR_HALF_WIDTH_BANNER_BLOCK = 'modular_half_width_banner_block';
-export const MODULAR_TEXT_ONLY_BLOCK = 'modular_text_only_block';
-export const MODULAR_TRIO_SVG_BLOCK = 'modular_triosvg_block';
-export const MODULAR_TRIO_1x1_BLOCK = 'modular_trio1x1_block';
-export const MODULAR_TRIO_9x7_BLOCK = 'modular_trio9x7_block';
-export const MODULAR_TRIO_STAGGERED_9x7_BLOCK = 'modular_trio_staggered9x7_block';
-export const MODULAR_TRIO_SLIDE_9x7_BLOCK = 'modular_trio_slide9x7_block';
-export const MODULAR_SIDE_BY_SIDE_BLOCK = 'modular_side_by_side_block';
-export const MODULAR_SINGLE_SVG_BLOCK = 'modular_singlesvg_block';
-export const MODULAR_SINGLE_VIDEO_BLOCK = 'modular_single_video_block';
-export const MODULAR_LEO_BLOCK = 'modular_leo_block';
-export const MODULAR_QUAD_GRID = 'modular_quad_grid';
-export const SOCIAL_MEDIA_SECTION = 'social_media_section';
-export const MODULAR_TRI_GRID_WITH_ORDER_TRACKING = 'modular_tri_grid_with_order_tracking';
-export const MODULAR_QUAD_BLOCK = 'modular_quad_block';
-export const MODULAR_QUOTE_BLOCK = 'modular_quote_block';
-export const MODULAR_COLLECTION_HERO_BLOCK = 'modular_collection_hero_block';
-export const MODULAR_HALF_WIDTH_QUAD_BLOCK = 'modular_half_width_quad_block';
-export const MODULAR_CAROUSEL_BLOCK = 'modular_carousel_block';
-export const MODULAR_ACCORDION_BLOCK = 'modular_accordion_block';
-export const MODULAR_CELEBRITY_CAROUSEL_BLOCK = 'modular_celebrity_carousel_block';
-export const MODULAR_CELEBRITY_REEL_BLOCK = 'modular_celebrity_reel_block';
-export const MODULAR_LOGO_BANNER_BLOCK = 'modular_logo_banner_block';
-export const MODULAR_PRODUCT_ICON_LIST_ITEM = 'modular_product_icon_list_item';
-export const MODULAR_SHIPPING_PRODUCT_ICON_LIST_ITEM = 'modular_shipping_product_icon_list_item';
-export const MODULAR_HORIZONTAL_LINE_BLOCK = 'modular_horizontal_line_block';
-export const MODULAR_SKINNY_HERO_BANNER_BLOCK = 'modular_skinny_hero_banner_block';
-export const MODULAR_LIST_TITLE_BLOCK = 'modular_list_title_block';
-export const MODULAR_PRODUCT_SLIDER_BLOCK = 'modular_product_slider_block';
-export const MODULAR_PRODUCT_SUGGESTION_QUAD_BLOCK = 'modular_product_suggestion_quad_block';
-export const MODULAR_BLOG_LIST_TRIO_BLOCK = 'modular_blog_list_trio_block';
-export const MODULAR_INSTAGRAM_REEL_BLOCK = 'modular_instagram_reel_block';
-export const MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK = 'modular_half_width_blog_summary_block';
-export const MODULAR_SLICK_CAROUSEL_BLOCK = 'modular_slick_carousel_block';
-export const MODULAR_SHOWROOM_BLOCK = 'modular_showroom_block';
-export const MODULAR_QUAD_LOGO_BLOCK = 'modular_quad_logo_block';
-export const MODULAR_QUAD_STATISTICS_BLOCK = 'modular_quad_statistics_block';
-export const DATO_NAVIGATION_IMAGE_LINK = 'navigation_image_link';
-export const DATO_NAVIGATION_LINK = 'navigation_link';
-export const MODULAR_RANDOM_BANNER_BLOCK = 'modular_random_banner_block';
-export const MODULAR_GRID_CAROUSEL_BLOCK = 'modular_grid_carousel_block';
-export const MODULAR_MINI_BANNER_BLOCK = 'modular_mini_banner_block';
-export const MODULAR_TALL_HALF_WIDTH_BLOCK = 'modular_tall_half_width_block';
-export const MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA = 'modular_tall_half_width_block_location_cta';
-export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
-export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
-
-// Showroom
-export const SHOWROOM_LOCATIONS = [
-  {
-    title: 'Visit our Los Angeles Showroom',
-    handle: 'los-angeles',
-    location: 'Los Angeles',
-  },
-  {
-    title: 'Visit our London Showroom',
-    handle: 'london',
-    location: 'London',
-  },
-  {
-    title: 'Visit our Chicago Showroom',
-    handle: 'chicago',
-    location: 'Chicago',
-  },
-  {
-    title: 'Visit our Madrid Showroom',
-    handle: 'madrid',
-    location: 'Madrid',
-  },
-  {
-    title: 'Visit our New York Showroom',
-    handle: 'new-york',
-    location: 'New York',
-  },
-  {
-    title: 'Visit our San Francisco Showroom',
-    handle: 'san-francisco',
-    location: 'San Francisco',
-  },
-];
-
 export const RTS_CATEGORY = 'ready-to-give-engagement-rings';
 export const EARRINGS_CATEGORY = 'earrings';
 export const NECKLACES_CATEGORY = 'necklaces';
@@ -415,3 +317,156 @@ export const JEWELRY_TYPES = [
   '/all-jewelry/marquise',
   '/all-jewelry/baguette',
 ];
+
+// Old Constants
+
+// BP = Break Points
+export const BP_XS = '0px';
+export const BP_SM = '576px';
+export const BP_MD = '768px';
+export const BP_LG = '992px';
+export const BP_XL = '1200px';
+export const BP_XXL = '1440px';
+
+export const MOBILE_MAX_WIDTH = '768px';
+export const BP_CONTENT_BLOCK = '1024px';
+
+// BlockPicker Blocks
+export const FULL_WIDTH_BANNER_BLOCK = 'full_width_banner_block';
+export const HALF_WIDTH_BANNER_BLOCK = 'half_width_banner_block';
+export const TRIO_BLOCK = 'trio_block';
+export const MODULAR_DUO_BLOCK = 'modular_duo_block';
+export const CELEBRITY_BLOCK = 'celebrity_block';
+export const QUOTE_BLOCK = 'quote_block';
+export const MODULAR_HERO_BANNER_BLOCK = 'modular_hero_banner_block';
+export const MODULAR_FULL_WIDTH_BANNER_BLOCK = 'modular_full_width_banner_block';
+export const MODULAR_HALF_WIDTH_BANNER_BLOCK = 'modular_half_width_banner_block';
+export const MODULAR_TEXT_ONLY_BLOCK = 'modular_text_only_block';
+export const MODULAR_TRIO_SVG_BLOCK = 'modular_triosvg_block';
+export const MODULAR_TRIO_1x1_BLOCK = 'modular_trio1x1_block';
+export const MODULAR_TRIO_9x7_BLOCK = 'modular_trio9x7_block';
+export const MODULAR_TRIO_STAGGERED_9x7_BLOCK = 'modular_trio_staggered9x7_block';
+export const MODULAR_TRIO_SLIDE_9x7_BLOCK = 'modular_trio_slide9x7_block';
+export const MODULAR_SIDE_BY_SIDE_BLOCK = 'modular_side_by_side_block';
+export const MODULAR_SINGLE_SVG_BLOCK = 'modular_singlesvg_block';
+export const MODULAR_SINGLE_VIDEO_BLOCK = 'modular_single_video_block';
+export const MODULAR_LEO_BLOCK = 'modular_leo_block';
+export const MODULAR_QUAD_GRID = 'modular_quad_grid';
+export const SOCIAL_MEDIA_SECTION = 'social_media_section';
+export const MODULAR_TRI_GRID_WITH_ORDER_TRACKING = 'modular_tri_grid_with_order_tracking';
+export const MODULAR_QUAD_BLOCK = 'modular_quad_block';
+export const MODULAR_QUOTE_BLOCK = 'modular_quote_block';
+export const MODULAR_COLLECTION_HERO_BLOCK = 'modular_collection_hero_block';
+export const MODULAR_HALF_WIDTH_QUAD_BLOCK = 'modular_half_width_quad_block';
+export const MODULAR_CAROUSEL_BLOCK = 'modular_carousel_block';
+export const MODULAR_ACCORDION_BLOCK = 'modular_accordion_block';
+export const MODULAR_CELEBRITY_CAROUSEL_BLOCK = 'modular_celebrity_carousel_block';
+export const MODULAR_CELEBRITY_REEL_BLOCK = 'modular_celebrity_reel_block';
+export const MODULAR_LOGO_BANNER_BLOCK = 'modular_logo_banner_block';
+export const MODULAR_PRODUCT_ICON_LIST_ITEM = 'modular_product_icon_list_item';
+export const MODULAR_SHIPPING_PRODUCT_ICON_LIST_ITEM = 'modular_shipping_product_icon_list_item';
+export const MODULAR_HORIZONTAL_LINE_BLOCK = 'modular_horizontal_line_block';
+export const MODULAR_SKINNY_HERO_BANNER_BLOCK = 'modular_skinny_hero_banner_block';
+export const MODULAR_LIST_TITLE_BLOCK = 'modular_list_title_block';
+export const MODULAR_PRODUCT_SLIDER_BLOCK = 'modular_product_slider_block';
+export const MODULAR_PRODUCT_SUGGESTION_QUAD_BLOCK = 'modular_product_suggestion_quad_block';
+export const MODULAR_BLOG_LIST_TRIO_BLOCK = 'modular_blog_list_trio_block';
+export const MODULAR_INSTAGRAM_REEL_BLOCK = 'modular_instagram_reel_block';
+export const MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK = 'modular_half_width_blog_summary_block';
+export const MODULAR_SLICK_CAROUSEL_BLOCK = 'modular_slick_carousel_block';
+export const MODULAR_SHOWROOM_BLOCK = 'modular_showroom_block';
+export const MODULAR_QUAD_LOGO_BLOCK = 'modular_quad_logo_block';
+export const MODULAR_QUAD_STATISTICS_BLOCK = 'modular_quad_statistics_block';
+export const DATO_NAVIGATION_IMAGE_LINK = 'navigation_image_link';
+export const DATO_NAVIGATION_LINK = 'navigation_link';
+export const MODULAR_RANDOM_BANNER_BLOCK = 'modular_random_banner_block';
+export const MODULAR_GRID_CAROUSEL_BLOCK = 'modular_grid_carousel_block';
+export const MODULAR_MINI_BANNER_BLOCK = 'modular_mini_banner_block';
+export const MODULAR_TALL_HALF_WIDTH_BLOCK = 'modular_tall_half_width_block';
+export const MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA = 'modular_tall_half_width_block_location_cta';
+export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
+export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
+
+// Showroom
+export const SHOWROOM_LOCATIONS = [
+  {
+    title: 'Visit our Los Angeles Showroom',
+    handle: 'los-angeles',
+    location: 'Los Angeles',
+  },
+  {
+    title: 'Visit our London Showroom',
+    handle: 'london',
+    location: 'London',
+  },
+  {
+    title: 'Visit our Chicago Showroom',
+    handle: 'chicago',
+    location: 'Chicago',
+  },
+  {
+    title: 'Visit our Madrid Showroom',
+    handle: 'madrid',
+    location: 'Madrid',
+  },
+  {
+    title: 'Visit our New York Showroom',
+    handle: 'new-york',
+    location: 'New York',
+  },
+  {
+    title: 'Visit our San Francisco Showroom',
+    handle: 'san-francisco',
+    location: 'San Francisco',
+  },
+];
+
+/** @type {Number}  - .8 equals 8px in rems */
+export const BASE = 0.8;
+
+export const DIAMOND_TYPES = [
+  'round-brilliant',
+  'oval',
+  'emerald',
+  'marquise',
+  'cushion',
+  'pear',
+  'trillion',
+  'asscher',
+  'princess',
+  'radiant',
+];
+export const DIAMOND_LIST_PAGE_SLUGS = [...DIAMOND_TYPES, 'round'].map((v) => v + '-cut-diamonds');
+
+export const JEWELRY_EMERALD_CUT = '/all-jewelry/emerald-cut';
+export const JEWELRY_PEAR_SHAPED = '/all-jewelry/pear-shaped';
+export const JEWELRY_ROUND_BRILLIANT = '/all-jewelry/round-brilliant';
+export const JEWELRY_OVAL = '/all-jewelry/oval';
+export const JEWELRY_MARQUISE = '/all-jewelry/marquise';
+export const JEWELRY_TRILLION = '/all-jewelry/trillion';
+export const JEWELRY_BAGUETTE = '/all-jewelry/baguette';
+export const JEWELRY_SLUG = 'all-jewelry';
+
+export const PAIR_ONLY_PRODUCT_SLUGS = ['solitaire-diamond-studs', 'bezel-solitaire-stud'];
+export const PAIR_ONLY_PRODUCT_SLUGS_ANY_CARAT_WEIGHT = [
+  'petite-solitaire-stud',
+  'petite-pave-bar-stud',
+  'petite-pave-v-stud',
+  'pave-cluster-stud',
+];
+
+export const ALL_PAIR_ONLY_PRODUCT_SLUGS = [...PAIR_ONLY_PRODUCT_SLUGS, ...PAIR_ONLY_PRODUCT_SLUGS_ANY_CARAT_WEIGHT];
+
+export const CARAT_OPTIONS_IN_HUMAN_NAMES = {
+  '0.10ct': '1/10ct',
+  '0.25ct': '1/4ct',
+  '0.30ct': '1/3ct',
+  '0.40ct': '2/5ct',
+  '0.50ct': '1/2ct',
+  '0.75ct': '3/4ct',
+  '1.0ct': '1ct',
+  '1.5ct': '1½ct',
+  '1.50ct': '1½ct',
+  '2ct': '2ct',
+  '2.0ct': '2ct',
+};

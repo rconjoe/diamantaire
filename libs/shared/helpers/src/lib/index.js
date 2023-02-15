@@ -19,8 +19,7 @@ export { default as validateQuery } from './validateQuery';
 export { default as isEmptyObject } from './isEmptyObject';
 export { default as getIsDiamondFlow } from './getIsDiamondFlow';
 export { default as orderBySlugs } from './orderBySlugs';
-export { default as sanitizeFlowQuery } from './sanitizeFlowQuery';
-export { default as getApplicableVatRates } from './getApplicableVatRates';
+
 export { default as getIsJewelryProduct } from './getIsJewelryProduct';
 export { getPriceFromVariant } from './getPriceFromVariant';
 export { default as getProductTypeSizeUnit } from './getProductTypeSizeUnit';
