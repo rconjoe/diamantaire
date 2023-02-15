@@ -470,3 +470,18 @@ export const CARAT_OPTIONS_IN_HUMAN_NAMES = {
   '2ct': '2ct',
   '2.0ct': '2ct',
 };
+
+export const SHAPED_BASED_ENGAGEMENT_RING_LIST_PAGE_SLUGS = [
+  'round-brilliant-cut-diamond-engagement-rings',
+  'oval-cut-diamond-engagement-rings',
+  'emerald-cut-diamond-engagement-rings',
+  'marquise-cut-diamond-engagement-rings',
+  'cushion-cut-diamond-engagement-rings',
+  'pear-cut-diamond-engagement-rings',
+  'trillion-cut-diamond-engagement-rings',
+  'asscher-cut-diamond-engagement-rings',
+  'princess-cut-diamond-engagement-rings',
+  'radiant-cut-diamond-engagement-rings',
+];
+
+export const BUILDER_ENGAGEMENT_RING_LIST_PAGE_SLUGS = [...SHAPED_BASED_ENGAGEMENT_RING_LIST_PAGE_SLUGS, 'engagement-rings'];
