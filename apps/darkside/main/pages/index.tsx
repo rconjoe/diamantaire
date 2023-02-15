@@ -12,8 +12,8 @@ export interface GetServerRequest extends NextRequest {
 
 export async function getServerSideProps({ req }: { req: GetServerRequest }) {
   // locale
-  // const refinedLocale = locale.replace('en-US', 'en_US');
-  const locale = 'en_US';
+  const locale = 'en-US';
+  const refinedLocale = 'en_US';
 
   // device:
   const isMobile = Boolean(
@@ -30,12 +30,12 @@ export async function getServerSideProps({ req }: { req: GetServerRequest }) {
 
   await queryClient.prefetchQuery({
     ...queries.header.content(locale || 'en_US'),
-    meta: { locale },
+    meta: { refinedLocale },
   });
 
   await queryClient.prefetchQuery({
     ...queries.footer.content(locale || 'en_US'),
-    meta: { locale },
+    meta: { refinedLocale },
   });
 
   return {
