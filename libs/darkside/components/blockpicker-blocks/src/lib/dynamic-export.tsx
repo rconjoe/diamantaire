@@ -11,3 +11,4 @@ export const DynamicModularTallHalfWidthBlockLocationCTA = dynamic(
   () => import('./blocks/grid/TallHalfWidthBlockLocationCTA'),
 );
 export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'));
+export const DynamicModularQuadImageGrid = dynamic(() => import('./blocks/grid/ModularQuadImageGrid'));

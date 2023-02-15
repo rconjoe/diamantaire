@@ -5,6 +5,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 
+console.log('JOURNAL_DEV_URL', process.env.JOURNAL_DEV_URL);
+
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
