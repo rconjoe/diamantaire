@@ -1,4 +1,4 @@
-import { RANDM_RING_SLUGS } from './constants';
+import { RANDM_RING_SLUGS } from './constant.service';
 /**
  * The slugs in this file correspond to the Jewelry Product
  * model on Dato.
