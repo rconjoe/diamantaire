@@ -21,7 +21,7 @@ export async function getServerSideProps({ req }: { req: GetServerRequest }) {
   );
 
   // geo -dev
-  const devCountryCode = JSON.parse(req.cookies['dev.geolocation'])?.override?.countryCode;
+  const devCountryCode = 'US';
 
   const devCurrencyCode = 'USD';
 
