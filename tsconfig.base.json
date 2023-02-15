@@ -32,7 +32,6 @@
     "module": "esnext",
     "lib": ["es2017", "dom"],
     "skipDefaultLibCheck": true,
-    "noPropertyAccessFromIndexSignature": false,
     "baseUrl": ".",
     "paths": {
       "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
