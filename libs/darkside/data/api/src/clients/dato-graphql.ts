@@ -12,7 +12,7 @@ export function queryDatoGQL({
   excludeInvalid?: boolean;
 }) {
   const headers: { [key: string]: string } = {
-    authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
+    authorization: `Bearer ` + process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN,
   };
 
   if (includeDrafts) {
