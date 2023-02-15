@@ -2,17 +2,15 @@ import { JEWELRY_TYPES } from '@diamantaire/shared/constants';
 import { mapShapeToSeoTitle } from '@diamantaire/shared/helpers';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-const propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  countryCode: PropTypes.string,
-  router: PropTypes.object,
+type PageMetaTitleAndDescriptionProps = {
+  title: string;
+  description: string;
+  countryCode?: string;
 };
 
-const PageMetaTitleAndDescription = ({ title, description }) => {
+const PageMetaTitleAndDescription = ({ title, description }: PageMetaTitleAndDescriptionProps) => {
   const router = useRouter();
   const countryCode = 'US';
   const seoTitle = getSeoTitle({ router, title, countryCode });
@@ -29,8 +27,6 @@ const PageMetaTitleAndDescription = ({ title, description }) => {
     </Head>
   );
 };
-
-PageMetaTitleAndDescription.propTypes = propTypes;
 
 const getIsJewelryPLPRoute = (router) => {
   return JEWELRY_TYPES.includes(router.asPath);

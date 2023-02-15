@@ -1,2 +1,2 @@
-export * from './lib/constant.module';
+// export * from './lib/constant.module';
 export * from './constant.service';

@@ -1,5 +1,3 @@
-import { invert } from 'lodash';
-
 import { tabletAndUp } from './mediaQueries';
 
 export const BOLD_WEIGHT = '600';
@@ -39,7 +37,7 @@ export const getRenderedEngravingFontStyles = (selectedEngravingFont) => {
 };
 
 const getFontSizeForRenderedFont = (engravingRenderedFont) => {
-  const renderedFontToGenericFontNameMap = invert(ENGRAVING_FONT_RENDER_MAP);
+  const renderedFontToGenericFontNameMap = ENGRAVING_FONT_RENDER_MAP;
   const genericFontName = renderedFontToGenericFontNameMap[engravingRenderedFont];
   const selectedFontSize = ENGRAVING_FONT_SIZE_MAP[genericFontName];
 

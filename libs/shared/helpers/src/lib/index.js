@@ -28,7 +28,6 @@ export { default as validateCheckoutId } from './validateCheckoutId';
 export { default as getIsModularJewelry } from './getIsModularJewelry';
 export { default as getIsBuilderEngagementRingListPage } from './getIsBuilderEngagementRingListPage';
 export { default as getBlockPictureAlt } from './getBlockPictureAlt';
-export { default as useQueryParams } from './useQueryParams';
 
 // export { default as getIsUniqueDiamondsJewelry } from './getIsUniqueDiamondsJewelry';
 // export { default as getIsUniqueEarringDiamondsJewelry } from './getIsUniqueEarringDiamondsJewelry';
@@ -73,8 +72,6 @@ export * from './language';
 // export * from './reCaptcha';
 export * from './currency';
 export * from './getActiveGiftWithPurchaseProduct';
-export * from './imageUrls';
-export * from './videoUrls';
 export * from './supportedCountries';
 export * from './journalHelpers';
 export * from './diamondListPageHelper';
