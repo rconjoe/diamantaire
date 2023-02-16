@@ -1,0 +1,50 @@
+{
+  "name": "darkside-context-diamond-icon-context",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/darkside/context/diamond-icon-context/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/darkside/context/diamond-icon-context/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/darkside/context/diamond-icon-context",
+        "tsConfig": "libs/darkside/context/diamond-icon-context/tsconfig.lib.json",
+        "project": "libs/darkside/context/diamond-icon-context/package.json",
+        "main": "libs/darkside/context/diamond-icon-context/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": ["@nrwl/react/plugins/bundle-rollup"],
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/darkside/context/diamond-icon-context/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/darkside/context/diamond-icon-context/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  }
+}

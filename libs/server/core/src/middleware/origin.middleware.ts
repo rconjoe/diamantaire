@@ -3,7 +3,7 @@
  * @module middleware/origin
  */
 
-import { CROSS_DOMAIN, isProdEnv } from '@diamantaire/shared/constant';
+import { CROSS_DOMAIN, isProdEnv } from '@diamantaire/shared/constants';
 import { Injectable, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 

@@ -3,10 +3,18 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
+import { GlobalProvider } from 'libs/darkside/context/global-context/src';
+import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 
 export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getTemplate?: (page: ReactElement) => ReactNode;
 };
+
+// export const GlobalStyles = createGlobalStyle`
+//   body {
+//     background-color: red;
+//   }
+// `;
 
 export type AppPropsWithTemplate = AppProps & {
   Component: PageComponentWithTemplate;
@@ -23,9 +31,12 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <GlobalProvider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </GlobalProvider>
   );
 }

@@ -11,7 +11,7 @@ import {
   ProductType,
   DEFAULT_RING_SIZE,
   GoldPurityValue,
-} from '@diamantaire/shared/constant';
+} from '@diamantaire/shared/constants';
 
 import { Variant } from '../index';
 

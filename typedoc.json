@@ -1,0 +1,6 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./libs/darkside/components/blockpicker-blocks/src/index.ts"],
+  "out": "doc",
+  "tsconfig": "./libs/darkside/components/blockpicker-blocks/tsconfig.json"
+}

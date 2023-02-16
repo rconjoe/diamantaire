@@ -1,0 +1,155 @@
+import { BP_LG } from '@diamantaire/shared/constants';
+import { Logo } from '@diamantaire/shared/icons';
+import Link from 'next/link';
+import React, { FC } from 'react';
+import styled from 'styled-components';
+
+import { MenuLink, NavItemsProps } from './header-types';
+import HeaderActionsNav from './HeaderActionsNav';
+
+type CompactHeaderTypes = {
+  navItems: NavItemsProps;
+  toggleMegaMenuOpen: (_index: number) => void;
+  menuIndex: number;
+  getRelativeUrl: (_arg0: string) => string;
+};
+
+// type CompactHeaderStylesTypes = {
+//   $topBarHeight: number;
+// };
+
+const CompactHeaderStyles = styled.div`
+  padding: 1.4rem 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 100000;
+  display: none;
+
+  @media (min-width: ${BP_LG}) {
+    display: block;
+  }
+
+  .compact-header__container {
+    position: relative;
+    height: 100%;
+
+    .compact-header__nav-wrapper {
+      display: flex;
+      align-items: center;
+      max-width: 90vw;
+      margin: 0 auto;
+      .nav__col {
+        &--left {
+          flex: 1;
+
+          .nav__logo {
+            a {
+              display: inline-block;
+
+              svg {
+                max-width: 60px;
+                height: auto;
+              }
+            }
+          }
+        }
+        &--center {
+          flex: 1;
+
+          .compact-header__nav {
+            ul {
+              display: flex;
+              justify-content: center;
+              margin: 0;
+              padding: 0;
+              list-style: none;
+              li {
+                margin: 0 15px;
+                a {
+                  font-size: 1.4rem;
+                  letter-spacing: 0.3px;
+                  text-decoration: none;
+                  position: relative;
+                  transition: 0.25s;
+
+                  &::before {
+                    content: '';
+                    background: #719093;
+                    display: block;
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    height: 2px;
+                    transition: 0.25s;
+                    width: 0%;
+                  }
+
+                  &:hover,
+                  &.active {
+                    color: #000;
+                    &::before {
+                      width: 100%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        &--right {
+          flex: 1;
+        }
+      }
+    }
+  }
+`;
+
+const CompactHeader: FC<CompactHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, getRelativeUrl }): JSX.Element => {
+  return (
+    <CompactHeaderStyles>
+      <div className="compact-header__container">
+        <div className="compact-header__nav-wrapper stacked-header__top-level">
+          <div className="nav__col--left">
+            <div className="nav__logo">
+              <Link aria-label="VRAI Logo" href="/">
+                <Logo />
+              </Link>
+            </div>
+          </div>
+
+          <div className="nav__col--center">
+            <nav className="compact-header__nav">
+              <ul>
+                {Array.isArray(navItems) &&
+                  navItems?.map((link: MenuLink, index: number) => {
+                    const { title, route }: Partial<MenuLink> = link;
+
+                    return (
+                      <li key={`stacked-link-${index}`}>
+                        {route && (
+                          <Link
+                            href={getRelativeUrl(route)}
+                            className={menuIndex === index ? 'active' : ''}
+                            onMouseOver={() => toggleMegaMenuOpen(index)}
+                            onFocus={() => toggleMegaMenuOpen(index)}
+                          >
+                            {title}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
+              </ul>
+            </nav>
+          </div>
+
+          <div className="nav__col--right">
+            <HeaderActionsNav />
+          </div>
+        </div>
+      </div>
+    </CompactHeaderStyles>
+  );
+};
+
+export default CompactHeader;

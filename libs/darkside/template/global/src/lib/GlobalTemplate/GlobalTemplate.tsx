@@ -6,14 +6,7 @@ export type GlobalTemplateProps = {
 
 export const GlobalTemplate = ({ children }: GlobalTemplateProps) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <div>
       <h1>*********GLOBAL TEMPLATE*********</h1>
       {children}
     </div>

@@ -126,3 +126,9 @@ build
 
 reports
 env.list
+
+# No envs plz :)
+.env*
+
+#Project Docs
+docs/apps/darkside/main

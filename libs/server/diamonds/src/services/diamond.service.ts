@@ -7,7 +7,7 @@
  */
 
 import { UtilService } from '@diamantaire/server/common/utils';
-import { PaginatedLabels } from '@diamantaire/shared/constant';
+import { PaginatedLabels } from '@diamantaire/shared/constants';
 import { getDataRanges } from '@diamantaire/shared/utils';
 import { Injectable, Logger } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';

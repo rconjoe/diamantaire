@@ -38,6 +38,12 @@
       "options": {
         "jestConfig": "libs/darkside/components/header/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   }

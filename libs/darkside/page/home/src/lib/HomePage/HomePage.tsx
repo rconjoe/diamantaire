@@ -1,20 +1,29 @@
-import { getTemplate } from '@diamantaire/darkside/template/standard';
-import Link from 'next/link';
+import { useStandardPage } from '@diamantaire/darkside/data/hooks';
+import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
+import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 
-import styles from './HomePage.module.css';
+export interface HomePageProps {
+  isMobile: boolean;
+  countryCode: string;
+  currencyCode: string;
+}
 
-/* eslint-disable-next-line */
-export interface HomePageProps {}
+const HomePage = (props: HomePageProps) => {
+  const { data }: any = useStandardPage('darkside-home');
 
-const HomePage = (_props: HomePageProps) => {
+  console.log('data', data);
+  const page = data?.allStandardPages?.[0];
+
   return (
-    <div className={styles['container']}>
-      <h1>Welcome to HomePage!</h1>
-      <Link href={'/test-page'}>go to /test-page</Link>
-    </div>
+    <StandardPageEntry
+      page={page}
+      isMobile={props?.isMobile}
+      countryCode={props?.countryCode}
+      currencyCode={props?.currencyCode}
+    />
   );
 };
 
-HomePage.getTemplate = getTemplate;
+HomePage.getTemplate = getStandardTemplate;
 
 export { HomePage };
