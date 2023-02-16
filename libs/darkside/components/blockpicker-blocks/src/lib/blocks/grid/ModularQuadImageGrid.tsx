@@ -2,33 +2,33 @@
 
 import React from 'react';
 
-type ModularGridCarouselBlockProps = {
-  title?: string;
-  subtitle?: string;
-  blocks?: Array<any>;
-  additionalClass?: string;
-  id?: string;
-  isMobile?: boolean;
-  headingAdditionalClass?: string;
-  headingType?: string;
-  countryCode: string;
-  shouldLazyLoad?: boolean;
-};
+// type ModularGridCarouselBlockProps = {
+//   title?: string;
+//   subtitle?: string;
+//   blocks?: Array<any>;
+//   additionalClass?: string;
+//   id?: string;
+//   isMobile?: boolean;
+//   headingAdditionalClass?: string;
+//   headingType?: string;
+//   countryCode: string;
+//   shouldLazyLoad?: boolean;
+// };
 
-const ModularQuadImageGrid = ({
-  blocks,
-  additionalClass,
-  title,
-  subtitle,
-  headingType,
-  headingAdditionalClass,
-  isMobile,
-  shouldLazyLoad,
-  countryCode,
-}: ModularGridCarouselBlockProps) => {
-  console.log('blocks govner', blocks);
+// blocks,
+// additionalClass,
+// title,
+// subtitle,
+// headingType,
+// headingAdditionalClass,
+// isMobile,
+// shouldLazyLoad,
+// countryCode,
 
-  return <h1>Modular blocksssss</h1>;
+const ModularQuadImageGrid = () => {
+  // console.log('blocks', blocks);
+
+  return <h1>temp</h1>;
 };
 
 export default ModularQuadImageGrid;

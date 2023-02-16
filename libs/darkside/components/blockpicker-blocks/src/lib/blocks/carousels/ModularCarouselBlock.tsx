@@ -1,9 +1,18 @@
-// This carousel is able to handle InstagramReelSwiper, CelebritySwiper, ModularHoverBlock,
+/**
+ * This is the slider instance that wraps all sliders.
+ * The standard slider is meant for most mobile experiences (centered 3 item slider on mobile, four item slider on desktop),
+ * but this config can be overwritten via props on the slider
+ *
+ * In the case of a new slider, we use this as a starting point, and use the config and/or a new slide to achieve the intended UI
+ *
+ * Darkside note: This carousel handles what was previously: InstagramReelSwiper, CelebritySwiper, ModularHoverBlock, ModularSlickCarouselBlock
+ */
+
 import React from 'react';
 import { SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 
-import CarouselSlider from './atoms/CarouselSlider';
+import CarouselSlider from './CarouselSlider';
 import { ModularCarouselBlockContainer } from './ModularCarouselBlock.style';
 import CelebrityThumbnailSlide from './slides/CelebrityThumbnailSlide';
 import DiamondSlide from './slides/DiamondSlide';

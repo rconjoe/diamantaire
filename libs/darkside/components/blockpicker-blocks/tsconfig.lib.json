@@ -19,7 +19,7 @@
     "src/**/*.spec.jsx",
     "src/**/*.test.jsx"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx", "../common-ui/src/lib/MobileDesktopImage.tsx"],
   "typedocOptions": {
     "entryPoints": ["src/index.ts"],
     "out": "docs"

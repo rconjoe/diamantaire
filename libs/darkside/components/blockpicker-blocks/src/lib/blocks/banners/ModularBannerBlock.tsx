@@ -1,3 +1,10 @@
+import {
+  MobileDesktopImage,
+  Button,
+  Heading,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+} from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
@@ -18,12 +25,6 @@ import {
   SubTitle,
   Title,
 } from './ModularBannerBlock.style';
-import MobileDesktopImage from '../MobileDesktopImage';
-import Button from '../molecules/Button';
-import Heading from '../molecules/Heading';
-// import Picture from '../molecules/Picture';
-import ShowMobileOnly from '../ShowMobileOnly';
-import ShowTabletAndUpOnly from '../ShowTabletAndUpOnly';
 
 const ReactPlayer = dynamic(() => import('react-player'));
 
@@ -40,6 +41,7 @@ type ModularBannerBlockProps = {
     mimeType: string;
     url: string;
     alt: string;
+    desktopAlt: string;
     responsiveImage: {
       width: number;
       height: number;
@@ -69,12 +71,15 @@ type ModularBannerBlockProps = {
   ctaButtonType3?: string;
   middleLayerImage: {
     url: string;
+    desktopAlt?: string;
+    alt?: string;
     responsiveImage: {
       width: number;
       height: number;
     };
   };
   middleLayerImageMobile: {
+    desktopAlt?: string;
     url: string;
     responsiveImage: {
       width: number;
@@ -391,6 +396,7 @@ const Banner = (props) => {
               height={middleLayerImageMobile?.responsiveImage?.height}
               width={middleLayerImageMobile?.responsiveImage?.width}
               alt={getBlockPictureAlt({
+                // //@ts-expect-error: need to fix types
                 mobileImage: middleLayerImageMobile,
                 title,
               })}

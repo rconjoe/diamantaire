@@ -65,7 +65,7 @@
     "import/prefer-default-export": "off", // Named export is easier to refactor automatically
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-shadow": [
-      "error",
+      "warn",
       {
         "hoist": "all"
       }

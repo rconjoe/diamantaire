@@ -1,3 +1,4 @@
+import { LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import {
   MODULAR_RANDOM_BANNER_BLOCK,
   MODULAR_TALL_HALF_WIDTH_BLOCK,
@@ -14,7 +15,6 @@ import {
 } from '@diamantaire/shared/constants';
 import React from 'react';
 
-import LazyLoadWrapper from './blocks/molecules/LazyLoadWrapper';
 import {
   DynamicModularBannerBlock,
   DynamicModularCarouselBlock,

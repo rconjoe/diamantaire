@@ -2,14 +2,14 @@ import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks
 import React, { Suspense } from 'react';
 
 const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
-  console.log('page', page);
+  // console.log('page', page);
 
   const { content1 } = page || [];
 
   return (
     <div className="content-one-container">
       <Suspense fallback={`Loading...`}>
-        {content1?.slice(2, 3).map((contentBlockData, idx) => {
+        {content1?.map((contentBlockData, idx) => {
           const { id, _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
@@ -18,7 +18,7 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
 
           return (
             <>
-              <p>{_modelApiKey}</p>
+              {/* <p>{_modelApiKey}</p> */}
               <BlockPicker
                 key={id}
                 _modelApiKey={_modelApiKey}

@@ -1,17 +1,18 @@
+import {
+  Button,
+  Heading,
+  MobileDesktopImage,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+} from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
+import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
-import React from 'react';
 
-import MobileDesktopImage from './MobileDesktopImage';
 import { ModularTallHalfWidthBlockContainer } from './ModularTallHalfWidthBlock.style';
-import Button from './molecules/Button';
-import Heading from './molecules/Heading';
-import ShowMobileOnly from './ShowMobileOnly';
-import ShowTabletAndUpOnly from './ShowTabletAndUpOnly';
 
 type ModularTallHalfWidthBlockProps = {
   title: string;
@@ -71,13 +72,14 @@ const ModularTallHalfWidthBlock = ({
   textColor,
   textBlockAlignment,
   additionalClass,
-  supportedCountries,
-  countryCode = 'US',
+  // supportedCountries,
+  // countryCode = 'US',
   titleImage,
 }: ModularTallHalfWidthBlockProps) => {
-  if (!isCountrySupported(supportedCountries, countryCode)) {
-    return null;
-  }
+  // TODO: need to come up with a single method for checking this
+  // if (!isCountrySupported(supportedCountries, countryCode)) {
+  //   return null;
+  // }
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
 

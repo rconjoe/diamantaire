@@ -12,6 +12,7 @@ import TopBar from './TopBar';
 // TODO: setup proper type
 type HeaderProps = {
   headerData?: any;
+  isHome: boolean;
 };
 
 const FullHeaderStyles = styled.header`
@@ -23,14 +24,12 @@ const FullHeaderStyles = styled.header`
   z-index: 5000;
 `;
 
-const Header: FC<HeaderProps> = ({ headerData }): JSX.Element => {
-  // console.log('headerData', headerData);
+const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element => {
   const { section } = headerData.headerNavigationDynamic;
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
-  // const [headerHeight, setHeaderHeight] = useState(0);
-  // const [topBarHeight, setTopBarHeight] = useState(0);
+
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const { setHeaderHeight, headerHeight, getRelativeUrl } = useGlobalContext();
@@ -56,20 +55,19 @@ const Header: FC<HeaderProps> = ({ headerData }): JSX.Element => {
   return (
     <FullHeaderStyles>
       <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-        {/* <StackedHeader
-        navItems={section}
-        toggleMegaMenuOpen={toggleMegaMenuOpen}
-        menuIndex={megaMenuIndex}
-      /> */}
-
         {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
 
-        <CompactHeader
-          navItems={section}
-          toggleMegaMenuOpen={toggleMegaMenuOpen}
-          menuIndex={megaMenuIndex}
-          getRelativeUrl={getRelativeUrl}
-        />
+        {isHome ? (
+          <p>Home page</p>
+        ) : (
+          // <StackedHeader navItems={section} toggleMegaMenuOpen={toggleMegaMenuOpen} menuIndex={megaMenuIndex} />
+          <CompactHeader
+            navItems={section}
+            toggleMegaMenuOpen={toggleMegaMenuOpen}
+            menuIndex={megaMenuIndex}
+            getRelativeUrl={getRelativeUrl}
+          />
+        )}
 
         <MobileHeader navItems={section} headerHeight={headerHeight} />
 

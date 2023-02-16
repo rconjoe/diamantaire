@@ -1,9 +1,7 @@
+import { Heading, ImageTile, LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import React from 'react';
 
 import { ModularContentQuadBlockContainer } from './ModularContentQuadBlock.style';
-import Heading from '../molecules/Heading';
-import ImageTile from '../molecules/ImageTile';
-import LazyLoadWrapper from '../molecules/LazyLoadWrapper';
 
 type ModularContentQuadBlock = {
   blocks: Array<any>;

@@ -1,3 +1,10 @@
+import {
+  Heading,
+  Button,
+  MobileDesktopImage,
+  ShowTabletAndUpOnly,
+  ShowMobileOnly,
+} from '@diamantaire/darkside/components/common-ui';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
@@ -7,11 +14,6 @@ import Markdown from 'markdown-to-jsx';
 import React, { useEffect, useState } from 'react';
 
 import { TallHalfWidthBlockLocationCTAContainer } from './TallHalfWidthBlockLocation.style';
-import MobileDesktopImage from '../MobileDesktopImage';
-import Button from '../molecules/Button';
-import Heading from '../molecules/Heading';
-import ShowMobileOnly from '../ShowMobileOnly';
-import ShowTabletAndUpOnly from '../ShowTabletAndUpOnly';
 
 type TallHalfWidthBlockLocationCTAProps = {
   title: string;

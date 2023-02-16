@@ -17,7 +17,7 @@ export function StandardTemplate({ children }: StandardTemplateProps) {
 
   return (
     <>
-      {headerData?.data && <Header headerData={headerData.data} />}
+      {headerData?.data && <Header headerData={headerData.data} isHome={false} />}
       {/* ****STANDARD TEMPLATE**** */}
       <main style={{ paddingTop: headerHeight + 'px' }}>{children}</main>
       {footerData?.data && <Footer footerData={footerData?.data} />}

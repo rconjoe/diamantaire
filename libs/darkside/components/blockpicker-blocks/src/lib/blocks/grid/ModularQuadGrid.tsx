@@ -1,10 +1,8 @@
+import { Button, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ModularQuadGridContainer } from './ModularQuadGrid.style';
-import Button from '../molecules/Button';
-import ImageTile from '../molecules/ImageTile';
 
 type ModularQuadGridProps = {
   title?: string;

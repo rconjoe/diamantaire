@@ -1,10 +1,8 @@
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import Image from 'next/image';
-import React from 'react';
 
 import { DiamondLeoBlockContainer } from './ModularDiamondLeoBlock.style';
-import LazyLoadWrapper from '../molecules/LazyLoadWrapper';
 
 type DiamondLeoBlockProps = {
   extraClass?: string;
@@ -15,14 +13,14 @@ type DiamondLeoBlockProps = {
     height: number;
     url: string;
   };
-  shouldLazyLoad?: boolean;
 };
 
-const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image, shouldLazyLoad }: DiamondLeoBlockProps) => {
+const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image }: DiamondLeoBlockProps) => {
   const alt = getBlockPictureAlt({ image, title });
 
   const { width, height, url } = image;
-  const block = (
+
+  return (
     <DiamondLeoBlockContainer>
       <div
         className={clsx('diamond-leo__wrapper', {
@@ -49,12 +47,6 @@ const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image, should
       </div>
     </DiamondLeoBlockContainer>
   );
-
-  if (shouldLazyLoad) {
-    return <LazyLoadWrapper once={true}>{block}</LazyLoadWrapper>;
-  }
-
-  return block;
 };
 
 export default DiamondLeoBlock;

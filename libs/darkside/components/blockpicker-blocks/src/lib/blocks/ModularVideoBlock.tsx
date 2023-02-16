@@ -1,12 +1,10 @@
+import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { PlayVideoTriangleIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 
 import { ModularVideoBlockContainer } from './ModularVideoBlock.style';
-import Heading from './molecules/Heading';
-import ShowMobileOnly from './ShowMobileOnly';
-import ShowTabletAndUpOnly from './ShowTabletAndUpOnly';
 
 // See https://www.npmjs.com/package/react-player
 const ReactPlayer = dynamic(() => import('react-player'));
