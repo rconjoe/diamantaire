@@ -67,5 +67,13 @@
       "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.js"]
     }
   },
-  "exclude": ["node_modules", "tmp", "build", "dist", "./dist/**/*"]
+  "exclude": ["node_modules", "tmp", "build", "dist", "./dist/**/*"],
+  "import/resolver": {
+    "typescript": {
+      "project": ["tsconfig.json", "package/tsconfig.json"]
+    },
+    "node": {
+      "project": ["tsconfig.json", "package/tsconfig.json"]
+    }
+  }
 }

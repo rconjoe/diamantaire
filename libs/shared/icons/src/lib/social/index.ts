@@ -1,1 +1,4 @@
-export * from '.';
+export * from './FacebookIcon';
+export * from './InstagramIcon';
+export * from './PinterestIcon';
+export * from './TiktokIcon';

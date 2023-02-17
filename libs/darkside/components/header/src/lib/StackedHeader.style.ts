@@ -1,5 +1,4 @@
-import { BP_LG } from '@diamantaire/shared/constants';
-import { MAIN_FONT, TEAL } from '@diamantaire/styles/darkside-styles';
+import { BP_LG, MAIN_FONT, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StackedHeaderStylesContainer = styled.header`

@@ -1,5 +1,5 @@
-import { BP_LG } from '@diamantaire/shared/constants';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
+import { BP_LG } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';

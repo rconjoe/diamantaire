@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import Link from 'next/link';
+import { ReactNode } from 'react';
 
 type UniLinkProps = {
   route?: string | object;
@@ -9,12 +9,7 @@ type UniLinkProps = {
 };
 
 // This class is a wrapper for next/link
-function UniLink({
-  route,
-  children,
-  className,
-  shouldScrollTop = true,
-}: UniLinkProps) {
+function UniLink({ route, children, className, shouldScrollTop = true }: UniLinkProps) {
   if (!route) {
     return null;
   }
@@ -24,15 +19,12 @@ function UniLink({
     const slug = route;
 
     return (
-      <Link
-        href={slug}
-        className={className}
-        scroll={shouldScrollTop ? shouldScrollTop : true}
-      >
+      <Link href={slug} className={className} scroll={shouldScrollTop ? shouldScrollTop : true}>
         {children}
       </Link>
     );
   }
+
   return null;
 }
 

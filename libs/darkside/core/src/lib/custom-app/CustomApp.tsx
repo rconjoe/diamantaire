@@ -1,20 +1,14 @@
+import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
+import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
-import { GlobalProvider } from 'libs/darkside/context/global-context/src';
-import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 
 export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getTemplate?: (page: ReactElement) => ReactNode;
 };
-
-// export const GlobalStyles = createGlobalStyle`
-//   body {
-//     background-color: red;
-//   }
-// `;
 
 export type AppPropsWithTemplate = AppProps & {
   Component: PageComponentWithTemplate;
