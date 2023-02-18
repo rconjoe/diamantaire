@@ -17,7 +17,7 @@ import {
   HALO_SIZE_HUMAN_NAMES,
   CARAT_WEIGHT_HUMAN_NAMES,
   PAVE_CLUSTER_SHAPE_HUMAN_NAMES,
-} from './maps/variantOptionMaps';
+} from '../maps/variantOptionMaps';
 
 export const environment = process.env['NODE_ENV'];
 export const isDevEnv = Object.is(environment, 'development');
