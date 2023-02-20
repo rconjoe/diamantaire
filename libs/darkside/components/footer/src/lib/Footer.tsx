@@ -202,18 +202,18 @@ const socialItems = [];
 // ];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
-  const { columns, copyright, emailSignUpColumn, emailSignUpCopy } = footerData.footerNavigation;
-  const { ctaCopy, copy, title } = emailSignUpColumn[0];
-  const { emailInputPlaceholder } = emailSignUpCopy[0];
+  const { columns, copyright, emailSignUpColumn /*, emailSignUpCopy */ } = footerData.footerNavigation;
+  const { /* ctaCopy, */ copy, title } = emailSignUpColumn[0];
+  // const { emailInputPlaceholder } = emailSignUpCopy[0];
 
   const date = new Date();
 
-  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, state: object) {
-    e.preventDefault();
-    // do something
+  // function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, state: object) {
+  //   e.preventDefault();
+  //   // do something
 
-    return state;
-  }
+  //   return state;
+  // }
 
   return (
     <FooterStyles>

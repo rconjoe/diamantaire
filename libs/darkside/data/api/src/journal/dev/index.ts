@@ -172,7 +172,7 @@ export async function fetchJournalsByCategory(
   first: number,
   skip: number,
 ) {
-  console.log('locale', locale, 'category', category, 'first', first, 'skip', skip);
+  // console.log('locale', locale, 'category', category, 'first', first, 'skip', skip);
 
   const journalsByCategory = await queryDatoGQL({
     query: JOURNALS_BY_CATEGORY_QUERY,
@@ -266,7 +266,6 @@ query blogPostsByMostRecent ($locale: SiteLocale, $first: IntType, $skip: IntTyp
 `;
 
 export async function fetchAllJournalsByMostRecent(locale: string, first: number, skip: number) {
-  console.log('chill', locale, first, skip);
   const journalsByMostRecent = await queryDatoGQL({
     query: ALL_JOURNALS_BY_MOST_RECENT,
     variables: { locale, first, skip },

@@ -19,7 +19,7 @@
         "outputPath": "dist/libs/styles/darkside-styles",
         "tsConfig": "libs/styles/darkside-styles/tsconfig.lib.json",
         "project": "libs/styles/darkside-styles/package.json",
-        "entryFile": "libs/styles/darkside-styles/src/index.js",
+        "entryFile": "libs/styles/darkside-styles/src/index.ts",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",

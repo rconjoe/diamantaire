@@ -2,8 +2,6 @@ import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks
 import React, { Suspense } from 'react';
 
 const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
-  // console.log('page', page);
-
   const { content1 } = page || [];
 
   return (
@@ -17,17 +15,14 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
           const shouldLazyLoad = isBelowTheFold ? true : false;
 
           return (
-            <>
-              {/* <p>{_modelApiKey}</p> */}
-              <BlockPicker
-                key={id}
-                _modelApiKey={_modelApiKey}
-                modularBlockData={{ ...contentBlockData, shouldLazyLoad }}
-                isMobile={isMobile}
-                countryCode={countryCode}
-                currencyCode={currencyCode}
-              />
-            </>
+            <BlockPicker
+              key={id}
+              _modelApiKey={_modelApiKey}
+              modularBlockData={{ ...contentBlockData, shouldLazyLoad }}
+              isMobile={isMobile}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+            />
           );
         })}
       </Suspense>

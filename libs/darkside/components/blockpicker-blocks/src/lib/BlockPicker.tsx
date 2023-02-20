@@ -52,8 +52,6 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, cu
   const BlockComponent = config?.[_modelApiKey];
   const { shouldLazyLoad } = modularBlockData;
 
-  console.log('modularBlockData', modularBlockData);
-
   return (
     <>
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}

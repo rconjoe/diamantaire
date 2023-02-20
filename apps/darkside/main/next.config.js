@@ -13,8 +13,20 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: true,
   },
+  reactStrictMode: false,
   compiler: {
     styledComponents: true,
+  },
+  experimental: {
+    swcPlugins: [
+      [
+        '@swc/plugin-styled-components',
+        {
+          displayName: true,
+          ssr: true,
+        },
+      ],
+    ],
   },
   images: {
     remotePatterns: [
@@ -25,7 +37,7 @@ const nextConfig = {
     ],
   },
 
-  // 
+  //
   // async rewrites() {
   //   return [
   //     {

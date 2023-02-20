@@ -1,6 +1,5 @@
 /** This section is a 2x2 image grid on desktop, and a centered slider on mobile */
-
-import React from 'react';
+/** This section is a 2x2 image grid on desktop, and a centered slider on mobile */
 
 // type ModularGridCarouselBlockProps = {
 //   title?: string;
@@ -26,8 +25,6 @@ import React from 'react';
 // countryCode,
 
 const ModularQuadImageGrid = () => {
-  // console.log('blocks', blocks);
-
   return <h1>temp</h1>;
 };
 

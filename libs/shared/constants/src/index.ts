@@ -1,3 +1,2 @@
 // export * from './lib/constant.module';
-export * from './constant.service';
-export * from './hardcodedModularJewelryProducts.service';
+export * from './lib/constant.service';

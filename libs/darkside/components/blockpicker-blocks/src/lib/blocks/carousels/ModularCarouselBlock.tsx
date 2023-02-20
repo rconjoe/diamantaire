@@ -8,7 +8,6 @@
  * Darkside note: This carousel handles what was previously: InstagramReelSwiper, CelebritySwiper, ModularHoverBlock, ModularSlickCarouselBlock
  */
 
-import React from 'react';
 import { SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,8 +20,6 @@ import VideoHoverSlide from './slides/VideoHoverSlide';
 
 const ModularCarouselBlock = (props) => {
   const { _modelApiKey, blocks } = props;
-
-  console.log('props', props);
 
   const sliderTypes = [
     {

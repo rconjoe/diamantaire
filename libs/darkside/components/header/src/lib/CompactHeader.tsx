@@ -1,5 +1,5 @@
-import { BP_LG } from '@diamantaire/shared/constants';
 import { Logo } from '@diamantaire/shared/icons';
+import { BP_LG } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import styled from 'styled-components';
