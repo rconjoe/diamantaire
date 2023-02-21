@@ -16,6 +16,7 @@ import { ModularCarouselBlockContainer } from './ModularCarouselBlock.style';
 import CelebrityThumbnailSlide from './slides/CelebrityThumbnailSlide';
 import DiamondSlide from './slides/DiamondSlide';
 import InstagramThumnailSlide from './slides/InstagramThumbnailSlide';
+import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
 
 const ModularCarouselBlock = (props) => {
@@ -60,6 +61,11 @@ const ModularCarouselBlock = (props) => {
         },
       },
     },
+    {
+      type: 'modular_grid_carousel_block',
+      title: null,
+      slide: StandardSlide,
+    },
   ];
 
   const sliderType = sliderTypes.filter((slider) => slider.type === _modelApiKey)?.[0];
@@ -71,7 +77,7 @@ const ModularCarouselBlock = (props) => {
         <CarouselSlider {...sliderType}>
           {blocks?.map((slide) => {
             return (
-              <SwiperSlide key={`slide-${uuidv4()}`}>
+              <SwiperSlide key={`slide-${slide.id ? slide.id : uuidv4()}`}>
                 <SelectedSliderSlide {...slide} />
               </SwiperSlide>
             );

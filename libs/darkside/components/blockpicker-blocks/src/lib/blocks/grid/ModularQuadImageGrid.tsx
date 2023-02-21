@@ -1,31 +1,91 @@
-/** This section is a 2x2 image grid on desktop, and a centered slider on mobile */
-/** This section is a 2x2 image grid on desktop, and a centered slider on mobile */
+/** This section is a 2x2 image grid on desktop,
+ * and a centered slider on mobile */
 
-// type ModularGridCarouselBlockProps = {
-//   title?: string;
-//   subtitle?: string;
-//   blocks?: Array<any>;
-//   additionalClass?: string;
-//   id?: string;
-//   isMobile?: boolean;
-//   headingAdditionalClass?: string;
-//   headingType?: string;
-//   countryCode: string;
-//   shouldLazyLoad?: boolean;
-// };
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import clsx from 'clsx';
+import Image from 'next/image';
+import Link from 'next/link';
 
-// blocks,
-// additionalClass,
-// title,
-// subtitle,
-// headingType,
-// headingAdditionalClass,
-// isMobile,
-// shouldLazyLoad,
-// countryCode,
+import { ModularQuadImageGridContainer } from './ModularQuadImageGrid.style';
+import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
 
-const ModularQuadImageGrid = () => {
-  return <h1>temp</h1>;
+type ModularGridCarouselBlockProps = {
+  title?: string;
+  subtitle?: string;
+  blocks?: Array<any>;
+  additionalClass?: string;
+  id?: string;
+  isMobile?: boolean;
+  headingAdditionalClass?: string;
+  headingType?: string;
+  countryCode: string;
+  shouldLazyLoad?: boolean;
+  _modelApiKey: string;
+};
+
+const ModularQuadImageGrid = ({
+  headingType,
+  headingAdditionalClass,
+  title,
+  subtitle,
+  blocks,
+  countryCode,
+  _modelApiKey,
+}: ModularGridCarouselBlockProps) => {
+  return (
+    <ModularQuadImageGridContainer>
+      <div className="title__container text-center">
+        <Heading type={headingType} className={clsx('primary', headingAdditionalClass)}>
+          {title}
+        </Heading>
+
+        <p>{subtitle}</p>
+      </div>
+
+      <div className="blocks__grid">
+        {blocks.map((block) => {
+          if (countryCode === 'US' && block.supportedCountries.length > 0) {
+            return null;
+          }
+
+          const { desktopImage, id, title: blockTitle, link } = block;
+          const imageObject = {
+            src: desktopImage.url,
+            width: desktopImage.responsiveImage.width,
+            height: desktopImage.responsiveImage.height,
+          };
+
+          return (
+            <div className="item__container" key={id}>
+              <div className="item__image">
+                <Link href={link}>
+                  <Image
+                    src={imageObject.src}
+                    width={imageObject.width}
+                    height={imageObject.height}
+                    alt={title + ' Grid Image'}
+                  />
+                </Link>
+              </div>
+              <div className="item__title text-center">
+                <h3>
+                  <Link href={link}>{blockTitle}</Link>
+                </h3>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mobile-slider">
+        <ModularCarouselBlock
+          _modelApiKey={_modelApiKey}
+          // TODO: what's the right logic for country specific blocks???
+          blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
+        />
+      </div>
+    </ModularQuadImageGridContainer>
+  );
 };
 
 export default ModularQuadImageGrid;

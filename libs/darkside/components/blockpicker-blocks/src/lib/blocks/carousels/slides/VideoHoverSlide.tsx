@@ -64,7 +64,7 @@ const VideoHoverSlide = (props) => {
             )}
           </div>
 
-          <div className="list-item_copy">{title && <span className="list-item_copy-title">{title}</span>}</div>
+          <div className="list-item__copy">{title && <span className="list-item__copy-title">{title}</span>}</div>
         </div>
       </UniLink>
     </VideoSlideContainer>

@@ -17,19 +17,6 @@ export const ModularSwiperCarouselBlockContainer = styled.div`
   `)}
     }
   }
-
-  .mobile-slide__text {
-    font-family: ${MAIN_FONT};
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1.3;
-    margin-top: 25px;
-    ${tabletAndUp(`
-    font-size:18px;
-    margin-top: 40px;
-    font-weight: 600;
-  `)}
-  }
 `;
 
 export const SlideContainer = styled.div`
@@ -50,5 +37,18 @@ export const SlideContainer = styled.div`
         top: 0;
       }
     }
+  }
+
+  .mobile-slide__text {
+    font-family: ${MAIN_FONT};
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 25px;
+    ${tabletAndUp(`
+    font-size:18px;
+    margin-top: 40px;
+    font-weight: 600;
+  `)}
   }
 `;

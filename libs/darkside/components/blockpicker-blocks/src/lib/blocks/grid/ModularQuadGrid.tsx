@@ -1,3 +1,6 @@
+/** This section is a 4 item image grid on desktop,
+ * and a stacked 2x2 image grid on mobile */
+
 import { Button, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { v4 as uuidv4 } from 'uuid';
