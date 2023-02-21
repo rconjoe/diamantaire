@@ -3,7 +3,6 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
-import type { NextRequest } from 'next/server';
 
 export interface HomePageProps {
   isMobile: boolean;
@@ -28,20 +27,18 @@ const HomePage = (props: HomePageProps) => {
 
 HomePage.getTemplate = getStandardTemplate;
 
-export interface GetServerRequest extends NextRequest {
-  locale: string;
-  req: NextRequest;
-}
+// export interface GetServerRequest extends NextRequest {
+//   locale: string;
+//   req: NextRequest;
+// }
 
-async function getServerSideProps({ req }: { req: GetServerRequest }) {
+async function getStaticProps() {
   // locale
   const locale = 'en_US';
   const refinedLocale = 'en_US';
 
-  // device:
-  const isMobile = Boolean(
-    req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
-  );
+  // device - needs to be static for now:
+  const isMobile = false;
 
   // geo -dev
   const devCountryCode = 'US';
@@ -75,4 +72,4 @@ async function getServerSideProps({ req }: { req: GetServerRequest }) {
   };
 }
 
-export { HomePage, getServerSideProps };
+export { HomePage, getStaticProps };
