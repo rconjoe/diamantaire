@@ -45,6 +45,12 @@ const GetGlobalTypography = createGlobalStyle`
       margin-bottom: ${setSpace(2)};
     }
 
+
+    /* let's standardize heading sizes here */
+    h3 {
+      font-size: 1.6em;
+    }
+
     h1,
     h2,
     h3,
@@ -320,6 +326,9 @@ img {
   width: 100%;
   height: auto;
   aspect-ratio: auto;
+}
+.text-center {
+  text-align: center;
 }
 .container-emotion {
       width: 100%;

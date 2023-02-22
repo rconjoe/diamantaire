@@ -57,21 +57,3 @@ export const VideoSlideContainer = styled.div`
   `)};
   }
 `;
-
-// TODO: keeping just in case
-// export const listItem = css`
-//   width: 100%;
-//   height: auto;
-//   flex-direction: column;
-
-//   &:focus,
-//   &:hover {
-//     cursor: pointer;
-
-//     .list-item-media-hover {
-//       ${desktopAndUp(css`
-//         opacity: 1;
-//       `)}
-//     }
-//   }
-// `;

@@ -29,7 +29,6 @@ export default class MyDocument extends Document {
         <Head>
           <link rel="preload" href="https://use.typekit.net/ram5cej.css" as="style" crossOrigin="anonymous" />
           <link rel="stylesheet" href="https://use.typekit.net/ram5cej.css" />
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
         </Head>
         <body>
           <Main />
