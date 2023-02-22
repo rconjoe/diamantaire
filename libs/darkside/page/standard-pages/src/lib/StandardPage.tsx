@@ -1,10 +1,11 @@
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
-import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
+
+import { StandardPageEntry } from './StandardPageEntry';
 
 export interface StandardPageProps {
   isMobile: boolean;
@@ -17,7 +18,8 @@ const StandardPage = (props: StandardPageProps) => {
   //   console.log('router', router);
   //   console.log('data', data);
   const { pageSlug } = router.query;
-  const { data }: any = useStandardPage(pageSlug);
+
+  const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
 
   const page = data?.allStandardPages?.[0];
 
@@ -71,14 +73,12 @@ async function getServerSideProps({ req }: { req: GetServerRequest }) {
     ...queries['standard-page'].content(req.query.pageSlug, refinedLocale),
   });
 
-  console.log('queryClient', queryClient);
-
   return {
     props: {
       isMobile,
       currencyCode: devCurrencyCode,
       countryCode: devCountryCode,
-      //   dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 }
