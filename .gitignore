@@ -129,6 +129,7 @@ env.list
 
 # No envs plz :)
 .env*
+.local.env
 
 
 #Project Docs
