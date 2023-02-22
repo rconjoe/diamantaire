@@ -1,4 +1,5 @@
-import { StandardPage, getServerSideProps } from '@diamantaire/darkside/page/standard-pages';
+import { StandardPage, getStaticProps, getStaticPaths } from '@diamantaire/darkside/page/standard-pages';
 
 export default StandardPage;
-export { getServerSideProps };
+
+export { getStaticPaths, getStaticProps };

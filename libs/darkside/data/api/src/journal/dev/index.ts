@@ -172,8 +172,6 @@ export async function fetchJournalsByCategory(
   first: number,
   skip: number,
 ) {
-  // console.log('locale', locale, 'category', category, 'first', first, 'skip', skip);
-
   const journalsByCategory = await queryDatoGQL({
     query: JOURNALS_BY_CATEGORY_QUERY,
     variables: { locale, category, first, skip },
