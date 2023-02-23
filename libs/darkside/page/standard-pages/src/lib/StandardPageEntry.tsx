@@ -1,5 +1,9 @@
+/*
+  This component implements the BlockPicker loop for the Home Page, and Standard Pages
+* */
+
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
 const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
   const { content1 } = page || [];

@@ -11,7 +11,7 @@ export interface HomePageProps {
 }
 
 const HomePage = (props: HomePageProps) => {
-  const { data }: any = useStandardPage('darkside-home');
+  const { data }: any = useStandardPage('darkside-home', 'en_US');
 
   const page = data?.allStandardPages?.[0];
 
@@ -59,7 +59,7 @@ async function getStaticProps() {
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content('darkside-home'),
+    ...queries['standard-page'].content('darkside-home', refinedLocale),
   });
 
   return {

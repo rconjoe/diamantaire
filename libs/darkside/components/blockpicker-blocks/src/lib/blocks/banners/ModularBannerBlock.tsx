@@ -1,3 +1,7 @@
+/* 
+  This compoenent needs to be 
+*/
+
 import {
   MobileDesktopImage,
   Button,
@@ -12,7 +16,6 @@ import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React from 'react';
 
 import {
   BannerTextContainer,
@@ -168,7 +171,7 @@ const Banner = (props) => {
       </div>
     </FullWidthImageContainer>
   ) : (
-    <HalfWidthImageContainer className={textBlockAlignment === 'right' ? '-right' : '-left'}>
+    <HalfWidthImageContainer className={textBlockAlignment.toLowerCase() === 'right' ? '-right' : '-left'}>
       <div className="half-width__image-wrapper">
         <div className="image__desktop">
           <Image
@@ -190,14 +193,6 @@ const Banner = (props) => {
     </HalfWidthImageContainer>
   );
 
-  const responsiveBlockClassNames = [];
-
-  if (textBlockAlignment !== 'right') {
-    responsiveBlockClassNames.push('-left');
-  } else {
-    responsiveBlockClassNames.push('-right');
-  }
-
   const getResponsiveBlock = () => {
     return isFullWidth ? (
       <FullWidthImageContainer>
@@ -206,7 +201,10 @@ const Banner = (props) => {
     ) : (
       <HalfWidthImageContainer>
         <MobileDesktopImage
-          className={clsx(responsiveBlockClassNames.join(' '))}
+          className={clsx({
+            '-left': textBlockAlignment.toLowerCase() === 'left',
+            '-right': textBlockAlignment.toLowerCase() === 'right',
+          })}
           desktopImage={desktopImage}
           mobileImage={mobileImage}
           alt={alt}
@@ -280,8 +278,8 @@ const Banner = (props) => {
     <BannerTextContainer
       className={clsx(
         {
-          '-left': textBlockAlignment === 'left',
-          '-right': textBlockAlignment === 'right',
+          '-left': textBlockAlignment.toLowerCase() === 'left',
+          '-right': textBlockAlignment.toLowerCase() === 'right',
           '-bg': !isFullWidth,
           '-white': textColor === WHITE,
           '-wide': isTextBlockWide,

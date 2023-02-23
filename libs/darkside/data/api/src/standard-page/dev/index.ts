@@ -170,10 +170,10 @@ export const STANDARD_PAGE_BY_SLUG = `
 ${ResponsiveImageFragment}
 `;
 
-export async function fetchStandardPageDataBySlug(slug: string) {
+export async function fetchStandardPageDataBySlug(slug: string, locale: string) {
   const pageData = await queryDatoGQL({
     query: STANDARD_PAGE_BY_SLUG,
-    variables: { slug },
+    variables: { slug, locale },
   });
 
   return pageData;
