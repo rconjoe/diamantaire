@@ -17,3 +17,29 @@ export interface DiamondQuery {
   sortOrder?: string;
   sortBy: string;
 }
+
+export interface DiamondVariant {
+  isForSale?: boolean;
+  variantSku?: string;
+  variantId?: string;
+  dangerousInternalShopifyVariantId?: string;
+  variantTitle?: string;
+  price?: number;
+  title?: string;
+}
+
+export interface DiamondCollection {
+  dangerousInternalProductId?: string;
+  handle?: string;
+  productTitle?: string;
+  description?: string;
+  variants?: DiamondVariant[];
+  dfCertificateUrl?: string;
+  type?: string;
+  carat?: string;
+  cut?: string;
+  color?: string;
+  clarity?: string;
+  lotId?: string;
+  diamondType?: string;
+}
