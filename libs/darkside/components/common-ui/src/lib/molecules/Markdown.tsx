@@ -5,7 +5,7 @@ import { PropsWithChildren } from 'react';
 import { MarkdownContainer } from './Markdown.style';
 
 type MarkdownProps = {
-  extraClass: string;
+  extraClass?: string;
   options?: object;
   children: string;
 };

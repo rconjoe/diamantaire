@@ -14,3 +14,4 @@ export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carous
 export const DynamicModularQuadImageGrid = dynamic(() => import('./blocks/grid/ModularQuadImageGrid'));
 export const DynamicTextOnlyBlock = dynamic(() => import('./blocks/misc/ModularTextOnlyBlock'));
 export const DynamicModularLogoGrid = dynamic(() => import('./blocks/grid//ModularLogoGrid'));
+export const DynamicModularAccordion = dynamic(() => import('./blocks/misc/accordion/ModularAccordion'));
