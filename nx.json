@@ -9,7 +9,7 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/.eslintrc.json"
     ],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+    "sharedGlobals": []
   },
   "targetDefaults": {
     "build": {
@@ -42,8 +42,7 @@
         "buildable": true
       },
       "application": {
-        "swc": true,
-        "babel": true
+        "swc": true
       }
     },
     "@nrwl/next": {
