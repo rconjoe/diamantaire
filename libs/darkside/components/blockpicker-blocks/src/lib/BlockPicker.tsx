@@ -15,9 +15,11 @@ import {
   MODULAR_TEXT_ONLY_BLOCK,
   MODULAR_QUAD_LOGO_BLOCK,
   MODULAR_HERO_BANNER_BLOCK,
+  MODULAR_ACCORDION_BLOCK,
 } from '@diamantaire/shared/constants';
 
 import {
+  DynamicModularAccordion,
   DynamicModularBannerBlock,
   DynamicModularCarouselBlock,
   DynamicModularContentQuadBlock,
@@ -53,6 +55,7 @@ const config: configProps = {
   [MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA]: DynamicModularTallHalfWidthBlockLocationCTA,
   [MODULAR_TEXT_ONLY_BLOCK]: DynamicTextOnlyBlock,
   [MODULAR_QUAD_LOGO_BLOCK]: DynamicModularLogoGrid,
+  [MODULAR_ACCORDION_BLOCK]: DynamicModularAccordion,
 };
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {

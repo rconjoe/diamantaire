@@ -5,7 +5,6 @@ export const ModularVideoBlockContainer = styled.div`
   width: 100%;
   max-width: 1440px;
   margin: ${setSpace(3)} auto;
-
   position: relative;
   display: flex;
   justify-content: center;
