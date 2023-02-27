@@ -11,6 +11,8 @@ const propTypes = {
 const convertMarkdownToHtmlString = (markdownCopy) => ReactDOMServer.renderToString(<Markdown>{markdownCopy}</Markdown>);
 
 const FAQSchema = ({ questionAnswerData }) => {
+  // just need to trigger a rebuild....
+
   const mainEntity = questionAnswerData.map((data) => {
     return {
       '@type': 'Question',
