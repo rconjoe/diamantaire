@@ -1,3 +1,4 @@
+import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -23,15 +24,19 @@ const StandardPage = (props: StandardPageProps) => {
 
   const page = data?.allStandardPages?.[0];
 
-  // console.log('page', page);
+  const { seo } = page || {};
+  const { seoTitle, seoDescription } = seo || {};
 
   return (
-    <StandardPageEntry
-      page={page}
-      isMobile={props?.isMobile}
-      countryCode={props?.countryCode}
-      currencyCode={props?.currencyCode}
-    />
+    <>
+      <StandardPageSeo title={seoTitle} description={seoDescription} />
+      <StandardPageEntry
+        page={page}
+        isMobile={props?.isMobile}
+        countryCode={props?.countryCode}
+        currencyCode={props?.currencyCode}
+      />
+    </>
   );
 };
 
