@@ -80,7 +80,7 @@ const ModularAccordion = ({
     src: image?.url,
     width: image?.responsiveImage?.width,
     height: image?.responsiveImage?.height,
-    alt: image?.alt,
+    alt: image?.alt || '',
   };
 
   return (

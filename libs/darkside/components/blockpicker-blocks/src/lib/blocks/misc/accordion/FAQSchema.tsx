@@ -1,18 +1,18 @@
-// TODO: Replace with Next SEO
+// TODO: Replace with Next SEO we encounter actually using this on a page
 import Markdown from 'markdown-to-jsx';
 import Head from 'next/head';
-import PropTypes from 'prop-types';
 import ReactDOMServer from 'react-dom/server';
 
-const propTypes = {
-  questionAnswerData: PropTypes.array,
+type FAQSchemaProps = {
+  questionAnswerData: Array<{
+    question: string;
+    answer: string;
+  }>;
 };
 
 const convertMarkdownToHtmlString = (markdownCopy) => ReactDOMServer.renderToString(<Markdown>{markdownCopy}</Markdown>);
 
-const FAQSchema = ({ questionAnswerData }) => {
-  // just need to trigger a rebuild....
-
+const FAQSchema = ({ questionAnswerData }: FAQSchemaProps) => {
   const mainEntity = questionAnswerData.map((data) => {
     return {
       '@type': 'Question',
@@ -41,7 +41,5 @@ const FAQSchema = ({ questionAnswerData }) => {
     </Head>
   );
 };
-
-FAQSchema.propTypes = propTypes;
 
 export default FAQSchema;
