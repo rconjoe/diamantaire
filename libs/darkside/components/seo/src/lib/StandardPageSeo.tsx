@@ -3,6 +3,8 @@ This is the Seo component for the home page + standard pages.
 It has a fallback DefaultSeo component in CustomApp.tsx
 
 We should update the dato seo component to includes custom meta images, and twitter metatags 
+
+https://github.com/garmeeh/next-seo
 */
 
 import { NextSeo } from 'next-seo';
