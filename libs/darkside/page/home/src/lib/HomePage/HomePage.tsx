@@ -13,6 +13,8 @@ export interface HomePageProps {
 const HomePage = (props: HomePageProps) => {
   const { data }: any = useStandardPage('darkside-home', 'en_US');
 
+  console.log('data', data);
+
   const page = data?.allStandardPages?.[0];
 
   return (
@@ -26,11 +28,6 @@ const HomePage = (props: HomePageProps) => {
 };
 
 HomePage.getTemplate = getStandardTemplate;
-
-// export interface GetServerRequest extends NextRequest {
-//   locale: string;
-//   req: NextRequest;
-// }
 
 async function getStaticProps() {
   // locale
