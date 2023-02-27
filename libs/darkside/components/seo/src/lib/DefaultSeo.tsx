@@ -28,7 +28,7 @@ const config = {
         alt: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
         url:
           process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
-            ? 'https://' + process.env.NEXT_PUBLIC_VERCEL_URL + defaultImage.src
+            ? 'https://' + process.env['NEXT_PUBLIC_VERCEL_URL'] + defaultImage.src
             : 'http://localhost:4200' + defaultImage.src,
       },
     ],
