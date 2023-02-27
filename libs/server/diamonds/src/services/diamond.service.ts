@@ -8,7 +8,7 @@
 
 import { UtilService } from '@diamantaire/server/common/utils';
 import { PaginatedLabels } from '@diamantaire/shared/constants';
-import { getDataRanges } from '@diamantaire/shared/utils';
+import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
 import { Injectable, Logger } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
@@ -62,7 +62,12 @@ export class DiamondsService {
     const allDiamonds = await this.diamondRepository.find({});
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
-    result.ranges = getDataRanges(allDiamonds);
+    const numericalRanges = {
+      ...defaultNumericalRanges,
+      price: defaultVariantGetter,
+    };
+
+    result.ranges = getDataRanges(allDiamonds, defaultUniqueValues, numericalRanges);
 
     this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
 

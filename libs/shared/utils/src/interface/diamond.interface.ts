@@ -8,3 +8,7 @@ export interface DiamondsDataRanges {
   price?: NumericalRange;
   type?: string[];
 }
+
+export interface BasicObject {
+  [key: string]: string | number;
+}

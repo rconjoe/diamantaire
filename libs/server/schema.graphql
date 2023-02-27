@@ -2,10 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type AllVariants {
-  all: [VariantDetails!]!
-}
-
 type CutToOrderDiamondEntity {
   carat: Int!
   clarity: String!
@@ -28,23 +24,14 @@ type DiamondEntity {
   clarity: String!
   color: String!
   cut: String!
+  dangerousInternalProductId: String!
   description: String!
   dfCertificateUrl: String!
-
-  """
-  Diamond Shape
-  """
   diamondType: String!
   handle: String!
   lotId: String!
   productTitle: String!
-  variants: AllVariants!
-}
-
-type DiamondsList {
-  diamonds: [DiamondEntity!]!
-  pagination: Pagination!
-  range: Range!
+  type: String!
 }
 
 input GetCutToOrderDiamondInput {
@@ -84,16 +71,6 @@ input GetProductInput {
   handle: String!
 }
 
-type MinMaxCarat {
-  max: String!
-  min: String!
-}
-
-type MinMaxPrice {
-  max: PresentmentPrices!
-  min: PresentmentPrices!
-}
-
 type Options {
   bandAccent: String!
   diamondType: String!
@@ -102,17 +79,6 @@ type Options {
   ringSize: String!
   sideStoneCarat: String!
   sideStoneShape: String!
-}
-
-type Pagination {
-  limit: Int!
-  page: Int!
-  total: Int!
-}
-
-type PresentmentPrices {
-  amount: String!
-  currencyCode: String!
 }
 
 type ProductEntity {
@@ -127,23 +93,16 @@ type ProductEntity {
 }
 
 input ProductVariantInput {
-  """
-  The variant ID of the product
-  """
+  """The variant ID of the product"""
   id: String!
   slug: String!
 }
 
 type Query {
   cuttoorderdiamonds(input: GetCutToOrderDiamondInput!): [CutToOrderDiamondEntity!]!
-  diamondsList(filter: GetDiamondInput!, input: GetDiamondInput!): DiamondsList!
+  diamonds(filter: GetDiamondInput!, input: GetDiamondInput!): DiamondEntity!
   productVariant(input: ProductVariantInput!): [ProductEntity!]!
   products(input: GetProductInput!): [ProductEntity!]!
-}
-
-type Range {
-  carat: MinMaxCarat!
-  price: MinMaxPrice!
 }
 
 type Variant {
@@ -155,15 +114,4 @@ type Variant {
   shopifyProductTitle: String!
   sku: String!
   title: String!
-}
-
-type VariantDetails {
-  dangerousInternalShopifyVariantId: String!
-  isForSale: Boolean!
-  presentmentPrices: [PresentmentPrices!]!
-  price: Int!
-  title: String!
-  variantId: String!
-  variantSku: String!
-  variantTitle: String!
 }
