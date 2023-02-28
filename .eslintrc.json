@@ -90,7 +90,7 @@
     "import/no-internal-modules": [
       "warn",
       {
-        "allow": ["**/src/**"]
+        "allow": ["**/src/**", "next/*"]
       }
     ],
     "import/order": [
