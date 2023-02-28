@@ -1,4 +1,4 @@
-// TODO: Replace with Next SEO we encounter actually using this on a page
+// TODO: Replace with Next SEO when we encounter it actually being this on a page
 import Markdown from 'markdown-to-jsx';
 import Head from 'next/head';
 import ReactDOMServer from 'react-dom/server';
