@@ -136,18 +136,9 @@ workflows:
       - build-app:
           requires:
             - install
-          filters:
-            branches:
-              ignore:
-                - features
       - build-image:
           requires:
             - build-app
-          type: approval
-          filters:
-            branches:
-              ignore:
-                - develop
       - deploy-development:
           filters:
             branches:
