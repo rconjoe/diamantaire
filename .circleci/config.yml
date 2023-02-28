@@ -139,6 +139,10 @@ workflows:
       - build-image:
           requires:
             - build-app
+          filters:
+            branches:
+              only:
+                - develop
       - deploy-development:
           filters:
             branches:
