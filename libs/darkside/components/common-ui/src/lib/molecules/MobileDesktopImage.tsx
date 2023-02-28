@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 
+import DatoImage from './DatoImage';
 import { ShowMobileOnly } from '../media-queries/ShowMobileOnly';
 import { ShowTabletAndUpOnly } from '../media-queries/ShowTabletAndUpOnly';
 
@@ -25,16 +26,20 @@ type MobileDesktopImage = {
 };
 
 const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImage) => {
+  console.log('desktopImage', desktopImage);
+
   return (
     <>
       <ShowTabletAndUpOnly>
-        <Image
+        {/* <p>weee</p> */}
+        {/* <Image
           className={className}
           src={desktopImage?.url}
           width={desktopImage?.responsiveImage?.width}
           height={desktopImage?.responsiveImage?.height}
           alt={alt}
-        />
+        /> */}
+        <DatoImage image={desktopImage} className={className} />
       </ShowTabletAndUpOnly>
       <ShowMobileOnly>
         <Image
