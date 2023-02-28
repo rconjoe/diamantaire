@@ -26,12 +26,9 @@ type MobileDesktopImage = {
 };
 
 const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImage) => {
-  console.log('desktopImage', desktopImage);
-
   return (
     <>
       <ShowTabletAndUpOnly>
-        {/* <p>weee</p> */}
         {/* <Image
           className={className}
           src={desktopImage?.url}
