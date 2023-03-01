@@ -20,9 +20,7 @@ const ModularQuadGrid = `
           bgColor
           height
           sizes
-          srcSet
           title
-          webpSrcSet
           width
         }
       }

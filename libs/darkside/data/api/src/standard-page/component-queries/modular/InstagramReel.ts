@@ -18,9 +18,7 @@ const InstagramReel = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
       }

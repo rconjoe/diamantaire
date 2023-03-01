@@ -13,9 +13,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }
@@ -30,9 +28,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }
@@ -49,9 +45,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }
@@ -70,9 +64,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }
@@ -91,9 +83,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }
@@ -112,9 +102,7 @@ const HalfWidthQuad = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
         }
     }

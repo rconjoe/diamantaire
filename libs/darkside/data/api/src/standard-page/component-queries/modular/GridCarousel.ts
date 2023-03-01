@@ -23,9 +23,7 @@ const GridCarousel = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }
@@ -40,9 +38,7 @@ const GridCarousel = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }

@@ -20,9 +20,7 @@ const RandomBanner = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }
@@ -38,9 +36,7 @@ const RandomBanner = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }

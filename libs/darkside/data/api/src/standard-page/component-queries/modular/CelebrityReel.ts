@@ -18,9 +18,7 @@ const CelebrityReel = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
       }

@@ -20,9 +20,7 @@ const CollectionHero = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
@@ -40,9 +38,7 @@ const CollectionHero = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
