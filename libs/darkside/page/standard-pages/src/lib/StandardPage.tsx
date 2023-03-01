@@ -23,7 +23,7 @@ const StandardPage = (props: StandardPageProps) => {
 
   const page = data?.allStandardPages?.[0];
 
-  // console.log('page', page);
+  console.log('page', page);
 
   return (
     <StandardPageEntry
