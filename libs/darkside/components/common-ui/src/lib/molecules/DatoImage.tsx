@@ -1,6 +1,23 @@
 import Image, { ImageLoaderProps } from 'next/image';
 
-const DatoImage = ({ image, className }) => {
+type DatoImageProps = {
+  className?: string;
+  overrideAlt?: string;
+  image?: {
+    mimeType?: string;
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
+      width: number;
+      height: number;
+      base64: string;
+    };
+  };
+};
+
+const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
   const { alt, url, responsiveImage } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -19,10 +36,10 @@ const DatoImage = ({ image, className }) => {
 
   return (
     <Image
-      alt={alt}
+      alt={overrideAlt ? overrideAlt : alt}
       src={url}
       placeholder="blur"
-      blurDataURL={image.responsiveImage.base64}
+      blurDataURL={responsiveImage.base64}
       loader={loader}
       className={className}
       sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
@@ -32,4 +49,4 @@ const DatoImage = ({ image, className }) => {
   );
 };
 
-export default DatoImage;
+export { DatoImage };

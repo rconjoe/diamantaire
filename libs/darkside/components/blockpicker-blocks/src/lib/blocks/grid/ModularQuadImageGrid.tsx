@@ -1,9 +1,8 @@
 /** This section is a 2x2 image grid on desktop,
  * and a centered slider on mobile */
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { ModularQuadImageGridContainer } from './ModularQuadImageGrid.style';
@@ -49,22 +48,12 @@ const ModularQuadImageGrid = ({
           }
 
           const { desktopImage, id, title: blockTitle, link } = block;
-          const imageObject = {
-            src: desktopImage.url,
-            width: desktopImage.responsiveImage.width,
-            height: desktopImage.responsiveImage.height,
-          };
 
           return (
             <div className="item__container" key={id}>
               <div className="item__image">
                 <Link href={link}>
-                  <Image
-                    src={imageObject.src}
-                    width={imageObject.width}
-                    height={imageObject.height}
-                    alt={title + ' Grid Image'}
-                  />
+                  <DatoImage image={desktopImage} />
                 </Link>
               </div>
               <div className="item__title text-center">

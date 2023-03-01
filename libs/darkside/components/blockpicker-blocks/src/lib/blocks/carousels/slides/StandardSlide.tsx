@@ -1,22 +1,43 @@
 /** This is the default slide component. Useful for basic slides on mobile */
 
-import Image from 'next/image';
+import { MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import Link from 'next/link';
 
 import { StandardSlideContainer } from './StandardSlide.style';
 
-const StandardSlide = ({ mobileImage, title, link }) => {
-  const imageObject = {
-    src: mobileImage.url,
-    width: mobileImage.responsiveImage.width,
-    height: mobileImage.responsiveImage.height,
+type StandardSlideProps = {
+  title?: string;
+  link: string;
+  desktopImage: {
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
+      width: number;
+      height: number;
+      base64: string;
+    };
   };
+  mobileImage: {
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
+      width: number;
+      height: number;
+      base64: string;
+    };
+  };
+};
 
+const StandardSlide = ({ desktopImage, mobileImage, title, link }: StandardSlideProps) => {
   return (
     <StandardSlideContainer>
       <div className="slide__image">
         <Link href={link}>
-          <Image src={imageObject.src} width={imageObject.width} height={imageObject.height} alt={title} />
+          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
         </Link>
       </div>
       <div className="slide__title">

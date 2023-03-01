@@ -1,51 +1,43 @@
-import Image from 'next/image';
-import React from 'react';
-
-import DatoImage from './DatoImage';
+import { DatoImage } from './DatoImage';
 import { ShowMobileOnly } from '../media-queries/ShowMobileOnly';
 import { ShowTabletAndUpOnly } from '../media-queries/ShowTabletAndUpOnly';
 
-type MobileDesktopImage = {
+type MobileDesktopImageProps = {
   alt: string;
   desktopImage: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
+      height: number;
+      base64: string;
     };
   };
   mobileImage: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
+      height: number;
+      base64: string;
     };
   };
   className?: string;
   isLazyLoaded?: boolean;
 };
 
-const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImage) => {
+const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImageProps) => {
   return (
     <>
       <ShowTabletAndUpOnly>
-        {/* <Image
-          className={className}
-          src={desktopImage?.url}
-          width={desktopImage?.responsiveImage?.width}
-          height={desktopImage?.responsiveImage?.height}
-          alt={alt}
-        /> */}
-        <DatoImage image={desktopImage} className={className} />
+        <DatoImage image={desktopImage} className={className} overrideAlt={alt} />
       </ShowTabletAndUpOnly>
       <ShowMobileOnly>
-        <Image
-          className={className}
-          src={mobileImage?.url}
-          width={mobileImage?.responsiveImage?.width}
-          height={mobileImage?.responsiveImage?.height}
-          alt={alt}
-        />
+        <DatoImage image={mobileImage} className={className} overrideAlt={alt} />
       </ShowMobileOnly>
     </>
   );

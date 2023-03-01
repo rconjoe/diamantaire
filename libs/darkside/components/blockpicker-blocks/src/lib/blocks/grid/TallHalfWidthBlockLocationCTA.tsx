@@ -28,16 +28,24 @@ type TallHalfWidthBlockLocationCTAProps = {
   ctaRoute2?: string;
   desktopImage: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
+      height: number;
+      base64: string;
     };
   };
   mobileImage: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
+      height: number;
+      base64: string;
     };
   };
   isTextBlockWide?: boolean;

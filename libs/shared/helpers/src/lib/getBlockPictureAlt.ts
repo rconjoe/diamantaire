@@ -13,23 +13,27 @@ type GetBlockPictureAltProps = {
     | Record<string, never>;
   desktopImage?:
     | {
-        desktopAlt?: string;
-        alt?: string;
         url: string;
-        responsiveImage: {
+        alt?: string;
+        width?: number;
+        height?: number;
+        responsiveImage?: {
           width: number;
           height: number;
+          base64: string;
         };
       }
     | Record<string, never>;
   mobileImage?:
     | {
-        mobileAlt?: string;
-        alt?: string;
         url: string;
-        responsiveImage: {
+        alt?: string;
+        width?: number;
+        height?: number;
+        responsiveImage?: {
           width: number;
           height: number;
+          base64: string;
         };
       }
     | Record<string, never>;
