@@ -90,7 +90,7 @@
     "import/no-internal-modules": [
       "warn",
       {
-        "allow": ["**/src/**"]
+        "allow": ["**/src/**", "next/*"]
       }
     ],
     "import/order": [
@@ -132,6 +132,7 @@
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {
+        "import/no-unresolved": 0,
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
