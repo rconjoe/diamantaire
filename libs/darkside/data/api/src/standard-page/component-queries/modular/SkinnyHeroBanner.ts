@@ -18,9 +18,7 @@ const SkinnyHeroBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
@@ -35,9 +33,7 @@ const SkinnyHeroBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }

@@ -8,6 +8,7 @@ import {
   Heading,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
+  DatoImage,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
@@ -15,7 +16,6 @@ import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 import {
   BannerTextContainer,
@@ -48,15 +48,18 @@ type ModularBannerBlockProps = {
     responsiveImage: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   mobileImage: {
     mimeType: string;
     url: string;
     alt: string;
+    desktopAlt: string;
     responsiveImage: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   textBlockAlignment: string;
@@ -73,20 +76,25 @@ type ModularBannerBlockProps = {
   ctaRoute3?: string;
   ctaButtonType3?: string;
   middleLayerImage: {
+    mimeType: string;
     url: string;
-    desktopAlt?: string;
-    alt?: string;
+    alt: string;
+    desktopAlt: string;
     responsiveImage: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   middleLayerImageMobile: {
-    desktopAlt?: string;
+    mimeType: string;
     url: string;
+    alt: string;
+    desktopAlt: string;
     responsiveImage: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   additionalClass?: string;
@@ -154,40 +162,20 @@ const Banner = (props) => {
   const Block = isFullWidth ? (
     <FullWidthImageContainer>
       <div className="image__desktop">
-        <Image
-          src={desktopImage?.url}
-          height={desktopImage?.responsiveImage?.height}
-          width={desktopImage?.responsiveImage?.width}
-          alt={alt}
-        />
+        <DatoImage image={desktopImage} overrideAlt={alt} />
       </div>
       <div className="image__mobile">
-        <Image
-          src={mobileImage?.url}
-          height={mobileImage?.responsiveImage?.height}
-          width={mobileImage?.responsiveImage?.width}
-          alt={alt}
-        />
+        <DatoImage image={mobileImage} overrideAlt={alt} />
       </div>
     </FullWidthImageContainer>
   ) : (
     <HalfWidthImageContainer className={textBlockAlignment.toLowerCase() === 'right' ? '-right' : '-left'}>
       <div className="half-width__image-wrapper">
         <div className="image__desktop">
-          <Image
-            src={desktopImage?.url}
-            height={desktopImage?.responsiveImage?.height}
-            width={desktopImage?.responsiveImage?.width}
-            alt={alt}
-          />
+          <DatoImage image={desktopImage} overrideAlt={alt} />
         </div>
         <div className="image__mobile">
-          <Image
-            src={mobileImage?.url}
-            height={mobileImage?.responsiveImage?.height}
-            width={mobileImage?.responsiveImage?.width}
-            alt={alt}
-          />
+          <DatoImage image={mobileImage} overrideAlt={alt} />
         </div>
       </div>
     </HalfWidthImageContainer>
@@ -373,11 +361,9 @@ const Banner = (props) => {
       {middleLayerImage && (
         <ShowTabletAndUpOnly>
           <MiddleLayerImageContainer className={additionalClass}>
-            <Image
-              src={middleLayerImage.url}
-              height={middleLayerImage?.responsiveImage?.height}
-              width={middleLayerImage?.responsiveImage?.width}
-              alt={getBlockPictureAlt({
+            <DatoImage
+              image={middleLayerImage}
+              overrideAlt={getBlockPictureAlt({
                 desktopImage: middleLayerImage,
                 title,
               })}
@@ -389,12 +375,9 @@ const Banner = (props) => {
       {middleLayerImageMobile && (
         <ShowMobileOnly>
           <MobileMiddleLayerImageContainer className={additionalClass}>
-            <Image
-              src={middleLayerImageMobile.url}
-              height={middleLayerImageMobile?.responsiveImage?.height}
-              width={middleLayerImageMobile?.responsiveImage?.width}
-              alt={getBlockPictureAlt({
-                // //@ts-expect-error: need to fix types
+            <DatoImage
+              image={middleLayerImageMobile}
+              overrideAlt={getBlockPictureAlt({
                 mobileImage: middleLayerImageMobile,
                 title,
               })}

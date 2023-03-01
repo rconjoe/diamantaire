@@ -22,9 +22,7 @@ const CarouselHover = `
           bgColor
           height
           sizes
-          srcSet
           title
-          webpSrcSet
           width
         }
       }
@@ -41,9 +39,7 @@ const CarouselHover = `
           bgColor
           height
           sizes
-          srcSet
           title
-          webpSrcSet
           width
         }
         video {

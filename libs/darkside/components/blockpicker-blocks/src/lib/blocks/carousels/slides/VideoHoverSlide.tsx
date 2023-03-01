@@ -1,8 +1,8 @@
+import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { VideoSlideContainer } from './VideoHoverSlide.style';
 
@@ -15,13 +15,6 @@ const VideoHoverSlide = (props) => {
 
   const video = hover?.video;
   const [isHovered, setIsHovered] = useState(false);
-
-  const initialImage = {
-    src: image.url,
-    width: image.responsiveImage.width,
-    height: image.responsiveImage.height,
-    alt: image.alt,
-  };
 
   const { getRelativeUrl } = useGlobalContext();
 
@@ -36,7 +29,7 @@ const VideoHoverSlide = (props) => {
           onBlur={() => setIsHovered(false)}
         >
           <div className="list-item__media">
-            <Image alt={initialImage?.alt} src={initialImage.src} width={initialImage.width} height={initialImage.height} />
+            <DatoImage image={image} />
 
             {Boolean(hover) && !isMobile && (
               <div className="list-item__media--hover">
@@ -57,6 +50,7 @@ const VideoHoverSlide = (props) => {
                     }}
                   />
                 ) : (
+                  // TODO: Figure out how to handle video thumbnails (better than now)
                   <p>temp</p>
                   //   <Image alt={hover?.alt} image={hover} />
                 )}

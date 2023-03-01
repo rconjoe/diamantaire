@@ -23,9 +23,7 @@ const CelebrityCarousel = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
             }
         }
@@ -40,9 +38,7 @@ const CelebrityCarousel = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
             }
         }
@@ -64,9 +60,7 @@ const CelebrityCarousel = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
             }
             }

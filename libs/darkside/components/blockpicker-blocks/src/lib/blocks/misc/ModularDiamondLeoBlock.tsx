@@ -1,6 +1,6 @@
+import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
-import Image from 'next/image';
 
 import { DiamondLeoBlockContainer } from './ModularDiamondLeoBlock.style';
 
@@ -18,8 +18,6 @@ type DiamondLeoBlockProps = {
 const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image }: DiamondLeoBlockProps) => {
   const alt = getBlockPictureAlt({ image, title });
 
-  const { width, height, url } = image;
-
   return (
     <DiamondLeoBlockContainer>
       <div
@@ -35,14 +33,12 @@ const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image }: Diam
         >
           {copy}
         </p>
-        <Image
+        <DatoImage
           className={clsx('diamond-leo__signature', {
             '-blockquote': extraClass === 'blockquote',
           })}
-          src={url}
-          width={width}
-          height={height}
-          alt={alt}
+          image={image}
+          overrideAlt={alt}
         />
       </div>
     </DiamondLeoBlockContainer>

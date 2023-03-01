@@ -29,9 +29,7 @@ const BlogListTrio = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
           }
         }

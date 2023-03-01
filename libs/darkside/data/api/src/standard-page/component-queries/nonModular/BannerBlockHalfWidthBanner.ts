@@ -14,9 +14,7 @@ const BannerBlockHalfWidthBanner = `
                             bgColor
                             height
                             sizes
-                            srcSet
                             title
-                            webpSrcSet
                             width
                         }
                     }
@@ -32,9 +30,7 @@ const BannerBlockHalfWidthBanner = `
                             bgColor
                             height
                             sizes
-                            srcSet
                             title
-                            webpSrcSet
                             width
                         }
                     }

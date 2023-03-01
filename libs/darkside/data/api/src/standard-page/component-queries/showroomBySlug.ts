@@ -20,9 +20,7 @@ const showroomBySlug = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
       }
@@ -49,9 +47,7 @@ const showroomBySlug = `
               bgColor
               height
               sizes
-              srcSet
               title
-              webpSrcSet
               width
           }
       }

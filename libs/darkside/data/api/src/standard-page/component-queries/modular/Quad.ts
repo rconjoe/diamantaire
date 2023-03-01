@@ -17,9 +17,7 @@ const Quad = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }
@@ -38,9 +36,7 @@ const Quad = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }
@@ -59,9 +55,7 @@ const Quad = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }
@@ -80,9 +74,7 @@ const Quad = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }

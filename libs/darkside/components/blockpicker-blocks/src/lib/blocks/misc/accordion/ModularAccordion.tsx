@@ -1,8 +1,7 @@
-import { Markdown, Button } from '@diamantaire/darkside/components/common-ui';
+import { Markdown, Button, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import FAQSchema from './FAQSchema';
@@ -17,10 +16,13 @@ type ModularAccordionProps = {
   ctaButtonType?: string;
   image?: {
     url: string;
-    alt: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   firstItemOpen: boolean;
@@ -76,13 +78,6 @@ const ModularAccordion = ({
     setIndice(indice === value ? null : value);
   };
 
-  const imageObject = {
-    src: image?.url,
-    width: image?.responsiveImage?.width,
-    height: image?.responsiveImage?.height,
-    alt: image?.alt,
-  };
-
   return (
     <ModularAccordionContainer>
       {shouldUseFaqSchema && <FAQSchema questionAnswerData={getFAQSchemaData()} />}
@@ -94,7 +89,7 @@ const ModularAccordion = ({
         {image && (
           <div className="acc__image-container">
             <div className="acc__sticky-wrapper">
-              <Image {...imageObject} />
+              <DatoImage image={image} />
             </div>
           </div>
         )}

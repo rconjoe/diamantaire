@@ -1,6 +1,5 @@
+import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import Image from 'next/image';
-import React from 'react';
 
 import { CelebrityThumbnailSlideContainer } from './CelebrityThumbnailSlide.style';
 
@@ -8,9 +7,13 @@ type CelebrityThumnailSlideProps = {
   onCarouselImageLoad?: () => void;
   desktopImage: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   onClick: (number) => void;
@@ -21,9 +24,13 @@ type CelebrityThumnailSlideProps = {
   showBottomCarouselOnly: boolean;
   bottomCarouselImage: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
 };
@@ -43,28 +50,10 @@ const CelebrityThumbnailSlide = ({
   };
   const hasBottomCarouselImage = Boolean(bottomCarouselImage);
 
-  const slideImage = {
-    bottomCarouselImage: {
-      src: bottomCarouselImage.url,
-      height: bottomCarouselImage.responsiveImage.height,
-      width: bottomCarouselImage.responsiveImage.width,
-    },
-    desktopImage: {
-      src: desktopImage.url,
-      height: desktopImage.responsiveImage.height,
-      width: desktopImage.responsiveImage.width,
-    },
-  };
-
   if (showBottomCarouselOnly) {
     return (
       <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
-        <Image
-          src={hasBottomCarouselImage ? slideImage.bottomCarouselImage.src : slideImage.desktopImage.src}
-          width={hasBottomCarouselImage ? slideImage.bottomCarouselImage.width : slideImage.desktopImage.width}
-          height={hasBottomCarouselImage ? slideImage.bottomCarouselImage.height : slideImage.desktopImage.height}
-          alt={alt}
-        />
+        <DatoImage image={hasBottomCarouselImage ? bottomCarouselImage : desktopImage} overrideAlt={alt} />
       </CelebrityThumbnailSlideContainer>
     );
   }
@@ -72,12 +61,7 @@ const CelebrityThumbnailSlide = ({
   return (
     <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
       <div className="slide__image-container">
-        <Image
-          src={slideImage.desktopImage.src}
-          width={slideImage.desktopImage.width}
-          height={slideImage.desktopImage.height}
-          alt={alt}
-        />
+        <DatoImage image={desktopImage} overrideAlt={alt} />
       </div>
     </CelebrityThumbnailSlideContainer>
   );

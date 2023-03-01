@@ -60,7 +60,6 @@ export const ERPDP = `
             base64
             height
             width
-            webpSrcSet
           }
         }
       }

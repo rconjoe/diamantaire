@@ -19,9 +19,7 @@ const Trio9x7 = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
     }
   }
@@ -40,9 +38,7 @@ const Trio9x7 = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
     }
   }
@@ -61,9 +57,7 @@ const Trio9x7 = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
     }
   }

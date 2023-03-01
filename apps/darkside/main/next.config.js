@@ -35,6 +35,9 @@ const nextConfig = {
         hostname: 'www.datocms-assets.com',
       },
     ],
+    // let's refine deviceSizes
+    deviceSizes: [576, 768, 992, 1200, 1440],
+    imageSizes: [576, 768, 992, 1200, 1440],
   },
 
   //
