@@ -12,7 +12,6 @@ TODO: Setup default data process in Dato and VRAI Server https://diamondfoundry.
 import { DefaultSeo as DefaultNextSeo } from 'next-seo';
 
 import defaultImage from '../public/default-seo.jpg';
-import favicon from '../public/favicon.ico';
 
 const config = {
   title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
@@ -40,7 +39,7 @@ const config = {
   additionalLinkTags: [
     {
       rel: 'icon',
-      href: favicon.src,
+      href: 'https://cdn.shopify.com/s/files/1/2119/7099/files/favicon.ico?v=1677790346',
     },
   ],
 };

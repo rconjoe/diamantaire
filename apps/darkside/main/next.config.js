@@ -34,6 +34,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.datocms-assets.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+      },
     ],
     // let's refine deviceSizes
     deviceSizes: [576, 768, 992, 1200, 1440],
