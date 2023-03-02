@@ -4,11 +4,15 @@ We can add attributes we want in all meta tag configs here, and it also
 acts as a fallback if no other next-seo component is being loaded in the component tree 🌲
 
 https://github.com/garmeeh/next-seo
+
+TODO: Setup default data process in Dato and VRAI Server https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-111
+
 */
 
 import { DefaultSeo as DefaultNextSeo } from 'next-seo';
 
 import defaultImage from '../public/default-seo.jpg';
+import favicon from '../public/favicon.ico';
 
 const config = {
   title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
@@ -33,8 +37,13 @@ const config = {
       },
     ],
   },
+  additionalLinkTags: [
+    {
+      rel: 'icon',
+      href: favicon.src,
+    },
+  ],
 };
-
 const DefaultSeo = () => {
   return <DefaultNextSeo {...config} />;
 };
