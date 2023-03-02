@@ -78,7 +78,6 @@ const ModularAccordion = ({
     setIndice(indice === value ? null : value);
   };
 
-
   return (
     <ModularAccordionContainer>
       {shouldUseFaqSchema && <FAQSchema questionAnswerData={getFAQSchemaData()} />}
