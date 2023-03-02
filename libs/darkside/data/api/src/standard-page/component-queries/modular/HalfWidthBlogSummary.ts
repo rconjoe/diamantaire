@@ -22,9 +22,7 @@ const HalfWidthBlogSummary = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
@@ -39,9 +37,7 @@ const HalfWidthBlogSummary = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }

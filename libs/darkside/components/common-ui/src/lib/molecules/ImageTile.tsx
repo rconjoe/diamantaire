@@ -1,13 +1,10 @@
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
-import Image from 'next/image';
-import React from 'react';
-// import { Image } from 'react-datocms';
 
 import { Button } from './Button';
+import { DatoImage } from './DatoImage';
 import { ImageTileContainer } from './ImageTile.style';
-// import { Image as CustomImage } from '../library';
 
 type ImageTilePropTypes = {
   title?: string;
@@ -16,9 +13,13 @@ type ImageTilePropTypes = {
   ctaRoute?: string;
   image?: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   imageName?: string;
@@ -46,12 +47,6 @@ const ImageTile = ({
 
   const alt = getBlockPictureAlt({ desktopImage: image, title });
 
-  const tileImageObject = {
-    src: image?.url,
-    width: image?.responsiveImage?.width,
-    height: image?.responsiveImage?.height,
-  };
-
   return (
     <ImageTileContainer
       backgroundColorRgba={backgroundColorRgba}
@@ -62,15 +57,13 @@ const ImageTile = ({
       })}
     >
       <UniLink route={ctaRoute}>
-        <Image
+        <DatoImage
+          image={image}
+          overrideAlt={alt}
           className={clsx('image-tile__image', String(extraClass), {
             svg: isSvg,
             '-blog': forceAspectRatio,
           })}
-          src={tileImageObject.src}
-          height={tileImageObject.height}
-          width={tileImageObject.width}
-          alt={alt}
         />
       </UniLink>
 

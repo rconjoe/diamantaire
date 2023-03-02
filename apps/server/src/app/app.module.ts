@@ -41,7 +41,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CorsMiddleware, AuthMiddleware, OriginMiddleware)
-      .exclude({ path: 'v1/health', method: RequestMethod.GET }, { path: 'graphql', method: RequestMethod.GET })
+      .exclude({ path: 'health', method: RequestMethod.GET }, { path: 'graphql', method: RequestMethod.GET })
       .forRoutes('*');
   }
 }

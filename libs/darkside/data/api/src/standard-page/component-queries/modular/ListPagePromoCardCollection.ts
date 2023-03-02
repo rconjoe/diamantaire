@@ -19,9 +19,7 @@ promoCardCollection {
                 bgColor
                 height
                 sizes
-                srcSet
                 title
-                webpSrcSet
                 width
             }
         }
@@ -35,9 +33,7 @@ promoCardCollection {
                 bgColor
                 height
                 sizes
-                srcSet
                 title
-                webpSrcSet
                 width
             }
         }

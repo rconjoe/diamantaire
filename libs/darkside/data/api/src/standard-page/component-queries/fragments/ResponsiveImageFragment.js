@@ -1,7 +1,5 @@
 const ResponsiveImageFragment = `
 fragment responsiveImageFragment on ResponsiveImage {
-  srcSet
-  webpSrcSet
   sizes
   src
   width

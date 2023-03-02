@@ -14,9 +14,7 @@ const JewelrySubcategory = `
                 bgColor
                 height
                 sizes
-                srcSet
                 title
-                webpSrcSet
                 width
             }
         }

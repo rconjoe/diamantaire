@@ -20,9 +20,7 @@ const HeroBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
@@ -37,9 +35,7 @@ const HeroBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }

@@ -19,9 +19,7 @@ const SlickCarousel = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
         width
@@ -44,9 +42,7 @@ const SlickCarousel = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
         width

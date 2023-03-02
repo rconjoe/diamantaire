@@ -14,9 +14,13 @@ type ModularContentQuadBlock = {
   ctaRoute1?: string;
   image1?: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   title2?: string;
@@ -24,9 +28,13 @@ type ModularContentQuadBlock = {
   ctaRoute2?: string;
   image2?: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   title3?: string;
@@ -34,9 +42,13 @@ type ModularContentQuadBlock = {
   ctaRoute3?: string;
   image3?: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
   title4?: string;
@@ -44,9 +56,13 @@ type ModularContentQuadBlock = {
   ctaRoute4?: string;
   image4?: {
     url: string;
-    responsiveImage: {
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
       height: number;
+      base64: string;
     };
   };
 };

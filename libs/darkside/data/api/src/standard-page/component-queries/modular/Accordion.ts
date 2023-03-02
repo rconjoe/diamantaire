@@ -22,9 +22,7 @@ const Accordion = `
         bgColor
         height
         sizes
-        srcSet
         title
-        webpSrcSet
         width
       }
     }

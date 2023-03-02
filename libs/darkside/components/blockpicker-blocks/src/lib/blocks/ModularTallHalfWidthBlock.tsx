@@ -1,5 +1,6 @@
 import {
   Button,
+  DatoImage,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
@@ -10,7 +11,6 @@ import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
-import Image from 'next/image';
 
 import { ModularTallHalfWidthBlockContainer } from './ModularTallHalfWidthBlock.style';
 
@@ -33,25 +33,36 @@ type ModularTallHalfWidthBlockProps = {
   countryCode?: string;
   shouldLazyLoad?: boolean;
   titleImage?: {
-    responsiveImage: {
-      height: number;
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
-      src: string;
+      height: number;
+      base64: string;
     };
   };
   desktopImage?: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
-      src: string;
+      height: number;
+      base64: string;
     };
   };
   mobileImage?: {
     url: string;
-    responsiveImage: {
-      height: number;
+    alt?: string;
+    width?: number;
+    height?: number;
+    responsiveImage?: {
       width: number;
+      height: number;
+      base64: string;
     };
   };
 };
@@ -82,14 +93,6 @@ const ModularTallHalfWidthBlock = ({
   // }
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
-
-  // tile image
-
-  const tileImageObject = {
-    src: titleImage?.responsiveImage?.src,
-    height: titleImage?.responsiveImage?.height,
-    width: titleImage?.responsiveImage?.width,
-  };
 
   return (
     <ModularTallHalfWidthBlockContainer className={clsx('-vertical-margins', additionalClass)}>
@@ -148,13 +151,8 @@ const ModularTallHalfWidthBlock = ({
               >
                 <Markdown options={{ forceInline: true }}>{title}</Markdown>
               </Heading>
-              <Image
-                src={tileImageObject.src}
-                width={tileImageObject.width}
-                height={tileImageObject.height}
-                className="content__title-image"
-                alt={title}
-              />
+
+              <DatoImage image={titleImage} className="content__title-image" overrideAlt={title} />
             </div>
           )}
           {title && !mobileTitle && !titleImage && (

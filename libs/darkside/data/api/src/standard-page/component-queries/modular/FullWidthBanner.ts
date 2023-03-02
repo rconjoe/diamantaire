@@ -19,9 +19,7 @@ const FullWidthBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
@@ -38,9 +36,7 @@ const FullWidthBanner = `
             bgColor
             height
             sizes
-            srcSet
             title
-            webpSrcSet
             width
         }
     }
