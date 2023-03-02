@@ -142,6 +142,8 @@ const Banner = (props) => {
     subtitleAdditionalClass,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
+  console.log('textColor', textColor);
+
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -213,7 +215,7 @@ const Banner = (props) => {
     <Heading
       type={headingType}
       className={clsx(headingAdditionalClass, Title, 'primary', {
-        '-white': textColor === WHITE,
+        '-white': textColor.toLowerCase() === 'white',
       })}
     >
       <Markdown options={{ forceInline: true }}>{title}</Markdown>
@@ -269,7 +271,7 @@ const Banner = (props) => {
           '-left': textBlockAlignment.toLowerCase() === 'left',
           '-right': textBlockAlignment.toLowerCase() === 'right',
           '-bg': !isFullWidth,
-          '-white': textColor === WHITE,
+          '-white': textColor.toLowerCase() === 'white',
           '-wide': isTextBlockWide,
         },
         additionalClass,
@@ -298,7 +300,7 @@ const Banner = (props) => {
       <Copy
         className={clsx(
           {
-            '-white': textColor === WHITE,
+            '-white': textColor.toLowerCase() === 'white',
           },
           additionalClass,
         )}

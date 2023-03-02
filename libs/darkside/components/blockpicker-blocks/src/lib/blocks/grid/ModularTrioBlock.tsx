@@ -4,37 +4,35 @@ import { useEffect, useState } from 'react';
 
 import { ModularTrioBlockContainer } from './ModularTrioBlock.style';
 
-// type ModularTrioBlockProps = {
-//   shouldLazyLoad?: boolean;
-//   aboveCopy?: string;
-//   belowCopy?: string;
-//   id?: string;
-//   headingType?: string;
-//   headingAdditionalClass?: string;
-//   copy1: string;
-//   copy2: string;
-//   copy3: string;
-//   ctaCopy1: string;
-//   ctaCopy2: string;
-//   ctaCopy3: string;
+type ModularTrioBlockProps = {
+  shouldLazyLoad?: boolean;
+  aboveCopy?: string;
+  belowCopy?: string;
+  id?: string;
+  headingType?: string;
+  headingAdditionalClass?: string;
+  copy1?: string;
+  copy2?: string;
+  copy3?: string;
+  ctaCopy1?: string;
+  ctaCopy2?: string;
+  ctaCopy3?: string;
+  ctaRoute1?: string;
+  ctaRoute2?: string;
+  ctaRoute3?: string;
+  image1?: string;
+  image2?: string;
+  image3?: string;
+};
 
-//   ctaRoute1: string;
-//   ctaRoute2: string;
-//   ctaRoute3: string;
-
-//   image1: string;
-//   image2: string;
-//   image3: string;
-// };
-
-const ModularTrioBlock = (props) => {
+const ModularTrioBlock = (props: ModularTrioBlockProps) => {
   const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
   useEffect(() => {
     const uniqueAttributes = ['copy', 'ctaCopy', 'ctaRoute', 'title', 'image'];
 
-    function normalizeDatoNumberedContent(datoProps, arrayOfUniqueAttributes) {
+    function normalizeDatoNumberedContent(datoProps: ModularTrioBlockProps, arrayOfUniqueAttributes: Array<string>) {
       let arrayOfBlocks = [];
 
       Object.keys({ ...datoProps }).map((prop) => {

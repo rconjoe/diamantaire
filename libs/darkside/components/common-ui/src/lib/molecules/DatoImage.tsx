@@ -3,7 +3,7 @@ import Image, { ImageLoaderProps } from 'next/image';
 type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
-  image?: {
+  image: {
     mimeType?: string;
     url: string;
     alt?: string;
@@ -39,7 +39,7 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       alt={overrideAlt ? overrideAlt : alt}
       src={url}
       placeholder="blur"
-      blurDataURL={responsiveImage.base64}
+      blurDataURL={responsiveImage?.base64}
       loader={loader}
       className={className}
       sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}

@@ -6,9 +6,12 @@ const Leo = `
     title
     image {
       url
-      height
-      width
       alt
+      responsiveImage {
+        height
+        width
+        base64
+      }
     }
   }
 `;

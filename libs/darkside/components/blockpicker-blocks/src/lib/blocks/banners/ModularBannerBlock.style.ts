@@ -26,7 +26,7 @@ export const FullWidthImageContainer = styled.div`
     min-height: 480px;
   `)};
 
-  .-full-screen & {
+  &.-full-screen & {
     max-width: 100%;
   }
 `;
@@ -278,22 +278,25 @@ export const BannerTextContainer = styled.div`
       }
     `)};
   }
+
+  .primary,
+  .secondary {
+    margin-bottom: 2rem;
+  }
 `;
 
 export const Title = styled.div`
-  .${BannerTextContainer} & {
-    margin-bottom: ${setSpace(1)};
+  margin-bottom: ${setSpace(1)};
 
-    ${tabletAndUp(`
+  ${tabletAndUp(`
       &.-white {
         color: ${WHITE};
         border-color: ${WHITE};
       }
     `)};
-    ${desktopAndUp(`
+  ${desktopAndUp(`
       margin-bottom: ${setSpace(2.5)};
     `)};
-  }
 `;
 
 export const SubTitle = styled.div`

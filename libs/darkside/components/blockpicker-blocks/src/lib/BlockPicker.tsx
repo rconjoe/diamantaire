@@ -17,6 +17,7 @@ import {
   MODULAR_HERO_BANNER_BLOCK,
   MODULAR_ACCORDION_BLOCK,
   MODULAR_TRIO_9x7_BLOCK,
+  MODULAR_CAROUSEL_BLOCK,
 } from '@diamantaire/shared/constants';
 
 import {
@@ -44,6 +45,8 @@ const config: configProps = {
   [MODULAR_CELEBRITY_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_INSTAGRAM_REEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
+  [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
+  [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
   [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
