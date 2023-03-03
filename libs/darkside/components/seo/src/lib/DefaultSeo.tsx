@@ -6,7 +6,7 @@ acts as a fallback if no other next-seo component is being loaded in the compone
 https://github.com/garmeeh/next-seo
 
 TODO: Setup default data process in Dato and VRAI Server https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-111
-
+TODO: Fetch meta image from dato instead of locally
 */
 
 import { DefaultSeo as DefaultNextSeo } from 'next-seo';
