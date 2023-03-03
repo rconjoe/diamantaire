@@ -153,8 +153,8 @@ export class DiamondsService {
      */
     if (input.caratMin && input.caratMax !== null) {
       input.carat = {
-        $gte: input.caratMin.toFixed(2).toString(), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(2).toString(), // mongoose $lte operator less than or equal to
+        $gte: input.caratMin.toFixed(1).toString(), // mongoose $gte operator greater than or equal to
+        $lte: input.caratMax.toFixed(1).toString(), // mongoose $lte operator less than or equal to
       };
     }
 
