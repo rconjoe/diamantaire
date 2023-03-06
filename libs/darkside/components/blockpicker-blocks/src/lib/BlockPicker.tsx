@@ -18,18 +18,26 @@ import {
   MODULAR_ACCORDION_BLOCK,
   MODULAR_TRIO_9x7_BLOCK,
   MODULAR_CAROUSEL_BLOCK,
+  MODULAR_COLLECTION_HERO_BLOCK,
+  MODULAR_HALF_WIDTH_BANNER_BLOCK,
+  MODULAR_DUO_BLOCK,
+  MODULAR_TRIO_STAGGERED_9x7_BLOCK,
 } from '@diamantaire/shared/constants';
 
 import {
   DynamicModularAccordion,
   DynamicModularBannerBlock,
   DynamicModularCarouselBlock,
+  DynamicModularCollectionHeroBlock,
   DynamicModularContentQuadBlock,
   DynamicModularDiamondLeoBlock,
+  DynamicModularDuoBlock,
+  DynamicModularHalfBannerBlock,
   DynamicModularLogoGrid,
   DynamicModularQuadImageGrid,
   DynamicModularTallHalfWidthBlock,
   DynamicModularTallHalfWidthBlockLocationCTA,
+  DynamicModularTrioStaggeredBlock,
   DynamicModularVideoBlock,
   DynamicTextOnlyBlock,
   DynamicTrioBlock,
@@ -49,9 +57,14 @@ const config: configProps = {
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
+  // BANNERS
+
   [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
+  [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,
   [MODULAR_HERO_BANNER_BLOCK]: DynamicModularBannerBlock,
+  [MODULAR_HALF_WIDTH_BANNER_BLOCK]: DynamicModularHalfBannerBlock,
+
   [MODULAR_TALL_HALF_WIDTH_BLOCK]: DynamicModularTallHalfWidthBlock,
   [MODULAR_QUAD_BLOCK]: DynamicModularContentQuadBlock,
   [MODULAR_LEO_BLOCK]: DynamicModularDiamondLeoBlock,
@@ -61,9 +74,11 @@ const config: configProps = {
   [MODULAR_TEXT_ONLY_BLOCK]: DynamicTextOnlyBlock,
   [MODULAR_QUAD_LOGO_BLOCK]: DynamicModularLogoGrid,
   [MODULAR_ACCORDION_BLOCK]: DynamicModularAccordion,
+  [MODULAR_DUO_BLOCK]: DynamicModularDuoBlock,
 
   // GRID
   [MODULAR_TRIO_9x7_BLOCK]: DynamicTrioBlock,
+  [MODULAR_TRIO_STAGGERED_9x7_BLOCK]: DynamicModularTrioStaggeredBlock,
 };
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {

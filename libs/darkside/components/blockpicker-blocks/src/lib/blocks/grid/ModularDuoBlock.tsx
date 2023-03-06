@@ -4,8 +4,12 @@ import clsx from 'clsx';
 import { ModularDuoBlockContainer } from './ModularDuoBlock.style';
 
 type ModularDuoBlockProps = {
-  media?: Array<{
-    title: string;
+  blocks?: Array<{
+    ctaRoute: string;
+    title?: string;
+    media: {
+      image;
+    };
   }>;
   shouldLazyLoad?: boolean;
   title?: string;
@@ -17,7 +21,7 @@ type ModularDuoBlockProps = {
 };
 
 const ModularDuoBlock = ({
-  media,
+  blocks,
   title,
   blurb,
   id,
@@ -37,8 +41,8 @@ const ModularDuoBlock = ({
 
       <div className="mod-duo__with-swiper">
         <div className="mod-duo__media">
-          {media.map((block, index) => (
-            <ImageTile key={`${id}-${index}-${block.title}`} {...block} />
+          {blocks.map((block, index) => (
+            <ImageTile key={`${id}-${index}-${block.title}`} ctaRoute={block.ctaRoute} image={block.media.image} />
           ))}
         </div>
       </div>

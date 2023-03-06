@@ -18,7 +18,7 @@ type DatoImageProps = {
 };
 
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
-  const { alt, url, responsiveImage } = image;
+  const { alt, url, responsiveImage } = image || {};
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {

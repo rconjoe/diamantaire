@@ -2,9 +2,9 @@ import { setSpace, mobileOnly, tabletAndUp } from '@diamantaire/styles/darkside-
 import styled from 'styled-components';
 
 export const ModularDuoBlockContainer = styled.div`
+  padding: ${setSpace(4)} 0 !important;
   .mod-duo__container {
     position: relative;
-    padding: ${setSpace(4)} 0 !important;
 
     &.with-swiper {
       ${mobileOnly(`

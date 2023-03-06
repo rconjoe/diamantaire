@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 
 export const DynamicModularBannerBlock = dynamic(() => import('./blocks/banners/ModularBannerBlock'));
+export const DynamicModularHalfBannerBlock = dynamic(() => import('./blocks/banners/ModularHalfBannerBlock'));
 export const DynamicModularTallHalfWidthBlock = dynamic(() => import('./blocks/ModularTallHalfWidthBlock'));
 
 export const DynamicModularContentQuadBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
@@ -16,3 +17,6 @@ export const DynamicTextOnlyBlock = dynamic(() => import('./blocks/misc/ModularT
 export const DynamicModularLogoGrid = dynamic(() => import('./blocks/grid//ModularLogoGrid'));
 export const DynamicModularAccordion = dynamic(() => import('./blocks/misc/accordion/ModularAccordion'));
 export const DynamicTrioBlock = dynamic(() => import('./blocks/grid/ModularTrioBlock'));
+export const DynamicModularDuoBlock = dynamic(() => import('./blocks/grid/ModularDuoBlock'));
+export const DynamicModularCollectionHeroBlock = dynamic(() => import('./blocks/banners/ModularCollectionHeroBlock'));
+export const DynamicModularTrioStaggeredBlock = dynamic(() => import('./blocks/grid/ModularTrioStaggeredBlock'));

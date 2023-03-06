@@ -1,14 +1,14 @@
 /* 
-  This compoenent needs to be 
+  This component is actively being abstracted as more use-cases appear -Sam
 */
 
 import {
-  MobileDesktopImage,
   Button,
   Heading,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
   DatoImage,
+  MobileDesktopImage,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
@@ -22,7 +22,6 @@ import {
   BannerWrapper,
   Copy,
   FullWidthImageContainer,
-  HalfWidthImageContainer,
   MiddleLayerImageContainer,
   MobileMiddleLayerImageContainer,
   SubTitle,
@@ -142,8 +141,6 @@ const Banner = (props) => {
     subtitleAdditionalClass,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
-  console.log('textColor', textColor);
-
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -161,54 +158,12 @@ const Banner = (props) => {
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
 
-  const Block = isFullWidth ? (
-    <FullWidthImageContainer>
-      <div className="image__desktop">
-        <DatoImage image={desktopImage} overrideAlt={alt} />
-      </div>
-      <div className="image__mobile">
-        <DatoImage image={mobileImage} overrideAlt={alt} />
-      </div>
-    </FullWidthImageContainer>
-  ) : (
-    <HalfWidthImageContainer className={textBlockAlignment.toLowerCase() === 'right' ? '-right' : '-left'}>
-      <div className="half-width__image-wrapper">
-        <div className="image__desktop">
-          <DatoImage image={desktopImage} overrideAlt={alt} />
-        </div>
-        <div className="image__mobile">
-          <DatoImage image={mobileImage} overrideAlt={alt} />
-        </div>
-      </div>
-    </HalfWidthImageContainer>
-  );
-
-  const getResponsiveBlock = () => {
-    return isFullWidth ? (
-      <FullWidthImageContainer>
-        <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
-      </FullWidthImageContainer>
-    ) : (
-      <HalfWidthImageContainer>
-        <MobileDesktopImage
-          className={clsx({
-            '-left': textBlockAlignment.toLowerCase() === 'left',
-            '-right': textBlockAlignment.toLowerCase() === 'right',
-          })}
-          desktopImage={desktopImage}
-          mobileImage={mobileImage}
-          alt={alt}
-        />
-      </HalfWidthImageContainer>
-    );
-  };
-
   const renderBlocKTitle = (title) => {
     if (isFullWidth) {
       return renderFullWidthBlockTitle(title);
     }
 
-    return renderHalfWidthBlockTitle(title);
+    return renderFullWidthBlockTitle(title);
   };
 
   const renderFullWidthBlockTitle = (title) => (
@@ -222,20 +177,13 @@ const Banner = (props) => {
     </Heading>
   );
 
-  const renderHalfWidthBlockTitle = (title) => {
-    return (
-      <Heading
-        type={headingType ? headingType : 'h2'}
-        className={clsx(headingAdditionalClass ? headingAdditionalClass : 'h1', Title, 'banner', 'primary', {
-          '-white': textColor === WHITE,
-        })}
-      >
-        <Markdown options={{ forceInline: true }}>{title}</Markdown>
-      </Heading>
-    );
-  };
-  const isMobileWebMFile = mobileImage?.mimeType === 'video/webm' && isMobile;
+  const getResponsiveBlock = () => (
+    <FullWidthImageContainer>
+      <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+    </FullWidthImageContainer>
+  );
 
+  const isMobileWebMFile = mobileImage?.mimeType === 'video/webm' && isMobile;
   const isDesktopWebMFile = desktopImage?.mimeType === 'video/webm' && !isMobile;
 
   const getNonResponsiveBlock = () => {
@@ -261,7 +209,16 @@ const Banner = (props) => {
       );
     }
 
-    return Block;
+    return (
+      <FullWidthImageContainer>
+        <div className="image__desktop">
+          <DatoImage image={desktopImage} overrideAlt={alt} />
+        </div>
+        <div className="image__mobile">
+          <DatoImage image={mobileImage} overrideAlt={alt} />
+        </div>
+      </FullWidthImageContainer>
+    );
   };
 
   const bannerText = (
@@ -324,6 +281,7 @@ const Banner = (props) => {
             <Button
               className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
                 '-inverse-tabletAndUp': textColor === WHITE,
+                primary: !ctaButtonType,
               })}
             >
               {ctaCopy}

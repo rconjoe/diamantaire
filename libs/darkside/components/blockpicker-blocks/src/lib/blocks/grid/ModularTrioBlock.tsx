@@ -1,4 +1,5 @@
 import { Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
+import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -31,30 +32,6 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
 
   useEffect(() => {
     const uniqueAttributes = ['copy', 'ctaCopy', 'ctaRoute', 'title', 'image'];
-
-    function normalizeDatoNumberedContent(datoProps: ModularTrioBlockProps, arrayOfUniqueAttributes: Array<string>) {
-      let arrayOfBlocks = [];
-
-      Object.keys({ ...datoProps }).map((prop) => {
-        const basePropName = prop.substring(0, prop.length - 1);
-        const doesPropMatchAnAttribute = arrayOfUniqueAttributes.includes(basePropName);
-
-        if (doesPropMatchAnAttribute) {
-          const basePropNumber = parseFloat(prop.slice(-1));
-
-          return (arrayOfBlocks[basePropNumber] = {
-            ...arrayOfBlocks[basePropNumber],
-            [basePropName]: datoProps[prop],
-          });
-        }
-
-        return null;
-      });
-
-      arrayOfBlocks = arrayOfBlocks.filter((block) => block !== '');
-
-      return arrayOfBlocks;
-    }
 
     const trioBlocksTemp = normalizeDatoNumberedContent(props, uniqueAttributes);
 
