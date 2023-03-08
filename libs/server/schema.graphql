@@ -7,20 +7,18 @@ type CutToOrderDiamondEntity {
   clarity: String!
   color: String!
   cut: String!
-  isAvailable: Boolean!
-  minThickness: Float!
-  originalId: String!
-  planId: String!
-  price: Int!
-  roughWeight: Float!
-  shape: String!
-  sourceId: String!
+  dangerousInternalProductId: String!
+  description: String!
+  dfCertificateUrl: String!
+  diamondType: String!
+  handle: String!
+  lotId: String!
+  productTitle: String!
   type: String!
-  width: Float!
 }
 
 type DiamondEntity {
-  carat: String!
+  carat: Int!
   clarity: String!
   color: String!
   cut: String!
@@ -38,6 +36,7 @@ input GetCutToOrderDiamondInput {
   carat: Int
   caratMax: Float
   caratMin: Float
+  diamondType: String
   limit: Int
   page: Int
   price: Int
@@ -45,11 +44,10 @@ input GetCutToOrderDiamondInput {
   priceMin: Int
   sortBy: String
   sortOrder: String
-  type: String
 }
 
 input GetDiamondInput {
-  carat: String
+  carat: Int
   caratMax: Float
   caratMin: Float
   clarity: String

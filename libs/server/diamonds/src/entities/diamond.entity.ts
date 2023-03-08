@@ -38,9 +38,9 @@ export class DiamondEntity extends AbstractDocument implements DiamondCollection
   @Prop()
   type?: string;
 
-  @Field(() => String)
+  @Field(() => Number)
   @Prop()
-  carat?: string;
+  carat?: number;
 
   @Field(() => String)
   @Prop()
