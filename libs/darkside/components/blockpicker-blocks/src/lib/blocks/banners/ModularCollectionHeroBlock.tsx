@@ -150,7 +150,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
               <ShowMobileOnly>
                 <Button
                   className={clsx('hero-block__button -wide', ctaTypeClass, {
-                    '-inverse': textColor.toLowerCase() === 'white',
+                    '-inverse': textColor?.toLowerCase() === 'white',
                   })}
                 >
                   {ctaCopy}
@@ -160,7 +160,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
               <ShowTabletAndUpOnly>
                 <Button
                   className={clsx('hero-block__button', ctaTypeClass, {
-                    '-inverse': textColor.toLowerCase() === 'white',
+                    '-inverse': textColor?.toLowerCase() === 'white',
                   })}
                 >
                   {ctaCopy}

@@ -47,7 +47,7 @@ const ModularHalfWidthBannerBlock = ({
           'banner half-width-banner__title',
           'primary',
           {
-            '-white': textColor.toLowerCase() === 'white',
+            '-white': textColor?.toLowerCase() === 'white',
           },
         )}
       >
@@ -60,8 +60,8 @@ const ModularHalfWidthBannerBlock = ({
     <ModularHalfBannerBlockContainer className="container-emotion -vertical-margins">
       <div
         className={clsx('half-width__image-wrapper', {
-          '-left': textBlockAlignment.toLowerCase() === 'left',
-          '-right': textBlockAlignment.toLowerCase() === 'right',
+          '-left': textBlockAlignment?.toLowerCase() === 'left',
+          '-right': textBlockAlignment?.toLowerCase() === 'right',
         })}
       >
         <MobileDesktopImage
@@ -69,8 +69,8 @@ const ModularHalfWidthBannerBlock = ({
           mobileImage={mobileImage}
           alt={alt}
           className={clsx({
-            '-left': textBlockAlignment.toLowerCase() === 'left',
-            '-right': textBlockAlignment.toLowerCase() === 'right',
+            '-left': textBlockAlignment?.toLowerCase() === 'left',
+            '-right': textBlockAlignment?.toLowerCase() === 'right',
           })}
         />
       </div>
@@ -79,9 +79,9 @@ const ModularHalfWidthBannerBlock = ({
         className={clsx(
           'half-width-banner__text -bg',
           {
-            '-left': textBlockAlignment.toLowerCase() === 'left',
-            '-right': textBlockAlignment.toLowerCase() === 'right',
-            '-white': textColor.toLowerCase() === 'white',
+            '-left': textBlockAlignment?.toLowerCase() === 'left',
+            '-right': textBlockAlignment?.toLowerCase() === 'right',
+            '-white': textColor?.toLowerCase() === 'white',
             '-wide': isTextBlockWide,
           },
           additionalClass,
@@ -99,7 +99,7 @@ const ModularHalfWidthBannerBlock = ({
             className={clsx(
               'half-width-banner__title',
               {
-                '-white': textColor.toLowerCase() === 'white',
+                '-white': textColor?.toLowerCase() === 'white',
               },
               subtitleAdditionalClass,
             )}
@@ -112,7 +112,7 @@ const ModularHalfWidthBannerBlock = ({
           className={clsx(
             'half-width-banner__copy',
             {
-              '-white': textColor.toLowerCase() === 'white',
+              '-white': textColor?.toLowerCase() === 'white',
             },
             additionalClass,
           )}

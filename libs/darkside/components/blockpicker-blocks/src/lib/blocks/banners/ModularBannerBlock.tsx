@@ -170,7 +170,7 @@ const Banner = (props) => {
     <Heading
       type={headingType}
       className={clsx(headingAdditionalClass, Title, 'primary', {
-        '-white': textColor.toLowerCase() === 'white',
+        '-white': textColor?.toLowerCase() === 'white',
       })}
     >
       <Markdown options={{ forceInline: true }}>{title}</Markdown>
@@ -228,7 +228,7 @@ const Banner = (props) => {
           '-left': textBlockAlignment.toLowerCase() === 'left',
           '-right': textBlockAlignment.toLowerCase() === 'right',
           '-bg': !isFullWidth,
-          '-white': textColor.toLowerCase() === 'white',
+          '-white': textColor?.toLowerCase() === 'white',
           '-wide': isTextBlockWide,
         },
         additionalClass,
@@ -257,7 +257,7 @@ const Banner = (props) => {
       <Copy
         className={clsx(
           {
-            '-white': textColor.toLowerCase() === 'white',
+            '-white': textColor?.toLowerCase() === 'white',
           },
           additionalClass,
         )}
