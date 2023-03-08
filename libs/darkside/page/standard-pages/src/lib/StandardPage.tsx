@@ -24,10 +24,9 @@ const StandardPage = (props: StandardPageProps) => {
 
   const page = data?.allStandardPages?.[0];
 
-  console.log('page', page);
+  // console.log('page', page);
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
-
 
   return (
     <>
