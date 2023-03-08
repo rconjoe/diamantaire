@@ -11,6 +11,9 @@ const TrioStaggered9x7 = `
     image1 {
       url
       alt
+      responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
     ctaCopy1
     ctaRoute1
@@ -19,6 +22,9 @@ const TrioStaggered9x7 = `
     image2 {
       url
       alt
+      responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
     ctaCopy2
     ctaRoute2
@@ -27,6 +33,9 @@ const TrioStaggered9x7 = `
     image3 {
       url
       alt
+      responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
     ctaCopy3
     ctaRoute3

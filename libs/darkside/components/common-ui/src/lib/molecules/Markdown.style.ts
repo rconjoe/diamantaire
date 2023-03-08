@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 
 export const MarkdownContainer = styled.div`
-  margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
+  margin: ${setSpace(2)} auto 0;
   font-weight: ${NORMAL_FONT_WEIGHT};
   font-size: ${COPY_SIZE};
 

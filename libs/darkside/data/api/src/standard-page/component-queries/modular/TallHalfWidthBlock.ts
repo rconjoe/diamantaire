@@ -6,6 +6,7 @@ const TallHalfWidthBlock = `
     _modelApiKey
     title
     titleImage {
+        url
         responsiveImage {
             ...responsiveImageFragment
         }

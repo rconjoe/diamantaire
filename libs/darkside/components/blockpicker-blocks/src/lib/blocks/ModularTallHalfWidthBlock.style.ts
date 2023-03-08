@@ -285,9 +285,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
 
   .content__title-image {
     max-width: 180px;
-    ${tabletAndUp(`
-      max-width: none;
-    `)};
+
     img {
       max-height: 30px;
     }

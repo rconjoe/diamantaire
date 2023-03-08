@@ -10,6 +10,9 @@ const Duo = `
           id
           image {
             url
+            responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
           }
           title
         }

@@ -56,7 +56,18 @@ const ImageTile = ({
         '-modular-content-quad-block': extraClass === '-modular-content-quad-block',
       })}
     >
-      <UniLink route={ctaRoute}>
+      {ctaRoute ? (
+        <UniLink route={ctaRoute}>
+          <DatoImage
+            image={image}
+            overrideAlt={alt}
+            className={clsx('image-tile__image', String(extraClass), {
+              svg: isSvg,
+              '-blog': forceAspectRatio,
+            })}
+          />
+        </UniLink>
+      ) : (
         <DatoImage
           image={image}
           overrideAlt={alt}
@@ -65,7 +76,7 @@ const ImageTile = ({
             '-blog': forceAspectRatio,
           })}
         />
-      </UniLink>
+      )}
 
       <div
         className={clsx('image-tile__copy-container', {

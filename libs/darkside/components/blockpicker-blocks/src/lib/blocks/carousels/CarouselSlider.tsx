@@ -2,7 +2,7 @@ import { Heading, Button } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { ArrowRightIcon, ArrowLeftIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Navigation, Keyboard, Lazy } from 'swiper';
 import { Swiper } from 'swiper/react';
 
@@ -19,6 +19,7 @@ type CarouselContentBlockProps = {
   loopItems?: boolean;
   children: ReactNode;
   breakpoints?: any;
+  className?: string;
 };
 
 const DEFAULT_BREAKPOINTS = {
@@ -40,6 +41,7 @@ const CarouselSlider = ({
   breakpoints = DEFAULT_BREAKPOINTS,
   additionalClass,
   loopItems = true,
+  className,
 }: CarouselContentBlockProps) => {
   // LIST REF
   const prevButtonRef = useRef(null);
@@ -64,7 +66,7 @@ const CarouselSlider = ({
   const shouldShowCTA = ctaCopy && ctaLink;
 
   return (
-    <CarouselSliderContainer>
+    <CarouselSliderContainer className={className}>
       <div className="content-block__layout">
         <div className="content-block__title">
           {title && (
