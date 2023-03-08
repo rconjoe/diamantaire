@@ -2,7 +2,7 @@ import { desktopAndUp, tabletAndUp, XXLDesktopAndUp, setSpace } from '@diamantai
 import styled from 'styled-components';
 
 const chevronWidth = '50px';
-// const containerWidth = '1480px';
+const containerWidth = '1480px';
 const carouselWidth = '1280px';
 
 export const CarouselSliderContainer = styled.div`
@@ -72,8 +72,11 @@ export const CarouselSliderContainer = styled.div`
   `)}
 
     ${XXLDesktopAndUp(`
-    max-width: calc(${carouselWidth} + 100px);
+    max-width: calc(${containerWidth} - 50px);
     `)}
+    /* ${XXLDesktopAndUp(`
+    max-width: calc(${carouselWidth} + 100px);
+    `)} */
 
   &.xl-width {
       ${XXLDesktopAndUp(`
@@ -97,14 +100,10 @@ export const CarouselSliderContainer = styled.div`
 
     ${tabletAndUp(`
     display: flex;
-    height: calc(((100vw - ${setSpace(15)} * 2) / 3) - 40px);
+    height: 100%;
   `)}
 
-    ${XXLDesktopAndUp(`
-    height: calc(((${carouselWidth} - ${chevronWidth}) / 4) - 40px);
-  `)}
-
-  &.xl-width {
+    &.xl-width {
       ${tabletAndUp(`
     display: flex;
     height: calc(((100vw - ${setSpace(15)} * 2) / 3));
@@ -195,6 +194,12 @@ export const CarouselSliderContainer = styled.div`
       ${tabletAndUp(`
         margin-top: ${setSpace(6)};
       `)};
+    }
+  }
+
+  &.quote-slider {
+    .carousel-arrow svg {
+      transform: scale(2);
     }
   }
 

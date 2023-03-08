@@ -44,7 +44,7 @@
     "radix": "error",
     "func-names": "off",
     "no-unused-vars": "warn",
-    "camelcase": "error",
+    "camelcase": "warn",
     "no-undef": "error",
     "valid-jsdoc": "error",
     "no-useless-constructor": "off",

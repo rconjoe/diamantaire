@@ -15,7 +15,6 @@ import {
   GREY_LIGHT,
 } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
-import React from 'react';
 import styled from 'styled-components';
 
 const ButtonStyles = styled.button`
@@ -117,7 +116,6 @@ const ButtonStyles = styled.button`
     font-weight: ${MEDIUM_FONT_WEIGHT};
     font-size: ${COPY_SIZE};
     border: 0;
-    height: ${setSpace(3)};
     padding-left: 0;
     padding-right: 0;
     padding-bottom: ${setSpace(0.5)};

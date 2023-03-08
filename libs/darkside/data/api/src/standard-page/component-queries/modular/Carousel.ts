@@ -102,6 +102,11 @@ const Carousel = `
             quotationMarksImage {
                 url
                 alt
+                responsiveImage {
+                  width
+                  height
+                  base64
+                }
             }
        }
     }

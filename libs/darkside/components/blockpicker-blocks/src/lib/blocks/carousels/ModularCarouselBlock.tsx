@@ -18,9 +18,12 @@ import DiamondSlide from './slides/DiamondSlide';
 import InstagramThumnailSlide from './slides/InstagramThumbnailSlide';
 import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
+import ModularQuoteBlock from '../misc/ModularQuoteBlock';
 
 const ModularCarouselBlock = (props) => {
   const { _modelApiKey, blocks } = props;
+
+  console.log('carousel props', props);
 
   const sliderTypes = [
     {
@@ -65,6 +68,29 @@ const ModularCarouselBlock = (props) => {
       type: 'modular_grid_carousel_block',
       title: null,
       slide: StandardSlide,
+    },
+    {
+      type: 'modular_carousel_block',
+      title: null,
+      slide: ModularQuoteBlock,
+      className: 'quote-slider',
+      breakpoints: {
+        200: {
+          slidesPerView: 1,
+          centeredSlides: true,
+          spaceBetween: 25,
+        },
+        768: {
+          slidesPerView: 1,
+          centeredSlides: false,
+          spaceBetween: 50,
+        },
+        992: {
+          slidesPerView: 1,
+          centeredSlides: false,
+          spaceBetween: 100,
+        },
+      },
     },
   ];
 

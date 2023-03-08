@@ -53,7 +53,8 @@ type FooterLink = {
 // };
 
 const FooterStyles = styled.footer`
-  padding: 2rem 2.4rem 0;
+  padding: 4rem 2.4rem 0;
+  border-top: 1px solid #ddd;
 
   .footer__column-wrapper {
     max-width: 1280px;

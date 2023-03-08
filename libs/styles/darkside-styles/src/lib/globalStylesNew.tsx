@@ -48,7 +48,7 @@ const GetGlobalTypography = createGlobalStyle`
 
     /* let's standardize heading sizes here */
     h3 {
-      font-size: 1.6em;
+      font-size: 2.2rem;
     }
 
     h1,
