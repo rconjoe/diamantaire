@@ -22,7 +22,7 @@ export class ProductController {
   @ApiQuery({ name: 'slug', required: true, description: 'Product slug' })
   @ApiQuery({ name: 'id', required: true, description: 'Product variant id' })
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
-  async shopifyProduct(@Query() { id, slug, countryCode, locale }: ProductVariantInput) {
-    return await this.productService.findProductVariant({ slug, id, countryCode, locale });
+  async shopifyProduct(@Query() { id, slug, locale }: ProductVariantInput) {
+    return await this.productService.findProductVariant({ slug, id, locale });
   }
 }

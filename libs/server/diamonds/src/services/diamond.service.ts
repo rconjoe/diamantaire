@@ -180,8 +180,8 @@ export class DiamondsService {
     // filter on minimum and maximum carat
     if (input?.caratMin && input?.caratMax) {
       input.carat = {
-        $gte: input.caratMin.toFixed(2), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(2), // mongoose $lte operator less than or equal to
+        $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
