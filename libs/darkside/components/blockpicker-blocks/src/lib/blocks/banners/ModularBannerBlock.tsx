@@ -100,7 +100,9 @@ type ModularBannerBlockProps = {
   copyPrices: object;
   currencyCode: string;
   countryCode: string;
-  supportedCountries: Array<string>;
+  supportedCountries: Array<{
+    code: string;
+  }>;
   gtmClass?: string;
   headingType?: string;
   headingAdditionalClass?: string;

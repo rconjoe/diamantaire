@@ -1,3 +1,9 @@
+/*
+
+Handles: MODULAR_HALF_WIDTH_BANNER_BLOCK, MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK
+
+*/
+
 import {
   Button,
   Heading,
@@ -6,38 +12,48 @@ import {
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
 import { ModularHalfBannerBlockContainer } from './ModularHalfBannerBlock.style';
 
-const ModularHalfWidthBannerBlock = ({
-  title,
-  mobileTitle,
-  subTitle,
-  desktopImage,
-  mobileImage,
-  desktopCopy,
-  mobileCopy,
-  ctaCopy,
-  ctaCopy2,
-  ctaCopy3,
-  ctaRoute,
-  ctaRoute2,
-  ctaRoute3,
-  ctaButtonType = 'secondary',
-  ctaButtonType2 = 'secondary',
-  ctaButtonType3 = 'secondary',
-  alt,
-  headingType,
-  textBlockAlignment,
-  textColor,
-  isTextBlockWide,
-  headingAdditionalClass,
-  subtitleAdditionalClass,
-  additionalClass,
-}) => {
+const ModularHalfWidthBannerBlock = (props) => {
+  const {
+    title,
+    mobileTitle,
+    subTitle,
+    desktopImage,
+    mobileImage,
+    desktopCopy,
+    mobileCopy,
+    ctaCopy,
+    ctaCopy2,
+    ctaCopy3,
+    ctaRoute,
+    ctaRoute2,
+    ctaRoute3,
+    ctaButtonType = 'secondary',
+    ctaButtonType2 = 'secondary',
+    ctaButtonType3 = 'secondary',
+    alt,
+    headingType,
+    textBlockAlignment,
+    textColor,
+    isTextBlockWide,
+    headingAdditionalClass,
+    subtitleAdditionalClass,
+    additionalClass,
+    blogPost,
+    supportedCountries,
+    countryCode,
+  } = props || {};
+
+  if (!isCountrySupported(supportedCountries, countryCode)) {
+    return null;
+  }
+
   const renderHalfWidthBlockTitle = (title) => {
     return (
       <Heading
@@ -51,7 +67,7 @@ const ModularHalfWidthBannerBlock = ({
           },
         )}
       >
-        <Markdown options={{ forceInline: true }}>{title}</Markdown>
+        <Markdown options={{ forceInline: true }}>{blogPost?.title ? blogPost.title : title}</Markdown>
       </Heading>
     );
   };
@@ -94,17 +110,19 @@ const ModularHalfWidthBannerBlock = ({
           </>
         )}
         {title && !mobileTitle && renderHalfWidthBlockTitle(title)}
-        {subTitle && (
+        {(blogPost?.excerpt || subTitle) && (
           <div
             className={clsx(
-              'half-width-banner__title',
+              'half-width-banner__caption',
               {
                 '-white': textColor?.toLowerCase() === 'white',
               },
               subtitleAdditionalClass,
             )}
           >
-            <Markdown options={{ forceInline: true }}>{subTitle}</Markdown>
+            <Markdown options={{ forceInline: true }}>
+              {blogPost?.excerpt ? `<p>${blogPost?.excerpt}</p>` : subTitle}
+            </Markdown>
           </div>
         )}
 
@@ -131,8 +149,8 @@ const ModularHalfWidthBannerBlock = ({
         </div>
 
         <div className="cta">
-          {ctaRoute && (
-            <UniLink route={ctaRoute}>
+          {(ctaRoute || blogPost?.slug) && (
+            <UniLink route={ctaRoute || `/journal/post/${blogPost?.slug}`}>
               <Button
                 className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
                   '-inverse-tabletAndUp': textColor === WHITE,

@@ -41,7 +41,7 @@ const CelebrityThumbnailSlide = ({
   slideIndex,
   extraClass,
   title,
-  showBottomCarouselOnly,
+  // showBottomCarouselOnly,
   bottomCarouselImage,
 }: CelebrityThumnailSlideProps) => {
   const alt = getBlockPictureAlt({ desktopImage, title });
@@ -50,20 +50,24 @@ const CelebrityThumbnailSlide = ({
   };
   const hasBottomCarouselImage = Boolean(bottomCarouselImage);
 
-  if (showBottomCarouselOnly) {
-    return (
+  // if (showBottomCarouselOnly) {
+  //   return (
+
+  //   );
+  // }
+
+  return (
+    <>
       <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
         <DatoImage image={hasBottomCarouselImage ? bottomCarouselImage : desktopImage} overrideAlt={alt} />
       </CelebrityThumbnailSlideContainer>
-    );
-  }
 
-  return (
-    <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
-      <div className="slide__image-container">
-        <DatoImage image={desktopImage} overrideAlt={alt} />
-      </div>
-    </CelebrityThumbnailSlideContainer>
+      <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
+        <div className="slide__image-container">
+          <DatoImage image={desktopImage} overrideAlt={alt} />
+        </div>
+      </CelebrityThumbnailSlideContainer>
+    </>
   );
 };
 

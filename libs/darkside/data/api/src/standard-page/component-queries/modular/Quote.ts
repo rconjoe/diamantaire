@@ -15,9 +15,10 @@ const Quote = `
     }
     quotationMarksImage {
       url
-      height
-      width
       alt
+      responsiveImage(imgixParams: {w: 200, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
   }
 `;

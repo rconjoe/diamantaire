@@ -1,3 +1,10 @@
+/*
+
+This should be used for every 3 column content that utilizes ImageTile. 
+Handles: MODULAR_TRIO_9x7_BLOCK, MODULAR_BLOG_LIST_TRIO_BLOCK
+
+*/
+
 import { Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
@@ -24,18 +31,42 @@ type ModularTrioBlockProps = {
   image1?: string;
   image2?: string;
   image3?: string;
+  blogPosts?: Array<{
+    title: string;
+    slug: string;
+    excerpt: string;
+    featuredImage: object;
+  }>;
+  blogPostCtaCopy?: string;
+  _modelApiKey: string;
 };
 
 const ModularTrioBlock = (props: ModularTrioBlockProps) => {
-  const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass } = props;
+  const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass, blogPosts, blogPostCtaCopy, _modelApiKey } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
   useEffect(() => {
-    const uniqueAttributes = ['copy', 'ctaCopy', 'ctaRoute', 'title', 'image'];
+    if (_modelApiKey === 'modular_blog_list_trio_block') {
+      const trioBlocksTemp = blogPosts.map((post) => {
+        const updatedPost = {
+          title: post.title,
+          copy: post.excerpt,
+          image: post.featuredImage,
+          ctaCopy: blogPostCtaCopy,
+          ctaRoute: `/journal/post/${post.slug}`,
+        };
 
-    const trioBlocksTemp = normalizeDatoNumberedContent(props, uniqueAttributes);
+        return updatedPost;
+      });
 
-    setTrioBlocks(trioBlocksTemp);
+      setTrioBlocks(trioBlocksTemp);
+    } else {
+      const uniqueAttributes = ['copy', 'ctaCopy', 'ctaRoute', 'title', 'image'];
+
+      const trioBlocksTemp = normalizeDatoNumberedContent(props, uniqueAttributes);
+
+      setTrioBlocks(trioBlocksTemp);
+    }
   }, []);
 
   return (

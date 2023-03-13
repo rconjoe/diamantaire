@@ -41,9 +41,9 @@ type GetBlockPictureAltProps = {
 };
 
 const getBlockPictureAlt = ({ image = {}, desktopImage = {}, mobileImage = {}, title = '' }: GetBlockPictureAltProps) => {
-  const { alt: imageAlt } = image;
-  const { alt: desktopAlt } = desktopImage;
-  const { alt: mobileAlt } = mobileImage;
+  const { alt: imageAlt } = image || {};
+  const { alt: desktopAlt } = desktopImage || {};
+  const { alt: mobileAlt } = mobileImage || {};
 
   return imageAlt || desktopAlt || mobileAlt || title;
 };

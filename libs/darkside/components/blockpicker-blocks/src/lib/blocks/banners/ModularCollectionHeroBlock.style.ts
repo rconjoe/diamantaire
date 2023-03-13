@@ -207,6 +207,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
       height: auto;
       margin: auto;
       left: -8px; // This helps to visually center the VRAI logo, which would otherwise center above the R because the I is so narrow.
+      fill: ${(props) => props?.$textColor?.hex};
     }
 
     &.swap-title-and-by-vrai {

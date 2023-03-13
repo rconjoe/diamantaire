@@ -25,6 +25,9 @@ const Showroom = `
     }
     image {
       url
+      responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
   }
 `;
