@@ -25,6 +25,10 @@ export const DynamicModularCollectionHeroBlock = dynamic(() => import('./blocks/
 export const DynamicModularTrioStaggeredBlock = dynamic(() => import('./blocks/grid/ModularTrioStaggeredBlock'));
 export const DynamicModularSideBySideBlock = dynamic(() => import('./blocks/grid/ModularSideBySideBlock'));
 export const DynamicEmailSignup = dynamic(() => import('./blocks/misc/email-signup/ModularEmailSignup'));
+export const DynamicModularHalfWidthQuadBlock = dynamic(() => import('./blocks/grid/ModularHalfWidthQuadBlock'));
+export const DynamicSocialMediaSection = dynamic(() => import('./blocks/misc/SocialMediaSection'));
+export const DynamicModularQuadGrid = dynamic(() => import('./blocks/grid/ModularQuadGrid'));
+export const DynamicModularTriGridWithOrderTracking = dynamic(() => import('./blocks/grid/ModularTriGridWithOrderTracking'));
 
 export const DynamicShowroomBlock = dynamic(() => import('./blocks/misc/showrooms/ModularShowroomBlock'));
 export const DynamicModularQuoteBlock = dynamic(() => import('./blocks/misc/ModularQuoteBlock'));

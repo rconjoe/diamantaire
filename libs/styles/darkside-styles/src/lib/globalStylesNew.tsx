@@ -67,6 +67,7 @@ const GetGlobalTypography = createGlobalStyle`
     h4,
     p,
     .p-copy,
+    button,
     strong {
       letter-spacing: 0px;
       font-family: ${MAIN_FONT};

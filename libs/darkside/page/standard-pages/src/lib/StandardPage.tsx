@@ -25,7 +25,6 @@ const StandardPage = (props: StandardPageProps) => {
 
   const page = data?.allStandardPages?.[0];
 
-  console.log('page', page);
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
 
@@ -62,7 +61,6 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps(context) {
-  console.log('context', context);
   // locale
   const locale = 'en_US';
   const refinedLocale = 'en_US';

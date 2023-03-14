@@ -18,7 +18,6 @@ type DatoImageProps = {
 };
 
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
-  console.log('image', image);
   const { alt, url, responsiveImage } = image || {};
 
   const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;

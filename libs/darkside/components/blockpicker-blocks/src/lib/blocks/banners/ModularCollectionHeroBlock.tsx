@@ -53,7 +53,7 @@ type ModularCollectionHeroBlockProps = {
   backgroundColor?: string;
 };
 
-const ReactPlayer = dynamic(() => import('react-player'));
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
   const {
@@ -124,8 +124,10 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
             </div>
           </ShowMobileOnly>
         </>
+      ) : hasImage ? (
+        <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
       ) : (
-        hasImage && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+        ''
       )}
 
       <div className={clsx('hero-block__title-container', additionalClass)}>

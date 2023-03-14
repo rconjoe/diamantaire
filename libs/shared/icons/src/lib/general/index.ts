@@ -4,3 +4,6 @@ export * from './SearchIcon';
 export * from './EmptyCalendarIcon';
 export * from './ShoppingBagIcon';
 export * from './AccountIcon';
+export * from './ChatIcon';
+export * from './BookCalendarIcon';
+export * from './MailIcon';

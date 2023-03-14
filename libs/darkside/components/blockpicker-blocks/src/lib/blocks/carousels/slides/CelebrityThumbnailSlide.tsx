@@ -1,3 +1,5 @@
+// TODO: go over celebrity grid with ecom team
+
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 
@@ -41,7 +43,6 @@ const CelebrityThumbnailSlide = ({
   slideIndex,
   extraClass,
   title,
-  // showBottomCarouselOnly,
   bottomCarouselImage,
 }: CelebrityThumnailSlideProps) => {
   const alt = getBlockPictureAlt({ desktopImage, title });
@@ -49,12 +50,6 @@ const CelebrityThumbnailSlide = ({
     onClick(slideIndex);
   };
   const hasBottomCarouselImage = Boolean(bottomCarouselImage);
-
-  // if (showBottomCarouselOnly) {
-  //   return (
-
-  //   );
-  // }
 
   return (
     <>

@@ -31,6 +31,11 @@ import {
   MODULAR_QUOTE_BLOCK,
   MODULAR_LOGO_BANNER_BLOCK,
   MODULAR_QUAD_STATISTICS_BLOCK,
+  MODULAR_HALF_WIDTH_QUAD_BLOCK,
+  MODULAR_TRIO_1x1_BLOCK,
+  SOCIAL_MEDIA_SECTION,
+  MODULAR_QUAD_GRID,
+  MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
 } from '@diamantaire/shared/constants';
 
 import {
@@ -43,8 +48,10 @@ import {
   DynamicModularDiamondLeoBlock,
   DynamicModularDuoBlock,
   DynamicModularHalfBannerBlock,
+  DynamicModularHalfWidthQuadBlock,
   DynamicModularLogoBannerBlock,
   DynamicModularLogoGrid,
+  DynamicModularQuadGrid,
   DynamicModularQuadImageGrid,
   DynamicModularQuadStatisticsBlock,
   DynamicModularQuoteBlock,
@@ -52,9 +59,11 @@ import {
   DynamicModularSkinnyBannerBlock,
   DynamicModularTallHalfWidthBlock,
   DynamicModularTallHalfWidthBlockLocationCTA,
+  DynamicModularTriGridWithOrderTracking,
   DynamicModularTrioStaggeredBlock,
   DynamicModularVideoBlock,
   DynamicShowroomBlock,
+  DynamicSocialMediaSection,
   DynamicTextOnlyBlock,
   DynamicTrioBlock,
 } from './dynamic-export';
@@ -93,18 +102,23 @@ const config: configProps = {
   // GRID
   [MODULAR_TRIO_9x7_BLOCK]: DynamicTrioBlock,
   [MODULAR_BLOG_LIST_TRIO_BLOCK]: DynamicTrioBlock,
+  [MODULAR_TRIO_1x1_BLOCK]: DynamicTrioBlock,
   [MODULAR_TRIO_STAGGERED_9x7_BLOCK]: DynamicModularTrioStaggeredBlock,
   [MODULAR_SIDE_BY_SIDE_BLOCK]: DynamicModularSideBySideBlock,
   [MODULAR_QUAD_LOGO_BLOCK]: DynamicModularLogoGrid,
   [MODULAR_DUO_BLOCK]: DynamicModularDuoBlock,
   [MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA]: DynamicModularTallHalfWidthBlockLocationCTA,
   [MODULAR_QUAD_STATISTICS_BLOCK]: DynamicModularQuadStatisticsBlock,
+  [MODULAR_HALF_WIDTH_QUAD_BLOCK]: DynamicModularHalfWidthQuadBlock,
+  [MODULAR_QUAD_GRID]: DynamicModularQuadGrid,
+  [MODULAR_TRI_GRID_WITH_ORDER_TRACKING]: DynamicModularTriGridWithOrderTracking,
 
   // MISC
   [MODULAR_EMAIL_SIGNUP_BLOCK]: DynamicEmailSignup,
   [MODULAR_ACCORDION_BLOCK]: DynamicModularAccordion,
   [MODULAR_SHOWROOM_BLOCK]: DynamicShowroomBlock,
   [MODULAR_QUOTE_BLOCK]: DynamicModularQuoteBlock,
+  [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
 };
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {

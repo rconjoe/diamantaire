@@ -1,5 +1,5 @@
 import { Heading, ImageTile, LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
-import React from 'react';
+import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 
 import { ModularContentQuadBlockContainer } from './ModularContentQuadBlock.style';
 
@@ -67,54 +67,12 @@ type ModularContentQuadBlock = {
   };
 };
 
-const ModularContentQuadBlock = ({
-  title,
-  subtitle,
-  id,
-  shouldLazyLoad,
-  title1,
-  ctaCopy1,
-  ctaRoute1,
-  image1,
-  title2,
-  ctaCopy2,
-  ctaRoute2,
-  image2,
-  title3,
-  ctaCopy3,
-  ctaRoute3,
-  image3,
-  title4,
-  ctaCopy4,
-  ctaRoute4,
-  image4,
-}: ModularContentQuadBlock) => {
-  const blocks = [
-    {
-      title: title1,
-      ctaCopy: ctaCopy1,
-      ctaRoute: ctaRoute1,
-      image: image1,
-    },
-    {
-      title: title2,
-      ctaCopy: ctaCopy2,
-      ctaRoute: ctaRoute2,
-      image: image2,
-    },
-    {
-      title: title3,
-      ctaCopy: ctaCopy3,
-      ctaRoute: ctaRoute3,
-      image: image3,
-    },
-    {
-      title: title4,
-      ctaCopy: ctaCopy4,
-      ctaRoute: ctaRoute4,
-      image: image4,
-    },
-  ];
+const ModularContentQuadBlock = (props: ModularContentQuadBlock) => {
+  const { title, subtitle, id, shouldLazyLoad } = props;
+
+  const arrayOfAttributes = ['title', 'copy', 'ctaCopy', 'ctaRoute', 'image'];
+
+  const blocks = normalizeDatoNumberedContent(props, arrayOfAttributes);
 
   if (!blocks) {
     return null;
