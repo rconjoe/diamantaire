@@ -153,8 +153,8 @@ export class DiamondsService {
      */
     if (input.caratMin && input.caratMax !== null) {
       input.carat = {
-        $gte: input.caratMin.toFixed(1).toString(), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(1).toString(), // mongoose $lte operator less than or equal to
+        $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
@@ -169,19 +169,19 @@ export class DiamondsService {
 
   optionalCTODiamondFilter(input) {
     this.Logger.verbose(`optional CTODiamondFilter input: ${JSON.stringify(input)}`);
-    if (input?.type) {
-      const type = input?.type.trim().split(',');
+    if (input?.diamondType) {
+      const diamondType = input?.diamondType.trim().split(',');
 
-      input.type = {
-        $in: type, // mongoose $in take an array value as input
+      input.diamondType = {
+        $in: diamondType, // mongoose $in take an array value as input
       };
     }
 
     // filter on minimum and maximum carat
     if (input?.caratMin && input?.caratMax) {
       input.carat = {
-        $gte: input.caratMin.toFixed(2), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(2), // mongoose $lte operator less than or equal to
+        $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
@@ -219,9 +219,6 @@ export class DiamondsService {
     };
 
     const filteredQuery = this.optionalCTODiamondFilter(params);
-
-    filteredQuery.isAvailable = true; // filter on available diamonds
-
     const cachedData = await this.utils.memGet(cachedKey);
 
     if (cachedData) {
@@ -232,8 +229,12 @@ export class DiamondsService {
 
     const allCtoDiamonds = await this.cutToOrderRepository.find({});
     const result = await this.cutToOrderRepository.paginate(filteredQuery, options); // paginated result
+    const numericalRanges = {
+      ...defaultNumericalRanges,
+      price: defaultVariantGetter,
+    };
 
-    result.ranges = getDataRanges(allCtoDiamonds);
+    result.ranges = getDataRanges(allCtoDiamonds, defaultUniqueValues, numericalRanges);
     this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
 
     return result;

@@ -19,6 +19,8 @@ export interface DiamondQuery {
 }
 
 export interface DiamondVariant {
+  shopifyProductHandle?: string;
+  shopifyProductTitle?: string;
   isForSale?: boolean;
   variantSku?: string;
   variantId?: string;
@@ -36,7 +38,7 @@ export interface DiamondCollection {
   variants?: DiamondVariant[];
   dfCertificateUrl?: string;
   type?: string;
-  carat?: string;
+  carat?: number;
   cut?: string;
   color?: string;
   clarity?: string;

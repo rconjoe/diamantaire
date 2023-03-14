@@ -15,7 +15,6 @@ import { GetProductInput, ProductVariantInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import {
   reduceVariantsToPDPConfigurations,
-  getCurrencyCode,
   findCanonivalVariant,
   compareVariantOption,
   optionTypesComparators,
@@ -104,26 +103,26 @@ export class ProductsService {
 
       //const datoEngagementRingPDP = await this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
 
-      const priceQuery = {
-        id: requestedVariant.id,
-        currencyCode: getCurrencyCode(input?.countryCode?.trim().toUpperCase()),
-      };
+      // const priceQuery = {
+      //   id: requestedVariant.id,
+      //   currencyCode: getCurrencyCode(input?.countryCode?.trim().toUpperCase()),
+      // };
 
       // find a price that matches the variant id and currency code
-      const productPrice = await this.priceRepository.findOne(priceQuery);
+      //const productPrice = await this.priceRepository.findOne(priceQuery);
 
-      if (!productPrice) {
-        this.logger.log(`Price not found for variant id: ${requestedVariant.id}`);
-      }
-      const price = {
-        amount: productPrice?.amount,
-        currencyCode: productPrice?.currencyCode,
-      };
+      // if (!productPrice) {
+      //   this.logger.log(`Price not found for variant id: ${requestedVariant.id}`);
+      // }
+      // const price = {
+      //   amount: productPrice?.amount,
+      //   currencyCode: productPrice?.currencyCode,
+      // };
 
       const datoEngagementRingPDP: any = await this.datoContent(queryVars); // return dato engagement ring pdp content
       const { allEngagementRingProducts: collectionContent, allOmegaProducts: variantContent } = datoEngagementRingPDP;
 
-      requestedVariant.price = price; // include price in the requested variant
+      //requestedVariant.price = price; // include price in the requested variant
 
       if (products && requestedVariant) {
         const { productType, dangerousInternalProductId: productId } = parentProduct;
