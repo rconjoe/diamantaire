@@ -26,15 +26,21 @@ export interface DiamondVariant {
   variantId?: string;
   dangerousInternalShopifyVariantId?: string;
   variantTitle?: string;
-  price?: number;
+  price?: {
+    amount?: string;
+    currencyCode?: string;
+  };
   title?: string;
 }
 
 export interface DiamondCollection {
   dangerousInternalProductId?: string;
+  dangerousInternalCollectionId?: string;
   handle?: string;
   productTitle?: string;
+  productType?: string;
   description?: string;
+  slug?: string;
   variants?: DiamondVariant[];
   dfCertificateUrl?: string;
   type?: string;

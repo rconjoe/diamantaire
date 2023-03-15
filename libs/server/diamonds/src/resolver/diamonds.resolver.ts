@@ -1,6 +1,6 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
-import { GetDiamondInput } from '../dto/get-diamond.input';
+//import { GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import { DiamondsService } from '../services/diamond.service';
 
@@ -12,8 +12,8 @@ export class DiamondsResolver {
   //   return this.diamondsService.findDiamonds(input);
   // }
 
-  @Query(() => DiamondEntity, { name: 'diamonds' })
-  async diamonds(@Args('filter') filter: GetDiamondInput, @Args('input') input: GetDiamondInput) {
-    return this.diamondsService.getdDiamonds(filter, input);
-  }
+  // @Query(() => DiamondEntity, { name: 'diamonds' })
+  // async diamonds(@Args('filter') filter: GetDiamondInput, @Args('input') input: GetDiamondInput) {
+  //   return this.diamondsService.getdDiamonds(filter, input);
+  // }
 }

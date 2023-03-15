@@ -33,6 +33,8 @@ export default {
   environment,
 };
 
+export const isValidBoolean = [true, false];
+
 export const CROSS_DOMAIN = {
   allowedOrigins: ['https://vrai.com', 'https://us.vrai.com', 'https://uk.vrai.com'],
   allowedReferer: 'vrai.com',
