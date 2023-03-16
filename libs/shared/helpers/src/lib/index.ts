@@ -6,5 +6,4 @@ export * from './getAllShowroomSlugs';
 export * from './normalizeDatoNumberedContent';
 export * from './images';
 export * from './products';
-export * from './refinePageSlug';
 export * from './getRelativeUrl';
