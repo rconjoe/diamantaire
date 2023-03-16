@@ -22,6 +22,22 @@ const Showroom = `
       locationLabel
       emailText
       emailCtaStyle
+      slug
+      directionsImage {
+        url
+        alt
+        responsiveImage (imgixParams: { w: 700, q: 40, auto: format }){
+            src
+            alt
+            aspectRatio
+            base64
+            bgColor
+            height
+            sizes
+            title
+            width
+        }
+      }
     }
     image {
       url

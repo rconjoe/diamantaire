@@ -1,3 +1,4 @@
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { Logo } from '@diamantaire/shared/icons';
 import { BP_LG } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
@@ -11,7 +12,6 @@ type CompactHeaderTypes = {
   navItems: NavItemsProps;
   toggleMegaMenuOpen: (_index: number) => void;
   menuIndex: number;
-  getRelativeUrl: (_arg0: string) => string;
 };
 
 // type CompactHeaderStylesTypes = {
@@ -104,7 +104,7 @@ const CompactHeaderStyles = styled.div`
   }
 `;
 
-const CompactHeader: FC<CompactHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, getRelativeUrl }): JSX.Element => {
+const CompactHeader: FC<CompactHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex }): JSX.Element => {
   return (
     <CompactHeaderStyles>
       <div className="compact-header__container">

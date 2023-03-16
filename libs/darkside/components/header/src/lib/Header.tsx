@@ -32,7 +32,7 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
 
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const { setHeaderHeight, headerHeight, getRelativeUrl } = useGlobalContext();
+  const { setHeaderHeight, headerHeight } = useGlobalContext();
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -61,23 +61,13 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
           <p>Home page</p>
         ) : (
           // <StackedHeader navItems={section} toggleMegaMenuOpen={toggleMegaMenuOpen} menuIndex={megaMenuIndex} />
-          <CompactHeader
-            navItems={section}
-            toggleMegaMenuOpen={toggleMegaMenuOpen}
-            menuIndex={megaMenuIndex}
-            getRelativeUrl={getRelativeUrl}
-          />
+          <CompactHeader navItems={section} toggleMegaMenuOpen={toggleMegaMenuOpen} menuIndex={megaMenuIndex} />
         )}
 
         <MobileHeader navItems={section} headerHeight={headerHeight} />
 
         <DiamondShapesProvider>
-          <MegaMenu
-            navItems={section}
-            megaMenuIndex={megaMenuIndex}
-            headerHeight={headerHeight}
-            getRelativeUrl={getRelativeUrl}
-          />
+          <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} headerHeight={headerHeight} />
         </DiamondShapesProvider>
 
         {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}

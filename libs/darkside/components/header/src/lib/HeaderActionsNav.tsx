@@ -1,7 +1,7 @@
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, HeartIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
@@ -69,12 +69,6 @@ const HeaderActionsNavContainer = styled.nav`
 `;
 
 const HeaderActionsNav = () => {
-  const globalContext = useContext(GlobalContext);
-
-  if (!globalContext) return null;
-
-  const { getRelativeUrl } = globalContext;
-
   const links = [
     {
       title: 'Search',

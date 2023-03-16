@@ -1,6 +1,6 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
@@ -15,8 +15,6 @@ const VideoHoverSlide = (props) => {
 
   const video = hover?.video;
   const [isHovered, setIsHovered] = useState(false);
-
-  const { getRelativeUrl } = useGlobalContext();
 
   return (
     <VideoSlideContainer>

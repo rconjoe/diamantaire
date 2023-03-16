@@ -1,7 +1,6 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { getBlockPictureAlt, getRelativeUrl } from '@diamantaire/shared/helpers';
 
 import { SlideContainer } from './DiamondSlide.style';
 
@@ -23,7 +22,6 @@ type DiamondSlideProps = {
 
 const DiamondSlide = ({ image, itemName, url }: DiamondSlideProps) => {
   const hasImage = Boolean(url);
-  const { getRelativeUrl } = useGlobalContext();
 
   return (
     <SlideContainer>

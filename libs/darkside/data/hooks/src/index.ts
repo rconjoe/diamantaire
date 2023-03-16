@@ -5,3 +5,4 @@ export * from './lib/use-global-context';
 export * from './lib/journal';
 export * from './lib/use-diamond-icons';
 export * from './lib/use-product';
+export * from './lib/use-showroom-nav';
