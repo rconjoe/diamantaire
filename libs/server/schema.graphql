@@ -17,21 +17,6 @@ type CutToOrderDiamondEntity {
   type: String!
 }
 
-type DiamondEntity {
-  carat: Int!
-  clarity: String!
-  color: String!
-  cut: String!
-  dangerousInternalProductId: String!
-  description: String!
-  dfCertificateUrl: String!
-  diamondType: String!
-  handle: String!
-  lotId: String!
-  productTitle: String!
-  type: String!
-}
-
 input GetCutToOrderDiamondInput {
   carat: Int
   caratMax: Float
@@ -40,24 +25,6 @@ input GetCutToOrderDiamondInput {
   limit: Int
   page: Int
   price: Int
-  priceMax: Int
-  priceMin: Int
-  sortBy: String
-  sortOrder: String
-}
-
-input GetDiamondInput {
-  carat: Int
-  caratMax: Float
-  caratMin: Float
-  clarity: String
-  color: String
-  countryCode: String
-  currencyCode: String
-  cut: String
-  diamondType: String
-  limit: Int
-  page: Int
   priceMax: Int
   priceMin: Int
   sortBy: String
@@ -98,7 +65,6 @@ input ProductVariantInput {
 
 type Query {
   cuttoorderdiamonds(input: GetCutToOrderDiamondInput!): [CutToOrderDiamondEntity!]!
-  diamonds(filter: GetDiamondInput!, input: GetDiamondInput!): DiamondEntity!
   productVariant(input: ProductVariantInput!): [ProductEntity!]!
   products(input: GetProductInput!): [ProductEntity!]!
 }

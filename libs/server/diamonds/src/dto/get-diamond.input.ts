@@ -1,6 +1,9 @@
+import { isValidBoolean } from '@diamantaire/shared/constants';
+import { valueToBoolean } from '@diamantaire/shared/utils';
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import { IsBoolean, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { DiamondEntity } from '../entities/diamond.entity';
 
@@ -14,6 +17,14 @@ export class GetDiamondInput implements Partial<DiamondEntity> {
   @IsString()
   @IsOptional()
   readonly diamondType?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  @IsIn(isValidBoolean)
+  @Transform(({ value }) => valueToBoolean(value))
+  @Type(() => Boolean)
+  readonly isCto?: boolean;
 
   @Field(() => Number, { nullable: true })
   @IsString()
@@ -93,4 +104,14 @@ export class GetDiamondInput implements Partial<DiamondEntity> {
   @IsString()
   @IsOptional()
   readonly countryCode?: string;
+}
+
+export class GetDiamondByLotIdDto {
+  @ApiProperty({
+    example: 'F700032',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  readonly sku: string;
 }
