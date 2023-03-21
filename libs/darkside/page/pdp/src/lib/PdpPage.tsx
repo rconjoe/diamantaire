@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { MediaGallery, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
 import { useProduct } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -7,9 +8,6 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-
-import MediaGallery from './media-gallery/MediaGallery';
-import ProductConfigurator from './product-configurator/ProductConfigurator';
 
 interface PdpPageParams extends ParsedUrlQuery {
   productSlug: string;
@@ -96,11 +94,11 @@ export async function getServerSideProps(
 
   await queryClient.prefetchQuery(dataQuery);
 
-  // if (!queryClient.getQueryData(dataQuery.queryKey)) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  if (!queryClient.getQueryData(dataQuery.queryKey)) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

@@ -69,7 +69,7 @@ function ProductConfigurator({
   );
 }
 
-export default ProductConfigurator;
+export { ProductConfigurator };
 
 const PrimaryButton = styled.button`
   background-color: ${BLACK};

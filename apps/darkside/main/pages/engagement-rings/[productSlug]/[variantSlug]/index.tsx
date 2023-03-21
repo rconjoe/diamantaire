@@ -1,4 +1,4 @@
-import { PdpPage, getServerSideProps } from '@diamantaire/darkside/components/products/pdp';
+import { PdpPage, getServerSideProps } from '@diamantaire/darkside/page/pdp';
 
 export default PdpPage;
 export { getServerSideProps };

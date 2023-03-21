@@ -37,7 +37,7 @@ function MediaGallery({ assets }: MediaGalleryProps) {
   );
 }
 
-export default MediaGallery;
+export { MediaGallery };
 
 interface MediaAsset {
   type: MimeTypes;
