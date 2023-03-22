@@ -74,7 +74,7 @@ const FooterStyles = styled.footer`
       }
 
       &__inner {
-        h4 {
+        p.col-heading {
           font-size: 1.4rem;
           margin: 0 0 10px;
         }
@@ -227,7 +227,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
             return (
               <div className="footer-col" key={`footer-col-${index}`}>
                 <div className="footer-col__inner">
-                  <h4>{title}</h4>
+                  <p className="col-heading">{title}</p>
                   <ul>
                     {links?.map((link, linkIndex) => {
                       const { route, copy } = link;
@@ -248,7 +248,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
           <div className="footer-col footer-email-signup">
             <div className="footer-col__inner">
-              <h4>{title}</h4>
+              <p className="col-heading">{title}</p>
               <p>{copy}</p>
               <LocaleSelector locale={'en-US'} />
               {/* <CTAForm

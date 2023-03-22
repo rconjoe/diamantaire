@@ -49,6 +49,7 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
       width={responsiveImage ? responsiveImage.width : image.width}
       height={responsiveImage ? responsiveImage.height : image.height}
+      priority={true}
     />
   );
 };
