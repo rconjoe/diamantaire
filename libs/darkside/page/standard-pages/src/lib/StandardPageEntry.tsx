@@ -11,7 +11,7 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
   return (
     <div className="content-one-container">
       <Suspense fallback={`Loading...`}>
-        {content1?.map((contentBlockData, idx) => {
+        {content1?.slice(0, 1).map((contentBlockData, idx) => {
           const { id, _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
