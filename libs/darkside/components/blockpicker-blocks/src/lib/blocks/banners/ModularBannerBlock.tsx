@@ -28,7 +28,7 @@ import {
   Title,
 } from './ModularBannerBlock.style';
 
-const ReactPlayer = dynamic(() => import('react-player'));
+const ReactPlayer = dynamic(() => import('react-player/lazy'));
 
 type ModularBannerBlockProps = {
   title: string;

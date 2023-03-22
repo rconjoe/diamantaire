@@ -11,16 +11,8 @@ const FullWidthBanner = `
         url
         alt
         mimeType
-        responsiveImage(imgixParams: {w: 1440, q: 60, auto: format, fit: crop, crop: focalpoint },sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
-            src
-            alt
-            aspectRatio
-            base64
-            bgColor
-            height
-            sizes
-            title
-            width
+        responsiveImage(imgixParams: {w: 1440, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
         }
     }
     mobileCopy
@@ -28,16 +20,8 @@ const FullWidthBanner = `
         url
         alt
         mimeType
-        responsiveImage(imgixParams: {w: 360, h: 240, q: 55, auto: format, fit: crop, crop: focalpoint },sizes:"100vw") {
-            src
-            alt
-            aspectRatio
-            base64
-            bgColor
-            height
-            sizes
-            title
-            width
+        responsiveImage (imgixParams: {w: 375, q: 35, auto: format, fit: crop, crop: focalpoint }){
+          ...responsiveImageFragment
         }
     }
     copyPrices{
