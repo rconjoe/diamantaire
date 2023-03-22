@@ -26,10 +26,10 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        {/* <Head>
-          <link rel="preload" href="https://use.typekit.net/ram5cej.css" as="style" crossOrigin="anonymous" />
-          <link rel="stylesheet" href="https://use.typekit.net/ram5cej.css" />
-        </Head> */}
+        <Head>
+          {/* <link rel="preload" href="https://use.typekit.net/ram5cej.css" as="style" crossOrigin="anonymous" />
+          <link rel="stylesheet" href="https://use.typekit.net/ram5cej.css" /> */}
+        </Head>
         <body>
           <Main />
           <NextScript />
