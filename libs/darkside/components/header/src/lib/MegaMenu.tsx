@@ -1,7 +1,7 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 
 import { MenuLink, NavItemsProps, SubMenuChildLink } from './header-types';
 import { MegaMenuStylesContainer } from './MegaMenuStyles.style';
@@ -62,7 +62,7 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) 
                               <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
                                 <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
                                   <>
-                                    {linkKey && (
+                                    {/* {linkKey && (
                                       <span className={iconType}>
                                         {diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]
                                           ? diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]?.['icon']
@@ -70,7 +70,7 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) 
                                           ? ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]?.['icon']
                                           : ''}
                                       </span>
-                                    )}
+                                    )} */}
                                     <span className="link-text">{nestedLinkCopy}</span>
                                   </>
                                 </Link>
