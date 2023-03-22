@@ -38,6 +38,7 @@ import {
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
 } from '@diamantaire/shared/constants';
 
+import ModularBannerBlock from './blocks/banners/ModularBannerBlock';
 import {
   DynamicEmailSignup,
   DynamicModularAccordion,
@@ -83,7 +84,8 @@ const config: configProps = {
 
   // BANNERS
 
-  [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
+  // [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
+  [MODULAR_RANDOM_BANNER_BLOCK]: ModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,
   [MODULAR_HERO_BANNER_BLOCK]: DynamicModularBannerBlock,

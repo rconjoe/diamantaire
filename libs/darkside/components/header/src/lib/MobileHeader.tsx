@@ -108,12 +108,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight }): JSX.El
             <nav>
               <ul>
                 <li className={isMobileMenuOpen ? 'menu-toggle-container active' : 'menu-toggle-container'}>
-                  <Hamburger
-                    aria-label="Toggle mobile menu"
-                    toggled={isMobileMenuOpen}
-                    toggle={setIsMobileMenuOpen}
-                    size={18}
-                  />
+                  <Hamburger label="Toggle mobile menu" toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={18} />
                 </li>
                 <li className="calendar">
                   <EmptyCalendarIcon />

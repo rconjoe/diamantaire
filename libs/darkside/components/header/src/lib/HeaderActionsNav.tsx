@@ -1,7 +1,3 @@
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { AccountIcon, HeartIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
-import Link from 'next/link';
-import React from 'react';
 import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
@@ -69,38 +65,45 @@ const HeaderActionsNavContainer = styled.nav`
 `;
 
 const HeaderActionsNav = () => {
-  const links = [
-    {
-      title: 'Search',
-      icon: <SearchIcon />,
-      type: 'button',
-      alt: 'Search Toggle Button',
-      onClick: () => null,
-    },
-    {
-      title: 'Accounts',
-      icon: <AccountIcon />,
-      type: 'link',
-      href: '/account/login',
-      alt: 'Accounts Toggle Button',
-    },
-    {
-      title: 'Wishlist',
-      icon: <HeartIcon />,
-      type: 'button',
-      alt: 'Wishlist Toggle Button',
-    },
-    {
-      title: 'Cart',
-      icon: <ShoppingBagIcon />,
-      type: 'button',
-      alt: 'Cart Toggle Button',
-    },
-  ];
+  // const globalContext = useContext(GlobalContext);
+
+  // if (!globalContext) return null;
+
+  // const { getRelativeUrl } = globalContext;
+
+  // const links = [
+  //   {
+  //     title: 'Search',
+  //     icon: <SearchIcon />,
+  //     type: 'button',
+  //     alt: 'Search Toggle Button',
+  //     onClick: () => null,
+  //   },
+  //   {
+  //     title: 'Accounts',
+  //     icon: <AccountIcon />,
+  //     type: 'link',
+  //     href: '/account/login',
+  //     alt: 'Accounts Toggle Button',
+  //   },
+  //   {
+  //     title: 'Wishlist',
+  //     icon: <HeartIcon />,
+  //     type: 'button',
+  //     alt: 'Wishlist Toggle Button',
+  //   },
+  //   {
+  //     title: 'Cart',
+  //     icon: <ShoppingBagIcon />,
+  //     type: 'button',
+  //     alt: 'Cart Toggle Button',
+  //   },
+  // ];
 
   return (
     <HeaderActionsNavContainer>
-      <ul>
+      temp
+      {/* <ul>
         {links.map((link, index) => {
           const { title, href, icon, alt, onClick } = link;
 
@@ -124,7 +127,7 @@ const HeaderActionsNav = () => {
             );
           }
         })}
-      </ul>
+      </ul> */}
     </HeaderActionsNavContainer>
   );
 };

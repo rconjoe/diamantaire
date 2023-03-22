@@ -110,7 +110,7 @@ type ModularBannerBlockProps = {
   subtitleAdditionalClass?: string;
 };
 
-const Banner = (props) => {
+const ModularBannerBlock = (props) => {
   let { title, desktopCopy, mobileCopy, subTitle } = props?.blocks?.[0] || props;
   const {
     headingType,
@@ -365,4 +365,4 @@ const Banner = (props) => {
   );
 };
 
-export default Banner;
+export default ModularBannerBlock;
