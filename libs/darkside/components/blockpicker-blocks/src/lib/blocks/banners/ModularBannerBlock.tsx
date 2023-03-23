@@ -42,6 +42,7 @@ type ModularBannerBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   mobileImage: {
@@ -53,6 +54,7 @@ type ModularBannerBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   textBlockAlignment: string;
@@ -77,6 +79,7 @@ type ModularBannerBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   middleLayerImageMobile: {
@@ -88,6 +91,7 @@ type ModularBannerBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   additionalClass?: string;

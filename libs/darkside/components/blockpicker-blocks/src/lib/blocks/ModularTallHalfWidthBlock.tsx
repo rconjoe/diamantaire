@@ -43,6 +43,7 @@ type ModularTallHalfWidthBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   desktopImage?: {
@@ -54,6 +55,7 @@ type ModularTallHalfWidthBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   mobileImage?: {
@@ -65,6 +67,7 @@ type ModularTallHalfWidthBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
 };

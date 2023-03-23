@@ -13,6 +13,7 @@ type MobileDesktopImageProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   mobileImage: {
@@ -24,6 +25,7 @@ type MobileDesktopImageProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
   className?: string;

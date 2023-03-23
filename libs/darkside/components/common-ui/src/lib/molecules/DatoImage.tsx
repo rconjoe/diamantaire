@@ -13,12 +13,14 @@ type DatoImageProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
   };
 };
 
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
   const { alt, url, responsiveImage } = image || {};
+  const { aspectRatio } = responsiveImage || {};
 
   const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
 
@@ -50,6 +52,9 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       width={responsiveImage ? responsiveImage.width : image.width}
       height={responsiveImage ? responsiveImage.height : image.height}
       loading="eager"
+      style={{
+        aspectRatio,
+      }}
     />
   );
 };
