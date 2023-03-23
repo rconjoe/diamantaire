@@ -1,5 +1,6 @@
 import { Markdown, Button, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -14,17 +15,7 @@ type ModularAccordionProps = {
   ctaCopy?: string;
   ctaRoute?: string;
   ctaButtonType?: string;
-  image?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image?: DatoImageType;
   firstItemOpen: boolean;
   shouldUseFaqSchema: boolean;
   accordionItems: Array<ModularAccordionItemProps>;

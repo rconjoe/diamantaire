@@ -1,20 +1,11 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 
 import { InstagramThumnailSlideContainer } from './InstagramThumbnailSlide.style';
 
 type InstagramThumnailSlideProps = {
-  image: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image: DatoImageType;
   extraClass?: string;
   shouldLinkToVraiInstagram?: boolean;
   postLink?: string;

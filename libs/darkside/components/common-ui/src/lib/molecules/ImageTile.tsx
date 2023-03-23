@@ -1,5 +1,6 @@
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { Button } from './Button';
@@ -11,17 +12,7 @@ type ImageTilePropTypes = {
   copy?: string;
   ctaCopy?: string;
   ctaRoute?: string;
-  image?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image?: DatoImageType;
   imageName?: string;
   extraClass?: string;
   isSvg?: boolean;

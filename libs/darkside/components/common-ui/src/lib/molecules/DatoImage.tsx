@@ -1,21 +1,10 @@
+import { DatoImageType } from '@diamantaire/shared/types';
 import Image, { ImageLoaderProps } from 'next/image';
 
 type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
-  image: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
+  image: DatoImageType;
 };
 
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {

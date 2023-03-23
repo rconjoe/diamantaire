@@ -1,5 +1,6 @@
 import { Heading, ImageTile, LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 
 import { ModularContentQuadBlockContainer } from './ModularContentQuadBlock.style';
 
@@ -12,59 +13,19 @@ type ModularContentQuadBlock = {
   title1?: string;
   ctaCopy1?: string;
   ctaRoute1?: string;
-  image1?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image1?: DatoImageType;
   title2?: string;
   ctaCopy2?: string;
   ctaRoute2?: string;
-  image2?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image2?: DatoImageType;
   title3?: string;
   ctaCopy3?: string;
   ctaRoute3?: string;
-  image3?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image3?: DatoImageType;
   title4?: string;
   ctaCopy4?: string;
   ctaRoute4?: string;
-  image4?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image4?: DatoImageType;
 };
 
 const ModularContentQuadBlock = (props: ModularContentQuadBlock) => {

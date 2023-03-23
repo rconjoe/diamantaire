@@ -1,5 +1,6 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 
 import { ModularQuoteBlockContainer } from './ModularQuoteBlock.style';
 
@@ -11,18 +12,7 @@ type ModularQuoteBlockProps = {
   attributionFont?: string;
   backgroundColor: string;
   textColor: string;
-  quotationMarksImage?: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  quotationMarksImage?: DatoImageType;
   shouldLazyLoad?: boolean;
 };
 

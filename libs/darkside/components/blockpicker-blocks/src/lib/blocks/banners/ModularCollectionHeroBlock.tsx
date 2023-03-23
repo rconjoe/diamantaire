@@ -20,6 +20,7 @@ type ModularCollectionHeroBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
     video?: {
       streamingUrl: string;
@@ -34,6 +35,7 @@ type ModularCollectionHeroBlockProps = {
       width: number;
       height: number;
       base64: string;
+      aspectRatio: number;
     };
     video?: {
       streamingUrl: string;

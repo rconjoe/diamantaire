@@ -11,6 +11,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -33,30 +34,8 @@ type ModularBannerBlockProps = {
   ctaCopy?: string;
   ctaRoute?: string;
   ctaButtonType?: string;
-  desktopImage: {
-    mimeType: string;
-    url: string;
-    alt: string;
-    desktopAlt: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
-  mobileImage: {
-    mimeType: string;
-    url: string;
-    alt: string;
-    desktopAlt: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   textBlockAlignment: string;
   desktopImageName: string;
   mobileImageName: string;
@@ -70,30 +49,8 @@ type ModularBannerBlockProps = {
   ctaCopy3?: string;
   ctaRoute3?: string;
   ctaButtonType3?: string;
-  middleLayerImage: {
-    mimeType: string;
-    url: string;
-    alt: string;
-    desktopAlt: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
-  middleLayerImageMobile: {
-    mimeType: string;
-    url: string;
-    alt: string;
-    desktopAlt: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
+  middleLayerImage: DatoImageType;
+  middleLayerImageMobile: DatoImageType;
   additionalClass?: string;
   copyPrices: object;
   currencyCode: string;

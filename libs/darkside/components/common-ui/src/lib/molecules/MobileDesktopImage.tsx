@@ -1,33 +1,13 @@
+import { DatoImageType } from '@diamantaire/shared/types';
+
 import { DatoImage } from './DatoImage';
 import { ShowMobileOnly } from '../media-queries/ShowMobileOnly';
 import { ShowTabletAndUpOnly } from '../media-queries/ShowTabletAndUpOnly';
 
 type MobileDesktopImageProps = {
   alt: string;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
-  mobileImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-      aspectRatio: number;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   className?: string;
   isLazyLoaded?: boolean;
 };

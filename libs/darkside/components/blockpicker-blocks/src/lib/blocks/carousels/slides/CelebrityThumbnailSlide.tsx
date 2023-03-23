@@ -2,39 +2,20 @@
 
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 
 import { CelebrityThumbnailSlideContainer } from './CelebrityThumbnailSlide.style';
 
 type CelebrityThumnailSlideProps = {
   onCarouselImageLoad?: () => void;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  desktopImage: DatoImageType;
   onClick: (number) => void;
   slideIndex: number;
   mobileImageWidth?: string;
   extraClass?: string;
   title?: string;
   showBottomCarouselOnly: boolean;
-  bottomCarouselImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  bottomCarouselImage: DatoImageType;
 };
 
 const CelebrityThumbnailSlide = ({

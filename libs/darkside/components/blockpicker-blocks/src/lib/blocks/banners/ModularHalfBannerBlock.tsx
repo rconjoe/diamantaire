@@ -12,48 +12,72 @@ import {
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { isCountrySupported } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
 import { ModularHalfBannerBlockContainer } from './ModularHalfBannerBlock.style';
 
-const ModularHalfWidthBannerBlock = (props) => {
-  const {
-    title,
-    mobileTitle,
-    subTitle,
-    desktopImage,
-    mobileImage,
-    desktopCopy,
-    mobileCopy,
-    ctaCopy,
-    ctaCopy2,
-    ctaCopy3,
-    ctaRoute,
-    ctaRoute2,
-    ctaRoute3,
-    ctaButtonType = 'secondary',
-    ctaButtonType2 = 'secondary',
-    ctaButtonType3 = 'secondary',
-    alt,
-    headingType,
-    textBlockAlignment,
-    textColor,
-    isTextBlockWide,
-    headingAdditionalClass,
-    subtitleAdditionalClass,
-    additionalClass,
-    blogPost,
-    supportedCountries,
-    countryCode,
-  } = props || {};
+type ModularHalfWidthBannerBlockProps = {
+  title: string;
+  mobileTitle: string;
+  subTitle?: string;
+  desktopImage?: DatoImageType;
+  mobileImage?: DatoImageType;
+  desktopCopy?: string;
+  mobileCopy?: string;
+  ctaCopy: string;
+  ctaCopy2?: string;
+  ctaCopy3?: string;
+  ctaRoute?: string;
+  ctaRoute2?: string;
+  ctaRoute3?: string;
+  ctaButtonType?: string;
+  ctaButtonType2?: string;
+  ctaButtonType3?: string;
+  alt?: string;
+  headingType?: string;
+  textBlockAlignment?: string;
+  textColor?: string;
+  isTextBlockWide?: boolean;
+  headingAdditionalClass?: string;
+  subtitleAdditionalClass?: string;
+  additionalClass?: string;
+  blogPost?: {
+    title: string;
+    excerpt: string;
+    slug: string;
+  };
+};
 
-  if (!isCountrySupported(supportedCountries, countryCode)) {
-    return null;
-  }
-
+const ModularHalfWidthBannerBlock = ({
+  title,
+  mobileTitle,
+  subTitle,
+  desktopImage,
+  mobileImage,
+  desktopCopy,
+  mobileCopy,
+  ctaCopy,
+  ctaCopy2,
+  ctaCopy3,
+  ctaRoute,
+  ctaRoute2,
+  ctaRoute3,
+  ctaButtonType = 'secondary',
+  ctaButtonType2 = 'secondary',
+  ctaButtonType3 = 'secondary',
+  alt,
+  headingType,
+  textBlockAlignment,
+  textColor,
+  isTextBlockWide,
+  headingAdditionalClass,
+  subtitleAdditionalClass,
+  additionalClass,
+  blogPost,
+}: ModularHalfWidthBannerBlockProps) => {
   const renderHalfWidthBlockTitle = (title) => {
     return (
       <Heading
