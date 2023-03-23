@@ -2,7 +2,6 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 
 export interface HomePageProps {
   isMobile: boolean;
@@ -46,7 +45,7 @@ async function getStaticProps() {
   const devCurrencyCode = 'USD';
 
   // dato
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
   // await queryClient.prefetchQuery({
   //   ...queries.header.content(locale),
@@ -67,7 +66,7 @@ async function getStaticProps() {
       isMobile,
       currencyCode: devCurrencyCode,
       countryCode: devCountryCode,
-      dehydratedState: dehydrate(queryClient),
+      // dehydratedState: dehydrate(queryClient),
     },
   };
 }
