@@ -12,9 +12,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: Dat
   const { alt, responsiveImage } = image || {};
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
-  const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
-
-  const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
+  const loader = ({ src, width, quality = 80 }: ImageLoaderProps) => {
     const params = {
       auto: 'format',
       ar: '1%3A1',
@@ -28,9 +26,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: Dat
     return `${src}?${searchParams.toString()}`;
   };
 
-  return isSvg ? (
-    <img src={image.url} alt={alt} />
-  ) : (
+  return (
     <Image
       alt={overrideAlt ? overrideAlt : alt}
       src={responsiveImageSrc}
