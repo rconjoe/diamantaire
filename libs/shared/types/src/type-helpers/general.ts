@@ -5,9 +5,13 @@ export interface DatoImageType {
   width?: number;
   height?: number;
   responsiveImage?: {
+    src: string;
     width: number;
     height: number;
     base64: string;
     aspectRatio: number;
+  };
+  video?: {
+    streamingUrl: string;
   };
 }

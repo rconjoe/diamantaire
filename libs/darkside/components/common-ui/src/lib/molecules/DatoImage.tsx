@@ -8,8 +8,8 @@ type DatoImageProps = {
 };
 
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
-  const { alt, url, responsiveImage } = image || {};
-  const { aspectRatio } = responsiveImage || {};
+  const { alt, responsiveImage } = image || {};
+  const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
 
@@ -32,7 +32,7 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
   ) : (
     <Image
       alt={overrideAlt ? overrideAlt : alt}
-      src={url}
+      src={responsiveImageSrc}
       placeholder="blur"
       blurDataURL={responsiveImage?.base64}
       loader={loader}
