@@ -263,14 +263,7 @@ export const BannerTextContainer = styled.div`
   }
 
   button {
-    margin-top: ${setSpace(2)};
-
-    ${tabletAndUp(`
-      margin-top: ${setSpace(1)};
-    `)};
-
     ${desktopAndUp(`
-      margin-top: ${setSpace(2.5)};
 
       &.-wide-cta {
         margin-top: ${setSpace(5)};
@@ -327,7 +320,7 @@ export const SubTitle = styled.div`
 
 export const Copy = styled.div`
   p {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
   }
 
   p:last-child {

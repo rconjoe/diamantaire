@@ -7,7 +7,6 @@ import {
   Heading,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
-  DatoImage,
   MobileDesktopImage,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
@@ -15,20 +14,15 @@ import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
-import dynamic from 'next/dynamic';
 
 import {
   BannerTextContainer,
   BannerWrapper,
   Copy,
   FullWidthImageContainer,
-  MiddleLayerImageContainer,
-  MobileMiddleLayerImageContainer,
   SubTitle,
   Title,
 } from './ModularBannerBlock.style';
-
-const ReactPlayer = dynamic(() => import('react-player/lazy'));
 
 type ModularBannerBlockProps = {
   title: string;
@@ -131,15 +125,12 @@ const ModularBannerBlock = (props) => {
     ctaCopy3,
     ctaRoute3,
     ctaButtonType3 = 'secondary',
-    middleLayerImage,
-    middleLayerImageMobile,
     additionalClass,
     currencyCode = 'USD',
     copyPrices,
     countryCode = 'US',
     supportedCountries,
     gtmClass,
-    isMobile,
     subtitleAdditionalClass,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
@@ -155,8 +146,6 @@ const ModularBannerBlock = (props) => {
     desktopCopy = replaceMoneyByCurrency(desktopCopy, currencyCode, copyPrices);
     mobileCopy = replaceMoneyByCurrency(mobileCopy, currencyCode, copyPrices);
   }
-
-  const hasResponsive = Boolean(desktopImage?.responsiveImage && mobileImage?.responsiveImage);
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
 
@@ -179,179 +168,6 @@ const ModularBannerBlock = (props) => {
     </Heading>
   );
 
-  const getResponsiveBlock = () => (
-    <FullWidthImageContainer>
-      <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
-    </FullWidthImageContainer>
-  );
-
-  const isMobileWebMFile = mobileImage?.mimeType === 'video/webm' && isMobile;
-  const isDesktopWebMFile = desktopImage?.mimeType === 'video/webm' && !isMobile;
-
-  const getNonResponsiveBlock = () => {
-    if (isMobileWebMFile || isDesktopWebMFile) {
-      return (
-        <ReactPlayer
-          url={isMobile ? mobileImage?.url : desktopImage?.url}
-          playing={true}
-          playsinline
-          height="100%"
-          width="100%"
-          muted={true}
-          loop={true}
-          controls={false}
-          config={{
-            file: {
-              attributes: {
-                title: isMobile ? mobileImage?.alt : desktopImage?.alt,
-              },
-            },
-          }}
-        />
-      );
-    }
-
-    return (
-      <FullWidthImageContainer>
-        <div className="image__desktop">
-          <DatoImage image={desktopImage} overrideAlt={alt} />
-        </div>
-        <div className="image__mobile">
-          <DatoImage image={mobileImage} overrideAlt={alt} />
-        </div>
-      </FullWidthImageContainer>
-    );
-  };
-
-  const bannerText = (
-    <BannerTextContainer
-      className={clsx(
-        {
-          '-left': textBlockAlignment.toLowerCase() === 'left',
-          '-right': textBlockAlignment.toLowerCase() === 'right',
-          '-bg': !isFullWidth,
-          '-white': textColor?.toLowerCase() === 'white',
-          '-wide': isTextBlockWide,
-        },
-        additionalClass,
-      )}
-    >
-      {title && mobileTitle && (
-        <>
-          <ShowMobileOnly>{renderBlocKTitle(mobileTitle)}</ShowMobileOnly>
-          <ShowTabletAndUpOnly>{renderBlocKTitle(title)}</ShowTabletAndUpOnly>
-        </>
-      )}
-      {title && !mobileTitle && renderBlocKTitle(title)}
-      {subTitle && (
-        <SubTitle
-          className={clsx(
-            {
-              '-white': textColor === WHITE,
-            },
-            subtitleAdditionalClass,
-          )}
-        >
-          <Markdown options={{ forceInline: true }}>{subTitle}</Markdown>
-        </SubTitle>
-      )}
-
-      <Copy
-        className={clsx(
-          {
-            '-white': textColor?.toLowerCase() === 'white',
-          },
-          additionalClass,
-        )}
-      >
-        {desktopCopy && (
-          <ShowTabletAndUpOnly>
-            <Markdown options={{ forceBlock: true }}>{desktopCopy}</Markdown>
-          </ShowTabletAndUpOnly>
-        )}
-
-        {mobileCopy && (
-          <ShowMobileOnly>
-            <Markdown options={{ forceBlock: true }}>{mobileCopy}</Markdown>
-          </ShowMobileOnly>
-        )}
-      </Copy>
-
-      <div className="cta">
-        {ctaRoute && (
-          <UniLink route={ctaRoute} className={gtmClass}>
-            <Button
-              className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
-                '-inverse-tabletAndUp': textColor === WHITE,
-                primary: !ctaButtonType,
-              })}
-            >
-              {ctaCopy}
-            </Button>
-          </UniLink>
-        )}
-        {ctaRoute && ctaRoute2 && (
-          <UniLink route={ctaRoute2}>
-            <Button
-              className={clsx('second-button', ctaButtonType2, additionalClass, {
-                '-inverse-tabletAndUp': textColor === WHITE,
-              })}
-            >
-              {ctaCopy2}
-            </Button>
-          </UniLink>
-        )}
-        {ctaRoute && ctaRoute2 && ctaRoute3 && (
-          <UniLink route={ctaRoute3}>
-            <Button
-              className={clsx('second-button', ctaButtonType3, additionalClass, {
-                '-inverse-tabletAndUp': textColor === WHITE,
-              })}
-            >
-              {ctaCopy3}
-            </Button>
-          </UniLink>
-        )}
-      </div>
-    </BannerTextContainer>
-  );
-
-  const bannerContent = (
-    <>
-      {hasResponsive ? getResponsiveBlock() : getNonResponsiveBlock()}
-
-      {middleLayerImage && (
-        <ShowTabletAndUpOnly>
-          <MiddleLayerImageContainer className={additionalClass}>
-            <DatoImage
-              image={middleLayerImage}
-              overrideAlt={getBlockPictureAlt({
-                desktopImage: middleLayerImage,
-                title,
-              })}
-            />
-          </MiddleLayerImageContainer>
-        </ShowTabletAndUpOnly>
-      )}
-
-      {middleLayerImageMobile && (
-        <ShowMobileOnly>
-          <MobileMiddleLayerImageContainer className={additionalClass}>
-            <DatoImage
-              image={middleLayerImageMobile}
-              overrideAlt={getBlockPictureAlt({
-                mobileImage: middleLayerImageMobile,
-                title,
-              })}
-            />
-          </MobileMiddleLayerImageContainer>
-        </ShowMobileOnly>
-      )}
-
-      {bannerText}
-    </>
-  );
-
   return (
     <BannerWrapper>
       <div
@@ -359,7 +175,100 @@ const ModularBannerBlock = (props) => {
           '-vertical-margins': !isFullWidth,
         })}
       >
-        {bannerContent}
+        <FullWidthImageContainer>
+          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+        </FullWidthImageContainer>
+
+        <BannerTextContainer
+          className={clsx(
+            {
+              '-left': textBlockAlignment.toLowerCase() === 'left',
+              '-right': textBlockAlignment.toLowerCase() === 'right',
+              '-bg': !isFullWidth,
+              '-white': textColor?.toLowerCase() === 'white',
+              '-wide': isTextBlockWide,
+            },
+            additionalClass,
+          )}
+        >
+          {title && mobileTitle && (
+            <>
+              <ShowMobileOnly>{renderBlocKTitle(mobileTitle)}</ShowMobileOnly>
+              <ShowTabletAndUpOnly>{renderBlocKTitle(title)}</ShowTabletAndUpOnly>
+            </>
+          )}
+          {title && !mobileTitle && renderBlocKTitle(title)}
+          {subTitle && (
+            <SubTitle
+              className={clsx(
+                {
+                  '-white': textColor === WHITE,
+                },
+                subtitleAdditionalClass,
+              )}
+            >
+              <Markdown options={{ forceInline: true }}>{subTitle}</Markdown>
+            </SubTitle>
+          )}
+
+          <Copy
+            className={clsx(
+              {
+                '-white': textColor?.toLowerCase() === 'white',
+              },
+              additionalClass,
+            )}
+          >
+            {desktopCopy && (
+              <ShowTabletAndUpOnly>
+                <Markdown options={{ forceBlock: true }}>{desktopCopy}</Markdown>
+              </ShowTabletAndUpOnly>
+            )}
+
+            {mobileCopy && (
+              <ShowMobileOnly>
+                <Markdown options={{ forceBlock: true }}>{mobileCopy}</Markdown>
+              </ShowMobileOnly>
+            )}
+          </Copy>
+
+          <div className="cta">
+            {ctaRoute && (
+              <UniLink route={ctaRoute} className={gtmClass}>
+                <Button
+                  className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
+                    '-inverse-tabletAndUp': textColor === WHITE,
+                    primary: !ctaButtonType,
+                  })}
+                >
+                  {ctaCopy}
+                </Button>
+              </UniLink>
+            )}
+            {ctaRoute && ctaRoute2 && (
+              <UniLink route={ctaRoute2}>
+                <Button
+                  className={clsx('second-button', ctaButtonType2, additionalClass, {
+                    '-inverse-tabletAndUp': textColor === WHITE,
+                  })}
+                >
+                  {ctaCopy2}
+                </Button>
+              </UniLink>
+            )}
+            {ctaRoute && ctaRoute2 && ctaRoute3 && (
+              <UniLink route={ctaRoute3}>
+                <Button
+                  className={clsx('second-button', ctaButtonType3, additionalClass, {
+                    '-inverse-tabletAndUp': textColor === WHITE,
+                  })}
+                >
+                  {ctaCopy3}
+                </Button>
+              </UniLink>
+            )}
+          </div>
+        </BannerTextContainer>
       </div>
     </BannerWrapper>
   );
