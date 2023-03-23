@@ -125,7 +125,7 @@ const TallHalfWidthBlockLocationCTA = ({
         })}
         desktopImage={desktopImage}
         mobileImage={mobileImage}
-        isLazyLoaded={shouldLazyLoad}
+        shouldLazyLoad={shouldLazyLoad}
         alt={alt}
       />
 

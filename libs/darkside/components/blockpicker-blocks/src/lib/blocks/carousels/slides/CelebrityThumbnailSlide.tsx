@@ -15,6 +15,7 @@ type CelebrityThumnailSlideProps = {
   extraClass?: string;
   title?: string;
   showBottomCarouselOnly: boolean;
+  shouldLazyLoad?: boolean;
   bottomCarouselImage: DatoImageType;
 };
 
@@ -24,26 +25,19 @@ const CelebrityThumbnailSlide = ({
   slideIndex,
   extraClass,
   title,
-  bottomCarouselImage,
+  shouldLazyLoad,
 }: CelebrityThumnailSlideProps) => {
   const alt = getBlockPictureAlt({ desktopImage, title });
   const handleClick = () => {
     onClick(slideIndex);
   };
-  const hasBottomCarouselImage = Boolean(bottomCarouselImage);
 
   return (
-    <>
-      <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
-        <DatoImage image={hasBottomCarouselImage ? bottomCarouselImage : desktopImage} overrideAlt={alt} />
-      </CelebrityThumbnailSlideContainer>
-
-      <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
-        <div className="slide__image-container">
-          <DatoImage image={desktopImage} overrideAlt={alt} />
-        </div>
-      </CelebrityThumbnailSlideContainer>
-    </>
+    <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
+      <div className="slide__image-container">
+        <DatoImage image={desktopImage} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
+      </div>
+    </CelebrityThumbnailSlideContainer>
   );
 };
 

@@ -20,6 +20,7 @@ type ImageTilePropTypes = {
   backgroundColorRgba?: string;
   subtitle?: string;
   forceAspectRatio?: boolean;
+  shouldLazyLoad?: boolean;
 };
 
 const ImageTile = ({
@@ -33,6 +34,7 @@ const ImageTile = ({
   backgroundColorRgba,
   subtitle,
   forceAspectRatio,
+  shouldLazyLoad,
 }: ImageTilePropTypes) => {
   const hasCopy = Boolean(copy);
 
@@ -56,6 +58,7 @@ const ImageTile = ({
               svg: isSvg,
               '-blog': forceAspectRatio,
             })}
+            shouldLazyLoad={shouldLazyLoad}
           />
         </UniLink>
       ) : (
@@ -66,6 +69,7 @@ const ImageTile = ({
             svg: isSvg,
             '-blog': forceAspectRatio,
           })}
+          shouldLazyLoad={shouldLazyLoad}
         />
       )}
 

@@ -124,6 +124,8 @@ const config: configProps = {
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {
   const BlockComponent = config?.[_modelApiKey];
+
+  // This decides whether DatoImage should load eager or lazy
   const { shouldLazyLoad } = modularBlockData;
 
   return (
@@ -131,10 +133,22 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, cu
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
       {BlockComponent && shouldLazyLoad ? (
         <LazyLoadWrapper>
-          <BlockComponent isMobile={isMobile} countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+          <BlockComponent
+            isMobile={isMobile}
+            countryCode={countryCode}
+            currencyCode={currencyCode}
+            shouldLazyLoad={shouldLazyLoad}
+            {...modularBlockData}
+          />
         </LazyLoadWrapper>
       ) : BlockComponent ? (
-        <BlockComponent isMobile={isMobile} countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+        <BlockComponent
+          isMobile={isMobile}
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+          shouldLazyLoad={shouldLazyLoad}
+          {...modularBlockData}
+        />
       ) : (
         ''
       )}

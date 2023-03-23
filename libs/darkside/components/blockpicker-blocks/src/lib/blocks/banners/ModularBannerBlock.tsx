@@ -42,7 +42,7 @@ type ModularBannerBlockProps = {
   isFullWidth: boolean;
   textColor: string;
   isTextBlockWide: boolean;
-  shouldLazyLoad: boolean;
+  shouldLazyLoad?: boolean;
   ctaCopy2?: string;
   ctaRoute2?: string;
   ctaButtonType2?: string;
@@ -93,6 +93,7 @@ const ModularBannerBlock = (props) => {
     supportedCountries,
     gtmClass,
     subtitleAdditionalClass,
+    shouldLazyLoad,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
   // If country is not supported, do not render
@@ -137,7 +138,12 @@ const ModularBannerBlock = (props) => {
         })}
       >
         <FullWidthImageContainer>
-          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+          <MobileDesktopImage
+            desktopImage={desktopImage}
+            mobileImage={mobileImage}
+            alt={alt}
+            shouldLazyLoad={shouldLazyLoad}
+          />
         </FullWidthImageContainer>
 
         <BannerTextContainer

@@ -30,6 +30,7 @@ const ModularQuadImageGrid = ({
   blocks,
   countryCode,
   _modelApiKey,
+  shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
   return (
     <ModularQuadImageGridContainer>
@@ -53,7 +54,7 @@ const ModularQuadImageGrid = ({
             <div className="item__container" key={id}>
               <div className="item__image">
                 <Link href={link}>
-                  <DatoImage image={desktopImage} />
+                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} />
                 </Link>
               </div>
               <div className="item__title text-center">

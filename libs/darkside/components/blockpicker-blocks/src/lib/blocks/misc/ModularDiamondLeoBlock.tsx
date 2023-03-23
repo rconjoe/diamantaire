@@ -13,9 +13,10 @@ type DiamondLeoBlockProps = {
     height: number;
     url: string;
   };
+  shouldLazyLoad?: boolean;
 };
 
-const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image }: DiamondLeoBlockProps) => {
+const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image, shouldLazyLoad }: DiamondLeoBlockProps) => {
   const alt = getBlockPictureAlt({ image, title });
 
   return (
@@ -39,6 +40,7 @@ const DiamondLeoBlock = ({ extraClass = 'blockquote', title, copy, image }: Diam
           })}
           image={image}
           overrideAlt={alt}
+          shouldLazyLoad={shouldLazyLoad}
         />
       </div>
     </DiamondLeoBlockContainer>

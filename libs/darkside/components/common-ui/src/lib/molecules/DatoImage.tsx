@@ -4,10 +4,11 @@ import Image, { ImageLoaderProps } from 'next/image';
 type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
+  shouldLazyLoad?: boolean;
   image: DatoImageType;
 };
 
-const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
+const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
@@ -40,7 +41,7 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       // sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
       width={responsiveImage ? responsiveImage.width : image.width}
       height={responsiveImage ? responsiveImage.height : image.height}
-      loading="eager"
+      loading={shouldLazyLoad ? 'lazy' : 'eager'}
       style={{
         aspectRatio,
       }}

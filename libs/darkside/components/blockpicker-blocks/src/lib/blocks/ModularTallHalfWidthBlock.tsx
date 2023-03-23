@@ -59,6 +59,7 @@ const ModularTallHalfWidthBlock = ({
   supportedCountries,
   countryCode = 'US',
   titleImage,
+  shouldLazyLoad,
 }: ModularTallHalfWidthBlockProps) => {
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -124,7 +125,12 @@ const ModularTallHalfWidthBlock = ({
                 <Markdown options={{ forceInline: true }}>{title}</Markdown>
               </Heading>
 
-              <DatoImage image={titleImage} className="content__title-image" overrideAlt={title} />
+              <DatoImage
+                image={titleImage}
+                className="content__title-image"
+                overrideAlt={title}
+                shouldLazyLoad={shouldLazyLoad}
+              />
             </div>
           )}
           {title && !mobileTitle && !titleImage && (

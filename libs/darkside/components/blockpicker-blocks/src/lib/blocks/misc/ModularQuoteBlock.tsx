@@ -25,6 +25,7 @@ const ModularQuoteBlock = ({
   backgroundColor,
   textColor,
   quotationMarksImage,
+  shouldLazyLoad,
 }: ModularQuoteBlockProps) => {
   const alt = getBlockPictureAlt({
     image: quotationMarksImage,
@@ -43,7 +44,12 @@ const ModularQuoteBlock = ({
         <div className="quote-block__container">
           {quotationMarksImage && (
             <div className="quote-block__quote-image-wrapper">
-              <DatoImage image={quotationMarksImage} className="quote-block__quote-image" overrideAlt={alt} />
+              <DatoImage
+                image={quotationMarksImage}
+                className="quote-block__quote-image"
+                overrideAlt={alt}
+                shouldLazyLoad={shouldLazyLoad}
+              />
             </div>
           )}
           <p className="quote-block__quote">{quote}</p>

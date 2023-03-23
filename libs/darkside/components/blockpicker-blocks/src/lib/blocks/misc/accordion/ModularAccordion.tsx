@@ -21,6 +21,7 @@ type ModularAccordionProps = {
   accordionItems: Array<ModularAccordionItemProps>;
   bottomCopy?: string;
   countryCode?: string;
+  shouldLazyLoad?: boolean;
 };
 
 const ModularAccordion = ({
@@ -35,6 +36,7 @@ const ModularAccordion = ({
   shouldUseFaqSchema,
   bottomCopy,
   countryCode,
+  shouldLazyLoad,
 }: ModularAccordionProps) => {
   const [indice, setIndice] = useState(firstItemOpen ? 0 : -1);
 
@@ -80,7 +82,7 @@ const ModularAccordion = ({
         {image && (
           <div className="acc__image-container">
             <div className="acc__sticky-wrapper">
-              <DatoImage image={image} />
+              <DatoImage image={image} shouldLazyLoad={shouldLazyLoad} />
             </div>
           </div>
         )}
