@@ -17,6 +17,7 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
 
   return (
     <div className="content-one-container">
+      <h1>Temp</h1>
       {/* {content1?.slice(0, 3).map((contentBlockData, idx) => {
         const { id, _modelApiKey } = contentBlockData;
 
