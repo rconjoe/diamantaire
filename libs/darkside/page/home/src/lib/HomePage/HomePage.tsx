@@ -1,6 +1,5 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
-import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
@@ -35,8 +34,8 @@ HomePage.getTemplate = getStandardTemplate;
 
 async function getStaticProps() {
   // locale
-  const locale = 'en_US';
-  const refinedLocale = 'en_US';
+  // const locale = 'en_US';
+  // const refinedLocale = 'en_US';
 
   // device - needs to be static for now:
   const isMobile = false;
@@ -49,19 +48,19 @@ async function getStaticProps() {
   // dato
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-    meta: { refinedLocale },
-  });
+  // await queryClient.prefetchQuery({
+  //   ...queries.header.content(locale),
+  //   meta: { refinedLocale },
+  // });
 
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-    meta: { refinedLocale },
-  });
+  // await queryClient.prefetchQuery({
+  //   ...queries.footer.content(locale),
+  //   meta: { refinedLocale },
+  // });
 
-  await queryClient.prefetchQuery({
-    ...queries['standard-page'].content('darkside-home', refinedLocale),
-  });
+  // await queryClient.prefetchQuery({
+  //   ...queries['standard-page'].content('darkside-home', refinedLocale),
+  // });
 
   return {
     props: {
