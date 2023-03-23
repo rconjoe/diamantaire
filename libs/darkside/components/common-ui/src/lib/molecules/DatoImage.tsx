@@ -37,14 +37,13 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       blurDataURL={responsiveImage?.base64}
       loader={loader}
       className={className}
-      sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
-      // width={responsiveImage ? responsiveImage.width : image.width}
-      // height={responsiveImage ? responsiveImage.height : image.height}
+      // sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
+      width={responsiveImage ? responsiveImage.width : image.width}
+      height={responsiveImage ? responsiveImage.height : image.height}
       loading="eager"
       style={{
         aspectRatio,
       }}
-      fill={true}
     />
   );
 };
