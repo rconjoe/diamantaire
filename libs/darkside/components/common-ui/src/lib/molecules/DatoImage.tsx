@@ -38,7 +38,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: Dat
       blurDataURL={responsiveImage?.base64}
       loader={loader}
       className={className}
-      // sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
+      sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
       width={responsiveImage ? responsiveImage.width : image.width}
       height={responsiveImage ? responsiveImage.height : image.height}
       loading={shouldLazyLoad ? 'lazy' : 'eager'}

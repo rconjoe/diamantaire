@@ -122,11 +122,13 @@ const config: configProps = {
   [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
 };
 
-const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {
+const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode, shouldLazyLoad }) => {
   const BlockComponent = config?.[_modelApiKey];
 
   // This decides whether DatoImage should load eager or lazy
-  const { shouldLazyLoad } = modularBlockData;
+  // const { shouldLazyLoad } = modularBlockData;
+
+  console.log('shouldLazyLoad', shouldLazyLoad);
 
   return (
     <>

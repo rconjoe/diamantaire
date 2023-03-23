@@ -67,6 +67,7 @@ type ModularBannerBlockProps = {
 
 const ModularBannerBlock = (props) => {
   let { title, desktopCopy, mobileCopy, subTitle } = props?.blocks?.[0] || props;
+
   const {
     headingType,
     headingAdditionalClass,
@@ -96,6 +97,7 @@ const ModularBannerBlock = (props) => {
     shouldLazyLoad,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
+  console.log('bannnnerrrr', shouldLazyLoad);
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
