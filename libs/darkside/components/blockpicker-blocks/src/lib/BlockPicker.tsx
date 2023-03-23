@@ -126,7 +126,6 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, cu
   const BlockComponent = config?.[_modelApiKey];
 
   // This decides whether DatoImage should load eager or lazy
-  // const { shouldLazyLoad } = modularBlockData;
 
   console.log('shouldLazyLoad', shouldLazyLoad);
 
