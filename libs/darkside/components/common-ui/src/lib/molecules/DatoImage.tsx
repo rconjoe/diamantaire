@@ -38,12 +38,13 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       loader={loader}
       className={className}
       sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
-      width={responsiveImage ? responsiveImage.width : image.width}
-      height={responsiveImage ? responsiveImage.height : image.height}
+      // width={responsiveImage ? responsiveImage.width : image.width}
+      // height={responsiveImage ? responsiveImage.height : image.height}
       loading="eager"
       style={{
         aspectRatio,
       }}
+      fill={true}
     />
   );
 };
