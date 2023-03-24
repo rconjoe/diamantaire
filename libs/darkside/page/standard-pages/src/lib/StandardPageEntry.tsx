@@ -31,7 +31,6 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
           return (
             <React.Fragment key={id}>
               <BlockPicker
-                key={id}
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}
                 isMobile={isMobile}
