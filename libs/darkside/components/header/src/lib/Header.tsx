@@ -1,5 +1,4 @@
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 // import Search from 'components/search/Search';
@@ -31,7 +30,7 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
 
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const { setHeaderHeight, headerHeight } = useGlobalContext();
+  // const { setHeaderHeight, headerHeight } = useGlobalContext();
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -42,14 +41,15 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
+  const headerHeight = 90;
 
-  useEffect(() => {
-    if (!headerRef?.current?.offsetHeight) return;
+  // useEffect(() => {
+  //   if (!headerRef?.current?.offsetHeight) return;
 
-    const fullHeaderHeight = headerRef?.current?.offsetHeight;
+  //   const fullHeaderHeight = headerRef?.current?.offsetHeight;
 
-    setHeaderHeight(fullHeaderHeight);
-  }, [headerRef?.current?.offsetHeight, isTopbarShowing]);
+  //   setHeaderHeight(fullHeaderHeight);
+  // }, [headerRef?.current?.offsetHeight, isTopbarShowing]);
 
   return (
     <FullHeaderStyles>

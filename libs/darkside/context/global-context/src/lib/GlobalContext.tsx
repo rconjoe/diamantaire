@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react';
 
 export interface GlobalContextInterface {
-  headerHeight: any;
-  setHeaderHeight: any;
+  headerHeight: any; // { [key: string]: string };
+  setHeaderHeight: any; // { [diamondType: string]: DiamondShapeWithIcon };
 }
 
 export const GlobalContext = createContext<GlobalContextInterface | null>(null);

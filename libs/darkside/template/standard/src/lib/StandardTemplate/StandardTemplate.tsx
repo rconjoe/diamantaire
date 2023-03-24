@@ -10,7 +10,8 @@ export interface StandardTemplateProps {
 export function StandardTemplate({ children }: StandardTemplateProps) {
   // const { headerHeight } = useGlobalContext();
 
-  // return <main style={{ paddingTop: headerHeight + 'px' }}>{children}</main>;
+  return <main style={{ paddingTop: 91 + 'px' }}>{children}</main>;
+
   return <main>{children}</main>;
 }
 

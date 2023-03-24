@@ -2,23 +2,25 @@
   This component implements the BlockPicker loop for the Home Page, and Standard Pages
 * */
 
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import React from 'react';
 
 type StandardPageEntryProps = {
-  page?: object;
+  page?: {
+    content1: any;
+  };
   isMobile?: boolean;
   countryCode?: string;
   currencyCode?: string;
 };
 
 const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: StandardPageEntryProps) => {
-  // const { content1 } = page || [];
-  console.log(page, isMobile, countryCode, currencyCode);
+  const { content1 } = page || [];
+  // console.log(page, isMobile, countryCode, currencyCode);
 
   return (
     <div className="content-one-container">
-      <h1>Temp</h1>
-      {/* {content1?.slice(0, 3).map((contentBlockData, idx) => {
+      {content1?.slice(0, 2).map((contentBlockData, idx) => {
         const { id, _modelApiKey } = contentBlockData;
 
         // Desktop + Mobile, anything after the first two blocks should be lazy loaded
@@ -39,7 +41,7 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
             <p>{_modelApiKey}</p>
           </React.Fragment>
         );
-      })} */}
+      })}
     </div>
   );
 };
