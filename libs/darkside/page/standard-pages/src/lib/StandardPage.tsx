@@ -1,8 +1,10 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-// import { queries } from '@diamantaire/darkside/data/queries';
-// import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { useStandardPage } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
+import { QueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
 import { StandardPageEntry } from './StandardPageEntry';
@@ -14,15 +16,12 @@ export interface StandardPageProps {
 }
 
 const StandardPage = (props: StandardPageProps) => {
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const { pageSlug } = router.query;
+  const { pageSlug } = router.query;
 
-  // const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
+  const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
 
-  const data = {
-    allStandardPages: [],
-  };
   const page = data?.allStandardPages?.[0];
 
   const { seo } = page || {};
@@ -60,16 +59,12 @@ async function getStaticPaths() {
   };
 }
 
-// async function getStaticProps(context) {
-async function getStaticProps() {
+async function getStaticProps(context) {
   // locale
-  // const locale = 'en_US';
-  // const refinedLocale = 'en_US';
+  const locale = 'en_US';
+  const refinedLocale = 'en_US';
 
   // device:
-  // const isMobile = Boolean(
-  //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
-  // );
 
   const isMobile = false;
 
@@ -79,22 +74,22 @@ async function getStaticProps() {
   const devCurrencyCode = 'USD';
 
   // dato
-  // const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
 
-  // await queryClient.prefetchQuery({
-  //   ...queries.header.content(locale),
-  //   meta: { refinedLocale },
-  // });
+  await queryClient.prefetchQuery({
+    ...queries.header.content(locale),
+    meta: { refinedLocale },
+  });
 
-  // await queryClient.prefetchQuery({
-  //   ...queries.footer.content(locale),
-  //   meta: { refinedLocale },
-  // });
+  await queryClient.prefetchQuery({
+    ...queries.footer.content(locale),
+    meta: { refinedLocale },
+  });
 
-  // await queryClient.prefetchQuery({
-  //   ...queries['standard-page'].content(context.pageSlug, refinedLocale),
-  //   meta: { refinedLocale },
-  // });
+  await queryClient.prefetchQuery({
+    ...queries['standard-page'].content(context.pageSlug, refinedLocale),
+    meta: { refinedLocale },
+  });
 
   return {
     props: {
