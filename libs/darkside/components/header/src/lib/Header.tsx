@@ -1,4 +1,3 @@
-import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -66,9 +65,7 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
 
         <MobileHeader navItems={section} headerHeight={headerHeight} />
 
-        <DiamondShapesProvider>
-          <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} headerHeight={headerHeight} />
-        </DiamondShapesProvider>
+        <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} headerHeight={headerHeight} />
 
         {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
       </div>

@@ -1,7 +1,6 @@
-import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 
 import { MenuLink, NavItemsProps, SubMenuChildLink } from './header-types';
 import { MegaMenuStylesContainer } from './MegaMenuStyles.style';
@@ -13,11 +12,11 @@ type MegaMenuProps = {
 };
 
 const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) => {
-  const diamondContext = useContext(DiamondShapesContext);
+  // const diamondContext = useContext(DiamondShapesContext);
 
-  if (!diamondContext) return null;
+  // if (!diamondContext) return null;
 
-  const { diamondShapesWithIcon, ringStylesWithIcon } = diamondContext;
+  // const { diamondShapesWithIcon, ringStylesWithIcon } = diamondContext;
 
   return (
     <MegaMenuStylesContainer className={megaMenuIndex === -1 ? 'hide' : ''} $headerHeight={headerHeight}>
@@ -47,20 +46,21 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) 
                         <ul>
                           {links.map((link, colIndex: number) => {
                             const {
-                              linkKey,
+                              // linkKey,
                               nestedLinks,
                               route: subMenuRoute,
                               copy: nestedLinkCopy,
                             }: Partial<SubMenuChildLink> = link;
-                            const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
-                              ? 'diamond'
-                              : ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]
-                              ? 'ring-style'
-                              : '';
+                            // const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
+                            //   ? 'diamond'
+                            //   : ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]
+                            //   ? 'ring-style'
+                            //   : '';
 
                             return (
                               <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
-                                <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
+                                {/* <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}> */}
+                                <Link href={getRelativeUrl(subMenuRoute)}>
                                   <>
                                     {/* {linkKey && (
                                       <span className={iconType}>
