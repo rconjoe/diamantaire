@@ -80,6 +80,7 @@ const config: configProps = {
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
+  // [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
   // BANNERS
 
