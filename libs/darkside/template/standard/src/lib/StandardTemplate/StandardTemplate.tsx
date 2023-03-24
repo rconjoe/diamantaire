@@ -11,8 +11,6 @@ export function StandardTemplate({ children }: StandardTemplateProps) {
   // const { headerHeight } = useGlobalContext();
 
   return <main style={{ paddingTop: 91 + 'px' }}>{children}</main>;
-
-  return <main>{children}</main>;
 }
 
 export const getTemplate = (page: ReactElement) => getGlobalTemplate(<StandardTemplate>{page}</StandardTemplate>);
