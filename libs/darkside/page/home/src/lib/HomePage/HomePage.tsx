@@ -33,7 +33,7 @@ const HomePage = (props: HomePageProps) => {
 
 HomePage.getTemplate = getStandardTemplate;
 
-async function getStaticProps() {
+async function getServerSideProps() {
   // locale
   // const locale = 'en_US';
   // const refinedLocale = 'en_US';
@@ -73,4 +73,4 @@ async function getStaticProps() {
   };
 }
 
-export { HomePage, getStaticProps };
+export { HomePage, getServerSideProps };
