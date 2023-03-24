@@ -1,4 +1,4 @@
-// import { DefaultSeo } from '@diamantaire/darkside/components/seo';
+import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState } from '@tanstack/react-query';
 import type { NextPage } from 'next';
@@ -27,7 +27,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
     <>
       {/* <GlobalProvider> */}
       {/* <QueryClientProvider client={queryClient}> */}
-      {/* <DefaultSeo /> */}
+      <DefaultSeo />
       <GlobalStyles />
       {/* <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate> */}
       {getTemplate(<Component {...pageProps} />)}
