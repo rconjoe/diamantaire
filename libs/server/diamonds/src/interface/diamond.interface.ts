@@ -26,10 +26,7 @@ export interface DiamondVariant {
   variantId?: string;
   dangerousInternalShopifyVariantId?: string;
   variantTitle?: string;
-  price?: {
-    amount?: string;
-    currencyCode?: string;
-  };
+  price?: number;
   title?: string;
 }
 
