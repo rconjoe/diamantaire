@@ -257,11 +257,6 @@ export const BannerTextContainer = styled.div`
     `)};
   }
 
-  .cta {
-    display: flex;
-    flex-direction: column;
-  }
-
   button {
     ${desktopAndUp(`
 
