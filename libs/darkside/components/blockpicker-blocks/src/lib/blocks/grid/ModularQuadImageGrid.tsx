@@ -54,7 +54,7 @@ const ModularQuadImageGrid = ({
             <div className="item__container" key={id}>
               <div className="item__image">
                 <Link href={link}>
-                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} />
+                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} overrideAlt={title} />
                 </Link>
               </div>
               <div className="item__title text-center">
@@ -70,7 +70,6 @@ const ModularQuadImageGrid = ({
       <div className="mobile-slider">
         <ModularCarouselBlock
           _modelApiKey={_modelApiKey}
-          // TODO: what's the right logic for country specific blocks???
           blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
         />
       </div>
