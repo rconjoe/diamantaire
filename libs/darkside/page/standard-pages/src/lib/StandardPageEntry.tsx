@@ -18,10 +18,12 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
   // const { content1 } = page || [];
   // console.log(page, isMobile, countryCode, currencyCode);
 
+  // console.log('page?.content1', page?.content1.length);
+
   return (
     <div className="content-one-container">
       <Suspense fallback={'Loading'}>
-        {page?.content1?.slice(0, 7)?.map((contentBlockData, idx) => {
+        {page?.content1?.map((contentBlockData, idx) => {
           const { id, _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded

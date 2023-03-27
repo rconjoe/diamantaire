@@ -1,35 +1,3 @@
-@font-face {
-  font-family: 'futura-pt';
-  src: url('./fonts/FuturaBT-Book.woff2') format('woff2'), url('./fonts/FuturaBT-Book.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'futura-pt';
-  src: url('./fonts/FuturaBT-LightItalic.woff2') format('woff2'), url('./fonts/FuturaBT-LightItalic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'futura-pt';
-  src: url('./fonts/FuturaBT-Light.woff2') format('woff2'), url('./fonts/FuturaBT-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'futura-pt';
-  src: url('./fonts/FuturaBT-BookItalic.woff2') format('woff2'), url('./fonts/FuturaBT-BookItalic.woff') format('woff');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
 html,
 body {
   padding: 0;
