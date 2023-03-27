@@ -4,9 +4,6 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
-const withPWA = require('next-pwa')({
-  dest: 'public',
-});
 
 const DEFAULT_LOCALE = 'en-US';
 const LOCALES = [
@@ -94,4 +91,4 @@ const nextConfig = {
   // },
 };
 
-module.exports = withNx(withPWA(nextConfig));
+module.exports = withNx(nextConfig);
