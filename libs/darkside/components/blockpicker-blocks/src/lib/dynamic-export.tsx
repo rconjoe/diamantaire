@@ -13,8 +13,9 @@ export const DynamicModularSwiperCarouselBlock = dynamic(() => import('./blocks/
 export const DynamicModularTallHalfWidthBlockLocationCTA = dynamic(
   () => import('./blocks/grid/TallHalfWidthBlockLocationCTA'),
 );
-export const DynamicModularQuadStatisticsBlock = dynamic(() => import('./blocks/grid/ModularQuadStatisticsBlock'));
-export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'));
+export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'), {
+  ssr: false,
+});
 export const DynamicModularQuadImageGrid = dynamic(() => import('./blocks/grid/ModularQuadImageGrid'));
 export const DynamicTextOnlyBlock = dynamic(() => import('./blocks/misc/ModularTextOnlyBlock'));
 export const DynamicModularLogoGrid = dynamic(() => import('./blocks/grid//ModularLogoGrid'));
