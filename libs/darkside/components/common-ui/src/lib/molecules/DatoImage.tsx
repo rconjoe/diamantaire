@@ -12,7 +12,7 @@ type DatoImageProps = {
 
 const DatoImageContainer = styled.div`
   width: 100%;
-
+  position: relative;
   > div {
     position: unset !important;
   }

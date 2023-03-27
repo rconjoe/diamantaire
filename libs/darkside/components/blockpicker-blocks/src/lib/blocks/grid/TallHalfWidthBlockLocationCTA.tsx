@@ -109,6 +109,11 @@ const TallHalfWidthBlockLocationCTA = ({
         });
 
         return await res.json();
+      })
+      .catch((e) => {
+        console.log(e);
+
+        return { city: 'New York', timezone: 'America/New_York' };
       });
 
     return location;
