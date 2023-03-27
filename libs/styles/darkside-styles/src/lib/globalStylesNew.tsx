@@ -46,6 +46,8 @@ export function makeTealLink() {
 }
 
 const GetGlobalTypography = createGlobalStyle`
+
+
    .fpo-spacer {
       margin-top: ${setSpace(3)};
       margin-bottom: ${setSpace(1)};
