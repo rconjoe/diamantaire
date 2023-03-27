@@ -6,19 +6,16 @@ type HeadingProps = {
   className?: string;
 };
 
-const elements = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'h4',
-  h5: 'h5',
-};
-
 const Heading = ({ type, children, ...props }: HeadingProps) => {
-  // This will create the heading tag based on the type
-  // insert any extra props
-  // return any children put inside
-  return React.createElement(elements[type] || elements.h1, props, children);
+  return (
+    <>
+      {type === 'h1' && <h1 {...props}>{children}</h1>}
+      {type === 'h2' && <h2 {...props}>{children}</h2>}
+      {type === 'h3' && <h3 {...props}>{children}</h3>}
+      {type === 'h4' && <h4 {...props}>{children}</h4>}
+      {type === 'h5' && <h5 {...props}>{children}</h5>}
+    </>
+  );
 };
 
 export { Heading };

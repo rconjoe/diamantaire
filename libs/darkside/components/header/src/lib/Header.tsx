@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 // import Search from 'components/search/Search';
@@ -27,6 +27,7 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -51,6 +52,10 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
   //   setHeaderHeight(fullHeaderHeight);
   // }, [headerRef?.current?.offsetHeight, isTopbarShowing]);
 
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
     <FullHeaderStyles>
       <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
@@ -65,7 +70,7 @@ const Header: FC<HeaderProps> = ({ headerData, isHome = false }): JSX.Element =>
 
         <MobileHeader navItems={section} headerHeight={headerHeight} />
 
-        <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} headerHeight={headerHeight} />
+        {isLoaded && <MegaMenu navItems={section} megaMenuIndex={megaMenuIndex} headerHeight={headerHeight} />}
 
         {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
       </div>
