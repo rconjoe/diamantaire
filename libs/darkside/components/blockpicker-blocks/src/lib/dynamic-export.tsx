@@ -7,11 +7,18 @@ export const DynamicModularSkinnyBannerBlock = dynamic(() => import('./blocks/ba
 export const DynamicModularLogoBannerBlock = dynamic(() => import('./blocks/banners/ModularLogoBannerBlock'));
 
 export const DynamicModularContentQuadBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
-export const DynamicModularDiamondLeoBlock = dynamic(() => import('./blocks/misc/ModularDiamondLeoBlock'));
-export const DynamicModularVideoBlock = dynamic(() => import('./blocks/ModularVideoBlock'));
+export const DynamicModularDiamondLeoBlock = dynamic(() => import('./blocks/misc/ModularDiamondLeoBlock'), {
+  ssr: false,
+});
+export const DynamicModularVideoBlock = dynamic(() => import('./blocks/ModularVideoBlock'), {
+  ssr: false,
+});
 export const DynamicModularSwiperCarouselBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
 export const DynamicModularTallHalfWidthBlockLocationCTA = dynamic(
   () => import('./blocks/grid/TallHalfWidthBlockLocationCTA'),
+  {
+    ssr: false,
+  },
 );
 export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'), {
   ssr: false,
