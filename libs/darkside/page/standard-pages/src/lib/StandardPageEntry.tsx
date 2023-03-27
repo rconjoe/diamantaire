@@ -40,7 +40,6 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
                 currencyCode={currencyCode}
                 shouldLazyLoad={shouldLazyLoad}
               />
-              <p>{_modelApiKey}</p>
             </React.Fragment>
           );
         })}

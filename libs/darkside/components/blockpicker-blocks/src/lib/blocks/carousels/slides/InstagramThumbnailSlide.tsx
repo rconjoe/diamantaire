@@ -1,5 +1,4 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 
 import { InstagramThumnailSlideContainer } from './InstagramThumbnailSlide.style';
@@ -36,9 +35,8 @@ const InstagramThumnailSlide = ({
   };
 
   const link = getLink();
-  const alt = getBlockPictureAlt({ image });
 
-  const imageItem = <DatoImage image={image} overrideAlt={alt} />;
+  const imageItem = <DatoImage image={image} overrideAlt={''} />;
 
   if (!link) {
     return <InstagramThumnailSlideContainer className={extraClass}>{imageItem}</InstagramThumnailSlideContainer>;
