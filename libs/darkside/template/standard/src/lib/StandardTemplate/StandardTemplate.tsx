@@ -8,8 +8,6 @@ export interface StandardTemplateProps {
 }
 
 export function StandardTemplate({ children }: StandardTemplateProps) {
-  // const { headerHeight } = useGlobalContext();
-
   return <div>{children}</div>;
 }
 

@@ -1,8 +1,7 @@
-import { emptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
+import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
 import { BP_LG } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
@@ -114,7 +113,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight }): JSX.El
                   <Hamburger label="Toggle mobile menu" toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={18} />
                 </li>
                 <li className="calendar">
-                  <Image src={emptyCalendarIcon} alt="Book an appointment" loading="eager" />
+                  <EmptyCalendarIcon alt="Book an appointment" loading="eager" />
                 </li>
               </ul>
             </nav>

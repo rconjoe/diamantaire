@@ -1,3 +1,5 @@
+/* Needs to be svg */
+
 const XIcon = () => {
   return (
     <svg

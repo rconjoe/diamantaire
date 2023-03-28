@@ -28,6 +28,11 @@
             "glob": "libs/shared/icons/README.md",
             "input": ".",
             "output": "."
+          },
+          {
+            "glob": "libs/shared/icons/lib/**/*",
+            "input": ".",
+            "output": "."
           }
         ]
       }

@@ -1,7 +1,6 @@
-import { LocaleSelector, Form } from '@diamantaire/darkside/components/common-ui';
-import { facebookIcon, instagramIcon, pinterestIcon, tiktokIcon } from '@diamantaire/shared/icons';
+import { Form } from '@diamantaire/darkside/components/common-ui';
+import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { BOLD_FONT_WEIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -193,22 +192,22 @@ const FooterStyles = styled.footer`
 
 const socialItems = [
   {
-    icon: instagramIcon,
+    icon: <InstagramIcon alt="Instagram" />,
     url: 'https://www.instagram.com/vraiofficial/',
     className: 'instagram',
   },
   {
-    icon: facebookIcon,
+    icon: <FacebookIcon alt="Facebook" />,
     url: 'https://www.facebook.com/VRAIjewelry/',
     className: 'facebook',
   },
   {
-    icon: pinterestIcon,
+    icon: <PinterestIcon alt="Pinterest" />,
     url: 'https://www.pinterest.com/vrai/',
     className: 'pinterest',
   },
   {
-    icon: tiktokIcon,
+    icon: <TiktokIcon alt="Tiktok" />,
     url: 'https://www.tiktok.com/@vraiofficial',
     className: 'tiktok',
   },
@@ -271,7 +270,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     return (
                       <li key={`footer-social-link-${index}`}>
                         <a target="_blank" href={url} rel="noreferrer" className={className}>
-                          <Image src={icon} alt={className.charAt(0).toUpperCase() + className.slice(1)} />
+                          {icon}
                         </a>
                       </li>
                     );

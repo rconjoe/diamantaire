@@ -1,3 +1,5 @@
+import './lib/icons.d';
+
 export * from './lib/diamondShapes';
 export * from './lib/ringStyles';
 export * from './lib/general';

@@ -1,6 +1,5 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { searchIcon, accountsIcon, heartIcon, shoppingBagIcon } from '@diamantaire/shared/icons';
-import Image from 'next/image';
+import { SearchIcon, AccountIcon, HeartIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -74,7 +73,7 @@ const HeaderActionsNav = () => {
   const links = [
     {
       title: 'Search',
-      icon: searchIcon,
+      icon: <SearchIcon alt="Search" loading="eager" />,
       type: 'button',
       alt: 'Search Toggle Button',
       onClick: () => null,
@@ -82,21 +81,21 @@ const HeaderActionsNav = () => {
     },
     {
       title: 'Accounts',
-      icon: accountsIcon,
+      icon: <AccountIcon alt="Accounts" loading="eager" />,
       type: 'link',
       href: '/account/login',
       alt: 'Accounts Toggle Button',
     },
     {
       title: 'Wishlist',
-      icon: heartIcon,
+      icon: <HeartIcon alt="Favorites" loading="eager" />,
       type: 'button',
       alt: 'Wishlist Toggle Button',
       href: '/',
     },
     {
       title: 'Cart',
-      icon: shoppingBagIcon,
+      icon: <ShoppingBagIcon alt="Cart" loading="eager" />,
       type: 'button',
       alt: 'Cart Toggle Button',
     },
@@ -113,7 +112,7 @@ const HeaderActionsNav = () => {
               <li key={`header-action-${index}`} className={title.toLowerCase()}>
                 {href && (
                   <Link href={href === '/' ? '/' : getRelativeUrl(href)} aria-label={alt}>
-                    <Image src={icon} alt={title} loading="eager" />
+                    {icon}
                   </Link>
                 )}
               </li>
@@ -122,7 +121,7 @@ const HeaderActionsNav = () => {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
                 <button onClick={onClick} aria-label={alt}>
-                  <Image src={icon} alt={title} loading="eager" />
+                  {icon}
                 </button>
               </li>
             );
