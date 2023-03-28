@@ -126,11 +126,11 @@ export class DiamondsService {
     // EG: "priceMin": 100.0, "priceMax": 1200.0, "currencyCode": "USD",
     // currencyCode = USD, GBP, EUR, CAD, AUD
     if (input.priceMin && input.priceMax) {
-      input['variants.price'] = {
+      input['variants'] = {
         $elemMatch: {
-          amount: {
-            $gte: input.priceMin.toFixed(1).toString(), // mongoose $gte operator greater than or equal to
-            $lte: input.priceMax.toFixed(1).toString(), // mongoose $llte operator less than or equal to
+          price: {
+            $gte: input.priceMin, // mongoose $gte operator greater than or equal to
+            $lte: input.priceMax, // mongoose $llte operator less than or equal to
           },
         },
       };
