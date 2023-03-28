@@ -17,7 +17,11 @@ import {
 import clsx from 'clsx';
 import styled from 'styled-components';
 
-const ButtonStyles = styled.button`
+interface Props {
+  css: string;
+}
+
+const ButtonStyles = styled.button<Props>`
   // BASE STYLES
   background-color: ${TRANSPARENT};
   cursor: pointer;

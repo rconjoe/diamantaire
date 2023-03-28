@@ -1,7 +1,13 @@
 import { tabletAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const ModularVideoBlockContainer = styled.div`
+interface Props {
+  $titleFont: string;
+  $titleStyle: string;
+  $titleColor: string;
+}
+
+export const ModularVideoBlockContainer = styled.div<Props>`
   width: 100%;
   max-width: 1440px;
   margin: ${setSpace(3)} auto;

@@ -1,7 +1,11 @@
 import { TEAL, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const MegaMenuStylesContainer = styled.div`
+interface Props {
+  $headerHeight: number;
+}
+
+export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 1px solid #000;
   padding-bottom: 2.4rem;
   position: fixed;

@@ -5,6 +5,22 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 
+const DEFAULT_LOCALE = 'en-US';
+const LOCALES = [
+  DEFAULT_LOCALE,
+  'fr-FR',
+  'en-FR',
+  'de-DE',
+  'en-DE',
+  'es-ES',
+  'en-ES',
+  'en-CA',
+  'fr-CA',
+  'en-GB',
+  'en-AT',
+  'en-AU',
+];
+
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
@@ -12,6 +28,10 @@ const nextConfig = {
   nx: {
     // See: https://github.com/gregberge/svgr
     svgr: true,
+  },
+  i18n: {
+    locales: LOCALES,
+    defaultLocale: DEFAULT_LOCALE,
   },
   reactStrictMode: false,
   compiler: {
@@ -64,10 +84,6 @@ const nextConfig = {
   //       destination: `${JOURNAL_DEV_URL}/journal/:path*`,
   //     },
   //   ];
-  // },
-  // i18n: {
-  //   locales: ['en-US', 'fr', 'de', 'es'],
-  //   defaultLocale: 'en-US',
   // },
   // env: {
   //   GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
