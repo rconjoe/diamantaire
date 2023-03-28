@@ -13,6 +13,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   left: 0;
   width: 100%;
   background-color: #fff;
+  z-index: 5000;
 
   &.hide {
     display: none;

@@ -3,6 +3,11 @@ import styled from 'styled-components';
 
 export const StackedHeaderStylesContainer = styled.header`
   display: none;
+  z-index: 6000;
+  position: relative;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
 
   @media (min-width: ${BP_LG}) {
     display: block;
@@ -26,6 +31,11 @@ export const StackedHeaderStylesContainer = styled.header`
     .nav__logo {
       max-width: 95px;
       margin: 0 auto;
+
+      svg {
+        width: 100%;
+        height: auto;
+      }
     }
 
     .nav__col--left ul {

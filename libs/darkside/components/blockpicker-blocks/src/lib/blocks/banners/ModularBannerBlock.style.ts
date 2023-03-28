@@ -261,7 +261,7 @@ export const BannerTextContainer = styled.div`
     ${desktopAndUp(`
 
       &.-wide-cta {
-        margin-top: ${setSpace(5)};
+        margin-top: calc(var(--gutter) /2.5);
         width: 80% !important;
       }
     `)};

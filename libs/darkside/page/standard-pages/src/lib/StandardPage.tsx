@@ -3,7 +3,7 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -60,6 +60,7 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps(context) {
+  console.log('context.pageSlug', context.params.pageSlug);
   // locale
   const locale = 'en_US';
   const refinedLocale = 'en_US';
@@ -87,7 +88,7 @@ async function getStaticProps(context) {
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(context.pageSlug, refinedLocale),
+    ...queries['standard-page'].content(context.params.pageSlug, refinedLocale),
     meta: { refinedLocale },
   });
 
@@ -97,7 +98,7 @@ async function getStaticProps(context) {
       currencyCode: devCurrencyCode,
       countryCode: devCountryCode,
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
-      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }

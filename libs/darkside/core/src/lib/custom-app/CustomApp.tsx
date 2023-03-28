@@ -25,16 +25,11 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <>
-      {/* <GlobalProvider> */}
-      <QueryClientProvider client={queryClient}>
-        <DefaultSeo />
-        <GlobalStyles />
-        <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-
-      {/* </GlobalProvider> */}
-    </>
+    <QueryClientProvider client={queryClient}>
+      <DefaultSeo />
+      <GlobalStyles />
+      <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }

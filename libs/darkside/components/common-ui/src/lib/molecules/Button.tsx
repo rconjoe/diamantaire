@@ -111,7 +111,7 @@ const ButtonStyles = styled.button<Props>`
       width: 100%;
       white-space: nowrap;
 
-      ${tabletAndUp(`width: 300px;`)}
+      ${tabletAndUp(`width: 350px;`)}
     }
   }
 

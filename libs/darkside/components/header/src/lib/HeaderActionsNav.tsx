@@ -1,3 +1,7 @@
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { searchIcon, accountsIcon, heartIcon, shoppingBagIcon } from '@diamantaire/shared/icons';
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
@@ -15,7 +19,7 @@ const HeaderActionsNavContainer = styled.nav`
         margin-right: 0px;
       }
       &.accounts {
-        svg {
+        img {
           width: 20px;
           height: auto;
           position: relative;
@@ -23,8 +27,8 @@ const HeaderActionsNavContainer = styled.nav`
         }
       }
       &.search {
-        svg {
-          width: 24px;
+        img {
+          width: 26px;
           height: auto;
           transform: scale(0.8);
           position: relative;
@@ -32,19 +36,21 @@ const HeaderActionsNavContainer = styled.nav`
         }
       }
       &.wishlist {
-        svg {
+        img {
           width: 24px;
           height: auto;
           transform: scale(0.8);
           stroke-width: 1.5px;
           position: relative;
-          top: 2px;
+          top: 1px;
         }
       }
       &.cart {
-        svg {
+        img {
           width: 24px;
           height: auto;
+          position: relative;
+          top: -1px;
         }
       }
       a {
@@ -65,45 +71,40 @@ const HeaderActionsNavContainer = styled.nav`
 `;
 
 const HeaderActionsNav = () => {
-  // const globalContext = useContext(GlobalContext);
-
-  // if (!globalContext) return null;
-
-  // const { getRelativeUrl } = globalContext;
-
-  // const links = [
-  //   {
-  //     title: 'Search',
-  //     icon: <SearchIcon />,
-  //     type: 'button',
-  //     alt: 'Search Toggle Button',
-  //     onClick: () => null,
-  //   },
-  //   {
-  //     title: 'Accounts',
-  //     icon: <AccountIcon />,
-  //     type: 'link',
-  //     href: '/account/login',
-  //     alt: 'Accounts Toggle Button',
-  //   },
-  //   {
-  //     title: 'Wishlist',
-  //     icon: <HeartIcon />,
-  //     type: 'button',
-  //     alt: 'Wishlist Toggle Button',
-  //   },
-  //   {
-  //     title: 'Cart',
-  //     icon: <ShoppingBagIcon />,
-  //     type: 'button',
-  //     alt: 'Cart Toggle Button',
-  //   },
-  // ];
+  const links = [
+    {
+      title: 'Search',
+      icon: searchIcon,
+      type: 'button',
+      alt: 'Search Toggle Button',
+      onClick: () => null,
+      href: '/',
+    },
+    {
+      title: 'Accounts',
+      icon: accountsIcon,
+      type: 'link',
+      href: '/account/login',
+      alt: 'Accounts Toggle Button',
+    },
+    {
+      title: 'Wishlist',
+      icon: heartIcon,
+      type: 'button',
+      alt: 'Wishlist Toggle Button',
+      href: '/',
+    },
+    {
+      title: 'Cart',
+      icon: shoppingBagIcon,
+      type: 'button',
+      alt: 'Cart Toggle Button',
+    },
+  ];
 
   return (
     <HeaderActionsNavContainer>
-      temp
-      {/* <ul>
+      <ul>
         {links.map((link, index) => {
           const { title, href, icon, alt, onClick } = link;
 
@@ -111,8 +112,8 @@ const HeaderActionsNav = () => {
             return (
               <li key={`header-action-${index}`} className={title.toLowerCase()}>
                 {href && (
-                  <Link href={getRelativeUrl(href)} aria-label={alt} legacyBehavior>
-                    {icon}
+                  <Link href={href === '/' ? '/' : getRelativeUrl(href)} aria-label={alt}>
+                    <Image src={icon} alt={title} loading="eager" />
                   </Link>
                 )}
               </li>
@@ -121,13 +122,13 @@ const HeaderActionsNav = () => {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
                 <button onClick={onClick} aria-label={alt}>
-                  {icon}
+                  <Image src={icon} alt={title} loading="eager" />
                 </button>
               </li>
             );
           }
         })}
-      </ul> */}
+      </ul>
     </HeaderActionsNavContainer>
   );
 };

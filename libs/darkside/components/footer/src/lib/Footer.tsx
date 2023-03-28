@@ -1,4 +1,7 @@
-import { LocaleSelector } from '@diamantaire/darkside/components/common-ui';
+import { LocaleSelector, Form } from '@diamantaire/darkside/components/common-ui';
+import { facebookIcon, instagramIcon, pinterestIcon, tiktokIcon } from '@diamantaire/shared/icons';
+import { BOLD_FONT_WEIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -64,7 +67,11 @@ const FooterStyles = styled.footer`
 
     .footer-col {
       flex: 1;
+      display: none;
 
+      ${desktopAndUp(`
+        display: block;
+      `)}
       &:first-child ul {
         li:first-child {
           a {
@@ -77,6 +84,7 @@ const FooterStyles = styled.footer`
         p.col-heading {
           font-size: 1.4rem;
           margin: 0 0 10px;
+          font-weight: ${BOLD_FONT_WEIGHT};
         }
         ul {
           padding: 0;
@@ -133,24 +141,25 @@ const FooterStyles = styled.footer`
               text-align: center;
               a {
                 display: inline-block;
-                svg {
+                img {
                   height: 23px;
                 }
 
                 &.pinterest,
                 &.tiktok {
-                  svg {
+                  img {
                     height: 19px;
+                    width: auto;
                   }
                 }
                 &.instagram {
-                  svg {
+                  img {
                     position: relative;
                     top: 4px;
                   }
                 }
                 &.facebook {
-                  svg {
+                  img {
                     position: relative;
                     top: 2px;
                   }
@@ -164,7 +173,11 @@ const FooterStyles = styled.footer`
   }
 
   .footer-mobile {
-    display: none;
+    display: block;
+
+    ${desktopAndUp(`
+        display: none;
+      `)}
   }
 
   .footer__copyright-wrapper {
@@ -178,30 +191,28 @@ const FooterStyles = styled.footer`
   }
 `;
 
-const socialItems = [];
-
-// const socialItems = [
-//   {
-//     icon: <InstagramIcon />,
-//     url: 'https://www.instagram.com/vraiofficial/',
-//     class: 'instagram',
-//   },
-//   {
-//     icon: <FacebookIcon />,
-//     url: 'https://www.facebook.com/VRAIjewelry/',
-//     class: 'facebook',
-//   },
-//   {
-//     icon: <PinterestIcon />,
-//     url: 'https://www.pinterest.com/vrai/',
-//     class: 'pinterest',
-//   },
-//   {
-//     icon: <TiktokIcon />,
-//     url: 'https://www.tiktok.com/@vraiofficial',
-//     class: 'tiktok',
-//   },
-// ];
+const socialItems = [
+  {
+    icon: instagramIcon,
+    url: 'https://www.instagram.com/vraiofficial/',
+    className: 'instagram',
+  },
+  {
+    icon: facebookIcon,
+    url: 'https://www.facebook.com/VRAIjewelry/',
+    className: 'facebook',
+  },
+  {
+    icon: pinterestIcon,
+    url: 'https://www.pinterest.com/vrai/',
+    className: 'pinterest',
+  },
+  {
+    icon: tiktokIcon,
+    url: 'https://www.tiktok.com/@vraiofficial',
+    className: 'tiktok',
+  },
+];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
   const { columns, copyright, emailSignUpColumn /*, emailSignUpCopy */ } = footerData.footerNavigation;
@@ -250,14 +261,8 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
             <div className="footer-col__inner">
               <p className="col-heading">{title}</p>
               <p>{copy}</p>
-              <LocaleSelector locale={'en-US'} />
-              {/* <CTAForm
-                text={{
-                  buttonText: ctaCopy,
-                  emailInputPlaceholder,
-                }}
-                onSubmit={handleFormSubmit}
-              /> */}
+
+              <Form onSubmit={(e) => e.preventDefault()} />
               <div className="footer-social">
                 <ul>
                   {socialItems.map((item, index) => {
@@ -266,13 +271,14 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     return (
                       <li key={`footer-social-link-${index}`}>
                         <a target="_blank" href={url} rel="noreferrer" className={className}>
-                          {icon}
+                          <Image src={icon} alt={className.charAt(0).toUpperCase() + className.slice(1)} />
                         </a>
                       </li>
                     );
                   })}
                 </ul>
               </div>
+              <LocaleSelector locale={'en-US'} />
             </div>
           </div>
         </div>

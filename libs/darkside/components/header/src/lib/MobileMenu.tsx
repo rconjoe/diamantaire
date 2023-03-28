@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import React, { FC, useState, useContext } from 'react';
+import { FC, useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';

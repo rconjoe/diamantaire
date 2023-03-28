@@ -69,7 +69,12 @@ const GetGlobalTypography = createGlobalStyle`
     h4,
     p,
     .p-copy,
+<<<<<<< HEAD
     button,
+=======
+    input,
+    textarea,
+>>>>>>> f0f2f67 (feat: test out header + footer updates)
     strong {
       letter-spacing: 0px;
       font-family: ${MAIN_FONT};

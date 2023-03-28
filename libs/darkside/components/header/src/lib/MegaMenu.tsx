@@ -12,12 +12,6 @@ type MegaMenuProps = {
 };
 
 const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) => {
-  // const diamondContext = useContext(DiamondShapesContext);
-
-  // if (!diamondContext) return null;
-
-  // const { diamondShapesWithIcon, ringStylesWithIcon } = diamondContext;
-
   return (
     <MegaMenuStylesContainer className={megaMenuIndex === -1 ? 'hide' : ''} $headerHeight={headerHeight}>
       <div className="mega-menu__wrapper">

@@ -30,7 +30,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, m
 
           <div className="nav__col--center">
             <div className="nav__logo">
-              <Link aria-label="VRAI Logo" href="/" legacyBehavior>
+              <Link aria-label="VRAI Logo" href="/">
                 <Logo />
               </Link>
             </div>

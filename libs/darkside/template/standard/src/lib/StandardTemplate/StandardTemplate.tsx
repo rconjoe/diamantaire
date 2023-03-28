@@ -10,7 +10,7 @@ export interface StandardTemplateProps {
 export function StandardTemplate({ children }: StandardTemplateProps) {
   // const { headerHeight } = useGlobalContext();
 
-  return <main style={{ paddingTop: 91 + 'px' }}>{children}</main>;
+  return <div>{children}</div>;
 }
 
 export const getTemplate = (page: ReactElement) => getGlobalTemplate(<StandardTemplate>{page}</StandardTemplate>);
