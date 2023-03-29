@@ -1,5 +1,6 @@
+import { LocaleSelector } from '@diamantaire/darkside/components/common-ui';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 // import CTAForm from 'components/general/CTAForm';
@@ -249,6 +250,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
             <div className="footer-col__inner">
               <h4>{title}</h4>
               <p>{copy}</p>
+              <LocaleSelector locale={'en-US'} />
               {/* <CTAForm
                 text={{
                   buttonText: ctaCopy,

@@ -32,9 +32,12 @@ export interface DiamondVariant {
 
 export interface DiamondCollection {
   dangerousInternalProductId?: string;
+  dangerousInternalCollectionId?: string;
   handle?: string;
   productTitle?: string;
+  productType?: string;
   description?: string;
+  slug?: string;
   variants?: DiamondVariant[];
   dfCertificateUrl?: string;
   type?: string;

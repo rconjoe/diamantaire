@@ -3,7 +3,7 @@ import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 
 import { GetCutToOrderDiamondInput } from '../dto/cut-to-order.dto';
 import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondInput } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondsService } from '../services/diamond.service';
 
 @Controller('diamonds')
@@ -15,8 +15,18 @@ export class DiamondsController {
   @ApiQuery({ name: 'limit', required: false, description: 'number of products per page' })
   @ApiQuery({ name: 'page', required: false, description: 'page number' })
   @ApiBody({ type: GetDiamondInput })
-  async fetchDiamonds(@Body() diamondsDto: GetDiamondInput, @Query() { limit, page, sortBy, sortOrder }: GetDiamondInput) {
-    return await this.diamondsService.getdDiamonds(diamondsDto, { limit, page, sortBy, sortOrder });
+  async fetchDiamonds(
+    @Body() diamondsDto: GetDiamondInput,
+    @Query() { limit, page, sortBy, sortOrder }: GetDiamondInput,
+    @Query() { isCto }: GetDiamondInput,
+  ) {
+    return await this.diamondsService.getDiamonds(diamondsDto, { limit, page, sortBy, sortOrder }, { isCto });
+  }
+
+  @Get(':sku')
+  @ApiParam({ name: 'sku', required: true })
+  async getDiamondByLotId(@Param() sku: GetDiamondByLotIdDto) {
+    return await this.diamondsService.diamondByLotId(sku);
   }
 
   @Post('cutToOrder')
@@ -33,7 +43,7 @@ export class DiamondsController {
 
   @Get(':lotId')
   @ApiParam({ name: 'lotId', required: true })
-  async getDiamondByLotId(@Param() lotId: GetDiamondCheckoutDto) {
+  async getNSDiamondByLotId(@Param() lotId: GetDiamondCheckoutDto) {
     return await this.diamondsService.fetchDiamondAvailability(lotId);
   }
 }

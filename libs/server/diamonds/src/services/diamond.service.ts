@@ -9,12 +9,13 @@
 import { UtilService } from '@diamantaire/server/common/utils';
 import { PaginatedLabels } from '@diamantaire/shared/constants';
 import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
 import { GetCutToOrderDiamondInput } from '../dto/cut-to-order.dto';
 import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondInput } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
+import { DiamondEntity } from '../entities/diamond.entity';
 import { CutToOrderDiamondsRepository } from '../repository/cut-to-order.repository';
 import { DiamondRepository } from '../repository/diamond.repository';
 
@@ -34,11 +35,12 @@ export class DiamondsService {
    * @return a filtered diamon list
    */
 
-  async getdDiamonds(params: GetDiamondInput, input: GetDiamondInput): Promise<any> {
-    const cachedKey = `diamonds-${JSON.stringify(params)}-${JSON.stringify(input)}`;
+  async getDiamonds(params: GetDiamondInput, input: GetDiamondInput, { isCto = false }): Promise<DiamondEntity> {
+    const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
     const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
     const sortByKey = input?.sortBy || 'carat';
     const sortByObj = {};
+    const query = {}; // diamond type query
 
     sortByObj[sortByKey] = sortOrder; // sortby any key
 
@@ -51,6 +53,14 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
+    if (isCto) {
+      filteredQuery.slug = 'cto-diamonds';
+      query['slug'] = 'cto-diamonds';
+    } else {
+      filteredQuery.slug = 'diamonds';
+      query['slug'] = 'diamonds';
+    }
+
     const cachedData = await this.utils.memGet(cachedKey);
 
     if (cachedData) {
@@ -59,7 +69,7 @@ export class DiamondsService {
       return cachedData; // return the entire cached data
     }
 
-    const allDiamonds = await this.diamondRepository.find({});
+    const allDiamonds = await this.diamondRepository.find(query);
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
     const numericalRanges = {
@@ -72,6 +82,28 @@ export class DiamondsService {
     this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
 
     return result;
+  }
+
+  /**
+   * Fetch single diamond by lotId
+   * @param {GetDiamondByLotIdDto} input - diamond lotId
+   * @returns
+   */
+
+  async diamondByLotId(input: GetDiamondByLotIdDto): Promise<DiamondEntity> {
+    this.Logger.verbose(`Fetching diamond by lotId: ${input.sku}`);
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const result = await this.diamondRepository.findOne({ lotId: input.sku });
+
+      if (result) {
+        return result;
+      }
+      throw new NotFoundException(`Diamond with lotId: ${input.sku} not found`);
+    } catch (error) {
+      this.Logger.error(`Error fetching diamond by lotId: ${input.sku}`);
+      throw error;
+    }
   }
 
   /**
@@ -93,14 +125,13 @@ export class DiamondsService {
     // Optional query for price and currencycode
     // EG: "priceMin": 100.0, "priceMax": 1200.0, "currencyCode": "USD",
     // currencyCode = USD, GBP, EUR, CAD, AUD
-    if (input.priceMin && input.priceMax && input.currencyCode !== null) {
-      input['variants.all.presentmentPrices'] = {
+    if (input.priceMin && input.priceMax) {
+      input['variants'] = {
         $elemMatch: {
-          amount: {
-            $gte: input.priceMin.toFixed(1).toString(), // mongoose $gte operator greater than or equal to
-            $lte: input.priceMax.toFixed(1).toString(), // mongoose $llte operator less than or equal to
+          price: {
+            $gte: input.priceMin, // mongoose $gte operator greater than or equal to
+            $lte: input.priceMax, // mongoose $llte operator less than or equal to
           },
-          currencyCode: input.currencyCode,
         },
       };
     }
@@ -170,10 +201,10 @@ export class DiamondsService {
   optionalCTODiamondFilter(input) {
     this.Logger.verbose(`optional CTODiamondFilter input: ${JSON.stringify(input)}`);
     if (input?.diamondType) {
-      const diamondType = input?.diamondType.trim().split(',');
+      const diamondTypes = input?.diamondType.trim().split(',');
 
       input.diamondType = {
-        $in: diamondType, // mongoose $in take an array value as input
+        $in: diamondTypes, // mongoose $in take an array value as input
       };
     }
 
