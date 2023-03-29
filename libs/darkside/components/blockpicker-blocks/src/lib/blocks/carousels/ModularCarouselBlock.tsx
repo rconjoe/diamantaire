@@ -23,8 +23,6 @@ import ModularQuoteBlock from '../misc/ModularQuoteBlock';
 const ModularCarouselBlock = (props) => {
   const { _modelApiKey, blocks } = props;
 
-  console.log('carousel props', props);
-
   const sliderTypes = [
     {
       type: 'modular_celebrity_carousel_block',

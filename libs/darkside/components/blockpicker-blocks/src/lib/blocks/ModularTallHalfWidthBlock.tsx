@@ -7,7 +7,7 @@ import {
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -29,7 +29,9 @@ type ModularTallHalfWidthBlockProps = {
   textColor?: string;
   textBlockAlignment: string;
   additionalClass?: string;
-  supportedCountries: Array<string>;
+  supportedCountries: Array<{
+    code: string;
+  }>;
   countryCode?: string;
   shouldLazyLoad?: boolean;
   titleImage?: {
@@ -83,14 +85,13 @@ const ModularTallHalfWidthBlock = ({
   textColor,
   textBlockAlignment,
   additionalClass,
-  // supportedCountries,
-  // countryCode = 'US',
+  supportedCountries,
+  countryCode = 'US',
   titleImage,
 }: ModularTallHalfWidthBlockProps) => {
-  // TODO: need to come up with a single method for checking this
-  // if (!isCountrySupported(supportedCountries, countryCode)) {
-  //   return null;
-  // }
+  if (!isCountrySupported(supportedCountries, countryCode)) {
+    return null;
+  }
 
   const alt = getBlockPictureAlt({ desktopImage, mobileImage, title });
 

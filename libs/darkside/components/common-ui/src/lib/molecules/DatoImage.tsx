@@ -20,6 +20,8 @@ type DatoImageProps = {
 const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
   const { alt, url, responsiveImage } = image || {};
 
+  const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
+
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
       auto: 'format',
@@ -34,7 +36,9 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
     return `${src}?${searchParams.toString()}`;
   };
 
-  return (
+  return isSvg ? (
+    <img src={image.url} alt={alt} />
+  ) : (
     <Image
       alt={overrideAlt ? overrideAlt : alt}
       src={url}

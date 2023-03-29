@@ -56,4 +56,9 @@ export const DiamondLeoBlockContainer = styled.div`
       `)}
     }
   }
+
+  svg,
+  img {
+    max-width: 140px;
+  }
 `;

@@ -44,14 +44,16 @@ type ModularCollectionHeroBlockProps = {
   ctaCopy?: string;
   ctaType?: string;
   ctaLinkUrl?: string;
-  textColor?: string;
+  textColor?: {
+    hex: string;
+  };
   additionalClass?: string;
   subtitle?: string;
   subtitleFont?: string;
   backgroundColor?: string;
 };
 
-const ReactPlayer = dynamic(() => import('react-player'));
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
   const {
@@ -122,8 +124,10 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
             </div>
           </ShowMobileOnly>
         </>
+      ) : hasImage ? (
+        <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
       ) : (
-        hasImage && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+        ''
       )}
 
       <div className={clsx('hero-block__title-container', additionalClass)}>
@@ -150,7 +154,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
               <ShowMobileOnly>
                 <Button
                   className={clsx('hero-block__button -wide', ctaTypeClass, {
-                    '-inverse': textColor?.toLowerCase() === 'white',
+                    '-inverse': textColor?.hex?.toLowerCase() === 'white',
                   })}
                 >
                   {ctaCopy}
@@ -160,7 +164,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
               <ShowTabletAndUpOnly>
                 <Button
                   className={clsx('hero-block__button', ctaTypeClass, {
-                    '-inverse': textColor?.toLowerCase() === 'white',
+                    '-inverse': textColor?.hex?.toLowerCase() === 'white',
                   })}
                 >
                   {ctaCopy}

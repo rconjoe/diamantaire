@@ -35,6 +35,16 @@ export const COPY_SIZE_SMALL = '1.7rem';
 export const COPY_SIZE_TINY = '1.4rem';
 export const NAV_MENU_FONT_SIZE = '1.7rem';
 
+export function makeTealLink() {
+  return `
+    font-weight: ${MEDIUM_FONT_WEIGHT};
+    font-size: ${COPY_SIZE};
+    color: ${TEAL};
+    font-family: ${MAIN_FONT};
+    text-decoration: underline;
+  `;
+}
+
 const GetGlobalTypography = createGlobalStyle`
    .fpo-spacer {
       margin-top: ${setSpace(3)};
@@ -57,6 +67,7 @@ const GetGlobalTypography = createGlobalStyle`
     h4,
     p,
     .p-copy,
+    button,
     strong {
       letter-spacing: 0px;
       font-family: ${MAIN_FONT};

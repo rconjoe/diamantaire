@@ -2,7 +2,7 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
+import { getAllStandardPageSlugs, refinePageSlug } from '@diamantaire/shared/helpers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
@@ -19,12 +19,12 @@ const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
 
   const { pageSlug } = router.query;
+  const refinedPageSlug = refinePageSlug(pageSlug);
 
-  const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
+  const { data }: any = useStandardPage(refinedPageSlug.toString(), 'en_US');
 
   const page = data?.allStandardPages?.[0];
 
-  // console.log('page', page);
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
 
@@ -70,6 +70,8 @@ async function getStaticProps(context) {
   //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
   // );
 
+  const refinedSlug = refinePageSlug(context.params.pageSlug);
+
   const isMobile = false;
 
   // geo -dev
@@ -91,7 +93,7 @@ async function getStaticProps(context) {
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(context.pageSlug, refinedLocale),
+    ...queries['standard-page'].content(refinedSlug, refinedLocale),
     meta: { refinedLocale },
   });
 
