@@ -4,8 +4,8 @@ import { footer } from './footer';
 import { header } from './header';
 import { journal } from './journal';
 import { productPage } from './products';
-import { standardPage } from './standard-page';
 import { showrooms } from './showrooms';
+import { standardPage } from './standard-page';
 
 export const queries = mergeQueryKeys(header, footer, standardPage, journal, productPage, showrooms);
 
