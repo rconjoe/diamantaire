@@ -8,7 +8,8 @@ export interface StandardTemplateProps {
 }
 
 export function StandardTemplate({ children }: StandardTemplateProps) {
-  return <div>{children}</div>;
+  /* eslint-disable-next-line */
+  return <>{children}</>;
 }
 
 export const getTemplate = (page: ReactElement) => getGlobalTemplate(<StandardTemplate>{page}</StandardTemplate>);

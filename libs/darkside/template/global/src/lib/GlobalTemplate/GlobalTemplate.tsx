@@ -7,6 +7,9 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
+  /* This is a fallback for mobile */
+
+  padding-top: 70px;
   padding-top: ${({ distanceFromTopMobile }) => distanceFromTopMobile + 'px'};
 
   ${media.medium`padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};`}
@@ -47,7 +50,7 @@ export const GlobalTemplate = ({ children }) => {
   }, [headerData?.data]);
 
   return (
-    <div>
+    <>
       {headerData?.data && (
         <Header
           headerData={headerData.data}
@@ -62,7 +65,7 @@ export const GlobalTemplate = ({ children }) => {
         {children}
       </MainContainer>
       {footerData?.data && <Footer footerData={footerData?.data} />}
-    </div>
+    </>
   );
 };
 
