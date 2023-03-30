@@ -1,27 +1,14 @@
-import { Form } from '@diamantaire/darkside/components/common-ui';
+import { Form, LocaleSelector } from '@diamantaire/darkside/components/common-ui';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { BOLD_FONT_WEIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-// import CTAForm from 'components/general/CTAForm';
-// import { ReactComponent as FacebookIcon } from 'public/static/icons/social/facebook.svg';
-// import { ReactComponent as InstagramIcon } from 'public/static/icons/social/instagram.svg';
-// import PinterestIcon from 'public/static/icons/social/pinterest.svg';
-// import TiktokIcon from 'public/static/icons/social/tiktok.svg';
-// import { mq } from 'styles/mediaQueriesNew';
-
 import FooterMobileAccordions from './FooterMobileAccordions';
 
 type FooterTypes = {
   footerData: any;
-  // footerNavigation: {
-  //   columns: Array<FooterColumn>;
-  //   copyright: string;
-  //   emailSignUpColumn: Array<FooterSignupColType>;
-  //   emailSignUpCopy: Array<FooterSignupFormType>;
-  // };
 };
 
 export type FooterColumn = {
@@ -35,25 +22,6 @@ type FooterLink = {
   route: string;
   supportedCountries: Array<string>;
 };
-
-// type FooterSignupColType = {
-//   ctaCopy: string;
-//   copy: string;
-//   title: string;
-// };
-
-// type FooterSignupFormType = {
-//   emailInputBeingSent?: string;
-//   emailInputEmpty?: string;
-//   emailInputNotValid?: string;
-//   emailInputPlaceholder?: string;
-//   emailInputSuccessfullySent?: string;
-//   emailInputUnsuccessfullySent?: string;
-//   gdprCtaCopy?: string;
-//   gdprCtaRoute?: string;
-//   gdprOptInCopy?: string;
-//   phoneInputPlaceholder?: string;
-// };
 
 const FooterStyles = styled.footer`
   padding: 4rem 2.4rem 0;
@@ -214,18 +182,10 @@ const socialItems = [
 ];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
-  const { columns, copyright, emailSignUpColumn /*, emailSignUpCopy */ } = footerData.footerNavigation;
-  const { /* ctaCopy, */ copy, title } = emailSignUpColumn[0];
-  // const { emailInputPlaceholder } = emailSignUpCopy[0];
+  const { columns, copyright, emailSignUpColumn } = footerData.footerNavigation;
+  const { copy, title } = emailSignUpColumn[0];
 
   const date = new Date();
-
-  // function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, state: object) {
-  //   e.preventDefault();
-  //   // do something
-
-  //   return state;
-  // }
 
   return (
     <FooterStyles>

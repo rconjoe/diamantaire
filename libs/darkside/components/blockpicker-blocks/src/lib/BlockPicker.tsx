@@ -37,6 +37,7 @@ import {
   MODULAR_QUAD_GRID,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
 } from '@diamantaire/shared/constants';
+import { forceVisible } from 'react-lazyload';
 
 import {
   DynamicEmailSignup,
@@ -125,6 +126,8 @@ const config: configProps = {
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode, shouldLazyLoad }) => {
   const BlockComponent = config?.[_modelApiKey];
+
+  forceVisible();
 
   return (
     <>

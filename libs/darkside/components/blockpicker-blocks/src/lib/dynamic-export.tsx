@@ -5,6 +5,7 @@ export const DynamicModularHalfBannerBlock = dynamic(() => import('./blocks/bann
 export const DynamicModularTallHalfWidthBlock = dynamic(() => import('./blocks/ModularTallHalfWidthBlock'));
 export const DynamicModularSkinnyBannerBlock = dynamic(() => import('./blocks/banners/ModularSkinnyBannerBlock'));
 export const DynamicModularLogoBannerBlock = dynamic(() => import('./blocks/banners/ModularLogoBannerBlock'));
+export const DynamicModularQuadStatisticsBlock = dynamic(() => import('./blocks/grid/ModularQuadStatisticsBlock'));
 
 export const DynamicModularContentQuadBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
 export const DynamicModularDiamondLeoBlock = dynamic(() => import('./blocks/misc/ModularDiamondLeoBlock'), {

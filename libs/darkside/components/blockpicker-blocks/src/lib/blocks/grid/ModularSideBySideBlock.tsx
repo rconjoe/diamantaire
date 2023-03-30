@@ -1,6 +1,7 @@
 import { Markdown, Heading, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { ModularSideBySideBlockContainer } from './ModularSideBySideBlock.style';
@@ -18,18 +19,7 @@ type ModularSideBySideBlockProps = {
   headingAdditionalClass?: string;
   supportedCountries?: Array<string>;
   countryCode: string;
-  image: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image: DatoImageType;
 };
 
 const ModularSideBySideBlock = ({

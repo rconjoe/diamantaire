@@ -1,5 +1,6 @@
 {
   "name": "darkside-page-pdp",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/darkside/page/pdp/src",
   "projectType": "library",
   "tags": [],

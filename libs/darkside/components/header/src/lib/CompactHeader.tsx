@@ -20,8 +20,8 @@ const CompactHeaderStyles = styled.div`
   width: 100%;
   background-color: #fff;
   z-index: 5000;
-  position: fixed;
-  top: 0;
+  /* position: fixed; */
+  top: auto;
   left: 0;
   width: 100%;
   display: none;

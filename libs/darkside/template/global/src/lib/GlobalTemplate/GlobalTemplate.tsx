@@ -58,7 +58,7 @@ export const GlobalTemplate = ({ children }) => {
           headerHeight={headerHeight}
         />
       )}
-      <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight + 'px'}>
+      <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
       {footerData?.data && <Footer footerData={footerData?.data} />}

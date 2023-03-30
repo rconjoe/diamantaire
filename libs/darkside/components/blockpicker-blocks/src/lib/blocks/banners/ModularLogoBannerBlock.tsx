@@ -5,59 +5,16 @@ import {
   DatoImage,
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { ModularLogoBannerBlockContainer } from './ModularLogoBannerBlock.style';
 
 type ModularLogoBannerBlockProps = {
-  desktopImage: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileImage: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  desktopLogo?: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileLogo?: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
+  desktopLogo?: DatoImageType;
+  mobileLogo?: DatoImageType;
   additionalClass?: string;
 };
 

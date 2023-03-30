@@ -1,6 +1,6 @@
 import { ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { useGlobalContext, useShowroomNav } from '@diamantaire/darkside/data/hooks';
+import { useShowroomNav } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { useState } from 'react';
 
@@ -9,7 +9,6 @@ import { ShowroomNavContainer } from './ShowroomNav.style';
 const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(true);
   const { data }: any = useShowroomNav('en_US');
-  const { headerHeight } = useGlobalContext();
   const { title, links } = data.showroomNav;
 
   const linksSortedByCountry = {};
@@ -23,7 +22,7 @@ const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
   });
 
   return (
-    <ShowroomNavContainer $headerHeight={headerHeight}>
+    <ShowroomNavContainer>
       <ShowMobileOnly>
         <div className="mobile-nav">
           <div className="mobile-nav__toggle">

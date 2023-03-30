@@ -1,4 +1,4 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { media } from '@diamantaire/styles/darkside-styles';
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from 'framer-motion';
 import { FC, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ const FullHeaderStyles = styled.header`
   width: 100%;
   background-color: #fff;
 
-  ${desktopAndUp('position: static')}
+  ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
 
   .slide-in-header {
     position: fixed;
@@ -56,6 +56,9 @@ const Header: FC<HeaderProps> = ({
   const compactHeaderRef = useRef(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
+    if (!isHome) {
+      return;
+    }
     if (latest > headerHeight * 2) {
       setIsStickyNavShowing(true);
       setIsCompactMenuVisible(true);
@@ -88,7 +91,7 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   return (
-    <FullHeaderStyles>
+    <FullHeaderStyles $isHome={isHome}>
       <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
         {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
 
