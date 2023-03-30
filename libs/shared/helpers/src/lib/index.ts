@@ -5,3 +5,4 @@ export * from './getAllStandardPageSlugs';
 export * from './normalizeDatoNumberedContent';
 export * from './images';
 export * from './products';
+export * from './refinePageSlug';
