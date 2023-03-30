@@ -8,9 +8,7 @@ import styled from 'styled-components';
 
 const MainContainer = styled.main`
   /* This is a fallback for mobile */
-
-  padding-top: 70px;
-  padding-top: ${({ distanceFromTopMobile }) => distanceFromTopMobile + 'px'};
+  padding-top: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '70px' : distanceFromTopMobile + 'px')};
 
   ${media.medium`padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};`}
 `;

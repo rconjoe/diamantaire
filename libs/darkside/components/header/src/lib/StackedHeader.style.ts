@@ -1,7 +1,7 @@
 import { BP_LG, MAIN_FONT, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const StackedHeaderStylesContainer = styled.header`
+export const StackedHeaderStylesContainer = styled.div`
   display: none;
   z-index: 6000;
   position: relative;
