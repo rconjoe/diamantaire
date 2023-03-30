@@ -1,3 +1,4 @@
+import { LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import {
   MODULAR_RANDOM_BANNER_BLOCK,
   MODULAR_TALL_HALF_WIDTH_BLOCK,
@@ -128,14 +129,8 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, cu
   return (
     <>
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
-      <BlockComponent
-        isMobile={isMobile}
-        countryCode={countryCode}
-        currencyCode={currencyCode}
-        shouldLazyLoad={shouldLazyLoad}
-        {...modularBlockData}
-      />
-      {/* {BlockComponent && shouldLazyLoad ? (
+
+      {BlockComponent && shouldLazyLoad ? (
         <LazyLoadWrapper>
           <BlockComponent
             isMobile={isMobile}
@@ -155,7 +150,7 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, cu
         />
       ) : (
         ''
-      )} */}
+      )}
     </>
   );
 };
