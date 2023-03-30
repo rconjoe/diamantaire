@@ -27,8 +27,6 @@ export const GlobalTemplate = ({ children }) => {
   const { pathname } = useRouter();
   const isHome = pathname === '/';
 
-  console.log('isHome', isHome);
-
   useEffect(() => {
     if (!headerRef?.current?.offsetHeight) return;
 
