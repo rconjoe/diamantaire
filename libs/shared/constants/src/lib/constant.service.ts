@@ -1775,3 +1775,6 @@ export const MADRID_DEV_IP = '139.47.80.104';
 
 // Colors
 export const teal = '#719093';
+
+// PDP
+export const IMAGE_BASE_URL = 'https://images.vraiandoro.com';

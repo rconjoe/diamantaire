@@ -15,6 +15,18 @@ import {
 
 import { Variant } from '../index';
 
+export function getCompareFunctionByOptionType(optionType: string) {
+  const compareFn = optionTypesComparators[optionType];
+
+  if (compareFn) {
+    return compareFn;
+  } else {
+    // LOG: console.log('Cannot find compare function for: ' + optionType);
+
+    return (n: string | number) => n;
+  }
+}
+
 /* Map of product option types and functions to sort the values */
 export const optionTypesComparators = {
   [ProductOption.DiamondType]: (value: DiamondTypes) => DIAMOND_SHAPES_IN_ORDER.indexOf(value),
@@ -100,7 +112,7 @@ export function reduceToAvailableOptions(variants: Variant[]): { [optionKey: str
             allCandidateOptions[optionKey].push(optionValue);
           }
         }
-        const compareFn = optionTypesComparators[optionKey];
+        const compareFn = getCompareFunctionByOptionType(optionKey);
 
         allCandidateOptions[optionKey] = allCandidateOptions[optionKey].sort((a, b) => compareFn(a) - compareFn(b));
       }
@@ -159,11 +171,13 @@ export function reduceVariantsToPDPConfigurations(products) {
 export function compareVariantOption(a, b, sortOptionKey, comparatorMap = optionTypesComparators) {
   const compareFn = comparatorMap[sortOptionKey];
 
-  if (a.options[sortOptionKey] && b.options[sortOptionKey]) {
-    const compValA = compareFn(a.options[sortOptionKey]);
-    const compValB = compareFn(b.options[sortOptionKey]);
+  if (compareFn) {
+    if (a.options[sortOptionKey] && b.options[sortOptionKey]) {
+      const compValA = compareFn(a.options[sortOptionKey]);
+      const compValB = compareFn(b.options[sortOptionKey]);
 
-    return compValA - compValB;
+      return compValA - compValB;
+    }
   }
 
   return 0;

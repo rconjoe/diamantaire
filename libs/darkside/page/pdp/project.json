@@ -1,7 +1,6 @@
 {
-  "name": "darkside-components-seo",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/darkside/components/seo/src",
+  "name": "darkside-page-pdp",
+  "sourceRoot": "libs/darkside/page/pdp/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,23 +8,23 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/darkside/components/seo/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/darkside/page/pdp/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
       "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/darkside/components/seo",
-        "tsConfig": "libs/darkside/components/seo/tsconfig.lib.json",
-        "project": "libs/darkside/components/seo/package.json",
-        "entryFile": "libs/darkside/components/seo/src/index.ts",
+        "outputPath": "dist/libs/darkside/page/pdp",
+        "tsConfig": "libs/darkside/page/pdp/tsconfig.lib.json",
+        "project": "libs/darkside/page/pdp/package.json",
+        "entryFile": "libs/darkside/page/pdp/src/index.ts",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {
-            "glob": "libs/darkside/components/seo/README.md",
+            "glob": "libs/darkside/page/pdp/README.md",
             "input": ".",
             "output": "."
           }
@@ -36,7 +35,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/darkside/components/seo/jest.config.ts",
+        "jestConfig": "libs/darkside/page/pdp/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

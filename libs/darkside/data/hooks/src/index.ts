@@ -4,3 +4,4 @@ export * from './lib/use-standard-page';
 export * from './lib/use-global-context';
 export * from './lib/journal';
 export * from './lib/use-diamond-icons';
+export * from './lib/use-product';
