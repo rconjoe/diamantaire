@@ -49,6 +49,7 @@ const Header: FC<HeaderProps> = ({
   setIsTopbarShowing,
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
+  const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const { section } = headerData.headerNavigationDynamic;
   const { scrollY } = useScroll();
 
@@ -57,8 +58,10 @@ const Header: FC<HeaderProps> = ({
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (latest > headerHeight * 2) {
       setIsStickyNavShowing(true);
+      setIsCompactMenuVisible(true);
     } else {
       setIsStickyNavShowing(false);
+      setIsCompactMenuVisible(false);
     }
   });
 
@@ -77,6 +80,9 @@ const Header: FC<HeaderProps> = ({
 
   useEffect(() => {
     setIsLoaded(true);
+    if (isHome) {
+      setIsCompactMenuVisible(false);
+    }
   }, []);
 
   return (
@@ -124,7 +130,8 @@ const Header: FC<HeaderProps> = ({
           <MegaMenu
             navItems={section}
             megaMenuIndex={megaMenuIndex}
-            headerHeight={isHome ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+            headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+            isCompactMenuVisible={isCompactMenuVisible}
           />
         )}
 

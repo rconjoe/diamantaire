@@ -9,11 +9,16 @@ type MegaMenuProps = {
   navItems: NavItemsProps;
   headerHeight: number;
   megaMenuIndex: number;
+  isCompactMenuVisible: boolean;
 };
 
-const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) => {
+const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, isCompactMenuVisible }) => {
   return (
-    <MegaMenuStylesContainer className={megaMenuIndex === -1 ? 'hide' : ''} $headerHeight={headerHeight}>
+    <MegaMenuStylesContainer
+      className={megaMenuIndex === -1 ? 'hide' : ''}
+      $headerHeight={headerHeight}
+      $isFixed={isCompactMenuVisible}
+    >
       <div className="mega-menu__wrapper">
         {Array.isArray(navItems) &&
           navItems?.map((menu, menuIndex) => {

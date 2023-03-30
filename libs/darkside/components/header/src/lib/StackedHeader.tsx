@@ -55,7 +55,6 @@ const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, m
                           className={menuIndex === index ? 'active' : ''}
                           onMouseOver={() => toggleMegaMenuOpen(index)}
                           onFocus={() => toggleMegaMenuOpen(index)}
-                          legacyBehavior
                         >
                           {title}
                         </Link>
