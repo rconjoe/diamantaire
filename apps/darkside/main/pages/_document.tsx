@@ -16,6 +16,7 @@ export default class MyDocument extends Document {
 
       return {
         ...initialProps,
+        scrollToTop: true,
         styles: [initialProps.styles, sheet.getStyleElement()],
       };
     } finally {
@@ -26,10 +27,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          {/* <link rel="preload" href="https://use.typekit.net/ram5cej.css" as="style" crossOrigin="anonymous" />
-          <link rel="stylesheet" href="https://use.typekit.net/ram5cej.css" /> */}
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />
