@@ -59,9 +59,11 @@ const Header: FC<HeaderProps> = ({
     if (latest > headerHeight * 2) {
       setIsStickyNavShowing(true);
       setIsCompactMenuVisible(true);
+      setMegaMenuIndex(-1);
     } else {
       setIsStickyNavShowing(false);
       setIsCompactMenuVisible(false);
+      setMegaMenuIndex(-1);
     }
   });
 

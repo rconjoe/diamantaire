@@ -27,7 +27,7 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
           const { id, _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
-          const contentIsAboveFold = idx < 1;
+          const contentIsAboveFold = idx < 2;
           const shouldLazyLoad = contentIsAboveFold ? false : true;
 
           return (
