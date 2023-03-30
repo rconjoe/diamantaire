@@ -1,12 +1,8 @@
-import Document, { Html, Main, NextScript, DocumentContext, Head, DocumentInitialProps } from 'next/document';
+import Document, { Html, Main, NextScript, DocumentContext, Head } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-interface MyDocumentInitialProps extends DocumentInitialProps {
-  scrollToTop: boolean;
-}
-
-export default class MyDocument extends Document<MyDocumentInitialProps> {
-  static async getInitialProps(ctx: DocumentContext): Promise<MyDocumentInitialProps> {
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -20,7 +16,6 @@ export default class MyDocument extends Document<MyDocumentInitialProps> {
 
       return {
         ...initialProps,
-        scrollToTop: true,
         styles: [initialProps.styles, sheet.getStyleElement()],
       };
     } finally {
@@ -35,7 +30,6 @@ export default class MyDocument extends Document<MyDocumentInitialProps> {
         <body>
           <Main />
           <NextScript />
-          {this.props.scrollToTop && <script dangerouslySetInnerHTML={{ __html: `window.scrollTo(0, 0)` }} />}
         </body>
       </Html>
     );
