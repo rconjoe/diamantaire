@@ -89,7 +89,7 @@ const ModularTriGridWithOrderTracking = ({
 
                 <div className="button">
                   {icon === 'Chat Bubble' ? (
-                    // TODO: Implement Hubspot Chat
+                    // TODO: Implement Hubspot Chat - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-126
                     // <button onClick={() => window?.HubSpotConversations?.widget?.open()}>
                     //   <span className={icon.toLowerCase()}>{selectedIcon}</span>
                     //   {buttonText}
