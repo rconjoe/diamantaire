@@ -4634,10 +4634,10 @@
     "@jest/create-cache-key-function" "^27.4.2"
     jsonc-parser "^3.2.0"
 
-"@swc/plugin-styled-components@1.5.41":
-  version "1.5.41"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-styled-components/-/plugin-styled-components-1.5.41.tgz#754af2ec23c57c391f7b920b4c71636f0061ee42"
-  integrity sha512-z2nITrag2Cxqevi/tNJwkCnKOphDtJqkCQ5EurHyAaXm4q3+vK49fL+VCMjELoKLxfOhD/5moosv9YXDxca7dA==
+"@swc/plugin-styled-components@1.5.56":
+  version "1.5.56"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-styled-components/-/plugin-styled-components-1.5.56.tgz#96cfff578d10d802b62c59dfb8d230867f7823ca"
+  integrity sha512-426why3tXpI6x6zDxKi3UT/d1sUGbEdNc+vEeyPwEHxvJuMVi1mKT0VVD+KfFPeCZNUlm3d205Cn6LcK/r+/Sg==
 
 "@szmarczak/http-timer@^4.0.5":
   version "4.0.6"
