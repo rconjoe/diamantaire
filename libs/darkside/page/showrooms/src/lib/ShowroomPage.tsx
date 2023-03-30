@@ -1,46 +1,62 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
+import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
+import { getAllShowroomSlugs } from '@diamantaire/shared/helpers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
-import { StandardPageEntry } from './StandardPageEntry';
+import ShowroomNav from './nav/ShowroomNav';
+import { ShowroomContainer } from './ShowroomPage.style';
 
-export interface StandardPageProps {
+export interface ShowroomPageProps {
   isMobile: boolean;
   countryCode: string;
   currencyCode: string;
 }
 
-const StandardPage = (props: StandardPageProps) => {
+const ShowroomPage = (props: ShowroomPageProps) => {
+  const { data }: any = useStandardPage('showrooms', 'en_US');
+
   const router = useRouter();
-
-  const { pageSlug } = router.query;
-
-  const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
+  const { showroomLocation } = router.query;
 
   const page = data?.allStandardPages?.[0];
 
+  const selectedShowroom = {
+    ...page,
+    content1: page.content1.filter((block) => block?.data?.slug === showroomLocation),
+  };
+
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
+  const { title } = selectedShowroom.content1?.[0].data || {};
+
+  let showroomSeoTitle = seoTitle.split('|');
+
+  showroomSeoTitle = title + ' Showroom | ' + showroomSeoTitle[showroomSeoTitle.length - 1];
 
   return (
-    <>
-      <StandardPageSeo title={seoTitle} description={seoDescription} />
-      <StandardPageEntry
-        page={page}
-        isMobile={props?.isMobile}
-        countryCode={props?.countryCode}
-        currencyCode={props?.currencyCode}
-      />
-    </>
+    <ShowroomContainer>
+      <StandardPageSeo title={showroomSeoTitle} description={seoDescription} />
+      <div className="showroom__nav">
+        <ShowroomNav currentLocation={title} />
+      </div>
+      <div className="showroom__content">
+        <StandardPageEntry
+          page={selectedShowroom}
+          isMobile={props?.isMobile}
+          countryCode={props?.countryCode}
+          currencyCode={props?.currencyCode}
+        />
+      </div>
+    </ShowroomContainer>
   );
 };
 
-StandardPage.getTemplate = getStandardTemplate;
+ShowroomPage.getTemplate = getStandardTemplate;
 
 export interface GetStaticPropsRequest extends NextRequest {
   query: {
@@ -49,9 +65,7 @@ export interface GetStaticPropsRequest extends NextRequest {
 }
 
 async function getStaticPaths() {
-  let paths = await getAllStandardPageSlugs();
-
-  paths = paths.map((path) => `/p/${path}`);
+  const paths = await getAllShowroomSlugs();
 
   return {
     paths,
@@ -59,7 +73,7 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps(context) {
+async function getStaticProps() {
   // locale
   const locale = 'en_US';
   const refinedLocale = 'en_US';
@@ -90,7 +104,12 @@ async function getStaticProps(context) {
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(context.params.pageSlug, refinedLocale),
+    ...queries['standard-page'].content('showrooms', refinedLocale),
+    meta: { refinedLocale },
+  });
+
+  await queryClient.prefetchQuery({
+    ...queries.showrooms.nav(refinedLocale),
     meta: { refinedLocale },
   });
 
@@ -105,4 +124,4 @@ async function getStaticProps(context) {
   };
 }
 
-export { StandardPage, getStaticProps, getStaticPaths };
+export { ShowroomPage, getStaticProps, getStaticPaths };

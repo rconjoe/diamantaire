@@ -11,7 +11,7 @@ import { NextSeo } from 'next-seo';
 
 type StandardPageSeoProps = {
   title: string;
-  description: string;
+  description?: string;
   noIndex?: boolean;
   noFollow?: boolean;
 };

@@ -55,6 +55,7 @@ const ModularEmailSignupBlock = ({
       </div>
       <div className="email-signup__form-container">
         <div className="email-signup__form-wrapper">
+          {/* TODO - implement form - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-127 */}
           FORM
           {/* <HubspotEmailForm
             ctaCopy={ctaCopy}

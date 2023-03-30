@@ -1,4 +1,5 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
 import React, { FC, useContext } from 'react';
 
@@ -9,10 +10,9 @@ type MegaMenuProps = {
   navItems: NavItemsProps;
   headerHeight: number;
   megaMenuIndex: number;
-  getRelativeUrl: (arg0: string) => string;
 };
 
-const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, getRelativeUrl }) => {
+const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight }) => {
   const diamondContext = useContext(DiamondShapesContext);
 
   if (!diamondContext) return null;

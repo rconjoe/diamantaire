@@ -50,7 +50,9 @@ type ModularCollectionHeroBlockProps = {
   additionalClass?: string;
   subtitle?: string;
   subtitleFont?: string;
-  backgroundColor?: string;
+  backgroundColor?: {
+    hex: string;
+  };
 };
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
@@ -83,7 +85,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
 
   return (
     <ModularCollectionHeroBlockContainer
-      $backgroundColor={backgroundColor}
+      $backgroundColor={backgroundColor?.hex}
       $showByVrai={showByVrai}
       $ctaLinkUrl={ctaLinkUrl}
       $subtitle={subtitle}
