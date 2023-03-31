@@ -46,7 +46,7 @@ const VideoHoverSlide = (props) => {
                     }}
                   />
                 ) : (
-                  // TODO: Figure out how to handle video thumbnails (better than now)
+                  // TODO: Figure out how to handle video thumbnails (better than now) - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-130
                   <p>temp</p>
                   //   <Image alt={hover?.alt} image={hover} />
                 )} */}
