@@ -16,9 +16,7 @@ type StandardPageEntryProps = {
 
 const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
-  // console.log(page, isMobile, countryCode, currencyCode);
-
-  // console.log('page?.content1', page?.content1.length);
+  // console.log(page);
 
   return (
     <div className="content-one-container">

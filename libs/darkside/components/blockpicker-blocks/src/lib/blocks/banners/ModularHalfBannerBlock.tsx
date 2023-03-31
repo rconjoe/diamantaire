@@ -6,12 +6,14 @@ Handles: MODULAR_HALF_WIDTH_BANNER_BLOCK, MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK
 
 import {
   Button,
+  DatoImage,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
+import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -25,6 +27,8 @@ type ModularHalfWidthBannerBlockProps = {
   subTitle?: string;
   desktopImage?: DatoImageType;
   mobileImage?: DatoImageType;
+  middleLayerImage?: DatoImageType;
+  middleLayerImageMobile?: DatoImageType;
   desktopCopy?: string;
   mobileCopy?: string;
   ctaCopy: string;
@@ -68,7 +72,6 @@ const ModularHalfWidthBannerBlock = ({
   ctaButtonType = 'secondary',
   ctaButtonType2 = 'secondary',
   ctaButtonType3 = 'secondary',
-  alt,
   headingType,
   textBlockAlignment,
   textColor,
@@ -77,6 +80,8 @@ const ModularHalfWidthBannerBlock = ({
   subtitleAdditionalClass,
   additionalClass,
   blogPost,
+  middleLayerImage,
+  middleLayerImageMobile,
 }: ModularHalfWidthBannerBlockProps) => {
   const renderHalfWidthBlockTitle = (title) => {
     return (
@@ -107,13 +112,44 @@ const ModularHalfWidthBannerBlock = ({
         <MobileDesktopImage
           desktopImage={desktopImage}
           mobileImage={mobileImage}
-          alt={alt}
+          alt={getBlockPictureAlt({
+            desktopImage,
+            title,
+          })}
           className={clsx({
             '-left': textBlockAlignment?.toLowerCase() === 'left',
             '-right': textBlockAlignment?.toLowerCase() === 'right',
           })}
         />
       </div>
+
+      {middleLayerImage && (
+        <ShowTabletAndUpOnly>
+          <div className={clsx('half-width__middle-layer-image', additionalClass)}>
+            <DatoImage
+              image={middleLayerImage}
+              overrideAlt={getBlockPictureAlt({
+                desktopImage: middleLayerImage,
+                title,
+              })}
+            />
+          </div>
+        </ShowTabletAndUpOnly>
+      )}
+
+      {middleLayerImageMobile && (
+        <ShowMobileOnly>
+          <div className={clsx('half-width__mobile-middle-layer-image', additionalClass)}>
+            <DatoImage
+              image={middleLayerImageMobile}
+              overrideAlt={getBlockPictureAlt({
+                desktopImage: middleLayerImageMobile,
+                title,
+              })}
+            />
+          </div>
+        </ShowMobileOnly>
+      )}
 
       <div
         className={clsx(

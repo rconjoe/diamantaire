@@ -15,7 +15,9 @@ type ModularVideoBlockProps = {
   shouldLoop?: boolean;
   additionalClass?: string;
   title?: string;
-  titleColor?: string;
+  titleColor?: {
+    hex: string;
+  };
   titleFont?: string;
   titleStyle?: string;
   video: {
@@ -56,7 +58,7 @@ const ModularVideoBlock = ({
     <ModularVideoBlockContainer
       className={additionalClass}
       onClick={handleToggleVideoPlay}
-      $titleColor={titleColor}
+      $titleColor={titleColor?.hex}
       $titleFont={titleFont}
       $titleStyle={titleStyle}
     >

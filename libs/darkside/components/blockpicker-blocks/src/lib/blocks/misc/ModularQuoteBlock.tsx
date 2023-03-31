@@ -10,8 +10,12 @@ type ModularQuoteBlockProps = {
   quoteStyle?: string;
   attribution?: string;
   attributionFont?: string;
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor: {
+    hex: string;
+  };
+  textColor: {
+    hex: string;
+  };
   quotationMarksImage?: DatoImageType;
   shouldLazyLoad?: boolean;
 };
@@ -34,8 +38,8 @@ const ModularQuoteBlock = ({
 
   return (
     <ModularQuoteBlockContainer
-      $backgroundColor={backgroundColor}
-      $textColor={textColor}
+      $backgroundColor={backgroundColor?.hex}
+      $textColor={textColor?.hex}
       $textStyle={quoteStyle}
       $textFont={quoteFont}
       $attributionFont={attributionFont}

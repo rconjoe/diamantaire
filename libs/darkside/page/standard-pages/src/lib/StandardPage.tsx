@@ -60,7 +60,6 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps(context) {
-  console.log('context.pageSlug', context.params.pageSlug);
   // locale
   const locale = 'en_US';
   const refinedLocale = 'en_US';

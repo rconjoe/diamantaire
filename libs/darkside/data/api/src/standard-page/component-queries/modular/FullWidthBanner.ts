@@ -30,6 +30,7 @@ const FullWidthBanner = `
         currencyCode
       }
     }
+   
     ctaCopy
     ctaRoute
     ctaButtonType

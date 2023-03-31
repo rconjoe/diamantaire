@@ -26,7 +26,7 @@ const HalfWidthBanner = `
     mobileImage {
         url
         alt
-        responsiveImage (imgixParams: {w: 360, h:300, q: 35, auto: format, fit: clamp, crop: focalpoint }, sizes:"100vw"){
+        responsiveImage (imgixParams: {w: 360, q: 35, auto: format }){
             src
             alt
             aspectRatio
@@ -44,12 +44,14 @@ const HalfWidthBanner = `
     textColor
     textBlockAlignment
     middleLayerImage {
-      url
-      alt
+      responsiveImage(imgixParams: {w: 720, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
     middleLayerImageMobile {
-      url
-      alt
+      responsiveImage(imgixParams: {w: 420, q: 40, auto: format }) {
+        ...responsiveImageFragment
+      }
     }
     additionalClass
     supportedCountries {

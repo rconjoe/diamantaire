@@ -97,7 +97,6 @@ const ModularBannerBlock = (props) => {
     subtitleAdditionalClass,
   }: ModularBannerBlockProps = props?.blocks?.[0] || props;
 
-  // console.log('bannnnerrrr', shouldLazyLoad);
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;

@@ -4,6 +4,7 @@ import {
   WHITE,
   XLDesktopAndUp,
   XXLDesktopAndUp,
+  customBPAndUp,
   desktopAndUp,
   setSpace,
   tabletAndUp,
@@ -20,6 +21,10 @@ export const ModularHalfBannerBlockContainer = styled.div`
       margin-top: ${setSpace(3)};
       margin-bottom: ${setSpace(3)};
     `)}
+  }
+
+  &.container-emotion {
+    padding: 0;
   }
 
   .half-width__image-wrapper {
@@ -54,6 +59,70 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     img {
       width: 100%;
+    }
+  }
+
+  .half-width__middle-layer-image {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 100%;
+
+    &.hearst-necklace {
+      top: -60px;
+
+      img {
+        max-width: 450px;
+        margin-left: auto;
+      }
+
+      ${desktopAndUp(`
+      top: -60px;
+      margin-right: 75px;
+
+      img {
+        max-width: 600px;
+        
+
+      }
+    `)};
+
+      ${XLDesktopAndUp(`
+      margin-right: 230px;
+      top: 25px;
+
+      img {
+        max-width: 650px;
+      }
+    `)};
+    }
+  }
+
+  .half-width__mobile-middle-layer-image {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 100%;
+    z-index: 1;
+
+    &.hearst-necklace {
+      top: -17px;
+
+      img {
+        max-width: 160px;
+        margin-left: auto;
+      }
+
+      ${customBPAndUp(
+        '475px',
+        `
+        top: -7px;
+
+        img {
+          max-width: 250px;
+        }
+      `,
+      )};
     }
   }
 
