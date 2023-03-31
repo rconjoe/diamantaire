@@ -1,27 +1,17 @@
-export interface BasicImageRequirements {
-  image: {
-    url: string;
-    alt?: string;
-    responsiveImage: {
-      height: number;
-      width: number;
-    };
+export interface DatoImageType {
+  mimeType?: string;
+  url: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  responsiveImage?: {
+    src: string;
+    width: number;
+    height: number;
+    base64: string;
+    aspectRatio: number;
   };
-}
-
-export interface ResponsiveImageRequirements {
-  desktopImage: {
-    url: string;
-    responsiveImage: {
-      height: number;
-      width: number;
-    };
-  };
-  mobileImage: {
-    url: string;
-    responsiveImage: {
-      height: number;
-      width: number;
-    };
+  video?: {
+    streamingUrl: string;
   };
 }

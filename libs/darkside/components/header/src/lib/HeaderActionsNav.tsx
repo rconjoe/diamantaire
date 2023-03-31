@@ -1,7 +1,6 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { AccountIcon, HeartIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { SearchIcon, AccountIcon, HeartIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
-import React from 'react';
 import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
@@ -19,7 +18,7 @@ const HeaderActionsNavContainer = styled.nav`
         margin-right: 0px;
       }
       &.accounts {
-        svg {
+        img {
           width: 20px;
           height: auto;
           position: relative;
@@ -27,8 +26,8 @@ const HeaderActionsNavContainer = styled.nav`
         }
       }
       &.search {
-        svg {
-          width: 24px;
+        img {
+          width: 26px;
           height: auto;
           transform: scale(0.8);
           position: relative;
@@ -36,19 +35,21 @@ const HeaderActionsNavContainer = styled.nav`
         }
       }
       &.wishlist {
-        svg {
+        img {
           width: 24px;
           height: auto;
           transform: scale(0.8);
           stroke-width: 1.5px;
           position: relative;
-          top: 2px;
+          top: 1px;
         }
       }
       &.cart {
-        svg {
+        img {
           width: 24px;
           height: auto;
+          position: relative;
+          top: -1px;
         }
       }
       a {
@@ -72,27 +73,29 @@ const HeaderActionsNav = () => {
   const links = [
     {
       title: 'Search',
-      icon: <SearchIcon />,
+      icon: <SearchIcon alt="Search" loading="eager" />,
       type: 'button',
       alt: 'Search Toggle Button',
       onClick: () => null,
+      href: '/',
     },
     {
       title: 'Accounts',
-      icon: <AccountIcon />,
+      icon: <AccountIcon alt="Accounts" loading="eager" />,
       type: 'link',
       href: '/account/login',
       alt: 'Accounts Toggle Button',
     },
     {
       title: 'Wishlist',
-      icon: <HeartIcon />,
+      icon: <HeartIcon alt="Favorites" loading="eager" />,
       type: 'button',
       alt: 'Wishlist Toggle Button',
+      href: '/',
     },
     {
       title: 'Cart',
-      icon: <ShoppingBagIcon />,
+      icon: <ShoppingBagIcon alt="Cart" loading="eager" />,
       type: 'button',
       alt: 'Cart Toggle Button',
     },
@@ -108,7 +111,7 @@ const HeaderActionsNav = () => {
             return (
               <li key={`header-action-${index}`} className={title.toLowerCase()}>
                 {href && (
-                  <Link href={getRelativeUrl(href)} aria-label={alt} legacyBehavior>
+                  <Link href={href === '/' ? '/' : getRelativeUrl(href)} aria-label={alt}>
                     {icon}
                   </Link>
                 )}

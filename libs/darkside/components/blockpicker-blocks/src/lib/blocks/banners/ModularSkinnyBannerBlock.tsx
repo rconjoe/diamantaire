@@ -1,6 +1,7 @@
 import { MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { BLACK } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 
@@ -9,28 +10,8 @@ import { ModularSkinnyBannerBlockContainer } from './ModularSkinnyBannerBlock.st
 type ModularSkinnyBannerBlockProps = {
   title?: string;
   copy?: string;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   textColor?: {
     hex: string;
   };
@@ -54,7 +35,6 @@ const ModularSkinnyBannerBlock = (props: ModularSkinnyBannerBlockProps) => {
         className="skinny-banner__image-container"
         desktopImage={desktopImage}
         mobileImage={mobileImage}
-        isLazyLoaded={false}
         alt={alt}
       />
 

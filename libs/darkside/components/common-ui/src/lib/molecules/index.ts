@@ -6,3 +6,4 @@ export * from './MobileDesktopImage';
 export * from './Markdown';
 export * from './LocaleSelector';
 export * from './DatoImage';
+export * from './Form';

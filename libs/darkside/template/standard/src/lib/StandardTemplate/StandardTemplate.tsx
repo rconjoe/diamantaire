@@ -1,4 +1,3 @@
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getGlobalTemplate } from '@diamantaire/darkside/template/global';
 import { ReactElement, ReactNode } from 'react';
 
@@ -9,9 +8,8 @@ export interface StandardTemplateProps {
 }
 
 export function StandardTemplate({ children }: StandardTemplateProps) {
-  const { headerHeight } = useGlobalContext();
-
-  return <main style={{ paddingTop: headerHeight + 'px' }}>{children}</main>;
+  /* eslint-disable-next-line */
+  return <>{children}</>;
 }
 
 export const getTemplate = (page: ReactElement) => getGlobalTemplate(<StandardTemplate>{page}</StandardTemplate>);

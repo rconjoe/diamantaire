@@ -2,6 +2,7 @@ import { Button, ShowMobileOnly, ShowTabletAndUpOnly, MobileDesktopImage } from 
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { Logo as VOLogo } from '@diamantaire/shared/icons';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 
@@ -11,34 +12,8 @@ type ModularCollectionHeroBlockProps = {
   title: string;
   titleFont?: string;
   titleStyle?: string;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-    video?: {
-      streamingUrl: string;
-    };
-  };
-  mobileImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-    video?: {
-      streamingUrl: string;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   showByVrai?: boolean;
   byText?: string;
   ctaCopy?: string;

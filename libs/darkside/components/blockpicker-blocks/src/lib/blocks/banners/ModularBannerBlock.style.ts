@@ -6,7 +6,6 @@ import {
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  customBPAndUp,
   COPY_SIZE_SMALL,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
@@ -257,23 +256,11 @@ export const BannerTextContainer = styled.div`
     `)};
   }
 
-  .cta {
-    display: flex;
-    flex-direction: column;
-  }
-
   button {
-    margin-top: ${setSpace(2)};
-
-    ${tabletAndUp(`
-      margin-top: ${setSpace(1)};
-    `)};
-
     ${desktopAndUp(`
-      margin-top: ${setSpace(2.5)};
 
       &.-wide-cta {
-        margin-top: ${setSpace(5)};
+        margin-top: calc(var(--gutter) /2.5);
         width: 80% !important;
       }
     `)};
@@ -327,7 +314,7 @@ export const SubTitle = styled.div`
 
 export const Copy = styled.div`
   p {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
   }
 
   p:last-child {
@@ -352,64 +339,4 @@ export const Copy = styled.div`
       margin-bottom: 10px;
     }
   `)};
-`;
-
-export const MobileMiddleLayerImageContainer = styled.div`
-  position: absolute;
-  right: 0;
-  text-align: right;
-  width: 100%;
-  z-index: 1;
-
-  &.hearst-necklace {
-    top: -17px;
-
-    img {
-      max-width: 160px;
-    }
-
-    ${customBPAndUp(
-      '475px',
-      `
-        top: -7px;
-
-        img {
-          max-width: 250px;
-        }
-      `,
-    )};
-  }
-`;
-
-export const MiddleLayerImageContainer = styled.div`
-  position: absolute;
-  right: 0;
-  text-align: right;
-  width: 100%;
-
-  &.hearst-necklace {
-    top: -60px;
-
-    img {
-      max-width: 450px;
-    }
-
-    ${desktopAndUp(`
-      top: -60px;
-      margin-right: 75px;
-
-      img {
-        max-width: 600px;
-      }
-    `)};
-
-    ${XLDesktopAndUp(`
-      margin-right: 230px;
-      top: 25px;
-
-      img {
-        max-width: 650px;
-      }
-    `)};
-  }
 `;

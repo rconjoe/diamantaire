@@ -6,54 +6,83 @@ Handles: MODULAR_HALF_WIDTH_BANNER_BLOCK, MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK
 
 import {
   Button,
+  DatoImage,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { isCountrySupported } from '@diamantaire/shared/helpers';
+import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
 import { ModularHalfBannerBlockContainer } from './ModularHalfBannerBlock.style';
 
-const ModularHalfWidthBannerBlock = (props) => {
-  const {
-    title,
-    mobileTitle,
-    subTitle,
-    desktopImage,
-    mobileImage,
-    desktopCopy,
-    mobileCopy,
-    ctaCopy,
-    ctaCopy2,
-    ctaCopy3,
-    ctaRoute,
-    ctaRoute2,
-    ctaRoute3,
-    ctaButtonType = 'secondary',
-    ctaButtonType2 = 'secondary',
-    ctaButtonType3 = 'secondary',
-    alt,
-    headingType,
-    textBlockAlignment,
-    textColor,
-    isTextBlockWide,
-    headingAdditionalClass,
-    subtitleAdditionalClass,
-    additionalClass,
-    blogPost,
-    supportedCountries,
-    countryCode,
-  } = props || {};
+type ModularHalfWidthBannerBlockProps = {
+  title: string;
+  mobileTitle: string;
+  subTitle?: string;
+  desktopImage?: DatoImageType;
+  mobileImage?: DatoImageType;
+  middleLayerImage?: DatoImageType;
+  middleLayerImageMobile?: DatoImageType;
+  desktopCopy?: string;
+  mobileCopy?: string;
+  ctaCopy: string;
+  ctaCopy2?: string;
+  ctaCopy3?: string;
+  ctaRoute?: string;
+  ctaRoute2?: string;
+  ctaRoute3?: string;
+  ctaButtonType?: string;
+  ctaButtonType2?: string;
+  ctaButtonType3?: string;
+  alt?: string;
+  headingType?: string;
+  textBlockAlignment?: string;
+  textColor?: string;
+  isTextBlockWide?: boolean;
+  headingAdditionalClass?: string;
+  subtitleAdditionalClass?: string;
+  additionalClass?: string;
+  blogPost?: {
+    title: string;
+    excerpt: string;
+    slug: string;
+  };
+};
 
-  if (!isCountrySupported(supportedCountries, countryCode)) {
-    return null;
-  }
-
+const ModularHalfWidthBannerBlock = ({
+  title,
+  mobileTitle,
+  subTitle,
+  desktopImage,
+  mobileImage,
+  desktopCopy,
+  mobileCopy,
+  ctaCopy,
+  ctaCopy2,
+  ctaCopy3,
+  ctaRoute,
+  ctaRoute2,
+  ctaRoute3,
+  ctaButtonType = 'secondary',
+  ctaButtonType2 = 'secondary',
+  ctaButtonType3 = 'secondary',
+  headingType,
+  textBlockAlignment,
+  textColor,
+  isTextBlockWide,
+  headingAdditionalClass,
+  subtitleAdditionalClass,
+  additionalClass,
+  blogPost,
+  middleLayerImage,
+  middleLayerImageMobile,
+}: ModularHalfWidthBannerBlockProps) => {
   const renderHalfWidthBlockTitle = (title) => {
     return (
       <Heading
@@ -83,13 +112,44 @@ const ModularHalfWidthBannerBlock = (props) => {
         <MobileDesktopImage
           desktopImage={desktopImage}
           mobileImage={mobileImage}
-          alt={alt}
+          alt={getBlockPictureAlt({
+            desktopImage,
+            title,
+          })}
           className={clsx({
             '-left': textBlockAlignment?.toLowerCase() === 'left',
             '-right': textBlockAlignment?.toLowerCase() === 'right',
           })}
         />
       </div>
+
+      {middleLayerImage && (
+        <ShowTabletAndUpOnly>
+          <div className={clsx('half-width__middle-layer-image', additionalClass)}>
+            <DatoImage
+              image={middleLayerImage}
+              overrideAlt={getBlockPictureAlt({
+                desktopImage: middleLayerImage,
+                title,
+              })}
+            />
+          </div>
+        </ShowTabletAndUpOnly>
+      )}
+
+      {middleLayerImageMobile && (
+        <ShowMobileOnly>
+          <div className={clsx('half-width__mobile-middle-layer-image', additionalClass)}>
+            <DatoImage
+              image={middleLayerImageMobile}
+              overrideAlt={getBlockPictureAlt({
+                desktopImage: middleLayerImageMobile,
+                title,
+              })}
+            />
+          </div>
+        </ShowMobileOnly>
+      )}
 
       <div
         className={clsx(

@@ -1,25 +1,14 @@
-import { LocaleSelector } from '@diamantaire/darkside/components/common-ui';
+import { Form, LocaleSelector } from '@diamantaire/darkside/components/common-ui';
+import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
+import { BOLD_FONT_WEIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
-
-// import CTAForm from 'components/general/CTAForm';
-// import { ReactComponent as FacebookIcon } from 'public/static/icons/social/facebook.svg';
-// import { ReactComponent as InstagramIcon } from 'public/static/icons/social/instagram.svg';
-// import PinterestIcon from 'public/static/icons/social/pinterest.svg';
-// import TiktokIcon from 'public/static/icons/social/tiktok.svg';
-// import { mq } from 'styles/mediaQueriesNew';
 
 import FooterMobileAccordions from './FooterMobileAccordions';
 
 type FooterTypes = {
   footerData: any;
-  // footerNavigation: {
-  //   columns: Array<FooterColumn>;
-  //   copyright: string;
-  //   emailSignUpColumn: Array<FooterSignupColType>;
-  //   emailSignUpCopy: Array<FooterSignupFormType>;
-  // };
 };
 
 export type FooterColumn = {
@@ -34,25 +23,6 @@ type FooterLink = {
   supportedCountries: Array<string>;
 };
 
-// type FooterSignupColType = {
-//   ctaCopy: string;
-//   copy: string;
-//   title: string;
-// };
-
-// type FooterSignupFormType = {
-//   emailInputBeingSent?: string;
-//   emailInputEmpty?: string;
-//   emailInputNotValid?: string;
-//   emailInputPlaceholder?: string;
-//   emailInputSuccessfullySent?: string;
-//   emailInputUnsuccessfullySent?: string;
-//   gdprCtaCopy?: string;
-//   gdprCtaRoute?: string;
-//   gdprOptInCopy?: string;
-//   phoneInputPlaceholder?: string;
-// };
-
 const FooterStyles = styled.footer`
   padding: 4rem 2.4rem 0;
   border-top: 1px solid #ddd;
@@ -64,7 +34,11 @@ const FooterStyles = styled.footer`
 
     .footer-col {
       flex: 1;
+      display: none;
 
+      ${desktopAndUp(`
+        display: block;
+      `)}
       &:first-child ul {
         li:first-child {
           a {
@@ -74,9 +48,10 @@ const FooterStyles = styled.footer`
       }
 
       &__inner {
-        h4 {
+        p.col-heading {
           font-size: 1.4rem;
           margin: 0 0 10px;
+          font-weight: ${BOLD_FONT_WEIGHT};
         }
         ul {
           padding: 0;
@@ -133,24 +108,25 @@ const FooterStyles = styled.footer`
               text-align: center;
               a {
                 display: inline-block;
-                svg {
+                img {
                   height: 23px;
                 }
 
                 &.pinterest,
                 &.tiktok {
-                  svg {
+                  img {
                     height: 19px;
+                    width: auto;
                   }
                 }
                 &.instagram {
-                  svg {
+                  img {
                     position: relative;
                     top: 4px;
                   }
                 }
                 &.facebook {
-                  svg {
+                  img {
                     position: relative;
                     top: 2px;
                   }
@@ -164,7 +140,11 @@ const FooterStyles = styled.footer`
   }
 
   .footer-mobile {
-    display: none;
+    display: block;
+
+    ${desktopAndUp(`
+        display: none;
+      `)}
   }
 
   .footer__copyright-wrapper {
@@ -178,44 +158,34 @@ const FooterStyles = styled.footer`
   }
 `;
 
-const socialItems = [];
-
-// const socialItems = [
-//   {
-//     icon: <InstagramIcon />,
-//     url: 'https://www.instagram.com/vraiofficial/',
-//     class: 'instagram',
-//   },
-//   {
-//     icon: <FacebookIcon />,
-//     url: 'https://www.facebook.com/VRAIjewelry/',
-//     class: 'facebook',
-//   },
-//   {
-//     icon: <PinterestIcon />,
-//     url: 'https://www.pinterest.com/vrai/',
-//     class: 'pinterest',
-//   },
-//   {
-//     icon: <TiktokIcon />,
-//     url: 'https://www.tiktok.com/@vraiofficial',
-//     class: 'tiktok',
-//   },
-// ];
+const socialItems = [
+  {
+    icon: <InstagramIcon alt="Instagram" />,
+    url: 'https://www.instagram.com/vraiofficial/',
+    className: 'instagram',
+  },
+  {
+    icon: <FacebookIcon alt="Facebook" />,
+    url: 'https://www.facebook.com/VRAIjewelry/',
+    className: 'facebook',
+  },
+  {
+    icon: <PinterestIcon alt="Pinterest" />,
+    url: 'https://www.pinterest.com/vrai/',
+    className: 'pinterest',
+  },
+  {
+    icon: <TiktokIcon alt="Tiktok" />,
+    url: 'https://www.tiktok.com/@vraiofficial',
+    className: 'tiktok',
+  },
+];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
-  const { columns, copyright, emailSignUpColumn /*, emailSignUpCopy */ } = footerData.footerNavigation;
-  const { /* ctaCopy, */ copy, title } = emailSignUpColumn[0];
-  // const { emailInputPlaceholder } = emailSignUpCopy[0];
+  const { columns, copyright, emailSignUpColumn } = footerData.footerNavigation;
+  const { copy, title } = emailSignUpColumn[0];
 
   const date = new Date();
-
-  // function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, state: object) {
-  //   e.preventDefault();
-  //   // do something
-
-  //   return state;
-  // }
 
   return (
     <FooterStyles>
@@ -227,7 +197,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
             return (
               <div className="footer-col" key={`footer-col-${index}`}>
                 <div className="footer-col__inner">
-                  <h4>{title}</h4>
+                  <p className="col-heading">{title}</p>
                   <ul>
                     {links?.map((link, linkIndex) => {
                       const { route, copy } = link;
@@ -248,16 +218,10 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
           <div className="footer-col footer-email-signup">
             <div className="footer-col__inner">
-              <h4>{title}</h4>
+              <p className="col-heading">{title}</p>
               <p>{copy}</p>
-              <LocaleSelector locale={'en-US'} />
-              {/* <CTAForm
-                text={{
-                  buttonText: ctaCopy,
-                  emailInputPlaceholder,
-                }}
-                onSubmit={handleFormSubmit}
-              /> */}
+
+              <Form onSubmit={(e) => e.preventDefault()} />
               <div className="footer-social">
                 <ul>
                   {socialItems.map((item, index) => {
@@ -273,6 +237,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                   })}
                 </ul>
               </div>
+              <LocaleSelector locale={'en-US'} />
             </div>
           </div>
         </div>

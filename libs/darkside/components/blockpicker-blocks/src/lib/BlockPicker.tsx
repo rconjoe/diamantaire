@@ -37,6 +37,7 @@ import {
   MODULAR_QUAD_GRID,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
 } from '@diamantaire/shared/constants';
+import { forceVisible } from 'react-lazyload';
 
 import {
   DynamicEmailSignup,
@@ -80,10 +81,12 @@ const config: configProps = {
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
+  // [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
   // BANNERS
 
   [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
+  // [MODULAR_RANDOM_BANNER_BLOCK]: ModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,
   [MODULAR_HERO_BANNER_BLOCK]: DynamicModularBannerBlock,
@@ -121,19 +124,33 @@ const config: configProps = {
   [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
 };
 
-const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode }) => {
+const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode, shouldLazyLoad }) => {
   const BlockComponent = config?.[_modelApiKey];
-  const { shouldLazyLoad } = modularBlockData;
+
+  forceVisible();
 
   return (
     <>
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
+
       {BlockComponent && shouldLazyLoad ? (
         <LazyLoadWrapper>
-          <BlockComponent isMobile={isMobile} countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+          <BlockComponent
+            isMobile={isMobile}
+            countryCode={countryCode}
+            currencyCode={currencyCode}
+            shouldLazyLoad={shouldLazyLoad}
+            {...modularBlockData}
+          />
         </LazyLoadWrapper>
       ) : BlockComponent ? (
-        <BlockComponent isMobile={isMobile} countryCode={countryCode} currencyCode={currencyCode} {...modularBlockData} />
+        <BlockComponent
+          isMobile={isMobile}
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+          shouldLazyLoad={shouldLazyLoad}
+          {...modularBlockData}
+        />
       ) : (
         ''
       )}

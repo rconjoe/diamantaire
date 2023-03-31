@@ -3,30 +3,42 @@
 * */
 
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 
-const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }) => {
-  const { content1 } = page || [];
+type StandardPageEntryProps = {
+  page?: {
+    content1?: Array<any>;
+  };
+  isMobile?: boolean;
+  countryCode?: string;
+  currencyCode?: string;
+};
+
+const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: StandardPageEntryProps) => {
+  // const { content1 } = page || [];
+  // console.log(page);
 
   return (
     <div className="content-one-container">
-      <Suspense fallback={`Loading...`}>
-        {content1?.map((contentBlockData, idx) => {
+      <Suspense fallback={'Loading'}>
+        {page?.content1?.map((contentBlockData, idx) => {
           const { id, _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
-          const isBelowTheFold = idx > 1;
-          const shouldLazyLoad = isBelowTheFold ? true : false;
+          const contentIsAboveFold = idx < 2;
+          const shouldLazyLoad = contentIsAboveFold ? false : true;
 
           return (
-            <BlockPicker
-              key={id}
-              _modelApiKey={_modelApiKey}
-              modularBlockData={{ ...contentBlockData, shouldLazyLoad }}
-              isMobile={isMobile}
-              countryCode={countryCode}
-              currencyCode={currencyCode}
-            />
+            <React.Fragment key={id}>
+              <BlockPicker
+                _modelApiKey={_modelApiKey}
+                modularBlockData={{ ...contentBlockData }}
+                isMobile={isMobile}
+                countryCode={countryCode}
+                currencyCode={currencyCode}
+                shouldLazyLoad={shouldLazyLoad}
+              />
+            </React.Fragment>
           );
         })}
       </Suspense>

@@ -8,6 +8,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -34,39 +35,9 @@ type ModularTallHalfWidthBlockProps = {
   }>;
   countryCode?: string;
   shouldLazyLoad?: boolean;
-  titleImage?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  desktopImage?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileImage?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  titleImage?: DatoImageType;
+  desktopImage?: DatoImageType;
+  mobileImage?: DatoImageType;
 };
 
 const ModularTallHalfWidthBlock = ({
@@ -88,6 +59,7 @@ const ModularTallHalfWidthBlock = ({
   supportedCountries,
   countryCode = 'US',
   titleImage,
+  shouldLazyLoad,
 }: ModularTallHalfWidthBlockProps) => {
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -153,7 +125,12 @@ const ModularTallHalfWidthBlock = ({
                 <Markdown options={{ forceInline: true }}>{title}</Markdown>
               </Heading>
 
-              <DatoImage image={titleImage} className="content__title-image" overrideAlt={title} />
+              <DatoImage
+                image={titleImage}
+                className="content__title-image"
+                overrideAlt={title}
+                shouldLazyLoad={shouldLazyLoad}
+              />
             </div>
           )}
           {title && !mobileTitle && !titleImage && (

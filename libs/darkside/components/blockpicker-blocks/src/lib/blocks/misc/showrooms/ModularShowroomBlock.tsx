@@ -1,6 +1,7 @@
 import { Heading, Button, ShowMobileOnly, ShowTabletAndUpOnly, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -14,18 +15,7 @@ type ModularShowroomBlockProps = {
     phone: string;
     email: string;
     directionsCtaLink: string;
-    directionsImage: {
-      mimeType?: string;
-      url: string;
-      alt?: string;
-      width?: number;
-      height?: number;
-      responsiveImage?: {
-        width: number;
-        height: number;
-        base64: string;
-      };
-    };
+    directionsImage: DatoImageType;
     appointmentCtaCopy: string;
     appointmentCtaLink: string;
     detailCtaCopy: string;
@@ -36,18 +26,7 @@ type ModularShowroomBlockProps = {
     servicesLabel: string;
     services: string;
   };
-  image: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  image: DatoImageType;
 };
 
 const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {

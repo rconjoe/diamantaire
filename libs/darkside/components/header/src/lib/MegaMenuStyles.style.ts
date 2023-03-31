@@ -8,11 +8,12 @@ interface Props {
 export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 1px solid #000;
   padding-bottom: 2.4rem;
-  position: fixed;
-  top: ${(props) => props.$headerHeight + 'px'};
+  position: ${({ $isFixed }) => ($isFixed ? 'fixed' : 'absolute')};
+  top: ${({ $headerHeight }) => $headerHeight + 'px'};
   left: 0;
   width: 100%;
   background-color: #fff;
+  z-index: 5000;
 
   &.hide {
     display: none;

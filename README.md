@@ -6,3 +6,8 @@
 > A member of a successful diamond-dealing family or group.
 
 ---
+
+# Tips
+
+During a rebase, you can skip Husky checks with:
+`HUSKY_SKIP_HOOKS=1 git rebase ...`

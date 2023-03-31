@@ -34,12 +34,10 @@ const ModularHalfWidthQuadBlock = (props) => {
   return (
     <ModularHalfWidthQuadBlockContainer className="container-emotion" $imageAlignment={imageAlignment}>
       <div className={clsx('quad__image-quad-container')}>
-        {!ctaRoute && (
-          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} isLazyLoaded={true} />
-        )}
+        {!ctaRoute && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />}
         {ctaRoute && (
           <UniLink route={ctaRoute}>
-            <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} isLazyLoaded={true} />
+            <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
           </UniLink>
         )}
 

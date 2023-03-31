@@ -8,6 +8,7 @@ import {
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -26,28 +27,8 @@ type TallHalfWidthBlockLocationCTAProps = {
   ctaRoute?: string;
   ctaCopy2?: string;
   ctaRoute2?: string;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   isTextBlockWide?: boolean;
   textColor?: string;
   textBlockAlignment: string;
@@ -128,6 +109,11 @@ const TallHalfWidthBlockLocationCTA = ({
         });
 
         return await res.json();
+      })
+      .catch((e) => {
+        console.log(e);
+
+        return { city: 'New York', timezone: 'America/New_York' };
       });
 
     return location;
@@ -144,7 +130,7 @@ const TallHalfWidthBlockLocationCTA = ({
         })}
         desktopImage={desktopImage}
         mobileImage={mobileImage}
-        isLazyLoaded={shouldLazyLoad}
+        shouldLazyLoad={shouldLazyLoad}
         alt={alt}
       />
 

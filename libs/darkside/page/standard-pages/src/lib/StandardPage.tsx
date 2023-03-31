@@ -3,7 +3,7 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -65,9 +65,6 @@ async function getStaticProps(context) {
   const refinedLocale = 'en_US';
 
   // device:
-  // const isMobile = Boolean(
-  //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
-  // );
 
   const isMobile = false;
 

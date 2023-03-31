@@ -1,4 +1,4 @@
-import Document, { Html, Main, NextScript, Head, DocumentContext } from 'next/document';
+import Document, { Html, Main, NextScript, DocumentContext, Head } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
@@ -26,10 +26,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <link rel="preload" href="https://use.typekit.net/ram5cej.css" as="style" crossOrigin="anonymous" />
-          <link rel="stylesheet" href="https://use.typekit.net/ram5cej.css" />
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />

@@ -4,7 +4,6 @@ fragment responsiveImageFragment on ResponsiveImage {
   width
   height
   aspectRatio
-  alt
   title
   base64
 }

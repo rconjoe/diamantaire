@@ -1,43 +1,25 @@
+import { DatoImageType } from '@diamantaire/shared/types';
+
 import { DatoImage } from './DatoImage';
 import { ShowMobileOnly } from '../media-queries/ShowMobileOnly';
 import { ShowTabletAndUpOnly } from '../media-queries/ShowTabletAndUpOnly';
 
 type MobileDesktopImageProps = {
   alt: string;
-  desktopImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
-  mobileImage: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
   className?: string;
-  isLazyLoaded?: boolean;
+  shouldLazyLoad?: boolean;
 };
 
-const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className }: MobileDesktopImageProps) => {
+const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className, shouldLazyLoad }: MobileDesktopImageProps) => {
   return (
     <>
       <ShowTabletAndUpOnly>
-        <DatoImage image={desktopImage} className={className} overrideAlt={alt} />
+        <DatoImage image={desktopImage} className={className} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
       </ShowTabletAndUpOnly>
       <ShowMobileOnly>
-        <DatoImage image={mobileImage} className={className} overrideAlt={alt} />
+        <DatoImage image={mobileImage} className={className} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
       </ShowMobileOnly>
     </>
   );

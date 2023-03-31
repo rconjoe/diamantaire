@@ -5,16 +5,25 @@ export const DynamicModularHalfBannerBlock = dynamic(() => import('./blocks/bann
 export const DynamicModularTallHalfWidthBlock = dynamic(() => import('./blocks/ModularTallHalfWidthBlock'));
 export const DynamicModularSkinnyBannerBlock = dynamic(() => import('./blocks/banners/ModularSkinnyBannerBlock'));
 export const DynamicModularLogoBannerBlock = dynamic(() => import('./blocks/banners/ModularLogoBannerBlock'));
+export const DynamicModularQuadStatisticsBlock = dynamic(() => import('./blocks/grid/ModularQuadStatisticsBlock'));
 
 export const DynamicModularContentQuadBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
-export const DynamicModularDiamondLeoBlock = dynamic(() => import('./blocks/misc/ModularDiamondLeoBlock'));
-export const DynamicModularVideoBlock = dynamic(() => import('./blocks/ModularVideoBlock'));
+export const DynamicModularDiamondLeoBlock = dynamic(() => import('./blocks/misc/ModularDiamondLeoBlock'), {
+  ssr: false,
+});
+export const DynamicModularVideoBlock = dynamic(() => import('./blocks/ModularVideoBlock'), {
+  ssr: false,
+});
 export const DynamicModularSwiperCarouselBlock = dynamic(() => import('./blocks/grid/ModularContentQuadBlock'));
 export const DynamicModularTallHalfWidthBlockLocationCTA = dynamic(
   () => import('./blocks/grid/TallHalfWidthBlockLocationCTA'),
+  {
+    ssr: false,
+  },
 );
-export const DynamicModularQuadStatisticsBlock = dynamic(() => import('./blocks/grid/ModularQuadStatisticsBlock'));
-export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'));
+export const DynamicModularCarouselBlock = dynamic(() => import('./blocks/carousels/ModularCarouselBlock'), {
+  ssr: false,
+});
 export const DynamicModularQuadImageGrid = dynamic(() => import('./blocks/grid/ModularQuadImageGrid'));
 export const DynamicTextOnlyBlock = dynamic(() => import('./blocks/misc/ModularTextOnlyBlock'));
 export const DynamicModularLogoGrid = dynamic(() => import('./blocks/grid//ModularLogoGrid'));

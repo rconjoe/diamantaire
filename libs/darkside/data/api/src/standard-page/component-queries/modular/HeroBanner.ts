@@ -12,32 +12,16 @@ const HeroBanner = `
     desktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 1440, h: 480, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
-            src
-            alt
-            aspectRatio
-            base64
-            bgColor
-            height
-            sizes
-            title
-            width
-        }
+      responsiveImage(imgixParams: {w: 1440, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
+      }
     }
     mobileImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 360, q: 35, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
-            src
-            alt
-            aspectRatio
-            base64
-            bgColor
-            height
-            sizes
-            title
-            width
-        }
+      responsiveImage (imgixParams: {w: 375, q: 35, auto: format, fit: crop, crop: focalpoint }){
+        ...responsiveImageFragment
+      }
     }
     title
     textColor

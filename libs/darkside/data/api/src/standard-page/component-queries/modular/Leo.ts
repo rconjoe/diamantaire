@@ -7,10 +7,8 @@ const Leo = `
     image {
       url
       alt
-      responsiveImage {
-        height
-        width
-        base64
+      responsiveImage(imgixParams: {w: 350, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+        ...responsiveImageFragment
       }
     }
   }

@@ -12,17 +12,18 @@ type CompactHeaderTypes = {
   navItems: NavItemsProps;
   toggleMegaMenuOpen: (_index: number) => void;
   menuIndex: number;
+  compactHeaderRef?: React.RefObject<HTMLDivElement>;
 };
-
-// type CompactHeaderStylesTypes = {
-//   $topBarHeight: number;
-// };
 
 const CompactHeaderStyles = styled.div`
   padding: 1.4rem 0;
   width: 100%;
   background-color: #fff;
-  z-index: 100000;
+  z-index: 5000;
+  /* position: fixed; */
+  top: auto;
+  left: 0;
+  width: 100%;
   display: none;
 
   @media (min-width: ${BP_LG}) {
@@ -104,9 +105,14 @@ const CompactHeaderStyles = styled.div`
   }
 `;
 
-const CompactHeader: FC<CompactHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex }): JSX.Element => {
+const CompactHeader: FC<CompactHeaderTypes> = ({
+  navItems,
+  toggleMegaMenuOpen,
+  menuIndex,
+  compactHeaderRef,
+}): JSX.Element => {
   return (
-    <CompactHeaderStyles>
+    <CompactHeaderStyles ref={compactHeaderRef ? compactHeaderRef : null}>
       <div className="compact-header__container">
         <div className="compact-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">

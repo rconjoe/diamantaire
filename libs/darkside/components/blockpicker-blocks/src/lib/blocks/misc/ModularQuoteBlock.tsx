@@ -1,5 +1,6 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 
 import { ModularQuoteBlockContainer } from './ModularQuoteBlock.style';
 
@@ -9,20 +10,13 @@ type ModularQuoteBlockProps = {
   quoteStyle?: string;
   attribution?: string;
   attributionFont?: string;
-  backgroundColor: string;
-  textColor: string;
-  quotationMarksImage?: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
+  backgroundColor: {
+    hex: string;
   };
+  textColor: {
+    hex: string;
+  };
+  quotationMarksImage?: DatoImageType;
   shouldLazyLoad?: boolean;
 };
 
@@ -35,6 +29,7 @@ const ModularQuoteBlock = ({
   backgroundColor,
   textColor,
   quotationMarksImage,
+  shouldLazyLoad,
 }: ModularQuoteBlockProps) => {
   const alt = getBlockPictureAlt({
     image: quotationMarksImage,
@@ -43,8 +38,8 @@ const ModularQuoteBlock = ({
 
   return (
     <ModularQuoteBlockContainer
-      $backgroundColor={backgroundColor}
-      $textColor={textColor}
+      $backgroundColor={backgroundColor?.hex}
+      $textColor={textColor?.hex}
       $textStyle={quoteStyle}
       $textFont={quoteFont}
       $attributionFont={attributionFont}
@@ -53,7 +48,12 @@ const ModularQuoteBlock = ({
         <div className="quote-block__container">
           {quotationMarksImage && (
             <div className="quote-block__quote-image-wrapper">
-              <DatoImage image={quotationMarksImage} className="quote-block__quote-image" overrideAlt={alt} />
+              <DatoImage
+                image={quotationMarksImage}
+                className="quote-block__quote-image"
+                overrideAlt={alt}
+                shouldLazyLoad={shouldLazyLoad}
+              />
             </div>
           )}
           <p className="quote-block__quote">{quote}</p>

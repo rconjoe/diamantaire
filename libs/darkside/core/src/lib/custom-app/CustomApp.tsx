@@ -1,5 +1,4 @@
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
-import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -26,13 +25,11 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <GlobalProvider>
-      <QueryClientProvider client={queryClient}>
-        <DefaultSeo />
-        <GlobalStyles />
-        <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </GlobalProvider>
+    <QueryClientProvider client={queryClient}>
+      <DefaultSeo />
+      <GlobalStyles />
+      <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }

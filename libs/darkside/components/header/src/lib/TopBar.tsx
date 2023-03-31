@@ -11,6 +11,7 @@ const TopBarContainer = styled.div`
   background-color: ${TEAL};
   padding: 1.15rem 0;
   position: relative;
+  z-index: 5000;
 
   .top-bar__content {
     display: flex;

@@ -1,24 +1,16 @@
+import { DatoImageType } from '@diamantaire/shared/types';
 import Image, { ImageLoaderProps } from 'next/image';
 
 type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
-  image: {
-    mimeType?: string;
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    responsiveImage?: {
-      width: number;
-      height: number;
-      base64: string;
-    };
-  };
+  shouldLazyLoad?: boolean;
+  image: DatoImageType;
 };
 
-const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
-  const { alt, url, responsiveImage } = image || {};
+const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: DatoImageProps) => {
+  const { alt, responsiveImage } = image || {};
+  const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
 
@@ -40,8 +32,8 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
     <img src={image.url} alt={alt} />
   ) : (
     <Image
-      alt={overrideAlt ? overrideAlt : alt}
-      src={url}
+      alt={overrideAlt ? overrideAlt : alt ? alt : ''}
+      src={responsiveImageSrc}
       placeholder="blur"
       blurDataURL={responsiveImage?.base64}
       loader={loader}
@@ -49,6 +41,10 @@ const DatoImage = ({ image, className, overrideAlt }: DatoImageProps) => {
       sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
       width={responsiveImage ? responsiveImage.width : image.width}
       height={responsiveImage ? responsiveImage.height : image.height}
+      loading={shouldLazyLoad ? 'lazy' : 'eager'}
+      style={{
+        aspectRatio,
+      }}
     />
   );
 };
