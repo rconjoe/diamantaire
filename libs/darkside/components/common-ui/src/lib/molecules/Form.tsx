@@ -9,14 +9,25 @@ It requires 2 things
 
 */
 
+import React from 'react';
 import styled from 'styled-components';
 
 import { Button } from './Button';
 
+type FormProps = {
+  onSubmit: (e: React.SyntheticEvent) => void;
+  title?: string;
+  caption?: string;
+};
+
 const FormContainer = styled.div`
+  p {
+    margin-top: calc(var(--gutter) / 20);
+  }
   form {
     display: flex;
     align-items: flex-end;
+    margin-top: calc(var(--gutter) / 5);
     .input-container {
       display: flex;
       flex-wrap: wrap;
@@ -48,9 +59,11 @@ const FormContainer = styled.div`
   }
 `;
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, title, caption }: FormProps) => {
   return (
     <FormContainer>
+      {title && <h4>{title}</h4>}
+      {caption && <p className="small">{caption}</p>}
       <form onSubmit={onSubmit}>
         <div className="input-container">
           <input type="text" name="email" id="email" placeholder="Enter your email" />

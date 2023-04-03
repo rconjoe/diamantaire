@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { Form } from '@diamantaire/darkside/components/common-ui';
 import { MediaGallery, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
 import { useProduct } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -7,7 +8,8 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
+
+import { PageContainerStyles } from './PdpPage.style';
 
 interface PdpPageParams extends ParsedUrlQuery {
   productSlug: string;
@@ -35,7 +37,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     const assetStack = variantContent?.[0]?.assetStack; // flatten array in normalization
 
     return (
-      <PageContainerStyle>
+      <PageContainerStyles>
         <div className="product-container">
           <div className="media-container">
             <MediaGallery assets={assetStack} />
@@ -51,9 +53,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <li>Free Shipping</li>
               <li>Lifetime Warranty</li>
             </ul>
+            <Form
+              title="Need more time to think?"
+              caption="Email this customized ring to yourself or drop a hint."
+              onSubmit={(e) => e.preventDefault()}
+            />
           </div>
         </div>
-      </PageContainerStyle>
+      </PageContainerStyles>
     );
   }
 
@@ -63,24 +70,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     </h1>
   );
 }
-
-const PageContainerStyle = styled.div`
-  .product-container {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    .media-container {
-      display: flex;
-      flex: 2 1 0%;
-    }
-    .info-container {
-      h1 {
-        font-size: 2.8rem;
-      }
-      width: 400px;
-    }
-  }
-`;
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,

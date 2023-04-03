@@ -42,10 +42,10 @@ export const GlobalTemplate = ({ children }) => {
       setHeaderHeight(headerRef.current.offsetHeight);
     });
 
-    resizeObserver.observe(document.documentElement);
+    resizeObserver.observe(headerRef.current);
 
     return () => resizeObserver.disconnect();
-  }, [headerData?.data]);
+  }, [headerData, isTopbarShowing]);
 
   return (
     <>

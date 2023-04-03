@@ -6,5 +6,7 @@ export async function getProductPage(productSlug, variantSlug) {
 
   const response = await vraiApiClient.get(apiUrl);
 
+  console.log('apiUrl', apiUrl);
+
   return response.data;
 }
