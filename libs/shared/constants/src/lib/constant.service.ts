@@ -404,6 +404,9 @@ export const MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA = 'modular_tall_half_wid
 export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
 export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
 
+// These blocks are created within project
+export const MODULAR_SPLIT_VIDEO_BLOCK = 'modular_split_video_block';
+
 // Showroom
 export const SHOWROOM_LOCATIONS = [
   {

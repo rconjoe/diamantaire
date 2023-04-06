@@ -41,3 +41,4 @@ export const DynamicModularTriGridWithOrderTracking = dynamic(() => import('./bl
 
 export const DynamicShowroomBlock = dynamic(() => import('./blocks/misc/showrooms/ModularShowroomBlock'));
 export const DynamicModularQuoteBlock = dynamic(() => import('./blocks/misc/ModularQuoteBlock'));
+export const DynamicModularSplitVideoBlock = dynamic(() => import('./blocks/ModularSplitVideoBlock'));

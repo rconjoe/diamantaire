@@ -10,7 +10,7 @@ export const PageContainerStyles = styled.div`
       padding: 0 20px;
     }
     .info-container {
-      flex: 0 0 450px;
+      flex: 0 0 550px;
       padding: 0 40px 0 20px;
       h1 {
         font-size: 2.8rem;

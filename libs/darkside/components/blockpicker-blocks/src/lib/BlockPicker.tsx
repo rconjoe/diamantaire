@@ -36,6 +36,7 @@ import {
   SOCIAL_MEDIA_SECTION,
   MODULAR_QUAD_GRID,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
+  MODULAR_SPLIT_VIDEO_BLOCK,
 } from '@diamantaire/shared/constants';
 import { forceVisible } from 'react-lazyload';
 
@@ -58,6 +59,7 @@ import {
   DynamicModularQuoteBlock,
   DynamicModularSideBySideBlock,
   DynamicModularSkinnyBannerBlock,
+  DynamicModularSplitVideoBlock,
   DynamicModularTallHalfWidthBlock,
   DynamicModularTallHalfWidthBlockLocationCTA,
   DynamicModularTriGridWithOrderTracking,
@@ -118,6 +120,7 @@ const config: configProps = {
 
   // MISC
   [MODULAR_EMAIL_SIGNUP_BLOCK]: DynamicEmailSignup,
+  [MODULAR_SPLIT_VIDEO_BLOCK]: DynamicModularSplitVideoBlock,
   [MODULAR_ACCORDION_BLOCK]: DynamicModularAccordion,
   [MODULAR_SHOWROOM_BLOCK]: DynamicShowroomBlock,
   [MODULAR_QUOTE_BLOCK]: DynamicModularQuoteBlock,

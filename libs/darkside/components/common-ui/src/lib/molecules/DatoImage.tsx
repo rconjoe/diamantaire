@@ -7,6 +7,7 @@ type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
   shouldLazyLoad?: boolean;
+  isSVG?: boolean;
   image: DatoImageType;
 };
 
@@ -25,11 +26,12 @@ const DatoImageContainer = styled.div`
   }
 `;
 
-const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: DatoImageProps) => {
+const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
-  const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
+  const isSvgCheck =
+    isSVG || (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
@@ -45,7 +47,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: Dat
     return `${src}?${searchParams.toString()}`;
   };
 
-  return isSvg ? (
+  return isSvgCheck ? (
     <img src={image.url} alt={alt} />
   ) : (
     <DatoImageContainer>

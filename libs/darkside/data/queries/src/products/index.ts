@@ -1,4 +1,13 @@
-import { getProductPage } from '@diamantaire/darkside/data/api';
+import {
+  fetchDatoProductIconList,
+  fetchDatoProductInfo,
+  fetchDatoProductInstagramReel,
+  fetchDatoProductSpec,
+  fetchDatoProductTrioBlock,
+  fetchDatoProductVideoBlock,
+  fetchDatoVariant,
+  getProductPage,
+} from '@diamantaire/darkside/data/api';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 // import type { DarksideGlobalGatewayQueryFunctionContext } from '@diamantaire/shared/types';
@@ -10,5 +19,33 @@ export const productPage = createQueryKeys('products', {
     queryFn: () => getProductPage(productSlug, variantSlug),
     // https://tanstack.com/query/v4/docs/react/guides/disabling-queries
     // enabled: false, // prevent auto refetch => TODO: gateway request changes
+  }),
+  dato: (productSlug: string, locale: string) => ({
+    queryKey: [productSlug, locale],
+    queryFn: () => fetchDatoProductInfo(productSlug, locale),
+  }),
+  productSpec: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductSpec(id, locale),
+  }),
+  productIconList: (productType: string, locale: string) => ({
+    queryKey: [productType, locale],
+    queryFn: () => fetchDatoProductIconList(productType, locale),
+  }),
+  productTrioBlock: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductTrioBlock(id, locale),
+  }),
+  productInstagramReel: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductInstagramReel(id, locale),
+  }),
+  productVideoBlock: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductVideoBlock(id, locale),
+  }),
+  datoVariant: (variantSlug: string, locale: string) => ({
+    queryKey: [variantSlug, locale],
+    queryFn: () => fetchDatoVariant(variantSlug, locale),
   }),
 });
