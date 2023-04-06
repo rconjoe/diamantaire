@@ -125,7 +125,13 @@ export class ProductsService {
       //requestedVariant.price = price; // include price in the requested variant
 
       if (products && requestedVariant) {
-        const { productType, dangerousInternalProductId: productId } = parentProduct;
+        const {
+          productType,
+          dangerousInternalProductId: productId,
+          dangerousInternalCollectionId: parentProductId,
+        } = parentProduct;
+
+        collectionContent[0].collectionId = parentProductId;
         const variantReturnData = {
           productId,
           productType,
