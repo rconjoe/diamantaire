@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 
 // src: https://usehooks.com/useScript/
 
-export function useScript({ src, type = 'text/javascript', id }) {
+type UseScriptProps = {
+  src?: string;
+  type?: string;
+  id?: string;
+};
+
+export function useScript({ src, type = 'text/javascript', id }: UseScriptProps) {
   // Keep track of script status ("idle", "loading", "ready", "error")
   const [status, setStatus] = useState(src ? 'loading' : 'idle');
 

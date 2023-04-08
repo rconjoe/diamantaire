@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Form } from '@diamantaire/darkside/components/common-ui';
-import { MediaGallery, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
+import { MediaGallery, ProductConfigurator, SpriteSpinnerInit } from '@diamantaire/darkside/components/products/pdp';
 import {
   useProduct,
   useProductDato,
@@ -69,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Variant Specfic Data
   const { id, variantContent, collectionContent, options } = shopifyProductData;
-  const { productTitle } = collectionContent[0]; // flatten array in normalization
+  const { productTitle, collectionId } = collectionContent[0]; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = variantContent?.[0]?.assetStack; // flatten array in normalization
@@ -90,9 +90,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
+        <SpriteSpinnerInit />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} />
+            <MediaGallery assets={assetStack} options={options} />
           </div>
           <div className="info-container">
             <ProductTitle>{productTitle}</ProductTitle>
@@ -117,7 +118,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
         <ProductTrioBlocks blocks={trioBlocks?.blocks} />
         <ProductBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
-        <ProductReviews reviewsId={'73431580738'} />
+        <ProductReviews reviewsId={collectionId} />
       </PageContainerStyles>
     );
   }

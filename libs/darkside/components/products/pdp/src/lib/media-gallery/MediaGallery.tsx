@@ -1,5 +1,13 @@
+import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
+import SpriteSpinnerSFC from './SpriteSpinnerSFC';
+
+export { SpriteSpinnerInit } from './SpriteSpinnerInit';
+
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 enum MimeTypes {
   ImageJpeg = 'image/jpeg',
@@ -15,6 +23,7 @@ interface MediaAsset {
 
 interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
+  options?: any;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -25,12 +34,12 @@ const MediaGalleryStyles = styled.div`
   width: 100%;
 `;
 
-function MediaGallery({ assets }: MediaGalleryProps) {
+function MediaGallery({ assets, options }: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
         {assets.map((asset) => (
-          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} />
+          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} />
         ))}
       </MediaGalleryStyles>
     )
@@ -48,11 +57,12 @@ interface MediaAsset {
   };
 }
 
-function MediaAsset({ type, asset }) {
+function MediaAsset({ type, asset, options }) {
+  console.log('asset.customData', asset.customData, type);
   switch (type) {
     case MimeTypes.ImageJpeg: {
-      if (asset.customData?.sprite) {
-        return <SpriteSpinner sprite={asset} />;
+      if (asset.customData?.bunny === 'true') {
+        return <SpriteSpinnerBlock sprite={asset} options={options} />;
       }
 
       return <ImageAsset image={asset} />;
@@ -111,15 +121,36 @@ function ImageAsset({ image }) {
   );
 }
 
+const VideoAssetContainer = styled.div``;
+
 function VideoAsset({ video }) {
   console.log('VIDEO ASSET', video);
+  const { streamingUrl } = video?.video || {};
 
-  //return <div>VIDEO</div>;
-  return null;
+  return (
+    <VideoAssetContainer>
+      {streamingUrl && (
+        <ReactPlayer height="100%" width="100%" playing loop muted playsinline={true} url={streamingUrl} controls={false} />
+      )}
+    </VideoAssetContainer>
+  );
 }
-function SpriteSpinner({ sprite }) {
-  console.log('SPRITE', sprite);
 
-  // return <div>SPRITE SPINNER</div>;
-  return null;
+function SpriteSpinnerBlock({ sprite, options }) {
+  const { diamondType, bandAccent, metal } = options;
+  const { query } = useRouter();
+  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.productSlug}/${diamondType}/${
+    bandAccent ? bandAccent + '/' : ''
+  }${metal}`;
+
+  console.log('sprite', sprite);
+
+  return (
+    <SpriteSpinnerSFC
+      // spriteImageUrl={url}
+      spriteSource={'bunny'}
+      bunnyBaseURL={bunny360BaseURL}
+      shouldStartSpinner={true}
+    />
+  );
 }
