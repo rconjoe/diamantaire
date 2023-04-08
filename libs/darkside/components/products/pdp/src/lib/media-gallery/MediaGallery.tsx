@@ -24,6 +24,7 @@ interface MediaAsset {
 interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
   options?: any;
+  title?: string;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -34,12 +35,12 @@ const MediaGalleryStyles = styled.div`
   width: 100%;
 `;
 
-function MediaGallery({ assets, options }: MediaGalleryProps) {
+function MediaGallery({ assets, options, title }: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
         {assets.map((asset) => (
-          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} />
+          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} productTitle={title} />
         ))}
       </MediaGalleryStyles>
     )
@@ -57,7 +58,7 @@ interface MediaAsset {
   };
 }
 
-function MediaAsset({ type, asset, options }) {
+function MediaAsset({ type, asset, options, productTitle }) {
   console.log('asset.customData', asset.customData, type);
   switch (type) {
     case MimeTypes.ImageJpeg: {
@@ -65,7 +66,7 @@ function MediaAsset({ type, asset, options }) {
         return <SpriteSpinnerBlock sprite={asset} options={options} />;
       }
 
-      return <ImageAsset image={asset} />;
+      return <ImageAsset image={asset} productTitle={productTitle} />;
     }
     case MimeTypes.VideoMP4: {
       return <VideoAsset video={asset} />;
@@ -89,7 +90,7 @@ const ImageAssetStyles = styled.div`
   position: relative;
 `;
 
-function ImageAsset({ image }) {
+function ImageAsset({ image, productTitle }) {
   const { alt, url } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -109,7 +110,7 @@ function ImageAsset({ image }) {
   return (
     <ImageAssetStyles>
       <Image
-        alt={alt}
+        alt={alt || productTitle}
         src={url}
         placeholder="blur"
         blurDataURL={image.responsiveImage.base64}

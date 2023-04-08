@@ -64,7 +64,10 @@ const ShippingListItem = ({ item }) => {
 
   return (
     <li>
-      <span className="icon">{icon && <DatoImage image={icon} isSVG={true} />}</span> {shippingText} {shippingDate}
+      <span className="icon">
+        {icon && <DatoImage image={icon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />}
+      </span>
+      {shippingText} {shippingDate}
     </li>
   );
 };
@@ -75,7 +78,7 @@ const IconListItem = ({ item }) => {
 
   return (
     <li>
-      <span className="icon">{icon && <DatoImage image={icon} isSVG={true} />}</span> {copy}{' '}
+      <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy} />}</span> {copy}{' '}
       {ctaRoute && <Link href={ctaRoute}>{ctaCopy}</Link>}
     </li>
   );

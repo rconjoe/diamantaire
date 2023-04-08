@@ -48,7 +48,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
   };
 
   return isSvgCheck ? (
-    <img src={image.url} alt={alt} />
+    <img src={image.url} alt={overrideAlt || alt} />
   ) : (
     <DatoImageContainer>
       <Image

@@ -93,7 +93,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <SpriteSpinnerInit />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} options={options} />
+            <MediaGallery assets={assetStack} options={options} title={productTitle} />
           </div>
           <div className="info-container">
             <ProductTitle>{productTitle}</ProductTitle>
