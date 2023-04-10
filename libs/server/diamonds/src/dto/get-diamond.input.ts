@@ -113,5 +113,5 @@ export class GetDiamondByLotIdDto {
   })
   @IsString()
   @IsNotEmpty()
-  readonly sku: string;
+  readonly lotId: string;
 }
