@@ -23,10 +23,10 @@ export class DiamondsController {
     return await this.diamondsService.getDiamonds(diamondsDto, { limit, page, sortBy, sortOrder }, { isCto });
   }
 
-  @Get(':sku')
-  @ApiParam({ name: 'sku', required: true })
-  async getDiamondByLotId(@Param() sku: GetDiamondByLotIdDto) {
-    return await this.diamondsService.diamondByLotId(sku);
+  @Get(':lotId')
+  @ApiParam({ name: 'lotId', required: true })
+  async getDiamondByLotId(@Param() lotId: GetDiamondByLotIdDto) {
+    return await this.diamondsService.diamondByLotId(lotId);
   }
 
   @Post('cutToOrder')
@@ -41,7 +41,7 @@ export class DiamondsController {
     return await this.diamondsService.getCutToOrderDiamondAvailability(cutToOrderDto, { limit, page, sortBy, sortOrder });
   }
 
-  @Get(':lotId')
+  @Get('available/:lotId')
   @ApiParam({ name: 'lotId', required: true })
   async getNSDiamondByLotId(@Param() lotId: GetDiamondCheckoutDto) {
     return await this.diamondsService.fetchDiamondAvailability(lotId);

@@ -91,17 +91,17 @@ export class DiamondsService {
    */
 
   async diamondByLotId(input: GetDiamondByLotIdDto): Promise<DiamondEntity> {
-    this.Logger.verbose(`Fetching diamond by lotId: ${input.sku}`);
+    this.Logger.verbose(`Fetching diamond by lotId: ${input.lotId}`);
     // eslint-disable-next-line no-useless-catch
     try {
-      const result = await this.diamondRepository.findOne({ lotId: input.sku });
+      const result = await this.diamondRepository.findOne({ lotId: input.lotId });
 
       if (result) {
         return result;
       }
-      throw new NotFoundException(`Diamond with lotId: ${input.sku} not found`);
+      throw new NotFoundException(`Diamond with lotId: ${input.lotId} not found`);
     } catch (error) {
-      this.Logger.error(`Error fetching diamond by lotId: ${input.sku}`);
+      this.Logger.error(`Error fetching diamond by lotId: ${input.lotId}`);
       throw error;
     }
   }
