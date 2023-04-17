@@ -53,6 +53,8 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
+    filteredQuery.isSold = false; // only return available diamonds
+
     if (isCto) {
       filteredQuery.slug = 'cto-diamonds';
       query['slug'] = 'cto-diamonds';
