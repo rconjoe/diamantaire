@@ -41,6 +41,7 @@ export class DiamondsService {
     const sortByKey = input?.sortBy || 'carat';
     const sortByObj = {};
     const query = {}; // diamond type query
+    // color: { $ne: 'Fancy Intense Pink' },
 
     sortByObj[sortByKey] = sortOrder; // sortby any key
 
@@ -54,6 +55,7 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondQuery(params);
 
     filteredQuery.isSold = false; // only return available diamonds
+    filteredQuery['color'] = { $ne: 'Fancy Intense Pink' }; // filter out pink diamonds
 
     if (isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -62,6 +64,7 @@ export class DiamondsService {
       filteredQuery.slug = 'diamonds';
       query['slug'] = 'diamonds';
     }
+    console.log(query);
 
     const cachedData = await this.utils.memGet(cachedKey);
 
