@@ -7,15 +7,15 @@
  */
 
 import { UtilService } from '@diamantaire/server/common/utils';
-import { PaginatedLabels } from '@diamantaire/shared/constants';
+import { CYF_DIAMOND_LIMIT, PaginatedLabels } from '@diamantaire/shared/constants';
 import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
-import { GetCutToOrderDiamondInput } from '../dto/cut-to-order.dto';
 import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
+import { hideIdenticalDiamond4Cs } from '../helper/diamond.helper';
 import { CutToOrderDiamondsRepository } from '../repository/cut-to-order.repository';
 import { DiamondRepository } from '../repository/diamond.repository';
 
@@ -230,47 +230,29 @@ export class DiamondsService {
   }
 
   /**
-   * Fetch paginated cut to order diamonds
-   * @param { GetCutToOrderDiamondInput } input - paginated request
+   * Fetch unique non cto diamonds
+   * @param { GetDiamondInput } params - requested data
    * @returns
    */
 
-  async getCutToOrderDiamondAvailability(params: GetCutToOrderDiamondInput, input?: GetCutToOrderDiamondInput) {
+  async getCFYDiamond(params: GetDiamondInput): Promise<DiamondEntity> {
     this.Logger.verbose(`Fetching cut to order diamond availability`);
-    const cachedKey = `cutToOrderDiamonds-${JSON.stringify(params)}-${JSON.stringify(input)}`;
 
-    const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
-    const sortByKey = input?.sortBy || 'carat';
-    const sortByObj = {};
+    const filteredQuery = this.optionalDiamondQuery(params);
 
-    sortByObj[sortByKey] = sortOrder; // sortby any key
-    const options: PaginateOptions = {
-      limit: input.limit || 20,
-      page: input.page || 1,
-      sort: sortByObj,
-      customLabels: PaginatedLabels,
-    };
+    filteredQuery.isSold = false; // only return available diamonds
+    filteredQuery.slug = 'diamonds';
+    try {
+      const result = await this.diamondRepository.find(filteredQuery);
 
-    const filteredQuery = this.optionalCTODiamondFilter(params);
-    const cachedData = await this.utils.memGet(cachedKey);
+      // result should be filtered with the 4c's (carat, cut, color, clarity)
+      const uniqueDiamondResults = hideIdenticalDiamond4Cs(result);
 
-    if (cachedData) {
-      this.Logger.verbose(`cutToOrderDiamonds :: cache hit on key ${cachedKey}`);
-
-      return cachedData; // return the entire cached data
+      return uniqueDiamondResults.sort((a, b) => a.carat - b.carat).slice(0, CYF_DIAMOND_LIMIT);
+    } catch (error) {
+      this.Logger.error(`Error fetching cfy diamonds: ${error}`);
+      throw new InternalServerErrorException(error);
     }
-
-    const allCtoDiamonds = await this.cutToOrderRepository.find({});
-    const result = await this.cutToOrderRepository.paginate(filteredQuery, options); // paginated result
-    const numericalRanges = {
-      ...defaultNumericalRanges,
-      price: defaultVariantGetter,
-    };
-
-    result.ranges = getDataRanges(allCtoDiamonds, defaultUniqueValues, numericalRanges);
-    this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
-
-    return result;
   }
 
   /**

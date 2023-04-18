@@ -34,6 +34,7 @@ export default {
 };
 
 export const isValidBoolean = [true, false];
+export const CYF_DIAMOND_LIMIT = 3;
 
 export const CROSS_DOMAIN = {
   allowedOrigins: ['https://vrai.com', 'https://us.vrai.com', 'https://uk.vrai.com'],

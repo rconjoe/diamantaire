@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { GetCutToOrderDiamondInput } from '../dto/cut-to-order.dto';
 import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondsService } from '../services/diamond.service';
 
 @Controller('diamonds')
+@ApiTags('Diamonds')
 export class DiamondsController {
   constructor(private readonly diamondsService: DiamondsService) {}
 
@@ -23,22 +23,18 @@ export class DiamondsController {
     return await this.diamondsService.getDiamonds(diamondsDto, { limit, page, sortBy, sortOrder }, { isCto });
   }
 
+  @Get('cfy')
+  @ApiQuery({ name: 'caratMin', required: false, description: 'carat min' })
+  @ApiQuery({ name: 'caratMax', required: false, description: 'carat max' })
+  @ApiQuery({ name: 'diamondType', required: false, description: 'diamond type' })
+  async fetchCFYDiamonds(@Query() { caratMin, caratMax, diamondType }: GetDiamondInput) {
+    return await this.diamondsService.getCFYDiamond({ caratMax, caratMin, diamondType });
+  }
+
   @Get(':lotId')
   @ApiParam({ name: 'lotId', required: true })
   async getDiamondByLotId(@Param() lotId: GetDiamondByLotIdDto) {
     return await this.diamondsService.diamondByLotId(lotId);
-  }
-
-  @Post('cutToOrder')
-  @HttpCode(200)
-  @ApiQuery({ name: 'limit', required: false, description: 'number of products per page' })
-  @ApiQuery({ name: 'page', required: false, description: 'page number' })
-  @ApiBody({ type: GetCutToOrderDiamondInput })
-  async fetchDiamondCutToOrder(
-    @Body() cutToOrderDto: GetCutToOrderDiamondInput,
-    @Query() { limit, page, sortBy, sortOrder }: GetCutToOrderDiamondInput,
-  ) {
-    return await this.diamondsService.getCutToOrderDiamondAvailability(cutToOrderDto, { limit, page, sortBy, sortOrder });
   }
 
   @Get('available/:lotId')
