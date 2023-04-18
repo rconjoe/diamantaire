@@ -37,17 +37,17 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  experimental: {
-    swcPlugins: [
-      [
-        '@swc/plugin-styled-components',
-        {
-          displayName: true,
-          ssr: true,
-        },
-      ],
-    ],
-  },
+  // experimental: {
+  //   swcPlugins: [
+  //     [
+  //       '@swc/plugin-styled-components',
+  //       {
+  //         displayName: true,
+  //         ssr: true,
+  //       },
+  //     ],
+  //   ],
+  // },
   images: {
     remotePatterns: [
       {
