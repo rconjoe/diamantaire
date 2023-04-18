@@ -73,6 +73,10 @@ export class DiamondEntity extends AbstractDocument implements DiamondCollection
   @Field(() => String)
   @Prop()
   diamondType?: string;
+
+  @Field(() => Boolean)
+  @Prop({ type: Boolean })
+  isSold?: boolean;
 }
 
 export const DiamondSchema = SchemaFactory.createForClass(DiamondEntity);
