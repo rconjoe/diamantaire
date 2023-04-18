@@ -10,6 +10,6 @@ export class CutToOrderDiamondsResolver {
 
   @Query(() => [CutToOrderDiamondEntity], { name: 'cuttoorderdiamonds' })
   cutToOrderdiamonds(@Args('input') input?: GetCutToOrderDiamondInput) {
-    return this.diamondsService.getCutToOrderDiamondAvailability(input);
+    return this.diamondsService.getCFYDiamond(input);
   }
 }
