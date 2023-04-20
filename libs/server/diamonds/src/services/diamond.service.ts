@@ -54,7 +54,7 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
-    filteredQuery.isSold = false; // only return available diamonds
+    filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery['color'] = { $ne: 'Fancy Intense Pink' }; // filter out pink diamonds
 
     if (isCto) {
@@ -198,41 +198,6 @@ export class DiamondsService {
   }
 
   /**
-   * Cut to order diamonds optional filtering on shapes, carat and price
-   * @param { String } input - shapes, caratMin, caratMax, priceMin, priceMax
-   * @returns
-   */
-
-  optionalCTODiamondFilter(input) {
-    this.Logger.verbose(`optional CTODiamondFilter input: ${JSON.stringify(input)}`);
-    if (input?.diamondType) {
-      const diamondTypes = input?.diamondType.trim().split(',');
-
-      input.diamondType = {
-        $in: diamondTypes, // mongoose $in take an array value as input
-      };
-    }
-
-    // filter on minimum and maximum carat
-    if (input?.caratMin && input?.caratMax) {
-      input.carat = {
-        $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
-      };
-    }
-
-    // filter on minimum and maximum price
-    if (input?.priceMin && input?.priceMax) {
-      input.price = {
-        $gte: input.priceMin.toFixed(2), // mongoose $gte operator greater than or equal to
-        $lte: input.priceMax.toFixed(2), // mongoose $lte operator less than or equal to
-      };
-    }
-
-    return input;
-  }
-
-  /**
    * Fetch unique non cto diamonds
    * @param { GetDiamondInput } params - requested data
    * @returns
@@ -243,7 +208,7 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
-    filteredQuery.isSold = false; // only return available diamonds
+    filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery.slug = 'diamonds';
     try {
       const result = await this.diamondRepository.find(filteredQuery);
