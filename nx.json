@@ -2,13 +2,7 @@
   "npmScope": "diamantaire",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
-    ],
+    "production": ["default"],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "targetDefaults": {
@@ -42,8 +36,7 @@
         "buildable": true
       },
       "application": {
-        "swc": true,
-        "babel": true
+        "swc": true
       }
     },
     "@nrwl/next": {
