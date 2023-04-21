@@ -1,4 +1,5 @@
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
+import { diamondIconsArray } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ const TEAL = 'rgb(94, 122, 125)';
 export interface OptionItem {
   id: string;
   value?: string;
-  label?: string;
+  valueLabel?: string;
   isSelected?: boolean;
 }
 
@@ -25,14 +26,22 @@ interface OptionItemContainerProps {
   isSelected: boolean;
   onClick: () => void;
   isLink?: boolean;
+  valueLabel: string;
 }
 
-export function OptionItemContainer({ option, optionType, isSelected, onClick, isLink }: OptionItemContainerProps) {
+export function OptionItemContainer({
+  option,
+  optionType,
+  isSelected,
+  onClick,
+  isLink,
+  valueLabel,
+}: OptionItemContainerProps) {
   const OptionItemComponent = getOptionItemComponentByType(optionType);
 
   return isLink ? (
     <OptionItemLink {...option}>
-      <OptionItemComponent isSelected={isSelected} {...option} onClick={onClick} />
+      <OptionItemComponent valueLabel={valueLabel} isSelected={isSelected} {...option} onClick={onClick} />
     </OptionItemLink>
   ) : (
     <OptionItemComponent isSelected={isSelected} {...option} onClick={onClick} />
@@ -101,18 +110,31 @@ interface OptionItemComponent extends OptionItem {
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   &.selected {
-    border-bottom: 1px solid ${TEAL};
+    border-bottom: 2px solid ${TEAL};
+    padding-bottom: 5px;
+  }
+
+  .icon {
+    svg {
+      height: 32px;
+      width: auto;
+      margin: 0 auto;
+    }
   }
 `;
 
-export function DiamondIconOptionItem({ value, label, isSelected, onClick }: OptionItemComponent) {
+export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+  const DiamondIcon = diamondIconsArray[value]?.icon;
+
   return (
     <StyledDiamondIconOptionItem
-      className={clsx('option-item', value, { selected: isSelected })}
-      title={label}
+      className={clsx('option-item diamond-shape', value, { selected: isSelected })}
+      title={valueLabel}
       onClick={onClick}
     >
-      {value}
+      <span className="icon">
+        <DiamondIcon />
+      </span>
     </StyledDiamondIconOptionItem>
   );
 }

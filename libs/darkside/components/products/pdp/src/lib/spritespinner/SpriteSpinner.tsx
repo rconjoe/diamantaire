@@ -1,8 +1,16 @@
 import { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 declare const window: any;
 
-const SpriteSpinnerSFC = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
+const SpritSpinnerContainer = styled.div`
+  .spritespin-canvas {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const SpriteSpinner = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
   const spinnerEl = useRef(null);
 
   useEffect(() => {
@@ -14,13 +22,10 @@ const SpriteSpinnerSFC = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) =>
   }, [shouldStartSpinner]);
 
   async function startSpinner() {
-    console.log('starting spinner');
     if (spriteSource === 'bunny') {
-      console.log('case 1');
       const SpriteSpin = window.SpriteSpin;
 
       if (typeof spinnerEl?.current?.spritespin === 'function') {
-        console.log('case 2');
         spinnerEl?.current?.spritespin({
           source: SpriteSpin.sourceArray(bunnyBaseURL + '/{lane}.{frame}.jpg', {
             lane: [0, 7],
@@ -90,14 +95,16 @@ const SpriteSpinnerSFC = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) =>
   }
 
   return (
-    <div
-      onMouseEnter={() => playSpinner()}
-      onMouseLeave={() => pauseSpinner()}
-      // eslint-disable-next-line no-undef
-      // @ts-expect-error - $ is a global
-      ref={(spriteDivRef) => (spinnerEl.current = $(spriteDivRef))}
-    />
+    <SpritSpinnerContainer>
+      <div
+        onMouseEnter={() => playSpinner()}
+        onMouseLeave={() => pauseSpinner()}
+        // eslint-disable-next-line no-undef
+        // @ts-expect-error - $ is a global
+        ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
+      />
+    </SpritSpinnerContainer>
   );
 };
 
-export default SpriteSpinnerSFC;
+export default SpriteSpinner;

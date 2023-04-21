@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Form } from '@diamantaire/darkside/components/common-ui';
-import { MediaGallery, ProductConfigurator, SpriteSpinnerInit } from '@diamantaire/darkside/components/products/pdp';
+import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
 import {
   useProduct,
   useProductDato,
@@ -13,12 +13,15 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import React, { PropsWithChildren } from 'react';
+import Script from 'next/script';
+import React from 'react';
 
 import ProductBlocks from './pdp-blocks/ProductBlocks';
 import ProductDescription from './pdp-blocks/ProductDescription';
 import ProductIconList from './pdp-blocks/ProductIconList';
+import ProductPrice from './pdp-blocks/ProductPrice';
 import ProductReviews from './pdp-blocks/ProductReviews';
+import { ProductTitle } from './pdp-blocks/ProductTitle';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
@@ -68,7 +71,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specfic Data
-  const { id, variantContent, collectionContent, options } = shopifyProductData;
+  const { id, variantContent, collectionContent, options, price } = shopifyProductData;
   const { productTitle, collectionId } = collectionContent[0]; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
@@ -81,23 +84,31 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { clarity, color, dimensions, origin, shape, shownWithCtw, caratWeightOverride } = variantData || {};
 
   console.log('shopifyProductData', shopifyProductData);
-  console.log('datoData', datoParentProductData);
-  console.log('variantHandle', variantHandle);
+  // console.log('datoData', datoParentProductData);
+  // console.log('variantHandle', variantHandle);
   // console.log('productSpecData', productSpecData);
   // console.log('productIconListType', productIconListType);
-  // console.log('productIconList', productIconList);
 
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
-        <SpriteSpinnerInit />
+        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+          strategy={'beforeInteractive'}
+        />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} options={options} title={productTitle} />
+            <ShowDesktopAndUpOnly>
+              <MediaGallery assets={assetStack} options={options} title={productTitle} />
+            </ShowDesktopAndUpOnly>
+            <ShowMobileOnly>
+              <MediaSlider assets={assetStack} options={options} title={productTitle} />
+            </ShowMobileOnly>
           </div>
           <div className="info-container">
-            <ProductTitle>{productTitle}</ProductTitle>
-            <Price>1,900</Price>
+            <ProductTitle title={productTitle} />
+            <ProductPrice price={price} />
             <ProductConfigurator configurations={configurations} selectedConfiguration={options} initialVariantId={id} />
 
             <ProductIconList items={productIconList?.items} />
@@ -135,7 +146,6 @@ export async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200'); // define TTL globally
 
-  console.log('context', context);
   const { params } = context;
   const { productSlug, variantSlug } = context.params;
   const queryClient = new QueryClient();
@@ -161,12 +171,3 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
-
-function ProductTitle({ children }: PropsWithChildren) {
-  // use product title composition logic;
-  return <h1>{children}</h1>;
-}
-
-function Price({ children }: PropsWithChildren) {
-  return <h2 className="price">Starting at ${children}</h2>;
-}

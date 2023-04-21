@@ -33,8 +33,6 @@ function ProductConfigurator({
       if (usesCustomDiamond && diamondId) {
         setIsConfigurationComplete(true);
       }
-
-      console.log(configState);
     },
     [diamondId],
   );

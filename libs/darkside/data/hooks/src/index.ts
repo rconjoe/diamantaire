@@ -12,3 +12,4 @@ export * from './lib/products/use-product-trio-block';
 export * from './lib/products/use-product-instagram-reel';
 export * from './lib/products/use-product-video';
 export * from './lib/use-showroom-nav';
+export * from './lib/use-human-name-mapper';

@@ -1,4 +1,4 @@
-import { Heading, Button } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Button, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { ArrowRightIcon, ArrowLeftIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
@@ -66,74 +66,76 @@ const CarouselSlider = ({
   const shouldShowCTA = ctaCopy && ctaLink;
 
   return (
-    <CarouselSliderContainer className={className}>
-      <div className="content-block__layout">
-        <div className="content-block__title">
-          {title && (
-            <Heading type="h2" className="h1 primary">
-              {title}
-            </Heading>
-          )}
-          {title && subtitle && <p className="content-block__subtitle">{subtitle}</p>}
+    <SwiperStyles>
+      <CarouselSliderContainer className={className}>
+        <div className="content-block__layout">
+          <div className="content-block__title">
+            {title && (
+              <Heading type="h2" className="h1 primary">
+                {title}
+              </Heading>
+            )}
+            {title && subtitle && <p className="content-block__subtitle">{subtitle}</p>}
+          </div>
         </div>
-      </div>
-      <div className="content-block__layout">
-        <nav className={clsx('carousel-nav', additionalClass)}>
-          <div
-            ref={nextButtonRef}
-            className={clsx(
-              'carousel-arrow arrow-right',
-              {
-                '-celebrity-bottom-carousel': additionalClass === 'celebrityBottomCarousel',
-                '-diamond-carousel': additionalClass === 'diamondCarousel',
-              },
-              additionalClass,
-            )}
+        <div className="content-block__layout">
+          <nav className={clsx('carousel-nav', additionalClass)}>
+            <div
+              ref={nextButtonRef}
+              className={clsx(
+                'carousel-arrow arrow-right',
+                {
+                  '-celebrity-bottom-carousel': additionalClass === 'celebrityBottomCarousel',
+                  '-diamond-carousel': additionalClass === 'diamondCarousel',
+                },
+                additionalClass,
+              )}
+            >
+              <ArrowRightIcon />
+            </div>
+
+            <div
+              ref={prevButtonRef}
+              className={clsx(
+                'carousel-arrow arrow-left',
+                {
+                  '-celebrity-bottom-carousel': additionalClass === 'celebrityBottomCarousel',
+                  '-diamond-carousel': additionalClass === 'diamondCarousel',
+                },
+                additionalClass,
+              )}
+            >
+              <ArrowLeftIcon />
+            </div>
+          </nav>
+
+          <Swiper
+            className={clsx('carousel-container', additionalClass)}
+            spaceBetween={20}
+            loop={loopItems}
+            navigation={{
+              prevEl: prevButtonRef.current,
+              nextEl: nextButtonRef.current,
+            }}
+            modules={[Navigation, Keyboard, Lazy]}
+            breakpoints={breakpoints}
+            keyboard={true}
+            watchSlidesProgress={true}
+            onSwiper={setSwiper}
           >
-            <ArrowRightIcon />
-          </div>
+            {children}
+          </Swiper>
 
-          <div
-            ref={prevButtonRef}
-            className={clsx(
-              'carousel-arrow arrow-left',
-              {
-                '-celebrity-bottom-carousel': additionalClass === 'celebrityBottomCarousel',
-                '-diamond-carousel': additionalClass === 'diamondCarousel',
-              },
-              additionalClass,
-            )}
-          >
-            <ArrowLeftIcon />
-          </div>
-        </nav>
-
-        <Swiper
-          className={clsx('carousel-container', additionalClass)}
-          spaceBetween={20}
-          loop={loopItems}
-          navigation={{
-            prevEl: prevButtonRef.current,
-            nextEl: nextButtonRef.current,
-          }}
-          modules={[Navigation, Keyboard, Lazy]}
-          breakpoints={breakpoints}
-          keyboard={true}
-          onSwiper={setSwiper}
-          watchSlidesProgress={true}
-        >
-          {children}
-        </Swiper>
-
-        {shouldShowCTA && (
-          <div className="centered">
-            <UniLink route={ctaLink} className="cta">
-              <Button className="primary">{ctaCopy}</Button>
-            </UniLink>
-          </div>
-        )}
-      </div>
-    </CarouselSliderContainer>
+          {shouldShowCTA && (
+            <div className="centered">
+              <UniLink route={ctaLink} className="cta">
+                <Button className="primary">{ctaCopy}</Button>
+              </UniLink>
+            </div>
+          )}
+        </div>
+      </CarouselSliderContainer>
+    </SwiperStyles>
   );
 };
 

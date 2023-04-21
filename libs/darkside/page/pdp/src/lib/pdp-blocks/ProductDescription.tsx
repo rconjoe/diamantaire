@@ -45,8 +45,6 @@ const ProductDescriptionContainer = styled.div`
 `;
 
 const ProductDescription = ({ description, productAttributes, variantAttributes }) => {
-  console.log('variantAttributes', variantAttributes);
-
   const { bandWidth, bandDepth, settingHeight, paveCaratWeight, shownWithCtw, metalWeight } = productAttributes || {};
   const { clarity, color, dimensions, origin, shape, caratWeightOverride } = variantAttributes || {};
 

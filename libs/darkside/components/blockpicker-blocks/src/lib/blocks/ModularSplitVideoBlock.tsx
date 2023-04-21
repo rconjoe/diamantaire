@@ -1,3 +1,4 @@
+import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 
@@ -6,14 +7,18 @@ const ReactPlayer = dynamic(() => import('react-player/lazy'));
 const ModularSplitVideoBlockContainer = styled.div`
   padding-bottom: calc(var(--gutter) * 2);
   .split-video__wrapper {
-    display: flex;
-    align-items: flex-end;
+    ${media.medium`display: flex;align-items: flex-end;`}
     > * {
       flex: 1;
     }
 
     .split-video__video {
       flex: 1.5;
+
+      > * {
+        height: 250px !important;
+        ${media.medium`height: 500px !important;`}
+      }
 
       video {
         object-fit: cover;
@@ -24,7 +29,8 @@ const ModularSplitVideoBlockContainer = styled.div`
 
     .split-video__content {
       .split-video__content-inner {
-        padding: 0 var(--gutter);
+        padding: calc(var(--gutter) / 2) 0;
+        ${media.medium`padding: 0 var(--gutter);`}
       }
     }
   }
@@ -43,7 +49,6 @@ const ModularSplitVideoBlock = (props) => {
             url={videoUrls}
             playing={true}
             playsinline
-            height="500px"
             width="100%"
             muted={false}
             loop={true}

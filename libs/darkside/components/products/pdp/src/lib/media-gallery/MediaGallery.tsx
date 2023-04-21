@@ -3,9 +3,7 @@ import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import SpriteSpinnerSFC from './SpriteSpinnerSFC';
-
-export { SpriteSpinnerInit } from './SpriteSpinnerInit';
+import SpriteSpinner from '../spritespinner/SpriteSpinner';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
@@ -59,7 +57,6 @@ interface MediaAsset {
 }
 
 function MediaAsset({ type, asset, options, productTitle }) {
-  console.log('asset.customData', asset.customData, type);
   switch (type) {
     case MimeTypes.ImageJpeg: {
       if (asset.customData?.bunny === 'true') {
@@ -125,7 +122,6 @@ function ImageAsset({ image, productTitle }) {
 const VideoAssetContainer = styled.div``;
 
 function VideoAsset({ video }) {
-  console.log('VIDEO ASSET', video);
   const { streamingUrl } = video?.video || {};
 
   return (
@@ -139,19 +135,13 @@ function VideoAsset({ video }) {
 
 function SpriteSpinnerBlock({ sprite, options }) {
   const { diamondType, bandAccent, metal } = options;
+  const spriteImage = sprite;
   const { query } = useRouter();
   const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.productSlug}/${diamondType}/${
     bandAccent ? bandAccent + '/' : ''
   }${metal}`;
 
-  console.log('sprite', sprite);
+  console.log('spriteImage', spriteImage);
 
-  return (
-    <SpriteSpinnerSFC
-      // spriteImageUrl={url}
-      spriteSource={'bunny'}
-      bunnyBaseURL={bunny360BaseURL}
-      shouldStartSpinner={true}
-    />
-  );
+  return <SpriteSpinner spriteSource={'bunny'} bunnyBaseURL={bunny360BaseURL} shouldStartSpinner={true} />;
 }

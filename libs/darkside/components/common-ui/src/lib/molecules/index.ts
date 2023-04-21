@@ -6,4 +6,6 @@ export * from './MobileDesktopImage';
 export * from './Markdown';
 export * from './LocaleSelector';
 export * from './DatoImage';
+export * from './ShopifyImage';
 export * from './Form';
+export * from './SwiperStyles';

@@ -9,9 +9,6 @@ const ProductBlocks = ({ instagramReelId, videoBlockId }) => {
   const { data: { instagramReelBlock } = {} } = useProductInstagramReel(instagramReelId, 'en_US');
   const { data: { diamondContentBlock: videoBlock } = {} } = useProductVideo(videoBlockId, 'en_US');
 
-  console.log('instagramReelId', instagramReelId);
-  console.log('videoBlock', videoBlock);
-
   useEffect(() => {
     const pageBlocksTemp = [];
 
@@ -42,14 +39,9 @@ const ProductBlocks = ({ instagramReelId, videoBlockId }) => {
     setPageBlocks(pageBlocksTemp);
   }, [instagramReelBlock, videoBlock]);
 
-  useEffect(() => {
-    console.log('pageBlocks', pageBlocks);
-  }, [pageBlocks]);
-
   return (
-    <>
+    <div>
       {pageBlocks?.map((contentBlockData, idx) => {
-        console.log('contentBlockData', contentBlockData);
         const { id, _modelApiKey } = contentBlockData;
 
         // Desktop + Mobile, anything after the first two blocks should be lazy loaded
@@ -68,7 +60,7 @@ const ProductBlocks = ({ instagramReelId, videoBlockId }) => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 

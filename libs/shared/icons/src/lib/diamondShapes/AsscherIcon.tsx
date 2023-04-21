@@ -1,7 +1,6 @@
 const AsscherIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59 59" role="img">
-      <title>Asscher</title>
       <defs></defs>
       <path
         style={{ fill: '#231f20' }}

@@ -1,7 +1,6 @@
 const RoundBrilliantIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58.85 59" role="img">
-      <title>Round</title>
       <path d="M29.4,59A29.5,29.5,0,1,1,58.8,29.5,29.48,29.48,0,0,1,29.4,59Zm0-58A28.5,28.5,0,1,0,57.8,29.5,28.49,28.49,0,0,0,29.4,1Z"></path>
       <polygon points="50.25 50.25 38 50.25 38 49.75 49.75 49.75 49.75 38 50.25 38 50.25 50.25"></polygon>
       <polygon points="50.25 21 49.75 21 49.75 9.25 38 9.25 38 8.75 50.25 8.75 50.25 21"></polygon>
