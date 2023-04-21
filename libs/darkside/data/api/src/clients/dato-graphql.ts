@@ -1,4 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient, Variables } from 'graphql-request';
 
 export function queryDatoGQL({
   query,
@@ -7,7 +7,7 @@ export function queryDatoGQL({
   excludeInvalid,
 }: {
   query: string;
-  variables?: object;
+  variables?: Variables;
   includeDrafts?: boolean;
   excludeInvalid?: boolean;
 }) {
