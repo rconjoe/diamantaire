@@ -17,7 +17,7 @@ import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-check
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import { hideIdenticalDiamond4Cs } from '../helper/diamond.helper';
-import { IDiamondCollection, INetSuiteDiamonds, IShopifyInventory } from '../interface/diamond.interface';
+import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
 
 @Injectable()
@@ -198,41 +198,25 @@ export class DiamondsService {
   /**
    * Fetch unique non cto diamonds
    * @param { GetDiamondInput } params - requested data
-   * @returns { IDiamondCollection[] } - array of diamonds
+   * @returns
    */
 
   async getCFYDiamond(params: GetDiamondInput): Promise<IDiamondCollection[]> {
+    this.Logger.verbose(`Fetching cut to order diamond availability`);
+
+    const filteredQuery = this.optionalDiamondQuery(params);
+
+    filteredQuery.availableForSale = true; // only return available diamonds
+    filteredQuery.slug = 'diamonds';
     try {
-      const filteredQuery = this.optionalDiamondQuery(params);
+      const result = await this.diamondRepository.find(filteredQuery);
 
-      filteredQuery.availableForSale = true;
-      filteredQuery.slug = 'diamonds';
-
-      const uniqueDiamondResults = hideIdenticalDiamond4Cs(await this.diamondRepository.find(filteredQuery));
       // result should be filtered with the 4c's (carat, cut, color, clarity)
-      const availableUniqueDiamonds = uniqueDiamondResults
+      const uniqueDiamondResults = hideIdenticalDiamond4Cs(result);
+
+      return uniqueDiamondResults
         .sort((a: IDiamondCollection, b: IDiamondCollection) => a.carat - b.carat)
         .slice(0, CYF_DIAMOND_LIMIT);
-
-      // Create an array of promises for all the unique diamonds
-      const availabilityResults = await Promise.all(
-        // match those unique diamonds by calling the netsuite api if they are available
-        availableUniqueDiamonds.map((diamond: GetDiamondCheckoutDto) => this.fetchDiamondAvailability(diamond)),
-      );
-
-      // netsuite is our source of truth for available diamonds
-      // if a diamond returns a quantity of 1 then it is available
-      const matchingDiamond = availabilityResults.find(
-        (diamond: INetSuiteDiamonds) =>
-          diamond.data.quantity === 1 &&
-          availableUniqueDiamonds.some(
-            (availableDiamond: IDiamondCollection) => availableDiamond.lotId === diamond.data.lot_id,
-          ),
-      );
-
-      if (matchingDiamond) {
-        return availableUniqueDiamonds || [];
-      }
     } catch (error) {
       this.Logger.error(`Error fetching cfy diamonds: ${error}`);
       throw new InternalServerErrorException(error);
