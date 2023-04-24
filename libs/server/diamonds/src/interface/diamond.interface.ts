@@ -1,3 +1,5 @@
+import { DiamondEntity } from '../entities/diamond.entity';
+
 /**
  * Diamond Interface
  * @author Bismark Frimpong
@@ -5,7 +7,7 @@
  * @version 1.0
  * @copyright DiamondFoundry
  */
-export interface DiamondQuery {
+export interface IDiamondQuery {
   diamondType?: { $in: string[] };
   carat?: { $gte: string; $lte: string };
   cut?: { $in: string[] };
@@ -18,7 +20,7 @@ export interface DiamondQuery {
   sortBy: string;
 }
 
-export interface DiamondVariant {
+export interface IDiamondVariant {
   shopifyProductHandle?: string;
   shopifyProductTitle?: string;
   isForSale?: boolean;
@@ -30,7 +32,7 @@ export interface DiamondVariant {
   title?: string;
 }
 
-export interface DiamondCollection {
+export interface IDiamondCollection extends Partial<DiamondEntity> {
   dangerousInternalProductId?: string;
   dangerousInternalCollectionId?: string;
   handle?: string;
@@ -38,7 +40,7 @@ export interface DiamondCollection {
   productType?: string;
   description?: string;
   slug?: string;
-  variants?: DiamondVariant[];
+  variants?: IDiamondVariant[];
   dfCertificateUrl?: string;
   type?: string;
   carat?: number;
@@ -47,4 +49,71 @@ export interface DiamondCollection {
   clarity?: string;
   lotId?: string;
   diamondType?: string;
+  availableForSale?: boolean;
+}
+
+export interface INetSuiteDiamonds {
+  status: string;
+  message: unknown;
+  data: {
+    id: number;
+    available_inventory: boolean;
+    lot_id: string;
+    shape: string;
+    clarity: string;
+    color: string;
+    carat: number;
+    cut: string;
+    fluorescence: string;
+    symmetry: string;
+    polish: string;
+    location: string;
+    quantity: number;
+  };
+  error: unknown;
+}
+
+export interface IShopifyInventory {
+  inventoryItem?: InventoryItem;
+}
+
+export interface InventoryItem {
+  id?: string;
+  tracked?: boolean;
+  sku?: string;
+  variant?: Variant;
+}
+
+export interface Variant {
+  id?: string;
+  sku?: string;
+  title?: string;
+  availableForSale?: boolean;
+  inventoryQuantity?: number;
+  price?: string;
+  storefrontId?: string;
+  selectedOptions?: SelectedOption[];
+  product?: Product;
+}
+
+export interface Product {
+  id?: string;
+  title?: string;
+  handle?: string;
+  productType?: string;
+  tags?: string[];
+  description?: string;
+  status?: string;
+  storefrontId?: string;
+  options?: Option[];
+}
+
+export interface Option {
+  name?: string;
+  values?: string[];
+}
+
+export interface SelectedOption {
+  name?: string;
+  value?: string;
 }
