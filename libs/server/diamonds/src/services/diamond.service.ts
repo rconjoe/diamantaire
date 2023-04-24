@@ -207,6 +207,7 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondQuery(params);
 
     filteredQuery.availableForSale = true; // only return available diamonds
+    filteredQuery['color'] = { $ne: 'Fancy Intense Pink' }; // filter out pink diamonds
     filteredQuery.slug = 'diamonds';
     try {
       const result = await this.diamondRepository.find(filteredQuery);
