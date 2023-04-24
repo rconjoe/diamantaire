@@ -8,34 +8,33 @@
 
 import { UtilService } from '@diamantaire/server/common/utils';
 import { CYF_DIAMOND_LIMIT, PaginatedLabels } from '@diamantaire/shared/constants';
+import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
 import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
-import { GetDiamondCheckoutDto } from '../dto/diamond-checkout.dto';
+import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import { hideIdenticalDiamond4Cs } from '../helper/diamond.helper';
-import { CutToOrderDiamondsRepository } from '../repository/cut-to-order.repository';
+import { IDiamondCollection, INetSuiteDiamonds, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
 
 @Injectable()
 export class DiamondsService {
   private Logger = new Logger('DiamondsService');
 
-  constructor(
-    private readonly diamondRepository: DiamondRepository,
-    private readonly cutToOrderRepository: CutToOrderDiamondsRepository,
-    private readonly utils: UtilService,
-  ) {}
+  constructor(private readonly diamondRepository: DiamondRepository, private readonly utils: UtilService) {}
 
   /**
-   * This function accepts an input for a diamond type
-   * @param input diamond filter input
-   * @return a filtered diamon list
+   * Get filtered diamond types with paginated results
+   * @param {GetDiamondInput} input - paginated input (limit, page, sortby, sortorder)
+   * @param {GetDiamondInput} params - filter params
+   * @param {boolean} isCto - whether to return cfy diamond
+   * @returns {Promise<IDiamondCollection[]>} - paginated diamonds
    */
 
-  async getDiamonds(params: GetDiamondInput, input: GetDiamondInput, { isCto = false }): Promise<DiamondEntity> {
+  async getDiamonds(params: GetDiamondInput, input: GetDiamondInput, { isCto = false }): Promise<IDiamondCollection[]> {
     const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
     const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
     const sortByKey = input?.sortBy || 'carat';
@@ -64,7 +63,6 @@ export class DiamondsService {
       filteredQuery.slug = 'diamonds';
       query['slug'] = 'diamonds';
     }
-    console.log(query);
 
     const cachedData = await this.utils.memGet(cachedKey);
 
@@ -200,23 +198,41 @@ export class DiamondsService {
   /**
    * Fetch unique non cto diamonds
    * @param { GetDiamondInput } params - requested data
-   * @returns
+   * @returns { IDiamondCollection[] } - array of diamonds
    */
 
-  async getCFYDiamond(params: GetDiamondInput): Promise<DiamondEntity> {
-    this.Logger.verbose(`Fetching cut to order diamond availability`);
-
-    const filteredQuery = this.optionalDiamondQuery(params);
-
-    filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery.slug = 'diamonds';
+  async getCFYDiamond(params: GetDiamondInput): Promise<IDiamondCollection[]> {
     try {
-      const result = await this.diamondRepository.find(filteredQuery);
+      const filteredQuery = this.optionalDiamondQuery(params);
 
+      filteredQuery.availableForSale = true;
+      filteredQuery.slug = 'diamonds';
+
+      const uniqueDiamondResults = hideIdenticalDiamond4Cs(await this.diamondRepository.find(filteredQuery));
       // result should be filtered with the 4c's (carat, cut, color, clarity)
-      const uniqueDiamondResults = hideIdenticalDiamond4Cs(result);
+      const availableUniqueDiamonds = uniqueDiamondResults
+        .sort((a: IDiamondCollection, b: IDiamondCollection) => a.carat - b.carat)
+        .slice(0, CYF_DIAMOND_LIMIT);
 
-      return uniqueDiamondResults.sort((a, b) => a.carat - b.carat).slice(0, CYF_DIAMOND_LIMIT);
+      // Create an array of promises for all the unique diamonds
+      const availabilityResults = await Promise.all(
+        // match those unique diamonds by calling the netsuite api if they are available
+        availableUniqueDiamonds.map((diamond: GetDiamondCheckoutDto) => this.fetchDiamondAvailability(diamond)),
+      );
+
+      // netsuite is our source of truth for available diamonds
+      // if a diamond returns a quantity of 1 then it is available
+      const matchingDiamond = availabilityResults.find(
+        (diamond: INetSuiteDiamonds) =>
+          diamond.data.quantity === 1 &&
+          availableUniqueDiamonds.some(
+            (availableDiamond: IDiamondCollection) => availableDiamond.lotId === diamond.data.lot_id,
+          ),
+      );
+
+      if (matchingDiamond) {
+        return availableUniqueDiamonds || [];
+      }
     } catch (error) {
       this.Logger.error(`Error fetching cfy diamonds: ${error}`);
       throw new InternalServerErrorException(error);
@@ -233,5 +249,30 @@ export class DiamondsService {
     this.Logger.verbose(`Fetching diamond availability for lotId: ${input.lotId}`);
 
     return await this.utils.getDiamondFromNetSuite(input.lotId);
+  }
+
+  /**
+   * Fetch inventory detail from shopify
+   * @param { ProductInventoryDto } id - inventory item id
+   * @returns
+   */
+
+  async getShopifyProductInventory({ id }: ProductInventoryDto) {
+    const queryVars = {
+      id: `gid://shopify/InventoryItem/${id}`,
+    };
+
+    try {
+      const inventory: IShopifyInventory = await this.utils
+        .createShopifyAdminGateway()
+        .request(INVENTORY_LEVEL_QUERY, queryVars);
+
+      const { variant } = inventory.inventoryItem;
+
+      return variant;
+    } catch (error) {
+      this.Logger.error(`Error fetching inventory levels: ${error}`);
+      throw new InternalServerErrorException(error);
+    }
   }
 }

@@ -3,14 +3,14 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import paginate from 'mongoose-paginate-v2';
 
-import { DiamondCollection, DiamondVariant } from '../interface/diamond.interface';
+import { IDiamondCollection, IDiamondVariant } from '../interface/diamond.interface';
 
 @Schema({
   collection: 'diamonds',
   timestamps: true,
 })
 @ObjectType()
-export class DiamondEntity extends AbstractDocument implements DiamondCollection {
+export class DiamondEntity extends AbstractDocument implements IDiamondCollection {
   @Field(() => String)
   @Prop()
   dangerousInternalProductId?: string;
@@ -40,7 +40,7 @@ export class DiamondEntity extends AbstractDocument implements DiamondCollection
   description?: string;
 
   @Prop()
-  variants?: DiamondVariant[];
+  variants?: IDiamondVariant[];
 
   @Field(() => String)
   @Prop()

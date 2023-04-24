@@ -3,7 +3,7 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import paginate from 'mongoose-paginate-v2';
 
-import { DiamondVariant } from '../interface/diamond.interface';
+import { IDiamondVariant } from '../interface/diamond.interface';
 
 /**
  * Cut to order Diamonds Entity
@@ -31,7 +31,7 @@ export class CutToOrderDiamondEntity extends AbstractDocument {
   description?: string;
 
   @Prop()
-  variants?: DiamondVariant[];
+  variants?: IDiamondVariant[];
 
   @Field(() => String)
   @Prop()
