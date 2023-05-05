@@ -110,7 +110,6 @@
     "@graphql-codegen/typescript-resolvers": "^2.7.12",
     "@nestjs/schematics": "9.1.0",
     "@nestjs/testing": "9.4.0",
-    "@nrwl/cypress": "16.1.0",
     "@nrwl/eslint-plugin-nx": "16.1.0",
     "@nrwl/jest": "16.1.0",
     "@nrwl/js": "16.1.0",
@@ -186,7 +185,8 @@
     "webpack-merge": "^5.8.0",
     "nx-cloud": "16.0.5",
     "@nx/devkit": "16.1.0",
-    "@nx/workspace": "16.1.0"
+    "@nx/workspace": "16.1.0",
+    "@nx/cypress": "16.1.0"
   },
   "config": {
     "commitizen": {
