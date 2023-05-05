@@ -113,7 +113,6 @@
     "@nrwl/nest": "16.1.0",
     "@nrwl/next": "16.1.0",
     "@nrwl/nx-plugin": "16.1.0",
-    "@nrwl/rollup": "16.1.0",
     "@nrwl/webpack": "16.1.0",
     "@nx-extend/vercel": "^1.8.2",
     "@rollup/plugin-url": "^8.0.1",
@@ -186,7 +185,8 @@
     "@nx/eslint-plugin": "16.1.0",
     "@nx/react": "16.1.0",
     "@nx/node": "16.1.0",
-    "@nx/jest": "16.1.0"
+    "@nx/jest": "16.1.0",
+    "@nx/rollup": "16.1.0"
   },
   "config": {
     "commitizen": {
