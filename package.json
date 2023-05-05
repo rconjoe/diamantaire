@@ -119,7 +119,6 @@
     "@nrwl/nest": "16.1.0",
     "@nrwl/next": "16.1.0",
     "@nrwl/node": "16.1.0",
-    "@nrwl/nx-cloud": "16.0.5",
     "@nrwl/nx-plugin": "16.1.0",
     "@nrwl/react": "16.1.0",
     "@nrwl/rollup": "16.1.0",
@@ -186,7 +185,8 @@
     "typescript": "5.0.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.75.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "nx-cloud": "16.0.5"
   },
   "config": {
     "commitizen": {
