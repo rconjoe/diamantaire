@@ -22,7 +22,7 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e", "typedoc"],
         "accessToken": "MjlkODIwOTMtZjU1ZS00ZDAwLWI3ZGYtMTEzZTRlMTNlZDFhfHJlYWQtd3JpdGU="
@@ -30,15 +30,6 @@
     }
   },
   "generators": {
-    "@nrwl/react": {
-      "library": {
-        "unitTestRunner": "jest",
-        "buildable": true
-      },
-      "application": {
-        "swc": true
-      }
-    },
     "@nrwl/next": {
       "application": {
         "style": "css",
@@ -49,6 +40,15 @@
         "unitTestRunner": "jest",
         "swc": true,
         "buildable": true
+      }
+    },
+    "@nx/react": {
+      "library": {
+        "unitTestRunner": "jest",
+        "buildable": true
+      },
+      "application": {
+        "swc": true
       }
     }
   },
