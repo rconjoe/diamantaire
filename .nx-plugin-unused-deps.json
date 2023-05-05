@@ -19,7 +19,7 @@
   "devDependencies": [
     "@graphql-codegen/cli",
     "@graphql-codegen/client-preset",
-    "@nrwl/eslint-plugin-nx",
+    "@nx/eslint-plugin",
     "@nrwl/nest",
     "@nrwl/nx-plugin",
     "@nrwl/web",

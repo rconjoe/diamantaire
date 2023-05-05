@@ -110,7 +110,6 @@
     "@graphql-codegen/typescript-resolvers": "^2.7.12",
     "@nestjs/schematics": "9.1.0",
     "@nestjs/testing": "9.4.0",
-    "@nrwl/eslint-plugin-nx": "16.1.0",
     "@nrwl/jest": "16.1.0",
     "@nrwl/nest": "16.1.0",
     "@nrwl/next": "16.1.0",
@@ -186,7 +185,8 @@
     "@nx/workspace": "16.1.0",
     "@nx/cypress": "16.1.0",
     "@nx/js": "16.1.0",
-    "@nx/linter": "16.1.0"
+    "@nx/linter": "16.1.0",
+    "@nx/eslint-plugin": "16.1.0"
   },
   "config": {
     "commitizen": {
