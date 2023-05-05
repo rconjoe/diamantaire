@@ -21,7 +21,7 @@
         "project": "libs/darkside/page/standard-pages/package.json",
         "entryFile": "libs/darkside/page/standard-pages/src/index.ts",
         "external": ["react/jsx-runtime"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {

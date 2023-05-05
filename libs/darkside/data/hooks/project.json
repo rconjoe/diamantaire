@@ -13,7 +13,7 @@
         "project": "libs/darkside/data/hooks/package.json",
         "main": "libs/darkside/data/hooks/src/index.ts",
         "external": ["react/jsx-runtime"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {

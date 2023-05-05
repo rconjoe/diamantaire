@@ -1,72 +1,35 @@
 {
   "npmScope": "diamantaire",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
-    "production": [
-      "default"
-    ],
-    "sharedGlobals": [
-      "{workspaceRoot}/babel.config.json"
-    ]
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": ["default"],
+    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js"
-      ]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     },
     "e2e": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     },
     "lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json"
-      ]
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     }
   },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "typedoc"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e", "typedoc"],
         "accessToken": "MjlkODIwOTMtZjU1ZS00ZDAwLWI3ZGYtMTEzZTRlMTNlZDFhfHJlYWQtd3JpdGU="
       }
     }
   },
   "generators": {
-    "@nrwl/react": {
-      "library": {
-        "unitTestRunner": "jest",
-        "buildable": true
-      },
-      "application": {
-        "swc": true
-      }
-    },
     "@nrwl/next": {
       "application": {
         "style": "css",
@@ -77,6 +40,15 @@
         "unitTestRunner": "jest",
         "swc": true,
         "buildable": true
+      }
+    },
+    "@nx/react": {
+      "library": {
+        "unitTestRunner": "jest",
+        "buildable": true
+      },
+      "application": {
+        "swc": true
       }
     }
   },

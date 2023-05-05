@@ -21,7 +21,7 @@
         "project": "libs/darkside/components/blockpicker-blocks/package.json",
         "entryFile": "libs/darkside/components/blockpicker-blocks/src/index.ts",
         "external": ["react/jsx-runtime"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {

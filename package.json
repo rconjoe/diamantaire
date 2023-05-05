@@ -115,7 +115,6 @@
     "@nrwl/next": "16.1.0",
     "@nrwl/node": "16.1.0",
     "@nrwl/nx-plugin": "16.1.0",
-    "@nrwl/react": "16.1.0",
     "@nrwl/rollup": "16.1.0",
     "@nrwl/webpack": "16.1.0",
     "@nx-extend/vercel": "^1.8.2",
@@ -186,7 +185,8 @@
     "@nx/cypress": "16.1.0",
     "@nx/js": "16.1.0",
     "@nx/linter": "16.1.0",
-    "@nx/eslint-plugin": "16.1.0"
+    "@nx/eslint-plugin": "16.1.0",
+    "@nx/react": "16.1.0"
   },
   "config": {
     "commitizen": {
