@@ -122,7 +122,6 @@
     "@nrwl/react": "16.1.0",
     "@nrwl/rollup": "16.1.0",
     "@nrwl/webpack": "16.1.0",
-    "@nrwl/workspace": "16.1.0",
     "@nx-extend/vercel": "^1.8.2",
     "@rollup/plugin-url": "^8.0.1",
     "@svgr/rollup": "^6.1.2",
@@ -186,7 +185,8 @@
     "webpack": "^5.75.0",
     "webpack-merge": "^5.8.0",
     "nx-cloud": "16.0.5",
-    "@nx/devkit": "16.1.0"
+    "@nx/devkit": "16.1.0",
+    "@nx/workspace": "16.1.0"
   },
   "config": {
     "commitizen": {
