@@ -110,7 +110,6 @@
     "@graphql-codegen/typescript-resolvers": "^2.7.12",
     "@nestjs/schematics": "9.1.0",
     "@nestjs/testing": "9.4.0",
-    "@nrwl/cli": "15.9.2",
     "@nrwl/cypress": "16.1.0",
     "@nrwl/devkit": "16.1.0",
     "@nrwl/eslint-plugin-nx": "16.1.0",
@@ -195,4 +194,3 @@
     }
   }
 }
-
