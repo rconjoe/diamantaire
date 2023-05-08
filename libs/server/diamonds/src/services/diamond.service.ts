@@ -16,7 +16,7 @@ import { PaginateOptions } from 'mongoose';
 import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
-import { hideIdenticalDiamond4Cs } from '../helper/diamond.helper';
+import { hideIdenticalDiamond4Cs, sortDiamondsBy4cs } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
 
@@ -215,9 +215,7 @@ export class DiamondsService {
       // result should be filtered with the 4c's (carat, cut, color, clarity)
       const uniqueDiamondResults = hideIdenticalDiamond4Cs(result);
 
-      return uniqueDiamondResults
-        .sort((a: IDiamondCollection, b: IDiamondCollection) => a.carat - b.carat)
-        .slice(0, CYF_DIAMOND_LIMIT);
+      return uniqueDiamondResults.sort(sortDiamondsBy4cs).slice(0, CYF_DIAMOND_LIMIT);
     } catch (error) {
       this.Logger.error(`Error fetching cfy diamonds: ${error}`);
       throw new InternalServerErrorException(error);
