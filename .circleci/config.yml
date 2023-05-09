@@ -43,8 +43,8 @@ jobs:
       - run:
           <<: *yarn_install
       - nx/set-shas
-      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=lint --parallel=3
-      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=build --parallel=3
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
       - save_cache:
           key: v2-dependency-cache-{{ checksum "package.json" }}
           paths:
