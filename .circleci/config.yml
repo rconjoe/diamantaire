@@ -163,14 +163,12 @@ workflows:
       - manual-approval:
           type: approval
           requires:
-            - deploy-development
+            - build-image
       - deploy-staging:
           requires:
             - manual-approval
       - approve-production:
           type: approval
-          requires:
-            - deploy-staging
       - deploy-production:
           filters:
             branches:
