@@ -171,5 +171,9 @@ workflows:
           requires:
             - deploy-staging
       - deploy-production:
+          filters:
+            branches:
+              only:
+                - main 
           requires:
             - approve-production
