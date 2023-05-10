@@ -43,10 +43,10 @@ jobs:
       - run:
           <<: *yarn_install
       - nx/set-shas
-      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=lint --parallel=3
-      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=build --parallel=3
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "package.json" }}
+          key: v2-dependency-cache-{{ checksum "package.json" }}
           paths:
             - ~/.cache
             - node_modules
@@ -126,6 +126,16 @@ jobs:
       - run: |
           aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-staging --force-new-deployment
 
+  deploy-production:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/setup:
+          profile-name: ecr-df
+      - build-docker:
+          tag: production
+      - run: |
+          aws --profile=ecr-df ecs update-service --cluster vra-server-cluster-dev --service vrai-server-production --force-new-deployment
+
 workflows:
   build-test-deploy:
     jobs:
@@ -157,3 +167,10 @@ workflows:
       - deploy-staging:
           requires:
             - manual-approval
+      - approve-production:
+          type: approval
+          requires:
+            - deploy-staging
+      - deploy-production:
+          requires:
+            - approve-production
