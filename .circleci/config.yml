@@ -152,6 +152,7 @@ workflows:
             branches:
               only:
                 - develop
+                - main
       - deploy-development:
           filters:
             branches:
