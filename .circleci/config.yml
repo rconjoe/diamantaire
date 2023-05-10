@@ -169,6 +169,8 @@ workflows:
             - manual-approval
       - approve-production:
           type: approval
+          requires:
+            - deploy-staging 
       - deploy-production:
           filters:
             branches:
