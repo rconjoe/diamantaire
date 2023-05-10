@@ -77,7 +77,6 @@ jobs:
             - dist
       - store_artifacts:
           path: dist
-
   build-image:
     <<: *defaults
     steps:
