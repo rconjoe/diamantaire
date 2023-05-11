@@ -35,7 +35,7 @@ export class DiamondsService {
    */
 
   async getDiamonds(params: GetDiamondInput, input: GetDiamondInput, { isCto = false }): Promise<IDiamondCollection[]> {
-    const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
+    //const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
     const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
     const sortByKey = input?.sortBy || 'carat';
     const sortByObj = {};
@@ -53,8 +53,9 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
+    const regexPattern = /fancy/i;
     filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery['color'] = { $ne: 'Fancy Intense Pink' }; // filter out pink diamonds
+    filteredQuery['color'] = { $not: {$regex: regexPattern}}; // filter out pink diamonds
 
     if (isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -64,13 +65,13 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    const cachedData = await this.utils.memGet(cachedKey);
+    // const cachedData = await this.utils.memGet(cachedKey);
 
-    if (cachedData) {
-      this.Logger.verbose(`diamonds :: cache hit on key ${cachedKey}`);
+    // if (cachedData) {
+    //   this.Logger.verbose(`diamonds :: cache hit on key ${cachedKey}`);
 
-      return cachedData; // return the entire cached data
-    }
+    //   return cachedData; // return the entire cached data
+    // }
 
     const allDiamonds = await this.diamondRepository.find(query);
     const result = await this.diamondRepository.paginate(filteredQuery, options);
@@ -82,7 +83,7 @@ export class DiamondsService {
 
     result.ranges = getDataRanges(allDiamonds, defaultUniqueValues, numericalRanges);
 
-    this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
+    //this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
 
     return result;
   }
@@ -206,8 +207,9 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(params);
 
+    const regexPattern = /fancy/i;
     filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery['color'] = { $ne: 'Fancy Intense Pink' }; // filter out pink diamonds
+    filteredQuery['color'] = { $not: {$regex: regexPattern}}; // filter out pink diamonds
     filteredQuery.slug = 'diamonds';
     try {
       const result = await this.diamondRepository.find(filteredQuery);
