@@ -54,8 +54,9 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondQuery(params);
 
     const regexPattern = /fancy/i;
+
     filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery['color'] = { $not: {$regex: regexPattern}}; // filter out pink diamonds
+    filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
 
     if (isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -208,8 +209,9 @@ export class DiamondsService {
     const filteredQuery = this.optionalDiamondQuery(params);
 
     const regexPattern = /fancy/i;
+
     filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery['color'] = { $not: {$regex: regexPattern}}; // filter out pink diamonds
+    filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
     filteredQuery.slug = 'diamonds';
     try {
       const result = await this.diamondRepository.find(filteredQuery);
