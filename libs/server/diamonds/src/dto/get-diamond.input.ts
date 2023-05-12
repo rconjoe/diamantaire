@@ -27,10 +27,10 @@ export class GetDiamondInput implements Partial<DiamondEntity> {
   readonly isCto?: boolean;
 
   @Field(() => Number, { nullable: true })
-  @IsString()
+  @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  carat?: number;
+  readonly carat?: number;
 
   @Field(() => String, { nullable: true })
   @IsString()

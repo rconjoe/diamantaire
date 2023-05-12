@@ -7,7 +7,7 @@
  */
 
 import { UtilService } from '@diamantaire/server/common/utils';
-import { CYF_DIAMOND_LIMIT, PaginatedLabels } from '@diamantaire/shared/constants';
+import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, PaginatedLabels } from '@diamantaire/shared/constants';
 import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
 import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
@@ -16,7 +16,14 @@ import { PaginateOptions } from 'mongoose';
 import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
-import { hideIdenticalDiamond4Cs, sortDiamondsBy4cs } from '../helper/diamond.helper';
+import {
+  removeIdenticalDiamond4Cs,
+  colorFirstSortOrder,
+  sortDiamonds,
+  isDEF,
+  isVSPlus,
+  isVVSPlus,
+} from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
 
@@ -119,10 +126,12 @@ export class DiamondsService {
    */
 
   optionalDiamondQuery(input) {
+    const query = { ...input };
+
     if (input?.diamondType) {
       const diamondTypes = input.diamondType.trim().split(',');
 
-      input.diamondType = {
+      query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
     }
@@ -131,7 +140,7 @@ export class DiamondsService {
     // EG: "priceMin": 100.0, "priceMax": 1200.0, "currencyCode": "USD",
     // currencyCode = USD, GBP, EUR, CAD, AUD
     if (input.priceMin && input.priceMax) {
-      input['variants'] = {
+      query['variants'] = {
         $elemMatch: {
           price: {
             $gte: input.priceMin, // mongoose $gte operator greater than or equal to
@@ -152,7 +161,7 @@ export class DiamondsService {
 
       // TODO handle errors here
       // const found = colors.some((ele) => ACCEPTABLE_COLORS.includes(ele));
-      input.color = {
+      query['color'] = {
         $in: colors, // mongoose $in take an array value as input
       };
     }
@@ -165,7 +174,7 @@ export class DiamondsService {
     if (input?.clarity) {
       const clarity = input.clarity.toLocaleUpperCase().trim().split(',');
 
-      input.clarity = {
+      query['clarity'] = {
         $in: clarity, // mongoose $in take an array value as input
       };
     }
@@ -178,7 +187,7 @@ export class DiamondsService {
     if (input?.cut) {
       const cuts = input.cut.trim().split(',');
 
-      input.cut = {
+      query['cut'] = {
         $in: cuts, // mongoose $in take an array value as input
       };
     }
@@ -188,13 +197,20 @@ export class DiamondsService {
      * EG: "caratMin": 0.86, "caratMax": 0.98
      */
     if (input.caratMin && input.caratMax !== null) {
-      input.carat = {
+      query['carat'] = {
         $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
         $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
+    // if carat range is not provided, calculate range
+    else if (input.carat !== null) {
+      query['carat'] = {
+        $gte: (input.carat * 0.95).toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: (input.carat * 1.2).toFixed(1), // mongoose $lte operator less than or equal to
+      };
+    }
 
-    return input;
+    return query;
   }
 
   /**
@@ -207,7 +223,7 @@ export class DiamondsService {
     this.Logger.verbose(`Fetching cut to order diamond availability`);
 
     const filteredQuery = this.optionalDiamondQuery(params);
-
+    const requestedCarat = params.carat || params.caratMin;
     const regexPattern = /fancy/i;
 
     filteredQuery.availableForSale = true; // only return available diamonds
@@ -216,10 +232,47 @@ export class DiamondsService {
     try {
       const result = await this.diamondRepository.find(filteredQuery);
 
-      // result should be filtered with the 4c's (carat, cut, color, clarity)
-      const uniqueDiamondResults = hideIdenticalDiamond4Cs(result);
+      // If there are no results for small carat sizes, dont limit the carat range
+      if (!result.length && requestedCarat < MIN_CARAT_EMPTY_RESULT) {
+        delete filteredQuery.carat;
+        const secondaryResult = await this.diamondRepository.find(filteredQuery);
 
-      return uniqueDiamondResults.sort(sortDiamondsBy4cs).slice(0, CYF_DIAMOND_LIMIT);
+        return sortDiamonds(secondaryResult, colorFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
+      }
+
+      let uniqueDiamonds = removeIdenticalDiamond4Cs(result);
+
+      uniqueDiamonds = sortDiamonds(uniqueDiamonds, colorFirstSortOrder);
+
+      // Best brilliance - Diamond closest to selected carat weight that is DEF, VS+
+      const bestBrillianceDiamonds = uniqueDiamonds.filter(
+        (diamond: IDiamondCollection) => isDEF(diamond.color) && isVSPlus(diamond.clarity),
+      );
+      const bestBrillianceDiamond = bestBrillianceDiamonds?.[0];
+
+      // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
+      const fewestInclusionsDiamond = uniqueDiamonds.find(
+        (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond.lotId,
+      );
+
+      // Larger carat - Diamond that is at least 5%+ larger than “best brilliance” option, also DEF VS+
+      const largestCaratDiamond = sortDiamonds(bestBrillianceDiamonds).find(
+        (diamond: IDiamondCollection) => diamond.carat >= requestedCarat * 1.05,
+      );
+
+      let resultDiamonds = [bestBrillianceDiamonds?.[0], fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
+
+      // Not enough results.
+      if (resultDiamonds.length < CFY_DIAMOND_LIMIT) {
+        const chosenLotIds = resultDiamonds.map((diamond) => diamond.lotId);
+        const colorFavoredDiamonds = uniqueDiamonds.filter(
+          (diamond: IDiamondCollection) => !chosenLotIds.includes(diamond.lotId),
+        );
+
+        resultDiamonds = [...resultDiamonds, ...colorFavoredDiamonds.slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length)];
+      }
+
+      return resultDiamonds;
     } catch (error) {
       this.Logger.error(`Error fetching cfy diamonds: ${error}`);
       throw new InternalServerErrorException(error);

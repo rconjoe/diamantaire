@@ -24,11 +24,12 @@ export class DiamondsController {
   }
 
   @Get('cfy')
+  @ApiQuery({ name: 'carat', required: false, description: 'carat' })
   @ApiQuery({ name: 'caratMin', required: false, description: 'carat min' })
   @ApiQuery({ name: 'caratMax', required: false, description: 'carat max' })
   @ApiQuery({ name: 'diamondType', required: false, description: 'diamond type' })
-  async fetchCFYDiamonds(@Query() { caratMin, caratMax, diamondType }: GetDiamondInput) {
-    return await this.diamondsService.getCFYDiamond({ caratMax, caratMin, diamondType });
+  async fetchCFYDiamonds(@Query() { carat, caratMin, caratMax, diamondType }: GetDiamondInput) {
+    return await this.diamondsService.getCFYDiamond({ carat, caratMax, caratMin, diamondType });
   }
 
   @Get(':lotId')

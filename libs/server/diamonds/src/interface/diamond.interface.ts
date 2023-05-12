@@ -1,4 +1,5 @@
 import { DiamondEntity } from '../entities/diamond.entity';
+import { DiamondColor } from '../helper/diamond.helper';
 
 /**
  * Diamond Interface
@@ -44,8 +45,8 @@ export interface IDiamondCollection extends Partial<DiamondEntity> {
   dfCertificateUrl?: string;
   type?: string;
   carat?: number;
-  cut?: string;
-  color?: string;
+  cut?: (typeof DiamondColor)[keyof typeof DiamondColor];
+  color?: (typeof DiamondColor)[keyof typeof DiamondColor];
   clarity?: string;
   lotId?: string;
   diamondType?: string;
