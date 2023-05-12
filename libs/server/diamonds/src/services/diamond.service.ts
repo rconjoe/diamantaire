@@ -252,12 +252,16 @@ export class DiamondsService {
 
       // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
       const fewestInclusionsDiamond = uniqueDiamonds.find(
-        (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond.lotId,
+        (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond?.lotId,
       );
 
       // Larger carat - Diamond that is at least 5%+ larger than “best brilliance” option, also DEF VS+
+      // Ensure diamond has not already been chosen
       const largestCaratDiamond = sortDiamonds(bestBrillianceDiamonds).find(
-        (diamond: IDiamondCollection) => diamond.carat >= requestedCarat * 1.05,
+        (diamond: IDiamondCollection) =>
+          diamond.carat >= requestedCarat * 1.05 &&
+          diamond.lotId !== bestBrillianceDiamond?.lotId &&
+          diamond.lotId !== fewestInclusionsDiamond?.lotId,
       );
 
       let resultDiamonds = [bestBrillianceDiamonds?.[0], fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
