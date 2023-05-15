@@ -23,6 +23,10 @@ import {
   isDEF,
   isVSPlus,
   isVVSPlus,
+  isSIMinus,
+  createSortCaratByDistanceFromTargetComparator,
+  diamondPropertyAscendingComparitors,
+  DiamondProperty,
 } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
@@ -240,15 +244,23 @@ export class DiamondsService {
         return sortDiamonds(secondaryResult, colorFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
       }
 
+      const closestToCaratSortcomparator = createSortCaratByDistanceFromTargetComparator(requestedCarat);
+
+      const closestToSortcomparators = {
+        ...diamondPropertyAscendingComparitors,
+        [DiamondProperty.carat]: closestToCaratSortcomparator,
+      };
+
       let uniqueDiamonds = removeIdenticalDiamond4Cs(result);
 
-      uniqueDiamonds = sortDiamonds(uniqueDiamonds, colorFirstSortOrder);
+      uniqueDiamonds = sortDiamonds(uniqueDiamonds, colorFirstSortOrder, closestToSortcomparators);
 
       // Best brilliance - Diamond closest to selected carat weight that is DEF, VS+
       const bestBrillianceDiamonds = uniqueDiamonds.filter(
         (diamond: IDiamondCollection) => isDEF(diamond.color) && isVSPlus(diamond.clarity),
       );
-      const bestBrillianceDiamond = bestBrillianceDiamonds?.[0];
+
+      const bestBrillianceDiamond = bestBrillianceDiamonds?.[0]; // sortDiamonds(bestBrillianceDiamonds, colorFirstSortOrder, closestToSortcomparators)?.[0];
 
       // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
       const fewestInclusionsDiamond = uniqueDiamonds.find(
@@ -264,16 +276,59 @@ export class DiamondsService {
           diamond.lotId !== fewestInclusionsDiamond?.lotId,
       );
 
-      let resultDiamonds = [bestBrillianceDiamonds?.[0], fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
+      let resultDiamonds = [bestBrillianceDiamond, fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
+
+      // console.log({
+      //   requestedCarat,
+      //   bestBrillianceDiamonds: sortDiamonds(bestBrillianceDiamonds, colorFirstSortOrder, closestToSortcomparators).map(
+      //     (diamond) => {
+      //       const { color, cut, clarity, carat } = diamond;
+
+      //       return {
+      //         color,
+      //         carat,
+      //         clarity,
+      //         cut,
+      //       };
+      //     },
+      //   ),
+      //   bestBrillianceDiamond,
+      //   fewestInclusionsDiamond,
+      //   largestCaratDiamond,
+      //   result: uniqueDiamonds.map((diamond) => {
+      //     const { color, cut, clarity, carat } = diamond;
+
+      //     return {
+      //       color,
+      //       carat,
+      //       clarity,
+      //       cut,
+      //     };
+      //   }),
+      // });
 
       // Not enough results.
       if (resultDiamonds.length < CFY_DIAMOND_LIMIT) {
         const chosenLotIds = resultDiamonds.map((diamond) => diamond.lotId);
+        // Fill with non SI diamonds
         const colorFavoredDiamonds = uniqueDiamonds.filter(
-          (diamond: IDiamondCollection) => !chosenLotIds.includes(diamond.lotId),
+          (diamond: IDiamondCollection) => !chosenLotIds.includes(diamond.lotId) && !isSIMinus(diamond.clarity),
         );
+        const fallbackDiamonds = colorFavoredDiamonds.slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length);
 
-        resultDiamonds = [...resultDiamonds, ...colorFavoredDiamonds.slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length)];
+        resultDiamonds = [...resultDiamonds, ...fallbackDiamonds];
+
+        const resultsNeeded = CFY_DIAMOND_LIMIT - resultDiamonds.length;
+
+        // If there still aren't enough diamods, fill w/ any clarity from sorted list
+        if (resultsNeeded > 0) {
+          const currentLotIds = resultDiamonds.map((diamond) => diamond.lotId);
+          const fillerDiamonds = uniqueDiamonds.filter(
+            (diamond: IDiamondCollection) => !currentLotIds.includes(diamond.lotId),
+          );
+
+          resultDiamonds = [...resultDiamonds, ...fillerDiamonds.slice(0, resultsNeeded)];
+        }
       }
 
       return resultDiamonds;
