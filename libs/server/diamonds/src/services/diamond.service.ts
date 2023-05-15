@@ -14,7 +14,7 @@ import { Injectable, InternalServerErrorException, Logger, NotFoundException } f
 import { PaginateOptions } from 'mongoose';
 
 import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondByLotIdDto, GetDiamondInput } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
   removeIdenticalDiamond4Cs,
@@ -27,6 +27,8 @@ import {
   createSortCaratByDistanceFromTargetComparator,
   diamondPropertyAscendingComparitors,
   DiamondProperty,
+  DiamondClarities,
+  DiamondCuts,
 } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
@@ -39,19 +41,16 @@ export class DiamondsService {
 
   /**
    * Get filtered diamond types with paginated results
-   * @param {GetDiamondInput} input - paginated input (limit, page, sortby, sortorder)
-   * @param {GetDiamondInput} params - filter params
-   * @param {boolean} isCto - whether to return cfy diamond
+   * @param {GetDiamondDto} input - paginated input (limit, page, sortby, sortorder)
    * @returns {Promise<IDiamondCollection[]>} - paginated diamonds
    */
 
-  async getDiamonds(params: GetDiamondInput, input: GetDiamondInput, { isCto = false }): Promise<IDiamondCollection[]> {
+  async getDiamonds(input: GetDiamondDto): Promise<IDiamondCollection[]> {
     //const cachedKey = `diamonds-${JSON.stringify(params)}-isCto=${isCto}-${JSON.stringify(input)}`;
     const sortOrder = input?.sortOrder || 'desc'; // asc or 1 or ascending, desc or -1 or descending
     const sortByKey = input?.sortBy || 'carat';
     const sortByObj = {};
     const query = {}; // diamond type query
-    // color: { $ne: 'Fancy Intense Pink' },
 
     sortByObj[sortByKey] = sortOrder; // sortby any key
 
@@ -62,14 +61,14 @@ export class DiamondsService {
       customLabels: PaginatedLabels,
     };
 
-    const filteredQuery = this.optionalDiamondQuery(params);
+    const filteredQuery = this.optionalDiamondQuery(input);
 
     const regexPattern = /fancy/i;
 
     filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
 
-    if (isCto) {
+    if (input?.isCto) {
       filteredQuery.slug = 'cto-diamonds';
       query['slug'] = 'cto-diamonds';
     } else {
@@ -181,6 +180,10 @@ export class DiamondsService {
       query['clarity'] = {
         $in: clarity, // mongoose $in take an array value as input
       };
+    } else {
+      query['clarity'] = {
+        $in: DiamondClarities, // get all the clarity
+      };
     }
 
     /**
@@ -194,23 +197,27 @@ export class DiamondsService {
       query['cut'] = {
         $in: cuts, // mongoose $in take an array value as input
       };
+    } else {
+      query['cut'] = {
+        $in: DiamondCuts, // get all the cuts
+      };
     }
 
     /**
      * Optional query for carat range
      * EG: "caratMin": 0.86, "caratMax": 0.98
      */
-    if (input.caratMin && input.caratMax !== null) {
+    if (input?.caratMin && input?.caratMax !== null) {
       query['carat'] = {
         $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
         $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
     // if carat range is not provided, calculate range
-    else if (input.carat !== null) {
+    else if (input?.carat !== undefined) {
       query['carat'] = {
-        $gte: (input.carat * 0.95).toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: (input.carat * 1.2).toFixed(1), // mongoose $lte operator less than or equal to
+        $gte: (input?.carat * 0.95).toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: (input?.carat * 1.2).toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
@@ -219,11 +226,11 @@ export class DiamondsService {
 
   /**
    * Fetch unique non cto diamonds
-   * @param { GetDiamondInput } params - requested data
+   * @param { GetDiamondDto } params - requested data
    * @returns
    */
 
-  async getCFYDiamond(params: GetDiamondInput): Promise<IDiamondCollection[]> {
+  async getCFYDiamond(params: GetDiamondDto): Promise<IDiamondCollection[]> {
     this.Logger.verbose(`Fetching cut to order diamond availability`);
 
     const filteredQuery = this.optionalDiamondQuery(params);
