@@ -112,11 +112,7 @@ export class ProductsService {
       //   currencyCode: productPrice?.currencyCode,
       // };
 
-      console.log({ requestedVariant, parentProduct });
-
       let collectionContent, variantContent;
-
-      console.log({ parentProduct, variantId: requestedVariant?.id?.split('/').pop() });
 
       if (['Engagement Ring', 'Wedding Band'].includes(parentProduct.productType)) {
         // dato ER query
@@ -137,8 +133,6 @@ export class ProductsService {
           variantId: requestedVariant?.id?.split('/').pop(),
           locale: setLocal,
         };
-
-        console.log(queryVars);
 
         const datoJewelryPDP: any = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
 
@@ -235,8 +229,6 @@ export class ProductsService {
         const optionValue = variant?.options?.[optionKey];
         const optionValueToMatch = variantOptionsToMatch[optionKey];
 
-        // console.log({ optionKey, optionValue, optionValueToMatch });
-
         // Save option value in map
         if (allOptions[optionKey]) {
           if (!allOptions[optionKey].includes(variant.options[optionKey])) {
@@ -245,8 +237,6 @@ export class ProductsService {
         } else {
           allOptions[optionKey] = [optionValue];
         }
-
-        // console.log({ allOptions });
 
         const optionsToMatch = { ...variantOptionsToMatch };
 
