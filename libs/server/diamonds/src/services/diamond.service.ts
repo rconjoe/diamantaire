@@ -212,7 +212,7 @@ export class DiamondsService {
     else if (input.carat !== null) {
       query['carat'] = {
         $gte: Math.max(input.carat - 0.2, 0).toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: (input.carat + 0.5).toFixed(1), // mongoose $lte operator less than or equal to
+        $lte: (input.carat + 0.2).toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
