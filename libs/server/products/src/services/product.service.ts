@@ -131,10 +131,10 @@ export class ProductsService {
           dangerousInternalCollectionId: parentProductId,
         } = parentProduct;
 
-        collectionContent[0].collectionId = parentProductId;
         const variantReturnData = {
           productId,
           productType,
+          parentProductId,
           ...requestedVariant,
           optionConfigs: this.getOptionsConfigurations(reducedVariants, requestedVariant, parentProduct, true),
           collectionContent, // dato er collection content
@@ -211,6 +211,8 @@ export class ProductsService {
         const optionValue = variant?.options?.[optionKey];
         const optionValueToMatch = variantOptionsToMatch[optionKey];
 
+        // console.log({ optionKey, optionValue, optionValueToMatch });
+
         // Save option value in map
         if (allOptions[optionKey]) {
           if (!allOptions[optionKey].includes(variant.options[optionKey])) {
@@ -219,6 +221,8 @@ export class ProductsService {
         } else {
           allOptions[optionKey] = [optionValue];
         }
+
+        // console.log({ allOptions });
 
         const optionsToMatch = { ...variantOptionsToMatch };
 
@@ -230,8 +234,14 @@ export class ProductsService {
           continue;
         }
 
+        const isRingSizeValid = ['Engagement Ring', 'Wedding Band'].includes(parentProduct.productType);
+
         // Skip non default sizes when working with all options except 'size'
-        if (optionKey !== ProductOption.RingSize && variant?.options?.[ProductOption.RingSize] !== DEFAULT_RING_SIZE) {
+        if (
+          isRingSizeValid &&
+          optionKey !== ProductOption.RingSize &&
+          variant?.options?.[ProductOption.RingSize] !== DEFAULT_RING_SIZE
+        ) {
           continue;
         }
 
