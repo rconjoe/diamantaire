@@ -6,7 +6,7 @@
 import { UtilService } from '@diamantaire/server/common/utils';
 import { PriceRepository } from '@diamantaire/server/price';
 import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constants';
-import { ERPDP } from '@diamantaire/shared/dato';
+import { ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import { BadGatewayException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Bottleneck from 'bottleneck';
@@ -94,13 +94,6 @@ export class ProductsService {
 
       const reducedVariants = reduceVariantsToPDPConfigurations(products);
 
-      // dato ER query
-      const queryVars = {
-        collectionSlug: input.slug,
-        productHandle: requestedDatoHandle,
-        locale: setLocal,
-      };
-
       //const datoEngagementRingPDP = await this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
 
       // const priceQuery = {
@@ -119,8 +112,39 @@ export class ProductsService {
       //   currencyCode: productPrice?.currencyCode,
       // };
 
-      const datoEngagementRingPDP: any = await this.datoContent(queryVars); // return dato engagement ring pdp content
-      const { allEngagementRingProducts: collectionContent, allOmegaProducts: variantContent } = datoEngagementRingPDP;
+      console.log({ requestedVariant, parentProduct });
+
+      let collectionContent, variantContent;
+
+      console.log({ parentProduct, variantId: requestedVariant?.id?.split('/').pop() });
+
+      if (['Engagement Ring', 'Wedding Band'].includes(parentProduct.productType)) {
+        // dato ER query
+        const queryVars = {
+          collectionSlug: input.slug,
+          productHandle: requestedDatoHandle,
+          locale: setLocal,
+        };
+        const datoEngagementRingPDP: any = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
+
+        collectionContent = datoEngagementRingPDP?.allEngagementRingProducts;
+        variantContent = datoEngagementRingPDP?.variantContent;
+        //const { allEngagementRingProducts: collectionContent, allOmegaProducts: variantContent } = datoEngagementRingPDP;
+      } else {
+        // dato ER query
+        const queryVars = {
+          slug: input.slug,
+          variantId: requestedVariant?.id?.split('/').pop(),
+          locale: setLocal,
+        };
+
+        console.log(queryVars);
+
+        const datoJewelryPDP: any = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
+
+        collectionContent = datoJewelryPDP?.jewelryProduct;
+        variantContent = datoJewelryPDP?.configuration;
+      }
 
       //requestedVariant.price = price; // include price in the requested variant
 
@@ -338,7 +362,7 @@ export class ProductsService {
    * @returns { Promise<object> }
    */
 
-  async datoContent({ collectionSlug, productHandle, locale }): Promise<object> {
+  async datoContentForEngagementRings({ collectionSlug, productHandle, locale }): Promise<object> {
     this.logger.verbose(`Entering into dataContent ${collectionSlug}-${productHandle}-${locale}`);
     const cachedKey = `${collectionSlug}-${productHandle}-${locale}`;
     let response = await this.utils.memGet(cachedKey); // return the cached result if there's a key
@@ -354,6 +378,30 @@ export class ProductsService {
       //   this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
       // });
       response = await this.utils.createDataGateway().request(ERPDP, queryVars); // dato engagement ring pdp query
+      this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+      this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+    }
+    const result = await response;
+
+    return result;
+  }
+
+  async datoContentForJewelry({ slug, variantId, locale }): Promise<object> {
+    this.logger.verbose(`Entering into dataContent ${slug}-${variantId}-${locale}`);
+    const cachedKey = `${slug}-${variantId}-${locale}`;
+    let response = await this.utils.memGet(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      slug,
+      variantId,
+      locale,
+    };
+
+    if (!response) {
+      // response = await this.limiter.schedule(async () => {
+      //   this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
+      // });
+      response = await this.utils.createDataGateway().request(JEWELRYPRODUCT, queryVars); // dato engagement ring pdp query
       this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
       this.utils.memSet(cachedKey, response, 3600); //set the response in memory
     }
