@@ -24,11 +24,13 @@ import {
   isVSPlus,
   isVVSPlus,
   isSIMinus,
-  createSortCaratByDistanceFromTargetComparator,
+  createSortCaratFromTargetWithWeightComparator,
+  descendingCaratComparator,
   diamondPropertyAscendingComparitors,
   DiamondProperty,
   DiamondClarities,
   DiamondCuts,
+  caratFirstSortOrder,
 } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
@@ -216,8 +218,8 @@ export class DiamondsService {
     // if carat range is not provided, calculate range
     else if (input?.carat !== undefined) {
       query['carat'] = {
-        $gte: (input?.carat * 0.95).toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: (input?.carat * 1.2).toFixed(1), // mongoose $lte operator less than or equal to
+        $gte: Math.max(input.carat - 0.2, 0).toFixed(1), // mongoose $gte operator greater than or equal to
+        $lte: (input.carat + 0.2).toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
 
@@ -248,14 +250,14 @@ export class DiamondsService {
         delete filteredQuery.carat;
         const secondaryResult = await this.diamondRepository.find(filteredQuery);
 
-        return sortDiamonds(secondaryResult, colorFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
+        return sortDiamonds(secondaryResult, caratFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
       }
 
-      const closestToCaratSortcomparator = createSortCaratByDistanceFromTargetComparator(requestedCarat);
+      const closestToCaratSortComparator = createSortCaratFromTargetWithWeightComparator(requestedCarat);
 
       const closestToSortcomparators = {
         ...diamondPropertyAscendingComparitors,
-        [DiamondProperty.carat]: closestToCaratSortcomparator,
+        [DiamondProperty.carat]: closestToCaratSortComparator,
       };
 
       let uniqueDiamonds = removeIdenticalDiamond4Cs(result);
@@ -274,11 +276,15 @@ export class DiamondsService {
         (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond?.lotId,
       );
 
-      // Larger carat - Diamond that is at least 5%+ larger than “best brilliance” option, also DEF VS+
+      // Larger carat - Largest carat diamond in range Diamond from “best brilliance” subset, also DEF VS+
       // Ensure diamond has not already been chosen
-      const largestCaratDiamond = sortDiamonds(bestBrillianceDiamonds).find(
+      const sortComparators = {
+        ...diamondPropertyAscendingComparitors,
+        [DiamondProperty.carat]: descendingCaratComparator,
+      };
+      const largestCaratDiamond = sortDiamonds(bestBrillianceDiamonds, caratFirstSortOrder, sortComparators).find(
         (diamond: IDiamondCollection) =>
-          diamond.carat >= requestedCarat * 1.05 &&
+          diamond.carat > requestedCarat &&
           diamond.lotId !== bestBrillianceDiamond?.lotId &&
           diamond.lotId !== fewestInclusionsDiamond?.lotId,
       );
@@ -302,6 +308,16 @@ export class DiamondsService {
       //   bestBrillianceDiamond,
       //   fewestInclusionsDiamond,
       //   largestCaratDiamond,
+      //   largestSort: sortDiamonds(bestBrillianceDiamonds, caratFirstSortOrder, sortComparators).map((diamond) => {
+      //     const { color, cut, clarity, carat } = diamond;
+
+      //     return {
+      //       color,
+      //       carat,
+      //       clarity,
+      //       cut,
+      //     };
+      //   }),
       //   result: uniqueDiamonds.map((diamond) => {
       //     const { color, cut, clarity, carat } = diamond;
 
