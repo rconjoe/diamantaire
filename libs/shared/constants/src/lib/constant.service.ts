@@ -236,6 +236,23 @@ export enum ProductType {
   Ring = 'Ring',
 }
 
+export enum ProductTypePlural {
+  ['Engagement Rings'] = 'Engagement Rings',
+  WeddingBands = 'Wedding Bands',
+  Bracelets = 'Bracelets',
+  Earrings = 'Earrings',
+  Necklaces = 'Necklaces',
+  Rings = 'Rings',
+  Jewelry = 'Jewelry',
+}
+
+export const PDPProductType = {
+  ['Engagement Ring']: 'Engagement Rings',
+  ['Jewelry']: 'Jewelry',
+  ['engagement-rings']: 'Engagement Rings',
+  ['jewelry']: 'Jewelry',
+} as const;
+
 export enum ProductOption {
   BandAccent = 'bandAccent',
   CaratWeight = 'caratWeight',

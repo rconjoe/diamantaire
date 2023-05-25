@@ -54,9 +54,10 @@ interface OptionItemLinkProps extends OptionItem {
 
 function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
   const router = useRouter();
-  const { productSlug } = router.query;
+
+  const { productSlug, jewelryCategory } = router.query;
   const numericalId = id.split('/').pop(); // TODO: MOve to helper Fn
-  const url = { pathname: router.pathname, query: { productSlug, variantSlug: numericalId } };
+  const url = { pathname: router.pathname, query: { productSlug, variantSlug: numericalId, jewelryCategory } };
 
   return (
     <Link href={url} scroll={false}>

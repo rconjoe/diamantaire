@@ -1,4 +1,5 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { useProductIconList } from '@diamantaire/darkside/data/hooks';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { addBusinessDays, format } from 'date-fns';
 import Link from 'next/link';
@@ -30,7 +31,10 @@ const ProductIconListContainer = styled.ul`
   }
 `;
 
-const ProductIconList = ({ items }) => {
+const ProductIconList = ({ productIconListType, locale }) => {
+  const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
+  const { items } = productIconList || {};
+
   return (
     <ProductIconListContainer>
       {items?.map((item, index) => {
@@ -48,7 +52,6 @@ export default ProductIconList;
 
 // Single Icon List Item
 const ShippingListItem = ({ item }) => {
-  console.log('shippingitem', item);
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
 
   const { locale } = useRouter();

@@ -62,9 +62,6 @@ function ConfigurationSelector({ configurations, selectedConfiguration, onChange
         const options = configurations[configurationType];
         const selectedOption = configState?.[configurationType];
 
-        console.log('configurations', configurations);
-        console.log('configState', configState);
-
         // if (!options || options.length <= 1) {
         //   return null;
         // }

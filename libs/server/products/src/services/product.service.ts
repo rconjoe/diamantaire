@@ -123,9 +123,10 @@ export class ProductsService {
         };
         const datoEngagementRingPDP: any = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
 
-        collectionContent = datoEngagementRingPDP?.allEngagementRingProducts;
+        console.log('datoEngagementRingPDP', datoEngagementRingPDP);
+
+        collectionContent = datoEngagementRingPDP?.engagementRingProduct;
         variantContent = datoEngagementRingPDP?.variantContent;
-        //const { allEngagementRingProducts: collectionContent, allOmegaProducts: variantContent } = datoEngagementRingPDP;
       } else {
         // dato ER query
         const queryVars = {

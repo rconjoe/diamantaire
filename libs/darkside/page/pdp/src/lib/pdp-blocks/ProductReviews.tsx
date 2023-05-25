@@ -2,15 +2,14 @@ import { setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { stripIndent } from 'common-tags';
 import Script from 'next/script';
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-const propTypes = {
-  reviewsId: PropTypes.string.isRequired,
-  shouldUseProductId: PropTypes.bool,
-  isOkendoReady: PropTypes.bool,
-  isReviewsPage: PropTypes.bool,
+type ProductReviewsProps = {
+  reviewsId: string;
+  shouldUseProductId?: boolean;
+  isOkendoReady?: boolean;
+  isReviewsPage?: boolean;
 };
 
 const WidgetContainer = styled.div`
@@ -30,30 +29,10 @@ const WidgetContainer = styled.div`
 
 declare const window: any;
 
-const ProductReviews = ({ reviewsId, shouldUseProductId, isReviewsPage }) => {
+const ProductReviews = ({ reviewsId, shouldUseProductId, isReviewsPage }: ProductReviewsProps) => {
   useEffect(() => {
     window.okeInitCoreWidgets && window.okeInitCoreWidgets();
   }, [reviewsId]);
-
-  // Okendo Star Reviews showing twice so overriding .okeReviews-reviewsAggregate-summary
-
-  //   const flickityScript = useScript({
-  //     src: 'https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js',
-  //   });
-
-  //   const reviewsWidgetScript = useScript({
-  //     src: 'https://d3hw6dc1ow8pp2.cloudfront.net/reviewsWidget.min.js?shop=shop=vo-live.myshopify.com',
-  //   });
-
-  //   const awsOkendoScript = useScript({
-  //     src: 'https://s3.amazonaws.com/static.vraiandoro.com/js/okendo-3.js',
-  //   });
-
-  //   useEffect(() => {
-  //     if (flickityScript === 'ready' && window.Flickity && reviewsWidgetScript === 'ready' && awsOkendoScript === 'ready') {
-  //       setIsOkendoReady(true);
-  //     }
-  //   }, [flickityScript, reviewsWidgetScript, awsOkendoScript]);
 
   return (
     <>
@@ -81,24 +60,6 @@ const ProductReviews = ({ reviewsId, shouldUseProductId, isReviewsPage }) => {
     </>
   );
 };
-
-// const mapStateToProps = (state, { productData, shouldUseProductId }) => {
-//   const getReviewsId = () => {
-//     if (shouldUseProductId) {
-//       const dangerousInternalProductId = omegaProductData.getDangerousInternalProductId(productData);
-
-//       return `shopify-${dangerousInternalProductId}`;
-//     }
-
-//     return omegaProductData.getDangerousInternalCollectionId(productData);
-//   };
-
-//   return {
-//     reviewsId: getReviewsId(),
-//   };
-// };
-
-ProductReviews.propTypes = propTypes;
 
 export default ProductReviews;
 

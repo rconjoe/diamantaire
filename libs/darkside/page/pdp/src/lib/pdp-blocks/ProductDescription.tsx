@@ -1,4 +1,5 @@
 import { Markdown } from '@diamantaire/darkside/components/common-ui';
+import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -44,9 +45,111 @@ const ProductDescriptionContainer = styled.div`
   }
 `;
 
-const ProductDescription = ({ description, productAttributes, variantAttributes }) => {
-  const { bandWidth, bandDepth, settingHeight, paveCaratWeight, shownWithCtw, metalWeight } = productAttributes || {};
-  const { clarity, color, dimensions, origin, shape, caratWeightOverride } = variantAttributes || {};
+const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId }) => {
+  const { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } = productAttributes || {};
+  const {
+    origin,
+    // Rings
+    clarity,
+    color,
+    dimensions,
+    shape,
+    shownWithCtw,
+    caratWeightOverride,
+
+    // Jewelry
+    metal,
+    setting,
+    closure,
+    chainWidth,
+    chainLength,
+  } = variantAttributes || {};
+
+  // Product Spec - These are the locale-based labels for the product
+  const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
+  const labels = data?.productSpecLabelCollection?.labels;
+
+  let refinedLabels = {};
+
+  labels?.forEach((label) => {
+    return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
+  });
+
+  const diamondLabels = [
+    {
+      title: 'origin',
+      value: origin,
+    },
+    {
+      title: 'shape',
+      value: shape,
+    },
+    {
+      title: 'color',
+      value: color,
+    },
+    {
+      title: 'clarity',
+      value: clarity,
+    },
+    {
+      title: 'diamondSize',
+      value: dimensions,
+    },
+    {
+      title: 'carat',
+      value: caratWeightOverride,
+    },
+  ];
+
+  const engagementRingLabels = [
+    {
+      title: 'bandWidth',
+      value: bandWidth,
+    },
+    {
+      title: 'bandDepth',
+      value: bandDepth,
+    },
+    {
+      title: 'settingHeight',
+      value: settingHeight,
+    },
+    {
+      title: 'metalWeight',
+      value: metalWeight,
+    },
+    {
+      title: 'paveCaratWeight',
+      value: paveCaratWeight,
+    },
+    {
+      title: 'shownWithCtw',
+      value: shownWithCtw,
+    },
+  ];
+  const jewelryLabels = [
+    {
+      title: 'metal',
+      value: metal,
+    },
+    {
+      title: 'setting',
+      value: setting,
+    },
+    {
+      title: 'closure',
+      value: closure,
+    },
+    {
+      title: 'chainWidth',
+      value: chainWidth,
+    },
+    {
+      title: 'chainLength',
+      value: chainLength,
+    },
+  ];
 
   return (
     description && (
@@ -56,30 +159,45 @@ const ProductDescription = ({ description, productAttributes, variantAttributes 
 
         <div className="description__product-details">
           <ul>
-            <li>Band Width: {bandWidth}</li>
-            <li>Band Depth: {bandDepth}</li>
-            <li>Setting Height: {settingHeight}</li>
-            <li>Gold/Platinum metal weight: {metalWeight}</li>
-            <li>
-              Pavé carat weight: {paveCaratWeight}{' '}
-              <span className="small">
-                <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-              </span>
-            </li>
-            <li>Shown with center stone {shownWithCtw}</li>
+            {/* Engagement Ring Fields */}
+
+            {engagementRingLabels?.map((label, index) => {
+              if (!label.value || (!refinedLabels[label.title] && label.title !== 'shownWithCtw')) return null;
+
+              return (
+                <li key={`er-label-${index}`}>
+                  {label.title === 'shownWithCtw'
+                    ? `${shownWithCtwLabel}: ${label.value}`
+                    : refinedLabels[label.title] + ':' + label.value}
+
+                  {label.title === 'paveCaratWeight' && (
+                    <span className="small">
+                      <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+
+            {/* Jewelry Fields */}
+            {jewelryLabels?.map((label, index) => {
+              if (!label.value || !refinedLabels[label.title]) return null;
+
+              return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
+            })}
           </ul>
         </div>
 
-        {variantAttributes?.shape && (
+        {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
           <div className="description__variant-details">
             <h4>VRAI created diamond</h4>
             <ul>
-              <li>Origin: {origin}</li>
-              <li>Shape: {shape}</li>
-              <li>Color: {color}</li>
-              <li>Clarity: {clarity}</li>
-              <li>Dimensions: {dimensions}</li>
-              <li>Carat: {caratWeightOverride}</li>
+              {diamondLabels?.map((label, index) => {
+                if (!label.value || !refinedLabels[label.title]) return null;
+
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
+              })}
+
               <li>
                 <span className="small">
                   <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>

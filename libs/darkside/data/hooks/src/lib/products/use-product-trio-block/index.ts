@@ -1,7 +1,21 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { DatoImageType } from '@diamantaire/shared/types';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export function useProductTrioBlock(id: string, locale: string) {
+type TrioBlockProps = {
+  trioBlock: {
+    id: string;
+    blocks: {
+      title: string;
+      copy: string;
+      ctaCopy: string;
+      ctaRoute: string;
+      image: DatoImageType;
+    }[];
+  };
+};
+
+export function useProductTrioBlock(id: string, locale: string): UseQueryResult<TrioBlockProps, unknown> {
   return useQuery({
     ...queries.products.productTrioBlock(id, locale),
   });

@@ -115,11 +115,6 @@ function OptionSelector({
     }
   }, [swiper, isLastSlide, selectedOptionValue]);
 
-  console.log('DIAMOND_SHAPES', DIAMOND_SHAPES);
-  console.log('OPTION_NAMES', OPTION_NAMES);
-  console.log('selectedOptionValue', selectedOptionValue);
-  console.log('label', label);
-
   if (!options) {
     return null;
   }
@@ -136,8 +131,6 @@ function OptionSelector({
 
   const selectorLabel = OPTION_NAMES?.[label]?.value;
 
-  console.log('selectorLabel', selectorLabel);
-  console.log('label', label);
   const selectorCurrentValue =
     (DIAMOND_SHAPES && DIAMOND_SHAPES[selectedOptionValue]?.value) ||
     (METALS_IN_HUMAN_NAMES && METALS_IN_HUMAN_NAMES[selectedOptionValue]?.value) ||
@@ -184,8 +177,6 @@ function OptionSelector({
                     // human readable value
                     const valueLabel = DIAMOND_SHAPES[option.value]?.value;
 
-                    console.log('DIAMOND_SHAPES[option.value]', DIAMOND_SHAPES[option.value]);
-
                     return (
                       <SwiperSlide key={label + '-' + index}>
                         <OptionItemContainer
@@ -230,8 +221,6 @@ function OptionSelector({
                 const isSelected = selectedOptionValue === option.value;
                 // human readable value
                 const valueLabel = DIAMOND_SHAPES[option.value]?.value;
-
-                console.log('DIAMOND_SHAPES[option.value]', DIAMOND_SHAPES[option.value]);
 
                 return (
                   <OptionItemContainer

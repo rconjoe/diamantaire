@@ -10,6 +10,8 @@ const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 enum MimeTypes {
   ImageJpeg = 'image/jpeg',
   VideoMP4 = 'video/mp4',
+  VideoMov = 'video/mov',
+  QuicktimeVideo = 'video/quicktime',
 }
 
 interface MediaAsset {
@@ -65,7 +67,9 @@ function MediaAsset({ type, asset, options, productTitle }) {
 
       return <ImageAsset image={asset} productTitle={productTitle} />;
     }
-    case MimeTypes.VideoMP4: {
+    case MimeTypes.VideoMP4:
+    case MimeTypes.VideoMov:
+    case MimeTypes.QuicktimeVideo: {
       return <VideoAsset video={asset} />;
     }
     default: {

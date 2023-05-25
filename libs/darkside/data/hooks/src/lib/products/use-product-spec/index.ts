@@ -1,7 +1,18 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export function useProductSpec(id: string, locale: string) {
+export type ProductSpecProps = {
+  data: {
+    productSpecLabelCollection: {
+      id: string;
+      labels: {
+        [key: string]: string;
+      }[];
+    };
+  };
+};
+
+export function useProductSpec(id: string, locale: string): UseQueryResult<ProductSpecProps, unknown> {
   return useQuery({
     ...queries.products.productSpec(id, locale),
   });

@@ -8,6 +8,7 @@ import {
   fetchDatoVariant,
   getProductPage,
 } from '@diamantaire/darkside/data/api';
+import { ProductTypePlural } from '@diamantaire/shared/constants';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 // import type { DarksideGlobalGatewayQueryFunctionContext } from '@diamantaire/shared/types';
@@ -20,9 +21,9 @@ export const productPage = createQueryKeys('products', {
     // https://tanstack.com/query/v4/docs/react/guides/disabling-queries
     // enabled: false, // prevent auto refetch => TODO: gateway request changes
   }),
-  dato: (productSlug: string, locale: string) => ({
-    queryKey: [productSlug, locale],
-    queryFn: () => fetchDatoProductInfo(productSlug, locale),
+  dato: (productSlug: string, locale: string, productType: ProductTypePlural) => ({
+    queryKey: [productSlug, locale, productType],
+    queryFn: () => fetchDatoProductInfo(productSlug, locale, productType),
   }),
   productSpec: (id: string, locale: string) => ({
     queryKey: [id, locale],

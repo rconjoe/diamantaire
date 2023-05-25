@@ -1,10 +1,17 @@
 import { queryDatoGQL } from '../../clients';
 
+type MapperProps = {
+  title: string;
+  itemMap: {
+    key: string;
+    title: string;
+  }[];
+};
 const HUMAN_NAME_MAPPER_QUERY = `
     query humanNameMappers($locale: SiteLocale) {
         allHumanNamesMappers(locale: $locale) {
             title
-            map {
+            itemMap: map {
                 key
                 value
             }
@@ -13,25 +20,24 @@ const HUMAN_NAME_MAPPER_QUERY = `
   `;
 
 export async function fetchHumanMapperData(locale: string) {
-  const mapperData = await queryDatoGQL({
+  const mapperData = (await queryDatoGQL({
     query: HUMAN_NAME_MAPPER_QUERY,
     variables: { locale },
-  });
+  })) as { allHumanNamesMappers: MapperProps[] };
 
   // Transforms our data into an array of key/value objects
   const updatedData = {};
 
   mapperData?.allHumanNamesMappers.map((item) => {
     const updatedItem = {};
+    const { itemMap } = item;
 
-    item.map.map((data) => {
+    itemMap.map((data) => {
       updatedItem[data.key] = data;
     });
 
-    updatedData[item.title] = updatedItem;
+    return (updatedData[item.title] = updatedItem);
   });
-
-  console.log('updatedData', updatedData);
 
   return updatedData;
 }

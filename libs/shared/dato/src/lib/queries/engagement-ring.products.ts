@@ -1,6 +1,6 @@
 export const ERPDP = `
   query erPDP($collectionSlug: String, $productHandle: String, $locale: SiteLocale) {
-    allEngagementRingProducts(filter: {slug: {eq: $collectionSlug}}, locale: $locale) {
+    engagementRingProduct(filter: {slug: {eq: $collectionSlug}}, locale: $locale) {
         productTitle
         productType
         slug
@@ -18,6 +18,7 @@ export const ERPDP = `
           belowOptionsCopy
         }
         metalWeight
+        shownWithCtwLabel
         productIconList {
           items {
             ... on ModularProductIconListItemRecord {
@@ -35,7 +36,7 @@ export const ERPDP = `
           }
         }
       }
-      allOmegaProducts(filter: {shopifyProductHandle: {eq: $productHandle}}) {
+      variantContent: omegaProduct(filter: {shopifyProductHandle: {eq: $productHandle}}) {
         id
         shopifyProductHandle
         pdpSubTitle

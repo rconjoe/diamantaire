@@ -1,7 +1,27 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export function useProductIconList(productType: string, locale: string) {
+type ProductIconListProps = {
+  productIconList: {
+    items: {
+      _modelApiKey?: string;
+      ctaRoute?: string;
+      ctaCopy?: string;
+      copy?: string;
+      shippingBusinessDays?: string;
+      shippingBusinessDaysCountryMap?: string;
+      shippingText?: string;
+
+      icon?: {
+        width: number;
+        height: number;
+        url: string;
+      };
+    }[];
+  };
+};
+
+export function useProductIconList(productType: string, locale: string): UseQueryResult<ProductIconListProps, unknown> {
   return useQuery({
     ...queries.products.productIconList(productType, locale),
   });

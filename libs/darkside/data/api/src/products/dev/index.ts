@@ -1,3 +1,5 @@
+import { ProductTypePlural } from '@diamantaire/shared/constants';
+
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
 import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
@@ -24,6 +26,7 @@ const ENGAGEMENT_RING_QUERY = `
         paveCaratWeight(locale: $locale)
         settingHeight(locale: $locale)
         metalWeight(locale: $locale)
+        shownWithCtwLabel(locale: $locale)
         trioBlocks {
           id
         }
@@ -41,6 +44,21 @@ const ENGAGEMENT_RING_QUERY = `
         }
       }
     }
+`;
+
+const JEWELRY_QUERY = `
+query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
+  jewelryProduct(filter: {slug: {eq: $slug}}, locale: $locale) {
+    id
+    productDescription
+    productIconList {
+      productType
+    }
+    specLabels {
+      id
+    }
+  }
+}
 `;
 
 // PDP - GENERAL COMPONENTS IN ORDER THEY APPEAR - DatoCMS
@@ -339,9 +357,14 @@ const DATO_VARIANT_QUERY = `
     }
 `;
 
-export async function fetchDatoProductInfo(slug: string, locale: string) {
+export async function fetchDatoProductInfo(slug: string, locale: string, productType: ProductTypePlural) {
   const datoData = await queryDatoGQL({
-    query: ENGAGEMENT_RING_QUERY,
+    query:
+      productType === ProductTypePlural['Engagement Rings']
+        ? ENGAGEMENT_RING_QUERY
+        : productType === ProductTypePlural['Jewelry']
+        ? JEWELRY_QUERY
+        : null,
     variables: { slug, locale },
   });
 

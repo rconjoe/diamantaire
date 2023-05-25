@@ -479,12 +479,24 @@ export const JEWELRYPRODUCT = `
       plpTitle
       configuredProductOptionsInOrder
       assetStack {
+        id
+        alt
         url
         mimeType
+        size
+        height
+        width
+        mimeType
+        customData
         video {
           streamingUrl
+          thumbnailUrl
         }
-        alt
+        responsiveImage {
+          base64
+          height
+          width
+        }
       }
       shownWithCenterStone
       shape
@@ -500,6 +512,7 @@ export const JEWELRYPRODUCT = `
       chainLength
       chainWidth
       posts
+      origin
       diamondCount
       trioBlocks {
         blocks {

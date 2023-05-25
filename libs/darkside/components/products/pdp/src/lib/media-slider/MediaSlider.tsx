@@ -72,7 +72,7 @@ const MediaSlider = ({ assets }) => {
         pagination={{ clickable: true }}
         navigation={true}
       >
-        {assets.map((asset, index) => {
+        {assets?.map((asset, index) => {
           const { mimeType } = asset || {};
 
           switch (mimeType) {
