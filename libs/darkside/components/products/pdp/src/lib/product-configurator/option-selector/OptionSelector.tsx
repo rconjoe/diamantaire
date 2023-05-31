@@ -59,15 +59,7 @@ const StyledOptionSelector = styled.div`
 
       .swiper-wrapper {
         display: flex;
-        /* max-width: 450px; */
-        /* column-gap: 20px; */
       }
-
-      /* .swiper-slide-next,
-      .swiper-slide-prev {
-        display: none;
-        pointer-events: none;
-      } */
 
       .carousel-arrow {
         position: absolute;
@@ -88,15 +80,12 @@ function OptionSelector({
   renderItemAsLink = false,
 }: OptionSelectorProps) {
   const {
-    data: { DIAMOND_SHAPES, OPTION_NAMES, METALS_IN_HUMAN_NAMES, BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES } = {},
-  }: {
     data: {
-      [key: string]: {
-        [key: string]: {
-          [key: string]: string;
-        };
-      };
-    };
+      DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
+      OPTION_NAMES: OPTION_NAMES_MAP,
+      METALS_IN_HUMAN_NAMES: METALS_IN_HUMAN_NAMES_MAP,
+      BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
+    } = {},
   } = useHumanNameMapper('en_US');
 
   const [swiper, setSwiper] = useState<any>();
@@ -129,12 +118,12 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel = OPTION_NAMES?.[label]?.value;
+  const selectorLabel = OPTION_NAMES_MAP?.[label]?.value;
 
   const selectorCurrentValue =
-    (DIAMOND_SHAPES && DIAMOND_SHAPES[selectedOptionValue]?.value) ||
-    (METALS_IN_HUMAN_NAMES && METALS_IN_HUMAN_NAMES[selectedOptionValue]?.value) ||
-    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES[selectedOptionValue]?.value);
+    (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
+    (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
+    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value);
 
   return (
     <StyledOptionSelector>
@@ -171,11 +160,11 @@ function OptionSelector({
                 onSlideChange={handleSlideChange}
                 allowTouchMove={false}
               >
-                {DIAMOND_SHAPES &&
+                {DIAMOND_SHAPES_MAP &&
                   options.map((option, index) => {
                     const isSelected = selectedOptionValue === option.value;
                     // human readable value
-                    const valueLabel = DIAMOND_SHAPES[option.value]?.value;
+                    const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
 
                     return (
                       <SwiperSlide key={label + '-' + index}>
@@ -216,11 +205,11 @@ function OptionSelector({
           </div>
         ) : (
           <div className={clsx('option-list', label)}>
-            {DIAMOND_SHAPES &&
+            {DIAMOND_SHAPES_MAP &&
               options.map((option) => {
                 const isSelected = selectedOptionValue === option.value;
                 // human readable value
-                const valueLabel = DIAMOND_SHAPES[option.value]?.value;
+                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
 
                 return (
                   <OptionItemContainer

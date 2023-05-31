@@ -22,7 +22,7 @@ export * from './RadiantIcon';
 export * from './RoundBriliantIcon';
 export * from './TrillionIcon';
 
-export const diamondIconsArray = {
+export const diamondIconsMap = {
   asscher: {
     slug: 'asscher',
     icon: AsscherIcon,

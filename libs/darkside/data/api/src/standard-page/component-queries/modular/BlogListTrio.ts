@@ -21,6 +21,7 @@ const BlogListTrio = `
         featuredImage {
           url
           alt
+          mimeType
           responsiveImage(imgixParams: {w: 448, h: 300, q: 40, auto: format, fit: crop, crop: focalpoint }) {
               src
               alt

@@ -3,7 +3,7 @@ import { useProductInstagramReel, useProductVideo } from '@diamantaire/darkside/
 import { MODULAR_INSTAGRAM_REEL_BLOCK, MODULAR_SPLIT_VIDEO_BLOCK } from '@diamantaire/shared/constants';
 import { useEffect, useState } from 'react';
 
-const ProductBlocks = ({ instagramReelId, videoBlockId }) => {
+const ProductContentBlocks = ({ instagramReelId, videoBlockId }) => {
   const [pageBlocks, setPageBlocks] = useState([]);
 
   const { data: { instagramReelBlock } = {} } = useProductInstagramReel(instagramReelId, 'en_US');
@@ -64,4 +64,4 @@ const ProductBlocks = ({ instagramReelId, videoBlockId }) => {
   );
 };
 
-export default ProductBlocks;
+export default ProductContentBlocks;

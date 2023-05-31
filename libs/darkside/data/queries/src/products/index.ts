@@ -21,7 +21,7 @@ export const productPage = createQueryKeys('products', {
     // https://tanstack.com/query/v4/docs/react/guides/disabling-queries
     // enabled: false, // prevent auto refetch => TODO: gateway request changes
   }),
-  dato: (productSlug: string, locale: string, productType: ProductTypePlural) => ({
+  serverSideDatoProductInfo: (productSlug: string, locale: string, productType: ProductTypePlural) => ({
     queryKey: [productSlug, locale, productType],
     queryFn: () => fetchDatoProductInfo(productSlug, locale, productType),
   }),

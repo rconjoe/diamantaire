@@ -14,7 +14,7 @@ const ProductTrioBlocksContainer = styled.div`
 `;
 
 const ProductTrioBlocks = ({ trioBlocksId }) => {
-  const { data: { trioBlock: { blocks } } = {} } = useProductTrioBlock(trioBlocksId, 'en_US');
+  const { data: { trioBlock: { blocks } = {} } = {} } = useProductTrioBlock(trioBlocksId, 'en_US');
 
   return (
     <ProductTrioBlocksContainer className="container-emotion">

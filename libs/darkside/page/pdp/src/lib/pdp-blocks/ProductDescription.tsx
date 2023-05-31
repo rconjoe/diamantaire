@@ -1,6 +1,7 @@
 import { Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
 import Link from 'next/link';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 const ProductDescriptionContainer = styled.div`
@@ -75,81 +76,91 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
   });
 
-  const diamondLabels = [
-    {
-      title: 'origin',
-      value: origin,
-    },
-    {
-      title: 'shape',
-      value: shape,
-    },
-    {
-      title: 'color',
-      value: color,
-    },
-    {
-      title: 'clarity',
-      value: clarity,
-    },
-    {
-      title: 'diamondSize',
-      value: dimensions,
-    },
-    {
-      title: 'carat',
-      value: caratWeightOverride,
-    },
-  ];
+  const diamondLabels = useMemo(
+    () => [
+      {
+        title: 'origin',
+        value: origin,
+      },
+      {
+        title: 'shape',
+        value: shape,
+      },
+      {
+        title: 'color',
+        value: color,
+      },
+      {
+        title: 'clarity',
+        value: clarity,
+      },
+      {
+        title: 'diamondSize',
+        value: dimensions,
+      },
+      {
+        title: 'carat',
+        value: caratWeightOverride,
+      },
+    ],
+    [color, shape, clarity, dimensions, caratWeightOverride, origin],
+  );
 
-  const engagementRingLabels = [
-    {
-      title: 'bandWidth',
-      value: bandWidth,
-    },
-    {
-      title: 'bandDepth',
-      value: bandDepth,
-    },
-    {
-      title: 'settingHeight',
-      value: settingHeight,
-    },
-    {
-      title: 'metalWeight',
-      value: metalWeight,
-    },
-    {
-      title: 'paveCaratWeight',
-      value: paveCaratWeight,
-    },
-    {
-      title: 'shownWithCtw',
-      value: shownWithCtw,
-    },
-  ];
-  const jewelryLabels = [
-    {
-      title: 'metal',
-      value: metal,
-    },
-    {
-      title: 'setting',
-      value: setting,
-    },
-    {
-      title: 'closure',
-      value: closure,
-    },
-    {
-      title: 'chainWidth',
-      value: chainWidth,
-    },
-    {
-      title: 'chainLength',
-      value: chainLength,
-    },
-  ];
+  const engagementRingLabels = useMemo(
+    () => [
+      {
+        title: 'bandWidth',
+        value: bandWidth,
+      },
+      {
+        title: 'bandDepth',
+        value: bandDepth,
+      },
+      {
+        title: 'settingHeight',
+        value: settingHeight,
+      },
+      {
+        title: 'metalWeight',
+        value: metalWeight,
+      },
+      {
+        title: 'paveCaratWeight',
+        value: paveCaratWeight,
+      },
+      {
+        title: 'shownWithCtw',
+        value: shownWithCtw,
+      },
+    ],
+    [bandWidth, bandDepth, settingHeight, metalWeight, paveCaratWeight, shownWithCtw],
+  );
+
+  const jewelryLabels = useMemo(
+    () => [
+      {
+        title: 'metal',
+        value: metal,
+      },
+      {
+        title: 'setting',
+        value: setting,
+      },
+      {
+        title: 'closure',
+        value: closure,
+      },
+      {
+        title: 'chainWidth',
+        value: chainWidth,
+      },
+      {
+        title: 'chainLength',
+        value: chainLength,
+      },
+    ],
+    [metal, setting, closure, chainWidth, chainLength],
+  );
 
   return (
     description && (

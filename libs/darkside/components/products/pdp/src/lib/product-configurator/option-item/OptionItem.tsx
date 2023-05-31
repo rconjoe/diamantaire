@@ -1,5 +1,5 @@
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsArray } from '@diamantaire/shared/icons';
+import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -125,7 +125,7 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  const DiamondIcon = diamondIconsArray[value]?.icon;
+  const DiamondIcon = diamondIconsMap[value]?.icon;
 
   return (
     <StyledDiamondIconOptionItem

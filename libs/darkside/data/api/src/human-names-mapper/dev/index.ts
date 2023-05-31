@@ -7,6 +7,7 @@ type MapperProps = {
     title: string;
   }[];
 };
+
 const HUMAN_NAME_MAPPER_QUERY = `
     query humanNameMappers($locale: SiteLocale) {
         allHumanNamesMappers(locale: $locale) {
@@ -33,7 +34,7 @@ export async function fetchHumanMapperData(locale: string) {
     const { itemMap } = item;
 
     itemMap.map((data) => {
-      updatedItem[data.key] = data;
+      return (updatedItem[data.key] = data);
     });
 
     return (updatedData[item.title] = updatedItem);

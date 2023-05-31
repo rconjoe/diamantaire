@@ -1,6 +1,7 @@
 import { Markdown, Button, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { DatoImageType } from '@diamantaire/shared/types';
+// import { Accordion } from '@reach/accordion';
 import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
 import { useState } from 'react';

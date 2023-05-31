@@ -10,9 +10,8 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import React from 'react';
 
-import ProductBlocks from './pdp-blocks/ProductBlocks';
+import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductDescription from './pdp-blocks/ProductDescription';
 import ProductIconList from './pdp-blocks/ProductIconList';
 import ProductPrice from './pdp-blocks/ProductPrice';
@@ -126,7 +125,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
-        <ProductBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={parentProductId} />
       </PageContainerStyles>
     );
@@ -153,7 +152,7 @@ export async function getServerSideProps(
   const productType: ProductTypePlural = PDPProductType[context.req.url.split('/')[1]] || null;
 
   await queryClient.prefetchQuery(dataQuery);
-  await queryClient.prefetchQuery({ ...queries.products.dato(productSlug, 'en_US', productType) });
+  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, 'en_US', productType) });
 
   if (!queryClient.getQueryData(dataQuery.queryKey)) {
     return {

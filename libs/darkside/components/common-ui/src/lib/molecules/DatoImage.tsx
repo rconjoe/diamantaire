@@ -28,10 +28,13 @@ const DatoImageContainer = styled.div`
 
 const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
+
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvgCheck =
-    isSVG || (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
+    image.mimeType === 'image/svg' ||
+    isSVG ||
+    (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {

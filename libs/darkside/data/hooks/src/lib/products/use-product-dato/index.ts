@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export function useProductDato(slug: string, locale: string, productType: ProductTypePlural) {
   return useQuery({
-    ...queries.products.dato(slug, locale, productType),
+    ...queries.products.serverSideDatoProductInfo(slug, locale, productType),
   });
 }
 

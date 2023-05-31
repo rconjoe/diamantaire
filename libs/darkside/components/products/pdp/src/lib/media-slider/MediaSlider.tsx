@@ -1,8 +1,10 @@
 import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
+import { MimeTypes } from '@diamantaire/shared/types';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation, Keyboard, Lazy, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper/types';
 
 const MediaSliderContainer = styled.div`
   position: relative;
@@ -46,17 +48,14 @@ const MediaSliderContainer = styled.div`
   }
 `;
 
-enum MimeTypes {
-  ImageJpeg = 'image/jpeg',
-  VideoMP4 = 'video/mp4',
-}
-
 const DEFAULT_BREAKPOINTS = {
   200: { slidesPerView: 1, slidesPerGroup: 1 },
 };
 
 const MediaSlider = ({ assets }) => {
-  const [swiper, setSwiper] = useState<any>();
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+
+  console.log('swiper', swiper);
 
   return (
     <MediaSliderContainer>

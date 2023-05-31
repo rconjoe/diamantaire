@@ -1,7 +1,16 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export function useHumanNameMapper(locale: string) {
+type HumanNameMapperProps = {
+  [key: string]: {
+    [key: string]: {
+      [key: string]: string;
+      value: string;
+    };
+  };
+};
+
+export function useHumanNameMapper(locale: string): UseQueryResult<HumanNameMapperProps, unknown> {
   return useQuery({
     ...queries['human-name-mappers'].content(locale),
   });

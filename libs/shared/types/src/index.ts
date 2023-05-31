@@ -3,6 +3,7 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import 'styled-components';
 export * from './type-helpers/general';
+export * from './type-helpers/media';
 
 type QueryFunctionContextMeta = {
   locale: string;

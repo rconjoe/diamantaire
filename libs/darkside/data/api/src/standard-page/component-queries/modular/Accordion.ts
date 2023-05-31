@@ -14,6 +14,7 @@ const Accordion = `
           streamingUrl
         }
       alt
+      mimeType
       responsiveImage(imgixParams: {w: 637, h: 769, q: 55, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
         src
         alt

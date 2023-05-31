@@ -1,3 +1,4 @@
+import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
@@ -7,23 +8,9 @@ import SpriteSpinner from '../spritespinner/SpriteSpinner';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
-enum MimeTypes {
-  ImageJpeg = 'image/jpeg',
-  VideoMP4 = 'video/mp4',
-  VideoMov = 'video/mov',
-  QuicktimeVideo = 'video/quicktime',
-}
-
-interface MediaAsset {
-  id: string;
-  url: string;
-  alt?: string;
-  mimeType: MimeTypes;
-}
-
 interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
-  options?: any;
+  options?: unknown;
   title?: string;
 }
 
@@ -40,7 +27,7 @@ function MediaGallery({ assets, options, title }: MediaGalleryProps) {
     assets && (
       <MediaGalleryStyles>
         {assets.map((asset) => (
-          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} productTitle={title} />
+          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} defaultAlt={title} />
         ))}
       </MediaGalleryStyles>
     )
@@ -49,23 +36,21 @@ function MediaGallery({ assets, options, title }: MediaGalleryProps) {
 
 export { MediaGallery };
 
-interface MediaAsset {
+interface MediaAssetProps {
   type: MimeTypes;
   asset: MediaAsset;
-  customData?: {
-    sprite?: boolean;
-    mobile?: boolean;
-  };
+  options?: unknown;
+  defaultAlt?: string;
 }
 
-function MediaAsset({ type, asset, options, productTitle }) {
+function MediaAsset({ type, asset, options, defaultAlt }: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImageJpeg: {
       if (asset.customData?.bunny === 'true') {
         return <SpriteSpinnerBlock sprite={asset} options={options} />;
       }
 
-      return <ImageAsset image={asset} productTitle={productTitle} />;
+      return <ImageAsset image={asset} defaultAlt={defaultAlt} />;
     }
     case MimeTypes.VideoMP4:
     case MimeTypes.VideoMov:
@@ -79,19 +64,12 @@ function MediaAsset({ type, asset, options, productTitle }) {
   }
 }
 
-interface ImageAsset {
-  alt?: string;
-  url: string;
-  width: number;
-  height: number;
-}
-
 const ImageAssetStyles = styled.div`
   aspect-ratio: 1/1;
   position: relative;
 `;
 
-function ImageAsset({ image, productTitle }) {
+function ImageAsset({ image, defaultAlt }: { image: DatoImageType; defaultAlt: string }) {
   const { alt, url } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -111,11 +89,11 @@ function ImageAsset({ image, productTitle }) {
   return (
     <ImageAssetStyles>
       <Image
-        alt={alt || productTitle}
+        alt={alt || defaultAlt}
         src={url}
         placeholder="blur"
         blurDataURL={image.responsiveImage.base64}
-        layout="fill"
+        fill
         style={{ objectFit: 'cover' }}
         loader={loader}
       />
@@ -126,6 +104,8 @@ function ImageAsset({ image, productTitle }) {
 const VideoAssetContainer = styled.div``;
 
 function VideoAsset({ video }) {
+  if (!video) return null;
+
   const { streamingUrl } = video?.video || {};
 
   return (
