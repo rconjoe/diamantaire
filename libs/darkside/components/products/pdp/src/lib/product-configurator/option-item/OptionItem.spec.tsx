@@ -7,6 +7,7 @@ describe('OptionItem', () => {
     option: { id: 'unique-id', value: 'foo', label: 'foo-label', type: 'foo-type' },
     optionType: 'foo-option',
     isSelected: true,
+    valueLabel: 'some-label',
     onClick: () => null,
   };
 

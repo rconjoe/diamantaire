@@ -1,20 +1,17 @@
+import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
+import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-enum MimeTypes {
-  ImageJpeg = 'image/jpeg',
-  VideoMP4 = 'video/mp4',
-}
+import SpriteSpinner from '../spritespinner/SpriteSpinner';
 
-interface MediaAsset {
-  id: string;
-  url: string;
-  alt?: string;
-  mimeType: MimeTypes;
-}
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
+  options?: unknown;
+  title?: string;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -25,12 +22,12 @@ const MediaGalleryStyles = styled.div`
   width: 100%;
 `;
 
-function MediaGallery({ assets }: MediaGalleryProps) {
+function MediaGallery({ assets, options, title }: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
         {assets.map((asset) => (
-          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} />
+          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} defaultAlt={title} />
         ))}
       </MediaGalleryStyles>
     )
@@ -39,25 +36,25 @@ function MediaGallery({ assets }: MediaGalleryProps) {
 
 export { MediaGallery };
 
-interface MediaAsset {
+interface MediaAssetProps {
   type: MimeTypes;
   asset: MediaAsset;
-  customData?: {
-    sprite?: boolean;
-    mobile?: boolean;
-  };
+  options?: unknown;
+  defaultAlt?: string;
 }
 
-function MediaAsset({ type, asset }) {
+function MediaAsset({ type, asset, options, defaultAlt }: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImageJpeg: {
-      if (asset.customData?.sprite) {
-        return <SpriteSpinner sprite={asset} />;
+      if (asset.customData?.bunny === 'true') {
+        return <SpriteSpinnerBlock sprite={asset} options={options} />;
       }
 
-      return <ImageAsset image={asset} />;
+      return <ImageAsset image={asset} defaultAlt={defaultAlt} />;
     }
-    case MimeTypes.VideoMP4: {
+    case MimeTypes.VideoMP4:
+    case MimeTypes.VideoMov:
+    case MimeTypes.QuicktimeVideo: {
       return <VideoAsset video={asset} />;
     }
     default: {
@@ -67,19 +64,12 @@ function MediaAsset({ type, asset }) {
   }
 }
 
-interface ImageAsset {
-  alt?: string;
-  url: string;
-  width: number;
-  height: number;
-}
-
 const ImageAssetStyles = styled.div`
   aspect-ratio: 1/1;
   position: relative;
 `;
 
-function ImageAsset({ image }) {
+function ImageAsset({ image, defaultAlt }: { image: DatoImageType; defaultAlt: string }) {
   const { alt, url } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -99,11 +89,11 @@ function ImageAsset({ image }) {
   return (
     <ImageAssetStyles>
       <Image
-        alt={alt}
+        alt={alt || defaultAlt}
         src={url}
         placeholder="blur"
         blurDataURL={image.responsiveImage.base64}
-        layout="fill"
+        fill
         style={{ objectFit: 'cover' }}
         loader={loader}
       />
@@ -111,15 +101,31 @@ function ImageAsset({ image }) {
   );
 }
 
+const VideoAssetContainer = styled.div``;
+
 function VideoAsset({ video }) {
-  console.log('VIDEO ASSET', video);
+  if (!video) return null;
 
-  //return <div>VIDEO</div>;
-  return null;
+  const { streamingUrl } = video?.video || {};
+
+  return (
+    <VideoAssetContainer>
+      {streamingUrl && (
+        <ReactPlayer height="100%" width="100%" playing loop muted playsinline={true} url={streamingUrl} controls={false} />
+      )}
+    </VideoAssetContainer>
+  );
 }
-function SpriteSpinner({ sprite }) {
-  console.log('SPRITE', sprite);
 
-  // return <div>SPRITE SPINNER</div>;
-  return null;
+function SpriteSpinnerBlock({ sprite, options }) {
+  const { diamondType, bandAccent, metal } = options;
+  const spriteImage = sprite;
+  const { query } = useRouter();
+  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.productSlug}/${diamondType}/${
+    bandAccent ? bandAccent + '/' : ''
+  }${metal}`;
+
+  console.log('spriteImage', spriteImage);
+
+  return <SpriteSpinner spriteSource={'bunny'} bunnyBaseURL={bunny360BaseURL} shouldStartSpinner={true} />;
 }

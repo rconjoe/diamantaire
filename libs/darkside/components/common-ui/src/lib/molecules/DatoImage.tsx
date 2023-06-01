@@ -1,18 +1,40 @@
 import { DatoImageType } from '@diamantaire/shared/types';
+import clsx from 'clsx';
 import Image, { ImageLoaderProps } from 'next/image';
+import styled from 'styled-components';
 
 type DatoImageProps = {
   className?: string;
   overrideAlt?: string;
   shouldLazyLoad?: boolean;
+  isSVG?: boolean;
   image: DatoImageType;
 };
 
-const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: DatoImageProps) => {
+const DatoImageContainer = styled.div`
+  width: 100%;
+
+  > div {
+    position: unset !important;
+  }
+
+  .image {
+    object-fit: cover;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+  }
+`;
+
+const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
+
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
-  const isSvg = !image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height;
+  const isSvgCheck =
+    image.mimeType === 'image/svg' ||
+    isSVG ||
+    (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
@@ -28,24 +50,25 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: Dat
     return `${src}?${searchParams.toString()}`;
   };
 
-  return isSvg ? (
-    <img src={image.url} alt={alt} />
+  return isSvgCheck ? (
+    <img src={image.url} alt={overrideAlt || alt} />
   ) : (
-    <Image
-      alt={overrideAlt ? overrideAlt : alt ? alt : ''}
-      src={responsiveImageSrc}
-      placeholder="blur"
-      blurDataURL={responsiveImage?.base64}
-      loader={loader}
-      className={className}
-      sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
-      width={responsiveImage ? responsiveImage.width : image.width}
-      height={responsiveImage ? responsiveImage.height : image.height}
-      loading={shouldLazyLoad ? 'lazy' : 'eager'}
-      style={{
-        aspectRatio,
-      }}
-    />
+    <DatoImageContainer>
+      <Image
+        alt={overrideAlt ? overrideAlt : alt ? alt : ''}
+        src={responsiveImageSrc}
+        placeholder="blur"
+        blurDataURL={responsiveImage?.base64}
+        loader={loader}
+        className={clsx('image', className)}
+        sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
+        loading={shouldLazyLoad ? 'lazy' : 'eager'}
+        fill={true}
+        style={{
+          aspectRatio,
+        }}
+      />
+    </DatoImageContainer>
   );
 };
 

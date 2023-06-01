@@ -236,6 +236,23 @@ export enum ProductType {
   Ring = 'Ring',
 }
 
+export enum ProductTypePlural {
+  ['Engagement Rings'] = 'Engagement Rings',
+  WeddingBands = 'Wedding Bands',
+  Bracelets = 'Bracelets',
+  Earrings = 'Earrings',
+  Necklaces = 'Necklaces',
+  Rings = 'Rings',
+  Jewelry = 'Jewelry',
+}
+
+export const PDPProductType = {
+  ['Engagement Ring']: 'Engagement Rings',
+  ['Jewelry']: 'Jewelry',
+  ['engagement-rings']: 'Engagement Rings',
+  ['jewelry']: 'Jewelry',
+} as const;
+
 export enum ProductOption {
   BandAccent = 'bandAccent',
   CaratWeight = 'caratWeight',
@@ -403,6 +420,9 @@ export const MODULAR_TALL_HALF_WIDTH_BLOCK = 'modular_tall_half_width_block';
 export const MODULAR_TALL_HALF_WIDTH_BLOCK_LOCATION_CTA = 'modular_tall_half_width_block_location_cta';
 export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
 export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
+
+// These blocks are created within project
+export const MODULAR_SPLIT_VIDEO_BLOCK = 'modular_split_video_block';
 
 // Showroom
 export const SHOWROOM_LOCATIONS = [

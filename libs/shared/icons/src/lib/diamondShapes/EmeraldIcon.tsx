@@ -1,7 +1,6 @@
 const EmeraldIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.4 59" role="img">
-      <title>Emerald</title>
       <path d="M38.31,59H7.09L0,51.91V7.09L7.09,0H38.31L45.4,7.09V51.91ZM7.51,58H37.89l6.51-6.51v-44L37.89,1H7.51L1,7.51v44Z"></path>
       <rect x="32" y="6.25" width="3" height="0.5" transform="translate(8.22 29.42) rotate(-53.17)"></rect>
       <rect x="9.8" y="2.48" width="0.5" height="3.14" transform="translate(-0.4 6.91) rotate(-37.23)"></rect>

@@ -1,13 +1,24 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { MediaGallery, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
-import { useProduct } from '@diamantaire/darkside/data/hooks';
+import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
+import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { PDPProductType, ProductTypePlural } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+
+import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
+import ProductDescription from './pdp-blocks/ProductDescription';
+import ProductIconList from './pdp-blocks/ProductIconList';
+import ProductPrice from './pdp-blocks/ProductPrice';
+import ProductReviews from './pdp-blocks/ProductReviews';
+import { ProductTitle } from './pdp-blocks/ProductTitle';
+import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
+import { PageContainerStyles } from './PdpPage.style';
 
 interface PdpPageParams extends ParsedUrlQuery {
   productSlug: string;
@@ -22,38 +33,101 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const {
     params: { productSlug, variantSlug },
   } = props;
+
+  // General Data - Serverside
   const query = useProduct({ productSlug, variantSlug });
-  const { data } = query;
+  const { data: shopifyProductData = {} } = query;
+  const router = useRouter();
+  const productType: ProductTypePlural = PDPProductType[router.pathname.split('/')[1]];
 
-  console.log('data', query);
+  console.log('init data', productType);
 
-  if (data) {
-    const { id, variantContent, collectionContent, options } = data;
-    const { productTitle } = collectionContent[0]; // flatten array in normalization
+  const { data }: { data: any } = useProductDato(productSlug, 'en_US', ProductTypePlural[productType]);
 
-    const configurations = data?.optionConfigs;
-    const assetStack = variantContent?.[0]?.assetStack; // flatten array in normalization
+  console.log('datoParentProductData', data);
+  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
+  const {
+    productDescription,
+    bandWidth,
+    bandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    trioBlocks: { id: trioBlocksId = '' } = {},
+  } = datoParentProductData || {};
+
+  // Icon List - Clientside
+  const productIconListType = datoParentProductData?.productIconList?.productType;
+
+  // Product Instagram Reel - Clientside
+  const instagramReelId = datoParentProductData?.instagramReelBlock?.id;
+
+  // Product Video Clock - Clientside
+  const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
+
+  // Variant Specfic Data
+  const { id, parentProductId, variantContent, collectionContent, options, price } = shopifyProductData;
+  const { productTitle } = collectionContent || {}; // flatten array in normalization
+
+  const configurations = shopifyProductData?.optionConfigs;
+  const assetStack = variantContent.assetStack; // flatten array in normalization
+
+  const variantHandle = variantContent.shopifyProductHandle;
+
+  let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
+
+  // Fallback for Jewelry Products
+  if (!additionalVariantData) {
+    additionalVariantData = variantContent;
+  } else {
+    additionalVariantData = additionalVariantData?.omegaProduct;
+  }
+
+  if (shopifyProductData) {
     return (
-      <PageContainerStyle>
+      <PageContainerStyles>
+        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+          strategy={'beforeInteractive'}
+        />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} />
+            <ShowDesktopAndUpOnly>
+              <MediaGallery assets={assetStack} options={options} title={productTitle} />
+            </ShowDesktopAndUpOnly>
+            <ShowMobileOnly>
+              <MediaSlider assets={assetStack} />
+            </ShowMobileOnly>
           </div>
           <div className="info-container">
-            <ProductTitle>{productTitle}</ProductTitle>
-            <Price>1,900</Price>
+            <ProductTitle title={productTitle} />
+            <ProductPrice price={price} />
             <ProductConfigurator configurations={configurations} selectedConfiguration={options} initialVariantId={id} />
-            <p>Visit our Los Angeles location</p>
-            <ul>
-              <li>VRAI created diamond</li>
-              <li>Made to order. Order now, ships by Wed, Feb 15</li>
-              <li>Free Shipping</li>
-              <li>Lifetime Warranty</li>
-            </ul>
+
+            <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
+
+            <Form
+              title="Need more time to think?"
+              caption="Email this customized ring to yourself or drop a hint."
+              onSubmit={(e) => e.preventDefault()}
+            />
+
+            <ProductDescription
+              description={productDescription}
+              productAttributes={{ bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel }}
+              variantAttributes={additionalVariantData}
+              productSpecId={datoParentProductData?.specLabels?.id}
+            />
           </div>
         </div>
-      </PageContainerStyle>
+
+        {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        <ProductReviews reviewsId={parentProductId} />
+      </PageContainerStyles>
     );
   }
 
@@ -64,35 +138,21 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   );
 }
 
-const PageContainerStyle = styled.div`
-  .product-container {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    .media-container {
-      display: flex;
-      flex: 2 1 0%;
-    }
-    .info-container {
-      h1 {
-        font-size: 2.8rem;
-      }
-      width: 400px;
-    }
-  }
-`;
-
 export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200'); // define TTL globally
 
   const { params } = context;
+
   const { productSlug, variantSlug } = context.params;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(productSlug, variantSlug);
 
+  const productType: ProductTypePlural = PDPProductType[context.req.url.split('/')[1]] || null;
+
   await queryClient.prefetchQuery(dataQuery);
+  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, 'en_US', productType) });
 
   if (!queryClient.getQueryData(dataQuery.queryKey)) {
     return {
@@ -111,12 +171,3 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
-
-function ProductTitle({ children }: PropsWithChildren) {
-  // use product title composition logic;
-  return <h1>{children}</h1>;
-}
-
-function Price({ children }: PropsWithChildren) {
-  return <h2 className="price">Starting at ${children}</h2>;
-}

@@ -61,6 +61,12 @@ const GetGlobalTypography = createGlobalStyle`
     /* let's standardize heading sizes here */
     h3 {
       font-size: 2.2rem;
+      font-weight: 500;
+    }
+
+    h4 {
+      font-size: 1.9rem;
+      font-weight: 500;
     }
 
     h1,
@@ -371,20 +377,6 @@ img {
       `)};
     }
 
-    // Simpler container that maxes out at 1440px then scales with the screen size
-    .container-1440 {
-      max-width: 1440px;
-      margin: 0 auto ${setSpace(4)} auto;
-
-      // When the user is on a screen less than 1440px, then show some padding
-      ${mediaQueries.customBPAndDown(
-        '1440px',
-        `
-          padding-left: ${setSpace(3)};
-          padding-right: ${setSpace(3)};
-        `,
-      )};
-    }
     .okeReviews-widget-holder {
       padding: 0 30px 40px !important;
 

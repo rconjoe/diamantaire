@@ -1,7 +1,6 @@
 const PrincessIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.94 58" role="img">
-      <title>Princess</title>
       <path d="M57.94,58H0V0H57.94ZM1,57H57V1H1Z"></path>
       <path d="M.59,57.74l-.3-.29L16.71,17l.1-.1L57.34.29l.31.3L41.13,40.84l-.1.09ZM17.11,17.2.89,57,40.74,40.54,57,1Z"></path>
       <path d="M57.34,57.74,17.11,41.23l-.1-.1L.29.59l.3-.3L41.43,16.91l.09.1,16.13,40.3ZM17.4,40.84,57,57,41.13,17.3.89,1Z"></path>

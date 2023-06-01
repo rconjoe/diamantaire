@@ -8,13 +8,15 @@ type MarkdownProps = {
   extraClass?: string;
   options?: object;
   children: string;
+  withStyles?: boolean;
 };
 
-const Markdown = ({ children, options, extraClass }: PropsWithChildren<MarkdownProps>) => {
+const Markdown = ({ children, options, extraClass, withStyles = true }: PropsWithChildren<MarkdownProps>) => {
   return (
     <MarkdownContainer
       className={clsx({
         [extraClass]: Boolean(extraClass),
+        'with-styles': withStyles,
       })}
     >
       <MarkdownPackage

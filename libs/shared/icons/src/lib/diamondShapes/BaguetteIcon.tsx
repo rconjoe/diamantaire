@@ -1,7 +1,6 @@
 const BaguetteIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.35 58.91" role="img">
-      <title>Baguette</title>
       <path d="M28.35,58.91H0V0H28.35ZM1,57.91H27.35V1H1Z"></path>
       <path d="M26.21,56.75h-24V2.17h24Zm-23.52-.5h23V2.67h-23Z"></path>
       <path d="M24.29,54.92H4.11V4.17H24.29Zm-19.68-.5H23.79V4.67H4.61Z"></path>
