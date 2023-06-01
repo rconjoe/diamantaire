@@ -15,13 +15,7 @@ commands:
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: cimg/node:18.13.0
-
-yarn_cache: &yarn_cache
-  keys:
-    - v1-dependency-cache-{{ checksum "package.json" }}
-    # fallback to using the latest cache if no exact match is found
-    - node-deps-node
+    - image: cimg/node:18.16.0
 
 deploy_cache: &deploy_cache
   key: last-deploy-sha
@@ -35,40 +29,28 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          <<: *yarn_cache
-      - run: rm -rf node_modules
       - run:
           <<: *yarn_install
-      - nx/set-shas
-      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
-      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
-      - save_cache:
-          key: v2-dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ~/.cache
-            - node_modules
+      - nx/set-shas:
+          allow-on-hold-workflow: true
+          error-on-no-successful-workflow: true
+          main-branch-name: develop
   lint:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           <<: *deploy_cache
-      - restore_cache:
-          <<: *yarn_cache
-      - run: ./node_modules/.bin/nx workspace-lint
-      - run: yarn lint:fix
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
   build-app:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           <<: *deploy_cache
-      - restore_cache:
-          <<: *yarn_cache
       - run:
           name: Run build
-          command: yarn build:server
+          command: yarn nx build:server
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
@@ -82,8 +64,6 @@ jobs:
       - checkout
       - restore_cache:
           <<: *deploy_cache
-      - restore_cache:
-          <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - aws-cli/setup:
@@ -165,10 +145,8 @@ workflows:
       - deploy-staging:
           requires:
             - manual-approval
-      - approve-production:
-          type: approval
-          requires:
-            - deploy-staging
       - deploy-production:
-          requires:
-            - approve-production
+          filters:
+            branches:
+              only:
+                - main
