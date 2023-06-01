@@ -25,6 +25,7 @@
     "create.docs": "nx typedoc",
     "setup.docs": "nx g @enio.ai/typedoc:config"
   },
+  "nx": {},
   "private": true,
   "dependencies": {
     "@enio.ai/typedoc": "^1.0.6",
