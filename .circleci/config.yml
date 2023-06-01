@@ -41,7 +41,7 @@ jobs:
       - checkout
       - restore_cache:
           <<: *deploy_cache
-      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
+      - run: yarn --silent run nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
   build-app:
     <<: *defaults
     steps:
@@ -50,7 +50,7 @@ jobs:
           <<: *deploy_cache
       - run:
           name: Run build
-          command: yarn nx build:server
+          command: yarn --silent run nx build:server
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
