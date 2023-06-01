@@ -2,9 +2,7 @@ version: 2.1
 
 orbs:
   nx: nrwl/nx@1.6.1
-  aws-cli: circleci/aws-cli@3.1.1
-  aws-ecr: circleci/aws-ecr@8.2.1
-  aws-ecs: circleci/aws-ecs@3.2.0
+  aws-cli: circleci/aws-cli@3.1.5
 
 commands:
   build-docker:
@@ -17,11 +15,11 @@ commands:
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: cimg/node:18.13.0
+    - image: cimg/node:18.16.0
 
 yarn_cache: &yarn_cache
   keys:
-    - v1-dependency-cache-{{ checksum "package.json" }}
+    - v6-dependency-cache-{{ checksum "yarn.lock" }}
     # fallback to using the latest cache if no exact match is found
     - node-deps-node
 
@@ -42,11 +40,12 @@ jobs:
       - run: rm -rf node_modules
       - run:
           <<: *yarn_install
-      - nx/set-shas
-      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
-      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
+      - nx/set-shas:
+          allow-on-hold-workflow: true
+          error-on-no-successful-workflow: true
+          main-branch-name: develop
       - save_cache:
-          key: v2-dependency-cache-{{ checksum "package.json" }}
+          key: v6-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
             - node_modules
@@ -54,12 +53,15 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - nx/set-shas:
+          allow-on-hold-workflow: true
+          error-on-no-successful-workflow: true
+          main-branch-name: develop
       - restore_cache:
           <<: *deploy_cache
       - restore_cache:
           <<: *yarn_cache
-      - run: ./node_modules/.bin/nx workspace-lint
-      - run: yarn lint:fix
+      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=lint --parallel=3
   build-app:
     <<: *defaults
     steps:
@@ -70,14 +72,13 @@ jobs:
           <<: *yarn_cache
       - run:
           name: Run build
-          command: yarn build:server
+          command: yarn nx build:server
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
             - dist
       - store_artifacts:
           path: dist
-
   build-image:
     <<: *defaults
     steps:
@@ -145,7 +146,7 @@ workflows:
             - install
       - build-app:
           requires:
-            - install
+            - lint
       - build-image:
           requires:
             - build-app
@@ -167,10 +168,8 @@ workflows:
       - deploy-staging:
           requires:
             - manual-approval
-      - approve-production:
-          type: approval
-          requires:
-            - deploy-staging
       - deploy-production:
-          requires:
-            - approve-production
+          filters:
+            branches:
+              only:
+                - main

@@ -10,14 +10,12 @@
     "deploy": "pm2 start ecosystem.config.js --no-daemon",
     "start": "nx serve",
     "start:server": "node dist/apps/server/main",
-    "start:prod:pm2": "npm run deploy",
+    "start:prod:pm2": "yarn deploy",
     "start:dev:server": "nx serve server --watch",
     "build:server": "nx build server --prod",
     "build": "nx build",
     "clean": "rimraf dist",
     "test": "nx test",
-    "lint": "npm run tsc:lint && nx workspace-lint && npm run nx -- run-many --target=lint --all",
-    "lint:fix": "npm run tsc:lint && nx workspace-lint --fix && nx run-many --target=lint --all --fix && nx format:write --all",
     "tsc:lint": "tsc --noEmit -p tsconfig.base.json",
     "dep-graph": "nx dep-graph",
     "update": "nx migrate latest",
@@ -25,6 +23,7 @@
     "create.docs": "nx typedoc",
     "setup.docs": "nx g @enio.ai/typedoc:config"
   },
+  "nx": {},
   "private": true,
   "dependencies": {
     "@enio.ai/typedoc": "^1.0.6",
