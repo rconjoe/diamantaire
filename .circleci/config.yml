@@ -17,6 +17,12 @@ defaults: &defaults
   docker:
     - image: cimg/node:18.16.0
 
+yarn_cache: &yarn_cache
+  keys:
+    - v1-dependency-cache-{{ checksum "package.json" }}
+    # fallback to using the latest cache if no exact match is found
+    - node-deps-node
+
 deploy_cache: &deploy_cache
   key: last-deploy-sha
 
@@ -29,18 +35,30 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache:
+          <<: *yarn_cache
+      - run: rm -rf node_modules
       - run:
           <<: *yarn_install
       - nx/set-shas:
           allow-on-hold-workflow: true
           error-on-no-successful-workflow: true
           main-branch-name: develop
+      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=lint --parallel=3
+      - run: yarn nx affected --base=develop --head=$NX_HEAD --target=build --parallel=3
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/.cache
+            - node_modules
   lint:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
       - run: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
   build-app:
     <<: *defaults
@@ -48,6 +66,8 @@ jobs:
       - checkout
       - restore_cache:
           <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
       - run:
           name: Run build
           command: npx nx build:server
@@ -57,13 +77,14 @@ jobs:
             - dist
       - store_artifacts:
           path: dist
-
   build-image:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
           <<: *deploy_cache
+      - restore_cache:
+          <<: *yarn_cache
       - restore_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - aws-cli/setup:
