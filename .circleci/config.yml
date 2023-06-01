@@ -19,7 +19,7 @@ defaults: &defaults
 
 yarn_cache: &yarn_cache
   keys:
-    - v1-dependency-cache-{{ checksum "package.json" }}
+    - v3-dependency-cache-{{ checksum "yarn.lock" }}
     # fallback to using the latest cache if no exact match is found
     - node-deps-node
 
@@ -47,7 +47,7 @@ jobs:
       - run: yarn nx affected --base=develop --head=$NX_HEAD --target=lint --parallel=3
       - run: yarn nx affected --base=develop --head=$NX_HEAD --target=build --parallel=3
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "package.json" }}
+          key: v3-dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
             - node_modules
