@@ -36,6 +36,8 @@ export const DiamondColor = {
   L: 'L',
   M: 'M',
   N: 'N',
+  NearColorless: 'NearColorless',
+  Colorless: 'Colorless',
 } as const;
 
 export const DiamondColors: string[] = Object.values(DiamondColor);
@@ -66,6 +68,7 @@ export const DiamondClarity = {
   VVS1: 'VVS1',
   VVS2: 'VVS2',
   VS1: 'VS1',
+  VSPlus: 'VS+',
   VS2: 'VS2',
   SI1: 'SI1',
   SI2: 'SI2',
@@ -101,6 +104,7 @@ export const DiamondCut = {
   IdealPlusHearts: 'Ideal+Hearts',
   Ideal: 'Ideal',
   Excellent: 'Excellent',
+  ExcellentPlus: 'Excellent+',
   VeryGood: 'Very Good',
 } as const;
 
