@@ -59,7 +59,7 @@ jobs:
           <<: *deploy_cache
       - restore_cache:
           <<: *yarn_cache
-      - run: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
+      - run: yarn nx affected --base=$NX_BASE --head=$NX_HEAD --target=lint --parallel=3
   build-app:
     <<: *defaults
     steps:
@@ -70,7 +70,7 @@ jobs:
           <<: *yarn_cache
       - run:
           name: Run build
-          command: npx nx build:server
+          command: yarn nx build:server
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
