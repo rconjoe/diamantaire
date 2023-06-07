@@ -6,6 +6,7 @@ import {
   DIAMOND_TABLE_SHAPES,
   DIAMOND_TABLE_FILTER_TITLES,
 } from '@diamantaire/shared/constants';
+import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 
@@ -24,19 +25,31 @@ const SliderFilter = (props) => {
     handleSliderFilterChange(type, sliderValue);
   };
 
+  const handleDisplay = (value: number | string) => {
+    if (type === 'carat') {
+      return value.toString() + 'ct';
+    }
+
+    if (type === 'price') {
+      return shopifyNumberToHumanPrice(value, locale, currencyCode, countryCode, {}, false, false, '');
+    }
+
+    return value.toString();
+  };
+
   const values = !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : null;
+
+  const step = type === 'carat' ? 0.01 : 1;
 
   return (
     <div title={type} className="vo-filter-slider">
       <Slider
-        locale={locale}
+        step={step}
         type={type}
-        handleChange={handleChange}
         range={range}
         value={values}
-        step={type === 'carat' ? 0.01 : 1}
-        currencyCode={currencyCode}
-        countryCode={countryCode}
+        handleChange={handleChange}
+        handleDisplay={handleDisplay}
       />
     </div>
   );
