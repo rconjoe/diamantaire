@@ -1,14 +1,8 @@
-// .lintstagedrc.js
+const path = require('path');
 module.exports = {
-  // If any ts/js(x) files changed.
-  '{packages,tools}/**/*.{ts,js,json,md,html,graphql,css,scss}': [
-    // Execute tests related to the staged files.
-    'nx affected --target lint --uncommitted --fix true',
-    'nx affected --target test --uncommitted --fix',
-    'nx format:write --uncommitted',
-
-    // Run the typechecker.
-    // Anonymous function means: "Do not pass args to the command."
-    () => 'tsc --noEmit',
-  ],
+  '*.{js,jsx,ts,tsx,md,html,css}': (allFiles) => {
+    const cwd = process.cwd();
+    const relativePaths = allFiles.map((file) => path.relative(cwd, file));
+    return ['nx format:write --uncommitted', `nx affected:lint --files="${relativePaths}"`];
+  },
 };

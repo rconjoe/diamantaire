@@ -18,9 +18,9 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   &.hide {
     display: none;
   }
+
   .mega-menu__wrapper {
     margin: 0 auto;
-    max-width: 1440px;
   }
 
   .menu-container {

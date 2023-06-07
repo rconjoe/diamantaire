@@ -36,6 +36,7 @@
     "paths": {
       "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
       "@diamantaire/darkside/components/common-ui": ["libs/darkside/components/common-ui/src/index.ts"],
+      "@diamantaire/darkside/components/diamonds-table": ["libs/darkside/components/diamonds-table/src/index.ts"],
       "@diamantaire/darkside/components/footer": ["libs/darkside/components/footer/src/index.ts"],
       "@diamantaire/darkside/components/header": ["libs/darkside/components/header/src/index.ts"],
       "@diamantaire/darkside/components/products/pdp": ["libs/darkside/components/products/pdp/src/index.ts"],
@@ -46,6 +47,7 @@
       "@diamantaire/darkside/data/api": ["libs/darkside/data/api/src/index.ts"],
       "@diamantaire/darkside/data/hooks": ["libs/darkside/data/hooks/src/index.ts"],
       "@diamantaire/darkside/data/queries": ["libs/darkside/data/queries/src/index.ts"],
+      "@diamantaire/darkside/page/diamonds": ["libs/darkside/page/diamonds/src/index.ts"],
       "@diamantaire/darkside/page/home": ["libs/darkside/page/home/src/index.ts"],
       "@diamantaire/darkside/page/pdp": ["libs/darkside/page/pdp/src/index.ts"],
       "@diamantaire/darkside/page/showrooms": ["libs/darkside/page/showrooms/src/index.ts"],

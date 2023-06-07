@@ -25,18 +25,6 @@ export class DiamondEntity extends AbstractDocument implements IDiamondCollectio
 
   @Field(() => String)
   @Prop()
-  productType?: string;
-
-  @Field(() => String)
-  @Prop()
-  slug?: string;
-
-  @Field(() => String)
-  @Prop()
-  dangerousInternalCollectionId?: string;
-
-  @Field(() => String)
-  @Prop()
   description?: string;
 
   @Prop()

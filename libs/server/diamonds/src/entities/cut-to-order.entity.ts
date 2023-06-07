@@ -1,5 +1,5 @@
 import { AbstractDocument } from '@diamantaire/server/common/provider/database';
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Float } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import paginate from 'mongoose-paginate-v2';
 
@@ -39,33 +39,85 @@ export class CutToOrderDiamondEntity extends AbstractDocument {
 
   @Field(() => String)
   @Prop()
-  type?: string;
-
-  @Field(() => Number)
-  @Prop()
-  carat?: number;
-
-  @Field(() => String)
-  @Prop()
-  cut?: string;
-
-  @Field(() => String)
-  @Prop()
-  color?: string;
-
-  @Field(() => String)
-  @Prop()
-  clarity?: string;
-
-  @Field(() => String)
-  @Prop()
   lotId?: string;
 
   @Field(() => String)
   @Prop({
-    type: String,
+    trim: true,
   })
-  diamondType?: string;
+  readonly type?: string;
+
+  @Field(() => Float)
+  @Prop({
+    trim: true,
+  })
+  readonly roughWeight?: number;
+
+  @Field(() => Float)
+  @Prop({
+    trim: true,
+  })
+  readonly minThickness?: number;
+
+  @Field(() => Float)
+  @Prop({
+    trim: true,
+  })
+  readonly width?: number;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly sourceId?: string;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly shape?: string;
+
+  @Field(() => Number)
+  @Prop({
+    trim: true,
+  })
+  readonly carat?: number;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly clarity?: string;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly color?: string;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly cut?: string;
+
+  @Field(() => String)
+  @Prop({
+    trim: true,
+  })
+  readonly planId?: string;
+
+  @Field(() => Number)
+  @Prop({
+    trim: true,
+  })
+  readonly price?: number;
+
+  @Field(() => Boolean)
+  @Prop({
+    trim: true,
+  })
+  readonly isAvailable?: boolean;
 }
 
 export const CutToOrderDiamondSchema = SchemaFactory.createForClass(CutToOrderDiamondEntity);

@@ -10,6 +10,29 @@ type CutToOrderDiamondEntity {
   dangerousInternalProductId: String!
   description: String!
   dfCertificateUrl: String!
+  handle: String!
+  isAvailable: Boolean!
+  lotId: String!
+  minThickness: Float!
+  planId: String!
+  price: Int!
+  productTitle: String!
+  roughWeight: Float!
+  shape: String!
+  sourceId: String!
+  type: String!
+  width: Float!
+}
+
+type DiamondEntity {
+  availableForSale: Boolean!
+  carat: Int!
+  clarity: String!
+  color: String!
+  cut: String!
+  dangerousInternalProductId: String!
+  description: String!
+  dfCertificateUrl: String!
   diamondType: String!
   handle: String!
   lotId: String!
@@ -21,10 +44,29 @@ input GetCutToOrderDiamondInput {
   carat: Int
   caratMax: Float
   caratMin: Float
-  diamondType: String
   limit: Int
   page: Int
   price: Int
+  priceMax: Int
+  priceMin: Int
+  sortBy: String
+  sortOrder: String
+  type: String
+}
+
+input GetDiamondDto {
+  carat: Float
+  caratMax: Float
+  caratMin: Float
+  clarity: String
+  color: String
+  countryCode: String
+  currencyCode: String
+  cut: String
+  diamondType: String
+  isCto: Boolean
+  limit: Int
+  page: Int
   priceMax: Int
   priceMin: Int
   sortBy: String
@@ -58,13 +100,16 @@ type ProductEntity {
 }
 
 input ProductVariantInput {
-  """The variant ID of the product"""
+  """
+  The variant ID of the product
+  """
   id: String!
   slug: String!
 }
 
 type Query {
   cuttoorderdiamonds(input: GetCutToOrderDiamondInput!): [CutToOrderDiamondEntity!]!
+  diamonds(input: GetDiamondDto!): DiamondEntity!
   productVariant(input: ProductVariantInput!): [ProductEntity!]!
   products(input: GetProductInput!): [ProductEntity!]!
 }

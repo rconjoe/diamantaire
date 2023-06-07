@@ -2,7 +2,11 @@ import { AsscherIcon } from './AsscherIcon';
 import { BaguetteIcon } from './BaguetteIcon';
 import { CushionIcon } from './CushionIcon';
 import { EmeraldIcon } from './EmeraldIcon';
+import { HexagonIcon } from './HexagonIcon';
+import { KeystoneIcon } from './KeystoneIcon';
+import { LozengeIcon } from './LozengeIcon';
 import { MarquiseIcon } from './MarquiseIcon';
+import { OctaviaIcon } from './OctaviaIcon';
 import { OvalIcon } from './OvalIcon';
 import { PearIcon } from './PearIcon';
 import { PrincessIcon } from './PrincessIcon';
@@ -14,7 +18,11 @@ export * from './AsscherIcon';
 export * from './BaguetteIcon';
 export * from './CushionIcon';
 export * from './EmeraldIcon';
+export * from './HexagonIcon';
+export * from './KeystoneIcon';
+export * from './LozengeIcon';
 export * from './MarquiseIcon';
+export * from './OctaviaIcon';
 export * from './OvalIcon';
 export * from './PearIcon';
 export * from './PrincessIcon';
@@ -39,9 +47,25 @@ export const diamondIconsMap = {
     slug: 'emerald',
     icon: EmeraldIcon,
   },
+  hexagon: {
+    slug: 'hexagon',
+    icon: HexagonIcon,
+  },
+  keystone: {
+    slug: 'keystone',
+    icon: KeystoneIcon,
+  },
+  lozenge: {
+    slug: 'lozenge',
+    icon: LozengeIcon,
+  },
   marquise: {
     slug: 'marquise',
     icon: MarquiseIcon,
+  },
+  octavia: {
+    slug: 'octavia',
+    icon: OctaviaIcon,
   },
   oval: {
     slug: 'oval',

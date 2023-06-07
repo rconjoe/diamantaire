@@ -9,3 +9,5 @@ export * from './DatoImage';
 export * from './ShopifyImage';
 export * from './Form';
 export * from './SwiperStyles';
+export * from './Slider';
+export * from './Tooltip';

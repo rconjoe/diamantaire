@@ -20,7 +20,6 @@ const CompactHeaderStyles = styled.div`
   width: 100%;
   background-color: #fff;
   z-index: 5000;
-  /* position: fixed; */
   top: auto;
   left: 0;
   width: 100%;
@@ -39,6 +38,7 @@ const CompactHeaderStyles = styled.div`
       align-items: center;
       max-width: 90vw;
       margin: 0 auto;
+
       .nav__col {
         &--left {
           flex: 1;
@@ -54,6 +54,7 @@ const CompactHeaderStyles = styled.div`
             }
           }
         }
+
         &--center {
           flex: 1;
 
@@ -97,6 +98,7 @@ const CompactHeaderStyles = styled.div`
             }
           }
         }
+
         &--right {
           flex: 1;
         }

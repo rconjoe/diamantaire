@@ -18,7 +18,7 @@ export class GetCutToOrderDiamondInput implements Partial<CutToOrderDiamondEntit
   @IsString()
   @IsOptional()
   @Type(() => String)
-  readonly diamondType?: string;
+  type?: string;
 
   @Field(() => Number, { nullable: true })
   @IsNumber()

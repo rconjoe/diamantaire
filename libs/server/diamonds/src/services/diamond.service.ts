@@ -7,7 +7,7 @@
  */
 
 import { UtilService } from '@diamantaire/server/common/utils';
-import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, PaginatedLabels } from '@diamantaire/shared/constants';
+import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, DIAMOND_PAGINATED_LABELS } from '@diamantaire/shared/constants';
 import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
 import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
@@ -60,7 +60,7 @@ export class DiamondsService {
       limit: input.limit || 20,
       page: input.page || 1,
       sort: sortByObj,
-      customLabels: PaginatedLabels,
+      customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
     const filteredQuery = this.optionalDiamondQuery(input);
@@ -86,7 +86,8 @@ export class DiamondsService {
     //   return cachedData; // return the entire cached data
     // }
 
-    const allDiamonds = await this.diamondRepository.find(query);
+    const allDiamonds = await this.diamondRepository.find({});
+
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
     const numericalRanges = {
@@ -96,7 +97,7 @@ export class DiamondsService {
 
     result.ranges = getDataRanges(allDiamonds, defaultUniqueValues, numericalRanges);
 
-    //this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
+    // this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
 
     return result;
   }
@@ -144,6 +145,7 @@ export class DiamondsService {
     // Optional query for price and currencycode
     // EG: "priceMin": 100.0, "priceMax": 1200.0, "currencyCode": "USD",
     // currencyCode = USD, GBP, EUR, CAD, AUD
+
     if (input.priceMin && input.priceMax) {
       query['variants'] = {
         $elemMatch: {
@@ -151,6 +153,7 @@ export class DiamondsService {
             $gte: input.priceMin, // mongoose $gte operator greater than or equal to
             $lte: input.priceMax, // mongoose $llte operator less than or equal to
           },
+          currencyCode: input.currencyCode,
         },
       };
     }
@@ -209,14 +212,14 @@ export class DiamondsService {
      * Optional query for carat range
      * EG: "caratMin": 0.86, "caratMax": 0.98
      */
-    if (input?.caratMin && input?.caratMax !== null) {
+    if (input.caratMin !== null && input.caratMin !== undefined && input.caratMax !== null && input.caratMax !== undefined) {
       query['carat'] = {
         $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
         $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
       };
     }
     // if carat range is not provided, calculate range
-    else if (input?.carat !== undefined) {
+    else if (input.carat !== null && input.carat !== undefined) {
       query['carat'] = {
         $gte: Math.max(input.carat - 0.2, 0).toFixed(1), // mongoose $gte operator greater than or equal to
         $lte: (input.carat + 0.2).toFixed(1), // mongoose $lte operator less than or equal to
@@ -246,8 +249,10 @@ export class DiamondsService {
       const result = await this.diamondRepository.find(filteredQuery);
 
       // If there are no results for small carat sizes, dont limit the carat range
+
       if (!result.length && requestedCarat < MIN_CARAT_EMPTY_RESULT) {
         delete filteredQuery.carat;
+
         const secondaryResult = await this.diamondRepository.find(filteredQuery);
 
         return sortDiamonds(secondaryResult, caratFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
@@ -290,45 +295,6 @@ export class DiamondsService {
       );
 
       let resultDiamonds = [bestBrillianceDiamond, fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
-
-      // console.log({
-      //   requestedCarat,
-      //   bestBrillianceDiamonds: sortDiamonds(bestBrillianceDiamonds, colorFirstSortOrder, closestToSortcomparators).map(
-      //     (diamond) => {
-      //       const { color, cut, clarity, carat } = diamond;
-
-      //       return {
-      //         color,
-      //         carat,
-      //         clarity,
-      //         cut,
-      //       };
-      //     },
-      //   ),
-      //   bestBrillianceDiamond,
-      //   fewestInclusionsDiamond,
-      //   largestCaratDiamond,
-      //   largestSort: sortDiamonds(bestBrillianceDiamonds, caratFirstSortOrder, sortComparators).map((diamond) => {
-      //     const { color, cut, clarity, carat } = diamond;
-
-      //     return {
-      //       color,
-      //       carat,
-      //       clarity,
-      //       cut,
-      //     };
-      //   }),
-      //   result: uniqueDiamonds.map((diamond) => {
-      //     const { color, cut, clarity, carat } = diamond;
-
-      //     return {
-      //       color,
-      //       carat,
-      //       clarity,
-      //       cut,
-      //     };
-      //   }),
-      // });
 
       // Not enough results.
       if (resultDiamonds.length < CFY_DIAMOND_LIMIT) {

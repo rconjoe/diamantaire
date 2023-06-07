@@ -1,0 +1,15 @@
+export const METAL_OPTIONS_ARIA_LABEL_ID = 'metal-options';
+export const METAL_OPTIONS_DESKTOP_ARIA_LABEL_ID = 'metal-options-desktop';
+export const SHAPE_OPTIONS_ARIA_LABEL_ID = 'shape-options';
+export const SORT_OPTIONS_ARIA_LABEL_ID = 'sort-options';
+export const BAND_ACCENT_OPTIONS_ARIA_LABEL_ID = 'band-accent-options';
+export const RING_SIZE_OPTIONS_ARIA_LABEL_ID = 'ring-size-options';
+export const PRICE_OPTIONS_ARIA_LABEL_ID = 'price-options';
+export const BAND_ACCENT_OPTIONS_DESKTOP_ARIA_LABEL_ID = 'band-accent-options-desktop';
+export const SIDE_STONE_CARAT_OPTIONS_ARIA_LABEL_ID = 'side-stone-carat-options';
+export const SIDE_STONE_CARAT_OPTIONS_DESKTOP_ARIA_LABEL_ID = 'side-stone-carat-options-desktop';
+export const SIDE_STONE_SHAPE_OPTIONS_ARIA_LABEL_ID = 'side-stone-shape-options';
+export const SIDE_STONE_SHAPE_OPTIONS_DESKTOP_ARIA_LABEL_ID = 'side-stone-shape-options-desktop';
+export const SIZE_GUIDE_MENU_ARIA_LABEL_ID = 'size-guide-menu';
+export const SIZE_GUIDE_MENU_BUTTON_ARIA_LABEL_ID = 'size-guide-menu-button';
+export const SIZE_GUIDE_MENU_BUTTON_DESKTOP_ARIA_LABEL_ID = 'size-guide-menu-button-desktop';

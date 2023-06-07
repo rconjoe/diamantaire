@@ -11,6 +11,7 @@ export const ImageTileContainer = styled.div`
   ${tabletAndUp(`
     padding: ${setSpace(2)};
   `)};
+
   &.-modular-content-quad-block {
     ${tabletAndUp(`
       padding: 0;
@@ -24,9 +25,11 @@ export const ImageTileContainer = styled.div`
     margin-top: ${setSpace(0.5)};
     margin-bottom: ${setSpace(4)};
     text-align: left;
+
     &.-modular-content-quad-block {
       margin-bottom: 0;
     }
+
     &.-background-color {
       margin-left: auto;
       margin-right: auto;
@@ -35,15 +38,18 @@ export const ImageTileContainer = styled.div`
 
   .image-tile__title {
     margin: 5px 0;
+
     .in-the-media & {
       font-weight: ${BOLD_FONT_WEIGHT};
       text-transform: uppercase;
       line-height: 32px;
     }
+
     &.primary {
       font-weight: ${MEDIUM_FONT_WEIGHT};
       font-size: ${HEADLINE_SIZE};
       line-height: 1.3;
+
       ${tabletAndUp(`
         font-size: 2rem;
       `)};

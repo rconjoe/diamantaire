@@ -4,7 +4,7 @@ export const BP_SM = '576px';
 export const BP_MD = '768px';
 export const BP_LG = '992px';
 export const BP_XL = '1200px';
-export const BP_XXL = '1440px';
+export const BP_XXL = '1441px';
 export const BP_XXXL = '1600px';
 
 export const noHoverDevice = (noHoverStyles = '') => {

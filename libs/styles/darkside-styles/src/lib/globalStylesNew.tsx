@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 import { TEAL } from './colors';
+import { LAYOUT_WIDTH_SM, LAYOUT_WIDTH_MD, LAYOUT_WIDTH_LG, LAYOUT_WIDTH_XL, LAYOUT_WIDTH_XXL } from './layout';
 import * as mediaQueries from './mediaQueries';
 import { setSpace } from './setSpace';
 import { CART_DRAWER_Z_INDEX, POPUP_Z_INDEX } from './zIndexMap';
@@ -46,8 +47,6 @@ export function makeTealLink() {
 }
 
 const GetGlobalTypography = createGlobalStyle`
-
-
    .fpo-spacer {
       margin-top: ${setSpace(3)};
       margin-bottom: ${setSpace(1)};
@@ -56,7 +55,6 @@ const GetGlobalTypography = createGlobalStyle`
       margin-top: ${setSpace(1)};
       margin-bottom: ${setSpace(2)};
     }
-
 
     /* let's standardize heading sizes here */
     h3 {
@@ -352,28 +350,28 @@ img {
   text-align: center;
 }
 .container-emotion {
-      width: 100%;
+      width: ${LAYOUT_WIDTH_SM};
       padding-left: ${setSpace(3)};
       padding-right: ${setSpace(3)};
       margin-right: auto;
       margin-left: auto;
 
       ${mediaQueries.tabletAndUp(`
-        max-width: 720px;
+        max-width: ${LAYOUT_WIDTH_MD};
         padding-left: initial;
         padding-right: initial;
       `)};
 
       ${mediaQueries.desktopAndUp(`
-        max-width: 960px;
+        max-width: ${LAYOUT_WIDTH_LG};
       `)};
 
       ${mediaQueries.XLDesktopAndUp(`
-        max-width: 1140px;
+        max-width: ${LAYOUT_WIDTH_XL};
       `)};
 
       ${mediaQueries.XXLDesktopAndUp(`
-        max-width: 1440px;
+        max-width: ${LAYOUT_WIDTH_XXL};
       `)};
     }
 

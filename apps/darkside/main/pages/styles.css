@@ -47,6 +47,7 @@ html {
   tab-size: 4;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  width: 100%;
   /* All fonts sizes based on this: 1rem = 10px */
   font-size: 62.5%;
 }
@@ -55,6 +56,7 @@ body {
   margin: 0;
   font-family: 'futura-pt', sans-serif;
   overflow-x: hidden;
+  width: 100%;
 }
 h1,
 h2,
@@ -82,7 +84,6 @@ a {
 pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
 }
-
 button:hover {
   cursor: pointer;
 }
@@ -100,7 +101,6 @@ pre {
   overflow: scroll;
   padding: 0.5rem 0.75rem;
 }
-
 .shadow {
   box-shadow: 0 0 #0000, 0 0 #0000, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }

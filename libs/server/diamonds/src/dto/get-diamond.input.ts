@@ -2,8 +2,8 @@ import { isValidBoolean } from '@diamantaire/shared/constants';
 import { valueToBoolean } from '@diamantaire/shared/utils';
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
-import { IsBoolean, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
+import { IsNumber, IsOptional, IsString, IsBoolean, IsIn, IsNotEmpty } from 'class-validator';
 
 import { DiamondEntity } from '../entities/diamond.entity';
 

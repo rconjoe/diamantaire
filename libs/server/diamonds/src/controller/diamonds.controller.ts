@@ -9,7 +9,6 @@ import { DiamondsService } from '../services/diamond.service';
 @ApiTags('Diamonds')
 export class DiamondsController {
   constructor(private readonly diamondsService: DiamondsService) {}
-
   @Get()
   @ApiOperation({ summary: 'Get all diamond types' })
   async fetchDiamonds(

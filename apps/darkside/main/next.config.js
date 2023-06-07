@@ -6,6 +6,7 @@
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 
 const DEFAULT_LOCALE = 'en-US';
+
 const LOCALES = [
   DEFAULT_LOCALE,
   'fr-FR',
@@ -37,16 +38,8 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  // experimental: {
-  //   swcPlugins: [
-  //     [
-  //       '@swc/plugin-styled-components',
-  //       {
-  //         displayName: true,
-  //         ssr: true,
-  //       },
-  //     ],
-  //   ],
+  // api: {
+  //   externalResolver: true,
   // },
   images: {
     remotePatterns: [
@@ -63,8 +56,17 @@ const nextConfig = {
     deviceSizes: [576, 768, 992, 1200, 1440],
     imageSizes: [576, 768, 992, 1200, 1440],
   },
-
-  //
+  // experimental: {
+  //   swcPlugins: [
+  //     [
+  //       '@swc/plugin-styled-components',
+  //       {
+  //         displayName: true,
+  //         ssr: true,
+  //       },
+  //     ],
+  //   ],
+  // },
   // async rewrites() {
   //   return [
   //     {
@@ -85,7 +87,6 @@ const nextConfig = {
   //     },
   //   ];
   // },
-
   // env: {
   //   GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
   // },

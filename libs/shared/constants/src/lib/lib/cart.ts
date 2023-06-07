@@ -1,0 +1,1 @@
+export const DEFAULT_LINE_ITEM_QUANTITY = 1;

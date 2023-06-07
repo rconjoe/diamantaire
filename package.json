@@ -1,5 +1,5 @@
 {
-  "name": "@diamantaire/root",
+  "name": "diamantaire",
   "version": "0.0.1",
   "license": "MIT",
   "engines": {
@@ -44,6 +44,7 @@
     "@sentry/nextjs": "^7.35.0",
     "@tanstack/react-query": "^4.23.0",
     "@tanstack/react-query-devtools": "^4.23.0",
+    "@tanstack/react-table": "^8.7.9",
     "apollo-server-express": "^3.11.1",
     "axios": "^1.2.4",
     "body-scroll-lock": "^4.0.0-beta.0",
@@ -78,6 +79,7 @@
     "next": "13.3.0",
     "next-seo": "^5.15.0",
     "node-cache": "^5.1.2",
+    "nouislider": "15.7.0",
     "oauth-1.0a": "^2.2.6",
     "passport": "^0.6.0",
     "passport-headerapikey": "^1.2.2",
@@ -89,6 +91,7 @@
     "react-player": "2.10.1",
     "react-router-dom": "6.7.0",
     "react-scroll-to-component-ssr": "^1.0.0",
+    "react-tooltip": "5.13.1",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.11",
     "rxjs": "^7.0.0",

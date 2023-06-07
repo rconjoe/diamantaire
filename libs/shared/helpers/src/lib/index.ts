@@ -2,6 +2,7 @@ export * from './currency';
 export * from './isCountrySupported';
 export * from './mapShapeToSeoTitle';
 export * from './getAllStandardPageSlugs';
+export * from './diamonds';
 export * from './getAllShowroomSlugs';
 export * from './normalizeDatoNumberedContent';
 export * from './images';
