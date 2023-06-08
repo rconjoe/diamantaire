@@ -10,7 +10,7 @@ import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 
-import { StyledDiamondsFilters } from './diamonds-filters.style';
+import { StyledDiamondFilter } from './DiamondFilter.style';
 
 const SliderFilter = (props) => {
   const { countryCode, currencyCode, locale, type, ranges, options, handleSliderFilterChange } = props;
@@ -117,7 +117,7 @@ const RadioFilter = (props) => {
   );
 };
 
-export interface DiamondsFiltersProps {
+export interface DiamondFilterProps {
   handleRadioFilterChange: (type: string, values: string[]) => void;
   handleSliderFilterChange: (type: string, values: number[]) => void;
   loading: boolean;
@@ -128,7 +128,7 @@ export interface DiamondsFiltersProps {
   countryCode: string;
 }
 
-const DiamondsFilters = (props: DiamondsFiltersProps) => {
+const DiamondFilter = (props: DiamondFilterProps) => {
   const { countryCode, locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange } =
     props;
 
@@ -137,7 +137,7 @@ const DiamondsFilters = (props: DiamondsFiltersProps) => {
   const withRadio = (filter: string) => !['carat', 'price'].includes(filter);
 
   return (
-    <StyledDiamondsFilters className="vo-filters">
+    <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
         return (
           <div key={filter} className="vo-filter">
@@ -174,10 +174,10 @@ const DiamondsFilters = (props: DiamondsFiltersProps) => {
           </div>
         );
       })}
-    </StyledDiamondsFilters>
+    </StyledDiamondFilter>
   );
 };
 
-export { DiamondsFilters };
+export { DiamondFilter };
 
-export default DiamondsFilters;
+export default DiamondFilter;

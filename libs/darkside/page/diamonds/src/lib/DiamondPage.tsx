@@ -1,16 +1,24 @@
-import { DiamondsTable, DiamondsFilters } from '@diamantaire/darkside/components/diamonds-table';
+import { DiamondTable, DiamondFilter } from '@diamantaire/darkside/components/diamonds-table';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { getDiamondsOptionsFromUrl, getDiamondsOptionsRoute } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
-import { StyledDiamondPage } from './darkside-page-diamonds.style';
+import { StyledDiamondPage } from './DiamondPage.style';
 
-const DarksidePageDiamonds = (props) => {
+const DynamicStyledDiamondPage = dynamic<React.ComponentPropsWithoutRef<typeof StyledDiamondPage>>(
+  () => import('./DiamondPage.style'),
+  {
+    ssr: false,
+  },
+);
+
+const DiamondPage = (props) => {
   const router = useRouter();
 
   const { locale, currencyCode, countryCode } = props;
@@ -87,8 +95,8 @@ const DarksidePageDiamonds = (props) => {
   };
 
   return (
-    <StyledDiamondPage className="container-emotion">
-      <DiamondsFilters
+    <DynamicStyledDiamondPage className="container-emotion">
+      <DiamondFilter
         handleRadioFilterChange={handleRadioFilterChange}
         handleSliderFilterChange={handleSliderFilterChange}
         loading={loading}
@@ -99,12 +107,12 @@ const DarksidePageDiamonds = (props) => {
         currencyCode={currencyCode}
       />
 
-      <DiamondsTable {...tableProps} />
-    </StyledDiamondPage>
+      <DiamondTable {...tableProps} />
+    </DynamicStyledDiamondPage>
   );
 };
 
-DarksidePageDiamonds.getTemplate = getTemplate;
+DiamondPage.getTemplate = getTemplate;
 
 async function getServerSideProps({ query }) {
   const locale = 'en_US';
@@ -138,6 +146,6 @@ async function getServerSideProps({ query }) {
   };
 }
 
-export { DarksidePageDiamonds, getServerSideProps };
+export { DiamondPage, getServerSideProps };
 
-export default DarksidePageDiamonds;
+export default DiamondPage;

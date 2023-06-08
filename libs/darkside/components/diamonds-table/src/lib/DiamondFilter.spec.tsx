@@ -1,24 +1,30 @@
 import { render } from '@testing-library/react';
 
-import DiamondsFilters, { DiamondsFiltersProps } from './diamonds-filters';
+import DiamondFilter, { DiamondFilterProps } from './DiamondFilter';
 
-describe('DiamondsFilters', () => {
+describe('DiamondFilter', () => {
   it('should render successfully', () => {
     const handleRadioFilterChange = jest.fn();
     const handleSliderFilterChange = jest.fn();
     const loading = false;
     const options = {};
     const ranges = {};
+    const locale = 'en_US';
+    const countryCode = 'US';
+    const currencyCode = 'USD';
 
-    const props: DiamondsFiltersProps = {
+    const props: DiamondFilterProps = {
       handleRadioFilterChange,
       handleSliderFilterChange,
+      countryCode,
+      locale,
+      currencyCode,
       loading,
       options,
       ranges,
     };
 
-    const { baseElement } = render(<DiamondsFilters {...props} />);
+    const { baseElement } = render(<DiamondFilter {...props} />);
 
     expect(baseElement).toBeTruthy();
   });
