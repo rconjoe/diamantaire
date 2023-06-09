@@ -1,7 +1,7 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-interface Options {
+export interface OptionsDataTypes {
   page?: number;
   limit?: number;
   sortBy?: string;
@@ -71,12 +71,12 @@ interface Pagination {
 
 interface DiamondsDataProps {
   diamonds?: Diamond[];
-  options?: Options;
+  options?: OptionsDataTypes;
   pagination?: Pagination;
   ranges?: Ranges;
 }
 
-export function useDiamondsData(options: Options): UseQueryResult<DiamondsDataProps, unknown> {
+export function useDiamondsData(options: OptionsDataTypes): UseQueryResult<DiamondsDataProps, unknown> {
   return useQuery({
     ...queries.diamonds.content(options),
     keepPreviousData: true,
