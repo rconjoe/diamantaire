@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledDiamondsTable = styled.div`
+const StyledDiamondTable = styled.div`
   display: flex;
   font-size: 14px;
   flex: 1;
@@ -208,3 +208,7 @@ export const StyledDiamondsTable = styled.div`
     background: #000;
   }
 `;
+
+export default StyledDiamondTable;
+
+export { StyledDiamondTable };

@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import DiamondsTable from './diamonds-table';
+import DiamondPage from './DiamondPage';
 
-describe('DiamondsTable', () => {
+describe('DiamondPage', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<DiamondsTable />);
+    const { baseElement } = render(<DiamondPage />);
 
     expect(baseElement).toBeTruthy();
   });

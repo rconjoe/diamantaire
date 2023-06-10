@@ -1,7 +1,7 @@
 import { FONT_SIZE_7 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const StyledDiamondsFilters = styled.div`
+const StyledDiamondFilter = styled.div`
   width: 450px;
   display: flex;
   flex-direction: column;
@@ -84,3 +84,7 @@ export const StyledDiamondsFilters = styled.div`
     }
   }
 `;
+
+export default StyledDiamondFilter;
+
+export { StyledDiamondFilter };

@@ -4,7 +4,7 @@ import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
 import { useState, useEffect, useMemo } from 'react';
 
-import { StyledDiamondsTable } from './diamonds-table.style';
+import { StyledDiamondTable } from './DiamondTable.style';
 
 interface Variants {
   price: {
@@ -21,9 +21,7 @@ interface Info {
   };
 }
 
-const DiamondsTable = (props) => {
-  // console.log(`** DiamondsTable **`, props);
-
+const DiamondTable = (props) => {
   const {
     currencyCode,
     countryCode,
@@ -157,7 +155,7 @@ const DiamondsTable = (props) => {
   });
 
   return (
-    <StyledDiamondsTable className="vo-table">
+    <StyledDiamondTable className="vo-table">
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div className="vo-table-head">
@@ -260,10 +258,10 @@ const DiamondsTable = (props) => {
           <span>Loading...</span>
         </div>
       )}
-    </StyledDiamondsTable>
+    </StyledDiamondTable>
   );
 };
 
-export { DiamondsTable };
+export { DiamondTable };
 
-export default DiamondsTable;
+export default DiamondTable;

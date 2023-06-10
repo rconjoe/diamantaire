@@ -1,1 +1,1 @@
-export * from './lib/darkside-page-diamonds';
+export * from './lib/DiamondPage';

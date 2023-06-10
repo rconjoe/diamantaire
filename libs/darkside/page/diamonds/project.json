@@ -1,7 +1,7 @@
 {
-  "name": "darkside-components-seo",
+  "name": "darkside-page-diamonds",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/darkside/components/seo/src",
+  "sourceRoot": "libs/darkside/page/diamonds/src",
   "projectType": "library",
   "tags": [],
   "targets": {

@@ -1,5 +1,5 @@
-import { DarksidePageDiamonds, getServerSideProps } from '@diamantaire/darkside/page/diamonds';
+import { DiamondPage, getServerSideProps } from '@diamantaire/darkside/page/diamonds';
 
-export default DarksidePageDiamonds;
+export default DiamondPage;
 
 export { getServerSideProps };
