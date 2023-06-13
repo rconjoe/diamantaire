@@ -51,6 +51,10 @@ export interface IDiamondCollection extends Partial<DiamondEntity> {
   availableForSale?: boolean;
 }
 
+export interface IDiamondRecommendation extends IDiamondCollection {
+  label: string;
+}
+
 export interface INetSuiteDiamonds {
   status: string;
   message: unknown;

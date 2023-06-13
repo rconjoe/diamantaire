@@ -32,8 +32,10 @@ import {
   DiamondCuts,
   caratFirstSortOrder,
 } from '../helper/diamond.helper';
-import { IDiamondCollection, IShopifyInventory } from '../interface/diamond.interface';
+import { IDiamondCollection, IShopifyInventory, IDiamondRecommendation } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
+
+const STAFF_PICKS_LABEL = 'staffPick';
 
 @Injectable()
 export class DiamondsService {
@@ -235,7 +237,7 @@ export class DiamondsService {
    * @returns
    */
 
-  async getCFYDiamond(params: GetDiamondDto): Promise<IDiamondCollection[]> {
+  async getCFYDiamond(params: GetDiamondDto): Promise<IDiamondRecommendation[]> {
     this.Logger.verbose(`Fetching cut to order diamond availability`);
 
     const filteredQuery = this.optionalDiamondQuery(params);
@@ -255,7 +257,9 @@ export class DiamondsService {
 
         const secondaryResult = await this.diamondRepository.find(filteredQuery);
 
-        return sortDiamonds(secondaryResult, caratFirstSortOrder).slice(0, CFY_DIAMOND_LIMIT);
+        return sortDiamonds(secondaryResult, caratFirstSortOrder)
+          .slice(0, CFY_DIAMOND_LIMIT)
+          .map((diamond) => addRecommendationLabel(diamond, STAFF_PICKS_LABEL));
       }
 
       const closestToCaratSortComparator = createSortCaratFromTargetWithWeightComparator(requestedCarat);
@@ -274,12 +278,16 @@ export class DiamondsService {
         (diamond: IDiamondCollection) => isDEF(diamond.color) && isVSPlus(diamond.clarity),
       );
 
-      const bestBrillianceDiamond = bestBrillianceDiamonds?.[0]; // sortDiamonds(bestBrillianceDiamonds, colorFirstSortOrder, closestToSortcomparators)?.[0];
+      const bestBrillianceDiamond = bestBrillianceDiamonds?.[0];
+      // Add label
+      const bestBrillianceDiamondRec = addRecommendationLabel(bestBrillianceDiamond, 'bestBrillianceDiamond');
 
       // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
       const fewestInclusionsDiamond = uniqueDiamonds.find(
         (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond?.lotId,
       );
+      // Add label
+      const fewestInclusionsDiamondRec = addRecommendationLabel(fewestInclusionsDiamond, 'fewestInclusionsDiamond');
 
       // Larger carat - Largest carat diamond in range Diamond from “best brilliance” subset, also DEF VS+
       // Ensure diamond has not already been chosen
@@ -293,8 +301,9 @@ export class DiamondsService {
           diamond.lotId !== bestBrillianceDiamond?.lotId &&
           diamond.lotId !== fewestInclusionsDiamond?.lotId,
       );
+      const largestCaratDiamondRec = addRecommendationLabel(largestCaratDiamond, 'largestCaratDiamond');
 
-      let resultDiamonds = [bestBrillianceDiamond, fewestInclusionsDiamond, largestCaratDiamond].filter(Boolean);
+      let resultDiamonds = [bestBrillianceDiamondRec, fewestInclusionsDiamondRec, largestCaratDiamondRec].filter(Boolean);
 
       // Not enough results.
       if (resultDiamonds.length < CFY_DIAMOND_LIMIT) {
@@ -303,7 +312,9 @@ export class DiamondsService {
         const colorFavoredDiamonds = uniqueDiamonds.filter(
           (diamond: IDiamondCollection) => !chosenLotIds.includes(diamond.lotId) && !isSIMinus(diamond.clarity),
         );
-        const fallbackDiamonds = colorFavoredDiamonds.slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length);
+        const fallbackDiamonds = colorFavoredDiamonds
+          .slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length)
+          .map((diamond) => addRecommendationLabel(diamond, STAFF_PICKS_LABEL));
 
         resultDiamonds = [...resultDiamonds, ...fallbackDiamonds];
 
@@ -316,7 +327,10 @@ export class DiamondsService {
             (diamond: IDiamondCollection) => !currentLotIds.includes(diamond.lotId),
           );
 
-          resultDiamonds = [...resultDiamonds, ...fillerDiamonds.slice(0, resultsNeeded)];
+          resultDiamonds = [
+            ...resultDiamonds,
+            ...fillerDiamonds.slice(0, resultsNeeded).map((diamond) => addRecommendationLabel(diamond, STAFF_PICKS_LABEL)),
+          ];
         }
       }
 
@@ -362,5 +376,14 @@ export class DiamondsService {
       this.Logger.error(`Error fetching inventory levels: ${error}`);
       throw new InternalServerErrorException(error);
     }
+  }
+}
+
+function addRecommendationLabel(diamond: IDiamondCollection, label: string): IDiamondRecommendation {
+  if (diamond) {
+    return {
+      ...diamond,
+      label,
+    };
   }
 }
