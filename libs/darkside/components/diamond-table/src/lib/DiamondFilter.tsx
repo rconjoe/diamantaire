@@ -1,4 +1,6 @@
 import { Heading, Slider, Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
+import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TABLE_FILTER_CLARITY_OPTIONS,
   DIAMOND_TABLE_FILTER_CUT_OPTIONS,
@@ -9,6 +11,8 @@ import {
 import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
+import Markdown from 'markdown-to-jsx';
+import { ReactNode } from 'react';
 
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
@@ -56,7 +60,7 @@ const SliderFilter = (props) => {
 };
 
 const RadioFilter = (props) => {
-  const { type, ranges, options, handleRadioFilterChange } = props;
+  const { stringMap, type, ranges, options, handleRadioFilterChange } = props;
 
   let optionsUI = [];
 
@@ -89,9 +93,8 @@ const RadioFilter = (props) => {
 
   return (
     <div className="vo-filter-radio">
-      <ul className={clsx('vo-filter-list', 'vo-filter-list-' + type)}>
-        {optionsUI.map((optionUI: string[], index: number) => {
-          // SHAPES
+      <ul className="vo-filter-list">
+        {optionsUI.map((optionUI: string, index: number) => {
           if (type === 'diamondType') {
             const slug = DIAMOND_TABLE_SHAPES[optionUI[0]];
             const shape = diamondIconsMap[slug];
@@ -105,12 +108,31 @@ const RadioFilter = (props) => {
             );
           }
 
-          // COLORS, CUTS, CLARITIES
-          return (
-            <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
-              <a onClick={() => handleClick(optionUI)}>{optionUI}</a>
-            </li>
-          );
+          if (type === 'color') {
+            return (
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+                <a onClick={() => handleClick(optionUI)}>
+                  {stringMap?.option?.[Array.isArray(optionUI) ? optionUI.join('') : optionUI]?.value || ''}
+                </a>
+              </li>
+            );
+          }
+
+          if (type === 'cut') {
+            return (
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+                <a onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</a>
+              </li>
+            );
+          }
+
+          if (type === 'clarity') {
+            return (
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+                <a onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</a>
+              </li>
+            );
+          }
         })}
       </ul>
     </div>
@@ -132,24 +154,74 @@ const DiamondFilter = (props: DiamondFilterProps) => {
   const { countryCode, locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange } =
     props;
 
-  const withSlider = (filter: string) => ['carat', 'price'].includes(filter);
+  const { data: diamondTableData } = useDiamondTableData(locale);
+  const { diamondTable } = diamondTableData || {};
+  const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
 
-  const withRadio = (filter: string) => !['carat', 'price'].includes(filter);
+  const { data: humanNameMapperData } = useHumanNameMapper(locale);
+  const { DIAMOND_CUTS } = humanNameMapperData || {};
+
+  const name_ = (v: string): ReactNode => {
+    return v && <UIString>{v}</UIString>;
+  };
+
+  const tooltip_ = (v: string): ReactNode => {
+    return v && <Markdown>{v}</Markdown>;
+  };
+
+  const stringMap = {
+    diamondType: {
+      type: 'radio',
+      name: name_('shape'),
+      tooltip: null,
+    },
+    carat: {
+      type: 'slider',
+      name: name_('carat'),
+      tooltip: tooltip_(carat),
+    },
+    price: {
+      type: 'slider',
+      name: name_('price'),
+      tooltip: null,
+    },
+    cut: {
+      type: 'radio',
+      name: name_('cut'),
+      tooltip: tooltip_(cut),
+      option: DIAMOND_CUTS,
+    },
+    clarity: {
+      type: 'radio',
+      name: name_('clarity'),
+      tooltip: tooltip_(clarity),
+      option: { VVS: { value: 'VVS' }, VS: { value: 'VS' }, SI: { value: 'SI' } },
+    },
+    color: {
+      type: 'radio',
+      name: name_('color'),
+      tooltip: tooltip_(color),
+      belowCopy: colorFilterBelowCopy,
+      option: DIAMOND_CUTS,
+    },
+  };
 
   return (
     <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
+        const { type, name, tooltip, belowCopy } = stringMap?.[filter] || {};
+
         return (
-          <div key={filter} className="vo-filter">
+          <div key={filter} className={'vo-filter vo-filter-' + filter}>
             <div className="vo-filter-title">
               <Heading type="h4" className="title">
-                {filter}
+                {name}
               </Heading>
 
-              <Tooltip id={'tooltip-' + filter}>content goes here</Tooltip>
+              {tooltip && <Tooltip id={'tooltip-' + filter}>{tooltip}</Tooltip>}
             </div>
 
-            {withSlider(filter) && (
+            {type === 'slider' && (
               <SliderFilter
                 handleSliderFilterChange={handleSliderFilterChange}
                 options={options}
@@ -161,14 +233,17 @@ const DiamondFilter = (props: DiamondFilterProps) => {
               />
             )}
 
-            {withRadio(filter) && (
+            {type === 'radio' && (
               <RadioFilter
                 handleRadioFilterChange={handleRadioFilterChange}
                 options={options}
+                stringMap={stringMap[filter]}
                 ranges={ranges}
                 type={filter}
               />
             )}
+
+            {belowCopy && <div className="vo-below-copy">{belowCopy}</div>}
 
             {loading && <div className="vo-filter-loading" />}
           </div>

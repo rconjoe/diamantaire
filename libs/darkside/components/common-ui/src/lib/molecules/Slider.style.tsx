@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledSlider = styled.div`
   position: relative;
-  margin: 10px 0;
+  margin: 0;
   padding: 0 8px;
   width: 100%;
 
@@ -334,7 +334,7 @@ const StyledSlider = styled.div`
     align-items: center;
     justify-content: space-between;
     font-size: 12px;
-    margin: 0 -8px 15px;
+    margin: 0 -8px 12px;
   }
 `;
 

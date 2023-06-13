@@ -1,5 +1,6 @@
 import { mergeQueryKeys, inferQueryKeys, inferQueryKeyStore } from '@lukemorales/query-key-factory';
 
+import { diamondTable } from './diamond-table';
 import { diamonds } from './diamonds';
 import { footer } from './footer';
 import { header } from './header';
@@ -18,9 +19,11 @@ export const queries = mergeQueryKeys(
   showrooms,
   humanNameMappers,
   diamonds,
+  diamondTable,
 );
 
 export type DiamondsKeys = inferQueryKeys<typeof diamonds>;
+export type DiamondTableKeys = inferQueryKeys<typeof diamondTable>;
 export type HeaderKeys = inferQueryKeys<typeof header>;
 export type FooterKeys = inferQueryKeys<typeof footer>;
 export type JournalKeys = inferQueryKeys<typeof journal>;

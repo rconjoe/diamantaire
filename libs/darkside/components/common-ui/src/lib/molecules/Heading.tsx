@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 
 type HeadingProps = {
-  type: string;
-  children: ReactNode;
+  type?: string;
+  children?: ReactNode;
   className?: string;
 };
 

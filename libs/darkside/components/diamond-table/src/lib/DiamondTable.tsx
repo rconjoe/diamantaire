@@ -1,5 +1,6 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { UIString } from '@diamantaire/darkside/core';
+import { useDiamondsData, useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
 import { useState, useEffect, useMemo } from 'react';
@@ -34,49 +35,6 @@ const DiamondTable = (props) => {
     clearOptions,
   } = props;
 
-  // COLUMNS
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'type',
-        cell: (info: Info) => {
-          return info.getValue();
-        },
-        header: () => <span>Shape</span>,
-      },
-      {
-        accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()),
-        header: () => <span>Carat</span>,
-      },
-      {
-        accessorKey: 'color',
-        cell: (info: Info) => info.getValue(),
-        header: () => <span>Color</span>,
-      },
-      {
-        accessorKey: 'clarity',
-        cell: (info: Info) => info.getValue(),
-        header: () => <span>Clarity</span>,
-      },
-      {
-        accessorKey: 'cut',
-        cell: (info: Info) => info.getValue(),
-        header: () => <span>Cut</span>,
-      },
-      {
-        accessorKey: 'price',
-        cell: (info: Info) => {
-          const amount = info.row?.original?.variants?.[0]?.price;
-
-          return shopifyNumberToHumanPrice(amount, locale, currencyCode, countryCode, {}, false, false, '');
-        },
-        header: () => <span>Price</span>,
-      },
-    ],
-    [],
-  );
-
   // PAGINATION
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: initialPagination?.currentPage,
@@ -98,12 +56,59 @@ const DiamondTable = (props) => {
     limit: pageSize,
   };
 
-  // QUERY
-  const query = useDiamondsData(options);
+  // DIAMONDS
+  const queryDiamond = useDiamondsData(options);
+
+  // STRINGS
+  const queryDiamondTable = useDiamondTableData(locale);
+  const noResultString = queryDiamondTable?.data?.diamondTable?.cannotFindDiamondSentence1;
+
+  // COLUMNS
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'type',
+        cell: (info: Info) => {
+          return info.getValue();
+        },
+        header: () => <UIString>shape</UIString>,
+      },
+      {
+        accessorKey: 'carat',
+        cell: (info: Info) => Number(info.getValue()),
+        header: () => <UIString>carat</UIString>,
+      },
+      {
+        accessorKey: 'color',
+        cell: (info: Info) => info.getValue(),
+        header: () => <UIString>color</UIString>,
+      },
+      {
+        accessorKey: 'clarity',
+        cell: (info: Info) => info.getValue(),
+        header: () => <UIString>clarity</UIString>,
+      },
+      {
+        accessorKey: 'cut',
+        cell: (info: Info) => info.getValue(),
+        header: () => <UIString>cut</UIString>,
+      },
+      {
+        accessorKey: 'price',
+        cell: (info: Info) => {
+          const amount = info.row?.original?.variants?.[0]?.price;
+
+          return shopifyNumberToHumanPrice(amount, locale, currencyCode, countryCode, {}, false, false, '');
+        },
+        header: () => <UIString>price</UIString>,
+      },
+    ],
+    [],
+  );
 
   // TABLE
   const table = useReactTable({
-    data: query.data?.diamonds ?? initialDiamonds,
+    data: queryDiamond.data?.diamonds ?? initialDiamonds,
     columns,
     pageCount: initialPagination?.pageCount,
     state: { pagination },
@@ -123,7 +128,7 @@ const DiamondTable = (props) => {
     const newSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
     const newSortBy = header.id;
 
-    if (!query.isFetching) {
+    if (!queryDiamond.isFetching) {
       updateOptions({
         sortBy: newSortBy,
         sortOrder: newSortOrder,
@@ -133,9 +138,9 @@ const DiamondTable = (props) => {
 
   // LOADING
   useEffect(() => {
-    updateLoading(query.isFetching);
+    updateLoading(queryDiamond.isFetching);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.isFetching]);
+  }, [queryDiamond.isFetching]);
 
   // PAGE
   useEffect(() => {
@@ -169,7 +174,7 @@ const DiamondTable = (props) => {
                       {options.sortBy === header.id && options.sortOrder === 'asc' && <span>🔼</span>}
                       {options.sortBy === header.id && options.sortOrder === 'desc' && <span>🔽</span>}
                     </div>
-                    {query.isFetching && <div className="vo-table-cell-loading" />}
+                    {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>
                 );
               })}
@@ -185,7 +190,7 @@ const DiamondTable = (props) => {
                 {row.getVisibleCells().map((cell) => (
                   <div key={cell.id} className="vo-table-cell">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    {query.isFetching && <div className="vo-table-cell-loading" />}
+                    {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>
                 ))}
               </div>
@@ -194,9 +199,9 @@ const DiamondTable = (props) => {
           {table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
-                <Heading type="h4">No diamond meets your filter criteria.</Heading>
+                <Heading type="h4">{noResultString}</Heading>
                 <button className="vo-table-clear-button" onClick={clearOptions}>
-                  Clear Filters
+                  <UIString>clear</UIString>
                 </button>
               </div>
             </div>
@@ -209,7 +214,7 @@ const DiamondTable = (props) => {
             <div className="vo-table-pagi-cell">
               <button
                 className="vo-table-pagi-button"
-                onClick={() => !query.isFetching && table.setPageIndex(1)}
+                onClick={() => !queryDiamond.isFetching && table.setPageIndex(1)}
                 disabled={pageIndex < 2}
               >
                 {'<<'}
@@ -217,7 +222,7 @@ const DiamondTable = (props) => {
 
               <button
                 className="vo-table-pagi-button"
-                onClick={() => !query.isFetching && table.previousPage()}
+                onClick={() => !queryDiamond.isFetching && table.previousPage()}
                 disabled={pageIndex < 2}
               >
                 {'<'}
@@ -225,7 +230,7 @@ const DiamondTable = (props) => {
 
               <button
                 className="vo-table-pagi-button"
-                onClick={() => !query.isFetching && table.nextPage()}
+                onClick={() => !queryDiamond.isFetching && table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
                 {'>'}
@@ -233,7 +238,7 @@ const DiamondTable = (props) => {
 
               <button
                 className="vo-table-pagi-button"
-                onClick={() => !query.isFetching && table.setPageIndex(table.getPageCount() - 1)}
+                onClick={() => !queryDiamond.isFetching && table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
               >
                 {'>>'}
@@ -242,17 +247,18 @@ const DiamondTable = (props) => {
 
             <div className="vo-table-pagi-cell">
               <p>
-                Page {table.getState().pagination.pageIndex} of {table.getPageCount() - 1}
+                <UIString>Showing</UIString> {table.getState().pagination.pageIndex} <UIString>of</UIString>{' '}
+                {table.getPageCount() - 1}
               </p>
             </div>
           </div>
 
-          {query.isFetching && <div className="vo-table-pagi-loading" />}
+          {queryDiamond.isFetching && <div className="vo-table-pagi-loading" />}
         </div>
       </div>
 
       {/* LOADER */}
-      {query.isFetching && (
+      {queryDiamond.isFetching && (
         <div className="vo-table-loading">
           <span className="vo-loader-icon"></span>
           <span>Loading...</span>

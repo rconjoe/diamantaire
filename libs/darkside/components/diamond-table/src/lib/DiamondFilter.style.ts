@@ -1,0 +1,127 @@
+import { FONT_SIZE_7, TEAL } from '@diamantaire/styles/darkside-styles';
+import styled from 'styled-components';
+
+const StyledDiamondFilter = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .vo-filter {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .vo-filter-title {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    gap: 5px;
+    width: 90px;
+
+    .title {
+      font-weight: 500;
+      font-size: ${FONT_SIZE_7};
+      text-transform: uppercase;
+    }
+  }
+
+  .vo-filter-radio .vo-filter-list {
+    gap: 10px;
+  }
+
+  .vo-filter-radio,
+  .vo-filter-slider {
+    padding: 0;
+    flex: 1;
+  }
+
+  .vo-filter-list {
+    list-style-position: inside;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+
+  .vo-filter-list-item {
+    position: relative;
+    cursor: pointer;
+    font-size: ${FONT_SIZE_7};
+    display: block;
+    text-align: center;
+  }
+
+  .vo-filter-list-item a {
+    color: #333;
+    width: 100%;
+    padding: 3px 5px;
+    display: flex;
+    border: 1px solid transparent;
+  }
+
+  .vo-filter-list-item a:hover,
+  .vo-filter-list-item a:focus {
+    color: ${TEAL};
+  }
+
+  .vo-filter-list-item.active a {
+    color: ${TEAL};
+    border: 1px solid ${TEAL};
+  }
+
+  .vo-filter-diamondType {
+    flex-direction: column;
+
+    .vo-filter-list {
+      list-style: none;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+
+      .vo-filter-list-item.active a,
+      .vo-filter-list-item a {
+        padding: 0;
+        border: 0;
+      }
+
+      .vo-filter-list-item.active:after {
+        content: '';
+        border-bottom: 2px solid ${TEAL};
+        position: absolute;
+        margin-left: -12px;
+        bottom: -8px;
+        width: 24px;
+        left: 50%;
+      }
+
+      svg {
+        display: block;
+        height: 30px;
+        width: auto;
+      }
+    }
+  }
+
+  .vo-below-copy {
+    width: 100%;
+    margin: 15px 0 0;
+    font-size: ${FONT_SIZE_7};
+  }
+
+  .vo-filter-loading {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: default;
+  }
+`;
+
+export default StyledDiamondFilter;
+
+export { StyledDiamondFilter };

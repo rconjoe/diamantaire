@@ -80,6 +80,7 @@ export function useDiamondsData(options: OptionsDataTypes): UseQueryResult<Diamo
   return useQuery({
     ...queries.diamonds.content(options),
     keepPreviousData: true,
+    staleTime: 300000, // Set the stale time to 5 minutes
   });
 }
 

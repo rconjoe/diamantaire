@@ -9,12 +9,14 @@ const StyledTooltip = styled.div`
     cursor: pointer;
     border-radius: 50%;
     border: 1px solid ${TEAL};
-    width: 14px;
-    height: 14px;
+    height: 12px;
+    width: 12px;
 
     * {
       font-size: ${FONT_SIZE_9};
       font-family: ${MAIN_FONT};
+      text-transform: none;
+      color: ${TEAL};
     }
   }
 `;

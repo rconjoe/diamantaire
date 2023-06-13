@@ -1,7 +1,7 @@
 import { DIAMOND_TYPE_INTERNAL_NAMES } from './diamond';
 import { getOptionValues } from '../constant.helpers';
 
-export const DIAMOND_TABLE_FILTER_TITLES = ['diamondType', 'carat', 'price', 'color', 'cut', 'clarity'];
+export const DIAMOND_TABLE_FILTER_TITLES = ['diamondType', 'carat', 'price', 'cut', 'clarity', 'color'];
 export const DIAMOND_TABLE_FILTER_CLARITY_OPTIONS = {
   VVS: ['VVS1', 'VVS2'],
   VS: ['VS1', 'VS2'],

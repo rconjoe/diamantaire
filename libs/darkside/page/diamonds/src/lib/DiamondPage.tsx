@@ -1,7 +1,8 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { DiamondTable, DiamondFilter } from '@diamantaire/darkside/components/diamonds-table';
-import { useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamond-table';
+import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
@@ -37,10 +38,14 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const { locale, currencyCode, countryCode } = props;
   const [options, setOptions] = useState(props.options);
   const [loading, setLoading] = useState(true);
-  const query = useDiamondsData({ ...options });
+
   const {
     data: { diamonds, pagination, ranges },
-  } = query;
+  } = useDiamondsData({ ...options });
+
+  const DiamondTableContent = useDiamondTableData(locale);
+  const title = DiamondTableContent.data.diamondTable.title;
+
   const updateLoading = (newState) => {
     setLoading(newState);
   };
@@ -97,18 +102,26 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   return (
     <StyledDiamondPage className="container-emotion">
-      <DiamondFilter
-        handleRadioFilterChange={handleRadioFilterChange}
-        handleSliderFilterChange={handleSliderFilterChange}
-        loading={loading}
-        options={options}
-        ranges={ranges}
-        locale={locale}
-        countryCode={countryCode}
-        currencyCode={currencyCode}
-      />
+      <div className="page-title">
+        <Heading className="title">{title}</Heading>
+      </div>
 
-      <DiamondTable {...tableProps} />
+      <div className="page-aside">
+        <DiamondFilter
+          handleRadioFilterChange={handleRadioFilterChange}
+          handleSliderFilterChange={handleSliderFilterChange}
+          loading={loading}
+          options={options}
+          ranges={ranges}
+          locale={locale}
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+        />
+
+        <DiamondPromo locale={locale} />
+      </div>
+
+      <DiamondTable {...tableProps} title={title} />
     </StyledDiamondPage>
   );
 };
@@ -125,12 +138,19 @@ async function getServerSideProps(
   const currencyCode = 'USD';
   const { query } = context;
   const options = getDiamondsOptionsFromUrl(query || {});
-  const dataQuery = queries.diamonds.content(options);
+  const diamondQuery = queries.diamonds.content(options);
+  const diamondTableQuery = queries.diamondTable.content(locale);
+
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(dataQuery);
+  // PREFECTH DIAMOND LIST
+  await queryClient.prefetchQuery(diamondQuery);
 
-  if (!queryClient.getQueryData(dataQuery.queryKey)) {
+  // PREFECTH DIAMOND TABLE CONTENT FROM DATO
+  await queryClient.prefetchQuery(diamondTableQuery);
+
+  // IF NO RESULT RETURN 404
+  if (!queryClient.getQueryData(diamondQuery.queryKey) || !queryClient.getQueryData(diamondTableQuery.queryKey)) {
     return {
       notFound: true,
     };

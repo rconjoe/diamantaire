@@ -1,4 +1,5 @@
 export * from './diamonds';
+export * from './diamond-table';
 export * from './header';
 export * from './footer';
 export * from './standard-page';

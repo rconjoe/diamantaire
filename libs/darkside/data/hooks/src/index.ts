@@ -4,6 +4,7 @@ export * from './lib/use-standard-page';
 export * from './lib/journal';
 export * from './lib/use-diamonds';
 export * from './lib/use-diamond-icons';
+export * from './lib/use-diamond-table';
 export * from './lib/products/use-product';
 export * from './lib/products/use-product-dato';
 export * from './lib/products/use-product-spec';
