@@ -13,6 +13,10 @@ import { IDiamondCollection, IDiamondVariant } from '../interface/diamond.interf
 export class DiamondEntity extends AbstractDocument implements IDiamondCollection {
   @Field(() => String)
   @Prop()
+  slug: string;
+
+  @Field(() => String)
+  @Prop()
   dangerousInternalProductId?: string;
 
   @Field(() => String)

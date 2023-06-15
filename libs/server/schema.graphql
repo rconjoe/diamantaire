@@ -37,6 +37,7 @@ type DiamondEntity {
   handle: String!
   lotId: String!
   productTitle: String!
+  slug: String!
   type: String!
 }
 
