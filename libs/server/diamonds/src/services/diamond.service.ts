@@ -23,7 +23,8 @@ import {
   isDEF,
   isVSPlus,
   isVVSPlus,
-  isSIMinus,
+  isColorGte,
+  isClarityGte,
   createSortCaratFromTargetWithWeightComparator,
   descendingCaratComparator,
   diamondPropertyAscendingComparitors,
@@ -282,13 +283,6 @@ export class DiamondsService {
       // Add label
       const bestBrillianceDiamondRec = addRecommendationLabel(bestBrillianceDiamond, 'bestBrillianceDiamond');
 
-      // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
-      const fewestInclusionsDiamond = uniqueDiamonds.find(
-        (diamond: IDiamondCollection) => isVVSPlus(diamond.clarity) && diamond.lotId !== bestBrillianceDiamond?.lotId,
-      );
-      // Add label
-      const fewestInclusionsDiamondRec = addRecommendationLabel(fewestInclusionsDiamond, 'fewestInclusionsDiamond');
-
       // Larger carat - Largest carat diamond in range Diamond from “best brilliance” subset, also DEF VS+
       // Ensure diamond has not already been chosen
       const sortComparators = {
@@ -296,42 +290,37 @@ export class DiamondsService {
         [DiamondProperty.carat]: descendingCaratComparator,
       };
       const largestCaratDiamond = sortDiamonds(bestBrillianceDiamonds, caratFirstSortOrder, sortComparators).find(
-        (diamond: IDiamondCollection) =>
-          diamond.carat > requestedCarat &&
-          diamond.lotId !== bestBrillianceDiamond?.lotId &&
-          diamond.lotId !== fewestInclusionsDiamond?.lotId,
+        (diamond: IDiamondCollection) => diamond.carat > requestedCarat && diamond.lotId !== bestBrillianceDiamond?.lotId,
       );
       const largestCaratDiamondRec = addRecommendationLabel(largestCaratDiamond, 'largestCaratDiamond');
+
+      // Fewest inclusions - Diamond that is VVS+. If multiple, prioritize by color
+      // Ensure diamond has not already been chosen
+      const fewestInclusionsDiamond = uniqueDiamonds.find(
+        (diamond: IDiamondCollection) =>
+          isVVSPlus(diamond.clarity) &&
+          diamond.lotId !== bestBrillianceDiamond?.lotId &&
+          diamond.lotId !== largestCaratDiamond?.lotId,
+      );
+      // Add label
+      const fewestInclusionsDiamondRec = addRecommendationLabel(fewestInclusionsDiamond, 'fewestInclusionsDiamond');
 
       let resultDiamonds = [bestBrillianceDiamondRec, fewestInclusionsDiamondRec, largestCaratDiamondRec].filter(Boolean);
 
       // Not enough results.
       if (resultDiamonds.length < CFY_DIAMOND_LIMIT) {
         const chosenLotIds = resultDiamonds.map((diamond) => diamond.lotId);
+
         // Fill with non SI diamonds
         const colorFavoredDiamonds = uniqueDiamonds.filter(
-          (diamond: IDiamondCollection) => !chosenLotIds.includes(diamond.lotId) && !isSIMinus(diamond.clarity),
+          (diamond: IDiamondCollection) =>
+            !chosenLotIds.includes(diamond.lotId) && isClarityGte(diamond.clarity, 'VS2') && isColorGte(diamond.color, 'G'),
         );
         const fallbackDiamonds = colorFavoredDiamonds
           .slice(0, CFY_DIAMOND_LIMIT - resultDiamonds.length)
           .map((diamond) => addRecommendationLabel(diamond, STAFF_PICKS_LABEL));
 
         resultDiamonds = [...resultDiamonds, ...fallbackDiamonds];
-
-        const resultsNeeded = CFY_DIAMOND_LIMIT - resultDiamonds.length;
-
-        // If there still aren't enough diamods, fill w/ any clarity from sorted list
-        if (resultsNeeded > 0) {
-          const currentLotIds = resultDiamonds.map((diamond) => diamond.lotId);
-          const fillerDiamonds = uniqueDiamonds.filter(
-            (diamond: IDiamondCollection) => !currentLotIds.includes(diamond.lotId),
-          );
-
-          resultDiamonds = [
-            ...resultDiamonds,
-            ...fillerDiamonds.slice(0, resultsNeeded).map((diamond) => addRecommendationLabel(diamond, STAFF_PICKS_LABEL)),
-          ];
-        }
       }
 
       return resultDiamonds;

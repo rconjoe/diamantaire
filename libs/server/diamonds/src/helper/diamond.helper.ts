@@ -41,12 +41,31 @@ export const DiamondColor = {
 } as const;
 
 export const DiamondColors: string[] = Object.values(DiamondColor);
+export const DiamondColorsInOrder: string[] = [
+  DiamondColor.D,
+  DiamondColor.E,
+  DiamondColor.F,
+  DiamondColor.Colorless,
+  DiamondColor.G,
+  DiamondColor.H,
+  DiamondColor.I,
+  DiamondColor.NearColorless,
+  DiamondColor.J,
+  DiamondColor.K,
+  DiamondColor.L,
+  DiamondColor.M,
+  DiamondColor.N,
+];
 
 export const DiamondColorGroup: { [key: string]: (typeof DiamondColor)[keyof typeof DiamondColor][] } = {
   DEF: [DiamondColor.D, DiamondColor.E, DiamondColor.F],
   GHI: [DiamondColor.G, DiamondColor.H, DiamondColor.I],
   JKL: [DiamondColor.J, DiamondColor.K, DiamondColor.L],
 };
+
+export function isColorGte(color: string, colorMin: (typeof DiamondColor)[keyof typeof DiamondColor]) {
+  return DiamondColorsInOrder.indexOf(color) <= DiamondColorsInOrder.indexOf(colorMin);
+}
 
 export function isDEF(color: any): boolean {
   // (typeof DiamondColor)[keyof typeof DiamondColor]
@@ -82,6 +101,24 @@ export const DiamondClarityGroup: {
   VVS: [DiamondClarity.FL, DiamondClarity.VVS1, DiamondClarity.VVS2],
   VS: [DiamondClarity.FL, DiamondClarity.VVS1, DiamondClarity.VVS2, DiamondClarity.VS1, DiamondClarity.VS2],
 };
+
+export const DiamondClaritiesInOrder: string[] = [
+  DiamondClarity.FL,
+  DiamondClarity.VVS1,
+  DiamondClarity.VVS2,
+  DiamondClarity.VS1,
+  DiamondClarity.VS2,
+  DiamondClarity.VSPlus,
+  DiamondClarity.SI1,
+  DiamondClarity.SI2,
+];
+
+export function isClarityGte(
+  clarity: string, // (typeof DiamondClarity)[keyof typeof DiamondClarity],
+  clarityMin: (typeof DiamondClarity)[keyof typeof DiamondClarity],
+) {
+  return DiamondClaritiesInOrder.indexOf(clarity) <= DiamondClaritiesInOrder.indexOf(clarityMin);
+}
 
 export function isVVSPlus(clarity: any): boolean {
   // (typeof DiamondClarity)[keyof typeof DiamondClarity]
