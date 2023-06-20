@@ -1,6 +1,7 @@
-import { Inngest } from 'inngest';
 import { serve } from 'inngest/next';
 
-export const inngest = new Inngest({ name: 'function-hub' });
+import { inngest, functions } from '../../inngest';
 
-export default serve(inngest, []);
+export default serve(inngest, functions, {
+  // signingKey: process.env.INNGEST_SIGNING_KEY,
+});
