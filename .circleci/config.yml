@@ -72,7 +72,7 @@ jobs:
           <<: *yarn_cache
       - run:
           name: Run build
-          command: yarn nx build:server
+          command: yarn nx run server:build
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
