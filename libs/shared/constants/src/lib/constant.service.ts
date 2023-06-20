@@ -65,3 +65,27 @@ export const CUSTOM_ATTRIBUTE_KEY_NAME_MAP = {
   feedId: 'feedId',
   pdpUrl: 'pdpUrl',
 };
+
+// TODO: discuss a strategy for using this in PDP - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-180
+export enum PdpTypePlural {
+  ['Engagement Rings'] = 'Engagement Rings',
+  WeddingBands = 'Wedding Bands',
+  Jewelry = 'Jewelry',
+}
+
+export const pdpTypePluralAsConst = {
+  ['Engagement Rings']: 'Engagement Rings',
+  ['Jewelry']: 'Jewelry',
+} as const;
+
+export const pdpTypeHandleAsConst = {
+  ['engagement-rings']: 'Engagement Rings',
+  ['jewelry']: 'Jewelry',
+} as const;
+
+export const metalTypeAsConst = {
+  platinum: 'Platinum',
+  'yellow-gold': 'Yellow Gold',
+  'white-gold': 'White Gold',
+  'rose-gold': 'Rose Gold',
+} as const;

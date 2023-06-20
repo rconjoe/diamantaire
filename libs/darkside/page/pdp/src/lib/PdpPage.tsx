@@ -5,11 +5,10 @@ import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/dar
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { PDPProductType, ProductTypePlural } from '@diamantaire/shared/constants';
+import { pdpTypeHandleAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductDescription from './pdp-blocks/ProductDescription';
@@ -38,13 +37,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const query = useProduct({ productSlug, variantSlug });
   const { data: shopifyProductData = {} } = query;
   const router = useRouter();
-  const productType: ProductTypePlural = PDPProductType[router.pathname.split('/')[1]];
 
-  console.log('init data', productType);
+  // Jewelry | ER | Wedding Band
+  const pdpType: PdpTypePlural = pdpTypeHandleAsConst[router.pathname.split('/')[1]];
 
-  const { data }: { data: any } = useProductDato(productSlug, 'en_US', ProductTypePlural[productType]);
+  const { data }: { data: any } = useProductDato(productSlug, 'en_US', pdpType);
 
-  console.log('datoParentProductData', data);
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
   const {
@@ -82,17 +80,24 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (!additionalVariantData) {
     additionalVariantData = variantContent;
   } else {
+    // Add Shopify Product Data to Dato Product Data
     additionalVariantData = additionalVariantData?.omegaProduct;
+    additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
+    additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+    additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
+
+  additionalVariantData.productType = shopifyProductData.productType;
+  additionalVariantData.productTitle = productTitle;
+  additionalVariantData.image = {
+    src: assetStack[0].url,
+    width: assetStack[0].width,
+    height: assetStack[0].width,
+  };
 
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
-        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
-        <Script
-          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
-          strategy={'beforeInteractive'}
-        />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>
@@ -105,9 +110,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <div className="info-container">
             <ProductTitle title={productTitle} />
             <ProductPrice price={price} />
-            <ProductConfigurator configurations={configurations} selectedConfiguration={options} initialVariantId={id} />
+            <ProductConfigurator
+              configurations={configurations}
+              selectedConfiguration={options}
+              initialVariantId={id}
+              additionalVariantData={additionalVariantData}
+            />
 
-            <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
+            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
 
             <Form
               title="Need more time to think?"
@@ -149,7 +159,7 @@ export async function getServerSideProps(
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(productSlug, variantSlug);
 
-  const productType: ProductTypePlural = PDPProductType[context.req.url.split('/')[1]] || null;
+  const productType: PdpTypePlural = pdpTypeHandleAsConst[context.req.url.split('/')[1]] || null;
 
   await queryClient.prefetchQuery(dataQuery);
   await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, 'en_US', productType) });

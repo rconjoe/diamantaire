@@ -6,25 +6,6 @@ import * as mediaQueries from './mediaQueries';
 import { setSpace } from './setSpace';
 import { CART_DRAWER_Z_INDEX, POPUP_Z_INDEX } from './zIndexMap';
 
-// for ref only
-// export function makeFuturaPTBook() {
-//   return css`
-//     font-weight: 400 !important;
-//   `;
-// }
-
-// export function makeFuturaPTMedium() {
-//   return css`
-//     font-weight: 500 !important;
-//   `;
-// }
-
-// export function makeFuturaPTDemi() {
-//   return css`
-//     font-weight: 600 !important;
-//   `;
-// }
-
 export const NORMAL_FONT_WEIGHT = '400 !important';
 export const MEDIUM_FONT_WEIGHT = '500 !important';
 export const BOLD_FONT_WEIGHT = '600 !important';
@@ -348,6 +329,17 @@ img {
 }
 .text-center {
   text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.flex {
+  display: flex;
+}
+.list-unstyled {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .container-emotion {
       width: ${LAYOUT_WIDTH_SM};

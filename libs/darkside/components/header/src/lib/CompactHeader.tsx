@@ -13,6 +13,7 @@ type CompactHeaderTypes = {
   toggleMegaMenuOpen: (_index: number) => void;
   menuIndex: number;
   compactHeaderRef?: React.RefObject<HTMLDivElement>;
+  toggleCart?: () => void;
 };
 
 const CompactHeaderStyles = styled.div`
@@ -112,6 +113,7 @@ const CompactHeader: FC<CompactHeaderTypes> = ({
   toggleMegaMenuOpen,
   menuIndex,
   compactHeaderRef,
+  toggleCart,
 }): JSX.Element => {
   return (
     <CompactHeaderStyles ref={compactHeaderRef ? compactHeaderRef : null}>
@@ -152,7 +154,7 @@ const CompactHeader: FC<CompactHeaderTypes> = ({
           </div>
 
           <div className="nav__col--right">
-            <HeaderActionsNav />
+            <HeaderActionsNav toggleCart={toggleCart} />
           </div>
         </div>
       </div>

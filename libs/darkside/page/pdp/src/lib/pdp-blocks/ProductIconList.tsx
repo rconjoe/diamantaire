@@ -17,7 +17,7 @@ const ProductIconListContainer = styled.ul`
     margin-bottom: 5px;
     a {
       display: flex;
-      color: var(--color-accent);
+      color: var(--color-teal);
       text-decoration: underline;
     }
 

@@ -13,6 +13,7 @@ import MobileMenu from './MobileMenu';
 type MobileHeaderTypes = {
   navItems: NavItemsProps;
   headerHeight: number;
+  toggleCart?: () => void;
 };
 
 const MobileHeaderContainer = styled.div`
@@ -99,7 +100,7 @@ const MobileHeaderContainer = styled.div`
   }
 `;
 
-const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight }): JSX.Element => {
+const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight, toggleCart }): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -124,7 +125,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight }): JSX.El
             </Link>
           </div>
           <div className="col col--right">
-            <HeaderActionsNav />
+            <HeaderActionsNav toggleCart={toggleCart} />
           </div>
         </div>
       </MobileHeaderContainer>

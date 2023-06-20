@@ -3,6 +3,7 @@ export declare type StaticImageData = {
   height: number;
   width: number;
   placeholder?: string;
+  alt?: string;
 };
 
 export interface BaseIconType {

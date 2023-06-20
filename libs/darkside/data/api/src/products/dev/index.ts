@@ -1,4 +1,4 @@
-import { ProductTypePlural } from '@diamantaire/shared/constants';
+import { PdpTypePlural, pdpTypePluralAsConst } from '@diamantaire/shared/constants';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
@@ -346,6 +346,7 @@ const DATO_VARIANT_QUERY = `
     omegaProduct(filter: {shopifyProductHandle: {eq: $slug}}, locale: $locale) {
       id
       shownWithCtw
+      shopifyProductHandle
       origin
       shape
       color
@@ -357,12 +358,12 @@ const DATO_VARIANT_QUERY = `
     }
 `;
 
-export async function fetchDatoProductInfo(slug: string, locale: string, productType: ProductTypePlural) {
+export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
   const datoData = await queryDatoGQL({
     query:
-      productType === ProductTypePlural['Engagement Rings']
+      productType === pdpTypePluralAsConst['Engagement Rings']
         ? ENGAGEMENT_RING_QUERY
-        : productType === ProductTypePlural['Jewelry']
+        : productType === pdpTypePluralAsConst['Jewelry']
         ? JEWELRY_QUERY
         : null,
     variables: { slug, locale },

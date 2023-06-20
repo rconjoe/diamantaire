@@ -8,3 +8,4 @@ export * from './journal';
 export * from './products';
 export * from './showrooms';
 export * from './human-names-mapper';
+export * from './cart';

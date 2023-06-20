@@ -35,7 +35,7 @@ export class UtilService {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Shopify-Storefront-Access-Token': `${this.configService.get('SHOPIFY_STOREFRONT_API_TOKEN')}`,
+        'X-Shopify-Storefront-Access-Token': `${this.configService.get('NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN')}`,
       },
     });
 

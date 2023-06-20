@@ -8,3 +8,4 @@ export * from './lib/nav';
 export * from './lib/social';
 export * from './lib/controls';
 export * from './lib/Logo';
+export * from './lib/types';

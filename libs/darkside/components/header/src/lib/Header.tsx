@@ -1,6 +1,7 @@
+import { Cart, CartContext } from '@diamantaire/darkside/components/cart';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from 'framer-motion';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 // import Search from 'components/search/Search';
@@ -50,6 +51,9 @@ const Header: FC<HeaderProps> = ({
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
+
+  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+
   const { section } = headerData.headerNavigationDynamic;
   const { scrollY } = useScroll();
 
@@ -79,6 +83,10 @@ const Header: FC<HeaderProps> = ({
     return setMegaMenuIndex(index);
   }
 
+  function toggleCart() {
+    return setIsCartOpen(!isCartOpen);
+  }
+
   function toggleMegaMenuClose() {
     setMegaMenuIndex(-1);
   }
@@ -97,7 +105,12 @@ const Header: FC<HeaderProps> = ({
 
         {isHome ? (
           <>
-            <StackedHeader navItems={section} toggleMegaMenuOpen={toggleMegaMenuOpen} menuIndex={megaMenuIndex} />
+            <StackedHeader
+              navItems={section}
+              toggleMegaMenuOpen={toggleMegaMenuOpen}
+              menuIndex={megaMenuIndex}
+              toggleCart={toggleCart}
+            />
 
             <AnimatePresence>
               <motion.div
@@ -120,16 +133,22 @@ const Header: FC<HeaderProps> = ({
                     toggleMegaMenuOpen={toggleMegaMenuOpen}
                     menuIndex={megaMenuIndex}
                     compactHeaderRef={compactHeaderRef}
+                    toggleCart={toggleCart}
                   />
                 </div>
               </motion.div>
             </AnimatePresence>
           </>
         ) : (
-          <CompactHeader navItems={section} toggleMegaMenuOpen={toggleMegaMenuOpen} menuIndex={megaMenuIndex} />
+          <CompactHeader
+            navItems={section}
+            toggleMegaMenuOpen={toggleMegaMenuOpen}
+            menuIndex={megaMenuIndex}
+            toggleCart={toggleCart}
+          />
         )}
 
-        <MobileHeader navItems={section} headerHeight={headerHeight} />
+        <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
 
         {isLoaded && (
           <MegaMenu
@@ -141,6 +160,7 @@ const Header: FC<HeaderProps> = ({
         )}
 
         {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
+        <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
       </div>
     </FullHeaderStyles>
   );

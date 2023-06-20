@@ -10,10 +10,11 @@ type StackedHeaderTypes = {
   navItems: NavItemsProps;
   toggleMegaMenuOpen: (index: number) => void;
   menuIndex: number;
+  toggleCart?: () => void;
 };
 
 // This header only appears on the home page. Stacks logo ontop of nac
-const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex }): JSX.Element => {
+const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, toggleCart }): JSX.Element => {
   const locale = 'en_US';
 
   return (
@@ -37,7 +38,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, m
           </div>
 
           <div className="nav__col--right">
-            <HeaderActionsNav />
+            <HeaderActionsNav toggleCart={toggleCart} />
           </div>
         </div>
         <div className="stacked-header__nav-wrapper stacked-bottom-level">

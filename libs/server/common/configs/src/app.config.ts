@@ -7,7 +7,7 @@ export default registerAs('app', () => ({
   mongoUri: process.env.MONGO_URI,
   apiPrefix: process.env.API_PREFIX || 'v1',
   shopifyStoreFrontGraphqlUri: process.env.SHOPIFY_STOREFRONT_GRAPHQL_URI,
-  shopifyStoreFrontAPIToken: process.env.SHOPIFY_STOREFRONT_API_TOKEN,
+  shopifyStoreFrontAPIToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN,
   shopifyAdminGraphqlUri: process.env.SHOPIFY_ADMIN_GRAPHQL_URI,
   shopifyAdminAPIToken: process.env.SHOPIFY_ADMIN_API_TOKEN,
   shopifyGidPrifix: process.env.SHOPIFY_GID_PREFIX,

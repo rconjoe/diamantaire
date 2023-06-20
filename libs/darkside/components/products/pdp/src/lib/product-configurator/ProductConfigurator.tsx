@@ -1,5 +1,8 @@
+import { CartContext } from '@diamantaire/darkside/components/cart';
+import { metalTypeAsConst } from '@diamantaire/shared/constants';
+import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
-import { useCallback, useState, Dispatch, SetStateAction } from 'react';
+import { useCallback, useState, Dispatch, SetStateAction, useContext } from 'react';
 import styled from 'styled-components';
 
 import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
@@ -11,6 +14,7 @@ type ProductConfiguratorProps = {
   selectedConfiguration: { [key: string]: string };
   initialVariantId: string;
   diamondId?: string;
+  additionalVariantData?: Record<string, string>;
 };
 
 function ProductConfigurator({
@@ -18,6 +22,7 @@ function ProductConfigurator({
   diamondId,
   selectedConfiguration,
   initialVariantId,
+  additionalVariantData,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(false);
@@ -25,6 +30,7 @@ function ProductConfigurator({
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration[sizeOptionKey]);
   const sizeOptions = configurations[sizeOptionKey];
 
+  // TODO: this is a hack to get the configurator to work with the current data structure
   const handleConfigChange = useCallback(
     (configState) => {
       const { diamondType, caratWeight } = configState;
@@ -34,7 +40,7 @@ function ProductConfigurator({
         setIsConfigurationComplete(true);
       }
     },
-    [diamondId],
+    [diamondId, selectedVariantId],
   );
 
   const handleSizeChange = useCallback((option: OptionItem) => {
@@ -60,8 +66,9 @@ function ProductConfigurator({
       )}
       <CtaButton
         variantId={String(selectedVariantId)}
-        isReadyForCart={isConfigurationComplete}
+        isReadyForCart={true}
         onClick={setIsConfigurationComplete}
+        additionalVariantData={additionalVariantData}
       />
     </>
   );
@@ -87,20 +94,62 @@ type CtaButtonProps = {
   variantId: string;
   isReadyForCart?: boolean;
   onClick: Dispatch<SetStateAction<boolean>>;
+  additionalVariantData?: any;
 };
 
 const CtaButtonContainer = styled(PrimaryButton)`
   margin: 10px 0;
 `;
 
-function CtaButton({ variantId, isReadyForCart, onClick }: CtaButtonProps) {
+function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButtonProps) {
+  const { addJewelryProductToCart, addERProductToCartByVariantId } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
-  const handleButtonClick = () => {
-    if (!isReadyForCart) onClick(true);
-  };
+  // const handleButtonClick = () => {
+  //   if (!isReadyForCart) onClick(true);
+  // };
+
+  const {
+    metal,
+    shape,
+    carat,
+    chainLength,
+    productTitle,
+    productType,
+    color,
+    clarity,
+    goldPurity,
+    bandAccent,
+    ringSize,
+    caratWeightOverride,
+    shopifyProductHandle,
+    image,
+  } = additionalVariantData;
+
+  async function addProductToCart() {
+    // Jewelry
+    if (productType !== 'Engagement Ring') {
+      await addJewelryProductToCart(variantId, productTitle, productType, shape, metal, chainLength, carat, image);
+    } else {
+      // ER - To be refactored
+      const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
+      const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+      const refinedBandAccent = bandAccent.charAt(0).toUpperCase() + bandAccent.slice(1);
+
+      await addERProductToCartByVariantId(
+        variantId,
+        productTitle,
+        shape,
+        refinedBandAccent,
+        erMetal,
+        ringSize,
+        diamondSpec,
+        image,
+      );
+    }
+  }
 
   return (
-    <CtaButtonContainer title={variantId} onClick={handleButtonClick}>
+    <CtaButtonContainer title={variantId} onClick={addProductToCart}>
       {ctaText}
     </CtaButtonContainer>
   );

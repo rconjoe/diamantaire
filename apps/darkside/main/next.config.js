@@ -56,17 +56,7 @@ const nextConfig = {
     deviceSizes: [576, 768, 992, 1200, 1440],
     imageSizes: [576, 768, 992, 1200, 1440],
   },
-  // experimental: {
-  //   swcPlugins: [
-  //     [
-  //       '@swc/plugin-styled-components',
-  //       {
-  //         displayName: true,
-  //         ssr: true,
-  //       },
-  //     ],
-  //   ],
-  // },
+
   // async rewrites() {
   //   return [
   //     {

@@ -84,6 +84,7 @@ function OptionSelector({
       DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
       OPTION_NAMES: OPTION_NAMES_MAP,
       METALS_IN_HUMAN_NAMES: METALS_IN_HUMAN_NAMES_MAP,
+      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
       BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
     } = {},
   } = useHumanNameMapper('en_US');
@@ -95,8 +96,7 @@ function OptionSelector({
 
   useEffect(() => {
     // TODO: Resolve error
-    if (swiper) {
-      console.log('swiper', swiper);
+    if (swiper && swiper?.params?.navigation) {
       swiper.params.navigation.prevEl = prevButtonRef.current;
       swiper.params.navigation.nextEl = nextButtonRef.current;
       swiper.navigation.init();
@@ -121,6 +121,7 @@ function OptionSelector({
   const selectorLabel = OPTION_NAMES_MAP?.[label]?.value;
 
   const selectorCurrentValue =
+    (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value);
@@ -208,6 +209,7 @@ function OptionSelector({
             {DIAMOND_SHAPES_MAP &&
               options.map((option) => {
                 const isSelected = selectedOptionValue === option.value;
+
                 // human readable value
                 const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
 

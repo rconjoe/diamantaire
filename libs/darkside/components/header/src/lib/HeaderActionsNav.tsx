@@ -69,7 +69,7 @@ const HeaderActionsNavContainer = styled.nav`
   }
 `;
 
-const HeaderActionsNav = () => {
+const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
   const links = [
     {
       title: 'Search',
@@ -97,6 +97,7 @@ const HeaderActionsNav = () => {
       title: 'Cart',
       icon: <ShoppingBagIcon alt="Cart" loading="eager" />,
       type: 'button',
+      onClick: () => toggleCart(),
       alt: 'Cart Toggle Button',
     },
   ];

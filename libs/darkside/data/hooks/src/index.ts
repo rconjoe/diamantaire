@@ -15,3 +15,4 @@ export * from './lib/products/use-product-instagram-reel';
 export * from './lib/products/use-product-video';
 export * from './lib/use-showroom-nav';
 export * from './lib/use-human-name-mapper';
+export * from './lib/use-cart-info';

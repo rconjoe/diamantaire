@@ -35,7 +35,7 @@ const ProductDescriptionContainer = styled.div`
   }
 
   a {
-    color: var(--color-accent);
+    color: var(--color-teal);
     text-decoration: underline;
     transition: 0.25s;
 

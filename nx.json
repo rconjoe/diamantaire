@@ -50,8 +50,7 @@
         "buildable": true
       },
       "application": {
-        "swc": true,
-        "babel": true
+        "swc": true
       }
     },
     "@nx/next": {

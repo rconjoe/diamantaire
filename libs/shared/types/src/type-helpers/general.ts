@@ -15,3 +15,7 @@ export interface DatoImageType {
     streamingUrl: string;
   };
 }
+
+export type ErrorWithMessage = {
+  message: string;
+};
