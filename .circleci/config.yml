@@ -154,7 +154,6 @@ workflows:
             branches:
               only:
                 - develop
-                - main
       - deploy-development:
           filters:
             branches:
@@ -165,18 +164,12 @@ workflows:
       - manual-approval:
           type: approval
           requires:
-            - build-image
+            - deploy-development
       - deploy-staging:
           requires:
             - manual-approval
-      - approve-production:
-          type: approval
-          requires:
-            - deploy-staging 
       - deploy-production:
           filters:
             branches:
               only:
-                - main 
-          requires:
-            - approve-production
+                - main
