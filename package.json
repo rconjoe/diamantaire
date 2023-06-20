@@ -26,6 +26,7 @@
   },
   "private": true,
   "dependencies": {
+    "@genql/cli": "^6.0.0",
     "@lukemorales/query-key-factory": "^1.0.3",
     "@nestjs/apollo": "^10.1.7",
     "@nestjs/axios": "^1.0.0",

@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "utils": {
+      "factory": "./src/generators/utils/generator",
+      "schema": "./src/generators/utils/schema.json",
+      "description": "utils generator"
+    }
+  }
+}

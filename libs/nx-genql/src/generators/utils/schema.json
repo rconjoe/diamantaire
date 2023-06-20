@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "Utils",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "api": {
+      "type": "string",
+      "description": "The API to generate helper stuff for",
+      "x-prompt": {
+        "message": "Which API?",
+        "type": "list",
+        "items": [
+          {
+            "value": "datocms",
+            "label": "DatoCMS"
+          },
+          {
+            "value": "shopify-admin",
+            "label": "Shopify Admin (not yet implemented)"
+          },
+          {
+            "value": "shopify-storefront",
+            "label": "Shopify Storefront (not yet implemented)"
+          }
+        ]
+      }
+    },
+    "project": {
+      "type": "string",
+      "description": "The project to put it in",
+      "x-prompt": "For what project?",
+      "x-prompt-type": "project"
+    }
+  }
+}

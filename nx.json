@@ -62,5 +62,6 @@
     }
   },
   "defaultProject": "darkside-main",
+  "plugins": ["@diamantaire/nx-genql"],
   "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
