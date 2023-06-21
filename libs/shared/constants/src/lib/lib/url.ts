@@ -52,5 +52,4 @@ export const CROSS_DOMAIN = {
   allowedOrigins: ['https://vrai.com', 'https://us.vrai.com', 'https://uk.vrai.com'],
   allowedReferer: 'vrai.com',
 };
-export const IMAGE_BASE_URL = 'https://images.vraiandoro.com';
 export const ACCOUNT_DETAILS_PATH = '/account/details';

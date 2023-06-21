@@ -1,10 +1,27 @@
-import { GREY_LIGHT, GREY_LIGHTEST, TEAL, WHITE } from '@diamantaire/styles/darkside-styles';
+import {
+  FONT_SIZE_6,
+  FONT_SIZE_7,
+  FONT_SIZE_8,
+  GREY_LIGHT,
+  GREY_LIGHTER,
+  GREY_LIGHTEST,
+  TEAL,
+  WHITE,
+  tabletAndUp,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
-  display: flex;
-  font-size: 14px;
-  flex: 1;
+  font-size: ${FONT_SIZE_8};
+  display: block;
+  margin: 30px -25px 0;
+
+  ${tabletAndUp(`
+    font-size: ${FONT_SIZE_7};
+    width: 100%;
+    display: flex;
+    margin: 0;
+  `)}
 
   .vo-table-container {
     display: flex;
@@ -19,8 +36,19 @@ const StyledDiamondTable = styled.div`
     margin: 0;
     background-color: ${WHITE};
 
+    border: 1px solid ${GREY_LIGHT};
+    border-bottom: 0;
+
     &:nth-child(2n) {
       background-color: ${GREY_LIGHTEST};
+    }
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid ${GREY_LIGHT};
     }
   }
 
@@ -50,21 +78,37 @@ const StyledDiamondTable = styled.div`
   .vo-table-head {
     display: flex;
     width: 100%;
+    z-index: 1;
+    position: sticky;
+    top: ${(props) => props.headerHeight}px;
   }
 
   .vo-table-head .vo-table-row {
     justify-content: space-between;
     flex-direction: row;
     display: flex;
-    background-color: ${GREY_LIGHTEST};
+    background: ${GREY_LIGHTER} !important;
     width: 100%;
     margin: 0;
+    border-top: 1px solid ${GREY_LIGHT};
   }
 
   .vo-table-head .vo-table-cell {
     cursor: pointer;
     border-right: 1px solid ${GREY_LIGHT};
+    background: ${GREY_LIGHTER} !important;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    font-weight: 500;
+
+    ${tabletAndUp(`
+      background: ${GREY_LIGHTEST} !important;
+      padding: 15px 20px;
+    `)}
   }
 
   .vo-table-head .vo-table-cell:last-child {
@@ -89,10 +133,17 @@ const StyledDiamondTable = styled.div`
     width: 100%;
   }
 
+  .vo-table-body .vo-table-row.active,
   .vo-table-body .vo-table-row-head:hover,
   .vo-table-body .vo-table-row-head:focus {
     background-color: ${TEAL};
     color: ${WHITE};
+  }
+
+  .vo-table-body .vo-table-row-body {
+    display: block;
+    background: ${WHITE};
+    border-top: 1px solid ${GREY_LIGHT};
   }
 
   .vo-table-pagination {
@@ -143,8 +194,8 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-pagination p {
-    font-size: 14px;
     margin-top: 10px;
+    font-size: ${FONT_SIZE_7};
   }
 
   .vo-table-pagination button:hover,
@@ -165,7 +216,7 @@ const StyledDiamondTable = styled.div`
     gap: 20px;
     align-items: center;
     justify-content: center;
-    font-size: 21px;
+    font-size: ${FONT_SIZE_6};
     width: 300px;
   }
 
@@ -190,7 +241,11 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-sort-icon {
-    margin-left: 10px;
+    margin-left: 5px;
+
+    ${tabletAndUp(`
+      margin-left: 10px;
+    `)}
   }
 
   .vo-table-no-result {

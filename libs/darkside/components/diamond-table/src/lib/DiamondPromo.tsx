@@ -5,18 +5,19 @@ import Image from 'next/image';
 import StyledDiamondPromo from './DiamondPromo.style';
 
 export interface DiamondPromoProps {
-  locale: string;
+  locale?: string;
+  className?: string;
 }
 
 export function DiamondPromo(props: DiamondPromoProps) {
-  const { locale } = props;
+  const { locale = 'en_US', className } = props;
   const DiamondTableContent = useDiamondTableData(locale);
   const diamonTableData = DiamondTableContent.data.diamondTable;
   const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent, blockquote: quotes } = diamonTableData;
   const leoQuote = quotes.find((v) => v.title === 'LEONARDO DICAPRIO');
 
   return (
-    <StyledDiamondPromo>
+    <StyledDiamondPromo className={className}>
       <div className="banner">
         <Heading type="h2" className="title">
           {diamondPromoTitle}

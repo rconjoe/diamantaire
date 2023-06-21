@@ -1,35 +1,81 @@
-import { FONT_SIZE_4 } from '@diamantaire/styles/darkside-styles';
+import { FONT_SIZE_4, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
+
+const asideWidthLG = '400px';
+const asideWidthMD = '40%';
+const gapMD = '2.4rem';
+const gapLG = '50px';
 
 const StyledDiamondPage = styled.div`
   margin: 25px auto 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 50px;
+  display: block;
+
+  ${tabletAndUp(`
+    margin: 25px auto 0;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 0 ${gapMD};
+  `)}
+
+  ${desktopAndUp(`
+    gap: 0 ${gapLG};
+  `)}
 
   .page-title {
     width: 100%;
+    display: block;
     padding: 0 0 30px;
-    display: flex;
-    justify-content: flex-end;
+
+    ${tabletAndUp(`
+      display: flex;
+      justify-content: flex-end;
+    `)}
 
     .title {
       font-size: ${FONT_SIZE_4};
-      font-weight: 500;
-      width: calc(100% - 450px);
       text-align: center;
       line-height: 30px;
+      font-weight: 500;
+
+      ${tabletAndUp(`
+        width: calc(100% - ${asideWidthMD} - ${gapMD});
+      `)}
+
+      ${desktopAndUp(`
+        width: calc(100% - ${asideWidthLG} - ${gapLG});
+      `)}
     }
   }
 
   .page-aside {
-    width: 400px;
-    max-width: 100%;
-    margin-top: -30px;
+    display: block;
+    width: 100%;
 
-    position: sticky;
-    align-self: flex-start;
-    top: 155px;
+    ${tabletAndUp(`
+      width: ${asideWidthMD};
+      display: flex;
+      flex-direction: column;
+      margin-top: -30px;
+      position: sticky;
+      align-self: flex-start;
+      top: 155px;
+    `)}
+
+    ${desktopAndUp(`
+      width: ${asideWidthLG};
+    `)}
+  }
+
+  .page-main {
+    width: 100%;
+
+    ${tabletAndUp(`
+      width: calc(100% - ${asideWidthMD} - ${gapMD});
+    `)}
+
+    ${desktopAndUp(`
+      width: calc(100% - ${asideWidthLG} - ${gapLG});
+    `)}
   }
 `;
 

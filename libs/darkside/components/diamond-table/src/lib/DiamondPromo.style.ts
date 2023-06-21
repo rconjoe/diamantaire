@@ -1,15 +1,18 @@
-import { FONT_SIZE_5, FONT_SIZE_6, GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
+import { FONT_SIZE_5, FONT_SIZE_6, GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondPromo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 20px 0 0;
+  margin: 0 0 20px;
+
+  ${tabletAndUp(`
+    margin: 20px 0 0;
+  `)}
 
   .banner {
     display: block;
-    border: 1px solid ${GREY_LIGHTEST};
     background: ${GREY_LIGHTEST};
     padding: 20px;
     margin: 0;
@@ -47,9 +50,12 @@ const StyledDiamondPromo = styled.div`
 
   .leo {
     display: block;
-    background: ${GREY_LIGHTEST};
     padding: 20px;
     text-align: center;
+
+    ${tabletAndUp(`
+      background: ${GREY_LIGHTEST};
+    `)}
 
     h2 {
       font-size: ${FONT_SIZE_5};

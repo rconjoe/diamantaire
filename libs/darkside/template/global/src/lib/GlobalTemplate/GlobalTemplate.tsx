@@ -38,9 +38,18 @@ export const GlobalTemplate = ({ children }) => {
 
   useEffect(() => {
     if (!headerRef.current) return;
+
     const resizeObserver = new ResizeObserver(() => {
       setHeaderHeight(headerRef.current.offsetHeight);
     });
+
+    window.dispatchEvent(
+      new CustomEvent('RESET_HEADER_HEIGHT', {
+        detail: {
+          headerHeight,
+        },
+      }),
+    );
 
     resizeObserver.observe(headerRef.current);
 

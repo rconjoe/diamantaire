@@ -12,7 +12,15 @@ const SpritSpinnerContainer = styled.div`
   }
 `;
 
-const SpriteSpinner = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
+interface SpriteSpinnerProps {
+  shouldStartSpinner?: boolean;
+  bunnyBaseURL: string;
+  spriteSource?: string;
+  onSpriteLoad?: () => void;
+}
+
+const SpriteSpinner = (props: SpriteSpinnerProps) => {
+  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad } = props;
   const spinnerEl = useRef(null);
 
   useEffect(() => {
@@ -54,19 +62,19 @@ const SpriteSpinner = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
         });
       }
     } else {
-      const url = this.props.spriteImageUrl;
+      const url = bunnyBaseURL;
 
-      if (typeof this.spinnerEl?.spritespin === 'function') {
-        this.spinnerEl.spritespin({
+      if (typeof spinnerEl?.current?.spritespin === 'function') {
+        spinnerEl?.current.spritespin({
           source: url,
           frames: 100,
           framesX: 6,
           responsive: true,
-          retainAnimate: this.props?.retainAnimate || true,
+          retainAnimate: false,
           frameTime: 120,
           sense: -1,
           plugins: ['360', 'move'],
-          onLoad: this.props.onSpriteLoad,
+          onLoad: onSpriteLoad,
 
           // Needed for CORS issue hack
           crossOrigin: 'anonymous',
@@ -82,6 +90,7 @@ const SpriteSpinner = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
       api.toggleAnimation();
     }
   }
+
   function pauseSpinner() {
     const api = spinnerEl.current.spritespin('api');
 
@@ -111,3 +120,5 @@ const SpriteSpinner = ({ shouldStartSpinner, bunnyBaseURL, spriteSource }) => {
 };
 
 export default SpriteSpinner;
+
+export { SpriteSpinner };

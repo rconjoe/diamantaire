@@ -19,6 +19,7 @@ export * from './lib/gift';
 export * from './lib/goldPurity';
 export * from './lib/hiddenPage';
 export * from './lib/hubspot';
+export * from './lib/image';
 export * from './lib/jewelry';
 export * from './lib/klaviyo';
 export * from './lib/listPage';
@@ -34,6 +35,7 @@ export * from './lib/shipping';
 export * from './lib/showRoom';
 export * from './lib/tags';
 export * from './lib/url';
+export * from './lib/video';
 
 // TODO: tidy up the rest of the list
 export enum ProngStyles {

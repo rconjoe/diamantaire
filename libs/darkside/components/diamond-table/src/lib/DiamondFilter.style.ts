@@ -1,4 +1,4 @@
-import { FONT_SIZE_7, TEAL } from '@diamantaire/styles/darkside-styles';
+import { FONT_SIZE_7, TEAL, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
@@ -29,7 +29,11 @@ const StyledDiamondFilter = styled.div`
   }
 
   .vo-filter-radio .vo-filter-list {
-    gap: 10px;
+    gap: 5px;
+
+    ${desktopAndUp(`
+      gap: 10px;
+    `)}
   }
 
   .vo-filter-radio,
@@ -57,7 +61,7 @@ const StyledDiamondFilter = styled.div`
   .vo-filter-list-item a {
     color: #333;
     width: 100%;
-    padding: 3px 5px;
+    padding: 4px 2px;
     display: flex;
     border: 1px solid transparent;
   }
@@ -74,6 +78,17 @@ const StyledDiamondFilter = styled.div`
 
   .vo-filter-diamondType {
     flex-direction: column;
+    max-width: 100%;
+
+    .vo-filter-radio {
+      max-width: 100%;
+      overflow-x: auto;
+
+      ::-webkit-scrollbar {
+        opacity: 0;
+        height: 0;
+      }
+    }
 
     .vo-filter-list {
       list-style: none;

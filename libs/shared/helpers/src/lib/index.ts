@@ -9,5 +9,6 @@ export * from './images';
 export * from './products';
 export * from './getRelativeUrl';
 export * from './getCountry';
+export * from './canUseWebP';
 export * from './extractMetalTypeFromShopifyHandle';
 export * from './formatCurrency';

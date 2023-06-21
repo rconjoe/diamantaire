@@ -1,4 +1,5 @@
 export * from './Button';
+export * from './CertificateThumb';
 export * from './Heading';
 export * from './LazyLoadWrapper';
 export * from './ImageTile';
@@ -11,3 +12,5 @@ export * from './Form';
 export * from './SwiperStyles';
 export * from './Slider';
 export * from './Tooltip';
+export * from './SpriteSpinner';
+export * from './Accordion';

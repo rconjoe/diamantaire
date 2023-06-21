@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamond-table';
 import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -10,6 +10,7 @@ import { getDiamondsOptionsFromUrl, getDiamondsOptionsRoute } from '@diamantaire
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useState, useEffect } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
@@ -84,7 +85,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   useEffect(() => {
     router.push(getDiamondsOptionsRoute(options), undefined, { shallow: true });
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
 
@@ -102,6 +103,10 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   return (
     <StyledDiamondPage className="container-emotion">
+      <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+
+      <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
+
       <div className="page-title">
         <Heading className="title">{title}</Heading>
       </div>
@@ -118,10 +123,18 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
           currencyCode={currencyCode}
         />
 
-        <DiamondPromo locale={locale} />
+        <ShowTabletAndUpOnly>
+          <DiamondPromo locale={locale} />
+        </ShowTabletAndUpOnly>
       </div>
 
-      <DiamondTable {...tableProps} title={title} />
+      <div className="page-main">
+        <DiamondTable {...tableProps} title={title} />
+      </div>
+
+      <ShowMobileOnly>
+        <DiamondPromo locale={locale} />
+      </ShowMobileOnly>
     </StyledDiamondPage>
   );
 };

@@ -7,3 +7,4 @@ export * from './AccountIcon';
 export * from './ChatIcon';
 export * from './BookCalendarIcon';
 export * from './MailIcon';
+export * from './ArrowNewWindowIcon';

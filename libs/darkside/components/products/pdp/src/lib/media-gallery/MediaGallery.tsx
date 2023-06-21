@@ -1,10 +1,9 @@
+import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-
-import SpriteSpinner from '../spritespinner/SpriteSpinner';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 

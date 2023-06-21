@@ -51,6 +51,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.shopify.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.vraiandoro.com',
+      },
     ],
     // let's refine deviceSizes
     deviceSizes: [576, 768, 992, 1200, 1440],
