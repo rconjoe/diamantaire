@@ -1,13 +1,9 @@
 import { EventSchemas, Inngest } from 'inngest';
 
-type DemoPingDato = {
-  data: {
-    recordId: string;
-  };
-};
+import { DemoPingDatoEvent } from './demo';
 
 type Events = {
-  'demo/ping.dato': DemoPingDato;
+  'demo/ping.dato': DemoPingDatoEvent;
 };
 
 export const inngest = new Inngest({

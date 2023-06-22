@@ -3,6 +3,12 @@ import { NonRetriableError } from 'inngest';
 
 import { inngest } from './client';
 
+export type DemoPingDatoEvent = {
+  data: {
+    recordId: string;
+  };
+};
+
 const datodemo = inngest.createFunction(
   { name: 'Demo Dato Pinger' },
   { event: 'demo/ping.dato' },
