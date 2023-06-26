@@ -42,7 +42,7 @@
     "@nestjs/swagger": "6.3.0",
     "@nestjs/terminus": "^9.1.4",
     "@reach/accordion": "^0.18.0",
-    "@sentry/nextjs": "^7.35.0",
+    "@sentry/nextjs": "7.56.0",
     "@tanstack/react-query": "^4.23.0",
     "@tanstack/react-query-devtools": "^4.23.0",
     "@tanstack/react-table": "^8.7.9",

@@ -22,14 +22,14 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
     <div className="content-one-container">
       <Suspense fallback={'Loading'}>
         {page?.content1?.map((contentBlockData, idx) => {
-          const { id, _modelApiKey } = contentBlockData;
+          const { _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
           const contentIsAboveFold = idx < 2;
           const shouldLazyLoad = contentIsAboveFold ? false : true;
 
           return (
-            <React.Fragment key={id}>
+            <React.Fragment key={`${_modelApiKey}_${idx}`}>
               <BlockPicker
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}
