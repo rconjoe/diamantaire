@@ -7,6 +7,8 @@
 
 ---
 
+[![CircleCI](https://dl.circleci.com/insights-snapshot/gh/DiamondFoundry/diamantaire/develop/build-test-deploy/badge.svg?window=24h&circle-token=1f8a3c24cdf0ed082d81a3750b4e33ba1d3b8146)](https://app.circleci.com/insights/github/DiamondFoundry/diamantaire/workflows/build-test-deploy/overview?branch=develop&reporting-window=last-24-hours&insights-snapshot=true)
+
 # Tips
 
 During a rebase, you can skip Husky checks with:
