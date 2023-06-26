@@ -7,12 +7,13 @@
  */
 
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { ProductVariantInput } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 
 @ApiTags('Product Variant')
+@ApiHeader({ name: 'x-api-key', required: true })
 @Controller()
 export class ProductController {
   constructor(private readonly productService: ProductsService) {}

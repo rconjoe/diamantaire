@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
@@ -7,6 +7,7 @@ import { DiamondsService } from '../services/diamond.service';
 
 @Controller('diamonds')
 @ApiTags('Diamonds')
+@ApiHeader({ name: 'x-api-key', required: true })
 export class DiamondsController {
   constructor(private readonly diamondsService: DiamondsService) {}
   @Get()

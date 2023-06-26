@@ -1,6 +1,7 @@
 export * from './lib/core.module';
 export * from './filters/http-exception.filter';
 export * from './interceptors/logging-interceptor';
+export * from './interceptors/sentry-interceptor';
 export * from './serializers/response-serializer';
 export * from './pipes/validation-pipe';
 export * from './middleware/origin.middleware';

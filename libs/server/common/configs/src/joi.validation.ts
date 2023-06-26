@@ -6,7 +6,7 @@ export const JoiSchemaValidation = Joi.object({
 
   MONGO_URI: Joi.required().messages({ message: 'MONGODB_URI is required' }),
   SHOPIFY_STOREFRONT_GRAPHQL_URI: Joi.string().required(),
-  NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN: Joi.string().required(),
+  // NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN: Joi.string().required(),
   SHOPIFY_ADMIN_GRAPHQL_URI: Joi.string().required(),
   SHOPIFY_ADMIN_API_TOKEN: Joi.string().required(),
   DATO_GRAPHQL_URI: Joi.string().required(),

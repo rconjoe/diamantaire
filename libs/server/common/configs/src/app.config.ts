@@ -20,6 +20,8 @@ export default registerAs('app', () => ({
   oauthRealm: process.env.RESTLET_OAUTH_REALM,
   netsuiteDiamondAvailabilityRestletUri: process.env.NETSUITE_DIAMOND_AVAILABILITY_RESTLET_URI,
   apiKey: process.env.API_KEY,
+  sentryDsn: process.env.SENTRY_DSN,
+  swaggerPassword: process.env.SWAGGER_PASSWORD,
   graphql: {
     playgroundEnabled: true,
     debug: true,

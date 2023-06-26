@@ -12,6 +12,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import * as Sentry from '@sentry/node';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import appConfig from 'libs/server/common/configs/src/app.config';
 
@@ -40,7 +41,13 @@ import { AppService } from './app.service';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(CorsMiddleware, AuthMiddleware, OriginMiddleware)
+      .apply(
+        CorsMiddleware,
+        AuthMiddleware,
+        OriginMiddleware,
+        Sentry.Handlers.requestHandler(),
+        Sentry.Handlers.tracingHandler(),
+      )
       .exclude({ path: 'health', method: RequestMethod.GET }, { path: 'graphql', method: RequestMethod.GET })
       .forRoutes('*');
   }
