@@ -1,4 +1,4 @@
-import { BLACK, GREY, GREY_LIGHTER, GREY_LIGHTEST, TEAL } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY, GREY_LIGHTER, GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledSlider = styled.div`
@@ -88,7 +88,7 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-touch-area {
-    background: ${TEAL};
+    background: var(--color-teal);
     border-radius: 50%;
     height: 15px;
     width: 15px;
@@ -144,7 +144,7 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-connect {
-    background: ${TEAL};
+    background: var(--color-teal);
   }
 
   /* Handles and cursors; */

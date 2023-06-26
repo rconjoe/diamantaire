@@ -4,7 +4,7 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": ["default"],
+    "production": ["default", "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)", "!{projectRoot}/.storybook/**/*"],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "targetDefaults": {
@@ -20,13 +20,16 @@
     },
     "lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    },
+    "build-storybook": {
+      "inputs": ["default", "^production", "!{projectRoot}/.storybook/**/*"]
     }
   },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["build"],
+        "cacheableOperations": ["build", "build-storybook"],
         "accessToken": "MjlkODIwOTMtZjU1ZS00ZDAwLWI3ZGYtMTEzZTRlMTNlZDFhfHJlYWQtd3JpdGU="
       }
     }
@@ -50,7 +53,8 @@
         "buildable": true
       },
       "application": {
-        "swc": true
+        "swc": true,
+        "babel": true
       }
     },
     "@nx/next": {

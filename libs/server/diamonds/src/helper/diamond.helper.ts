@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { IDiamondCollection } from '../interface/diamond.interface';
 
-export function removeIdenticalDiamond4Cs(diamonds: IDiamondCollection) {
+export function removeIdenticalDiamond4Cs(diamonds): IDiamondCollection[] {
   return _.uniqWith(diamonds, isIdenticalDiamond);
 }
 

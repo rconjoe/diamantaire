@@ -1,4 +1,4 @@
-import { setSpace, MEDIUM_FONT_WEIGHT, tabletAndUp, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularEmailSignupBlockContainer = styled.div`
@@ -70,7 +70,7 @@ export const ModularEmailSignupBlockContainer = styled.div`
     &.blog {
       font-size: 24px;
       line-height: 1.2;
-      font-weight: ${MEDIUM_FONT_WEIGHT};
+      font-weight: var(--font-weight-medium);
       ${tabletAndUp(`
       font-size: 28px;
     `)}

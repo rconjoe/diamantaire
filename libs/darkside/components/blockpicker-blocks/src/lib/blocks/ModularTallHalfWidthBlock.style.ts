@@ -5,7 +5,6 @@ import {
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  COPY_SIZE_SMALL,
   WHITE,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
@@ -310,7 +309,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
       font-weight: 400 !important;
     }
 
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
 
     a {
       text-decoration-line: underline;

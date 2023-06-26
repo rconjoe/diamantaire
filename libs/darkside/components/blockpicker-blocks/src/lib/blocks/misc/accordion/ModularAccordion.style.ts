@@ -1,4 +1,4 @@
-import { mobileOnly, setSpace, COPY_SIZE_SMALL } from '@diamantaire/styles/darkside-styles';
+import { mobileOnly, setSpace } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularAccordionContainer = styled.div`
@@ -105,12 +105,12 @@ export const ModularAccordionContainer = styled.div`
   }
 
   .accordion__copy {
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
     margin-bottom: ${setSpace(3)};
   }
 
   .accordion__bottom-copy {
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
     line-height: 1.5;
     margin-top: ${setSpace(4)};
   }

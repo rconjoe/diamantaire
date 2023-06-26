@@ -1,10 +1,4 @@
-import {
-  tabletAndUp,
-  setSpace,
-  HEADLINE_SIZE,
-  MEDIUM_FONT_WEIGHT,
-  BOLD_FONT_WEIGHT,
-} from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 interface Props {
@@ -40,13 +34,13 @@ export const ImageTileContainer = styled.div<Props>`
   .image-tile__title {
     margin: 5px 0;
     .in-the-media & {
-      font-weight: ${BOLD_FONT_WEIGHT};
+      font-weight: var(--font-weight-bold);
       text-transform: uppercase;
       line-height: 32px;
     }
     &.primary {
-      font-weight: ${MEDIUM_FONT_WEIGHT};
-      font-size: ${HEADLINE_SIZE};
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-headline);
       line-height: 1.3;
       ${tabletAndUp(`
         font-size: 2rem;

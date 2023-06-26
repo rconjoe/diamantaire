@@ -1,12 +1,10 @@
 import {
-  TEAL,
   WHITE,
   setSpace,
   tabletAndUp,
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  COPY_SIZE_SMALL,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -306,9 +304,9 @@ export const SubTitle = styled.div`
   &.-blog {
     line-height: 0;
     margin-bottom: ${setSpace(3)};
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
     font-weight: 300;
-    color: ${TEAL} !important;
+    color: var(--color-teal) !important;
   }
 `;
 

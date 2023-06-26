@@ -19,7 +19,7 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
       $headerHeight={headerHeight}
       $isFixed={isCompactMenuVisible}
     >
-      <div className="mega-menu__wrapper container-emotion">
+      <div className="mega-menu__wrapper container-wrapper">
         {Array.isArray(navItems) &&
           navItems?.map((menu, menuIndex) => {
             const { key, columns }: Partial<MenuLink> = menu;

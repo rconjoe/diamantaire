@@ -49,7 +49,7 @@ const ModularSideBySideBlock = ({
 
   return (
     <ModularSideBySideBlockContainer
-      className={clsx('container-emotion', additionalClass)}
+      className={clsx('container-wrapper', additionalClass)}
       $textBlockAlignment={textBlockAlignment}
     >
       <div className={clsx('side-by-side__image-container', additionalClass)}>

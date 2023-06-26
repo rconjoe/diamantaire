@@ -53,7 +53,7 @@ const ProductReviews = ({ reviewsId, shouldUseProductId, isReviewsPage }: Produc
           __html: stripIndent`{"gaEventTrackingEnabled":true,"omitMicrodata":true,"reviewSortOrder":"date","subscriberId":"c4c79526-c8cc-4c48-80ec-9ea847c75f69","widgetTemplateId":"default"}`,
         }}
       />
-      <WidgetContainer className={clsx('okeReviews-widget-holder', 'container-emotion')}>
+      <WidgetContainer className={clsx('okeReviews-widget-holder', 'container-wrapper')}>
         <div className="okeReviews okeReviews--theme js-okeReviews-headerAggregateHolder" />
         {getReviewType(isReviewsPage, shouldUseProductId, reviewsId)}
       </WidgetContainer>

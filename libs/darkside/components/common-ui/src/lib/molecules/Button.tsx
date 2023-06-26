@@ -1,14 +1,11 @@
 import {
-  MEDIUM_FONT_WEIGHT,
   setSpace,
   noHoverDevice,
   tabletAndUp,
   MAIN_FONT,
-  COPY_SIZE,
   WHITE,
   BLACK,
   TRANSPARENT,
-  TEAL,
   TEAL_MED,
   GREY_DARK,
   GREY_MED,
@@ -37,8 +34,8 @@ const ButtonStyles = styled.button<Props>`
 
   /* Black text on on white background with white border */
   &.primary {
-    font-weight: ${MEDIUM_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-copy);
     width: ${setSpace(25)};
     height: ${setSpace(6)};
     border: 2px solid ${BLACK};
@@ -63,7 +60,7 @@ const ButtonStyles = styled.button<Props>`
         color: ${BLACK};
 
         &.-hover-font-teal {
-          color: ${TEAL};
+          color: var(--color-teal);
         }
       }
 
@@ -96,7 +93,7 @@ const ButtonStyles = styled.button<Props>`
           color: ${BLACK};
 
           &.-hover-font-teal {
-            color: ${TEAL};
+            color: var(--color-teal);
           }
         }
 
@@ -117,15 +114,15 @@ const ButtonStyles = styled.button<Props>`
 
   /* Teal link */
   &.secondary {
-    font-weight: ${MEDIUM_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-copy);
     border: 0;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: ${setSpace(0.5)};
     padding-top: ${setSpace(0.5)};
-    border-bottom: 1px solid ${TEAL};
-    color: ${TEAL};
+    border-bottom: 1px solid var(--color-teal);
+    color: var(--color-teal);
     transition: 0.1s linear border-bottom, 0.1s linear color;
 
     &:hover {
@@ -134,8 +131,8 @@ const ButtonStyles = styled.button<Props>`
     }
 
     &:active {
-      color: ${TEAL};
-      border-color: ${TEAL};
+      color: var(--color-teal);
+      border-color: var(--color-teal);
     }
 
     &.-black {
@@ -158,8 +155,8 @@ const ButtonStyles = styled.button<Props>`
 
   /* PDPs / BuyFlow */
   &.tertiary {
-    font-weight: ${MEDIUM_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-copy);
     width: ${setSpace(25)};
     height: ${setSpace(6)};
     color: ${WHITE};
@@ -224,10 +221,22 @@ const ButtonStyles = styled.button<Props>`
   ${(props) => props.css};
 `;
 
-const Button = (props) => {
+type ButtonProps = {
+  children: React.ReactNode;
+  className?: string;
+  type?: 'solid' | 'outline' | 'underline';
+  isLink?: boolean;
+};
+
+const Button = ({ className, children, type = 'solid' }: ButtonProps) => {
   return (
-    <ButtonStyles {...props} className={clsx(props.className)}>
-      {props.children}
+    <ButtonStyles
+      className={clsx(className, {
+        primary: type === 'solid',
+        inverse: type === 'outline',
+      })}
+    >
+      {children}
     </ButtonStyles>
   );
 };

@@ -32,7 +32,7 @@ const ModularHalfWidthQuadBlock = (props) => {
   });
 
   return (
-    <ModularHalfWidthQuadBlockContainer className="container-emotion" $imageAlignment={imageAlignment}>
+    <ModularHalfWidthQuadBlockContainer className="container-wrapper" $imageAlignment={imageAlignment}>
       <div className={clsx('quad__image-quad-container')}>
         {!ctaRoute && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />}
         {ctaRoute && (

@@ -1,21 +1,11 @@
-import {
-  setSpace,
-  mobileOnly,
-  desktopAndUp,
-  MAIN_FONT,
-  COPY_SIZE,
-  COPY_SIZE_SMALL,
-  NORMAL_FONT_WEIGHT,
-  TEAL,
-  MEDIUM_FONT_WEIGHT,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const MarkdownContainer = styled.div`
   &.with-styles {
     margin: ${setSpace(2)} auto 0;
-    font-weight: ${NORMAL_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-copy);
 
     a {
       text-decoration: underline;
@@ -25,13 +15,13 @@ export const MarkdownContainer = styled.div`
     margin-bottom: 10px;
 
     p {
-      font-weight: ${NORMAL_FONT_WEIGHT};
-      font-size: ${COPY_SIZE};
+      font-weight: var(--font-weight-normal);
+      font-size: var(--font-size-copy);
       margin: 20px 0;
     }
 
     h1 {
-      font-weight: ${NORMAL_FONT_WEIGHT};
+      font-weight: var(--font-weight-normal);
       font-size: 42px;
       line-height: 1.2;
 
@@ -43,7 +33,7 @@ export const MarkdownContainer = styled.div`
     // we should NOT be using the strong tag, so let's override it to be an h2
     h2,
     strong {
-      font-weight: ${MEDIUM_FONT_WEIGHT};
+      font-weight: var(--font-weight-medium);
       font-size: 28px;
       line-height: 1.2;
 
@@ -55,27 +45,27 @@ export const MarkdownContainer = styled.div`
       letter-spacing: 0px;
       font-family: ${MAIN_FONT};
       font-style: normal;
-      font-size: ${COPY_SIZE};
+      font-size: var(--font-size-copy);
       font-weight: 400;
       line-height: ${setSpace(3)};
     }
 
     &.-links-teal {
       a {
-        color: ${TEAL};
+        color: var(--color-teal);
       }
     }
 
     &.-modularSideBySideBlock {
       margin: 0;
       h2 {
-        font-size: ${COPY_SIZE};
+        font-size: var(--font-size-copy);
         ${desktopAndUp(`
         font-size: 22px;
       `)};
       }
       h2 {
-        font-size: ${COPY_SIZE};
+        font-size: var(--font-size-copy);
         ${desktopAndUp(`
         font-size: 22px;
       `)};
@@ -84,7 +74,7 @@ export const MarkdownContainer = styled.div`
         font-size: unset;
       }
       h3 {
-        font-size: ${COPY_SIZE_SMALL};
+        font-size: var(--font-size-copy-sm);
       }
     }
     &.-textOnlyBlock {

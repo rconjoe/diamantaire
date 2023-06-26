@@ -1,0 +1,108 @@
+import { createGlobalStyle } from 'styled-components';
+
+import { LAYOUT_WIDTH_LG, LAYOUT_WIDTH_MD, LAYOUT_WIDTH_SM, LAYOUT_WIDTH_XL, LAYOUT_WIDTH_XXL } from './layout';
+import * as mediaQueries from './mediaQueries';
+import { setSpace } from './setSpace';
+import { CART_DRAWER_Z_INDEX, POPUP_Z_INDEX } from './zIndexMap';
+
+// hack for styled-components to have prettier formatting :)
+const styled = { createGlobalStyle };
+
+export const CssHelpers = styled.createGlobalStyle`
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .flex {
+    display: flex;
+  }
+  .list-unstyled {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .container-wrapper {
+    width: ${LAYOUT_WIDTH_SM};
+    padding-left: ${setSpace(3)};
+    padding-right: ${setSpace(3)};
+    margin-right: auto;
+    margin-left: auto;
+
+    ${mediaQueries.tabletAndUp(`
+        max-width: ${LAYOUT_WIDTH_MD};
+        padding-left: initial;
+        padding-right: initial;
+    `)};
+
+    ${mediaQueries.desktopAndUp(`
+        max-width: ${LAYOUT_WIDTH_LG};
+    `)};
+
+    ${mediaQueries.XLDesktopAndUp(`
+        max-width: ${LAYOUT_WIDTH_XL};
+    `)};
+
+    ${mediaQueries.XXLDesktopAndUp(`
+        max-width: ${LAYOUT_WIDTH_XXL};
+    `)};
+  }
+
+  .okeReviews-widget-holder {
+    padding: 0 30px 40px !important;
+
+    ${mediaQueries.desktopAndUp(`
+        padding: 0 50px 50px !important;
+    `)}
+  }
+
+  iframe#kustomer-ui-sdk-iframe {
+    z-index: ${CART_DRAWER_Z_INDEX - 1} !important;
+  }
+  .grecaptcha-badge {
+    visibility: hidden;
+  }
+  .ReactModalPortal {
+    z-index: ${POPUP_Z_INDEX};
+    position: relative;
+  }
+
+  #nprogress {
+    pointer-events: none;
+  }
+
+  #nprogress .bar {
+    background: var(--color-teal);
+
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+  }
+
+  /* Fancy blur effect */
+  #nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px var(--color-teal), 0 0 5px var(--color-teal);
+    opacity: 1;
+
+    -webkit-transform: rotate(3deg) translate(0px, -4px);
+    -ms-transform: rotate(3deg) translate(0px, -4px);
+    transform: rotate(3deg) translate(0px, -4px);
+  }
+`;

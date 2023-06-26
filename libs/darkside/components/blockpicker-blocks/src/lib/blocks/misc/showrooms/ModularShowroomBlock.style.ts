@@ -1,14 +1,4 @@
-import {
-  setSpace,
-  desktopAndUp,
-  tabletAndUp,
-  MAIN_FONT,
-  makeTealLink,
-  COPY_SIZE,
-  COPY_SIZE_SMALL,
-  MEDIUM_FONT_WEIGHT,
-  NORMAL_FONT_WEIGHT,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, tabletAndUp, MAIN_FONT, makeTealLink } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularShowroomBlockContainer = styled.div`
@@ -66,18 +56,18 @@ export const ModularShowroomBlockContainer = styled.div`
   }
 
   .showroom__text-section {
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
   }
 
   .showroom__title {
     margin-bottom: ${setSpace(1)} !important;
-    font-weight: ${MEDIUM_FONT_WEIGHT};
+    font-weight: var(--font-weight-medium);
     font-size: 22px;
     font-family: ${MAIN_FONT};
     text-align: left;
 
     ${desktopAndUp(`
-    font-weight: ${NORMAL_FONT_WEIGHT};
+    font-weight: var(--font-weight-normal);
     font-size: 42px;
     margin-bottom: ${setSpace(2)} !important;
   `)};
@@ -109,7 +99,7 @@ export const ModularShowroomBlockContainer = styled.div`
 
   .showroom__appt-cta-button {
     width: 100% !important;
-    font-size: ${COPY_SIZE} !important;
+    font-size: var(--font-size-copy) !important;
     max-height: none;
     margin-top: ${setSpace(0.5)};
     white-space: nowrap;

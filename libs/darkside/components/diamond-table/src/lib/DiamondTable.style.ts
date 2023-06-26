@@ -5,7 +5,6 @@ import {
   GREY_LIGHT,
   GREY_LIGHTER,
   GREY_LIGHTEST,
-  TEAL,
   WHITE,
   tabletAndUp,
 } from '@diamantaire/styles/darkside-styles';
@@ -136,7 +135,7 @@ const StyledDiamondTable = styled.div`
   .vo-table-body .vo-table-row.active,
   .vo-table-body .vo-table-row-head:hover,
   .vo-table-body .vo-table-row-head:focus {
-    background-color: ${TEAL};
+    background-color: var(--color-teal);
     color: ${WHITE};
   }
 
@@ -200,7 +199,7 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-pagination button:hover,
   .vo-table-pagination button:focus {
-    background-color: ${TEAL};
+    background-color: var(--color-teal);
     color: ${WHITE};
   }
 
@@ -224,7 +223,7 @@ const StyledDiamondTable = styled.div`
     width: 20px;
     height: 20px;
     border: 2px solid ${WHITE};
-    border-bottom-color: ${TEAL};
+    border-bottom-color: var(--color-teal);
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;

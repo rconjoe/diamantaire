@@ -7,8 +7,6 @@ import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-const TEAL = 'rgb(94, 122, 125)';
-
 /**
  * This Component is a good candidate for a globally shared component
  */
@@ -101,7 +99,7 @@ const StyledRoundOptionItem = styled(StyledOptionItem)`
     height: 100%;
   }
   &.selected {
-    border: 1px solid ${TEAL};
+    border: 1px solid var(--color-teal);
   }
 `;
 
@@ -111,7 +109,7 @@ interface OptionItemComponent extends OptionItem {
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   &.selected {
-    border-bottom: 2px solid ${TEAL};
+    border-bottom: 2px solid var(--color-teal);
     padding-bottom: 5px;
   }
 
@@ -206,7 +204,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #ccc;
   padding: 5px;
   &.selected {
-    border-color: ${TEAL};
+    border-color: var(--color-teal);
   }
 `;
 

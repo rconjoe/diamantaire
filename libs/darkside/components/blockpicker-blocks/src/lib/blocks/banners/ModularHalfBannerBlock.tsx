@@ -102,7 +102,7 @@ const ModularHalfWidthBannerBlock = ({
   };
 
   return (
-    <ModularHalfBannerBlockContainer className="container-emotion -vertical-margins">
+    <ModularHalfBannerBlockContainer className="container-wrapper -vertical-margins">
       <div
         className={clsx('half-width__image-wrapper', {
           '-left': textBlockAlignment?.toLowerCase() === 'left',

@@ -1,4 +1,4 @@
-import { FONT_SIZE_7, TEAL, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { FONT_SIZE_7, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
@@ -68,12 +68,12 @@ const StyledDiamondFilter = styled.div`
 
   .vo-filter-list-item a:hover,
   .vo-filter-list-item a:focus {
-    color: ${TEAL};
+    color: var(--color-teal);
   }
 
   .vo-filter-list-item.active a {
-    color: ${TEAL};
-    border: 1px solid ${TEAL};
+    color: var(--color-teal);
+    border: 1px solid var(--color-teal);
   }
 
   .vo-filter-diamondType {
@@ -104,7 +104,7 @@ const StyledDiamondFilter = styled.div`
 
       .vo-filter-list-item.active:after {
         content: '';
-        border-bottom: 2px solid ${TEAL};
+        border-bottom: 2px solid var(--color-teal);
         position: absolute;
         margin-left: -12px;
         bottom: -8px;

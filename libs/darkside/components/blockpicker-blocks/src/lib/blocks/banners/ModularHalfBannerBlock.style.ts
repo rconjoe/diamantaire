@@ -1,6 +1,4 @@
 import {
-  COPY_SIZE_SMALL,
-  TEAL,
   WHITE,
   XLDesktopAndUp,
   XXLDesktopAndUp,
@@ -23,7 +21,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
     `)}
   }
 
-  &.container-emotion {
+  &.container-wrapper {
     padding: 0;
   }
 
@@ -340,9 +338,9 @@ export const ModularHalfBannerBlockContainer = styled.div`
     &.-blog {
       line-height: 0;
       margin-bottom: ${setSpace(3)};
-      font-size: ${COPY_SIZE_SMALL};
+      font-size: var(--font-size-copy-sm);
       font-weight: 300;
-      color: ${TEAL} !important;
+      color: var(--color-teal) !important;
     }
   }
 
@@ -366,9 +364,9 @@ export const ModularHalfBannerBlockContainer = styled.div`
     &.-blog {
       line-height: 0;
       margin-bottom: ${setSpace(3)};
-      font-size: ${COPY_SIZE_SMALL};
+      font-size: var(--font-size-copy-sm);
       font-weight: 300;
-      color: ${TEAL} !important;
+      color: var(--color-teal) !important;
     }
   }
 

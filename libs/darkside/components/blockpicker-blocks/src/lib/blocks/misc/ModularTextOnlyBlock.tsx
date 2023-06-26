@@ -46,7 +46,7 @@ const ModularTextOnlyBlock = ({
   const hasSecondCTA = Boolean(ctaRoute2) && Boolean(ctaCopy2);
 
   return (
-    <ModularTextOnlyBlockContainer className="container-emotion" titleFont={titleFont} titleStyle={titleStyle}>
+    <ModularTextOnlyBlockContainer className="container-wrapper" titleFont={titleFont} titleStyle={titleStyle}>
       <div
         className={clsx('text-block__wrapper', additionalClass, {
           '-no-max-width': blogCopy,

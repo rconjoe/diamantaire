@@ -4,10 +4,7 @@ import {
   desktopAndUp,
   mobileOnly,
   tabletAndUp,
-  COPY_SIZE,
   MAIN_FONT,
-  MEDIUM_FONT_WEIGHT,
-  NORMAL_FONT_WEIGHT,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -86,8 +83,8 @@ export const ModularSideBySideBlockContainer = styled.div`
 
   .side-by-side__title {
     margin: ${setSpace(1.5)} 0;
-    font-weight: ${MEDIUM_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-copy);
     font-family: ${MAIN_FONT};
     text-align: left;
 
@@ -112,8 +109,8 @@ export const ModularSideBySideBlockContainer = styled.div`
   .side-by-side__copy {
     text-align: left;
     margin: ${setSpace(1.5)} 0;
-    font-weight: ${NORMAL_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-copy);
     font-family: ${MAIN_FONT};
     line-height: 20px;
 

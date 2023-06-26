@@ -1,4 +1,4 @@
-import { setSpace, COPY_SIZE_SMALL, COPY_SIZE, TEAL, GREY_LIGHT, BLACK } from '@diamantaire/styles/darkside-styles';
+import { setSpace, GREY_LIGHT, BLACK } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularAccordionItemContainer = styled.div`
@@ -12,7 +12,7 @@ export const ModularAccordionItemContainer = styled.div`
     margin: ${setSpace(2)} 0;
     cursor: pointer;
     text-align: left;
-    font-size: ${COPY_SIZE};
+    font-size: var(--font-size-copy);
     color: ${BLACK};
     line-height: 1.2;
     width: 100%;
@@ -41,7 +41,7 @@ export const ModularAccordionItemContainer = styled.div`
     height: 100%;
     font-size: 2rem;
     font-weight: normal;
-    color: ${TEAL};
+    color: var(--color-teal);
     &.minus {
       right: 1px;
       font-size: 2.4rem;
@@ -50,18 +50,18 @@ export const ModularAccordionItemContainer = styled.div`
 
   .acc-item__copy {
     margin-right: ${setSpace(2)};
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
     padding-bottom: ${setSpace(4)};
 
     & p,
     span {
-      font-size: ${COPY_SIZE_SMALL};
+      font-size: var(--font-size-copy-sm);
       line-height: 1.5;
       margin: ${setSpace(2)} 0;
     }
 
     & a {
-      color: ${TEAL};
+      color: var(--color-teal);
     }
 
     & a:hover {
@@ -80,9 +80,9 @@ export const ModularAccordionItemContainer = styled.div`
   }
 
   .acc-item__cta-link {
-    font-size: ${COPY_SIZE_SMALL};
+    font-size: var(--font-size-copy-sm);
     line-height: 1.5;
-    color: ${TEAL};
+    color: var(--color-teal);
     text-decoration: underline;
     &:hover {
       text-decoration: none !important;

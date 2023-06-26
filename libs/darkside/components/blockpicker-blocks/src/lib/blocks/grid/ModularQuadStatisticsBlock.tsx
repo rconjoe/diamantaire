@@ -12,7 +12,7 @@ const ModularQuadStatisticsBlock = (props) => {
   const statistics = normalizeDatoNumberedContent(props, arrayOfAttributes);
 
   return (
-    <ModularQuadStatisticsBlockContainer className="container-emotion">
+    <ModularQuadStatisticsBlockContainer className="container-wrapper">
       <Heading type="h2" className={clsx('h1 line1 quad-block__title', additionalClass)}>
         {title1}
 

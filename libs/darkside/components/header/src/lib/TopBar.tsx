@@ -1,5 +1,4 @@
 import { XIcon } from '@diamantaire/shared/icons';
-import { TEAL } from '@diamantaire/styles/darkside-styles';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -8,7 +7,7 @@ type TopBarTypes = {
 };
 
 const TopBarContainer = styled.div`
-  background-color: ${TEAL};
+  background-color: var(--color-teal);
   padding: 1.15rem 0;
   position: relative;
   z-index: 5000;

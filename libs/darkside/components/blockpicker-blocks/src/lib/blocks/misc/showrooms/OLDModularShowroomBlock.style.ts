@@ -1,12 +1,4 @@
-import {
-  setSpace,
-  desktopAndUp,
-  MAIN_FONT,
-  makeTealLink,
-  TEAL,
-  NORMAL_FONT_WEIGHT,
-  MEDIUM_FONT_WEIGHT,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, MAIN_FONT, makeTealLink } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularShowroomBlockContainer = styled.div`
@@ -66,13 +58,13 @@ export const ModularShowroomBlockContainer = styled.div`
 
   .showroom__title {
     margin: 0 0 ${setSpace(2.5)};
-    font-weight: ${MEDIUM_FONT_WEIGHT};
+    font-weight: var(--font-weight-medium);
     font-size: 22px;
     font-family: ${MAIN_FONT};
     text-align: left;
 
     ${desktopAndUp(`
-      font-family: ${NORMAL_FONT_WEIGHT};
+      font-family: var(--font-weight-normal);
       font-size: 42px;
       margin-bottom: ${setSpace(6)};
     `)};
@@ -85,8 +77,8 @@ export const ModularShowroomBlockContainer = styled.div`
 
   .showroom__appointment-markdown {
     a {
-      color: ${TEAL};
-      border-bottom: 1px solid ${TEAL};
+      color: var(--color-teal);
+      border-bottom: 1px solid var(--color-teal);
       font-weight: 500;
       text-decoration: underline;
       border: none;

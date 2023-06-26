@@ -70,7 +70,7 @@ export const CUSTOM_ATTRIBUTE_KEY_NAME_MAP = {
 
 // TODO: discuss a strategy for using this in PDP - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-180
 export enum PdpTypePlural {
-  ['Engagement Rings'] = 'Engagement Rings',
+  EngagementRings = 'Engagement Rings',
   WeddingBands = 'Wedding Bands',
   Jewelry = 'Jewelry',
 }

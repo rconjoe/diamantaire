@@ -30,7 +30,7 @@ const ModularDuoBlock = ({
   additionalClass,
 }: ModularDuoBlockProps) => {
   return (
-    <ModularDuoBlockContainer className={clsx('container-emotion mod-duo__container', additionalClass)}>
+    <ModularDuoBlockContainer className={clsx('container-wrapper mod-duo__container', additionalClass)}>
       {title && (
         <Heading type={headingType} className={clsx('mod-duo__title primary', headingAdditionalClass)}>
           {title}

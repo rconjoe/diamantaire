@@ -1,4 +1,3 @@
-import { BOLD_FONT_WEIGHT, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ShowroomNavContainer = styled.div`
@@ -24,9 +23,9 @@ export const ShowroomNavContainer = styled.div`
       padding: 0;
       background-color: transparent;
       border: none;
-      color: ${TEAL};
+      color: var(--color-teal);
       font-size: 1.7rem;
-      font-weight: ${BOLD_FONT_WEIGHT};
+      font-weight: var(--font-weight-bold);
 
       span.text {
         text-decoration: underline;
@@ -70,8 +69,8 @@ export const ShowroomNavContainer = styled.div`
           font-weight: 300;
 
           &.active {
-            color: ${TEAL};
-            font-weight: ${BOLD_FONT_WEIGHT};
+            color: var(--color-teal);
+            font-weight: var(--font-weight-bold);
             text-decoration: underline;
           }
         }

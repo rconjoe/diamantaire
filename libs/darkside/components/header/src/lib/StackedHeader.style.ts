@@ -1,4 +1,4 @@
-import { BP_LG, MAIN_FONT, TEAL } from '@diamantaire/styles/darkside-styles';
+import { BP_LG, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StackedHeaderStylesContainer = styled.div`
@@ -77,7 +77,7 @@ export const StackedHeaderStylesContainer = styled.div`
 
         &::before {
           content: '';
-          background: ${TEAL};
+          background: var(--color-teal);
           display: block;
           position: absolute;
           bottom: -5px;

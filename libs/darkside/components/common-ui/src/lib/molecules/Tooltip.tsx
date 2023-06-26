@@ -9,9 +9,7 @@ interface TooltipProps {
   className?: string;
 }
 
-const Tooltip: React.FC<TooltipProps> = (props) => {
-  const { id, children, className } = props;
-
+const Tooltip: React.FC<TooltipProps> = ({ id, children, className }) => {
   return (
     <StyledTooltip>
       <a data-tooltip-id={id} className="tooltip-trigger">

@@ -18,7 +18,7 @@ const ModularTrioStaggeredBlock = (props) => {
   }, [props]);
 
   return (
-    <ModularTrioStaggeredBlockContainer className="container-emotion">
+    <ModularTrioStaggeredBlockContainer className="container-wrapper">
       {aboveCopy && (
         <Heading type={headingType} className={clsx('trio-block__above-copy secondary', headingAdditionalClass)}>
           {aboveCopy}

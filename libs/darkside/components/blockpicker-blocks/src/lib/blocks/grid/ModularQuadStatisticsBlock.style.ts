@@ -1,11 +1,4 @@
-import {
-  MEDIUM_FONT_WEIGHT,
-  setSpace,
-  mobileOnly,
-  tabletAndUp,
-  desktopAndUp,
-  COPY_SIZE,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, tabletAndUp, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularQuadStatisticsBlockContainer = styled.div`
@@ -89,7 +82,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
   .quad-block__stats-title {
     font-size: 60px;
 
-    font-weight: ${MEDIUM_FONT_WEIGHT};
+    font-weight: var(--font-weight-medium);
     letter-spacing: -3px;
     line-height: 45px;
     margin-bottom: ${setSpace(1)};
@@ -134,7 +127,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
       font-size: 14px;
     `)}
     ${desktopAndUp(`
-      font-size: ${COPY_SIZE};
+      font-size: var(--font-size-copy);
     `)}
   }
 `;

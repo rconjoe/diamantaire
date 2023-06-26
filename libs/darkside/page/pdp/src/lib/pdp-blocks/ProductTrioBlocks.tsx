@@ -17,7 +17,7 @@ const ProductTrioBlocks = ({ trioBlocksId }) => {
   const { data: { trioBlock: { blocks } = {} } = {} } = useProductTrioBlock(trioBlocksId, 'en_US');
 
   return (
-    <ProductTrioBlocksContainer className="container-emotion">
+    <ProductTrioBlocksContainer className="container-wrapper">
       {blocks?.map((item, index) => {
         const { title, copy, image, ctaCopy, ctaRoute } = item || {};
 

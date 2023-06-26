@@ -42,7 +42,7 @@ const ModularSplitVideoBlock = (props) => {
   const videoUrls = videoSources?.map((video) => video?.url);
 
   return (
-    <ModularSplitVideoBlockContainer className="container-emotion">
+    <ModularSplitVideoBlockContainer className="container-wrapper">
       <div className="split-video__wrapper">
         <div className="split-video__video">
           <ReactPlayer

@@ -1,4 +1,4 @@
-import { TEAL, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 interface Props {
@@ -74,7 +74,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
               span.link-text {
                 &::before {
                   content: '';
-                  background: ${TEAL};
+                  background: var(--color-teal);
                   display: block;
                   position: absolute;
                   bottom: -5px;

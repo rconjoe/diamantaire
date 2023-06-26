@@ -7,7 +7,7 @@ export enum ProductType {
   Ring = 'Ring',
 }
 export enum ProductTypePlural {
-  ['Engagement Rings'] = 'Engagement Rings',
+  EngagementRings = 'Engagement Rings',
   WeddingBands = 'Wedding Bands',
   Bracelets = 'Bracelets',
   Earrings = 'Earrings',

@@ -77,7 +77,7 @@ const ModularAccordion = ({
     <ModularAccordionContainer>
       {shouldUseFaqSchema && <FAQSchema questionAnswerData={getFAQSchemaData()} />}
       <div
-        className={clsx('acc__container container-emotion', {
+        className={clsx('acc__container container-wrapper', {
           '-with-image': hasImage,
         })}
       >

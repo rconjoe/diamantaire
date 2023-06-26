@@ -1,12 +1,4 @@
-import {
-  MAIN_FONT,
-  COPY_SIZE,
-  NORMAL_FONT_WEIGHT,
-  mobileOnly,
-  tabletAndUp,
-  desktopAndUp,
-  setSpace,
-} from '@diamantaire/styles/darkside-styles';
+import { MAIN_FONT, mobileOnly, tabletAndUp, desktopAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTextOnlyBlockContainer = styled.div`
@@ -150,8 +142,8 @@ export const ModularTextOnlyBlockContainer = styled.div`
     max-width: 714px;
     margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
 
-    font-weight: ${NORMAL_FONT_WEIGHT};
-    font-size: ${COPY_SIZE};
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-copy);
 
     a {
       text-decoration: underline;

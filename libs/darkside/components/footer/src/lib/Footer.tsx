@@ -1,6 +1,6 @@
 import { Form, LocaleSelector } from '@diamantaire/darkside/components/common-ui';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
-import { BOLD_FONT_WEIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -51,7 +51,7 @@ const FooterStyles = styled.footer`
         p.col-heading {
           font-size: 1.4rem;
           margin: 0 0 10px;
-          font-weight: ${BOLD_FONT_WEIGHT};
+          font-weight: var(--font-weight-bold);
         }
         ul {
           padding: 0;

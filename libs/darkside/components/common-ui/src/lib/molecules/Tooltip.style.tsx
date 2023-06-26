@@ -1,4 +1,4 @@
-import { MAIN_FONT, TEAL, FONT_SIZE_9 } from '@diamantaire/styles/darkside-styles';
+import { MAIN_FONT, FONT_SIZE_9 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledTooltip = styled.div`
@@ -8,7 +8,7 @@ const StyledTooltip = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid ${TEAL};
+    border: 1px solid var(--color-teal);
     height: 12px;
     width: 12px;
 
@@ -16,7 +16,7 @@ const StyledTooltip = styled.div`
       font-size: ${FONT_SIZE_9};
       font-family: ${MAIN_FONT};
       text-transform: none;
-      color: ${TEAL};
+      color: var(--color-teal);
     }
   }
 `;
