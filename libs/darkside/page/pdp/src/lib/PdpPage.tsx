@@ -66,19 +66,19 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specfic Data
-  const { id, parentProductId, variantContent, collectionContent, options, price } = shopifyProductData;
+  const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
-  const assetStack = variantContent.assetStack; // flatten array in normalization
+  const assetStack = productContent.assetStack; // flatten array in normalization
 
-  const variantHandle = variantContent.shopifyProductHandle;
+  const variantHandle = productContent.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
-    additionalVariantData = variantContent;
+    additionalVariantData = productContent;
   } else {
     // Add Shopify Product Data to Dato Product Data
     additionalVariantData = additionalVariantData?.omegaProduct;
@@ -101,7 +101,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>
-              <MediaGallery assets={assetStack} options={options} title={productTitle} />
+              <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
             </ShowDesktopAndUpOnly>
             <ShowMobileOnly>
               <MediaSlider assets={assetStack} />
@@ -112,7 +112,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <ProductPrice price={price} />
             <ProductConfigurator
               configurations={configurations}
-              selectedConfiguration={options}
+              selectedConfiguration={configuration}
               initialVariantId={id}
               additionalVariantData={additionalVariantData}
             />

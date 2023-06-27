@@ -1,10 +1,10 @@
-export interface ProductVariantPDPData {
-  productId: string;
+import { VraiProduct } from '@diamantaire/shared-product';
+export interface ProductVariantPDPData extends VraiProduct {
   productType: string;
   optionConfigs: OptionsConfigurations;
   collectionContent: object; // Need DATOCMS types
-  variantContent: object; // dato er variant content
-  canonicalVariant: Variant;
+  productContent: object; // dato er variant content
+  canonicalVariant: VraiProduct;
 }
 
 export interface OptionsConfigurations {
@@ -59,9 +59,31 @@ export interface Options {
   sideStoneShape?: string;
   goldPurity?: string;
   ringSize?: string;
+  side?: string;
+  diamondOrientation?: 'horizontal' | null;
 }
 
 export interface Price {
   amount?: string;
   currencyCode?: string;
 }
+
+export type OmegaProductRecord = {
+  _modelApiKey: 'omega_product';
+  id: string;
+  shopifyProductHandle: string;
+};
+
+export type ConfigurationRecord = {
+  _modelApiKey: 'configuration';
+  id: string;
+  variantId: string;
+  configuredProductOptionsInOrder: string;
+};
+
+export type PLPResponse = {
+  listPage: {
+    configurationsInOrder: (ConfigurationRecord | OmegaProductRecord)[];
+    productsInOrder: OmegaProductRecord[];
+  } & Record<string, unknown>;
+};

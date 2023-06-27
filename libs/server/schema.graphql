@@ -74,52 +74,7 @@ input GetDiamondDto {
   sortOrder: String
 }
 
-input GetProductInput {
-  country: String
-  handle: String!
-}
-
-type Options {
-  bandAccent: String!
-  diamondType: String!
-  goldPurity: String!
-  metal: String!
-  ringSize: String!
-  sideStoneCarat: String!
-  sideStoneShape: String!
-}
-
-type ProductEntity {
-  dangerousInternalCollectionId: String!
-  dangerousInternalProductId: String!
-  description: String!
-  handle: String!
-  productTitle: String!
-  productType: String!
-  slug: String!
-  variants: [Variant!]!
-}
-
-input ProductVariantInput {
-  """The variant ID of the product"""
-  id: String!
-  slug: String!
-}
-
 type Query {
   cuttoorderdiamonds(input: GetCutToOrderDiamondInput!): [CutToOrderDiamondEntity!]!
   diamonds(input: GetDiamondDto!): DiamondEntity!
-  productVariant(input: ProductVariantInput!): [ProductEntity!]!
-  products(input: GetProductInput!): [ProductEntity!]!
-}
-
-type Variant {
-  availableForSale: Boolean!
-  id: String!
-  options: Options!
-  quantityAvailable: Int!
-  shopifyProductHandle: String!
-  shopifyProductTitle: String!
-  sku: String!
-  title: String!
 }

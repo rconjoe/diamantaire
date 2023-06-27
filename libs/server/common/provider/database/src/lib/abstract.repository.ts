@@ -8,6 +8,8 @@ import {
   QueryOptions,
   PaginateModel,
   Types,
+  PipelineStage,
+  AggregateOptions,
 } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
@@ -75,8 +77,20 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
+  async aggregate(pipeline?: PipelineStage[], options?: AggregateOptions, limit?: number) {
+    if (limit) {
+      return this.model.aggregate(pipeline, options).limit(limit);
+    } else {
+      return this.model.aggregate(pipeline, options);
+    }
+  }
+
   async find(filterQuery: FilterQuery<TDocument>): Promise<any> {
     return this.model.find(filterQuery, {}, { lean: true });
+  }
+
+  async distinct(field: string, filterQuery?: FilterQuery<TDocument>) {
+    return this.model.distinct(field, filterQuery);
   }
 
   async paginate(filterQuery: FilterQuery<TDocument>, options?: QueryOptions): Promise<any> {

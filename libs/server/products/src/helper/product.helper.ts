@@ -12,6 +12,7 @@ import {
   DEFAULT_RING_SIZE,
   GoldPurityValue,
 } from '@diamantaire/shared/constants';
+import { VraiProduct } from '@diamantaire/shared-product';
 
 import { Variant } from '../index';
 
@@ -55,36 +56,34 @@ export const optionTypesComparators = {
  * @returns { Variant } a single variant which is determined to be the canonical version
  */
 
-export function findCanonivalVariant(variants: Variant[], requestedVariant: Variant): undefined | Variant {
-  if (requestedVariant && variants) {
+export function findCanonivalVariant(products: VraiProduct[], requestedProduct: VraiProduct): undefined | VraiProduct {
+  if (requestedProduct && products) {
     const canonicalOptionValuesToMatch = {};
 
     CANONICAL_OPTIONS_TO_MATCH.forEach((optionKey) => {
-      const optionValue = requestedVariant?.options[optionKey];
+      const optionValue = requestedProduct.configuration[optionKey];
 
       if (optionValue) {
-        canonicalOptionValuesToMatch[optionKey] = requestedVariant?.options[optionKey];
+        canonicalOptionValuesToMatch[optionKey] = requestedProduct.configuration[optionKey];
       }
     });
 
-    // get all variants with matching diamond shape and metal values
-    const canonicalCandidates = variants.filter((variant: Variant) => {
+    // get all products with matching diamond shape and metal values
+    const canonicalCandidates = products.filter((product: VraiProduct) => {
       return Object.keys(canonicalOptionValuesToMatch).every(
-        (optionKey) => canonicalOptionValuesToMatch[optionKey] === variant?.options?.[optionKey],
+        (optionKey) => canonicalOptionValuesToMatch[optionKey] === product.configuration[optionKey],
       );
     });
 
     canonicalCandidates.sort((a, b) => {
       for (const sortOptionType of CANONICAL_OPTIONS_SORT_ORDER) {
-        if (compareVariantOption(a, b, sortOptionType)) {
-          return compareVariantOption(a, b, sortOptionType);
+        if (compareProductConfigurations(a, b, sortOptionType)) {
+          return compareProductConfigurations(a, b, sortOptionType);
         }
       }
 
       return 0;
     });
-
-    //canonicalCandidates[0].price = requestedVariant.price;
 
     return canonicalCandidates[0];
   }
@@ -168,13 +167,18 @@ export function reduceVariantsToPDPConfigurations(products) {
   return configVariants;
 }
 
-export function compareVariantOption(a, b, sortOptionKey, comparatorMap = optionTypesComparators) {
+export function compareProductConfigurations(
+  a: VraiProduct,
+  b: VraiProduct,
+  sortOptionKey: string,
+  comparatorMap = optionTypesComparators,
+) {
   const compareFn = comparatorMap[sortOptionKey];
 
   if (compareFn) {
-    if (a.options[sortOptionKey] && b.options[sortOptionKey]) {
-      const compValA = compareFn(a.options[sortOptionKey]);
-      const compValB = compareFn(b.options[sortOptionKey]);
+    if (a.configuration[sortOptionKey] && b.configuration[sortOptionKey]) {
+      const compValA = compareFn(a.configuration[sortOptionKey]);
+      const compValB = compareFn(b.configuration[sortOptionKey]);
 
       return compValA - compValB;
     }

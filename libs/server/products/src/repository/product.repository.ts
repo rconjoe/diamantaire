@@ -20,7 +20,7 @@ import { ProductEntity } from '../index';
 export class ProductRepository extends AbstractRepository<ProductEntity> {
   protected logger = new Logger(ProductRepository.name);
   constructor(
-    @InjectModel('Products') private readonly productModel: PaginateModel<ProductEntity>,
+    @InjectModel('products') private readonly productModel: PaginateModel<ProductEntity>,
     @InjectConnection() connection: Connection,
   ) {
     super(productModel, connection);

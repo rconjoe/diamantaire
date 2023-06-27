@@ -3,23 +3,34 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { UtilService } from '@diamantaire/server/common/utils';
-import { PriceRepository } from '@diamantaire/server/price';
-import { DEFAULT_LOCALE, ProductOption, DEFAULT_RING_SIZE } from '@diamantaire/shared/constants';
-import { ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
-import { BadGatewayException, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import Bottleneck from 'bottleneck';
-
-import { GetProductInput, ProductVariantInput } from '../dto/product.input';
-import { ProductEntity } from '../entities/product.entity';
+import { PaginateFilterDto, UtilService } from '@diamantaire/server/common/utils';
+import { DEFAULT_LOCALE, DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
+import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import {
-  reduceVariantsToPDPConfigurations,
-  findCanonivalVariant,
-  compareVariantOption,
-  optionTypesComparators,
-} from '../helper/product.helper';
-import { ProductVariantPDPData, Variant, ProductCollection, OptionsConfigurations } from '../interface/product.interface';
+  VraiProduct,
+  VraiProductData,
+  getConfigMatrix,
+  ListPageItemConfiguration,
+  ListPageItemWithConfigurationVariants,
+  ProductType,
+} from '@diamantaire/shared-product';
+import {
+  BadGatewayException,
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import Bottleneck from 'bottleneck';
+import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
+// import { Variables } from 'graphql-request';
+
+import { PlpInput, ProductSlugInput } from '../dto/product.input';
+import { ProductEntity } from '../entities/product.entity';
+import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
+import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
@@ -28,12 +39,7 @@ const OPTIONS_TO_SKIP = ['goldPurity'];
 export class ProductsService {
   private logger = new Logger(ProductsService.name);
   private limiter: Bottleneck;
-  constructor(
-    private readonly productRepository: ProductRepository,
-    private readonly priceRepository: PriceRepository,
-    private readonly configService: ConfigService,
-    private readonly utils: UtilService,
-  ) {
+  constructor(private readonly productRepository: ProductRepository, private readonly utils: UtilService) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
       maxConcurrent: 1,
@@ -47,122 +53,103 @@ export class ProductsService {
    * @return a filtered diamon list
    */
 
-  async findProduct(input: GetProductInput): Promise<ProductEntity> {
-    const query = {
-      handle: input.handle,
-      country: input.country,
+  async findProducts(input: PaginateFilterDto): Promise<ProductEntity> {
+    const options: PaginateOptions = {
+      limit: input.limit || 30,
+      page: input.page || 1,
+      customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
-    return await this.productRepository.find(query);
+    try {
+      return await this.productRepository.paginate({}, options);
+    } catch (error: any) {
+      this.logger.error(`Error while fetching all partners: ${error}`);
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'http.serverError.internalServerError',
+        error: error.message,
+      });
+    }
   }
 
-  async findProductVariant(input: ProductVariantInput): Promise<ProductVariantPDPData> {
+  async findProductBySlug(input: ProductSlugInput): Promise<ProductVariantPDPData> {
     this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
     try {
-      const shopifyGidPrefix = this.configService.get('SHOPIFY_GID_PREFIX');
-      const variantId = `${shopifyGidPrefix}/ProductVariant/${input.id}`;
       const setLocal = input?.locale ? input?.locale : DEFAULT_LOCALE; // get locale from input or default to en_US
       const query = {
-        slug: input.slug,
+        collectionSlug: input.slug,
       };
       // create unique cacheKey for each prodyct variant
-      const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}-${input?.countryCode?.trim().toUpperCase()}`;
+      const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
       // check for cached data
-      const cachedData = await this.utils.memGet(cachedKey);
+      const cachedData = await this.utils.memGet<ProductVariantPDPData>(cachedKey);
 
       if (cachedData) {
         this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
 
         return cachedData; // return the entire cached data including dato content
       }
-      const products: any = await this.productRepository.find(query);
+
+      const collection: VraiProduct[] = await this.productRepository.find(query);
 
       // Get variant data based on requested ID
-      let requestedVariant;
-      let requestedDatoHandle;
-      let parentProduct;
+      const requestedProduct = collection.find((product) => product.productSlug === input.id);
 
-      products.forEach((product) => {
-        const match = product?.variants?.find((variant: Variant) => variant.id === variantId);
+      if (!requestedProduct) {
+        return null;
+      }
 
-        if (match) {
-          requestedVariant = match;
-          requestedDatoHandle = match.shopifyProductHandle;
-          parentProduct = product;
-        }
-      });
+      const requestedContentId = requestedProduct.contentId;
 
-      const reducedVariants = reduceVariantsToPDPConfigurations(products);
+      let collectionContent, productContent;
 
-      //const datoEngagementRingPDP = await this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
-
-      // const priceQuery = {
-      //   id: requestedVariant.id,
-      //   currencyCode: getCurrencyCode(input?.countryCode?.trim().toUpperCase()),
-      // };
-
-      // find a price that matches the variant id and currency code
-      //const productPrice = await this.priceRepository.findOne(priceQuery);
-
-      // if (!productPrice) {
-      //   this.logger.log(`Price not found for variant id: ${requestedVariant.id}`);
-      // }
-      // const price = {
-      //   amount: productPrice?.amount,
-      //   currencyCode: productPrice?.currencyCode,
-      // };
-
-      let collectionContent, variantContent;
-
-      if (['Engagement Ring', 'Wedding Band'].includes(parentProduct.productType)) {
+      if ([ProductType.EngagementRing as string, ProductType.WeddingBand as string].includes(requestedProduct.productType)) {
         // dato ER query
         const queryVars = {
           collectionSlug: input.slug,
-          productHandle: requestedDatoHandle,
+          productHandle: requestedContentId,
           locale: setLocal,
         };
-        const datoEngagementRingPDP: any = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
 
-        collectionContent = datoEngagementRingPDP?.engagementRingProduct;
-        variantContent = datoEngagementRingPDP?.variantContent;
+        // TODO: Add Dato types
+        const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
+
+        collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
+        productContent = datoEngagementRingPDP?.['productContent'];
       } else {
         // dato ER query
         const queryVars = {
           slug: input.slug,
-          variantId: requestedVariant?.id?.split('/').pop(),
+          variantId: requestedContentId,
           locale: setLocal,
         };
 
-        const datoJewelryPDP: any = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
+        // TODO: Add Dato types
+        const datoJewelryPDP: object = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
 
-        collectionContent = datoJewelryPDP?.jewelryProduct;
-        variantContent = datoJewelryPDP?.configuration;
+        collectionContent = datoJewelryPDP?.['jewelryProduct'];
+        productContent = datoJewelryPDP?.['configuration'];
       }
 
-      //requestedVariant.price = price; // include price in the requested variant
+      if (collection && requestedProduct) {
+        const { productType } = requestedProduct;
 
-      if (products && requestedVariant) {
-        const {
-          productType,
-          dangerousInternalProductId: productId,
-          dangerousInternalCollectionId: parentProductId,
-        } = parentProduct;
+        const allAvailableOptions = this.getAllAvailableOptions(collection);
 
-        const variantReturnData = {
-          productId,
+        const pdpProductData = {
           productType,
-          parentProductId,
-          ...requestedVariant,
-          optionConfigs: this.getOptionsConfigurations(reducedVariants, requestedVariant, parentProduct, true),
+          ...requestedProduct,
+          allAvailableOptions,
+          optionConfigs: this.getOptionsConfigurations(collection, requestedProduct),
           collectionContent, // dato er collection content
-          variantContent, // dato er variant content
-          canonicalVariant: findCanonivalVariant(reducedVariants, requestedVariant),
+          productContent, // dato er variant content
+          canonicalVariant: findCanonivalVariant(collection, requestedProduct),
         };
 
-        //await this.cacheService.set(cachedKey, variantReturnData, 3600);
-        this.utils.memSet(cachedKey, variantReturnData, 3600);
+        //await this.cacheService.set(cachedKey, pdpProductData, 3600);
+        this.utils.memSet(cachedKey, pdpProductData, 3600);
 
-        return variantReturnData;
+        return pdpProductData;
       } else {
         // TODO: Handle Cannot find variant ID request
         this.logger.debug(`findProductVariant :: Cannot find variant ID request`);
@@ -174,23 +161,40 @@ export class ProductsService {
     }
   }
 
+  getAllAvailableOptions = (products: VraiProduct[]): Record<string, string[]> => {
+    const allAvailableOptions = {};
+
+    for (const product of products) {
+      const { configuration } = product;
+
+      for (const configKey in configuration) {
+        const optionValue = configuration[configKey];
+
+        if (allAvailableOptions[configKey]) {
+          if (!allAvailableOptions[configKey].includes(optionValue)) {
+            allAvailableOptions[configKey].push(optionValue);
+          }
+        } else {
+          allAvailableOptions[configKey] = [optionValue];
+        }
+      }
+    }
+
+    return allAvailableOptions;
+  };
+
   /**
    *
    * @param { Array } products - shopify collection products
-   * @param { Object } variantToMatch
+   * @param { Object } productToMatch
    * @param { Boolean }includeAllOptions
    * @returns
    */
 
-  getOptionsConfigurations = (
-    variants: Variant[],
-    variantToMatch,
-    parentProduct: ProductCollection, // TODO: SHould this be a 'ShopifyProduct' instead?
-    includeAllOptions?: boolean,
-  ): OptionsConfigurations => {
+  getOptionsConfigurations = (products: VraiProduct[], productToMatch: VraiProduct): OptionsConfigurations => {
     const altConfigs = {};
     const allOptions = {};
-    const variantOptionsToMatch = variantToMatch.options;
+    const productOptionsToMatch = productToMatch.configuration;
 
     /* Helper function to sort options */
     function sortOptions(optionsArr, comparator) {
@@ -205,14 +209,13 @@ export class ProductsService {
       }
     }
 
-    const addToConfigObj = (optionKey: string, variant) => {
-      const value = variant.options[optionKey];
+    const addToConfigObj = (optionKey: string, product: VraiProduct) => {
+      const value = product.configuration[optionKey];
 
       if (value) {
         const variantData = {
           value: value,
-          id: variant.id,
-          // ...(optionKey === ProductOption.Metal && { goldPurity: variant?.options?.goldPurity }),
+          id: product.productSlug,
         };
 
         if (altConfigs[optionKey]) {
@@ -223,38 +226,27 @@ export class ProductsService {
       }
     };
 
-    for (const variant of variants) {
-      for (const optionKey in variantOptionsToMatch) {
-        const optionValue = variant?.options?.[optionKey];
-        const optionValueToMatch = variantOptionsToMatch[optionKey];
-
-        // Save option value in map
+    for (const product of products) {
+      for (const optionKey in productOptionsToMatch) {
+        // All configs
         if (allOptions[optionKey]) {
-          if (!allOptions[optionKey].includes(variant.options[optionKey])) {
-            allOptions[optionKey].push(optionValue);
+          if (!allOptions[optionKey].includes(product.configuration[optionKey])) {
+            allOptions[optionKey].push(product.configuration[optionKey]);
           }
         } else {
-          allOptions[optionKey] = [optionValue];
+          allOptions[optionKey] = [product.configuration[optionKey]];
         }
 
-        const optionsToMatch = { ...variantOptionsToMatch };
+        const optionValue = product.configuration[optionKey];
+        const optionValueToMatch = productOptionsToMatch[optionKey];
+
+        const optionsToMatch = { ...productOptionsToMatch };
 
         // Delete the option we will try to match against
         delete optionsToMatch[optionKey];
 
         // Skip specific options of if value is not defined
         if (OPTIONS_TO_SKIP.includes(optionKey) || typeof optionValueToMatch === undefined || optionValueToMatch === null) {
-          continue;
-        }
-
-        const isRingSizeValid = ['Engagement Ring', 'Wedding Band'].includes(parentProduct.productType);
-
-        // Skip non default sizes when working with all options except 'size'
-        if (
-          isRingSizeValid &&
-          optionKey !== ProductOption.RingSize &&
-          variant?.options?.[ProductOption.RingSize] !== DEFAULT_RING_SIZE
-        ) {
           continue;
         }
 
@@ -266,39 +258,39 @@ export class ProductsService {
 
           // If either option value is unavailable, assume it matches
           // This is unexpected and should be fixed in Shopify
-          if (!optionValue || !variant?.options?.[o]) {
+          if (!optionValue || !product.configuration[o]) {
             return true;
           }
 
-          return variant.options[o] === optionsToMatch[o];
+          return product.configuration[o] === optionsToMatch[o];
         });
 
         if (isMatch) {
-          addToConfigObj(optionKey, variant);
+          addToConfigObj(optionKey, product);
         }
       }
     }
 
     // Ensure all diamondTypes have a variant
+    // figure out which diamond types still need products
+    const missingDiamondTypes =
+      allOptions?.[ProductOption.DiamondType]?.filter((diamondType) => {
+        return !altConfigs[ProductOption.DiamondType][diamondType];
+      }) || [];
 
-    // figure out which diamond types still need variants
-    const missingDiamondTypes = allOptions[ProductOption.DiamondType].filter((diamondType) => {
-      return !altConfigs[ProductOption.DiamondType][diamondType];
-    });
-
-    const diamondTypeMatchers = { ...variantOptionsToMatch };
-    const diamondTypeVariants = variants.sort((a, b) => {
+    const diamondTypeMatchers = { ...productOptionsToMatch };
+    const diamondTypeVariants = products.sort((a, b) => {
       for (const optionTypeKey of Object.keys(diamondTypeMatchers)) {
-        const variantOptionsValue = variantOptionsToMatch[optionTypeKey];
+        const variantOptionsValue = productOptionsToMatch[optionTypeKey];
 
         if (optionTypeKey !== ProductOption.DiamondType) {
-          if (a.options[optionTypeKey] !== b.options[optionTypeKey]) {
-            if (a.options[optionTypeKey] === variantOptionsValue) {
+          if (a.configuration[optionTypeKey] !== b.configuration[optionTypeKey]) {
+            if (a.configuration[optionTypeKey] === variantOptionsValue) {
               return -1;
-            } else if (b.options[optionTypeKey] === variantOptionsValue) {
+            } else if (b.configuration[optionTypeKey] === variantOptionsValue) {
               return 1;
             } else {
-              return compareVariantOption(a, b, optionTypeKey);
+              return compareProductConfigurations(a, b, optionTypeKey);
             }
           }
         }
@@ -308,7 +300,7 @@ export class ProductsService {
     });
 
     missingDiamondTypes.forEach((diamondType) => {
-      const result = diamondTypeVariants.find((v) => v.options[ProductOption.DiamondType] === diamondType);
+      const result = diamondTypeVariants.find((v) => v.configuration?.[ProductOption.DiamondType] === diamondType);
 
       if (result) {
         addToConfigObj(ProductOption.DiamondType, result);
@@ -316,27 +308,25 @@ export class ProductsService {
     });
 
     // Match for ringSize from parent product
-    const ringSizeConfigs = parentProduct.variants
+    const ringSizeConfigs = productToMatch.variants
       .filter((variant) => {
         /* eslint-disable */
-        const { ringSize, side, ...optionsToMatch } = variantOptionsToMatch;
+        const { ringSize, side, ...optionsToMatch } = productOptionsToMatch;
 
         /* eslint-enable */
-        return Object.keys(optionsToMatch).every((optionKey) => optionsToMatch[optionKey] === variant.options[optionKey]);
+        return Object.keys(optionsToMatch).every(
+          (optionKey) => optionsToMatch[optionKey] === variant.configuration[optionKey],
+        );
       })
-      .map((variant) => ({ value: variant.options[ProductOption.RingSize], id: variant.id }));
+      .map((variant) => ({ value: variant.configuration[ProductOption.RingSize], id: variant.shopifyVariantId }));
 
     // Convert altconfigs from map of maps to map of arrays & sort
     for (const optionType in altConfigs) {
       altConfigs[optionType] = sortOptions(Object.values(altConfigs[optionType]), optionTypesComparators[optionType]);
     }
 
-    // Add size variants
+    // Add size products
     altConfigs[ProductOption.RingSize] = sortOptions(ringSizeConfigs, optionTypesComparators[ProductOption.RingSize]);
-
-    if (includeAllOptions) {
-      altConfigs['allOptions'] = allOptions;
-    }
 
     return altConfigs;
   };
@@ -354,7 +344,7 @@ export class ProductsService {
   async datoContentForEngagementRings({ collectionSlug, productHandle, locale }): Promise<object> {
     this.logger.verbose(`Entering into dataContent ${collectionSlug}-${productHandle}-${locale}`);
     const cachedKey = `${collectionSlug}-${productHandle}-${locale}`;
-    let response = await this.utils.memGet(cachedKey); // return the cached result if there's a key
+    let response = await this.utils.memGet<object>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
       collectionSlug,
@@ -362,23 +352,24 @@ export class ProductsService {
       locale,
     };
 
-    if (!response) {
-      // response = await this.limiter.schedule(async () => {
-      //   this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
-      // });
-      response = await this.utils.createDataGateway().request(ERPDP, queryVars); // dato engagement ring pdp query
-      this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-      this.utils.memSet(cachedKey, response, 3600); //set the response in memory
-    }
-    const result = await response;
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(ERPDP, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
 
-    return result;
+      return response;
+    } catch (error: any) {
+      this.logger.error(`datoContentForEngagementRings :: error : ${error.message}`);
+      throw error;
+    }
   }
 
   async datoContentForJewelry({ slug, variantId, locale }): Promise<object> {
     this.logger.verbose(`Entering into dataContent ${slug}-${variantId}-${locale}`);
     const cachedKey = `${slug}-${variantId}-${locale}`;
-    let response = await this.utils.memGet(cachedKey); // return the cached result if there's a key
+    let response = await this.utils.memGet<object>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
       slug,
@@ -386,16 +377,400 @@ export class ProductsService {
       locale,
     };
 
-    if (!response) {
-      // response = await this.limiter.schedule(async () => {
-      //   this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
-      // });
-      response = await this.utils.createDataGateway().request(JEWELRYPRODUCT, queryVars); // dato engagement ring pdp query
-      this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-      this.utils.memSet(cachedKey, response, 3600); //set the response in memory
-    }
-    const result = await response;
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(JEWELRYPRODUCT, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
 
-    return result;
+      return response;
+    } catch (error: any) {
+      this.logger.error(`datoContentForJewelry :: error : ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * This function accepts an input for retrieving PLP data.
+   * It will return a list of products with combined content and product data.
+   * @param {object} input - PLP input
+   * @param {string} input.slug - PLP slug
+   * @param {string} input.locale - locale for content
+   * @param {string} input.metal - metal filter
+   * @param {string} input.diamondType - diamond type filter
+   * @param {number} input.priceMin - price range filter min
+   * @param {number} input.priceMax - price range filter max
+   * @returns Array of plp products and page content
+   */
+
+  async findPlpData({ slug, locale, metal, diamondType, priceMin = 0, priceMax = 9999999 }: PlpInput) {
+    // create unique cacheKey for each prodyct variant
+    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax })}`; // TODO: add filter options
+    // check for cached data
+    const cachedData = null; // = await this.utils.memGet(cachedKey);
+
+    if (cachedData) {
+      this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
+
+      return cachedData; // return the entire cached data including dato content
+    }
+
+    try {
+      // Get Dato PLP data
+      const plpContent = await this.datoPLPContent({ slug, locale });
+
+      const { configurationsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
+
+      const contentIdsInOrder: string[] = [];
+      const plpProductsContentData = configurationsInOrder.reduce((data, item) => {
+        let contentId: string;
+
+        if (item._modelApiKey === 'configuration') {
+          contentId = item.variantId;
+        } else if (item._modelApiKey === 'omega_product') {
+          contentId = item.shopifyProductHandle;
+        }
+
+        contentIdsInOrder.push(contentId);
+
+        data[contentId] = {
+          content: item,
+        };
+
+        return data;
+      }, {});
+
+      const getFiltersQuery = ({
+        m,
+        dT,
+        pMin,
+        pMax,
+      }): FilterQuery<{ 'configuration.metal'?: string; 'configuration.diamondType'?: string; price?: string }>[] => {
+        const query = [];
+
+        if (m) {
+          query.push({ 'configuration.metal': m });
+        }
+        if (dT) {
+          query.push({ 'configuration.diamondType': dT });
+        }
+
+        if (typeof pMin !== 'undefined' && pMax) {
+          query.push({ price: { $gte: priceMin } });
+          query.push({ price: { $lte: priceMax } });
+        }
+
+        return query;
+      };
+
+      const filterQueries = getFiltersQuery({ m: metal, dT: diamondType, pMin: priceMin, pMax: priceMax });
+
+      // Build Query
+      const pipeline: PipelineStage[] = [
+        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
+        { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
+        { $sort: { __order: 1 } },
+      ];
+
+      // Get product data
+      const products: VraiProduct[] = await this.productRepository.aggregate(pipeline, {}, 20);
+
+      // Add product data to PLP data
+      const collectionSlugsSet = new Set<string>();
+
+      const scopedPlpData = products.reduce((map: Record<string, { content: object; product: VraiProduct }>, product) => {
+        map[product.contentId] = {
+          content: plpProductsContentData[product.contentId].content,
+          product: product,
+        };
+
+        collectionSlugsSet.add(product.collectionSlug);
+
+        return map;
+      }, {});
+
+      const collectionSlugs = [...collectionSlugsSet];
+
+      const collectionQueries = collectionSlugs.map((collectionSlug) => ({ collectionSlug }));
+
+      const collections = await Promise.all<VraiProduct[]>(
+        collectionQueries.map((query) => this.productRepository.find(query)),
+      );
+
+      // TODO: is it faster to get all with a single query and then group
+
+      const collectionsMap = collections.reduce((map: Record<string, VraiProduct[]>, collection) => {
+        map[collection[0].collectionSlug] = collection;
+
+        return map;
+      }, {});
+
+      // for each collection slug, get each configuration based on the primary contentId
+      // get all configMatrices
+      const configMatrixByContentId: Record<string, Record<string, string[]>> = Object.keys(scopedPlpData).reduce(
+        (matrix, contentId) => {
+          const collectionSlug = scopedPlpData[contentId]?.product?.collectionSlug;
+
+          if (collectionSlug && collectionsMap[collectionSlug]) {
+            matrix[contentId] = getConfigMatrix(
+              collectionsMap[collectionSlug],
+              scopedPlpData[contentId].product.configuration,
+            );
+          } else {
+            this.logger.verbose(`Could not find product information for contentId: ${contentId}`);
+          }
+
+          return matrix;
+        },
+        {},
+      );
+
+      // split content ids into configurations and product record requests
+      const [variantIds, productHandles]: [string[], string[]] = Object.keys(configMatrixByContentId).reduce(
+        (idTuple, contentId) => {
+          const [v, p] = idTuple;
+          const configMatches = configMatrixByContentId[contentId];
+          const uniqueIds = Object.values(configMatches.metal).filter((id) => id !== contentId);
+
+          // Add to plp product data
+          scopedPlpData[contentId]['metal'] = configMatches.metal;
+
+          if (plpProductsContentData[contentId].content._modelApiKey === 'configuration') {
+            v.push(...uniqueIds);
+          } else {
+            p.push(...uniqueIds);
+          }
+
+          return [v, p];
+        },
+        [[], []],
+      );
+
+      const variantContentIds = [...variantIds, ...productHandles];
+
+      // TODO: may need paginated request but most likely not since we limit to 20 items per page
+      // request all contentIds from Mongo and DB
+      const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
+        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: [] }),
+        this.productRepository.find({ contentId: { $in: variantContentIds } }),
+      ];
+      const [variantContentData, variantProducts] = await Promise.all(variantPromises);
+
+      const variantsMap = variantContentIds.reduce(
+        (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
+          map[contentId] = {
+            content: variantContentData.find((item) => item['variantId'] === contentId),
+            product: variantProducts.find((item) => item['contentId'] === contentId),
+          };
+
+          return map;
+        },
+        {},
+      );
+
+      // merge and reduce
+      const plpProducts = Object.values(scopedPlpData).reduce(
+        (plpItems: ListPageItemWithConfigurationVariants[], item: VraiProductData) => {
+          const { content, product, metal: metalOptions } = item;
+
+          const altConfigs = Object.values<string>(metalOptions).reduce((map, id) => {
+            const variantData = variantsMap[id];
+
+            if (id === product.contentId) {
+              return map;
+            }
+
+            if (variantData) {
+              if (variantData.product && variantData.content) {
+                const { product: variantProduct, content: variantContent } = variantsMap[id as string];
+
+                map[id as string] = this.createPlpProduct(variantProduct, variantContent);
+              } else if (!variantData.product) {
+                this.logger.verbose(`Missing product data for contentId: ${id}`);
+              } else if (!variantData.content) {
+                this.logger.verbose(
+                  `Missing content data for contentId: ${id}, collectionSlug: ${variantData?.product?.collectionSlug}`,
+                );
+                throw new BadRequestException('Missing content data for contentId: ${id}');
+              }
+            } else {
+              this.logger.verbose(`Missing variantData data for contentId: ${id}`);
+              throw new BadRequestException(`Missing variantData data for contentId: ${id}`);
+            }
+
+            return map;
+          }, {});
+
+          plpItems.push({
+            defaultId: product.contentId,
+            metal: Object.keys(metalOptions).map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
+            variants: {
+              [product.contentId]: this.createPlpProduct(product, content),
+              ...altConfigs,
+            },
+          });
+
+          return plpItems;
+        },
+        [],
+      );
+
+      const plpReturnData = {
+        // ...listPageContent,
+        products: plpProducts,
+      };
+
+      this.utils.memSet(cachedKey, plpReturnData, 3600);
+
+      return plpReturnData;
+    } catch (error: any) {
+      this.logger.error(`findPlpData :: error : ${error.message}`);
+      throw error;
+    }
+  }
+
+  createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
+    return {
+      title: content['plpTitle'] || product.collectionTitle,
+      productSlug: product.productSlug,
+      collectionSlug: product.collectionSlug,
+      configuration: product.configuration,
+      productType: product.productType,
+      primaryImage: content['plpImage'].responsiveImage,
+      hoverImage: content['plpImageHover'].responsiveImage,
+      price: product.price,
+    };
+  }
+
+  /**
+   * Gets Dato listPage content
+   * @param {object} input - PLP input
+   * @param {string} input.slug - PLP slug
+   * @param {string} input.locale - locale for content
+   * @returns {object}- Dato listPage content
+   */
+  async datoPLPContent({ slug, locale }: { slug: string; locale: string }): Promise<PLPResponse> {
+    this.logger.verbose(`Entering into dataContent ${slug}-${locale}`);
+    const cachedKey = `${slug}-${locale}`;
+    let response = await this.utils.memGet<PLPResponse>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      slug,
+      locale,
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
+
+      return response;
+    } catch (error) {
+      this.logger.debug(`Error retrieving PLP content for slug: ${slug}`, error);
+      throw error;
+    }
+  }
+
+  async datoPLPConfigurations({ slug, locale }: { slug: string; locale: string }): Promise<PLPResponse> {
+    this.logger.verbose(`Entering into dataContent ${slug}-${locale}`);
+    const cachedKey = `${slug}-${locale}`;
+    let response = await this.utils.memGet<PLPResponse>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      slug,
+      locale,
+    };
+
+    try {
+      if (!response) {
+        // response = await this.limiter.schedule(async () => {
+        //   this.utils.createDataGateway().request(QUERIES.erPDP, queryVars);
+        // });
+        response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
+
+      return response;
+    } catch (error) {
+      this.logger.error(`Error retrieving PLP content for slug: ${slug}`, error);
+      throw error;
+    }
+  }
+
+  async datoPLPProducts({ slug, locale }: { slug: string; locale: string }): Promise<PLPResponse> {
+    this.logger.verbose(`Entering into dataContent ${slug}-${locale}`);
+    const cachedKey = `${slug}-${locale}`;
+    let response = await this.utils.memGet<PLPResponse>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      slug,
+      locale,
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
+
+      return response;
+    } catch (error) {
+      this.logger.error(`Error retrieving PLP content for slug: ${slug}`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Gets a list of dato configurationd and products for plps based on plp slug
+   * @param {object} input - PLP input
+   * @param {string} input.slug - PLP slug
+   * @param {Array.<string>} input.variantIds - list of variant ids to find configurations for
+   * @param {Array.<string>} input.productHandles - list of product handles to find products for
+   * @param {number} input.first - number of items to return
+   * @param {number} input.skip - number of items to skip
+   * @returns
+   */
+
+  async datoConfigurationsAndProducts({
+    slug,
+    variantIds = [],
+    productHandles = [],
+    first = 100,
+    skip = 0,
+  }: {
+    slug: string;
+    variantIds: string[];
+    productHandles: string[];
+    first?: number;
+    skip?: number;
+  }): Promise<any> {
+    this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
+    const cachedKey = `plp-configurations-${slug}`;
+    let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      productHandles,
+      variantIds,
+      first,
+      skip,
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
+
+      return [...response.allConfigurations, response.allOmegaProducts];
+    } catch (err) {
+      this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
+      throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+    }
   }
 }

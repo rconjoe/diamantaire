@@ -158,7 +158,7 @@ export class UtilService {
    * @param { String } key name of key
    */
 
-  async memGet(key: string): Promise<any> {
+  async memGet<TData>(key: string): Promise<TData> {
     return await this.queryCache.get(key);
   }
 
