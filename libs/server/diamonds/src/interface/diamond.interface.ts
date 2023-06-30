@@ -39,6 +39,11 @@ export interface IDiamondCollection extends Partial<DiamondEntity> {
   productTitle?: string;
   description?: string;
   slug?: string;
+  isForSale?: boolean;
+  variantSku?: string;
+  variantId?: string;
+  dangerousInternalShopifyVariantId?: string;
+  price?: number;
   variants?: IDiamondVariant[];
   dfCertificateUrl?: string;
   type?: string;

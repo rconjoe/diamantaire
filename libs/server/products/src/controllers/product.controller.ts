@@ -6,10 +6,10 @@
  * @version 1.0
  */
 
-import { PaginateFilterDto } from '@diamantaire/server/common/utils';
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
+import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { ProductVariantInput, PlpInput } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
@@ -27,10 +27,10 @@ export class ProductController {
     return await this.productService.findProductBySlug({ slug, id, locale });
   }
 
-  @Get('algolia')
+  @Get('feed')
   @ApiOperation({ summary: 'Get all products' })
-  async findProducts(@Query() { limit, page, sortOrder, sortBy }: PaginateFilterDto) {
-    return await this.productService.findProducts({ limit, page, sortOrder, sortBy });
+  async findProducts(@Query() { limit, page, sortOrder, sortBy, slug, productType }: PaginateFilterDto) {
+    return await this.productService.findProducts({ limit, page, sortOrder, sortBy, slug, productType });
   }
 
   @Get('plp')

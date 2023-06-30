@@ -20,7 +20,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     const payload = response.data;
 
     return res.status(200).json(payload);
-  } catch (err) {
+  } catch (err: any) {
     return res.status(500).json(err);
   }
 }

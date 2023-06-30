@@ -38,4 +38,22 @@ export class PaginateFilterDto {
   @IsOptional()
   @Type(() => String)
   readonly sortBy?: string;
+
+  @ApiProperty({
+    example: 'three-stone',
+    required: true,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly slug?: string;
+
+  @ApiProperty({
+    example: 'Engagement Ring',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly productType?: string;
 }

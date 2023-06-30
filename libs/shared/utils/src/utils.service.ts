@@ -17,7 +17,7 @@ export function defaultGetter<T extends BasicObject>(item: T, key: string): stri
 // Co-authored-by: ricovrai <ricovrai@users.noreply.github.com>
 
 export function defaultVariantGetter<T extends BasicObject>(item: T, key: string): string | number {
-  return item?.variants?.[0][key];
+  return item[key];
 }
 
 /**

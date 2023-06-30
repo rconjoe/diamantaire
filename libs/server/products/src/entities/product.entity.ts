@@ -29,6 +29,9 @@ export class ProductEntity extends AbstractDocument {
   productSlug?: string;
 
   @Prop({ type: String })
+  productType: string;
+
+  @Prop({ type: String })
   productTitle?: string;
 
   @Prop({ type: String })

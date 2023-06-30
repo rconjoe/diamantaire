@@ -4,6 +4,7 @@ export * from './entities/product.entity';
 export * from './repository/product.repository';
 export * from './services/product.service';
 export * from './dto/product.input';
+export * from './dto/paginate-filter.dto';
 export * from './helper/product.helper';
 export * from './controllers/product.controller';
 export * from './resolver/product.resolver';

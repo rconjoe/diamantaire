@@ -32,6 +32,8 @@ import {
   DiamondClarities,
   DiamondCuts,
   caratFirstSortOrder,
+  DiamondColors,
+  DiamondTypes,
 } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory, IDiamondRecommendation } from '../interface/diamond.interface';
 import { DiamondRepository } from '../repository/diamond.repository';
@@ -68,10 +70,10 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(input);
 
-    const regexPattern = /fancy/i;
+    //const regexPattern = /fancy/i;
 
     filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
+    //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
 
     if (input?.isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -143,6 +145,10 @@ export class DiamondsService {
       query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
+    } else {
+      query['diamondType'] = {
+        $in: DiamondTypes,
+      };
     }
 
     // Optional query for price and currencycode
@@ -150,14 +156,9 @@ export class DiamondsService {
     // currencyCode = USD, GBP, EUR, CAD, AUD
 
     if (input.priceMin && input.priceMax) {
-      query['variants'] = {
-        $elemMatch: {
-          price: {
-            $gte: input.priceMin, // mongoose $gte operator greater than or equal to
-            $lte: input.priceMax, // mongoose $llte operator less than or equal to
-          },
-          currencyCode: input.currencyCode,
-        },
+      query['price'] = {
+        $gte: input.priceMin, // mongoose $gte operator greater than or equal to
+        $lte: input.priceMax, // mongoose $llte operator less than or equal to
       };
     }
 
@@ -174,6 +175,10 @@ export class DiamondsService {
       // const found = colors.some((ele) => ACCEPTABLE_COLORS.includes(ele));
       query['color'] = {
         $in: colors, // mongoose $in take an array value as input
+      };
+    } else {
+      query['color'] = {
+        $in: DiamondColors, // get all the colors
       };
     }
 

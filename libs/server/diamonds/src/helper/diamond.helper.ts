@@ -80,6 +80,21 @@ export function isJK(color: (typeof DiamondColor)[keyof typeof DiamondColor]): b
   return DiamondColorGroup.JK.includes(color);
 }
 
+export const DiamondType = {
+  OVAL: 'oval',
+  EMERALD: 'emerald',
+  PEAR: 'pear',
+  RADIANT: 'radiant',
+  CUSHION: 'cushion',
+  MARQUISE: 'marquise',
+  TRILLION: 'trillion',
+  ASSCHER: 'asscher',
+  PRINCESS: 'princess',
+  ROUND_BRILLIANT: 'round-brilliant',
+};
+
+export const DiamondTypes: string[] = Object.values(DiamondType);
+
 // Diamond Clarity definitions
 
 export const DiamondClarity = {

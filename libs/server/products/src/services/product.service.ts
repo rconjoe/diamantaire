@@ -3,7 +3,7 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PaginateFilterDto, UtilService } from '@diamantaire/server/common/utils';
+import { UtilService } from '@diamantaire/server/common/utils';
 import { DEFAULT_LOCALE, DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import {
@@ -26,6 +26,7 @@ import Bottleneck from 'bottleneck';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 // import { Variables } from 'graphql-request';
 
+import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { PlpInput, ProductSlugInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
@@ -59,8 +60,18 @@ export class ProductsService {
       customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
+    const query = {};
+
+    if (input?.slug) {
+      query['collectionSlug'] = input?.slug;
+    }
+
+    if (input?.productType) {
+      query['productType'] = input?.productType;
+    }
+
     try {
-      return await this.productRepository.paginate({}, options);
+      return await this.productRepository.paginate(query, options);
     } catch (error: any) {
       this.logger.error(`Error while fetching all partners: ${error}`);
       throw new InternalServerErrorException({

@@ -1,72 +1,68 @@
 import { AbstractDocument } from '@diamantaire/server/common/provider/database';
-import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import paginate from 'mongoose-paginate-v2';
 
-import { IDiamondCollection, IDiamondVariant } from '../interface/diamond.interface';
+import { IDiamondVariant } from '../interface/diamond.interface';
 
 @Schema({
   collection: 'diamonds',
   timestamps: true,
 })
-@ObjectType()
-export class DiamondEntity extends AbstractDocument implements IDiamondCollection {
-  @Field(() => String)
-  @Prop()
+export class DiamondEntity extends AbstractDocument {
+  @Prop({ type: String })
   slug: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   dangerousInternalProductId?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
+  dangerousInternalCollectionId: string;
+
+  @Prop({ type: String })
   handle?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   productTitle?: string;
 
-  @Field(() => String)
-  @Prop()
-  description?: string;
-
-  @Prop()
+  @Prop({ type: Array })
   variants?: IDiamondVariant[];
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
+  isForSale: boolean;
+
+  @Prop({ type: String })
+  variantId: string;
+
+  @Prop({ type: String })
+  dangerousInternalShopifyVariantId: string;
+
+  @Prop({ type: Number })
+  price: number;
+
+  @Prop({ type: String })
   dfCertificateUrl?: string;
 
-  @Field(() => String)
   @Prop()
   type?: string;
 
-  @Field(() => Number)
-  @Prop()
+  @Prop({ type: Number })
   carat?: number;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   cut?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   color?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   clarity?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   lotId?: string;
 
-  @Field(() => String)
-  @Prop()
+  @Prop({ type: String })
   diamondType?: string;
 
-  @Field(() => Boolean)
   @Prop({ type: Boolean })
   availableForSale?: boolean;
 }

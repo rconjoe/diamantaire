@@ -7,8 +7,6 @@ import { CutToOrderDiamondEntity, CutToOrderDiamondSchema } from './entities/cut
 import { DiamondEntity, DiamondSchema } from './entities/diamond.entity';
 import { CutToOrderDiamondsRepository } from './repository/cut-to-order.repository';
 import { DiamondRepository } from './repository/diamond.repository';
-import { CutToOrderDiamondsResolver } from './resolver/cut-to-order.resolver';
-import { DiamondsResolver } from './resolver/diamonds.resolver';
 import { DiamondsService } from './services/diamond.service';
 
 @Module({
@@ -18,14 +16,7 @@ import { DiamondsService } from './services/diamond.service';
       { name: CutToOrderDiamondEntity.name, schema: CutToOrderDiamondSchema },
     ]),
   ],
-  providers: [
-    DiamondsResolver,
-    CutToOrderDiamondsResolver,
-    DiamondsService,
-    DiamondRepository,
-    CutToOrderDiamondsRepository,
-    UtilService,
-  ],
+  providers: [DiamondsService, DiamondRepository, CutToOrderDiamondsRepository, UtilService],
   controllers: [DiamondsController],
 })
 export class DiamondsModule {}
