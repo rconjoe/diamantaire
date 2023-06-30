@@ -10,7 +10,7 @@ import { PaginateFilterDto } from '@diamantaire/server/common/utils';
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { ProductVariantInput } from '../dto/product.input';
+import { ProductVariantInput, PlpInput } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
 @ApiHeader({ name: 'x-api-key', required: true })
@@ -41,7 +41,7 @@ export class ProductController {
   @ApiQuery({ name: 'diamondType', required: false, description: 'dimaond type filter' }) // TODO: should be an array
   @ApiQuery({ name: 'priceMin', required: false, description: 'price range filter min' })
   @ApiQuery({ name: 'priceMax', required: false, description: 'price range filter max' })
-  async datoPLP(@Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999 }: ProductVariantInput) {
+  async datoPLP(@Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999 }: PlpInput) {
     return await this.productService.findPlpData({ slug, locale, metal, diamondType, priceMin, priceMax });
   }
 }

@@ -16,7 +16,6 @@ import {
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
-  BadRequestException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
@@ -587,16 +586,14 @@ export class ProductsService {
 
                 map[id as string] = this.createPlpProduct(variantProduct, variantContent);
               } else if (!variantData.product) {
-                this.logger.verbose(`Missing product data for contentId: ${id}`);
+                this.logger.debug(`Missing product data for contentId: ${id}`);
               } else if (!variantData.content) {
-                this.logger.verbose(
+                this.logger.debug(
                   `Missing content data for contentId: ${id}, collectionSlug: ${variantData?.product?.collectionSlug}`,
                 );
-                throw new BadRequestException('Missing content data for contentId: ${id}');
               }
             } else {
-              this.logger.verbose(`Missing variantData data for contentId: ${id}`);
-              throw new BadRequestException(`Missing variantData data for contentId: ${id}`);
+              this.logger.debug(`Missing variantData data for contentId: ${id}`);
             }
 
             return map;
