@@ -41,7 +41,7 @@ export class PaginateFilterDto {
 
   @ApiProperty({
     example: 'three-stone',
-    required: true,
+    required: false,
   })
   @IsString()
   @IsOptional()
