@@ -287,7 +287,7 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
         font-weight: 400 !important;
       }
 
-      font-size: var(--font-size-copy-sm);
+      font-size: var(--font-size-xsmall);
 
       a {
         text-decoration-line: underline;

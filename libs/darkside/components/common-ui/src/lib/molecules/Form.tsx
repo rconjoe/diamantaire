@@ -2,22 +2,33 @@
  
 This is the master form component, we should never need to manually create a customer facing form that doesn't use this
 
-It requires 2 things
-
-1. Give it state, or use the default state of just email
-2. Provide onSubmit function
-
 */
 
-import React from 'react';
+import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button } from './Button';
+import { VRAIButton } from './VRAIButton';
+
+const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
-  onSubmit: (e: React.SyntheticEvent) => void;
-  title?: string;
+  onSubmit: (e: React.SyntheticEvent, formState: object) => void;
   caption?: string;
+  id?: string;
+  title?: string;
+  schema?: FormSchemaType[];
+  formGridStyle?: 'single' | 'split';
+  stackedSubmit?: boolean;
+};
+
+export type FormSchemaType = {
+  name: string;
+  placeholder: string;
+  inputType?: 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+  defaultValue?: string;
+  required: boolean;
 };
 
 const FormContainer = styled.div`
@@ -26,20 +37,18 @@ const FormContainer = styled.div`
   }
   form {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
     .input-container {
       display: flex;
       flex-wrap: wrap;
-      flex: 1;
+      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' || stackedSubmit ? '0 0 100%' : '0 0 50%')};
+      margin-bottom: ${({ fieldsLength, stackedSubmit }) =>
+        !stackedSubmit && fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`};
 
       &.submit {
-        flex: 0 0 100px;
-        button {
-          font-size: 1.4rem;
-          width: auto;
-          height: 46px;
-        }
+        margin-bottom: 0px;
       }
 
       > * {
@@ -54,22 +63,80 @@ const FormContainer = styled.div`
         border: 1px solid #ccc;
         height: 4.6rem;
         padding-left: 10px;
+        font-size: var(--font-size-xxxsmall);
+      }
+
+      .dropdown__single-value {
+        font-size: var(--font-size-xxxsmall);
+        color: #000;
+      }
+
+      .dropdown__option {
+        font-size: var(--font-size-xxxsmall);
+        color: #000;
       }
     }
   }
 `;
 
-const Form = ({ onSubmit, title, caption }: FormProps) => {
+const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', stackedSubmit = true }: FormProps) => {
+  const [formState, setFormState] = useState(null);
+
+  useEffect(() => {
+    const initialFormState = {};
+
+    schema?.map((field) => {
+      if (field.inputType === 'state-dropdown') {
+        return (initialFormState[field.name] = fiftyStates.filter((state) => state.value === field.defaultValue)[0]);
+      } else if (field.inputType === 'country-dropdown') {
+        return (initialFormState[field.name] = allCountries.filter((state) => state.label === field.defaultValue)[0]);
+      } else {
+        return (initialFormState[field.name] = field.defaultValue);
+      }
+    });
+
+    console.log(initialFormState);
+
+    return setFormState(initialFormState);
+  }, [schema]);
+
   return (
-    <FormContainer>
+    <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
       {title && <h4>{title}</h4>}
       {caption && <p className="small">{caption}</p>}
-      <form onSubmit={onSubmit}>
-        <div className="input-container">
-          <input type="text" name="email" id="email" placeholder="Enter your email" />
-        </div>
+      <form onSubmit={(e) => onSubmit(e, formState)}>
+        {!schema ? (
+          <div className="input-container">
+            <input type="text" name="email" id="email" placeholder="Enter your email" />
+          </div>
+        ) : (
+          schema?.map((field, index) => {
+            const { inputType, required, placeholder, name } = field || {};
+
+            return (
+              <div className="input-container" key={`${id}-${index}`}>
+                {inputType === 'text' || inputType === 'phone' ? (
+                  <input
+                    type={inputType}
+                    required={required}
+                    name={name}
+                    value={formState?.[name]}
+                    placeholder={placeholder}
+                    onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
+                  />
+                ) : (
+                  <div className="dropdown-container">
+                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )}
         <div className="input-container submit">
-          <Button className="tertiary">Submit</Button>
+          <VRAIButton className="primary" buttonType="submit">
+            Submit
+          </VRAIButton>
         </div>
       </form>
     </FormContainer>

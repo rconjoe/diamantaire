@@ -1,4 +1,4 @@
-import { FONT_SIZE_4, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const asideWidthLG = '400px';
@@ -32,7 +32,7 @@ const StyledDiamondPage = styled.div`
     `)}
 
     .title {
-      font-size: ${FONT_SIZE_4};
+      font-size: var(--font-size-small);
       text-align: center;
       line-height: 30px;
       font-weight: 500;

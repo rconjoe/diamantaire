@@ -1,4 +1,4 @@
-import { FONT_SIZE_5, FONT_SIZE_6, GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondPromo = styled.div`
@@ -21,7 +21,7 @@ const StyledDiamondPromo = styled.div`
   .title {
     padding: 0;
     margin: 0 0 15px;
-    font-size: ${FONT_SIZE_5};
+    font-size: var(--font-size-xsmall);
     font-weight: 500;
   }
 
@@ -39,11 +39,11 @@ const StyledDiamondPromo = styled.div`
       width: 100%;
 
       h3 {
-        font-size: ${FONT_SIZE_5};
+        font-size: var(--font-size-xsmall);
       }
 
       p {
-        font-size: ${FONT_SIZE_6};
+        font-size: var(--font-size-xxsmall);
       }
     }
   }
@@ -58,11 +58,11 @@ const StyledDiamondPromo = styled.div`
     `)}
 
     h2 {
-      font-size: ${FONT_SIZE_5};
+      font-size: var(--font-size-xsmall);
     }
 
     p {
-      font-size: ${FONT_SIZE_6};
+      font-size: var(--font-size-xxsmall);
     }
 
     .media {

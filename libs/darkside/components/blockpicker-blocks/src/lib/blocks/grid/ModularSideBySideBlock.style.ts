@@ -84,7 +84,7 @@ export const ModularSideBySideBlockContainer = styled.div`
   .side-by-side__title {
     margin: ${setSpace(1.5)} 0;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     font-family: ${MAIN_FONT};
     text-align: left;
 
@@ -110,7 +110,7 @@ export const ModularSideBySideBlockContainer = styled.div`
     text-align: left;
     margin: ${setSpace(1.5)} 0;
     font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     font-family: ${MAIN_FONT};
     line-height: 20px;
 

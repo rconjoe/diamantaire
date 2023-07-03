@@ -127,7 +127,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
       font-size: 14px;
     `)}
     ${desktopAndUp(`
-      font-size: var(--font-size-copy);
+      font-size: var(--font-size-xsmall);
     `)}
   }
 `;

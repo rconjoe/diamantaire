@@ -12,7 +12,7 @@ export const ModularAccordionItemContainer = styled.div`
     margin: ${setSpace(2)} 0;
     cursor: pointer;
     text-align: left;
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     color: ${BLACK};
     line-height: 1.2;
     width: 100%;
@@ -50,12 +50,12 @@ export const ModularAccordionItemContainer = styled.div`
 
   .acc-item__copy {
     margin-right: ${setSpace(2)};
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
     padding-bottom: ${setSpace(4)};
 
     & p,
     span {
-      font-size: var(--font-size-copy-sm);
+      font-size: var(--font-size-xsmall);
       line-height: 1.5;
       margin: ${setSpace(2)} 0;
     }
@@ -80,7 +80,7 @@ export const ModularAccordionItemContainer = styled.div`
   }
 
   .acc-item__cta-link {
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
     line-height: 1.5;
     color: var(--color-teal);
     text-decoration: underline;

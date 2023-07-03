@@ -60,13 +60,3 @@ export const getRenderedInputEngravingFontStyles = (selectedEngravingFont) => {
     `)};
   `;
 };
-
-export const FONT_SIZE_1 = '3.2rem';
-export const FONT_SIZE_2 = '2.8rem';
-export const FONT_SIZE_3 = '2.4rem';
-export const FONT_SIZE_4 = '2.2rem';
-export const FONT_SIZE_5 = '1.8rem';
-export const FONT_SIZE_6 = '1.6rem';
-export const FONT_SIZE_7 = '1.4rem';
-export const FONT_SIZE_8 = '1.2rem';
-export const FONT_SIZE_9 = '1rem';

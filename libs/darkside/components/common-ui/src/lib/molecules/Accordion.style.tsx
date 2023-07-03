@@ -1,4 +1,4 @@
-import { BLACK, FONT_SIZE_5, FONT_SIZE_6, GREY_LIGHTER, WHITE } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY_LIGHTER, WHITE } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledAccordion = styled.div`
@@ -28,11 +28,11 @@ const StyledAccordion = styled.div`
     .text {
       display: flex;
       gap: 5px;
-      font-size: ${FONT_SIZE_6};
+      font-size: var(--font-size-xxsmall);
     }
 
     .icon {
-      font-size: ${FONT_SIZE_5};
+      font-size: var(--font-size-xsmall);
     }
   }
 
@@ -51,11 +51,11 @@ const StyledAccordion = styled.div`
   .accordion-content {
     display: block;
     padding: 0 10px 20px;
-    font-size: ${FONT_SIZE_6};
+    font-size: var(--font-size-xxsmall);
   }
 
   .accordion-content * {
-    font-size: ${FONT_SIZE_6};
+    font-size: var(--font-size-xxsmall);
   }
 
   .accordion-content p {

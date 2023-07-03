@@ -56,7 +56,7 @@ export const ModularShowroomBlockContainer = styled.div`
   }
 
   .showroom__text-section {
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
   }
 
   .showroom__title {
@@ -99,7 +99,7 @@ export const ModularShowroomBlockContainer = styled.div`
 
   .showroom__appt-cta-button {
     width: 100% !important;
-    font-size: var(--font-size-copy) !important;
+    font-size: var(--font-size-xsmall) !important;
     max-height: none;
     margin-top: ${setSpace(0.5)};
     white-space: nowrap;

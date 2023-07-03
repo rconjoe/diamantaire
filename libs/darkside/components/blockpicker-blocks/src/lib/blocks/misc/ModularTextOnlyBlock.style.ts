@@ -143,7 +143,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
     margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
 
     font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
 
     a {
       text-decoration: underline;

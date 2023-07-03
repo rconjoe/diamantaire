@@ -35,7 +35,7 @@ const ButtonStyles = styled.button<Props>`
   /* Black text on on white background with white border */
   &.primary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     width: ${setSpace(25)};
     height: ${setSpace(6)};
     border: 2px solid ${BLACK};
@@ -115,7 +115,7 @@ const ButtonStyles = styled.button<Props>`
   /* Teal link */
   &.secondary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     border: 0;
     padding-left: 0;
     padding-right: 0;
@@ -156,7 +156,7 @@ const ButtonStyles = styled.button<Props>`
   /* PDPs / BuyFlow */
   &.tertiary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     width: ${setSpace(25)};
     height: ${setSpace(6)};
     color: ${WHITE};

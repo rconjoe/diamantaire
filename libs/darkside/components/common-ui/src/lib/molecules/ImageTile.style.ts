@@ -40,7 +40,7 @@ export const ImageTileContainer = styled.div<Props>`
     }
     &.primary {
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-headline);
+      font-size: var(--font-size-small);
       line-height: 1.3;
       ${tabletAndUp(`
         font-size: 2rem;

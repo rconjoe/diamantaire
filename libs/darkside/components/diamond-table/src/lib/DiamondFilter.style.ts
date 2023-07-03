@@ -1,4 +1,4 @@
-import { FONT_SIZE_7, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
@@ -23,7 +23,7 @@ const StyledDiamondFilter = styled.div`
 
     .title {
       font-weight: 500;
-      font-size: ${FONT_SIZE_7};
+      font-size: var(--font-size-xxxsmall);
       text-transform: uppercase;
     }
   }
@@ -53,7 +53,7 @@ const StyledDiamondFilter = styled.div`
   .vo-filter-list-item {
     position: relative;
     cursor: pointer;
-    font-size: ${FONT_SIZE_7};
+    font-size: var(--font-size-xxxsmall);
     display: block;
     text-align: center;
   }
@@ -123,7 +123,7 @@ const StyledDiamondFilter = styled.div`
   .vo-below-copy {
     width: 100%;
     margin: 15px 0 0;
-    font-size: ${FONT_SIZE_7};
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-filter-loading {

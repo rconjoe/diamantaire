@@ -25,7 +25,7 @@ export const Typography = styled.createGlobalStyle`
     margin: 0;
 
     &.small {
-      font-size: var(--font-size-copy-sm);
+      font-size: var(--font-size-xsmall);
     }
   }
 
@@ -58,7 +58,7 @@ export const Typography = styled.createGlobalStyle`
   .h2 {
     &.primary {
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-headline);
+      font-size: var(--font-size-small);
       line-height: 1.3;
       ${mediaQueries.tabletAndUp(`
           font-size: 2rem;
@@ -110,7 +110,7 @@ export const Typography = styled.createGlobalStyle`
     }
     &.secondary {
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-copy-sm);
+      font-size: var(--font-size-xsmall);
       line-height: 1.7;
       &.-medium {
         font-weight: var(--font-weight-medium);
@@ -128,7 +128,7 @@ export const Typography = styled.createGlobalStyle`
     font-weight: var(--font-weight-normal);
     font-size: 1.6rem;
     ${mediaQueries.tabletAndUp(`
-        font-size: var(--font-size-copy);
+        font-size: var(--font-size-xsmall);
       `)};
     line-height: 1.3;
 
@@ -141,7 +141,7 @@ export const Typography = styled.createGlobalStyle`
     }
 
     &.small {
-      font-size: var(--font-size-copy-sm);
+      font-size: var(--font-size-xsmall);
     }
   }
 `;

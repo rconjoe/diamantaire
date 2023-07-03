@@ -105,12 +105,12 @@ export const ModularAccordionContainer = styled.div`
   }
 
   .accordion__copy {
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
     margin-bottom: ${setSpace(3)};
   }
 
   .accordion__bottom-copy {
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
     line-height: 1.5;
     margin-top: ${setSpace(4)};
   }

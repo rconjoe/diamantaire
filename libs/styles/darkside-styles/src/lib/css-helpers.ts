@@ -15,15 +15,35 @@ export const CssHelpers = styled.createGlobalStyle`
     height: auto;
     aspect-ratio: auto;
   }
+
   .text-center {
     text-align: center;
   }
+
   .text-right {
     text-align: right;
   }
+
   .flex {
     display: flex;
   }
+
+  .align-center {
+    align-items: center;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .justify-flex-end {
+    justify-content: flex-end;
+  }
+
+  .justify-space-between {
+    justify-content: space-between;
+  }
+
   .list-unstyled {
     margin: 0;
     padding: 0;

@@ -10,7 +10,7 @@ export const HEADLINE_SIZE = '2rem';
 export function makeTealLink() {
   return `
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     color: var(--color-teal);
     font-family: ${MAIN_FONT};
     text-decoration: underline;

@@ -1,4 +1,4 @@
-import { MAIN_FONT, FONT_SIZE_9 } from '@diamantaire/styles/darkside-styles';
+import { MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledTooltip = styled.div`
@@ -13,7 +13,7 @@ const StyledTooltip = styled.div`
     width: 12px;
 
     * {
-      font-size: ${FONT_SIZE_9};
+      font-size: var(--font-size-xxxxxsmall);
       font-family: ${MAIN_FONT};
       text-transform: none;
       color: var(--color-teal);

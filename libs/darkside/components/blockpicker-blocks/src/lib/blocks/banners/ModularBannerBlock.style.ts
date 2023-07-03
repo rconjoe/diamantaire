@@ -304,7 +304,7 @@ export const SubTitle = styled.div`
   &.-blog {
     line-height: 0;
     margin-bottom: ${setSpace(3)};
-    font-size: var(--font-size-copy-sm);
+    font-size: var(--font-size-xsmall);
     font-weight: 300;
     color: var(--color-teal) !important;
   }

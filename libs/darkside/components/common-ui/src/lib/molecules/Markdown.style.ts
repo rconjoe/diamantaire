@@ -5,7 +5,7 @@ export const MarkdownContainer = styled.div`
   &.with-styles {
     margin: ${setSpace(2)} auto 0;
     font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
 
     a {
       text-decoration: underline;
@@ -16,7 +16,7 @@ export const MarkdownContainer = styled.div`
 
     p {
       font-weight: var(--font-weight-normal);
-      font-size: var(--font-size-copy);
+      font-size: var(--font-size-xsmall);
       margin: 20px 0;
     }
 
@@ -45,7 +45,7 @@ export const MarkdownContainer = styled.div`
       letter-spacing: 0px;
       font-family: ${MAIN_FONT};
       font-style: normal;
-      font-size: var(--font-size-copy);
+      font-size: var(--font-size-xsmall);
       font-weight: 400;
       line-height: ${setSpace(3)};
     }
@@ -59,13 +59,13 @@ export const MarkdownContainer = styled.div`
     &.-modularSideBySideBlock {
       margin: 0;
       h2 {
-        font-size: var(--font-size-copy);
+        font-size: var(--font-size-xsmall);
         ${desktopAndUp(`
         font-size: 22px;
       `)};
       }
       h2 {
-        font-size: var(--font-size-copy);
+        font-size: var(--font-size-xsmall);
         ${desktopAndUp(`
         font-size: 22px;
       `)};
@@ -74,7 +74,7 @@ export const MarkdownContainer = styled.div`
         font-size: unset;
       }
       h3 {
-        font-size: var(--font-size-copy-sm);
+        font-size: var(--font-size-xsmall);
       }
     }
     &.-textOnlyBlock {

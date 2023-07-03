@@ -33,7 +33,7 @@ const ButtonStyles = styled.button<Props>`
 
   &.primary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     width: 100%;
     max-width: 350px;
     height: ${setSpace(6)};
@@ -150,7 +150,7 @@ const ButtonStyles = styled.button<Props>`
   /* Teal link */
   &.secondary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     border: 0;
     padding-left: 0;
     padding-right: 0;
@@ -200,7 +200,7 @@ const ButtonStyles = styled.button<Props>`
   /* PDPs / BuyFlow */
   &.tertiary {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-copy);
+    font-size: var(--font-size-xsmall);
     width: ${setSpace(25)};
     height: ${setSpace(6)};
     color: ${WHITE};
@@ -272,11 +272,22 @@ type ButtonProps = {
   colorTheme?: 'black' | 'teal' | 'white';
   isLink?: boolean;
   className?: string;
+  onClick?: () => void;
+  buttonType?: 'button' | 'submit' | 'reset';
 };
 
-const VRAIButton = ({ className, children, type = 'solid', inverse, colorTheme }: ButtonProps) => {
+const VRAIButton = ({
+  className,
+  children,
+  type = 'solid',
+  inverse,
+  colorTheme,
+  onClick,
+  buttonType = 'button',
+}: ButtonProps) => {
   return (
     <ButtonStyles
+      type={buttonType}
       className={clsx(className, {
         primary: type === 'solid',
         secondary: type === 'underline',
@@ -284,6 +295,7 @@ const VRAIButton = ({ className, children, type = 'solid', inverse, colorTheme }
         '-color-theme-teal': colorTheme === 'teal',
         '-color-theme-white': colorTheme === 'white',
       })}
+      onClick={onClick}
     >
       {children}
     </ButtonStyles>

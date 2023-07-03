@@ -17,6 +17,7 @@ const config = {
   title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
   description: 'Modern engagement rings. Everyday fine jewelry. lab grown, lab created diamonds. Solid gold.',
   canonical: 'https://vrai.com',
+  titleTemplate: '%s | VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
   openGraph: {
     type: 'website',
     url: 'https://vrai.com',

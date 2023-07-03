@@ -1,22 +1,13 @@
-import {
-  FONT_SIZE_6,
-  FONT_SIZE_7,
-  FONT_SIZE_8,
-  GREY_LIGHT,
-  GREY_LIGHTER,
-  GREY_LIGHTEST,
-  WHITE,
-  tabletAndUp,
-} from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
-  font-size: ${FONT_SIZE_8};
+  font-size: var(--font-size-xxxxsmall);
   display: block;
   margin: 30px -25px 0;
 
   ${tabletAndUp(`
-    font-size: ${FONT_SIZE_7};
+    font-size: var(--font-size-xxxsmall);
     width: 100%;
     display: flex;
     margin: 0;
@@ -194,7 +185,7 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-pagination p {
     margin-top: 10px;
-    font-size: ${FONT_SIZE_7};
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-table-pagination button:hover,
@@ -215,7 +206,7 @@ const StyledDiamondTable = styled.div`
     gap: 20px;
     align-items: center;
     justify-content: center;
-    font-size: ${FONT_SIZE_6};
+    font-size: var(--font-size-xxsmall);
     width: 300px;
   }
 

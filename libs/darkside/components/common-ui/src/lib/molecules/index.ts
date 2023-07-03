@@ -14,3 +14,4 @@ export * from './Slider';
 export * from './Tooltip';
 export * from './SpriteSpinner';
 export * from './Accordion';
+export * from './VRAIButton';
