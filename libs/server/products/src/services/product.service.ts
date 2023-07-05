@@ -414,8 +414,7 @@ export class ProductsService {
    * @returns Array of plp products and page content
    */
 
-  async findPlpData({ slug, locale, metal, diamondType, priceMin = 0, priceMax = 9999999 }: PlpInput) {
-    // create unique cacheKey for each prodyct variant
+  async findPlpData({ slug, locale, metal, diamondType, priceMin = 0, priceMax = 9999999, page, limit }: PlpInput) {
     const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax })}`; // TODO: add filter options
     // check for cached data
     const cachedData = null; // = await this.utils.memGet(cachedKey);
@@ -476,15 +475,23 @@ export class ProductsService {
 
       const filterQueries = getFiltersQuery({ m: metal, dT: diamondType, pMin: priceMin, pMax: priceMax });
 
+      const pageNumer = page > 0 ? page : 1;
+      const PAGE_SIZE = limit || 5; // Number of documents per page
+      // Pagination parameters
+      const skip = (pageNumer - 1) * PAGE_SIZE;
+      const totalProducts = contentIdsInOrder.length;
+      const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+
       // Build Query
       const pipeline: PipelineStage[] = [
         { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
         { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
         { $sort: { __order: 1 } },
+        { $skip: skip },
+        { $limit: PAGE_SIZE },
       ];
 
-      // Get product data
-      const products: VraiProduct[] = await this.productRepository.aggregate(pipeline, {}, 20);
+      const products: VraiProduct[] = await this.productRepository.aggregate(pipeline, {});
 
       // Add product data to PLP data
       const collectionSlugsSet = new Set<string>();
@@ -624,9 +631,18 @@ export class ProductsService {
         [],
       );
 
+      const paginator = {
+        currentPage: pageNumer, // page
+        perPage: PAGE_SIZE, // limit
+        pageCount: totalPages, // total pages
+        itemCount: totalProducts, // total count
+        //itemCount: totalCount,
+      };
+
       const plpReturnData = {
         // ...listPageContent,
         products: plpProducts,
+        paginator,
       };
 
       this.utils.memSet(cachedKey, plpReturnData, 3600);

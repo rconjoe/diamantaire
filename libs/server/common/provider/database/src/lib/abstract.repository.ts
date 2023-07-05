@@ -77,12 +77,12 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
-  async aggregate(pipeline?: PipelineStage[], options?: AggregateOptions, limit?: number) {
-    if (limit) {
-      return this.model.aggregate(pipeline, options).limit(limit);
-    } else {
-      return this.model.aggregate(pipeline, options);
-    }
+  async aggregate(pipeline?: PipelineStage[], options?: AggregateOptions) {
+    return this.model.aggregate(pipeline, options);
+  }
+
+  async countDocs(options): Promise<any> {
+    return this.model.countDocuments(options);
   }
 
   async find(filterQuery: FilterQuery<TDocument>): Promise<any> {

@@ -41,7 +41,7 @@ export class ProductController {
   @ApiQuery({ name: 'diamondType', required: false, description: 'dimaond type filter' }) // TODO: should be an array
   @ApiQuery({ name: 'priceMin', required: false, description: 'price range filter min' })
   @ApiQuery({ name: 'priceMax', required: false, description: 'price range filter max' })
-  async datoPLP(@Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999 }: PlpInput) {
-    return await this.productService.findPlpData({ slug, locale, metal, diamondType, priceMin, priceMax });
+  async datoPLP(@Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999, page, limit }: PlpInput) {
+    return await this.productService.findPlpData({ slug, locale, metal, diamondType, priceMin, priceMax, page, limit });
   }
 }
