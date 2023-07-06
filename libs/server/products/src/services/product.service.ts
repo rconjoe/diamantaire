@@ -415,9 +415,9 @@ export class ProductsService {
    */
 
   async findPlpData({ slug, locale, metal, diamondType, priceMin = 0, priceMax = 9999999, page, limit }: PlpInput) {
-    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax })}`; // TODO: add filter options
+    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax, page, limit })}`;
     // check for cached data
-    const cachedData = null; // = await this.utils.memGet(cachedKey);
+    const cachedData = await this.utils.memGet(cachedKey);
 
     if (cachedData) {
       this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
@@ -492,6 +492,30 @@ export class ProductsService {
       ];
 
       const products: VraiProduct[] = await this.productRepository.aggregate(pipeline, {});
+
+      const availableFiltersCacheKey = `plp-${slug}-filter-types`;
+      // check for cached data
+      let availableFilters = await this.utils.memGet(availableFiltersCacheKey);
+
+      if (!availableFilters) {
+        this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
+
+        const [availableMetals, availableDiamondTypes] = await Promise.all([
+          this.productRepository.distinct('configuration.metal', {
+            contentId: { $in: contentIdsInOrder },
+          }),
+          this.productRepository.distinct('configuration.diamondType', {
+            contentId: { $in: contentIdsInOrder },
+          }),
+        ]);
+
+        availableFilters = {
+          metal: availableMetals,
+          diamondType: availableDiamondTypes,
+        };
+
+        this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);
+      }
 
       // Add product data to PLP data
       const collectionSlugsSet = new Set<string>();
@@ -643,6 +667,7 @@ export class ProductsService {
         // ...listPageContent,
         products: plpProducts,
         paginator,
+        availableFilters,
       };
 
       this.utils.memSet(cachedKey, plpReturnData, 3600);
