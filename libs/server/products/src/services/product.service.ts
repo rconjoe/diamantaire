@@ -414,7 +414,16 @@ export class ProductsService {
    * @returns Array of plp products and page content
    */
 
-  async findPlpData({ slug, locale, metal, diamondType, priceMin = 0, priceMax = 9999999, page, limit }: PlpInput) {
+  async findPlpData({
+    slug,
+    locale = 'en_US',
+    metal,
+    diamondType,
+    priceMin = 0,
+    priceMax = 9999999,
+    page,
+    limit,
+  }: PlpInput) {
     const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax, page, limit })}`;
     // check for cached data
     const cachedData = await this.utils.memGet(cachedKey);
@@ -593,7 +602,7 @@ export class ProductsService {
       // TODO: may need paginated request but most likely not since we limit to 20 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
-        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: [] }),
+        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
         this.productRepository.find({ contentId: { $in: variantContentIds } }),
       ];
       const [variantContentData, variantProducts] = await Promise.all(variantPromises);
@@ -798,8 +807,10 @@ export class ProductsService {
     first?: number;
     skip?: number;
   }): Promise<any> {
+    const ids = [...variantIds, ...productHandles].sort();
+
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
-    const cachedKey = `plp-configurations-${slug}`;
+    const cachedKey = `plp-configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
     let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
