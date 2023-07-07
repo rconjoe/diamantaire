@@ -695,8 +695,8 @@ export class ProductsService {
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,
       productType: product.productType,
-      primaryImage: content['plpImage'].responsiveImage,
-      hoverImage: content['plpImageHover'].responsiveImage,
+      primaryImage: content['plpImage']?.responsiveImage,
+      hoverImage: content['plpImageHover']?.responsiveImage,
       price: product.price,
     };
   }
