@@ -5023,10 +5023,10 @@
     lru_map "^0.3.3"
     tslib "^2.4.1 || ^1.9.3"
 
-"@sentry/profiling-node@^1.0.6":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@sentry/profiling-node/-/profiling-node-1.0.7.tgz#f0a062ca42b8dd16947fa99d671e85aa0a5aac6b"
-  integrity sha512-ikHjBm8MFPR1IjS+VeJNAejZ9Hvn/MnYIsbTZcjebBwuXFHNnbMVenm1tEh1bv/RSFSAmUnWRJSCeMy1LBpODw==
+"@sentry/profiling-node@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@sentry/profiling-node/-/profiling-node-1.0.8.tgz#a6dbacbd09287a256b326da5fce0b6f6e97f6fc6"
+  integrity sha512-hUGRda/vt41vqogarnsFNZCQmJ43gI92xqh+B0mXjL9UNv5DcpFRAfSRO1dq7uOxeZCHzxB9HC5RWS/NxuLbwA==
   dependencies:
     "@sentry/core" "^7.53.0"
     "@sentry/hub" "^7.53.0"
