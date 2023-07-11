@@ -440,7 +440,7 @@ export class ProductsService {
 
       const { configurationsInOrder, productsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
 
-      const productList = productsInOrder ? productsInOrder : configurationsInOrder;
+      const productList = productsInOrder.length ? productsInOrder : configurationsInOrder;
 
       const contentIdsInOrder: string[] = [];
       let plpProductsContentData;
