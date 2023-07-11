@@ -438,26 +438,32 @@ export class ProductsService {
       // Get Dato PLP data
       const plpContent = await this.datoPLPContent({ slug, locale });
 
-      const { configurationsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
+      const { configurationsInOrder, productsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
+
+      const productList = productsInOrder ? productsInOrder : configurationsInOrder;
 
       const contentIdsInOrder: string[] = [];
-      const plpProductsContentData = configurationsInOrder.reduce((data, item) => {
-        let contentId: string;
+      let plpProductsContentData;
 
-        if (item._modelApiKey === 'configuration') {
-          contentId = item.variantId;
-        } else if (item._modelApiKey === 'omega_product') {
-          contentId = item.shopifyProductHandle;
-        }
+      if (configurationsInOrder || productsInOrder) {
+        plpProductsContentData = productList.reduce((data, item) => {
+          let contentId: string;
 
-        contentIdsInOrder.push(contentId);
+          if (item._modelApiKey === 'configuration') {
+            contentId = item.variantId;
+          } else if (item._modelApiKey === 'omega_product') {
+            contentId = item.shopifyProductHandle;
+          }
 
-        data[contentId] = {
-          content: item,
-        };
+          contentIdsInOrder.push(contentId);
 
-        return data;
-      }, {});
+          data[contentId] = {
+            content: item,
+          };
+
+          return data;
+        }, {});
+      }
 
       const getFiltersQuery = ({
         m,

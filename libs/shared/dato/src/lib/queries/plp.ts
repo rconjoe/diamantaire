@@ -212,12 +212,31 @@ export const PLP_QUERY = `query PLP($slug: String!, $locale: SiteLocale) {
     }
     productsInOrder {
       _modelApiKey
+      shopifyProductHandle
       collection {
-        ... on EngagementRingProductRecord {
-          slug
-        }
         ... on WeddingBandProductRecord {
           slug
+          productType
+          productLabel {
+              title
+          }
+          subCategory {
+              slug
+              title
+          }
+          shouldUseDefaultPrice
+      }
+        ... on EngagementRingProductRecord {
+            slug
+            productType
+            productLabel {
+                title
+            }
+            subCategory {
+                slug
+                title
+            }
+            shouldUseDefaultPrice
         }
       }
     }
