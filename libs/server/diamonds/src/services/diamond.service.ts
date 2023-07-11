@@ -9,7 +9,6 @@
 import { UtilService } from '@diamantaire/server/common/utils';
 import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, DIAMOND_PAGINATED_LABELS } from '@diamantaire/shared/constants';
 import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
-import { getDataRanges, defaultVariantGetter, defaultNumericalRanges, defaultUniqueValues } from '@diamantaire/shared/utils';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
@@ -83,26 +82,34 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    // const cachedData = await this.utils.memGet(cachedKey);
-
-    // if (cachedData) {
-    //   this.Logger.verbose(`diamonds :: cache hit on key ${cachedKey}`);
-
-    //   return cachedData; // return the entire cached data
-    // }
-
-    const allDiamonds = await this.diamondRepository.find({});
-
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
-    const numericalRanges = {
-      ...defaultNumericalRanges,
-      price: defaultVariantGetter,
-    };
+    /* DATA RANGES : used for filters */
+    let dataRanges;
+    const dataRangeCacheKey = `diamonds-data-ranges-${JSON.stringify(query)}`;
+    const cachedDataRanges = await this.utils.memGet(dataRangeCacheKey);
 
-    result.ranges = getDataRanges(allDiamonds, defaultUniqueValues, numericalRanges);
+    if (cachedDataRanges) {
+      this.Logger.verbose(`diamonds :: cache hit on key ${dataRangeCacheKey}`);
+      dataRanges = cachedDataRanges;
+    } else {
+      const rangeQueries: [Promise<string[]>, Promise<number[]>, Promise<number[]>] = [
+        this.diamondRepository.distinct('diamondType', { slug: query['slug'] }),
+        this.diamondRepository.distinct('carat', { slug: query['slug'] }),
+        this.diamondRepository.distinct('price', { slug: query['slug'] }),
+      ];
 
-    // this.utils.memSet(cachedKey, result, 3600); // set the cache data for 1hr
+      const [diamondTypeValues, caratValues, priceValues] = await Promise.all(rangeQueries);
+
+      dataRanges = {
+        diamondType: diamondTypeValues.filter(Boolean),
+        carat: [Math.min(...caratValues), Math.max(...caratValues)],
+        price: [Math.min(...priceValues), Math.max(...priceValues)],
+      };
+      this.utils.memSet(dataRangeCacheKey, dataRanges, 3600); // set the cache data for 1hr
+    }
+
+    result.ranges = dataRanges;
 
     return result;
   }
