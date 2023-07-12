@@ -515,18 +515,24 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const [availableMetals, availableDiamondTypes] = await Promise.all([
+        const filterValueQueries: [Promise<string[]>, Promise<string[]>, Promise<number[]>] = [
           this.productRepository.distinct('configuration.metal', {
             contentId: { $in: contentIdsInOrder },
           }),
           this.productRepository.distinct('configuration.diamondType', {
             contentId: { $in: contentIdsInOrder },
           }),
-        ]);
+          this.productRepository.distinct('price', {
+            contentId: { $in: contentIdsInOrder },
+          }),
+        ];
+
+        const [availableMetals, availableDiamondTypes, priceValues] = await Promise.all(filterValueQueries);
 
         availableFilters = {
           metal: availableMetals,
           diamondType: availableDiamondTypes,
+          price: [Math.min(...priceValues), Math.max(...priceValues)],
         };
 
         this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);
