@@ -78,7 +78,7 @@ export class ProductVariantInput {
 
 export class PlpInput {
   @ApiProperty({
-    example: 'three-stone',
+    example: 'graduation-gifts-jewelry',
     required: true,
   })
   @IsString()
@@ -112,6 +112,15 @@ export class PlpInput {
   @IsOptional()
   @Type(() => String)
   readonly diamondType?: string;
+
+  @ApiProperty({
+    example: 'solitaire',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly style?: string;
 
   @ApiProperty({
     example: 100,

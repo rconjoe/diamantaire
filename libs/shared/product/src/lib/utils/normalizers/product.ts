@@ -173,7 +173,7 @@ const parseTagsAsConfiguration = (tags: string[]): Record<string, string> => {
   }, {});
 };
 
-const parseProductPropertiesFromTags = (tags: string[]): Record<string, string> => {
+const parseProductPropertiesFromTags = (tags: string[]): { styles?: string[] } & Record<string, string> => {
   return tags.reduce((prevParsedTags, tag) => {
     if (tag.indexOf('^') === 0) {
       const [key] = tag.replace('^', '').split(':');

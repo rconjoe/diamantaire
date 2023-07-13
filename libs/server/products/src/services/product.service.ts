@@ -421,10 +421,20 @@ export class ProductsService {
     diamondType,
     priceMin = 0,
     priceMax = 9999999,
+    style,
     page,
     limit,
   }: PlpInput) {
-    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({ metal, diamondType, priceMin, priceMax, page, limit })}`;
+    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({
+      metal,
+      diamondType,
+      priceMin,
+      priceMax,
+      page,
+      limit,
+      style,
+    })}`;
+
     // check for cached data
     const cachedData = await this.utils.memGet(cachedKey);
 
@@ -470,7 +480,13 @@ export class ProductsService {
         dT,
         pMin,
         pMax,
-      }): FilterQuery<{ 'configuration.metal'?: string; 'configuration.diamondType'?: string; price?: string }>[] => {
+        stylesFilter,
+      }): FilterQuery<{
+        'configuration.metal'?: string;
+        'configuration.diamondType'?: string;
+        price?: string;
+        style?: string;
+      }>[] => {
         const query = [];
 
         if (m) {
@@ -485,10 +501,20 @@ export class ProductsService {
           query.push({ price: { $lte: priceMax } });
         }
 
+        if (typeof stylesFilter !== 'undefined') {
+          query.push({ styles: stylesFilter });
+        }
+
         return query;
       };
 
-      const filterQueries = getFiltersQuery({ m: metal, dT: diamondType, pMin: priceMin, pMax: priceMax });
+      const filterQueries = getFiltersQuery({
+        m: metal,
+        dT: diamondType,
+        pMin: priceMin,
+        pMax: priceMax,
+        stylesFilter: style,
+      });
 
       const pageNumer = page > 0 ? page : 1;
       const PAGE_SIZE = limit || 5; // Number of documents per page
@@ -515,7 +541,7 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const filterValueQueries: [Promise<string[]>, Promise<string[]>, Promise<number[]>] = [
+        const filterValueQueries: [Promise<string[]>, Promise<string[]>, Promise<number[]>, Promise<string[]>] = [
           this.productRepository.distinct('configuration.metal', {
             contentId: { $in: contentIdsInOrder },
           }),
@@ -525,14 +551,18 @@ export class ProductsService {
           this.productRepository.distinct('price', {
             contentId: { $in: contentIdsInOrder },
           }),
+          this.productRepository.distinct('styles', {
+            contentId: { $in: contentIdsInOrder },
+          }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues] = await Promise.all(filterValueQueries);
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles] = await Promise.all(filterValueQueries);
 
         availableFilters = {
           metal: availableMetals,
           diamondType: availableDiamondTypes,
           price: [Math.min(...priceValues), Math.max(...priceValues)],
+          styles: availableStyles,
         };
 
         this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);

@@ -40,6 +40,9 @@ export class ProductEntity extends AbstractDocument {
   @Prop({ type: String })
   shopifyProductId?: string;
 
+  @Prop({ type: Array(String) })
+  styles: string[];
+
   @Prop({ type: Array })
   variants?: Variant[];
 }
