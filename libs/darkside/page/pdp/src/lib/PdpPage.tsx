@@ -153,7 +153,7 @@ export async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200'); // define TTL globally
 
-  const { params } = context;
+  const { params, locale } = context;
 
   const { productSlug, variantSlug } = context.params;
   const queryClient = new QueryClient();
@@ -162,7 +162,7 @@ export async function getServerSideProps(
   const productType: PdpTypePlural = pdpTypeHandleAsConst[context.req.url.split('/')[1]] || null;
 
   await queryClient.prefetchQuery(dataQuery);
-  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, 'en_US', productType) });
+  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, locale, productType) });
 
   if (!queryClient.getQueryData(dataQuery.queryKey)) {
     return {

@@ -54,7 +54,7 @@ query AllStandardPages($first: IntType!, $skip: IntType!) {
 
 export const STANDARD_PAGE_BY_SLUG = `
   query StandardPageBySlug($slug: String, $locale: SiteLocale) {
-    allStandardPages(filter: {slug: {eq: $slug}}, locale: $locale) {
+    standardPage(filter: {slug: {eq: $slug}}, locale: $locale) {
       slug
       breadcrumb {
         name

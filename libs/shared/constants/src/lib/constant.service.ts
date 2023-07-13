@@ -24,7 +24,6 @@ export * from './lib/image';
 export * from './lib/jewelry';
 export * from './lib/klaviyo';
 export * from './lib/listPage';
-export * from './lib/locale';
 export * from './lib/metal';
 export * from './lib/nav';
 export * from './lib/pair';

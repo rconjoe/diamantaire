@@ -1,31 +1,60 @@
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
+
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 const { withSentryConfig } = require('@sentry/nextjs');
 
-//@ts-check
-
-// const { JOURNAL_DEV_URL } = process.env;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-
 const DEFAULT_LOCALE = 'en-US';
-
-const LOCALES = [
+const AVAILABLE_LOCALES = [
   DEFAULT_LOCALE,
+  'en-CA',
+  'fr-CA',
+  'de-AT',
+  'en-AT',
+  'en-BE',
+  'fr-BE',
+  'en-DK',
+  'en-FI',
   'fr-FR',
   'en-FR',
   'de-DE',
   'en-DE',
+  'en-IE',
+  'en-IT',
+  'en-NL',
+  'en-NO',
+  'en-PT',
   'es-ES',
   'en-ES',
-  'en-CA',
-  'fr-CA',
+  'en-SE',
+  'de-CH',
+  'fr-CH',
+  'en-CH',
   'en-GB',
-  'en-AT',
   'en-AU',
+  'en-JP',
+  'en-SG',
+  'en-KR',
+  'en-CN',
+  'en-TW',
+  'en-HK',
+  'en-BG',
+  'en-CY',
+  'en-CZ',
+  'en-EE',
+  'en-GR',
+  'en-HR',
+  'en-HU',
+  'en-LT',
+  'en-LU',
+  'en-LV',
+  'en-MT',
+  'en-PL',
+  'en-RO',
+  'en-SI',
+  'en-SK',
 ];
 
 /**
@@ -37,7 +66,7 @@ const nextConfig = {
     svgr: true,
   },
   i18n: {
-    locales: LOCALES,
+    locales: AVAILABLE_LOCALES,
     defaultLocale: DEFAULT_LOCALE,
   },
   reactStrictMode: false,

@@ -5,7 +5,12 @@ import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside
 import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { DIAMOND_TABLE_DEFAULT_OPTIONS, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TABLE_DEFAULT_OPTIONS,
+  DIAMOND_TABLE_FACETED_NAV,
+  getCurrencyFromLocale,
+  parseValidLocale,
+} from '@diamantaire/shared/constants';
 import { getDiamondsOptionsFromUrl, getDiamondsOptionsRoute } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -146,9 +151,9 @@ async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<DiamondPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const locale = 'en_US';
-  const countryCode = 'US';
-  const currencyCode = 'USD';
+  const { locale } = context;
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrencyFromLocale(locale);
   const { query } = context;
   const options = getDiamondsOptionsFromUrl(query || {});
   const diamondQuery = queries.diamonds.content(options);

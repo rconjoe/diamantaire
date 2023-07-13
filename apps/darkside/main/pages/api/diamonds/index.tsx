@@ -2,8 +2,6 @@ import { vraiApiClient } from '@diamantaire/darkside/data/api';
 import { NextApiResponse, NextApiRequest } from 'next';
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse<string>) {
-  const clientApi = vraiApiClient;
-
   const query = _req.query as Record<string, string>;
 
   let search = '';
@@ -15,7 +13,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   const url: string = '/v1/diamonds' + '?' + search;
 
   try {
-    const response = await clientApi.request({ method: 'GET', url });
+    const response = await vraiApiClient.request({ method: 'GET', url });
 
     const payload = response.data;
 

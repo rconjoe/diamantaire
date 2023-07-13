@@ -18,8 +18,9 @@ export type GlobalTemplateProps = {
 };
 
 export const GlobalTemplate = ({ children }) => {
-  const headerData = useHeader('en_US');
-  const footerData = useFooter('en_US');
+  const router = useRouter();
+  const headerData = useHeader(router.locale);
+  const footerData = useFooter(router.locale);
   const headerRef = useRef(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);

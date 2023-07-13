@@ -1,4 +1,4 @@
-import { Form, LocaleSelector } from '@diamantaire/darkside/components/common-ui';
+import { Form, CountrySelector, LanguageSelector } from '@diamantaire/darkside/components/common-ui';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
@@ -210,6 +210,16 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                         </li>
                       );
                     })}
+                    {index === 0 && (
+                      <>
+                        <li>
+                          <CountrySelector label="Country" />
+                        </li>
+                        <li>
+                          <LanguageSelector label="Language" />
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -237,7 +247,6 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                   })}
                 </ul>
               </div>
-              <LocaleSelector locale={'en-US'} />
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE, parseValidLocale } from '@diamantaire/shared/constants';
 import { GraphQLClient, Variables } from 'graphql-request';
 
 export function queryDatoGQL({
@@ -11,6 +12,13 @@ export function queryDatoGQL({
   includeDrafts?: boolean;
   excludeInvalid?: boolean;
 }) {
+  if (variables && variables['locale']) {
+    const { locale } = variables;
+    const refinedLocale = (locale as string) || DEFAULT_LOCALE;
+
+    variables['locale'] = getDatoRequestLocale(refinedLocale);
+  }
+
   const headers: { [key: string]: string } = {
     authorization: `Bearer ` + process.env['NEXT_PUBLIC_DATOCMS_API_TOKEN'],
   };
@@ -32,4 +40,12 @@ export function queryDatoGQL({
   });
 
   return client.request(query, variables);
+}
+
+function getDatoRequestLocale(locale: string) {
+  const { languageCode } = parseValidLocale(locale);
+
+  if (languageCode === 'en') {
+    return 'en_US';
+  } else return languageCode;
 }

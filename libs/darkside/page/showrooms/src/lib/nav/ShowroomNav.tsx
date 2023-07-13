@@ -2,13 +2,15 @@ import { ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/compo
 import { UniLink } from '@diamantaire/darkside/core';
 import { useShowroomNav } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { ShowroomNavContainer } from './ShowroomNav.style';
 
 const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
+  const router = useRouter();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(true);
-  const { data }: any = useShowroomNav('en_US');
+  const { data }: any = useShowroomNav(router.locale);
   const { title, links } = data.showroomNav;
 
   const linksSortedByCountry = {};

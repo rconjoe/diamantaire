@@ -1,6 +1,7 @@
+import { CountrySelector, LanguageSelector } from '@diamantaire/darkside/components/common-ui';
 import { Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { MenuLink, NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
@@ -15,17 +16,16 @@ type StackedHeaderTypes = {
 
 // This header only appears on the home page. Stacks logo ontop of nac
 const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, toggleCart }): JSX.Element => {
-  const locale = 'en_US';
-
   return (
     <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
             <ul>
-              <li>US</li>
+              <li className="flex">
+                <CountrySelector /> / <LanguageSelector />
+              </li>
               <li>Book an appointment</li>
-              <li>{locale}</li>
             </ul>
           </div>
 

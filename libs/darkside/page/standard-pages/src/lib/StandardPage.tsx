@@ -20,9 +20,9 @@ const StandardPage = (props: StandardPageProps) => {
 
   const { pageSlug } = router.query;
 
-  const { data }: any = useStandardPage(pageSlug.toString(), 'en_US');
+  const { data }: any = useStandardPage(pageSlug.toString(), router.locale);
 
-  const page = data?.allStandardPages?.[0];
+  const page = data?.standardPages;
 
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};

@@ -3,8 +3,10 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { parseValidLocale, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getAllShowroomSlugs } from '@diamantaire/shared/helpers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -18,12 +20,10 @@ export interface ShowroomPageProps {
 }
 
 const ShowroomPage = (props: ShowroomPageProps) => {
-  const { data }: any = useStandardPage('showrooms', 'en_US');
-
   const router = useRouter();
+  const { data }: any = useStandardPage('showrooms', router.locale);
   const { showroomLocation } = router.query;
-
-  const page = data?.allStandardPages?.[0];
+  const page = data?.standardPage;
 
   const selectedShowroom = {
     ...page,
@@ -73,11 +73,7 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps() {
-  // locale
-  const locale = 'en_US';
-  const refinedLocale = 'en_US';
-
+async function getStaticProps({ locale }: GetServerSidePropsContext<undefined>) {
   // device:
   // const isMobile = Boolean(
   //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
@@ -86,38 +82,33 @@ async function getStaticProps() {
   const isMobile = false;
 
   // geo -dev
-  const devCountryCode = 'US';
-
-  const devCurrencyCode = 'USD';
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrencyFromLocale(locale);
 
   // dato
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     ...queries.header.content(locale),
-    meta: { refinedLocale },
   });
 
   await queryClient.prefetchQuery({
     ...queries.footer.content(locale),
-    meta: { refinedLocale },
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content('showrooms', refinedLocale),
-    meta: { refinedLocale },
+    ...queries['standard-page'].content('showrooms', locale),
   });
 
   await queryClient.prefetchQuery({
-    ...queries.showrooms.nav(refinedLocale),
-    meta: { refinedLocale },
+    ...queries.showrooms.nav(locale),
   });
 
   return {
     props: {
       isMobile,
-      currencyCode: devCurrencyCode,
-      countryCode: devCountryCode,
+      currencyCode,
+      countryCode,
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
