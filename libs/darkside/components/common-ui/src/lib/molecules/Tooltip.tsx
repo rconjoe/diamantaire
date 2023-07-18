@@ -16,7 +16,7 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className }) => {
         <span>i</span>
       </a>
 
-      <ReactToolTip id={id} className={className}>
+      <ReactToolTip id={id} className={`tooltip-window ${className}`}>
         {children}
       </ReactToolTip>
     </StyledTooltip>

@@ -1,23 +1,42 @@
-import { vraiApiClient } from '@diamantaire/darkside/data/api';
+import { vraiApiClient, dfApiClient } from '@diamantaire/darkside/data/api';
 import { NextApiResponse, NextApiRequest } from 'next';
 
+// if lotID in query, fn returns one diamond: {}
+// if lotID is not in query, fn returns a list: [] of {}
+
 export default async function handler(_req: NextApiRequest, res: NextApiResponse<string>) {
+  let vraiApiClientURL = '/v1/diamonds';
+
+  let dfApiClientURL = '/api/v1/diamonds';
+
   const query = _req.query as Record<string, string>;
 
-  let search = '';
+  const array = Object.keys(query || {});
 
-  if (Object.keys(query).length) {
-    search = new URLSearchParams(query).toString();
+  const id = query?.lotId || null;
+
+  if (id) {
+    vraiApiClientURL += '/' + id;
+    dfApiClientURL += '/' + id;
+  } else {
+    // URL path to get a list of dimaonds by filter options
+    vraiApiClientURL += '?' + (array.length ? new URLSearchParams(query).toString() : '');
   }
 
-  const url: string = '/v1/diamonds' + '?' + search;
-
   try {
-    const response = await vraiApiClient.request({ method: 'GET', url });
+    const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
-    const payload = response.data;
+    const vraiApiClientPayload = vraiApiClientResponse?.data || {};
 
-    return res.status(200).json(payload);
+    if (id) {
+      const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
+
+      const dfApiClientPayload = dfApiClientResponse?.data || {};
+
+      return res.status(200).json({ ...vraiApiClientPayload, ...dfApiClientPayload });
+    }
+
+    return res.status(200).json({ ...vraiApiClientPayload });
   } catch (err: any) {
     return res.status(500).json(err);
   }

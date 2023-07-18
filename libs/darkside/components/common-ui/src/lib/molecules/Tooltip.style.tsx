@@ -2,6 +2,10 @@ import { MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledTooltip = styled.div`
+  .tooltip-window {
+    max-width: 340px;
+    z-index: 9999;
+  }
   .tooltip-trigger {
     display: flex;
     justify-content: center;

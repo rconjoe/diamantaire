@@ -10,6 +10,7 @@ import {
   GREY_DARK,
   GREY_MED,
   GREY_LIGHT,
+  TEAL,
 } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import styled from 'styled-components';
@@ -181,6 +182,38 @@ const ButtonStyles = styled.button<Props>`
     }
   }
 
+  &.-link-teal {
+    color: ${TEAL} !important;
+    text-decoration: underline;
+    background: none !important;
+    border: none !important;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    font-size: var(--font-size-xsmall);
+    font-weight: 400;
+    display: flex;
+    height: auto !important;
+    width: auto !important;
+  }
+
+  &.-link-black {
+    color: ${BLACK} !important;
+    text-decoration: underline;
+    background: none !important;
+    border: none !important;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    font-size: var(--font-size-xsmall);
+    font-weight: 400;
+    display: flex;
+    height: auto !important;
+    width: auto !important;
+  }
+
   /**
  * Make sure inactive is at the bottom of these styles so it overwrites above!
  */
@@ -226,11 +259,13 @@ type ButtonProps = {
   className?: string;
   type?: 'solid' | 'outline' | 'underline';
   isLink?: boolean;
+  onClick?: () => void;
 };
 
-const Button = ({ className, children, type = 'solid' }: ButtonProps) => {
+const Button = ({ className, children, type = 'solid', onClick }: ButtonProps) => {
   return (
     <ButtonStyles
+      onClick={onClick}
       className={clsx(className, {
         primary: type === 'solid',
         inverse: type === 'outline',

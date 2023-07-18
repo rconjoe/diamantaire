@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 /**
  * Maps a key to a string object for localization.  Will attempt key in lowercase before fallingback to return key if mapped inital kay value not found..
@@ -10,6 +10,12 @@ import PropTypes from 'prop-types';
  * @returns {string} - returns mapped string or fallback string.
  */
 
+const UIString = ({ children }) => {
+  return children;
+};
+
+export { UIString };
+
 // const mapStr = (map, key, fallbackString = key) => {
 //   if (!map) {
 //     return key;
@@ -18,19 +24,13 @@ import PropTypes from 'prop-types';
 //   return map[key] || map[String(key).toLowerCase()] || fallbackString;
 // };
 
-const UIString = ({ children }) => {
-  return children;
-};
-
-UIString.propTypes = {
-  // map of strings
-  uiStrings: PropTypes.object,
-  // single string used as key in map
-  children: PropTypes.string.isRequired,
-  // (optional) array of placeholder strings
-  placeholders: PropTypes.array,
-  // (optional) array of strings and/or components which will replace placeholders
-  values: PropTypes.array,
-};
-
-export { UIString };
+// UIString.propTypes = {
+//   // map of strings
+//   uiStrings: PropTypes.object,
+//   // single string used as key in map
+//   children: PropTypes.string.isRequired,
+//   // (optional) array of placeholder strings
+//   placeholders: PropTypes.array,
+//   // (optional) array of strings and/or components which will replace placeholders
+//   values: PropTypes.array,
+// };

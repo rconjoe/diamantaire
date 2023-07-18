@@ -1,59 +1,105 @@
 import { DIAMOND_TABLE_VALID_TYPES } from '@diamantaire/shared/constants';
 
+import { DIAMOND_TABLE_QUERY, DIAMOND_PDP_QUERY, DIAMOND_INFO_QUERY } from './query';
+import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
 
-export const getDiamondsData = async (options) => {
-  const url: string = '/diamonds' + getFormatedDataForApi(options);
+// Get Diamond Data from Mongo
+export const fetchDiamondsData = async (options) => {
+  try {
+    const getFormatedDataForApi = () => {
+      const getDiamondType = (value) => {
+        const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
 
-  const response = await queryClientApi().request({ method: 'GET', url });
+        const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
 
-  const payload = response.data || {};
+        if (titles.includes(value)) {
+          return {
+            slug: DIAMOND_TABLE_VALID_TYPES[value],
+            title: value,
+          };
+        }
 
-  return {
-    diamonds: payload.items,
-    options,
-    pagination: payload.paginator,
-    ranges: payload.ranges,
-  };
+        if (slugs.includes(value)) {
+          return {
+            slug: value,
+            title: titles[slugs.findIndex((v) => v === value)],
+          };
+        }
+
+        return {};
+      };
+
+      const diamondType =
+        (options.diamondType && {
+          diamondType: options.diamondType
+            .split(',')
+            .map((v) => getDiamondType(v).slug)
+            .join(),
+        }) ||
+        {};
+
+      const query =
+        {
+          ...options,
+          ...diamondType,
+        } || {};
+
+      return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
+    };
+
+    const id: string = options?.lotId;
+
+    const url: string = '/diamonds' + getFormatedDataForApi();
+
+    const response = await queryClientApi().request({ method: 'GET', url });
+
+    const payload = response.data || {};
+
+    if (id) {
+      return {
+        diamond: payload,
+        options,
+      };
+    } else {
+      return {
+        diamonds: payload.items,
+        options,
+        pagination: payload.paginator,
+        ranges: payload.ranges,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-function getDiamondType(value) {
-  const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
+// Get Diamond Table Page Info from Dato
+export const fetchDiamondTableData = async (locale: string) => {
+  const diamondTableData = await queryDatoGQL({
+    query: DIAMOND_TABLE_QUERY,
+    variables: { locale },
+  });
 
-  const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
+  return diamondTableData;
+};
 
-  if (titles.includes(value)) {
-    return {
-      slug: DIAMOND_TABLE_VALID_TYPES[value],
-      title: value,
-    };
-  }
+// Get Diamond PDP Page Info from Dato
+export const fetchDiamondPdpData = async (locale: string) => {
+  const diamondTableData = await queryDatoGQL({
+    query: DIAMOND_PDP_QUERY,
+    variables: { locale },
+  });
 
-  if (slugs.includes(value)) {
-    return {
-      slug: value,
-      title: titles[slugs.findIndex((v) => v === value)],
-    };
-  }
+  return diamondTableData;
+};
 
-  return {};
-}
+// Get Diamond PDP Additional Info
+export const fetchDiamondInfoData = async (locale: string) => {
+  const diamondInfoData = await queryDatoGQL({
+    query: DIAMOND_INFO_QUERY,
+    variables: { locale },
+  });
 
-function getFormatedDataForApi(options) {
-  const diamondType =
-    (options.diamondType && {
-      diamondType: options.diamondType
-        .split(',')
-        .map((v) => getDiamondType(v).slug)
-        .join(),
-    }) ||
-    {};
-
-  const query =
-    {
-      ...options,
-      ...diamondType,
-    } || {};
-
-  return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
-}
+  return diamondInfoData;
+};

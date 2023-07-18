@@ -1,23 +1,25 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
+export interface ProductIconListDataTypes {
+  _modelApiKey?: string;
+  ctaRoute?: string;
+  ctaCopy?: string;
+  copy?: string;
+  shippingBusinessDays?: string;
+  shippingBusinessDaysCountryMap?: string;
+  shippingText?: string;
+
+  icon?: {
+    width: number;
+    height: number;
+    url: string;
+  };
+}
+
 type ProductIconListProps = {
   productIconList: {
-    items: {
-      _modelApiKey?: string;
-      ctaRoute?: string;
-      ctaCopy?: string;
-      copy?: string;
-      shippingBusinessDays?: string;
-      shippingBusinessDaysCountryMap?: string;
-      shippingText?: string;
-
-      icon?: {
-        width: number;
-        height: number;
-        url: string;
-      };
-    }[];
+    items: ProductIconListDataTypes[];
   };
 };
 

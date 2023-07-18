@@ -1,3 +1,4 @@
+export * from './SlideOut';
 export * from './Button';
 export * from './CertificateThumb';
 export * from './Heading';

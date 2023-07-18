@@ -1,19 +1,65 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 
 export interface GlobalContextInterface {
-  headerHeight: any; // { [key: string]: string };
-  setHeaderHeight: any; // { [diamondType: string]: DiamondShapeWithIcon };
+  headerHeight?: number;
+  isMobile?: boolean;
 }
 
 export const GlobalContext = createContext<GlobalContextInterface | null>(null);
 
-export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [headerHeight, setHeaderHeight] = useState(0);
+const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInterface>) => void>(() => {
+  throw new Error('updateGlobalContext function not implemented');
+});
 
-  const globalContext: GlobalContextInterface = {
-    headerHeight,
-    setHeaderHeight,
+export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
+  const [globalContext, setGlobalContext] = useState({
+    headerHeight: 0,
+    isMobile,
+  });
+
+  const updateGlobalContext = (data: Partial<GlobalContextInterface>) => {
+    setGlobalContext((prevContext) => ({
+      ...prevContext,
+      ...data,
+    }));
   };
 
-  return <GlobalContext.Provider value={globalContext}>{children}</GlobalContext.Provider>;
+  const updateHeaderHeight = (value: number) => {
+    updateGlobalContext({ headerHeight: value });
+  };
+
+  const updateIsMobileView = (value: boolean) => {
+    updateGlobalContext({ isMobile: value });
+  };
+
+  const onHeaderHeightReset = (e) => {
+    updateHeaderHeight(e.detail.headerHeight);
+  };
+
+  const onIsMobileReset = () => {
+    updateIsMobileView(window.innerWidth <= 768);
+  };
+
+  const onWindowResize = () => {
+    onIsMobileReset();
+  };
+
+  useEffect(() => {
+    onIsMobileReset();
+
+    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('RESET_HEADER_HEIGHT', onHeaderHeightReset);
+
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener('RESET_HEADER_HEIGHT', onHeaderHeightReset);
+    };
+  }, []);
+
+  return (
+    <GlobalContext.Provider value={globalContext}>
+      <GlobalUpdateContext.Provider value={updateGlobalContext}>{children}</GlobalUpdateContext.Provider>
+    </GlobalContext.Provider>
+  );
 };

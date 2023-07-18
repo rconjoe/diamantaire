@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { SpriteSpinnerInit } from './SpriteSpinnerInit';
+// import { SpriteSpinnerInit } from './SpriteSpinnerInit';
 
 declare const window: any;
 
@@ -107,7 +107,8 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   return (
     <SpritSpinnerContainer>
-      <SpriteSpinnerInit />
+      {/* <SpriteSpinnerInit /> */}
+
       <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}
