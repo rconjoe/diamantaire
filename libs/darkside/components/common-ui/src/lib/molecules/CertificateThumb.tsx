@@ -14,7 +14,7 @@ const CertificateThumb = ({ certificateUrl, className, title }: CertificateThumb
   const imageUrl = getIconImageUrl('df-certificate-thumb', 'jpg');
 
   return (
-    <StyledCertificateThumb>
+    <StyledCertificateThumb className="thb">
       <a className={className} href={certificateUrl} target="_blank" rel="noopener noreferrer">
         <div className="thumb-wrapper">
           <Image className="thumb-image" src={imageUrl} alt={title} height={0} width={0} sizes="100vw" />

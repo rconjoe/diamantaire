@@ -12,7 +12,7 @@ interface AccordionProps {
 }
 
 const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(activeDefault);
+  const [activeIndex, setActiveIndex] = useState(activeDefault);
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);

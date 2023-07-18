@@ -246,9 +246,9 @@ export const CartProvider = ({ children }) => {
     initializeCheckout();
   }, []);
 
-  useEffect(() => {
-    console.log('checkout', checkout);
-  }, [checkout]);
+  // useEffect(() => {
+  //   console.log('checkout', checkout);
+  // }, [checkout]);
 
   return (
     <CartContext.Provider

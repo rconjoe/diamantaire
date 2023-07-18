@@ -1,7 +1,8 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamond-table';
+import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
+import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -11,7 +12,7 @@ import {
   getCurrencyFromLocale,
   parseValidLocale,
 } from '@diamantaire/shared/constants';
-import { getDiamondsOptionsFromUrl, getDiamondsOptionsRoute } from '@diamantaire/shared/helpers';
+import { getDiamondsOptionsFromUrl, getDiamondsShallowRoute } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -51,23 +52,28 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const DiamondTableContent = useDiamondTableData(locale);
   const title = DiamondTableContent.data.diamondTable.title;
+  const seo = DiamondTableContent.data.diamondTable.seo;
+  const { seoTitle, seoDescription } = seo || {};
+  const pageSeoTitle = options?.diamondType ? seoTitle.replace(/%%(.*?)%%/g, options?.diamondType) : title;
 
   const updateLoading = (newState) => {
     setLoading(newState);
   };
   const updateOptions = (newOptions) => {
-    const keys = Object.keys(newOptions);
+    setOptions((prevOptions) => {
+      const updatedOptions = { ...prevOptions, ...newOptions };
+      const keys = Object.keys(updatedOptions);
 
-    keys.forEach((key) => {
-      if (DIAMOND_TABLE_FACETED_NAV.includes(key)) {
-        if (options[key] && options[key] === newOptions[key]) {
-          delete options[key];
-          delete newOptions[key];
+      keys.forEach((key) => {
+        if (DIAMOND_TABLE_FACETED_NAV.includes(key)) {
+          if (prevOptions[key] && prevOptions[key] === updatedOptions[key]) {
+            delete updatedOptions[key];
+          }
         }
-      }
-    });
+      });
 
-    setOptions({ ...options, ...newOptions });
+      return updatedOptions;
+    });
   };
   const clearOptions = () => {
     setOptions(DIAMOND_TABLE_DEFAULT_OPTIONS);
@@ -79,6 +85,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     if (type === 'carat') {
       updateOptions({ caratMin: parseFloat(values[0].toFixed(2)), caratMax: parseFloat(values[1].toFixed(2)) });
     }
+
     if (type === 'price') {
       updateOptions({ priceMin: values[0], priceMax: values[1] });
     }
@@ -89,7 +96,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
-    router.push(getDiamondsOptionsRoute(options), undefined, { shallow: true });
+    router.push(getDiamondsShallowRoute(options), undefined, { shallow: true });
+
     // window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
@@ -107,40 +115,44 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   };
 
   return (
-    <StyledDiamondPage className="container-wrapper">
+    <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
 
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
 
-      <div className="page-title">
-        <Heading className="title">{title}</Heading>
-      </div>
+      <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
-      <div className="page-aside">
-        <DiamondFilter
-          handleRadioFilterChange={handleRadioFilterChange}
-          handleSliderFilterChange={handleSliderFilterChange}
-          loading={loading}
-          options={options}
-          ranges={ranges}
-          locale={locale}
-          countryCode={countryCode}
-          currencyCode={currencyCode}
-        />
+      <StyledDiamondPage className="container-wrapper">
+        <div className="page-title">
+          <Heading className="title">{title}</Heading>
+        </div>
 
-        <ShowTabletAndUpOnly>
+        <div className="page-aside">
+          <DiamondFilter
+            handleRadioFilterChange={handleRadioFilterChange}
+            handleSliderFilterChange={handleSliderFilterChange}
+            loading={loading}
+            options={options}
+            ranges={ranges}
+            locale={locale}
+            countryCode={countryCode}
+            currencyCode={currencyCode}
+          />
+
+          <ShowTabletAndUpOnly>
+            <DiamondPromo locale={locale} />
+          </ShowTabletAndUpOnly>
+        </div>
+
+        <div className="page-main">
+          <DiamondTable {...tableProps} title={title} />
+        </div>
+
+        <ShowMobileOnly>
           <DiamondPromo locale={locale} />
-        </ShowTabletAndUpOnly>
-      </div>
-
-      <div className="page-main">
-        <DiamondTable {...tableProps} title={title} />
-      </div>
-
-      <ShowMobileOnly>
-        <DiamondPromo locale={locale} />
-      </ShowMobileOnly>
-    </StyledDiamondPage>
+        </ShowMobileOnly>
+      </StyledDiamondPage>
+    </>
   );
 };
 
@@ -155,19 +167,14 @@ async function getServerSideProps(
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
   const { query } = context;
-  const options = getDiamondsOptionsFromUrl(query || {});
+  const options = getDiamondsOptionsFromUrl(query || {}, 'diamondTable');
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);
-
   const queryClient = new QueryClient();
 
-  // PREFECTH DIAMOND LIST
   await queryClient.prefetchQuery(diamondQuery);
-
-  // PREFECTH DIAMOND TABLE CONTENT FROM DATO
   await queryClient.prefetchQuery(diamondTableQuery);
 
-  // IF NO RESULT RETURN 404
   if (!queryClient.getQueryData(diamondQuery.queryKey) || !queryClient.getQueryData(diamondTableQuery.queryKey)) {
     return {
       notFound: true,
@@ -185,6 +192,6 @@ async function getServerSideProps(
   };
 }
 
-export { DiamondPage, getServerSideProps };
+export { DiamondPage, getServerSideProps as getServerSidePropsDiamondPage };
 
 export default DiamondPage;

@@ -8,3 +8,4 @@ export * from './ChatIcon';
 export * from './BookCalendarIcon';
 export * from './MailIcon';
 export * from './ArrowNewWindowIcon';
+export * from './DiamondIcon';

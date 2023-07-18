@@ -58,7 +58,7 @@ const getIconImageUrl = (s3Slug, ext = 'png') => {
   return cdnImageUrl('icons')(s3Slug)({ ext });
 };
 
-const generateDiamondImageUrl = (type, directory = 'diamond-images-v3') => {
+const generateDiamondImageUrl = (type, directory = 'diamond-images-new') => {
   const trim = '&trim-color=transparent&trim=color';
 
   return `${

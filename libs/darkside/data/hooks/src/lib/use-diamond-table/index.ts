@@ -1,7 +1,7 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export interface DiamondTableContentTypes {
+export interface DiamondTableDataTypes {
   blockquote?: {
     title: string;
     copy: string;
@@ -55,7 +55,7 @@ export interface DiamondTableContentTypes {
 }
 
 interface DiamondTableDataProps {
-  diamondTable: DiamondTableContentTypes;
+  diamondTable: DiamondTableDataTypes;
 }
 
 export function useDiamondTableData(locale: string): UseQueryResult<DiamondTableDataProps, unknown> {

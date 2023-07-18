@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const StyledAccordion = styled.div`
   display: block;
   background: ${WHITE};
+  border-bottom: 1px solid ${GREY_LIGHTER};
   color: ${BLACK};
 
   .accordion-row {
@@ -22,7 +23,7 @@ const StyledAccordion = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 10px 0;
     cursor: pointer;
 
     .text {
@@ -50,7 +51,7 @@ const StyledAccordion = styled.div`
 
   .accordion-content {
     display: block;
-    padding: 0 10px 20px;
+    padding: 0 0 20px;
     font-size: var(--font-size-xxsmall);
   }
 
@@ -64,33 +65,6 @@ const StyledAccordion = styled.div`
     &:first-child {
       margin: 0;
     }
-  }
-
-  // Specific styles
-
-  .accordion-row.cut .accordion-content {
-    p {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    img {
-      max-width: 20%;
-    }
-  }
-
-  .accordion-row.color .accordion-content {
-    img {
-      width: 100%;
-      object-fit: cover;
-      clip-path: inset(30px 0 0 0);
-      margin: -30px 0 0;
-    }
-  }
-
-  .accordion-row.clarity .accordion-content {
   }
 `;
 

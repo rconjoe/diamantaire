@@ -1,4 +1,4 @@
-import { BLACK, GREY, GREY_LIGHTER, GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY, GREY_LIGHTER } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledSlider = styled.div`
@@ -139,6 +139,10 @@ const StyledSlider = styled.div`
     border: 0;
   }
 
+  &.with-pips .vo-slider-target {
+    border-radius: 0;
+  }
+
   .vo-slider-connects {
     border-radius: 2px;
   }
@@ -172,7 +176,7 @@ const StyledSlider = styled.div`
   /* Disabled state; */
 
   [disabled] .vo-slider-connect {
-    background: ${GREY_LIGHTEST};
+    background: ${GREY_LIGHTER};
   }
 
   [disabled].vo-slider-target,
@@ -225,16 +229,17 @@ const StyledSlider = styled.div`
   /* Horizontal layout; */
 
   .vo-slider-pips-horizontal {
-    padding: 10px 0;
-    height: 80px;
+    padding: 0;
+    height: 40px;
     top: 100%;
     left: 0;
     width: 100%;
   }
 
   .vo-slider-value-horizontal {
-    -webkit-transform: translate(-50%, 50%);
-    transform: translate(-50%, 50%);
+    -webkit-transform: translate(-50%, 100%);
+    transform: translate(-50%, 100%);
+    font-size: var(--font-size-xxxxsmall) !important;
   }
 
   .vo-slider-rtl .vo-slider-value-horizontal {
@@ -244,8 +249,9 @@ const StyledSlider = styled.div`
 
   .vo-slider-marker-horizontal.vo-slider-marker {
     margin-left: -1px;
-    width: 2px;
+    width: 1px;
     height: 5px;
+    background: ${GREY_LIGHTER};
   }
 
   .vo-slider-marker-horizontal.vo-slider-marker-sub {
@@ -254,6 +260,7 @@ const StyledSlider = styled.div`
 
   .vo-slider-marker-horizontal.vo-slider-marker-large {
     height: 15px;
+    margin-top: -4px;
   }
 
   /* Vertical layout; */
@@ -293,10 +300,9 @@ const StyledSlider = styled.div`
   .vo-slider-tooltip {
     display: block;
     position: absolute;
-    border-radius: 2px;
-    background: ${GREY_LIGHTEST};
+    background: transparent;
     color: ${BLACK};
-    padding: 5px;
+    padding: 0;
     text-align: center;
     white-space: nowrap;
   }
@@ -305,7 +311,7 @@ const StyledSlider = styled.div`
     -webkit-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
     left: 50%;
-    bottom: 120%;
+    bottom: 100%;
   }
 
   .vo-slider-vertical .vo-slider-tooltip {
@@ -333,7 +339,7 @@ const StyledSlider = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: var(--font-size-xxxxsmall);
     margin: 0 -8px 12px;
   }
 `;

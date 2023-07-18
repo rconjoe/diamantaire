@@ -4,16 +4,21 @@ import React, { useEffect, useRef } from 'react';
 import StyledSlider from './Slider.style';
 
 interface SliderProps {
-  type: string;
+  handleChange?: (value: number[]) => void;
+  handleFormat?: (v: number) => string;
   range: number[];
-  step: number;
+  type: string;
+  step?: number;
   value: number[];
-  handleChange: (value: number[]) => void;
-  handleDisplay: (v: string | number) => string;
+  tooltips?: { to: (v: number) => string };
+  className?: string;
+  disabled?: boolean;
+  edge?: boolean;
+  pips?: any;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
-  const { type, range, step, value, handleChange, handleDisplay } = props;
+  const { edge = true, disabled, pips, className, tooltips, type, range, step, value, handleChange, handleFormat } = props;
 
   const sliderRef = useRef<HTMLDivElement>(null);
   const sliderValueStartRef = useRef<HTMLDivElement>(null);
@@ -23,29 +28,31 @@ const Slider: React.FC<SliderProps> = (props) => {
   useEffect(() => {
     if (sliderRef.current) {
       const slider = noUiSlider.create(sliderRef.current, {
-        start: value || range,
+        cssPrefix: 'vo-slider-',
+        connect: true,
         range: {
           min: range[0],
           max: range[1],
         },
-        step: step,
-        connect: true,
-        cssPrefix: 'vo-slider-',
+        start: value || range,
+        tooltips,
+        step,
+        pips,
       });
+
+      if (disabled) slider.disable();
 
       sliderInstanceRef.current = slider;
 
       slider.on('change', () => {
-        const sliderValue = getSliderValue();
-
-        handleChange(sliderValue);
+        if (handleChange) handleChange(getSliderValue());
       });
 
       slider.on('update', (values: (string | number)[]) => {
-        sliderValueStartRef.current.innerHTML = handleDisplay(values[0]);
-
-        sliderValueEndRef.current.innerHTML = handleDisplay(values[1]);
+        if (edge && updateSliderInfo) updateSliderInfo(values);
       });
+
+      if (edge) updateSliderInfo(range);
     }
 
     return () => {
@@ -64,16 +71,26 @@ const Slider: React.FC<SliderProps> = (props) => {
       return sliderValue.map((v) => Number(v));
     }
 
-    return [];
+    return [Number(sliderValue)];
+  };
+
+  const updateSliderInfo = (values) => {
+    if (values.length > 1) {
+      sliderValueStartRef.current.innerHTML = handleFormat(values[0]);
+
+      sliderValueEndRef.current.innerHTML = handleFormat(values[1]);
+    }
   };
 
   return (
-    <StyledSlider>
-      <div className="vo-slider-values" title={type}>
-        <div ref={sliderValueStartRef} className="vo-slider-value-start" />
+    <StyledSlider className={['slider', pips ? 'with-pips' : '', className]}>
+      {edge && (
+        <div className="vo-slider-values" title={type}>
+          <div ref={sliderValueStartRef} className="vo-slider-value-start" />
 
-        <div ref={sliderValueEndRef} className="vo-slider-value-end" />
-      </div>
+          <div ref={sliderValueEndRef} className="vo-slider-value-end" />
+        </div>
+      )}
 
       <div ref={sliderRef} />
     </StyledSlider>

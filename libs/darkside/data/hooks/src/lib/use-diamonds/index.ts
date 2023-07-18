@@ -1,4 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 export interface OptionsDataTypes {
@@ -15,6 +16,7 @@ export interface OptionsDataTypes {
   countryCode?: string;
   caratMin?: number;
   caratMax?: number;
+  lotId?: string;
 }
 
 interface MinMax {
@@ -29,35 +31,6 @@ interface Ranges {
   price?: MinMax;
 }
 
-interface Variant {
-  dangerousInternalShopifyVariantId?: string;
-  isForSale?: boolean;
-  price?: number;
-  title?: string;
-  variantId?: string;
-  variantSku?: string;
-  variantTitle?: string;
-}
-
-interface Diamond {
-  availableForSale?: boolean;
-  carat?: number;
-  clarity?: string;
-  color?: string;
-  cut?: string;
-  dangerousInternalProductId?: string;
-  description?: string;
-  dfCertificateUrl?: string;
-  diamondType?: string;
-  handle?: string;
-  lotId?: string;
-  productTitle?: string;
-  slug?: string;
-  type?: string;
-  variants?: Variant[];
-  _id?: string;
-}
-
 interface Pagination {
   currentPage?: number;
   hasNextPage?: boolean;
@@ -70,7 +43,8 @@ interface Pagination {
 }
 
 interface DiamondsDataProps {
-  diamonds?: Diamond[];
+  diamonds?: DiamondDataTypes[];
+  diamond?: DiamondDataTypes;
   options?: OptionsDataTypes;
   pagination?: Pagination;
   ranges?: Ranges;
