@@ -11,6 +11,7 @@ import {
   GREY_LIGHT,
 } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 interface Props {
@@ -271,6 +272,7 @@ type ButtonProps = {
   inverse?: boolean;
   colorTheme?: 'black' | 'teal' | 'white';
   isLink?: boolean;
+  href?: string;
   className?: string;
   onClick?: () => void;
   buttonType?: 'button' | 'submit' | 'reset';
@@ -281,11 +283,29 @@ const VRAIButton = ({
   children,
   type = 'solid',
   inverse,
+  href,
   colorTheme,
   onClick,
+  isLink = false,
   buttonType = 'button',
 }: ButtonProps) => {
-  return (
+  return isLink ? (
+    <Link href={href}>
+      <ButtonStyles
+        type={buttonType}
+        className={clsx(className, {
+          primary: type === 'solid',
+          secondary: type === 'underline',
+          '-inverse': inverse,
+          '-color-theme-teal': colorTheme === 'teal',
+          '-color-theme-white': colorTheme === 'white',
+        })}
+        onClick={onClick}
+      >
+        {children}
+      </ButtonStyles>
+    </Link>
+  ) : (
     <ButtonStyles
       type={buttonType}
       className={clsx(className, {

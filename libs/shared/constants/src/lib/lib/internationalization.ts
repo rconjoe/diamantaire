@@ -397,6 +397,7 @@ export const sortedCountriesByRegion = Object.values(countryRegions).reduce(
 const LOCALE_REGEX = /^[a-z]{2}-[A-Z]{2}$/;
 
 export function parseValidLocale(locale: string): { countryCode: string; languageCode: string } {
+  if (!locale) return null;
   const [languageCode, countryCode] = locale.split('-');
 
   return { languageCode, countryCode };

@@ -96,29 +96,21 @@ const nextConfig = {
     imageSizes: [576, 768, 992, 1200, 1440],
   },
 
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/:path*',
-  //       destination: `/:path*`,
-  //     },
-  //     // {
-  //     //   source: '/jewelry/:path*',
-  //     //   destination: `${JEWELRY_URL}/jewelry/:path*`,
-  //     // },
-  //     {
-  //       source: '/journal',
-  //       destination: `${JOURNAL_DEV_URL}/journal`,
-  //     },
-  //     {
-  //       source: '/journal/:path*',
-  //       destination: `${JOURNAL_DEV_URL}/journal/:path*`,
-  //     },
-  //   ];
-  // },
-  // env: {
-  //   GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
-  // },
+  async rewrites() {
+    return [
+      {
+        source: '/journal',
+        destination: `${process.env.JOURNAL_SITE}/journal`,
+      },
+      {
+        source: '/journal/:path*',
+        destination: `${process.env.JOURNAL_SITE}/journal/:path*`,
+      },
+    ];
+  },
+  env: {
+    GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
+  },
   sentry: {
     hideSourcemaps: true,
     // See the sections below for information on the following options:
@@ -157,4 +149,5 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
+// FIXME: https://nx.dev/packages/next/documents/next-config-setup#composing-plugins-using-utility-(nx-16-and-later)
 module.exports = withNx(withSentryConfig(nextConfig, sentryWebpackPluginOptions));

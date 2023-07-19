@@ -41,9 +41,7 @@ export const GlobalTemplate = ({ children }) => {
     if (!headerRef.current) return;
 
     const resizeObserver = new ResizeObserver(() => {
-      if (!headerRef?.current?.offsetHeight) return;
-
-      setHeaderHeight(headerRef.current.offsetHeight);
+      setHeaderHeight(headerRef?.current?.offsetHeight);
     });
 
     window.dispatchEvent(

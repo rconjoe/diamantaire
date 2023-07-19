@@ -1,4 +1,7 @@
+import { DatoImageType } from '@diamantaire/shared/types';
+
 import { queryDatoGQL } from '../../clients';
+import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
 import BlogListTrio from '../../standard-page/component-queries/modular/BlogListTrio';
 import Carousel from '../../standard-page/component-queries/modular/Carousel';
 import CelebrityCarousel from '../../standard-page/component-queries/modular/CelebrityCarousel';
@@ -22,9 +25,75 @@ import Trio9x7 from '../../standard-page/component-queries/modular/Trio9x7';
 import TrioSlide9x7 from '../../standard-page/component-queries/modular/TrioSlide9x7';
 import TrioStaggered9x7 from '../../standard-page/component-queries/modular/TrioStaggered9x7';
 
+// Journal type for what's returned in a group of posts
+type IndividualJournalProps = {
+  id: string;
+  title: string;
+  author: string;
+  slug: string;
+  excerpt: string;
+  seoDescription: string;
+  seoTitle: string;
+  _publishedAt: string;
+  _updatedAt: string;
+  sortByDate: string;
+  featuredImage: DatoImageType;
+  image: DatoImageType;
+  category: {
+    id: string;
+    key: string;
+    route: string;
+    copy: string;
+  };
+  subcategories: {
+    copy: string;
+    id: string;
+    key: string;
+  };
+  ctaRoute?: string;
+  ctaCopy?: string;
+  copy?: string;
+};
+
+// Single Blog Post type
+
+type SingleJournalProps = {
+  blogPost: {
+    id: string;
+    _modelApiKey: string;
+    slug: string;
+    title: string;
+    seoTitle: string;
+    seoDescription: string;
+    _publishedAt: string;
+    _updatedAt: string;
+    sortByDate: string;
+    _firstPublishedAt: string;
+    tags: string | string[];
+    author: string;
+    featuredImage: DatoImageType;
+    showBlogHeader: boolean;
+    category: {
+      id: string;
+      key: string;
+      route: string;
+      copy: string;
+      subcategories: {
+        copy: string;
+        id: string;
+        key: string;
+        route: string;
+      };
+    };
+    // TODO: is there a better way to handle this?
+
+    content: any;
+  };
+};
+
 // Journal Config
 const JOURNAL_CONFIGURATION_QUERY = `
-  query blogConfiguration($locale: SiteLocale = en_US) {
+  query blogConfiguration($locale: SiteLocale) {
     blogConfiguration(locale: $locale) {
       title
       postsPerPage
@@ -59,12 +128,14 @@ const JOURNAL_CONFIGURATION_QUERY = `
         _updatedAt
         sortByDate
         featuredImage {
-          alt
-          url
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
         }
       }
     }
   }
+  ${ResponsiveImageFragment}
 `;
 
 export async function fetchJournalConfig(locale: string) {
@@ -130,6 +201,17 @@ export const ALL_JOURNAL_CATEGORY_SLUGS = `
   }
 `;
 
+export const ALL_JOURNAL_SUBCATEGORY_SLUGS = `
+    query allJournalCategories($locale: SiteLocale, $skip: IntType) {
+      allBlogCategories(locale: $locale, skip: $skip) {
+        subcategories {
+          id
+          route
+        }
+      }
+    }
+`;
+
 const JOURNALS_BY_CATEGORY_QUERY = `
 query blogPostsByCategory ($locale: SiteLocale, $category: [ItemId]!, $first: IntType, $skip: IntType,) {
   allBlogPosts(locale: $locale, filter: {category: {exists: true, in: $category}, sortByDate: { exists: true }}, orderBy: sortByDate_DESC, first: $first, skip: $skip) {
@@ -144,8 +226,9 @@ query blogPostsByCategory ($locale: SiteLocale, $category: [ItemId]!, $first: In
       _updatedAt
       sortByDate
       featuredImage {
-        alt
-        url
+        responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
       }
       category {
         id
@@ -160,11 +243,19 @@ query blogPostsByCategory ($locale: SiteLocale, $category: [ItemId]!, $first: In
         copy
       }
     }
-  _allBlogPostsMeta(locale: $locale, filter: {category: {in: $category}}) {
+  _allBlogPostsMeta(locale: $locale, filter: {category: {in: $category} sortByDate: { exists: true }}) {
     count
   }
 }
+${ResponsiveImageFragment}
 `;
+
+type JournalsByCategoryProps = {
+  _allBlogPostsMeta: {
+    count: number;
+  };
+  allBlogPosts: IndividualJournalProps[];
+};
 
 export async function fetchJournalsByCategory(
   locale: string,
@@ -177,12 +268,12 @@ export async function fetchJournalsByCategory(
     variables: { locale, category, first, skip },
   }).catch((e) => console.log('fetch error', e));
 
-  return journalsByCategory;
+  return journalsByCategory as JournalsByCategoryProps;
 }
 
 const JOURNALS_BY_SUBCATEGORY_QUERY = `
-  query blogPostsBySubcategory ($locale: SiteLocale, $category: [ItemId]!, $subcategory: [ItemId]!, $first: IntType, $skip: IntType,) {
-    allBlogPosts(locale: $locale, filter: {category: {exists: true, in: $category}, subcategories: {exists: true, anyIn: $subcategory}, sortByDate: { exists: true }}, orderBy: sortByDate_DESC, first: $first, skip: $skip) {
+query blogPostsBySubcategory ($locale: SiteLocale, $category: [ItemId]!, $subcategory: [ItemId]!, $first: IntType, $skip: IntType,) {
+  allBlogPosts(locale: $locale, filter: {category: {exists: true, in: $category}, subcategories: {exists: true, anyIn: $subcategory}, sortByDate: { exists: true }}, orderBy: sortByDate_DESC, first: $first, skip: $skip) {
         id
         title
         author
@@ -194,8 +285,9 @@ const JOURNALS_BY_SUBCATEGORY_QUERY = `
         _updatedAt
         sortByDate
         featuredImage {
-          alt
-          url
+          responsiveImage(imgixParams: {w: 568, q: 35, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
         }
         category {
           id
@@ -209,11 +301,19 @@ const JOURNALS_BY_SUBCATEGORY_QUERY = `
           key
         }
       }  
-    _allBlogPostsMeta(locale: $locale, filter: {category: {in: $category}, subcategories: {anyIn: $subcategory}}) {
-      count
-    }
+      _allBlogPostsMeta(locale: $locale, filter: {category: {in: $category}, subcategories: {anyIn: $subcategory} sortByDate: { exists: true }}) {
+        count
+      }
   }
+  ${ResponsiveImageFragment}
 `;
+
+type JournalsBySubcategoryProps = {
+  _allBlogPostsMeta: {
+    count: number;
+  };
+  allBlogPosts: IndividualJournalProps[];
+};
 
 export async function fetchJournalsBySubcategory(
   locale: string,
@@ -227,8 +327,12 @@ export async function fetchJournalsBySubcategory(
     variables: { locale, category, subcategory, first, skip },
   }).catch((e) => console.log('fetch error', e));
 
-  return journalsBySubcategory;
+  return journalsBySubcategory as JournalsBySubcategoryProps;
 }
+
+type JournalsByMostRecent = {
+  allBlogPosts: IndividualJournalProps[];
+};
 
 const ALL_JOURNALS_BY_MOST_RECENT = `
 query blogPostsByMostRecent ($locale: SiteLocale, $first: IntType, $skip: IntType,) {
@@ -246,6 +350,7 @@ query blogPostsByMostRecent ($locale: SiteLocale, $first: IntType, $skip: IntTyp
       featuredImage {
         alt
         url
+        
       }
       category {
         id
@@ -269,7 +374,7 @@ export async function fetchAllJournalsByMostRecent(locale: string, first: number
     variables: { locale, first, skip },
   });
 
-  return journalsByMostRecent;
+  return journalsByMostRecent as JournalsByMostRecent;
 }
 
 // Single Journal
@@ -333,15 +438,16 @@ const SINGLE_JOURNAL_QUERY = `
       
     }
   }
+  ${ResponsiveImageFragment}
 `;
 
-export async function fetchSingleJournal(locale: string, slug: string) {
+export async function fetchSingleJournal(locale: string, slug: string | string[]) {
   const singleJournal = await queryDatoGQL({
     query: SINGLE_JOURNAL_QUERY,
     variables: { locale, slug },
   });
 
-  return singleJournal;
+  return singleJournal as SingleJournalProps;
 }
 
 // Non react-query quieres
@@ -355,7 +461,9 @@ type AllJournalCategoriesReponse = {
 };
 
 type PageData = {
-  slug: string;
+  route?: string;
+  slug?: string;
+  subcategories?: PageData[];
 };
 
 // dato limit
@@ -416,5 +524,39 @@ export async function getAllJournalCategories(): Promise<string[]> {
     skip += REQ_PAGE_SIZE;
   } while (response?.allBlogCategories && response?.allBlogCategories?.length === REQ_PAGE_SIZE);
 
-  return journalCategories.map((pageData) => pageData.slug);
+  return journalCategories.map((pageData) => pageData.route);
+}
+
+export async function getAllJournalSubCategories(): Promise<{ route: string }[]> {
+  let skip = 0,
+    response: AllJournalCategoriesReponse = {};
+  let journalSubcategories = [];
+
+  do {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      response = await queryDatoGQL({
+        query: ALL_JOURNAL_SUBCATEGORY_SLUGS,
+        variables: {
+          first: REQ_PAGE_SIZE,
+          skip,
+        },
+      });
+
+      if (response?.allBlogCategories) {
+        journalSubcategories = [
+          ...journalSubcategories,
+          ...response.allBlogCategories.map((category) => category.subcategories.map((item) => item)),
+        ];
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Error occured while fetching journal slugs', error);
+    }
+    skip += REQ_PAGE_SIZE;
+  } while (response?.allBlogCategories && response?.allBlogCategories?.length === REQ_PAGE_SIZE);
+
+  const flattenedArray = journalSubcategories.reduce((accumulator, currentValue) => accumulator.concat(currentValue), []);
+
+  return flattenedArray;
 }

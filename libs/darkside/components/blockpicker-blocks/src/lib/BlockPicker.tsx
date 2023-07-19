@@ -127,7 +127,23 @@ const config: configProps = {
   [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
 };
 
-const BlockPicker = ({ _modelApiKey, modularBlockData, isMobile, countryCode, currencyCode, shouldLazyLoad }) => {
+type BlockPickerProps = {
+  _modelApiKey: string;
+  modularBlockData: object;
+  isMobile?: boolean;
+  countryCode?: string;
+  currencyCode?: string;
+  shouldLazyLoad?: boolean;
+};
+
+const BlockPicker = ({
+  _modelApiKey,
+  modularBlockData,
+  isMobile,
+  countryCode,
+  currencyCode,
+  shouldLazyLoad,
+}: BlockPickerProps) => {
   const BlockComponent = config?.[_modelApiKey];
 
   forceVisible();

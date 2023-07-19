@@ -22,6 +22,7 @@ export const ImageTileContainer = styled.div<Props>`
     margin-top: ${setSpace(0.5)};
     margin-bottom: ${setSpace(4)};
     text-align: left;
+
     &.-modular-content-quad-block {
       margin-bottom: 0;
     }
@@ -54,9 +55,7 @@ export const ImageTileContainer = styled.div<Props>`
       font-size: 1.5rem;
       text-transform: uppercase;
       color: #7c7c7c;
-      ${tabletAndUp(`
-        margin-top: 0;
-      `)}
+      margin: calc(var(--gutter) / 10) 0 0;
     }
   }
 
@@ -72,6 +71,12 @@ export const ImageTileContainer = styled.div<Props>`
 
   .image-tile__button {
     margin-top: ${setSpace(0.5)};
+    display: inline-block;
+    width: auto;
+  }
+
+  .image-tile__copy {
+    margin: calc(var(--gutter) / 10) 0 calc(var(--gutter) / 5);
   }
 
   .image-tile__anchor {
@@ -107,6 +112,7 @@ export const ImageTileContainer = styled.div<Props>`
 
     p {
       text-align: center;
+      margin: calc(var(--gutter)) 0;
     }
 
     .svg {

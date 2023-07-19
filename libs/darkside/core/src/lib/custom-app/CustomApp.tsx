@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
+import './styles.css';
 
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
 

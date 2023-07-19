@@ -246,10 +246,6 @@ export const CartProvider = ({ children }) => {
     initializeCheckout();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('checkout', checkout);
-  // }, [checkout]);
-
   return (
     <CartContext.Provider
       value={{
