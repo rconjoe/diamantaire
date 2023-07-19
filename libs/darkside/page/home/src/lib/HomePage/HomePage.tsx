@@ -3,6 +3,7 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -41,11 +42,9 @@ HomePage.getTemplate = getStandardTemplate;
 async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
   // device - needs to be static for now:
   const isMobile = false;
+  const { countryCode } = parseValidLocale(locale);
 
-  // geo -dev
-  const devCountryCode = 'US';
-
-  const devCurrencyCode = 'USD';
+  const currencyCode = getCurrency(countryCode);
 
   // dato
   const queryClient = new QueryClient();
@@ -65,8 +64,8 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
   return {
     props: {
       isMobile,
-      currencyCode: devCurrencyCode,
-      countryCode: devCountryCode,
+      currencyCode,
+      countryCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

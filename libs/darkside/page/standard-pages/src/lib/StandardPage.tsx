@@ -2,8 +2,10 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -21,8 +23,7 @@ const StandardPage = (props: StandardPageProps) => {
   const { pageSlug } = router.query;
 
   const { data }: any = useStandardPage(pageSlug.toString(), router.locale);
-
-  const page = data?.standardPages;
+  const page = data?.standardPage;
 
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
@@ -48,10 +49,11 @@ export interface GetStaticPropsRequest extends NextRequest {
   };
 }
 
-async function getStaticPaths() {
-  let paths = await getAllStandardPageSlugs();
-
-  paths = paths.map((path) => `/p/${path}`);
+async function getStaticPaths({ locales }) {
+  const pageSlugs = await getAllStandardPageSlugs();
+  const paths = pageSlugs.flatMap((slug) => {
+    return locales.map((locale) => ({ locale, params: { pageSlug: slug } }));
+  });
 
   return {
     paths,
@@ -59,43 +61,33 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps(context) {
-  // locale
-  const locale = 'en_US';
-  const refinedLocale = 'en_US';
-
+async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
   // device:
-
   const isMobile = false;
 
-  // geo -dev
-  const devCountryCode = 'US';
-
-  const devCurrencyCode = 'USD';
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrency(countryCode);
 
   // dato
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     ...queries.header.content(locale),
-    meta: { refinedLocale },
   });
 
   await queryClient.prefetchQuery({
     ...queries.footer.content(locale),
-    meta: { refinedLocale },
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(context.params.pageSlug, refinedLocale),
-    meta: { refinedLocale },
+    ...queries['standard-page'].content(params.pageSlug, locale),
   });
 
   return {
     props: {
       isMobile,
-      currencyCode: devCurrencyCode,
-      countryCode: devCountryCode,
+      currencyCode,
+      countryCode,
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },

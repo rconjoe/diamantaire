@@ -3,7 +3,7 @@ import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 export const standardPage = createQueryKeys('standard-page', {
   content: (slug: string, locale: string) => ({
-    queryKey: [slug],
+    queryKey: [slug, locale],
     queryFn: () => fetchStandardPageDataBySlug(slug, locale),
   }),
 });
