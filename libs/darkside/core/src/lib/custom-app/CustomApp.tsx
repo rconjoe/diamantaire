@@ -11,8 +11,6 @@ import './styles.css';
 
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
 
-import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
-
 export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getTemplate?: (page: ReactElement) => ReactNode;
 };
