@@ -94,4 +94,37 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
   };
 }
 
-export { StandardPage, getStaticProps, getStaticPaths };
+async function getServerSideProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
+  // device:
+  const isMobile = false;
+
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrency(countryCode);
+
+  // dato
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries.header.content(locale),
+  });
+
+  await queryClient.prefetchQuery({
+    ...queries.footer.content(locale),
+  });
+
+  await queryClient.prefetchQuery({
+    ...queries['standard-page'].content(params.pageSlug, locale),
+  });
+
+  return {
+    props: {
+      isMobile,
+      currencyCode,
+      countryCode,
+      // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+}
+
+export { StandardPage, getStaticProps, getStaticPaths, getServerSideProps };
