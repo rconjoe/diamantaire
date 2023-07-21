@@ -422,6 +422,7 @@ export class ProductsService {
     priceMin = 0,
     priceMax = 9999999,
     style,
+    subStyle,
     page,
     limit,
   }: PlpInput) {
@@ -433,6 +434,7 @@ export class ProductsService {
       page,
       limit,
       style,
+      subStyle,
     })}`;
 
     // check for cached data
@@ -481,6 +483,7 @@ export class ProductsService {
         pMin,
         pMax,
         stylesFilter,
+        subStylesFilter,
       }): FilterQuery<{
         'configuration.metal'?: string;
         'configuration.diamondType'?: string;
@@ -505,6 +508,10 @@ export class ProductsService {
           query.push({ styles: stylesFilter });
         }
 
+        if (typeof subStylesFilter !== 'undefined') {
+          query.push({ subStyles: subStylesFilter });
+        }
+
         return query;
       };
 
@@ -514,6 +521,7 @@ export class ProductsService {
         pMin: priceMin,
         pMax: priceMax,
         stylesFilter: style,
+        subStylesFilter: subStyle,
       });
 
       const pageNumer = page > 0 ? page : 1;
@@ -541,7 +549,13 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const filterValueQueries: [Promise<string[]>, Promise<string[]>, Promise<number[]>, Promise<string[]>] = [
+        const filterValueQueries: [
+          Promise<string[]>,
+          Promise<string[]>,
+          Promise<number[]>,
+          Promise<string[]>,
+          Promise<string[]>,
+        ] = [
           this.productRepository.distinct('configuration.metal', {
             contentId: { $in: contentIdsInOrder },
           }),
@@ -554,15 +568,21 @@ export class ProductsService {
           this.productRepository.distinct('styles', {
             contentId: { $in: contentIdsInOrder },
           }),
+          this.productRepository.distinct('subStyles', {
+            contentId: { $in: contentIdsInOrder },
+          }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles] = await Promise.all(filterValueQueries);
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
+          filterValueQueries,
+        );
 
         availableFilters = {
           metal: availableMetals,
           diamondType: availableDiamondTypes,
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
+          subStyles: availableSubStyles,
         };
 
         this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);

@@ -43,6 +43,9 @@ export class ProductEntity extends AbstractDocument {
   @Prop({ type: Array(String) })
   styles: string[];
 
+  @Prop({ type: Array(String) })
+  subStyles: string[];
+
   @Prop({ type: Array })
   variants?: Variant[];
 }

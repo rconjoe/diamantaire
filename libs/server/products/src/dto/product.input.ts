@@ -123,6 +123,15 @@ export class PlpInput {
   readonly style?: string;
 
   @ApiProperty({
+    example: 'anniversary',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly subStyle?: string;
+
+  @ApiProperty({
     example: 100,
     required: false,
   })

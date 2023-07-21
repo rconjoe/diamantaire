@@ -42,8 +42,9 @@ export class ProductController {
   @ApiQuery({ name: 'priceMin', required: false, description: 'price range filter min' })
   @ApiQuery({ name: 'priceMax', required: false, description: 'price range filter max' })
   @ApiQuery({ name: 'style', required: false, description: 'style filter' })
+  @ApiQuery({ name: 'subStyle', required: false, description: 'substyle filter' })
   async datoPLP(
-    @Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999, style, page, limit }: PlpInput,
+    @Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999, style, subStyle, page, limit }: PlpInput,
   ) {
     return await this.productService.findPlpData({
       slug,
@@ -53,6 +54,7 @@ export class ProductController {
       priceMin,
       priceMax,
       style,
+      subStyle,
       page,
       limit,
     });
