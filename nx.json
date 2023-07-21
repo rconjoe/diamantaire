@@ -4,7 +4,13 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": ["default", "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)", "!{projectRoot}/.storybook/**/*"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tsconfig.storybook.json"
+    ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "targetDefaults": {
@@ -22,15 +28,15 @@
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     },
     "build-storybook": {
-      "inputs": ["default", "^production", "!{projectRoot}/.storybook/**/*"]
+      "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*", "{projectRoot}/tsconfig.storybook.json"]
     }
   },
   "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
+   "default": {
+      "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "build-storybook"],
-        "accessToken": "MjlkODIwOTMtZjU1ZS00ZDAwLWI3ZGYtMTEzZTRlMTNlZDFhfHJlYWQtd3JpdGU="
+        "cacheableOperations": ["lint", "build", "build-storybook"],
+        "parallel": 5
       }
     }
   },
