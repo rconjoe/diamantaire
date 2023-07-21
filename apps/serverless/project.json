@@ -1,7 +1,7 @@
 {
-  "name": "function-hub",
+  "name": "serverless",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/function-hub",
+  "sourceRoot": "apps/serverless",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/function-hub"
+        "outputPath": "dist/apps/serverless"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/function-hub"
+          "outputPath": "apps/serverless"
         },
         "production": {}
       }
@@ -22,16 +22,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "function-hub:build",
+        "buildTarget": "serverless:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "function-hub:build:development",
+          "buildTarget": "serverless:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "function-hub:build:production",
+          "buildTarget": "serverless:build:production",
           "dev": false
         }
       }
@@ -39,14 +39,14 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "function-hub:build:production"
+        "buildTarget": "serverless:build:production"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/function-hub/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/serverless/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },

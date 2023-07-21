@@ -1,3 +1,0 @@
-# function-hub
-
-docs otw...
