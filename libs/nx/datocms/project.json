@@ -1,0 +1,48 @@
+{
+  "name": "nx-datocms",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx/datocms/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx/datocms",
+        "main": "libs/nx/datocms/src/index.ts",
+        "tsConfig": "libs/nx/datocms/tsconfig.lib.json",
+        "assets": [
+          "libs/nx/datocms/*.md",
+          {
+            "input": "./libs/nx/datocms/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/datocms/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/datocms",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx/datocms",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json"]
+      }
+    }
+  },
+  "tags": ["nx-plugin", "graphql", "datocms"]
+}

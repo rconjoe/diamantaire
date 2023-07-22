@@ -23,12 +23,14 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "serverless:build",
-        "dev": true
+        "dev": true,
+        "port": 8200
       },
       "configurations": {
         "development": {
           "buildTarget": "serverless:build:development",
-          "dev": true
+          "dev": true,
+          "port": 8200
         },
         "production": {
           "buildTarget": "serverless:build:production",

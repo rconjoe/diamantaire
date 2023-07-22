@@ -71,6 +71,7 @@
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.29.3",
+    "effect": "^2.0.0-next.19",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",
     "express-mongo-sanitize": "^2.2.0",
@@ -164,7 +165,6 @@
     "@swc/helpers": "0.5.1",
     "@swc/jest": "0.2.24",
     "@testing-library/react": "14.0.0",
-    "@trumbitta/nx-plugin-unused-deps": "^1.12.1",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/hpp": "^0.2.2",
@@ -228,4 +228,3 @@
     }
   }
 }
-

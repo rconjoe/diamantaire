@@ -32,7 +32,7 @@
     }
   },
   "tasksRunnerOptions": {
-   "default": {
+    "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": ["lint", "build", "build-storybook"],
@@ -71,6 +71,5 @@
     }
   },
   "defaultProject": "darkside-main",
-  "plugins": ["@diamantaire/nx-genql"],
   "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
