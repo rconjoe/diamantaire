@@ -1,5 +1,7 @@
 const diamondRoutePdp = '/diamonds/d';
 const diamondRoutePlp = '/diamonds/inventory';
 const diamondRouteAppointment = '/book-appointment';
+const diamondRouteCfy = '/diamonds';
+const diamondRouteCfyResult = '/diamonds/results';
 
-export { diamondRoutePlp, diamondRoutePdp, diamondRouteAppointment };
+export { diamondRouteCfyResult, diamondRouteCfy, diamondRoutePlp, diamondRoutePdp, diamondRouteAppointment };

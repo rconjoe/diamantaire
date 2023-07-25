@@ -4,7 +4,7 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { OptionsDataTypes, useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getDiamondsOptionsFromUrl } from '@diamantaire/shared/helpers';
+import { getDiamondOptionsFromUrl } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsResult } from 'next';
 import Script from 'next/script';
@@ -70,8 +70,9 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   const countryCode = 'US';
   const currencyCode = 'USD';
   const { query } = context;
-  const { diamondSlug: slug } = query;
-  const options = getDiamondsOptionsFromUrl([slug], 'diamondPDP');
+  const { diamondHandle: handle } = query;
+
+  const options = getDiamondOptionsFromUrl([handle], 'diamondPDP');
 
   if (!options?.lotId || !options?.diamondType) {
     return {

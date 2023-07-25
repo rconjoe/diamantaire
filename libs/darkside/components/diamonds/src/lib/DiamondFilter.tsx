@@ -102,8 +102,8 @@ const RadioFilter = (props) => {
             const shape = diamondIconsMap[slug];
 
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug]) ? 'active' : '')}>
+                <a onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                 </a>
               </li>

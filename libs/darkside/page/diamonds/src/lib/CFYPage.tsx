@@ -1,9 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
+// import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
 // import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-// import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 // import { DIAMOND_CFY_FACETED_NAV } from '@diamantaire/shared/constants';
@@ -27,6 +27,8 @@ interface CFYPageProps {
     diamondType?: string;
     category?: string;
     carat?: string;
+    cto?: boolean;
+    flow?: string;
   };
   countryCode: string;
   currencyCode: string;
@@ -39,7 +41,8 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   // const [options, setOptions] = useState(props.options);
   // const [loading, setLoading] = useState(true);
 
-  // const DiamondTableContent = useDiamondTableData(locale);
+  const DiamondCfyContent = useDiamondCfyData(locale);
+
   // const title = DiamondTableContent.data.diamondTable.title;
   // const seo = DiamondTableContent.data.diamondTable.seo;
   // const { seoTitle, seoDescription } = seo || {};
@@ -50,14 +53,13 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
       {/* <StandardPageSeo title={pageSeoTitle} description={seoDescription} /> */}
       <StyledCFYPage className="container-wrapper">
         <div className="page-title">
-          <Heading className="title"></Heading>
+          <Heading className="title">VRAI Created Diamonds</Heading>
         </div>
 
         <div className="page-main">
           <p>CFY Page</p>
+          <pre>{JSON.stringify(DiamondCfyContent)}</pre>
         </div>
-
-        <DiamondPromo locale={locale} />
       </StyledCFYPage>
     </>
   );
@@ -76,14 +78,14 @@ async function getServerSideProps(
 
   const { query } = context;
   const options = getCFYOptionsFromUrl(query || {});
-  const diamondTableQuery = queries.diamondTable.content(locale);
+  const diamondCfyQuery = queries.diamondCfy.content(locale);
   const queryClient = new QueryClient();
 
-  // PREFECTH DIAMOND TABLE CONTENT FROM DATO
-  await queryClient.prefetchQuery(diamondTableQuery);
+  // PREFECTH DIAMOND CFY CONTENT FROM DATO
+  await queryClient.prefetchQuery(diamondCfyQuery);
 
   // IF NO RESULT RETURN 404
-  if (!queryClient.getQueryData(diamondTableQuery.queryKey)) {
+  if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {
     return {
       notFound: true,
     };

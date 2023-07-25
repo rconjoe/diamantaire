@@ -3,6 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -12,12 +13,12 @@ import {
   getCurrencyFromLocale,
   parseValidLocale,
 } from '@diamantaire/shared/constants';
-import { getDiamondsOptionsFromUrl, getDiamondsShallowRoute } from '@diamantaire/shared/helpers';
+import { getDiamondOptionsFromUrl, getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -42,6 +43,7 @@ interface DiamondPageProps {
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+  const { isMobile } = useContext(GlobalContext);
   const { locale, currencyCode, countryCode } = props;
   const [options, setOptions] = useState(props.options);
   const [loading, setLoading] = useState(true);
@@ -66,7 +68,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
       keys.forEach((key) => {
         if (DIAMOND_TABLE_FACETED_NAV.includes(key)) {
-          if (prevOptions[key] && prevOptions[key] === updatedOptions[key]) {
+          if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
             delete updatedOptions[key];
           }
         }
@@ -96,7 +98,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   }, [pagination?.pageCount, options.sortBy, options.sortOrder]);
 
   useEffect(() => {
-    router.push(getDiamondsShallowRoute(options), undefined, { shallow: true });
+    router.push(getDiamondShallowRoute(options), undefined, { shallow: true });
 
     // window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,9 +125,11 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
       <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
       <StyledDiamondPage className="container-wrapper">
-        <div className="page-title">
-          <Heading className="title">{title}</Heading>
-        </div>
+        {isMobile && (
+          <div className="page-title">
+            <Heading className="title">{title}</Heading>
+          </div>
+        )}
 
         <div className="page-aside">
           <DiamondFilter
@@ -145,6 +149,12 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         </div>
 
         <div className="page-main">
+          {!isMobile && (
+            <div className="page-title">
+              <Heading className="title">{title}</Heading>
+            </div>
+          )}
+
           <DiamondTable {...tableProps} title={title} />
         </div>
 
@@ -163,11 +173,12 @@ async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<DiamondPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const { locale } = context;
+  const { locale, query } = context;
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
-  const { query } = context;
-  const options = getDiamondsOptionsFromUrl(query || {}, 'diamondTable');
+
+  const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
+
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);
   const queryClient = new QueryClient();

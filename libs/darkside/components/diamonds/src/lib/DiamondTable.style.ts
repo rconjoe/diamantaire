@@ -26,19 +26,8 @@ const StyledDiamondTable = styled.div`
     margin: 0;
     background-color: ${WHITE};
 
-    border: 1px solid ${GREY_LIGHT};
-    border-bottom: 0;
-
     &:nth-child(2n) {
       background-color: ${GREY_LIGHTEST};
-    }
-
-    &:first-child {
-      border-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: 1px solid ${GREY_LIGHT};
     }
   }
 
@@ -80,7 +69,6 @@ const StyledDiamondTable = styled.div`
     background: ${GREY_LIGHTER} !important;
     width: 100%;
     margin: 0;
-    border-top: 1px solid ${GREY_LIGHT};
   }
 
   .vo-table-head .vo-table-cell {
@@ -232,6 +220,9 @@ const StyledDiamondTable = styled.div`
 
   .vo-sort-icon {
     margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     ${tabletAndUp(`
       margin-left: 10px;
@@ -255,6 +246,22 @@ const StyledDiamondTable = styled.div`
   .vo-table-clear-button:hover,
   .vo-table-clear-button:focus {
     background: #000;
+  }
+
+  .arrow-up {
+    width: 0;
+    height: 0;
+    border-bottom: 8px solid black;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
+
+  .arrow-down {
+    width: 0;
+    height: 0;
+    border-top: 8px solid black;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
   }
 `;
 

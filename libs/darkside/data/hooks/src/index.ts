@@ -6,6 +6,7 @@ export * from './lib/use-diamond-icons';
 export * from './lib/use-diamond-table';
 export * from './lib/use-diamond-info';
 export * from './lib/use-diamond-pdp';
+export * from './lib/use-diamond-cfy';
 export * from './lib/use-diamonds';
 export * from './lib/products/use-product';
 export * from './lib/products/use-product-dato';

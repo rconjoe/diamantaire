@@ -1,0 +1,115 @@
+import { queries } from '@diamantaire/darkside/data/queries';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+
+import { ProductIconListDataTypes } from '../products/use-product-icons';
+
+interface DiamondShapeDescription {
+  diamondType: string;
+  description: string;
+}
+
+interface CaratSliderTooltip {
+  _modelApiKey: string;
+  id: string;
+  title: string;
+  headingType: string;
+  headingAdditionalClass: string;
+  copy: string;
+  supportedCountries: { code: string; name: string }[];
+}
+
+interface CtoDiamondTable {
+  id: string;
+  seo: { title: string; description: string };
+  seoResults: { title: string; description: string };
+  speakWithExpert: string;
+  caratSliderTooltip: CaratSliderTooltip[];
+  headerTitle: string;
+  headerCopy: string;
+  headerSubtext: string;
+  diamondSelectorTitle: string;
+  diamondSelectorSubtitle: string;
+  diamondSelectorNote: string;
+  carat: string;
+  price: string;
+  modify: string;
+  checkAvailability: string;
+  diamondResultTitle: string;
+  diamondResultTitleSecond: string;
+  diamondResultFoundTitle: string;
+  diamondResultFoundTitleMin2: string;
+  diamondResultCopy: string;
+  diamondResultCopyMin2: string;
+  diamondResultMatchTitle: string;
+  diamondResultMatchSelectedCta: string;
+  diamondResultMatchViewAllCta: string;
+  diamondResultMatchSeeMoreInventoryCta: string;
+  diamondResultComparisonGridSelect: string;
+  diamondResultComparisonGridSeeDetails: string;
+  ctoDiamondResultFoundTitle: string;
+  ctoDiamondResultCopy: string;
+  ctoDiamondResultNote: string;
+  ctoDiamondResultFinalSaleNote: string;
+  ctoDiamondResultNeedItFaster: string;
+  diamondsNote: string;
+  notesAdditionalInfo: string;
+  diamondNotesImages: { url: string; alt: string }[];
+  image1Caption: string;
+  image2Caption: string;
+  image3Caption: string;
+  howToAnchorLinkAndCopy: string;
+  diamondDetailsCopy: string;
+  caratWeightCopy: string;
+  caratDetails: string;
+  clarityDetails: string;
+  cutDetails: string;
+  cutDetailsRoundBrilliant: string;
+  colorDetails: string;
+  colorNearcolorlessDetails: string;
+  pricingLabel: string;
+  pricingDetails: string;
+  noDiamondsCopy: string;
+  nearColorless: string;
+  idealHearts: string;
+  diamondVariantImageCaption: string;
+  selected: string;
+  seeDetails: string;
+  selectedDiamondId: string;
+  vraiDiamondsInfo: string;
+  blocks: {
+    _modelApiKey: string;
+    title: string;
+    headingType: string;
+    headingAdditionalClass: string;
+    additionalClass: string;
+    content: {
+      blocks: {
+        _modelApiKey: string;
+        id: string;
+        title: string;
+        headingType: string;
+        headingAdditionalClass: string;
+        copy: string;
+        supportedCountries: { code: string; name: string }[];
+      }[];
+    };
+  }[];
+  productIconList: ProductIconListDataTypes[];
+}
+
+interface DiamondCfyDataProps {
+  ctoDiamondTable: CtoDiamondTable;
+  allDiamondShapeDescriptions: DiamondShapeDescription[];
+}
+
+export function useDiamondCfyData(locale: string): UseQueryResult<DiamondCfyDataProps, unknown> {
+  return useQuery({
+    ...queries.diamondCfy.content(locale),
+    meta: {
+      locale,
+    },
+    staleTime: 300000, // Set the stale time to 5 minutes
+  });
+}
+
+export default useDiamondCfyData;

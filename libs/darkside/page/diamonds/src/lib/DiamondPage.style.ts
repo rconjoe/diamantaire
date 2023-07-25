@@ -24,26 +24,19 @@ const StyledDiamondPage = styled.div`
   .page-title {
     width: 100%;
     display: block;
-    padding: 0 0 30px;
+    padding: 0 0 3rem;
 
     ${tabletAndUp(`
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
+      padding: 0 0 6rem;
     `)}
 
     .title {
       font-size: var(--font-size-small);
       text-align: center;
-      line-height: 30px;
+      line-height: 1;
       font-weight: 500;
-
-      ${tabletAndUp(`
-        width: calc(100% - ${asideWidthMD} - ${gapMD});
-      `)}
-
-      ${desktopAndUp(`
-        width: calc(100% - ${asideWidthLG} - ${gapLG});
-      `)}
     }
   }
 
@@ -55,10 +48,9 @@ const StyledDiamondPage = styled.div`
       width: ${asideWidthMD};
       display: flex;
       flex-direction: column;
-      margin-top: -30px;
       position: sticky;
       align-self: flex-start;
-      top: 155px;
+      top: 125px;
     `)}
 
     ${desktopAndUp(`

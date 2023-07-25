@@ -1,6 +1,6 @@
 import { DIAMOND_TABLE_VALID_TYPES } from '@diamantaire/shared/constants';
 
-import { DIAMOND_TABLE_QUERY, DIAMOND_PDP_QUERY, DIAMOND_INFO_QUERY } from './query';
+import { DIAMOND_TABLE_QUERY, DIAMOND_PDP_QUERY, DIAMOND_INFO_QUERY, DIAMOND_CFY_QUERY } from './query';
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
 
@@ -94,7 +94,7 @@ export const fetchDiamondPdpData = async (locale: string) => {
   return diamondTableData;
 };
 
-// Get Diamond PDP Additional Info
+// Get Diamond PDP Additional Info from Dato
 export const fetchDiamondInfoData = async (locale: string) => {
   const diamondInfoData = await queryDatoGQL({
     query: DIAMOND_INFO_QUERY,
@@ -102,4 +102,14 @@ export const fetchDiamondInfoData = async (locale: string) => {
   });
 
   return diamondInfoData;
+};
+
+// Get Diamond CFY Page Info from Dato
+export const fetchDiamondCfyData = async (locale: string) => {
+  const diamondCfyData = await queryDatoGQL({
+    query: DIAMOND_CFY_QUERY,
+    variables: { locale },
+  });
+
+  return diamondCfyData;
 };

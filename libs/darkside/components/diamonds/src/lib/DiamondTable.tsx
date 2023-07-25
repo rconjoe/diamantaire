@@ -120,7 +120,7 @@ const DiamondTable = (props) => {
   });
 
   // EVENTS
-  const onPaginationreset = () => {
+  const onPaginationReset = () => {
     table.setPageIndex(1);
   };
 
@@ -175,10 +175,10 @@ const DiamondTable = (props) => {
   }, [activeRow]);
 
   useEffect(() => {
-    window.addEventListener('RESET_TABLE_PAGINATION', onPaginationreset);
+    window.addEventListener('RESET_TABLE_PAGINATION', onPaginationReset);
 
     return () => {
-      window.removeEventListener('RESET_TABLE_PAGINATION', onPaginationreset);
+      window.removeEventListener('RESET_TABLE_PAGINATION', onPaginationReset);
     };
   });
 
@@ -194,8 +194,8 @@ const DiamondTable = (props) => {
                   <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
                     <div className="vo-sort-icon">
-                      {options.sortBy === header.id && options.sortOrder === 'asc' && <span>🔼</span>}
-                      {options.sortBy === header.id && options.sortOrder === 'desc' && <span>🔽</span>}
+                      {options.sortBy === header.id && options.sortOrder === 'asc' && <span className="arrow-up" />}
+                      {options.sortBy === header.id && options.sortOrder === 'desc' && <span className="arrow-down" />}
                     </div>
                     {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>

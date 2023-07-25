@@ -21,7 +21,7 @@ export const DIAMOND_TABLE_DEFAULT_OPTIONS = {
   page: 1,
   limit: 20,
   sortBy: 'carat',
-  sortOrder: 'asc',
+  sortOrder: 'desc',
 };
 export const DIAMOND_VALID_QUERIES = [
   'lotId',
@@ -33,8 +33,10 @@ export const DIAMOND_VALID_QUERIES = [
   'priceMin',
   'caratMax',
   'caratMin',
+  'flow',
 ];
-export const DIAMOND_CFY_FACETED_NAV = [];
+export const DIAMOND_CFY_VALID_QUERIES = ['category', 'carat', 'cto', 'flow'];
+export const DIAMOND_CFY_FACETED_NAV = ['diamondType'];
 export const DIAMOND_DETAIL_FACETED_NAV = ['slug'];
 export const DIAMOND_TABLE_FACETED_NAV = ['diamondType', 'clarity', 'cut', 'color'];
 export const DIAMOND_TABLE_VALID_COLORS = getOptionValues(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
