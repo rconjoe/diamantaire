@@ -50,6 +50,8 @@
       "@diamantaire/darkside/data/queries": ["libs/darkside/data/queries/src/index.ts"],
       "@diamantaire/darkside/page/accounts": ["libs/darkside/page/accounts/src/index.ts"],
       "@diamantaire/darkside/page/diamonds": ["libs/darkside/page/diamonds/src/index.ts"],
+      "@diamantaire/darkside/page/error": ["libs/darkside/page/error/src/index.ts"],
+      "@diamantaire/darkside/page/error/server": ["libs/darkside/page/error/src/server.ts"],
       "@diamantaire/darkside/page/home": ["libs/darkside/page/home/src/index.ts"],
       "@diamantaire/darkside/page/journal": ["libs/darkside/page/journal/src/index.ts"],
       "@diamantaire/darkside/page/pdp": ["libs/darkside/page/pdp/src/index.ts"],

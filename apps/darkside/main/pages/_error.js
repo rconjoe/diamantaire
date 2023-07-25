@@ -15,8 +15,11 @@
  *  - https://nextjs.org/docs/api-reference/data-fetching/get-initial-props
  *  - https://reactjs.org/docs/error-boundaries.html
  */
-
+import { queries } from '@diamantaire/darkside/data/queries';
+import { DarksidePageError } from '@diamantaire/darkside/page/error';
+import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
 import * as Sentry from '@sentry/nextjs';
+import { QueryClient } from '@tanstack/react-query';
 import NextErrorComponent from 'next/error';
 
 const CustomErrorComponent = (props) => {
@@ -24,7 +27,9 @@ const CustomErrorComponent = (props) => {
   // compensate for https://github.com/vercel/next.js/issues/8592
   // Sentry.captureUnderscoreErrorException(props);
 
-  return <NextErrorComponent statusCode={props.statusCode} />;
+  return <DarksidePageError {...props} />;
+
+  // return <NextErrorComponent statusCode={props.statusCode} />;
 };
 
 CustomErrorComponent.getInitialProps = async (contextData) => {
@@ -32,8 +37,19 @@ CustomErrorComponent.getInitialProps = async (contextData) => {
   // time to send the error before the lambda exits
   await Sentry.captureUnderscoreErrorException(contextData);
 
-  // This will contain the status code of the response
-  return NextErrorComponent.getInitialProps(contextData);
+  const { locale } = contextData;
+
+  const { countryCode } = parseValidLocale(locale);
+
+  const currencyCode = getCurrency(countryCode);
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['standard-page'].content('error-page', locale, countryCode, currencyCode),
+  });
+
+  return { ...NextErrorComponent.getInitialProps(contextData), locale };
 };
 
 export default CustomErrorComponent;
