@@ -45,6 +45,7 @@
       "@diamantaire/darkside/components/seo": ["libs/darkside/components/seo/src/index.ts"],
       "@diamantaire/darkside/context/diamond-icon-context": ["libs/darkside/context/diamond-icon-context/src/index.ts"],
       "@diamantaire/darkside/context/global-context": ["libs/darkside/context/global-context/src/index.ts"],
+      "@diamantaire/darkside/context/product-builder": ["libs/darkside/context/product-builder/src/index.ts"],
       "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
       "@diamantaire/darkside/data/api": ["libs/darkside/data/api/src/index.ts"],
       "@diamantaire/darkside/data/hooks": ["libs/darkside/data/hooks/src/index.ts"],
