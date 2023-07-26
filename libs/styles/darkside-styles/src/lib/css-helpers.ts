@@ -16,6 +16,10 @@ export const CssHelpers = styled.createGlobalStyle`
     aspect-ratio: auto;
   }
 
+  button:hover {
+    cursor: pointer;
+  }
+
   .text-center {
     text-align: center;
   }

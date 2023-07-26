@@ -37,3 +37,13 @@ export type ListPageItemWithConfigurationVariants = {
     [variantId: string]: ListPageItemConfiguration;
   };
 };
+
+export type FilterTypeProps = 'metal' | 'diamondType' | 'price';
+export type FilterValueProps = {
+  metal: string;
+  diamondType: string;
+  price: {
+    min: number;
+    max: number;
+  };
+};

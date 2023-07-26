@@ -1,0 +1,294 @@
+import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
+import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
+import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { NextSeo } from 'next-seo';
+import { useEffect, useState } from 'react';
+
+type PlpPageProps = {
+  plpSlug: string;
+  productData: {
+    variantsInOrder: string[];
+    products: ListPageItemWithConfigurationVariants[];
+    paginator: {
+      pageCount: number;
+    };
+    availableFilters: {
+      [key in FilterTypeProps]: string[];
+    };
+  };
+  objectParams: string;
+  dehydratedState: DehydratedState;
+};
+
+function objectToURLSearchParams(obj: object) {
+  const params = new URLSearchParams();
+
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      params.append(key, obj[key]);
+    }
+  }
+
+  return params;
+}
+
+function parseStringToObjectWithNestedValues(initialString: string) {
+  return JSON.parse(initialString, (_key, value) => {
+    // Check if the value is a string and can be parsed again
+    if (typeof value === 'string') {
+      try {
+        const parsedValue = JSON.parse(value);
+
+        return parsedValue;
+      } catch (error) {
+        // If it's not a valid JSON string, return the original value
+        return value;
+      }
+    }
+
+    return value;
+  });
+}
+
+function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { plpSlug, productData, objectParams } = props;
+  const paginationPages = productData?.paginator?.pageCount || 1;
+
+  const initialFilterValuesWithSlug = parseStringToObjectWithNestedValues(objectParams);
+  const initialFilterValues = parseStringToObjectWithNestedValues(objectParams);
+
+  const { products: initialProducts, availableFilters } = productData;
+
+  initialFilterValuesWithSlug['priceMin'] = parseFloat(initialFilterValuesWithSlug.price.min);
+  initialFilterValuesWithSlug['priceMax'] = parseFloat(initialFilterValuesWithSlug.price.max);
+
+  delete initialFilterValuesWithSlug.price;
+  delete initialFilterValues.slug;
+
+  const [qParams, setQParams] = useState(objectToURLSearchParams(initialFilterValuesWithSlug));
+
+  const [filterValue, setFilterValues] = useState<FilterValueProps>({
+    ...initialFilterValues,
+  });
+
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside('en_US', plpSlug);
+  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
+
+  const { seoTitle, seoDescription } = seo || {};
+
+  const { data, fetchNextPage, isFetching } = usePlpVRAIProducts(qParams, initialProducts);
+
+  const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
+
+  useEffect(() => {
+    async function fetchClientsideProducts() {
+      // a function to fetch the next page of products until the index matches the total number of pages
+      let index = 2;
+
+      const fetchNextPageLoop = async () => {
+        try {
+          while (index <= paginationPages) {
+            // eslint-disable-next-line no-await-in-loop
+            await fetchNextPage();
+
+            index++;
+          }
+        } catch (error) {
+          console.log('Error occurred during pagination', error);
+        }
+      };
+
+      fetchNextPageLoop();
+    }
+
+    fetchClientsideProducts();
+  }, [paginationPages]);
+
+  useEffect(() => {
+    // const price = filterValue?.price;
+    const newFilterObject = {
+      slug: plpSlug,
+    };
+
+    if (filterValue?.metal) {
+      newFilterObject['metal'] = filterValue.metal;
+    }
+
+    if (filterValue?.diamondType) {
+      newFilterObject['diamondType'] = filterValue.diamondType;
+    }
+
+    if (filterValue?.price?.min) {
+      newFilterObject['priceMin'] = filterValue?.price?.min;
+    } else {
+      newFilterObject['priceMin'] = availableFilters.price[0];
+    }
+
+    if (filterValue?.price?.max) {
+      newFilterObject['priceMax'] = filterValue?.price?.max;
+    } else {
+      newFilterObject['priceMax'] = availableFilters.price[1];
+    }
+
+    const newParams = objectToURLSearchParams({
+      ...newFilterObject,
+    });
+
+    setQParams(newParams);
+
+    async function fetchClientsideProducts() {
+      // a function to fetch the next page of products until the index matches the total number of pages
+      let index = -3;
+
+      const fetchNextPageLoop = async () => {
+        try {
+          while (index - 1 <= paginationPages) {
+            // eslint-disable-next-line no-await-in-loop
+            await fetchNextPage();
+
+            index++;
+          }
+        } catch (error) {
+          console.log('Error occurred during pagination', error);
+        }
+      };
+
+      fetchNextPageLoop();
+    }
+
+    fetchClientsideProducts();
+  }, [filterValue]);
+
+  return (
+    <div>
+      <NextSeo title={seoTitle} description={seoDescription} />
+      <Breadcrumb breadcrumb={breadcrumb} />
+      <PlpHeroBanner data={hero} />
+      <PlpProductGrid
+        data={data}
+        isFetching={isFetching}
+        availableFilters={availableFilters}
+        promoCardCollectionId={promoCardCollection?.id}
+        creativeBlockIds={creativeBlockIds}
+        initialProducts={initialProducts}
+        initialFilterValues={initialFilterValues}
+        setFilterValues={setFilterValues}
+        filterValue={filterValue}
+      />
+      <PlpBlockPicker plpSlug={plpSlug} />
+    </div>
+  );
+}
+
+const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
+  const { query, locale } = context;
+
+  const isFacetedNav = Array.isArray(query.plpSlug);
+  const slug = isFacetedNav ? query.plpSlug[0].toString() : query.plpSlug.toString();
+  const priceMin = query?.priceMin as string;
+  const priceMax = query?.priceMax as string;
+
+  const params = Array.isArray(query.plpSlug) && query.plpSlug.slice(1);
+
+  const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]);
+  const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]);
+
+  const matchesFacetNavOrder = FACETED_NAV_ORDER.every((facet, index) => {
+    if (facet === 'metal') {
+      if (!metal) return true;
+
+      return metal === params[index];
+    } else if (facet === 'diamondType') {
+      if (!diamondType) return true;
+
+      return diamondType === params[index];
+    }
+
+    return false;
+  });
+
+  if (!matchesFacetNavOrder) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const qParamsObject = {
+    slug,
+  };
+
+  if (priceMin) {
+    qParamsObject['priceMin'] = parseFloat(priceMin);
+  }
+
+  if (priceMax) {
+    qParamsObject['priceMax'] = parseFloat(priceMax);
+  }
+
+  if (metal) {
+    qParamsObject['metal'] = metal;
+  }
+
+  if (diamondType) {
+    qParamsObject['diamondType'] = diamondType;
+  }
+
+  const qParams = new URLSearchParams(
+    Object.entries({ ...qParamsObject }).reduce((prevValue, [key, value]) => {
+      if (value) {
+        if (typeof value === 'object') {
+          // If the value is an object, stringify it to maintain the nested structure
+          prevValue[key] = JSON.stringify(value);
+        } else {
+          prevValue[key] = Array.isArray(value) ? value[0] : value;
+        }
+      }
+
+      return prevValue;
+    }, {}),
+  );
+
+  console.log('qParamsqParams', qParams);
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({ ...queries.plp.serverSideDato('en_US', slug) });
+  const productData = await getVRAIServerPlpData(qParams, 1);
+
+  const objectParams: { [key: string]: string | object } = Object.fromEntries(qParams);
+
+  objectParams['price'] = {
+    min: priceMin || productData?.availableFilters?.price[0],
+    max: priceMax || productData?.availableFilters?.price[1],
+  };
+
+  delete objectParams.priceMin;
+  delete objectParams.priceMax;
+
+  const objectParamsStringified = JSON.stringify(objectParams);
+
+  await queryClient.prefetchQuery({
+    ...queries.header.content(locale),
+    meta: { locale },
+  });
+
+  await queryClient.prefetchQuery({
+    ...queries.footer.content(locale),
+    meta: { locale },
+  });
+
+  return {
+    props: { plpSlug: slug, productData, objectParams: objectParamsStringified, dehydratedState: dehydrate(queryClient) },
+  };
+};
+
+PlpPage.getTemplate = getStandardTemplate;
+
+export { PlpPage, getServerSideProps };

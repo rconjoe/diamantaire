@@ -83,7 +83,7 @@ export function makeCurrency(price, locale = 'en-US', currencyCode = 'USD') {
     maximumFractionDigits: 2,
   });
 
-  const formattedPrice = dropZeroCents(formatter.format(price), currencyCode);
+  const formattedPrice = dropZeroCents(formatter.format(price / 100), currencyCode);
 
   return formattedPrice;
 }

@@ -10,16 +10,36 @@ type MobileDesktopImageProps = {
   mobileImage: DatoImageType;
   className?: string;
   shouldLazyLoad?: boolean;
+  quality?: number;
 };
 
-const MobileDesktopImage = ({ desktopImage, mobileImage, alt, className, shouldLazyLoad }: MobileDesktopImageProps) => {
+const MobileDesktopImage = ({
+  desktopImage,
+  mobileImage,
+  alt,
+  className,
+  shouldLazyLoad,
+  quality,
+}: MobileDesktopImageProps) => {
   return (
     <>
       <ShowTabletAndUpOnly>
-        <DatoImage image={desktopImage} className={className} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
+        <DatoImage
+          image={desktopImage}
+          className={className}
+          overrideAlt={alt}
+          shouldLazyLoad={shouldLazyLoad}
+          quality={quality}
+        />
       </ShowTabletAndUpOnly>
       <ShowMobileOnly>
-        <DatoImage image={mobileImage} className={className} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
+        <DatoImage
+          image={mobileImage}
+          className={className}
+          overrideAlt={alt}
+          shouldLazyLoad={shouldLazyLoad}
+          quality={quality}
+        />
       </ShowMobileOnly>
     </>
   );

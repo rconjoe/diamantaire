@@ -91,9 +91,9 @@ const nextConfig = {
         hostname: 'images.vraiandoro.com',
       },
     ],
-    // let's refine deviceSizes
     deviceSizes: [576, 768, 992, 1200, 1440],
-    imageSizes: [576, 768, 992, 1200, 1440],
+    // we should remove this because we don't want it - https://nextjs.org/docs/pages/api-reference/components/image#imagesizes
+    // imageSizes: [576, 768, 992, 1200, 1440],
   },
 
   async rewrites() {

@@ -1,5 +1,6 @@
 export * from './SlideOut';
 export * from './Button';
+export * from './Breadcrumb';
 export * from './CertificateThumb';
 export * from './Heading';
 export * from './LazyLoadWrapper';

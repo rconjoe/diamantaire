@@ -14,3 +14,4 @@ export * from './extractMetalTypeFromShopifyHandle';
 export * from './formatCurrency';
 export * from './journalHelpers';
 export * from './isEmptyObject';
+export * from './routes';

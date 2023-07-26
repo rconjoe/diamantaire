@@ -178,3 +178,59 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
 
   return pageData;
 }
+
+export const LIST_PAGE_BY_SLUG = `
+query listPageDatoQuery($locale: SiteLocale, $slug: String!) {
+  listPage(locale: $locale, filter: {slug: {eq: $slug}}) {
+    slug
+    belowBannerBlocks {
+      ${Accordion}
+      ${FullWidthBanner}
+      ${HalfWidthBanner}
+      ${Trio9x7}
+      ${Quote}
+      ${Carousel}
+      ${CollectionHero}
+      ${HalfWidthQuad}
+      ${HeroBanner}
+      ${InstagramReel}
+      ${LogoBanner}
+      ${Quad}
+      ${QuadLogo}
+      ${QuadStatistics}
+      ${SingleVideo}
+      ${TextOnly}
+      ${Trio9x7}
+      ${TrioSlide9x7}
+      ${TrioStaggered9x7}
+      ${CelebrityCarousel}
+      ${Trio1x1}
+      ${CelebrityReel}
+      ${ListTitle}
+      ${SideBySide}
+      ${SkinnyHeroBanner}
+      ${ProductSuggestionQuad}
+      ${Triosvg}
+      ${BlogListTrio}
+      ${HalfWidthBlogSummary}
+      ${Showroom}
+      ${Leo}
+      ${SlickCarousel}
+      ${ProductSlider}
+      ${GridCarousel}
+      ${EmailSignup}
+      ${TallHalfWidthBlock}
+    }
+  }
+}
+${ResponsiveImageFragment}
+`;
+
+export async function fetchListPageDatoBlocksBySlug(locale: string, slug: string) {
+  const pageData = await queryDatoGQL({
+    query: LIST_PAGE_BY_SLUG,
+    variables: { slug, locale },
+  });
+
+  return pageData;
+}

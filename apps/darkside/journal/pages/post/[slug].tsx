@@ -18,8 +18,6 @@ export async function getStaticPaths() {
     return `/post/${slug}`;
   });
 
-  // console.log('updatedPaths', updatedPaths);
-
   return {
     paths: updatedPaths,
     fallback: false,

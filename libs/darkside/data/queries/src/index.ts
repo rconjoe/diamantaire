@@ -6,7 +6,7 @@ import { footer } from './footer';
 import { header } from './header';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
-import { productPage } from './products';
+import { productPage, plpListPage } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
 
@@ -16,6 +16,7 @@ export const queries = mergeQueryKeys(
   standardPage,
   journal,
   productPage,
+  plpListPage,
   showrooms,
   humanNameMappers,
   diamonds,
@@ -36,6 +37,7 @@ export type JournalKeys = inferQueryKeys<typeof journal>;
 export type CartKeys = inferQueryKeys<typeof cart>;
 export type StandardPageKeys = inferQueryKeys<typeof standardPage>;
 export type ProductPageKeys = inferQueryKeys<typeof productPage>;
+export type PLPPageKeys = inferQueryKeys<typeof plpListPage>;
 export type ShowroomKeys = inferQueryKeys<typeof showrooms>;
 export type HumanNameWrapperKeys = inferQueryKeys<typeof humanNameMappers>;
 export type QueryKeys = inferQueryKeyStore<typeof queries>;

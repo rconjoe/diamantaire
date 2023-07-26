@@ -9,10 +9,12 @@ type DatoImageProps = {
   shouldLazyLoad?: boolean;
   isSVG?: boolean;
   image: DatoImageType;
+  quality?: number;
 };
 
 const DatoImageContainer = styled.div`
   width: 100%;
+  position: relative;
 
   > div {
     position: unset !important;
@@ -26,7 +28,7 @@ const DatoImageContainer = styled.div`
   }
 `;
 
-const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false }: DatoImageProps) => {
+const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false, quality }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
 
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
@@ -59,7 +61,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
         src={responsiveImageSrc}
         placeholder="blur"
         blurDataURL={responsiveImage?.base64}
-        loader={loader}
+        loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
         className={clsx('image', className)}
         sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
         loading={shouldLazyLoad ? 'lazy' : 'eager'}

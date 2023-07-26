@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 type HeadingProps = {
   type?: string;
-  children?: ReactNode;
+  children: ReactNode;
   className?: string | 'primary' | 'secondary' | 'tertiary' | '-medium' | '-bold' | 'small';
 };
 

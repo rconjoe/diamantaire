@@ -3,9 +3,8 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
-import { getAllStandardPageSlugs } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticPropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -49,19 +48,52 @@ export interface GetStaticPropsRequest extends NextRequest {
   };
 }
 
-async function getStaticPaths({ locales }) {
-  const pageSlugs = await getAllStandardPageSlugs();
-  const paths = pageSlugs.flatMap((slug) => {
-    return locales.map((locale) => ({ locale, params: { pageSlug: slug } }));
-  });
+// async function getStaticPaths({ locales }) {
+//   const pageSlugs = await getAllStandardPageSlugs();
+//   const paths = pageSlugs.flatMap((slug) => {
+//     return locales.map((locale) => ({ locale, params: { pageSlug: slug } }));
+//   });
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
+// async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
+//   // device:
+//   const isMobile = false;
+
+//   const { countryCode } = parseValidLocale(locale);
+//   const currencyCode = getCurrency(countryCode);
+
+//   // dato
+//   const queryClient = new QueryClient();
+
+//   await queryClient.prefetchQuery({
+//     ...queries.header.content(locale),
+//   });
+
+//   await queryClient.prefetchQuery({
+//     ...queries.footer.content(locale),
+//   });
+
+//   await queryClient.prefetchQuery({
+//     ...queries['standard-page'].content(params.pageSlug, locale),
+//   });
+
+//   return {
+//     props: {
+//       isMobile,
+//       currencyCode,
+//       countryCode,
+//       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
+//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+//     },
+//   };
+// }
+
+async function getServerSideProps({ locale, params }: GetServerSidePropsContext<{ pageSlug: string }>) {
   // device:
   const isMobile = false;
 
@@ -94,37 +126,4 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
   };
 }
 
-async function getServerSideProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
-  // device:
-  const isMobile = false;
-
-  const { countryCode } = parseValidLocale(locale);
-  const currencyCode = getCurrency(countryCode);
-
-  // dato
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(params.pageSlug, locale),
-  });
-
-  return {
-    props: {
-      isMobile,
-      currencyCode,
-      countryCode,
-      // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
-}
-
-export { StandardPage, getStaticProps, getStaticPaths, getServerSideProps };
+export { StandardPage, getServerSideProps };

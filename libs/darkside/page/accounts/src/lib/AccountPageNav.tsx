@@ -33,7 +33,7 @@ const AccountPageNavStyles = styled.div`
     }
   }
   .nav-items__container {
-    background-color: var(--color-light-grey);
+    background-color: var(--color-lightest-grey);
     /* padding: 15px 0; */
     ul {
       li {

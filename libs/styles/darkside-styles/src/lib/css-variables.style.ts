@@ -11,7 +11,8 @@ const CssVariables = styled.createGlobalStyle`
     --color-teal: #5e7a7d;
     --color-black: #000;
     --color-white: #fff;
-    --color-light-grey: #f7f7f7;
+    --color-lightest-grey: #f7f7f7;
+    --color-light-grey: #dcdbd5;
     --color-grey: #ccc;
 
     /* Font Weights */
@@ -33,6 +34,10 @@ const CssVariables = styled.createGlobalStyle`
 
     /* Font Family */
     --font-family-main: 'futura-pt', sans-serif;
+
+    /* Metals - Finish */
+    --metal-yellow-gold: #f9d857;
+    --metal-rose-gold: #f9d857;
   }
 `;
 

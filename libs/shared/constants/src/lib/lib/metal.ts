@@ -11,12 +11,14 @@ export const METALS_IN_HUMAN_NAMES = {
   'white-gold': 'White Gold',
   'rose-gold': 'Rose Gold',
   platinum: 'Platinum',
+  'sterling-silver': 'Sterling Silver',
 };
 export const METAL_HUMAN_NAMES = {
   'rose-gold': 'Rose Gold',
   'white-gold': 'White Gold',
   'yellow-gold': 'Yellow Gold',
   platinum: 'Platinum',
+  ['sterling-silver']: 'Sterling Silver',
 };
 export const METALS_WITH_GOLD_PURITIES_IN_HUMAN_NAMES = {
   '14k yellow-gold': '14k Yellow Gold',

@@ -4,20 +4,20 @@ import React, { useEffect, useRef } from 'react';
 import StyledSlider from './Slider.style';
 
 interface SliderProps {
-  handleChange?: (value: number[]) => void;
   handleFormat?: (v: number) => string;
   range: number[];
   type: string;
   step?: number;
-  value: number[];
   tooltips?: { to: (v: number) => string };
   className?: string;
   disabled?: boolean;
   edge?: boolean;
   pips?: any;
+  value: number | number[];
+  handleChange?: (value: number[]) => void;
 }
 
-const Slider: React.FC<SliderProps> = (props) => {
+const Slider = (props: SliderProps) => {
   const { edge = true, disabled, pips, className, tooltips, type, range, step, value, handleChange, handleFormat } = props;
 
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -81,6 +81,10 @@ const Slider: React.FC<SliderProps> = (props) => {
       sliderValueEndRef.current.innerHTML = handleFormat(values[1]);
     }
   };
+
+  useEffect(() => {
+    sliderInstanceRef.current?.set(value);
+  }, [value]);
 
   return (
     <StyledSlider className={['slider', pips ? 'with-pips' : '', className]}>

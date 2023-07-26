@@ -27,6 +27,7 @@ export * from './lib/listPage';
 export * from './lib/metal';
 export * from './lib/nav';
 export * from './lib/pair';
+export * from './lib/plp';
 export * from './lib/productOption';
 export * from './lib/productSpec';
 export * from './lib/productType';
@@ -91,4 +92,5 @@ export const metalTypeAsConst = {
   'yellow-gold': 'Yellow Gold',
   'white-gold': 'White Gold',
   'rose-gold': 'Rose Gold',
+  'sterling-silver': 'Sterling Silver',
 } as const;
