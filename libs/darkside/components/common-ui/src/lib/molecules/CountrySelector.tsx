@@ -6,60 +6,85 @@ import {
   parseValidLocale,
   generateLocale,
 } from '@diamantaire/shared/constants';
+import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Modal } from './Modal';
-
-const StyledCountrySelector = styled.div`
-  font-size: 16px;
+const CountrySelectorStyles = styled.div`
   ul {
     list-style: none;
   }
-  .selected-country {
-  }
+
   .country-list {
+    display: flex;
+    flex-wrap: wrap;
     &.-hidden {
       display: none;
     }
     .region {
-      margin-top: 16px;
-      border-top: 1px solid #444;
-      padding-top: 16px;
+      margin-bottom: 40px;
+      flex: 1 1 100%;
+      &.north-america {
+        ${media.medium`flex: 0 0 33.33%;`}
+      }
+      &.europe {
+        ${media.medium`flex: 0 0 66.66%;`}
+      }
+      &.international {
+        ${media.medium`flex: 0 0 66.66%;`}
+      }
+      &.asia-pacific {
+        ${media.medium`flex: 0 0 33.33%;`}
+      }
       .region-title {
         font-weight: bold;
         margin-bottom: 8px;
+        font-size: 1.3rem;
       }
       .region-list {
+        padding: 0;
         &.med-list {
           column-count: 2;
         }
         &.lg-list {
-          column-count: 3;
+          column-count: 4;
+        }
+
+        li {
+          margin-bottom: 5px;
+          button {
+            padding: 0;
+            background-color: transparent;
+            border: none;
+
+            a {
+              color: #777;
+              transition: 0.25s;
+              &:hover {
+                color: #000;
+              }
+            }
+
+            &.active {
+              a {
+                font-weight: bold;
+                color: #000;
+              }
+            }
+          }
         }
       }
     }
   }
 `;
 
-type CountrySelectorProps = {
-  label?: string;
-};
-
-const CountrySelector = ({ label }: CountrySelectorProps) => {
+const CountrySelector = ({ toggleCountrySelector }: { toggleCountrySelector: () => void }) => {
   const router = useRouter();
   const [selectedLocale, setLocale] = useState(router.locale);
-  const [isCountryListOpen, setCountryListOpen] = useState(false);
-
-  useEffect(() => {
-    setLocale(router.locale);
-  }, [router.locale]);
-
   const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
-
   const sortedCountriesByRegion = useMemo(
     () =>
       Object.values(countryRegions).reduce((regionMap: Record<string, CountryDetails[]>, region) => {
@@ -72,46 +97,49 @@ const CountrySelector = ({ label }: CountrySelectorProps) => {
     [],
   );
 
-  return (
-    <StyledCountrySelector className="locale-selector">
-      <div className="selected-country">
-        {label && `${label}: `}
-        <button onClick={() => setCountryListOpen(!isCountryListOpen)}>{countries[selectedCountryCode].name}</button>
-      </div>
-      {isCountryListOpen && (
-        <Modal title="Select Country" onClose={() => setCountryListOpen(false)}>
-          <div className="country-list">
-            {Object.entries(sortedCountriesByRegion).map(([regionName, regionCountries]) => {
-              const columnsClass =
-                regionCountries.length > 10 ? 'lg-list' : regionCountries.length > 5 ? 'med-list' : 'sm-list';
+  useEffect(() => {
+    setLocale(router.locale);
+  }, [router.locale]);
 
-              return (
-                <div key={regionName} className="region">
-                  <div className="region-title">{regionName}</div>
-                  <ul className={clsx('region-list', columnsClass)}>
-                    {regionCountries.map((country) => {
-                      return (
-                        <li key={country.code}>
-                          <button onClick={() => setCountryListOpen(false)}>
-                            <Link
-                              href={router.asPath}
-                              locale={generateLocale(getPrimaryLanguage(country.code), country.code)}
-                              scroll={false}
-                            >
-                              {country.name}
-                            </Link>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        </Modal>
-      )}
-    </StyledCountrySelector>
+  return (
+    <CountrySelectorStyles>
+      <div className="country-list">
+        {Object.entries(sortedCountriesByRegion).map(([regionName, regionCountries]) => {
+          const columnsClass = regionCountries.length > 10 ? 'lg-list' : regionCountries.length > 5 ? 'med-list' : 'sm-list';
+          const regionHandle = regionName
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/-$/, '')
+            .replace(/^-/, '');
+
+          return (
+            <div key={regionName} className={clsx('region', regionHandle)}>
+              <h4 className="region-title">{regionName}</h4>
+              <ul className={clsx('region-list', columnsClass)}>
+                {regionCountries.map((country) => {
+                  return (
+                    <li key={country.code}>
+                      <button
+                        className={clsx(selectedCountryCode === country.code ? 'active' : '')}
+                        onClick={() => toggleCountrySelector()}
+                      >
+                        <Link
+                          href={router.asPath}
+                          locale={generateLocale(getPrimaryLanguage(country.code), country.code)}
+                          scroll={false}
+                        >
+                          {country.name}
+                        </Link>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </CountrySelectorStyles>
   );
 };
 

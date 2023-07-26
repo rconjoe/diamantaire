@@ -1,6 +1,9 @@
 import { Cart, CartContext } from '@diamantaire/darkside/components/cart';
+import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -11,6 +14,7 @@ import MegaMenu from './MegaMenu';
 import MobileHeader from './MobileHeader';
 import StackedHeader from './StackedHeader';
 import TopBar from './TopBar';
+
 // TODO: setup proper type
 type HeaderProps = {
   headerData?: any;
@@ -51,11 +55,16 @@ const Header: FC<HeaderProps> = ({
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
+  const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
+  const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const router = useRouter();
+  const selectedLocale = router.locale;
 
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
 
   const { section } = headerData.headerNavigationDynamic;
   const { scrollY } = useScroll();
+  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
 
   const compactHeaderRef = useRef(null);
 
@@ -87,8 +96,16 @@ const Header: FC<HeaderProps> = ({
     return setIsCartOpen(!isCartOpen);
   }
 
+  function toggleCountrySelector() {
+    return setIsCountrySelectorOpen(!isCountrySelectorOpen);
+  }
+
+  function toggleLanguageSelector() {
+    return setIsLanguageSelectorOpen(!isLanguageSelectorOpen);
+  }
+
   function toggleMegaMenuClose() {
-    setMegaMenuIndex(-1);
+    return setMegaMenuIndex(-1);
   }
 
   useEffect(() => {
@@ -99,70 +116,82 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   return (
-    <FullHeaderStyles $isHome={isHome}>
-      <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-        {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
+    <>
+      <FullHeaderStyles $isHome={isHome}>
+        <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
+          {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
 
-        {isHome ? (
-          <>
-            <StackedHeader
+          {isHome ? (
+            <>
+              <StackedHeader
+                navItems={section}
+                toggleMegaMenuOpen={toggleMegaMenuOpen}
+                menuIndex={megaMenuIndex}
+                toggleCart={toggleCart}
+                toggleCountrySelector={toggleCountrySelector}
+                toggleLanguageSelector={toggleLanguageSelector}
+                selectedCountry={countries[selectedCountryCode].name}
+                selectedLanguage={languagesByCode[selectedLanguageCode].name}
+                isLanguageSelectorOpen={isLanguageSelectorOpen}
+              />
+
+              <AnimatePresence>
+                <motion.div
+                  key="slide-in-header"
+                  initial="collapsed"
+                  animate={isStickyNavShowing ? 'open' : 'collapsed'}
+                  exit="collapsed"
+                  variants={{
+                    open: { y: 0, opacity: 1 },
+                    collapsed: { y: -300, opacity: 0 },
+                  }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  className="slide-in-header"
+                >
+                  <div>
+                    <CompactHeader
+                      navItems={section}
+                      toggleMegaMenuOpen={toggleMegaMenuOpen}
+                      menuIndex={megaMenuIndex}
+                      compactHeaderRef={compactHeaderRef}
+                      toggleCart={toggleCart}
+                    />
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </>
+          ) : (
+            <CompactHeader
               navItems={section}
               toggleMegaMenuOpen={toggleMegaMenuOpen}
               menuIndex={megaMenuIndex}
               toggleCart={toggleCart}
             />
+          )}
 
-            <AnimatePresence>
-              <motion.div
-                key="slide-in-header"
-                initial="collapsed"
-                animate={isStickyNavShowing ? 'open' : 'collapsed'}
-                exit="collapsed"
-                variants={{
-                  open: { y: 0, opacity: 1 },
-                  collapsed: { y: -300, opacity: 0 },
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                className="slide-in-header"
-              >
-                <div>
-                  <CompactHeader
-                    navItems={section}
-                    toggleMegaMenuOpen={toggleMegaMenuOpen}
-                    menuIndex={megaMenuIndex}
-                    compactHeaderRef={compactHeaderRef}
-                    toggleCart={toggleCart}
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </>
-        ) : (
-          <CompactHeader
-            navItems={section}
-            toggleMegaMenuOpen={toggleMegaMenuOpen}
-            menuIndex={megaMenuIndex}
-            toggleCart={toggleCart}
-          />
-        )}
+          <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
 
-        <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
+          {isLoaded && (
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
+          )}
 
-        {isLoaded && (
-          <MegaMenu
-            navItems={section}
-            megaMenuIndex={megaMenuIndex}
-            headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-            isCompactMenuVisible={isCompactMenuVisible}
-          />
-        )}
-
-        {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
-        <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
-      </div>
-    </FullHeaderStyles>
+          {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
+          <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
+        </div>
+      </FullHeaderStyles>
+      {isCountrySelectorOpen && (
+        <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
+          <CountrySelector toggleCountrySelector={toggleCountrySelector} />
+        </Modal>
+      )}
+    </>
   );
 };
 

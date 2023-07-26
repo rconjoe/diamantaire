@@ -1,7 +1,16 @@
+import { XIcon } from '@diamantaire/shared/icons';
+import { media } from '@diamantaire/styles/darkside-styles';
 import React, { PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
-const ModalContainer = styled.div`
+const FreezeBody = createGlobalStyle`
+    body, html {
+      overflow: hidden;
+    }
+
+`;
+
+const ModalStyles = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -12,6 +21,16 @@ const ModalContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  z-index: 10000;
+  font-size: 1.6rem;
+
+  &.modal--lg {
+    .wrapper {
+      max-width: 100vw;
+      border-radius: 0;
+      ${media.large`max-width: 1080px; border-radius: 10px;`}
+    }
+  }
 
   > .close {
     background-color: transparent;
@@ -31,7 +50,8 @@ const ModalContainer = styled.div`
   .wrapper {
     flex: 1;
     background-color: #fff;
-
+    max-width: 90vw;
+    margin: 0 auto;
     position: relative;
     z-index: 100;
     border-radius: 10px;
@@ -39,19 +59,19 @@ const ModalContainer = styled.div`
 
     .header {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
       margin-bottom: 20px;
-      padding: 20px 40px;
-      background-color: #000;
+      padding: 20px 40px 0;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
-      border: 2px solid #fff;
 
       .modal__title {
+        border: 2px solid #ccc;
         flex: 1;
         h4 {
           margin: 0;
           color: #fff;
+          font-size: 1.6rem;
         }
       }
       .close {
@@ -116,7 +136,8 @@ interface ModalProps extends PropsWithChildren {
 
 const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) => {
   return (
-    <ModalContainer className={className}>
+    <ModalStyles className={className}>
+      <FreezeBody />
       <button className="close" onClick={onClose}></button>
       <div className="wrapper">
         <div className="inner">
@@ -125,13 +146,15 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) =>
               <h4>{title}</h4>
             </div>
             <div className="close">
-              <button onClick={onClose}>X</button>
+              <button onClick={onClose}>
+                <XIcon />
+              </button>
             </div>
           </div>
           <div className="body">{children}</div>
         </div>
       </div>
-    </ModalContainer>
+    </ModalStyles>
   );
 };
 

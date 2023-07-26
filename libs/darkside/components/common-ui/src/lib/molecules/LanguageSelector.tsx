@@ -5,63 +5,53 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const StyledLanguageSelector = styled.div`
+const StyledLanguageSelector = styled.ul`
   font-size: 16px;
-  ul {
-    list-style: none;
-  }
-  .selected-language {
-  }
-  .languages {
-    .language-list {
-      &.-hidden {
-        display: none;
-      }
+  list-style: none;
+  position: absolute;
+  left: 0;
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 10px 20px;
+  background-color: #fff;
+
+  li {
+    button {
+      background-color: transparent;
     }
   }
 `;
 
 type LanguageSelectorProps = {
-  label?: string;
+  toggleLanguageSelector: () => void;
 };
 
-const LanguageSelector = ({ label }: LanguageSelectorProps) => {
+const LanguageSelector = ({ toggleLanguageSelector }: LanguageSelectorProps) => {
   const router = useRouter();
   const [selectedLocale, setLocale] = useState(router.locale);
-  const [isLanguageListOpen, setLanguageListOpen] = useState(false);
 
   useEffect(() => {
     setLocale(router.locale);
   }, [router.locale]);
 
-  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
+  const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
 
   const availableLanguages = countries[selectedCountryCode].languages;
 
   return (
-    <StyledLanguageSelector>
-      <div className="selectedLanguage">
-        {label && `${label}: `}
-        <button onClick={() => setLanguageListOpen(!isLanguageListOpen)}>
-          {languagesByCode[selectedLanguageCode].name}
-        </button>
-      </div>
-      {availableLanguages.length > 1 && (
-        <div className="languages">
-          <ul className={clsx('language-list', { '-hidden': !isLanguageListOpen })}>
-            {availableLanguages.map((languageCode) => (
-              <li key={languageCode}>
-                <button onClick={() => setLanguageListOpen(false)}>
-                  <Link href={router.asPath} locale={generateLocale(languageCode, selectedCountryCode)} scroll={false}>
-                    {languagesByCode[languageCode].name}
-                  </Link>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </StyledLanguageSelector>
+    availableLanguages.length > 1 && (
+      <StyledLanguageSelector className={clsx('language-list')}>
+        {availableLanguages.map((languageCode) => (
+          <li key={languageCode}>
+            <button onClick={() => toggleLanguageSelector()}>
+              <Link href={router.asPath} locale={generateLocale(languageCode, selectedCountryCode)} scroll={false}>
+                {languagesByCode[languageCode].name}
+              </Link>
+            </button>
+          </li>
+        ))}
+      </StyledLanguageSelector>
+    )
   );
 };
 

@@ -1,6 +1,8 @@
-import { CountrySelector, LanguageSelector } from '@diamantaire/darkside/components/common-ui';
-import { Logo } from '@diamantaire/shared/icons';
+import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
+import { countries, parseValidLocale } from '@diamantaire/shared/constants';
+import { LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { MenuLink, NavItemsProps } from './header-types';
@@ -12,19 +14,53 @@ type StackedHeaderTypes = {
   toggleMegaMenuOpen: (index: number) => void;
   menuIndex: number;
   toggleCart?: () => void;
+  toggleCountrySelector: () => void;
+  toggleLanguageSelector: () => void;
+  selectedCountry: string;
+  selectedLanguage: string;
+  isLanguageSelectorOpen: boolean;
 };
 
 // This header only appears on the home page. Stacks logo ontop of nac
-const StackedHeader: FC<StackedHeaderTypes> = ({ navItems, toggleMegaMenuOpen, menuIndex, toggleCart }): JSX.Element => {
+const StackedHeader: FC<StackedHeaderTypes> = ({
+  navItems,
+  toggleMegaMenuOpen,
+  toggleLanguageSelector,
+  menuIndex,
+  toggleCart,
+  toggleCountrySelector,
+  selectedCountry,
+  selectedLanguage,
+  isLanguageSelectorOpen,
+}): JSX.Element => {
+  const router = useRouter();
+  const selectedLocale = router.locale;
+  const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
+
+  const availableLanguages = countries[selectedCountryCode].languages;
+
   return (
     <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
-            <ul>
-              <li className="flex">
-                <CountrySelector /> / <LanguageSelector />
+            <ul className="country-locale-selector">
+              <li>
+                <button className="country-selector" onClick={() => toggleCountrySelector()}>
+                  <LocationPinIcon /> <span>{selectedCountry}</span>
+                </button>
               </li>
+              {availableLanguages.length > 1 && (
+                <>
+                  <li className="divider">/</li>
+                  <li>
+                    <button className="language-selector" onClick={() => toggleLanguageSelector()}>
+                      {selectedLanguage}
+                    </button>
+                    {isLanguageSelectorOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
+                  </li>
+                </>
+              )}
               <li>Book an appointment</li>
             </ul>
           </div>

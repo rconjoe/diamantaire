@@ -17,12 +17,12 @@ export const StackedHeaderStylesContainer = styled.div`
   }
 
   .stacked-header__top-level {
-    max-width: 90vw;
     color: text;
     margin: 0 auto;
     padding: 0 0 2.4rem;
     display: flex;
     align-items: center;
+    max-width: 90vw;
 
     > * {
       flex: 0 0 33.33%;
@@ -38,15 +38,50 @@ export const StackedHeaderStylesContainer = styled.div`
       }
     }
 
-    .nav__col--left ul {
-      display: flex;
+    .nav__col--left .country-locale-selector {
       list-style: none;
       margin: 0;
       padding: 0;
+      display: flex;
+      align-items: center;
 
-      li {
-        margin-right: 20px;
+      > li {
         font-size: 1.3rem;
+        display: inline-block;
+        margin-right: 20px;
+        position: relative;
+
+        &.divider {
+          margin: 0 10px;
+        }
+        button {
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          line-height: 1;
+        }
+
+        .country-selector {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          margin-right: 10px;
+
+          svg {
+            flex: 0 0 30px;
+            position: relative;
+            top: -1px;
+          }
+          span {
+            flex: 1;
+            white-space: nowrap;
+          }
+        }
+
+        &:last-child {
+          margin-left: 20px;
+          margin-right: 0;
+        }
       }
     }
 
