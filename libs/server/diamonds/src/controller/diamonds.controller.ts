@@ -53,6 +53,15 @@ export class DiamondsController {
     return await this.diamondsService.getCFYDiamond({ carat, caratMax, caratMin, diamondType });
   }
 
+  @Get('mixedpairs')
+  @ApiOperation({ summary: 'Get Mixed Diamond Pairs - Toi moi' })
+  async getMixedDiamondPairs(
+    @Query()
+    { limit, page, diamondType, color, clarity, cut }: GetDiamondDto,
+  ) {
+    return await this.diamondsService.getDiamondMixedPair({ diamondType, color, clarity, cut }, limit, page);
+  }
+
   @Get(':lotId')
   @ApiOperation({ summary: 'Get single diamond by lotId' })
   @ApiParam({ name: 'lotId', required: true })

@@ -1,5 +1,6 @@
 import { AbstractDocument } from '@diamantaire/server/common/provider/database';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 import paginate from 'mongoose-paginate-v2';
 
 import { IDiamondVariant } from '../interface/diamond.interface';
@@ -69,3 +70,4 @@ export class DiamondEntity extends AbstractDocument {
 
 export const DiamondSchema = SchemaFactory.createForClass(DiamondEntity);
 DiamondSchema.plugin(paginate);
+DiamondSchema.plugin(aggregatePaginate);

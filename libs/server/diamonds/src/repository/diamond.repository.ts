@@ -9,7 +9,7 @@
 import { AbstractRepository } from '@diamantaire/server/common/provider/database';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, PaginateModel } from 'mongoose';
+import { AggregatePaginateModel, AggregatePaginateResult, Connection, PaginateModel, PaginateOptions } from 'mongoose';
 
 import { DiamondEntity } from '../entities/diamond.entity';
 
@@ -21,9 +21,16 @@ export class DiamondRepository extends AbstractRepository<DiamondEntity> {
   protected logger = new Logger(DiamondRepository.name);
   constructor(
     @InjectModel(DiamondEntity.name) private readonly diamondModel: PaginateModel<DiamondEntity>,
+    @InjectModel(DiamondEntity.name) private readonly diamondModeltAggregateModel: AggregatePaginateModel<DiamondEntity>,
     @InjectConnection() connection: Connection,
   ) {
     super(diamondModel, connection);
+  }
+
+  async aggregatePaginate<T>(queries, options: PaginateOptions): Promise<AggregatePaginateResult<T>> {
+    const aggregate = this.diamondModeltAggregateModel.aggregate(queries);
+
+    return await this.diamondModeltAggregateModel.aggregatePaginate(aggregate, options);
   }
 
   /**

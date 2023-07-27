@@ -1,5 +1,37 @@
 import { createDisplayOrderFromOptionNames } from '../constant.helpers';
 
+export const MIN_DIAMOND_CARAT = 0.3;
+
+// Settings to ignore filters entirely
+export const CARAT_SIZE_TO_ONLY_APPLY_COLOR_FILTER = 2.5;
+export const ACCEPTABLE_COLORS_FOR_LARGEST_STONES = ['K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'N', 'YELLOW'];
+
+// Filters for regular size diamonds
+export const ACCEPTABLE_COLORS = ['J', 'I', 'H', 'G', 'F', 'E', 'D', 'k', 'L'];
+export const ACCEPTABLE_CUTS = ['Excellent', 'Ideal', 'Ideal+Hearts'];
+export const ACCEPTABLE_CLARITIES = ['SI1', 'SI2', 'VS2', 'VS1', 'VVS1', 'VVS2'];
+export const ACCEPTABLE_DIAMOND_TYPE_PAIRS = [
+  ['emerald', 'pear'],
+  ['round-brilliant', 'pear'],
+  ['round-brilliant', 'oval'],
+];
+// Filters for small diamonds
+
+export const SMALL_DIAMOND_CARAT_THRESHOLD = 0.85;
+export const SMALL_DIAMOND_COLORS = ['H', 'G', 'F', 'E', 'D'];
+export const SMALL_DIAMOND_CUTS = ACCEPTABLE_CUTS;
+export const SMALL_DIAMOND_CLARITIES = ['VS1', 'VVS1', 'VVS2'];
+export const COLORS_TO_IGNORE_FILTERS = ['D', 'E', 'F', 'YELLOW'];
+
+// Flters for big diamonds.
+// These are very similar to regular diamonds right now,
+// but I imagine these will change in the future so I am
+// leaving the settings here for now.
+export const BIG_DIAMOND_CARAT_THRESHOLD = 2.0;
+export const BIG_DIAMOND_COLORS = ACCEPTABLE_COLORS;
+export const BIG_DIAMOND_CUTS = ACCEPTABLE_CUTS;
+export const BIG_DIAMOND_CLARITIES = ACCEPTABLE_CLARITIES;
+
 export enum DiamondTypes {
   Asscher = 'asscher',
   Baguette = 'baguette',

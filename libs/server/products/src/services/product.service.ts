@@ -8,11 +8,11 @@ import { DEFAULT_LOCALE, DIAMOND_PAGINATED_LABELS, ProductOption } from '@diaman
 import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import {
   VraiProduct,
-  VraiProductData,
   getConfigMatrix,
   ListPageItemConfiguration,
-  ListPageItemWithConfigurationVariants,
   ProductType,
+  VraiProductData,
+  ListPageItemWithConfigurationVariants,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -524,23 +524,30 @@ export class ProductsService {
         subStylesFilter: subStyle,
       });
 
-      const pageNumer = page > 0 ? page : 1;
-      const PAGE_SIZE = limit || 5; // Number of documents per page
-      // Pagination parameters
-      const skip = (pageNumer - 1) * PAGE_SIZE;
-      const totalProducts = contentIdsInOrder.length;
-      const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+      // const pageNumer = page > 0 ? page : 1;
+      // const PAGE_SIZE = limit || 5; // Number of documents per page
+      // // Pagination parameters
+      // const skip = (pageNumer - 1) * PAGE_SIZE;
+      // const totalProducts = contentIdsInOrder.length;
+      // const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
       // Build Query
       const pipeline: PipelineStage[] = [
         { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
         { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
         { $sort: { __order: 1 } },
-        { $skip: skip },
-        { $limit: PAGE_SIZE },
+        // { $skip: skip },
+        // { $limit: PAGE_SIZE },
       ];
 
-      const products: VraiProduct[] = await this.productRepository.aggregate(pipeline, {});
+      const paginateOptions: PaginateOptions = {
+        limit: limit || 20,
+        page: page || 1,
+        //sort: sortByObj,
+        //customLabels: DIAMOND_PAGINATED_LABELS,
+      };
+
+      const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
 
       const availableFiltersCacheKey = `plp-${slug}-filter-types`;
       // check for cached data
@@ -590,11 +597,11 @@ export class ProductsService {
 
       // Add product data to PLP data
       const collectionSlugsSet = new Set<string>();
-
+      const products = productsResponse.docs;
       const scopedPlpData = products.reduce((map: Record<string, { content: object; product: VraiProduct }>, product) => {
         map[product.contentId] = {
-          content: plpProductsContentData[product.contentId].content,
-          product: product,
+          content: plpProductsContentData[product?.contentId]?.content,
+          product,
         };
 
         collectionSlugsSet.add(product.collectionSlug);
@@ -727,18 +734,22 @@ export class ProductsService {
       );
 
       const paginator = {
-        currentPage: pageNumer, // page
-        perPage: PAGE_SIZE, // limit
-        pageCount: totalPages, // total pages
-        itemCount: totalProducts, // total count
-        //itemCount: totalCount,
+        totalDocs: productsResponse.totalDocs,
+        limit: productsResponse.limit,
+        page: productsResponse.page,
+        totalPages: productsResponse.totalPages,
+        pagingCounter: productsResponse.pagingCounter,
+        hasPrevPage: productsResponse.hasPrevPage,
+        hasNextPage: productsResponse.hasNextPage,
+        prevPage: productsResponse.prevPage,
+        nextPage: productsResponse.nextPage,
       };
 
       const plpReturnData = {
         // ...listPageContent,
         products: plpProducts,
-        paginator,
         availableFilters,
+        paginator,
       };
 
       this.utils.memSet(cachedKey, plpReturnData, 3600);

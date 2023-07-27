@@ -1,3 +1,20 @@
+import {
+  MIN_DIAMOND_CARAT,
+  CARAT_SIZE_TO_ONLY_APPLY_COLOR_FILTER,
+  ACCEPTABLE_COLORS_FOR_LARGEST_STONES,
+  BIG_DIAMOND_CARAT_THRESHOLD,
+  BIG_DIAMOND_COLORS,
+  BIG_DIAMOND_CUTS,
+  BIG_DIAMOND_CLARITIES,
+  SMALL_DIAMOND_CARAT_THRESHOLD,
+  SMALL_DIAMOND_COLORS,
+  SMALL_DIAMOND_CUTS,
+  SMALL_DIAMOND_CLARITIES,
+  ACCEPTABLE_COLORS,
+  ACCEPTABLE_CUTS,
+  ACCEPTABLE_CLARITIES,
+  COLORS_TO_IGNORE_FILTERS,
+} from '@diamantaire/shared/constants';
 import _ from 'lodash';
 
 import { IDiamondCollection } from '../interface/diamond.interface';
@@ -271,4 +288,116 @@ export function sortDiamonds(
   });
 
   return sortedDiamonds;
+}
+
+export const filterDiamonds = (diamonds, removeDuplicates = true) => {
+  const filteredDiamonds = filterByColorCutCaratAndClarity(diamonds, removeDuplicates);
+
+  if (removeDuplicates) {
+    const hideDupFilteredDiamonds = hideDuplicateDiamond4Cs(filteredDiamonds);
+
+    const uniqFilteredDiamonds = hideDuplicateDiamondLotId(hideDupFilteredDiamonds);
+
+    return uniqFilteredDiamonds;
+  }
+
+  return filteredDiamonds;
+};
+
+export function hideDuplicateDiamondLotId(diamonds) {
+  return _.uniqWith(diamonds, isDuplicateLotId);
+}
+
+export function isDuplicateLotId(a, b) {
+  return a.lotId === b.lotId;
+}
+
+export function hideDuplicateDiamond4Cs(diamonds) {
+  return _.uniqWith(diamonds, isDuplicate);
+}
+
+// Should we hide duplicates of this diamond or not?
+export function shouldHideDuplicates(diamond) {
+  const caratWeight = diamond.carat;
+
+  if (
+    caratWeight < SMALL_DIAMOND_CARAT_THRESHOLD ||
+    (caratWeight < CARAT_SIZE_TO_ONLY_APPLY_COLOR_FILTER && !COLORS_TO_IGNORE_FILTERS.includes(diamond.color))
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isDuplicate(a, b) {
+  if (shouldHideDuplicates(b)) {
+    // Just do a string match on diamond carat
+    return a.color === b.color && a.clarity === b.clarity && a.cut === b.cut && a.carat === b.carat;
+  }
+
+  return false;
+}
+
+function filterByColorCutCaratAndClarity(diamonds, _removeDuplicates?) {
+  return diamonds.filter(isDiamondAcceptable);
+}
+
+export function skipPinkFilters(diamond) {
+  if (diamond.color.toLowerCase().includes('pink')) {
+    return true;
+  }
+
+  return false;
+}
+
+export function skipFilters(diamond) {
+  const caratWeight = diamond.carat;
+
+  if (caratWeight >= MIN_DIAMOND_CARAT && COLORS_TO_IGNORE_FILTERS.includes(diamond.color)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isDiamondAcceptable(diamond) {
+  // if the diamond is null, then remove it
+  if (!diamond) {
+    return false;
+  }
+
+  const diamondCarat = diamond.carat;
+
+  if (skipFilters(diamond)) {
+    return true; // if the diamond should bypass filters, then return true
+  } else if (diamondCarat < MIN_DIAMOND_CARAT) {
+    return false; // if the diamond is too small then remove it
+  } else {
+    if (diamondCarat > CARAT_SIZE_TO_ONLY_APPLY_COLOR_FILTER) {
+      // if the diamond is in the largest size tier, then only filter on color
+      return ACCEPTABLE_COLORS_FOR_LARGEST_STONES.includes(diamond.color);
+    } else if (diamondCarat >= BIG_DIAMOND_CARAT_THRESHOLD) {
+      // if the diamond is big, then use the big diamond filter settings
+      return (
+        BIG_DIAMOND_COLORS.includes(diamond.color) &&
+        BIG_DIAMOND_CUTS.includes(diamond.cut) &&
+        BIG_DIAMOND_CLARITIES.includes(diamond.clarity)
+      );
+    } else if (diamondCarat <= SMALL_DIAMOND_CARAT_THRESHOLD) {
+      // if the diamond is small, then use the small diamond filter settings
+      return (
+        SMALL_DIAMOND_COLORS.includes(diamond.color) &&
+        SMALL_DIAMOND_CUTS.includes(diamond.cut) &&
+        SMALL_DIAMOND_CLARITIES.includes(diamond.clarity)
+      );
+    } else {
+      // if the diamond is between MIN_DIAMOND_CARAT and BIG_DIAMOND_CARAT_THRESHOLD then just use regular filter settings
+      return (
+        ACCEPTABLE_COLORS.includes(diamond.color) &&
+        ACCEPTABLE_CUTS.includes(diamond.cut) &&
+        ACCEPTABLE_CLARITIES.includes(diamond.clarity)
+      );
+    }
+  }
 }

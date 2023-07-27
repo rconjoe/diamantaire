@@ -1,9 +1,11 @@
 import { AbstractDocument } from '@diamantaire/server/common/provider/database';
 import { ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import paginate from 'mongoose-paginate-v2';
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 import { Options, Variant } from '../interface/product.interface';
+
 @Schema({
   collection: 'products',
   timestamps: true,
@@ -51,4 +53,5 @@ export class ProductEntity extends AbstractDocument {
 }
 
 export const ProductsSchema = SchemaFactory.createForClass(ProductEntity);
-ProductsSchema.plugin(paginate);
+ProductsSchema.plugin(mongoosePaginate);
+ProductsSchema.plugin(aggregatePaginate);

@@ -54,6 +54,7 @@ export interface IDiamondCollection extends Partial<DiamondEntity> {
   lotId?: string;
   diamondType?: string;
   availableForSale?: boolean;
+  diamonds?;
 }
 
 export interface IDiamondRecommendation extends IDiamondCollection {
