@@ -1,10 +1,8 @@
-import { GREY_LIGHTER } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondHand = styled.div`
   .media {
     position: relative;
-    border: 1px solid ${GREY_LIGHTER};
   }
 
   .slider {

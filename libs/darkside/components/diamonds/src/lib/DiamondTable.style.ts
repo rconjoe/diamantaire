@@ -182,42 +182,6 @@ const StyledDiamondTable = styled.div`
     color: ${WHITE};
   }
 
-  .vo-table-loading {
-    position: fixed;
-    bottom: 8px;
-    right: 50%;
-    transform: translateX(50%);
-    background-color: rgba(94, 122, 125, 0.75);
-    color: ${WHITE};
-    padding: 15px 20px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-xxsmall);
-    width: 300px;
-  }
-
-  .vo-loader-icon {
-    width: 20px;
-    height: 20px;
-    border: 2px solid ${WHITE};
-    border-bottom-color: var(--color-teal);
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: vo-loader-icon-rotation 1s linear infinite;
-  }
-
-  @keyframes vo-loader-icon-rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
   .vo-sort-icon {
     margin-left: 5px;
     display: flex;
@@ -262,6 +226,58 @@ const StyledDiamondTable = styled.div`
     border-top: 8px solid black;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
+  }
+
+  .vo-table-foot {
+    display: block;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 0;
+  }
+
+  .vo-table-trigger {
+    position: absolute;
+    bottom: ${(props) => props.triggerOffset}px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 1px;
+  }
+
+  .vo-table-loading {
+    position: relative;
+    display: block;
+    background-color: rgba(94, 122, 125, 0.75);
+    color: ${WHITE};
+    padding: 15px 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xxsmall);
+    width: 300px;
+  }
+
+  .vo-loader-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid ${WHITE};
+    border-bottom-color: var(--color-teal);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: vo-loader-icon-rotation 1s linear infinite;
+  }
+
+  @keyframes vo-loader-icon-rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 

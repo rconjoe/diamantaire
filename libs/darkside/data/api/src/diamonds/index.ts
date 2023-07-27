@@ -5,7 +5,7 @@ import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
 
 // Get Diamond Data from Mongo
-export const fetchDiamondsData = async (options) => {
+export const fetchDiamondData = async (options) => {
   try {
     const getFormatedDataForApi = () => {
       const getDiamondType = (value) => {
@@ -69,6 +69,67 @@ export const fetchDiamondsData = async (options) => {
         ranges: payload.ranges,
       };
     }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
+  try {
+    const getFormatedDataForApi = () => {
+      const getDiamondType = (value) => {
+        const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
+
+        const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
+
+        if (titles.includes(value)) {
+          return {
+            slug: DIAMOND_TABLE_VALID_TYPES[value],
+            title: value,
+          };
+        }
+
+        if (slugs.includes(value)) {
+          return {
+            slug: value,
+            title: titles[slugs.findIndex((v) => v === value)],
+          };
+        }
+
+        return {};
+      };
+
+      const diamondType =
+        (options.diamondType && {
+          diamondType: options.diamondType
+            .split(',')
+            .map((v) => getDiamondType(v).slug)
+            .join(),
+        }) ||
+        {};
+
+      const query =
+        {
+          ...options,
+          ...diamondType,
+          ...{ page: pageParam },
+        } || {};
+
+      return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
+    };
+
+    const url: string = '/diamonds' + getFormatedDataForApi();
+
+    const response = await queryClientApi().request({ method: 'GET', url });
+
+    const payload = response.data || {};
+
+    return {
+      diamonds: payload.items,
+      options,
+      pagination: payload.paginator,
+      ranges: payload.ranges,
+    };
   } catch (err) {
     console.log(err);
   }

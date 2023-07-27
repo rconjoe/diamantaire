@@ -1,6 +1,6 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery, useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
 
 export interface OptionsDataTypes {
   page?: number;
@@ -54,7 +54,16 @@ export function useDiamondsData(options: OptionsDataTypes): UseQueryResult<Diamo
   return useQuery({
     ...queries.diamonds.content(options),
     keepPreviousData: true,
-    staleTime: 300000, // Set the stale time to 5 minutes
+    staleTime: 300000,
+  });
+}
+
+export function useInfiniteDiamondsData(options: OptionsDataTypes): UseInfiniteQueryResult<DiamondsDataProps, unknown> {
+  return useInfiniteQuery({
+    ...queries.infiniteDiamonds.content(options),
+    getNextPageParam: (lastPage: any) => lastPage?.pagination?.next,
+    keepPreviousData: true,
+    staleTime: 300000,
   });
 }
 

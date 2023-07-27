@@ -1,7 +1,7 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondsData, useDiamondTableData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
@@ -31,10 +31,7 @@ const DiamondTable = (props) => {
   const [activeRow, setActiveRow] = useState(null);
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
-
-  // DOCUMENT ELEMENTS HEIGHT (used for sticky and scrollTo)
-  const { headerHeight } = useContext(GlobalContext);
-  const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
+  const loadTrigger = useRef<HTMLDivElement>(null);
 
   // PAGINATION
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -53,12 +50,15 @@ const DiamondTable = (props) => {
   // OPTIONS
   const options = {
     ...initialOptions,
-    page: pageIndex,
-    limit: pageSize,
+    page: initialPagination?.currentPage,
+    limit: initialPagination?.perPage,
   };
 
   // DIAMONDS
-  const queryDiamond = useDiamondsData(options);
+  const queryDiamond = useInfiniteDiamondsData(options);
+  const flatDiamonds = useMemo(() => {
+    return queryDiamond.data?.pages?.flatMap((v) => v.diamonds);
+  }, [queryDiamond.data]);
 
   // STRINGS
   const queryDiamondTable = useDiamondTableData(locale);
@@ -109,19 +109,41 @@ const DiamondTable = (props) => {
 
   // TABLE
   const table = useReactTable({
-    data: queryDiamond.data?.diamonds ?? initialDiamonds,
     columns,
-    pageCount: initialPagination?.pageCount,
-    state: { pagination },
-    onPaginationChange: setPagination,
+    data: flatDiamonds ?? initialDiamonds,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: true,
-    debugTable: true,
+    state: { pagination },
   });
 
-  // EVENTS
+  // METHODS
+  const onLoadMore = () => {
+    if (queryDiamond.hasNextPage && !queryDiamond.isFetching && !queryDiamond.isLoading) {
+      queryDiamond.fetchNextPage();
+
+      setPagination((prevPagination) => ({
+        ...prevPagination,
+        pageIndex: prevPagination.pageIndex + 1,
+      }));
+    }
+  };
+
+  const onRowClick = (row) => {
+    if (row?.id === activeRow?.id) {
+      setActiveRow(null);
+    } else {
+      setActiveRow(row);
+    }
+  };
+
   const onPaginationReset = () => {
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      pageIndex: 1,
+    }));
+
     table.setPageIndex(1);
+
+    window?.scrollTo(0, 0);
   };
 
   const onHeaderClick = (header) => {
@@ -137,29 +159,34 @@ const DiamondTable = (props) => {
     }
   };
 
-  const onRowClick = (row) => {
-    if (row?.id === activeRow?.id) {
-      setActiveRow(null);
-    } else {
-      setActiveRow(row);
-    }
-  };
+  // EFFECTS
+  useEffect(() => {
+    const trig = loadTrigger.current;
 
-  // LOADING
+    if (!trig) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry.isIntersecting) {
+          onLoadMore();
+        }
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(trig);
+
+    return () => {
+      observer.unobserve(trig);
+    };
+  }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
+
   useEffect(() => {
     updateLoading(queryDiamond.isFetching);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryDiamond.isFetching]);
 
-  // PAGE
-  useEffect(() => {
-    updateOptions({
-      page: pageIndex,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex]);
-
-  // ACTIVE ROW
   useEffect(() => {
     if (activeRow) {
       const { id } = activeRow;
@@ -182,8 +209,13 @@ const DiamondTable = (props) => {
     };
   });
 
+  // ELEMENTS HEIGHT (used for sticky and scroll)
+  const { headerHeight } = useContext(GlobalContext);
+  const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
+  const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
+
   return (
-    <StyledDiamondTable className="vo-table" headerHeight={headerHeight}>
+    <StyledDiamondTable className="vo-table" headerHeight={headerHeight} triggerOffset={triggerOffset}>
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
@@ -241,62 +273,21 @@ const DiamondTable = (props) => {
           )}
         </div>
 
-        {/* TABLE PAGINATION */}
-        <div className="vo-table-pagination">
-          <div className="vo-table-pagi-container">
-            <div className="vo-table-pagi-cell">
-              <button
-                className="vo-table-pagi-button"
-                onClick={() => !queryDiamond.isFetching && table.setPageIndex(1)}
-                disabled={pageIndex < 2}
-              >
-                {'<<'}
-              </button>
+        {/* TABLE FOOT */}
+        <div className="vo-table-foot">
+          <div className="vo-table-trigger" ref={loadTrigger} />
 
-              <button
-                className="vo-table-pagi-button"
-                onClick={() => !queryDiamond.isFetching && table.previousPage()}
-                disabled={pageIndex < 2}
-              >
-                {'<'}
-              </button>
-
-              <button
-                className="vo-table-pagi-button"
-                onClick={() => !queryDiamond.isFetching && table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                {'>'}
-              </button>
-
-              <button
-                className="vo-table-pagi-button"
-                onClick={() => !queryDiamond.isFetching && table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-              >
-                {'>>'}
-              </button>
+          {queryDiamond.isFetching && (
+            <div className="vo-table-loading">
+              <span className="vo-loader-icon"></span>
+              <span>Loading...</span>
             </div>
-
-            <div className="vo-table-pagi-cell">
-              <p>
-                <UIString>Showing</UIString> {table.getState().pagination.pageIndex} <UIString>of</UIString>{' '}
-                {table.getPageCount() - 1}
-              </p>
-            </div>
-          </div>
-
-          {queryDiamond.isFetching && <div className="vo-table-pagi-loading" />}
+          )}
         </div>
+
+        {/* TABLE HOVER */}
+        {queryDiamond.isFetching && <div className="vo-table-pagi-loading" />}
       </div>
-
-      {/* LOADER */}
-      {queryDiamond.isFetching && (
-        <div className="vo-table-loading">
-          <span className="vo-loader-icon"></span>
-          <span>Loading...</span>
-        </div>
-      )}
     </StyledDiamondTable>
   );
 };

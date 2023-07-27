@@ -1,4 +1,5 @@
 import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { generateDiamondSpriteUrl, canUseWebP } from '@diamantaire/shared/helpers';
 import { useState, useEffect } from 'react';
 
@@ -70,7 +71,17 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className }: Diamond360P
     fetchMediaType();
   }, [lotId]);
 
-  return mediaType && <StyledDiamond360 className={className}>{renderMedia()}</StyledDiamond360>;
+  return (
+    mediaType && (
+      <StyledDiamond360 className={className}>
+        {renderMedia()}
+
+        <div className="caption">
+          <UIString>Interactive actual diamond video</UIString>
+        </div>
+      </StyledDiamond360>
+    )
+  );
 };
 
 export default Diamond360;

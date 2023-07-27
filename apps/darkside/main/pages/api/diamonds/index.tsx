@@ -33,7 +33,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
       const dfApiClientPayload = dfApiClientResponse?.data || {};
 
-      return res.status(200).json({ ...vraiApiClientPayload, ...dfApiClientPayload });
+      return res.status(200).json({ ...dfApiClientPayload, ...vraiApiClientPayload });
     }
 
     return res.status(200).json({ ...vraiApiClientPayload });
