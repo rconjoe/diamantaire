@@ -17,7 +17,8 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
   if (id) {
     vraiApiClientURL += '/' + id;
-    dfApiClientURL += '/' + id;
+
+    dfApiClientURL += '/' + id.replace(/\D/g, '');
   } else {
     // URL path to get a list of dimaonds by filter options
     vraiApiClientURL += '?' + (array.length ? new URLSearchParams(query).toString() : '');
