@@ -2,7 +2,7 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
+import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
@@ -18,7 +18,6 @@ interface Info {
 const DiamondTable = (props) => {
   const {
     currencyCode,
-    countryCode,
     locale,
     initialDiamonds,
     initialPagination,
@@ -99,7 +98,7 @@ const DiamondTable = (props) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return shopifyNumberToHumanPrice(Number(amount), locale, currencyCode, countryCode, {}, false, false, '');
+          return makeCurrency(Number(amount), locale, currencyCode);
         },
         header: () => <UIString>price</UIString>,
       },

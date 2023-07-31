@@ -3,7 +3,7 @@ import { Form, Button, Heading, SwiperStyles } from '@diamantaire/darkside/compo
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondsData, useDiamondTableData, useDiamondPdpData } from '@diamantaire/darkside/data/hooks';
-import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
+import { makeCurrency } from '@diamantaire/shared/helpers';
 import { useContext, Fragment } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -32,7 +32,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { productTitle, buttonTextDiamondFlow, quickCheckoutText } = DiamondPdpData || {};
   const { type: productType, carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const price = shopifyNumberToHumanPrice(productPrice, locale, currencyCode, countryCode, {}, false, false, '');
+  const price = makeCurrency(productPrice, locale, currencyCode);
 
   const media = [
     <Diamond360 key="0" className="media-content-item" lotId={lotId} diamondType={diamondType} />,

@@ -8,7 +8,7 @@ import {
   DIAMOND_TABLE_SHAPES,
   DIAMOND_TABLE_FILTER_TITLES,
 } from '@diamantaire/shared/constants';
-import { shopifyNumberToHumanPrice } from '@diamantaire/shared/helpers';
+import { makeCurrency } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -17,7 +17,7 @@ import { ReactNode } from 'react';
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
 const SliderFilter = (props) => {
-  const { countryCode, currencyCode, locale, type, ranges, options, handleSliderFilterChange } = props;
+  const { countryCode, locale, type, ranges, options, handleSliderFilterChange } = props;
 
   const range: number[] = (ranges[type] && Object.values(ranges[type])) || [];
 
@@ -33,7 +33,7 @@ const SliderFilter = (props) => {
     }
 
     if (type === 'price') {
-      return shopifyNumberToHumanPrice(Number(value), locale, currencyCode, countryCode, {}, false, false, '');
+      return makeCurrency(Number(value), locale, countryCode);
     }
 
     return value.toString();
