@@ -11,7 +11,6 @@ import {
   DIAMOND_TABLE_DEFAULT_OPTIONS,
   DIAMOND_TABLE_FACETED_NAV,
   getCurrencyFromLocale,
-  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { getDiamondOptionsFromUrl, getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
@@ -36,7 +35,6 @@ interface DiamondPageQueryParams extends ParsedUrlQuery {
 interface DiamondPageProps {
   locale: string;
   options: OptionsDataTypes;
-  countryCode: string;
   currencyCode: string;
   dehydratedState: DehydratedState;
 }
@@ -44,7 +42,7 @@ interface DiamondPageProps {
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { isMobile } = useContext(GlobalContext);
-  const { locale, currencyCode, countryCode } = props;
+  const { locale, currencyCode } = props;
   const [options, setOptions] = useState(props.options);
   const [loading, setLoading] = useState(true);
 
@@ -112,7 +110,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     updateLoading,
     clearOptions,
     currencyCode,
-    countryCode,
     locale,
   };
 
@@ -139,7 +136,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             options={options}
             ranges={ranges}
             locale={locale}
-            countryCode={countryCode}
             currencyCode={currencyCode}
           />
 
@@ -174,7 +170,6 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
-  const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
@@ -196,7 +191,6 @@ async function getServerSideProps(
     props: {
       locale,
       options,
-      countryCode,
       currencyCode,
       dehydratedState: dehydrate(queryClient),
     },

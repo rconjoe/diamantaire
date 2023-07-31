@@ -17,7 +17,7 @@ import { ReactNode } from 'react';
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
 const SliderFilter = (props) => {
-  const { countryCode, locale, type, ranges, options, handleSliderFilterChange } = props;
+  const { currencyCode, locale, type, ranges, options, handleSliderFilterChange } = props;
 
   const range: number[] = (ranges[type] && Object.values(ranges[type])) || [];
 
@@ -33,7 +33,7 @@ const SliderFilter = (props) => {
     }
 
     if (type === 'price') {
-      return makeCurrency(Number(value), locale, countryCode);
+      return makeCurrency(Number(value), locale, currencyCode);
     }
 
     return value.toString();
@@ -149,12 +149,10 @@ export interface DiamondFilterProps {
   ranges: object;
   locale: string;
   currencyCode: string;
-  countryCode: string;
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { countryCode, locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange } =
-    props;
+  const { locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange } = props;
 
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
@@ -230,7 +228,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 ranges={ranges}
                 locale={locale}
                 type={filter}
-                countryCode={countryCode}
                 currencyCode={currencyCode}
               />
             )}
