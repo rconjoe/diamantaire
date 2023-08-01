@@ -29,6 +29,7 @@ const ResetStyles = styled.createGlobalStyle`
     font-family: 'futura-pt', sans-serif;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: clip;
   }
 
   a {

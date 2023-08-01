@@ -1,4 +1,4 @@
-import { tabletAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp, setSpace, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 interface Props {
@@ -13,6 +13,12 @@ export const ImageTileContainer = styled.div<Props>`
     ${tabletAndUp(`
       padding: 0;
     `)};
+  }
+
+  &.journal-item {
+    img {
+      ${media.medium`max-height: 305px;min-height: 305px;object-fit: cover;`}
+    }
   }
 
   .image-tile__copy-container {

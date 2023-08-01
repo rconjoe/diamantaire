@@ -89,7 +89,7 @@ export async function getStaticProps({
   }
 
   const catQueryParams = {
-    ...queries.journal.journalsByCategory('en_US', catId, 3, 0),
+    ...queries.journal.journalsByCategory(locale, catId, 3, 0),
   };
 
   await queryClient.prefetchInfiniteQuery({

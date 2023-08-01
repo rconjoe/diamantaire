@@ -14,7 +14,7 @@ type StandardPageEntryProps = {
   currencyCode?: string;
 };
 
-const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: StandardPageEntryProps) => {
+const StandardPageEntry = ({ page, countryCode, currencyCode }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
   // console.log(page);
 
@@ -33,7 +33,6 @@ const StandardPageEntry = ({ page, isMobile, countryCode, currencyCode }: Standa
               <BlockPicker
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}
-                isMobile={isMobile}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={shouldLazyLoad}

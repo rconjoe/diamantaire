@@ -26,7 +26,7 @@ type JournalSubCategoryEntryProps = {
 };
 
 const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
-  const { data: { blogConfiguration } = {} } = useJournalConfig('en_US');
+  const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { categoriesToDisplay, postsPerPage } = blogConfiguration || {};
 
@@ -185,6 +185,7 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
                 ctaCopy="Read More"
                 ctaRoute={`/post/${p?.slug}`}
                 image={p?.featuredImage}
+                extraClass="journal-item"
               />
             ))}
           </div>

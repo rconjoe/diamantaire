@@ -52,7 +52,6 @@ const ProductContentBlocks = ({ instagramReelId, videoBlockId }) => {
           <BlockPicker
             _modelApiKey={_modelApiKey}
             modularBlockData={{ ...contentBlockData }}
-            isMobile={false}
             countryCode={'US'}
             currencyCode={'USD'}
             shouldLazyLoad={shouldLazyLoad}

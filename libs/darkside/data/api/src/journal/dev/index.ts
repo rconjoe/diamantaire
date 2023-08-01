@@ -336,7 +336,7 @@ type JournalsByMostRecent = {
 
 const ALL_JOURNALS_BY_MOST_RECENT = `
 query blogPostsByMostRecent ($locale: SiteLocale, $first: IntType, $skip: IntType,) {
-  allBlogPosts(locale: $locale, orderBy: sortByDate_DESC, first: $first, skip: $skip) {
+  allBlogPosts(locale: $locale, filter: {sortByDate: { exists: true }}, orderBy: sortByDate_DESC, first: $first, skip: $skip) {
       id
       title
       author

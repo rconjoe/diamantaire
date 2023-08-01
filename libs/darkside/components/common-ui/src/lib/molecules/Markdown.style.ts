@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, desktopAndUp, MAIN_FONT, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const MarkdownContainer = styled.div`
@@ -34,7 +34,6 @@ export const MarkdownContainer = styled.div`
     h2,
     strong {
       font-weight: var(--font-weight-medium);
-      font-size: 28px;
       line-height: 1.2;
 
       ${mobileOnly(`font-size: 24px;`)}
@@ -78,7 +77,8 @@ export const MarkdownContainer = styled.div`
       }
     }
     &.-textOnlyBlock {
-      max-width: 714px;
+      max-width: 90vw;
+      ${media.medium`max-width: 714px`}
 
       &.-snug-center-copy {
         p {

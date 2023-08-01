@@ -87,7 +87,15 @@ const JournalHomeEntry = ({
               post.ctaCopy = 'Learn More';
               post.copy = post.excerpt;
 
-              return <ImageTile key={index} forceAspectRatio={true} subtitle={generateSubheading(post)} {...post} />;
+              return (
+                <ImageTile
+                  key={index}
+                  forceAspectRatio={true}
+                  subtitle={generateSubheading(post)}
+                  {...post}
+                  extraClass="journal-item"
+                />
+              );
             })}
           </div>
           <div className="journal-home__load-more-button">

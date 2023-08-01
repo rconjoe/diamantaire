@@ -2,14 +2,15 @@ import { ImageTile, Heading } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { useJournalsByCategory } from '@diamantaire/darkside/data/hooks';
 import { generateSubheading } from '@diamantaire/shared/helpers';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { JournalCategoryGridGroupStyles } from './JournalCategoryGridGroup.style';
 
 function JournalCategoryGridGroup({ category }) {
   const catId = category.id;
-
-  const { data, refetch } = useJournalsByCategory('en_US', catId, 3, 0);
+  const { locale } = useRouter();
+  const { data, refetch } = useJournalsByCategory(locale, catId, 3, 0);
 
   const categorizedPosts = data?.allBlogPosts?.map((post) => post);
 
@@ -37,7 +38,15 @@ function JournalCategoryGridGroup({ category }) {
           post.ctaCopy = 'Learn More';
           post.copy = post.excerpt;
 
-          return <ImageTile key={i} forceAspectRatio={true} {...post} subtitle={generateSubheading(post)} />;
+          return (
+            <ImageTile
+              key={i}
+              forceAspectRatio={true}
+              {...post}
+              subtitle={generateSubheading(post)}
+              extraClass="journal-item"
+            />
+          );
         })}
       </div>
     </JournalCategoryGridGroupStyles>

@@ -130,20 +130,12 @@ const config: configProps = {
 type BlockPickerProps = {
   _modelApiKey: string;
   modularBlockData: object;
-  isMobile?: boolean;
   countryCode?: string;
   currencyCode?: string;
   shouldLazyLoad?: boolean;
 };
 
-const BlockPicker = ({
-  _modelApiKey,
-  modularBlockData,
-  isMobile,
-  countryCode,
-  currencyCode,
-  shouldLazyLoad,
-}: BlockPickerProps) => {
+const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode, shouldLazyLoad }: BlockPickerProps) => {
   const BlockComponent = config?.[_modelApiKey];
 
   forceVisible();
@@ -155,7 +147,6 @@ const BlockPicker = ({
       {BlockComponent && shouldLazyLoad ? (
         <LazyLoadWrapper>
           <BlockComponent
-            isMobile={isMobile}
             countryCode={countryCode}
             currencyCode={currencyCode}
             shouldLazyLoad={shouldLazyLoad}
@@ -164,7 +155,6 @@ const BlockPicker = ({
         </LazyLoadWrapper>
       ) : BlockComponent ? (
         <BlockComponent
-          isMobile={isMobile}
           countryCode={countryCode}
           currencyCode={currencyCode}
           shouldLazyLoad={shouldLazyLoad}

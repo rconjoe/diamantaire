@@ -178,6 +178,7 @@ const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
                 ctaCopy="Read More"
                 ctaRoute={`/post/${p?.slug}`}
                 image={p?.featuredImage}
+                extraClass="journal-item"
               />
             ))}
           </div>

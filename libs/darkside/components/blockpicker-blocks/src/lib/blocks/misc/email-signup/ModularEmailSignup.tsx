@@ -1,10 +1,10 @@
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { Form, Heading } from '@diamantaire/darkside/components/common-ui';
 import { isCountrySupported } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 
 import { ModularEmailSignupBlockContainer } from './ModularEmailSignup.style';
 
-type ModularEmailSignupBlock = {
+type ModularEmailSignupBlockProps = {
   title?: string;
   copy?: string;
   listData?: object;
@@ -32,7 +32,7 @@ const ModularEmailSignupBlock = ({
   additionalClass,
   headingType,
   headingAdditionalClass,
-}: ModularEmailSignupBlock) => {
+}: ModularEmailSignupBlockProps) => {
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -56,7 +56,6 @@ const ModularEmailSignupBlock = ({
       <div className="email-signup__form-container">
         <div className="email-signup__form-wrapper">
           {/* TODO - implement form - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-127 */}
-          FORM
           {/* <HubspotEmailForm
             ctaCopy={ctaCopy}
             listData={listData}
@@ -65,6 +64,7 @@ const ModularEmailSignupBlock = ({
             shouldIncludePhoneFieldTitle={enablePhoneFieldTitle}
             emailFormType={enableStackedView ? 'stacked' : null}
           /> */}
+          <Form onSubmit={(e) => e.preventDefault()} />
         </div>
       </div>
     </ModularEmailSignupBlockContainer>

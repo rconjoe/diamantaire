@@ -15,7 +15,6 @@ const PlpBlockPicker = ({ plpSlug }) => {
         <BlockPicker
           _modelApiKey={_modelApiKey}
           modularBlockData={{ ...contentBlockData }}
-          isMobile={false}
           countryCode={'US'}
           currencyCode={'USD'}
           shouldLazyLoad={true}

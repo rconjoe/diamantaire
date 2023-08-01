@@ -6,7 +6,7 @@ export const ModularEmailSignupBlockContainer = styled.div`
   display: block;
   margin: 50px 0;
   ${tabletAndUp(`
-    margin: 80px 0;
+    margin: 50px 0;
   `)}
   &.-reduce-margins {
     margin-top: 0;
@@ -37,9 +37,9 @@ export const ModularEmailSignupBlockContainer = styled.div`
     position: relative;
     text-align: center;
     margin: ${setSpace(3)} 0;
-    ${tabletAndUp(`
+    /* ${tabletAndUp(`
       margin: ${setSpace(3)} 0 ${setSpace(6)} 0;
-    `)}
+    `)} */
     &.-no-margin {
       margin: 0;
     }
@@ -99,5 +99,12 @@ export const ModularEmailSignupBlockContainer = styled.div`
     max-width: 500px;
     margin: auto;
     padding: 0 20px;
+    text-align: center;
+  }
+  .input-container.submit {
+    button {
+      max-width: 200px;
+      margin: 0 auto;
+    }
   }
 `;

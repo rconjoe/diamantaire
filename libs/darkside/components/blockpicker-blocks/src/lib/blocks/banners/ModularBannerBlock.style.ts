@@ -85,6 +85,13 @@ export const BannerWrapper = styled.div`
   .special_shapes & {
     margin: 0 auto !important;
   }
+
+  ul {
+    margin: 20px 0 25px;
+    li {
+      font-size: var(--font-size-xsmall);
+    }
+  }
 `;
 
 export const BannerTextContainer = styled.div`

@@ -98,7 +98,6 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               <BlockPicker
                 _modelApiKey={v._modelApiKey}
                 modularBlockData={{ ...v }}
-                isMobile={false}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={true}

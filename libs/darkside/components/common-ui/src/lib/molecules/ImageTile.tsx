@@ -43,11 +43,14 @@ const ImageTile = ({
   return (
     <ImageTileContainer
       backgroundColorRgba={backgroundColorRgba}
-      className={clsx({
-        '-is-svg': isSvg,
-        '-background-color': backgroundColorRgba,
-        '-modular-content-quad-block': extraClass === '-modular-content-quad-block',
-      })}
+      className={clsx(
+        {
+          '-is-svg': isSvg,
+          '-background-color': backgroundColorRgba,
+          '-modular-content-quad-block': extraClass === '-modular-content-quad-block',
+        },
+        extraClass,
+      )}
     >
       {ctaRoute ? (
         <UniLink route={ctaRoute}>

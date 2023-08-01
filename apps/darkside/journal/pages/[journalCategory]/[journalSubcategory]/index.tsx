@@ -31,6 +31,7 @@ interface BlogConfiguration {
 }
 
 export async function getStaticProps({
+  locale,
   params,
 }: {
   locale: string;
@@ -39,22 +40,14 @@ export async function getStaticProps({
     journalCategory: string;
   };
 }) {
-  const refinedLocale = 'en_US';
-
-  const isMobile = false;
-  // geo -dev
-  const devCountryCode = 'en_US';
-
-  const devCurrencyCode = 'USD';
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries.journal.journalHeader(refinedLocale || 'en_US'),
+    ...queries.journal.journalHeader(locale),
   });
 
   const configQueryParams = {
-    ...queries.journal.config('en_US'),
+    ...queries.journal.config(locale),
   };
 
   await queryClient.prefetchQuery({ ...configQueryParams });
@@ -71,7 +64,7 @@ export async function getStaticProps({
   const subCategory = parentCategory.subcategories?.filter((subcat) => subcat.key === params.journalSubcategory)?.[0];
 
   const subcatQueryParams = {
-    ...queries.journal.journalsBySubcategory('en_US', parentCategory.id, subCategory.id, 3, 0),
+    ...queries.journal.journalsBySubcategory(locale, parentCategory.id, subCategory.id, 3, 0),
   };
 
   await queryClient.prefetchInfiniteQuery({
@@ -79,7 +72,7 @@ export async function getStaticProps({
   });
 
   await queryClient.prefetchQuery({
-    ...queries.journal.journalHeader(refinedLocale || 'en_US'),
+    ...queries.journal.journalHeader(locale),
   });
 
   return {
@@ -87,10 +80,7 @@ export async function getStaticProps({
       slug: params.journalSubcategory,
       parentCategorySlug: params.journalCategory,
       isSubCategory: true,
-      isMobile,
-      locale: refinedLocale,
-      currencyCode: devCurrencyCode,
-      countryCode: devCountryCode,
+      locale,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
