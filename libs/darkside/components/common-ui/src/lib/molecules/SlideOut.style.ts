@@ -1,36 +1,35 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const defaultWidth = '30%';
 
 const gap = '2rem';
 
-const StyledSlideOut = styled.div`
+export const SlideOutFreezeBody = createGlobalStyle`
+  html {
+    overflow: hidden;
+    top: ${(props) => `-${props.scrollPosition}px`};
+  }
+`;
+
+export const SlideOutWrapper = styled(motion.aside)`
+  width: ${(props) => props.width || defaultWidth};
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 6000;
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(0 0 0 / 70%);
-  overflow-y: auto;
+  right: 0;
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: flex-start;
   flex-direction: column;
-  z-index: 9999;
+  background-color: #fff;
 
   .wrapper {
-    width: ${(props) => props.width || defaultWidth};
-    background-color: #fff;
-    position: relative;
     flex: 1;
+    position: relative;
     padding: 2rem;
-    
-
-    ${desktopAndUp(`
-      max-width: 1080px;
-    `)}
   }
 
   .header {
@@ -65,16 +64,16 @@ const StyledSlideOut = styled.div`
     align-items: center;
     justify-content: center;
   }
-
-  .overlay {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
 }
 `;
 
-export default StyledSlideOut;
+export const SlideOutOverlay = styled(motion.div)`
+  position: fixed;
+  background-color: #000;
+  width: 100%;
+  z-index: 6000;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+`;

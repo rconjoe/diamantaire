@@ -3,6 +3,7 @@ import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondInfoData, useDiamondPdpData, useProductIconList } from '@diamantaire/darkside/data/hooks';
 import { DiamondIcon } from '@diamantaire/shared/icons';
+import { AnimatePresence } from 'framer-motion';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
@@ -11,11 +12,24 @@ import { StyledDiamondDetailIconList } from './DiamondDetailIconList.style';
 
 const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
   const [isSlideOutOpen, setIsSlideOutOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { isMobile } = useContext(GlobalContext);
 
   const info: any = useDiamondInfoData(locale)?.data?.additionalInfo ?? {};
   const productTitle = useDiamondPdpData(locale)?.data?.diamondProduct?.productTitle || '';
   const items = useProductIconList('Diamond PDP', locale)?.data?.productIconList?.items ?? [];
+
+  const handleOpenSlideOut = () => {
+    const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+
+    setScrollPosition(currentScrollPosition);
+
+    setIsSlideOutOpen(true);
+  };
+
+  const handleCloseSlideOut = () => {
+    setIsSlideOutOpen(false);
+  };
 
   return (
     <StyledDiamondDetailIconList className="icon-list">
@@ -26,7 +40,7 @@ const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
 
         <p>{productTitle}</p>
 
-        <a className="slideout-trigger" onClick={() => setIsSlideOutOpen(true)}>
+        <a className="slideout-trigger" onClick={handleOpenSlideOut}>
           <span>i</span>
         </a>
       </div>
@@ -47,25 +61,28 @@ const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
         })}
       </div>
 
-      {isSlideOutOpen && (
-        <SlideOut
-          title={productTitle}
-          onClose={() => setIsSlideOutOpen(false)}
-          width={isMobile ? '100%' : '560px'}
-          className="slideout"
-        >
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              paddingBottom: `calc(${isMobile ? `223 / 335` : `347 / 520`} * 100%)`,
-            }}
+      <AnimatePresence>
+        {isSlideOutOpen && (
+          <SlideOut
+            title={productTitle}
+            onClose={handleCloseSlideOut}
+            width={isMobile ? '100%' : '560px'}
+            className="slideout"
+            scrollPosition={scrollPosition}
           >
-            <Image loading="eager" alt={info.image.alt} src={info.image.url} fill style={{ objectFit: 'cover' }} />
-          </div>
-          <Markdown>{info.text}</Markdown>
-        </SlideOut>
-      )}
+            <div
+              style={{
+                width: '100%',
+                position: 'relative',
+                paddingBottom: `calc(${isMobile ? `223 / 335` : `347 / 520`} * 100%)`,
+              }}
+            >
+              <Image loading="eager" alt={info.image.alt} src={info.image.url} fill style={{ objectFit: 'cover' }} />
+            </div>
+            <Markdown>{info.text}</Markdown>
+          </SlideOut>
+        )}
+      </AnimatePresence>
     </StyledDiamondDetailIconList>
   );
 };
