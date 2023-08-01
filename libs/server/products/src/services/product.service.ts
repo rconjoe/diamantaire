@@ -613,7 +613,7 @@ export class ProductsService {
 
       const collectionQueries = collectionSlugs.map((collectionSlug) => ({ collectionSlug }));
 
-      const collections = await Promise.all<VraiProduct[]>(
+      const collections = await Promise.all<VraiProduct[][]>(
         collectionQueries.map((query) => this.productRepository.find(query)),
       );
 

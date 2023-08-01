@@ -20,7 +20,7 @@ import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions, PipelineStage } from 'mongoose';
 
-import { GetDiamondCheckoutDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
+import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
@@ -384,6 +384,21 @@ export class DiamondsService {
     } catch (error) {
       this.Logger.error(`Error fetching inventory levels: ${error}`);
       throw new InternalServerErrorException(error);
+    }
+  }
+
+  async getLowestPricedDiamond(input: LowestPricedDto): Promise<IDiamondCollection> {
+    try {
+      const result = await this.diamondRepository.find({ diamondType: input.diamondType }).sort({ price: 1 }).limit(1);
+
+      if (result) {
+        return result[0];
+      }
+      // If we do not have a diamond of a specific type, something went wrong
+      throw new NotFoundException(`Diamond with diamondType: ${input.diamondType} not found`);
+    } catch (error) {
+      this.Logger.error(`Error fetching lowest priced ${input.diamondType} diamond: ${error}`);
+      throw error;
     }
   }
 

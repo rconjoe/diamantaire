@@ -84,7 +84,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.countDocuments(options);
   }
 
-  async find(filterQuery: FilterQuery<TDocument>): Promise<any> {
+  find(filterQuery: FilterQuery<TDocument>): any {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 

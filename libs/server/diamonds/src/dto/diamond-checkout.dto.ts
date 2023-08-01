@@ -22,3 +22,14 @@ export class ProductInventoryDto {
   @Type(() => Number)
   readonly id: number;
 }
+
+export class LowestPricedDto {
+  @ApiProperty({
+    example: 'round-brilliant',
+    required: false,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Type(() => String)
+  readonly diamondType: string;
+}
