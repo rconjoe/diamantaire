@@ -30,7 +30,8 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
   const { specs } = DiamondTableData || {};
   const { productTitle, buttonTextDiamondFlow, quickCheckoutText } = DiamondPdpData || {};
-  const { type: productType, carat: productCarat, price: productPrice } = product || {};
+
+  const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = makeCurrency(productPrice, locale, currencyCode);
 
@@ -61,7 +62,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
         <div className="aside">
           <Heading className="title" type="h2">
-            {productCarat} {getInfo(specs, 'carat')?.value} {productType} {productTitle}
+            {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
           </Heading>
 
           <div className="price">{price}</div>

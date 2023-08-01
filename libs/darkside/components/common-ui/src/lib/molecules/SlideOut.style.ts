@@ -49,6 +49,14 @@ export const SlideOutWrapper = styled(motion.aside)`
       font-size: var(--font-size-medium);
       margin-top: ${gap};
     }
+
+    p {
+      margin-top: 1.5rem;
+    }
+
+    h2 + p {
+      margin-top: 0;
+    }
   }
 
   .close {

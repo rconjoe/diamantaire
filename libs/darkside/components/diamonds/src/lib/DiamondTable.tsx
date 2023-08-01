@@ -2,7 +2,7 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
@@ -69,7 +69,7 @@ const DiamondTable = (props) => {
       {
         accessorKey: 'type',
         cell: (info: Info) => {
-          return info.getValue();
+          return getDiamondType(info.getValue()).title;
         },
         header: () => <UIString>shape</UIString>,
       },

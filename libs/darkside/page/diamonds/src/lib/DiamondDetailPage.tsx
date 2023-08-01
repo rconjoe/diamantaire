@@ -32,7 +32,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const { seoTitle, seoDescription } = seoFields || {};
 
-  const pageSeoTitle = type ? seoTitle.replace(/%%(.*?)%%/g, type) : seoTitle;
+  const pageSeoTitle = type ? seoTitle.replace(/%%(.*?)%%/g, diamondType) : seoTitle;
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { GREY_LIGHTER, GREY_LIGHTEST, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { WHITE, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailSpecs = styled.div`
@@ -38,10 +38,10 @@ const StyledDiamondDetailSpecs = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 10px;
-    background: ${GREY_LIGHTER};
+    background: ${WHITE};
 
     &:nth-child(2n) {
-      background: ${GREY_LIGHTEST};
+      background: ${WHITE};
     }
   }
 `;

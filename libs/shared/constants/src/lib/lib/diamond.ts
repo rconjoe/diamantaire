@@ -323,8 +323,8 @@ export const ALL_DIAMONDS = [
   'radiant',
 ];
 export const DIAMOND_TYPE_INTERNAL_NAMES = {
-  'Brilliant Round': 'round-brilliant',
   'Round Brilliant': 'round-brilliant',
+  'Brilliant Round': 'round-brilliant',
   Oval: 'oval',
   Emerald: 'emerald',
   Marquise: 'marquise',
