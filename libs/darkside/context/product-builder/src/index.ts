@@ -1,1 +1,1 @@
-export * from './lib/darkside-context-product-builder';
+export * from './lib/BuilderProductContext';
