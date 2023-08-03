@@ -2,6 +2,8 @@ import qs from 'querystring';
 
 import { IMAGE_BASE_URL, APPROVED_IMGIX_PARAMS } from '@diamantaire/shared/constants';
 
+import { getDiamondType } from '../diamonds';
+
 type ImageParams = { [key: string]: any };
 
 const getApprovedImgixParams = (imageParams: ImageParams): ImageParams => {
@@ -60,9 +62,10 @@ const getIconImageUrl = (s3Slug, ext = 'png') => {
 
 const generateDiamondImageUrl = (type, directory = 'diamond-images-new') => {
   const trim = '&trim-color=transparent&trim=color';
+  const slug = getDiamondType(type).slug;
 
   return `${
-    getCdnImageUrl(directory)(type?.toLowerCase())({
+    getCdnImageUrl(directory)(slug)({
       ext: 'png',
       quality: 60,
     }) + trim

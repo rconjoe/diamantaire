@@ -24,7 +24,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const { lotId, diamondType } = options || {};
 
-  const { data: { diamond: { type } = {} } = {} } = useDiamondsData({ lotId });
+  const { data: { diamond: { carat } = {} } = {} } = useDiamondsData({ lotId });
 
   const { data: { diamondTable: { title } = {} } = {} } = useDiamondTableData(locale);
 
@@ -32,7 +32,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const { seoTitle, seoDescription } = seoFields || {};
 
-  const pageSeoTitle = type ? seoTitle.replace(/%%(.*?)%%/g, diamondType) : seoTitle;
+  const pageSeoTitle = `${carat} Carat ` + (diamondType ? seoTitle.replace(/%%(.*?)%%/g, diamondType) : seoTitle);
 
   return (
     <>

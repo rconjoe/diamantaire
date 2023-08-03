@@ -22,6 +22,20 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
 
   const extraClass = className ? ` ${className}` : '';
 
+  const pickDiamondWidth = (carat) => {
+    const powerFn = powerFnPicker();
+    const widthInMillimeter = powerFn(carat);
+    const handWidthPx = 333;
+    const fingerWidthInPx = handWidthPx * 0.15;
+    const ringSize45InMillimeter = 15.3;
+    const diamondPercentRelativeToHandWidth =
+      widthInMillimeter * (fingerWidthInPx / ringSize45InMillimeter) * (1 / handWidthPx);
+
+    const diamondWidthInPercent = handWidthPx * diamondPercentRelativeToHandWidth;
+
+    return diamondWidthInPercent;
+  };
+
   const powerFnPicker = () => {
     switch (diamondType) {
       case 'round-brilliant':
@@ -147,20 +161,6 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
     }
   };
 
-  const pickDiamondWidth = (carat) => {
-    const powerFn = powerFnPicker();
-    const widthInMillimeter = powerFn(carat);
-    const handWidthPx = 333;
-    const fingerWidthInPx = handWidthPx * 0.15;
-    const ringSize45InMillimeter = 15.3;
-    const diamondPercentRelativeToHandWidth =
-      widthInMillimeter * (fingerWidthInPx / ringSize45InMillimeter) * (1 / handWidthPx);
-
-    const diamondWidthInPercent = handWidthPx * diamondPercentRelativeToHandWidth;
-
-    return diamondWidthInPercent;
-  };
-
   const handleChange = (value: number[]) => {
     const newValue = value.pop();
 
@@ -188,13 +188,16 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
       <div className="slider swiper-no-swiping">
         <Slider
           step={0.01}
-          type="carat"
-          range={range}
-          value={[sliderValue]}
+          type="slider-hand"
+          range={{
+            min: range[0],
+            max: range[1],
+          }}
+          value={sliderValue}
+          className="slider-hand"
           handleChange={(v) => handleChange(v)}
           handleFormat={(v) => handleFormat(v)}
           tooltips={{ to: (v) => handleFormat(v) }}
-          className="slider-hand"
         />
       </div>
     </StyledDiamondHand>

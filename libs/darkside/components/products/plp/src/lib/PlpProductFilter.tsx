@@ -246,7 +246,10 @@ const PlpProductFilter = ({
                     <Slider
                       step={100}
                       type={'price'}
-                      range={priceRange}
+                      range={{
+                        min: priceRange[0],
+                        max: priceRange[1],
+                      }}
                       value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
                       handleChange={handleChange}
                       handleFormat={handleFormat}

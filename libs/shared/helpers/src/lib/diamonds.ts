@@ -18,7 +18,11 @@ export const diamondOption = {
   isCut: (v) => DIAMOND_TABLE_VALID_CUTS.includes(v || v.toLowercase()),
   isColor: (v) => DIAMOND_TABLE_VALID_COLORS.includes(v || v.toLowercase()),
   isDiamondType: (v) => !diamondOption.isHandle(v) && getDiamondType(v).title,
-  isHandle: (v) => v.split('-').length - 1 === 7,
+  isHandle: (v) => {
+    const len = v.split('-').length - 1;
+
+    return len > 4;
+  },
 };
 
 export const getDiamondType = (value: string) => {
@@ -96,6 +100,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
         obj.color = value.toUpperCase();
       } else if (arr.every(diamondOption.isHandle)) {
         obj.lotId = getDiamondId(value);
+
         obj.diamondType = arr
           .map(getDiamondType)
           .map((v) => v.title)

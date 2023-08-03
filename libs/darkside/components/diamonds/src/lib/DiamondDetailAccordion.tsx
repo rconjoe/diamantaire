@@ -1,4 +1,4 @@
-import { Accordion, CertificateThumb, Slider } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, CertificateThumb, Heading, Slider } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
@@ -15,6 +15,10 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
   const { data: { ranges } = {} } = useDiamondsData({ diamondType: product?.diamondType });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
+
+  const createNumberArray = (number) => {
+    return Array.from({ length: number }, (_, index) => index + 1);
+  };
 
   if (!ranges) return;
 
@@ -36,9 +40,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
   const getCaratContent = () => {
     const { carat } = product || {};
     const { carat: description } = DiamondPdpData || {};
-    const handleFormat = (value: number) => {
-      return `${value.toFixed(2)}ct`;
-    };
+    const handleFormat = (v) => v;
+
+    console.log(createNumberArray(range[1]));
 
     return (
       <>
@@ -49,15 +53,19 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
           <Slider
             edge={false}
             type="carat"
-            range={range}
+            range={{
+              min: 0,
+              max: Math.round(range[1]),
+            }}
             value={[carat]}
             disabled={true}
             handleFormat={(v) => handleFormat(v)}
-            tooltips={{ to: (v) => `${UIString({ children: 'Your diamond' })} ${handleFormat(v)}` }}
+            tooltips={{ to: (v) => `${UIString({ children: 'Your diamond' })} ${v.toFixed(2)}ct` }}
             pips={{
-              mode: 'steps',
+              mode: 'values',
               density: 100 / range[1],
-              format: { to: (v) => `${Math.round(v)}ct` },
+              values: [0, ...createNumberArray(Math.round(range[1]))],
+              format: { to: (v) => `${Math.round(v)}` },
             }}
           />
         </div>
@@ -93,9 +101,17 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
         <div className="graph">
           <Slider
             edge={false}
-            type="carat"
+            type="cut"
             step={1}
-            range={[0, cuts.length - 1]}
+            range={{
+              min: 0,
+              '20%': 1,
+              '38%': 2,
+              '60%': 3,
+              '79%': 4,
+              '90%': 5,
+              max: 6,
+            }}
             value={[index]}
             disabled={true}
             tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
@@ -104,6 +120,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
               density: 100 / cuts.length,
               format: { to: (v) => cuts[v] },
             }}
+            boldPip={true}
           />
         </div>
         <div className="row">
@@ -117,6 +134,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             />
           </div>
           <div className="sub">
+            <Heading type="h3">{cut}</Heading>
             <Markdown>{sub}</Markdown>
           </div>
         </div>
@@ -157,7 +175,10 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             edge={false}
             type="color"
             step={1}
-            range={[0, colors.length - 1]}
+            range={{
+              min: 0,
+              max: colors.length - 1,
+            }}
             value={[index]}
             disabled={true}
             tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
@@ -166,6 +187,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
               density: 100 / colors.length,
               format: { to: (v) => colors[v] },
             }}
+            boldPip={true}
           />
         </div>
         <div className="thb">
@@ -215,7 +237,10 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             edge={false}
             type="clarity"
             step={1}
-            range={[0, clarities.length - 1]}
+            range={{
+              min: 0,
+              max: clarities.length - 1,
+            }}
             value={[index]}
             disabled={true}
             tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
@@ -224,6 +249,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
               density: 100 / clarities.length,
               format: { to: (v) => clarities[v] },
             }}
+            boldPip={true}
           />
         </div>
         <div className="thb">

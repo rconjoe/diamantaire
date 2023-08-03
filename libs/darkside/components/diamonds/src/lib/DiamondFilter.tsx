@@ -48,7 +48,10 @@ const SliderFilter = (props) => {
       <Slider
         step={step}
         type={type}
-        range={range}
+        range={{
+          min: range[0],
+          max: range[1],
+        }}
         value={values || range}
         handleChange={handleChange}
         handleFormat={handleFormat}

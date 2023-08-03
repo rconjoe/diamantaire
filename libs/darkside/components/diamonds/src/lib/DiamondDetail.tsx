@@ -26,6 +26,7 @@ interface DiamondDetailDataTypes {
 const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
   const { isMobile, headerHeight } = useContext(GlobalContext);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
+
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
   const { specs } = DiamondTableData || {};
@@ -36,8 +37,8 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const price = makeCurrency(productPrice, locale, currencyCode);
 
   const media = [
-    <Diamond360 key="0" className="media-content-item" lotId={lotId} diamondType={diamondType} />,
-    <DiamondHand key="1" className="media-content-item" lotId={lotId} diamondType={diamondType} />,
+    <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
+    <DiamondHand key="1" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
   ];
 
   return (

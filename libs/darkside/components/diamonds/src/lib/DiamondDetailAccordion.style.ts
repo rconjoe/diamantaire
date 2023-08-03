@@ -1,7 +1,5 @@
-import { BLACK, TEAL } from '@diamantaire/styles/darkside-styles';
+import { BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
-
-const gap = '2rem';
 
 const StyledDiamondDetailAccordion = styled.div`
   .accordion-row {
@@ -9,13 +7,17 @@ const StyledDiamondDetailAccordion = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: ${gap};
-      margin: ${gap} 0;
+      margin: 2rem 0;
+      gap: 1rem;
+
+      ${tabletAndUp(`
+        gap: 2rem;
+      `)}
     }
 
     .sub {
       border: 1px solid ${TEAL};
-      padding: ${gap};
+      padding: 1rem;
       display: block;
     }
 
@@ -54,7 +56,7 @@ const StyledDiamondDetailAccordion = styled.div`
 
   .accordion-row.cut {
     .thb {
-      width: 200px;
+      max-width: 30%;
       padding: 0;
     }
   }
@@ -80,7 +82,7 @@ const StyledDiamondDetailAccordion = styled.div`
       transform: translate(3px, 0);
     }
     .sub {
-      margin: ${gap} 0;
+      margin: 2rem 0;
     }
   }
 

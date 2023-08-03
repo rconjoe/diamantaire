@@ -56,7 +56,7 @@ const StyledAccordion = styled.div`
   }
 
   .accordion-content * {
-    font-size: var(--font-size-xxsmall);
+    font-size: var(--font-size-xxxsmall);
   }
 
   .accordion-content p {
