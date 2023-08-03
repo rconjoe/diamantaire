@@ -84,7 +84,16 @@ export class PlpInput {
   @IsString()
   @IsNotEmpty()
   @Type(() => String)
-  readonly slug?: string;
+  readonly slug: string;
+
+  @ApiProperty({
+    example: 'jewelry',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Type(() => String)
+  readonly category: string;
 
   @ApiProperty({
     example: 'en_US',

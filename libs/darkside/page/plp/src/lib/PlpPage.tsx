@@ -8,16 +8,26 @@ import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METALS_IN_HUMAN_NAMES } fr
 import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 
 type PlpPageProps = {
   plpSlug: string;
+  category: string;
   productData: {
     variantsInOrder: string[];
     products: ListPageItemWithConfigurationVariants[];
     paginator: {
-      pageCount: number;
+      totalPages: number;
+      totalDocs: number;
+      limit: number;
+      page: number;
+      pagingCounter: number;
+      hasPrevPage: boolean;
+      hasNextPage: boolean;
+      prevPage: number | null;
+      nextPage: number | null;
     };
     availableFilters: {
       [key in FilterTypeProps]: string[];
@@ -57,9 +67,10 @@ function parseStringToObjectWithNestedValues(initialString: string) {
   });
 }
 
-function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { plpSlug, productData, objectParams } = props;
-  const paginationPages = productData?.paginator?.pageCount || 1;
+function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
+  const router = useRouter();
+  const { plpSlug, category, productData, objectParams } = props;
+  const paginationPages = productData?.paginator?.totalPages || 1;
 
   const initialFilterValuesWithSlug = parseStringToObjectWithNestedValues(objectParams);
   const initialFilterValues = parseStringToObjectWithNestedValues(objectParams);
@@ -71,6 +82,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   delete initialFilterValuesWithSlug.price;
   delete initialFilterValues.slug;
+  delete initialFilterValues.category;
 
   const [qParams, setQParams] = useState(objectToURLSearchParams(initialFilterValuesWithSlug));
 
@@ -78,7 +90,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     ...initialFilterValues,
   });
 
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside('en_US', plpSlug);
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
 
   const { seoTitle, seoDescription } = seo || {};
@@ -109,12 +122,13 @@ function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     }
 
     fetchClientsideProducts();
-  }, [paginationPages]);
+  }, [paginationPages, fetchNextPage]);
 
   useEffect(() => {
     // const price = filterValue?.price;
     const newFilterObject = {
       slug: plpSlug,
+      category,
     };
 
     if (filterValue?.metal) {
@@ -164,7 +178,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     }
 
     fetchClientsideProducts();
-  }, [filterValue]);
+  }, [availableFilters.price, category, fetchNextPage, filterValue, paginationPages, plpSlug]);
 
   return (
     <div>
@@ -187,108 +201,122 @@ function PlpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   );
 }
 
-const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
-  const { query, locale } = context;
-
-  const isFacetedNav = Array.isArray(query.plpSlug);
-  const slug = isFacetedNav ? query.plpSlug[0].toString() : query.plpSlug.toString();
-  const priceMin = query?.priceMin as string;
-  const priceMax = query?.priceMax as string;
-
-  const params = Array.isArray(query.plpSlug) && query.plpSlug.slice(1);
-
-  const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]);
-  const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]);
-
-  const matchesFacetNavOrder = FACETED_NAV_ORDER.every((facet, index) => {
-    if (facet === 'metal') {
-      if (!metal) return true;
-
-      return metal === params[index];
-    } else if (facet === 'diamondType') {
-      if (!diamondType) return true;
-
-      return diamondType === params[index];
-    }
-
-    return false;
-  });
-
-  if (!matchesFacetNavOrder) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const qParamsObject = {
-    slug,
-  };
-
-  if (priceMin) {
-    qParamsObject['priceMin'] = parseFloat(priceMin);
-  }
-
-  if (priceMax) {
-    qParamsObject['priceMax'] = parseFloat(priceMax);
-  }
-
-  if (metal) {
-    qParamsObject['metal'] = metal;
-  }
-
-  if (diamondType) {
-    qParamsObject['diamondType'] = diamondType;
-  }
-
-  const qParams = new URLSearchParams(
-    Object.entries({ ...qParamsObject }).reduce((prevValue, [key, value]) => {
-      if (value) {
-        if (typeof value === 'object') {
-          // If the value is an object, stringify it to maintain the nested structure
-          prevValue[key] = JSON.stringify(value);
-        } else {
-          prevValue[key] = Array.isArray(value) ? value[0] : value;
-        }
-      }
-
-      return prevValue;
-    }, {}),
-  );
-
-  console.log('qParamsqParams', qParams);
-
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({ ...queries.plp.serverSideDato('en_US', slug) });
-  const productData = await getVRAIServerPlpData(qParams, 1);
-
-  const objectParams: { [key: string]: string | object } = Object.fromEntries(qParams);
-
-  objectParams['price'] = {
-    min: priceMin || productData?.availableFilters?.price[0],
-    max: priceMax || productData?.availableFilters?.price[1],
-  };
-
-  delete objectParams.priceMin;
-  delete objectParams.priceMax;
-
-  const objectParamsStringified = JSON.stringify(objectParams);
-
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-    meta: { locale },
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-    meta: { locale },
-  });
-
-  return {
-    props: { plpSlug: slug, productData, objectParams: objectParamsStringified, dehydratedState: dehydrate(queryClient) },
-  };
-};
-
 PlpPage.getTemplate = getStandardTemplate;
 
-export { PlpPage, getServerSideProps };
+const createPlpServerSideProps = (category: string) => {
+  const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
+    const { query, locale } = context;
+    const isFacetedNav = Array.isArray(query.plpSlug);
+    const slug = isFacetedNav ? query.plpSlug[0].toString() : query.plpSlug.toString();
+    const priceMin = query?.priceMin as string;
+    const priceMax = query?.priceMax as string;
+
+    const params = Array.isArray(query.plpSlug) && query.plpSlug.slice(1);
+
+    const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]);
+    const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]);
+
+    const matchesFacetNavOrder = FACETED_NAV_ORDER.every((facet, index) => {
+      if (facet === 'metal') {
+        if (!metal) return true;
+
+        return metal === params[index];
+      } else if (facet === 'diamondType') {
+        if (!diamondType) return true;
+
+        return diamondType === params[index];
+      }
+
+      return false;
+    });
+
+    if (!matchesFacetNavOrder) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const qParamsObject = {
+      slug,
+      category,
+    };
+
+    if (priceMin) {
+      qParamsObject['priceMin'] = parseFloat(priceMin);
+    }
+
+    if (priceMax) {
+      qParamsObject['priceMax'] = parseFloat(priceMax);
+    }
+
+    if (metal) {
+      qParamsObject['metal'] = metal;
+    }
+
+    if (diamondType) {
+      qParamsObject['diamondType'] = diamondType;
+    }
+
+    const qParams = new URLSearchParams(
+      Object.entries({ ...qParamsObject }).reduce((prevValue, [key, value]) => {
+        if (value) {
+          if (typeof value === 'object') {
+            // If the value is an object, stringify it to maintain the nested structure
+            prevValue[key] = JSON.stringify(value);
+          } else {
+            prevValue[key] = Array.isArray(value) ? value[0] : value;
+          }
+        }
+
+        return prevValue;
+      }, {}),
+    );
+
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug) });
+    const productData = await getVRAIServerPlpData(qParams, 1);
+
+    if (productData.error) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const objectParams: { [key: string]: string | object } = Object.fromEntries(qParams);
+
+    objectParams['price'] = {
+      min: priceMin || productData?.availableFilters?.price[0],
+      max: priceMax || productData?.availableFilters?.price[1],
+    };
+
+    delete objectParams.priceMin;
+    delete objectParams.priceMax;
+
+    const objectParamsStringified = JSON.stringify(objectParams);
+
+    await queryClient.prefetchQuery({
+      ...queries.header.content(locale),
+    });
+
+    await queryClient.prefetchQuery({
+      ...queries.footer.content(locale),
+    });
+
+    return {
+      props: {
+        plpSlug: slug,
+        category,
+        productData,
+        objectParams: objectParamsStringified,
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  };
+
+  return getServerSideProps;
+};
+
+const jewelryGetServerSideProps = createPlpServerSideProps('jewelry');
+
+export { PlpPage, createPlpServerSideProps };

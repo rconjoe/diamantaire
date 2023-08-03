@@ -4,7 +4,7 @@
  * @description Products service class
  */
 import { UtilService } from '@diamantaire/server/common/utils';
-import { DEFAULT_LOCALE, DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
+import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import {
   VraiProduct,
@@ -82,10 +82,10 @@ export class ProductsService {
     }
   }
 
-  async findProductBySlug(input: ProductSlugInput): Promise<ProductVariantPDPData> {
+  async findProductBySlug(input: ProductSlugInput) {
     this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
     try {
-      const setLocal = input?.locale ? input?.locale : DEFAULT_LOCALE; // get locale from input or default to en_US
+      const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
       };
@@ -351,7 +351,7 @@ export class ProductsService {
    * @returns { Promise<object> }
    */
 
-  async datoContentForEngagementRings({ collectionSlug, productHandle, locale }): Promise<object> {
+  async datoContentForEngagementRings({ collectionSlug, productHandle, locale = 'en_US' }): Promise<object> {
     this.logger.verbose(`Entering into dataContent ${collectionSlug}-${productHandle}-${locale}`);
     const cachedKey = `${collectionSlug}-${productHandle}-${locale}`;
     let response = await this.utils.memGet<object>(cachedKey); // return the cached result if there's a key
@@ -359,7 +359,7 @@ export class ProductsService {
     const queryVars = {
       collectionSlug,
       productHandle,
-      locale,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
@@ -384,7 +384,7 @@ export class ProductsService {
     const queryVars = {
       slug,
       variantId,
-      locale,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
@@ -416,6 +416,7 @@ export class ProductsService {
 
   async findPlpData({
     slug,
+    category,
     locale = 'en_US',
     metal,
     diamondType,
@@ -426,7 +427,7 @@ export class ProductsService {
     page,
     limit,
   }: PlpInput) {
-    const cachedKey = `plp-${slug}-${locale}-${JSON.stringify({
+    const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
       metal,
       diamondType,
       priceMin,
@@ -448,7 +449,11 @@ export class ProductsService {
 
     try {
       // Get Dato PLP data
-      const plpContent = await this.datoPLPContent({ slug, locale });
+      const plpContent = await this.datoPLPContent({ slug, category, locale });
+
+      if (!plpContent.listPage) {
+        throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
+      }
 
       const { configurationsInOrder, productsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
 
@@ -781,14 +786,24 @@ export class ProductsService {
    * @param {string} input.locale - locale for content
    * @returns {object}- Dato listPage content
    */
-  async datoPLPContent({ slug, locale }: { slug: string; locale: string }): Promise<PLPResponse> {
-    this.logger.verbose(`Entering into dataContent ${slug}-${locale}`);
-    const cachedKey = `${slug}-${locale}`;
+  async datoPLPContent({
+    slug,
+    category,
+    locale,
+  }: {
+    slug: string;
+    category: string;
+    locale: string;
+  }): Promise<PLPResponse> {
+    const cachedKey = `${category}-${slug}-${locale}`;
+
+    this.logger.verbose(`Entering into dataContent ${cachedKey}`);
     let response = await this.utils.memGet<PLPResponse>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
       slug,
-      locale,
+      category,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
@@ -812,7 +827,7 @@ export class ProductsService {
 
     const queryVars = {
       slug,
-      locale,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
@@ -839,7 +854,7 @@ export class ProductsService {
 
     const queryVars = {
       slug,
-      locale,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
@@ -905,5 +920,15 @@ export class ProductsService {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
+  }
+}
+
+function getDatoRequestLocale(locale = 'en_US'): string {
+  const language = locale.split('-')[0];
+
+  if (language === 'en') {
+    return 'en_US';
+  } else {
+    return language;
   }
 }

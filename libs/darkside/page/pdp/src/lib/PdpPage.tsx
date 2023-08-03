@@ -20,8 +20,8 @@ import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
 interface PdpPageParams extends ParsedUrlQuery {
+  collectionSlug: string;
   productSlug: string;
-  variantSlug: string;
 }
 export interface PdpPageProps {
   params: PdpPageParams;
@@ -30,18 +30,18 @@ export interface PdpPageProps {
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
-    params: { productSlug, variantSlug },
+    params: { collectionSlug, productSlug },
   } = props;
 
   // General Data - Serverside
-  const query = useProduct({ productSlug, variantSlug });
+  const query = useProduct({ collectionSlug, productSlug });
   const { data: shopifyProductData = {} } = query;
   const router = useRouter();
 
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleAsConst[router.pathname.split('/')[1]];
 
-  const { data }: { data: any } = useProductDato(productSlug, 'en_US', pdpType);
+  const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
@@ -143,7 +143,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   return (
     <h1>
-      No data found for product page: {productSlug} {variantSlug}{' '}
+      No data found for product page: {collectionSlug} {productSlug}{' '}
     </h1>
   );
 }
@@ -155,14 +155,14 @@ export async function getServerSideProps(
 
   const { params, locale } = context;
 
-  const { productSlug, variantSlug } = context.params;
+  const { collectionSlug, productSlug } = context.params;
   const queryClient = new QueryClient();
-  const dataQuery = queries.products.variant(productSlug, variantSlug);
+  const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
   const productType: PdpTypePlural = pdpTypeHandleAsConst[context.req.url.split('/')[1]] || null;
 
   await queryClient.prefetchQuery(dataQuery);
-  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(productSlug, locale, productType) });
+  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });
 
   if (!queryClient.getQueryData(dataQuery.queryKey)) {
     return {

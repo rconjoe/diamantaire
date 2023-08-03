@@ -39,9 +39,9 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 0) {
     ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
     {
       getNextPageParam: (lastPage) => {
-        if (lastPage && lastPage?.paginator?.currentPage + 1 <= lastPage?.paginator?.pageCount) {
+        if (lastPage && lastPage.paginator.nextPage) {
           // Return next page number
-          return lastPage.paginator.currentPage + 1;
+          return lastPage.paginator.nextPage;
         } else {
           // Return false means no next page
           return false;
@@ -59,7 +59,7 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 0) {
 
 const LIST_PAGE_DATO_SERVER_QUERY = `
 query listPageQuery($locale: SiteLocale, $slug: String!) {
-    listPage(locale: $locale, filter: {slug: {eq: $slug}}) {
+    listPage(locale: $locale, filter: {slugNew: {eq: $slug}}) {
       id
       seo {
         id

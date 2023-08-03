@@ -1,58 +1,28 @@
-// TODO: Unfuck this file
-
-const ResponsiveImageFragment = `
-  fragment responsiveImageFragment on ResponsiveImage {
-    src
-    width
-    height
-    aspectRatio
-    title
-    base64
-  }
-`;
-
-const Accordion = `
-  ... on ModularAccordionBlockRecord {
-    id
-    _modelApiKey
-    firstItemOpen
-    title
-    copy
-    ctaCopy
-    ctaRoute
-    ctaButtonType
-    image {
-      url
-      video {
-          streamingUrl
-        }
-      alt
-      responsiveImage(imgixParams: {w: 637, h: 769, q: 55, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
-        src
-        alt
-        aspectRatio
-        base64
-        bgColor
-        height
-        sizes
-        title
-        width
-      }
-    }
-    accordionItems {
-      copy
-      title
-      ctacopy
-      ctaroute
-      supportedCountries {
-        code
-        name
-      }
-    }
-    bottomCopy
-    shouldUseFaqSchema
-  }
-`;
+import ResponsiveImageFragment from './fragments/ResponsiveImageFragment';
+import Accordion from './modular/Accordion';
+import Carousel from './modular/Carousel';
+import CarouselHover from './modular/CarouselHover';
+import CelebrityCarousel from './modular/CelebrityCarousel';
+import CelebrityReel from './modular/CelebrityReel';
+import Duo from './modular/Duo';
+import EmailSignup from './modular/EmailSignup';
+import FullWidthBanner from './modular/FullWidthBanner';
+import GridCarousel from './modular/GridCarousel';
+import HalfWidthQuad from './modular/HalfWidthQuad';
+import InstagramReel from './modular/InstagramReel';
+import MiniBanner from './modular/MiniBanner';
+import ModularQuadGrid from './modular/ModularQuadGrid';
+import ProductSlider from './modular/ProductSlider';
+import Quad from './modular/Quad';
+import Showroom from './modular/Showroom';
+import SideBySide from './modular/SideBySide';
+import SingleVideo from './modular/SingleVideo';
+import SocialMediaSection from './modular/SocialMediaSection';
+import TallHalfWidthBlock from './modular/TallHalfWidthBlock';
+import TextOnly from './modular/TextOnly';
+import Trio9x7 from './modular/Trio9x7';
+import TrioSlide9x7 from './modular/TrioSlide9x7';
+import TrioStaggered9x7 from './modular/TrioStaggered9x7';
 
 export const JEWELRYPRODUCT = `
   query jewelryProduct($slug: String!, $locale: SiteLocale, $variantId: String!) {
@@ -95,87 +65,29 @@ export const JEWELRYPRODUCT = `
         copy(markdown: false)
       }
       belowBannerBlocks {
-        ... on FullWidthBannerBlockRecord {
-          id
-          _modelApiKey
-          title
-          desktopCopy
-          desktopImage {
-            url
-            alt
-          }
-          mobileCopy
-          mobileImage {
-            url
-            alt
-          }
-          ctaCopy
-          ctaRoute
-          isTextBlockWide
-          textColor
-          textBlockAlignment
-        }
-        ... on HalfWidthBannerBlockRecord {
-          id
-          _modelApiKey
-          title
-          desktopCopy
-          desktopImage {
-            url
-            alt
-          }
-          mobileCopy
-          mobileImage {
-            url
-            alt
-          }
-          ctaCopy
-          ctaRoute
-          isTextBlockWide
-          textColor
-          textBlockAlignment
-        }
-        ... on TrioBlockRecord {
-          id
-          _modelApiKey
-          title
-          aboveCopy
-          belowCopy
-          headingType
-          headingAdditionalClass
-          blocks {
-            title
-            copy
-            ctaCopy
-            ctaRoute
-            media {
-              ... on Image1x1Record {
-                image {
-                  url
-                  alt
-                  responsiveImage (imgixParams: { w: 448, q: 60, auto: format }){
-                    ...responsiveImageFragment
-                  }
-                }
-              }
-              ... on Image9x7Record {
-                image {
-                  url
-                  alt
-                  responsiveImage (imgixParams: { w: 448, q: 60, auto: format }){
-                    ...responsiveImageFragment
-                  }
-                }
-              }
-              ... on SvgAssetRecord {
-                svg {
-                  url
-                  alt
-                }
-              }
-            }
-          }
-        }
+        ${Carousel}
+        ${CarouselHover}
+        ${CelebrityCarousel}
+        ${CelebrityReel}
+        ${Duo}
+        ${EmailSignup}
+        ${FullWidthBanner}
+        ${GridCarousel}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${MiniBanner}
+        ${ProductSlider}
+        ${Quad}
+        ${ModularQuadGrid}
+        ${Showroom}
+        ${SideBySide}
+        ${SingleVideo}
+        ${TallHalfWidthBlock}
+        ${TextOnly}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${SocialMediaSection}
       }
       waitlistPageCopy {
         waitlistCtaCopy

@@ -3,13 +3,13 @@ import { useQuery, QueryOptions } from '@tanstack/react-query';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface UseProducts {
+  collectionSlug: string;
   productSlug: string;
-  variantSlug: string;
   options?: QueryOptions;
 }
 
-export function useProduct({ productSlug, variantSlug }: UseProducts) {
-  return useQuery({ ...queries.products.variant(productSlug, variantSlug), staleTime: Infinity });
+export function useProduct({ collectionSlug, productSlug }: UseProducts) {
+  return useQuery({ ...queries.products.variant(collectionSlug, productSlug), staleTime: Infinity });
 }
 
 export default useProduct;

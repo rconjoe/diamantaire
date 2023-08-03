@@ -7,7 +7,7 @@ import ResponsiveImageFragment from '../../standard-page/component-queries/fragm
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
   const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });
-  const apiUrl = `/v1/product?${searchParams.toString()}`;
+  const apiUrl = `/v1/products?${searchParams.toString()}`;
 
   const response = await vraiApiClient.get(apiUrl);
 

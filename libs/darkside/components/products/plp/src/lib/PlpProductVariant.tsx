@@ -1,11 +1,9 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
-import { ListPageItemConfiguration } from '@diamantaire/shared-product';
+import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
 import { useState } from 'react';
 import styled from 'styled-components';
-
-import { ProductLink } from './PlpProductLink';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {

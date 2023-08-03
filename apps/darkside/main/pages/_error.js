@@ -17,7 +17,6 @@
  */
 import { queries } from '@diamantaire/darkside/data/queries';
 import { DarksidePageError } from '@diamantaire/darkside/page/error';
-import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
 import * as Sentry from '@sentry/nextjs';
 import { QueryClient } from '@tanstack/react-query';
 import NextErrorComponent from 'next/error';
@@ -39,14 +38,14 @@ CustomErrorComponent.getInitialProps = async (contextData) => {
 
   const { locale } = contextData;
 
-  const { countryCode } = parseValidLocale(locale);
+  // const { countryCode } = parseValidLocale(locale);
 
-  const currencyCode = getCurrency(countryCode);
+  // const currencyCode = getCurrency(countryCode);
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content('error-page', locale, countryCode, currencyCode),
+    ...queries['standard-page'].content('error-page', locale),
   });
 
   return { ...NextErrorComponent.getInitialProps(contextData), locale };

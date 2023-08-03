@@ -45,8 +45,8 @@ export const CONFIGURATIONS_LIST = `
   }
 `;
 
-export const PLP_QUERY = `query PLP($slug: String!, $locale: SiteLocale) {
-  listPage(filter: {slug: {eq: $slug}}, locale: $locale) {
+export const PLP_QUERY = `query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
+  listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}, locale: $locale) {
     breadcrumb {
       name
       link {

@@ -36,6 +36,7 @@ export class ProductController {
   @Get('plp')
   @ApiOperation({ summary: 'Get product list page data' })
   @ApiQuery({ name: 'slug', required: true, description: 'PLP slug' })
+  @ApiQuery({ name: 'category', required: true, description: 'PLP category' })
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
   @ApiQuery({ name: 'metal', required: false, description: 'metal filter' })
   @ApiQuery({ name: 'diamondType', required: false, description: 'dimaond type filter' }) // TODO: should be an array
@@ -44,10 +45,12 @@ export class ProductController {
   @ApiQuery({ name: 'style', required: false, description: 'style filter' })
   @ApiQuery({ name: 'subStyle', required: false, description: 'substyle filter' })
   async datoPLP(
-    @Query() { slug, locale, metal, diamondType, priceMin = 0, priceMax = 99999999, style, subStyle, page, limit }: PlpInput,
+    @Query()
+    { slug, category, locale, metal, diamondType, priceMin, priceMax, style, subStyle, page, limit }: PlpInput,
   ) {
     return await this.productService.findPlpData({
       slug,
+      category,
       locale,
       metal,
       diamondType,

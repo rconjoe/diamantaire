@@ -7,6 +7,15 @@ export const ProductType = {
   Ring: 'Ring',
 } as const;
 
+export const productTypeToCategoryMap = {
+  [ProductType.Necklace]: 'necklaces',
+  [ProductType.Bracelet]: 'bracelets',
+  [ProductType.Earrings]: 'earrings',
+  [ProductType.Ring]: 'rings',
+  [ProductType.WeddingBand]: 'wedding-bands',
+  [ProductType.EngagementRing]: 'engagement-ring',
+};
+
 /** CONFIG */
 
 export const productConfigProperties = {
