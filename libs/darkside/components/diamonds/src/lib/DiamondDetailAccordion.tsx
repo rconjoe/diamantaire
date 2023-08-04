@@ -134,7 +134,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             />
           </div>
           <div className="sub">
-            <Heading type="h3">{cut}</Heading>
+            <Heading type="h3">
+              {cut} <UIString>cut</UIString>
+            </Heading>
             <Markdown>{sub}</Markdown>
           </div>
         </div>
@@ -201,6 +203,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
           />
         </div>
         <div className="sub">
+          <Heading type="h3">
+            {color} - {colorMapAbridged[index].value}
+          </Heading>
           <Markdown>{sub}</Markdown>
         </div>
       </>
@@ -222,7 +227,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
   };
   const getClarityContent = () => {
     const { clarity } = product || {};
-    const { clarity: description, clarityInfoMapAbridged } = DiamondPdpData || {};
+    const { clarity: description, clarityInfoMapAbridged, clarityMapAbridged } = DiamondPdpData || {};
     const sub = getInfo(clarityInfoMapAbridged, clarity)?.value;
     const clarities: string[] = ['FL', 'VVS1 VVS2', 'VS1 VS2', 'SI1 SI2', 'I1 I2 I3'];
     const index = clarities.findIndex((v) => v.split(' ').includes(clarity));
@@ -263,6 +268,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
           />
         </div>
         <div className="sub">
+          <Heading type="h3">
+            {clarity} - {clarityMapAbridged[index].value}
+          </Heading>
           <Markdown>{sub}</Markdown>
         </div>
       </>
