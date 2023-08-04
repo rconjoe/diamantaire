@@ -1,4 +1,4 @@
-import { BLACK, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
