@@ -1,0 +1,54 @@
+{
+  "name": "api-feed",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api/feed",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/api/feed"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/api/feed"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "api-feed:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "api-feed:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "api-feed:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "api-feed:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/api/feed/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": ["api", ""]
+}
