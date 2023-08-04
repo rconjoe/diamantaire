@@ -8,7 +8,7 @@ interface TooltipProps {
   children: ReactNode;
   className?: string;
   background?: string;
-  place?: string;
+  place?: string | any;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => {
