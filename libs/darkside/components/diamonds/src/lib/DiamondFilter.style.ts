@@ -1,4 +1,4 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
@@ -134,6 +134,39 @@ const StyledDiamondFilter = styled.div`
     height: 100%;
     width: 100%;
     cursor: default;
+  }
+
+  #tooltip-cut {
+    p {
+      gap: 2rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        height: auto;
+        width: 70px;
+      }
+    }
+  }
+
+  #tooltip-color {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    img {
+      margin-top: -2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  #tooltip-clarity {
+    img {
+      margin-top: 2rem;
+    }
   }
 `;
 

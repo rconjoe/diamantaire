@@ -21,6 +21,7 @@ interface SpriteSpinnerProps {
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
   const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad } = props;
+
   const spinnerEl = useRef(null);
 
   useEffect(() => {

@@ -7,16 +7,25 @@ interface TooltipProps {
   id: string;
   children: ReactNode;
   className?: string;
+  background?: string;
+  place?: string;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ id, children, className }) => {
+const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => {
   return (
     <StyledTooltip>
       <a data-tooltip-id={id} className="tooltip-trigger">
         <span>i</span>
       </a>
 
-      <ReactToolTip id={id} className={`tooltip-window ${className}`}>
+      <ReactToolTip
+        id={id}
+        place={place}
+        className={`tooltip-window ${className}`}
+        classNameArrow="tooltip-arrow"
+        data-tooltip-variant="light"
+        openOnClick={true}
+      >
         {children}
       </ReactToolTip>
     </StyledTooltip>
