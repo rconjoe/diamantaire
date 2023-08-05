@@ -135,6 +135,39 @@ const StyledDiamondFilter = styled.div`
     width: 100%;
     cursor: default;
   }
+
+  #tooltip-cut {
+    p {
+      gap: 2rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        height: auto;
+        width: 70px;
+      }
+    }
+  }
+
+  #tooltip-color {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    img {
+      margin-top: -2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  #tooltip-clarity {
+    img {
+      margin-top: 2rem;
+    }
+  }
 `;
 
 export default StyledDiamondFilter;

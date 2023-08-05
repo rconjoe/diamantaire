@@ -182,6 +182,7 @@ const DiamondFilter = (props: DiamondFilterProps) => {
       type: 'slider',
       name: name_('carat'),
       tooltip: tooltip_(carat),
+      tooltipDefaultPlace: 'right',
     },
     price: {
       type: 'slider',
@@ -192,18 +193,21 @@ const DiamondFilter = (props: DiamondFilterProps) => {
       type: 'radio',
       name: name_('cut'),
       tooltip: tooltip_(cut),
+      tooltipDefaultPlace: 'right',
       option: DIAMOND_CUTS,
     },
     clarity: {
       type: 'radio',
       name: name_('clarity'),
       tooltip: tooltip_(clarity),
+      tooltipDefaultPlace: 'right',
       option: { VVS: { value: 'VVS' }, VS: { value: 'VS' }, SI: { value: 'SI' } },
     },
     color: {
       type: 'radio',
       name: name_('color'),
       tooltip: tooltip_(color),
+      tooltipDefaultPlace: 'right',
       belowCopy: colorFilterBelowCopy,
       option: DIAMOND_CUTS,
     },
@@ -212,7 +216,7 @@ const DiamondFilter = (props: DiamondFilterProps) => {
   return (
     <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
-        const { type, name, tooltip, belowCopy } = stringMap?.[filter] || {};
+        const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
 
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>
@@ -221,7 +225,11 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 {name}
               </Heading>
 
-              {tooltip && <Tooltip id={'tooltip-' + filter}>{tooltip}</Tooltip>}
+              {tooltip && (
+                <Tooltip id={'tooltip-' + filter} place={tooltipDefaultPlace}>
+                  {tooltip}
+                </Tooltip>
+              )}
             </div>
 
             {type === 'slider' && (

@@ -10,7 +10,18 @@ interface DiamondImageProps {
 const DiamondImage = ({ diamondType, className, style }: DiamondImageProps) => {
   const src = generateDiamondImageUrl(diamondType);
 
-  return <Image style={style} alt={diamondType} className={className} src={src} width={0} height={0} sizes="100vw" />;
+  return (
+    <Image
+      style={style}
+      alt={diamondType}
+      className={className}
+      src={src}
+      width={0}
+      height={0}
+      sizes="100vw"
+      title={diamondType}
+    />
+  );
 };
 
 export default DiamondImage;
