@@ -191,6 +191,27 @@ const StyledDiamondTable = styled.div`
     ${tabletAndUp(`
       margin-left: 10px;
     `)}
+
+    .arrow-up {
+      opacity: 0;
+      display: none;
+    }
+
+    .arrow-down {
+      opacity: 0.25;
+    }
+
+    &.has-active {
+      * {
+        opacity: 0;
+        display: none;
+      }
+
+      *.active {
+        display: block;
+        opacity: 1;
+      }
+    }
   }
 
   .vo-table-no-result {

@@ -224,9 +224,17 @@ const DiamondTable = (props) => {
                 return (
                   <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                    <div className="vo-sort-icon">
-                      {options.sortBy === header.id && options.sortOrder === 'asc' && <span className="arrow-up" />}
-                      {options.sortBy === header.id && options.sortOrder === 'desc' && <span className="arrow-down" />}
+                    <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
+                      <span
+                        className={
+                          'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
+                        }
+                      />
+                      <span
+                        className={
+                          'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
+                        }
+                      />
                     </div>
                     {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>
