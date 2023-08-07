@@ -183,8 +183,8 @@ const DiamondTable = (props) => {
   }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
 
   useEffect(() => {
-    updateLoading(queryDiamond.isFetching);
-  }, [queryDiamond.isFetching]);
+    updateLoading(queryDiamond.isLoading);
+  }, [queryDiamond.isLoading]);
 
   useEffect(() => {
     if (activeRow) {
@@ -214,7 +214,12 @@ const DiamondTable = (props) => {
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
   return (
-    <StyledDiamondTable className="vo-table" headerHeight={headerHeight} triggerOffset={triggerOffset}>
+    <StyledDiamondTable
+      className="vo-table"
+      headerHeight={headerHeight}
+      triggerOffset={triggerOffset}
+      tableHeadHeight={tableHeadHeight}
+    >
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">

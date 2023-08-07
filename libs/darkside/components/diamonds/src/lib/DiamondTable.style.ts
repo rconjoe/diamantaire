@@ -57,7 +57,7 @@ const StyledDiamondTable = styled.div`
   .vo-table-head {
     display: flex;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     position: sticky;
     top: ${(props) => props.headerHeight}px;
   }
@@ -116,6 +116,13 @@ const StyledDiamondTable = styled.div`
   .vo-table-body .vo-table-row-head:focus {
     background-color: var(--color-teal);
     color: ${WHITE};
+  }
+
+  .vo-table-body .vo-table-row.active .vo-table-row-head {
+    background-color: var(--color-teal);
+    position: sticky;
+    z-index: 1;
+    top: calc(${(props) => props.headerHeight}px + ${(props) => props.tableHeadHeight}px);
   }
 
   .vo-table-body .vo-table-row-body {
