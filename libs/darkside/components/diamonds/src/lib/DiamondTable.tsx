@@ -75,7 +75,7 @@ const DiamondTable = (props) => {
       },
       {
         accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()),
+        cell: (info: Info) => Number(info.getValue()).toFixed(2),
         header: () => <UIString>carat</UIString>,
       },
       {
@@ -183,8 +183,8 @@ const DiamondTable = (props) => {
   }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
 
   useEffect(() => {
-    updateLoading(queryDiamond.isFetching);
-  }, [queryDiamond.isFetching]);
+    updateLoading(queryDiamond.isLoading);
+  }, [queryDiamond.isLoading]);
 
   useEffect(() => {
     if (activeRow) {
@@ -214,7 +214,12 @@ const DiamondTable = (props) => {
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
   return (
-    <StyledDiamondTable className="vo-table" headerHeight={headerHeight} triggerOffset={triggerOffset}>
+    <StyledDiamondTable
+      className="vo-table"
+      headerHeight={headerHeight}
+      triggerOffset={triggerOffset}
+      tableHeadHeight={tableHeadHeight}
+    >
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
@@ -224,9 +229,17 @@ const DiamondTable = (props) => {
                 return (
                   <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                    <div className="vo-sort-icon">
-                      {options.sortBy === header.id && options.sortOrder === 'asc' && <span className="arrow-up" />}
-                      {options.sortBy === header.id && options.sortOrder === 'desc' && <span className="arrow-down" />}
+                    <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
+                      <span
+                        className={
+                          'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
+                        }
+                      />
+                      <span
+                        className={
+                          'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
+                        }
+                      />
                     </div>
                     {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>
