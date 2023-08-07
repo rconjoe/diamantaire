@@ -75,7 +75,7 @@ const DiamondTable = (props) => {
       },
       {
         accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()),
+        cell: (info: Info) => Number(info.getValue()).toFixed(2),
         header: () => <UIString>carat</UIString>,
       },
       {
