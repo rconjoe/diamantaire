@@ -12,7 +12,7 @@ import {
   DIAMOND_TABLE_FACETED_NAV,
   getCurrencyFromLocale,
 } from '@diamantaire/shared/constants';
-import { getDiamondOptionsFromUrl, getDiamondShallowRoute } from '@diamantaire/shared/helpers';
+import { getDiamondOptionsFromUrl, getDiamondShallowRoute, getDiamondType } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -54,7 +54,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const title = DiamondTableContent.data.diamondTable.title;
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
-  const pageSeoTitle = options?.diamondType ? seoTitle.replace(/%%(.*?)%%/g, options?.diamondType) : title;
+  const pageSeoTitle = options?.diamondType
+    ? seoTitle.replace(/%%(.*?)%%/g, getDiamondType(options?.diamondType).title)
+    : title;
 
   const updateLoading = (newState) => {
     setLoading(newState);
