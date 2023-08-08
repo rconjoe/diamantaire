@@ -244,6 +244,8 @@ const createPlpServerSideProps = (category: string) => {
     await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug) });
     const productData = await getVRAIServerPlpData(qParams, 1);
 
+    console.log('productData.error', productData.error);
+
     if (productData.error) {
       return {
         notFound: true,

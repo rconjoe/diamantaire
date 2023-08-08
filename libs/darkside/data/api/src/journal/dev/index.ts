@@ -1,29 +1,31 @@
 import { DatoImageType } from '@diamantaire/shared/types';
 
 import { queryDatoGQL } from '../../clients';
-import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
-import BlogListTrio from '../../standard-page/component-queries/modular/BlogListTrio';
-import Carousel from '../../standard-page/component-queries/modular/Carousel';
-import CelebrityCarousel from '../../standard-page/component-queries/modular/CelebrityCarousel';
-import CollectionHero from '../../standard-page/component-queries/modular/CollectionHero';
-import EmailSignup from '../../standard-page/component-queries/modular/EmailSignup';
-import FullWidthBanner from '../../standard-page/component-queries/modular/FullWidthBanner';
-import HalfWidthBanner from '../../standard-page/component-queries/modular/HalfWidthBanner';
-import HalfWidthQuad from '../../standard-page/component-queries/modular/HalfWidthQuad';
-import HeroBanner from '../../standard-page/component-queries/modular/HeroBanner';
-import Leo from '../../standard-page/component-queries/modular/Leo';
-import LogoBanner from '../../standard-page/component-queries/modular/LogoBanner';
-import Quad from '../../standard-page/component-queries/modular/Quad';
-import QuadStatistics from '../../standard-page/component-queries/modular/QuadStatistics';
-import Quote from '../../standard-page/component-queries/modular/Quote';
-import SideBySide from '../../standard-page/component-queries/modular/SideBySide';
-import SingleVideo from '../../standard-page/component-queries/modular/SingleVideo';
-import SkinnyHeroBanner from '../../standard-page/component-queries/modular/SkinnyHeroBanner';
-import TextOnly from '../../standard-page/component-queries/modular/TextOnly';
-import Trio1x1 from '../../standard-page/component-queries/modular/Trio1x1';
-import Trio9x7 from '../../standard-page/component-queries/modular/Trio9x7';
-import TrioSlide9x7 from '../../standard-page/component-queries/modular/TrioSlide9x7';
-import TrioStaggered9x7 from '../../standard-page/component-queries/modular/TrioStaggered9x7';
+import { ResponsiveImageFragment } from '../../fragments';
+import {
+  BlogListTrio,
+  Carousel,
+  CelebrityCarousel,
+  CollectionHero,
+  EmailSignup,
+  FullWidthBanner,
+  HalfWidthBanner,
+  HalfWidthQuad,
+  HeroBanner,
+  Leo,
+  LogoBanner,
+  Quad,
+  QuadStatistics,
+  Quote,
+  SideBySide,
+  SingleVideo,
+  SkinnyHeroBanner,
+  TextOnly,
+  Trio1x1,
+  Trio9x7,
+  TrioSlide9x7,
+  TrioStaggered9x7,
+} from '../../modular';
 
 // Journal type for what's returned in a group of posts
 type IndividualJournalProps = {

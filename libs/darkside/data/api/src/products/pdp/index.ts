@@ -2,7 +2,7 @@ import { PdpTypePlural, pdpTypePluralAsConst } from '@diamantaire/shared/constan
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
-import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
+import { ResponsiveImageFragment } from '../../fragments';
 
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
