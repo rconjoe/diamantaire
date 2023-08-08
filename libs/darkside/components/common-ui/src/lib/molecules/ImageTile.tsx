@@ -97,7 +97,7 @@ const ImageTile = ({
         {ctaCopy && ctaRoute && (
           <UniLink route={ctaRoute} className={isSvg ? 'image-tile__anchor' : ''}>
             <VRAIButton
-              type="underline"
+              type="secondary"
               colorTheme="teal"
               className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
             >

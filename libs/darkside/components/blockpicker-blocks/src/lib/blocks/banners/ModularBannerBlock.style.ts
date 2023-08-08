@@ -92,6 +92,10 @@ export const BannerWrapper = styled.div`
       font-size: var(--font-size-xsmall);
     }
   }
+
+  .cta > span {
+    display: block;
+  }
 `;
 
 export const BannerTextContainer = styled.div`

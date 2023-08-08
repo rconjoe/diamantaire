@@ -99,7 +99,7 @@ const JournalHomeEntry = ({
             })}
           </div>
           <div className="journal-home__load-more-button">
-            <VRAIButton onClick={() => handleLoadMore()} type="solid" inverse>
+            <VRAIButton onClick={() => handleLoadMore()} type="primary" inverse>
               <UIString>Load more</UIString>
             </VRAIButton>
           </div>

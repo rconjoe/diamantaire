@@ -48,11 +48,11 @@ const PlpCreativeBlock = ({ block }) => {
             </Heading>
             <p>{desktopCopy}</p>
             {className === 'creative-block--left' ? (
-              <VRAIButton type="underline" colorTheme="teal" isLink={true} href={ctaRoute || ''}>
+              <VRAIButton type="secondary" colorTheme="teal" isLink={true} href={ctaRoute || ''}>
                 {ctaCopy}
               </VRAIButton>
             ) : (
-              <VRAIButton type="solid" inverse colorTheme="black" isLink={true} href={ctaRoute || ''}>
+              <VRAIButton type="primary" inverse colorTheme="black" isLink={true} href={ctaRoute || ''}>
                 {ctaCopy}
               </VRAIButton>
             )}
