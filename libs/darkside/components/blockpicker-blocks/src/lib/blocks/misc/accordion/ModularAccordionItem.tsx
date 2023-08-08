@@ -10,7 +10,9 @@ export interface ModularAccordionItemProps {
   copy: string;
   ctacopy?: string;
   ctaroute?: string;
-  supportedCountries?: Array<string>;
+  supportedCountries?: Array<{
+    code: string;
+  }>;
   className?: string;
 }
 
