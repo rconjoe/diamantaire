@@ -81,9 +81,19 @@ export type ConfigurationRecord = {
   configuredProductOptionsInOrder: string;
 };
 
+export type CollectionRecord = EngagementRingProductRecord; // | WeddingBandProductRecord | JewelryProductRecord;
+
+export type EngagementRingProductRecord = {
+  id: string;
+  _modelApiKey: 'engagement_ring_product';
+  slug: string;
+  // Not complete definition. Ideally its properly defined and then picked for the record above
+};
+
 export type PLPResponse = {
   listPage: {
     configurationsInOrder: (ConfigurationRecord | OmegaProductRecord)[];
     productsInOrder: OmegaProductRecord[];
+    collectionsInOrder: CollectionRecord[];
   } & Record<string, unknown>;
 };
