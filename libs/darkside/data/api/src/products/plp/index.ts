@@ -4,27 +4,19 @@ import { queryDatoGQL } from '../../clients';
 import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
 
 // Fetches VRAI server-side data for PLP
+const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
+const API_URL = `${BASE_URL}/api/plp/getPlpProducts`;
 
-export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1) {
-  const response = await fetch(
-    `${
-      process.env['NODE_ENV'] === 'production'
-        ? 'https://' + process.env['NEXT_PUBLIC_VERCEL_URL'] + '/api/plp/getPlpProducts'
-        : 'http://localhost:4200/api/plp/getPlpProducts'
-    }`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        payload: {
-          qParams: qParams.toString(),
-          page,
-        },
-      }),
+export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, limit = 12) {
+  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
+  const reqUrl = `${API_URL}?${qParams.toString()}&${pageParams.toString()}`;
+
+  const response = await fetch(reqUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+  })
     .then((res) => {
       return res.json();
     })
@@ -33,11 +25,12 @@ export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1) {
   return response;
 }
 
-export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 0) {
-  const { data, fetchNextPage, isFetching } = useInfiniteQuery(
+export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
+  const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${qParams.toString()}`],
     ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
     {
+      refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
         if (lastPage && lastPage.paginator.nextPage) {
           // Return next page number
@@ -51,10 +44,7 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 0) {
     },
   );
 
-  // console.log('returned data', data);
-  // console.log('returned error', error);
-
-  return { data, fetchNextPage, isFetching };
+  return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
 const LIST_PAGE_DATO_SERVER_QUERY = `
