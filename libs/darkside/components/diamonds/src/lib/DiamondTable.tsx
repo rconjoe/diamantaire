@@ -160,6 +160,10 @@ const DiamondTable = (props) => {
 
   // EFFECTS
   useEffect(() => {
+    setActiveRow(null);
+  }, [flatDiamonds?.[0]?.lotId]);
+
+  useEffect(() => {
     const trig = loadTrigger.current;
 
     if (!trig) return;
@@ -207,10 +211,6 @@ const DiamondTable = (props) => {
       window.removeEventListener('RESET_TABLE_PAGINATION', onPaginationReset);
     };
   });
-
-  useEffect(() => {
-    console.log(options);
-  }, [options.page]);
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
