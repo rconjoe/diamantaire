@@ -56,27 +56,7 @@ const ShowroomPage = (props: ShowroomPageProps) => {
 
 ShowroomPage.getTemplate = getStandardTemplate;
 
-// export interface GetStaticPropsRequest extends NextRequest {
-//   query: {
-//     pageSlug: string;
-//   };
-// }
-
-// async function getStaticPaths() {
-//   const paths = await getAllShowroomSlugs();
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
 async function getServerSideProps({ locale }: GetServerSidePropsContext<undefined>) {
-  // device:
-  // const isMobile = Boolean(
-  //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
-  // );
-
   const isMobile = false;
 
   // geo -dev
