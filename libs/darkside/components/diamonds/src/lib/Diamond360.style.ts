@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledDiamond360 = styled.div`
   display: block;
-  aspect-ratio: 1/1;
+  // aspect-ratio: 1/1;
   position: relative;
   border: 1px solid transparent;
   overflow: hidden;

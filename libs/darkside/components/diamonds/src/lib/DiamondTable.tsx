@@ -208,6 +208,10 @@ const DiamondTable = (props) => {
     };
   });
 
+  useEffect(() => {
+    console.log(options);
+  }, [options.page]);
+
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
@@ -273,11 +277,12 @@ const DiamondTable = (props) => {
               </div>
             );
           })}
-          <div className="vo-table-trigger" ref={loadTrigger} />
         </div>
 
         {/* TABLE FOOT */}
         <div className="vo-table-foot">
+          <div className="vo-table-trigger" ref={loadTrigger} />
+
           <div className="vo-table-no-result">
             <div className="vo-table-no-result-container">
               <p>{bottomContent}</p>
