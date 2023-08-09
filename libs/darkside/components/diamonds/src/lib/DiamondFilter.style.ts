@@ -1,4 +1,4 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
@@ -81,8 +81,16 @@ const StyledDiamondFilter = styled.div`
     max-width: 100%;
 
     .vo-filter-radio {
-      max-width: 100%;
       overflow-x: auto;
+      max-width: 100%;
+
+      .vo-filter-list {
+        white-space: nowrap;
+
+        ${tabletAndUp(`
+          white-space: normal;
+        `)}
+      }
 
       ::-webkit-scrollbar {
         opacity: 0;
@@ -93,30 +101,70 @@ const StyledDiamondFilter = styled.div`
     .vo-filter-list {
       list-style: none;
       padding: 10px 0;
-      display: flex;
-      justify-content: space-between;
+      display: block;
 
-      .vo-filter-list-item.active a,
-      .vo-filter-list-item a {
+      ${desktopAndUp(`
+        display: flex;
+        justify-content: space-between;
+      `)}
+    }
+
+    .vo-filter-list-item {
+      display: inline-block;
+
+      ${tabletAndUp(`
+        display: flex;
+      `)}
+    }
+
+    .vo-filter-list-item.active a,
+    .vo-filter-list-item a {
+      padding: 0 8px;
+      border: 0;
+
+      ${tabletAndUp(`
         padding: 0;
-        border: 0;
-      }
+      `)}
+    }
 
-      .vo-filter-list-item.active:after {
-        content: '';
-        border-bottom: 2px solid var(--color-teal);
-        position: absolute;
-        margin-left: -12px;
-        bottom: -8px;
-        width: 24px;
-        left: 50%;
-      }
+    .vo-filter-list-item.active:after {
+      content: '';
+      border-bottom: 2px solid var(--color-teal);
+      position: absolute;
+      margin-left: -12px;
+      bottom: -8px;
+      width: 24px;
+      left: 50%;
+    }
 
-      svg {
-        display: block;
-        height: 30px;
-        width: auto;
-      }
+    .vo-filter-list-item svg {
+      display: block;
+      height: 30px;
+      width: auto;
+    }
+
+    .arrow.arrow-left,
+    .arrow.arrow-right {
+      transition: all 0.25s ease;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 50px;
+      width: 30px;
+      background: rgba(255, 255, 255, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .arrow:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .arrow.arrow-right {
+      left: auto;
+      right: 0;
     }
   }
 

@@ -1,4 +1,5 @@
 import { Heading, Slider, Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
@@ -9,10 +10,10 @@ import {
   DIAMOND_TABLE_FILTER_TITLES,
 } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
-import { diamondIconsMap } from '@diamantaire/shared/icons';
+import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
-import { ReactNode } from 'react';
+import { ReactNode, useContext, useRef, useState } from 'react';
 
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
@@ -62,6 +63,10 @@ const SliderFilter = (props) => {
 
 const RadioFilter = (props) => {
   const { stringMap, type, ranges, options, handleRadioFilterChange } = props;
+  const { isMobile } = useContext(GlobalContext);
+  const [useLeftArrow, setUseLeftArrow] = useState(false);
+  const [useRightArrow, setUseRightArrow] = useState(true);
+  const scrollContainerRef = useRef(null);
 
   let optionsUI,
     rangeTypes,
@@ -96,8 +101,54 @@ const RadioFilter = (props) => {
     return optionUI.join() === options[type];
   };
 
+  const handleOnScroll = () => {
+    if (isMobile && type === 'diamondType') {
+      const scrollContainer = scrollContainerRef.current;
+      const treshhold = 20;
+
+      if (scrollContainer) {
+        setUseLeftArrow(true);
+        setUseRightArrow(true);
+
+        if (scrollContainer.scrollLeft < treshhold) {
+          setUseLeftArrow(false);
+        } else if (scrollContainer.scrollLeft + scrollContainer.clientWidth > scrollContainer.scrollWidth - treshhold) {
+          setUseRightArrow(false);
+        }
+      }
+    }
+  };
+
+  const handleArrowClick = (direction) => {
+    const scrollContainer = scrollContainerRef.current;
+    const sliderItems = scrollContainer?.querySelectorAll('.vo-filter-list-item');
+    const sliderPositions = Object.values(sliderItems)
+      .map((v) => (v as HTMLElement).clientWidth)
+      .reduce((a, v, i) => [...a, a[i] + v], [0]);
+    const currentPosition = scrollContainer.scrollLeft;
+    const closestValue = findClosestValue(currentPosition, sliderPositions);
+    const closestValueIndex = sliderPositions.findIndex((v) => v === closestValue);
+    const directionCommands = {};
+
+    if (currentPosition < closestValue) {
+      directionCommands['+'] = closestValue;
+      directionCommands['-'] = sliderPositions[closestValueIndex - 1];
+    } else if (currentPosition > closestValue) {
+      directionCommands['+'] = sliderPositions[closestValueIndex + 1];
+      directionCommands['-'] = closestValue;
+    } else {
+      directionCommands['+'] = sliderPositions[closestValueIndex + 1];
+      directionCommands['-'] = sliderPositions[closestValueIndex - 1];
+    }
+    scrollContainer.scrollTo({
+      top: 0,
+      left: directionCommands[direction],
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className="vo-filter-radio">
+    <div className="vo-filter-radio" ref={scrollContainerRef} onScroll={handleOnScroll}>
       <ul className="vo-filter-list">
         {optionsUI.map((optionUI: string, index: number) => {
           if (type === 'diamondType') {
@@ -140,6 +191,21 @@ const RadioFilter = (props) => {
           }
         })}
       </ul>
+
+      {isMobile && type === 'diamondType' && (
+        <>
+          {useLeftArrow && (
+            <div className="arrow arrow-left" onClick={() => handleArrowClick('-')}>
+              <ArrowLeftIcon />
+            </div>
+          )}
+          {useRightArrow && (
+            <div className="arrow arrow-right" onClick={() => handleArrowClick('+')}>
+              <ArrowRightIcon />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
@@ -266,3 +332,19 @@ const DiamondFilter = (props: DiamondFilterProps) => {
 export { DiamondFilter };
 
 export default DiamondFilter;
+
+function findClosestValue(number, array) {
+  let closestValue = array[0];
+  let closestDifference = Math.abs(number - closestValue);
+
+  for (let i = 1; i < array.length; i++) {
+    const difference = Math.abs(number - array[i]);
+
+    if (difference < closestDifference) {
+      closestValue = array[i];
+      closestDifference = difference;
+    }
+  }
+
+  return closestValue;
+}
