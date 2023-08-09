@@ -38,28 +38,36 @@ const StyledAccordion = styled.div`
   }
 
   .accordion-body {
-    height: 0;
+    transition: all 0.2s ease;
+    max-height: 0;
     display: block;
     overflow: hidden;
   }
 
   .accordion-row-active {
     .accordion-body {
-      height: auto;
+      max-height: inherit;
     }
   }
 
   .accordion-content {
     display: block;
+
+    position: relative;
+  }
+
+  .accordion-content-wrapper {
+    display: block;
+    position: relative;
     padding: 0 0 20px;
     font-size: var(--font-size-xxsmall);
   }
 
-  .accordion-content * {
+  .accordion-content-wrapper * {
     font-size: var(--font-size-xxxsmall);
   }
 
-  .accordion-content p {
+  .accordion-content-wrapper p {
     margin: 5px 0 0;
 
     &:first-child {

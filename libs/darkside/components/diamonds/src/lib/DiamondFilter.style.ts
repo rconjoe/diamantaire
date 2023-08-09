@@ -164,7 +164,7 @@ const StyledDiamondFilter = styled.div`
 
   .vo-below-copy {
     width: 100%;
-    margin: 15px 0 0;
+    margin: 2rem 0 0;
     font-size: var(--font-size-xxxsmall);
   }
 
