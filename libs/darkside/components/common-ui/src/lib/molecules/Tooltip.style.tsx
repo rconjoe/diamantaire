@@ -1,4 +1,4 @@
-import { BLACK, GREY, GREY_LIGHTER, MAIN_FONT, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY, MAIN_FONT, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledTooltip = styled.div`
