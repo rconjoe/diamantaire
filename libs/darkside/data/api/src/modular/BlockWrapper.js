@@ -1,5 +1,5 @@
-import SingleMediaBlock from './SingleMediaBlock';
 import Quote from './Quote';
+import SingleMediaBlock from './SingleMediaBlock';
 
 const BlockWrapper = `
 ... on ModularBlockWrapperRecord {
