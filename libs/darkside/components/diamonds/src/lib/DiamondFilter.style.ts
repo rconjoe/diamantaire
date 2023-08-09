@@ -5,7 +5,7 @@ const StyledDiamondFilter = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 
   .vo-filter {
     width: 100%;
@@ -80,31 +80,25 @@ const StyledDiamondFilter = styled.div`
     flex-direction: column;
     max-width: 100%;
 
+    ::-webkit-scrollbar {
+      opacity: 0;
+      height: 0;
+    }
+
     .vo-filter-radio {
       overflow-x: auto;
       max-width: 100%;
-
-      .vo-filter-list {
-        white-space: nowrap;
-
-        ${tabletAndUp(`
-          white-space: normal;
-        `)}
-      }
-
-      ::-webkit-scrollbar {
-        opacity: 0;
-        height: 0;
-      }
     }
 
     .vo-filter-list {
       list-style: none;
+      white-space: nowrap;
       padding: 10px 0;
       display: block;
 
-      ${desktopAndUp(`
+      ${tabletAndUp(`
         display: flex;
+        white-space: normal;
         justify-content: space-between;
       `)}
     }
@@ -115,32 +109,32 @@ const StyledDiamondFilter = styled.div`
       ${tabletAndUp(`
         display: flex;
       `)}
-    }
 
-    .vo-filter-list-item.active a,
-    .vo-filter-list-item a {
-      padding: 0 8px;
-      border: 0;
+      &.active a,
+      a {
+        padding: 0 8px;
+        border: 0;
 
-      ${tabletAndUp(`
-        padding: 0;
-      `)}
-    }
+        ${tabletAndUp(`
+          padding: 0;
+        `)}
+      }
 
-    .vo-filter-list-item.active:after {
-      content: '';
-      border-bottom: 2px solid var(--color-teal);
-      position: absolute;
-      margin-left: -12px;
-      bottom: -8px;
-      width: 24px;
-      left: 50%;
-    }
+      &.active:after {
+        content: '';
+        border-bottom: 2px solid var(--color-teal);
+        position: absolute;
+        margin-left: -12px;
+        bottom: -8px;
+        width: 24px;
+        left: 50%;
+      }
 
-    .vo-filter-list-item svg {
-      display: block;
-      height: 30px;
-      width: auto;
+      svg {
+        display: block;
+        height: 30px;
+        width: auto;
+      }
     }
 
     .arrow.arrow-left,
