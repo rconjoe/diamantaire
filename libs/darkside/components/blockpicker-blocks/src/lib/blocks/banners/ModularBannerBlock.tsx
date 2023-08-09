@@ -7,7 +7,6 @@ import {
   ShowMobileOnly,
   ShowTabletAndUpOnly,
   MobileDesktopImage,
-  ButtonTypeProps,
   DatoDarksideButtonProps,
   DarksideButton,
 } from '@diamantaire/darkside/components/common-ui';
@@ -32,9 +31,6 @@ type ModularBannerBlockProps = {
   mobileTitle?: string;
   desktopCopy?: string;
   mobileCopy?: string;
-  ctaCopy?: string;
-  ctaRoute?: string;
-  ctaButtonType?: ButtonTypeProps;
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
   textBlockAlignment: string;
@@ -44,12 +40,6 @@ type ModularBannerBlockProps = {
   textColor: string;
   isTextBlockWide: boolean;
   shouldLazyLoad?: boolean;
-  ctaCopy2?: string;
-  ctaRoute2?: string;
-  ctaButtonType2?: ButtonTypeProps;
-  ctaCopy3?: string;
-  ctaRoute3?: string;
-  ctaButtonType3?: ButtonTypeProps;
   middleLayerImage: DatoImageType;
   middleLayerImageMobile: DatoImageType;
   additionalClass?: string;

@@ -1,5 +1,4 @@
 export * from './SlideOut';
-export * from './Button';
 export * from './Breadcrumb';
 export * from './CertificateThumb';
 export * from './Heading';
@@ -17,6 +16,5 @@ export * from './Slider';
 export * from './Tooltip';
 export * from './SpriteSpinner';
 export * from './Accordion';
-export * from './VRAIButton';
 export * from './Modal';
 export * from './DarksideButton';
