@@ -15,7 +15,7 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => 
   const [activeIndex, setActiveIndex] = useState(activeDefault);
   const accordion = useRef(null);
 
-  const toggleAccordion = (e, index: number) => {
+  const toggleAccordion = (index: number) => {
     const newIndex = activeIndex === index ? null : index;
 
     setActiveIndex(newIndex);
@@ -47,7 +47,7 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => 
 
         return (
           <div key={index} className={`accordion-row${activeClass} ${row.className}`}>
-            <div className="accordion-header" onClick={(e) => toggleAccordion(e, index)}>
+            <div className="accordion-header" onClick={() => toggleAccordion(index)}>
               <div className="text">{row.title}</div>
               <div className="icon">{isActive ? '-' : '+'}</div>
             </div>
