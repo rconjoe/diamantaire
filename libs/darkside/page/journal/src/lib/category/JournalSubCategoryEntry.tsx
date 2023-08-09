@@ -191,7 +191,7 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
           </div>
           <div className="journal-category__load-more-button">
             {count > categoryPosts?.length && (
-              <VRAIButton onClick={() => handleLoadMore()} type="solid" inverse>
+              <VRAIButton onClick={() => handleLoadMore()} type="primary" inverse>
                 <UIString>Load more</UIString>
               </VRAIButton>
             )}

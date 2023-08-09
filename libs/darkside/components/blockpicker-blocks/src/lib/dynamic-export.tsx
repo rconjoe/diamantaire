@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 
 export const DynamicModularBannerBlock = dynamic(() => import('./blocks/banners/ModularBannerBlock'));
+export const DynamicRandomModularBannerBlock = dynamic(() => import('./blocks/banners/ModularRandomBannerBlock'));
 export const DynamicModularHalfBannerBlock = dynamic(() => import('./blocks/banners/ModularHalfBannerBlock'));
 export const DynamicModularTallHalfWidthBlock = dynamic(() => import('./blocks/ModularTallHalfWidthBlock'));
 export const DynamicModularSkinnyBannerBlock = dynamic(() => import('./blocks/banners/ModularSkinnyBannerBlock'));

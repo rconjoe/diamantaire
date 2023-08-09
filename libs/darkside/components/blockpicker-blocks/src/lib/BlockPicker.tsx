@@ -65,6 +65,7 @@ import {
   DynamicModularTriGridWithOrderTracking,
   DynamicModularTrioStaggeredBlock,
   DynamicModularVideoBlock,
+  DynamicRandomModularBannerBlock,
   DynamicShowroomBlock,
   DynamicSocialMediaSection,
   DynamicTextOnlyBlock,
@@ -87,7 +88,7 @@ const config: configProps = {
 
   // BANNERS
 
-  [MODULAR_RANDOM_BANNER_BLOCK]: DynamicModularBannerBlock,
+  [MODULAR_RANDOM_BANNER_BLOCK]: DynamicRandomModularBannerBlock,
   // [MODULAR_RANDOM_BANNER_BLOCK]: ModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,

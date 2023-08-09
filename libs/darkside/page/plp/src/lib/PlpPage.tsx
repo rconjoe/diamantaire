@@ -11,6 +11,7 @@ import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePr
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 type PlpPageProps = {
   plpSlug: string;
@@ -69,6 +70,9 @@ function parseStringToObjectWithNestedValues(initialString: string) {
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
   const router = useRouter();
+  const { ref: pageEndRef, inView } = useInView({
+    rootMargin: '800px',
+  });
   const { plpSlug, category, productData, objectParams } = props;
   const paginationPages = productData?.paginator?.totalPages || 1;
 
@@ -96,34 +100,18 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const { data, fetchNextPage, isFetching } = usePlpVRAIProducts(qParams, initialProducts);
+  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(qParams, initialProducts);
 
   const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
+  // Handle pagination
   useEffect(() => {
-    async function fetchClientsideProducts() {
-      // a function to fetch the next page of products until the index matches the total number of pages
-      let index = 2;
-
-      const fetchNextPageLoop = async () => {
-        try {
-          while (index <= paginationPages) {
-            // eslint-disable-next-line no-await-in-loop
-            await fetchNextPage();
-
-            index++;
-          }
-        } catch (error) {
-          console.log('Error occurred during pagination', error);
-        }
-      };
-
-      fetchNextPageLoop();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
+  }, [inView, fetchNextPage, hasNextPage]);
 
-    fetchClientsideProducts();
-  }, [paginationPages, fetchNextPage]);
-
+  // Handle filter changes
   useEffect(() => {
     // const price = filterValue?.price;
     const newFilterObject = {
@@ -156,29 +144,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     });
 
     setQParams(newParams);
-
-    async function fetchClientsideProducts() {
-      // a function to fetch the next page of products until the index matches the total number of pages
-      let index = -3;
-
-      const fetchNextPageLoop = async () => {
-        try {
-          while (index - 1 <= paginationPages) {
-            // eslint-disable-next-line no-await-in-loop
-            await fetchNextPage();
-
-            index++;
-          }
-        } catch (error) {
-          console.log('Error occurred during pagination', error);
-        }
-      };
-
-      fetchNextPageLoop();
-    }
-
-    fetchClientsideProducts();
-  }, [availableFilters.price, category, fetchNextPage, filterValue, paginationPages, plpSlug]);
+  }, [availableFilters.price, category, filterValue, paginationPages, plpSlug]);
 
   return (
     <div>
@@ -196,6 +162,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         setFilterValues={setFilterValues}
         filterValue={filterValue}
       />
+      <div ref={pageEndRef} />
       <PlpBlockPicker plpSlug={plpSlug} />
     </div>
   );

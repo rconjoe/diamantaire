@@ -106,7 +106,10 @@ const ModularAccordion = ({
           <Accordion onChange={handleChange} collapsible={true} {...additionalOptions}>
             {accordionItems.map((item, index) => {
               // If there are supported countries listed, check to see if its supported.
-              if (item.supportedCountries?.length && !item.supportedCountries.includes(countryCode)) {
+              if (
+                item.supportedCountries.length > 0 &&
+                item.supportedCountries.filter((country) => country.code === countryCode).length === 0
+              ) {
                 return null;
               }
 

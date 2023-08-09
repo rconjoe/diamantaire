@@ -11,6 +11,7 @@ import {
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
+  VRAIButton,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
@@ -37,9 +38,9 @@ type ModularHalfWidthBannerBlockProps = {
   ctaRoute?: string;
   ctaRoute2?: string;
   ctaRoute3?: string;
-  ctaButtonType?: string;
-  ctaButtonType2?: string;
-  ctaButtonType3?: string;
+  ctaButtonType?: 'primary' | 'secondary';
+  ctaButtonType2?: 'primary' | 'secondary';
+  ctaButtonType3?: 'primary' | 'secondary';
   alt?: string;
   headingType?: string;
   textBlockAlignment?: string;
@@ -83,6 +84,8 @@ const ModularHalfWidthBannerBlock = ({
   middleLayerImage,
   middleLayerImageMobile,
 }: ModularHalfWidthBannerBlockProps) => {
+  console.log('ctaButtonType', ctaButtonType);
+
   const renderHalfWidthBlockTitle = (title) => {
     return (
       <Heading
@@ -211,13 +214,14 @@ const ModularHalfWidthBannerBlock = ({
         <div className="cta">
           {(ctaRoute || blogPost?.slug) && (
             <UniLink route={ctaRoute || `/journal/post/${blogPost?.slug}`}>
-              <Button
+              <VRAIButton
                 className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
                   '-inverse-tabletAndUp': textColor === WHITE,
                 })}
+                type={ctaButtonType}
               >
                 {ctaCopy}
-              </Button>
+              </VRAIButton>
             </UniLink>
           )}
           {ctaRoute && ctaRoute2 && (

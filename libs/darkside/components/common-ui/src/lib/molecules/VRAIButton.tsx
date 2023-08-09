@@ -18,6 +18,12 @@ interface Props {
   css: string;
 }
 
+export type ButtonTypeProps = 'primary' | 'secondary' | 'tertiary';
+
+// Primary = Solid Skeleton Button in Black
+// Secondary = Underlined Button in Teal
+// Tertiary = Solid Black Button with white text
+
 const ButtonStyles = styled.button<Props>`
   // BASE STYLES
   background-color: ${TRANSPARENT};
@@ -39,9 +45,10 @@ const ButtonStyles = styled.button<Props>`
     max-width: 350px;
     height: ${setSpace(6)};
     border: 2px solid var(--color-black);
-    transition: 0.1s linear background-color, 0.1s linear color;
+    transition: 0.25s;
     background-color: var(--color-black);
     color: var(--color-white);
+    padding: 0 20px;
 
     &:hover {
       background-color: transparent;
@@ -54,9 +61,9 @@ const ButtonStyles = styled.button<Props>`
     }
 
     &.-inverse {
-      color: var(--color-black);
-      border-color: var(--color-black);
-      background-color: var(--color-white);
+      color: var(--color-white);
+      border-color: var(--color-white);
+      background-color: transparent;
 
       &:hover {
         background-color: var(--color-black);
@@ -75,7 +82,7 @@ const ButtonStyles = styled.button<Props>`
 
       &.-color-theme-teal {
         background-color: transparent;
-        border-color: var(--color-teal);
+        border-color: var(--color-teal) !important;
         color: var(--color-teal);
 
         &:hover {
@@ -83,23 +90,35 @@ const ButtonStyles = styled.button<Props>`
           color: var(--color-teal);
         }
       }
+
+      &.-color-theme-white {
+        background-color: transparent;
+        border-color: var(--color-white);
+        color: var(--color-white);
+
+        &:hover {
+          background-color: var(--color-white);
+          color: var(--color-black);
+        }
+      }
     }
 
     &.-color-theme-teal {
       background-color: var(--color-teal);
-      border-color: var(--color-teal);
+      border-color: var(--color-teal) !important;
       color: var(--color-white);
 
       &:hover {
+        border-color: var(--color-white) !important;
         background-color: var(--color-white);
-        color: var(--color-teal);
+        color: var(--color-teal) !important;
       }
     }
 
     &.-color-theme-white {
       background-color: var(--color-white);
       border-color: var(--color-white);
-      color: var(--color-white);
+      color: var(--color-black);
 
       &:hover {
         background-color: var(--color-white);
@@ -157,9 +176,10 @@ const ButtonStyles = styled.button<Props>`
     padding-right: 0;
     padding-bottom: ${setSpace(0.5)};
     padding-top: ${setSpace(0.5)};
-    border-bottom: 1px solid var(--color-black);
-    color: var(--color-black);
+    border-bottom: 1px solid var(--color-teal);
+    color: var(--color-teal);
     transition: 0.25s;
+    display: inline-block;
 
     &:hover {
       border-bottom: 1px solid var(--color-black);
@@ -268,7 +288,7 @@ const ButtonStyles = styled.button<Props>`
 
 type ButtonProps = {
   children: React.ReactNode;
-  type?: 'solid' | 'underline';
+  type?: ButtonTypeProps;
   inverse?: boolean;
   colorTheme?: 'black' | 'teal' | 'white';
   isLink?: boolean;
@@ -281,7 +301,7 @@ type ButtonProps = {
 const VRAIButton = ({
   className,
   children,
-  type = 'solid',
+  type = 'primary',
   inverse,
   href,
   colorTheme,
@@ -294,8 +314,9 @@ const VRAIButton = ({
       <ButtonStyles
         type={buttonType}
         className={clsx(className, {
-          primary: type === 'solid',
-          secondary: type === 'underline',
+          primary: type === 'primary',
+          secondary: type === 'secondary',
+          tertiary: type === 'tertiary',
           '-inverse': inverse,
           '-color-theme-teal': colorTheme === 'teal',
           '-color-theme-white': colorTheme === 'white',
@@ -309,8 +330,9 @@ const VRAIButton = ({
     <ButtonStyles
       type={buttonType}
       className={clsx(className, {
-        primary: type === 'solid',
-        secondary: type === 'underline',
+        primary: type === 'primary',
+        secondary: type === 'secondary',
+        tertiary: type === 'tertiary',
         '-inverse': inverse,
         '-color-theme-teal': colorTheme === 'teal',
         '-color-theme-white': colorTheme === 'white',
