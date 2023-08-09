@@ -42,21 +42,42 @@ const SliderFilter = (props) => {
 
   const values = !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : null;
 
-  const step = type === 'carat' ? 0.1 : 1;
+  const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
+
+  if (type === 'price') {
+    console.log(`roundRange`, roundRange);
+    console.log(`values`, values);
+  }
 
   return (
     <div title={type} className="vo-filter-slider">
-      <Slider
-        step={step}
-        type={type}
-        range={{
-          min: range[0],
-          max: range[1],
-        }}
-        value={values || range}
-        handleChange={handleChange}
-        handleFormat={handleFormat}
-      />
+      {type === 'carat' && (
+        <Slider
+          step={0.1}
+          type={type}
+          range={{
+            min: range[0],
+            max: range[1],
+          }}
+          value={values || range}
+          handleChange={handleChange}
+          handleFormat={handleFormat}
+        />
+      )}
+
+      {type === 'price' && (
+        <Slider
+          step={10000}
+          type={type}
+          range={{
+            min: roundRange[0],
+            max: roundRange[1],
+          }}
+          value={values || roundRange}
+          handleChange={handleChange}
+          handleFormat={handleFormat}
+        />
+      )}
     </div>
   );
 };
@@ -348,4 +369,13 @@ function findClosestValue(number, array) {
   }
 
   return closestValue;
+}
+
+function roundToNearest100(number, type) {
+  if (type === '+') {
+    return Math.ceil(number / 100) * 100 * 100;
+  }
+  if (type === '-') {
+    return Math.floor(number / 100) * 100 * 100;
+  }
 }
