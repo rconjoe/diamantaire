@@ -39,6 +39,8 @@ export * from './lib/tags';
 export * from './lib/url';
 export * from './lib/video';
 
+export const DF_API_KEY = '';
+
 // TODO: tidy up the rest of the list
 export enum ProngStyles {
   Plain = 'plain',
@@ -93,4 +95,16 @@ export const metalTypeAsConst = {
   'white-gold': 'White Gold',
   'rose-gold': 'Rose Gold',
   'sterling-silver': 'Sterling Silver',
+} as const;
+
+export const MOCK_COLOR_DISPLAY_NAMING_MAP = {
+  '18k Rose Gold': 'Rose Gold',
+  '18k White Gold': 'White Gold / Platinum',
+  '18k Yellow Gold': 'Yellow Gold',
+  '18K Rose Gold': 'Rose Gold',
+  '18K White Gold': 'White Gold / Platinum',
+  '18K Yellow Gold': 'Yellow Gold',
+  'Rose Gold': 'Rose Gold',
+  'White Gold': 'White Gold / Platinum',
+  'Yellow Gold': 'Yellow Gold',
 } as const;
