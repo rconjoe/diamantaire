@@ -7,6 +7,7 @@ import { DiamondsModule } from '@diamantaire/server/diamonds';
 import { HealthModule } from '@diamantaire/server/health';
 import { PriceModule } from '@diamantaire/server/price';
 import { ProductsModule } from '@diamantaire/server/products';
+//import { ProductLoaderModule } from '@diamantaire/shared-product';
 import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -29,6 +30,7 @@ import { AppService } from './app.service';
     ProductsModule,
     PriceModule,
     DiamondsModule,
+    //ProductLoaderModule,
     HealthModule,
     HttpModule,
     AuthModule,

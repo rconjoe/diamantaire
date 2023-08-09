@@ -80,6 +80,7 @@ export class DiamondsService {
     //const regexPattern = /fancy/i;
 
     filteredQuery.availableForSale = true; // only return available diamonds
+    filteredQuery.hidden = false;
     //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
 
     if (input?.isCto) {
@@ -266,6 +267,7 @@ export class DiamondsService {
     const regexPattern = /fancy/i;
 
     filteredQuery.availableForSale = true; // only return available diamonds
+    filteredQuery.hidden = false;
     filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
     filteredQuery.slug = 'diamonds';
     try {

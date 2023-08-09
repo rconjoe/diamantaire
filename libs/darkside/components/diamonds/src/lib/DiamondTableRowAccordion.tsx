@@ -79,7 +79,7 @@ const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: Di
 
   return (
     <StyledDiamondTableRowAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 3} />
+      <Accordion rows={accordionContent} activeDefault={isMobile ? null : 3} />
     </StyledDiamondTableRowAccordion>
   );
 };

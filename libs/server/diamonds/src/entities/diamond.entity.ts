@@ -66,6 +66,9 @@ export class DiamondEntity extends AbstractDocument {
 
   @Prop({ type: Boolean })
   availableForSale?: boolean;
+
+  @Prop({ type: Boolean })
+  hidden?: boolean;
 }
 
 export const DiamondSchema = SchemaFactory.createForClass(DiamondEntity);

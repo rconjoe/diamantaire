@@ -138,11 +138,15 @@ export const getDiamondOptionsFromUrl = (query, page) => {
 
   if (page === 'diamondTable') {
     const options = { ...DIAMOND_TABLE_DEFAULT_OPTIONS, ...query };
+    const optCaratMin = (options.caratMin && parseFloat(options.caratMin)) || null;
 
-    return {
+    const opt = {
       ...getOptionsFromFacetedNav(options.filterOptions),
       ...getOptionsFromQueryNav(options),
+      ...(!optCaratMin || (optCaratMin && optCaratMin < 1) ? { caratMin: 1 } : {}),
     };
+
+    return opt;
   }
 
   if (page === 'diamondPDP') {

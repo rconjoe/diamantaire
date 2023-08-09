@@ -76,6 +76,23 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
+  async bulkUpdateDiamonds(data: Partial<TDocument>[], slug: string): Promise<any> {
+    const bulk = this.model.collection.initializeUnorderedBulkOp();
+
+    data.forEach((item: any) => {
+      if (item.isForSale) {
+        item.availableForSale = true;
+      } else {
+        item.availableForSale = false;
+      }
+      item.slug = slug;
+      item.hidden = false;
+      bulk.find({ dangerousInternalProductId: item.dangerousInternalProductId }).upsert().updateOne({ $set: item });
+    });
+
+    return bulk.execute();
+  }
+
   async aggregate(pipeline?: PipelineStage[], options?: AggregateOptions) {
     return this.model.aggregate(pipeline, options);
   }
