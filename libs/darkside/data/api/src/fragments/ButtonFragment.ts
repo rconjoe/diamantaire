@@ -1,11 +1,11 @@
 const ButtonFragment = `
-fragment buttonFragment on DarksideButtonRecord {
-    ctaCopy
-    ctaLinkUrl
-    ctaButtonType
-    ctaButtonColorTheme
-    openUrlInNewWindow
-  }
+... on DarksideButtonRecord {
+      ctaCopy
+      ctaLinkUrl
+      ctaButtonType
+      ctaButtonColorTheme
+      openUrlInNewWindow
+    }
 
 `;
 
