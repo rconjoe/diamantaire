@@ -1,8 +1,13 @@
+import { ButtonFragment } from '../fragments';
+
 const HeroBanner = `
   ... on ModularHeroBannerBlockRecord {
     id
     _modelApiKey
     ctaCopy
+    darksideButtons {
+      ${ButtonFragment}
+    }
     ctaRoute
     ctaButtonType
     ctaCopy2

@@ -97,7 +97,7 @@ export const ModularShowroomBlockContainer = styled.div`
     `)}
   }
 
-  .showroom__appt-cta-button {
+  .showroom__appt-cta-button button {
     width: 100% !important;
     font-size: var(--font-size-xsmall) !important;
     max-height: none;

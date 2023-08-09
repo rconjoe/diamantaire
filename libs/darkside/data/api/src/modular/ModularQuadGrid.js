@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const ModularQuadGrid = `
 ... on ModularQuadGridRecord {
     title
@@ -5,6 +7,9 @@ const ModularQuadGrid = `
     _modelApiKey
     ctaButtonText
     ctaButtonUrl
+    darksideButtons {
+      ${ButtonFragment}
+    }
     gridItems {
       itemTitle
       itemCaption

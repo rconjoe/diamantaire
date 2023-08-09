@@ -1,11 +1,12 @@
 import {
   Heading,
-  Button,
   MobileDesktopImage,
   ShowTabletAndUpOnly,
   ShowMobileOnly,
+  DarksideButton,
+  DatoDarksideButtonProps,
 } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { UIString } from '@diamantaire/darkside/core';
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
@@ -37,6 +38,7 @@ type TallHalfWidthBlockLocationCTAProps = {
   countryCode?: string;
   shouldLazyLoad?: boolean;
   titleImage: object;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const TallHalfWidthBlockLocationCTA = ({
@@ -44,10 +46,7 @@ const TallHalfWidthBlockLocationCTA = ({
   headingType,
   headingAdditionalClass,
   desktopCopy,
-  ctaCopy,
-  ctaRoute,
-  ctaCopy2,
-  ctaRoute2,
+
   desktopImage,
   mobileImage,
   isTextBlockWide,
@@ -57,6 +56,7 @@ const TallHalfWidthBlockLocationCTA = ({
   supportedCountries,
   shouldLazyLoad = true,
   countryCode = 'US',
+  darksideButtons,
 }: TallHalfWidthBlockLocationCTAProps) => {
   const [showroom, setShowroom] = useState({
     title: 'Expert advice',
@@ -171,51 +171,28 @@ const TallHalfWidthBlockLocationCTA = ({
 
         {showroom.title !== 'Expert advice' ? (
           <div className="cta -first">
-            {ctaRoute && (
-              <UniLink route={`/book-appointment?location=${showroom.handle}`}>
-                <Button
-                  className={clsx('primary', '-mobile-wide', {
-                    [additionalClass]: additionalClass,
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                  })}
-                >
-                  <UIString>Book an appointment</UIString>
-                </Button>
-              </UniLink>
-            )}
+            <DarksideButton
+              mobileColorTheme={'desktop'}
+              colorTheme={'black'}
+              type={'outline'}
+              href={`/book-appointment?location=${showroom.handle}`}
+            >
+              <UIString>Book an appointment</UIString>
+            </DarksideButton>
           </div>
         ) : (
-          <>
-            <div className="cta -first">
-              {ctaRoute && (
-                <UniLink route={ctaRoute}>
-                  <Button
-                    className={clsx('primary', '-mobile-wide', {
-                      [additionalClass]: additionalClass,
-                      '-inverse-tabletAndUp': textColor === WHITE,
-                    })}
-                  >
-                    <UIString>{ctaCopy}</UIString>
-                  </Button>
-                </UniLink>
-              )}
+          darksideButtons?.map((button) => (
+            <div className="cta__button" key={button.id}>
+              <DarksideButton
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                colorTheme={button.ctaButtonColorTheme}
+                type={button.ctaButtonType}
+                href={button.ctaLinkUrl}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
             </div>
-
-            <div className="cta -last">
-              {ctaRoute2 && (
-                <UniLink route={ctaRoute2}>
-                  <Button
-                    className={clsx('primary', '-mobile-wide', {
-                      [additionalClass]: additionalClass,
-                      '-inverse-tabletAndUp': textColor === WHITE,
-                    })}
-                  >
-                    <UIString>{ctaCopy2}</UIString>
-                  </Button>
-                </UniLink>
-              )}
-            </div>
-          </>
+          ))
         )}
       </div>
     </TallHalfWidthBlockLocationCTAContainer>

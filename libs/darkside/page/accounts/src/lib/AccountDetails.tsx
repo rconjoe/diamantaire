@@ -1,4 +1,4 @@
-import { Form, FormSchemaType, VRAIButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, FormSchemaType } from '@diamantaire/darkside/components/common-ui';
 import { fetchData } from '@diamantaire/darkside/data/api';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -210,9 +210,9 @@ const AccountDetails = ({ customer }) => {
             />
 
             <div className="cancel">
-              <VRAIButton type="secondary" onClick={() => setIsEditingShippingInfo(false)}>
+              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
                 Cancel
-              </VRAIButton>
+              </DarksideButton>
             </div>
           </div>
         ) : (
@@ -220,9 +220,9 @@ const AccountDetails = ({ customer }) => {
             <div className="shipping-info__container">
               <div className="title flex justify-space-between align-center">
                 <h4>Shipping information</h4>
-                <VRAIButton type="secondary" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
                   Edit
-                </VRAIButton>
+                </DarksideButton>
               </div>
               <ul className="list-unstyled">
                 <li>
@@ -255,15 +255,15 @@ const AccountDetails = ({ customer }) => {
                 <div className="phone-form">
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} />
                   <div className="close-phone-form">
-                    <VRAIButton type="secondary" onClick={() => setIsEdittingPhone(false)}>
+                    <DarksideButton type="underline" onClick={() => setIsEdittingPhone(false)}>
                       Cancel
-                    </VRAIButton>
+                    </DarksideButton>
                   </div>
                 </div>
               ) : (
-                <VRAIButton onClick={() => setIsEdittingPhone(true)} type="secondary" colorTheme="teal">
+                <DarksideButton onClick={() => setIsEdittingPhone(true)} type="underline" colorTheme="teal">
                   Enter your phone number
-                </VRAIButton>
+                </DarksideButton>
               )}
             </li>
           </ul>

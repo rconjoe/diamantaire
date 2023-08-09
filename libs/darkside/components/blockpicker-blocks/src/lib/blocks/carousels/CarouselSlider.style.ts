@@ -202,4 +202,8 @@ export const CarouselSliderContainer = styled.div`
       transform: scale(2);
     }
   }
+
+  .carousel-footer {
+    margin-top: 40px;
+  }
 `;

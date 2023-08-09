@@ -1,4 +1,4 @@
-import { Heading, MobileDesktopImage, VRAIButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -32,9 +32,7 @@ const PlpCreativeBlockStyles = styled.div`
 `;
 
 const PlpCreativeBlock = ({ block }) => {
-  // console.log('block', block);
-
-  const { desktopImage, mobileImage, desktopCopy, title, ctaCopy, ctaRoute, className } = block || {};
+  const { desktopImage, mobileImage, desktopCopy, title, className, darksideButtons } = block || {};
 
   return (
     <PlpCreativeBlockStyles className={className}>
@@ -47,15 +45,20 @@ const PlpCreativeBlock = ({ block }) => {
               {title}
             </Heading>
             <p>{desktopCopy}</p>
-            {className === 'creative-block--left' ? (
-              <VRAIButton type="secondary" colorTheme="teal" isLink={true} href={ctaRoute || ''}>
-                {ctaCopy}
-              </VRAIButton>
-            ) : (
-              <VRAIButton type="primary" inverse colorTheme="black" isLink={true} href={ctaRoute || ''}>
-                {ctaCopy}
-              </VRAIButton>
-            )}
+
+            {darksideButtons?.map((button) => {
+              return (
+                <DarksideButton
+                  colorTheme={button.ctaButtonColorTheme}
+                  mobileColorTheme={button.ctaButtonMobileColorTheme}
+                  href={button.ctaLinkUrl}
+                  key={button.id}
+                  type={button.ctaButtonType}
+                >
+                  {button.ctaCopy}
+                </DarksideButton>
+              );
+            })}
           </div>
         </div>
       </div>

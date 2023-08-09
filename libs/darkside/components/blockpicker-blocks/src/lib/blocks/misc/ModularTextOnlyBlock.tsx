@@ -1,13 +1,17 @@
-import { Heading, ShowMobileOnly, ShowTabletAndUpOnly, Button, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import {
+  Heading,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+  Markdown,
+  DatoDarksideButtonProps,
+  DarksideButton,
+} from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
 
 import { ModularTextOnlyBlockContainer } from './ModularTextOnlyBlock.style';
 
 type ModularTextOnlyBlockProps = {
   title?: string;
-  ctaCopy: string;
-  ctaRoute: string;
   desktopCopy?: string;
   mobileCopy?: string;
   mobileButtonClass: string;
@@ -19,32 +23,22 @@ type ModularTextOnlyBlockProps = {
   headingType?: string;
   headingAdditionalClass?: string;
   blogCopy?: string;
-  ctaCopy2?: string;
-  ctaRoute2?: string;
-  ctaButtonType2?: string;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularTextOnlyBlock = ({
   title,
   titleStyle,
   titleFont,
-  ctaCopy,
-  ctaRoute,
-  ctaCopy2,
-  ctaRoute2,
-  ctaButtonType2,
+  darksideButtons,
   desktopCopy,
   mobileCopy,
   copy,
-  mobileButtonClass = 'secondary',
-  tabletAndUpButtonClass = 'secondary',
   additionalClass,
   headingType,
   headingAdditionalClass,
   blogCopy,
 }: ModularTextOnlyBlockProps) => {
-  const hasSecondCTA = Boolean(ctaRoute2) && Boolean(ctaCopy2);
-
   return (
     <ModularTextOnlyBlockContainer className="container-wrapper" titleFont={titleFont} titleStyle={titleStyle}>
       <div
@@ -84,33 +78,24 @@ const ModularTextOnlyBlock = ({
             </ShowMobileOnly>
           )}
           {copy && <Markdown extraClass={'-textOnlyBlock ' + additionalClass}>{copy}</Markdown>}
-          {ctaCopy || hasSecondCTA ? (
+          {darksideButtons.length > 0 ? (
             <div
               className={clsx('text-block__button-wrapper', additionalClass, {
-                '-has-smaller-margin': hasSecondCTA,
+                '-has-smaller-margin': darksideButtons.length > 1,
               })}
             >
-              {ctaCopy && (
-                <>
-                  <ShowTabletAndUpOnly>
-                    <UniLink route={ctaRoute}>
-                      <Button className={tabletAndUpButtonClass}>{ctaCopy}</Button>
-                    </UniLink>
-                  </ShowTabletAndUpOnly>
-                  <div className="text-block__mobile-button-wrapper">
-                    <ShowMobileOnly>
-                      <UniLink route={ctaRoute}>
-                        <Button className={mobileButtonClass}>{ctaCopy}</Button>
-                      </UniLink>
-                    </ShowMobileOnly>
-                  </div>
-                </>
-              )}
-              {hasSecondCTA && (
-                <UniLink route={ctaRoute2}>
-                  <Button className={clsx(ctaButtonType2, 'second-button')}>{ctaCopy2}</Button>
-                </UniLink>
-              )}
+              {darksideButtons?.map((button) => {
+                return (
+                  <DarksideButton
+                    key={button.id}
+                    type={button.ctaButtonType}
+                    colorTheme={button.ctaButtonColorTheme}
+                    href={button.ctaLinkUrl}
+                  >
+                    {button.ctaCopy}
+                  </DarksideButton>
+                );
+              })}
             </div>
           ) : null}
         </div>
@@ -118,8 +103,5 @@ const ModularTextOnlyBlock = ({
     </ModularTextOnlyBlockContainer>
   );
 };
-
-// Block.propTypes = propTypes;
-// TextOnlyBlock.propTypes = textOnlyPropTypes;
 
 export default ModularTextOnlyBlock;

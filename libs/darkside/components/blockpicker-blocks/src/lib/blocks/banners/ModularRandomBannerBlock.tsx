@@ -6,8 +6,6 @@ const ModularRandomBannerBlock = ({ blocks }) => {
   // Init the block picker with a predictable value
   const [randomIndex, setRandomIndex] = useState(-1);
 
-  console.log('blocks', blocks);
-
   useEffect(() => {
     const min = 0;
     const max = blocks?.length - 1;

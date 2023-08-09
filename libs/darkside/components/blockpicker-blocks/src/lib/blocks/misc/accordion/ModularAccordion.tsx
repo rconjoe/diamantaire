@@ -1,5 +1,4 @@
-import { Markdown, Button, DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { Markdown, DatoImage, DatoDarksideButtonProps, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
@@ -12,9 +11,6 @@ import { ModularAccordionItem, ModularAccordionItemProps } from './ModularAccord
 type ModularAccordionProps = {
   title: string;
   copy?: string;
-  ctaCopy?: string;
-  ctaRoute?: string;
-  ctaButtonType?: string;
   image?: DatoImageType;
   firstItemOpen: boolean;
   shouldUseFaqSchema: boolean;
@@ -22,6 +18,7 @@ type ModularAccordionProps = {
   bottomCopy?: string;
   countryCode?: string;
   shouldLazyLoad?: boolean;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 // temp
@@ -29,9 +26,6 @@ type ModularAccordionProps = {
 const ModularAccordion = ({
   title,
   copy,
-  ctaCopy,
-  ctaRoute,
-  ctaButtonType,
   image,
   accordionItems,
   firstItemOpen,
@@ -39,6 +33,7 @@ const ModularAccordion = ({
   bottomCopy,
   countryCode,
   shouldLazyLoad,
+  darksideButtons,
 }: ModularAccordionProps) => {
   const [indice, setIndice] = useState(firstItemOpen ? 0 : -1);
 
@@ -97,11 +92,19 @@ const ModularAccordion = ({
             </div>
           )}
 
-          {ctaRoute && (
-            <UniLink route={ctaRoute}>
-              <Button className={clsx(ctaButtonType, '-mobile-wide')}>{ctaCopy}</Button>
-            </UniLink>
-          )}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
 
           <Accordion onChange={handleChange} collapsible={true} {...additionalOptions}>
             {accordionItems.map((item, index) => {

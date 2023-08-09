@@ -18,6 +18,14 @@ const Quote = `
       alt
       height
       width
+      responsiveImage {
+        src
+        width
+        height
+        aspectRatio
+        title
+        base64
+      }
     }
   }
 `;

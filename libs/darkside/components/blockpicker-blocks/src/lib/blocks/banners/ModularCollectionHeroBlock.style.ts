@@ -228,6 +228,8 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   .hero-block__button-container {
     width: 100%;
     text-align: center;
+    max-width: 350px;
+    margin: 0 auto;
   }
 
   .hero-block__button {

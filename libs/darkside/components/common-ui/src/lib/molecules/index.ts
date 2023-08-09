@@ -19,3 +19,4 @@ export * from './SpriteSpinner';
 export * from './Accordion';
 export * from './VRAIButton';
 export * from './Modal';
+export * from './DarksideButton';

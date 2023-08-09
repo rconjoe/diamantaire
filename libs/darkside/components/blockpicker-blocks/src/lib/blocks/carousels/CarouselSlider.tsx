@@ -1,5 +1,4 @@
-import { Heading, Button, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { Heading, SwiperStyles, DarksideButton, DatoDarksideButtonProps } from '@diamantaire/darkside/components/common-ui';
 import { ArrowRightIcon, ArrowLeftIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
@@ -12,14 +11,13 @@ type CarouselContentBlockProps = {
   id?: string;
   title?: string;
   subtitle?: string;
-  ctaCopy?: string;
-  ctaLink?: string;
   shouldLazyLoad?: boolean;
   additionalClass?: string;
   loopItems?: boolean;
   children: ReactNode;
   breakpoints?: any;
   className?: string;
+  darksideButtons?: DatoDarksideButtonProps[];
 };
 
 const DEFAULT_BREAKPOINTS = {
@@ -35,14 +33,14 @@ const DEFAULT_BREAKPOINTS = {
 const CarouselSlider = ({
   title,
   subtitle,
-  ctaCopy,
-  ctaLink,
   children,
   breakpoints = DEFAULT_BREAKPOINTS,
   additionalClass,
   loopItems = true,
   className,
+  darksideButtons,
 }: CarouselContentBlockProps) => {
+  console.log('darksideButtons', darksideButtons);
   // LIST REF
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
@@ -62,8 +60,6 @@ const CarouselSlider = ({
   if (!children) {
     return null;
   }
-
-  const shouldShowCTA = ctaCopy && ctaLink;
 
   return (
     <SwiperStyles>
@@ -125,15 +121,25 @@ const CarouselSlider = ({
           >
             {children}
           </Swiper>
-
-          {shouldShowCTA && (
-            <div className="centered">
-              <UniLink route={ctaLink} className="cta">
-                <Button className="primary">{ctaCopy}</Button>
-              </UniLink>
-            </div>
-          )}
         </div>
+
+        {darksideButtons?.length > 0 && (
+          <div className="carousel-footer">
+            {darksideButtons?.map((button) => {
+              return (
+                <DarksideButton
+                  colorTheme={button.ctaButtonColorTheme}
+                  mobileColorTheme={button.ctaButtonMobileColorTheme}
+                  href={button.ctaLinkUrl}
+                  key={button.id}
+                  type={button.ctaButtonType}
+                >
+                  {button.ctaCopy}
+                </DarksideButton>
+              );
+            })}
+          </div>
+        )}
       </CarouselSliderContainer>
     </SwiperStyles>
   );
