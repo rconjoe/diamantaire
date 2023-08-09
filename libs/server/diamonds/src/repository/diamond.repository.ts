@@ -20,8 +20,8 @@ import { DiamondEntity } from '../entities/diamond.entity';
 export class DiamondRepository extends AbstractRepository<DiamondEntity> {
   protected logger = new Logger(DiamondRepository.name);
   constructor(
-    @InjectModel(DiamondEntity.name) private readonly diamondModel: PaginateModel<DiamondEntity>,
-    @InjectModel(DiamondEntity.name) private readonly diamondModeltAggregateModel: AggregatePaginateModel<DiamondEntity>,
+    @InjectModel('diamonds') private readonly diamondModel: PaginateModel<DiamondEntity>,
+    @InjectModel('diamonds') private readonly diamondModeltAggregateModel: AggregatePaginateModel<DiamondEntity>,
     @InjectConnection() connection: Connection,
   ) {
     super(diamondModel, connection);
