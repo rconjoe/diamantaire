@@ -20,7 +20,7 @@ import {
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions, PipelineStage } from 'mongoose';
 
-import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto } from '../dto/diamond-checkout.dto';
+import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto, DiamondPlp } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
@@ -398,6 +398,15 @@ export class DiamondsService {
       }
       // If we do not have a diamond of a specific type, something went wrong
       throw new NotFoundException(`Diamond with diamondType: ${input.diamondType} not found`);
+    } catch (error) {
+      this.Logger.error(`Error fetching lowest priced ${input.diamondType} diamond: ${error}`);
+      throw error;
+    }
+  }
+
+  async getPlpDiamonds(input: DiamondPlp) {
+    try {
+      const { slug, diamondTypes, colors } = input;
     } catch (error) {
       this.Logger.error(`Error fetching lowest priced ${input.diamondType} diamond: ${error}`);
       throw error;
