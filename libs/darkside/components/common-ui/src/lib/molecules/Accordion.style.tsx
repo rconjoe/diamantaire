@@ -30,6 +30,7 @@ const StyledAccordion = styled.div`
       display: flex;
       gap: 5px;
       font-size: var(--font-size-xxsmall);
+      align-items: center;
     }
 
     .icon {
