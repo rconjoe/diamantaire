@@ -2,12 +2,11 @@ import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, WHITE, tabletAndUp } from '@di
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
-  font-size: var(--font-size-xxxxsmall);
+  font-size: var(--font-size-xxxsmall);
   display: block;
   margin: 30px -25px 0;
 
   ${tabletAndUp(`
-    font-size: var(--font-size-xxxsmall);
     width: 100%;
     display: flex;
     margin: 0;
@@ -40,7 +39,8 @@ const StyledDiamondTable = styled.div`
     width: 16%;
   }
 
-  .vo-table-cell:nth-child(1) {
+  .vo-table-cell:nth-child(1),
+  .vo-table-cell:last-child {
     flex: 1;
   }
 
@@ -55,9 +55,9 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-head {
-    display: flex;
-    width: 100%;
     z-index: 2;
+    width: 100%;
+    display: flex;
     position: sticky;
     top: ${(props) => props.headerHeight}px;
   }
@@ -81,7 +81,8 @@ const StyledDiamondTable = styled.div`
     justify-content: center;
     align-items: center;
     padding: 10px 5px;
-    font-weight: 500;
+    font-size: var(--font-size-xxxxsmall);
+    font-weight: var(--font-weight-normal);
 
     ${tabletAndUp(`
       background: ${GREY_LIGHTEST} !important;
@@ -118,11 +119,17 @@ const StyledDiamondTable = styled.div`
     color: ${WHITE};
   }
 
-  .vo-table-body .vo-table-row.active .vo-table-row-head {
-    background-color: var(--color-teal);
-    position: sticky;
-    z-index: 1;
-    top: calc(${(props) => props.headerHeight}px + ${(props) => props.tableHeadHeight}px);
+  .vo-table-body .vo-table-row.active {
+    .vo-table-row-head {
+      z-index: 1;
+      position: sticky;
+      background-color: var(--color-teal);
+      top: calc(${(props) => props.headerHeight}px + ${(props) => props.tableHeadHeight}px);
+    }
+
+    .vo-table-row-head .vo-table-cell {
+      font-weight: var(--font-weight-medium);
+    }
   }
 
   .vo-table-body .vo-table-row-body {

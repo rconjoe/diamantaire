@@ -29,7 +29,7 @@ const SliderFilter = (props) => {
 
   const handleFormat = (value: number | string) => {
     if (type === 'carat') {
-      return value.toString() + 'ct';
+      return Number(value).toFixed(1) + 'ct';
     }
 
     if (type === 'price') {
@@ -41,7 +41,7 @@ const SliderFilter = (props) => {
 
   const values = !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : null;
 
-  const step = type === 'carat' ? 0.01 : 1;
+  const step = type === 'carat' ? 0.1 : 1;
 
   return (
     <div title={type} className="vo-filter-slider">
