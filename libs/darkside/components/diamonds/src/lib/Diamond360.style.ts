@@ -20,6 +20,7 @@ const StyledDiamond360 = styled.div`
     transform: scale(0.9);
 
     ${desktopAndUp(`
+      transform: scale(0.75);
       width: auto;
     `)}
   }

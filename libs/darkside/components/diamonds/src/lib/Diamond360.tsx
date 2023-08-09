@@ -76,9 +76,11 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className }: Diamond360P
       <StyledDiamond360 className={className}>
         {renderMedia()}
 
-        <div className="caption">
-          <UIString>Interactive actual diamond video</UIString>
-        </div>
+        {mediaType === 'diamond-video' && (
+          <div className="caption">
+            <UIString>Interactive actual diamond video</UIString>
+          </div>
+        )}
       </StyledDiamond360>
     )
   );
