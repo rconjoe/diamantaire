@@ -1,16 +1,27 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, Dispatch } from 'react';
 
 import { Diamond, BuilderProductComponent } from './utils/builderProduct';
 
-const initialBuilderProductState = {
+interface BuilderProductState {
+  product: BuilderProductComponent | null;
+  diamond: Diamond | null;
+  builderState: (typeof builderState)[keyof typeof builderState];
+}
+
+const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
   builderState: 'Select Diamond Or Setting',
 };
 
-const BuilderProductContext = createContext({
+type BuilderProductContextType = {
+  builderProduct: BuilderProductState;
+  dispatch: Dispatch<BuilderAction> | null;
+};
+
+const BuilderProductContext = createContext<BuilderProductContextType>({
   builderProduct: initialBuilderProductState,
-  dispatch: (action: BuilderAction) => {},
+  dispatch: null,
 });
 
 const builderState = {
@@ -20,19 +31,13 @@ const builderState = {
   Complete: 'Complete',
 } as const;
 
-interface BuilderProduct {
-  product: BuilderProductComponent | null;
-  diamond: Diamond | null;
-  builderState: (typeof builderState)[keyof typeof builderState];
-}
-
 type BuilderAction =
   | { type: 'ADD_DIAMOND'; payload: Diamond }
   | { type: 'REMOVE_DIAMOND' }
   | { type: 'ADD_PRODUCT'; payload: BuilderProductComponent }
   | { type: 'REMOVE_PRODUCT' };
 
-const builderReducer = (state: BuilderProduct, action: BuilderAction): BuilderProduct => {
+const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
     case 'ADD_DIAMOND': {
       const newState = {
