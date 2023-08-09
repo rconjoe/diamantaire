@@ -5,11 +5,9 @@ const StyledTooltip = styled.div`
   .tooltip-window {
     opacity: 1;
     z-index: 9999;
-    max-width: 340px;
     background: ${WHITE};
     border: 1px solid ${GREY};
     padding: 2rem;
-    box-shadow: 0 0 10px ${GREY_LIGHTER};
     color: ${BLACK};
 
     ${tabletAndUp(`
@@ -62,6 +60,19 @@ const StyledTooltip = styled.div`
       text-transform: none;
       color: var(--color-teal);
     }
+  }
+
+  #tooltip-carat,
+  #tooltip-color,
+  #tooltip-clarity,
+  #tooltip-cut {
+    max-width: 80%;
+  }
+
+  .tooltip-certificate {
+    ${tabletAndUp(`
+      max-width: 170px;
+    `)}
   }
 `;
 

@@ -199,6 +199,7 @@ const RadioFilter = (props) => {
               <ArrowLeftIcon />
             </div>
           )}
+
           {useRightArrow && (
             <div className="arrow arrow-right" onClick={() => handleArrowClick('+')}>
               <ArrowRightIcon />
