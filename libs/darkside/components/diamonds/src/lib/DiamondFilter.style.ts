@@ -80,14 +80,14 @@ const StyledDiamondFilter = styled.div`
     flex-direction: column;
     max-width: 100%;
 
-    ::-webkit-scrollbar {
-      opacity: 0;
-      height: 0;
-    }
-
     .vo-filter-radio {
       overflow-x: auto;
       max-width: 100%;
+
+      ::-webkit-scrollbar {
+        opacity: 0;
+        height: 0;
+      }
     }
 
     .vo-filter-list {
@@ -152,13 +152,13 @@ const StyledDiamondFilter = styled.div`
       cursor: pointer;
     }
 
-    .arrow:hover {
-      background: rgba(255, 255, 255, 1);
-    }
-
     .arrow.arrow-right {
       left: auto;
       right: 0;
+    }
+
+    .arrow:hover {
+      background: rgba(255, 255, 255, 1);
     }
   }
 
