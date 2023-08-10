@@ -92,21 +92,21 @@ const StyledDiamondFilter = styled.div`
 
   .vo-filter-color {
     .vo-filter-list-item:nth-child(1) {
-      width: 7rem;
+      width: 6.6rem;
 
       ${tabletAndUp(`
         width: 7rem;
       `)}
     }
     .vo-filter-list-item:nth-child(2) {
-      width: 8rem;
+      width: 8.9rem;
 
       ${tabletAndUp(`
         width: 10rem;
       `)}
     }
     .vo-filter-list-item:nth-child(3) {
-      width: 6rem;
+      width: 7.1rem;
 
       ${tabletAndUp(`
         width: 8rem;
