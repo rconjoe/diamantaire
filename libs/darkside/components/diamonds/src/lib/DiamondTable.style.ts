@@ -1,4 +1,4 @@
-import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, TEAL, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
@@ -249,6 +249,28 @@ const StyledDiamondTable = styled.div`
   .vo-table-no-result-container {
     p {
       font-size: var(--font-size-xxxsmall);
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    li > * {
+      display: inline-block;
+    }
+
+    li button {
+      margin-left: 5px;
+    }
+
+    li a {
+      color: ${TEAL};
+      text-decoration: underline;
     }
   }
 

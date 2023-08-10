@@ -5,6 +5,7 @@ import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darks
 import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
+import Markdown from 'markdown-to-jsx';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
 
 import { StyledDiamondTable } from './DiamondTable.style';
@@ -60,8 +61,8 @@ const DiamondTable = (props) => {
   }, [queryDiamond.data]);
 
   // STRINGS
-  const queryDiamondTable = useDiamondTableData(locale);
-  const bottomContent = queryDiamondTable?.data?.diamondTable?.bottomContent;
+  const { data: { diamondTable: { bottomContent, cannotFindDiamondSentence1, cannotFindDiamondSentence2 } = {} } = {} } =
+    useDiamondTableData(locale);
 
   // COLUMNS
   const columns = useMemo(
@@ -217,6 +218,10 @@ const DiamondTable = (props) => {
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
+  console.log(`bottomContent`, bottomContent);
+  console.log(`cannotFindDiamondSentence1`, cannotFindDiamondSentence1);
+  console.log(`cannotFindDiamondSentence2`, cannotFindDiamondSentence2);
+
   return (
     <StyledDiamondTable
       className="vo-table"
@@ -283,14 +288,33 @@ const DiamondTable = (props) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          <div className="vo-table-no-result">
-            <div className="vo-table-no-result-container">
-              <p>{bottomContent}</p>
-              <Button className="vo-table-clear-button -link-teal" onClick={clearOptions}>
-                <UIString>Clear filters</UIString>
-              </Button>
+          {(table.getRowModel().rows.length === 0 && (
+            <div className="vo-table-no-result">
+              <div className="vo-table-no-result-container">
+                <ul>
+                  <li>
+                    <p>{cannotFindDiamondSentence1}</p>
+                    <Button className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+                      <UIString>Clear filters</UIString>
+                    </Button>
+                  </li>
+
+                  <li>
+                    <Markdown>{cannotFindDiamondSentence2}</Markdown>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )) || (
+            <div className="vo-table-no-result">
+              <div className="vo-table-no-result-container">
+                <p>{bottomContent}</p>
+                <Button className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+                  <UIString>Clear filters</UIString>
+                </Button>
+              </div>
+            </div>
+          )}
 
           {queryDiamond.isFetching && (
             <div className="vo-table-loading">

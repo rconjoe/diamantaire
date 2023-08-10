@@ -44,11 +44,6 @@ const SliderFilter = (props) => {
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
 
-  if (type === 'price') {
-    console.log(`roundRange`, roundRange);
-    console.log(`values`, values);
-  }
-
   return (
     <div title={type} className="vo-filter-slider">
       {type === 'carat' && (
