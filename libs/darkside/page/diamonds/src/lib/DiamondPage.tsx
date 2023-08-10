@@ -51,12 +51,12 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   } = useDiamondsData({ ...options });
 
   const DiamondTableContent = useDiamondTableData(locale);
+
   const title = DiamondTableContent.data.diamondTable.title;
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
-  const pageSeoTitle = options?.diamondType
-    ? seoTitle.replace(/%%(.*?)%%/g, getDiamondType(options?.diamondType).title)
-    : title;
+  const diamondTypeTitle = (options?.diamondType && getDiamondType(options?.diamondType).title) || '';
+  const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
   const updateLoading = (newState) => {
     setLoading(newState);

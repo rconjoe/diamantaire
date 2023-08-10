@@ -216,10 +216,6 @@ const DiamondTable = (props) => {
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
-  console.log(`bottomContent`, bottomContent);
-  console.log(`cannotFindDiamondSentence1`, cannotFindDiamondSentence1);
-  console.log(`cannotFindDiamondSentence2`, cannotFindDiamondSentence2);
-
   return (
     <StyledDiamondTable
       className="vo-table"
