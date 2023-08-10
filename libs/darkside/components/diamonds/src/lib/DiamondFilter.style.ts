@@ -76,6 +76,18 @@ const StyledDiamondFilter = styled.div`
     border: 1px solid var(--color-teal);
   }
 
+  .vo-filter-cut {
+    padding-top: 1rem;
+  }
+
+  .vo-filter-cut,
+  .vo-filter-clarity {
+    .vo-filter-list-item a {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
   .vo-filter-diamondType {
     flex-direction: column;
     max-width: 100%;

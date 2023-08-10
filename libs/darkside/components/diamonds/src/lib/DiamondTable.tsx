@@ -143,7 +143,9 @@ const DiamondTable = (props) => {
 
     table.setPageIndex(1);
 
-    window?.scrollTo(0, 0);
+    setActiveRow(null);
+
+    // window?.scrollTo(0, 0);
   };
 
   const onHeaderClick = (header) => {
@@ -160,10 +162,6 @@ const DiamondTable = (props) => {
   };
 
   // EFFECTS
-  useEffect(() => {
-    setActiveRow(null);
-  }, [flatDiamonds?.[0]?.lotId]);
-
   useEffect(() => {
     const trig = loadTrigger.current;
 

@@ -69,7 +69,8 @@ const StyledTooltip = styled.div`
     max-width: 80%;
   }
 
-  .tooltip-certificate {
+  #tooltip-certificate {
+    max-width: 220px;
     ${tabletAndUp(`
       max-width: 170px;
     `)}
