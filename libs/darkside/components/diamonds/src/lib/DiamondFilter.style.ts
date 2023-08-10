@@ -29,6 +29,7 @@ const StyledDiamondFilter = styled.div`
   }
 
   .vo-filter-radio .vo-filter-list {
+    justify-content: flex-start;
     gap: 5px;
 
     ${desktopAndUp(`
@@ -63,6 +64,7 @@ const StyledDiamondFilter = styled.div`
     width: 100%;
     padding: 4px 2px;
     display: flex;
+    justify-content: center;
     border: 1px solid transparent;
   }
 
@@ -85,6 +87,30 @@ const StyledDiamondFilter = styled.div`
     .vo-filter-list-item a {
       padding-left: 1rem;
       padding-right: 1rem;
+    }
+  }
+
+  .vo-filter-color {
+    .vo-filter-list-item:nth-child(1) {
+      width: 7rem;
+
+      ${tabletAndUp(`
+        width: 7rem;
+      `)}
+    }
+    .vo-filter-list-item:nth-child(2) {
+      width: 8rem;
+
+      ${tabletAndUp(`
+        width: 10rem;
+      `)}
+    }
+    .vo-filter-list-item:nth-child(3) {
+      width: 6rem;
+
+      ${tabletAndUp(`
+        width: 8rem;
+      `)}
     }
   }
 
