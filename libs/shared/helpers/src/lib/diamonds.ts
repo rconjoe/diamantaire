@@ -68,7 +68,7 @@ export const getDiamondId = (slug: string) => {
 /**
  * INVENTORY Faceted Navigation Logic
  * Will take what's in the url parse it
- * ex: /diamonds/Oval/VVS1,VVS2/Excellent/D,E,F
+ * ex: /diamonds/oval/VVS1,VVS2/Excellent/D,E,F
  * Parse it and return a params object for querying the diamond API.
  */
 
@@ -191,7 +191,7 @@ export const getDiamondShallowRoute = (options) => {
 
   const query = queryURL ? '?' + queryURL : '';
 
-  const showQueryInUrl = false;
+  const showQueryInUrl = true;
 
   const route = `${diamondRoutePlp}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
 
