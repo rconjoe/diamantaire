@@ -69,7 +69,9 @@ const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: Di
       title: (
         <>
           <strong>{titleCertificate?.value}</strong> <strong>{labelCertificate}</strong>{' '}
-          <Tooltip id={'certificate' + lotId}>{certificateTooltip}</Tooltip>
+          <Tooltip id={'certificate' + lotId} className="tooltip-certificate" place="right">
+            {certificateTooltip}
+          </Tooltip>
         </>
       ),
       children: <CertificateThumb certificateUrl={dfCertificateUrl} />,
@@ -79,7 +81,7 @@ const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: Di
 
   return (
     <StyledDiamondTableRowAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 3} />
+      <Accordion rows={accordionContent} activeDefault={isMobile ? null : 3} />
     </StyledDiamondTableRowAccordion>
   );
 };

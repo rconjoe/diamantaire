@@ -16,6 +16,7 @@ export const CONFIGURATIONS_LIST = `
       }
     }
     allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+      shopifyProductHandle
       plpTitle
       plpImage {
         responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
@@ -238,6 +239,13 @@ export const PLP_QUERY = `query PLP($slug: String!, $category: String!, $locale:
             }
             shouldUseDefaultPrice
         }
+      }
+    }
+    collectionsInOrder {
+      ... on EngagementRingProductRecord {
+        id
+        _modelApiKey
+        slug
       }
     }
   }

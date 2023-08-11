@@ -1,35 +1,38 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
+// import ReactPlayer from 'react-player';
 
 import { VideoSlideContainer } from './VideoHoverSlide.style';
 
 // TODO: Let's figure out the best way to load videos for this
 
-// const ReactPlayer = dynamic(() => import('react-player'));
+const ReactPlayer = dynamic(() => import('react-player'));
 
 const VideoHoverSlide = (props) => {
   const { title, image, hover, url, isMobile } = props;
 
-  // const video = hover?.video;
-  // const [isHovered, setIsHovered] = useState(false);
+  const video = hover?.video;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <VideoSlideContainer>
       <UniLink route={getRelativeUrl(url)}>
         <div
-          // onMouseLeave={() => setIsHovered(false)}
-          // onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={() => setIsHovered(true)}
           onContextMenu={(e) => e.preventDefault()}
-          // onFocus={() => setIsHovered(true)}
-          // onBlur={() => setIsHovered(false)}
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
         >
           <div className="list-item__media">
             <DatoImage image={image} overrideAlt={title} />
 
             {Boolean(hover) && !isMobile && (
               <div className="list-item__media--hover">
-                {/* {video?.streamingUrl ? (
+                {video?.streamingUrl && (
                   <ReactPlayer
                     url={video.streamingUrl}
                     volume={0}
@@ -45,11 +48,7 @@ const VideoHoverSlide = (props) => {
                       left: 0,
                     }}
                   />
-                ) : (
-                  // TODO: Figure out how to handle video thumbnails (better than now) - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-130
-                  <p>temp</p>
-                  //   <Image alt={hover?.alt} image={hover} />
-                )} */}
+                )}
               </div>
             )}
           </div>

@@ -1,8 +1,15 @@
-import { Button, ShowMobileOnly, ShowTabletAndUpOnly, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
+import {
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+  MobileDesktopImage,
+  VRAIButton,
+  ButtonTypeProps,
+} from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { Logo as VOLogo } from '@diamantaire/shared/icons';
 import { DatoImageType } from '@diamantaire/shared/types';
+import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 
@@ -17,7 +24,7 @@ type ModularCollectionHeroBlockProps = {
   showByVrai?: boolean;
   byText?: string;
   ctaCopy?: string;
-  ctaType?: string;
+  ctaType?: ButtonTypeProps;
   ctaLinkUrl?: string;
   textColor?: {
     hex: string;
@@ -57,6 +64,8 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
   const hasMobileVideo = !!mobileImage?.video;
 
   const ctaTypeClass = ctaType ? ctaType : 'primary';
+
+  console.log('textColor', textColor);
 
   return (
     <ModularCollectionHeroBlockContainer
@@ -129,23 +138,25 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
           <div className={'hero-block__button-container'}>
             <UniLink route={ctaLinkUrl} className="hero-block__cta">
               <ShowMobileOnly>
-                <Button
+                <VRAIButton
                   className={clsx('hero-block__button -wide', ctaTypeClass, {
                     '-inverse': textColor?.hex?.toLowerCase() === 'white',
                   })}
+                  type={ctaTypeClass}
                 >
                   {ctaCopy}
-                </Button>
+                </VRAIButton>
               </ShowMobileOnly>
 
               <ShowTabletAndUpOnly>
-                <Button
+                <VRAIButton
                   className={clsx('hero-block__button', ctaTypeClass, {
-                    '-inverse': textColor?.hex?.toLowerCase() === 'white',
+                    '-inverse': textColor?.hex === WHITE,
                   })}
+                  type={ctaTypeClass}
                 >
                   {ctaCopy}
-                </Button>
+                </VRAIButton>
               </ShowTabletAndUpOnly>
             </UniLink>
           </div>

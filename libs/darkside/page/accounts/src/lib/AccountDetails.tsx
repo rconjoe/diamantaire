@@ -210,7 +210,7 @@ const AccountDetails = ({ customer }) => {
             />
 
             <div className="cancel">
-              <VRAIButton type="underline" onClick={() => setIsEditingShippingInfo(false)}>
+              <VRAIButton type="secondary" onClick={() => setIsEditingShippingInfo(false)}>
                 Cancel
               </VRAIButton>
             </div>
@@ -220,7 +220,7 @@ const AccountDetails = ({ customer }) => {
             <div className="shipping-info__container">
               <div className="title flex justify-space-between align-center">
                 <h4>Shipping information</h4>
-                <VRAIButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
+                <VRAIButton type="secondary" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
                   Edit
                 </VRAIButton>
               </div>
@@ -255,13 +255,13 @@ const AccountDetails = ({ customer }) => {
                 <div className="phone-form">
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} />
                   <div className="close-phone-form">
-                    <VRAIButton type="underline" onClick={() => setIsEdittingPhone(false)}>
+                    <VRAIButton type="secondary" onClick={() => setIsEdittingPhone(false)}>
                       Cancel
                     </VRAIButton>
                   </div>
                 </div>
               ) : (
-                <VRAIButton onClick={() => setIsEdittingPhone(true)} type="underline" colorTheme="teal">
+                <VRAIButton onClick={() => setIsEdittingPhone(true)} type="secondary" colorTheme="teal">
                   Enter your phone number
                 </VRAIButton>
               )}

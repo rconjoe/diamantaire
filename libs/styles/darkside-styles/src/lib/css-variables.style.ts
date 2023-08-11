@@ -8,7 +8,7 @@ const CssVariables = styled.createGlobalStyle`
     --gutter: 5rem;
 
     /* Colors */
-    --color-teal: #5e7a7d;
+    --color-teal: #719093;
     --color-black: #000;
     --color-white: #fff;
     --color-lightest-grey: #f7f7f7;

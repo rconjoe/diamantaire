@@ -1,11 +1,11 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 
   .vo-filter {
     width: 100%;
@@ -81,8 +81,8 @@ const StyledDiamondFilter = styled.div`
     max-width: 100%;
 
     .vo-filter-radio {
-      max-width: 100%;
       overflow-x: auto;
+      max-width: 100%;
 
       ::-webkit-scrollbar {
         opacity: 0;
@@ -92,17 +92,35 @@ const StyledDiamondFilter = styled.div`
 
     .vo-filter-list {
       list-style: none;
+      white-space: nowrap;
       padding: 10px 0;
-      display: flex;
-      justify-content: space-between;
+      display: block;
 
-      .vo-filter-list-item.active a,
-      .vo-filter-list-item a {
-        padding: 0;
+      ${tabletAndUp(`
+        display: flex;
+        white-space: normal;
+        justify-content: space-between;
+      `)}
+    }
+
+    .vo-filter-list-item {
+      display: inline-block;
+
+      ${tabletAndUp(`
+        display: flex;
+      `)}
+
+      &.active a,
+      a {
+        padding: 0 8px;
         border: 0;
+
+        ${tabletAndUp(`
+          padding: 0;
+        `)}
       }
 
-      .vo-filter-list-item.active:after {
+      &.active:after {
         content: '';
         border-bottom: 2px solid var(--color-teal);
         position: absolute;
@@ -118,11 +136,35 @@ const StyledDiamondFilter = styled.div`
         width: auto;
       }
     }
+
+    .arrow.arrow-left,
+    .arrow.arrow-right {
+      transition: all 0.25s ease;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 50px;
+      width: 30px;
+      background: rgba(255, 255, 255, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .arrow.arrow-right {
+      left: auto;
+      right: 0;
+    }
+
+    .arrow:hover {
+      background: rgba(255, 255, 255, 1);
+    }
   }
 
   .vo-below-copy {
     width: 100%;
-    margin: 15px 0 0;
+    margin: 2rem 0 0;
     font-size: var(--font-size-xxxsmall);
   }
 
@@ -134,6 +176,39 @@ const StyledDiamondFilter = styled.div`
     height: 100%;
     width: 100%;
     cursor: default;
+  }
+
+  #tooltip-cut {
+    p {
+      gap: 2rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        height: auto;
+        width: 70px;
+      }
+    }
+  }
+
+  #tooltip-color {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    img {
+      margin-top: -2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  #tooltip-clarity {
+    img {
+      margin-top: 2rem;
+    }
   }
 `;
 

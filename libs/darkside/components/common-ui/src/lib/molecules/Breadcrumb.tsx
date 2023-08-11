@@ -43,9 +43,13 @@ const Breadcrumb = ({ breadcrumb, simple = false }) => {
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
+            if (!item.link) {
+              return null;
+            }
+
             return (
               <li key={item.id}>
-                <Link href={item?.link?.slug}>{item?.name?.trim()}</Link>
+                <Link href={item?.link}>{item?.name?.trim()}</Link>
                 {breadcrumb.length - 1 !== index && <span>/</span>}
               </li>
             );

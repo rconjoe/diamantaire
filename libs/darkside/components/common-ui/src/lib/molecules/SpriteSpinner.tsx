@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-// import { SpriteSpinnerInit } from './SpriteSpinnerInit';
+import { SpriteSpinnerInit } from './SpriteSpinnerInit';
 
 declare const window: any;
 
@@ -21,6 +21,7 @@ interface SpriteSpinnerProps {
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
   const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad } = props;
+
   const spinnerEl = useRef(null);
 
   useEffect(() => {
@@ -107,7 +108,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   return (
     <SpritSpinnerContainer>
-      {/* <SpriteSpinnerInit /> */}
+      <SpriteSpinnerInit />
 
       <div
         onMouseEnter={() => playSpinner()}

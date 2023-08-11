@@ -68,7 +68,7 @@ export const getDiamondId = (slug: string) => {
 /**
  * INVENTORY Faceted Navigation Logic
  * Will take what's in the url parse it
- * ex: /diamonds/Oval/VVS1,VVS2/Excellent/D,E,F
+ * ex: /diamonds/oval/VVS1,VVS2/Excellent/D,E,F
  * Parse it and return a params object for querying the diamond API.
  */
 
@@ -138,11 +138,15 @@ export const getDiamondOptionsFromUrl = (query, page) => {
 
   if (page === 'diamondTable') {
     const options = { ...DIAMOND_TABLE_DEFAULT_OPTIONS, ...query };
+    const optCaratMin = (options.caratMin && parseFloat(options.caratMin)) || null;
 
-    return {
+    const opt = {
       ...getOptionsFromFacetedNav(options.filterOptions),
       ...getOptionsFromQueryNav(options),
+      ...(!optCaratMin || (optCaratMin && optCaratMin < 1) ? { caratMin: 1 } : {}),
     };
+
+    return opt;
   }
 
   if (page === 'diamondPDP') {
@@ -187,7 +191,7 @@ export const getDiamondShallowRoute = (options) => {
 
   const query = queryURL ? '?' + queryURL : '';
 
-  const showQueryInUrl = false;
+  const showQueryInUrl = true;
 
   const route = `${diamondRoutePlp}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
 

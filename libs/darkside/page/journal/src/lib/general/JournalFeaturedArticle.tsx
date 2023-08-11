@@ -90,7 +90,7 @@ const JournalFeaturedArticle = (props: JournalFeaturedArticleProps) => {
               {author} | {format(new Date(sortByDate), 'MMMM do, yyyy')}
             </p>
             <p>{desktopCopy}</p>
-            <VRAIButton isLink={true} href={ctaRoute} type="underline" colorTheme="teal">
+            <VRAIButton isLink={true} href={ctaRoute} type="secondary" colorTheme="teal">
               {ctaCopy}
             </VRAIButton>
           </div>

@@ -261,9 +261,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
         border-color: ${WHITE};
       }
     `)};
-    ${desktopAndUp(`
-      white-space: nowrap;
-    `)}
+
     &.-no-margin {
       margin-bottom: 0;
     }

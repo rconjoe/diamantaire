@@ -68,7 +68,7 @@ const StyledDiamondDetailAccordion = styled.div`
 
     .thb img {
       width: 100%;
-      margin-top: -80px;
+      margin-top: -60px;
     }
   }
 

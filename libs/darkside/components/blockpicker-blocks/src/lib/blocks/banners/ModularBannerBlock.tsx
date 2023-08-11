@@ -3,11 +3,12 @@
 */
 
 import {
-  Button,
   Heading,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
   MobileDesktopImage,
+  VRAIButton,
+  ButtonTypeProps,
 } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
@@ -33,7 +34,7 @@ type ModularBannerBlockProps = {
   mobileCopy?: string;
   ctaCopy?: string;
   ctaRoute?: string;
-  ctaButtonType?: string;
+  ctaButtonType?: ButtonTypeProps;
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
   textBlockAlignment: string;
@@ -45,10 +46,10 @@ type ModularBannerBlockProps = {
   shouldLazyLoad?: boolean;
   ctaCopy2?: string;
   ctaRoute2?: string;
-  ctaButtonType2?: string;
+  ctaButtonType2?: ButtonTypeProps;
   ctaCopy3?: string;
   ctaRoute3?: string;
-  ctaButtonType3?: string;
+  ctaButtonType3?: ButtonTypeProps;
   middleLayerImage: DatoImageType;
   middleLayerImageMobile: DatoImageType;
   additionalClass?: string;
@@ -66,8 +67,9 @@ type ModularBannerBlockProps = {
 };
 
 const ModularBannerBlock = (props) => {
-  let { title, desktopCopy, mobileCopy, subTitle } = props?.blocks?.[0] || props;
   const { shouldLazyLoad } = props;
+
+  let { title, desktopCopy, mobileCopy, subTitle } = props;
 
   const {
     headingType,
@@ -95,7 +97,7 @@ const ModularBannerBlock = (props) => {
     supportedCountries,
     gtmClass,
     subtitleAdditionalClass,
-  }: ModularBannerBlockProps = props?.blocks?.[0] || props;
+  }: ModularBannerBlockProps = props;
 
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
@@ -202,38 +204,59 @@ const ModularBannerBlock = (props) => {
 
           <div className="cta">
             {ctaRoute && (
-              <UniLink route={ctaRoute} className={gtmClass}>
-                <Button
-                  className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                    primary: !ctaButtonType,
-                  })}
-                >
-                  {ctaCopy}
-                </Button>
-              </UniLink>
+              <span>
+                <UniLink route={ctaRoute} className={gtmClass}>
+                  <VRAIButton
+                    colorTheme={
+                      ctaButtonType.includes('-white') ? 'white' : ctaButtonType.includes('-teal') ? 'teal' : 'black'
+                    }
+                    inverse={ctaButtonType.includes('-white')}
+                    className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
+                      '-inverse-tabletAndUp': textColor === WHITE,
+                      // primary: !ctaButtonType,
+                    })}
+                    type={ctaButtonType}
+                  >
+                    {ctaCopy}
+                  </VRAIButton>
+                </UniLink>
+              </span>
             )}
             {ctaRoute && ctaRoute2 && (
-              <UniLink route={ctaRoute2}>
-                <Button
-                  className={clsx('second-button', ctaButtonType2, additionalClass, {
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                  })}
-                >
-                  {ctaCopy2}
-                </Button>
-              </UniLink>
+              <span>
+                <UniLink route={ctaRoute2}>
+                  <VRAIButton
+                    colorTheme={
+                      ctaButtonType2.includes('-white')
+                        ? 'white'
+                        : ctaButtonType2.includes('-teal') && !ctaButtonType2.includes('-hover-font-teal')
+                        ? 'teal'
+                        : 'black'
+                    }
+                    inverse={true}
+                    className={clsx('second-button', ctaButtonType2, additionalClass, {
+                      '-inverse-tabletAndUp': textColor === WHITE,
+                    })}
+                    type={ctaButtonType2}
+                  >
+                    {ctaCopy2}
+                  </VRAIButton>
+                </UniLink>
+              </span>
             )}
             {ctaRoute && ctaRoute2 && ctaRoute3 && (
-              <UniLink route={ctaRoute3}>
-                <Button
-                  className={clsx('second-button', ctaButtonType3, additionalClass, {
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                  })}
-                >
-                  {ctaCopy3}
-                </Button>
-              </UniLink>
+              <span>
+                <UniLink route={ctaRoute3}>
+                  <VRAIButton
+                    className={clsx('second-button', ctaButtonType3, additionalClass, {
+                      '-inverse-tabletAndUp': textColor === WHITE,
+                    })}
+                    type={ctaButtonType3}
+                  >
+                    {ctaCopy3}
+                  </VRAIButton>
+                </UniLink>
+              </span>
             )}
           </div>
         </BannerTextContainer>

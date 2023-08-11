@@ -1,4 +1,4 @@
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { Button } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
@@ -61,7 +61,7 @@ const DiamondTable = (props) => {
 
   // STRINGS
   const queryDiamondTable = useDiamondTableData(locale);
-  const noResultString = queryDiamondTable?.data?.diamondTable?.cannotFindDiamondSentence1;
+  const bottomContent = queryDiamondTable?.data?.diamondTable?.bottomContent;
 
   // COLUMNS
   const columns = useMemo(
@@ -75,7 +75,7 @@ const DiamondTable = (props) => {
       },
       {
         accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()),
+        cell: (info: Info) => Number(info.getValue()).toFixed(2),
         header: () => <UIString>carat</UIString>,
       },
       {
@@ -160,6 +160,10 @@ const DiamondTable = (props) => {
 
   // EFFECTS
   useEffect(() => {
+    setActiveRow(null);
+  }, [flatDiamonds?.[0]?.lotId]);
+
+  useEffect(() => {
     const trig = loadTrigger.current;
 
     if (!trig) return;
@@ -183,8 +187,8 @@ const DiamondTable = (props) => {
   }, [queryDiamond.hasNextPage, queryDiamond.isFetching, queryDiamond.isLoading, queryDiamond.fetchNextPage]);
 
   useEffect(() => {
-    updateLoading(queryDiamond.isFetching);
-  }, [queryDiamond.isFetching]);
+    updateLoading(queryDiamond.isLoading);
+  }, [queryDiamond.isLoading]);
 
   useEffect(() => {
     if (activeRow) {
@@ -214,7 +218,12 @@ const DiamondTable = (props) => {
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
   return (
-    <StyledDiamondTable className="vo-table" headerHeight={headerHeight} triggerOffset={triggerOffset}>
+    <StyledDiamondTable
+      className="vo-table"
+      headerHeight={headerHeight}
+      triggerOffset={triggerOffset}
+      tableHeadHeight={tableHeadHeight}
+    >
       <div className="vo-table-container">
         {/* TABLE HEAD */}
         <div ref={tableHead} className="vo-table-head">
@@ -224,9 +233,17 @@ const DiamondTable = (props) => {
                 return (
                   <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                    <div className="vo-sort-icon">
-                      {options.sortBy === header.id && options.sortOrder === 'asc' && <span className="arrow-up" />}
-                      {options.sortBy === header.id && options.sortOrder === 'desc' && <span className="arrow-down" />}
+                    <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
+                      <span
+                        className={
+                          'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
+                        }
+                      />
+                      <span
+                        className={
+                          'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
+                        }
+                      />
                     </div>
                     {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                   </div>
@@ -260,21 +277,20 @@ const DiamondTable = (props) => {
               </div>
             );
           })}
-          {table.getRowModel().rows.length === 0 && (
-            <div className="vo-table-no-result">
-              <div className="vo-table-no-result-container">
-                <Heading type="h4">{noResultString}</Heading>
-                <button className="vo-table-clear-button" onClick={clearOptions}>
-                  <UIString>clear</UIString>
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* TABLE FOOT */}
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
+
+          <div className="vo-table-no-result">
+            <div className="vo-table-no-result-container">
+              <p>{bottomContent}</p>
+              <Button className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+                <UIString>Clear filters</UIString>
+              </Button>
+            </div>
+          </div>
 
           {queryDiamond.isFetching && (
             <div className="vo-table-loading">
@@ -283,9 +299,6 @@ const DiamondTable = (props) => {
             </div>
           )}
         </div>
-
-        {/* TABLE HOVER */}
-        {queryDiamond.isFetching && <div className="vo-table-pagi-loading" />}
       </div>
     </StyledDiamondTable>
   );

@@ -22,6 +22,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 // import { Variables } from 'graphql-request';
@@ -125,7 +126,7 @@ export class ProductsService {
         const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
 
         collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
-        productContent = datoEngagementRingPDP?.['productContent'];
+        productContent = datoEngagementRingPDP?.['variantContent'];
       } else {
         // dato ER query
         const queryVars = {
@@ -420,8 +421,8 @@ export class ProductsService {
     locale = 'en_US',
     metal,
     diamondType,
-    priceMin = 0,
-    priceMax = 9999999,
+    priceMin,
+    priceMax,
     style,
     subStyle,
     page,
@@ -437,7 +438,7 @@ export class ProductsService {
       style,
       subStyle,
     })}`;
-
+    let plpReturnData;
     // check for cached data
     const cachedData = await this.utils.memGet(cachedKey);
 
@@ -455,8 +456,25 @@ export class ProductsService {
         throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
       }
 
-      const { configurationsInOrder, productsInOrder /*, ...listPageContent*/ } = plpContent.listPage;
+      const { configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
 
+      // PLP merchandized by collection.  Currently only supports engagement rings
+      if (collectionsInOrder.length > 0) {
+        const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
+
+        plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+          metal,
+          diamondType,
+          page,
+          limit,
+        });
+
+        this.utils.memSet(cachedKey, plpReturnData, 3600);
+
+        return plpReturnData;
+      }
+
+      // Need to support both productsInOrder and ConfigurationsInOrder
       const productList = productsInOrder.length ? productsInOrder : configurationsInOrder;
 
       const contentIdsInOrder: string[] = [];
@@ -529,27 +547,16 @@ export class ProductsService {
         subStylesFilter: subStyle,
       });
 
-      // const pageNumer = page > 0 ? page : 1;
-      // const PAGE_SIZE = limit || 5; // Number of documents per page
-      // // Pagination parameters
-      // const skip = (pageNumer - 1) * PAGE_SIZE;
-      // const totalProducts = contentIdsInOrder.length;
-      // const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
-
       // Build Query
       const pipeline: PipelineStage[] = [
         { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
         { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
         { $sort: { __order: 1 } },
-        // { $skip: skip },
-        // { $limit: PAGE_SIZE },
       ];
 
       const paginateOptions: PaginateOptions = {
         limit: limit || 20,
         page: page || 1,
-        //sort: sortByObj,
-        //customLabels: DIAMOND_PAGINATED_LABELS,
       };
 
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
@@ -750,7 +757,7 @@ export class ProductsService {
         nextPage: productsResponse.nextPage,
       };
 
-      const plpReturnData = {
+      plpReturnData = {
         // ...listPageContent,
         products: plpProducts,
         availableFilters,
@@ -760,6 +767,215 @@ export class ProductsService {
       this.utils.memSet(cachedKey, plpReturnData, 3600);
 
       return plpReturnData;
+    } catch (error: any) {
+      this.logger.error(`findPlpData :: error : ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Given a plp slug, return the content for the plp including available filters and paginator data
+   * @param {string} slug plp slug
+   * @param {string[]} collectionSlugsInOrder array of collectionSlugs in desired display order
+   * @param {object} options filter and pagination options
+   * @returns
+   */
+
+  async getCollectionInOrderPlpProducts(
+    slug: string,
+    collectionSlugsInOrder: string[],
+    { metal, diamondType, page = 1, limit = 12 }: { metal: string; diamondType: string; page?: number; limit: number },
+  ) {
+    try {
+      const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
+        [
+          // Takes an array of collectionSlug
+          // Finds al records from those collection which satisfy the metal and diamondType filters
+          {
+            $match: {
+              collectionSlug: { $in: collectionSlugsInOrder },
+              'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
+              'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+            },
+          },
+          // Add fields to allow sorting by collectionSlug array
+          { $addFields: { __collectionOrder: { $indexOfArray: [collectionSlugsInOrder, '$collectionSlug'] } } },
+          // Adds fields to allow sorting by all of the configuration properties
+          {
+            $addFields: {
+              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'pave-twisted'], '$configuration.bandAccent'] },
+            },
+          },
+          {
+            $addFields: {
+              __caratWeightOrder: {
+                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '2ct'], '$configuration.caratWeight'],
+              },
+            },
+          },
+          {
+            $addFields: {
+              __sideStoneShapeOrder: {
+                $indexOfArray: [
+                  ['round-brilliant', 'pear', 'trillion', 'tapered-baguette'],
+                  '$configuration.sideStoneShape',
+                ],
+              },
+            },
+          },
+          {
+            $addFields: {
+              __sideStoneCaratOrder: { $indexOfArray: [['0.25ct', '0.5ct', '1ct', '2ct'], '$configuration.sideStoneCarat'] },
+            },
+          },
+          {
+            $addFields: {
+              __diamondOrientationOrder: {
+                $indexOfArray: [['vertical', 'horizontal'], '$configuration.diamondOrientation'],
+              },
+            },
+          },
+          { $addFields: { __goldPurityOrder: { $indexOfArray: [['18k', '14k'], '$configuration.goldPurity'] } } },
+          { $addFields: { __prongStyleOrder: { $indexOfArray: [['plain', 'pave'], '$configuration.prongStyle'] } } },
+          {
+            $addFields: { __haloSizeOrder: { $indexOfArray: [['original', 'small', 'large'], '$configuration.haloSize'] } },
+          },
+          // Sorts by those properties
+          {
+            $sort: {
+              __bandAccentOrder: 1,
+              __sideStoneShapeOrder: 1,
+              __sideStoneCaratOrder: 1,
+              __caratWeightOrder: 1,
+              __goldPurityOrder: 1,
+              __prongStyleOrder: 1,
+              __haloSizeOrder: 1,
+            },
+          },
+          // Groups them by collectionSlug
+          {
+            $group: {
+              _id: {
+                collectionSlug: '$collectionSlug',
+                diamondType: '$configuration.diamondType',
+                metal: '$configuration.metal',
+              },
+              firstDocument: { $first: '$$ROOT' },
+            },
+          },
+          // returns the first doc in each collection (from the sorted ones)
+          {
+            $replaceRoot: {
+              newRoot: '$firstDocument',
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+            },
+          },
+          // Sorts them all by collectionSlug
+          {
+            $sort: {
+              __collectionOrder: 1,
+            },
+          },
+        ],
+        { page, limit },
+      );
+
+      const collectionsProduct = productsResponse.docs;
+
+      // get matching dato data for er products
+      const productHandles = collectionsProduct.map((product) => product.contentId);
+      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+
+      const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
+        const content = productContent.flat().find((itemContent) => itemContent.shopifyProductHandle === product.contentId);
+
+        // reduce and merge
+        if (!content) {
+          this.logger.debug('No content found for product', product.contentId);
+          Sentry.captureMessage(`No content found for product: ${product.contentId}`);
+
+          // skip product if no match is found
+          return productsArray;
+        } else {
+          productsArray.push({
+            defaultId: product.contentId,
+            metal: [],
+            variants: {
+              [product.contentId]: this.createPlpProduct(product, content),
+            },
+          });
+        }
+
+        return productsArray;
+      }, []);
+
+      const availableFiltersCacheKey = `plp-${slug}-filter-types`;
+      // check for cached data
+      let availableFilters = await this.utils.memGet(availableFiltersCacheKey);
+
+      if (!availableFilters) {
+        this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
+
+        const filterValueQueries: [
+          Promise<string[]>,
+          Promise<string[]>,
+          Promise<number[]>,
+          Promise<string[]>,
+          Promise<string[]>,
+        ] = [
+          this.productRepository.distinct('configuration.metal', {
+            collectionSlug: { $in: collectionSlugsInOrder },
+          }),
+          this.productRepository.distinct('configuration.diamondType', {
+            collectionSlug: { $in: collectionSlugsInOrder },
+          }),
+          this.productRepository.distinct('price', {
+            collectionSlug: { $in: collectionSlugsInOrder },
+          }),
+          this.productRepository.distinct('styles', {
+            collectionSlug: { $in: collectionSlugsInOrder },
+          }),
+          this.productRepository.distinct('subStyles', {
+            collectionSlug: { $in: collectionSlugsInOrder },
+          }),
+        ];
+
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
+          filterValueQueries,
+        );
+
+        availableFilters = {
+          metal: availableMetals,
+          diamondType: availableDiamondTypes,
+          price: [Math.min(...priceValues), Math.max(...priceValues)],
+          styles: availableStyles,
+          subStyles: availableSubStyles,
+        };
+
+        this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);
+      }
+
+      const paginator = {
+        totalDocs: productsResponse.totalDocs,
+        limit: productsResponse.limit,
+        page: productsResponse.page,
+        totalPages: productsResponse.totalPages,
+        pagingCounter: productsResponse.pagingCounter,
+        hasPrevPage: productsResponse.hasPrevPage,
+        hasNextPage: productsResponse.hasNextPage,
+        prevPage: productsResponse.prevPage,
+        nextPage: productsResponse.nextPage,
+      };
+
+      return {
+        products,
+        availableFilters,
+        paginator,
+      };
     } catch (error: any) {
       this.logger.error(`findPlpData :: error : ${error.message}`);
       throw error;
@@ -890,8 +1106,8 @@ export class ProductsService {
     skip = 0,
   }: {
     slug: string;
-    variantIds: string[];
-    productHandles: string[];
+    variantIds?: string[];
+    productHandles?: string[];
     first?: number;
     skip?: number;
   }): Promise<any> {

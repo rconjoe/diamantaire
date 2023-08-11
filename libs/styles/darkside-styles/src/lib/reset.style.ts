@@ -38,6 +38,10 @@ const ResetStyles = styled.createGlobalStyle`
     cursor: pointer;
   }
 
+  button:hover {
+    cursor: pointer;
+  }
+
   a.disabled {
     pointer-events: none;
   }
