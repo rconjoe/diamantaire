@@ -59,8 +59,6 @@ const DiamondTable = (props) => {
   // DIAMONDS
   const queryDiamond = useInfiniteDiamondsData(options);
 
-  console.log(`queryDiamond`, queryDiamond);
-
   const flatDiamonds = useMemo(() => {
     return queryDiamond.data?.pages?.flatMap((v) => {
       console.log(v);
