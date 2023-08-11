@@ -145,6 +145,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     updateLoading,
     clearOptions,
     currencyCode,
+    ranges:
+      (options.caratMin && options.caratMax && { ...ranges, carat: { min: options.caratMin, max: options.caratMax } }) ||
+      ranges,
     locale,
   };
 

@@ -79,5 +79,10 @@ query diamondTableQuery($locale: SiteLocale) {
     diamondAdvisorPostSubmissionHeader
     cannotFindDiamondSentence1(markdown: false)
     cannotFindDiamondSentence2(markdown: false)
+    bottomPromoContentLargerCarat
+    bottomPromoContentNoShape
+    bottomPromoContentCtaCopy
+    bottomPromoContentCtaLink
+    bottomPromoContent
   }
 }`;

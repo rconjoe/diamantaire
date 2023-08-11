@@ -9,6 +9,7 @@ import Markdown from 'markdown-to-jsx';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
 
 import { StyledDiamondTable } from './DiamondTable.style';
+import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
 import DiamondTableRow from './DiamondTableRow';
 
 interface Info {
@@ -26,12 +27,13 @@ const DiamondTable = (props) => {
     updateOptions,
     updateLoading,
     clearOptions,
+    ranges,
   } = props;
 
-  const [activeRow, setActiveRow] = useState(null);
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
+  const [activeRow, setActiveRow] = useState(null);
 
   // PAGINATION
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -56,13 +58,32 @@ const DiamondTable = (props) => {
 
   // DIAMONDS
   const queryDiamond = useInfiniteDiamondsData(options);
+
+  console.log(`queryDiamond`, queryDiamond);
+
   const flatDiamonds = useMemo(() => {
-    return queryDiamond.data?.pages?.flatMap((v) => v.diamonds);
+    return queryDiamond.data?.pages?.flatMap((v) => {
+      console.log(v);
+
+      return v.diamonds;
+    });
   }, [queryDiamond.data]);
 
   // STRINGS
-  const { data: { diamondTable: { bottomContent, cannotFindDiamondSentence1, cannotFindDiamondSentence2 } = {} } = {} } =
-    useDiamondTableData(locale);
+  const {
+    data: {
+      diamondTable: {
+        bottomContent,
+        cannotFindDiamondSentence1,
+        cannotFindDiamondSentence2,
+        bottomPromoContentLargerCarat,
+        bottomPromoContentNoShape,
+        bottomPromoContentCtaCopy,
+        bottomPromoContentCtaLink,
+        bottomPromoContent,
+      } = {},
+    } = {},
+  } = useDiamondTableData(locale);
 
   // COLUMNS
   const columns = useMemo(
@@ -254,26 +275,43 @@ const DiamondTable = (props) => {
 
         {/* TABLE BODY */}
         <div ref={tableBody} className="vo-table-body">
-          {table.getRowModel().rows.map((row) => {
+          {table.getRowModel().rows.map((row, idx) => {
             const active = activeRow?.id === row.id;
 
             return (
-              <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
-                <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
-                  {row.getVisibleCells().map((cell) => (
-                    <div key={cell.id} className="vo-table-cell">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
-                    </div>
-                  ))}
-                </div>
-
-                {active && (
-                  <div className="vo-table-row-body">
-                    <DiamondTableRow product={row?.original} />
-                  </div>
+              <>
+                {/* PROMO CARD */}
+                {idx === 10 && (
+                  <DiamondTableCfyPromoCard
+                    content={{
+                      bottomPromoContentLargerCarat,
+                      bottomPromoContentNoShape,
+                      bottomPromoContentCtaCopy,
+                      bottomPromoContentCtaLink,
+                      bottomPromoContent,
+                    }}
+                    ranges={ranges}
+                    options={options}
+                  />
                 )}
-              </div>
+
+                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                  <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
+                    {row.getVisibleCells().map((cell) => (
+                      <div key={cell.id} className="vo-table-cell">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
+                      </div>
+                    ))}
+                  </div>
+
+                  {active && (
+                    <div className="vo-table-row-body">
+                      <DiamondTableRow product={row?.original} />
+                    </div>
+                  )}
+                </div>
+              </>
             );
           })}
         </div>

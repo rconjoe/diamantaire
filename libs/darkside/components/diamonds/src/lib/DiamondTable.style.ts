@@ -229,6 +229,13 @@ const StyledDiamondTable = styled.div`
     }
   }
 
+  .promo {
+    display: flex;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+
   .vo-table-foot {
     display: block;
     position: relative;
