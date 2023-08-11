@@ -7,11 +7,7 @@ import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import {
-  DIAMOND_TABLE_DEFAULT_OPTIONS,
-  DIAMOND_TABLE_FACETED_NAV,
-  getCurrencyFromLocale,
-} from '@diamantaire/shared/constants';
+import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getDiamondOptionsFromUrl, getDiamondShallowRoute, getDiamondType } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -64,10 +60,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const updateOptions = (newOptions) => {
     setOptions((prevOptions) => {
-      console.log(`newOptions`, newOptions);
-      console.log(`prevOptions`, prevOptions);
-
       let updatedOptions = { ...prevOptions };
+
       const key = Object.keys(newOptions).pop();
 
       if (key === 'diamondType') {
@@ -76,8 +70,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
           delete updatedOptions[key];
         }
-      }
-      if (key === 'cut') {
+      } else if (key === 'cut') {
         const oldOptionsArray = prevOptions[key]?.split(',') || [];
         const newOption = newOptions[key];
 
@@ -91,8 +84,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         if (!updatedOptions[key]) {
           delete updatedOptions[key];
         }
-      }
-      if (key === 'color' || key === 'clarity') {
+      } else if (key === 'color' || key === 'clarity') {
         let oldOptionsArray = prevOptions[key]?.split(',') || []; // [D,E,F,G,H,I]
         const newOptionsArray = newOptions[key].split(','); // [D,E,F]
 
@@ -108,6 +100,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         if (!updatedOptions[key]) {
           delete updatedOptions[key];
         }
+      } else {
+        updatedOptions = { ...prevOptions, ...newOptions };
       }
 
       return updatedOptions;
