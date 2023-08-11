@@ -61,28 +61,67 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const updateLoading = (newState) => {
     setLoading(newState);
   };
+
   const updateOptions = (newOptions) => {
     setOptions((prevOptions) => {
-      const updatedOptions = { ...prevOptions, ...newOptions };
-      const keys = Object.keys(updatedOptions);
+      console.log(`newOptions`, newOptions);
+      console.log(`prevOptions`, prevOptions);
 
-      keys.forEach((key) => {
-        if (DIAMOND_TABLE_FACETED_NAV.includes(key)) {
-          if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
-            delete updatedOptions[key];
-          }
+      let updatedOptions = { ...prevOptions };
+      const key = Object.keys(newOptions).pop();
+
+      if (key === 'diamondType') {
+        updatedOptions = { ...prevOptions, ...newOptions };
+
+        if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
+          delete updatedOptions[key];
         }
-      });
+      }
+      if (key === 'cut') {
+        const oldOptionsArray = prevOptions[key]?.split(',') || [];
+        const newOption = newOptions[key];
+
+        if (oldOptionsArray.includes(newOption)) {
+          updatedOptions[key] = oldOptionsArray.filter((v) => v !== newOption).join(',');
+        } else {
+          oldOptionsArray.push(newOption);
+          updatedOptions[key] = oldOptionsArray.join(',');
+        }
+
+        if (!updatedOptions[key]) {
+          delete updatedOptions[key];
+        }
+      }
+      if (key === 'color' || key === 'clarity') {
+        let oldOptionsArray = prevOptions[key]?.split(',') || []; // [D,E,F,G,H,I]
+        const newOptionsArray = newOptions[key].split(','); // [D,E,F]
+
+        newOptionsArray.forEach((newOption) => {
+          if (oldOptionsArray.includes(newOption)) {
+            oldOptionsArray = oldOptionsArray.filter((v) => v !== newOption);
+          } else {
+            oldOptionsArray.push(newOption);
+          }
+          updatedOptions[key] = oldOptionsArray.join(',');
+        });
+
+        if (!updatedOptions[key]) {
+          delete updatedOptions[key];
+        }
+      }
 
       return updatedOptions;
     });
   };
+
   const clearOptions = () => {
     setOptions(DIAMOND_TABLE_DEFAULT_OPTIONS);
   };
+
   const handleRadioFilterChange = (type: string, values: string[]) => {
     updateOptions({ [type]: values.join() });
   };
+
   const handleSliderFilterChange = (type: string, values: number[]) => {
     if (type === 'carat') {
       updateOptions({ caratMin: parseFloat(values[0].toFixed(2)), caratMax: parseFloat(values[1].toFixed(2)) });

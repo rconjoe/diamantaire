@@ -113,8 +113,28 @@ const RadioFilter = (props) => {
     handleRadioFilterChange(type, values);
   };
 
-  const isActive = (optionUI) => {
-    return optionUI.join() === options[type];
+  const isActive = (optionUI, type) => {
+    if (type === 'diamondType') {
+      return optionUI.join() === options[type];
+    }
+
+    if (type === 'cut') {
+      if (!options[type]) return false;
+
+      const currentActiveOptions = options[type]?.split(',') || [];
+
+      const option = optionUI[0];
+
+      if (currentActiveOptions.includes(option)) return true;
+    }
+
+    if (type === 'clarity' || type === 'color') {
+      if (!options[type]) return false;
+
+      const option = optionUI.join(',');
+
+      if (options[type].includes(option)) return true;
+    }
   };
 
   const handleOnScroll = () => {
@@ -172,7 +192,7 @@ const RadioFilter = (props) => {
             const shape = diamondIconsMap[slug];
 
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug]) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
                 <a onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                 </a>
@@ -182,7 +202,7 @@ const RadioFilter = (props) => {
 
           if (type === 'color') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'color') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>
                   {stringMap?.option?.[Array.isArray(optionUI) ? optionUI.join('') : optionUI]?.value || ''}
                 </a>
@@ -192,7 +212,7 @@ const RadioFilter = (props) => {
 
           if (type === 'cut') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'cut') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</a>
               </li>
             );
@@ -200,7 +220,7 @@ const RadioFilter = (props) => {
 
           if (type === 'clarity') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'clarity') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</a>
               </li>
             );
