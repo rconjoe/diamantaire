@@ -3,3 +3,4 @@ out
 dist
 build
 .next
+libs/nx/datocms/generated
