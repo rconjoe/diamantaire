@@ -36,6 +36,7 @@
       "runner": "@rconjoe/remote-nx",
       "options": {
         "cacheableOperations": ["build", "lint"],
+        "cacheDirectory": "/tmp/nx-cache",
         "token": "VKhqGUI5io7Dh2RVkFADberE",
         "teamId": "team_AHhj2mpChoiZMkRRP2fr4ol4",
         "verbose": true
