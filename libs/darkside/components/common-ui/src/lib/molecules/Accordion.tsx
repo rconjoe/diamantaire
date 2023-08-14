@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import StyledAccordion from './Accordion.style';
 
@@ -13,13 +13,34 @@ interface AccordionProps {
 
 const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => {
   const [activeIndex, setActiveIndex] = useState(activeDefault);
+  const accordion = useRef(null);
 
   const toggleAccordion = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
+    const newIndex = activeIndex === index ? null : index;
+
+    setActiveIndex(newIndex);
+
+    const rows = `.accordion-row`;
+    const elements = accordion.current?.querySelectorAll(rows);
+
+    elements.forEach((v) => v.removeAttribute(`style`));
+
+    if (typeof newIndex === `number`) {
+      const header = `.accordion-row .accordion-header`;
+      const headerElement = accordion.current?.querySelector(header);
+      const headerElementHeight = `${headerElement.clientHeight}px`;
+      const content = `.accordion-row:nth-child(${newIndex + 1}) .accordion-content`;
+      const contentElement = accordion.current?.querySelector(content);
+      const contentElementHeight = `${contentElement.clientHeight}px`;
+      const row = `.accordion-row:nth-child(${newIndex + 1})`;
+      const rowElement = accordion.current?.querySelector(row);
+
+      rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight})`;
+    }
   };
 
   return (
-    <StyledAccordion className="accordion">
+    <StyledAccordion className="accordion" ref={accordion}>
       {rows.map((row, index) => {
         const isActive = activeIndex === index;
         const activeClass = isActive ? ' accordion-row-active' : '';
@@ -31,7 +52,9 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => 
               <div className="icon">{isActive ? '-' : '+'}</div>
             </div>
             <div className="accordion-body">
-              <div className="accordion-content">{row.children}</div>
+              <div className="accordion-content">
+                <div className="accordion-content-wrapper">{row.children}</div>
+              </div>
             </div>
           </div>
         );

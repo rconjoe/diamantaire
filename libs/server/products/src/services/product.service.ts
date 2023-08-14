@@ -126,7 +126,7 @@ export class ProductsService {
         const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
 
         collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
-        productContent = datoEngagementRingPDP?.['productContent'];
+        productContent = datoEngagementRingPDP?.['variantContent'];
       } else {
         // dato ER query
         const queryVars = {

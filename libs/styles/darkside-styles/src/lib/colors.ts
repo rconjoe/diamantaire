@@ -69,7 +69,8 @@ export const colorMap = {
 };
 
 /* TODO: New Typography Colors */
-export const TEAL = '#5E7A7D';
+export const TEAL = '#719093';
+
 export const TEAL_MED = '#516868';
 
 export const GREEN = '#719093';

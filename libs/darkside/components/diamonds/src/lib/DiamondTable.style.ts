@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledDiamondTable = styled.div`
   font-size: var(--font-size-xxxsmall);
   display: block;
-  margin: 30px -25px 0;
+  margin: 30px -2.5rem 0;
 
   ${tabletAndUp(`
     width: 100%;
@@ -15,6 +15,7 @@ const StyledDiamondTable = styled.div`
   .vo-table-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
   }
 
@@ -228,18 +229,34 @@ const StyledDiamondTable = styled.div`
     }
   }
 
+  .vo-table-foot {
+    display: block;
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem;
+    margin: auto;
+    gap: 2rem;
+  }
+
   .vo-table-no-result {
     border-bottom: 0;
-    padding: 20px 0;
+    width: 100%;
+  }
+
+  .vo-table-no-result-container {
+    p {
+      font-size: var(--font-size-xxxsmall);
+    }
   }
 
   .vo-table-clear-button {
     cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-top: 15px;
-    color: ${WHITE};
-    background: #333;
+    margin-top: 0.6rem;
+    display: inline-block;
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-table-clear-button:hover,
@@ -263,15 +280,6 @@ const StyledDiamondTable = styled.div`
     border-right: 4px solid transparent;
   }
 
-  .vo-table-foot {
-    display: block;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4rem 0;
-  }
-
   .vo-table-trigger {
     position: absolute;
     bottom: ${(props) => props.triggerOffset}px;
@@ -286,13 +294,17 @@ const StyledDiamondTable = styled.div`
     display: block;
     background-color: rgba(94, 122, 125, 0.75);
     color: ${WHITE};
-    padding: 15px 20px;
+    padding: 1.5rem 2rem;
     display: flex;
     gap: 20px;
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-xxsmall);
-    width: 300px;
+    width: 100%;
+
+    ${tabletAndUp(`
+      width: 300px;
+    `)}
   }
 
   .vo-loader-icon {

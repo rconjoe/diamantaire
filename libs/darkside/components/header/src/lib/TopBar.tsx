@@ -1,4 +1,5 @@
 import { XIcon } from '@diamantaire/shared/icons';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -12,19 +13,30 @@ const TopBarContainer = styled.div`
   position: relative;
   z-index: 5000;
 
+  * {
+    color: #fff;
+    font-size: var(--font-size-xxxxsmall);
+
+    ${tabletAndUp(`
+      font-size: var(--font-size-xxxsmall);
+    `)}
+  }
+
   .top-bar__content {
     display: flex;
     justify-content: center;
+
     p {
       margin: 0;
-      color: #fff;
-      font-size: 1.4rem;
     }
   }
+
   .close__container {
     position: absolute;
-    right: 20px;
-    top: 10px;
+    right: 0.7rem;
+    top: 0.7rem;
+    height: 24px;
+    width: 24px;
 
     button {
       padding: 0;
