@@ -1,3 +1,238 @@
-export * from './dev';
-export * from './component-queries';
-// Change to block-queries in next PR
+import { queryDatoGQL } from '../clients';
+import { ResponsiveImageFragment } from '../fragments';
+import {
+  Accordion,
+  BlogListTrio,
+  Carousel,
+  CarouselHover,
+  CelebrityCarousel,
+  CelebrityReel,
+  CollectionHero,
+  Duo,
+  EmailSignup,
+  FullWidthBanner,
+  GridCarousel,
+  HalfWidthBanner,
+  HalfWidthBlogSummary,
+  HalfWidthQuad,
+  HeroBanner,
+  InstagramReel,
+  Leo,
+  ListTitle,
+  LogoBanner,
+  MiniBanner,
+  ModularQuadGrid,
+  ModularTriGridWithOrderTracking,
+  ProductSlider,
+  ProductSuggestionQuad,
+  Quad,
+  QuadLogo,
+  QuadStatistics,
+  Quote,
+  RandomBanner,
+  Showroom,
+  SideBySide,
+  SingleVideo,
+  SkinnyHeroBanner,
+  SlickCarousel,
+  SocialMediaSection,
+  TallHalfWidthBlock,
+  TallHalfWidthBlockLocationCTA,
+  TextOnly,
+  Trio1x1,
+  Trio9x7,
+  TrioSlide9x7,
+  TrioStaggered9x7,
+  Triosvg,
+} from '../modular';
+
+export const ALL_STANDARD_PAGE_SLUGS_QUERY = `
+query AllStandardPages($first: IntType!, $skip: IntType!) {
+    allStandardPages(skip: $skip, first: $first) {
+      slug
+    }
+  }
+`;
+
+export const STANDARD_PAGE_BY_SLUG = `
+  query StandardPageBySlug($slug: String, $locale: SiteLocale) {
+    standardPage(filter: {slug: {eq: $slug}}, locale: $locale) {
+      slug
+      breadcrumb {
+        name
+        link{
+            ... on StandardPageRecord{
+              slug
+            }
+
+            ... on ListPageRecord{
+              slug
+            }
+        }
+      }
+      seo {
+        id
+        seoTitle
+        seoDescription
+      }
+      map {
+        value
+        key
+      }
+      content1 {
+        ${Duo}
+        ${QuadLogo}
+        ${QuadStatistics}
+        ${FullWidthBanner}
+        ${HeroBanner}
+        ${CollectionHero}
+        ${LogoBanner}
+        ${SingleVideo}
+        ${HalfWidthBanner}
+        ${TextOnly}
+        ${Trio1x1}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${Quad}
+        ${Quote}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${Carousel}
+        ${CelebrityCarousel}
+        ${ListTitle}
+        ${SideBySide}
+        ${CelebrityReel}
+        ${SkinnyHeroBanner}
+        ${Triosvg}
+        ${ProductSuggestionQuad}
+        ${BlogListTrio}
+        ${HalfWidthBlogSummary}
+        ${Showroom}
+        ${Leo}
+        ${SlickCarousel}
+        ${ProductSlider}
+        ${Accordion}
+        ${RandomBanner}
+        ${GridCarousel}
+        ${MiniBanner}
+        ${TallHalfWidthBlock}
+        ${CarouselHover}
+        ${EmailSignup}
+        ${ModularQuadGrid}
+        ${SocialMediaSection}
+        ${ModularTriGridWithOrderTracking}
+        ${TallHalfWidthBlockLocationCTA}
+      }
+      content2 {
+        ${Duo}
+        ${FullWidthBanner}
+        ${HeroBanner}
+        ${CollectionHero}
+        ${LogoBanner}
+        ${SingleVideo}
+        ${HalfWidthBanner}
+        ${TextOnly}
+        ${Trio1x1}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${Quad}
+        ${Quote}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${Carousel}
+        ${CelebrityCarousel}
+        ${ListTitle}
+        ${SideBySide}
+        ${CelebrityReel}
+        ${SkinnyHeroBanner}
+        ${Triosvg}
+        ${ProductSuggestionQuad}
+        ${BlogListTrio}
+        ${HalfWidthBlogSummary}
+        ${Showroom}
+        ${Leo}
+        ${SlickCarousel}
+        ${ProductSlider}
+        ${Accordion}
+        ${RandomBanner}
+        ${GridCarousel}
+        ${MiniBanner}
+        ${TallHalfWidthBlock}
+        ${CarouselHover}
+        ${EmailSignup}
+        ${ModularQuadGrid}
+        ${SocialMediaSection}
+        ${ModularTriGridWithOrderTracking}
+        ${TallHalfWidthBlockLocationCTA}
+      }
+    }
+  }
+${ResponsiveImageFragment}
+`;
+
+export async function fetchStandardPageDataBySlug(slug: string, locale: string) {
+  const pageData = await queryDatoGQL({
+    query: STANDARD_PAGE_BY_SLUG,
+    variables: { slug, locale },
+  });
+
+  return pageData;
+}
+
+export const LIST_PAGE_BY_SLUG = `
+query listPageDatoQuery($locale: SiteLocale, $slug: String!) {
+  listPage(locale: $locale, filter: {slug: {eq: $slug}}) {
+    slug
+    belowBannerBlocks {
+      ${Accordion}
+      ${FullWidthBanner}
+      ${HalfWidthBanner}
+      ${Trio9x7}
+      ${Quote}
+      ${Carousel}
+      ${CollectionHero}
+      ${HalfWidthQuad}
+      ${HeroBanner}
+      ${InstagramReel}
+      ${LogoBanner}
+      ${Quad}
+      ${QuadLogo}
+      ${QuadStatistics}
+      ${SingleVideo}
+      ${TextOnly}
+      ${Trio9x7}
+      ${TrioSlide9x7}
+      ${TrioStaggered9x7}
+      ${CelebrityCarousel}
+      ${Trio1x1}
+      ${CelebrityReel}
+      ${ListTitle}
+      ${SideBySide}
+      ${SkinnyHeroBanner}
+      ${ProductSuggestionQuad}
+      ${Triosvg}
+      ${BlogListTrio}
+      ${HalfWidthBlogSummary}
+      ${Showroom}
+      ${Leo}
+      ${SlickCarousel}
+      ${ProductSlider}
+      ${GridCarousel}
+      ${EmailSignup}
+      ${TallHalfWidthBlock}
+    }
+  }
+}
+${ResponsiveImageFragment}
+`;
+
+export async function fetchListPageDatoBlocksBySlug(locale: string, slug: string) {
+  const pageData = await queryDatoGQL({
+    query: LIST_PAGE_BY_SLUG,
+    variables: { slug, locale },
+  });
+
+  return pageData;
+}

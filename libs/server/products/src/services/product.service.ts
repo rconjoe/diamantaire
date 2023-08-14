@@ -3,9 +3,9 @@
  * @file products.service.ts
  * @description Products service class
  */
+import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/shared/dato';
 import {
   VraiProduct,
   getConfigMatrix,

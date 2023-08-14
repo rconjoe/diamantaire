@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { queryDatoGQL } from '../../clients';
-import ResponsiveImageFragment from '../../standard-page/component-queries/fragments/ResponsiveImageFragment';
+import { ResponsiveImageFragment } from '../../fragments';
 
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;

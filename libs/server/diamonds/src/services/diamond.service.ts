@@ -6,6 +6,7 @@
  * @copyright DiamondFoundry
  */
 
+import { INVENTORY_LEVEL_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import {
   CFY_DIAMOND_LIMIT,
@@ -16,7 +17,6 @@ import {
   ACCEPTABLE_CUTS,
   ACCEPTABLE_DIAMOND_TYPE_PAIRS,
 } from '@diamantaire/shared/constants';
-import { INVENTORY_LEVEL_QUERY } from '@diamantaire/shared/dato';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions, PipelineStage } from 'mongoose';
 

@@ -8,3 +8,7 @@ export * from './products';
 export * from './showrooms';
 export * from './human-names-mapper';
 export * from './cart';
+export * from './product-inventory';
+export * from './modular';
+export * from './nonModular';
+export * from './fragments';
