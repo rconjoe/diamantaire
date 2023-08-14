@@ -1,4 +1,4 @@
-import { Button } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
@@ -286,9 +286,9 @@ const DiamondTable = (props) => {
           <div className="vo-table-no-result">
             <div className="vo-table-no-result-container">
               <p>{bottomContent}</p>
-              <Button className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+              <DarksideButton type="underline" colorTheme="teal" onClick={clearOptions}>
                 <UIString>Clear filters</UIString>
-              </Button>
+              </DarksideButton>
             </div>
           </div>
 
