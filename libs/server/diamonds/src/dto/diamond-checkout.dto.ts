@@ -36,7 +36,7 @@ export class LowestPricedDto {
 
 export class DiamondPlp {
   @ApiProperty({
-    example: 'oval-cut-diamonds',
+    example: 'oval-cut',
     required: true,
   })
   @IsString()
@@ -45,20 +45,18 @@ export class DiamondPlp {
   readonly slug: string;
 
   @ApiProperty({
-    example: 'round-brilliant',
+    example: 1,
     required: false,
   })
-  @IsString()
-  @IsNotEmpty()
-  @Type(() => String)
-  readonly diamondType: string;
+  @IsNumber()
+  @Type(() => Number)
+  readonly page: number;
 
   @ApiProperty({
-    example: 'Fancy Intense Pink',
+    example: 12,
     required: false,
   })
-  @IsString()
-  @IsNotEmpty()
-  @Type(() => String)
-  readonly color: string;
+  @IsNumber()
+  @Type(() => Number)
+  readonly limit: number;
 }

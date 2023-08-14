@@ -406,9 +406,71 @@ export class DiamondsService {
 
   async getPlpDiamonds(input: DiamondPlp) {
     try {
-      const { slug, diamondTypes, colors } = input;
+      const { slug } = input;
+      const queryVars = {
+        slug,
+        category: 'loose-diamonds',
+      };
+      const diamondPlpConfig: { listPage: { diamondPlpDataConfig: { colors: string; diamondTypes: string } } } =
+        await this.utils.createDataGateway().request(DIAMOND_PLP_QUERY, queryVars);
+
+      if (diamondPlpConfig.listPage) {
+        const { diamondPlpDataConfig } = diamondPlpConfig.listPage;
+
+        if (diamondPlpDataConfig) {
+          const { colors, diamondTypes } = diamondPlpDataConfig[0];
+
+          // Parse filter configuration. Trim values.
+          const colorFilterValues = colors.trim().length > 0 ? colors.split(',').map((c: string) => c.trim()) : null;
+          const diamondTypeFilterValues =
+            diamondTypes.trim().length > 0 ? diamondTypes.split(',').map((c: string) => c.trim()) : null;
+
+          const filteredQuery = {
+            ...(colorFilterValues && { color: { $in: colorFilterValues } }),
+            ...(diamondTypeFilterValues && { diamondType: { $in: diamondTypeFilterValues } }),
+            hidden: false,
+            isAvailable: true,
+            slug: 'diamonds',
+          };
+
+          const options = {
+            page: input.page || 1,
+            limit: input.limit || 12,
+            sort: { carat: 1 },
+          };
+
+          const result = await this.diamondRepository.paginate(filteredQuery, options);
+
+          const { docs, ...paginator } = result;
+
+          const products: DiamondPLPProduct[] = docs.map((diamond: IDiamondCollection) => {
+            const { carat, cut, diamondType, clarity, color, price, lotId, productType, dfCertificateUrl, variantId } =
+              diamond;
+
+            return {
+              carat,
+              cut,
+              diamondType,
+              clarity,
+              color,
+              price,
+              lotId,
+              productType,
+              dfCertificateUrl,
+              variantId,
+            };
+          });
+
+          return {
+            products,
+            paginator,
+          };
+        }
+      } else {
+        throw new NotFoundException(`Diamond PLP with slug: ${slug} not found`);
+      }
     } catch (error) {
-      this.Logger.error(`Error fetching lowest priced ${input.diamondType} diamond: ${error}`);
+      this.Logger.error(`Error fetching diamond plp data for slug ${input.slug} diamond: ${error}`);
       throw error;
     }
   }
@@ -650,3 +712,27 @@ export class DiamondsService {
     return query;
   }
 }
+
+type DiamondPLPProduct = {
+  carat: number;
+  cut: string;
+  diamondType: string;
+  clarity: string;
+  color: string;
+  price: number;
+  lotId: string;
+  productType: string;
+  dfCertificateUrl: string;
+  variantId: string;
+};
+
+const DIAMOND_PLP_QUERY = `
+  query diamondPlpQuery($slug: String!, $category: String!) {
+    listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
+      diamondPlpDataConfig {
+        colors
+        diamondTypes
+      }
+    }
+  }
+`;

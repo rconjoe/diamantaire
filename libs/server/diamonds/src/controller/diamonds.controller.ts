@@ -62,6 +62,13 @@ export class DiamondsController {
     return await this.diamondsService.getDiamondMixedPair({ diamondType, color, clarity, cut }, limit, page);
   }
 
+  @Get('plp')
+  @ApiOperation({ summary: 'Get diamond PLP' })
+  @ApiParam({ name: 'slug', required: true })
+  async getDiamondPlp(@Query() { slug, page, limit }: DiamondPlp) {
+    return await this.diamondsService.getPlpDiamonds({ slug, page, limit });
+  }
+
   @Get(':lotId')
   @ApiOperation({ summary: 'Get single diamond by lotId' })
   @ApiParam({ name: 'lotId', required: true })
@@ -83,19 +90,10 @@ export class DiamondsController {
     return await this.diamondsService.getShopifyProductInventory({ id });
   }
 
-  @Get('/lowestpriced/:diamondType')
+  @Get('lowestpriced/:diamondType')
   @ApiOperation({ summary: 'Get lowest priced diamonds' })
   @ApiParam({ name: 'diamondType', required: true })
   async getLowestPricedDiamond(@Param() { diamondType }: LowestPricedDto) {
-    return await this.diamondsService.getLowestPricedDiamond({ diamondType });
-  }
-
-  @Get('/plp')
-  @ApiOperation({ summary: 'Get diamond PLP' })
-  @ApiParam({ name: 'slug', required: true })
-  @ApiParam({ name: 'diamondType', required: false })
-  @ApiParam({ name: 'diamondType', required: false })
-  async getDiamondPlp(@Param() { diamondType }: DiamondPlp) {
     return await this.diamondsService.getLowestPricedDiamond({ diamondType });
   }
 }

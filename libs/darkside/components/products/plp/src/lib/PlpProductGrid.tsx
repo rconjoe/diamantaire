@@ -29,12 +29,12 @@ type PlpProductGridProps = {
   data;
   isFetching: boolean;
   initialProducts: ListPageItemWithConfigurationVariants[];
-  availableFilters: {
+  availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
-  filterValue: FilterValueProps;
-  setFilterValues;
-  initialFilterValues: {
+  filterValue?: FilterValueProps;
+  setFilterValues?;
+  initialFilterValues?: {
     [key in FilterTypeProps]: string;
   };
 };
@@ -116,6 +116,8 @@ const PlpProductGrid = ({
   }, [data, filterValue, isFetching]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+
+  console.log('products', products);
 
   return (
     <PlpProductGridStyles ref={gridRef}>
