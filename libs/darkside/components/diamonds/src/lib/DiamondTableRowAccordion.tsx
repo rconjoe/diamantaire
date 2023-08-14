@@ -69,7 +69,9 @@ const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: Di
       title: (
         <>
           <strong>{titleCertificate?.value}</strong> <strong>{labelCertificate}</strong>{' '}
-          <Tooltip id={'certificate' + lotId}>{certificateTooltip}</Tooltip>
+          <Tooltip id={'certificate' + lotId} className="tooltip-certificate" place="right">
+            {certificateTooltip}
+          </Tooltip>
         </>
       ),
       children: <CertificateThumb certificateUrl={dfCertificateUrl} />,
