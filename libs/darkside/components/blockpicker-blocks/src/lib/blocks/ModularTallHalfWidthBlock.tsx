@@ -1,12 +1,12 @@
 import {
-  Button,
+  DarksideButton,
+  DatoDarksideButtonProps,
   DatoImage,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
@@ -38,6 +38,7 @@ type ModularTallHalfWidthBlockProps = {
   titleImage?: DatoImageType;
   desktopImage?: DatoImageType;
   mobileImage?: DatoImageType;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularTallHalfWidthBlock = ({
@@ -46,10 +47,6 @@ const ModularTallHalfWidthBlock = ({
   headingAdditionalClass,
   mobileTitle,
   desktopCopy,
-  ctaCopy,
-  ctaRoute,
-  ctaCopy2,
-  ctaRoute2,
   desktopImage,
   mobileImage,
   isTextBlockWide,
@@ -60,6 +57,7 @@ const ModularTallHalfWidthBlock = ({
   countryCode = 'US',
   titleImage,
   shouldLazyLoad,
+  darksideButtons,
 }: ModularTallHalfWidthBlockProps) => {
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
@@ -150,33 +148,18 @@ const ModularTallHalfWidthBlock = ({
             </div>
           )}
 
-          <div className="cta -first">
-            {ctaRoute && (
-              <UniLink route={ctaRoute}>
-                <Button
-                  className={clsx('primary', '-mobile-wide', additionalClass, {
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                  })}
-                >
-                  {ctaCopy}
-                </Button>
-              </UniLink>
-            )}
-          </div>
-
-          <div className="cta -last">
-            {ctaRoute2 && (
-              <UniLink route={ctaRoute2}>
-                <Button
-                  className={clsx('primary', '-mobile-wide', additionalClass, {
-                    '-inverse-tabletAndUp': textColor === WHITE,
-                  })}
-                >
-                  {ctaCopy2}
-                </Button>
-              </UniLink>
-            )}
-          </div>
+          {darksideButtons?.map((button) => (
+            <div className="cta__button" key={button.id}>
+              <DarksideButton
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                colorTheme={button.ctaButtonColorTheme}
+                type={button.ctaButtonType}
+                href={button.ctaLinkUrl}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            </div>
+          ))}
         </div>
       </div>
     </ModularTallHalfWidthBlockContainer>

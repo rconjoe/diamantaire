@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const HalfWidthBanner = `
   ... on ModularHalfWidthBannerBlockRecord {
     id
@@ -41,6 +43,9 @@ const HalfWidthBanner = `
             webpSrcSet
             width
         }
+    }
+    darksideButtons {
+      ${ButtonFragment}
     }
     ctaCopy
     ctaRoute

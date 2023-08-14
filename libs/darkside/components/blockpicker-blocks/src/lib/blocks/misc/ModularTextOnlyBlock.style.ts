@@ -179,6 +179,15 @@ export const ModularTextOnlyBlockContainer = styled.div`
       text-align: left;
       width: 100%;
     }
+
+    > div {
+      margin-bottom: 20px;
+      text-align: center;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
   }
   .text-block__mobile-button-wrapper {
     width: 100%;

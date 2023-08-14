@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const TextOnly = `
   ... on ModularTextOnlyBlockRecord {
     id
@@ -18,6 +20,9 @@ const TextOnly = `
     openInNewWindow
     headingType
     headingAdditionalClass
+    darksideButtons {
+      ${ButtonFragment}
+    }
   }
 `;
 

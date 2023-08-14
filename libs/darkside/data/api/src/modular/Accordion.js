@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Accordion = `
   ... on ModularAccordionBlockRecord {
     id
@@ -8,6 +10,10 @@ const Accordion = `
     ctaCopy
     ctaRoute
     ctaButtonType
+    darksideButtons {
+      ${ButtonFragment}
+    }
+
     image {
       url
       video {

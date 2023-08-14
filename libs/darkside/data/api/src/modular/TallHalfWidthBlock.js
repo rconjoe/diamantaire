@@ -1,5 +1,7 @@
 // utilizes responsiveImageFragment in parent query (homepage or standardPage)
 
+import { ButtonFragment } from '../fragments';
+
 const TallHalfWidthBlock = `
   ... on ModularTallHalfWidthBlockRecord {
     id
@@ -15,10 +17,9 @@ const TallHalfWidthBlock = `
     mobileTitle
     desktopCopy
     mobileCopy
-    ctaCopy
-    ctaRoute
-    ctaCopy2
-    ctaRoute2
+    darksideButtons {
+        ${ButtonFragment}
+    }
     desktopImage {
         url
         alt

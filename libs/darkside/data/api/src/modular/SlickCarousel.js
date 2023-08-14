@@ -1,8 +1,13 @@
+import { ButtonFragment } from '../fragments';
+
 const SlickCarousel = `
   ... on ModularSlickCarouselBlockRecord{
     _modelApiKey
     id
     title
+    darksideButtons {
+      ${ButtonFragment}
+    }
     blocks {
       _modelApiKey
       id

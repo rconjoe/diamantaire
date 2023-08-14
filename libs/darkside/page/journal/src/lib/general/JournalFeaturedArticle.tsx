@@ -1,4 +1,4 @@
-import { Heading, MobileDesktopImage, VRAIButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { format } from 'date-fns';
@@ -90,9 +90,9 @@ const JournalFeaturedArticle = (props: JournalFeaturedArticleProps) => {
               {author} | {format(new Date(sortByDate), 'MMMM do, yyyy')}
             </p>
             <p>{desktopCopy}</p>
-            <VRAIButton isLink={true} href={ctaRoute} type="secondary" colorTheme="teal">
+            <DarksideButton href={ctaRoute} type="underline" colorTheme="teal">
               {ctaCopy}
-            </VRAIButton>
+            </DarksideButton>
           </div>
         </div>
       </div>

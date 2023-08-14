@@ -5,18 +5,16 @@ Handles: MODULAR_HALF_WIDTH_BANNER_BLOCK, MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK
 */
 
 import {
-  Button,
+  DarksideButton,
+  DatoDarksideButtonProps,
   DatoImage,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
-  VRAIButton,
 } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -32,15 +30,8 @@ type ModularHalfWidthBannerBlockProps = {
   middleLayerImageMobile?: DatoImageType;
   desktopCopy?: string;
   mobileCopy?: string;
-  ctaCopy: string;
-  ctaCopy2?: string;
-  ctaCopy3?: string;
-  ctaRoute?: string;
-  ctaRoute2?: string;
-  ctaRoute3?: string;
-  ctaButtonType?: 'primary' | 'secondary';
-  ctaButtonType2?: 'primary' | 'secondary';
-  ctaButtonType3?: 'primary' | 'secondary';
+  darksideButtons: DatoDarksideButtonProps[];
+  ctaCopy?: string;
   alt?: string;
   headingType?: string;
   textBlockAlignment?: string;
@@ -64,16 +55,9 @@ const ModularHalfWidthBannerBlock = ({
   mobileImage,
   desktopCopy,
   mobileCopy,
-  ctaCopy,
-  ctaCopy2,
-  ctaCopy3,
-  ctaRoute,
-  ctaRoute2,
-  ctaRoute3,
-  ctaButtonType = 'secondary',
-  ctaButtonType2 = 'secondary',
-  ctaButtonType3 = 'secondary',
+  darksideButtons,
   headingType,
+  ctaCopy,
   textBlockAlignment,
   textColor,
   isTextBlockWide,
@@ -84,8 +68,6 @@ const ModularHalfWidthBannerBlock = ({
   middleLayerImage,
   middleLayerImageMobile,
 }: ModularHalfWidthBannerBlockProps) => {
-  console.log('ctaButtonType', ctaButtonType);
-
   const renderHalfWidthBlockTitle = (title) => {
     return (
       <Heading
@@ -212,39 +194,24 @@ const ModularHalfWidthBannerBlock = ({
         </div>
 
         <div className="cta">
-          {(ctaRoute || blogPost?.slug) && (
-            <UniLink route={ctaRoute || `/journal/post/${blogPost?.slug}`}>
-              <VRAIButton
-                className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
-                  '-inverse-tabletAndUp': textColor === WHITE,
-                })}
-                type={ctaButtonType}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
               >
-                {ctaCopy}
-              </VRAIButton>
-            </UniLink>
-          )}
-          {ctaRoute && ctaRoute2 && (
-            <UniLink route={ctaRoute2}>
-              <Button
-                className={clsx('second-button', ctaButtonType2, additionalClass, {
-                  '-inverse-tabletAndUp': textColor === WHITE,
-                })}
-              >
-                {ctaCopy2}
-              </Button>
-            </UniLink>
-          )}
-          {ctaRoute && ctaRoute2 && ctaRoute3 && (
-            <UniLink route={ctaRoute3}>
-              <Button
-                className={clsx('second-button', ctaButtonType3, additionalClass, {
-                  '-inverse-tabletAndUp': textColor === WHITE,
-                })}
-              >
-                {ctaCopy3}
-              </Button>
-            </UniLink>
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
+
+          {blogPost?.slug && (
+            <DarksideButton colorTheme={'black'} href={`/journal/post/${blogPost?.slug}`} type={'outline'}>
+              {ctaCopy}
+            </DarksideButton>
           )}
         </div>
       </div>

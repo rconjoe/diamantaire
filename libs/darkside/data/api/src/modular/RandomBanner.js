@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const RandomBanner = `
 ... on ModularRandomBannerBlockRecord {
   id
@@ -50,6 +52,11 @@ const RandomBanner = `
         currencyCode
       }
     }
+
+    darksideButtons {
+      ${ButtonFragment}
+    }
+
     ctaCopy
     ctaRoute
     ctaButtonType

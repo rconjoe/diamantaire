@@ -7,10 +7,9 @@ import {
   ShowMobileOnly,
   ShowTabletAndUpOnly,
   MobileDesktopImage,
-  VRAIButton,
-  ButtonTypeProps,
+  DatoDarksideButtonProps,
+  DarksideButton,
 } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
 import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
@@ -32,9 +31,6 @@ type ModularBannerBlockProps = {
   mobileTitle?: string;
   desktopCopy?: string;
   mobileCopy?: string;
-  ctaCopy?: string;
-  ctaRoute?: string;
-  ctaButtonType?: ButtonTypeProps;
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
   textBlockAlignment: string;
@@ -44,12 +40,6 @@ type ModularBannerBlockProps = {
   textColor: string;
   isTextBlockWide: boolean;
   shouldLazyLoad?: boolean;
-  ctaCopy2?: string;
-  ctaRoute2?: string;
-  ctaButtonType2?: ButtonTypeProps;
-  ctaCopy3?: string;
-  ctaRoute3?: string;
-  ctaButtonType3?: ButtonTypeProps;
   middleLayerImage: DatoImageType;
   middleLayerImageMobile: DatoImageType;
   additionalClass?: string;
@@ -64,6 +54,7 @@ type ModularBannerBlockProps = {
   headingAdditionalClass?: string;
   isMobile?: boolean;
   subtitleAdditionalClass?: string;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularBannerBlock = (props) => {
@@ -75,28 +66,19 @@ const ModularBannerBlock = (props) => {
     headingType,
     headingAdditionalClass,
     mobileTitle,
-    ctaCopy,
-    ctaRoute,
-    ctaButtonType = 'secondary',
     desktopImage,
     mobileImage,
     textBlockAlignment,
     isFullWidth = true,
     textColor,
     isTextBlockWide,
-    ctaCopy2,
-    ctaRoute2,
-    ctaButtonType2 = 'secondary',
-    ctaCopy3,
-    ctaRoute3,
-    ctaButtonType3 = 'secondary',
     additionalClass,
     currencyCode = 'USD',
     copyPrices,
     countryCode = 'US',
     supportedCountries,
-    gtmClass,
     subtitleAdditionalClass,
+    darksideButtons,
   }: ModularBannerBlockProps = props;
 
   // If country is not supported, do not render
@@ -203,61 +185,18 @@ const ModularBannerBlock = (props) => {
           </Copy>
 
           <div className="cta">
-            {ctaRoute && (
-              <span>
-                <UniLink route={ctaRoute} className={gtmClass}>
-                  <VRAIButton
-                    colorTheme={
-                      ctaButtonType.includes('-white') ? 'white' : ctaButtonType.includes('-teal') ? 'teal' : 'black'
-                    }
-                    inverse={ctaButtonType.includes('-white')}
-                    className={clsx('-mobile-wide', ctaButtonType, additionalClass, {
-                      '-inverse-tabletAndUp': textColor === WHITE,
-                      // primary: !ctaButtonType,
-                    })}
-                    type={ctaButtonType}
-                  >
-                    {ctaCopy}
-                  </VRAIButton>
-                </UniLink>
-              </span>
-            )}
-            {ctaRoute && ctaRoute2 && (
-              <span>
-                <UniLink route={ctaRoute2}>
-                  <VRAIButton
-                    colorTheme={
-                      ctaButtonType2.includes('-white')
-                        ? 'white'
-                        : ctaButtonType2.includes('-teal') && !ctaButtonType2.includes('-hover-font-teal')
-                        ? 'teal'
-                        : 'black'
-                    }
-                    inverse={true}
-                    className={clsx('second-button', ctaButtonType2, additionalClass, {
-                      '-inverse-tabletAndUp': textColor === WHITE,
-                    })}
-                    type={ctaButtonType2}
-                  >
-                    {ctaCopy2}
-                  </VRAIButton>
-                </UniLink>
-              </span>
-            )}
-            {ctaRoute && ctaRoute2 && ctaRoute3 && (
-              <span>
-                <UniLink route={ctaRoute3}>
-                  <VRAIButton
-                    className={clsx('second-button', ctaButtonType3, additionalClass, {
-                      '-inverse-tabletAndUp': textColor === WHITE,
-                    })}
-                    type={ctaButtonType3}
-                  >
-                    {ctaCopy3}
-                  </VRAIButton>
-                </UniLink>
-              </span>
-            )}
+            {darksideButtons?.map((button) => (
+              <div className="cta__button" key={button.id}>
+                <DarksideButton
+                  mobileColorTheme={button.ctaButtonMobileColorTheme}
+                  colorTheme={button.ctaButtonColorTheme}
+                  type={button.ctaButtonType}
+                  href={button.ctaLinkUrl}
+                >
+                  {button.ctaCopy}
+                </DarksideButton>
+              </div>
+            ))}
           </div>
         </BannerTextContainer>
       </div>
