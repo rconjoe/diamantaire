@@ -110,13 +110,13 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     <SpritSpinnerContainer>
       <SpriteSpinnerInit />
 
-      <div
+      {/* <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}
         // eslint-disable-next-line no-undef
         // @ts-expect-error - $ is a global
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
-      />
+      /> */}
     </SpritSpinnerContainer>
   );
 };

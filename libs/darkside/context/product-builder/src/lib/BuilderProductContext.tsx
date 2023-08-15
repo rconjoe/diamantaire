@@ -1,17 +1,36 @@
 import { createContext, useReducer, Dispatch } from 'react';
 
-import { Diamond, BuilderProductComponent } from './utils/builderProduct';
+type BuilderDiamond = {
+  lotId: string;
+  diamondType: string;
+  productType: string;
+};
+
+type BuilderProduct = {
+  productType: string;
+  collectionSlug: string;
+  productSlug: string;
+  variantId: string;
+  configuration: Record<string, string>;
+};
+
+const builderState = {
+  SelectDiamondOrSetting: 'Select Diamond Or Setting',
+  SelectDiamond: 'Select Diamond',
+  SelectProduct: 'Select Product',
+  Complete: 'Complete',
+} as const;
 
 interface BuilderProductState {
-  product: BuilderProductComponent | null;
-  diamond: Diamond | null;
+  product: BuilderProduct | null;
+  diamond: BuilderDiamond | null;
   builderState: (typeof builderState)[keyof typeof builderState];
 }
 
 const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
-  builderState: 'Select Diamond Or Setting',
+  builderState: builderState.SelectDiamondOrSetting,
 };
 
 type BuilderProductContextType = {
@@ -24,17 +43,10 @@ const BuilderProductContext = createContext<BuilderProductContextType>({
   dispatch: null,
 });
 
-const builderState = {
-  SelectDiamondOrSetting: 'Select Diamond Or Setting',
-  SelectDiamond: 'Select Diamond',
-  SelectProduct: 'Select Product',
-  Complete: 'Complete',
-} as const;
-
 type BuilderAction =
-  | { type: 'ADD_DIAMOND'; payload: Diamond }
+  | { type: 'ADD_DIAMOND'; payload: BuilderDiamond }
   | { type: 'REMOVE_DIAMOND' }
-  | { type: 'ADD_PRODUCT'; payload: BuilderProductComponent }
+  | { type: 'ADD_PRODUCT'; payload: BuilderProduct }
   | { type: 'REMOVE_PRODUCT' };
 
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {

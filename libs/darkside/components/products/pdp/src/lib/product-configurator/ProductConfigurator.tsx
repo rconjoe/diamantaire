@@ -1,4 +1,5 @@
 import { CartContext } from '@diamantaire/darkside/components/cart';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
@@ -15,6 +16,13 @@ type ProductConfiguratorProps = {
   initialVariantId: string;
   diamondId?: string;
   additionalVariantData?: Record<string, string>;
+  isBuilderProduct?: boolean;
+  product: {
+    productType: string;
+    productSlug: string;
+    collectionSlug: string;
+    configuration: Record<string, string>;
+  };
 };
 
 function ProductConfigurator({
@@ -23,12 +31,28 @@ function ProductConfigurator({
   selectedConfiguration,
   initialVariantId,
   additionalVariantData,
+  product,
+  isBuilderProduct,
 }: ProductConfiguratorProps) {
+  const { builderProduct, dispatch } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(false);
+  const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(
+    !isBuilderProduct || builderProduct.builderState === 'Complete',
+  );
   const [selectedVariantId, setSelectVariantId] = useState<string>(initialVariantId);
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration[sizeOptionKey]);
   const sizeOptions = configurations[sizeOptionKey];
+
+  debugger;
+
+  const handleCtaButtonClick = () => {
+    if (isConfigurationComplete) {
+      console.log('ADD TO CART');
+    } else {
+      dispatch({ type: 'ADD_PRODUCT', payload: product });
+      console.log('ADDED PRODUCT, NEED TO ADD DIAMOND');
+    }
+  };
 
   // TODO: this is a hack to get the configurator to work with the current data structure
   const handleConfigChange = useCallback(
@@ -66,8 +90,8 @@ function ProductConfigurator({
       )}
       <CtaButton
         variantId={String(selectedVariantId)}
-        isReadyForCart={true}
-        onClick={setIsConfigurationComplete}
+        isReadyForCart={isConfigurationComplete}
+        onClick={handleCtaButtonClick}
         additionalVariantData={additionalVariantData}
       />
     </>
@@ -104,6 +128,7 @@ const CtaButtonContainer = styled(PrimaryButton)`
 function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButtonProps) {
   const { addJewelryProductToCart, addERProductToCartByVariantId } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
+
   // const handleButtonClick = () => {
   //   if (!isReadyForCart) onClick(true);
   // };

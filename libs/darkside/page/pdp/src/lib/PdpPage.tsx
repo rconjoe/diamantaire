@@ -66,7 +66,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specfic Data
-  const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
+  const { id, parentProductId, productContent, collectionContent, configuration, price, productType } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
@@ -95,6 +95,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     height: assetStack[0].width,
   };
 
+  // Can this product be added directly to cart?
+  const isBuilderProduct = configuration.caratWeight === 'other';
+
+  console.log({ configuration });
+
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
@@ -115,6 +120,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               selectedConfiguration={configuration}
               initialVariantId={id}
               additionalVariantData={additionalVariantData}
+              isBuilderProduct={isBuilderProduct}
+              product={{ productType, collectionSlug, productSlug }}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
