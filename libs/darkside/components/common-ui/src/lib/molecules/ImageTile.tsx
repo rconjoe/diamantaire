@@ -12,7 +12,7 @@ type ImageTilePropTypes = {
   copy?: string;
   ctaCopy?: string;
   ctaRoute?: string;
-  image?: DatoImageType;
+  image: DatoImageType;
   imageName?: string;
   extraClass?: string;
   isSvg?: boolean;

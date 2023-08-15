@@ -37,6 +37,7 @@ import {
   MODULAR_QUAD_GRID,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
   MODULAR_SPLIT_VIDEO_BLOCK,
+  MODULAR_CELEBRITY_REEL_BLOCK,
 } from '@diamantaire/shared/constants';
 import { forceVisible } from 'react-lazyload';
 
@@ -45,6 +46,7 @@ import {
   DynamicModularAccordion,
   DynamicModularBannerBlock,
   DynamicModularCarouselBlock,
+  DynamicModularCelebrityReelRow,
   DynamicModularCollectionHeroBlock,
   DynamicModularContentQuadBlock,
   DynamicModularDiamondLeoBlock,
@@ -118,6 +120,7 @@ const config: configProps = {
   [MODULAR_HALF_WIDTH_QUAD_BLOCK]: DynamicModularHalfWidthQuadBlock,
   [MODULAR_QUAD_GRID]: DynamicModularQuadGrid,
   [MODULAR_TRI_GRID_WITH_ORDER_TRACKING]: DynamicModularTriGridWithOrderTracking,
+  [MODULAR_CELEBRITY_REEL_BLOCK]: DynamicModularCelebrityReelRow,
 
   // MISC
   [MODULAR_EMAIL_SIGNUP_BLOCK]: DynamicEmailSignup,
