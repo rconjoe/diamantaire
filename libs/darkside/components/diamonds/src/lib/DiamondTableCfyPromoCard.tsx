@@ -1,4 +1,4 @@
-import { Button, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 
@@ -31,7 +31,7 @@ const DiamondTableCfyPromoCard = (props) => {
     <StyledDiamondTableCfyPromoCard>
       <Markdown withStyles={false}>{promoContent}</Markdown>
       <UniLink route={bottomPromoContentCtaLink}>
-        <Button className="primary">{bottomPromoContentCtaCopy}</Button>
+        <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
       </UniLink>
     </StyledDiamondTableCfyPromoCard>
   );
