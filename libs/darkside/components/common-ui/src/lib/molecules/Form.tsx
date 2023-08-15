@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { VRAIButton } from './VRAIButton';
+import { DarksideButton } from './DarksideButton';
 
 const Select = dynamic(() => import('react-select'));
 
@@ -134,9 +134,9 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
           })
         )}
         <div className="input-container submit">
-          <VRAIButton className="primary" buttonType="submit">
+          <DarksideButton type="solid" colorTheme="black" buttonType="submit">
             Submit
-          </VRAIButton>
+          </DarksideButton>
         </div>
       </form>
     </FormContainer>

@@ -2,14 +2,12 @@ import {
   ShowMobileOnly,
   ShowTabletAndUpOnly,
   MobileDesktopImage,
-  VRAIButton,
-  ButtonTypeProps,
+  DarksideButton,
+  DatoDarksideButtonProps,
 } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { Logo as VOLogo } from '@diamantaire/shared/icons';
 import { DatoImageType } from '@diamantaire/shared/types';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 
@@ -24,7 +22,7 @@ type ModularCollectionHeroBlockProps = {
   showByVrai?: boolean;
   byText?: string;
   ctaCopy?: string;
-  ctaType?: ButtonTypeProps;
+  ctaType?: string;
   ctaLinkUrl?: string;
   textColor?: {
     hex: string;
@@ -35,6 +33,7 @@ type ModularCollectionHeroBlockProps = {
   backgroundColor?: {
     hex: string;
   };
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
@@ -48,9 +47,7 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
     titleStyle,
     desktopImage,
     mobileImage,
-    ctaCopy,
-    ctaType,
-    ctaLinkUrl,
+    darksideButtons,
     textColor,
     showByVrai,
     byText,
@@ -63,15 +60,10 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
   const hasDesktopVideo = !!desktopImage?.video;
   const hasMobileVideo = !!mobileImage?.video;
 
-  const ctaTypeClass = ctaType ? ctaType : 'primary';
-
-  console.log('textColor', textColor);
-
   return (
     <ModularCollectionHeroBlockContainer
       $backgroundColor={backgroundColor?.hex}
       $showByVrai={showByVrai}
-      $ctaLinkUrl={ctaLinkUrl}
       $subtitle={subtitle}
       $subtitleFont={subtitleFont}
       $textColor={textColor}
@@ -134,31 +126,21 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
           </div>
         )}
 
-        {ctaLinkUrl && (
+        {darksideButtons?.length > 0 && (
           <div className={'hero-block__button-container'}>
-            <UniLink route={ctaLinkUrl} className="hero-block__cta">
-              <ShowMobileOnly>
-                <VRAIButton
-                  className={clsx('hero-block__button -wide', ctaTypeClass, {
-                    '-inverse': textColor?.hex?.toLowerCase() === 'white',
-                  })}
-                  type={ctaTypeClass}
+            {darksideButtons?.map((button) => {
+              return (
+                <DarksideButton
+                  colorTheme={button.ctaButtonColorTheme}
+                  mobileColorTheme={button.ctaButtonMobileColorTheme}
+                  href={button.ctaLinkUrl}
+                  key={button.id}
+                  type={button.ctaButtonType}
                 >
-                  {ctaCopy}
-                </VRAIButton>
-              </ShowMobileOnly>
-
-              <ShowTabletAndUpOnly>
-                <VRAIButton
-                  className={clsx('hero-block__button', ctaTypeClass, {
-                    '-inverse': textColor?.hex === WHITE,
-                  })}
-                  type={ctaTypeClass}
-                >
-                  {ctaCopy}
-                </VRAIButton>
-              </ShowTabletAndUpOnly>
-            </UniLink>
+                  {button.ctaCopy}
+                </DarksideButton>
+              );
+            })}
           </div>
         )}
       </div>

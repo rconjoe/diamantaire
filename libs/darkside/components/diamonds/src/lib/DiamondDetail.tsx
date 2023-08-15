@@ -1,5 +1,5 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { Form, Button, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
+import { Form, Heading, SwiperStyles, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondsData, useDiamondTableData, useDiamondPdpData } from '@diamantaire/darkside/data/hooks';
@@ -71,9 +71,13 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
           <DiamondDetailAccordion lotId={lotId} />
 
           <div className="cta">
-            <Button className="tertiary">{buttonTextDiamondFlow}</Button>
+            <DarksideButton type="solid" colorTheme="black">
+              {buttonTextDiamondFlow}
+            </DarksideButton>
 
-            <Button className="-link-teal">{quickCheckoutText}</Button>
+            <DarksideButton type="underline" colorTheme="teal">
+              {quickCheckoutText}
+            </DarksideButton>
           </div>
 
           <DiamondDetailIconList />

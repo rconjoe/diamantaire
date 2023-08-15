@@ -21,6 +21,7 @@ const ModularRandomBannerBlock = ({ blocks }) => {
       style={{
         opacity: randomIndex === -1 ? 0 : 1,
         transition: '.25s',
+        transitionDelay: '.75s',
       }}
     >
       {randomIndex === -1 ? <ModularBannerBlock {...blocks[0]} /> : <ModularBannerBlock {...block} />};

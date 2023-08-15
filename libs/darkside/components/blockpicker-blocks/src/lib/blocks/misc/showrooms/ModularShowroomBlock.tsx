@@ -1,4 +1,10 @@
-import { Heading, Button, ShowMobileOnly, ShowTabletAndUpOnly, DatoImage } from '@diamantaire/darkside/components/common-ui';
+import {
+  Heading,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+  DatoImage,
+  DarksideButton,
+} from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
@@ -85,16 +91,18 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
             <div className="showroom__text-section">
               <p>
                 <a href={`mailto:${email}`}>
-                  <Button className={clsx(emailCtaStyle, 'second-button')}>{emailText || email}</Button>
+                  <DarksideButton type="outline" colorTheme="black" className={clsx(emailCtaStyle, 'second-button')}>
+                    {emailText || email}
+                  </DarksideButton>
                 </a>
               </p>
             </div>
           )}
           {appointmentCtaLink && appointmentCtaCopy && (
             <div className="showroom__text-section">
-              <UniLink route={appointmentCtaLink}>
-                <Button className="showroom__appt-cta-button primary">{appointmentCtaCopy}</Button>
-              </UniLink>
+              <DarksideButton href={appointmentCtaLink} className="showroom__appt-cta-button primary">
+                {appointmentCtaCopy}
+              </DarksideButton>
             </div>
           )}
           {detailCtaLink && detailCtaCopy && (

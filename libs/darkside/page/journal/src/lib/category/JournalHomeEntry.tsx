@@ -1,4 +1,4 @@
-import { ImageTile, Heading, VRAIButton } from '@diamantaire/darkside/components/common-ui';
+import { ImageTile, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { generateSubheading } from '@diamantaire/shared/helpers';
 import { NextSeo } from 'next-seo';
@@ -99,9 +99,9 @@ const JournalHomeEntry = ({
             })}
           </div>
           <div className="journal-home__load-more-button">
-            <VRAIButton onClick={() => handleLoadMore()} type="primary" inverse>
+            <DarksideButton onClick={() => handleLoadMore()} type="outline">
               <UIString>Load more</UIString>
-            </VRAIButton>
+            </DarksideButton>
           </div>
         </div>
 

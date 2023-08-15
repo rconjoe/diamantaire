@@ -1,5 +1,5 @@
-import { ShowroomPage, getStaticProps, getStaticPaths } from '@diamantaire/darkside/page/showrooms';
+import { ShowroomPage, getServerSideProps } from '@diamantaire/darkside/page/showrooms';
 
 export default ShowroomPage;
 
-export { getStaticPaths, getStaticProps };
+export { getServerSideProps };

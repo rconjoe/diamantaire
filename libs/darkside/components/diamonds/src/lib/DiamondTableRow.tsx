@@ -1,5 +1,5 @@
-import { Button } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 
@@ -36,22 +36,21 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
         </div>
         <div className="row-aside">
           <div className="row-cta">
-            <UniLink route={diamondDetailRoute}>
-              <Button className="-link-teal button-details">
-                <UIString>View More Details</UIString>
-              </Button>
-            </UniLink>
-            <Button className="tertiary button-select" onClick={handleSelectDiamond}>
+            <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
+              <UIString>View More Details</UIString>
+            </DarksideButton>
+
+            <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
               <UIString>Select</UIString>
-            </Button>
-            <UniLink route={diamondExpertRoute}>
-              <Button className="-link-teal button-expert">
-                <UIString>Speak to a diamond expert</UIString>
-              </Button>
-            </UniLink>
-            <Button className="-link-teal button-purchase" onClick={handlePurchase}>
+            </DarksideButton>
+
+            <DarksideButton href={diamondExpertRoute} type="underline" colorTheme="teal" className="button-expert">
+              <UIString>Speak to a diamond expert</UIString>
+            </DarksideButton>
+
+            <DarksideButton type="underline" colorTheme="teal" className="button-purchase" onClick={handlePurchase}>
               <UIString>Purchase without setting</UIString>
-            </Button>
+            </DarksideButton>
           </div>
           <div className="row-accordion">
             <DiamondtableRowAccordion product={product} />

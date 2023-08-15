@@ -21,7 +21,8 @@ import VideoHoverSlide from './slides/VideoHoverSlide';
 import ModularQuoteBlock from '../misc/ModularQuoteBlock';
 
 const ModularCarouselBlock = (props) => {
-  const { _modelApiKey, blocks } = props;
+  console.log('carousel props', props);
+  const { _modelApiKey, blocks, darksideButtons } = props;
 
   const sliderTypes = [
     {
@@ -98,7 +99,7 @@ const ModularCarouselBlock = (props) => {
   return (
     <ModularCarouselBlockContainer>
       {SelectedSliderSlide ? (
-        <CarouselSlider {...sliderType}>
+        <CarouselSlider {...sliderType} darksideButtons={darksideButtons}>
           {blocks?.map((slide) => {
             return (
               <SwiperSlide key={`slide-${slide.id ? slide.id : uuidv4()}`}>

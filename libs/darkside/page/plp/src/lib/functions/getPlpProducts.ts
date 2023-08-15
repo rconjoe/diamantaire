@@ -1,5 +1,6 @@
 export default async function getPlpProducts(options) {
   const qParams = new URLSearchParams(options).toString();
+
   let response;
   const reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams}`;
 

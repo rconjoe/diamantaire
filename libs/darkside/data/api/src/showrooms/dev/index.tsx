@@ -1,5 +1,5 @@
 import { queryDatoGQL } from '../../clients';
-import { showroomNav as SHOWROOM_NAV_QUERY } from '../../standard-page/component-queries/showroomNav';
+import { ShowroomNav as SHOWROOM_NAV_QUERY } from '../../nonModular';
 
 export async function fetchShowroomNav(locale: string) {
   const navData = await queryDatoGQL({

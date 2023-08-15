@@ -137,3 +137,6 @@ apps/**/*.env
 docs/apps/darkside/main
 
 .github/dependabot.yml
+
+.nvrc
+.nvmrc
