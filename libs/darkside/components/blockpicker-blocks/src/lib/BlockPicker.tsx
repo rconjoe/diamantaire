@@ -38,6 +38,7 @@ import {
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
   MODULAR_SPLIT_VIDEO_BLOCK,
   MODULAR_CELEBRITY_REEL_BLOCK,
+  STANDALONE_CELEBRITY_GALLERY,
 } from '@diamantaire/shared/constants';
 import { forceVisible } from 'react-lazyload';
 
@@ -70,6 +71,7 @@ import {
   DynamicRandomModularBannerBlock,
   DynamicShowroomBlock,
   DynamicSocialMediaSection,
+  DynamicStandAloneCelebrityGallery,
   DynamicTextOnlyBlock,
   DynamicTrioBlock,
 } from './dynamic-export';
@@ -86,12 +88,10 @@ const config: configProps = {
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
-  // [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
   // BANNERS
 
   [MODULAR_RANDOM_BANNER_BLOCK]: DynamicRandomModularBannerBlock,
-  // [MODULAR_RANDOM_BANNER_BLOCK]: ModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,
   [MODULAR_HERO_BANNER_BLOCK]: DynamicModularBannerBlock,
@@ -129,6 +129,7 @@ const config: configProps = {
   [MODULAR_SHOWROOM_BLOCK]: DynamicShowroomBlock,
   [MODULAR_QUOTE_BLOCK]: DynamicModularQuoteBlock,
   [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
+  [STANDALONE_CELEBRITY_GALLERY]: DynamicStandAloneCelebrityGallery,
 };
 
 type BlockPickerProps = {

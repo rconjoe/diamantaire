@@ -44,3 +44,4 @@ export const DynamicModularCelebrityReelRow = dynamic(() => import('./blocks/gri
 export const DynamicShowroomBlock = dynamic(() => import('./blocks/misc/showrooms/ModularShowroomBlock'));
 export const DynamicModularQuoteBlock = dynamic(() => import('./blocks/misc/ModularQuoteBlock'));
 export const DynamicModularSplitVideoBlock = dynamic(() => import('./blocks/ModularSplitVideoBlock'));
+export const DynamicStandAloneCelebrityGallery = dynamic(() => import('./blocks/misc/StandAloneCelebrityGallery'));
