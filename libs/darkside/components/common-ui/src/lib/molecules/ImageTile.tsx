@@ -3,9 +3,9 @@ import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
+import { DarksideButton } from './DarksideButton';
 import { DatoImage } from './DatoImage';
 import { ImageTileContainer } from './ImageTile.style';
-import { VRAIButton } from './VRAIButton';
 
 type ImageTilePropTypes = {
   title?: string;
@@ -96,13 +96,14 @@ const ImageTile = ({
         )}
         {ctaCopy && ctaRoute && (
           <UniLink route={ctaRoute} className={isSvg ? 'image-tile__anchor' : ''}>
-            <VRAIButton
-              type="secondary"
+            <DarksideButton
+              type="underline"
               colorTheme="teal"
               className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
+              href={ctaRoute}
             >
               {ctaCopy}
-            </VRAIButton>
+            </DarksideButton>
           </UniLink>
         )}
       </div>

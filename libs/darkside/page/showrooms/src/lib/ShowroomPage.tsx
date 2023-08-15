@@ -4,11 +4,9 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrencyFromLocale } from '@diamantaire/shared/constants';
-import { getAllShowroomSlugs } from '@diamantaire/shared/helpers';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
-import type { NextRequest } from 'next/server';
 
 import ShowroomNav from './nav/ShowroomNav';
 import { ShowroomContainer } from './ShowroomPage.style';
@@ -58,27 +56,7 @@ const ShowroomPage = (props: ShowroomPageProps) => {
 
 ShowroomPage.getTemplate = getStandardTemplate;
 
-export interface GetStaticPropsRequest extends NextRequest {
-  query: {
-    pageSlug: string;
-  };
-}
-
-async function getStaticPaths() {
-  const paths = await getAllShowroomSlugs();
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-async function getStaticProps({ locale }: GetServerSidePropsContext<undefined>) {
-  // device:
-  // const isMobile = Boolean(
-  //   req.headers['user-agent'].match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i),
-  // );
-
+async function getServerSideProps({ locale }: GetServerSidePropsContext<undefined>) {
   const isMobile = false;
 
   // geo -dev
@@ -115,4 +93,4 @@ async function getStaticProps({ locale }: GetServerSidePropsContext<undefined>) 
   };
 }
 
-export { ShowroomPage, getStaticProps, getStaticPaths };
+export { ShowroomPage, getServerSideProps };

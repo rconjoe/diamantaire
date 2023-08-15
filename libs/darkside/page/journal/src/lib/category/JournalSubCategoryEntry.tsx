@@ -1,4 +1,4 @@
-import { Heading, ImageTile, VRAIButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { useJournalConfig, useJournalSubcategory } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -191,9 +191,9 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
           </div>
           <div className="journal-category__load-more-button">
             {count > categoryPosts?.length && (
-              <VRAIButton onClick={() => handleLoadMore()} type="primary" inverse>
+              <DarksideButton onClick={() => handleLoadMore()} type="outline">
                 <UIString>Load more</UIString>
-              </VRAIButton>
+              </DarksideButton>
             )}
           </div>
         </div>

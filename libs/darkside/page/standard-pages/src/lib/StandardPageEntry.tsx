@@ -21,7 +21,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode }: StandardPageEntr
   return (
     <div className="content-one-container">
       <Suspense fallback={'Loading'}>
-        {page?.content1?.map((contentBlockData, idx) => {
+        {page?.content1?.slice(0, page.content1.length).map((contentBlockData, idx) => {
           const { _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
@@ -30,6 +30,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode }: StandardPageEntr
 
           return (
             <React.Fragment key={`${_modelApiKey}_${idx}`}>
+              <p>{_modelApiKey}</p>
               <BlockPicker
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}

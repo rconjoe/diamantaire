@@ -93,8 +93,15 @@ export const BannerWrapper = styled.div`
     }
   }
 
-  .cta > span {
-    display: block;
+  .cta {
+    max-width: 350px;
+    .cta__button {
+      margin: 0 0 20px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
   }
 `;
 

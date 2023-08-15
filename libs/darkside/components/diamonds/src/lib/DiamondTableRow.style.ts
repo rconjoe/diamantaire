@@ -95,12 +95,19 @@ const StyledDiamondTableRow = styled.div`
     `)}
 
     button {
-      width: 360px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 360px;
     }
 
-    .button-details {
+    .button-details button {
       font-size: var(--font-size-xxsmall);
+      font-weight: 400;
+      width: auto;
+    }
+
+    .button-expert button,
+    .button-purchase button {
+      font-weight: 400;
     }
   }
 `;

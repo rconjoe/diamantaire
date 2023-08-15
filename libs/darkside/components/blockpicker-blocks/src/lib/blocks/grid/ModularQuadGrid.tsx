@@ -1,7 +1,7 @@
 /** This section is a 4 item image grid on desktop,
  * and a stacked 2x2 image grid on mobile */
 
-import { Button, ImageTile } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoDarksideButtonProps, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -10,11 +10,10 @@ import { ModularQuadGridContainer } from './ModularQuadGrid.style';
 type ModularQuadGridProps = {
   title?: string;
   gridItems?: Array<any>;
-  ctaButtonText?: string;
-  ctaButtonUrl?: string;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
-const ModularQuadGrid = ({ title, gridItems, ctaButtonText, ctaButtonUrl }: ModularQuadGridProps) => {
+const ModularQuadGrid = ({ title, gridItems, darksideButtons }: ModularQuadGridProps) => {
   return (
     <ModularQuadGridContainer>
       <div className="title__container">
@@ -41,11 +40,20 @@ const ModularQuadGrid = ({ title, gridItems, ctaButtonText, ctaButtonUrl }: Modu
         })}
       </div>
 
-      {ctaButtonText && ctaButtonUrl && (
+      {darksideButtons?.length > 0 && (
         <div className="grid-footer__container">
-          <UniLink route={ctaButtonUrl}>
-            <Button className={'primary'}>{ctaButtonText}</Button>
-          </UniLink>
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                key={button.id}
+                type={button.ctaButtonType}
+                colorTheme={button.ctaButtonColorTheme}
+                href={button.ctaLinkUrl}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
         </div>
       )}
     </ModularQuadGridContainer>

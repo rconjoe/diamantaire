@@ -1,4 +1,4 @@
-import { queryDatoGQL, showroomNav as SHOWROOM_NAV_QUERY } from '@diamantaire/darkside/data/api';
+import { queryDatoGQL, ShowroomNav as SHOWROOM_NAV_QUERY } from '@diamantaire/darkside/data/api';
 
 type ShowroomNavReponse = {
   showroomNav?: {
