@@ -8,7 +8,17 @@ import { useState } from 'react';
 import StyledDiamondHand from './DiamondHand.style';
 import DiamondImage from './DiamondImage';
 
-const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lotId?: string; diamondType?: string }) => {
+const DiamondHand = ({
+  className,
+  lotId,
+  diamondType,
+  withSlider = false,
+}: {
+  className?: string;
+  lotId?: string;
+  diamondType?: string;
+  withSlider?: boolean;
+}) => {
   const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
@@ -192,21 +202,23 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
         </div>
       </div>
 
-      <div className="slider swiper-no-swiping">
-        <Slider
-          step={0.01}
-          type="slider-hand"
-          range={{
-            min: range[0],
-            max: range[1],
-          }}
-          value={sliderValue}
-          className="slider-hand"
-          handleChange={(v) => handleChange(v)}
-          handleFormat={(v) => handleFormat(v)}
-          tooltips={{ to: (v) => handleFormat(v) }}
-        />
-      </div>
+      {withSlider && (
+        <div className="slider swiper-no-swiping">
+          <Slider
+            step={0.01}
+            type="slider-hand"
+            range={{
+              min: range[0],
+              max: range[1],
+            }}
+            value={sliderValue}
+            className="slider-hand"
+            handleChange={(v) => handleChange(v)}
+            handleFormat={(v) => handleFormat(v)}
+            tooltips={{ to: (v) => handleFormat(v) }}
+          />
+        </div>
+      )}
     </StyledDiamondHand>
   );
 };
