@@ -17,7 +17,7 @@ const CertificateThumb = ({ certificateUrl, className, title }: CertificateThumb
     <StyledCertificateThumb className="thb">
       <a className={className} href={certificateUrl} target="_blank" rel="noopener noreferrer">
         <div className="thumb-wrapper">
-          <Image className="thumb-image" src={imageUrl} alt={title} height={0} width={0} sizes="100vw" />
+          <Image className="thumb-image" src={imageUrl} alt={title} height={143} width={198} priority={true} />
 
           <ArrowNewWindowIcon />
         </div>

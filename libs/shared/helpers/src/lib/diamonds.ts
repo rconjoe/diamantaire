@@ -19,7 +19,7 @@ export const diamondOption = {
   isColor: (v) => DIAMOND_TABLE_VALID_COLORS.includes(v || v.toLowercase()),
   isDiamondType: (v) => !diamondOption.isHandle(v) && getDiamondType(v).title,
   isHandle: (v) => {
-    const len = v.split('-').length - 1;
+    const len = (v && v.split('-').length - 1) || 0;
 
     return len > 4;
   },
