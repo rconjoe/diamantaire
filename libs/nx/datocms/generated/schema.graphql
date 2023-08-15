@@ -10,11 +10,11 @@ input AccordionItemModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  copy: TextFilter
   ctacopy: StringFilter
-  ctaroute: StringFilter
-  supportedCountries: LinksFilter
   title: StringFilter
+  supportedCountries: LinksFilter
+  ctaroute: StringFilter
+  copy: TextFilter
   OR: [AccordionItemModelFilter]
   AND: [AccordionItemModelFilter]
 }
@@ -44,10 +44,10 @@ enum AccordionItemModelOrderBy {
   _isValid_DESC
   ctacopy_ASC
   ctacopy_DESC
-  ctaroute_ASC
-  ctaroute_DESC
   title_ASC
   title_DESC
+  ctaroute_ASC
+  ctaroute_DESC
 }
 
 """Record of type Accordion Item (accordion_item)"""
@@ -1151,9 +1151,9 @@ input AdditionalInfoModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
+  title: StringFilter
   image: FileFilter
   text: TextFilter
-  title: StringFilter
   OR: [AdditionalInfoModelFilter]
   AND: [AdditionalInfoModelFilter]
 }
@@ -1256,16 +1256,16 @@ input AnnouncementBarInfoModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  backgroundColor: ColorFilter
-  color: ColorFilter
-  copy: TextFilter
-  endDate: DateTimeFilter
-  hide: BooleanFilter
-  link: StringFilter
   shouldShowDynamicBookAnAppointment: BooleanFilter
   startDate: DateTimeFilter
-  supportedCountries: LinksFilter
+  endDate: DateTimeFilter
+  link: StringFilter
   title: StringFilter
+  supportedCountries: LinksFilter
+  hide: BooleanFilter
+  color: ColorFilter
+  backgroundColor: ColorFilter
+  copy: TextFilter
   OR: [AnnouncementBarInfoModelFilter]
   AND: [AnnouncementBarInfoModelFilter]
 }
@@ -1293,18 +1293,18 @@ enum AnnouncementBarInfoModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  endDate_ASC
-  endDate_DESC
-  hide_ASC
-  hide_DESC
-  link_ASC
-  link_DESC
   shouldShowDynamicBookAnAppointment_ASC
   shouldShowDynamicBookAnAppointment_DESC
   startDate_ASC
   startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  link_ASC
+  link_DESC
   title_ASC
   title_DESC
+  hide_ASC
+  hide_DESC
 }
 
 """Record of type Announcement Data (announcement_bar_info)"""
@@ -2168,11 +2168,11 @@ input BlogCategoryModelFilter {
   _isValid: BooleanFilter
   _locales: LocalesFilter
   copy: StringFilter
-  key: StringFilter
   route: StringFilter
-  seoDescription: StringFilter
-  seoTitle: StringFilter
+  key: StringFilter
   subcategories: LinksFilter
+  seoTitle: StringFilter
+  seoDescription: StringFilter
   OR: [BlogCategoryModelFilter]
   AND: [BlogCategoryModelFilter]
 }
@@ -2202,14 +2202,14 @@ enum BlogCategoryModelOrderBy {
   _isValid_DESC
   copy_ASC
   copy_DESC
-  key_ASC
-  key_DESC
   route_ASC
   route_DESC
-  seoDescription_ASC
-  seoDescription_DESC
+  key_ASC
+  key_DESC
   seoTitle_ASC
   seoTitle_DESC
+  seoDescription_ASC
+  seoDescription_DESC
 }
 
 """Record of type Blog Category (blog_category)"""
@@ -2556,19 +2556,19 @@ input BlogPostModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  author: StringFilter
-  category: LinkFilter
   excerpt: TextFilter
   featuredImage: FileFilter
+  showBlogHeader: BooleanFilter
   publishedAt: DateTimeFilter
+  slug: StringFilter
+  title: StringFilter
   seoDescription: StringFilter
   seoTitle: StringFilter
-  showBlogHeader: BooleanFilter
-  slug: StringFilter
-  sortByDate: DateFilter
-  subcategories: LinksFilter
+  author: StringFilter
   tags: StringFilter
-  title: StringFilter
+  subcategories: LinksFilter
+  sortByDate: DateFilter
+  category: LinkFilter
   OR: [BlogPostModelFilter]
   AND: [BlogPostModelFilter]
 }
@@ -2596,24 +2596,24 @@ enum BlogPostModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  author_ASC
-  author_DESC
+  showBlogHeader_ASC
+  showBlogHeader_DESC
   publishedAt_ASC
   publishedAt_DESC
+  slug_ASC
+  slug_DESC
+  title_ASC
+  title_DESC
   seoDescription_ASC
   seoDescription_DESC
   seoTitle_ASC
   seoTitle_DESC
-  showBlogHeader_ASC
-  showBlogHeader_DESC
-  slug_ASC
-  slug_DESC
-  sortByDate_ASC
-  sortByDate_DESC
+  author_ASC
+  author_DESC
   tags_ASC
   tags_DESC
-  title_ASC
-  title_DESC
+  sortByDate_ASC
+  sortByDate_DESC
 }
 
 """Record of type Blog Post (blog_post)"""
@@ -2790,11 +2790,11 @@ input BlogSubcategoryModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  copy: StringFilter
   key: StringFilter
-  route: StringFilter
-  seoDescription: StringFilter
+  copy: StringFilter
   seoTitle: StringFilter
+  seoDescription: StringFilter
+  route: StringFilter
   OR: [BlogSubcategoryModelFilter]
   AND: [BlogSubcategoryModelFilter]
 }
@@ -2822,16 +2822,16 @@ enum BlogSubcategoryModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  copy_ASC
-  copy_DESC
   key_ASC
   key_DESC
-  route_ASC
-  route_DESC
-  seoDescription_ASC
-  seoDescription_DESC
+  copy_ASC
+  copy_DESC
   seoTitle_ASC
   seoTitle_DESC
+  seoDescription_ASC
+  seoDescription_DESC
+  route_ASC
+  route_DESC
 }
 
 """Record of type Blog Subcategory (blog_subcategory)"""
@@ -3069,10 +3069,10 @@ input CarouselHoverBlockItemModelFilter {
   _isValid: BooleanFilter
   _locales: LocalesFilter
   hover: FileFilter
+  url: StringFilter
+  title: StringFilter
   image: FileFilter
   itemName: StringFilter
-  title: StringFilter
-  url: StringFilter
   OR: [CarouselHoverBlockItemModelFilter]
   AND: [CarouselHoverBlockItemModelFilter]
 }
@@ -3100,12 +3100,12 @@ enum CarouselHoverBlockItemModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  itemName_ASC
-  itemName_DESC
-  title_ASC
-  title_DESC
   url_ASC
   url_DESC
+  title_ASC
+  title_DESC
+  itemName_ASC
+  itemName_DESC
 }
 
 """Record of type Carousel Hover Block Item (carousel_hover_block_item)"""
@@ -3399,13 +3399,13 @@ input CelebrityBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  bottomCarouselCopy: StringFilter
-  bottomCarouselImage: FileFilter
+  title: StringFilter
   copy: StringFilter
   desktopImage: FileFilter
   internalCmsUse: StringFilter
   jewelry: LinksFilter
-  title: StringFilter
+  bottomCarouselImage: FileFilter
+  bottomCarouselCopy: StringFilter
   OR: [CelebrityBlockModelFilter]
   AND: [CelebrityBlockModelFilter]
 }
@@ -3433,14 +3433,14 @@ enum CelebrityBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  bottomCarouselCopy_ASC
-  bottomCarouselCopy_DESC
+  title_ASC
+  title_DESC
   copy_ASC
   copy_DESC
   internalCmsUse_ASC
   internalCmsUse_DESC
-  title_ASC
-  title_DESC
+  bottomCarouselCopy_ASC
+  bottomCarouselCopy_DESC
 }
 
 """Record of type Celebrity Block (celebrity_block)"""
@@ -3540,10 +3540,10 @@ input CelebrityJewelryModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  ctaCopy: StringFilter
   ctaRoute: StringFilter
-  image: FileFilter
+  ctaCopy: StringFilter
   itemName: StringFilter
+  image: FileFilter
   OR: [CelebrityJewelryModelFilter]
   AND: [CelebrityJewelryModelFilter]
 }
@@ -3571,10 +3571,10 @@ enum CelebrityJewelryModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  ctaCopy_ASC
-  ctaCopy_DESC
   ctaRoute_ASC
   ctaRoute_DESC
+  ctaCopy_ASC
+  ctaCopy_DESC
   itemName_ASC
   itemName_DESC
 }
@@ -3931,42 +3931,42 @@ input ConfigurationModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  assetStack: GalleryFilter
-  bandWidth: StringFilter
+  outerDiameter: StringFilter
+  diamondDescriptionOverride: TextFilter
+  jewelryProduct: LinkFilter
+  productIconList: LinkFilter
+  productSuggestionQuadBlock: LinkFilter
+  trioBlocks: LinkFilter
   carat: StringFilter
   caratWeightOverride: StringFilter
   chainLength: StringFilter
   chainWidth: StringFilter
-  charm: StringFilter
   clarity: StringFilter
   closure: StringFilter
-  color: StringFilter
-  configuredProductOptionsInOrder: StringFilter
   cordWidth: StringFilter
-  countrySpecificPrices: JsonFilter
-  cut: StringFilter
-  depth: StringFilter
-  diamondCount: IntegerFilter
-  diamondDescriptionOverride: TextFilter
   diamondSize: StringFilter
-  isWaitlisted: BooleanFilter
   jacketLength: StringFilter
-  jewelryProduct: LinkFilter
-  metal: StringFilter
-  origin: StringFilter
-  outerDiameter: StringFilter
-  plpImage: FileFilter
-  plpImageHover: FileFilter
-  plpTitle: StringFilter
-  posts: StringFilter
-  productIconList: LinkFilter
-  productSuggestionQuadBlock: LinkFilter
-  ringFace: StringFilter
   setting: StringFilter
+  countrySpecificPrices: JsonFilter
+  posts: StringFilter
   shape: StringFilter
+  ringFace: StringFilter
   shownWithCenterStone: StringFilter
-  trioBlocks: LinkFilter
+  isWaitlisted: BooleanFilter
+  plpTitle: StringFilter
   variantId: StringFilter
+  configuredProductOptionsInOrder: StringFilter
+  bandWidth: StringFilter
+  charm: StringFilter
+  color: StringFilter
+  metal: StringFilter
+  assetStack: GalleryFilter
+  diamondCount: IntegerFilter
+  depth: StringFilter
+  origin: StringFilter
+  plpImage: FileFilter
+  cut: StringFilter
+  plpImageHover: FileFilter
   OR: [ConfigurationModelFilter]
   AND: [ConfigurationModelFilter]
 }
@@ -3994,8 +3994,8 @@ enum ConfigurationModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  bandWidth_ASC
-  bandWidth_DESC
+  outerDiameter_ASC
+  outerDiameter_DESC
   carat_ASC
   carat_DESC
   caratWeightOverride_ASC
@@ -4004,50 +4004,50 @@ enum ConfigurationModelOrderBy {
   chainLength_DESC
   chainWidth_ASC
   chainWidth_DESC
-  charm_ASC
-  charm_DESC
   clarity_ASC
   clarity_DESC
   closure_ASC
   closure_DESC
-  color_ASC
-  color_DESC
-  configuredProductOptionsInOrder_ASC
-  configuredProductOptionsInOrder_DESC
   cordWidth_ASC
   cordWidth_DESC
-  cut_ASC
-  cut_DESC
-  depth_ASC
-  depth_DESC
-  diamondCount_ASC
-  diamondCount_DESC
   diamondSize_ASC
   diamondSize_DESC
-  isWaitlisted_ASC
-  isWaitlisted_DESC
   jacketLength_ASC
   jacketLength_DESC
-  metal_ASC
-  metal_DESC
-  origin_ASC
-  origin_DESC
-  outerDiameter_ASC
-  outerDiameter_DESC
-  plpTitle_ASC
-  plpTitle_DESC
-  posts_ASC
-  posts_DESC
-  ringFace_ASC
-  ringFace_DESC
   setting_ASC
   setting_DESC
+  posts_ASC
+  posts_DESC
   shape_ASC
   shape_DESC
+  ringFace_ASC
+  ringFace_DESC
   shownWithCenterStone_ASC
   shownWithCenterStone_DESC
+  isWaitlisted_ASC
+  isWaitlisted_DESC
+  plpTitle_ASC
+  plpTitle_DESC
   variantId_ASC
   variantId_DESC
+  configuredProductOptionsInOrder_ASC
+  configuredProductOptionsInOrder_DESC
+  bandWidth_ASC
+  bandWidth_DESC
+  charm_ASC
+  charm_DESC
+  color_ASC
+  color_DESC
+  metal_ASC
+  metal_DESC
+  diamondCount_ASC
+  diamondCount_DESC
+  depth_ASC
+  depth_DESC
+  origin_ASC
+  origin_DESC
+  cut_ASC
+  cut_DESC
 }
 
 """Record of type Configuration (configuration)"""
@@ -4529,11 +4529,11 @@ input ConfiguredProductOptionModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  assetStack: GalleryFilter
   collection: LinkFilter
+  assetStack: GalleryFilter
   configuredProductOptionsInOrder: StringFilter
-  plpTitle: StringFilter
   productSuggestionQuadBlock: LinkFilter
+  plpTitle: StringFilter
   shownWithCenterStone: StringFilter
   variantId: StringFilter
   OR: [ConfiguredProductOptionModelFilter]
@@ -5051,15 +5051,15 @@ input CreativeBlockModelFilter {
   _locales: LocalesFilter
   configurationsInOrder: LinksFilter
   ctaCopy: StringFilter
-  ctaRoute: StringFilter
-  desktopCopy: StringFilter
-  desktopImage: FileFilter
-  gtmClass: StringFilter
-  mobileCopy: StringFilter
   mobileImage: FileFilter
   openInNewTab: BooleanFilter
-  supportedCountries: LinksFilter
+  ctaRoute: StringFilter
   title: StringFilter
+  desktopCopy: StringFilter
+  desktopImage: FileFilter
+  mobileCopy: StringFilter
+  gtmClass: StringFilter
+  supportedCountries: LinksFilter
   OR: [CreativeBlockModelFilter]
   AND: [CreativeBlockModelFilter]
 }
@@ -5089,18 +5089,18 @@ enum CreativeBlockModelOrderBy {
   _isValid_DESC
   ctaCopy_ASC
   ctaCopy_DESC
-  ctaRoute_ASC
-  ctaRoute_DESC
-  desktopCopy_ASC
-  desktopCopy_DESC
-  gtmClass_ASC
-  gtmClass_DESC
-  mobileCopy_ASC
-  mobileCopy_DESC
   openInNewTab_ASC
   openInNewTab_DESC
+  ctaRoute_ASC
+  ctaRoute_DESC
   title_ASC
   title_DESC
+  desktopCopy_ASC
+  desktopCopy_DESC
+  mobileCopy_ASC
+  mobileCopy_DESC
+  gtmClass_ASC
+  gtmClass_DESC
 }
 
 """Record of type Creative Block (creative_block)"""
@@ -6355,16 +6355,16 @@ input CustomProductModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  assetStack: GalleryFilter
-  productDescription: TextFilter
-  productIconList: LinkFilter
-  productSubtitle: StringFilter
   productSuggestionQuadBlock: LinksFilter
+  productSubtitle: StringFilter
+  assetStack: GalleryFilter
   productTitle: StringFilter
-  seoDescription: TextFilter
   seoTitle: StringFilter
+  seoDescription: TextFilter
+  productDescription: TextFilter
   slug: StringFilter
   trioBlocks: LinkFilter
+  productIconList: LinkFilter
   OR: [CustomProductModelFilter]
   AND: [CustomProductModelFilter]
 }
@@ -6828,11 +6828,11 @@ input DiamondContentBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  diamondBlockText: TextFilter
-  diamondBlockTitle: StringFilter
+  videoBlock: LinkFilter
   diamondBlockVideo: StringFilter
   diamondShapes: LinksFilter
-  videoBlock: LinkFilter
+  diamondBlockText: TextFilter
+  diamondBlockTitle: StringFilter
   OR: [DiamondContentBlockModelFilter]
   AND: [DiamondContentBlockModelFilter]
 }
@@ -6860,10 +6860,10 @@ enum DiamondContentBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  diamondBlockTitle_ASC
-  diamondBlockTitle_DESC
   diamondBlockVideo_ASC
   diamondBlockVideo_DESC
+  diamondBlockTitle_ASC
+  diamondBlockTitle_DESC
 }
 
 """Record of type Diamond Content Block (diamond_content_block)"""
@@ -7984,9 +7984,9 @@ input DiamondShapeSpecModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
+  diamondShapeText: TextFilter
   diamondShape: StringFilter
   diamondShapeImage: StringFilter
-  diamondShapeText: TextFilter
   OR: [DiamondShapeSpecModelFilter]
   AND: [DiamondShapeSpecModelFilter]
 }
@@ -9033,6 +9033,33 @@ type DiamondTableRecord implements RecordInterface {
   updatedAt: DateTime!
 }
 
+"""Block of type Diamonds Query Config (diamonds_query_config)"""
+type DiamondsQueryConfigRecord implements RecordInterface {
+  _createdAt: DateTime!
+
+  """Editing URL"""
+  _editingUrl: String
+  _firstPublishedAt: DateTime
+  _isValid: BooleanType!
+  _modelApiKey: String!
+  _publicationScheduledAt: DateTime
+  _publishedAt: DateTime
+
+  """SEO meta tags"""
+  _seoMetaTags(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+  ): [Tag!]!
+  _status: ItemStatus!
+  _unpublishingScheduledAt: DateTime
+  _updatedAt: DateTime!
+  colors: String
+  createdAt: DateTime!
+  diamondTypes: String
+  id: ItemId!
+  updatedAt: DateTime!
+}
+
 """Record of type Email Pop Up (email_popup)"""
 type EmailPopupRecord implements RecordInterface {
   _allCopyLocales(
@@ -9475,39 +9502,39 @@ input EngagementRingProductModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  bandDepth: StringFilter
-  bandWidth: StringFilter
-  ctaCopy: LinkFilter
-  diamondContentBlock: LinkFilter
-  diamondDescription: TextFilter
-  diamondVideoBlock: LinkFilter
-  hasDiamond: BooleanFilter
-  instagramReelBlock: LinkFilter
-  isPromoIconEnabled: BooleanFilter
-  metalWeight: StringFilter
   pageCopy: LinksFilter
-  paveCaratWeight: StringFilter
-  productDescription: TextFilter
   productFaqBlock: LinkFilter
+  hasDiamond: BooleanFilter
   productIconList: LinkFilter
-  productLabel: LinkFilter
   products: LinksFilter
-  productTitle: StringFilter
+  specLabels: LinkFilter
+  trioBlocks: LinkFilter
+  diamondDescription: TextFilter
+  isPromoIconEnabled: BooleanFilter
+  tags: JsonFilter
+  productDescription: TextFilter
+  styleGroup: StringFilter
+  seoTitle: StringFilter
   productType: StringFilter
   seoDescription: TextFilter
-  seoTitle: StringFilter
-  settingHeight: StringFilter
-  shouldUseDatoAssets: BooleanFilter
-  shouldUseDefaultPrice: BooleanFilter
-  shownWithCtwLabel: StringFilter
+  bandWidth: StringFilter
+  metalWeight: StringFilter
+  ctaCopy: LinkFilter
+  diamondContentBlock: LinkFilter
+  instagramReelBlock: LinkFilter
+  productTitle: StringFilter
   slug: StringFilter
+  diamondVideoBlock: LinkFilter
+  shownWithCtwLabel: StringFilter
+  bandDepth: StringFilter
+  paveCaratWeight: StringFilter
+  settingHeight: StringFilter
   specBlockTitle: StringFilter
   specImage: StringFilter
-  specLabels: LinkFilter
-  styleGroup: StringFilter
+  shouldUseDatoAssets: BooleanFilter
+  productLabel: LinkFilter
+  shouldUseDefaultPrice: BooleanFilter
   subCategory: LinksFilter
-  tags: JsonFilter
-  trioBlocks: LinkFilter
   OR: [EngagementRingProductModelFilter]
   AND: [EngagementRingProductModelFilter]
 }
@@ -9535,40 +9562,40 @@ enum EngagementRingProductModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  bandDepth_ASC
-  bandDepth_DESC
-  bandWidth_ASC
-  bandWidth_DESC
   hasDiamond_ASC
   hasDiamond_DESC
   isPromoIconEnabled_ASC
   isPromoIconEnabled_DESC
-  metalWeight_ASC
-  metalWeight_DESC
-  paveCaratWeight_ASC
-  paveCaratWeight_DESC
-  productTitle_ASC
-  productTitle_DESC
-  productType_ASC
-  productType_DESC
+  styleGroup_ASC
+  styleGroup_DESC
   seoTitle_ASC
   seoTitle_DESC
-  settingHeight_ASC
-  settingHeight_DESC
-  shouldUseDatoAssets_ASC
-  shouldUseDatoAssets_DESC
-  shouldUseDefaultPrice_ASC
-  shouldUseDefaultPrice_DESC
-  shownWithCtwLabel_ASC
-  shownWithCtwLabel_DESC
+  productType_ASC
+  productType_DESC
+  bandWidth_ASC
+  bandWidth_DESC
+  metalWeight_ASC
+  metalWeight_DESC
+  productTitle_ASC
+  productTitle_DESC
   slug_ASC
   slug_DESC
+  shownWithCtwLabel_ASC
+  shownWithCtwLabel_DESC
+  bandDepth_ASC
+  bandDepth_DESC
+  paveCaratWeight_ASC
+  paveCaratWeight_DESC
+  settingHeight_ASC
+  settingHeight_DESC
   specBlockTitle_ASC
   specBlockTitle_DESC
   specImage_ASC
   specImage_DESC
-  styleGroup_ASC
-  styleGroup_DESC
+  shouldUseDatoAssets_ASC
+  shouldUseDatoAssets_DESC
+  shouldUseDefaultPrice_ASC
+  shouldUseDefaultPrice_DESC
 }
 
 union EngagementRingProductModelPageCopyField = EngagementRingPdpCtaRecord | EngravingOptionCopyRecord | RingSizeOptionCopyRecord
@@ -10165,8 +10192,8 @@ input FaqAccordionContentModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  content: TextFilter
   title: StringFilter
+  content: TextFilter
   OR: [FaqAccordionContentModelFilter]
   AND: [FaqAccordionContentModelFilter]
 }
@@ -10630,19 +10657,19 @@ input FullWidthBannerBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  ctaButton: LinkFilter
+  desktopImage: FileFilter
+  title: StringFilter
+  desktopCopy: TextFilter
+  internalCmsUse: StringFilter
+  mobileImage: FileFilter
+  mobileCopy: TextFilter
   ctaCopy: StringFilter
   ctaRoute: StringFilter
-  desktopCopy: TextFilter
-  desktopImage: FileFilter
   gtmClass: StringFilter
-  internalCmsUse: StringFilter
   isTextBlockWide: BooleanFilter
-  mobileCopy: TextFilter
-  mobileImage: FileFilter
   textBlockAlignment: StringFilter
   textColor: StringFilter
-  title: StringFilter
+  ctaButton: LinkFilter
   OR: [FullWidthBannerBlockModelFilter]
   AND: [FullWidthBannerBlockModelFilter]
 }
@@ -10670,22 +10697,22 @@ enum FullWidthBannerBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
+  title_ASC
+  title_DESC
+  internalCmsUse_ASC
+  internalCmsUse_DESC
   ctaCopy_ASC
   ctaCopy_DESC
   ctaRoute_ASC
   ctaRoute_DESC
   gtmClass_ASC
   gtmClass_DESC
-  internalCmsUse_ASC
-  internalCmsUse_DESC
   isTextBlockWide_ASC
   isTextBlockWide_DESC
   textBlockAlignment_ASC
   textBlockAlignment_DESC
   textColor_ASC
   textColor_DESC
-  title_ASC
-  title_DESC
 }
 
 """Record of type Full Width Banner Block (full_width_banner_block)"""
@@ -10993,11 +11020,11 @@ input GridCarouselBlockItemModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  desktopImage: FileFilter
-  link: StringFilter
   mobileImage: FileFilter
-  supportedCountries: LinksFilter
   title: StringFilter
+  supportedCountries: LinksFilter
+  link: StringFilter
+  desktopImage: FileFilter
   OR: [GridCarouselBlockItemModelFilter]
   AND: [GridCarouselBlockItemModelFilter]
 }
@@ -11025,10 +11052,10 @@ enum GridCarouselBlockItemModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  link_ASC
-  link_DESC
   title_ASC
   title_DESC
+  link_ASC
+  link_DESC
 }
 
 """Record of type Grid Carousel Block Item (grid_carousel_block_item)"""
@@ -11091,16 +11118,16 @@ input HalfWidthBannerBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
+  mobileImage: FileFilter
+  desktopImage: FileFilter
   ctaCopy: StringFilter
+  mobileCopy: TextFilter
   ctaRoute: StringFilter
   desktopCopy: TextFilter
-  desktopImage: FileFilter
-  internalCmsUse: StringFilter
   isTextBlockWide: BooleanFilter
-  mobileCopy: TextFilter
-  mobileImage: FileFilter
-  textBlockAlignment: StringFilter
   textColor: StringFilter
+  internalCmsUse: StringFilter
+  textBlockAlignment: StringFilter
   title: StringFilter
   OR: [HalfWidthBannerBlockModelFilter]
   AND: [HalfWidthBannerBlockModelFilter]
@@ -11133,14 +11160,14 @@ enum HalfWidthBannerBlockModelOrderBy {
   ctaCopy_DESC
   ctaRoute_ASC
   ctaRoute_DESC
-  internalCmsUse_ASC
-  internalCmsUse_DESC
   isTextBlockWide_ASC
   isTextBlockWide_DESC
-  textBlockAlignment_ASC
-  textBlockAlignment_DESC
   textColor_ASC
   textColor_DESC
+  internalCmsUse_ASC
+  internalCmsUse_DESC
+  textBlockAlignment_ASC
+  textBlockAlignment_DESC
   title_ASC
   title_DESC
 }
@@ -11728,8 +11755,8 @@ input Image1x1ModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  image: FileFilter
   title: StringFilter
+  image: FileFilter
   OR: [Image1x1ModelFilter]
   AND: [Image1x1ModelFilter]
 }
@@ -13604,9 +13631,9 @@ input JeweleryProductSubCategoryModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  image: FileFilter
   slug: StringFilter
   title: StringFilter
+  image: FileFilter
   OR: [JeweleryProductSubCategoryModelFilter]
   AND: [JeweleryProductSubCategoryModelFilter]
 }
@@ -13708,23 +13735,23 @@ input JewelryOmegaProductModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
+  shippingAndReturns: LinkFilter
   belowBannerBlocks: LinksFilter
-  category: StringFilter
-  ctaCopy: LinkFilter
-  hasOnlyOnePrice: BooleanFilter
-  plpTitle: StringFilter
   productAccordionSpecsLabel: LinkFilter
+  hasOnlyOnePrice: BooleanFilter
+  productTitle: StringFilter
+  ctaCopy: LinkFilter
+  waitlistPageCopy: LinkFilter
+  plpTitle: StringFilter
+  category: StringFilter
+  slug: StringFilter
+  seoFields: LinkFilter
   productDescription: TextFilter
   productIconList: LinkFilter
+  shouldUseDatoAssets: BooleanFilter
   products: LinksFilter
   productSpecifications: TextFilter
-  productTitle: StringFilter
-  seoFields: LinkFilter
-  shippingAndReturns: LinkFilter
-  shouldUseDatoAssets: BooleanFilter
   shouldUseDefaultPrice: BooleanFilter
-  slug: StringFilter
-  waitlistPageCopy: LinkFilter
   OR: [JewelryOmegaProductModelFilter]
   AND: [JewelryOmegaProductModelFilter]
 }
@@ -13752,20 +13779,20 @@ enum JewelryOmegaProductModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  category_ASC
-  category_DESC
   hasOnlyOnePrice_ASC
   hasOnlyOnePrice_DESC
-  plpTitle_ASC
-  plpTitle_DESC
   productTitle_ASC
   productTitle_DESC
+  plpTitle_ASC
+  plpTitle_DESC
+  category_ASC
+  category_DESC
+  slug_ASC
+  slug_DESC
   shouldUseDatoAssets_ASC
   shouldUseDatoAssets_DESC
   shouldUseDefaultPrice_ASC
   shouldUseDefaultPrice_DESC
-  slug_ASC
-  slug_DESC
 }
 
 """Record of type Jewelry Omega Product (jewelry_omega_product)"""
@@ -13919,10 +13946,10 @@ input JewelryPdpCtaModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
+  outOfStockCtaCopy: StringFilter
+  diamondPairFlowCtaCopy: StringFilter
   addToBagCtaCopy: StringFilter
   diamondPageFlowCtaCopy: StringFilter
-  diamondPairFlowCtaCopy: StringFilter
-  outOfStockCtaCopy: StringFilter
   OR: [JewelryPdpCtaModelFilter]
   AND: [JewelryPdpCtaModelFilter]
 }
@@ -13950,14 +13977,14 @@ enum JewelryPdpCtaModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
+  outOfStockCtaCopy_ASC
+  outOfStockCtaCopy_DESC
+  diamondPairFlowCtaCopy_ASC
+  diamondPairFlowCtaCopy_DESC
   addToBagCtaCopy_ASC
   addToBagCtaCopy_DESC
   diamondPageFlowCtaCopy_ASC
   diamondPageFlowCtaCopy_DESC
-  diamondPairFlowCtaCopy_ASC
-  diamondPairFlowCtaCopy_DESC
-  outOfStockCtaCopy_ASC
-  outOfStockCtaCopy_DESC
 }
 
 """Record of type Jewelry PDP CTA (jewelry_pdp_cta)"""
@@ -14080,28 +14107,28 @@ input JewelryProductModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  bottomDescription: TextFilter
-  caratWeight: StringFilter
-  category: StringFilter
-  configurations: LinksFilter
-  ctaCopy: LinkFilter
-  defaultVariant: StringFilter
-  diamondDescription: TextFilter
-  hasOnlyOnePrice: BooleanFilter
   isPromoIconEnabled: BooleanFilter
-  productAccordionSpecsLabel: LinkFilter
   productDescription: TextFilter
-  productIconList: LinkFilter
-  productLabel: LinkFilter
+  shouldUseDatoAssets: BooleanFilter
+  waitlistPageCopy: LinkFilter
   productTitle: StringFilter
+  productAccordionSpecsLabel: LinkFilter
   seoFields: LinkFilter
   shippingAndReturns: LinkFilter
-  shouldUseDatoAssets: BooleanFilter
-  shouldUseDefaultPrice: BooleanFilter
-  slug: StringFilter
+  productIconList: LinkFilter
   specLabels: LinkFilter
+  ctaCopy: LinkFilter
+  diamondDescription: TextFilter
+  hasOnlyOnePrice: BooleanFilter
+  slug: StringFilter
+  category: StringFilter
+  bottomDescription: TextFilter
+  caratWeight: StringFilter
   subCategory: LinksFilter
-  waitlistPageCopy: LinkFilter
+  productLabel: LinkFilter
+  shouldUseDefaultPrice: BooleanFilter
+  defaultVariant: StringFilter
+  configurations: LinksFilter
   OR: [JewelryProductModelFilter]
   AND: [JewelryProductModelFilter]
 }
@@ -14129,24 +14156,24 @@ enum JewelryProductModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  caratWeight_ASC
-  caratWeight_DESC
-  category_ASC
-  category_DESC
-  defaultVariant_ASC
-  defaultVariant_DESC
-  hasOnlyOnePrice_ASC
-  hasOnlyOnePrice_DESC
   isPromoIconEnabled_ASC
   isPromoIconEnabled_DESC
-  productTitle_ASC
-  productTitle_DESC
   shouldUseDatoAssets_ASC
   shouldUseDatoAssets_DESC
-  shouldUseDefaultPrice_ASC
-  shouldUseDefaultPrice_DESC
+  productTitle_ASC
+  productTitle_DESC
+  hasOnlyOnePrice_ASC
+  hasOnlyOnePrice_DESC
   slug_ASC
   slug_DESC
+  category_ASC
+  category_DESC
+  caratWeight_ASC
+  caratWeight_DESC
+  shouldUseDefaultPrice_ASC
+  shouldUseDefaultPrice_DESC
+  defaultVariant_ASC
+  defaultVariant_DESC
 }
 
 """Record of type Jewelry Product (jewelry_product)"""
@@ -14502,29 +14529,27 @@ input ListPageModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
+  slug: StringFilter
+  shouldDisplayPreviouslyViewed: BooleanFilter
   bannerBlocks: LinksFilter
   bestSellersInOrder: LinksFilter
+  slugNew: StringFilter
   breadcrumb: LinksFilter
-  category: StringFilter
   collectionsInOrder: LinksFilter
-  colors: StringFilter
   configurationsInOrder: LinksFilter
   creativeBlocks: LinksFilter
   customDiamondType: StringFilter
   defaultSort: StringFilter
-  diamondTypes: StringFilter
+  category: StringFilter
   hero: LinkFilter
   inAHurry: LinkFilter
   productsInOrder: LinksFilter
   promoCardCollection: LinkFilter
   seo: LinkFilter
   shouldAutoLoad: BooleanFilter
-  shouldDisplayPreviouslyViewed: BooleanFilter
   showAllCtaCopy: StringFilter
   showAllCtaLink: StringFilter
   showHeroWithBanner: BooleanFilter
-  slug: StringFilter
-  slugNew: StringFilter
   subcategoryFilter: LinksFilter
   OR: [ListPageModelFilter]
   AND: [ListPageModelFilter]
@@ -14560,30 +14585,26 @@ enum ListPageModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  category_ASC
-  category_DESC
-  colors_ASC
-  colors_DESC
+  slug_ASC
+  slug_DESC
+  shouldDisplayPreviouslyViewed_ASC
+  shouldDisplayPreviouslyViewed_DESC
+  slugNew_ASC
+  slugNew_DESC
   customDiamondType_ASC
   customDiamondType_DESC
   defaultSort_ASC
   defaultSort_DESC
-  diamondTypes_ASC
-  diamondTypes_DESC
+  category_ASC
+  category_DESC
   shouldAutoLoad_ASC
   shouldAutoLoad_DESC
-  shouldDisplayPreviouslyViewed_ASC
-  shouldDisplayPreviouslyViewed_DESC
   showAllCtaCopy_ASC
   showAllCtaCopy_DESC
   showAllCtaLink_ASC
   showAllCtaLink_DESC
   showHeroWithBanner_ASC
   showHeroWithBanner_DESC
-  slug_ASC
-  slug_DESC
-  slugNew_ASC
-  slugNew_DESC
 }
 
 """Record of type List Pages (list_page)"""
@@ -14648,13 +14669,12 @@ type ListPageRecord implements RecordInterface {
   breadcrumb: [BreadcrumbRecord!]!
   category: String
   collectionsInOrder: [ListPageModelCollectionsInOrderField!]!
-  colors: String
   configurationsInOrder: [ListPageModelConfigurationsInOrderField!]!
   createdAt: DateTime!
   creativeBlocks: [CreativeBlockRecord!]!
   customDiamondType: String
   defaultSort: String
-  diamondTypes: String
+  diamondPlpDataConfig: [DiamondsQueryConfigRecord!]!
   filterAndSort(
     """The locale to use to fetch the field's content"""
     locale: SiteLocale
@@ -14703,14 +14723,14 @@ input ListpageHeroBannerModelFilter {
   _isValid: BooleanFilter
   _locales: LocalesFilter
   copy: StringFilter
-  copyPrices: LinkFilter
+  textColor: ColorFilter
+  mobileImage: FileFilter
+  title: StringFilter
+  desktopImage: FileFilter
   ctaButtonType: StringFilter
   ctaCopy: StringFilter
   ctaRoute: StringFilter
-  desktopImage: FileFilter
-  mobileImage: FileFilter
-  textColor: ColorFilter
-  title: StringFilter
+  copyPrices: LinkFilter
   OR: [ListpageHeroBannerModelFilter]
   AND: [ListpageHeroBannerModelFilter]
 }
@@ -14740,14 +14760,14 @@ enum ListpageHeroBannerModelOrderBy {
   _isValid_DESC
   copy_ASC
   copy_DESC
+  title_ASC
+  title_DESC
   ctaButtonType_ASC
   ctaButtonType_DESC
   ctaCopy_ASC
   ctaCopy_DESC
   ctaRoute_ASC
   ctaRoute_DESC
-  title_ASC
-  title_DESC
 }
 
 """Record of type List Page Hero Banner (listpage_hero_banner)"""
@@ -17132,12 +17152,12 @@ input NavigationLinkModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  copy: StringFilter
   flags: StringFilter
   isBold: BooleanFilter
   linkKey: StringFilter
-  nestedLinks: LinksFilter
   route: StringFilter
+  copy: StringFilter
+  nestedLinks: LinksFilter
   supportedCountries: LinksFilter
   OR: [NavigationLinkModelFilter]
   AND: [NavigationLinkModelFilter]
@@ -17166,8 +17186,6 @@ enum NavigationLinkModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  copy_ASC
-  copy_DESC
   flags_ASC
   flags_DESC
   isBold_ASC
@@ -17176,6 +17194,8 @@ enum NavigationLinkModelOrderBy {
   linkKey_DESC
   route_ASC
   route_DESC
+  copy_ASC
+  copy_DESC
 }
 
 """Record of type Navigation Link (navigation_link)"""
@@ -17262,9 +17282,9 @@ input NavigationModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
+  title: StringFilter
   key: StringFilter
   route: StringFilter
-  title: StringFilter
   OR: [NavigationModelFilter]
   AND: [NavigationModelFilter]
 }
@@ -17292,12 +17312,12 @@ enum NavigationModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
+  title_ASC
+  title_DESC
   key_ASC
   key_DESC
   route_ASC
   route_DESC
-  title_ASC
-  title_DESC
 }
 
 """Record of type Navigation (navigation)"""
@@ -17380,8 +17400,8 @@ input OmegaAssetStackModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  key: StringFilter
   media: GalleryFilter
+  key: StringFilter
   OR: [OmegaAssetStackModelFilter]
   AND: [OmegaAssetStackModelFilter]
 }
@@ -17461,29 +17481,29 @@ input OmegaProductModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  assetStack: GalleryFilter
-  bandWidthOverride: StringFilter
-  caratWeightOverride: StringFilter
-  clarity: StringFilter
-  collection: LinkFilter
-  color: StringFilter
-  countrySpecificPrices: JsonFilter
-  cut: StringFilter
   descriptionOverride: TextFilter
   diamondDescriptionOverride: TextFilter
-  dimensions: StringFilter
-  metalWeightOverride: StringFilter
-  origin: StringFilter
-  paveCaratWeightOverride: StringFilter
-  pdpSubTitle: StringFilter
-  plpImage: FileFilter
-  plpImageHover: FileFilter
-  plpTitle: StringFilter
-  productIconList: LinkFilter
-  productSuggestionQuadBlock: LinkFilter
-  shape: StringFilter
+  cut: StringFilter
   shopifyProductHandle: StringFilter
   shownWithCtw: StringFilter
+  plpTitle: StringFilter
+  assetStack: GalleryFilter
+  pdpSubTitle: StringFilter
+  countrySpecificPrices: JsonFilter
+  collection: LinkFilter
+  productSuggestionQuadBlock: LinkFilter
+  metalWeightOverride: StringFilter
+  paveCaratWeightOverride: StringFilter
+  bandWidthOverride: StringFilter
+  plpImageHover: FileFilter
+  color: StringFilter
+  origin: StringFilter
+  shape: StringFilter
+  clarity: StringFilter
+  dimensions: StringFilter
+  plpImage: FileFilter
+  caratWeightOverride: StringFilter
+  productIconList: LinkFilter
   OR: [OmegaProductModelFilter]
   AND: [OmegaProductModelFilter]
 }
@@ -17511,34 +17531,34 @@ enum OmegaProductModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  bandWidthOverride_ASC
-  bandWidthOverride_DESC
-  caratWeightOverride_ASC
-  caratWeightOverride_DESC
-  clarity_ASC
-  clarity_DESC
-  color_ASC
-  color_DESC
   cut_ASC
   cut_DESC
-  dimensions_ASC
-  dimensions_DESC
-  metalWeightOverride_ASC
-  metalWeightOverride_DESC
-  origin_ASC
-  origin_DESC
-  paveCaratWeightOverride_ASC
-  paveCaratWeightOverride_DESC
-  pdpSubTitle_ASC
-  pdpSubTitle_DESC
-  plpTitle_ASC
-  plpTitle_DESC
-  shape_ASC
-  shape_DESC
   shopifyProductHandle_ASC
   shopifyProductHandle_DESC
   shownWithCtw_ASC
   shownWithCtw_DESC
+  plpTitle_ASC
+  plpTitle_DESC
+  pdpSubTitle_ASC
+  pdpSubTitle_DESC
+  metalWeightOverride_ASC
+  metalWeightOverride_DESC
+  paveCaratWeightOverride_ASC
+  paveCaratWeightOverride_DESC
+  bandWidthOverride_ASC
+  bandWidthOverride_DESC
+  color_ASC
+  color_DESC
+  origin_ASC
+  origin_DESC
+  shape_ASC
+  shape_DESC
+  clarity_ASC
+  clarity_DESC
+  dimensions_ASC
+  dimensions_DESC
+  caratWeightOverride_ASC
+  caratWeightOverride_DESC
 }
 
 """Record of type Product (omega_product)"""
@@ -18037,9 +18057,9 @@ input PageSeoModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  addNoindexNofollow: BooleanFilter
-  seoDescription: TextFilter
   seoTitle: StringFilter
+  seoDescription: TextFilter
+  addNoindexNofollow: BooleanFilter
   OR: [PageSeoModelFilter]
   AND: [PageSeoModelFilter]
 }
@@ -18067,10 +18087,10 @@ enum PageSeoModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  addNoindexNofollow_ASC
-  addNoindexNofollow_DESC
   seoTitle_ASC
   seoTitle_DESC
+  addNoindexNofollow_ASC
+  addNoindexNofollow_DESC
 }
 
 """Record of type Page SEO (page_seo)"""
@@ -18171,11 +18191,11 @@ input PayLaterOptionModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   copy: TextFilter
-  embedded: StringFilter
   klarna: StringFilter
-  klarnaSupportedCountries: LinksFilter
-  payPal: StringFilter
   paypalSupportedCountries: LinksFilter
+  payPal: StringFilter
+  klarnaSupportedCountries: LinksFilter
+  embedded: StringFilter
   title: StringFilter
   OR: [PayLaterOptionModelFilter]
   AND: [PayLaterOptionModelFilter]
@@ -18204,12 +18224,12 @@ enum PayLaterOptionModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  embedded_ASC
-  embedded_DESC
   klarna_ASC
   klarna_DESC
   payPal_ASC
   payPal_DESC
+  embedded_ASC
+  embedded_DESC
   title_ASC
   title_DESC
 }
@@ -18470,13 +18490,13 @@ input PlpPromoCardModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   image: FileFilter
-  imageMobile: FileFilter
-  link: StringFilter
-  openInNewTab: BooleanFilter
-  plpPosition: IntegerFilter
-  plpPositionMobile: IntegerFilter
-  textColor: ColorFilter
   title: StringFilter
+  plpPosition: IntegerFilter
+  link: StringFilter
+  textColor: ColorFilter
+  plpPositionMobile: IntegerFilter
+  imageMobile: FileFilter
+  openInNewTab: BooleanFilter
   OR: [PlpPromoCardModelFilter]
   AND: [PlpPromoCardModelFilter]
 }
@@ -18504,16 +18524,16 @@ enum PlpPromoCardModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  link_ASC
-  link_DESC
-  openInNewTab_ASC
-  openInNewTab_DESC
-  plpPosition_ASC
-  plpPosition_DESC
-  plpPositionMobile_ASC
-  plpPositionMobile_DESC
   title_ASC
   title_DESC
+  plpPosition_ASC
+  plpPosition_DESC
+  link_ASC
+  link_DESC
+  plpPositionMobile_ASC
+  plpPositionMobile_DESC
+  openInNewTab_ASC
+  openInNewTab_DESC
 }
 
 """Record of type PLP Promo Card (plp_promo_card)"""
@@ -18950,9 +18970,9 @@ input ProductListItemModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  configuration: LinkFilter
   link: StringFilter
   title: StringFilter
+  configuration: LinkFilter
   OR: [ProductListItemModelFilter]
   AND: [ProductListItemModelFilter]
 }
@@ -19357,10 +19377,10 @@ input ProductTypeFaqModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
+  productType: StringFilter
   faqEntries: LinksFilter
   faqTitle: StringFilter
   imagePath: StringFilter
-  productType: StringFilter
   OR: [ProductTypeFaqModelFilter]
   AND: [ProductTypeFaqModelFilter]
 }
@@ -19388,12 +19408,12 @@ enum ProductTypeFaqModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
+  productType_ASC
+  productType_DESC
   faqTitle_ASC
   faqTitle_DESC
   imagePath_ASC
   imagePath_DESC
-  productType_ASC
-  productType_DESC
 }
 
 """Record of type Product Type Faq (product_type_faq)"""
@@ -19603,10 +19623,10 @@ input QuadGridItemModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  itemCaption: TextFilter
-  itemImage: FileFilter
   itemTitle: StringFilter
   itemUrl: StringFilter
+  itemImage: FileFilter
+  itemCaption: TextFilter
   OR: [QuadGridItemModelFilter]
   AND: [QuadGridItemModelFilter]
 }
@@ -23016,14 +23036,14 @@ input QuoteBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  attribution: StringFilter
-  attributionFont: StringFilter
-  backgroundColor: ColorFilter
-  quotationMarksImage: FileFilter
   quote: StringFilter
-  quoteFont: StringFilter
+  attribution: StringFilter
   quoteStyle: StringFilter
   textColor: ColorFilter
+  quotationMarksImage: FileFilter
+  backgroundColor: ColorFilter
+  quoteFont: StringFilter
+  attributionFont: StringFilter
   OR: [QuoteBlockModelFilter]
   AND: [QuoteBlockModelFilter]
 }
@@ -23051,16 +23071,16 @@ enum QuoteBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  attribution_ASC
-  attribution_DESC
-  attributionFont_ASC
-  attributionFont_DESC
   quote_ASC
   quote_DESC
-  quoteFont_ASC
-  quoteFont_DESC
+  attribution_ASC
+  attribution_DESC
   quoteStyle_ASC
   quoteStyle_DESC
+  quoteFont_ASC
+  quoteFont_DESC
+  attributionFont_ASC
+  attributionFont_DESC
 }
 
 """Record of type Quote Block (quote_block)"""
@@ -23650,13 +23670,13 @@ input ShowroomLinkModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  copy: StringFilter
   country: StringFilter
-  flags: StringFilter
-  isBold: BooleanFilter
-  linkKey: StringFilter
   nestedLinks: LinksFilter
   route: StringFilter
+  flags: StringFilter
+  isBold: BooleanFilter
+  copy: StringFilter
+  linkKey: StringFilter
   supportedCountries: LinksFilter
   OR: [ShowroomLinkModelFilter]
   AND: [ShowroomLinkModelFilter]
@@ -23685,18 +23705,18 @@ enum ShowroomLinkModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  copy_ASC
-  copy_DESC
   country_ASC
   country_DESC
+  route_ASC
+  route_DESC
   flags_ASC
   flags_DESC
   isBold_ASC
   isBold_DESC
+  copy_ASC
+  copy_DESC
   linkKey_ASC
   linkKey_DESC
-  route_ASC
-  route_DESC
 }
 
 """Record of type Showroom Link (showroom_link)"""
@@ -23796,35 +23816,35 @@ input ShowroomModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
+  seoTitle: StringFilter
+  seoDescription: StringFilter
   address: TextFilter
+  phone: StringFilter
   appointmentCtaCopy: StringFilter
-  appointmentCtaLink: StringFilter
-  appointmentMarkdown: TextFilter
-  contactLabel: StringFilter
-  detailCtaCopy: StringFilter
-  detailCtaLink: StringFilter
   directionsCtaCopy: StringFilter
   directionsCtaLink: StringFilter
-  directionsImage: FileFilter
   email: StringFilter
   emailCtaStyle: StringFilter
-  emailLabel: StringFilter
-  emailText: StringFilter
-  headingAdditionalClass: StringFilter
-  headingType: StringFilter
   hoursOfOperation: TextFilter
   hoursOfOperationLabel: StringFilter
-  image: FileFilter
-  images: GalleryFilter
   locationLabel: StringFilter
-  phone: StringFilter
   phoneLabel: StringFilter
-  seoDescription: StringFilter
-  seoTitle: StringFilter
+  title: StringFilter
+  emailLabel: StringFilter
+  emailText: StringFilter
+  appointmentMarkdown: TextFilter
+  appointmentCtaLink: StringFilter
+  detailCtaCopy: StringFilter
+  contactLabel: StringFilter
+  detailCtaLink: StringFilter
+  slug: StringFilter
+  images: GalleryFilter
+  image: FileFilter
+  directionsImage: FileFilter
   services: TextFilter
   servicesLabel: StringFilter
-  slug: StringFilter
-  title: StringFilter
+  headingType: StringFilter
+  headingAdditionalClass: StringFilter
   OR: [ShowroomModelFilter]
   AND: [ShowroomModelFilter]
 }
@@ -23852,16 +23872,14 @@ enum ShowroomModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
+  seoTitle_ASC
+  seoTitle_DESC
+  seoDescription_ASC
+  seoDescription_DESC
+  phone_ASC
+  phone_DESC
   appointmentCtaCopy_ASC
   appointmentCtaCopy_DESC
-  appointmentCtaLink_ASC
-  appointmentCtaLink_DESC
-  contactLabel_ASC
-  contactLabel_DESC
-  detailCtaCopy_ASC
-  detailCtaCopy_DESC
-  detailCtaLink_ASC
-  detailCtaLink_DESC
   directionsCtaCopy_ASC
   directionsCtaCopy_DESC
   directionsCtaLink_ASC
@@ -23870,32 +23888,34 @@ enum ShowroomModelOrderBy {
   email_DESC
   emailCtaStyle_ASC
   emailCtaStyle_DESC
-  emailLabel_ASC
-  emailLabel_DESC
-  emailText_ASC
-  emailText_DESC
-  headingAdditionalClass_ASC
-  headingAdditionalClass_DESC
-  headingType_ASC
-  headingType_DESC
   hoursOfOperationLabel_ASC
   hoursOfOperationLabel_DESC
   locationLabel_ASC
   locationLabel_DESC
-  phone_ASC
-  phone_DESC
   phoneLabel_ASC
   phoneLabel_DESC
-  seoDescription_ASC
-  seoDescription_DESC
-  seoTitle_ASC
-  seoTitle_DESC
-  servicesLabel_ASC
-  servicesLabel_DESC
-  slug_ASC
-  slug_DESC
   title_ASC
   title_DESC
+  emailLabel_ASC
+  emailLabel_DESC
+  emailText_ASC
+  emailText_DESC
+  appointmentCtaLink_ASC
+  appointmentCtaLink_DESC
+  detailCtaCopy_ASC
+  detailCtaCopy_DESC
+  contactLabel_ASC
+  contactLabel_DESC
+  detailCtaLink_ASC
+  detailCtaLink_DESC
+  slug_ASC
+  slug_DESC
+  servicesLabel_ASC
+  servicesLabel_DESC
+  headingType_ASC
+  headingType_DESC
+  headingAdditionalClass_ASC
+  headingAdditionalClass_DESC
 }
 
 """Record of type Showroom Nav (showroom_nav)"""
@@ -24366,12 +24386,12 @@ input SingleMediaBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  copy: StringFilter
   ctaCopy: StringFilter
+  title: StringFilter
+  copy: StringFilter
   ctaRoute: StringFilter
   image: FileFilter
   media: LinkFilter
-  title: StringFilter
   OR: [SingleMediaBlockModelFilter]
   AND: [SingleMediaBlockModelFilter]
 }
@@ -24401,14 +24421,14 @@ enum SingleMediaBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  copy_ASC
-  copy_DESC
   ctaCopy_ASC
   ctaCopy_DESC
-  ctaRoute_ASC
-  ctaRoute_DESC
   title_ASC
   title_DESC
+  copy_ASC
+  copy_DESC
+  ctaRoute_ASC
+  ctaRoute_DESC
 }
 
 """Record of type Single Media Block (single_media_block)"""
@@ -24660,11 +24680,11 @@ input SocialMediaContentModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  credit: StringFilter
   image: FileFilter
-  internalName: StringFilter
-  postLink: StringFilter
   productLink: StringFilter
+  internalName: StringFilter
+  credit: StringFilter
+  postLink: StringFilter
   shouldLinkToVraiInstagram: BooleanFilter
   OR: [SocialMediaContentModelFilter]
   AND: [SocialMediaContentModelFilter]
@@ -24693,14 +24713,14 @@ enum SocialMediaContentModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  credit_ASC
-  credit_DESC
-  internalName_ASC
-  internalName_DESC
-  postLink_ASC
-  postLink_DESC
   productLink_ASC
   productLink_DESC
+  internalName_ASC
+  internalName_DESC
+  credit_ASC
+  credit_DESC
+  postLink_ASC
+  postLink_DESC
   shouldLinkToVraiInstagram_ASC
   shouldLinkToVraiInstagram_DESC
 }
@@ -24820,9 +24840,9 @@ input StandardPageModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  breadcrumb: LinksFilter
   seo: LinkFilter
   slug: StringFilter
+  breadcrumb: LinksFilter
   OR: [StandardPageModelFilter]
   AND: [StandardPageModelFilter]
 }
@@ -25013,8 +25033,8 @@ input SvgAssetModelFilter {
   _updatedAt: UpdatedAtFilter
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
-  svg: FileFilter
   title: StringFilter
+  svg: FileFilter
   OR: [SvgAssetModelFilter]
   AND: [SvgAssetModelFilter]
 }
@@ -25195,11 +25215,11 @@ input TextOnlyBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  ctaCopy: StringFilter
-  ctaRoute: StringFilter
   desktopCopy: StringFilter
-  mobileCopy: StringFilter
   title: StringFilter
+  mobileCopy: StringFilter
+  ctaRoute: StringFilter
+  ctaCopy: StringFilter
   OR: [TextOnlyBlockModelFilter]
   AND: [TextOnlyBlockModelFilter]
 }
@@ -25227,16 +25247,16 @@ enum TextOnlyBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  ctaCopy_ASC
-  ctaCopy_DESC
-  ctaRoute_ASC
-  ctaRoute_DESC
   desktopCopy_ASC
   desktopCopy_DESC
-  mobileCopy_ASC
-  mobileCopy_DESC
   title_ASC
   title_DESC
+  mobileCopy_ASC
+  mobileCopy_DESC
+  ctaRoute_ASC
+  ctaRoute_DESC
+  ctaCopy_ASC
+  ctaCopy_DESC
 }
 
 """Record of type Text Only Block (text_only_block)"""
@@ -25395,12 +25415,12 @@ input TrioBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  aboveCopy: StringFilter
   belowCopy: StringFilter
+  aboveCopy: StringFilter
+  title: StringFilter
   blocks: LinksFilter
   headingAdditionalClass: StringFilter
   headingType: StringFilter
-  title: StringFilter
   OR: [TrioBlockModelFilter]
   AND: [TrioBlockModelFilter]
 }
@@ -25428,16 +25448,16 @@ enum TrioBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  aboveCopy_ASC
-  aboveCopy_DESC
   belowCopy_ASC
   belowCopy_DESC
+  aboveCopy_ASC
+  aboveCopy_DESC
+  title_ASC
+  title_DESC
   headingAdditionalClass_ASC
   headingAdditionalClass_DESC
   headingType_ASC
   headingType_DESC
-  title_ASC
-  title_DESC
 }
 
 """Record of type Trio Block (trio_block)"""
@@ -26076,10 +26096,10 @@ input VideoBlockModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  copy: StringFilter
-  thumbnail: FileFilter
   title: StringFilter
+  copy: StringFilter
   video: FileFilter
+  thumbnail: FileFilter
   videoSources: GalleryFilter
   OR: [VideoBlockModelFilter]
   AND: [VideoBlockModelFilter]
@@ -26108,10 +26128,10 @@ enum VideoBlockModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  copy_ASC
-  copy_DESC
   title_ASC
   title_DESC
+  copy_ASC
+  copy_DESC
 }
 
 """Record of type Video Block (video_block)"""
@@ -26249,34 +26269,34 @@ input WeddingBandProductModelFilter {
   updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   _locales: LocalesFilter
-  bandDepth: StringFilter
-  bandWidth: StringFilter
-  caratWeight: StringFilter
-  diamondContentBlock: LinkFilter
+  seoTitle: StringFilter
   diamondDescription: TextFilter
   diamondVideoBlock: LinkFilter
-  hasDiamond: BooleanFilter
-  isPromoIconEnabled: BooleanFilter
   metalWeight: StringFilter
-  pageCopy: LinksFilter
-  paveCaratWeight: StringFilter
-  productDescription: TextFilter
-  productFaqBlock: LinkFilter
-  productIconList: LinkFilter
+  hasDiamond: BooleanFilter
   productLabel: LinkFilter
   products: LinksFilter
-  productTitle: StringFilter
   productType: StringFilter
   seoDescription: TextFilter
-  seoTitle: StringFilter
-  shouldUseDefaultPrice: BooleanFilter
   shownWithCtwLabel: StringFilter
-  slug: StringFilter
   specBlockTitle: StringFilter
   specImage: StringFilter
+  trioBlocks: LinkFilter
+  isPromoIconEnabled: BooleanFilter
+  diamondContentBlock: LinkFilter
+  bandWidth: StringFilter
+  productIconList: LinkFilter
+  productFaqBlock: LinkFilter
+  paveCaratWeight: StringFilter
+  productTitle: StringFilter
+  bandDepth: StringFilter
+  productDescription: TextFilter
+  slug: StringFilter
+  pageCopy: LinksFilter
+  caratWeight: StringFilter
   specLabels: LinkFilter
   subCategory: LinksFilter
-  trioBlocks: LinkFilter
+  shouldUseDefaultPrice: BooleanFilter
   OR: [WeddingBandProductModelFilter]
   AND: [WeddingBandProductModelFilter]
 }
@@ -26304,36 +26324,36 @@ enum WeddingBandProductModelOrderBy {
   updatedAt_DESC
   _isValid_ASC
   _isValid_DESC
-  bandDepth_ASC
-  bandDepth_DESC
-  bandWidth_ASC
-  bandWidth_DESC
-  caratWeight_ASC
-  caratWeight_DESC
-  hasDiamond_ASC
-  hasDiamond_DESC
-  isPromoIconEnabled_ASC
-  isPromoIconEnabled_DESC
-  metalWeight_ASC
-  metalWeight_DESC
-  paveCaratWeight_ASC
-  paveCaratWeight_DESC
-  productTitle_ASC
-  productTitle_DESC
-  productType_ASC
-  productType_DESC
   seoTitle_ASC
   seoTitle_DESC
-  shouldUseDefaultPrice_ASC
-  shouldUseDefaultPrice_DESC
+  metalWeight_ASC
+  metalWeight_DESC
+  hasDiamond_ASC
+  hasDiamond_DESC
+  productType_ASC
+  productType_DESC
   shownWithCtwLabel_ASC
   shownWithCtwLabel_DESC
-  slug_ASC
-  slug_DESC
   specBlockTitle_ASC
   specBlockTitle_DESC
   specImage_ASC
   specImage_DESC
+  isPromoIconEnabled_ASC
+  isPromoIconEnabled_DESC
+  bandWidth_ASC
+  bandWidth_DESC
+  paveCaratWeight_ASC
+  paveCaratWeight_DESC
+  productTitle_ASC
+  productTitle_DESC
+  bandDepth_ASC
+  bandDepth_DESC
+  slug_ASC
+  slug_DESC
+  caratWeight_ASC
+  caratWeight_DESC
+  shouldUseDefaultPrice_ASC
+  shouldUseDefaultPrice_DESC
 }
 
 union WeddingBandProductModelPageCopyField = EngagementRingPdpCtaRecord | EngravingOptionCopyRecord | RingSizeOptionCopyRecord

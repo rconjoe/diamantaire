@@ -14,13 +14,13 @@ export type Scalars = {
     Int: number,
     IntType: number,
     ItemId: string,
-    JsonField: unknown,,
+    JsonField: unknown,
     MetaTagAttributes: Record<string,string>,
     String: string,
     UploadId: string,
 }
 
-export type AccordionItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctacopy_ASC' | 'ctacopy_DESC' | 'ctaroute_ASC' | 'ctaroute_DESC' | 'title_ASC' | 'title_DESC'
+export type AccordionItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctacopy_ASC' | 'ctacopy_DESC' | 'title_ASC' | 'title_DESC' | 'ctaroute_ASC' | 'ctaroute_DESC'
 
 
 /** Record of type Accordion Item (accordion_item) */
@@ -273,7 +273,7 @@ export interface AdditionalInfoRecord {
     __typename: 'AdditionalInfoRecord'
 }
 
-export type AnnouncementBarInfoModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'endDate_ASC' | 'endDate_DESC' | 'hide_ASC' | 'hide_DESC' | 'link_ASC' | 'link_DESC' | 'shouldShowDynamicBookAnAppointment_ASC' | 'shouldShowDynamicBookAnAppointment_DESC' | 'startDate_ASC' | 'startDate_DESC' | 'title_ASC' | 'title_DESC'
+export type AnnouncementBarInfoModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'shouldShowDynamicBookAnAppointment_ASC' | 'shouldShowDynamicBookAnAppointment_DESC' | 'startDate_ASC' | 'startDate_DESC' | 'endDate_ASC' | 'endDate_DESC' | 'link_ASC' | 'link_DESC' | 'title_ASC' | 'title_DESC' | 'hide_ASC' | 'hide_DESC'
 
 
 /** Record of type Announcement Data (announcement_bar_info) */
@@ -559,7 +559,7 @@ export interface BasicTextLabelRecord {
     __typename: 'BasicTextLabelRecord'
 }
 
-export type BlogCategoryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'key_ASC' | 'key_DESC' | 'route_ASC' | 'route_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC'
+export type BlogCategoryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'route_ASC' | 'route_DESC' | 'key_ASC' | 'key_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC'
 
 
 /** Record of type Blog Category (blog_category) */
@@ -678,7 +678,7 @@ export interface BlogPostModelContentFieldListListNonNullMultiLocaleField {
     __typename: 'BlogPostModelContentFieldListListNonNullMultiLocaleField'
 }
 
-export type BlogPostModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'author_ASC' | 'author_DESC' | 'publishedAt_ASC' | 'publishedAt_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'showBlogHeader_ASC' | 'showBlogHeader_DESC' | 'slug_ASC' | 'slug_DESC' | 'sortByDate_ASC' | 'sortByDate_DESC' | 'tags_ASC' | 'tags_DESC' | 'title_ASC' | 'title_DESC'
+export type BlogPostModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'showBlogHeader_ASC' | 'showBlogHeader_DESC' | 'publishedAt_ASC' | 'publishedAt_DESC' | 'slug_ASC' | 'slug_DESC' | 'title_ASC' | 'title_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'author_ASC' | 'author_DESC' | 'tags_ASC' | 'tags_DESC' | 'sortByDate_ASC' | 'sortByDate_DESC'
 
 
 /** Record of type Blog Post (blog_post) */
@@ -731,7 +731,7 @@ export interface BlogPostRecordMultiLocaleField {
     __typename: 'BlogPostRecordMultiLocaleField'
 }
 
-export type BlogSubcategoryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'key_ASC' | 'key_DESC' | 'route_ASC' | 'route_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC'
+export type BlogSubcategoryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'key_ASC' | 'key_DESC' | 'copy_ASC' | 'copy_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'route_ASC' | 'route_DESC'
 
 
 /** Record of type Blog Subcategory (blog_subcategory) */
@@ -830,7 +830,7 @@ export interface CaratLabelRecord {
     __typename: 'CaratLabelRecord'
 }
 
-export type CarouselHoverBlockItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'itemName_ASC' | 'itemName_DESC' | 'title_ASC' | 'title_DESC' | 'url_ASC' | 'url_DESC'
+export type CarouselHoverBlockItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'url_ASC' | 'url_DESC' | 'title_ASC' | 'title_DESC' | 'itemName_ASC' | 'itemName_DESC'
 
 
 /** Record of type Carousel Hover Block Item (carousel_hover_block_item) */
@@ -988,7 +988,7 @@ export interface CartRecord {
     __typename: 'CartRecord'
 }
 
-export type CelebrityBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'bottomCarouselCopy_ASC' | 'bottomCarouselCopy_DESC' | 'copy_ASC' | 'copy_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'title_ASC' | 'title_DESC'
+export type CelebrityBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'copy_ASC' | 'copy_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'bottomCarouselCopy_ASC' | 'bottomCarouselCopy_DESC'
 
 
 /** Record of type Celebrity Block (celebrity_block) */
@@ -1023,7 +1023,7 @@ export interface CelebrityBlockRecord {
     __typename: 'CelebrityBlockRecord'
 }
 
-export type CelebrityJewelryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'itemName_ASC' | 'itemName_DESC'
+export type CelebrityJewelryModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'itemName_ASC' | 'itemName_DESC'
 
 
 /** Record of type Celebrity Jewelry (celebrity_jewelry) */
@@ -1272,7 +1272,7 @@ export interface ColumnRecordListListNonNullMultiLocaleField {
 
 export type ConfigurationModelBelowBannerBlocksField = (ModularCarouselBlockRecord | ModularCarouselHoverBlockRecord | ModularCelebrityCarouselBlockRecord | ModularCelebrityReelBlockRecord | ModularEmailSignupBlockRecord | ModularFullWidthBannerBlockRecord | ModularGridCarouselBlockRecord | ModularHalfWidthQuadBlockRecord | ModularInstagramReelBlockRecord | ModularMiniBannerBlockRecord | ModularProductSliderBlockRecord | ModularProductSuggestionQuadBlockRecord | ModularQuadBlockRecord | ModularQuadGridRecord | ModularShowroomBlockRecord | ModularSideBySideBlockRecord | ModularSingleVideoBlockRecord | ModularTallHalfWidthBlockRecord | ModularTextOnlyBlockRecord | ModularTrio9x7BlockRecord | ModularTrioSlide9x7BlockRecord | ModularTrioStaggered9x7BlockRecord | SocialMediaSectionRecord) & { __isUnion?: true }
 
-export type ConfigurationModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'carat_ASC' | 'carat_DESC' | 'caratWeightOverride_ASC' | 'caratWeightOverride_DESC' | 'chainLength_ASC' | 'chainLength_DESC' | 'chainWidth_ASC' | 'chainWidth_DESC' | 'charm_ASC' | 'charm_DESC' | 'clarity_ASC' | 'clarity_DESC' | 'closure_ASC' | 'closure_DESC' | 'color_ASC' | 'color_DESC' | 'configuredProductOptionsInOrder_ASC' | 'configuredProductOptionsInOrder_DESC' | 'cordWidth_ASC' | 'cordWidth_DESC' | 'cut_ASC' | 'cut_DESC' | 'depth_ASC' | 'depth_DESC' | 'diamondCount_ASC' | 'diamondCount_DESC' | 'diamondSize_ASC' | 'diamondSize_DESC' | 'isWaitlisted_ASC' | 'isWaitlisted_DESC' | 'jacketLength_ASC' | 'jacketLength_DESC' | 'metal_ASC' | 'metal_DESC' | 'origin_ASC' | 'origin_DESC' | 'outerDiameter_ASC' | 'outerDiameter_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'posts_ASC' | 'posts_DESC' | 'ringFace_ASC' | 'ringFace_DESC' | 'setting_ASC' | 'setting_DESC' | 'shape_ASC' | 'shape_DESC' | 'shownWithCenterStone_ASC' | 'shownWithCenterStone_DESC' | 'variantId_ASC' | 'variantId_DESC'
+export type ConfigurationModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'outerDiameter_ASC' | 'outerDiameter_DESC' | 'carat_ASC' | 'carat_DESC' | 'caratWeightOverride_ASC' | 'caratWeightOverride_DESC' | 'chainLength_ASC' | 'chainLength_DESC' | 'chainWidth_ASC' | 'chainWidth_DESC' | 'clarity_ASC' | 'clarity_DESC' | 'closure_ASC' | 'closure_DESC' | 'cordWidth_ASC' | 'cordWidth_DESC' | 'diamondSize_ASC' | 'diamondSize_DESC' | 'jacketLength_ASC' | 'jacketLength_DESC' | 'setting_ASC' | 'setting_DESC' | 'posts_ASC' | 'posts_DESC' | 'shape_ASC' | 'shape_DESC' | 'ringFace_ASC' | 'ringFace_DESC' | 'shownWithCenterStone_ASC' | 'shownWithCenterStone_DESC' | 'isWaitlisted_ASC' | 'isWaitlisted_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'variantId_ASC' | 'variantId_DESC' | 'configuredProductOptionsInOrder_ASC' | 'configuredProductOptionsInOrder_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'charm_ASC' | 'charm_DESC' | 'color_ASC' | 'color_DESC' | 'metal_ASC' | 'metal_DESC' | 'diamondCount_ASC' | 'diamondCount_DESC' | 'depth_ASC' | 'depth_DESC' | 'origin_ASC' | 'origin_DESC' | 'cut_ASC' | 'cut_DESC'
 
 
 /** Record of type Configuration (configuration) */
@@ -1562,7 +1562,7 @@ export interface CountrySpecificDateSelectorRecord {
 
 export type CreativeBlockModelConfigurationsInOrderField = (ConfigurationRecord | OmegaProductRecord) & { __isUnion?: true }
 
-export type CreativeBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'desktopCopy_ASC' | 'desktopCopy_DESC' | 'gtmClass_ASC' | 'gtmClass_DESC' | 'mobileCopy_ASC' | 'mobileCopy_DESC' | 'openInNewTab_ASC' | 'openInNewTab_DESC' | 'title_ASC' | 'title_DESC'
+export type CreativeBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'openInNewTab_ASC' | 'openInNewTab_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'title_ASC' | 'title_DESC' | 'desktopCopy_ASC' | 'desktopCopy_DESC' | 'mobileCopy_ASC' | 'mobileCopy_DESC' | 'gtmClass_ASC' | 'gtmClass_DESC'
 
 
 /** Record of type Creative Block (creative_block) */
@@ -2021,7 +2021,7 @@ export interface DiamondColorLabelRecord {
     __typename: 'DiamondColorLabelRecord'
 }
 
-export type DiamondContentBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'diamondBlockTitle_ASC' | 'diamondBlockTitle_DESC' | 'diamondBlockVideo_ASC' | 'diamondBlockVideo_DESC'
+export type DiamondContentBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'diamondBlockVideo_ASC' | 'diamondBlockVideo_DESC' | 'diamondBlockTitle_ASC' | 'diamondBlockTitle_DESC'
 
 
 /** Record of type Diamond Content Block (diamond_content_block) */
@@ -2471,6 +2471,30 @@ export interface DiamondTableRecord {
 }
 
 
+/** Block of type Diamonds Query Config (diamonds_query_config) */
+export interface DiamondsQueryConfigRecord {
+    _createdAt: Scalars['DateTime']
+    /** Editing URL */
+    _editingUrl: (Scalars['String'] | null)
+    _firstPublishedAt: (Scalars['DateTime'] | null)
+    _isValid: Scalars['BooleanType']
+    _modelApiKey: Scalars['String']
+    _publicationScheduledAt: (Scalars['DateTime'] | null)
+    _publishedAt: (Scalars['DateTime'] | null)
+    /** SEO meta tags */
+    _seoMetaTags: Tag[]
+    _status: ItemStatus
+    _unpublishingScheduledAt: (Scalars['DateTime'] | null)
+    _updatedAt: Scalars['DateTime']
+    colors: (Scalars['String'] | null)
+    createdAt: Scalars['DateTime']
+    diamondTypes: (Scalars['String'] | null)
+    id: Scalars['ItemId']
+    updatedAt: Scalars['DateTime']
+    __typename: 'DiamondsQueryConfigRecord'
+}
+
+
 /** Record of type Email Pop Up (email_popup) */
 export interface EmailPopupRecord {
     _allCopyLocales: (StringMultiLocaleField[] | null)
@@ -2595,7 +2619,7 @@ export interface EngagementRingPdpCtaRecord {
 
 export type EngagementRingProductModelBelowBannerBlocksField = (ModularCarouselBlockRecord | ModularCarouselHoverBlockRecord | ModularCelebrityCarouselBlockRecord | ModularCelebrityReelBlockRecord | ModularDuoBlockRecord | ModularEmailSignupBlockRecord | ModularFullWidthBannerBlockRecord | ModularGridCarouselBlockRecord | ModularHalfWidthQuadBlockRecord | ModularInstagramReelBlockRecord | ModularMiniBannerBlockRecord | ModularProductSliderBlockRecord | ModularQuadBlockRecord | ModularQuadGridRecord | ModularShowroomBlockRecord | ModularSideBySideBlockRecord | ModularSingleVideoBlockRecord | ModularTallHalfWidthBlockRecord | ModularTextOnlyBlockRecord | ModularTrio9x7BlockRecord | ModularTrioSlide9x7BlockRecord | ModularTrioStaggered9x7BlockRecord | SocialMediaSectionRecord) & { __isUnion?: true }
 
-export type EngagementRingProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'bandDepth_ASC' | 'bandDepth_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'hasDiamond_ASC' | 'hasDiamond_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'metalWeight_ASC' | 'metalWeight_DESC' | 'paveCaratWeight_ASC' | 'paveCaratWeight_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'productType_ASC' | 'productType_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'settingHeight_ASC' | 'settingHeight_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC' | 'shownWithCtwLabel_ASC' | 'shownWithCtwLabel_DESC' | 'slug_ASC' | 'slug_DESC' | 'specBlockTitle_ASC' | 'specBlockTitle_DESC' | 'specImage_ASC' | 'specImage_DESC' | 'styleGroup_ASC' | 'styleGroup_DESC'
+export type EngagementRingProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'hasDiamond_ASC' | 'hasDiamond_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'styleGroup_ASC' | 'styleGroup_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'productType_ASC' | 'productType_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'metalWeight_ASC' | 'metalWeight_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'slug_ASC' | 'slug_DESC' | 'shownWithCtwLabel_ASC' | 'shownWithCtwLabel_DESC' | 'bandDepth_ASC' | 'bandDepth_DESC' | 'paveCaratWeight_ASC' | 'paveCaratWeight_DESC' | 'settingHeight_ASC' | 'settingHeight_DESC' | 'specBlockTitle_ASC' | 'specBlockTitle_DESC' | 'specImage_ASC' | 'specImage_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC'
 
 export type EngagementRingProductModelPageCopyField = (EngagementRingPdpCtaRecord | EngravingOptionCopyRecord | RingSizeOptionCopyRecord) & { __isUnion?: true }
 
@@ -2877,7 +2901,7 @@ export interface FooterNavigationRecord {
     __typename: 'FooterNavigationRecord'
 }
 
-export type FullWidthBannerBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'gtmClass_ASC' | 'gtmClass_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'isTextBlockWide_ASC' | 'isTextBlockWide_DESC' | 'textBlockAlignment_ASC' | 'textBlockAlignment_DESC' | 'textColor_ASC' | 'textColor_DESC' | 'title_ASC' | 'title_DESC'
+export type FullWidthBannerBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'gtmClass_ASC' | 'gtmClass_DESC' | 'isTextBlockWide_ASC' | 'isTextBlockWide_DESC' | 'textBlockAlignment_ASC' | 'textBlockAlignment_DESC' | 'textColor_ASC' | 'textColor_DESC'
 
 
 /** Record of type Full Width Banner Block (full_width_banner_block) */
@@ -2992,7 +3016,7 @@ export interface GlobalSeoField {
     __typename: 'GlobalSeoField'
 }
 
-export type GridCarouselBlockItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'link_ASC' | 'link_DESC' | 'title_ASC' | 'title_DESC'
+export type GridCarouselBlockItemModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'link_ASC' | 'link_DESC'
 
 
 /** Record of type Grid Carousel Block Item (grid_carousel_block_item) */
@@ -3022,7 +3046,7 @@ export interface GridCarouselBlockItemRecord {
     __typename: 'GridCarouselBlockItemRecord'
 }
 
-export type HalfWidthBannerBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'isTextBlockWide_ASC' | 'isTextBlockWide_DESC' | 'textBlockAlignment_ASC' | 'textBlockAlignment_DESC' | 'textColor_ASC' | 'textColor_DESC' | 'title_ASC' | 'title_DESC'
+export type HalfWidthBannerBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'isTextBlockWide_ASC' | 'isTextBlockWide_DESC' | 'textColor_ASC' | 'textColor_DESC' | 'internalCmsUse_ASC' | 'internalCmsUse_DESC' | 'textBlockAlignment_ASC' | 'textBlockAlignment_DESC' | 'title_ASC' | 'title_DESC'
 
 
 /** Record of type Half Width Banner Block (half_width_banner_block) */
@@ -3410,7 +3434,7 @@ export interface JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleF
     __typename: 'JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleField'
 }
 
-export type JewelryOmegaProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'category_ASC' | 'category_DESC' | 'hasOnlyOnePrice_ASC' | 'hasOnlyOnePrice_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC' | 'slug_ASC' | 'slug_DESC'
+export type JewelryOmegaProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'hasOnlyOnePrice_ASC' | 'hasOnlyOnePrice_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'category_ASC' | 'category_DESC' | 'slug_ASC' | 'slug_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC'
 
 
 /** Record of type Jewelry Omega Product (jewelry_omega_product) */
@@ -3459,7 +3483,7 @@ export interface JewelryOmegaProductRecord {
     __typename: 'JewelryOmegaProductRecord'
 }
 
-export type JewelryPdpCtaModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'addToBagCtaCopy_ASC' | 'addToBagCtaCopy_DESC' | 'diamondPageFlowCtaCopy_ASC' | 'diamondPageFlowCtaCopy_DESC' | 'diamondPairFlowCtaCopy_ASC' | 'diamondPairFlowCtaCopy_DESC' | 'outOfStockCtaCopy_ASC' | 'outOfStockCtaCopy_DESC'
+export type JewelryPdpCtaModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'outOfStockCtaCopy_ASC' | 'outOfStockCtaCopy_DESC' | 'diamondPairFlowCtaCopy_ASC' | 'diamondPairFlowCtaCopy_DESC' | 'addToBagCtaCopy_ASC' | 'addToBagCtaCopy_DESC' | 'diamondPageFlowCtaCopy_ASC' | 'diamondPageFlowCtaCopy_DESC'
 
 
 /** Record of type Jewelry PDP CTA (jewelry_pdp_cta) */
@@ -3502,7 +3526,7 @@ export interface JewelryProductModelContentFieldListListNonNullMultiLocaleField 
     __typename: 'JewelryProductModelContentFieldListListNonNullMultiLocaleField'
 }
 
-export type JewelryProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'caratWeight_ASC' | 'caratWeight_DESC' | 'category_ASC' | 'category_DESC' | 'defaultVariant_ASC' | 'defaultVariant_DESC' | 'hasOnlyOnePrice_ASC' | 'hasOnlyOnePrice_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC' | 'slug_ASC' | 'slug_DESC'
+export type JewelryProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'shouldUseDatoAssets_ASC' | 'shouldUseDatoAssets_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'hasOnlyOnePrice_ASC' | 'hasOnlyOnePrice_DESC' | 'slug_ASC' | 'slug_DESC' | 'category_ASC' | 'category_DESC' | 'caratWeight_ASC' | 'caratWeight_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC' | 'defaultVariant_ASC' | 'defaultVariant_DESC'
 
 
 /** Record of type Jewelry Product (jewelry_product) */
@@ -3640,7 +3664,7 @@ export interface ListPageModelFilterAndSortFieldListListNonNullMultiLocaleField 
     __typename: 'ListPageModelFilterAndSortFieldListListNonNullMultiLocaleField'
 }
 
-export type ListPageModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'category_ASC' | 'category_DESC' | 'colors_ASC' | 'colors_DESC' | 'customDiamondType_ASC' | 'customDiamondType_DESC' | 'defaultSort_ASC' | 'defaultSort_DESC' | 'diamondTypes_ASC' | 'diamondTypes_DESC' | 'shouldAutoLoad_ASC' | 'shouldAutoLoad_DESC' | 'shouldDisplayPreviouslyViewed_ASC' | 'shouldDisplayPreviouslyViewed_DESC' | 'showAllCtaCopy_ASC' | 'showAllCtaCopy_DESC' | 'showAllCtaLink_ASC' | 'showAllCtaLink_DESC' | 'showHeroWithBanner_ASC' | 'showHeroWithBanner_DESC' | 'slug_ASC' | 'slug_DESC' | 'slugNew_ASC' | 'slugNew_DESC'
+export type ListPageModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'slug_ASC' | 'slug_DESC' | 'shouldDisplayPreviouslyViewed_ASC' | 'shouldDisplayPreviouslyViewed_DESC' | 'slugNew_ASC' | 'slugNew_DESC' | 'customDiamondType_ASC' | 'customDiamondType_DESC' | 'defaultSort_ASC' | 'defaultSort_DESC' | 'category_ASC' | 'category_DESC' | 'shouldAutoLoad_ASC' | 'shouldAutoLoad_DESC' | 'showAllCtaCopy_ASC' | 'showAllCtaCopy_DESC' | 'showAllCtaLink_ASC' | 'showAllCtaLink_DESC' | 'showHeroWithBanner_ASC' | 'showHeroWithBanner_DESC'
 
 
 /** Record of type List Pages (list_page) */
@@ -3668,13 +3692,12 @@ export interface ListPageRecord {
     breadcrumb: BreadcrumbRecord[]
     category: (Scalars['String'] | null)
     collectionsInOrder: ListPageModelCollectionsInOrderField[]
-    colors: (Scalars['String'] | null)
     configurationsInOrder: ListPageModelConfigurationsInOrderField[]
     createdAt: Scalars['DateTime']
     creativeBlocks: CreativeBlockRecord[]
     customDiamondType: (Scalars['String'] | null)
     defaultSort: (Scalars['String'] | null)
-    diamondTypes: (Scalars['String'] | null)
+    diamondPlpDataConfig: DiamondsQueryConfigRecord[]
     filterAndSort: ListPageModelFilterAndSortField[]
     hero: (ListpageHeroBannerRecord | null)
     id: Scalars['ItemId']
@@ -3694,7 +3717,7 @@ export interface ListPageRecord {
     __typename: 'ListPageRecord'
 }
 
-export type ListpageHeroBannerModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'ctaButtonType_ASC' | 'ctaButtonType_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'title_ASC' | 'title_DESC'
+export type ListpageHeroBannerModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'title_ASC' | 'title_DESC' | 'ctaButtonType_ASC' | 'ctaButtonType_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC'
 
 
 /** Record of type List Page Hero Banner (listpage_hero_banner) */
@@ -5692,7 +5715,7 @@ export interface NavigationColumnRecordListListNonNullMultiLocaleField {
     __typename: 'NavigationColumnRecordListListNonNullMultiLocaleField'
 }
 
-export type NavigationLinkModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'flags_ASC' | 'flags_DESC' | 'isBold_ASC' | 'isBold_DESC' | 'linkKey_ASC' | 'linkKey_DESC' | 'route_ASC' | 'route_DESC'
+export type NavigationLinkModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'flags_ASC' | 'flags_DESC' | 'isBold_ASC' | 'isBold_DESC' | 'linkKey_ASC' | 'linkKey_DESC' | 'route_ASC' | 'route_DESC' | 'copy_ASC' | 'copy_DESC'
 
 
 /** Record of type Navigation Link (navigation_link) */
@@ -5732,7 +5755,7 @@ export interface NavigationLinkRecordListListNonNullMultiLocaleField {
     __typename: 'NavigationLinkRecordListListNonNullMultiLocaleField'
 }
 
-export type NavigationModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'key_ASC' | 'key_DESC' | 'route_ASC' | 'route_DESC' | 'title_ASC' | 'title_DESC'
+export type NavigationModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'key_ASC' | 'key_DESC' | 'route_ASC' | 'route_DESC'
 
 
 /** Record of type Navigation (navigation) */
@@ -5804,7 +5827,7 @@ export interface OmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLoca
 
 export type OmegaProductModelCollectionField = (EngagementRingProductRecord | WeddingBandProductRecord) & { __isUnion?: true }
 
-export type OmegaProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'bandWidthOverride_ASC' | 'bandWidthOverride_DESC' | 'caratWeightOverride_ASC' | 'caratWeightOverride_DESC' | 'clarity_ASC' | 'clarity_DESC' | 'color_ASC' | 'color_DESC' | 'cut_ASC' | 'cut_DESC' | 'dimensions_ASC' | 'dimensions_DESC' | 'metalWeightOverride_ASC' | 'metalWeightOverride_DESC' | 'origin_ASC' | 'origin_DESC' | 'paveCaratWeightOverride_ASC' | 'paveCaratWeightOverride_DESC' | 'pdpSubTitle_ASC' | 'pdpSubTitle_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'shape_ASC' | 'shape_DESC' | 'shopifyProductHandle_ASC' | 'shopifyProductHandle_DESC' | 'shownWithCtw_ASC' | 'shownWithCtw_DESC'
+export type OmegaProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'cut_ASC' | 'cut_DESC' | 'shopifyProductHandle_ASC' | 'shopifyProductHandle_DESC' | 'shownWithCtw_ASC' | 'shownWithCtw_DESC' | 'plpTitle_ASC' | 'plpTitle_DESC' | 'pdpSubTitle_ASC' | 'pdpSubTitle_DESC' | 'metalWeightOverride_ASC' | 'metalWeightOverride_DESC' | 'paveCaratWeightOverride_ASC' | 'paveCaratWeightOverride_DESC' | 'bandWidthOverride_ASC' | 'bandWidthOverride_DESC' | 'color_ASC' | 'color_DESC' | 'origin_ASC' | 'origin_DESC' | 'shape_ASC' | 'shape_DESC' | 'clarity_ASC' | 'clarity_DESC' | 'dimensions_ASC' | 'dimensions_DESC' | 'caratWeightOverride_ASC' | 'caratWeightOverride_DESC'
 
 
 /** Record of type Product (omega_product) */
@@ -5980,7 +6003,7 @@ export interface OuterDiameterLabelRecord {
     __typename: 'OuterDiameterLabelRecord'
 }
 
-export type PageSeoModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'addNoindexNofollow_ASC' | 'addNoindexNofollow_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC'
+export type PageSeoModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'addNoindexNofollow_ASC' | 'addNoindexNofollow_DESC'
 
 
 /** Record of type Page SEO (page_seo) */
@@ -6033,7 +6056,7 @@ export interface PaveCaratWeightLabelRecord {
     __typename: 'PaveCaratWeightLabelRecord'
 }
 
-export type PayLaterOptionModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'embedded_ASC' | 'embedded_DESC' | 'klarna_ASC' | 'klarna_DESC' | 'payPal_ASC' | 'payPal_DESC' | 'title_ASC' | 'title_DESC'
+export type PayLaterOptionModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'klarna_ASC' | 'klarna_DESC' | 'payPal_ASC' | 'payPal_DESC' | 'embedded_ASC' | 'embedded_DESC' | 'title_ASC' | 'title_DESC'
 
 
 /** Record of type Pay Later Option (pay_later_option) */
@@ -6170,7 +6193,7 @@ export interface PlpPromoCardCollectionRecord {
     __typename: 'PlpPromoCardCollectionRecord'
 }
 
-export type PlpPromoCardModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'link_ASC' | 'link_DESC' | 'openInNewTab_ASC' | 'openInNewTab_DESC' | 'plpPosition_ASC' | 'plpPosition_DESC' | 'plpPositionMobile_ASC' | 'plpPositionMobile_DESC' | 'title_ASC' | 'title_DESC'
+export type PlpPromoCardModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'plpPosition_ASC' | 'plpPosition_DESC' | 'link_ASC' | 'link_DESC' | 'plpPositionMobile_ASC' | 'plpPositionMobile_DESC' | 'openInNewTab_ASC' | 'openInNewTab_DESC'
 
 
 /** Record of type PLP Promo Card (plp_promo_card) */
@@ -6524,7 +6547,7 @@ export interface ProductSuggestionQuadBlockRecord {
     __typename: 'ProductSuggestionQuadBlockRecord'
 }
 
-export type ProductTypeFaqModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'faqTitle_ASC' | 'faqTitle_DESC' | 'imagePath_ASC' | 'imagePath_DESC' | 'productType_ASC' | 'productType_DESC'
+export type ProductTypeFaqModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'productType_ASC' | 'productType_DESC' | 'faqTitle_ASC' | 'faqTitle_DESC' | 'imagePath_ASC' | 'imagePath_DESC'
 
 
 /** Record of type Product Type Faq (product_type_faq) */
@@ -7084,7 +7107,7 @@ export interface Query {
     __typename: 'Query'
 }
 
-export type QuoteBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'attribution_ASC' | 'attribution_DESC' | 'attributionFont_ASC' | 'attributionFont_DESC' | 'quote_ASC' | 'quote_DESC' | 'quoteFont_ASC' | 'quoteFont_DESC' | 'quoteStyle_ASC' | 'quoteStyle_DESC'
+export type QuoteBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'quote_ASC' | 'quote_DESC' | 'attribution_ASC' | 'attribution_DESC' | 'quoteStyle_ASC' | 'quoteStyle_DESC' | 'quoteFont_ASC' | 'quoteFont_DESC' | 'attributionFont_ASC' | 'attributionFont_DESC'
 
 
 /** Record of type Quote Block (quote_block) */
@@ -7119,7 +7142,7 @@ export interface QuoteBlockRecord {
     __typename: 'QuoteBlockRecord'
 }
 
-export type RecordInterface = (AccordionItemRecord | AccountReminderFormRecord | AccountRemindersListRecord | AccountSubscriptionFormRecord | AccountSubscriptionsListRecord | AdditionalInfoRecord | AnnouncementBarInfoRecord | AnnouncementBarRecord | AnnualGiftFormRecord | AnnualGiftingRecord | AssembledToOrderProductRecord | BandDepthLabelRecord | BandHeightLabelRecord | BandWidthLabelRecord | BasicTextLabelRecord | BlogCategoryRecord | BlogConfigurationRecord | BlogHeaderRecord | BlogPostRecord | BlogSubcategoryRecord | BreadcrumbRecord | CaratLabelRecord | CarouselHoverBlockItemRecord | CartCertificateRecord | CartPageCopyRecord | CartRecord | CelebrityBlockRecord | CelebrityJewelryRecord | CertificateLabelRecord | ChainLengthLabelRecord | ChainWidthLabelRecord | CharmLabelRecord | ClarityLabelRecord | ClosureLabelRecord | ColorLabelRecord | ColumnRecord | ConfigurationRecord | ConfiguredProductOptionRecord | CookieBannerRecord | CopyWithCtaRecord | CordWidthLabelRecord | CountryPickerColumnRecord | CountryRecord | CountrySpecificDateSelectorRecord | CreativeBlockRecord | CtoDiamondTableRecord | CurrencyPriceRecord | CustomProductRecord | CutLabelRecord | CutletLabelRecord | DarksideButtonRecord | DepthLabelRecord | DescriptionLabelRecord | DesktopImageRecord | DiamondClarityLabelRecord | DiamondColorLabelRecord | DiamondContentBlockRecord | DiamondCountLabelRecord | DiamondNotifierPageRecord | DiamondPageRecord | DiamondProductRecord | DiamondShapeDescriptionRecord | DiamondShapeSpecRecord | DiamondSizeLabelRecord | DiamondTableRecord | EmailPopupRecord | EmailSignupPageCopyRecord | EngagementRingPdpCtaRecord | EngagementRingProductRecord | EngagementRingSummaryPageRecord | EngravingOptionCopyRecord | FaqAccordionContentRecord | FluorescenceLabelRecord | FooterNavigationRecord | FullWidthBannerBlockRecord | GiftWithPurchaseRecord | GirdleLabelRecord | GridCarouselBlockItemRecord | HalfWidthBannerBlockRecord | HeaderNavigationDynamicRecord | HeaderNavigationRecord | HeroBlockRecord | HomePageRecord | HumanNamesMapperRecord | Image1x1Record | Image9x7Record | InstagramReelBlockRecord | JacketLengthLabelRecord | JeweleryProductSubCategoryRecord | JewelryOmegaProductRecord | JewelryPdpCtaRecord | JewelryProductRecord | JewelrySubcategoryRecord | JsonKeyRecord | ListPageRecord | ListpageHeroBannerRecord | MeasurementsLabelRecord | MetalLabelRecord | MetalWeightLabelRecord | ModularAccordionBlockRecord | ModularAccordionRecord | ModularBlockWrapperRecord | ModularBlogListTrioBlockRecord | ModularCarouselBlockRecord | ModularCarouselHoverBlockRecord | ModularCelebrityCarouselBlockRecord | ModularCelebrityReelBlockRecord | ModularCelebrityWDetailCarouselRecord | ModularCollectionHeroBlockRecord | ModularDuoBlockRecord | ModularEmailPopupOverrideRecord | ModularEmailSignupBlockRecord | ModularFullWidthBannerBlockRecord | ModularGridCarouselBlockRecord | ModularHalfWidthBannerBlockRecord | ModularHalfWidthBlogSummaryBlockRecord | ModularHalfWidthQuadBlockRecord | ModularHeroBannerBlockRecord | ModularHorizontalLineBlockRecord | ModularInstagramReelBlockRecord | ModularLeoBlockRecord | ModularListTitleBlockRecord | ModularLogoBannerBlockRecord | ModularMiniBannerBlockRecord | ModularProductIconListItemRecord | ModularProductOptionRecord | ModularProductSliderBlockRecord | ModularProductSuggestionQuadBlockRecord | ModularQuadBlockRecord | ModularQuadGridRecord | ModularQuadLogoBlockRecord | ModularQuadStatisticsBlockRecord | ModularQuoteBlockRecord | ModularRadioFieldRecord | ModularRandomBannerBlockRecord | ModularShippingProductIconListItemRecord | ModularShowroomBlockRecord | ModularSideBySideBlockRecord | ModularSingleMediaBlockRecord | ModularSingleVideoBlockRecord | ModularSinglesvgBlockRecord | ModularSkinnyHeroBannerBlockRecord | ModularSlickCarouselBlockRecord | ModularTallHalfWidthBlockLocationCtaRecord | ModularTallHalfWidthBlockRecord | ModularTextInputFieldRecord | ModularTextOnlyBlockRecord | ModularTitleOnlyBlockRecord | ModularTriGridWithOrderTrackingRecord | ModularTrio1x1BlockRecord | ModularTrio9x7BlockRecord | ModularTrioSlide9x7BlockRecord | ModularTrioStaggered9x7BlockRecord | ModularTriosvgBlockRecord | MoneyRadioOptionRecord | NavigationColumnRecord | NavigationLinkRecord | NavigationRecord | OmegaAssetStackRecord | OmegaProductRecord | OptionsHeaderRecord | OriginLabelRecord | OurDiamondRecord | OuterDiameterLabelRecord | PageSeoRecord | PaveCaratWeightLabelRecord | PayLaterOptionRecord | PayLaterRecord | PlpContentBlockRecord | PlpFilterRecord | PlpPromoCardCollectionRecord | PlpPromoCardRecord | PlpSortRecord | PolishLabelRecord | PostsLabelRecord | PricingByCurrencyRecord | ProductIconListRecord | ProductLabelRecord | ProductListItemRecord | ProductOptionLabelRecord | ProductShippingAndReturnRecord | ProductSpecLabelCollectionRecord | ProductSuggestionQuadBlockRecord | ProductTypeFaqRecord | ProductWaitlistRecord | QuadGridItemRecord | QuoteBlockRecord | RingFaceLabelRecord | RingSizeLabelRecord | RingSizeOptionCopyRecord | SettingHeightLabelRecord | SettingLabelRecord | ShapeLabelRecord | ShippingAndReturnsLabelRecord | ShipsInTimeRecord | ShownWithCenterStoneLabelRecord | ShowroomLinkRecord | ShowroomNavRecord | ShowroomRecord | SidebarTextBlockRecord | SingleMediaBlockRecord | SlickCarouselBlockRecord | SocialMediaContentRecord | SocialMediaSectionRecord | SpecificationsLabelRecord | StandardPageRecord | SvgAssetRecord | SymmetryLabelRecord | TableLabelRecord | TesteRecord | TextOnlyBlockRecord | TotalCaratWeightLabelRecord | TrioBlockRecord | VatRecord | VideoBlockRecord | WaitlistPageCopyRecord | WeddingBandProductRecord | WishlistRecord) & { __isUnion?: true }
+export type RecordInterface = (AccordionItemRecord | AccountReminderFormRecord | AccountRemindersListRecord | AccountSubscriptionFormRecord | AccountSubscriptionsListRecord | AdditionalInfoRecord | AnnouncementBarInfoRecord | AnnouncementBarRecord | AnnualGiftFormRecord | AnnualGiftingRecord | AssembledToOrderProductRecord | BandDepthLabelRecord | BandHeightLabelRecord | BandWidthLabelRecord | BasicTextLabelRecord | BlogCategoryRecord | BlogConfigurationRecord | BlogHeaderRecord | BlogPostRecord | BlogSubcategoryRecord | BreadcrumbRecord | CaratLabelRecord | CarouselHoverBlockItemRecord | CartCertificateRecord | CartPageCopyRecord | CartRecord | CelebrityBlockRecord | CelebrityJewelryRecord | CertificateLabelRecord | ChainLengthLabelRecord | ChainWidthLabelRecord | CharmLabelRecord | ClarityLabelRecord | ClosureLabelRecord | ColorLabelRecord | ColumnRecord | ConfigurationRecord | ConfiguredProductOptionRecord | CookieBannerRecord | CopyWithCtaRecord | CordWidthLabelRecord | CountryPickerColumnRecord | CountryRecord | CountrySpecificDateSelectorRecord | CreativeBlockRecord | CtoDiamondTableRecord | CurrencyPriceRecord | CustomProductRecord | CutLabelRecord | CutletLabelRecord | DarksideButtonRecord | DepthLabelRecord | DescriptionLabelRecord | DesktopImageRecord | DiamondClarityLabelRecord | DiamondColorLabelRecord | DiamondContentBlockRecord | DiamondCountLabelRecord | DiamondNotifierPageRecord | DiamondPageRecord | DiamondProductRecord | DiamondShapeDescriptionRecord | DiamondShapeSpecRecord | DiamondSizeLabelRecord | DiamondTableRecord | DiamondsQueryConfigRecord | EmailPopupRecord | EmailSignupPageCopyRecord | EngagementRingPdpCtaRecord | EngagementRingProductRecord | EngagementRingSummaryPageRecord | EngravingOptionCopyRecord | FaqAccordionContentRecord | FluorescenceLabelRecord | FooterNavigationRecord | FullWidthBannerBlockRecord | GiftWithPurchaseRecord | GirdleLabelRecord | GridCarouselBlockItemRecord | HalfWidthBannerBlockRecord | HeaderNavigationDynamicRecord | HeaderNavigationRecord | HeroBlockRecord | HomePageRecord | HumanNamesMapperRecord | Image1x1Record | Image9x7Record | InstagramReelBlockRecord | JacketLengthLabelRecord | JeweleryProductSubCategoryRecord | JewelryOmegaProductRecord | JewelryPdpCtaRecord | JewelryProductRecord | JewelrySubcategoryRecord | JsonKeyRecord | ListPageRecord | ListpageHeroBannerRecord | MeasurementsLabelRecord | MetalLabelRecord | MetalWeightLabelRecord | ModularAccordionBlockRecord | ModularAccordionRecord | ModularBlockWrapperRecord | ModularBlogListTrioBlockRecord | ModularCarouselBlockRecord | ModularCarouselHoverBlockRecord | ModularCelebrityCarouselBlockRecord | ModularCelebrityReelBlockRecord | ModularCelebrityWDetailCarouselRecord | ModularCollectionHeroBlockRecord | ModularDuoBlockRecord | ModularEmailPopupOverrideRecord | ModularEmailSignupBlockRecord | ModularFullWidthBannerBlockRecord | ModularGridCarouselBlockRecord | ModularHalfWidthBannerBlockRecord | ModularHalfWidthBlogSummaryBlockRecord | ModularHalfWidthQuadBlockRecord | ModularHeroBannerBlockRecord | ModularHorizontalLineBlockRecord | ModularInstagramReelBlockRecord | ModularLeoBlockRecord | ModularListTitleBlockRecord | ModularLogoBannerBlockRecord | ModularMiniBannerBlockRecord | ModularProductIconListItemRecord | ModularProductOptionRecord | ModularProductSliderBlockRecord | ModularProductSuggestionQuadBlockRecord | ModularQuadBlockRecord | ModularQuadGridRecord | ModularQuadLogoBlockRecord | ModularQuadStatisticsBlockRecord | ModularQuoteBlockRecord | ModularRadioFieldRecord | ModularRandomBannerBlockRecord | ModularShippingProductIconListItemRecord | ModularShowroomBlockRecord | ModularSideBySideBlockRecord | ModularSingleMediaBlockRecord | ModularSingleVideoBlockRecord | ModularSinglesvgBlockRecord | ModularSkinnyHeroBannerBlockRecord | ModularSlickCarouselBlockRecord | ModularTallHalfWidthBlockLocationCtaRecord | ModularTallHalfWidthBlockRecord | ModularTextInputFieldRecord | ModularTextOnlyBlockRecord | ModularTitleOnlyBlockRecord | ModularTriGridWithOrderTrackingRecord | ModularTrio1x1BlockRecord | ModularTrio9x7BlockRecord | ModularTrioSlide9x7BlockRecord | ModularTrioStaggered9x7BlockRecord | ModularTriosvgBlockRecord | MoneyRadioOptionRecord | NavigationColumnRecord | NavigationLinkRecord | NavigationRecord | OmegaAssetStackRecord | OmegaProductRecord | OptionsHeaderRecord | OriginLabelRecord | OurDiamondRecord | OuterDiameterLabelRecord | PageSeoRecord | PaveCaratWeightLabelRecord | PayLaterOptionRecord | PayLaterRecord | PlpContentBlockRecord | PlpFilterRecord | PlpPromoCardCollectionRecord | PlpPromoCardRecord | PlpSortRecord | PolishLabelRecord | PostsLabelRecord | PricingByCurrencyRecord | ProductIconListRecord | ProductLabelRecord | ProductListItemRecord | ProductOptionLabelRecord | ProductShippingAndReturnRecord | ProductSpecLabelCollectionRecord | ProductSuggestionQuadBlockRecord | ProductTypeFaqRecord | ProductWaitlistRecord | QuadGridItemRecord | QuoteBlockRecord | RingFaceLabelRecord | RingSizeLabelRecord | RingSizeOptionCopyRecord | SettingHeightLabelRecord | SettingLabelRecord | ShapeLabelRecord | ShippingAndReturnsLabelRecord | ShipsInTimeRecord | ShownWithCenterStoneLabelRecord | ShowroomLinkRecord | ShowroomNavRecord | ShowroomRecord | SidebarTextBlockRecord | SingleMediaBlockRecord | SlickCarouselBlockRecord | SocialMediaContentRecord | SocialMediaSectionRecord | SpecificationsLabelRecord | StandardPageRecord | SvgAssetRecord | SymmetryLabelRecord | TableLabelRecord | TesteRecord | TextOnlyBlockRecord | TotalCaratWeightLabelRecord | TrioBlockRecord | VatRecord | VideoBlockRecord | WaitlistPageCopyRecord | WeddingBandProductRecord | WishlistRecord) & { __isUnion?: true }
 
 export type ResolutionType = 'icon' | 'small' | 'medium' | 'large'
 
@@ -7399,7 +7422,7 @@ export interface ShownWithCenterStoneLabelRecord {
     __typename: 'ShownWithCenterStoneLabelRecord'
 }
 
-export type ShowroomLinkModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'country_ASC' | 'country_DESC' | 'flags_ASC' | 'flags_DESC' | 'isBold_ASC' | 'isBold_DESC' | 'linkKey_ASC' | 'linkKey_DESC' | 'route_ASC' | 'route_DESC'
+export type ShowroomLinkModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'country_ASC' | 'country_DESC' | 'route_ASC' | 'route_DESC' | 'flags_ASC' | 'flags_DESC' | 'isBold_ASC' | 'isBold_DESC' | 'copy_ASC' | 'copy_DESC' | 'linkKey_ASC' | 'linkKey_DESC'
 
 
 /** Record of type Showroom Link (showroom_link) */
@@ -7435,7 +7458,7 @@ export interface ShowroomLinkRecord {
     __typename: 'ShowroomLinkRecord'
 }
 
-export type ShowroomModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'appointmentCtaCopy_ASC' | 'appointmentCtaCopy_DESC' | 'appointmentCtaLink_ASC' | 'appointmentCtaLink_DESC' | 'contactLabel_ASC' | 'contactLabel_DESC' | 'detailCtaCopy_ASC' | 'detailCtaCopy_DESC' | 'detailCtaLink_ASC' | 'detailCtaLink_DESC' | 'directionsCtaCopy_ASC' | 'directionsCtaCopy_DESC' | 'directionsCtaLink_ASC' | 'directionsCtaLink_DESC' | 'email_ASC' | 'email_DESC' | 'emailCtaStyle_ASC' | 'emailCtaStyle_DESC' | 'emailLabel_ASC' | 'emailLabel_DESC' | 'emailText_ASC' | 'emailText_DESC' | 'headingAdditionalClass_ASC' | 'headingAdditionalClass_DESC' | 'headingType_ASC' | 'headingType_DESC' | 'hoursOfOperationLabel_ASC' | 'hoursOfOperationLabel_DESC' | 'locationLabel_ASC' | 'locationLabel_DESC' | 'phone_ASC' | 'phone_DESC' | 'phoneLabel_ASC' | 'phoneLabel_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'servicesLabel_ASC' | 'servicesLabel_DESC' | 'slug_ASC' | 'slug_DESC' | 'title_ASC' | 'title_DESC'
+export type ShowroomModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'seoDescription_ASC' | 'seoDescription_DESC' | 'phone_ASC' | 'phone_DESC' | 'appointmentCtaCopy_ASC' | 'appointmentCtaCopy_DESC' | 'directionsCtaCopy_ASC' | 'directionsCtaCopy_DESC' | 'directionsCtaLink_ASC' | 'directionsCtaLink_DESC' | 'email_ASC' | 'email_DESC' | 'emailCtaStyle_ASC' | 'emailCtaStyle_DESC' | 'hoursOfOperationLabel_ASC' | 'hoursOfOperationLabel_DESC' | 'locationLabel_ASC' | 'locationLabel_DESC' | 'phoneLabel_ASC' | 'phoneLabel_DESC' | 'title_ASC' | 'title_DESC' | 'emailLabel_ASC' | 'emailLabel_DESC' | 'emailText_ASC' | 'emailText_DESC' | 'appointmentCtaLink_ASC' | 'appointmentCtaLink_DESC' | 'detailCtaCopy_ASC' | 'detailCtaCopy_DESC' | 'contactLabel_ASC' | 'contactLabel_DESC' | 'detailCtaLink_ASC' | 'detailCtaLink_DESC' | 'slug_ASC' | 'slug_DESC' | 'servicesLabel_ASC' | 'servicesLabel_DESC' | 'headingType_ASC' | 'headingType_DESC' | 'headingAdditionalClass_ASC' | 'headingAdditionalClass_DESC'
 
 
 /** Record of type Showroom Nav (showroom_nav) */
@@ -7566,7 +7589,7 @@ export interface SidebarTextBlockRecordListListNonNullMultiLocaleField {
 
 export type SingleMediaBlockModelMediaField = (Image1x1Record | Image9x7Record | SvgAssetRecord) & { __isUnion?: true }
 
-export type SingleMediaBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'title_ASC' | 'title_DESC'
+export type SingleMediaBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'title_ASC' | 'title_DESC' | 'copy_ASC' | 'copy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC'
 
 
 /** Record of type Single Media Block (single_media_block) */
@@ -7641,7 +7664,7 @@ export interface SlickCarouselBlockRecord {
     __typename: 'SlickCarouselBlockRecord'
 }
 
-export type SocialMediaContentModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'credit_ASC' | 'credit_DESC' | 'internalName_ASC' | 'internalName_DESC' | 'postLink_ASC' | 'postLink_DESC' | 'productLink_ASC' | 'productLink_DESC' | 'shouldLinkToVraiInstagram_ASC' | 'shouldLinkToVraiInstagram_DESC'
+export type SocialMediaContentModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'productLink_ASC' | 'productLink_DESC' | 'internalName_ASC' | 'internalName_DESC' | 'credit_ASC' | 'credit_DESC' | 'postLink_ASC' | 'postLink_DESC' | 'shouldLinkToVraiInstagram_ASC' | 'shouldLinkToVraiInstagram_DESC'
 
 
 /** Record of type Social Media Content (social_media_content) */
@@ -7878,7 +7901,7 @@ export interface TesteRecord {
     __typename: 'TesteRecord'
 }
 
-export type TextOnlyBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'desktopCopy_ASC' | 'desktopCopy_DESC' | 'mobileCopy_ASC' | 'mobileCopy_DESC' | 'title_ASC' | 'title_DESC'
+export type TextOnlyBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'desktopCopy_ASC' | 'desktopCopy_DESC' | 'title_ASC' | 'title_DESC' | 'mobileCopy_ASC' | 'mobileCopy_DESC' | 'ctaRoute_ASC' | 'ctaRoute_DESC' | 'ctaCopy_ASC' | 'ctaCopy_DESC'
 
 
 /** Record of type Text Only Block (text_only_block) */
@@ -7937,7 +7960,7 @@ export interface TotalCaratWeightLabelRecord {
     __typename: 'TotalCaratWeightLabelRecord'
 }
 
-export type TrioBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'aboveCopy_ASC' | 'aboveCopy_DESC' | 'belowCopy_ASC' | 'belowCopy_DESC' | 'headingAdditionalClass_ASC' | 'headingAdditionalClass_DESC' | 'headingType_ASC' | 'headingType_DESC' | 'title_ASC' | 'title_DESC'
+export type TrioBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'belowCopy_ASC' | 'belowCopy_DESC' | 'aboveCopy_ASC' | 'aboveCopy_DESC' | 'title_ASC' | 'title_DESC' | 'headingAdditionalClass_ASC' | 'headingAdditionalClass_DESC' | 'headingType_ASC' | 'headingType_DESC'
 
 
 /** Record of type Trio Block (trio_block) */
@@ -8013,7 +8036,7 @@ export interface VatRecord {
     __typename: 'VatRecord'
 }
 
-export type VideoBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'copy_ASC' | 'copy_DESC' | 'title_ASC' | 'title_DESC'
+export type VideoBlockModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'title_ASC' | 'title_DESC' | 'copy_ASC' | 'copy_DESC'
 
 
 /** Record of type Video Block (video_block) */
@@ -8080,7 +8103,7 @@ export interface WaitlistPageCopyRecord {
 
 export type WeddingBandProductModelBelowBannerBlocksField = (ModularCarouselBlockRecord | ModularCarouselHoverBlockRecord | ModularCelebrityCarouselBlockRecord | ModularCelebrityReelBlockRecord | ModularDuoBlockRecord | ModularEmailSignupBlockRecord | ModularFullWidthBannerBlockRecord | ModularGridCarouselBlockRecord | ModularHalfWidthQuadBlockRecord | ModularInstagramReelBlockRecord | ModularMiniBannerBlockRecord | ModularProductSliderBlockRecord | ModularQuadBlockRecord | ModularQuadGridRecord | ModularShowroomBlockRecord | ModularSideBySideBlockRecord | ModularSingleVideoBlockRecord | ModularTallHalfWidthBlockRecord | ModularTextOnlyBlockRecord | ModularTrio9x7BlockRecord | ModularTrioSlide9x7BlockRecord | ModularTrioStaggered9x7BlockRecord | SocialMediaSectionRecord) & { __isUnion?: true }
 
-export type WeddingBandProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'bandDepth_ASC' | 'bandDepth_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'caratWeight_ASC' | 'caratWeight_DESC' | 'hasDiamond_ASC' | 'hasDiamond_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'metalWeight_ASC' | 'metalWeight_DESC' | 'paveCaratWeight_ASC' | 'paveCaratWeight_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'productType_ASC' | 'productType_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC' | 'shownWithCtwLabel_ASC' | 'shownWithCtwLabel_DESC' | 'slug_ASC' | 'slug_DESC' | 'specBlockTitle_ASC' | 'specBlockTitle_DESC' | 'specImage_ASC' | 'specImage_DESC'
+export type WeddingBandProductModelOrderBy = '_createdAt_ASC' | '_createdAt_DESC' | 'createdAt_ASC' | 'createdAt_DESC' | 'id_ASC' | 'id_DESC' | '_firstPublishedAt_ASC' | '_firstPublishedAt_DESC' | '_publicationScheduledAt_ASC' | '_publicationScheduledAt_DESC' | '_unpublishingScheduledAt_ASC' | '_unpublishingScheduledAt_DESC' | '_publishedAt_ASC' | '_publishedAt_DESC' | '_status_ASC' | '_status_DESC' | '_updatedAt_ASC' | '_updatedAt_DESC' | 'updatedAt_ASC' | 'updatedAt_DESC' | '_isValid_ASC' | '_isValid_DESC' | 'seoTitle_ASC' | 'seoTitle_DESC' | 'metalWeight_ASC' | 'metalWeight_DESC' | 'hasDiamond_ASC' | 'hasDiamond_DESC' | 'productType_ASC' | 'productType_DESC' | 'shownWithCtwLabel_ASC' | 'shownWithCtwLabel_DESC' | 'specBlockTitle_ASC' | 'specBlockTitle_DESC' | 'specImage_ASC' | 'specImage_DESC' | 'isPromoIconEnabled_ASC' | 'isPromoIconEnabled_DESC' | 'bandWidth_ASC' | 'bandWidth_DESC' | 'paveCaratWeight_ASC' | 'paveCaratWeight_DESC' | 'productTitle_ASC' | 'productTitle_DESC' | 'bandDepth_ASC' | 'bandDepth_DESC' | 'slug_ASC' | 'slug_DESC' | 'caratWeight_ASC' | 'caratWeight_DESC' | 'shouldUseDefaultPrice_ASC' | 'shouldUseDefaultPrice_DESC'
 
 export type WeddingBandProductModelPageCopyField = (EngagementRingPdpCtaRecord | EngravingOptionCopyRecord | RingSizeOptionCopyRecord) & { __isUnion?: true }
 
@@ -8220,7 +8243,7 @@ export interface focalPoint {
     __typename: 'focalPoint'
 }
 
-export interface AccordionItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),copy?: (TextFilter | null),ctacopy?: (StringFilter | null),ctaroute?: (StringFilter | null),supportedCountries?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((AccordionItemModelFilter | null)[] | null),AND?: ((AccordionItemModelFilter | null)[] | null)}
+export interface AccordionItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),ctacopy?: (StringFilter | null),title?: (StringFilter | null),supportedCountries?: (LinksFilter | null),ctaroute?: (StringFilter | null),copy?: (TextFilter | null),OR?: ((AccordionItemModelFilter | null)[] | null),AND?: ((AccordionItemModelFilter | null)[] | null)}
 
 
 /** Record of type Accordion Item (accordion_item) */
@@ -8899,7 +8922,7 @@ export interface AccountSubscriptionsListRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface AdditionalInfoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),text?: (TextFilter | null),title?: (StringFilter | null),OR?: ((AdditionalInfoModelFilter | null)[] | null),AND?: ((AdditionalInfoModelFilter | null)[] | null)}
+export interface AdditionalInfoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),title?: (StringFilter | null),image?: (FileFilter | null),text?: (TextFilter | null),OR?: ((AdditionalInfoModelFilter | null)[] | null),AND?: ((AdditionalInfoModelFilter | null)[] | null)}
 
 
 /** Record of type Additional info (additional_info) */
@@ -8947,7 +8970,7 @@ export interface AdditionalInfoRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface AnnouncementBarInfoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),backgroundColor?: (ColorFilter | null),color?: (ColorFilter | null),copy?: (TextFilter | null),endDate?: (DateTimeFilter | null),hide?: (BooleanFilter | null),link?: (StringFilter | null),shouldShowDynamicBookAnAppointment?: (BooleanFilter | null),startDate?: (DateTimeFilter | null),supportedCountries?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((AnnouncementBarInfoModelFilter | null)[] | null),AND?: ((AnnouncementBarInfoModelFilter | null)[] | null)}
+export interface AnnouncementBarInfoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),shouldShowDynamicBookAnAppointment?: (BooleanFilter | null),startDate?: (DateTimeFilter | null),endDate?: (DateTimeFilter | null),link?: (StringFilter | null),title?: (StringFilter | null),supportedCountries?: (LinksFilter | null),hide?: (BooleanFilter | null),color?: (ColorFilter | null),backgroundColor?: (ColorFilter | null),copy?: (TextFilter | null),OR?: ((AnnouncementBarInfoModelFilter | null)[] | null),AND?: ((AnnouncementBarInfoModelFilter | null)[] | null)}
 
 
 /** Record of type Announcement Data (announcement_bar_info) */
@@ -9532,7 +9555,7 @@ export interface BasicTextLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface BlogCategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),key?: (StringFilter | null),route?: (StringFilter | null),seoDescription?: (StringFilter | null),seoTitle?: (StringFilter | null),subcategories?: (LinksFilter | null),OR?: ((BlogCategoryModelFilter | null)[] | null),AND?: ((BlogCategoryModelFilter | null)[] | null)}
+export interface BlogCategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),route?: (StringFilter | null),key?: (StringFilter | null),subcategories?: (LinksFilter | null),seoTitle?: (StringFilter | null),seoDescription?: (StringFilter | null),OR?: ((BlogCategoryModelFilter | null)[] | null),AND?: ((BlogCategoryModelFilter | null)[] | null)}
 
 
 /** Record of type Blog Category (blog_category) */
@@ -9811,7 +9834,7 @@ export interface BlogPostModelContentFieldListListNonNullMultiLocaleFieldGenqlSe
     __scalar?: boolean | number
 }
 
-export interface BlogPostModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),author?: (StringFilter | null),category?: (LinkFilter | null),excerpt?: (TextFilter | null),featuredImage?: (FileFilter | null),publishedAt?: (DateTimeFilter | null),seoDescription?: (StringFilter | null),seoTitle?: (StringFilter | null),showBlogHeader?: (BooleanFilter | null),slug?: (StringFilter | null),sortByDate?: (DateFilter | null),subcategories?: (LinksFilter | null),tags?: (StringFilter | null),title?: (StringFilter | null),OR?: ((BlogPostModelFilter | null)[] | null),AND?: ((BlogPostModelFilter | null)[] | null)}
+export interface BlogPostModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),excerpt?: (TextFilter | null),featuredImage?: (FileFilter | null),showBlogHeader?: (BooleanFilter | null),publishedAt?: (DateTimeFilter | null),slug?: (StringFilter | null),title?: (StringFilter | null),seoDescription?: (StringFilter | null),seoTitle?: (StringFilter | null),author?: (StringFilter | null),tags?: (StringFilter | null),subcategories?: (LinksFilter | null),sortByDate?: (DateFilter | null),category?: (LinkFilter | null),OR?: ((BlogPostModelFilter | null)[] | null),AND?: ((BlogPostModelFilter | null)[] | null)}
 
 
 /** Record of type Blog Post (blog_post) */
@@ -9924,7 +9947,7 @@ export interface BlogPostRecordMultiLocaleFieldGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface BlogSubcategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),key?: (StringFilter | null),route?: (StringFilter | null),seoDescription?: (StringFilter | null),seoTitle?: (StringFilter | null),OR?: ((BlogSubcategoryModelFilter | null)[] | null),AND?: ((BlogSubcategoryModelFilter | null)[] | null)}
+export interface BlogSubcategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),key?: (StringFilter | null),copy?: (StringFilter | null),seoTitle?: (StringFilter | null),seoDescription?: (StringFilter | null),route?: (StringFilter | null),OR?: ((BlogSubcategoryModelFilter | null)[] | null),AND?: ((BlogSubcategoryModelFilter | null)[] | null)}
 
 
 /** Record of type Blog Subcategory (blog_subcategory) */
@@ -10098,7 +10121,7 @@ export interface CaratLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface CarouselHoverBlockItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),hover?: (FileFilter | null),image?: (FileFilter | null),itemName?: (StringFilter | null),title?: (StringFilter | null),url?: (StringFilter | null),OR?: ((CarouselHoverBlockItemModelFilter | null)[] | null),AND?: ((CarouselHoverBlockItemModelFilter | null)[] | null)}
+export interface CarouselHoverBlockItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),hover?: (FileFilter | null),url?: (StringFilter | null),title?: (StringFilter | null),image?: (FileFilter | null),itemName?: (StringFilter | null),OR?: ((CarouselHoverBlockItemModelFilter | null)[] | null),AND?: ((CarouselHoverBlockItemModelFilter | null)[] | null)}
 
 
 /** Record of type Carousel Hover Block Item (carousel_hover_block_item) */
@@ -10326,7 +10349,7 @@ export interface CartRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface CelebrityBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),bottomCarouselCopy?: (StringFilter | null),bottomCarouselImage?: (FileFilter | null),copy?: (StringFilter | null),desktopImage?: (FileFilter | null),internalCmsUse?: (StringFilter | null),jewelry?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((CelebrityBlockModelFilter | null)[] | null),AND?: ((CelebrityBlockModelFilter | null)[] | null)}
+export interface CelebrityBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),title?: (StringFilter | null),copy?: (StringFilter | null),desktopImage?: (FileFilter | null),internalCmsUse?: (StringFilter | null),jewelry?: (LinksFilter | null),bottomCarouselImage?: (FileFilter | null),bottomCarouselCopy?: (StringFilter | null),OR?: ((CelebrityBlockModelFilter | null)[] | null),AND?: ((CelebrityBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Celebrity Block (celebrity_block) */
@@ -10388,7 +10411,7 @@ export interface CelebrityBlockRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface CelebrityJewelryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),image?: (FileFilter | null),itemName?: (StringFilter | null),OR?: ((CelebrityJewelryModelFilter | null)[] | null),AND?: ((CelebrityJewelryModelFilter | null)[] | null)}
+export interface CelebrityJewelryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaRoute?: (StringFilter | null),ctaCopy?: (StringFilter | null),itemName?: (StringFilter | null),image?: (FileFilter | null),OR?: ((CelebrityJewelryModelFilter | null)[] | null),AND?: ((CelebrityJewelryModelFilter | null)[] | null)}
 
 
 /** Record of type Celebrity Jewelry (celebrity_jewelry) */
@@ -10721,7 +10744,7 @@ export interface ConfigurationModelBelowBannerBlocksFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface ConfigurationModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),assetStack?: (GalleryFilter | null),bandWidth?: (StringFilter | null),carat?: (StringFilter | null),caratWeightOverride?: (StringFilter | null),chainLength?: (StringFilter | null),chainWidth?: (StringFilter | null),charm?: (StringFilter | null),clarity?: (StringFilter | null),closure?: (StringFilter | null),color?: (StringFilter | null),configuredProductOptionsInOrder?: (StringFilter | null),cordWidth?: (StringFilter | null),countrySpecificPrices?: (JsonFilter | null),cut?: (StringFilter | null),depth?: (StringFilter | null),diamondCount?: (IntegerFilter | null),diamondDescriptionOverride?: (TextFilter | null),diamondSize?: (StringFilter | null),isWaitlisted?: (BooleanFilter | null),jacketLength?: (StringFilter | null),jewelryProduct?: (LinkFilter | null),metal?: (StringFilter | null),origin?: (StringFilter | null),outerDiameter?: (StringFilter | null),plpImage?: (FileFilter | null),plpImageHover?: (FileFilter | null),plpTitle?: (StringFilter | null),posts?: (StringFilter | null),productIconList?: (LinkFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),ringFace?: (StringFilter | null),setting?: (StringFilter | null),shape?: (StringFilter | null),shownWithCenterStone?: (StringFilter | null),trioBlocks?: (LinkFilter | null),variantId?: (StringFilter | null),OR?: ((ConfigurationModelFilter | null)[] | null),AND?: ((ConfigurationModelFilter | null)[] | null)}
+export interface ConfigurationModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),outerDiameter?: (StringFilter | null),diamondDescriptionOverride?: (TextFilter | null),jewelryProduct?: (LinkFilter | null),productIconList?: (LinkFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),trioBlocks?: (LinkFilter | null),carat?: (StringFilter | null),caratWeightOverride?: (StringFilter | null),chainLength?: (StringFilter | null),chainWidth?: (StringFilter | null),clarity?: (StringFilter | null),closure?: (StringFilter | null),cordWidth?: (StringFilter | null),diamondSize?: (StringFilter | null),jacketLength?: (StringFilter | null),setting?: (StringFilter | null),countrySpecificPrices?: (JsonFilter | null),posts?: (StringFilter | null),shape?: (StringFilter | null),ringFace?: (StringFilter | null),shownWithCenterStone?: (StringFilter | null),isWaitlisted?: (BooleanFilter | null),plpTitle?: (StringFilter | null),variantId?: (StringFilter | null),configuredProductOptionsInOrder?: (StringFilter | null),bandWidth?: (StringFilter | null),charm?: (StringFilter | null),color?: (StringFilter | null),metal?: (StringFilter | null),assetStack?: (GalleryFilter | null),diamondCount?: (IntegerFilter | null),depth?: (StringFilter | null),origin?: (StringFilter | null),plpImage?: (FileFilter | null),cut?: (StringFilter | null),plpImageHover?: (FileFilter | null),OR?: ((ConfigurationModelFilter | null)[] | null),AND?: ((ConfigurationModelFilter | null)[] | null)}
 
 
 /** Record of type Configuration (configuration) */
@@ -11002,7 +11025,7 @@ export interface ConfigurationRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface ConfiguredProductOptionModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),assetStack?: (GalleryFilter | null),collection?: (LinkFilter | null),configuredProductOptionsInOrder?: (StringFilter | null),plpTitle?: (StringFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),shownWithCenterStone?: (StringFilter | null),variantId?: (StringFilter | null),OR?: ((ConfiguredProductOptionModelFilter | null)[] | null),AND?: ((ConfiguredProductOptionModelFilter | null)[] | null)}
+export interface ConfiguredProductOptionModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),collection?: (LinkFilter | null),assetStack?: (GalleryFilter | null),configuredProductOptionsInOrder?: (StringFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),plpTitle?: (StringFilter | null),shownWithCenterStone?: (StringFilter | null),variantId?: (StringFilter | null),OR?: ((ConfiguredProductOptionModelFilter | null)[] | null),AND?: ((ConfiguredProductOptionModelFilter | null)[] | null)}
 
 
 /** Record of type Configured Product Option (configured_product_option) */
@@ -11331,7 +11354,7 @@ export interface CreativeBlockModelConfigurationsInOrderFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface CreativeBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),configurationsInOrder?: (LinksFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),desktopCopy?: (StringFilter | null),desktopImage?: (FileFilter | null),gtmClass?: (StringFilter | null),mobileCopy?: (StringFilter | null),mobileImage?: (FileFilter | null),openInNewTab?: (BooleanFilter | null),supportedCountries?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((CreativeBlockModelFilter | null)[] | null),AND?: ((CreativeBlockModelFilter | null)[] | null)}
+export interface CreativeBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),configurationsInOrder?: (LinksFilter | null),ctaCopy?: (StringFilter | null),mobileImage?: (FileFilter | null),openInNewTab?: (BooleanFilter | null),ctaRoute?: (StringFilter | null),title?: (StringFilter | null),desktopCopy?: (StringFilter | null),desktopImage?: (FileFilter | null),mobileCopy?: (StringFilter | null),gtmClass?: (StringFilter | null),supportedCountries?: (LinksFilter | null),OR?: ((CreativeBlockModelFilter | null)[] | null),AND?: ((CreativeBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Creative Block (creative_block) */
@@ -12110,7 +12133,7 @@ export interface CurrencyPriceRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface CustomProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),assetStack?: (GalleryFilter | null),productDescription?: (TextFilter | null),productIconList?: (LinkFilter | null),productSubtitle?: (StringFilter | null),productSuggestionQuadBlock?: (LinksFilter | null),productTitle?: (StringFilter | null),seoDescription?: (TextFilter | null),seoTitle?: (StringFilter | null),slug?: (StringFilter | null),trioBlocks?: (LinkFilter | null),OR?: ((CustomProductModelFilter | null)[] | null),AND?: ((CustomProductModelFilter | null)[] | null)}
+export interface CustomProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),productSuggestionQuadBlock?: (LinksFilter | null),productSubtitle?: (StringFilter | null),assetStack?: (GalleryFilter | null),productTitle?: (StringFilter | null),seoTitle?: (StringFilter | null),seoDescription?: (TextFilter | null),productDescription?: (TextFilter | null),slug?: (StringFilter | null),trioBlocks?: (LinkFilter | null),productIconList?: (LinkFilter | null),OR?: ((CustomProductModelFilter | null)[] | null),AND?: ((CustomProductModelFilter | null)[] | null)}
 
 
 /** Record of type Custom Product (custom_product) */
@@ -12455,7 +12478,7 @@ export interface DiamondColorLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface DiamondContentBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),diamondBlockText?: (TextFilter | null),diamondBlockTitle?: (StringFilter | null),diamondBlockVideo?: (StringFilter | null),diamondShapes?: (LinksFilter | null),videoBlock?: (LinkFilter | null),OR?: ((DiamondContentBlockModelFilter | null)[] | null),AND?: ((DiamondContentBlockModelFilter | null)[] | null)}
+export interface DiamondContentBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),videoBlock?: (LinkFilter | null),diamondBlockVideo?: (StringFilter | null),diamondShapes?: (LinksFilter | null),diamondBlockText?: (TextFilter | null),diamondBlockTitle?: (StringFilter | null),OR?: ((DiamondContentBlockModelFilter | null)[] | null),AND?: ((DiamondContentBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Diamond Content Block (diamond_content_block) */
@@ -13150,7 +13173,7 @@ export interface DiamondShapeDescriptionRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface DiamondShapeSpecModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),diamondShape?: (StringFilter | null),diamondShapeImage?: (StringFilter | null),diamondShapeText?: (TextFilter | null),OR?: ((DiamondShapeSpecModelFilter | null)[] | null),AND?: ((DiamondShapeSpecModelFilter | null)[] | null)}
+export interface DiamondShapeSpecModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),diamondShapeText?: (TextFilter | null),diamondShape?: (StringFilter | null),diamondShapeImage?: (StringFilter | null),OR?: ((DiamondShapeSpecModelFilter | null)[] | null),AND?: ((DiamondShapeSpecModelFilter | null)[] | null)}
 
 
 /** Record of type Diamond Shape Spec (diamond_shape_spec) */
@@ -13786,6 +13809,33 @@ export interface DiamondTableRecordGenqlSelection{
 }
 
 
+/** Block of type Diamonds Query Config (diamonds_query_config) */
+export interface DiamondsQueryConfigRecordGenqlSelection{
+    _createdAt?: boolean | number
+    /** Editing URL */
+    _editingUrl?: boolean | number
+    _firstPublishedAt?: boolean | number
+    _isValid?: boolean | number
+    _modelApiKey?: boolean | number
+    _publicationScheduledAt?: boolean | number
+    _publishedAt?: boolean | number
+    /** SEO meta tags */
+    _seoMetaTags?: (TagGenqlSelection & { __args?: {
+    /** The locale to use to fetch the field's content */
+    locale?: (SiteLocale | null)} })
+    _status?: boolean | number
+    _unpublishingScheduledAt?: boolean | number
+    _updatedAt?: boolean | number
+    colors?: boolean | number
+    createdAt?: boolean | number
+    diamondTypes?: boolean | number
+    id?: boolean | number
+    updatedAt?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+
 /** Record of type Email Pop Up (email_popup) */
 export interface EmailPopupRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
@@ -14098,7 +14148,7 @@ export interface EngagementRingProductModelBelowBannerBlocksFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface EngagementRingProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),bandDepth?: (StringFilter | null),bandWidth?: (StringFilter | null),ctaCopy?: (LinkFilter | null),diamondContentBlock?: (LinkFilter | null),diamondDescription?: (TextFilter | null),diamondVideoBlock?: (LinkFilter | null),hasDiamond?: (BooleanFilter | null),instagramReelBlock?: (LinkFilter | null),isPromoIconEnabled?: (BooleanFilter | null),metalWeight?: (StringFilter | null),pageCopy?: (LinksFilter | null),paveCaratWeight?: (StringFilter | null),productDescription?: (TextFilter | null),productFaqBlock?: (LinkFilter | null),productIconList?: (LinkFilter | null),productLabel?: (LinkFilter | null),products?: (LinksFilter | null),productTitle?: (StringFilter | null),productType?: (StringFilter | null),seoDescription?: (TextFilter | null),seoTitle?: (StringFilter | null),settingHeight?: (StringFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),shownWithCtwLabel?: (StringFilter | null),slug?: (StringFilter | null),specBlockTitle?: (StringFilter | null),specImage?: (StringFilter | null),specLabels?: (LinkFilter | null),styleGroup?: (StringFilter | null),subCategory?: (LinksFilter | null),tags?: (JsonFilter | null),trioBlocks?: (LinkFilter | null),OR?: ((EngagementRingProductModelFilter | null)[] | null),AND?: ((EngagementRingProductModelFilter | null)[] | null)}
+export interface EngagementRingProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),pageCopy?: (LinksFilter | null),productFaqBlock?: (LinkFilter | null),hasDiamond?: (BooleanFilter | null),productIconList?: (LinkFilter | null),products?: (LinksFilter | null),specLabels?: (LinkFilter | null),trioBlocks?: (LinkFilter | null),diamondDescription?: (TextFilter | null),isPromoIconEnabled?: (BooleanFilter | null),tags?: (JsonFilter | null),productDescription?: (TextFilter | null),styleGroup?: (StringFilter | null),seoTitle?: (StringFilter | null),productType?: (StringFilter | null),seoDescription?: (TextFilter | null),bandWidth?: (StringFilter | null),metalWeight?: (StringFilter | null),ctaCopy?: (LinkFilter | null),diamondContentBlock?: (LinkFilter | null),instagramReelBlock?: (LinkFilter | null),productTitle?: (StringFilter | null),slug?: (StringFilter | null),diamondVideoBlock?: (LinkFilter | null),shownWithCtwLabel?: (StringFilter | null),bandDepth?: (StringFilter | null),paveCaratWeight?: (StringFilter | null),settingHeight?: (StringFilter | null),specBlockTitle?: (StringFilter | null),specImage?: (StringFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),productLabel?: (LinkFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),subCategory?: (LinksFilter | null),OR?: ((EngagementRingProductModelFilter | null)[] | null),AND?: ((EngagementRingProductModelFilter | null)[] | null)}
 
 export interface EngagementRingProductModelPageCopyFieldGenqlSelection{
     on_EngagementRingPdpCtaRecord?:EngagementRingPdpCtaRecordGenqlSelection,
@@ -14486,7 +14536,7 @@ export interface EngravingOptionCopyRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface FaqAccordionContentModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),content?: (TextFilter | null),title?: (StringFilter | null),OR?: ((FaqAccordionContentModelFilter | null)[] | null),AND?: ((FaqAccordionContentModelFilter | null)[] | null)}
+export interface FaqAccordionContentModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),title?: (StringFilter | null),content?: (TextFilter | null),OR?: ((FaqAccordionContentModelFilter | null)[] | null),AND?: ((FaqAccordionContentModelFilter | null)[] | null)}
 
 
 /** Record of type Faq Accordion Content (faq_accordion_content) */
@@ -14794,7 +14844,7 @@ export interface FooterNavigationRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface FullWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaButton?: (LinkFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),desktopCopy?: (TextFilter | null),desktopImage?: (FileFilter | null),gtmClass?: (StringFilter | null),internalCmsUse?: (StringFilter | null),isTextBlockWide?: (BooleanFilter | null),mobileCopy?: (TextFilter | null),mobileImage?: (FileFilter | null),textBlockAlignment?: (StringFilter | null),textColor?: (StringFilter | null),title?: (StringFilter | null),OR?: ((FullWidthBannerBlockModelFilter | null)[] | null),AND?: ((FullWidthBannerBlockModelFilter | null)[] | null)}
+export interface FullWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),desktopImage?: (FileFilter | null),title?: (StringFilter | null),desktopCopy?: (TextFilter | null),internalCmsUse?: (StringFilter | null),mobileImage?: (FileFilter | null),mobileCopy?: (TextFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),gtmClass?: (StringFilter | null),isTextBlockWide?: (BooleanFilter | null),textBlockAlignment?: (StringFilter | null),textColor?: (StringFilter | null),ctaButton?: (LinkFilter | null),OR?: ((FullWidthBannerBlockModelFilter | null)[] | null),AND?: ((FullWidthBannerBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Full Width Banner Block (full_width_banner_block) */
@@ -15021,7 +15071,7 @@ export interface GlobalSeoFieldGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface GridCarouselBlockItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),desktopImage?: (FileFilter | null),link?: (StringFilter | null),mobileImage?: (FileFilter | null),supportedCountries?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((GridCarouselBlockItemModelFilter | null)[] | null),AND?: ((GridCarouselBlockItemModelFilter | null)[] | null)}
+export interface GridCarouselBlockItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),mobileImage?: (FileFilter | null),title?: (StringFilter | null),supportedCountries?: (LinksFilter | null),link?: (StringFilter | null),desktopImage?: (FileFilter | null),OR?: ((GridCarouselBlockItemModelFilter | null)[] | null),AND?: ((GridCarouselBlockItemModelFilter | null)[] | null)}
 
 
 /** Record of type Grid Carousel Block Item (grid_carousel_block_item) */
@@ -15062,7 +15112,7 @@ export interface GridCarouselBlockItemRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface HalfWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),desktopCopy?: (TextFilter | null),desktopImage?: (FileFilter | null),internalCmsUse?: (StringFilter | null),isTextBlockWide?: (BooleanFilter | null),mobileCopy?: (TextFilter | null),mobileImage?: (FileFilter | null),textBlockAlignment?: (StringFilter | null),textColor?: (StringFilter | null),title?: (StringFilter | null),OR?: ((HalfWidthBannerBlockModelFilter | null)[] | null),AND?: ((HalfWidthBannerBlockModelFilter | null)[] | null)}
+export interface HalfWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),mobileImage?: (FileFilter | null),desktopImage?: (FileFilter | null),ctaCopy?: (StringFilter | null),mobileCopy?: (TextFilter | null),ctaRoute?: (StringFilter | null),desktopCopy?: (TextFilter | null),isTextBlockWide?: (BooleanFilter | null),textColor?: (StringFilter | null),internalCmsUse?: (StringFilter | null),textBlockAlignment?: (StringFilter | null),title?: (StringFilter | null),OR?: ((HalfWidthBannerBlockModelFilter | null)[] | null),AND?: ((HalfWidthBannerBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Half Width Banner Block (half_width_banner_block) */
@@ -15481,7 +15531,7 @@ export interface HumanNamesMapperRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface Image1x1ModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),title?: (StringFilter | null),OR?: ((Image1x1ModelFilter | null)[] | null),AND?: ((Image1x1ModelFilter | null)[] | null)}
+export interface Image1x1ModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),title?: (StringFilter | null),image?: (FileFilter | null),OR?: ((Image1x1ModelFilter | null)[] | null),AND?: ((Image1x1ModelFilter | null)[] | null)}
 
 
 /** Record of type Image 1x1 (image1x1) */
@@ -16874,7 +16924,7 @@ export interface JacketLengthLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface JeweleryProductSubCategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),slug?: (StringFilter | null),title?: (StringFilter | null),OR?: ((JeweleryProductSubCategoryModelFilter | null)[] | null),AND?: ((JeweleryProductSubCategoryModelFilter | null)[] | null)}
+export interface JeweleryProductSubCategoryModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),slug?: (StringFilter | null),title?: (StringFilter | null),image?: (FileFilter | null),OR?: ((JeweleryProductSubCategoryModelFilter | null)[] | null),AND?: ((JeweleryProductSubCategoryModelFilter | null)[] | null)}
 
 
 /** Record of type Jewelery Product Sub Category (jewelery_product_sub_category) */
@@ -16935,7 +16985,7 @@ export interface JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleF
     __scalar?: boolean | number
 }
 
-export interface JewelryOmegaProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),belowBannerBlocks?: (LinksFilter | null),category?: (StringFilter | null),ctaCopy?: (LinkFilter | null),hasOnlyOnePrice?: (BooleanFilter | null),plpTitle?: (StringFilter | null),productAccordionSpecsLabel?: (LinkFilter | null),productDescription?: (TextFilter | null),productIconList?: (LinkFilter | null),products?: (LinksFilter | null),productSpecifications?: (TextFilter | null),productTitle?: (StringFilter | null),seoFields?: (LinkFilter | null),shippingAndReturns?: (LinkFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),slug?: (StringFilter | null),waitlistPageCopy?: (LinkFilter | null),OR?: ((JewelryOmegaProductModelFilter | null)[] | null),AND?: ((JewelryOmegaProductModelFilter | null)[] | null)}
+export interface JewelryOmegaProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),shippingAndReturns?: (LinkFilter | null),belowBannerBlocks?: (LinksFilter | null),productAccordionSpecsLabel?: (LinkFilter | null),hasOnlyOnePrice?: (BooleanFilter | null),productTitle?: (StringFilter | null),ctaCopy?: (LinkFilter | null),waitlistPageCopy?: (LinkFilter | null),plpTitle?: (StringFilter | null),category?: (StringFilter | null),slug?: (StringFilter | null),seoFields?: (LinkFilter | null),productDescription?: (TextFilter | null),productIconList?: (LinkFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),products?: (LinksFilter | null),productSpecifications?: (TextFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),OR?: ((JewelryOmegaProductModelFilter | null)[] | null),AND?: ((JewelryOmegaProductModelFilter | null)[] | null)}
 
 
 /** Record of type Jewelry Omega Product (jewelry_omega_product) */
@@ -17035,7 +17085,7 @@ export interface JewelryOmegaProductRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface JewelryPdpCtaModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),addToBagCtaCopy?: (StringFilter | null),diamondPageFlowCtaCopy?: (StringFilter | null),diamondPairFlowCtaCopy?: (StringFilter | null),outOfStockCtaCopy?: (StringFilter | null),OR?: ((JewelryPdpCtaModelFilter | null)[] | null),AND?: ((JewelryPdpCtaModelFilter | null)[] | null)}
+export interface JewelryPdpCtaModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),outOfStockCtaCopy?: (StringFilter | null),diamondPairFlowCtaCopy?: (StringFilter | null),addToBagCtaCopy?: (StringFilter | null),diamondPageFlowCtaCopy?: (StringFilter | null),OR?: ((JewelryPdpCtaModelFilter | null)[] | null),AND?: ((JewelryPdpCtaModelFilter | null)[] | null)}
 
 
 /** Record of type Jewelry PDP CTA (jewelry_pdp_cta) */
@@ -17146,7 +17196,7 @@ export interface JewelryProductModelContentFieldListListNonNullMultiLocaleFieldG
     __scalar?: boolean | number
 }
 
-export interface JewelryProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),bottomDescription?: (TextFilter | null),caratWeight?: (StringFilter | null),category?: (StringFilter | null),configurations?: (LinksFilter | null),ctaCopy?: (LinkFilter | null),defaultVariant?: (StringFilter | null),diamondDescription?: (TextFilter | null),hasOnlyOnePrice?: (BooleanFilter | null),isPromoIconEnabled?: (BooleanFilter | null),productAccordionSpecsLabel?: (LinkFilter | null),productDescription?: (TextFilter | null),productIconList?: (LinkFilter | null),productLabel?: (LinkFilter | null),productTitle?: (StringFilter | null),seoFields?: (LinkFilter | null),shippingAndReturns?: (LinkFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),slug?: (StringFilter | null),specLabels?: (LinkFilter | null),subCategory?: (LinksFilter | null),waitlistPageCopy?: (LinkFilter | null),OR?: ((JewelryProductModelFilter | null)[] | null),AND?: ((JewelryProductModelFilter | null)[] | null)}
+export interface JewelryProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),isPromoIconEnabled?: (BooleanFilter | null),productDescription?: (TextFilter | null),shouldUseDatoAssets?: (BooleanFilter | null),waitlistPageCopy?: (LinkFilter | null),productTitle?: (StringFilter | null),productAccordionSpecsLabel?: (LinkFilter | null),seoFields?: (LinkFilter | null),shippingAndReturns?: (LinkFilter | null),productIconList?: (LinkFilter | null),specLabels?: (LinkFilter | null),ctaCopy?: (LinkFilter | null),diamondDescription?: (TextFilter | null),hasOnlyOnePrice?: (BooleanFilter | null),slug?: (StringFilter | null),category?: (StringFilter | null),bottomDescription?: (TextFilter | null),caratWeight?: (StringFilter | null),subCategory?: (LinksFilter | null),productLabel?: (LinkFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),defaultVariant?: (StringFilter | null),configurations?: (LinksFilter | null),OR?: ((JewelryProductModelFilter | null)[] | null),AND?: ((JewelryProductModelFilter | null)[] | null)}
 
 
 /** Record of type Jewelry Product (jewelry_product) */
@@ -17443,7 +17493,7 @@ export interface ListPageModelConfigurationsInOrderFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface ListPageModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),bannerBlocks?: (LinksFilter | null),bestSellersInOrder?: (LinksFilter | null),breadcrumb?: (LinksFilter | null),category?: (StringFilter | null),collectionsInOrder?: (LinksFilter | null),colors?: (StringFilter | null),configurationsInOrder?: (LinksFilter | null),creativeBlocks?: (LinksFilter | null),customDiamondType?: (StringFilter | null),defaultSort?: (StringFilter | null),diamondTypes?: (StringFilter | null),hero?: (LinkFilter | null),inAHurry?: (LinkFilter | null),productsInOrder?: (LinksFilter | null),promoCardCollection?: (LinkFilter | null),seo?: (LinkFilter | null),shouldAutoLoad?: (BooleanFilter | null),shouldDisplayPreviouslyViewed?: (BooleanFilter | null),showAllCtaCopy?: (StringFilter | null),showAllCtaLink?: (StringFilter | null),showHeroWithBanner?: (BooleanFilter | null),slug?: (StringFilter | null),slugNew?: (StringFilter | null),subcategoryFilter?: (LinksFilter | null),OR?: ((ListPageModelFilter | null)[] | null),AND?: ((ListPageModelFilter | null)[] | null)}
+export interface ListPageModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),slug?: (StringFilter | null),shouldDisplayPreviouslyViewed?: (BooleanFilter | null),bannerBlocks?: (LinksFilter | null),bestSellersInOrder?: (LinksFilter | null),slugNew?: (StringFilter | null),breadcrumb?: (LinksFilter | null),collectionsInOrder?: (LinksFilter | null),configurationsInOrder?: (LinksFilter | null),creativeBlocks?: (LinksFilter | null),customDiamondType?: (StringFilter | null),defaultSort?: (StringFilter | null),category?: (StringFilter | null),hero?: (LinkFilter | null),inAHurry?: (LinkFilter | null),productsInOrder?: (LinksFilter | null),promoCardCollection?: (LinkFilter | null),seo?: (LinkFilter | null),shouldAutoLoad?: (BooleanFilter | null),showAllCtaCopy?: (StringFilter | null),showAllCtaLink?: (StringFilter | null),showHeroWithBanner?: (BooleanFilter | null),subcategoryFilter?: (LinksFilter | null),OR?: ((ListPageModelFilter | null)[] | null),AND?: ((ListPageModelFilter | null)[] | null)}
 
 export interface ListPageModelFilterAndSortFieldGenqlSelection{
     on_PlpFilterRecord?:PlpFilterRecordGenqlSelection,
@@ -17503,13 +17553,12 @@ export interface ListPageRecordGenqlSelection{
     breadcrumb?: BreadcrumbRecordGenqlSelection
     category?: boolean | number
     collectionsInOrder?: ListPageModelCollectionsInOrderFieldGenqlSelection
-    colors?: boolean | number
     configurationsInOrder?: ListPageModelConfigurationsInOrderFieldGenqlSelection
     createdAt?: boolean | number
     creativeBlocks?: CreativeBlockRecordGenqlSelection
     customDiamondType?: boolean | number
     defaultSort?: boolean | number
-    diamondTypes?: boolean | number
+    diamondPlpDataConfig?: DiamondsQueryConfigRecordGenqlSelection
     filterAndSort?: (ListPageModelFilterAndSortFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null), 
@@ -17538,7 +17587,7 @@ export interface ListPageRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface ListpageHeroBannerModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),copyPrices?: (LinkFilter | null),ctaButtonType?: (StringFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),desktopImage?: (FileFilter | null),mobileImage?: (FileFilter | null),textColor?: (ColorFilter | null),title?: (StringFilter | null),OR?: ((ListpageHeroBannerModelFilter | null)[] | null),AND?: ((ListpageHeroBannerModelFilter | null)[] | null)}
+export interface ListpageHeroBannerModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),textColor?: (ColorFilter | null),mobileImage?: (FileFilter | null),title?: (StringFilter | null),desktopImage?: (FileFilter | null),ctaButtonType?: (StringFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),copyPrices?: (LinkFilter | null),OR?: ((ListpageHeroBannerModelFilter | null)[] | null),AND?: ((ListpageHeroBannerModelFilter | null)[] | null)}
 
 
 /** Record of type List Page Hero Banner (listpage_hero_banner) */
@@ -19856,7 +19905,7 @@ export interface NavigationColumnRecordListListNonNullMultiLocaleFieldGenqlSelec
     __scalar?: boolean | number
 }
 
-export interface NavigationLinkModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),flags?: (StringFilter | null),isBold?: (BooleanFilter | null),linkKey?: (StringFilter | null),nestedLinks?: (LinksFilter | null),route?: (StringFilter | null),supportedCountries?: (LinksFilter | null),OR?: ((NavigationLinkModelFilter | null)[] | null),AND?: ((NavigationLinkModelFilter | null)[] | null)}
+export interface NavigationLinkModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),flags?: (StringFilter | null),isBold?: (BooleanFilter | null),linkKey?: (StringFilter | null),route?: (StringFilter | null),copy?: (StringFilter | null),nestedLinks?: (LinksFilter | null),supportedCountries?: (LinksFilter | null),OR?: ((NavigationLinkModelFilter | null)[] | null),AND?: ((NavigationLinkModelFilter | null)[] | null)}
 
 
 /** Record of type Navigation Link (navigation_link) */
@@ -19916,7 +19965,7 @@ export interface NavigationLinkRecordListListNonNullMultiLocaleFieldGenqlSelecti
     __scalar?: boolean | number
 }
 
-export interface NavigationModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),key?: (StringFilter | null),route?: (StringFilter | null),title?: (StringFilter | null),OR?: ((NavigationModelFilter | null)[] | null),AND?: ((NavigationModelFilter | null)[] | null)}
+export interface NavigationModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),title?: (StringFilter | null),key?: (StringFilter | null),route?: (StringFilter | null),OR?: ((NavigationModelFilter | null)[] | null),AND?: ((NavigationModelFilter | null)[] | null)}
 
 
 /** Record of type Navigation (navigation) */
@@ -19972,7 +20021,7 @@ export interface NavigationRecordListListNonNullMultiLocaleFieldGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface OmegaAssetStackModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),key?: (StringFilter | null),media?: (GalleryFilter | null),OR?: ((OmegaAssetStackModelFilter | null)[] | null),AND?: ((OmegaAssetStackModelFilter | null)[] | null)}
+export interface OmegaAssetStackModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),media?: (GalleryFilter | null),key?: (StringFilter | null),OR?: ((OmegaAssetStackModelFilter | null)[] | null),AND?: ((OmegaAssetStackModelFilter | null)[] | null)}
 
 
 /** Record of type Omega Asset Stack (omega_asset_stack) */
@@ -20045,7 +20094,7 @@ export interface OmegaProductModelCollectionFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface OmegaProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),assetStack?: (GalleryFilter | null),bandWidthOverride?: (StringFilter | null),caratWeightOverride?: (StringFilter | null),clarity?: (StringFilter | null),collection?: (LinkFilter | null),color?: (StringFilter | null),countrySpecificPrices?: (JsonFilter | null),cut?: (StringFilter | null),descriptionOverride?: (TextFilter | null),diamondDescriptionOverride?: (TextFilter | null),dimensions?: (StringFilter | null),metalWeightOverride?: (StringFilter | null),origin?: (StringFilter | null),paveCaratWeightOverride?: (StringFilter | null),pdpSubTitle?: (StringFilter | null),plpImage?: (FileFilter | null),plpImageHover?: (FileFilter | null),plpTitle?: (StringFilter | null),productIconList?: (LinkFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),shape?: (StringFilter | null),shopifyProductHandle?: (StringFilter | null),shownWithCtw?: (StringFilter | null),OR?: ((OmegaProductModelFilter | null)[] | null),AND?: ((OmegaProductModelFilter | null)[] | null)}
+export interface OmegaProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),descriptionOverride?: (TextFilter | null),diamondDescriptionOverride?: (TextFilter | null),cut?: (StringFilter | null),shopifyProductHandle?: (StringFilter | null),shownWithCtw?: (StringFilter | null),plpTitle?: (StringFilter | null),assetStack?: (GalleryFilter | null),pdpSubTitle?: (StringFilter | null),countrySpecificPrices?: (JsonFilter | null),collection?: (LinkFilter | null),productSuggestionQuadBlock?: (LinkFilter | null),metalWeightOverride?: (StringFilter | null),paveCaratWeightOverride?: (StringFilter | null),bandWidthOverride?: (StringFilter | null),plpImageHover?: (FileFilter | null),color?: (StringFilter | null),origin?: (StringFilter | null),shape?: (StringFilter | null),clarity?: (StringFilter | null),dimensions?: (StringFilter | null),plpImage?: (FileFilter | null),caratWeightOverride?: (StringFilter | null),productIconList?: (LinkFilter | null),OR?: ((OmegaProductModelFilter | null)[] | null),AND?: ((OmegaProductModelFilter | null)[] | null)}
 
 
 /** Record of type Product (omega_product) */
@@ -20386,7 +20435,7 @@ export interface OuterDiameterLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface PageSeoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),addNoindexNofollow?: (BooleanFilter | null),seoDescription?: (TextFilter | null),seoTitle?: (StringFilter | null),OR?: ((PageSeoModelFilter | null)[] | null),AND?: ((PageSeoModelFilter | null)[] | null)}
+export interface PageSeoModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),seoTitle?: (StringFilter | null),seoDescription?: (TextFilter | null),addNoindexNofollow?: (BooleanFilter | null),OR?: ((PageSeoModelFilter | null)[] | null),AND?: ((PageSeoModelFilter | null)[] | null)}
 
 
 /** Record of type Page SEO (page_seo) */
@@ -20461,7 +20510,7 @@ export interface PaveCaratWeightLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface PayLaterOptionModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),copy?: (TextFilter | null),embedded?: (StringFilter | null),klarna?: (StringFilter | null),klarnaSupportedCountries?: (LinksFilter | null),payPal?: (StringFilter | null),paypalSupportedCountries?: (LinksFilter | null),title?: (StringFilter | null),OR?: ((PayLaterOptionModelFilter | null)[] | null),AND?: ((PayLaterOptionModelFilter | null)[] | null)}
+export interface PayLaterOptionModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),copy?: (TextFilter | null),klarna?: (StringFilter | null),paypalSupportedCountries?: (LinksFilter | null),payPal?: (StringFilter | null),klarnaSupportedCountries?: (LinksFilter | null),embedded?: (StringFilter | null),title?: (StringFilter | null),OR?: ((PayLaterOptionModelFilter | null)[] | null),AND?: ((PayLaterOptionModelFilter | null)[] | null)}
 
 
 /** Record of type Pay Later Option (pay_later_option) */
@@ -20641,7 +20690,7 @@ export interface PlpPromoCardCollectionRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface PlpPromoCardModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),imageMobile?: (FileFilter | null),link?: (StringFilter | null),openInNewTab?: (BooleanFilter | null),plpPosition?: (IntegerFilter | null),plpPositionMobile?: (IntegerFilter | null),textColor?: (ColorFilter | null),title?: (StringFilter | null),OR?: ((PlpPromoCardModelFilter | null)[] | null),AND?: ((PlpPromoCardModelFilter | null)[] | null)}
+export interface PlpPromoCardModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),title?: (StringFilter | null),plpPosition?: (IntegerFilter | null),link?: (StringFilter | null),textColor?: (ColorFilter | null),plpPositionMobile?: (IntegerFilter | null),imageMobile?: (FileFilter | null),openInNewTab?: (BooleanFilter | null),OR?: ((PlpPromoCardModelFilter | null)[] | null),AND?: ((PlpPromoCardModelFilter | null)[] | null)}
 
 
 /** Record of type PLP Promo Card (plp_promo_card) */
@@ -20917,7 +20966,7 @@ export interface ProductListItemModelConfigurationFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface ProductListItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),configuration?: (LinkFilter | null),link?: (StringFilter | null),title?: (StringFilter | null),OR?: ((ProductListItemModelFilter | null)[] | null),AND?: ((ProductListItemModelFilter | null)[] | null)}
+export interface ProductListItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),link?: (StringFilter | null),title?: (StringFilter | null),configuration?: (LinkFilter | null),OR?: ((ProductListItemModelFilter | null)[] | null),AND?: ((ProductListItemModelFilter | null)[] | null)}
 
 
 /** Record of type Product List Item (product_list_item) */
@@ -21161,7 +21210,7 @@ export interface ProductSuggestionQuadBlockRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface ProductTypeFaqModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),faqEntries?: (LinksFilter | null),faqTitle?: (StringFilter | null),imagePath?: (StringFilter | null),productType?: (StringFilter | null),OR?: ((ProductTypeFaqModelFilter | null)[] | null),AND?: ((ProductTypeFaqModelFilter | null)[] | null)}
+export interface ProductTypeFaqModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),productType?: (StringFilter | null),faqEntries?: (LinksFilter | null),faqTitle?: (StringFilter | null),imagePath?: (StringFilter | null),OR?: ((ProductTypeFaqModelFilter | null)[] | null),AND?: ((ProductTypeFaqModelFilter | null)[] | null)}
 
 
 /** Record of type Product Type Faq (product_type_faq) */
@@ -21268,7 +21317,7 @@ neq?: (Scalars['DateTime'] | null),
 /** Filter records with the specified field defined (i.e. with any value) or not */
 exists?: (Scalars['BooleanType'] | null)}
 
-export interface QuadGridItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),itemCaption?: (TextFilter | null),itemImage?: (FileFilter | null),itemTitle?: (StringFilter | null),itemUrl?: (StringFilter | null),OR?: ((QuadGridItemModelFilter | null)[] | null),AND?: ((QuadGridItemModelFilter | null)[] | null)}
+export interface QuadGridItemModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),itemTitle?: (StringFilter | null),itemUrl?: (StringFilter | null),itemImage?: (FileFilter | null),itemCaption?: (TextFilter | null),OR?: ((QuadGridItemModelFilter | null)[] | null),AND?: ((QuadGridItemModelFilter | null)[] | null)}
 
 
 /** Record of type Quad Grid Item (quad_grid_item) */
@@ -22991,7 +23040,7 @@ export interface QueryGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface QuoteBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),attribution?: (StringFilter | null),attributionFont?: (StringFilter | null),backgroundColor?: (ColorFilter | null),quotationMarksImage?: (FileFilter | null),quote?: (StringFilter | null),quoteFont?: (StringFilter | null),quoteStyle?: (StringFilter | null),textColor?: (ColorFilter | null),OR?: ((QuoteBlockModelFilter | null)[] | null),AND?: ((QuoteBlockModelFilter | null)[] | null)}
+export interface QuoteBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),quote?: (StringFilter | null),attribution?: (StringFilter | null),quoteStyle?: (StringFilter | null),textColor?: (ColorFilter | null),quotationMarksImage?: (FileFilter | null),backgroundColor?: (ColorFilter | null),quoteFont?: (StringFilter | null),attributionFont?: (StringFilter | null),OR?: ((QuoteBlockModelFilter | null)[] | null),AND?: ((QuoteBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Quote Block (quote_block) */
@@ -23127,6 +23176,7 @@ export interface RecordInterfaceGenqlSelection{
     on_DiamondShapeSpecRecord?: DiamondShapeSpecRecordGenqlSelection
     on_DiamondSizeLabelRecord?: DiamondSizeLabelRecordGenqlSelection
     on_DiamondTableRecord?: DiamondTableRecordGenqlSelection
+    on_DiamondsQueryConfigRecord?: DiamondsQueryConfigRecordGenqlSelection
     on_EmailPopupRecord?: EmailPopupRecordGenqlSelection
     on_EmailSignupPageCopyRecord?: EmailSignupPageCopyRecordGenqlSelection
     on_EngagementRingPdpCtaRecord?: EngagementRingPdpCtaRecordGenqlSelection
@@ -23682,7 +23732,7 @@ export interface ShownWithCenterStoneLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface ShowroomLinkModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),country?: (StringFilter | null),flags?: (StringFilter | null),isBold?: (BooleanFilter | null),linkKey?: (StringFilter | null),nestedLinks?: (LinksFilter | null),route?: (StringFilter | null),supportedCountries?: (LinksFilter | null),OR?: ((ShowroomLinkModelFilter | null)[] | null),AND?: ((ShowroomLinkModelFilter | null)[] | null)}
+export interface ShowroomLinkModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),country?: (StringFilter | null),nestedLinks?: (LinksFilter | null),route?: (StringFilter | null),flags?: (StringFilter | null),isBold?: (BooleanFilter | null),copy?: (StringFilter | null),linkKey?: (StringFilter | null),supportedCountries?: (LinksFilter | null),OR?: ((ShowroomLinkModelFilter | null)[] | null),AND?: ((ShowroomLinkModelFilter | null)[] | null)}
 
 
 /** Record of type Showroom Link (showroom_link) */
@@ -23745,7 +23795,7 @@ export interface ShowroomLinkRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface ShowroomModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),address?: (TextFilter | null),appointmentCtaCopy?: (StringFilter | null),appointmentCtaLink?: (StringFilter | null),appointmentMarkdown?: (TextFilter | null),contactLabel?: (StringFilter | null),detailCtaCopy?: (StringFilter | null),detailCtaLink?: (StringFilter | null),directionsCtaCopy?: (StringFilter | null),directionsCtaLink?: (StringFilter | null),directionsImage?: (FileFilter | null),email?: (StringFilter | null),emailCtaStyle?: (StringFilter | null),emailLabel?: (StringFilter | null),emailText?: (StringFilter | null),headingAdditionalClass?: (StringFilter | null),headingType?: (StringFilter | null),hoursOfOperation?: (TextFilter | null),hoursOfOperationLabel?: (StringFilter | null),image?: (FileFilter | null),images?: (GalleryFilter | null),locationLabel?: (StringFilter | null),phone?: (StringFilter | null),phoneLabel?: (StringFilter | null),seoDescription?: (StringFilter | null),seoTitle?: (StringFilter | null),services?: (TextFilter | null),servicesLabel?: (StringFilter | null),slug?: (StringFilter | null),title?: (StringFilter | null),OR?: ((ShowroomModelFilter | null)[] | null),AND?: ((ShowroomModelFilter | null)[] | null)}
+export interface ShowroomModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),seoTitle?: (StringFilter | null),seoDescription?: (StringFilter | null),address?: (TextFilter | null),phone?: (StringFilter | null),appointmentCtaCopy?: (StringFilter | null),directionsCtaCopy?: (StringFilter | null),directionsCtaLink?: (StringFilter | null),email?: (StringFilter | null),emailCtaStyle?: (StringFilter | null),hoursOfOperation?: (TextFilter | null),hoursOfOperationLabel?: (StringFilter | null),locationLabel?: (StringFilter | null),phoneLabel?: (StringFilter | null),title?: (StringFilter | null),emailLabel?: (StringFilter | null),emailText?: (StringFilter | null),appointmentMarkdown?: (TextFilter | null),appointmentCtaLink?: (StringFilter | null),detailCtaCopy?: (StringFilter | null),contactLabel?: (StringFilter | null),detailCtaLink?: (StringFilter | null),slug?: (StringFilter | null),images?: (GalleryFilter | null),image?: (FileFilter | null),directionsImage?: (FileFilter | null),services?: (TextFilter | null),servicesLabel?: (StringFilter | null),headingType?: (StringFilter | null),headingAdditionalClass?: (StringFilter | null),OR?: ((ShowroomModelFilter | null)[] | null),AND?: ((ShowroomModelFilter | null)[] | null)}
 
 
 /** Record of type Showroom Nav (showroom_nav) */
@@ -24052,7 +24102,7 @@ export interface SidebarTextBlockRecordListListNonNullMultiLocaleFieldGenqlSelec
     __scalar?: boolean | number
 }
 
-export interface SingleMediaBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),image?: (FileFilter | null),media?: (LinkFilter | null),title?: (StringFilter | null),OR?: ((SingleMediaBlockModelFilter | null)[] | null),AND?: ((SingleMediaBlockModelFilter | null)[] | null)}
+export interface SingleMediaBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaCopy?: (StringFilter | null),title?: (StringFilter | null),copy?: (StringFilter | null),ctaRoute?: (StringFilter | null),image?: (FileFilter | null),media?: (LinkFilter | null),OR?: ((SingleMediaBlockModelFilter | null)[] | null),AND?: ((SingleMediaBlockModelFilter | null)[] | null)}
 
 export interface SingleMediaBlockModelMediaFieldGenqlSelection{
     on_Image1x1Record?:Image1x1RecordGenqlSelection,
@@ -24194,7 +24244,7 @@ export interface SlickCarouselBlockRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface SocialMediaContentModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),credit?: (StringFilter | null),image?: (FileFilter | null),internalName?: (StringFilter | null),postLink?: (StringFilter | null),productLink?: (StringFilter | null),shouldLinkToVraiInstagram?: (BooleanFilter | null),OR?: ((SocialMediaContentModelFilter | null)[] | null),AND?: ((SocialMediaContentModelFilter | null)[] | null)}
+export interface SocialMediaContentModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),image?: (FileFilter | null),productLink?: (StringFilter | null),internalName?: (StringFilter | null),credit?: (StringFilter | null),postLink?: (StringFilter | null),shouldLinkToVraiInstagram?: (BooleanFilter | null),OR?: ((SocialMediaContentModelFilter | null)[] | null),AND?: ((SocialMediaContentModelFilter | null)[] | null)}
 
 
 /** Record of type Social Media Content (social_media_content) */
@@ -24397,7 +24447,7 @@ export interface StandardPageModelContent2FieldListListNonNullMultiLocaleFieldGe
     __scalar?: boolean | number
 }
 
-export interface StandardPageModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),position?: (PositionFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),breadcrumb?: (LinksFilter | null),seo?: (LinkFilter | null),slug?: (StringFilter | null),OR?: ((StandardPageModelFilter | null)[] | null),AND?: ((StandardPageModelFilter | null)[] | null)}
+export interface StandardPageModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),position?: (PositionFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),seo?: (LinkFilter | null),slug?: (StringFilter | null),breadcrumb?: (LinksFilter | null),OR?: ((StandardPageModelFilter | null)[] | null),AND?: ((StandardPageModelFilter | null)[] | null)}
 
 
 /** Record of type Standard Page (standard_page) */
@@ -24501,7 +24551,7 @@ export interface StringMultiLocaleFieldGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface SvgAssetModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),svg?: (FileFilter | null),title?: (StringFilter | null),OR?: ((SvgAssetModelFilter | null)[] | null),AND?: ((SvgAssetModelFilter | null)[] | null)}
+export interface SvgAssetModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),title?: (StringFilter | null),svg?: (FileFilter | null),OR?: ((SvgAssetModelFilter | null)[] | null),AND?: ((SvgAssetModelFilter | null)[] | null)}
 
 
 /** Record of type SVG Asset (svg_asset) */
@@ -24631,7 +24681,7 @@ isPresent?: (Scalars['BooleanType'] | null),
 /** Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED] */
 exists?: (Scalars['BooleanType'] | null)}
 
-export interface TextOnlyBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),ctaCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),desktopCopy?: (StringFilter | null),mobileCopy?: (StringFilter | null),title?: (StringFilter | null),OR?: ((TextOnlyBlockModelFilter | null)[] | null),AND?: ((TextOnlyBlockModelFilter | null)[] | null)}
+export interface TextOnlyBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),desktopCopy?: (StringFilter | null),title?: (StringFilter | null),mobileCopy?: (StringFilter | null),ctaRoute?: (StringFilter | null),ctaCopy?: (StringFilter | null),OR?: ((TextOnlyBlockModelFilter | null)[] | null),AND?: ((TextOnlyBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Text Only Block (text_only_block) */
@@ -24736,7 +24786,7 @@ export interface TotalCaratWeightLabelRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface TrioBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),aboveCopy?: (StringFilter | null),belowCopy?: (StringFilter | null),blocks?: (LinksFilter | null),headingAdditionalClass?: (StringFilter | null),headingType?: (StringFilter | null),title?: (StringFilter | null),OR?: ((TrioBlockModelFilter | null)[] | null),AND?: ((TrioBlockModelFilter | null)[] | null)}
+export interface TrioBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),belowCopy?: (StringFilter | null),aboveCopy?: (StringFilter | null),title?: (StringFilter | null),blocks?: (LinksFilter | null),headingAdditionalClass?: (StringFilter | null),headingType?: (StringFilter | null),OR?: ((TrioBlockModelFilter | null)[] | null),AND?: ((TrioBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Trio Block (trio_block) */
@@ -25117,7 +25167,7 @@ export interface VatRecordGenqlSelection{
     __scalar?: boolean | number
 }
 
-export interface VideoBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),copy?: (StringFilter | null),thumbnail?: (FileFilter | null),title?: (StringFilter | null),video?: (FileFilter | null),videoSources?: (GalleryFilter | null),OR?: ((VideoBlockModelFilter | null)[] | null),AND?: ((VideoBlockModelFilter | null)[] | null)}
+export interface VideoBlockModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),title?: (StringFilter | null),copy?: (StringFilter | null),video?: (FileFilter | null),thumbnail?: (FileFilter | null),videoSources?: (GalleryFilter | null),OR?: ((VideoBlockModelFilter | null)[] | null),AND?: ((VideoBlockModelFilter | null)[] | null)}
 
 
 /** Record of type Video Block (video_block) */
@@ -25239,7 +25289,7 @@ export interface WeddingBandProductModelBelowBannerBlocksFieldGenqlSelection{
     __typename?: boolean | number
 }
 
-export interface WeddingBandProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),bandDepth?: (StringFilter | null),bandWidth?: (StringFilter | null),caratWeight?: (StringFilter | null),diamondContentBlock?: (LinkFilter | null),diamondDescription?: (TextFilter | null),diamondVideoBlock?: (LinkFilter | null),hasDiamond?: (BooleanFilter | null),isPromoIconEnabled?: (BooleanFilter | null),metalWeight?: (StringFilter | null),pageCopy?: (LinksFilter | null),paveCaratWeight?: (StringFilter | null),productDescription?: (TextFilter | null),productFaqBlock?: (LinkFilter | null),productIconList?: (LinkFilter | null),productLabel?: (LinkFilter | null),products?: (LinksFilter | null),productTitle?: (StringFilter | null),productType?: (StringFilter | null),seoDescription?: (TextFilter | null),seoTitle?: (StringFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),shownWithCtwLabel?: (StringFilter | null),slug?: (StringFilter | null),specBlockTitle?: (StringFilter | null),specImage?: (StringFilter | null),specLabels?: (LinkFilter | null),subCategory?: (LinksFilter | null),trioBlocks?: (LinkFilter | null),OR?: ((WeddingBandProductModelFilter | null)[] | null),AND?: ((WeddingBandProductModelFilter | null)[] | null)}
+export interface WeddingBandProductModelFilter {_createdAt?: (CreatedAtFilter | null),createdAt?: (CreatedAtFilter | null),id?: (ItemIdFilter | null),_firstPublishedAt?: (PublishedAtFilter | null),_publicationScheduledAt?: (PublishedAtFilter | null),_unpublishingScheduledAt?: (PublishedAtFilter | null),_publishedAt?: (PublishedAtFilter | null),_status?: (StatusFilter | null),_updatedAt?: (UpdatedAtFilter | null),updatedAt?: (UpdatedAtFilter | null),_isValid?: (BooleanFilter | null),_locales?: (LocalesFilter | null),seoTitle?: (StringFilter | null),diamondDescription?: (TextFilter | null),diamondVideoBlock?: (LinkFilter | null),metalWeight?: (StringFilter | null),hasDiamond?: (BooleanFilter | null),productLabel?: (LinkFilter | null),products?: (LinksFilter | null),productType?: (StringFilter | null),seoDescription?: (TextFilter | null),shownWithCtwLabel?: (StringFilter | null),specBlockTitle?: (StringFilter | null),specImage?: (StringFilter | null),trioBlocks?: (LinkFilter | null),isPromoIconEnabled?: (BooleanFilter | null),diamondContentBlock?: (LinkFilter | null),bandWidth?: (StringFilter | null),productIconList?: (LinkFilter | null),productFaqBlock?: (LinkFilter | null),paveCaratWeight?: (StringFilter | null),productTitle?: (StringFilter | null),bandDepth?: (StringFilter | null),productDescription?: (TextFilter | null),slug?: (StringFilter | null),pageCopy?: (LinksFilter | null),caratWeight?: (StringFilter | null),specLabels?: (LinkFilter | null),subCategory?: (LinksFilter | null),shouldUseDefaultPrice?: (BooleanFilter | null),OR?: ((WeddingBandProductModelFilter | null)[] | null),AND?: ((WeddingBandProductModelFilter | null)[] | null)}
 
 export interface WeddingBandProductModelPageCopyFieldGenqlSelection{
     on_EngagementRingPdpCtaRecord?:EngagementRingPdpCtaRecordGenqlSelection,
@@ -26325,6 +26375,14 @@ export interface focalPointGenqlSelection{
     export const isDiamondTableRecord = (obj?: { __typename?: any } | null): obj is DiamondTableRecord => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondTableRecord"')
       return DiamondTableRecord_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const DiamondsQueryConfigRecord_possibleTypes: string[] = ['DiamondsQueryConfigRecord']
+    export const isDiamondsQueryConfigRecord = (obj?: { __typename?: any } | null): obj is DiamondsQueryConfigRecord => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondsQueryConfigRecord"')
+      return DiamondsQueryConfigRecord_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -27809,7 +27867,7 @@ export interface focalPointGenqlSelection{
     
 
 
-    const RecordInterface_possibleTypes: string[] = ['AccordionItemRecord','AccountReminderFormRecord','AccountRemindersListRecord','AccountSubscriptionFormRecord','AccountSubscriptionsListRecord','AdditionalInfoRecord','AnnouncementBarInfoRecord','AnnouncementBarRecord','AnnualGiftFormRecord','AnnualGiftingRecord','AssembledToOrderProductRecord','BandDepthLabelRecord','BandHeightLabelRecord','BandWidthLabelRecord','BasicTextLabelRecord','BlogCategoryRecord','BlogConfigurationRecord','BlogHeaderRecord','BlogPostRecord','BlogSubcategoryRecord','BreadcrumbRecord','CaratLabelRecord','CarouselHoverBlockItemRecord','CartCertificateRecord','CartPageCopyRecord','CartRecord','CelebrityBlockRecord','CelebrityJewelryRecord','CertificateLabelRecord','ChainLengthLabelRecord','ChainWidthLabelRecord','CharmLabelRecord','ClarityLabelRecord','ClosureLabelRecord','ColorLabelRecord','ColumnRecord','ConfigurationRecord','ConfiguredProductOptionRecord','CookieBannerRecord','CopyWithCtaRecord','CordWidthLabelRecord','CountryPickerColumnRecord','CountryRecord','CountrySpecificDateSelectorRecord','CreativeBlockRecord','CtoDiamondTableRecord','CurrencyPriceRecord','CustomProductRecord','CutLabelRecord','CutletLabelRecord','DarksideButtonRecord','DepthLabelRecord','DescriptionLabelRecord','DesktopImageRecord','DiamondClarityLabelRecord','DiamondColorLabelRecord','DiamondContentBlockRecord','DiamondCountLabelRecord','DiamondNotifierPageRecord','DiamondPageRecord','DiamondProductRecord','DiamondShapeDescriptionRecord','DiamondShapeSpecRecord','DiamondSizeLabelRecord','DiamondTableRecord','EmailPopupRecord','EmailSignupPageCopyRecord','EngagementRingPdpCtaRecord','EngagementRingProductRecord','EngagementRingSummaryPageRecord','EngravingOptionCopyRecord','FaqAccordionContentRecord','FluorescenceLabelRecord','FooterNavigationRecord','FullWidthBannerBlockRecord','GiftWithPurchaseRecord','GirdleLabelRecord','GridCarouselBlockItemRecord','HalfWidthBannerBlockRecord','HeaderNavigationDynamicRecord','HeaderNavigationRecord','HeroBlockRecord','HomePageRecord','HumanNamesMapperRecord','Image1x1Record','Image9x7Record','InstagramReelBlockRecord','JacketLengthLabelRecord','JeweleryProductSubCategoryRecord','JewelryOmegaProductRecord','JewelryPdpCtaRecord','JewelryProductRecord','JewelrySubcategoryRecord','JsonKeyRecord','ListPageRecord','ListpageHeroBannerRecord','MeasurementsLabelRecord','MetalLabelRecord','MetalWeightLabelRecord','ModularAccordionBlockRecord','ModularAccordionRecord','ModularBlockWrapperRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCelebrityWDetailCarouselRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailPopupOverrideRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularHorizontalLineBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductIconListItemRecord','ModularProductOptionRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularRadioFieldRecord','ModularRandomBannerBlockRecord','ModularShippingProductIconListItemRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleMediaBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextInputFieldRecord','ModularTextOnlyBlockRecord','ModularTitleOnlyBlockRecord','ModularTriGridWithOrderTrackingRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','MoneyRadioOptionRecord','NavigationColumnRecord','NavigationLinkRecord','NavigationRecord','OmegaAssetStackRecord','OmegaProductRecord','OptionsHeaderRecord','OriginLabelRecord','OurDiamondRecord','OuterDiameterLabelRecord','PageSeoRecord','PaveCaratWeightLabelRecord','PayLaterOptionRecord','PayLaterRecord','PlpContentBlockRecord','PlpFilterRecord','PlpPromoCardCollectionRecord','PlpPromoCardRecord','PlpSortRecord','PolishLabelRecord','PostsLabelRecord','PricingByCurrencyRecord','ProductIconListRecord','ProductLabelRecord','ProductListItemRecord','ProductOptionLabelRecord','ProductShippingAndReturnRecord','ProductSpecLabelCollectionRecord','ProductSuggestionQuadBlockRecord','ProductTypeFaqRecord','ProductWaitlistRecord','QuadGridItemRecord','QuoteBlockRecord','RingFaceLabelRecord','RingSizeLabelRecord','RingSizeOptionCopyRecord','SettingHeightLabelRecord','SettingLabelRecord','ShapeLabelRecord','ShippingAndReturnsLabelRecord','ShipsInTimeRecord','ShownWithCenterStoneLabelRecord','ShowroomLinkRecord','ShowroomNavRecord','ShowroomRecord','SidebarTextBlockRecord','SingleMediaBlockRecord','SlickCarouselBlockRecord','SocialMediaContentRecord','SocialMediaSectionRecord','SpecificationsLabelRecord','StandardPageRecord','SvgAssetRecord','SymmetryLabelRecord','TableLabelRecord','TesteRecord','TextOnlyBlockRecord','TotalCaratWeightLabelRecord','TrioBlockRecord','VatRecord','VideoBlockRecord','WaitlistPageCopyRecord','WeddingBandProductRecord','WishlistRecord']
+    const RecordInterface_possibleTypes: string[] = ['AccordionItemRecord','AccountReminderFormRecord','AccountRemindersListRecord','AccountSubscriptionFormRecord','AccountSubscriptionsListRecord','AdditionalInfoRecord','AnnouncementBarInfoRecord','AnnouncementBarRecord','AnnualGiftFormRecord','AnnualGiftingRecord','AssembledToOrderProductRecord','BandDepthLabelRecord','BandHeightLabelRecord','BandWidthLabelRecord','BasicTextLabelRecord','BlogCategoryRecord','BlogConfigurationRecord','BlogHeaderRecord','BlogPostRecord','BlogSubcategoryRecord','BreadcrumbRecord','CaratLabelRecord','CarouselHoverBlockItemRecord','CartCertificateRecord','CartPageCopyRecord','CartRecord','CelebrityBlockRecord','CelebrityJewelryRecord','CertificateLabelRecord','ChainLengthLabelRecord','ChainWidthLabelRecord','CharmLabelRecord','ClarityLabelRecord','ClosureLabelRecord','ColorLabelRecord','ColumnRecord','ConfigurationRecord','ConfiguredProductOptionRecord','CookieBannerRecord','CopyWithCtaRecord','CordWidthLabelRecord','CountryPickerColumnRecord','CountryRecord','CountrySpecificDateSelectorRecord','CreativeBlockRecord','CtoDiamondTableRecord','CurrencyPriceRecord','CustomProductRecord','CutLabelRecord','CutletLabelRecord','DarksideButtonRecord','DepthLabelRecord','DescriptionLabelRecord','DesktopImageRecord','DiamondClarityLabelRecord','DiamondColorLabelRecord','DiamondContentBlockRecord','DiamondCountLabelRecord','DiamondNotifierPageRecord','DiamondPageRecord','DiamondProductRecord','DiamondShapeDescriptionRecord','DiamondShapeSpecRecord','DiamondSizeLabelRecord','DiamondTableRecord','DiamondsQueryConfigRecord','EmailPopupRecord','EmailSignupPageCopyRecord','EngagementRingPdpCtaRecord','EngagementRingProductRecord','EngagementRingSummaryPageRecord','EngravingOptionCopyRecord','FaqAccordionContentRecord','FluorescenceLabelRecord','FooterNavigationRecord','FullWidthBannerBlockRecord','GiftWithPurchaseRecord','GirdleLabelRecord','GridCarouselBlockItemRecord','HalfWidthBannerBlockRecord','HeaderNavigationDynamicRecord','HeaderNavigationRecord','HeroBlockRecord','HomePageRecord','HumanNamesMapperRecord','Image1x1Record','Image9x7Record','InstagramReelBlockRecord','JacketLengthLabelRecord','JeweleryProductSubCategoryRecord','JewelryOmegaProductRecord','JewelryPdpCtaRecord','JewelryProductRecord','JewelrySubcategoryRecord','JsonKeyRecord','ListPageRecord','ListpageHeroBannerRecord','MeasurementsLabelRecord','MetalLabelRecord','MetalWeightLabelRecord','ModularAccordionBlockRecord','ModularAccordionRecord','ModularBlockWrapperRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCelebrityWDetailCarouselRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailPopupOverrideRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularHorizontalLineBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductIconListItemRecord','ModularProductOptionRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularRadioFieldRecord','ModularRandomBannerBlockRecord','ModularShippingProductIconListItemRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleMediaBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextInputFieldRecord','ModularTextOnlyBlockRecord','ModularTitleOnlyBlockRecord','ModularTriGridWithOrderTrackingRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','MoneyRadioOptionRecord','NavigationColumnRecord','NavigationLinkRecord','NavigationRecord','OmegaAssetStackRecord','OmegaProductRecord','OptionsHeaderRecord','OriginLabelRecord','OurDiamondRecord','OuterDiameterLabelRecord','PageSeoRecord','PaveCaratWeightLabelRecord','PayLaterOptionRecord','PayLaterRecord','PlpContentBlockRecord','PlpFilterRecord','PlpPromoCardCollectionRecord','PlpPromoCardRecord','PlpSortRecord','PolishLabelRecord','PostsLabelRecord','PricingByCurrencyRecord','ProductIconListRecord','ProductLabelRecord','ProductListItemRecord','ProductOptionLabelRecord','ProductShippingAndReturnRecord','ProductSpecLabelCollectionRecord','ProductSuggestionQuadBlockRecord','ProductTypeFaqRecord','ProductWaitlistRecord','QuadGridItemRecord','QuoteBlockRecord','RingFaceLabelRecord','RingSizeLabelRecord','RingSizeOptionCopyRecord','SettingHeightLabelRecord','SettingLabelRecord','ShapeLabelRecord','ShippingAndReturnsLabelRecord','ShipsInTimeRecord','ShownWithCenterStoneLabelRecord','ShowroomLinkRecord','ShowroomNavRecord','ShowroomRecord','SidebarTextBlockRecord','SingleMediaBlockRecord','SlickCarouselBlockRecord','SocialMediaContentRecord','SocialMediaSectionRecord','SpecificationsLabelRecord','StandardPageRecord','SvgAssetRecord','SymmetryLabelRecord','TableLabelRecord','TesteRecord','TextOnlyBlockRecord','TotalCaratWeightLabelRecord','TrioBlockRecord','VatRecord','VideoBlockRecord','WaitlistPageCopyRecord','WeddingBandProductRecord','WishlistRecord']
     export const isRecordInterface = (obj?: { __typename?: any } | null): obj is RecordInterface => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isRecordInterface"')
       return RecordInterface_possibleTypes.includes(obj.__typename)
@@ -28225,10 +28283,10 @@ export const enumAccordionItemModelOrderBy = {
    _isValid_DESC: '_isValid_DESC' as const,
    ctacopy_ASC: 'ctacopy_ASC' as const,
    ctacopy_DESC: 'ctacopy_DESC' as const,
-   ctaroute_ASC: 'ctaroute_ASC' as const,
-   ctaroute_DESC: 'ctaroute_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   ctaroute_ASC: 'ctaroute_ASC' as const,
+   ctaroute_DESC: 'ctaroute_DESC' as const
 }
 
 export const enumAdditionalInfoModelOrderBy = {
@@ -28281,18 +28339,18 @@ export const enumAnnouncementBarInfoModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   endDate_ASC: 'endDate_ASC' as const,
-   endDate_DESC: 'endDate_DESC' as const,
-   hide_ASC: 'hide_ASC' as const,
-   hide_DESC: 'hide_DESC' as const,
-   link_ASC: 'link_ASC' as const,
-   link_DESC: 'link_DESC' as const,
    shouldShowDynamicBookAnAppointment_ASC: 'shouldShowDynamicBookAnAppointment_ASC' as const,
    shouldShowDynamicBookAnAppointment_DESC: 'shouldShowDynamicBookAnAppointment_DESC' as const,
    startDate_ASC: 'startDate_ASC' as const,
    startDate_DESC: 'startDate_DESC' as const,
+   endDate_ASC: 'endDate_ASC' as const,
+   endDate_DESC: 'endDate_DESC' as const,
+   link_ASC: 'link_ASC' as const,
+   link_DESC: 'link_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   hide_ASC: 'hide_ASC' as const,
+   hide_DESC: 'hide_DESC' as const
 }
 
 export const enumBlogCategoryModelOrderBy = {
@@ -28320,14 +28378,14 @@ export const enumBlogCategoryModelOrderBy = {
    _isValid_DESC: '_isValid_DESC' as const,
    copy_ASC: 'copy_ASC' as const,
    copy_DESC: 'copy_DESC' as const,
-   key_ASC: 'key_ASC' as const,
-   key_DESC: 'key_DESC' as const,
    route_ASC: 'route_ASC' as const,
    route_DESC: 'route_DESC' as const,
-   seoDescription_ASC: 'seoDescription_ASC' as const,
-   seoDescription_DESC: 'seoDescription_DESC' as const,
+   key_ASC: 'key_ASC' as const,
+   key_DESC: 'key_DESC' as const,
    seoTitle_ASC: 'seoTitle_ASC' as const,
-   seoTitle_DESC: 'seoTitle_DESC' as const
+   seoTitle_DESC: 'seoTitle_DESC' as const,
+   seoDescription_ASC: 'seoDescription_ASC' as const,
+   seoDescription_DESC: 'seoDescription_DESC' as const
 }
 
 export const enumBlogPostModelOrderBy = {
@@ -28353,24 +28411,24 @@ export const enumBlogPostModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   author_ASC: 'author_ASC' as const,
-   author_DESC: 'author_DESC' as const,
+   showBlogHeader_ASC: 'showBlogHeader_ASC' as const,
+   showBlogHeader_DESC: 'showBlogHeader_DESC' as const,
    publishedAt_ASC: 'publishedAt_ASC' as const,
    publishedAt_DESC: 'publishedAt_DESC' as const,
+   slug_ASC: 'slug_ASC' as const,
+   slug_DESC: 'slug_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    seoDescription_ASC: 'seoDescription_ASC' as const,
    seoDescription_DESC: 'seoDescription_DESC' as const,
    seoTitle_ASC: 'seoTitle_ASC' as const,
    seoTitle_DESC: 'seoTitle_DESC' as const,
-   showBlogHeader_ASC: 'showBlogHeader_ASC' as const,
-   showBlogHeader_DESC: 'showBlogHeader_DESC' as const,
-   slug_ASC: 'slug_ASC' as const,
-   slug_DESC: 'slug_DESC' as const,
-   sortByDate_ASC: 'sortByDate_ASC' as const,
-   sortByDate_DESC: 'sortByDate_DESC' as const,
+   author_ASC: 'author_ASC' as const,
+   author_DESC: 'author_DESC' as const,
    tags_ASC: 'tags_ASC' as const,
    tags_DESC: 'tags_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   sortByDate_ASC: 'sortByDate_ASC' as const,
+   sortByDate_DESC: 'sortByDate_DESC' as const
 }
 
 export const enumBlogSubcategoryModelOrderBy = {
@@ -28396,16 +28454,16 @@ export const enumBlogSubcategoryModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   copy_ASC: 'copy_ASC' as const,
-   copy_DESC: 'copy_DESC' as const,
    key_ASC: 'key_ASC' as const,
    key_DESC: 'key_DESC' as const,
-   route_ASC: 'route_ASC' as const,
-   route_DESC: 'route_DESC' as const,
+   copy_ASC: 'copy_ASC' as const,
+   copy_DESC: 'copy_DESC' as const,
+   seoTitle_ASC: 'seoTitle_ASC' as const,
+   seoTitle_DESC: 'seoTitle_DESC' as const,
    seoDescription_ASC: 'seoDescription_ASC' as const,
    seoDescription_DESC: 'seoDescription_DESC' as const,
-   seoTitle_ASC: 'seoTitle_ASC' as const,
-   seoTitle_DESC: 'seoTitle_DESC' as const
+   route_ASC: 'route_ASC' as const,
+   route_DESC: 'route_DESC' as const
 }
 
 export const enumBreadcrumbModelOrderBy = {
@@ -28458,12 +28516,12 @@ export const enumCarouselHoverBlockItemModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   itemName_ASC: 'itemName_ASC' as const,
-   itemName_DESC: 'itemName_DESC' as const,
+   url_ASC: 'url_ASC' as const,
+   url_DESC: 'url_DESC' as const,
    title_ASC: 'title_ASC' as const,
    title_DESC: 'title_DESC' as const,
-   url_ASC: 'url_ASC' as const,
-   url_DESC: 'url_DESC' as const
+   itemName_ASC: 'itemName_ASC' as const,
+   itemName_DESC: 'itemName_DESC' as const
 }
 
 export const enumCelebrityBlockModelOrderBy = {
@@ -28489,14 +28547,14 @@ export const enumCelebrityBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   bottomCarouselCopy_ASC: 'bottomCarouselCopy_ASC' as const,
-   bottomCarouselCopy_DESC: 'bottomCarouselCopy_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    copy_ASC: 'copy_ASC' as const,
    copy_DESC: 'copy_DESC' as const,
    internalCmsUse_ASC: 'internalCmsUse_ASC' as const,
    internalCmsUse_DESC: 'internalCmsUse_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   bottomCarouselCopy_ASC: 'bottomCarouselCopy_ASC' as const,
+   bottomCarouselCopy_DESC: 'bottomCarouselCopy_DESC' as const
 }
 
 export const enumCelebrityJewelryModelOrderBy = {
@@ -28522,10 +28580,10 @@ export const enumCelebrityJewelryModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   ctaCopy_ASC: 'ctaCopy_ASC' as const,
-   ctaCopy_DESC: 'ctaCopy_DESC' as const,
    ctaRoute_ASC: 'ctaRoute_ASC' as const,
    ctaRoute_DESC: 'ctaRoute_DESC' as const,
+   ctaCopy_ASC: 'ctaCopy_ASC' as const,
+   ctaCopy_DESC: 'ctaCopy_DESC' as const,
    itemName_ASC: 'itemName_ASC' as const,
    itemName_DESC: 'itemName_DESC' as const
 }
@@ -28568,8 +28626,8 @@ export const enumConfigurationModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   bandWidth_ASC: 'bandWidth_ASC' as const,
-   bandWidth_DESC: 'bandWidth_DESC' as const,
+   outerDiameter_ASC: 'outerDiameter_ASC' as const,
+   outerDiameter_DESC: 'outerDiameter_DESC' as const,
    carat_ASC: 'carat_ASC' as const,
    carat_DESC: 'carat_DESC' as const,
    caratWeightOverride_ASC: 'caratWeightOverride_ASC' as const,
@@ -28578,50 +28636,50 @@ export const enumConfigurationModelOrderBy = {
    chainLength_DESC: 'chainLength_DESC' as const,
    chainWidth_ASC: 'chainWidth_ASC' as const,
    chainWidth_DESC: 'chainWidth_DESC' as const,
-   charm_ASC: 'charm_ASC' as const,
-   charm_DESC: 'charm_DESC' as const,
    clarity_ASC: 'clarity_ASC' as const,
    clarity_DESC: 'clarity_DESC' as const,
    closure_ASC: 'closure_ASC' as const,
    closure_DESC: 'closure_DESC' as const,
-   color_ASC: 'color_ASC' as const,
-   color_DESC: 'color_DESC' as const,
-   configuredProductOptionsInOrder_ASC: 'configuredProductOptionsInOrder_ASC' as const,
-   configuredProductOptionsInOrder_DESC: 'configuredProductOptionsInOrder_DESC' as const,
    cordWidth_ASC: 'cordWidth_ASC' as const,
    cordWidth_DESC: 'cordWidth_DESC' as const,
-   cut_ASC: 'cut_ASC' as const,
-   cut_DESC: 'cut_DESC' as const,
-   depth_ASC: 'depth_ASC' as const,
-   depth_DESC: 'depth_DESC' as const,
-   diamondCount_ASC: 'diamondCount_ASC' as const,
-   diamondCount_DESC: 'diamondCount_DESC' as const,
    diamondSize_ASC: 'diamondSize_ASC' as const,
    diamondSize_DESC: 'diamondSize_DESC' as const,
-   isWaitlisted_ASC: 'isWaitlisted_ASC' as const,
-   isWaitlisted_DESC: 'isWaitlisted_DESC' as const,
    jacketLength_ASC: 'jacketLength_ASC' as const,
    jacketLength_DESC: 'jacketLength_DESC' as const,
-   metal_ASC: 'metal_ASC' as const,
-   metal_DESC: 'metal_DESC' as const,
-   origin_ASC: 'origin_ASC' as const,
-   origin_DESC: 'origin_DESC' as const,
-   outerDiameter_ASC: 'outerDiameter_ASC' as const,
-   outerDiameter_DESC: 'outerDiameter_DESC' as const,
-   plpTitle_ASC: 'plpTitle_ASC' as const,
-   plpTitle_DESC: 'plpTitle_DESC' as const,
-   posts_ASC: 'posts_ASC' as const,
-   posts_DESC: 'posts_DESC' as const,
-   ringFace_ASC: 'ringFace_ASC' as const,
-   ringFace_DESC: 'ringFace_DESC' as const,
    setting_ASC: 'setting_ASC' as const,
    setting_DESC: 'setting_DESC' as const,
+   posts_ASC: 'posts_ASC' as const,
+   posts_DESC: 'posts_DESC' as const,
    shape_ASC: 'shape_ASC' as const,
    shape_DESC: 'shape_DESC' as const,
+   ringFace_ASC: 'ringFace_ASC' as const,
+   ringFace_DESC: 'ringFace_DESC' as const,
    shownWithCenterStone_ASC: 'shownWithCenterStone_ASC' as const,
    shownWithCenterStone_DESC: 'shownWithCenterStone_DESC' as const,
+   isWaitlisted_ASC: 'isWaitlisted_ASC' as const,
+   isWaitlisted_DESC: 'isWaitlisted_DESC' as const,
+   plpTitle_ASC: 'plpTitle_ASC' as const,
+   plpTitle_DESC: 'plpTitle_DESC' as const,
    variantId_ASC: 'variantId_ASC' as const,
-   variantId_DESC: 'variantId_DESC' as const
+   variantId_DESC: 'variantId_DESC' as const,
+   configuredProductOptionsInOrder_ASC: 'configuredProductOptionsInOrder_ASC' as const,
+   configuredProductOptionsInOrder_DESC: 'configuredProductOptionsInOrder_DESC' as const,
+   bandWidth_ASC: 'bandWidth_ASC' as const,
+   bandWidth_DESC: 'bandWidth_DESC' as const,
+   charm_ASC: 'charm_ASC' as const,
+   charm_DESC: 'charm_DESC' as const,
+   color_ASC: 'color_ASC' as const,
+   color_DESC: 'color_DESC' as const,
+   metal_ASC: 'metal_ASC' as const,
+   metal_DESC: 'metal_DESC' as const,
+   diamondCount_ASC: 'diamondCount_ASC' as const,
+   diamondCount_DESC: 'diamondCount_DESC' as const,
+   depth_ASC: 'depth_ASC' as const,
+   depth_DESC: 'depth_DESC' as const,
+   origin_ASC: 'origin_ASC' as const,
+   origin_DESC: 'origin_DESC' as const,
+   cut_ASC: 'cut_ASC' as const,
+   cut_DESC: 'cut_DESC' as const
 }
 
 export const enumConfiguredProductOptionModelOrderBy = {
@@ -28711,18 +28769,18 @@ export const enumCreativeBlockModelOrderBy = {
    _isValid_DESC: '_isValid_DESC' as const,
    ctaCopy_ASC: 'ctaCopy_ASC' as const,
    ctaCopy_DESC: 'ctaCopy_DESC' as const,
-   ctaRoute_ASC: 'ctaRoute_ASC' as const,
-   ctaRoute_DESC: 'ctaRoute_DESC' as const,
-   desktopCopy_ASC: 'desktopCopy_ASC' as const,
-   desktopCopy_DESC: 'desktopCopy_DESC' as const,
-   gtmClass_ASC: 'gtmClass_ASC' as const,
-   gtmClass_DESC: 'gtmClass_DESC' as const,
-   mobileCopy_ASC: 'mobileCopy_ASC' as const,
-   mobileCopy_DESC: 'mobileCopy_DESC' as const,
    openInNewTab_ASC: 'openInNewTab_ASC' as const,
    openInNewTab_DESC: 'openInNewTab_DESC' as const,
+   ctaRoute_ASC: 'ctaRoute_ASC' as const,
+   ctaRoute_DESC: 'ctaRoute_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   desktopCopy_ASC: 'desktopCopy_ASC' as const,
+   desktopCopy_DESC: 'desktopCopy_DESC' as const,
+   mobileCopy_ASC: 'mobileCopy_ASC' as const,
+   mobileCopy_DESC: 'mobileCopy_DESC' as const,
+   gtmClass_ASC: 'gtmClass_ASC' as const,
+   gtmClass_DESC: 'gtmClass_DESC' as const
 }
 
 export const enumCustomProductModelOrderBy = {
@@ -28781,10 +28839,10 @@ export const enumDiamondContentBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   diamondBlockTitle_ASC: 'diamondBlockTitle_ASC' as const,
-   diamondBlockTitle_DESC: 'diamondBlockTitle_DESC' as const,
    diamondBlockVideo_ASC: 'diamondBlockVideo_ASC' as const,
-   diamondBlockVideo_DESC: 'diamondBlockVideo_DESC' as const
+   diamondBlockVideo_DESC: 'diamondBlockVideo_DESC' as const,
+   diamondBlockTitle_ASC: 'diamondBlockTitle_ASC' as const,
+   diamondBlockTitle_DESC: 'diamondBlockTitle_DESC' as const
 }
 
 export const enumDiamondShapeDescriptionModelOrderBy = {
@@ -28866,40 +28924,40 @@ export const enumEngagementRingProductModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   bandDepth_ASC: 'bandDepth_ASC' as const,
-   bandDepth_DESC: 'bandDepth_DESC' as const,
-   bandWidth_ASC: 'bandWidth_ASC' as const,
-   bandWidth_DESC: 'bandWidth_DESC' as const,
    hasDiamond_ASC: 'hasDiamond_ASC' as const,
    hasDiamond_DESC: 'hasDiamond_DESC' as const,
    isPromoIconEnabled_ASC: 'isPromoIconEnabled_ASC' as const,
    isPromoIconEnabled_DESC: 'isPromoIconEnabled_DESC' as const,
-   metalWeight_ASC: 'metalWeight_ASC' as const,
-   metalWeight_DESC: 'metalWeight_DESC' as const,
-   paveCaratWeight_ASC: 'paveCaratWeight_ASC' as const,
-   paveCaratWeight_DESC: 'paveCaratWeight_DESC' as const,
-   productTitle_ASC: 'productTitle_ASC' as const,
-   productTitle_DESC: 'productTitle_DESC' as const,
-   productType_ASC: 'productType_ASC' as const,
-   productType_DESC: 'productType_DESC' as const,
+   styleGroup_ASC: 'styleGroup_ASC' as const,
+   styleGroup_DESC: 'styleGroup_DESC' as const,
    seoTitle_ASC: 'seoTitle_ASC' as const,
    seoTitle_DESC: 'seoTitle_DESC' as const,
-   settingHeight_ASC: 'settingHeight_ASC' as const,
-   settingHeight_DESC: 'settingHeight_DESC' as const,
-   shouldUseDatoAssets_ASC: 'shouldUseDatoAssets_ASC' as const,
-   shouldUseDatoAssets_DESC: 'shouldUseDatoAssets_DESC' as const,
-   shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
-   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const,
-   shownWithCtwLabel_ASC: 'shownWithCtwLabel_ASC' as const,
-   shownWithCtwLabel_DESC: 'shownWithCtwLabel_DESC' as const,
+   productType_ASC: 'productType_ASC' as const,
+   productType_DESC: 'productType_DESC' as const,
+   bandWidth_ASC: 'bandWidth_ASC' as const,
+   bandWidth_DESC: 'bandWidth_DESC' as const,
+   metalWeight_ASC: 'metalWeight_ASC' as const,
+   metalWeight_DESC: 'metalWeight_DESC' as const,
+   productTitle_ASC: 'productTitle_ASC' as const,
+   productTitle_DESC: 'productTitle_DESC' as const,
    slug_ASC: 'slug_ASC' as const,
    slug_DESC: 'slug_DESC' as const,
+   shownWithCtwLabel_ASC: 'shownWithCtwLabel_ASC' as const,
+   shownWithCtwLabel_DESC: 'shownWithCtwLabel_DESC' as const,
+   bandDepth_ASC: 'bandDepth_ASC' as const,
+   bandDepth_DESC: 'bandDepth_DESC' as const,
+   paveCaratWeight_ASC: 'paveCaratWeight_ASC' as const,
+   paveCaratWeight_DESC: 'paveCaratWeight_DESC' as const,
+   settingHeight_ASC: 'settingHeight_ASC' as const,
+   settingHeight_DESC: 'settingHeight_DESC' as const,
    specBlockTitle_ASC: 'specBlockTitle_ASC' as const,
    specBlockTitle_DESC: 'specBlockTitle_DESC' as const,
    specImage_ASC: 'specImage_ASC' as const,
    specImage_DESC: 'specImage_DESC' as const,
-   styleGroup_ASC: 'styleGroup_ASC' as const,
-   styleGroup_DESC: 'styleGroup_DESC' as const
+   shouldUseDatoAssets_ASC: 'shouldUseDatoAssets_ASC' as const,
+   shouldUseDatoAssets_DESC: 'shouldUseDatoAssets_DESC' as const,
+   shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
+   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const
 }
 
 export const enumFaqAccordionContentModelOrderBy = {
@@ -28958,22 +29016,22 @@ export const enumFullWidthBannerBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
+   internalCmsUse_ASC: 'internalCmsUse_ASC' as const,
+   internalCmsUse_DESC: 'internalCmsUse_DESC' as const,
    ctaCopy_ASC: 'ctaCopy_ASC' as const,
    ctaCopy_DESC: 'ctaCopy_DESC' as const,
    ctaRoute_ASC: 'ctaRoute_ASC' as const,
    ctaRoute_DESC: 'ctaRoute_DESC' as const,
    gtmClass_ASC: 'gtmClass_ASC' as const,
    gtmClass_DESC: 'gtmClass_DESC' as const,
-   internalCmsUse_ASC: 'internalCmsUse_ASC' as const,
-   internalCmsUse_DESC: 'internalCmsUse_DESC' as const,
    isTextBlockWide_ASC: 'isTextBlockWide_ASC' as const,
    isTextBlockWide_DESC: 'isTextBlockWide_DESC' as const,
    textBlockAlignment_ASC: 'textBlockAlignment_ASC' as const,
    textBlockAlignment_DESC: 'textBlockAlignment_DESC' as const,
    textColor_ASC: 'textColor_ASC' as const,
-   textColor_DESC: 'textColor_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   textColor_DESC: 'textColor_DESC' as const
 }
 
 export const enumGridCarouselBlockItemModelOrderBy = {
@@ -28999,10 +29057,10 @@ export const enumGridCarouselBlockItemModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   link_ASC: 'link_ASC' as const,
-   link_DESC: 'link_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   link_ASC: 'link_ASC' as const,
+   link_DESC: 'link_DESC' as const
 }
 
 export const enumHalfWidthBannerBlockModelOrderBy = {
@@ -29032,14 +29090,14 @@ export const enumHalfWidthBannerBlockModelOrderBy = {
    ctaCopy_DESC: 'ctaCopy_DESC' as const,
    ctaRoute_ASC: 'ctaRoute_ASC' as const,
    ctaRoute_DESC: 'ctaRoute_DESC' as const,
-   internalCmsUse_ASC: 'internalCmsUse_ASC' as const,
-   internalCmsUse_DESC: 'internalCmsUse_DESC' as const,
    isTextBlockWide_ASC: 'isTextBlockWide_ASC' as const,
    isTextBlockWide_DESC: 'isTextBlockWide_DESC' as const,
-   textBlockAlignment_ASC: 'textBlockAlignment_ASC' as const,
-   textBlockAlignment_DESC: 'textBlockAlignment_DESC' as const,
    textColor_ASC: 'textColor_ASC' as const,
    textColor_DESC: 'textColor_DESC' as const,
+   internalCmsUse_ASC: 'internalCmsUse_ASC' as const,
+   internalCmsUse_DESC: 'internalCmsUse_DESC' as const,
+   textBlockAlignment_ASC: 'textBlockAlignment_ASC' as const,
+   textBlockAlignment_DESC: 'textBlockAlignment_DESC' as const,
    title_ASC: 'title_ASC' as const,
    title_DESC: 'title_DESC' as const
 }
@@ -29389,20 +29447,20 @@ export const enumJewelryOmegaProductModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   category_ASC: 'category_ASC' as const,
-   category_DESC: 'category_DESC' as const,
    hasOnlyOnePrice_ASC: 'hasOnlyOnePrice_ASC' as const,
    hasOnlyOnePrice_DESC: 'hasOnlyOnePrice_DESC' as const,
-   plpTitle_ASC: 'plpTitle_ASC' as const,
-   plpTitle_DESC: 'plpTitle_DESC' as const,
    productTitle_ASC: 'productTitle_ASC' as const,
    productTitle_DESC: 'productTitle_DESC' as const,
+   plpTitle_ASC: 'plpTitle_ASC' as const,
+   plpTitle_DESC: 'plpTitle_DESC' as const,
+   category_ASC: 'category_ASC' as const,
+   category_DESC: 'category_DESC' as const,
+   slug_ASC: 'slug_ASC' as const,
+   slug_DESC: 'slug_DESC' as const,
    shouldUseDatoAssets_ASC: 'shouldUseDatoAssets_ASC' as const,
    shouldUseDatoAssets_DESC: 'shouldUseDatoAssets_DESC' as const,
    shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
-   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const,
-   slug_ASC: 'slug_ASC' as const,
-   slug_DESC: 'slug_DESC' as const
+   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const
 }
 
 export const enumJewelryPdpCtaModelOrderBy = {
@@ -29428,14 +29486,14 @@ export const enumJewelryPdpCtaModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
+   outOfStockCtaCopy_ASC: 'outOfStockCtaCopy_ASC' as const,
+   outOfStockCtaCopy_DESC: 'outOfStockCtaCopy_DESC' as const,
+   diamondPairFlowCtaCopy_ASC: 'diamondPairFlowCtaCopy_ASC' as const,
+   diamondPairFlowCtaCopy_DESC: 'diamondPairFlowCtaCopy_DESC' as const,
    addToBagCtaCopy_ASC: 'addToBagCtaCopy_ASC' as const,
    addToBagCtaCopy_DESC: 'addToBagCtaCopy_DESC' as const,
    diamondPageFlowCtaCopy_ASC: 'diamondPageFlowCtaCopy_ASC' as const,
-   diamondPageFlowCtaCopy_DESC: 'diamondPageFlowCtaCopy_DESC' as const,
-   diamondPairFlowCtaCopy_ASC: 'diamondPairFlowCtaCopy_ASC' as const,
-   diamondPairFlowCtaCopy_DESC: 'diamondPairFlowCtaCopy_DESC' as const,
-   outOfStockCtaCopy_ASC: 'outOfStockCtaCopy_ASC' as const,
-   outOfStockCtaCopy_DESC: 'outOfStockCtaCopy_DESC' as const
+   diamondPageFlowCtaCopy_DESC: 'diamondPageFlowCtaCopy_DESC' as const
 }
 
 export const enumJewelryProductModelOrderBy = {
@@ -29461,24 +29519,24 @@ export const enumJewelryProductModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   caratWeight_ASC: 'caratWeight_ASC' as const,
-   caratWeight_DESC: 'caratWeight_DESC' as const,
-   category_ASC: 'category_ASC' as const,
-   category_DESC: 'category_DESC' as const,
-   defaultVariant_ASC: 'defaultVariant_ASC' as const,
-   defaultVariant_DESC: 'defaultVariant_DESC' as const,
-   hasOnlyOnePrice_ASC: 'hasOnlyOnePrice_ASC' as const,
-   hasOnlyOnePrice_DESC: 'hasOnlyOnePrice_DESC' as const,
    isPromoIconEnabled_ASC: 'isPromoIconEnabled_ASC' as const,
    isPromoIconEnabled_DESC: 'isPromoIconEnabled_DESC' as const,
-   productTitle_ASC: 'productTitle_ASC' as const,
-   productTitle_DESC: 'productTitle_DESC' as const,
    shouldUseDatoAssets_ASC: 'shouldUseDatoAssets_ASC' as const,
    shouldUseDatoAssets_DESC: 'shouldUseDatoAssets_DESC' as const,
+   productTitle_ASC: 'productTitle_ASC' as const,
+   productTitle_DESC: 'productTitle_DESC' as const,
+   hasOnlyOnePrice_ASC: 'hasOnlyOnePrice_ASC' as const,
+   hasOnlyOnePrice_DESC: 'hasOnlyOnePrice_DESC' as const,
+   slug_ASC: 'slug_ASC' as const,
+   slug_DESC: 'slug_DESC' as const,
+   category_ASC: 'category_ASC' as const,
+   category_DESC: 'category_DESC' as const,
+   caratWeight_ASC: 'caratWeight_ASC' as const,
+   caratWeight_DESC: 'caratWeight_DESC' as const,
    shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
    shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const,
-   slug_ASC: 'slug_ASC' as const,
-   slug_DESC: 'slug_DESC' as const
+   defaultVariant_ASC: 'defaultVariant_ASC' as const,
+   defaultVariant_DESC: 'defaultVariant_DESC' as const
 }
 
 export const enumJewelrySubcategoryModelOrderBy = {
@@ -29531,30 +29589,26 @@ export const enumListPageModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   category_ASC: 'category_ASC' as const,
-   category_DESC: 'category_DESC' as const,
-   colors_ASC: 'colors_ASC' as const,
-   colors_DESC: 'colors_DESC' as const,
+   slug_ASC: 'slug_ASC' as const,
+   slug_DESC: 'slug_DESC' as const,
+   shouldDisplayPreviouslyViewed_ASC: 'shouldDisplayPreviouslyViewed_ASC' as const,
+   shouldDisplayPreviouslyViewed_DESC: 'shouldDisplayPreviouslyViewed_DESC' as const,
+   slugNew_ASC: 'slugNew_ASC' as const,
+   slugNew_DESC: 'slugNew_DESC' as const,
    customDiamondType_ASC: 'customDiamondType_ASC' as const,
    customDiamondType_DESC: 'customDiamondType_DESC' as const,
    defaultSort_ASC: 'defaultSort_ASC' as const,
    defaultSort_DESC: 'defaultSort_DESC' as const,
-   diamondTypes_ASC: 'diamondTypes_ASC' as const,
-   diamondTypes_DESC: 'diamondTypes_DESC' as const,
+   category_ASC: 'category_ASC' as const,
+   category_DESC: 'category_DESC' as const,
    shouldAutoLoad_ASC: 'shouldAutoLoad_ASC' as const,
    shouldAutoLoad_DESC: 'shouldAutoLoad_DESC' as const,
-   shouldDisplayPreviouslyViewed_ASC: 'shouldDisplayPreviouslyViewed_ASC' as const,
-   shouldDisplayPreviouslyViewed_DESC: 'shouldDisplayPreviouslyViewed_DESC' as const,
    showAllCtaCopy_ASC: 'showAllCtaCopy_ASC' as const,
    showAllCtaCopy_DESC: 'showAllCtaCopy_DESC' as const,
    showAllCtaLink_ASC: 'showAllCtaLink_ASC' as const,
    showAllCtaLink_DESC: 'showAllCtaLink_DESC' as const,
    showHeroWithBanner_ASC: 'showHeroWithBanner_ASC' as const,
-   showHeroWithBanner_DESC: 'showHeroWithBanner_DESC' as const,
-   slug_ASC: 'slug_ASC' as const,
-   slug_DESC: 'slug_DESC' as const,
-   slugNew_ASC: 'slugNew_ASC' as const,
-   slugNew_DESC: 'slugNew_DESC' as const
+   showHeroWithBanner_DESC: 'showHeroWithBanner_DESC' as const
 }
 
 export const enumListpageHeroBannerModelOrderBy = {
@@ -29582,14 +29636,14 @@ export const enumListpageHeroBannerModelOrderBy = {
    _isValid_DESC: '_isValid_DESC' as const,
    copy_ASC: 'copy_ASC' as const,
    copy_DESC: 'copy_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    ctaButtonType_ASC: 'ctaButtonType_ASC' as const,
    ctaButtonType_DESC: 'ctaButtonType_DESC' as const,
    ctaCopy_ASC: 'ctaCopy_ASC' as const,
    ctaCopy_DESC: 'ctaCopy_DESC' as const,
    ctaRoute_ASC: 'ctaRoute_ASC' as const,
-   ctaRoute_DESC: 'ctaRoute_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   ctaRoute_DESC: 'ctaRoute_DESC' as const
 }
 
 export const enumMuxThumbnailFormatType = {
@@ -29621,8 +29675,6 @@ export const enumNavigationLinkModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   copy_ASC: 'copy_ASC' as const,
-   copy_DESC: 'copy_DESC' as const,
    flags_ASC: 'flags_ASC' as const,
    flags_DESC: 'flags_DESC' as const,
    isBold_ASC: 'isBold_ASC' as const,
@@ -29630,7 +29682,9 @@ export const enumNavigationLinkModelOrderBy = {
    linkKey_ASC: 'linkKey_ASC' as const,
    linkKey_DESC: 'linkKey_DESC' as const,
    route_ASC: 'route_ASC' as const,
-   route_DESC: 'route_DESC' as const
+   route_DESC: 'route_DESC' as const,
+   copy_ASC: 'copy_ASC' as const,
+   copy_DESC: 'copy_DESC' as const
 }
 
 export const enumNavigationModelOrderBy = {
@@ -29656,12 +29710,12 @@ export const enumNavigationModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    key_ASC: 'key_ASC' as const,
    key_DESC: 'key_DESC' as const,
    route_ASC: 'route_ASC' as const,
-   route_DESC: 'route_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   route_DESC: 'route_DESC' as const
 }
 
 export const enumOmegaAssetStackModelOrderBy = {
@@ -29714,34 +29768,34 @@ export const enumOmegaProductModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   bandWidthOverride_ASC: 'bandWidthOverride_ASC' as const,
-   bandWidthOverride_DESC: 'bandWidthOverride_DESC' as const,
-   caratWeightOverride_ASC: 'caratWeightOverride_ASC' as const,
-   caratWeightOverride_DESC: 'caratWeightOverride_DESC' as const,
-   clarity_ASC: 'clarity_ASC' as const,
-   clarity_DESC: 'clarity_DESC' as const,
-   color_ASC: 'color_ASC' as const,
-   color_DESC: 'color_DESC' as const,
    cut_ASC: 'cut_ASC' as const,
    cut_DESC: 'cut_DESC' as const,
-   dimensions_ASC: 'dimensions_ASC' as const,
-   dimensions_DESC: 'dimensions_DESC' as const,
-   metalWeightOverride_ASC: 'metalWeightOverride_ASC' as const,
-   metalWeightOverride_DESC: 'metalWeightOverride_DESC' as const,
-   origin_ASC: 'origin_ASC' as const,
-   origin_DESC: 'origin_DESC' as const,
-   paveCaratWeightOverride_ASC: 'paveCaratWeightOverride_ASC' as const,
-   paveCaratWeightOverride_DESC: 'paveCaratWeightOverride_DESC' as const,
-   pdpSubTitle_ASC: 'pdpSubTitle_ASC' as const,
-   pdpSubTitle_DESC: 'pdpSubTitle_DESC' as const,
-   plpTitle_ASC: 'plpTitle_ASC' as const,
-   plpTitle_DESC: 'plpTitle_DESC' as const,
-   shape_ASC: 'shape_ASC' as const,
-   shape_DESC: 'shape_DESC' as const,
    shopifyProductHandle_ASC: 'shopifyProductHandle_ASC' as const,
    shopifyProductHandle_DESC: 'shopifyProductHandle_DESC' as const,
    shownWithCtw_ASC: 'shownWithCtw_ASC' as const,
-   shownWithCtw_DESC: 'shownWithCtw_DESC' as const
+   shownWithCtw_DESC: 'shownWithCtw_DESC' as const,
+   plpTitle_ASC: 'plpTitle_ASC' as const,
+   plpTitle_DESC: 'plpTitle_DESC' as const,
+   pdpSubTitle_ASC: 'pdpSubTitle_ASC' as const,
+   pdpSubTitle_DESC: 'pdpSubTitle_DESC' as const,
+   metalWeightOverride_ASC: 'metalWeightOverride_ASC' as const,
+   metalWeightOverride_DESC: 'metalWeightOverride_DESC' as const,
+   paveCaratWeightOverride_ASC: 'paveCaratWeightOverride_ASC' as const,
+   paveCaratWeightOverride_DESC: 'paveCaratWeightOverride_DESC' as const,
+   bandWidthOverride_ASC: 'bandWidthOverride_ASC' as const,
+   bandWidthOverride_DESC: 'bandWidthOverride_DESC' as const,
+   color_ASC: 'color_ASC' as const,
+   color_DESC: 'color_DESC' as const,
+   origin_ASC: 'origin_ASC' as const,
+   origin_DESC: 'origin_DESC' as const,
+   shape_ASC: 'shape_ASC' as const,
+   shape_DESC: 'shape_DESC' as const,
+   clarity_ASC: 'clarity_ASC' as const,
+   clarity_DESC: 'clarity_DESC' as const,
+   dimensions_ASC: 'dimensions_ASC' as const,
+   dimensions_DESC: 'dimensions_DESC' as const,
+   caratWeightOverride_ASC: 'caratWeightOverride_ASC' as const,
+   caratWeightOverride_DESC: 'caratWeightOverride_DESC' as const
 }
 
 export const enumOurDiamondModelOrderBy = {
@@ -29792,10 +29846,10 @@ export const enumPageSeoModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   addNoindexNofollow_ASC: 'addNoindexNofollow_ASC' as const,
-   addNoindexNofollow_DESC: 'addNoindexNofollow_DESC' as const,
    seoTitle_ASC: 'seoTitle_ASC' as const,
-   seoTitle_DESC: 'seoTitle_DESC' as const
+   seoTitle_DESC: 'seoTitle_DESC' as const,
+   addNoindexNofollow_ASC: 'addNoindexNofollow_ASC' as const,
+   addNoindexNofollow_DESC: 'addNoindexNofollow_DESC' as const
 }
 
 export const enumPayLaterOptionModelOrderBy = {
@@ -29821,12 +29875,12 @@ export const enumPayLaterOptionModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   embedded_ASC: 'embedded_ASC' as const,
-   embedded_DESC: 'embedded_DESC' as const,
    klarna_ASC: 'klarna_ASC' as const,
    klarna_DESC: 'klarna_DESC' as const,
    payPal_ASC: 'payPal_ASC' as const,
    payPal_DESC: 'payPal_DESC' as const,
+   embedded_ASC: 'embedded_ASC' as const,
+   embedded_DESC: 'embedded_DESC' as const,
    title_ASC: 'title_ASC' as const,
    title_DESC: 'title_DESC' as const
 }
@@ -29881,16 +29935,16 @@ export const enumPlpPromoCardModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   link_ASC: 'link_ASC' as const,
-   link_DESC: 'link_DESC' as const,
-   openInNewTab_ASC: 'openInNewTab_ASC' as const,
-   openInNewTab_DESC: 'openInNewTab_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    plpPosition_ASC: 'plpPosition_ASC' as const,
    plpPosition_DESC: 'plpPosition_DESC' as const,
+   link_ASC: 'link_ASC' as const,
+   link_DESC: 'link_DESC' as const,
    plpPositionMobile_ASC: 'plpPositionMobile_ASC' as const,
    plpPositionMobile_DESC: 'plpPositionMobile_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   openInNewTab_ASC: 'openInNewTab_ASC' as const,
+   openInNewTab_DESC: 'openInNewTab_DESC' as const
 }
 
 export const enumPricingByCurrencyModelOrderBy = {
@@ -30107,12 +30161,12 @@ export const enumProductTypeFaqModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
+   productType_ASC: 'productType_ASC' as const,
+   productType_DESC: 'productType_DESC' as const,
    faqTitle_ASC: 'faqTitle_ASC' as const,
    faqTitle_DESC: 'faqTitle_DESC' as const,
    imagePath_ASC: 'imagePath_ASC' as const,
-   imagePath_DESC: 'imagePath_DESC' as const,
-   productType_ASC: 'productType_ASC' as const,
-   productType_DESC: 'productType_DESC' as const
+   imagePath_DESC: 'imagePath_DESC' as const
 }
 
 export const enumProductWaitlistModelOrderBy = {
@@ -30196,16 +30250,16 @@ export const enumQuoteBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   attribution_ASC: 'attribution_ASC' as const,
-   attribution_DESC: 'attribution_DESC' as const,
-   attributionFont_ASC: 'attributionFont_ASC' as const,
-   attributionFont_DESC: 'attributionFont_DESC' as const,
    quote_ASC: 'quote_ASC' as const,
    quote_DESC: 'quote_DESC' as const,
+   attribution_ASC: 'attribution_ASC' as const,
+   attribution_DESC: 'attribution_DESC' as const,
+   quoteStyle_ASC: 'quoteStyle_ASC' as const,
+   quoteStyle_DESC: 'quoteStyle_DESC' as const,
    quoteFont_ASC: 'quoteFont_ASC' as const,
    quoteFont_DESC: 'quoteFont_DESC' as const,
-   quoteStyle_ASC: 'quoteStyle_ASC' as const,
-   quoteStyle_DESC: 'quoteStyle_DESC' as const
+   attributionFont_ASC: 'attributionFont_ASC' as const,
+   attributionFont_DESC: 'attributionFont_DESC' as const
 }
 
 export const enumResolutionType = {
@@ -30238,18 +30292,18 @@ export const enumShowroomLinkModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   copy_ASC: 'copy_ASC' as const,
-   copy_DESC: 'copy_DESC' as const,
    country_ASC: 'country_ASC' as const,
    country_DESC: 'country_DESC' as const,
+   route_ASC: 'route_ASC' as const,
+   route_DESC: 'route_DESC' as const,
    flags_ASC: 'flags_ASC' as const,
    flags_DESC: 'flags_DESC' as const,
    isBold_ASC: 'isBold_ASC' as const,
    isBold_DESC: 'isBold_DESC' as const,
+   copy_ASC: 'copy_ASC' as const,
+   copy_DESC: 'copy_DESC' as const,
    linkKey_ASC: 'linkKey_ASC' as const,
-   linkKey_DESC: 'linkKey_DESC' as const,
-   route_ASC: 'route_ASC' as const,
-   route_DESC: 'route_DESC' as const
+   linkKey_DESC: 'linkKey_DESC' as const
 }
 
 export const enumShowroomModelOrderBy = {
@@ -30275,16 +30329,14 @@ export const enumShowroomModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
+   seoTitle_ASC: 'seoTitle_ASC' as const,
+   seoTitle_DESC: 'seoTitle_DESC' as const,
+   seoDescription_ASC: 'seoDescription_ASC' as const,
+   seoDescription_DESC: 'seoDescription_DESC' as const,
+   phone_ASC: 'phone_ASC' as const,
+   phone_DESC: 'phone_DESC' as const,
    appointmentCtaCopy_ASC: 'appointmentCtaCopy_ASC' as const,
    appointmentCtaCopy_DESC: 'appointmentCtaCopy_DESC' as const,
-   appointmentCtaLink_ASC: 'appointmentCtaLink_ASC' as const,
-   appointmentCtaLink_DESC: 'appointmentCtaLink_DESC' as const,
-   contactLabel_ASC: 'contactLabel_ASC' as const,
-   contactLabel_DESC: 'contactLabel_DESC' as const,
-   detailCtaCopy_ASC: 'detailCtaCopy_ASC' as const,
-   detailCtaCopy_DESC: 'detailCtaCopy_DESC' as const,
-   detailCtaLink_ASC: 'detailCtaLink_ASC' as const,
-   detailCtaLink_DESC: 'detailCtaLink_DESC' as const,
    directionsCtaCopy_ASC: 'directionsCtaCopy_ASC' as const,
    directionsCtaCopy_DESC: 'directionsCtaCopy_DESC' as const,
    directionsCtaLink_ASC: 'directionsCtaLink_ASC' as const,
@@ -30293,32 +30345,34 @@ export const enumShowroomModelOrderBy = {
    email_DESC: 'email_DESC' as const,
    emailCtaStyle_ASC: 'emailCtaStyle_ASC' as const,
    emailCtaStyle_DESC: 'emailCtaStyle_DESC' as const,
-   emailLabel_ASC: 'emailLabel_ASC' as const,
-   emailLabel_DESC: 'emailLabel_DESC' as const,
-   emailText_ASC: 'emailText_ASC' as const,
-   emailText_DESC: 'emailText_DESC' as const,
-   headingAdditionalClass_ASC: 'headingAdditionalClass_ASC' as const,
-   headingAdditionalClass_DESC: 'headingAdditionalClass_DESC' as const,
-   headingType_ASC: 'headingType_ASC' as const,
-   headingType_DESC: 'headingType_DESC' as const,
    hoursOfOperationLabel_ASC: 'hoursOfOperationLabel_ASC' as const,
    hoursOfOperationLabel_DESC: 'hoursOfOperationLabel_DESC' as const,
    locationLabel_ASC: 'locationLabel_ASC' as const,
    locationLabel_DESC: 'locationLabel_DESC' as const,
-   phone_ASC: 'phone_ASC' as const,
-   phone_DESC: 'phone_DESC' as const,
    phoneLabel_ASC: 'phoneLabel_ASC' as const,
    phoneLabel_DESC: 'phoneLabel_DESC' as const,
-   seoDescription_ASC: 'seoDescription_ASC' as const,
-   seoDescription_DESC: 'seoDescription_DESC' as const,
-   seoTitle_ASC: 'seoTitle_ASC' as const,
-   seoTitle_DESC: 'seoTitle_DESC' as const,
-   servicesLabel_ASC: 'servicesLabel_ASC' as const,
-   servicesLabel_DESC: 'servicesLabel_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
+   emailLabel_ASC: 'emailLabel_ASC' as const,
+   emailLabel_DESC: 'emailLabel_DESC' as const,
+   emailText_ASC: 'emailText_ASC' as const,
+   emailText_DESC: 'emailText_DESC' as const,
+   appointmentCtaLink_ASC: 'appointmentCtaLink_ASC' as const,
+   appointmentCtaLink_DESC: 'appointmentCtaLink_DESC' as const,
+   detailCtaCopy_ASC: 'detailCtaCopy_ASC' as const,
+   detailCtaCopy_DESC: 'detailCtaCopy_DESC' as const,
+   contactLabel_ASC: 'contactLabel_ASC' as const,
+   contactLabel_DESC: 'contactLabel_DESC' as const,
+   detailCtaLink_ASC: 'detailCtaLink_ASC' as const,
+   detailCtaLink_DESC: 'detailCtaLink_DESC' as const,
    slug_ASC: 'slug_ASC' as const,
    slug_DESC: 'slug_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   servicesLabel_ASC: 'servicesLabel_ASC' as const,
+   servicesLabel_DESC: 'servicesLabel_DESC' as const,
+   headingType_ASC: 'headingType_ASC' as const,
+   headingType_DESC: 'headingType_DESC' as const,
+   headingAdditionalClass_ASC: 'headingAdditionalClass_ASC' as const,
+   headingAdditionalClass_DESC: 'headingAdditionalClass_DESC' as const
 }
 
 export const enumSingleMediaBlockModelOrderBy = {
@@ -30344,14 +30398,14 @@ export const enumSingleMediaBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   copy_ASC: 'copy_ASC' as const,
-   copy_DESC: 'copy_DESC' as const,
    ctaCopy_ASC: 'ctaCopy_ASC' as const,
    ctaCopy_DESC: 'ctaCopy_DESC' as const,
-   ctaRoute_ASC: 'ctaRoute_ASC' as const,
-   ctaRoute_DESC: 'ctaRoute_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   copy_ASC: 'copy_ASC' as const,
+   copy_DESC: 'copy_DESC' as const,
+   ctaRoute_ASC: 'ctaRoute_ASC' as const,
+   ctaRoute_DESC: 'ctaRoute_DESC' as const
 }
 
 export const enumSiteLocale = {
@@ -30413,14 +30467,14 @@ export const enumSocialMediaContentModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   credit_ASC: 'credit_ASC' as const,
-   credit_DESC: 'credit_DESC' as const,
-   internalName_ASC: 'internalName_ASC' as const,
-   internalName_DESC: 'internalName_DESC' as const,
-   postLink_ASC: 'postLink_ASC' as const,
-   postLink_DESC: 'postLink_DESC' as const,
    productLink_ASC: 'productLink_ASC' as const,
    productLink_DESC: 'productLink_DESC' as const,
+   internalName_ASC: 'internalName_ASC' as const,
+   internalName_DESC: 'internalName_DESC' as const,
+   credit_ASC: 'credit_ASC' as const,
+   credit_DESC: 'credit_DESC' as const,
+   postLink_ASC: 'postLink_ASC' as const,
+   postLink_DESC: 'postLink_DESC' as const,
    shouldLinkToVraiInstagram_ASC: 'shouldLinkToVraiInstagram_ASC' as const,
    shouldLinkToVraiInstagram_DESC: 'shouldLinkToVraiInstagram_DESC' as const
 }
@@ -30504,16 +30558,16 @@ export const enumTextOnlyBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   ctaCopy_ASC: 'ctaCopy_ASC' as const,
-   ctaCopy_DESC: 'ctaCopy_DESC' as const,
-   ctaRoute_ASC: 'ctaRoute_ASC' as const,
-   ctaRoute_DESC: 'ctaRoute_DESC' as const,
    desktopCopy_ASC: 'desktopCopy_ASC' as const,
    desktopCopy_DESC: 'desktopCopy_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    mobileCopy_ASC: 'mobileCopy_ASC' as const,
    mobileCopy_DESC: 'mobileCopy_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   ctaRoute_ASC: 'ctaRoute_ASC' as const,
+   ctaRoute_DESC: 'ctaRoute_DESC' as const,
+   ctaCopy_ASC: 'ctaCopy_ASC' as const,
+   ctaCopy_DESC: 'ctaCopy_DESC' as const
 }
 
 export const enumTrioBlockModelOrderBy = {
@@ -30539,16 +30593,16 @@ export const enumTrioBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   aboveCopy_ASC: 'aboveCopy_ASC' as const,
-   aboveCopy_DESC: 'aboveCopy_DESC' as const,
    belowCopy_ASC: 'belowCopy_ASC' as const,
    belowCopy_DESC: 'belowCopy_DESC' as const,
+   aboveCopy_ASC: 'aboveCopy_ASC' as const,
+   aboveCopy_DESC: 'aboveCopy_DESC' as const,
+   title_ASC: 'title_ASC' as const,
+   title_DESC: 'title_DESC' as const,
    headingAdditionalClass_ASC: 'headingAdditionalClass_ASC' as const,
    headingAdditionalClass_DESC: 'headingAdditionalClass_DESC' as const,
    headingType_ASC: 'headingType_ASC' as const,
-   headingType_DESC: 'headingType_DESC' as const,
-   title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   headingType_DESC: 'headingType_DESC' as const
 }
 
 export const enumUploadOrderBy = {
@@ -30637,10 +30691,10 @@ export const enumVideoBlockModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   copy_ASC: 'copy_ASC' as const,
-   copy_DESC: 'copy_DESC' as const,
    title_ASC: 'title_ASC' as const,
-   title_DESC: 'title_DESC' as const
+   title_DESC: 'title_DESC' as const,
+   copy_ASC: 'copy_ASC' as const,
+   copy_DESC: 'copy_DESC' as const
 }
 
 export const enumVideoMp4Res = {
@@ -30672,34 +30726,34 @@ export const enumWeddingBandProductModelOrderBy = {
    updatedAt_DESC: 'updatedAt_DESC' as const,
    _isValid_ASC: '_isValid_ASC' as const,
    _isValid_DESC: '_isValid_DESC' as const,
-   bandDepth_ASC: 'bandDepth_ASC' as const,
-   bandDepth_DESC: 'bandDepth_DESC' as const,
-   bandWidth_ASC: 'bandWidth_ASC' as const,
-   bandWidth_DESC: 'bandWidth_DESC' as const,
-   caratWeight_ASC: 'caratWeight_ASC' as const,
-   caratWeight_DESC: 'caratWeight_DESC' as const,
-   hasDiamond_ASC: 'hasDiamond_ASC' as const,
-   hasDiamond_DESC: 'hasDiamond_DESC' as const,
-   isPromoIconEnabled_ASC: 'isPromoIconEnabled_ASC' as const,
-   isPromoIconEnabled_DESC: 'isPromoIconEnabled_DESC' as const,
+   seoTitle_ASC: 'seoTitle_ASC' as const,
+   seoTitle_DESC: 'seoTitle_DESC' as const,
    metalWeight_ASC: 'metalWeight_ASC' as const,
    metalWeight_DESC: 'metalWeight_DESC' as const,
+   hasDiamond_ASC: 'hasDiamond_ASC' as const,
+   hasDiamond_DESC: 'hasDiamond_DESC' as const,
+   productType_ASC: 'productType_ASC' as const,
+   productType_DESC: 'productType_DESC' as const,
+   shownWithCtwLabel_ASC: 'shownWithCtwLabel_ASC' as const,
+   shownWithCtwLabel_DESC: 'shownWithCtwLabel_DESC' as const,
+   specBlockTitle_ASC: 'specBlockTitle_ASC' as const,
+   specBlockTitle_DESC: 'specBlockTitle_DESC' as const,
+   specImage_ASC: 'specImage_ASC' as const,
+   specImage_DESC: 'specImage_DESC' as const,
+   isPromoIconEnabled_ASC: 'isPromoIconEnabled_ASC' as const,
+   isPromoIconEnabled_DESC: 'isPromoIconEnabled_DESC' as const,
+   bandWidth_ASC: 'bandWidth_ASC' as const,
+   bandWidth_DESC: 'bandWidth_DESC' as const,
    paveCaratWeight_ASC: 'paveCaratWeight_ASC' as const,
    paveCaratWeight_DESC: 'paveCaratWeight_DESC' as const,
    productTitle_ASC: 'productTitle_ASC' as const,
    productTitle_DESC: 'productTitle_DESC' as const,
-   productType_ASC: 'productType_ASC' as const,
-   productType_DESC: 'productType_DESC' as const,
-   seoTitle_ASC: 'seoTitle_ASC' as const,
-   seoTitle_DESC: 'seoTitle_DESC' as const,
-   shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
-   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const,
-   shownWithCtwLabel_ASC: 'shownWithCtwLabel_ASC' as const,
-   shownWithCtwLabel_DESC: 'shownWithCtwLabel_DESC' as const,
+   bandDepth_ASC: 'bandDepth_ASC' as const,
+   bandDepth_DESC: 'bandDepth_DESC' as const,
    slug_ASC: 'slug_ASC' as const,
    slug_DESC: 'slug_DESC' as const,
-   specBlockTitle_ASC: 'specBlockTitle_ASC' as const,
-   specBlockTitle_DESC: 'specBlockTitle_DESC' as const,
-   specImage_ASC: 'specImage_ASC' as const,
-   specImage_DESC: 'specImage_DESC' as const
+   caratWeight_ASC: 'caratWeight_ASC' as const,
+   caratWeight_DESC: 'caratWeight_DESC' as const,
+   shouldUseDefaultPrice_ASC: 'shouldUseDefaultPrice_ASC' as const,
+   shouldUseDefaultPrice_DESC: 'shouldUseDefaultPrice_DESC' as const
 }
