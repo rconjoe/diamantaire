@@ -59,6 +59,7 @@ const StyledDiamondTableRow = styled.div`
     flex: 1;
     width: 100%;
     padding: ${gap};
+    margin-bottom: ${gap};
 
     ${XLDesktopAndUp(`
       padding: 0;

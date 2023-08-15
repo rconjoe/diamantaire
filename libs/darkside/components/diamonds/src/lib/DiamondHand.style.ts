@@ -39,6 +39,19 @@ const StyledDiamondHand = styled.div`
     width: 25%;
     height: 25%;
   }
+
+  .image-caption {
+    text-align: center;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    * {
+      font-size: var(--font-size-xxxxsmall);
+    }
+  }
 `;
 
 export default StyledDiamondHand;
