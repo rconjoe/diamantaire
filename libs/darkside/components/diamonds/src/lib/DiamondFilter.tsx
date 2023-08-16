@@ -40,7 +40,8 @@ const SliderFilter = (props) => {
     return value.toString();
   };
 
-  const values = !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : null;
+  const values =
+    !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : [1, range[1]];
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
 
