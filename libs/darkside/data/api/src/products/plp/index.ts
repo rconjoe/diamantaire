@@ -5,11 +5,33 @@ import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
-const API_URL = `${BASE_URL}/api/plp/getPlpProducts`;
+const API_URL = `${BASE_URL}/api/plp`;
 
 export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, limit = 12) {
   const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
-  const reqUrl = `${API_URL}?${qParams.toString()}&${pageParams.toString()}`;
+  const reqUrl = `${API_URL}/getPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+
+  const response = await fetch(reqUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => res);
+
+  return response;
+}
+
+export async function getVRAIServerDiamondPlpData(
+  slug: string,
+  { page = 1, limit = 12 }: { page?: number; limit?: number },
+) {
+  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
+  const qParams = new URLSearchParams({ slug });
+  const reqUrl = `${API_URL}/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -29,6 +51,28 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${qParams.toString()}`],
     ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
+    {
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage) => {
+        if (lastPage && lastPage.paginator.nextPage) {
+          // Return next page number
+          return lastPage.paginator.nextPage;
+        } else {
+          // Return false means no next page
+          return false;
+        }
+      },
+      initialData,
+    },
+  );
+
+  return { data, fetchNextPage, isFetching, hasNextPage };
+}
+
+export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1) {
+  const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
+    [`plp-${slug}`],
+    ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {

@@ -444,10 +444,7 @@ export class DiamondsService {
           const { docs, ...paginator } = result;
 
           const products: DiamondPLPProduct[] = docs.map((diamond: IDiamondCollection) => {
-            const { carat, cut, diamondType, clarity, color, price, lotId, productType, dfCertificateUrl, variantId } =
-              diamond;
-
-            return {
+            const {
               carat,
               cut,
               diamondType,
@@ -458,6 +455,22 @@ export class DiamondsService {
               productType,
               dfCertificateUrl,
               variantId,
+              handle,
+            } = diamond;
+
+            return {
+              defaultId: variantId,
+              carat,
+              cut,
+              diamondType,
+              clarity,
+              color,
+              price,
+              lotId,
+              productType,
+              dfCertificateUrl,
+              variantId,
+              handle,
             };
           });
 

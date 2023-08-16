@@ -23,8 +23,6 @@ const BreadcrumbStyles = styled.div`
 `;
 
 const Breadcrumb = ({ breadcrumb, simple = false }) => {
-  console.log({ breadcrumb });
-
   return (
     <BreadcrumbStyles className="container-wrapper">
       {simple ? (

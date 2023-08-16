@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
 import PlpProductFilter from './PlpProductFilter';
-import { PlpProductItem } from './PlpProductItem';
+import { PlpProductItem, PlpDiamondItem, ListPageDiamondItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
 
 const PlpProductGridStyles = styled.div`
@@ -28,7 +28,7 @@ type PlpProductGridProps = {
   creativeBlockIds: string[];
   data;
   isFetching: boolean;
-  initialProducts: ListPageItemWithConfigurationVariants[];
+  initialProducts: ListPageItemWithConfigurationVariants[] | ListPageDiamondItem[];
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
@@ -117,8 +117,6 @@ const PlpProductGrid = ({
 
   const gridRef = useRef<HTMLDivElement>(null);
 
-  console.log('products', products);
-
   return (
     <PlpProductGridStyles ref={gridRef}>
       <PlpProductFilter
@@ -138,7 +136,11 @@ const PlpProductGrid = ({
               {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
                 <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
-              <PlpProductItem product={product} />
+              {product.productType === 'diamonds' ? (
+                <PlpProductItem product={product} />
+              ) : (
+                <PlpDiamondItem product={product} />
+              )}
             </Fragment>
           ))}
           {products.length === 0 && (
