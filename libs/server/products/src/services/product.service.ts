@@ -326,7 +326,7 @@ export class ProductsService {
 
         /* eslint-enable */
         return Object.keys(optionsToMatch).every(
-          (optionKey) => optionsToMatch[optionKey] === variant.configuration[optionKey],
+          (optionKey) => !variant.configuration[optionKey] || optionsToMatch[optionKey] === variant.configuration[optionKey],
         );
       })
       .map((variant) => ({ value: variant.configuration[ProductOption.RingSize], id: variant.shopifyVariantId }));
