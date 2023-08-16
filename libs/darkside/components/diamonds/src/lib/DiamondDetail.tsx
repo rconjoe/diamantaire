@@ -26,7 +26,6 @@ interface DiamondDetailDataTypes {
 const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
   const { isMobile, headerHeight } = useContext(GlobalContext);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
-
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
   const { specs } = DiamondTableData || {};
@@ -34,7 +33,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const price = makeCurrency(productPrice, locale, currencyCode);
+  const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -66,18 +65,26 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
           </Heading>
 
-          <div className="price">{price}</div>
+          {price && <div className="price">{price}</div>}
 
           <DiamondDetailAccordion lotId={lotId} />
 
           <div className="cta">
-            <DarksideButton type="solid" colorTheme="black">
-              {buttonTextDiamondFlow}
-            </DarksideButton>
+            {(product?.available_inventory && (
+              <>
+                <DarksideButton type="solid" colorTheme="black">
+                  {buttonTextDiamondFlow}
+                </DarksideButton>
 
-            <DarksideButton type="underline" colorTheme="teal">
-              {quickCheckoutText}
-            </DarksideButton>
+                <DarksideButton type="underline" colorTheme="teal">
+                  {quickCheckoutText}
+                </DarksideButton>
+              </>
+            )) || (
+              <DarksideButton type="outline" colorTheme="black">
+                <UIString>Sold: Browse other diamonds</UIString>
+              </DarksideButton>
+            )}
           </div>
 
           <DiamondDetailIconList />

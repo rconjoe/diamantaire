@@ -285,12 +285,12 @@ const StyledDiamondTable = styled.div`
     cursor: pointer;
     margin-top: 0.6rem;
     display: inline-block;
-    font-size: var(--font-size-xxxsmall);
-  }
 
-  .vo-table-clear-button:hover,
-  .vo-table-clear-button:focus {
-    background: #000;
+    button {
+      margin-left: 0 !important;
+      font-size: var(--font-size-xxxsmall);
+      font-weight: var(--font-weight-normal);
+    }
   }
 
   .arrow-up {
