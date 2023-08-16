@@ -6,7 +6,7 @@
  * @copyright DiamondFoundry
  */
 
-import { INVENTORY_LEVEL_QUERY } from '@diamantaire/darkside/data/api';
+import { INVENTORY_LEVEL_QUERY, DIAMOND_PLP_DATA_CONFIG_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import {
   CFY_DIAMOND_LIMIT,
@@ -17,6 +17,7 @@ import {
   ACCEPTABLE_CUTS,
   ACCEPTABLE_DIAMOND_TYPE_PAIRS,
 } from '@diamantaire/shared/constants';
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions, PipelineStage } from 'mongoose';
 
@@ -404,6 +405,12 @@ export class DiamondsService {
     }
   }
 
+  /**
+   * Gets data configuration from DATO for diamond plp and returns paginated diamonds
+   * @param {object} input - diamond plp input
+   * @param {string} input.slug - diamond PLP slug
+   * @returns {object[]} - Array of diamond data and paginator object
+   */
   async getPlpDiamonds(input: DiamondPlp) {
     try {
       const { slug } = input;
@@ -412,7 +419,7 @@ export class DiamondsService {
         category: 'loose-diamonds',
       };
       const diamondPlpConfig: { listPage: { diamondPlpDataConfig: { colors: string; diamondTypes: string } } } =
-        await this.utils.createDataGateway().request(DIAMOND_PLP_QUERY, queryVars);
+        await this.utils.createDataGateway().request(DIAMOND_PLP_DATA_CONFIG_QUERY, queryVars);
 
       if (diamondPlpConfig.listPage) {
         const { diamondPlpDataConfig } = diamondPlpConfig.listPage;
@@ -443,7 +450,7 @@ export class DiamondsService {
 
           const { docs, ...paginator } = result;
 
-          const products: DiamondPLPProduct[] = docs.map((diamond: IDiamondCollection) => {
+          const products: ListPageDiamondItem[] = docs.map((diamond: IDiamondCollection) => {
             const {
               carat,
               cut,
@@ -725,27 +732,3 @@ export class DiamondsService {
     return query;
   }
 }
-
-type DiamondPLPProduct = {
-  carat: number;
-  cut: string;
-  diamondType: string;
-  clarity: string;
-  color: string;
-  price: number;
-  lotId: string;
-  productType: string;
-  dfCertificateUrl: string;
-  variantId: string;
-};
-
-const DIAMOND_PLP_QUERY = `
-  query diamondPlpQuery($slug: String!, $category: String!) {
-    listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
-      diamondPlpDataConfig {
-        colors
-        diamondTypes
-      }
-    }
-  }
-`;

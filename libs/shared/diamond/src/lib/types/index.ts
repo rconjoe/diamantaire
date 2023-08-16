@@ -40,3 +40,17 @@ export interface IDiamondCollection {
   diamondType?: string;
   availableForSale?: boolean;
 }
+
+export type ListPageDiamondItem = {
+  defaultId: string;
+  carat: number;
+  cut: string;
+  diamondType: string;
+  clarity: string;
+  color: string;
+  price: number;
+  lotId: string;
+  dfCertificateUrl: string;
+  variantId: string;
+  handle: string;
+};

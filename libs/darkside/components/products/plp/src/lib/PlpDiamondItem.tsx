@@ -1,22 +1,9 @@
 import { DiamondVideoThumbImage } from '@diamantaire/darkside/components/common-ui';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-
-export type ListPageDiamondItem = {
-  defaultId: string;
-  carat: number;
-  cut: string;
-  diamondType: string;
-  clarity: string;
-  color: string;
-  price: number;
-  lotId: string;
-  dfCertificateUrl: string;
-  variantId: string;
-  handle: string;
-};
 
 type PlpDiamondItemProps = {
   product: ListPageDiamondItem;

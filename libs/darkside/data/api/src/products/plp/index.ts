@@ -232,3 +232,14 @@ export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[]) 
 
   return datoData;
 }
+
+export const DIAMOND_PLP_DATA_CONFIG_QUERY = `
+query diamondPlpQuery($slug: String!, $category: String!) {
+  listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
+    diamondPlpDataConfig {
+      colors
+      diamondTypes
+    }
+  }
+}
+`;
