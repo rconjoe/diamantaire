@@ -87,7 +87,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
     );
   };
   const getCutContent = () => {
-    const { cut } = product || {};
+    const cut = product?.cut || product?.cut_grade;
     const { cut: description, cutMapAbridged, cutInfoMapAbridged } = DiamondPdpData || {};
     const sub = getInfo(cutInfoMapAbridged, cut)?.value;
     const cuts: string[] = cutMapAbridged.map((v) => v.key);

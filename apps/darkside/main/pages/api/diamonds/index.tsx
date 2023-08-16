@@ -24,21 +24,29 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     vraiApiClientURL += '?' + (array.length ? new URLSearchParams(query).toString() : '');
   }
 
+  let vraiApiClientPayload: any = {};
+
   try {
     const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
-    const vraiApiClientPayload = vraiApiClientResponse?.data || {};
+    vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
+  } catch (err) {
+    vraiApiClientPayload = {};
+  }
 
-    if (id) {
+  if (id) {
+    let dfApiClientPayload: any = {};
+
+    try {
       const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
 
-      const dfApiClientPayload = dfApiClientResponse?.data || {};
-
-      return res.status(200).json({ ...dfApiClientPayload, ...vraiApiClientPayload });
+      dfApiClientPayload = dfApiClientResponse?.data || {};
+    } catch (err) {
+      dfApiClientPayload = {};
     }
 
-    return res.status(200).json({ ...vraiApiClientPayload });
-  } catch (err: any) {
-    return res.status(500).json(err);
+    return res.status(200).json({ ...dfApiClientPayload, ...vraiApiClientPayload });
   }
+
+  return res.status(200).json({ ...vraiApiClientPayload });
 }
