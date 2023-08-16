@@ -5,8 +5,9 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
+import { PlpDiamondItem, ListPageDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
-import { PlpProductItem, PlpDiamondItem, ListPageDiamondItem } from './PlpProductItem';
+import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
 
 const PlpProductGridStyles = styled.div`

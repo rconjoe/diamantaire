@@ -1,8 +1,4 @@
-import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -88,73 +84,4 @@ const PlpProductItem = ({ product }: { product: ListPageItemWithConfigurationVar
   );
 };
 
-export type ListPageDiamondItem = {
-  defaultId: string;
-  carat: number;
-  cut: string;
-  diamondType: string;
-  clarity: string;
-  color: string;
-  price: number;
-  lotId: string;
-  dfCertificateUrl: string;
-  variantId: string;
-  handle: string;
-};
-
-type PlpDiamondItemProps = {
-  product: ListPageDiamondItem;
-};
-
-const PlpDiamondItemStyles = styled.div`
-  .plp-title {
-    margin-top: 2rem;
-    font-size: var(--font-size-xxsmall);
-  }
-  .primary-image {
-    aspect-ratio: 1;
-    object-fit: 'cover';
-  }
-`;
-
-const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
-  const router = useRouter();
-  const { carat, diamondType, cut, color, clarity, price, handle } = product;
-  const title = `${carat} carat, ${diamondType} | ${cut}, ${color}, ${clarity} | ${getFormattedPrice(price, router.locale)}`;
-  const mutatedLotId = product.lotId.replace(/F/g, '');
-
-  return (
-    <PlpDiamondItemStyles>
-      <Link href={`/diamonds/d/${handle}`}>
-        <DiamondVideoThumbImage lotId={mutatedLotId} alt={title} className="primary-image" />
-        <div className="plp-title">{title}</div>
-      </Link>
-    </PlpDiamondItemStyles>
-  );
-};
-
-type DiamondVideoThumbImageProps = {
-  lotId: string;
-  alt: string;
-  className?: string;
-};
-
-const DiamondVideoThumbImage = ({ lotId, alt, className }: DiamondVideoThumbImageProps) => {
-  const mutatedLotId = lotId.replace(/F/g, '');
-  const src = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
-
-  return <Image src={src} alt={alt} width={400} height={400} sizes="100%" className={className} />;
-};
-
-type FormattedPriceProps = {
-  priceInCents: number;
-  locale: string;
-};
-
-export const FormattedPrice = ({ priceInCents, locale = 'en-US' }: FormattedPriceProps) => {
-  const formattedPrice = getFormattedPrice(priceInCents, locale);
-
-  return <span>{formattedPrice}</span>;
-};
-
-export { PlpProductItem, PlpDiamondItem };
+export { PlpProductItem };
