@@ -324,7 +324,13 @@ const DiamondTable = (props) => {
                 <ul>
                   <li>
                     <p>{cannotFindDiamondSentence1}</p>
-                    <DarksideButton className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+                    <br />
+                    <DarksideButton
+                      type="underline"
+                      colorTheme="teal"
+                      className="vo-table-clear-button"
+                      onClick={clearOptions}
+                    >
                       <UIString>Clear filters</UIString>
                     </DarksideButton>
                   </li>
@@ -339,7 +345,7 @@ const DiamondTable = (props) => {
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
                 <p>{bottomContent}</p>
-                <DarksideButton className="vo-table-clear-button -link-teal" onClick={clearOptions}>
+                <DarksideButton type="underline" colorTheme="teal" className="vo-table-clear-button" onClick={clearOptions}>
                   <UIString>Clear filters</UIString>
                 </DarksideButton>
               </div>
