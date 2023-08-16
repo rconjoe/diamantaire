@@ -236,10 +236,10 @@ export class DiamondsService {
      * Optional query for carat range
      * EG: "caratMin": 0.86, "caratMax": 0.98
      */
-    if (input.caratMin !== null && input.caratMin !== undefined && input.caratMax !== null && input.caratMax !== undefined) {
+    if (input.caratMin || input.caratMax) {
       query['carat'] = {
-        $gte: input.caratMin.toFixed(1), // mongoose $gte operator greater than or equal to
-        $lte: input.caratMax.toFixed(1), // mongoose $lte operator less than or equal to
+        ...(input.caratMin && { $gte: input.caratMin.toFixed(1) }), // mongoose $gte operator greater than or equal to
+        ...(input.caratMax && { $lte: input.caratMax.toFixed(1) }), // mongoose $lte operator less than or equal to
       };
     }
     // if carat range is not provided, calculate range
