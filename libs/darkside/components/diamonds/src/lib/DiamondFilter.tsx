@@ -40,17 +40,11 @@ const SliderFilter = (props) => {
     return value.toString();
   };
 
-  const priceMin = options.priceMin;
+  const { priceMin, priceMax, caratMin, caratMax } = options;
 
-  const priceMax = options.priceMax;
+  const priceValues = priceMin && priceMax ? [priceMin, priceMax] : null;
 
-  const caratMin = options.caratMin;
-
-  const caratMax = options.caratMax;
-
-  const priceValues = !!priceMin && !!priceMax ? [priceMin, priceMax] : null;
-
-  const caratValues = !!caratMin && !!caratMax ? [caratMin, caratMax] : [1, range[1]];
+  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1]];
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
 
