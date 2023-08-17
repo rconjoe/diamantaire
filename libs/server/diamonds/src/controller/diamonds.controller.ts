@@ -65,6 +65,8 @@ export class DiamondsController {
   @Get('plp')
   @ApiOperation({ summary: 'Get diamond PLP' })
   @ApiParam({ name: 'slug', required: true })
+  @ApiParam({ name: 'page', required: false })
+  @ApiParam({ name: 'limit', required: false })
   async getDiamondPlp(@Query() { slug, page, limit }: DiamondPlp) {
     return await this.diamondsService.getPlpDiamonds({ slug, page, limit });
   }

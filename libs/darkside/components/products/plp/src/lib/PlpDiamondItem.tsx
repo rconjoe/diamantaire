@@ -1,7 +1,6 @@
 import { DiamondVideoThumbImage } from '@diamantaire/darkside/components/common-ui';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
-import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
-import Link from 'next/link';
+import { ListPageDiamondItem, DiamondLink } from '@diamantaire/shared-diamond';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -16,7 +15,7 @@ const PlpDiamondItemStyles = styled.div`
   }
   .primary-image {
     aspect-ratio: 1;
-    object-fit: 'cover';
+    object-fit: cover;
   }
 `;
 
@@ -24,14 +23,13 @@ const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
   const title = `${carat} carat, ${diamondType} | ${cut}, ${color}, ${clarity} | ${getFormattedPrice(price, router.locale)}`;
-  const mutatedLotId = product.lotId.replace(/F/g, '');
 
   return (
     <PlpDiamondItemStyles>
-      <Link href={`/diamonds/d/${handle}`}>
-        <DiamondVideoThumbImage lotId={mutatedLotId} alt={title} className="primary-image" />
+      <DiamondLink handle={handle}>
+        <DiamondVideoThumbImage lotId={product.lotId} alt={title} className="primary-image" />
         <div className="plp-title">{title}</div>
-      </Link>
+      </DiamondLink>
     </PlpDiamondItemStyles>
   );
 };
