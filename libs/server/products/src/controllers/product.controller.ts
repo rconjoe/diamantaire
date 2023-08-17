@@ -6,11 +6,11 @@
  * @version 1.0
  */
 
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Query, Param } from '@nestjs/common';
+import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { ProductVariantInput, PlpInput } from '../dto/product.input';
+import { ProductVariantInput, PlpInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
 @ApiHeader({ name: 'x-api-key', required: true })
@@ -31,6 +31,13 @@ export class ProductController {
   @ApiOperation({ summary: 'Get all products' })
   async findProducts(@Query() { limit, page, sortOrder, sortBy, slug, productType }: PaginateFilterDto) {
     return await this.productService.findProducts({ limit, page, sortOrder, sortBy, slug, productType });
+  }
+
+  @Get('shopify/:variantId')
+  @ApiOperation({ summary: 'Get product by shopify variant id' })
+  @ApiParam({ name: 'variantId', required: true })
+  async findProductByVariantId(@Param() { variantId }: ProductByVariantIdInput) {
+    return await this.productService.findProductByVariantId({ variantId });
   }
 
   @Get('plp')

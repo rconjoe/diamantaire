@@ -224,3 +224,13 @@ export class ProductsFeedDto {
   @Type(() => String)
   readonly productType?: string;
 }
+
+export class ProductByVariantIdInput {
+  @ApiProperty({
+    example: 12343242345,
+    required: true,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  readonly variantId: number;
+}
