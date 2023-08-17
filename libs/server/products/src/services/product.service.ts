@@ -28,7 +28,7 @@ import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 // import { Variables } from 'graphql-request';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { PlpInput, ProductSlugInput } from '../dto/product.input';
+import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
 import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
@@ -80,6 +80,30 @@ export class ProductsService {
         message: 'http.serverError.internalServerError',
         error: error.message,
       });
+    }
+  }
+
+  /**
+   * Return a Vrai product based on it's Shopify variant id
+   * @param {object} input input object
+   * @param {string} input.variantId numerical portion of a shopify product identifier
+   * @return {object} Vrai product
+   */
+  async findProductByVariantId({ variantId }: ProductByVariantIdInput) {
+    this.logger.verbose(`findProductByVariantId :: input : ${variantId}`);
+    try {
+      const shopifyVariantGid = `gid://shopify/ProductVariant/${variantId}`;
+      const query = {
+        'variants.shopifyVariantId': shopifyVariantGid,
+      };
+      const product: VraiProduct = await this.productRepository.find(query);
+
+      return {
+        product,
+      };
+    } catch (error: any) {
+      this.logger.error(`findProductByVariantId :: error : ${error.message}`);
+      throw new NotFoundException(`Product not found :: error stack : ${error.message}`);
     }
   }
 
