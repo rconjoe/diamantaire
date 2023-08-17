@@ -1,10 +1,12 @@
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
+import { PlpDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
@@ -28,13 +30,13 @@ type PlpProductGridProps = {
   creativeBlockIds: string[];
   data;
   isFetching: boolean;
-  initialProducts: ListPageItemWithConfigurationVariants[];
-  availableFilters: {
+  initialProducts: ListPageItemWithConfigurationVariants[] | ListPageDiamondItem[];
+  availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
-  filterValue: FilterValueProps;
-  setFilterValues;
-  initialFilterValues: {
+  filterValue?: FilterValueProps;
+  setFilterValues?;
+  initialFilterValues?: {
     [key in FilterTypeProps]: string;
   };
 };
@@ -136,7 +138,11 @@ const PlpProductGrid = ({
               {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
                 <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
-              <PlpProductItem product={product} />
+              {product.productType === 'diamonds' ? (
+                <PlpProductItem product={product} />
+              ) : (
+                <PlpDiamondItem product={product} />
+              )}
             </Fragment>
           ))}
           {products.length === 0 && (

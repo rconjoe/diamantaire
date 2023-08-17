@@ -733,6 +733,7 @@ export class ProductsService {
 
           plpItems.push({
             defaultId: product.contentId,
+            productType: product.productType,
             metal: Object.keys(metalOptions).map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
@@ -903,6 +904,7 @@ export class ProductsService {
         } else {
           productsArray.push({
             defaultId: product.contentId,
+            productType: product.productType,
             metal: [],
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),

@@ -27,3 +27,12 @@ export function isGHI(color: (typeof DiamondColor)[keyof typeof DiamondColor]): 
 export function isJK(color: (typeof DiamondColor)[keyof typeof DiamondColor]): boolean {
   return DiamondColorGroup['JK'].includes(color);
 }
+
+/**
+ * Removes any non numerical [^0-9] characters from lotId
+ * @param {string} lotId diamond id
+ * @returns {string} lotId without any letters
+ */
+export function getNumericalLotId(lotId: string) {
+  return lotId.replace(/\D/g, '');
+}

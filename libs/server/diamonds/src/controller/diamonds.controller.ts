@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
-import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto } from '../dto/diamond-checkout.dto';
+import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto, DiamondPlp } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondsService } from '../services/diamond.service';
 
@@ -62,6 +62,15 @@ export class DiamondsController {
     return await this.diamondsService.getDiamondMixedPair({ diamondType, color, clarity, cut }, limit, page);
   }
 
+  @Get('plp')
+  @ApiOperation({ summary: 'Get diamond PLP' })
+  @ApiParam({ name: 'slug', required: true })
+  @ApiParam({ name: 'page', required: false })
+  @ApiParam({ name: 'limit', required: false })
+  async getDiamondPlp(@Query() { slug, page, limit }: DiamondPlp) {
+    return await this.diamondsService.getPlpDiamonds({ slug, page, limit });
+  }
+
   @Get(':lotId')
   @ApiOperation({ summary: 'Get single diamond by lotId' })
   @ApiParam({ name: 'lotId', required: true })
@@ -83,7 +92,7 @@ export class DiamondsController {
     return await this.diamondsService.getShopifyProductInventory({ id });
   }
 
-  @Get('/lowestpriced/:diamondType')
+  @Get('lowestpriced/:diamondType')
   @ApiOperation({ summary: 'Get lowest priced diamonds' })
   @ApiParam({ name: 'diamondType', required: true })
   async getLowestPricedDiamond(@Param() { diamondType }: LowestPricedDto) {

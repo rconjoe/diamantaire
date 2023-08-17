@@ -6,7 +6,7 @@
  * @copyright DiamondFoundry
  */
 
-import { INVENTORY_LEVEL_QUERY } from '@diamantaire/darkside/data/api';
+import { INVENTORY_LEVEL_QUERY, DIAMOND_PLP_DATA_CONFIG_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import {
   CFY_DIAMOND_LIMIT,
@@ -17,10 +17,11 @@ import {
   ACCEPTABLE_CUTS,
   ACCEPTABLE_DIAMOND_TYPE_PAIRS,
 } from '@diamantaire/shared/constants';
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions, PipelineStage } from 'mongoose';
 
-import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto } from '../dto/diamond-checkout.dto';
+import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto, DiamondPlp } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
@@ -400,6 +401,96 @@ export class DiamondsService {
       throw new NotFoundException(`Diamond with diamondType: ${input.diamondType} not found`);
     } catch (error) {
       this.Logger.error(`Error fetching lowest priced ${input.diamondType} diamond: ${error}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Gets data configuration from DATO for diamond plp and returns paginated diamonds
+   * @param {object} input - diamond plp input
+   * @param {string} input.slug - diamond PLP slug
+   * @returns {object[]} - Array of diamond data and paginator object
+   */
+  async getPlpDiamonds(input: DiamondPlp) {
+    try {
+      const { slug } = input;
+      const queryVars = {
+        slug,
+        category: 'loose-diamonds',
+      };
+      const diamondPlpConfig: { listPage: { diamondPlpDataConfig: { colors: string; diamondTypes: string } } } =
+        await this.utils.createDataGateway().request(DIAMOND_PLP_DATA_CONFIG_QUERY, queryVars);
+
+      if (diamondPlpConfig.listPage) {
+        const { diamondPlpDataConfig } = diamondPlpConfig.listPage;
+
+        if (diamondPlpDataConfig) {
+          const { colors, diamondTypes } = diamondPlpDataConfig[0];
+
+          // Parse filter configuration. Trim values.
+          const colorFilterValues = colors.trim().length > 0 ? colors.split(',').map((c: string) => c.trim()) : null;
+          const diamondTypeFilterValues =
+            diamondTypes.trim().length > 0 ? diamondTypes.split(',').map((c: string) => c.trim()) : null;
+
+          const filteredQuery = {
+            ...(colorFilterValues && { color: { $in: colorFilterValues } }),
+            ...(diamondTypeFilterValues && { diamondType: { $in: diamondTypeFilterValues } }),
+            hidden: false,
+            isAvailable: true,
+            slug: 'diamonds',
+          };
+
+          const options = {
+            page: input.page || 1,
+            limit: input.limit || 12,
+            sort: { carat: 1 },
+          };
+
+          const result = await this.diamondRepository.paginate(filteredQuery, options);
+
+          const { docs, ...paginator } = result;
+
+          const products: ListPageDiamondItem[] = docs.map((diamond: IDiamondCollection) => {
+            const {
+              carat,
+              cut,
+              diamondType,
+              clarity,
+              color,
+              price,
+              lotId,
+              productType,
+              dfCertificateUrl,
+              variantId,
+              handle,
+            } = diamond;
+
+            return {
+              defaultId: variantId,
+              carat,
+              cut,
+              diamondType,
+              clarity,
+              color,
+              price,
+              lotId,
+              productType,
+              dfCertificateUrl,
+              variantId,
+              handle,
+            };
+          });
+
+          return {
+            products,
+            paginator,
+          };
+        }
+      } else {
+        throw new NotFoundException(`Diamond PLP with slug: ${slug} not found`);
+      }
+    } catch (error) {
+      this.Logger.error(`Error fetching diamond plp data for slug ${input.slug} diamond: ${error}`);
       throw error;
     }
   }

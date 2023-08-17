@@ -52,6 +52,14 @@ export const Currency = {
   BritishPounds: 'GBP',
 };
 
+export const USDollarExchangeRates = {
+  [Currency.USDollars]: 1,
+  [Currency.Euros]: 0.98,
+  [Currency.BritishPounds]: 0.859,
+  [Currency.CanadianDollars]: 1.315,
+  [Currency.AustralianDollars]: 1.352,
+};
+
 export type CountryDetails = {
   code: string;
   name: string;
@@ -438,7 +446,13 @@ export function getVat(countryCode: string): number | undefined {
   return countries[countryCode]?.vat;
 }
 
-export function getPriceWithVat(price: number, countryCode: string): number {
+/**
+ * Adds additional tax if applicable based on country code or returns original price
+ * @param {number} price - amount to add tax to if applicable
+ * @param {string} countryCode - country code to get tax rate
+ * @returns {number} - price with tax added if applicable or original price
+ */
+export function getPriceWithAddedTax(price: number, countryCode: string): number {
   const vat = getVat(countryCode);
 
   if (!vat) {
@@ -448,15 +462,46 @@ export function getPriceWithVat(price: number, countryCode: string): number {
   return price * (1 + vat);
 }
 
+/**
+ * Checks if the amount provided has cents values
+ * @param {number} amount - amount to check
+ * @returns {boolean} - true if amount has cents values
+ */
 export function hasCentsValues(amount: number) {
   return amount % 100 === 0;
 }
 
-export function getFormattedPrice(priceInCents: number, countryCode: string, showZeroCents = false): string {
-  const priceWithVatInCents = getPriceWithVat(priceInCents, countryCode);
-  const decimalPlaces = hasCentsValues(priceWithVatInCents) && showZeroCents ? 2 : 0;
+/**
+ * Applies exchange rate to the amount provided
+ * @param {number} amount - amount to apply exchange rate to
+ * @param {string} currency - currency to get exchange rate
+ * @returns {number} - amount with exchange rate applied
+ */
+export function applyExchangeRate(amount: number, currency = 'USD') {
+  return amount * USDollarExchangeRates[currency];
+}
 
+/**
+ * Function to get the formatted price based on the locale
+ * @param {number} priceInCents - USD price in cents
+ * @param {string} locale - locale to format the price
+ * @param {boolean} hideZeroCents - should show trailing 00 cents if price is a whole number
+ * @returns {string} - formatted price
+ */
+export function getFormattedPrice(priceInCents: number, locale = 'en-US', hideZeroCents = true): string {
+  const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
+  const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
+  const convertedPrice = applyExchangeRate(priceInDollars, currency);
 
-  return `${currency} ${(priceWithVatInCents / 100).toFixed(decimalPlaces)}`;
+  const numberFormat = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: hideZeroCents && hasCentsValues(convertedPrice) ? 0 : 2,
+  });
+
+  const formattedPrice = numberFormat.format(convertedPrice);
+
+  return formattedPrice;
 }
