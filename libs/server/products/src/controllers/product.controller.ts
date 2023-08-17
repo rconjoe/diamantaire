@@ -33,7 +33,7 @@ export class ProductController {
     return await this.productService.findProducts({ limit, page, sortOrder, sortBy, slug, productType });
   }
 
-  @Get('shopify/:variantId')
+  @Get('shopify/variant/:variantId')
   @ApiOperation({ summary: 'Get product by shopify variant id' })
   @ApiParam({ name: 'variantId', required: true })
   async findProductByVariantId(@Param() { variantId }: ProductByVariantIdInput) {

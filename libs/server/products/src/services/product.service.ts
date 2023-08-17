@@ -92,9 +92,9 @@ export class ProductsService {
   async findProductByVariantId({ variantId }: ProductByVariantIdInput) {
     this.logger.verbose(`findProductByVariantId :: input : ${variantId}`);
     try {
-      const shopifyVariantGid = `gid://shopify/Product/${variantId}`;
+      const shopifyVariantGid = `gid://shopify/ProductVariant/${variantId}`;
       const query = {
-        shopifyProductId: shopifyVariantGid,
+        'variants.shopifyVariantId': shopifyVariantGid,
       };
       const product: VraiProduct = await this.productRepository.find(query);
 
