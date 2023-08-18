@@ -31,6 +31,7 @@
     "@clerk/nextjs": "^4.21.10",
     "@datocms/cli": "^1.1.10",
     "@datocms/cma-client-node": "2.0.0",
+    "@effect/schema": "^0.33.1",
     "@genql/cli": "^6.0.0",
     "@lukemorales/query-key-factory": "^1.0.3",
     "@nestjs/apollo": "^10.1.7",
