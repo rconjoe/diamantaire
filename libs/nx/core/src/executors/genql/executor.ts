@@ -5,32 +5,29 @@ import { GenqlExecutorSchema } from './schema';
 
 const GenqlContext = Context.Tag<GenqlExecutorSchema>();
 
+class GenqlError {
+  _tag = 'GenqlError';
+  // prettier-ignore
+  constructor(public message: string) { }
+}
+
 const executeGenql = Effect.gen(function* (_) {
   const ctx = yield* _(GenqlContext);
 
-  const result = yield* _(
+  yield* _(
     Effect.tryPromise({
       try: () => generate(ctx),
-      catch: () => new Error(),
+      catch: () => new GenqlError('There was an error running the generate() function from @genql/cli.'),
     }),
   );
 
-  return result;
+  return {
+    success: true,
+  };
 });
 
 export default async function runExecutor(options: GenqlExecutorSchema) {
   const runnable = Effect.provideService(executeGenql, GenqlContext, GenqlContext.of(options));
 
-  Effect.runPromise(runnable)
-    .then(() => {
-      return {
-        success: true,
-      };
-    })
-    .catch((e) => {
-      return {
-        success: false,
-        error: e,
-      };
-    });
+  return Effect.runPromise(runnable);
 }
