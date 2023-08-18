@@ -1,0 +1,78 @@
+{
+  "name": "nx-datocms",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx/datocms/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx/datocms",
+        "main": "libs/nx/datocms/src/index.ts",
+        "tsConfig": "libs/nx/datocms/tsconfig.lib.json",
+        "assets": [
+          "libs/nx/datocms/*.md",
+          {
+            "input": "./libs/nx/datocms/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/datocms/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/datocms",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx/datocms",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "migrations:new": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn run datocms migrations:new"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json", "libs/nx/datocms/generators.json"]
+      }
+    },
+    "genql": {
+      "executor": "@diamantaire/nx-core:genql",
+      "options": {
+        "endpoint": "https://graphql.datocms.com",
+        "output": "./libs/_generated/datocms/src",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer bb674a2eeebd339f3b979bc50e150f"
+        },
+        "scalarTypes": {
+          "BooleanType": "boolean",
+          "CustomData": "Record<string,unknown>",
+          "Date": "string",
+          "DateTime": "string",
+          "FloatType": "number",
+          "ItemId": "string",
+          "IntType": "number",
+          "JsonField": "unknown",
+          "MetaTagAttributes": "Record<string,string>",
+          "UploadId": "string"
+        },
+        "verbose": true
+      }
+    }
+  },
+  "tags": ["nx-plugin", "graphql", "datocms"]
+}
