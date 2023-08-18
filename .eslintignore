@@ -3,4 +3,4 @@ out
 dist
 build
 .next
-libs/nx/datocms/generated
+libs/nx/datocms/generated/**/*.ts

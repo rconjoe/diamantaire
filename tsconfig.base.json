@@ -34,6 +34,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@diamantaire/nx/core": ["libs/nx/core/src/index.ts"],
       "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
       "@diamantaire/darkside/components/cart": ["libs/darkside/components/cart/src/index.ts"],
       "@diamantaire/darkside/components/common-ui": ["libs/darkside/components/common-ui/src/index.ts"],
