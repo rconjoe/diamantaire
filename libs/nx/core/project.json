@@ -42,6 +42,43 @@
       "options": {
         "lintFilePatterns": ["libs/nx/core/**/*.ts", "libs/nx/core/package.json", "libs/nx/core/executors.json"]
       }
+    },
+    "reboot": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo '*******************************************************'",
+          "echo 'Please remove the cartridge, blow on it, and reinsert it.'",
+          "echo '*******************************************************'",
+          "echo ' '",
+          "echo '1. Cartridge removed. Blowing out the dust...'",
+          "echo ' '",
+          "yarn cache clean",
+          "echo ' '",
+          "echo '2. *Poof* Rebooting...'",
+          "echo ' '",
+          "yarn",
+          "echo ' '",
+          "echo '3. Reboot successful. Checking Local version...'",
+          "echo ' '",
+          "yarn nx --version",
+          "echo ' '",
+          "echo '4. Resetting NX...'",
+          "echo ' '",
+          "yarn nx reset",
+          "echo ' '",
+          "echo '5. Running some fresh builds...'",
+          "echo ' '",
+          "yarn nx run-many --target=build --all",
+          "echo ' '",
+          "echo '*******************************************************'",
+          "echo '6. Reboot complete. If the reported Local version above is not 16.5.4, run `yarn nx reset` and try again.'",
+          "echo 'Any further issues contact @rconjoe'",
+          "echo '*******************************************************'",
+          "echo ' '"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []

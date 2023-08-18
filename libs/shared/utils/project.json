@@ -21,35 +21,6 @@
       "options": {
         "lintFilePatterns": ["libs/shared/utils/**/*.ts"]
       }
-    },
-    "reboot": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "echo '*****'",
-          "echo 'Please remove the cartridge, blow on it, and reinsert it.'",
-          "echo '*****'",
-          "echo ' '",
-          "echo '1. Cartridge removed. Blowing out the dust...'",
-          "echo ' '",
-          "yarn cache clean",
-          "echo ' '",
-          "echo '2. Cartridge blown. Rebooting...'",
-          "echo ' '",
-          "yarn",
-          "echo ' '",
-          "echo '3. Reboot successful. Checking Local version...'",
-          "echo ' '",
-          "yarn nx --version",
-          "echo ' '",
-          "echo '*****'",
-          "echo '4. Reboot complete. If the reported Local version above is not 16.5.4, run `yarn nx reset` and try again.'",
-          "echo 'Any further issues contact @rconjoe'",
-          "echo '*****'",
-          "echo ' '"
-        ],
-        "parallel": false
-      }
     }
   },
   "tags": []
