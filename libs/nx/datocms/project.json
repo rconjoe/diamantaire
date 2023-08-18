@@ -52,7 +52,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json"]
+        "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json", "libs/nx/datocms/generators.json"]
       }
     }
   },
