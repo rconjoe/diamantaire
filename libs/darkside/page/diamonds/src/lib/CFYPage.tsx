@@ -1,7 +1,8 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
 // import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { DiamondCfyAsidePromo } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -9,13 +10,12 @@ import { getTemplate } from '@diamantaire/darkside/template/standard';
 // import { DIAMOND_CFY_FACETED_NAV } from '@diamantaire/shared/constants';
 import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 // import { useRouter } from 'next/router';
 // import { useState, useEffect } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
-import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 
 interface CFYPageQueryParams extends ParsedUrlQuery {
   category?: string;
@@ -63,30 +63,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
         </div>
 
         <div className="page-aside">
-          {ctoDiamondTable.blocks?.map((contentBlock, index) => {
-            const { title, content: { blocks } = {} } = contentBlock;
-
-            return (
-              <div key={`placeholder-${index}`}>
-                <Heading type="h2" className="section-title">
-                  {title}
-                </Heading>
-
-                <div className="blocks">
-                  {blocks &&
-                    blocks?.map((block) => {
-                      const { id, _modelApiKey } = block;
-
-                      // if (title.includes('LEONARDO DICAPRIO')) {
-                      //   block.additionalClass = ['leo'];
-                      // }
-
-                      return <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} />;
-                    })}
-                </div>
-              </div>
-            );
-          })}
+          <DiamondCfyAsidePromo data={ctoDiamondTable?.blocks} />
         </div>
       </StyledCFYPage>
     </>

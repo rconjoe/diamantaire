@@ -1,90 +1,78 @@
-// import { getBlockPictureAlt } from '../../../helpers';
-// import { isCountrySupported } from '../../../helpers/supportedCountries';
-// import { getClientSideCountryCode, getCountryCode } from '../../../store/selectors/geolocation';
+import { Heading, LazyLoadWrapper, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { CtoDiamondPromoBlock } from '@diamantaire/darkside/data/hooks';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
+import Image from 'next/image';
+import styled from 'styled-components';
 
-// import LazyLoadWrapper from '../LazyLoadWrapper';
-// import { Image, Markdown, VideoBlock } from '../index';
+import ModularVideoBlock from '../ModularVideoBlock';
 
-// import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
+const ModularSingleMediaBlock = (props: CtoDiamondPromoBlock) => {
+  const {
+    media,
+    title,
+    copy,
+    additionalClass,
+    headingType,
+    headingAdditionalClass,
+    shouldLazyLoad,
+    supportedCountries,
+    countryCode,
+  } = props;
 
-// interface ModularSingleMediaBlockProps {
-//   image: string;
-//   title: string;
-//   copy: string;
-//   ctaCopy: string;
-//   ctaRoute: string;
-//   additionalClass: string;
-//   textBlockAlignment: string;
-//   shouldLazyLoad: boolean;
-//   ctaCopy2: PropTypes.string;
-//   ctaRoute2: PropTypes.string;
-//   headingType: PropTypes.string;
-//   headingAdditionalClass: PropTypes.string;
-//   supportedCountries: PropTypes.array;
-//   countryCode: PropTypes.string.isRequired;
-// }
+  if (!isCountrySupported(supportedCountries, countryCode)) {
+    return null;
+  }
 
-// const ModularSingleMediaBlock = ({
-//   media,
-//   title,
-//   copy,
-//   additionalClass,
-//   headingType,
-//   headingAdditionalClass,
-//   shouldLazyLoad,
-//   supportedCountries,
-//   countryCode,
-// }) => {
-//   // If country is not supported, do not render
-//   if (!isCountrySupported(supportedCountries, countryCode)) {
-//     return null;
-//   }
+  const alt = media.alt ?? title;
 
-//   const alt = getBlockPictureAlt({
-//     media,
-//     title,
-//   });
+  const hasVideo = Boolean(media?.video);
 
-//   const hasVideo = Boolean(media?.video);
+  const block = (
+    <StyledModularSingleMediaBlock className={additionalClass ?? additionalClass}>
+      {title && (
+        <Heading type={headingType ? headingType : 'h2'} className={`title ${headingAdditionalClass ?? ''}`}>
+          {title}
+        </Heading>
+      )}
 
-//   const block = (
-//     <div className={additionalClass ?? additionalClass}>
-//       {title && (
-//         <Heading
-//           type={headingType ? headingType : 'h2'}
-//           className={cx(headingAdditionalClass ?? headingAdditionalClass, additionalClass)}
-//         >
-//           {title}
-//         </Heading>
-//       )}
+      {copy && (
+        <div className="content">
+          <Markdown>{copy}</Markdown>
+        </div>
+      )}
 
-//       {copy && <Markdown>{copy}</Markdown>}
+      <div className="media">
+        {hasVideo ? (
+          <ModularVideoBlock video={{ video: { streamingUrl: media.video.streamingUrl } }} />
+        ) : (
+          <Image src={media?.url} alt={alt} width={0} height={0} sizes="100vw" />
+        )}
+      </div>
+    </StyledModularSingleMediaBlock>
+  );
 
-//       <div className="media">{hasVideo ? <VideoBlock video={media?.video} /> : <Image image={media} alt={alt} />}</div>
-//     </div>
-//   );
+  if (shouldLazyLoad) {
+    return <LazyLoadWrapper>{block}</LazyLoadWrapper>;
+  }
 
-//   if (shouldLazyLoad) {
-//     return <LazyLoadWrapper>{block}</LazyLoadWrapper>;
-//   }
-
-//   return block;
-// };
-
-// ModularSingleMediaBlock.propTypes = propTypes;
-
-// const mapStateToProps = (state) => {
-//   return {
-//     countryCode: getClientSideCountryCode(state) || getCountryCode(state),
-//   };
-// };
-
-// export default connect(mapStateToProps)(ModularSingleMediaBlock);
-
-const ModularSingleMediaBlock = () => {
-  return <div></div>;
+  return block;
 };
 
 export default ModularSingleMediaBlock;
 
 export { ModularSingleMediaBlock };
+
+const StyledModularSingleMediaBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: var(--font-size-xxsmall);
+  }
+
+  .content {
+  }
+
+  .media {
+  }
+`;

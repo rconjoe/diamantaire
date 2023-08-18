@@ -5,8 +5,8 @@ import { OptionsDataTypes, useDiamondPdpData, useDiamondTableData, useDiamondsDa
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getDiamondOptionsFromUrl } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsResult } from 'next';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
 
 import { StyledDiamondDetailPage } from './DiamondDetailPage.style';

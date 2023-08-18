@@ -18,6 +18,30 @@ interface CaratSliderTooltip {
   supportedCountries: { code: string; name: string }[];
 }
 
+export interface CtoDiamondPromoBlock {
+  _modelApiKey: string;
+  id: string;
+  title: string;
+  headingType: string;
+  headingAdditionalClass: string;
+  copy: string;
+  shouldLazyLoad: boolean;
+  media: {
+    url: string;
+    alt: string;
+    video: {
+      streamingUrl: string;
+      thumbnailUrl: string;
+    };
+  };
+  supportedCountries: {
+    code: string;
+    name: string;
+  }[];
+  countryCode: string;
+  additionalClass: string;
+}
+
 interface CtoDiamondTable {
   id: string;
   seo: { title: string; description: string };
@@ -83,15 +107,7 @@ interface CtoDiamondTable {
     headingAdditionalClass: string;
     additionalClass: string;
     content: {
-      blocks: {
-        _modelApiKey: string;
-        id: string;
-        title: string;
-        headingType: string;
-        headingAdditionalClass: string;
-        copy: string;
-        supportedCountries: { code: string; name: string }[];
-      }[];
+      blocks: CtoDiamondPromoBlock[];
     };
   }[];
   productIconList: ProductIconListDataTypes[];

@@ -30,6 +30,14 @@ export const SingleMediaBlockQuery = `
   headingType
   headingAdditionalClass
   copy
+  media {
+      url
+      alt
+      video {
+        streamingUrl
+        thumbnailUrl
+      }
+  }
   supportedCountries {
     code
     name
