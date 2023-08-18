@@ -39,7 +39,7 @@ export const DynamicModularHalfWidthQuadBlock = dynamic(() => import('./blocks/g
 export const DynamicSocialMediaSection = dynamic(() => import('./blocks/misc/SocialMediaSection'));
 export const DynamicModularQuadGrid = dynamic(() => import('./blocks/grid/ModularQuadGrid'));
 export const DynamicModularTriGridWithOrderTracking = dynamic(() => import('./blocks/grid/ModularTriGridWithOrderTracking'));
-
 export const DynamicShowroomBlock = dynamic(() => import('./blocks/misc/showrooms/ModularShowroomBlock'));
 export const DynamicModularQuoteBlock = dynamic(() => import('./blocks/misc/ModularQuoteBlock'));
 export const DynamicModularSplitVideoBlock = dynamic(() => import('./blocks/ModularSplitVideoBlock'));
+export const DynamicModularSingleMediaBlock = dynamic(() => import('./blocks/misc/ModularSingleMediaBlock'));

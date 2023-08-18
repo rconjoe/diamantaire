@@ -37,6 +37,7 @@ import {
   MODULAR_QUAD_GRID,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
   MODULAR_SPLIT_VIDEO_BLOCK,
+  MODULAR_SINGLE_MEDIA_BLOCK,
 } from '@diamantaire/shared/constants';
 import { forceVisible } from 'react-lazyload';
 
@@ -70,6 +71,7 @@ import {
   DynamicSocialMediaSection,
   DynamicTextOnlyBlock,
   DynamicTrioBlock,
+  DynamicModularSingleMediaBlock,
 } from './dynamic-export';
 
 type configProps = {
@@ -104,6 +106,7 @@ const config: configProps = {
   [MODULAR_SINGLE_VIDEO_BLOCK]: DynamicModularVideoBlock,
 
   [MODULAR_TEXT_ONLY_BLOCK]: DynamicTextOnlyBlock,
+  [MODULAR_SINGLE_MEDIA_BLOCK]: DynamicModularSingleMediaBlock,
 
   // GRID
   [MODULAR_TRIO_9x7_BLOCK]: DynamicTrioBlock,

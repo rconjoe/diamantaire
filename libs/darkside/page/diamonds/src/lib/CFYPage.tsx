@@ -2,7 +2,7 @@ import { ParsedUrlQuery } from 'querystring';
 
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 // import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
-// import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -15,6 +15,7 @@ import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePr
 // import { useState, useEffect } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 
 interface CFYPageQueryParams extends ParsedUrlQuery {
   category?: string;
@@ -41,16 +42,17 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   // const [options, setOptions] = useState(props.options);
   // const [loading, setLoading] = useState(true);
 
-  const DiamondCfyContent = useDiamondCfyData(locale);
+  const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
 
-  // const title = DiamondTableContent.data.diamondTable.title;
-  // const seo = DiamondTableContent.data.diamondTable.seo;
-  // const { seoTitle, seoDescription } = seo || {};
-  // const pageTitleDiamondMatch = seoTitle.match(/%%(.*?)%%/g);
+  const { title: seoTitle, description: seoDescription } = ctoDiamondTable?.seo || {};
+
+  console.log('ctoDiamondTable', ctoDiamondTable);
+  console.log('allDiamondShapeDescriptions', allDiamondShapeDescriptions);
 
   return (
     <>
-      {/* <StandardPageSeo title={pageSeoTitle} description={seoDescription} /> */}
+      <StandardPageSeo title={seoTitle} description={seoDescription} />
+
       <StyledCFYPage className="container-wrapper">
         <div className="page-title">
           <Heading className="title">VRAI Created Diamonds</Heading>
@@ -58,7 +60,33 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
         <div className="page-main">
           <p>CFY Page</p>
-          <pre>{JSON.stringify(DiamondCfyContent)}</pre>
+        </div>
+
+        <div className="page-aside">
+          {ctoDiamondTable.blocks?.map((contentBlock, index) => {
+            const { title, content: { blocks } = {} } = contentBlock;
+
+            return (
+              <div key={`placeholder-${index}`}>
+                <Heading type="h2" className="section-title">
+                  {title}
+                </Heading>
+
+                <div className="blocks">
+                  {blocks &&
+                    blocks?.map((block) => {
+                      const { id, _modelApiKey } = block;
+
+                      // if (title.includes('LEONARDO DICAPRIO')) {
+                      //   block.additionalClass = ['leo'];
+                      // }
+
+                      return <BlockPicker key={id} _modelApiKey={_modelApiKey} modularBlockData={block} />;
+                    })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </StyledCFYPage>
     </>
