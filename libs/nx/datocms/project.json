@@ -42,17 +42,35 @@
         "command": "yarn run datocms migrations:new"
       }
     },
-    "genql": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "yarn run genql --endpoint 'https://graphql.datocms.com' --output './libs/nx/datocms/generated' -H 'Content-Type: application/json' -H 'Authorization: Bearer bb674a2eeebd339f3b979bc50e150f' -S 'BooleanType:boolean' -S 'CustomData:Record<string,unknown>' -S 'Date:string' -S 'DateTime:string' -S 'FloatType:number' -S 'ItemId:string' -S 'IntType:number' -S 'JsonField:unknown' -S 'MetaTagAttributes:Record<string,string>' -S 'UploadId:string'"
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json", "libs/nx/datocms/generators.json"]
+      }
+    },
+    "genql": {
+      "executor": "@diamantaire/nx-core:genql",
+      "options": {
+        "endpoint": "https://graphql.datocms.com",
+        "output": "./libs/_generated/datocms/src",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer bb674a2eeebd339f3b979bc50e150f"
+        },
+        "scalarTypes": {
+          "BooleanType": "boolean",
+          "CustomData": "Record<string,unknown>",
+          "Date": "string",
+          "DateTime": "string",
+          "FloatType": "number",
+          "ItemId": "string",
+          "IntType": "number",
+          "JsonField": "unknown",
+          "MetaTagAttributes": "Record<string,string>",
+          "UploadId": "string"
+        },
+        "verbose": true
       }
     }
   },
