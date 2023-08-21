@@ -1,4 +1,4 @@
-import { createContext, useReducer, Dispatch } from 'react';
+import { createContext, useReducer, Dispatch, useEffect } from 'react';
 
 type BuilderDiamond = {
   lotId: string;
@@ -106,6 +106,10 @@ type BuilderProductContextProviderProps = {
 
 const BuilderProductContextProvider = ({ children }: BuilderProductContextProviderProps) => {
   const [state, dispatch] = useReducer(builderReducer, initialBuilderProductState);
+
+  useEffect(() => {
+    console.log('state chnaaged', state);
+  }, [state]);
 
   return (
     <BuilderProductContext.Provider value={{ builderProduct: state, dispatch }}>{children}</BuilderProductContext.Provider>

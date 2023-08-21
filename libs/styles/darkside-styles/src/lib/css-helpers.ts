@@ -54,6 +54,10 @@ export const CssHelpers = styled.createGlobalStyle`
     list-style: none;
   }
 
+  .no-margin {
+    margin: 0;
+  }
+
   .container-wrapper {
     width: ${LAYOUT_WIDTH_SM};
     padding-left: ${setSpace(3)};

@@ -458,5 +458,5 @@ export function getFormattedPrice(priceInCents: number, countryCode: string, sho
 
   const currency = getCurrency(countryCode);
 
-  return `${currency} ${(priceWithVatInCents / 100).toFixed(decimalPlaces)}`;
+  return `${(priceWithVatInCents / 100).toFixed(decimalPlaces)}`;
 }

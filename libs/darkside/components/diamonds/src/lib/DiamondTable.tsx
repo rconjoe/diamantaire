@@ -5,8 +5,10 @@ import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darks
 import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
 
+import DiamondGrid from './DiamondGrid';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableRow from './DiamondTableRow';
 
@@ -16,6 +18,8 @@ interface Info {
 }
 
 const DiamondTable = (props) => {
+  console.log('props', props);
+
   const {
     currencyCode,
     locale,
@@ -25,6 +29,9 @@ const DiamondTable = (props) => {
     updateOptions,
     updateLoading,
     clearOptions,
+    isBuilderFlowOpen,
+    isTableView = true,
+    changeStep,
   } = props;
 
   const [activeRow, setActiveRow] = useState(null);
@@ -113,6 +120,8 @@ const DiamondTable = (props) => {
     getCoreRowModel: getCoreRowModel(),
     state: { pagination },
   });
+
+  console.log('tablezzz', table);
 
   // METHODS
   const onLoadMore = () => {
@@ -218,89 +227,97 @@ const DiamondTable = (props) => {
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
   return (
-    <StyledDiamondTable
-      className="vo-table"
-      headerHeight={headerHeight}
-      triggerOffset={triggerOffset}
-      tableHeadHeight={tableHeadHeight}
-    >
-      <div className="vo-table-container">
-        {/* TABLE HEAD */}
-        <div ref={tableHead} className="vo-table-head">
-          {table.getHeaderGroups().map((headerGroup: any) => (
-            <div key={headerGroup.id} className="vo-table-row">
-              {headerGroup.headers.map((header: any) => {
-                return (
-                  <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                    <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
-                      <span
-                        className={
-                          'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
-                        }
-                      />
-                      <span
-                        className={
-                          'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
-                        }
-                      />
-                    </div>
-                    {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-
-        {/* TABLE BODY */}
-        <div ref={tableBody} className="vo-table-body">
-          {table.getRowModel().rows.map((row) => {
-            const active = activeRow?.id === row.id;
-
-            return (
-              <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
-                <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
-                  {row.getVisibleCells().map((cell) => (
-                    <div key={cell.id} className="vo-table-cell">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+    <>
+      <StyledDiamondTable
+        className={clsx('vo-table', {
+          'flow-page': isBuilderFlowOpen,
+        })}
+        headerHeight={headerHeight}
+        triggerOffset={triggerOffset}
+        tableHeadHeight={tableHeadHeight}
+        style={{
+          display: isTableView ? 'block' : 'none',
+        }}
+      >
+        <div className="vo-table-container">
+          {/* TABLE HEAD */}
+          <div ref={tableHead} className="vo-table-head">
+            {table.getHeaderGroups().map((headerGroup: any) => (
+              <div key={headerGroup.id} className="vo-table-row">
+                {headerGroup.headers.map((header: any) => {
+                  return (
+                    <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
+                        <span
+                          className={
+                            'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
+                          }
+                        />
+                        <span
+                          className={
+                            'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
+                          }
+                        />
+                      </div>
                       {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
                     </div>
-                  ))}
-                </div>
-
-                {active && (
-                  <div className="vo-table-row-body">
-                    <DiamondTableRow product={row?.original} />
-                  </div>
-                )}
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-
-        {/* TABLE FOOT */}
-        <div className="vo-table-foot">
-          <div className="vo-table-trigger" ref={loadTrigger} />
-
-          <div className="vo-table-no-result">
-            <div className="vo-table-no-result-container">
-              <p>{bottomContent}</p>
-              <DarksideButton type="underline" colorTheme="teal" onClick={clearOptions}>
-                <UIString>Clear filters</UIString>
-              </DarksideButton>
-            </div>
+            ))}
           </div>
 
-          {queryDiamond.isFetching && (
-            <div className="vo-table-loading">
-              <span className="vo-loader-icon"></span>
-              <span>Loading...</span>
+          {/* TABLE BODY */}
+          <div ref={tableBody} className="vo-table-body">
+            {table.getRowModel().rows.map((row) => {
+              const active = activeRow?.id === row.id;
+
+              return (
+                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                  <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
+                    {row.getVisibleCells().map((cell) => (
+                      <div key={cell.id} className="vo-table-cell">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
+                      </div>
+                    ))}
+                  </div>
+
+                  {active && (
+                    <div className="vo-table-row-body">
+                      <DiamondTableRow product={row?.original} isBuilderFlowOpen={isBuilderFlowOpen} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* TABLE FOOT */}
+          <div className="vo-table-foot">
+            <div className="vo-table-trigger" ref={loadTrigger} />
+
+            <div className="vo-table-no-result">
+              <div className="vo-table-no-result-container">
+                <p>{bottomContent}</p>
+                <DarksideButton type="underline" colorTheme="teal" onClick={clearOptions}>
+                  <UIString>Clear filters</UIString>
+                </DarksideButton>
+              </div>
             </div>
-          )}
+
+            {queryDiamond.isFetching && (
+              <div className="vo-table-loading">
+                <span className="vo-loader-icon"></span>
+                <span>Loading...</span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </StyledDiamondTable>
+      </StyledDiamondTable>
+      {!isTableView && <DiamondGrid items={initialDiamonds} changeStep={changeStep} />}
+    </>
   );
 };
 

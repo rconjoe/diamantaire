@@ -1,4 +1,4 @@
-import { Markdown } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -165,7 +165,9 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
   return (
     description && (
       <ProductDescriptionContainer>
-        <h4>Details</h4>
+        <Heading type="h4" className="primary">
+          Details
+        </Heading>
         <Markdown withStyles={false}>{description}</Markdown>
 
         <div className="description__product-details">
@@ -222,4 +224,4 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
   );
 };
 
-export default ProductDescription;
+export { ProductDescription };

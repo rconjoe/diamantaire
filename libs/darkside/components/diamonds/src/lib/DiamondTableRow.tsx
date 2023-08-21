@@ -7,7 +7,14 @@ import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
-const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: string }) => {
+const DiamondTableRow = ({
+  product,
+  isBuilderFlowOpen = false,
+}: {
+  product?: DiamondDataTypes;
+  locale?: string;
+  isBuilderFlowOpen?: boolean;
+}) => {
   if (!product) return;
 
   const { handle, lotId, diamondType } = product;
@@ -40,9 +47,15 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
               <UIString>View More Details</UIString>
             </DarksideButton>
 
-            <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
-              <UIString>Select</UIString>
-            </DarksideButton>
+            {isBuilderFlowOpen ? (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            ) : (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            )}
 
             <DarksideButton href={diamondExpertRoute} type="underline" colorTheme="teal" className="button-expert">
               <UIString>Speak to a diamond expert</UIString>

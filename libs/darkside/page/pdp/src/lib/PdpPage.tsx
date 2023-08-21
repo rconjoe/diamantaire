@@ -1,21 +1,27 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
 import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
+import {
+  MediaGallery,
+  MediaSlider,
+  ProductConfigurator,
+  ProductDescription,
+  ProductPrice,
+  ProductTitle,
+  ProductIconList,
+} from '@diamantaire/darkside/components/products/pdp';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { pdpTypeHandleAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
+import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductDescription from './pdp-blocks/ProductDescription';
-import ProductIconList from './pdp-blocks/ProductIconList';
-import ProductPrice from './pdp-blocks/ProductPrice';
 import ProductReviews from './pdp-blocks/ProductReviews';
-import { ProductTitle } from './pdp-blocks/ProductTitle';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
@@ -39,9 +45,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter();
 
   // Jewelry | ER | Wedding Band
-  const pdpType: PdpTypePlural = pdpTypeHandleAsConst[router.pathname.split('/')[1]];
+  const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
 
   const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
+
+  console.log('parent data', data);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
@@ -87,16 +95,27 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
 
+  console.log('asset', assetStack[0]);
+
   additionalVariantData.productType = shopifyProductData.productType;
   additionalVariantData.productTitle = productTitle;
+  additionalVariantData.price = price;
   additionalVariantData.image = {
     src: assetStack[0].url,
     width: assetStack[0].width,
     height: assetStack[0].width,
+    responsiveImage: {
+      src: assetStack[0].url,
+      ...assetStack[0].responsiveImage,
+    },
   };
 
   // Can this product be added directly to cart?
   const isBuilderProduct = configuration.caratWeight === 'other';
+
+  const [isBuilderFlowOpen, setIsBuilderFlowOpen] = useState(true);
+
+  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
   console.log({ configuration });
 
@@ -134,7 +153,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
             <ProductDescription
               description={productDescription}
-              productAttributes={{ bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel }}
+              productAttributes={{ ...parentProductAttributes }}
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
             />
@@ -144,6 +163,22 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={parentProductId} />
+
+        {isBuilderFlowOpen && (
+          <BuilderFlow
+            configuration={configuration}
+            assetStack={assetStack}
+            additionalVariantData={additionalVariantData}
+            productAttributes={parentProductAttributes}
+            productDescription={productDescription}
+            productSpecId={datoParentProductData?.specLabels?.id}
+            configurations={configurations}
+            selectedConfiguration={configuration}
+            initialVariantId={id}
+            isBuilderProduct={isBuilderProduct}
+            product={{ productType, collectionSlug, productSlug, title: productTitle, price }}
+          />
+        )}
       </PageContainerStyles>
     );
   }
@@ -166,7 +201,9 @@ export async function getServerSideProps(
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
-  const productType: PdpTypePlural = pdpTypeHandleAsConst[context.req.url.split('/')[1]] || null;
+  const productType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[context.req.url.split('/')[1]] || null;
+
+  console.log('xxx', productType);
 
   await queryClient.prefetchQuery(dataQuery);
   await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });

@@ -32,8 +32,10 @@ const ProductIconListContainer = styled.ul`
 `;
 
 const ProductIconList = ({ productIconListType, locale }) => {
-  const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
+  const { data: { productIconList } = {} } = useProductIconList('Engagement Ring OR Diamond Wedding Band', locale);
   const { items } = productIconList || {};
+
+  console.log('productIconList', productIconList);
 
   return (
     <ProductIconListContainer>
@@ -48,7 +50,7 @@ const ProductIconList = ({ productIconListType, locale }) => {
   );
 };
 
-export default ProductIconList;
+export { ProductIconList };
 
 // Single Icon List Item
 const ShippingListItem = ({ item }) => {

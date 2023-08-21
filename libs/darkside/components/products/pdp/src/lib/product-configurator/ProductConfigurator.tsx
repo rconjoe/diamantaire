@@ -1,4 +1,5 @@
 import { CartContext } from '@diamantaire/darkside/components/cart';
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
@@ -23,6 +24,8 @@ type ProductConfiguratorProps = {
     collectionSlug: string;
     configuration: Record<string, string>;
   };
+  isBuilderFlowOpen?: boolean;
+  updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
 };
 
 function ProductConfigurator({
@@ -33,6 +36,8 @@ function ProductConfigurator({
   additionalVariantData,
   product,
   isBuilderProduct,
+  isBuilderFlowOpen = false,
+  updateFlowData,
 }: ProductConfiguratorProps) {
   const { builderProduct, dispatch } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -43,7 +48,9 @@ function ProductConfigurator({
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration[sizeOptionKey]);
   const sizeOptions = configurations[sizeOptionKey];
 
-  debugger;
+  console.log('selectedConfiguration', selectedConfiguration);
+
+  // debugger;
 
   const handleCtaButtonClick = () => {
     if (isConfigurationComplete) {
@@ -78,6 +85,7 @@ function ProductConfigurator({
         configurations={configurations}
         selectedConfiguration={selectedConfiguration}
         onChange={handleConfigChange}
+        isBuilderFlowOpen={isBuilderFlowOpen}
       />
       {sizeOptions && isConfigurationComplete && (
         <OptionSelector
@@ -88,12 +96,29 @@ function ProductConfigurator({
           onChange={handleSizeChange}
         />
       )}
-      <CtaButton
-        variantId={String(selectedVariantId)}
-        isReadyForCart={isConfigurationComplete}
-        onClick={handleCtaButtonClick}
-        additionalVariantData={additionalVariantData}
-      />
+
+      {isBuilderFlowOpen ? (
+        <div
+          style={{
+            marginTop: '20px',
+          }}
+        >
+          <DarksideButton
+            onClick={() => {
+              updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration }, 1);
+            }}
+          >
+            Next
+          </DarksideButton>
+        </div>
+      ) : (
+        <CtaButton
+          variantId={String(selectedVariantId)}
+          isReadyForCart={isConfigurationComplete}
+          onClick={handleCtaButtonClick}
+          additionalVariantData={additionalVariantData}
+        />
+      )}
     </>
   );
 }

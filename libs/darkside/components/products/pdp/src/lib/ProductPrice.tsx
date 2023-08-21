@@ -18,4 +18,4 @@ const ProductPrice = ({ price }) => {
   );
 };
 
-export default ProductPrice;
+export { ProductPrice };

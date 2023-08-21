@@ -1,7 +1,7 @@
 import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const StyledDiamondFilter = styled.div`
+const StyledDiamondFilter = styled.aside`
   width: 100%;
   display: flex;
   flex-direction: column;

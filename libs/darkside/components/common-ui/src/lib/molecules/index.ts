@@ -18,3 +18,4 @@ export * from './SpriteSpinner';
 export * from './Accordion';
 export * from './Modal';
 export * from './DarksideButton';
+export * from './Switch';

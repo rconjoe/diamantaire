@@ -359,6 +359,7 @@ const DATO_VARIANT_QUERY = `
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
+  console.log('datoData v0', slug, productType);
   const datoData = await queryDatoGQL({
     query:
       productType === pdpTypePluralAsConst['Engagement Rings']
@@ -368,6 +369,8 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
         : null,
     variables: { slug, locale },
   });
+
+  console.log('datoData v1', datoData);
 
   return datoData;
 }

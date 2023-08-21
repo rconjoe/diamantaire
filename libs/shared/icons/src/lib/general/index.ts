@@ -9,3 +9,5 @@ export * from './BookCalendarIcon';
 export * from './MailIcon';
 export * from './ArrowNewWindowIcon';
 export * from './DiamondIcon';
+export * from './TableIcon';
+export * from './GridIcon';

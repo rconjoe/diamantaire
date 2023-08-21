@@ -8,6 +8,7 @@ interface ConfigurationSelectorProps {
   configurations: { [key: string]: OptionItem[] };
   selectedConfiguration: { [key: string]: string };
   onChange?: (configState: { [key: string]: string }) => void;
+  isBuilderFlowOpen?: boolean;
 }
 
 interface ConfigurationSelectorAction {
@@ -34,7 +35,12 @@ function configOptionsReducer(state, action: ConfigurationSelectorAction) {
   }
 }
 
-function ConfigurationSelector({ configurations, selectedConfiguration, onChange }: ConfigurationSelectorProps) {
+function ConfigurationSelector({
+  configurations,
+  selectedConfiguration,
+  onChange,
+  isBuilderFlowOpen,
+}: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   useEffect(() => {
@@ -65,6 +71,8 @@ function ConfigurationSelector({ configurations, selectedConfiguration, onChange
         // if (!options || options.length <= 1) {
         //   return null;
         // }
+
+        if (configurationType === 'caratWeight' && isBuilderFlowOpen) return null;
 
         return (
           <OptionSelector

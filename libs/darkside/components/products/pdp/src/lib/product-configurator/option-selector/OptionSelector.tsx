@@ -61,6 +61,10 @@ const StyledOptionSelector = styled.div`
         display: flex;
       }
 
+      a {
+        display: inline-block;
+      }
+
       .carousel-arrow {
         position: absolute;
         right: -40px;
