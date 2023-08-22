@@ -1,13 +1,12 @@
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import PlpCreativeBlock from './PlpCreativeBlock';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
-import PlpPromoItem from './PlpPromoItem';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
@@ -37,6 +36,9 @@ type PlpProductGridProps = {
   initialFilterValues: {
     [key in FilterTypeProps]: string;
   };
+  // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
+  builderFlowOverride?: boolean;
+  isSettingSelect?: boolean;
 };
 
 const PlpProductGrid = ({
@@ -48,14 +50,18 @@ const PlpProductGrid = ({
   availableFilters,
   filterValue,
   setFilterValues,
+  builderFlowOverride = false,
+  isSettingSelect = false,
+  selectSetting,
 }: PlpProductGridProps) => {
   const [products, setProducts] = useState(initialProducts);
   const [hasGridInitialized, setHasGridInitialized] = useState(false);
 
-  const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
-    'en_US',
-    promoCardCollectionId,
-  );
+  const { data: promoCardOuterLayerData } = usePlpDatoPromoCardCollection('en_US', promoCardCollectionId);
+
+  const { plpPromoCardCollection } = promoCardOuterLayerData || {};
+
+  const { data: cardCollection } = plpPromoCardCollection || {};
 
   const { data: { allCreativeBlocks: creativeBlocksData } = {} } = usePlpDatoCreativeBlocks('en_US', creativeBlockIds);
 
@@ -99,6 +105,7 @@ const PlpProductGrid = ({
   }
 
   useEffect(() => {
+    console.log();
     if (isFetching) return;
     const allProducts = [];
 
@@ -108,7 +115,8 @@ const PlpProductGrid = ({
       });
     });
 
-    if ((allProducts.length > 0 && hasGridInitialized) || !isObjectEmpty(filterValue)) {
+    console.log('filterValue', filterValue);
+    if ((allProducts.length > 0 && hasGridInitialized) || !isObjectEmpty(filterValue) || !builderFlowOverride) {
       setProducts(allProducts);
     }
 
@@ -116,6 +124,8 @@ const PlpProductGrid = ({
   }, [data, filterValue, isFetching]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+
+  console.log('products', products);
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -130,13 +140,39 @@ const PlpProductGrid = ({
           {products?.map((product, gridItemIndex) => (
             <Fragment key={product.defaultId}>
               {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                // <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                <h1>Promo block</h1>
               )}
 
               {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                // <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                <h1>Creative block</h1>
               )}
-              <PlpProductItem product={product} />
+
+              {isSettingSelect ? (
+                <div>
+                  <PlpProductItem product={product} />
+
+                  <div
+                    style={{
+                      marginTop: '20px',
+                    }}
+                  >
+                    <DarksideButton
+                      onClick={() =>
+                        selectSetting({
+                          collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                          productSlug: product.variants[product.defaultId]?.productSlug,
+                        })
+                      }
+                    >
+                      Select
+                    </DarksideButton>
+                  </div>
+                </div>
+              ) : (
+                <PlpProductItem product={product} />
+              )}
             </Fragment>
           ))}
           {products.length === 0 && (

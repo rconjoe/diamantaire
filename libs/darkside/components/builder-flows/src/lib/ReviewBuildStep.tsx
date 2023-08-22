@@ -1,5 +1,4 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
-import { ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
@@ -91,17 +90,24 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .review-atc {
-      padding: 20px 0;
+      padding: 20px 0 0;
       ul {
         li {
-          margin-bottom: 20px;
+          margin-bottom: 10px;
+          &:last-child {
+            margin-bottom: 0px;
+          }
         }
       }
     }
   }
+  .product-icon-list-container > ul {
+    margin: 0;
+    padding-top: 20px;
+  }
 `;
 
-const ReviewBuildStep = () => {
+const ReviewBuildStep = ({ productIconListType, changeStep }) => {
   const { builderProduct } = useContext(BuilderProductContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -112,23 +118,13 @@ const ReviewBuildStep = () => {
   const mutatedLotId = diamond?.lotId?.replace(/F/g, '');
 
   const src = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
+  const allowedKeys = ['product', 'diamond'];
 
-  const sortedKeys = Object.keys(builderProduct).sort((a, b) => {
-    if (a === 'product') {
-      return -1; // 'product' comes before 'diamond'
-    }
-    if (b === 'product') {
-      return 1; // 'product' comes before 'diamond'
-    }
-    if (a === 'diamond') {
-      return 1; // 'diamond' comes after 'product'
-    }
-    if (b === 'diamond') {
-      return -1; // 'diamond' comes after 'product'
-    }
-
-    return 0; // maintain the order for other keys
-  });
+  const sortedKeys = Object.keys(builderProduct)
+    .filter((key) => allowedKeys.includes(key))
+    .sort((a, b) => {
+      return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
+    });
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -182,7 +178,16 @@ const ReviewBuildStep = () => {
 
                     const summaryItem = builderProduct[key];
 
-                    return <SummaryItem item={summaryItem} type={key} key={index} showPrice={true} />;
+                    return (
+                      <SummaryItem
+                        item={summaryItem}
+                        type={key}
+                        key={index}
+                        index={index}
+                        showPrice={true}
+                        changeStep={changeStep}
+                      />
+                    );
                   })}
               </div>
             </div>
@@ -250,7 +255,11 @@ const ReviewBuildStep = () => {
                 </ul>
               </div>
 
-              {product.productType && <ProductIconList productIconListType={product.productType} locale={'en_US'} />}
+              {/* {product.productType && (
+                <div className="product-icon-list-container">
+                  <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
+                </div>
+              )} */}
             </div>
           </div>
         </div>

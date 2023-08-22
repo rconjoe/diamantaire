@@ -154,42 +154,47 @@ const BuilderFlowNavStyles = styled.div`
   }
 `;
 
-const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState }) => {
+const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
-  console.log('builderFlowState 111', builderFlowState);
+  const allowedKeys = ['product', 'diamond'];
 
-  const sortedKeys = Object.keys(builderFlowState).sort((a, b) => {
-    if (a === 'product') {
-      return -1; // 'product' comes before 'diamond'
-    }
-    if (b === 'product') {
-      return 1; // 'product' comes before 'diamond'
-    }
-    if (a === 'diamond') {
-      return 1; // 'diamond' comes after 'product'
-    }
-    if (b === 'diamond') {
-      return -1; // 'diamond' comes after 'product'
-    }
+  const sortedKeys = Object.keys(builderFlowState)
+    .filter((key) => allowedKeys.includes(key))
+    .sort((a, b) => {
+      return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
+    });
 
-    return 0; // maintain the order for other keys
-  });
-
-  const steps = [
-    {
-      title: 'Choose a setting',
-      enabled: true,
-    },
-    {
-      title: 'Choose a diamond',
-      enabled: builderFlowState?.product,
-    },
-    {
-      title: 'Review and Purchase',
-      enabled: builderFlowState?.diamond && builderFlowState?.product,
-    },
-  ];
+  const steps = {
+    'setting-to-diamond': [
+      {
+        title: 'Choose a setting',
+        enabled: true,
+      },
+      {
+        title: 'Choose a diamond',
+        enabled: builderFlowState?.product,
+      },
+      {
+        title: 'Review and Purchase',
+        enabled: builderFlowState?.diamond && builderFlowState?.product,
+      },
+    ],
+    'diamond-to-setting': [
+      {
+        title: 'Choose a diamond',
+        enabled: true,
+      },
+      {
+        title: 'Choose a setting',
+        enabled: builderFlowState?.diamond,
+      },
+      {
+        title: 'Review and Purchase',
+        enabled: builderFlowState?.diamond && builderFlowState?.product,
+      },
+    ],
+  };
 
   return (
     <BuilderFlowNavStyles>
@@ -197,10 +202,10 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState }) 
         <nav>
           <div className="steps-container">
             <Heading type="h2" className="primary">
-              {product?.title} Engagement Ring
+              {/* {product?.title} Engagement Ring */}
             </Heading>
             <ul>
-              {steps.map((step, index) => {
+              {steps[type].map((step, index) => {
                 return (
                   <li key={`step-${index}`}>
                     <DarksideButton
@@ -262,7 +267,16 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState }) 
 
                       const summaryItem = builderFlowState[key];
 
-                      return <SummaryItem item={summaryItem} type={key} key={`summary-item-${index}`} showPrice={false} />;
+                      return (
+                        <SummaryItem
+                          item={summaryItem}
+                          type={key}
+                          index={index}
+                          key={`summary-item-${index}`}
+                          changeStep={changeStep}
+                          showPrice={false}
+                        />
+                      );
                     })}
                 </div>
               </div>

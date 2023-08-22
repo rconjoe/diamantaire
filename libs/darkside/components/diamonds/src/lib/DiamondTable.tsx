@@ -18,7 +18,7 @@ interface Info {
 }
 
 const DiamondTable = (props) => {
-  console.log('props', props);
+  console.log('diamond table rendering', props);
 
   const {
     currencyCode,
@@ -32,12 +32,16 @@ const DiamondTable = (props) => {
     isBuilderFlowOpen,
     isTableView = true,
     changeStep,
+    // activeRow,
+    // setActiveRow,
+    flowIndex,
   } = props;
 
-  const [activeRow, setActiveRow] = useState(null);
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
+
+  const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -121,8 +125,6 @@ const DiamondTable = (props) => {
     state: { pagination },
   });
 
-  console.log('tablezzz', table);
-
   // METHODS
   const onLoadMore = () => {
     if (queryDiamond.hasNextPage && !queryDiamond.isFetching && !queryDiamond.isLoading) {
@@ -139,6 +141,7 @@ const DiamondTable = (props) => {
     if (row?.id === activeRow?.id) {
       setActiveRow(null);
     } else {
+      console.log('row', row);
       setActiveRow(row);
     }
   };
@@ -316,7 +319,7 @@ const DiamondTable = (props) => {
           </div>
         </div>
       </StyledDiamondTable>
-      {!isTableView && <DiamondGrid items={initialDiamonds} changeStep={changeStep} />}
+      {!isTableView && <DiamondGrid items={initialDiamonds} changeStep={changeStep} flowIndex={flowIndex} />}
     </>
   );
 };

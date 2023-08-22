@@ -14,6 +14,11 @@ type BuilderProduct = {
   configuration: Record<string, string>;
 };
 
+type BuilderProductPlaceholders = {
+  collectionSlug: string;
+  productSlug: string;
+};
+
 const builderState = {
   SelectDiamondOrSetting: 'Select Diamond Or Setting',
   SelectDiamond: 'Select Diamond',
@@ -25,12 +30,18 @@ interface BuilderProductState {
   product: BuilderProduct | null;
   diamond: BuilderDiamond | null;
   builderState: (typeof builderState)[keyof typeof builderState];
+  placeholders: BuilderProductPlaceholders;
 }
 
 const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
   builderState: builderState.SelectDiamondOrSetting,
+  // This is for data we might need during in between steps, example: Diamond to Setting Flow Setting Selection
+  placeholders: {
+    collectionSlug: null,
+    productSlug: null,
+  },
 };
 
 type BuilderProductContextType = {
@@ -47,7 +58,9 @@ type BuilderAction =
   | { type: 'ADD_DIAMOND'; payload: BuilderDiamond }
   | { type: 'REMOVE_DIAMOND' }
   | { type: 'ADD_PRODUCT'; payload: BuilderProduct }
-  | { type: 'REMOVE_PRODUCT' };
+  | { type: 'REMOVE_PRODUCT' }
+  | { type: 'ADD_PLACEHOLDERS'; payload: BuilderProductPlaceholders }
+  | { type: 'REMOVE_PLACEHOLDERS' };
 
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
@@ -88,6 +101,28 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
       const newState = {
         ...state,
         diamond: null,
+      };
+
+      return {
+        ...newState,
+        builderState: getState(newState),
+      };
+    }
+    case 'ADD_PLACEHOLDERS': {
+      const newState = {
+        ...state,
+        placeholders: action.payload,
+      };
+
+      return {
+        ...newState,
+        builderState: getState(newState),
+      };
+    }
+    case 'REMOVE_PLACEHOLDERS': {
+      const newState = {
+        ...state,
+        placeholders: null,
       };
 
       return {

@@ -45,10 +45,11 @@ const initialOptions = {
   sortOrder: 'desc',
 };
 
-const DiamondBuildStep = ({ changeStep }) => {
+const DiamondBuildStep = ({ changeStep, flowIndex }) => {
   const [loading, setLoading] = useState(true);
   const [isTableView, setIsTableView] = useState(false);
   const [options, setOptions] = useState(initialOptions);
+  const [activeRow, setActiveRow] = useState(null);
 
   const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
 
@@ -133,7 +134,15 @@ const DiamondBuildStep = ({ changeStep }) => {
                 <DarksideSwitch value={isTableView} handleChange={handleViewChange} />
                 <TableIcon />
               </div>
-              <DiamondTable {...tableOptions} isBuilderFlowOpen={true} isTableView={isTableView} changeStep={changeStep} />
+              <DiamondTable
+                {...tableOptions}
+                isBuilderFlowOpen={true}
+                isTableView={isTableView}
+                changeStep={changeStep}
+                activeRow={activeRow}
+                setActiveRow={setActiveRow}
+                flowIndex={flowIndex}
+              />
             </div>
           </div>
         )}

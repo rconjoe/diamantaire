@@ -1,6 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
 import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -163,22 +162,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={parentProductId} />
-
-        {isBuilderFlowOpen && (
-          <BuilderFlow
-            configuration={configuration}
-            assetStack={assetStack}
-            additionalVariantData={additionalVariantData}
-            productAttributes={parentProductAttributes}
-            productDescription={productDescription}
-            productSpecId={datoParentProductData?.specLabels?.id}
-            configurations={configurations}
-            selectedConfiguration={configuration}
-            initialVariantId={id}
-            isBuilderProduct={isBuilderProduct}
-            product={{ productType, collectionSlug, productSlug, title: productTitle, price }}
-          />
-        )}
       </PageContainerStyles>
     );
   }

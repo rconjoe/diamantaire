@@ -11,6 +11,7 @@ interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
   options?: unknown;
   title?: string;
+  disableVideos?: boolean;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -21,12 +22,19 @@ const MediaGalleryStyles = styled.div`
   width: 100%;
 `;
 
-function MediaGallery({ assets, options, title }: MediaGalleryProps) {
+function MediaGallery({ assets, options, title, disableVideos = false }: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
         {assets.map((asset) => (
-          <MediaAsset key={asset.id} type={asset.mimeType} asset={asset} options={options} defaultAlt={title} />
+          <MediaAsset
+            key={asset.id}
+            type={asset.mimeType}
+            asset={asset}
+            options={options}
+            defaultAlt={title}
+            disableVideos={disableVideos}
+          />
         ))}
       </MediaGalleryStyles>
     )
@@ -40,9 +48,10 @@ interface MediaAssetProps {
   asset: MediaAsset;
   options?: unknown;
   defaultAlt?: string;
+  disableVideos?: boolean;
 }
 
-function MediaAsset({ type, asset, options, defaultAlt }: MediaAssetProps) {
+function MediaAsset({ type, asset, options, defaultAlt, disableVideos }: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImageJpeg: {
       if (asset.customData?.bunny === 'true') {
@@ -54,6 +63,8 @@ function MediaAsset({ type, asset, options, defaultAlt }: MediaAssetProps) {
     case MimeTypes.VideoMP4:
     case MimeTypes.VideoMov:
     case MimeTypes.QuicktimeVideo: {
+      if (disableVideos) return null;
+
       return <VideoAsset video={asset} />;
     }
     default: {
@@ -125,6 +136,8 @@ function SpriteSpinnerBlock({ sprite, options }) {
   }${metal}`;
 
   console.log('spriteImage', spriteImage);
+
+  return null;
 
   return <SpriteSpinner spriteSource={'bunny'} bunnyBaseURL={bunny360BaseURL} shouldStartSpinner={true} />;
 }

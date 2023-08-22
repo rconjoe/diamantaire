@@ -1,4 +1,4 @@
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { makeCurrency } from '@diamantaire/shared/helpers';
 import styled from 'styled-components';
 
 const ProductPriceStyles = styled.h2`
@@ -8,14 +8,9 @@ const ProductPriceStyles = styled.h2`
 `;
 
 const ProductPrice = ({ price }) => {
-  return (
-    <ProductPriceStyles className="price">
-      Starting at{' '}
-      {formatCurrency({
-        amount: price?.amount,
-      })}
-    </ProductPriceStyles>
-  );
+  console.log('price', price);
+
+  return <ProductPriceStyles className="price">Starting at {makeCurrency(price, 'en-US', 'USD')}</ProductPriceStyles>;
 };
 
 export { ProductPrice };

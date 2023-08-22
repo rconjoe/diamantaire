@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
 import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
@@ -17,7 +18,7 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -40,7 +41,10 @@ interface DiamondPageProps {
 }
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  console.log('diamond page rendering');
   const router = useRouter();
+  const [isBuilderFlowOpen, setIsBuilderFlowOpen] = useState(true);
+  const [activeRow, setActiveRow] = useState(null);
   const { isMobile } = useContext(GlobalContext);
   const { locale, currencyCode } = props;
   const [options, setOptions] = useState(props.options);
@@ -99,21 +103,22 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   useEffect(() => {
     router.push(getDiamondShallowRoute(options), undefined, { shallow: true });
-
-    // window.scrollTo(0, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
 
-  const tableProps = {
-    initialDiamonds: diamonds,
-    initialOptions: options,
-    initialPagination: pagination,
-    updateOptions,
-    updateLoading,
-    clearOptions,
-    currencyCode,
-    locale,
-  };
+  const tableProps = useMemo(() => {
+    return {
+      initialDiamonds: diamonds,
+      initialOptions: options,
+      initialPagination: pagination,
+      updateOptions,
+      updateLoading,
+      clearOptions,
+      currencyCode,
+      locale,
+    };
+  }, [options]);
+
+  console.log('tableProps', tableProps);
 
   return (
     <>
@@ -153,7 +158,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             </div>
           )}
 
-          <DiamondTable {...tableProps} title={title} />
+          <DiamondTable {...tableProps} />
+          {isBuilderFlowOpen && <BuilderFlow type="diamond-to-setting" lotId="sss" />}
         </div>
 
         <ShowMobileOnly>

@@ -15,3 +15,4 @@ export * from './formatCurrency';
 export * from './journalHelpers';
 export * from './isEmptyObject';
 export * from './routes';
+export * from './object-transformations';

@@ -32,10 +32,8 @@ const ProductIconListContainer = styled.ul`
 `;
 
 const ProductIconList = ({ productIconListType, locale }) => {
-  const { data: { productIconList } = {} } = useProductIconList('Engagement Ring OR Diamond Wedding Band', locale);
+  const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
   const { items } = productIconList || {};
-
-  console.log('productIconList', productIconList);
 
   return (
     <ProductIconListContainer>

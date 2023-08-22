@@ -64,9 +64,11 @@ type SummaryItemProps = {
   item: any;
   type?: 'product' | 'diamond';
   showPrice: boolean;
+  changeStep: (_index) => void;
+  index: number;
 };
 
-const SummaryItem = ({ item, type = 'product', showPrice = false }: SummaryItemProps) => {
+const SummaryItem = ({ item, type = 'product', showPrice = false, changeStep, index }: SummaryItemProps) => {
   const { productTitle, image, metal, price, bandAccent, goldPurity, diamondType, clarity, carat, cut, color } = item || {};
 
   let src = null;
@@ -107,7 +109,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false }: SummaryItemP
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal">
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => changeStep(index)}>
               Modify
             </DarksideButton>
           </div>
@@ -132,7 +134,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false }: SummaryItemP
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal">
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => changeStep(index)}>
               Modify
             </DarksideButton>
           </div>

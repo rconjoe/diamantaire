@@ -54,7 +54,7 @@ const DiamondGridStyles = styled.div`
   }
 `;
 
-const DiamondGrid = ({ items, changeStep }) => {
+const DiamondGrid = ({ items, changeStep, flowIndex }) => {
   const { dispatch } = useContext(BuilderProductContext);
 
   function selectDiamond(diamond) {
@@ -62,7 +62,7 @@ const DiamondGrid = ({ items, changeStep }) => {
       type: 'ADD_DIAMOND',
       payload: diamond,
     });
-    changeStep(2);
+    changeStep(flowIndex + 1);
   }
 
   return (
