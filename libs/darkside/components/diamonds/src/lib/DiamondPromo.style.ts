@@ -13,8 +13,7 @@ const StyledDiamondPromo = styled.div`
 
   .banner {
     display: block;
-    background: ${GREY_LIGHTEST};
-    padding: 20px;
+    padding: 20px 0;
     margin: 0;
   }
 

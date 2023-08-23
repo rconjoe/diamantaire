@@ -72,7 +72,6 @@ const DiamondTable = (props) => {
       diamondTable: {
         bottomContent,
         cannotFindDiamondSentence1,
-        cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
         bottomPromoContentNoShape,
         bottomPromoContentCtaCopy,

@@ -34,9 +34,9 @@ const StyledDiamondPage = styled.div`
 
     .title {
       font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
       text-align: center;
       line-height: 1;
-      font-weight: 500;
     }
   }
 

@@ -1,17 +1,17 @@
 import {
+  DIAMOND_CFY_FACETED_NAV,
+  DIAMOND_CFY_VALID_QUERIES,
   DIAMOND_TABLE_DEFAULT_OPTIONS,
-  DIAMOND_VALID_QUERIES,
   DIAMOND_TABLE_FACETED_NAV,
-  DIAMOND_TABLE_VALID_COLORS,
   DIAMOND_TABLE_VALID_CLARITIES,
+  DIAMOND_TABLE_VALID_COLORS,
   DIAMOND_TABLE_VALID_CUTS,
-  DIAMOND_TABLE_VALID_TYPES,
   DIAMOND_TABLE_VALID_SORT_BY,
   DIAMOND_TABLE_VALID_SORT_ORDER,
-  DIAMOND_CFY_VALID_QUERIES,
-  DIAMOND_CFY_FACETED_NAV,
+  DIAMOND_TABLE_VALID_TYPES,
+  DIAMOND_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
-import { diamondRouteCfy, diamondRoutePlp, diamondRouteCfyResult } from '@diamantaire/shared/routes';
+import { diamondRouteCfy, diamondRouteCfyResult, diamondRoutePlp } from '@diamantaire/shared/routes';
 
 export const diamondOption = {
   isClarity: (v) => DIAMOND_TABLE_VALID_CLARITIES.includes(v || v.toLowercase()),
@@ -46,11 +46,13 @@ export const getDiamondType = (value: string) => {
 
   // GET DIAMOND TYPE FROM ANY STRING
   if (titles.includes(value)) {
-    return {
-      slug: DIAMOND_TABLE_VALID_TYPES[value],
-      title: value,
-    };
+    const slug = DIAMOND_TABLE_VALID_TYPES[value];
+
+    const title = titles[slugs.findIndex((v) => v === slug)];
+
+    return { slug, title };
   }
+
   if (slugs.includes(value)) {
     return {
       slug: value,
