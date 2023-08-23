@@ -1,4 +1,5 @@
 {
   "eslint.validate": ["json"],
-  "jira-plugin.workingProject": ""
+  "jira-plugin.workingProject": "",
+  "cSpell.words": ["rudderanalytics"]
 }

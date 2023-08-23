@@ -1,5 +1,6 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
+import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useHeader, useFooter } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -59,6 +60,7 @@ export const GlobalTemplate = ({ children }) => {
 
   return (
     <>
+      <PageViewTracker />
       {headerData?.data && (
         <Header
           headerData={headerData.data}

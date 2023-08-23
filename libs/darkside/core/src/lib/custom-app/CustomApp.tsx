@@ -1,5 +1,6 @@
 import { CartProvider } from '@diamantaire/darkside/components/cart';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
+import { RudderstackProvider } from '@diamantaire/darkside/context/analytics';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -31,15 +32,17 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalProvider>
-        <PageLoadProgressBar />
-        <CartProvider>
-          <DefaultSeo />
-          <GlobalStyles />
-          <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </CartProvider>
-      </GlobalProvider>
+      <RudderstackProvider>
+        <GlobalProvider>
+          <PageLoadProgressBar />
+          <CartProvider>
+            <DefaultSeo />
+            <GlobalStyles />
+            <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </CartProvider>
+        </GlobalProvider>
+      </RudderstackProvider>
     </QueryClientProvider>
   );
 }
