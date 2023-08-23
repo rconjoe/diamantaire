@@ -29,10 +29,12 @@ const DiamondTableCfyPromoCard = (props) => {
 
   return (
     <StyledDiamondTableCfyPromoCard>
-      <Markdown withStyles={false}>{promoContent}</Markdown>
-      <UniLink route={bottomPromoContentCtaLink}>
-        <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
-      </UniLink>
+      <div className="container">
+        <Markdown withStyles={false}>{promoContent}</Markdown>
+        <UniLink route={bottomPromoContentCtaLink}>
+          <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
+        </UniLink>
+      </div>
     </StyledDiamondTableCfyPromoCard>
   );
 };

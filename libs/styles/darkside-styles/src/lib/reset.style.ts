@@ -13,6 +13,8 @@ const ResetStyles = styled.createGlobalStyle`
 
   html {
     -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
       Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     line-height: 1.5;
@@ -23,6 +25,7 @@ const ResetStyles = styled.createGlobalStyle`
     /* All fonts sizes based on this: 1rem = 10px */
     font-size: 62.5%;
   }
+
   body {
     line-height: inherit;
     margin: 0;

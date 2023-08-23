@@ -4,9 +4,8 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
-import Markdown from 'markdown-to-jsx';
-import { useContext, useState, useEffect, useMemo, useRef } from 'react';
+import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
@@ -61,8 +60,6 @@ const DiamondTable = (props) => {
 
   const flatDiamonds = useMemo(() => {
     return queryDiamond.data?.pages?.flatMap((v) => {
-      console.log(v);
-
       return v.diamonds;
     });
   }, [queryDiamond.data]);
@@ -73,7 +70,7 @@ const DiamondTable = (props) => {
       diamondTable: {
         bottomContent,
         cannotFindDiamondSentence1,
-        cannotFindDiamondSentence2,
+        // cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
         bottomPromoContentNoShape,
         bottomPromoContentCtaCopy,
@@ -235,6 +232,21 @@ const DiamondTable = (props) => {
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
+  // CFY PROMO CARD
+  const cfyPromoCard = (
+    <DiamondTableCfyPromoCard
+      content={{
+        bottomPromoContentLargerCarat,
+        bottomPromoContentNoShape,
+        bottomPromoContentCtaCopy,
+        bottomPromoContentCtaLink,
+        bottomPromoContent,
+      }}
+      ranges={ranges}
+      options={options}
+    />
+  );
+
   return (
     <StyledDiamondTable
       className="vo-table"
@@ -278,20 +290,7 @@ const DiamondTable = (props) => {
 
             return (
               <>
-                {/* PROMO CARD */}
-                {idx === 10 && (
-                  <DiamondTableCfyPromoCard
-                    content={{
-                      bottomPromoContentLargerCarat,
-                      bottomPromoContentNoShape,
-                      bottomPromoContentCtaCopy,
-                      bottomPromoContentCtaLink,
-                      bottomPromoContent,
-                    }}
-                    ranges={ranges}
-                    options={options}
-                  />
-                )}
+                {idx === 10 && cfyPromoCard}
 
                 <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
@@ -318,13 +317,14 @@ const DiamondTable = (props) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
+          {cfyPromoCard}
+
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
                 <ul>
                   <li>
-                    <p>{cannotFindDiamondSentence1}</p>
-                    <br />
+                    <p>{cannotFindDiamondSentence1}</p>{' '}
                     <DarksideButton
                       type="underline"
                       colorTheme="teal"
@@ -334,10 +334,9 @@ const DiamondTable = (props) => {
                       <UIString>Clear filters</UIString>
                     </DarksideButton>
                   </li>
-
-                  <li>
-                    <Markdown>{cannotFindDiamondSentence2}</Markdown>
-                  </li>
+                  {/* <li>
+                    <Markdown withStyles={false}>{cannotFindDiamondSentence2}</Markdown>
+                  </li> */}
                 </ul>
               </div>
             </div>

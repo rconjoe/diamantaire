@@ -37,6 +37,7 @@ export interface IDiamondCollection extends Partial<DiamondEntity> {
   dangerousInternalCollectionId?: string;
   handle?: string;
   productTitle?: string;
+  productType?: string;
   description?: string;
   slug?: string;
   isForSale?: boolean;

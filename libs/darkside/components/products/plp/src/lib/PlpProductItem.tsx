@@ -60,7 +60,6 @@ const PlpProductItemStyles = styled.div`
 
 const PlpProductItem = ({ product }: { product: ListPageItemWithConfigurationVariants }) => {
   const { defaultId, variants, metal } = product;
-
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
 

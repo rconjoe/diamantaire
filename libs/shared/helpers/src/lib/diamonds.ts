@@ -46,11 +46,13 @@ export const getDiamondType = (value: string) => {
 
   // GET DIAMOND TYPE FROM ANY STRING
   if (titles.includes(value)) {
-    return {
-      slug: DIAMOND_TABLE_VALID_TYPES[value],
-      title: value,
-    };
+    const slug = DIAMOND_TABLE_VALID_TYPES[value];
+
+    const title = titles[slugs.findIndex((v) => v === slug)];
+
+    return { slug, title };
   }
+
   if (slugs.includes(value)) {
     return {
       slug: value,
