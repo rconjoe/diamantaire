@@ -42,8 +42,6 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
     const { carat: description } = DiamondPdpData || {};
     const handleFormat = (v) => v;
 
-    console.log(createNumberArray(range[1]));
-
     return (
       <>
         <div className="description">

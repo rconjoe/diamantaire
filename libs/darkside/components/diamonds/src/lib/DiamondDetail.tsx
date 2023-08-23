@@ -1,10 +1,10 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { Form, Heading, SwiperStyles, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondsData, useDiamondTableData, useDiamondPdpData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
-import { useContext, Fragment } from 'react';
+import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -34,6 +34,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
+  const diamondTypeSlug = getDiamondType(diamondType).slug;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -82,7 +83,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               </>
             )) || (
               <DarksideButton type="outline" colorTheme="black">
-                <UIString>Sold: Browse other diamonds</UIString>
+                <UniLink route={`/diamonds/inventory/${diamondTypeSlug}`}>
+                  <UIString>Sold: Browse other diamonds</UIString>
+                </UniLink>
               </DarksideButton>
             )}
           </div>
