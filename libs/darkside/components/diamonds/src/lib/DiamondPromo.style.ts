@@ -4,17 +4,20 @@ import styled from 'styled-components';
 const StyledDiamondPromo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin: 0 0 20px;
+  margin: 0 0 3rem;
+  gap: 3rem;
 
   ${tabletAndUp(`
-    margin: 20px 0 0;
+    margin: 2rem 0 0;
   `)}
 
   .banner {
     display: block;
-    padding: 20px 0;
     margin: 0;
+
+    ${tabletAndUp(`
+      padding: 2rem 0;
+    `)}
   }
 
   .title {
@@ -51,10 +54,7 @@ const StyledDiamondPromo = styled.div`
     display: block;
     padding: 20px;
     text-align: center;
-
-    ${tabletAndUp(`
-      background: ${GREY_LIGHTEST};
-    `)}
+    background: ${GREY_LIGHTEST};
 
     h2 {
       font-size: var(--font-size-xsmall);

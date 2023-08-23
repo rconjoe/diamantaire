@@ -254,6 +254,12 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-no-result-container {
+    padding: 0 2.5rem;
+
+    ${tabletAndUp(`
+      padding: 0;
+    `)}
+
     p {
       font-size: var(--font-size-xxxsmall);
     }
