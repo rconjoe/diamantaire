@@ -34,7 +34,6 @@ export function DiamondPromo(props: DiamondPromoProps) {
           })}
         </ul>
       </div>
-
       {leoQuote && (
         <div className="banner leo">
           <Heading type="h2" className="title">

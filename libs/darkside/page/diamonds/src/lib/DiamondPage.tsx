@@ -1,19 +1,20 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
+import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
+import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
+import { UIString } from '@diamantaire/darkside/core';
+import { OptionsDataTypes, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getDiamondOptionsFromUrl, getDiamondShallowRoute, getDiamondType } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -177,6 +178,12 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             currencyCode={currencyCode}
           />
 
+          {isMobile && (
+            <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
+              <UIString>Clear filters</UIString>
+            </DarksideButton>
+          )}
+
           <ShowTabletAndUpOnly>
             <DiamondPromo locale={locale} />
           </ShowTabletAndUpOnly>
@@ -189,7 +196,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             </div>
           )}
 
-          <DiamondTable {...tableProps} title={title} />
+          <DiamondTable {...tableProps} />
         </div>
 
         <ShowMobileOnly>
