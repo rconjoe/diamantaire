@@ -9,7 +9,7 @@ import {
   DIAMOND_TABLE_FILTER_TITLES,
   DIAMOND_TABLE_SHAPES,
 } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -194,12 +194,11 @@ const RadioFilter = (props) => {
           if (type === 'diamondType') {
             const slug = DIAMOND_TABLE_SHAPES[optionUI[0]];
             const shape = diamondIconsMap[slug];
-
-            console.log(`shape`, shape);
+            const title = getDiamondType(shape.slug).title;
 
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
-                <a title={shape.title} onClick={() => handleClick([shape.slug])}>
+                <a title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                 </a>
               </li>
