@@ -40,6 +40,8 @@ export * from './lib/url';
 export * from './lib/video';
 
 export const DF_API_KEY = '';
+export const MIN_CARAT_WEIGHT = 1.01;
+export const INCREMENT_WEIGHT = 0.05;
 
 // TODO: tidy up the rest of the list
 export enum ProngStyles {

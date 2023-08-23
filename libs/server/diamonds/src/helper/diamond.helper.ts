@@ -15,7 +15,7 @@ import {
   ACCEPTABLE_CLARITIES,
   COLORS_TO_IGNORE_FILTERS,
 } from '@diamantaire/shared/constants';
-import _ from 'lodash';
+import _, { orderBy } from 'lodash';
 
 import { IDiamondCollection } from '../interface/diamond.interface';
 
@@ -401,3 +401,25 @@ export function isDiamondAcceptable(diamond) {
     }
   }
 }
+
+export const sortAscCarat = (diamonds) => {
+  return orderBy(
+    diamonds,
+    [
+      (diamond) => {
+        return getDiamondCarat(diamond);
+      },
+    ],
+    'asc',
+  );
+};
+
+export const getDiamondCarat = (diamond: IDiamondCollection): number => {
+  return diamond.carat;
+};
+
+export const findCurrentCaratWeight = (diamonds, minCaratWeight: number, type?) => {
+  const diamondsArray = type ? diamonds.filter((v) => v.type === type) : diamonds;
+
+  return diamondsArray.find((diamond) => diamond.carat >= minCaratWeight).carat;
+};

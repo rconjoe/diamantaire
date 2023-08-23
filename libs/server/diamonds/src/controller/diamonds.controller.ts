@@ -53,7 +53,7 @@ export class DiamondsController {
     return await this.diamondsService.getCFYDiamond({ carat, caratMax, caratMin, diamondType });
   }
 
-  @Get('mixedpairs')
+  @Get('toimoi')
   @ApiOperation({ summary: 'Get Mixed Diamond Pairs - Toi moi' })
   async getMixedDiamondPairs(
     @Query()
@@ -71,6 +71,20 @@ export class DiamondsController {
   @ApiParam({ name: 'sortBy', required: false })
   async getDiamondPlp(@Query() { slug, page, limit, sortOrder, sortBy }: DiamondPlp) {
     return await this.diamondsService.getPlpDiamonds({ slug, page, limit, sortOrder, sortBy });
+  }
+
+  @Get('mixedpair')
+  @ApiOperation({ summary: 'Get Solitaire Mixed Diamond Pairs - Solitaire Diamonds' })
+  async getSolitaireMixedPairs(
+    @Query()
+    { diamondType, color, clarity, cut }: GetDiamondDto,
+  ) {
+    return await this.diamondsService.solitaireDiamondMixedPairs({
+      diamondType,
+      color,
+      clarity,
+      cut,
+    });
   }
 
   @Get(':lotId')

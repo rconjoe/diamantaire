@@ -16,6 +16,8 @@ import {
   ACCEPTABLE_COLORS,
   ACCEPTABLE_CUTS,
   ACCEPTABLE_DIAMOND_TYPE_PAIRS,
+  INCREMENT_WEIGHT,
+  MIN_CARAT_WEIGHT,
 } from '@diamantaire/shared/constants';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
@@ -719,5 +721,68 @@ export class DiamondsService {
     }
 
     return query;
+  }
+
+  /**
+   * Retrieves mixed pairs of solitaire diamonds based on the given input.
+   * Pairs the smallest and largest carat diamonds of each color, and returns the pairs.
+   * Return a mixed pairs of similar diamonds for use with solitaire earring jewelry.
+   * @param input - The input object containing the diamond type.
+   * @returns An array of objects representing the mixed pairs of solitaire diamonds.
+   */
+
+  async solitaireDiamondMixedPairs(input: GetDiamondDto) {
+    const filteredQuery = this.optionalDiamondPairQuery(input);
+
+    filteredQuery.availableForSale = true; // only return available diamonds
+    filteredQuery.slug = 'diamonds';
+    const regexPattern = /fancy/i; // Ignore colors containing "fancy"
+
+    //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
+    filteredQuery['carat'] = { $gte: MIN_CARAT_WEIGHT };
+
+    const pipeline: PipelineStage[] = [
+      { $match: filteredQuery },
+      { $match: { color: { $not: { $regex: regexPattern } } } },
+      { $sort: { carat: 1 } },
+      { $addFields: { adjustedCarat: { $add: ['$carat', INCREMENT_WEIGHT] } } },
+      { $addFields: { adjustedCarat: { $round: ['$adjustedCarat', 2] } } }, // Round to two decimal places
+      { $sort: { adjustedCarat: 1 } }, // Sort adjustedCarat in ascending order (lowest first)
+      {
+        $group: {
+          _id: { color: '$color' },
+          diamonds: { $push: '$$ROOT' },
+        },
+      },
+      {
+        $match: {
+          'diamonds.1': { $exists: true },
+        },
+      },
+    ];
+
+    const result = await this.diamondRepository.aggregate(pipeline);
+
+    // filter to only keep groups with at least 2 diamonds.
+    const pairedDiamonds = result.flatMap(({ diamonds }) => {
+      const diamondPairs = [];
+
+      // loop through the 2 diamonds array
+      while (diamonds.length >= 2) {
+        // Extract the first two diamonds from the array
+        const firstDiamond = diamonds.shift();
+        const secondDiamond = diamonds.shift();
+        // determines which of the two extracted diamonds has the lowest carat
+        const sortedDiamonds = [firstDiamond, secondDiamond].sort((a, b) => a.adjustedCarat - b.adjustedCarat);
+
+        diamondPairs.push({
+          diamonds: sortedDiamonds,
+        });
+      }
+
+      return diamondPairs;
+    });
+
+    return pairedDiamonds;
   }
 }
