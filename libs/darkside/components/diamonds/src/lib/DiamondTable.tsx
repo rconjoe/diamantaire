@@ -60,8 +60,6 @@ const DiamondTable = (props) => {
 
   const flatDiamonds = useMemo(() => {
     return queryDiamond.data?.pages?.flatMap((v) => {
-      console.log(v);
-
       return v.diamonds;
     });
   }, [queryDiamond.data]);
@@ -72,6 +70,7 @@ const DiamondTable = (props) => {
       diamondTable: {
         bottomContent,
         cannotFindDiamondSentence1,
+        // cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
         bottomPromoContentNoShape,
         bottomPromoContentCtaCopy,
@@ -325,8 +324,7 @@ const DiamondTable = (props) => {
               <div className="vo-table-no-result-container">
                 <ul>
                   <li>
-                    <p>{cannotFindDiamondSentence1}</p>
-                    <br />
+                    <p>{cannotFindDiamondSentence1}</p>{' '}
                     <DarksideButton
                       type="underline"
                       colorTheme="teal"
@@ -336,6 +334,9 @@ const DiamondTable = (props) => {
                       <UIString>Clear filters</UIString>
                     </DarksideButton>
                   </li>
+                  {/* <li>
+                    <Markdown withStyles={false}>{cannotFindDiamondSentence2}</Markdown>
+                  </li> */}
                 </ul>
               </div>
             </div>

@@ -58,6 +58,7 @@ const StyledDiamondPromo = styled.div`
 
     h2 {
       font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-normal);
     }
 
     p {
