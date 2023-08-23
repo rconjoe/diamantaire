@@ -69,6 +69,14 @@ const StyledDiamondPage = styled.div`
       width: calc(100% - ${asideWidthLG} - ${gapLG});
     `)}
   }
+
+  .vo-filter-clear-button {
+    margin: 2rem 0 0;
+    * {
+      font-size: var(--font-size-xxxsmall);
+      font-weight: var(--font-weight-normal);
+    }
+  }
 `;
 
 export default StyledDiamondPage;
