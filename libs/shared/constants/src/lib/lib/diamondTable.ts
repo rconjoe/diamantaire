@@ -1,5 +1,5 @@
-import { DIAMOND_TYPE_INTERNAL_NAMES } from './diamond';
 import { getOptionValues } from '../constant.helpers';
+import { DIAMOND_TYPE_INTERNAL_NAMES } from './diamond';
 
 export const DIAMOND_TABLE_FILTER_TITLES = ['diamondType', 'carat', 'price', 'cut', 'clarity', 'color'];
 export const DIAMOND_TABLE_FILTER_CLARITY_OPTIONS = {
@@ -35,7 +35,7 @@ export const DIAMOND_VALID_QUERIES = [
   'caratMin',
   'flow',
 ];
-export const DIAMOND_CFY_VALID_QUERIES = ['category', 'carat', 'cto', 'flow'];
+export const DIAMOND_CFY_VALID_QUERIES = ['product', 'metal', 'goldPurity', 'bandAccent', 'carat', 'cto'];
 export const DIAMOND_CFY_FACETED_NAV = ['diamondType'];
 export const DIAMOND_DETAIL_FACETED_NAV = ['slug'];
 export const DIAMOND_TABLE_FACETED_NAV = ['diamondType', 'clarity', 'cut', 'color'];

@@ -1,17 +1,17 @@
 import {
+  DIAMOND_CFY_FACETED_NAV,
+  DIAMOND_CFY_VALID_QUERIES,
   DIAMOND_TABLE_DEFAULT_OPTIONS,
-  DIAMOND_VALID_QUERIES,
   DIAMOND_TABLE_FACETED_NAV,
-  DIAMOND_TABLE_VALID_COLORS,
   DIAMOND_TABLE_VALID_CLARITIES,
+  DIAMOND_TABLE_VALID_COLORS,
   DIAMOND_TABLE_VALID_CUTS,
-  DIAMOND_TABLE_VALID_TYPES,
   DIAMOND_TABLE_VALID_SORT_BY,
   DIAMOND_TABLE_VALID_SORT_ORDER,
-  DIAMOND_CFY_VALID_QUERIES,
-  DIAMOND_CFY_FACETED_NAV,
+  DIAMOND_TABLE_VALID_TYPES,
+  DIAMOND_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
-import { diamondRouteCfy, diamondRoutePlp, diamondRouteCfyResult } from '@diamantaire/shared/routes';
+import { diamondRouteCfy, diamondRouteCfyResult, diamondRoutePlp } from '@diamantaire/shared/routes';
 
 export const diamondOption = {
   isClarity: (v) => DIAMOND_TABLE_VALID_CLARITIES.includes(v || v.toLowercase()),
@@ -208,6 +208,16 @@ export const getDiamondShallowRoute = (options) => {
 export const getCFYOptionsFromUrl = (query) => {
   const validQueryType = [...DIAMOND_CFY_VALID_QUERIES];
 
+  const getOptionsFromFacetedNav = (option: string) => {
+    const obj: { diamondType?: string } = {};
+
+    if (diamondOption.isDiamondType(option)) {
+      obj.diamondType = getDiamondType(option).slug;
+    }
+
+    return obj;
+  };
+
   const getOptionsFromQueryNav = (data: { key: string; value: string }) => {
     return Object.keys(data)
       .filter((k) => validQueryType.includes(k))
@@ -234,6 +244,7 @@ export const getCFYOptionsFromUrl = (query) => {
   };
 
   return {
+    ...getOptionsFromFacetedNav(query.diamondType),
     ...getOptionsFromQueryNav(query),
   };
 };
@@ -273,11 +284,7 @@ export const getCFYShallowRoute = (options, page) => {
 
   const query = queryURL ? '?' + queryURL : '';
 
-  let base = diamondRouteCfy;
-
-  if (page === 'diamondCfyResult') {
-    base = diamondRouteCfyResult;
-  }
+  const base = page === 'diamondCfyResult' ? diamondRouteCfyResult : diamondRouteCfy;
 
   const showQueryInUrl = true;
 

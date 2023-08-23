@@ -1,25 +1,25 @@
 import { ParsedUrlQuery } from 'querystring';
 
-// import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { DiamondCfyAsidePromo } from '@diamantaire/darkside/components/diamonds';
+import { DiamondCfyAsidePromo, DiamondCfyFilters } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-// import { DIAMOND_CFY_FACETED_NAV } from '@diamantaire/shared/constants';
 import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
-// import { useRouter } from 'next/router';
-// import { useState, useEffect } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
-
+// ?category=diamonds&product=signature-floral-ring&metal=yellow-gold&goldPurity=18k&bandAccent=plain&ringSize=5&caratWeight=other&carat=3&cto=true&flow=setting
 interface CFYPageQueryParams extends ParsedUrlQuery {
-  category?: string;
+  product?: string;
+  metal?: string;
+  goldPurity?: string;
+  bandAccent?: string;
   carat?: string;
+  cto?: string;
 }
 
 interface CFYPageProps {
@@ -37,29 +37,24 @@ interface CFYPageProps {
 }
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  // const router = useRouter();
   const { locale } = props;
-  // const [options, setOptions] = useState(props.options);
-  // const [loading, setLoading] = useState(true);
 
-  const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
-
+  const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
   const { title: seoTitle, description: seoDescription } = ctoDiamondTable?.seo || {};
-
-  console.log('ctoDiamondTable', ctoDiamondTable);
-  console.log('allDiamondShapeDescriptions', allDiamondShapeDescriptions);
+  const { headerTitle, headerCopy } = ctoDiamondTable;
 
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
 
       <StyledCFYPage className="container-wrapper">
-        <div className="page-title">
-          <Heading className="title">VRAI Created Diamonds</Heading>
+        <div className="page-header">
+          <Heading className="title">{headerTitle}</Heading>
+          <p>{headerCopy}</p>
         </div>
 
         <div className="page-main">
-          <p>CFY Page</p>
+          <DiamondCfyFilters locale={locale} />
         </div>
 
         <div className="page-aside">
@@ -77,12 +72,14 @@ async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<CFYPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const { locale } = context;
+  const { query, locale } = context;
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
 
-  const { query } = context;
   const options = getCFYOptionsFromUrl(query || {});
+
+  console.log(`OPTIONS`, options);
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
   const queryClient = new QueryClient();
 
