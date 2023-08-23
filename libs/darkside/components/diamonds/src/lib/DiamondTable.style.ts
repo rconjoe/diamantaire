@@ -243,7 +243,7 @@ const StyledDiamondTable = styled.div`
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 2.5rem;
+    padding: 3rem 0;
     margin: auto;
     gap: 2rem;
   }
