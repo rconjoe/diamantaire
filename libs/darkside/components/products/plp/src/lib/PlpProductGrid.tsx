@@ -129,26 +129,22 @@ const PlpProductGrid = ({
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
-          {products?.map((product, gridItemIndex) => {
-            console.log(product);
+          {products?.map((product, gridItemIndex) => (
+            <Fragment key={product.defaultId}>
+              {cardCollectionObject[gridItemIndex + 1] !== undefined && (
+                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+              )}
 
-            return (
-              <Fragment key={product.defaultId}>
-                {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                  <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
-                )}
-
-                {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                  <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
-                )}
-                {product.productType === 'diamonds' ? (
-                  <PlpDiamondItem product={product} />
-                ) : (
-                  <PlpProductItem product={product} />
-                )}
-              </Fragment>
-            );
-          })}
+              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
+                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+              )}
+              {product.productType === 'diamonds' ? (
+                <PlpDiamondItem product={product} />
+              ) : (
+                <PlpProductItem product={product} />
+              )}
+            </Fragment>
+          ))}
           {products.length === 0 && (
             <div className="no-items-message">
               <p>No items match your selection</p>
