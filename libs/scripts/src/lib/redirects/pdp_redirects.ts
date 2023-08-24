@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs');
-
-const axios = require('axios').default;
+import axios from 'axios';
 
 const CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'caratWeight', 'bandAccent', 'sideStoneShape', 'sideStoneCarat'];
 
@@ -174,14 +171,14 @@ function generateToUrl(product, baseUrl = 'https://diamantaire.vercel.app') {
   return urlArr.join('/');
 }
 
-function generateRedirects(products, toBaseUrl) {
+function generateRedirects(products, fromBaseUrl, toBaseUrl) {
   if (!products) {
     console.log('No products provided');
 
     return;
   }
   const redirects = products.reduce((redirects, product) => {
-    redirects.push({ from: generateFromUrl(product), to: generateToUrl(product, toBaseUrl) });
+    redirects.push({ from: generateFromUrl(product, fromBaseUrl), to: generateToUrl(product, toBaseUrl) });
 
     return redirects;
   }, []);
@@ -189,64 +186,22 @@ function generateRedirects(products, toBaseUrl) {
   return redirects;
 }
 
-function initiateCSVData(headers) {
-  return getCSVRows([headers]).concat('\n');
-}
-
-function getCSVRows(rows) {
-  return rows.map(getCSVRow).join('\n');
-}
-
-function getCSVRow(row) {
-  return row.join(',');
-}
-
-async function getAllRedirects(startpg = 1, toBaseUrl) {
-  const headers = ['from', 'to'];
+export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {
   let data;
-  let hasNextPage = true;
-  let page = startpg;
-  let redirects = [];
-  let csvData = initiateCSVData(headers);
-  const csvfile = fs.createWriteStream(`/Users/rico.velasco/Documents/redirects/pdp_redirects.csv`);
+  let hasNextPage;
 
-  while (hasNextPage) {
+  let page = 1;
+  let redirects = [];
+
+  do {
     console.log('requesting page', page);
     /* eslint-disable-next-line no-await-in-loop */
     data = await getProducts(page);
     hasNextPage = data?.paginator?.hasNextPage;
     page += 1;
-    const pageRedirects = generateRedirects(data.items, toBaseUrl);
 
-    redirects = redirects.concat(pageRedirects);
-    const rowsArrayData = pageRedirects.reduce((rowsData: string[][], rowObj) => {
-      const rowData: string[] = [];
+    redirects = redirects.concat(generateRedirects(data.items, sourceBaseUrl, targetBaseUrl));
+  } while (hasNextPage);
 
-      headers.forEach((header) => {
-        if (rowObj[header]) {
-          rowData.push(rowObj[header]);
-        } else {
-          rowData.push('');
-        }
-      });
-      rowsData.push(rowData);
-
-      return rowsData;
-    }, []);
-    const redirectRows = getCSVRows(rowsArrayData);
-
-    csvData = csvData.concat(redirectRows).concat('\n');
-  }
-
-  csvfile.write(csvData);
-  csvfile.end();
-
-  return csvData;
+  return redirects;
 }
-
-const [executor, script, startPage, toUrl] = process.argv;
-
-console.log({ executor, script, startPage, toUrl });
-const start = startPage ? parseInt(startPage, 10) : undefined;
-
-getAllRedirects(start, toUrl);

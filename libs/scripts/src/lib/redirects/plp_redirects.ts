@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs');
-
-const axios = require('axios').default;
+import axios from 'axios';
 
 const DIAMOND_PLP_DATA_CONFIG_QUERY = `
   query plpQuery($first: IntType, $skip: IntType) {
@@ -66,7 +63,7 @@ function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = 'https://www.vrai
 }
 
 // : Promise<{ data: { allListPages: RedirectData } } | undefined> ??
-async function getAllPlpRedirects() {
+export async function getPlpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {
   const limit = 100;
   let page = 0;
   let allListPages;
@@ -78,7 +75,7 @@ async function getAllPlpRedirects() {
     const plpData = await getPlpData(page, limit);
 
     allListPages = plpData?.data?.allListPages;
-    const pageRedirects = generatePLPRedirects(allListPages);
+    const pageRedirects = generatePLPRedirects(allListPages, sourceBaseUrl, targetBaseUrl);
 
     console.log('requesting page', page, allListPages.length);
     redirects = redirects.concat(pageRedirects);
@@ -86,28 +83,3 @@ async function getAllPlpRedirects() {
 
   return redirects;
 }
-
-function initiateCSVData(headers) {
-  return getCSVRows([headers]).concat('\n');
-}
-
-function getCSVRows(rows) {
-  return rows.map(getCSVRow).join('\n');
-}
-
-function getCSVRow(row) {
-  return row.join(',');
-}
-
-async function generateRedirectCSV() {
-  const headers = ['from', 'to'];
-  const csvfile = fs.createWriteStream(`/Users/rico.velasco/Documents/redirects/plp_redirects.csv`);
-  const redirectData = await getAllPlpRedirects();
-  const csvRows = getCSVRows(redirectData.map(Object.values));
-  const csvData = initiateCSVData(headers).concat(csvRows);
-
-  csvfile.write(csvData);
-  csvfile.end();
-}
-
-generateRedirectCSV();
