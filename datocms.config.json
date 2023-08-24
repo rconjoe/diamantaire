@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "default": {
+      "logLevel": "BASIC",
+      "migrations": {
+        "directory": "./libs/nx/datocms/migrations",
+        "modelApiKey": "schema_migration"
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "name": "nx-core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx/core/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx/core",
+        "main": "libs/nx/core/src/index.ts",
+        "tsConfig": "libs/nx/core/tsconfig.lib.json",
+        "assets": [
+          "libs/nx/core/*.md",
+          {
+            "input": "./libs/nx/core/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/core/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/core",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx/core",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nx/core/**/*.ts", "libs/nx/core/package.json", "libs/nx/core/executors.json"]
+      }
+    },
+    "reboot": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo '*******************************************************'",
+          "echo 'Please remove the cartridge, blow on it, and reinsert it.'",
+          "echo '*******************************************************'",
+          "echo ' '",
+          "echo '1. Cartridge removed. Blowing out the dust...'",
+          "echo ' '",
+          "yarn cache clean",
+          "echo ' '",
+          "echo '2. *Poof* Rebooting...'",
+          "echo ' '",
+          "yarn",
+          "echo ' '",
+          "echo '3. Reboot successful. Checking Local version...'",
+          "echo ' '",
+          "yarn nx --version",
+          "echo ' '",
+          "echo '4. Resetting NX...'",
+          "echo ' '",
+          "yarn nx reset",
+          "echo ' '",
+          "echo '5. Running some fresh builds...'",
+          "echo ' '",
+          "yarn nx run-many --target=build --all",
+          "echo ' '",
+          "echo '*******************************************************'",
+          "echo '6. Reboot complete. You should be on version 16.5.4.'",
+          "echo 'All your builds are cached in the cloud. Lighting McQueen.'",
+          "echo '⣿⣿⣿⣿⣿⡇⠤⠄⠳⣮⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡎⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠇⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣿⣿⣿⣶⡄⠀⠀⠀⢀⣠⡤⠶⠚⢿⡦'",
+          "echo '⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣋⢙⠉⣀⠀⢀⡴⢛⡥⠀⠀⠀⠀⢳'",
+          "echo '⣿⣿⣿⣿⣿⣿⠉⠀⠀⠀⠀⠀⠀⣘⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠹⠿⣿⡿⡿⢿⣿⣿⣿⣿⠇⣻⡾⣫⡕⠋⠀⠀⠀⠀⠀⢸'",
+          "echo '⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠘⣄⡙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠀⠀⠀⠀⠀⠘⣿⡙⠉⢸⡾⣻⡾⠋⠀⠀⠀⠀⠀⠀⠀⢸'",
+          "echo '⣿⣿⣿⣿⣿⣷⠀⢀⠀⠀⠀⠀⠀⠀⠘⠃⠁⠛⠛⠛⠛⠻⠿⠿⢻⠿⢿⣿⡶⢾⣶⣤⣤⣾⣈⣥⠀⢨⣽⠟⠊⠀⠀⠀⠀⠀⠀⠀⠀⢸'",
+          "echo '⣿⣿⣿⣿⣿⣿⡧⠘⠿⢤⠀⠀⠀⠀⢠⠀⠀⡄⡄⠀⠄⠀⠀⠀⠀⠀⠀⠁⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⡿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿'",
+          "echo '⣿⣿⣿⣿⣿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠈⣆⡴⠃⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⢿⣿⣿⣿⣏⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁'",
+          "echo '⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠠⠄⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠩⠿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀'",
+          "echo '⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⢀⣠⣶⣿⣲⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠻⢿⣿⣿⣿⣏⡀⠀⠀⠀⠀⠀⡟⠀⠀'",
+          "echo '⣿⣿⣿⣿⡟⠋⠀⠀⠀⠀⠀⣷⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣶⣶⣌⣿⣿⣿⣿⣷⠖⠀⠀⠀⠀⡟⠀⠀'",
+          "echo '⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠘⣏⣿⣿⣿⣿⣿⠟⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⣿⣄⡀⠀⢀⣾⣷⠄⠀'",
+          "echo '⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠥⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣧⣿⣿⣿⣿⣿⠙⡟⠛⢿⣿⣿⣿⣿⣯⡽⠿⠟⠛⠉'",
+          "echo '⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠄⠀⠰⢤⡀⠀⠀⠙⠟⠉⠻⠿⠿⠿⠾⠃⢠⡿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀'",
+          "echo '⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⠞⠤⡀⠀⠀⠀⠀⢛⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⠿⠟⢹⣿⣿⣿⣧⠀⠀⠀'",
+          "echo '⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⠅⠀⠀⢠⣮⣭⡿⠟⠀⠀⠀⠀⠀⠀⠀⠀⢤⠀⠀⠀⠀⠀⣿⣿⣿⣿⡄⠀⠀'",
+          "echo '⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⠤⠌⠙⠂⠀⠀⠘⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⡀⠀⠀⠀⠈⠛⣿⣿⠁⠀⠀'",
+          "echo '⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⣦⣉⠀⠀⠀⠀⡀⢸⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⡀⠀⠀⠀⠙⠂⠀⠀⠀⠀⠈⠁⠀⠀⠀'",
+          "echo '⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠙⠛⠛⠻⠿⠿⠿⠿⠶⠶⠶⢶⣤⣤⣤⣤⣤⡀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣋⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo '⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'",
+          "echo 'Any issues contact @rconjoe'",
+          "echo '*******************************************************'",
+          "echo ' '"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
+}

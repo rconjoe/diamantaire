@@ -1,0 +1,19 @@
+{
+  "name": "_generated-datocms",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/_generated/datocms/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/_generated/datocms",
+        "main": "libs/_generated/datocms/src/index.ts",
+        "tsConfig": "libs/_generated/datocms/tsconfig.lib.json",
+        "assets": ["libs/_generated/datocms/*.md"]
+      }
+    }
+  },
+  "tags": ["datocms", "extract", "data", "pipeline"]
+}

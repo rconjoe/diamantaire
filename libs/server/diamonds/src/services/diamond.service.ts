@@ -451,19 +451,7 @@ export class DiamondsService {
           const { docs, ...paginator } = result;
 
           const products: ListPageDiamondItem[] = docs.map((diamond: IDiamondCollection) => {
-            const {
-              carat,
-              cut,
-              diamondType,
-              clarity,
-              color,
-              price,
-              lotId,
-              productType,
-              dfCertificateUrl,
-              variantId,
-              handle,
-            } = diamond;
+            const { carat, cut, diamondType, clarity, color, price, lotId, dfCertificateUrl, variantId, handle } = diamond;
 
             return {
               defaultId: variantId,
@@ -474,7 +462,7 @@ export class DiamondsService {
               color,
               price,
               lotId,
-              productType,
+              productType: 'diamonds',
               dfCertificateUrl,
               variantId,
               handle,
