@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect } from 'react';
+
 declare global {
   interface Window {
     rudderanalytics?: RudderAnalytics;
