@@ -456,7 +456,7 @@ export function getFormattedPrice(priceInCents: number, countryCode: string, sho
   const priceWithVatInCents = getPriceWithVat(priceInCents, countryCode);
   const decimalPlaces = hasCentsValues(priceWithVatInCents) && showZeroCents ? 2 : 0;
 
-  const currency = getCurrency(countryCode);
+  // const currency = getCurrency(countryCode);
 
   return `${(priceWithVatInCents / 100).toFixed(decimalPlaces)}`;
 }
