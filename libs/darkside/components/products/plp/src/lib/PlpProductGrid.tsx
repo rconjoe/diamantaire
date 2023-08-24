@@ -139,9 +139,9 @@ const PlpProductGrid = ({
                 <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
               {product.productType === 'diamonds' ? (
-                <PlpProductItem product={product} />
-              ) : (
                 <PlpDiamondItem product={product} />
+              ) : (
+                <PlpProductItem product={product} />
               )}
             </Fragment>
           ))}
