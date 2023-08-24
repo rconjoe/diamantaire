@@ -7,10 +7,9 @@ const StyledDiamondCfyAsidePromo = styled.div`
   background-color: #f0eaea;
   padding: 20px 10px 40px;
   margin: 0;
+  width: 100%;
 
   ${tabletAndUp(`
-    width: 400px;
-    margin: 85px 0 0;
     padding: 30px 30px 50px;
   `)}
 

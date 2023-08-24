@@ -12,7 +12,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
 import { StyledCFYPage } from './CFYPage.style';
-// ?category=diamonds&product=signature-floral-ring&metal=yellow-gold&goldPurity=18k&bandAccent=plain&ringSize=5&caratWeight=other&carat=3&cto=true&flow=setting
+
 interface CFYPageQueryParams extends ParsedUrlQuery {
   product?: string;
   metal?: string;
@@ -48,12 +48,12 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
       <StandardPageSeo title={seoTitle} description={seoDescription} />
 
       <StyledCFYPage className="container-wrapper">
-        <div className="page-header">
-          <Heading className="title">{headerTitle}</Heading>
-          <p>{headerCopy}</p>
-        </div>
-
         <div className="page-main">
+          <div className="page-header">
+            <Heading className="title">{headerTitle}</Heading>
+            <p>{headerCopy}</p>
+          </div>
+
           <DiamondCfyFilters locale={locale} />
         </div>
 
@@ -78,7 +78,7 @@ async function getServerSideProps(
 
   const options = getCFYOptionsFromUrl(query || {});
 
-  console.log(`OPTIONS`, options);
+  console.log(`** OPTIONS **`, options);
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
   const queryClient = new QueryClient();

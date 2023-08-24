@@ -10,7 +10,9 @@ const DiamondCfyFilters = (props) => {
 
   return (
     <StyledDiamondCfyFilters>
-      <Heading type="h2">{diamondSelectorTitle}</Heading>
+      <Heading type="h2" className="title">
+        {diamondSelectorTitle}
+      </Heading>
     </StyledDiamondCfyFilters>
   );
 };
