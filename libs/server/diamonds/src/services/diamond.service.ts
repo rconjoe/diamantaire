@@ -103,10 +103,11 @@ export class DiamondsService {
       this.Logger.verbose(`diamonds :: cache hit on key ${dataRangeCacheKey}`);
       dataRanges = cachedDataRanges;
     } else {
+      const exlusionsQuery = { slug: query['slug'], availableForSale: true, hidden: false };
       const rangeQueries: [Promise<string[]>, Promise<number[]>, Promise<number[]>] = [
-        this.diamondRepository.distinct('diamondType', { slug: query['slug'] }),
-        this.diamondRepository.distinct('carat', { slug: query['slug'] }),
-        this.diamondRepository.distinct('price', { slug: query['slug'] }),
+        this.diamondRepository.distinct('diamondType', { ...exlusionsQuery }),
+        this.diamondRepository.distinct('carat', { ...exlusionsQuery }),
+        this.diamondRepository.distinct('price', { ...exlusionsQuery }),
       ];
 
       const [diamondTypeValues, caratValues, priceValues] = await Promise.all(rangeQueries);
