@@ -30,18 +30,13 @@ interface BuilderProductState {
   product: BuilderProduct | null;
   diamond: BuilderDiamond | null;
   builderState: (typeof builderState)[keyof typeof builderState];
-  placeholders: BuilderProductPlaceholders;
+  updateURLParam: (param: string, newValue: string) => void;
 }
 
 const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
   builderState: builderState.SelectDiamondOrSetting,
-  // This is for data we might need during in between steps, example: Diamond to Setting Flow Setting Selection
-  placeholders: {
-    collectionSlug: null,
-    productSlug: null,
-  },
 };
 
 type BuilderProductContextType = {
@@ -108,28 +103,6 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
         builderState: getState(newState),
       };
     }
-    case 'ADD_PLACEHOLDERS': {
-      const newState = {
-        ...state,
-        placeholders: action.payload,
-      };
-
-      return {
-        ...newState,
-        builderState: getState(newState),
-      };
-    }
-    case 'REMOVE_PLACEHOLDERS': {
-      const newState = {
-        ...state,
-        placeholders: null,
-      };
-
-      return {
-        ...newState,
-        builderState: getState(newState),
-      };
-    }
     default:
       return state;
   }
@@ -142,12 +115,22 @@ type BuilderProductContextProviderProps = {
 const BuilderProductContextProvider = ({ children }: BuilderProductContextProviderProps) => {
   const [state, dispatch] = useReducer(builderReducer, initialBuilderProductState);
 
+  function updateURLParam(param, newValue) {
+    const url = new URL(window.location.href);
+
+    url.searchParams.set(param, newValue);
+
+    return window.history.pushState(null, '', url);
+  }
+
   useEffect(() => {
     console.log('state chnaaged', state);
   }, [state]);
 
   return (
-    <BuilderProductContext.Provider value={{ builderProduct: state, dispatch }}>{children}</BuilderProductContext.Provider>
+    <BuilderProductContext.Provider value={{ builderProduct: state, dispatch, updateURLParam }}>
+      {children}
+    </BuilderProductContext.Provider>
   );
 };
 

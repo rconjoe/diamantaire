@@ -82,6 +82,7 @@ function OptionSelector({
   onChange,
   label,
   renderItemAsLink = false,
+  isBuilderFlowOpen,
 }: OptionSelectorProps) {
   const {
     data: {
@@ -225,7 +226,7 @@ function OptionSelector({
                     valueLabel={valueLabel}
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
-                    isLink={renderItemAsLink}
+                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
                   />
                 );
               })}

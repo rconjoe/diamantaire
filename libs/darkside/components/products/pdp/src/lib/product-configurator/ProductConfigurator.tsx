@@ -38,6 +38,8 @@ function ProductConfigurator({
   isBuilderProduct,
   isBuilderFlowOpen = false,
   updateFlowData,
+  updateSettingSlugs,
+  flowIndex,
 }: ProductConfiguratorProps) {
   const { builderProduct, dispatch } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -86,7 +88,9 @@ function ProductConfigurator({
         selectedConfiguration={selectedConfiguration}
         onChange={handleConfigChange}
         isBuilderFlowOpen={isBuilderFlowOpen}
+        updateSettingSlugs={updateSettingSlugs}
       />
+
       {sizeOptions && isConfigurationComplete && (
         <OptionSelector
           optionType={sizeOptionKey}
@@ -105,7 +109,7 @@ function ProductConfigurator({
         >
           <DarksideButton
             onClick={() => {
-              updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration }, 1);
+              updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration }, flowIndex + 1);
             }}
           >
             Next

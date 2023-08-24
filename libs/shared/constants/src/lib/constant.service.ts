@@ -94,6 +94,11 @@ export const pdpTypeHandleSingleToPluralAsConst = {
   ['jewelry']: 'Jewelry',
 } as const;
 
+export const pdpTypeSingleToPluralAsConst = {
+  ['Engagement Ring']: 'Engagement Rings',
+  ['Jewelry']: 'Jewelry',
+} as const;
+
 export const metalTypeAsConst = {
   platinum: 'Platinum',
   'yellow-gold': 'Yellow Gold',

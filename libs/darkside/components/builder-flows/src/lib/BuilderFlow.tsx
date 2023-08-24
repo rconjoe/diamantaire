@@ -58,10 +58,29 @@ const BuilderFlowStyles = styled.div`
 type BuilderFlowProps = {
   collectionSlug?: string;
   productSlug?: string;
+  lotId?: string;
   type: 'setting-to-diamond' | 'diamond-to-setting';
 };
 
-const BuilderFlow = ({ collectionSlug, productSlug, type }: BuilderFlowProps) => {
+const BuilderFlow = ({
+  collectionSlug: initialCollectionSlug,
+  productSlug: initialProductSlug,
+  lotId: initialLotId,
+  type,
+}: BuilderFlowProps) => {
+  const [settingSlugs, setSettingSlugs] = useState({
+    collectionSlug: initialCollectionSlug,
+    productSlug: initialProductSlug,
+  });
+
+  function updateSettingSlugs(value: object) {
+    setSettingSlugs({
+      ...settingSlugs,
+      ...value,
+    });
+  }
+
+  console.log('init flow', initialLotId, initialCollectionSlug, initialProductSlug, type);
   const { builderProduct, dispatch } = useContext(BuilderProductContext);
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -82,8 +101,8 @@ const BuilderFlow = ({ collectionSlug, productSlug, type }: BuilderFlowProps) =>
   useEffect(() => {
     async function getPdpProduct() {
       const qParams = new URLSearchParams({
-        slug: builderProduct.placeholders.collectionSlug,
-        id: builderProduct.placeholders.productSlug,
+        slug: settingSlugs?.collectionSlug,
+        id: settingSlugs?.productSlug,
       }).toString();
 
       const reqUrl = `/api/pdp/getPdpProduct?${qParams}`;
@@ -103,13 +122,13 @@ const BuilderFlow = ({ collectionSlug, productSlug, type }: BuilderFlowProps) =>
     }
 
     async function fetchProduct() {
-      if (builderProduct.placeholders.collectionSlug && builderProduct.placeholders.productSlug) {
+      if (settingSlugs?.collectionSlug && settingSlugs?.productSlug) {
         await getPdpProduct();
       }
     }
 
     fetchProduct();
-  }, [builderProduct.placeholders]);
+  }, [settingSlugs]);
 
   return (
     <BuilderFlowStyles>
@@ -118,7 +137,7 @@ const BuilderFlow = ({ collectionSlug, productSlug, type }: BuilderFlowProps) =>
         {/* <p>You are currently customizing a {productTitle?.replace('The', '')} engagement ring</p> */}
         <ul>
           <li>
-            <DarksideButton type="underline" colorTheme="white" onClick={() => setIsBuilderFlowOpen(false)}>
+            <DarksideButton type="underline" colorTheme="white">
               Back to product
             </DarksideButton>
           </li>
@@ -127,26 +146,48 @@ const BuilderFlow = ({ collectionSlug, productSlug, type }: BuilderFlowProps) =>
       <AnimatePresence>
         {type === 'setting-to-diamond' ? (
           currentStep === 0 ? (
-            <SettingBuildStep collectionSlug={collectionSlug} productSlug={productSlug} updateFlowData={updateFlowData} />
+            shopifyProductData && (
+              <SettingBuildStep
+                updateFlowData={updateFlowData}
+                shopifyProductData={shopifyProductData}
+                settingSlugs={settingSlugs}
+                updateSettingSlugs={updateSettingSlugs}
+                flowIndex={0}
+              />
+            )
           ) : currentStep === 1 ? (
-            <DiamondBuildStep changeStep={changeStep} flowIndex={1} />
+            <DiamondBuildStep
+              changeStep={changeStep}
+              flowIndex={1}
+              updateSettingSlugs={updateSettingSlugs}
+              settingSlugs={settingSlugs}
+            />
           ) : currentStep === 2 ? (
             // <ReviewBuildStep changeStep={changeStep} productIconListType={productIconListType} />
-            <ReviewBuildStep changeStep={changeStep} />
+            <ReviewBuildStep settingSlugs={settingSlugs} changeStep={changeStep} />
           ) : null
         ) : currentStep === 0 ? (
           <DiamondBuildStep changeStep={changeStep} flowIndex={0} />
         ) : currentStep === 1 ? (
-          <SettingSelectStep changeStep={changeStep} flowIndex={1} />
+          <SettingSelectStep
+            changeStep={changeStep}
+            flowIndex={1}
+            settingSlugs={settingSlugs}
+            setSettingSlugs={setSettingSlugs}
+            updateSettingSlugs={updateSettingSlugs}
+          />
         ) : currentStep === 2 ? (
           shopifyProductData && (
             <SettingBuildStep
-              collectionSlug={builderProduct.placeholders.collectionSlug}
-              productSlug={builderProduct.placeholders.productSlug}
-              updateFlowData={updateFlowData}
+              flowIndex={2}
+              settingSlugs={settingSlugs}
+              updateSettingSlugs={updateSettingSlugs}
               shopifyProductData={shopifyProductData}
+              updateFlowData={updateFlowData}
             />
           )
+        ) : currentStep === 3 ? (
+          <ReviewBuildStep settingSlugs={settingSlugs} changeStep={changeStep} />
         ) : null}
       </AnimatePresence>
 

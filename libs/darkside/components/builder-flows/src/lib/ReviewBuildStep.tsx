@@ -1,7 +1,11 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import { ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { useProductDato } from '@diamantaire/darkside/data/hooks';
+import { PdpTypePlural, pdpTypeSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -107,13 +111,19 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const ReviewBuildStep = ({ productIconListType, changeStep }) => {
+const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
   const { builderProduct } = useContext(BuilderProductContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
 
+  const { collectionSlug } = settingSlugs;
+
   const { product, diamond } = builderProduct;
+
+  console.log('product', product);
+
+  const router = useRouter();
 
   const mutatedLotId = diamond?.lotId?.replace(/F/g, '');
 
@@ -136,6 +146,14 @@ const ReviewBuildStep = ({ productIconListType, changeStep }) => {
     setEngravingInputText('');
     setIsEngravingInputVisible(false);
   }
+
+  const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
+  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
+
+  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
+  const productIconListType = datoParentProductData?.productIconList?.productType;
+
+  console.log('productIconListType', productIconListType);
 
   const isEngravingInputEmpty = useMemo(() => {
     return isEngravingInputVisible && engravingInputText.length === 0;
@@ -255,11 +273,11 @@ const ReviewBuildStep = ({ productIconListType, changeStep }) => {
                 </ul>
               </div>
 
-              {/* {product.productType && (
+              {product.productType && productIconListType && (
                 <div className="product-icon-list-container">
                   <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>

@@ -40,8 +40,11 @@ function ConfigurationSelector({
   selectedConfiguration,
   onChange,
   isBuilderFlowOpen,
+  updateSettingSlugs,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
+
+  console.log('isBuilderFlowOpen', isBuilderFlowOpen);
 
   useEffect(() => {
     if (onChange) {
@@ -62,6 +65,20 @@ function ConfigurationSelector({
     [configurations],
   );
 
+  function handleBuilderFlowVariantChange(option: OptionItem, configurationType) {
+    console.log({ configurationType, option });
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('productSlug', option?.id);
+
+    window.history.pushState(null, '', url);
+
+    updateSettingSlugs({
+      productSlug: option?.id,
+    });
+  }
+
   return (
     <StyledConfigurationSelector>
       {validConfigs.map((configurationType) => {
@@ -81,8 +98,12 @@ function ConfigurationSelector({
             label={configurationType}
             options={options}
             selectedOptionValue={selectedOption}
-            onChange={(option) => handleOptionChange(configurationType, option)}
-            renderItemAsLink={true}
+            onChange={
+              isBuilderFlowOpen
+                ? (option) => handleBuilderFlowVariantChange(option, configurationType)
+                : (option) => handleOptionChange(configurationType, option)
+            }
+            renderItemAsLink={isBuilderFlowOpen ? false : true}
           />
         );
       })}

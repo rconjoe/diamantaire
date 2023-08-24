@@ -55,13 +55,17 @@ const DiamondGridStyles = styled.div`
 `;
 
 const DiamondGrid = ({ items, changeStep, flowIndex }) => {
-  const { dispatch } = useContext(BuilderProductContext);
+  const { dispatch, updateURLParam } = useContext(BuilderProductContext);
 
   function selectDiamond(diamond) {
+    console.log('diamondxxx', diamond);
     dispatch({
       type: 'ADD_DIAMOND',
       payload: diamond,
     });
+
+    updateURLParam('lotId', diamond?.lotId);
+
     changeStep(flowIndex + 1);
   }
 

@@ -1,23 +1,18 @@
 import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
-import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
-import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-type BuilderPageParams = {
-  collectionSlug?: string;
-  productSlug?: string;
-  lotId?: string;
+type BuilderPageQueryParams = {
+  collectionSlug?: string | null;
+  productSlug?: string | null;
+  lotId?: string | null;
+  type: 'setting-to-diamond' | 'diamond-to-setting';
 };
 
-export interface BuilderPageProps {
-  params: BuilderPageParams;
-  dehydratedState: DehydratedState;
-}
+export type BuilderPageProps = BuilderPageQueryParams;
 
-const BuilderPage = ({ collectionSlug, productSlug, type }) => {
-  return <BuilderFlow type={type} collectionSlug={collectionSlug} productSlug={productSlug} />;
+const BuilderPage = ({ collectionSlug, productSlug, type, lotId }: BuilderPageProps) => {
+  return <BuilderFlow type={type} collectionSlug={collectionSlug} lotId={lotId} productSlug={productSlug} />;
 };
 
 BuilderPage.getTemplate = getStandardTemplate;
@@ -25,33 +20,32 @@ BuilderPage.getTemplate = getStandardTemplate;
 export default BuilderPage;
 
 export async function getServerSideProps(
-  context: GetServerSidePropsContext<BuilderPageParams>,
+  context: GetServerSidePropsContext<BuilderPageQueryParams>,
 ): Promise<GetServerSidePropsResult<BuilderPageProps>> {
-  console.log('context', context);
+  console.log('contetxxxx', context.query);
 
-  const { params, locale } = context;
+  const { query } = context;
 
-  const { collectionSlug, productSlug } = context.params;
-  const queryClient = new QueryClient();
-  const dataQuery = queries.products.variant(collectionSlug, productSlug);
+  const { collectionSlug, productSlug, lotId } = query as BuilderPageQueryParams;
+  let { type } = query as BuilderPageQueryParams;
 
-  const productType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[context.req.url.split('/')[1]] || null;
-
-  console.log('xxx', productType);
-
-  await queryClient.prefetchQuery(dataQuery);
-  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });
-
-  if (!queryClient.getQueryData(dataQuery.queryKey)) {
-    return {
-      notFound: true,
-    };
+  if (!type) {
+    // 1. Identify the flow type based on URL params
+    if (collectionSlug && productSlug && !lotId) {
+      type = 'setting-to-diamond';
+    } else if (lotId && !collectionSlug && !productSlug) {
+      type = 'diamond-to-setting';
+    }
   }
+
+  // 2. Identify the step based on URL params
 
   return {
     props: {
-      params,
-      dehydratedState: dehydrate(queryClient),
+      collectionSlug: collectionSlug || null,
+      productSlug: productSlug || null,
+      lotId: lotId || null,
+      type: type || null,
     },
   };
 }

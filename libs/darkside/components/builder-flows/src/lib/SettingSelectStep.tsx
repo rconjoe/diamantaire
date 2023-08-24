@@ -32,11 +32,11 @@ const SettingSelectStepStyles = styled.div`
   }
 `;
 
-const SettingSelectStep = ({ flowIndex, changeStep }) => {
+const SettingSelectStep = ({ flowIndex, changeStep, updateSettingSlugs }) => {
   const router = useRouter();
   const [availableFilters, setAvailableFilters] = useState<any>(null);
   const [paginationPages, setPaginationPages] = useState<any>(null);
-  const { dispatch } = useContext(BuilderProductContext);
+  const { dispatch, updateURLParam } = useContext(BuilderProductContext);
 
   const containerRef = useRef(null);
 
@@ -84,6 +84,10 @@ const SettingSelectStep = ({ flowIndex, changeStep }) => {
         productSlug,
       },
     });
+
+    updateSettingSlugs({ collectionSlug, productSlug });
+    updateURLParam('collectionSlug', collectionSlug);
+    updateURLParam('productSlug', productSlug);
 
     changeStep(flowIndex + 1);
   }

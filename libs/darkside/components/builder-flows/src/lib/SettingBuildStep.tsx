@@ -34,10 +34,12 @@ const SettingBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const SettingBuildStep = ({ collectionSlug, productSlug, updateFlowData, shopifyProductData }) => {
-  console.log('inheritted', { collectionSlug, productSlug });
+const SettingBuildStep = ({ updateSettingSlugs, settingSlugs, shopifyProductData, updateFlowData, flowIndex }) => {
+  console.log('inheritted', { settingSlugs });
 
   console.log('shopifyProductData', shopifyProductData);
+
+  const { collectionSlug, productSlug } = settingSlugs;
 
   const router = useRouter();
 
@@ -47,7 +49,6 @@ const SettingBuildStep = ({ collectionSlug, productSlug, updateFlowData, shopify
   const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
-  const productIconListType = datoParentProductData?.productIconList?.productType;
 
   const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
     datoParentProductData || {};
@@ -71,8 +72,6 @@ const SettingBuildStep = ({ collectionSlug, productSlug, updateFlowData, shopify
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
-  console.log('!isEmptyObject(shopifyProductData', !isEmptyObject(shopifyProductData));
-
   if (!isEmptyObject(shopifyProductData)) {
     // Fallback for Jewelry Products
     if (!additionalVariantData) {
@@ -84,8 +83,6 @@ const SettingBuildStep = ({ collectionSlug, productSlug, updateFlowData, shopify
       additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
       additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
-
-    console.log('asset', assetStack?.[0]);
 
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = productTitle;
@@ -149,8 +146,11 @@ const SettingBuildStep = ({ collectionSlug, productSlug, updateFlowData, shopify
             initialVariantId={initialVariantId}
             additionalVariantData={additionalVariantData}
             product={{ ...product }}
+            // This controls what url updates do to the flow data
             isBuilderFlowOpen={true}
+            updateSettingSlugs={updateSettingSlugs}
             updateFlowData={updateFlowData}
+            flowIndex={flowIndex}
           />
           <ProductDescription
             description={productDescription}

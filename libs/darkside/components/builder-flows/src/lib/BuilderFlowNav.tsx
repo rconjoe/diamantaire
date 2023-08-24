@@ -155,6 +155,7 @@ const BuilderFlowNavStyles = styled.div`
 `;
 
 const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, type }) => {
+  console.log('init type', type);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const allowedKeys = ['product', 'diamond'];
