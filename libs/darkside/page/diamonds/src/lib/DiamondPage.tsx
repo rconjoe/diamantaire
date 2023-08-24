@@ -1,6 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
 import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
@@ -41,10 +40,8 @@ interface DiamondPageProps {
 }
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log('diamond page rendering');
   const router = useRouter();
-  const [isBuilderFlowOpen, setIsBuilderFlowOpen] = useState(true);
-  const [activeRow, setActiveRow] = useState(null);
+
   const { isMobile } = useContext(GlobalContext);
   const { locale, currencyCode } = props;
   const [options, setOptions] = useState(props.options);
@@ -159,7 +156,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
           )}
 
           <DiamondTable {...tableProps} />
-          {isBuilderFlowOpen && <BuilderFlow type="diamond-to-setting" lotId="sss" />}
         </div>
 
         <ShowMobileOnly>

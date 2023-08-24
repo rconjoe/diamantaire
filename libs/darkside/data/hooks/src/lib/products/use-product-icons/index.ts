@@ -24,7 +24,7 @@ type ProductIconListProps = {
 };
 
 export function useProductIconList(
-  productType: 'engagement-ring' | 'wedding-band' | 'jewelry',
+  productType: 'engagement-ring' | 'wedding-band' | 'jewelry' | 'Diamond PDP',
   locale: string,
 ): UseQueryResult<ProductIconListProps, unknown> {
   return useQuery({

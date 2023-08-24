@@ -18,8 +18,6 @@ interface Info {
 }
 
 const DiamondTable = (props) => {
-  console.log('diamond table rendering', props);
-
   const {
     currencyCode,
     locale,
@@ -31,7 +29,6 @@ const DiamondTable = (props) => {
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
-    changeStep,
     // activeRow,
     // setActiveRow,
     flowIndex,
@@ -319,7 +316,7 @@ const DiamondTable = (props) => {
           </div>
         </div>
       </StyledDiamondTable>
-      {!isTableView && <DiamondGrid items={initialDiamonds} changeStep={changeStep} flowIndex={flowIndex} />}
+      {!isTableView && <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />}
     </>
   );
 };

@@ -1,11 +1,9 @@
 import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
-import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { objectToURLSearchParams } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
-import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 
@@ -32,11 +30,12 @@ const SettingSelectStepStyles = styled.div`
   }
 `;
 
-const SettingSelectStep = ({ flowIndex, changeStep, updateSettingSlugs }) => {
-  const router = useRouter();
+const SettingSelectStep = ({ flowIndex, updateSettingSlugs }) => {
   const [availableFilters, setAvailableFilters] = useState<any>(null);
   const [paginationPages, setPaginationPages] = useState<any>(null);
-  const { dispatch, updateURLParam } = useContext(BuilderProductContext);
+  const { updateURLParam } = useContext(BuilderProductContext);
+
+  const { updateStep } = useContext(BuilderProductContext);
 
   const containerRef = useRef(null);
 
@@ -57,13 +56,12 @@ const SettingSelectStep = ({ flowIndex, changeStep, updateSettingSlugs }) => {
 
   const [filterValue, setFilterValues] = useState<FilterValueProps>(null);
 
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
-
-  const { hero, promoCardCollection, creativeBlocks } = plpData || {};
+  // Keep in case we're asked to add creative to PLP in this view
+  // const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+  // const { hero, promoCardCollection, creativeBlocks } = plpData || {};
+  // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(qParams, []);
-
-  // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
   // Handle pagination
   useEffect(() => {
@@ -76,20 +74,13 @@ const SettingSelectStep = ({ flowIndex, changeStep, updateSettingSlugs }) => {
   }, [inView, fetchNextPage, hasNextPage]);
 
   function selectSetting({ collectionSlug, productSlug }) {
-    console.log('selectSetting running', collectionSlug, productSlug);
-    dispatch({
-      type: 'ADD_PLACEHOLDERS',
-      payload: {
-        collectionSlug,
-        productSlug,
-      },
-    });
+    console.log('selectSetting running', flowIndex + 1);
 
     updateSettingSlugs({ collectionSlug, productSlug });
     updateURLParam('collectionSlug', collectionSlug);
     updateURLParam('productSlug', productSlug);
 
-    changeStep(flowIndex + 1);
+    updateStep(flowIndex + 1);
   }
 
   // Handle filter changes
@@ -175,7 +166,6 @@ const SettingSelectStep = ({ flowIndex, changeStep, updateSettingSlugs }) => {
             promoCardCollectionId={''}
             creativeBlockIds={[]}
             initialProducts={[]}
-            initialFilterValues={{}}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
             isSettingSelect={true}

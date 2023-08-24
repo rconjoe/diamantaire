@@ -45,7 +45,7 @@ const initialOptions = {
   sortOrder: 'desc',
 };
 
-const DiamondBuildStep = ({ changeStep, flowIndex }) => {
+const DiamondBuildStep = ({ flowIndex }) => {
   const [loading, setLoading] = useState(true);
   const [isTableView, setIsTableView] = useState(false);
   const [options, setOptions] = useState(initialOptions);
@@ -138,7 +138,6 @@ const DiamondBuildStep = ({ changeStep, flowIndex }) => {
                 {...tableOptions}
                 isBuilderFlowOpen={true}
                 isTableView={isTableView}
-                changeStep={changeStep}
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
                 flowIndex={flowIndex}

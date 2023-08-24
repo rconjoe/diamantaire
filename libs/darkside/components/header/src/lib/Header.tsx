@@ -1,5 +1,6 @@
-import { Cart, CartContext } from '@diamantaire/darkside/components/cart';
+import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from 'framer-motion';

@@ -17,7 +17,6 @@ import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -73,7 +72,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specfic Data
-  const { id, parentProductId, productContent, collectionContent, configuration, price, productType } = shopifyProductData;
+  const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
@@ -94,8 +93,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
 
-  console.log('asset', assetStack[0]);
-
   additionalVariantData.productType = shopifyProductData.productType;
   additionalVariantData.productTitle = productTitle;
   additionalVariantData.price = price;
@@ -111,8 +108,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Can this product be added directly to cart?
   const isBuilderProduct = configuration.caratWeight === 'other';
-
-  const [isBuilderFlowOpen, setIsBuilderFlowOpen] = useState(true);
 
   const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
@@ -139,7 +134,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               initialVariantId={id}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
-              product={{ productType, collectionSlug, productSlug }}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}

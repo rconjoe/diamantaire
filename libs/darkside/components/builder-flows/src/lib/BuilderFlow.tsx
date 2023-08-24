@@ -1,20 +1,18 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_TYPE_HUMAN_NAMES, PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
+import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 import BuilderFlowNav from './BuilderFlowNav';
 import DiamondBuildStep from './DiamondBuildStep';
 import ReviewBuildStep from './ReviewBuildStep';
 import SettingBuildStep from './SettingBuildStep';
 import SettingSelectStep from './SettingSelectStep';
-
-export const FreezeBody = createGlobalStyle`
-  body, html {
-    overflow: hidden;
-  }
-`;
 
 const BuilderFlowStyles = styled.div`
   position: fixed;
@@ -60,6 +58,7 @@ type BuilderFlowProps = {
   productSlug?: string;
   lotId?: string;
   type: 'setting-to-diamond' | 'diamond-to-setting';
+  initialStep: number;
 };
 
 const BuilderFlow = ({
@@ -67,11 +66,21 @@ const BuilderFlow = ({
   productSlug: initialProductSlug,
   lotId: initialLotId,
   type,
+  initialStep,
 }: BuilderFlowProps) => {
   const [settingSlugs, setSettingSlugs] = useState({
     collectionSlug: initialCollectionSlug,
     productSlug: initialProductSlug,
   });
+
+  const [initDiamond, setInitDiamond] = useState(false);
+
+  const { builderProduct, updateURLParam, updateFlowData } = useContext(BuilderProductContext);
+  const currentStep = builderProduct.step;
+  const [shopifyProductData, setShopifyProductData] = useState(null);
+  const router = useRouter();
+
+  // console.log('init flow', initialLotId, initialCollectionSlug, initialProductSlug, type);
 
   function updateSettingSlugs(value: object) {
     setSettingSlugs({
@@ -80,61 +89,138 @@ const BuilderFlow = ({
     });
   }
 
-  console.log('init flow', initialLotId, initialCollectionSlug, initialProductSlug, type);
-  const { builderProduct, dispatch } = useContext(BuilderProductContext);
+  // Jewelry | ER | Wedding Band
+  const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
 
-  const [currentStep, setCurrentStep] = useState(0);
-  const [shopifyProductData, setShopifyProductData] = useState(null);
+  const { data }: { data: any } = useProductDato(settingSlugs?.collectionSlug, router.locale, pdpType);
 
-  function changeStep(step) {
-    setCurrentStep(step);
+  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
+
+  const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
+    datoParentProductData || {};
+
+  // Variant Specfic Data
+  const {
+    id: initialVariantId,
+    productContent,
+    collectionContent,
+    configuration: selectedConfiguration,
+    price,
+  } = shopifyProductData || {};
+  const { productTitle } = collectionContent || {};
+
+  const configurations = shopifyProductData?.optionConfigs;
+  const assetStack = productContent?.assetStack; // flatten array in normalization
+
+  const variantHandle = productContent?.shopifyProductHandle;
+
+  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+
+  if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null) {
+    // Fallback for Jewelry Products
+    if (!additionalVariantData) {
+      additionalVariantData = productContent;
+    } else {
+      // Add Shopify Product Data to Dato Product Data
+      additionalVariantData = additionalVariantData?.omegaProduct;
+      additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
+      additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+      additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
+    }
+
+    additionalVariantData.productType = shopifyProductData.productType;
+    additionalVariantData.productTitle = productTitle;
+    additionalVariantData.price = price;
+    additionalVariantData.image = {
+      src: assetStack[0].url,
+      width: assetStack[0].width,
+      height: assetStack[0].width,
+      responsiveImage: {
+        src: assetStack?.[0]?.url,
+        ...assetStack[0].responsiveImage,
+      },
+    };
   }
 
-  function updateFlowData(action, value, nextStep = null) {
-    dispatch({ type: action, payload: value });
+  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
-    if (nextStep) {
-      changeStep(nextStep);
+  const productSpecId = datoParentProductData?.specLabels?.id;
+
+  async function getPdpProduct() {
+    const qParams = new URLSearchParams({
+      slug: settingSlugs?.collectionSlug,
+      id: settingSlugs?.productSlug,
+    }).toString();
+
+    const response = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => res);
+
+    setShopifyProductData(response);
+  }
+
+  async function getDiamond() {
+    const qParams = new URLSearchParams({
+      lotId: initialLotId,
+    }).toString();
+    const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
+      .then((res) => res.json())
+      .then((res) => res);
+
+    updateFlowData('ADD_DIAMOND', diamondResponse);
+  }
+
+  async function fetchProductAndDimaond() {
+    if (settingSlugs?.collectionSlug && settingSlugs?.productSlug) {
+      await getPdpProduct();
+    }
+
+    // Only run on load
+    if (initialLotId && !initDiamond) {
+      setInitDiamond(true);
+      await getDiamond();
     }
   }
 
   useEffect(() => {
-    async function getPdpProduct() {
-      const qParams = new URLSearchParams({
-        slug: settingSlugs?.collectionSlug,
-        id: settingSlugs?.productSlug,
-      }).toString();
-
-      const reqUrl = `/api/pdp/getPdpProduct?${qParams}`;
-
-      console.log('reqUrl', reqUrl);
-
-      const response = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => res);
-
-      setShopifyProductData(response);
-    }
-
-    async function fetchProduct() {
-      if (settingSlugs?.collectionSlug && settingSlugs?.productSlug) {
-        await getPdpProduct();
-      }
-    }
-
-    fetchProduct();
+    fetchProductAndDimaond();
   }, [settingSlugs]);
+
+  // This pulls in a pre-existing product if it exists on the initial URL
+  useEffect(() => {
+    if (additionalVariantData && selectedConfiguration) {
+      updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration });
+    }
+  }, [additionalVariantData, selectedConfiguration, shopifyProductData]);
+
+  useEffect(() => {
+    // Initializes all data based on the server-side props
+
+    // Initial Step - looks for step param, and uses logic to guess when one isn't present
+    updateFlowData('UPDATE_STEP', { step: initialStep });
+
+    // Type - Sometimes type might not be in url, this makes sure it's always there based on the collectiongSlug and productSlug that come back from getServersideProps
+    updateURLParam('type', type);
+
+    // Product + variant by productSlug + collectionSlug
+    fetchProductAndDimaond();
+  }, []);
 
   return (
     <BuilderFlowStyles>
       <FreezeBody />
       <div className="custom-builder-message">
-        {/* <p>You are currently customizing a {productTitle?.replace('The', '')} engagement ring</p> */}
+        <p>
+          You are currently customizing a{' '}
+          {type === 'setting-to-diamond'
+            ? productTitle + ' engagement ring'
+            : DIAMOND_TYPE_HUMAN_NAMES[builderProduct?.diamond?.diamondType] + ' diamond'}
+        </p>
         <ul>
           <li>
             <DarksideButton type="underline" colorTheme="white">
@@ -148,56 +234,59 @@ const BuilderFlow = ({
           currentStep === 0 ? (
             shopifyProductData && (
               <SettingBuildStep
+                flowIndex={0}
                 updateFlowData={updateFlowData}
                 shopifyProductData={shopifyProductData}
-                settingSlugs={settingSlugs}
+                // settingSlugs={settingSlugs}
                 updateSettingSlugs={updateSettingSlugs}
-                flowIndex={0}
+                configurations={configurations}
+                assetStack={assetStack}
+                initialVariantId={initialVariantId}
+                selectedConfiguration={selectedConfiguration}
+                additionalVariantData={additionalVariantData}
+                productDescription={productDescription}
+                productTitle={productTitle}
+                price={price}
+                productSpecId={productSpecId}
+                parentProductAttributes={parentProductAttributes}
               />
             )
           ) : currentStep === 1 ? (
-            <DiamondBuildStep
-              changeStep={changeStep}
-              flowIndex={1}
-              updateSettingSlugs={updateSettingSlugs}
-              settingSlugs={settingSlugs}
-            />
+            <DiamondBuildStep flowIndex={1} />
           ) : currentStep === 2 ? (
-            // <ReviewBuildStep changeStep={changeStep} productIconListType={productIconListType} />
-            <ReviewBuildStep settingSlugs={settingSlugs} changeStep={changeStep} />
+            builderProduct.product && builderProduct.diamond && <ReviewBuildStep settingSlugs={settingSlugs} />
           ) : null
         ) : currentStep === 0 ? (
-          <DiamondBuildStep changeStep={changeStep} flowIndex={0} />
+          <DiamondBuildStep flowIndex={0} />
         ) : currentStep === 1 ? (
-          <SettingSelectStep
-            changeStep={changeStep}
-            flowIndex={1}
-            settingSlugs={settingSlugs}
-            setSettingSlugs={setSettingSlugs}
-            updateSettingSlugs={updateSettingSlugs}
-          />
+          <SettingSelectStep flowIndex={1} updateSettingSlugs={updateSettingSlugs} />
         ) : currentStep === 2 ? (
           shopifyProductData && (
             <SettingBuildStep
               flowIndex={2}
-              settingSlugs={settingSlugs}
-              updateSettingSlugs={updateSettingSlugs}
-              shopifyProductData={shopifyProductData}
               updateFlowData={updateFlowData}
+              shopifyProductData={shopifyProductData}
+              // Do we want variants to be temp or not
+              // settingSlugs={settingSlugs}
+              updateSettingSlugs={updateSettingSlugs}
+              configurations={configurations}
+              assetStack={assetStack}
+              initialVariantId={initialVariantId}
+              selectedConfiguration={selectedConfiguration}
+              additionalVariantData={additionalVariantData}
+              productDescription={productDescription}
+              productTitle={productTitle}
+              price={price}
+              productSpecId={productSpecId}
+              parentProductAttributes={parentProductAttributes}
             />
           )
         ) : currentStep === 3 ? (
-          <ReviewBuildStep settingSlugs={settingSlugs} changeStep={changeStep} />
+          builderProduct.product && builderProduct.diamond && <ReviewBuildStep settingSlugs={settingSlugs} />
         ) : null}
       </AnimatePresence>
 
-      <BuilderFlowNav
-        changeStep={changeStep}
-        // product={{ productType, collectionSlug, productSlug, title: productTitle, price }}
-        currentStep={currentStep}
-        builderFlowState={builderProduct}
-        type={type}
-      />
+      <BuilderFlowNav currentStep={currentStep} settingSlugs={settingSlugs} type={type} />
     </BuilderFlowStyles>
   );
 };

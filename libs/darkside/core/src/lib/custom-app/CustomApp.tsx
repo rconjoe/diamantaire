@@ -1,5 +1,5 @@
-import { CartProvider } from '@diamantaire/darkside/components/cart';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
+import { CartProvider } from '@diamantaire/darkside/context/cart-context';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
 import { GlobalStyles } from '@diamantaire/styles/darkside-styles';

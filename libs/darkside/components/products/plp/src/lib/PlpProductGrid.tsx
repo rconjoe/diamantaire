@@ -33,12 +33,11 @@ type PlpProductGridProps = {
   };
   filterValue: FilterValueProps;
   setFilterValues;
-  initialFilterValues: {
-    [key in FilterTypeProps]: string;
-  };
+
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
   isSettingSelect?: boolean;
+  selectSetting?: (_obj: { collectionSlug: string; productSlug: string }) => void;
 };
 
 const PlpProductGrid = ({

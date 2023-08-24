@@ -16,6 +16,7 @@ interface OptionSelectorProps {
   selectedOptionValue: string;
   onChange?: (option: OptionItem) => void;
   renderItemAsLink?: boolean;
+  isBuilderFlowOpen?: boolean;
 }
 
 const StyledOptionSelector = styled.div`

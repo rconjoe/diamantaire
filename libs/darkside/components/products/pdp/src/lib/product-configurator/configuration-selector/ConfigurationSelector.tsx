@@ -9,6 +9,7 @@ interface ConfigurationSelectorProps {
   selectedConfiguration: { [key: string]: string };
   onChange?: (configState: { [key: string]: string }) => void;
   isBuilderFlowOpen?: boolean;
+  updateSettingSlugs?: (item: object) => void;
 }
 
 interface ConfigurationSelectorAction {
@@ -43,8 +44,6 @@ function ConfigurationSelector({
   updateSettingSlugs,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
-
-  console.log('isBuilderFlowOpen', isBuilderFlowOpen);
 
   useEffect(() => {
     if (onChange) {

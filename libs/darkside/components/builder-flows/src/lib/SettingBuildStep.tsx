@@ -7,12 +7,9 @@ import {
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
-import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -34,81 +31,28 @@ const SettingBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const SettingBuildStep = ({ updateSettingSlugs, settingSlugs, shopifyProductData, updateFlowData, flowIndex }) => {
-  console.log('inheritted', { settingSlugs });
-
-  console.log('shopifyProductData', shopifyProductData);
-
-  const { collectionSlug, productSlug } = settingSlugs;
-
-  const router = useRouter();
-
-  // Jewelry | ER | Wedding Band
-  const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
-
-  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
-
-  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
-
-  const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
-    datoParentProductData || {};
-
-  // Variant Specfic Data
-  const {
-    id: initialVariantId,
-    parentProductId,
-    productContent,
-    collectionContent,
-    configuration: selectedConfiguration,
-    price,
-    productType,
-  } = shopifyProductData || {};
-  const { productTitle } = collectionContent || {};
-
-  const configurations = shopifyProductData?.optionConfigs;
-  const assetStack = productContent?.assetStack; // flatten array in normalization
-
-  const variantHandle = productContent?.shopifyProductHandle;
-
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
-
-  if (!isEmptyObject(shopifyProductData)) {
-    // Fallback for Jewelry Products
-    if (!additionalVariantData) {
-      additionalVariantData = productContent;
-    } else {
-      // Add Shopify Product Data to Dato Product Data
-      additionalVariantData = additionalVariantData?.omegaProduct;
-      additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
-      additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
-      additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
-    }
-
-    additionalVariantData.productType = shopifyProductData.productType;
-    additionalVariantData.productTitle = productTitle;
-    additionalVariantData.price = price;
-    additionalVariantData.image = {
-      src: assetStack[0].url,
-      width: assetStack[0].width,
-      height: assetStack[0].width,
-      responsiveImage: {
-        src: assetStack?.[0]?.url,
-        ...assetStack[0].responsiveImage,
-      },
-    };
-  }
-
-  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
-
+const SettingBuildStep = ({
+  updateSettingSlugs,
+  shopifyProductData,
+  updateFlowData,
+  flowIndex,
+  parentProductAttributes,
+  assetStack,
+  selectedConfiguration,
+  configurations,
+  initialVariantId,
+  additionalVariantData,
+  productTitle,
+  price,
+  productDescription,
+  productSpecId,
+}) => {
   const product = useMemo(() => {
     return {
-      productType,
-      collectionSlug,
-      productSlug,
       title: productTitle,
-      price,
+      price: price,
     };
-  }, [productType, collectionSlug, productSlug, productTitle, price]);
+  }, [productTitle, price]);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -145,8 +89,6 @@ const SettingBuildStep = ({ updateSettingSlugs, settingSlugs, shopifyProductData
             selectedConfiguration={selectedConfiguration}
             initialVariantId={initialVariantId}
             additionalVariantData={additionalVariantData}
-            product={{ ...product }}
-            // This controls what url updates do to the flow data
             isBuilderFlowOpen={true}
             updateSettingSlugs={updateSettingSlugs}
             updateFlowData={updateFlowData}
@@ -156,7 +98,7 @@ const SettingBuildStep = ({ updateSettingSlugs, settingSlugs, shopifyProductData
             description={productDescription}
             productAttributes={{ ...parentProductAttributes }}
             variantAttributes={additionalVariantData}
-            productSpecId={datoParentProductData?.specLabels?.id}
+            productSpecId={productSpecId}
           />
         </div>
       </div>

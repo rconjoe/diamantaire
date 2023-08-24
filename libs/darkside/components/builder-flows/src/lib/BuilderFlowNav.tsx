@@ -1,7 +1,8 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import SummaryItem from './SummaryItem';
@@ -71,7 +72,7 @@ const BuilderFlowNavStyles = styled.div`
     }
     .summary-container {
       display: flex;
-      flex: 1;
+      flex: 0 0 280px;
       justify-content: flex-end;
       > div {
         flex: 0 0 280px;
@@ -154,13 +155,14 @@ const BuilderFlowNavStyles = styled.div`
   }
 `;
 
-const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, type }) => {
-  console.log('init type', type);
+const BuilderFlowNav = ({ currentStep, type, settingSlugs }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+
+  const { updateStep, builderProduct } = useContext(BuilderProductContext);
 
   const allowedKeys = ['product', 'diamond'];
 
-  const sortedKeys = Object.keys(builderFlowState)
+  const sortedKeys = Object.keys(builderProduct)
     .filter((key) => allowedKeys.includes(key))
     .sort((a, b) => {
       return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
@@ -169,16 +171,16 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
   const steps = {
     'setting-to-diamond': [
       {
-        title: 'Choose a setting',
+        title: 'Customize a setting',
         enabled: true,
       },
       {
         title: 'Choose a diamond',
-        enabled: builderFlowState?.product,
+        enabled: builderProduct?.product,
       },
       {
         title: 'Review and Purchase',
-        enabled: builderFlowState?.diamond && builderFlowState?.product,
+        enabled: builderProduct?.diamond && builderProduct?.product,
       },
     ],
     'diamond-to-setting': [
@@ -188,11 +190,15 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
       },
       {
         title: 'Choose a setting',
-        enabled: builderFlowState?.diamond,
+        enabled: builderProduct?.diamond,
+      },
+      {
+        title: 'Customize a setting',
+        enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
       },
       {
         title: 'Review and Purchase',
-        enabled: builderFlowState?.diamond && builderFlowState?.product,
+        enabled: builderProduct?.diamond && builderProduct?.product,
       },
     ],
   };
@@ -202,9 +208,6 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
       <div className="nav__inner">
         <nav>
           <div className="steps-container">
-            <Heading type="h2" className="primary">
-              {/* {product?.title} Engagement Ring */}
-            </Heading>
             <ul>
               {steps[type].map((step, index) => {
                 return (
@@ -215,7 +218,7 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
                       })}
                       type="outline"
                       disabled={!step.enabled}
-                      onClick={() => changeStep(index)}
+                      onClick={() => updateStep(index)}
                     >
                       <span>Step {index + 1}</span> {step.title}
                     </DarksideButton>
@@ -228,11 +231,11 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
             <DarksideButton
               className={clsx({
                 active: isSummaryOpen,
-                disabled: !builderFlowState?.diamond && !builderFlowState?.product,
+                disabled: !builderProduct?.diamond && !builderProduct?.product,
               })}
               type="solid"
               colorTheme="teal"
-              disabled={!builderFlowState?.diamond && !builderFlowState?.product}
+              disabled={!builderProduct?.diamond && !builderProduct?.product}
               onClick={() => setIsSummaryOpen(!isSummaryOpen)}
             >
               Summary
@@ -262,11 +265,11 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
                   Summary
                 </Heading>
                 <div className="builder-summary__content__inner">
-                  {builderFlowState &&
+                  {builderProduct &&
                     sortedKeys.map((key: string, index) => {
-                      if (!builderFlowState[key] || (key !== 'product' && key !== 'diamond')) return null;
+                      if (!builderProduct[key] || (key !== 'product' && key !== 'diamond')) return null;
 
-                      const summaryItem = builderFlowState[key];
+                      const summaryItem = builderProduct[key];
 
                       return (
                         <SummaryItem
@@ -274,7 +277,6 @@ const BuilderFlowNav = ({ changeStep, product, currentStep, builderFlowState, ty
                           type={key}
                           index={index}
                           key={`summary-item-${index}`}
-                          changeStep={changeStep}
                           showPrice={false}
                         />
                       );

@@ -1,8 +1,9 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES, bandAccentTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 const SummaryItemStyles = styled.div`
@@ -64,12 +65,12 @@ type SummaryItemProps = {
   item: any;
   type?: 'product' | 'diamond';
   showPrice: boolean;
-  changeStep: (_index) => void;
   index: number;
 };
 
-const SummaryItem = ({ item, type = 'product', showPrice = false, changeStep, index }: SummaryItemProps) => {
+const SummaryItem = ({ item, type = 'product', showPrice = false, index }: SummaryItemProps) => {
   const { productTitle, image, metal, price, bandAccent, goldPurity, diamondType, clarity, carat, cut, color } = item || {};
+  const { updateStep } = useContext(BuilderProductContext);
 
   let src = null;
 
@@ -109,7 +110,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false, changeStep, in
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => changeStep(index)}>
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(index)}>
               Modify
             </DarksideButton>
           </div>
@@ -134,7 +135,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false, changeStep, in
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => changeStep(index)}>
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(index)}>
               Modify
             </DarksideButton>
           </div>

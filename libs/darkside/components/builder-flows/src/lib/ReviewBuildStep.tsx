@@ -111,7 +111,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
+const ReviewBuildStep = ({ settingSlugs }) => {
   const { builderProduct } = useContext(BuilderProductContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -120,8 +120,6 @@ const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
   const { collectionSlug } = settingSlugs;
 
   const { product, diamond } = builderProduct;
-
-  console.log('product', product);
 
   const router = useRouter();
 
@@ -153,8 +151,6 @@ const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
-  console.log('productIconListType', productIconListType);
-
   const isEngravingInputEmpty = useMemo(() => {
     return isEngravingInputVisible && engravingInputText.length === 0;
   }, [engravingInputText]);
@@ -181,7 +177,7 @@ const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
         <div className="product-summary">
           <div className="product-summary__inner">
             <Heading type="h1" className="secondary no-margin">
-              {product.productTitle}
+              {product?.productTitle}
             </Heading>
             <p className="total-price">
               <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
@@ -196,16 +192,7 @@ const ReviewBuildStep = ({ settingSlugs, changeStep }) => {
 
                     const summaryItem = builderProduct[key];
 
-                    return (
-                      <SummaryItem
-                        item={summaryItem}
-                        type={key}
-                        key={index}
-                        index={index}
-                        showPrice={true}
-                        changeStep={changeStep}
-                      />
-                    );
+                    return <SummaryItem item={summaryItem} type={key} key={index} index={index} showPrice={true} />;
                   })}
               </div>
             </div>

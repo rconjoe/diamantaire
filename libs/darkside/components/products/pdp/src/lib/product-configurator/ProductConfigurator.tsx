@@ -1,10 +1,10 @@
-import { CartContext } from '@diamantaire/darkside/components/cart';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
-import { useCallback, useState, Dispatch, SetStateAction, useContext } from 'react';
+import { useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
@@ -18,14 +18,10 @@ type ProductConfiguratorProps = {
   diamondId?: string;
   additionalVariantData?: Record<string, string>;
   isBuilderProduct?: boolean;
-  product: {
-    productType: string;
-    productSlug: string;
-    collectionSlug: string;
-    configuration: Record<string, string>;
-  };
+  updateSettingSlugs?: () => void;
   isBuilderFlowOpen?: boolean;
   updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
+  flowIndex?: number;
 };
 
 function ProductConfigurator({
@@ -34,14 +30,13 @@ function ProductConfigurator({
   selectedConfiguration,
   initialVariantId,
   additionalVariantData,
-  product,
   isBuilderProduct,
   isBuilderFlowOpen = false,
   updateFlowData,
   updateSettingSlugs,
   flowIndex,
 }: ProductConfiguratorProps) {
-  const { builderProduct, dispatch } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(
     !isBuilderProduct || builderProduct.builderState === 'Complete',
@@ -53,15 +48,6 @@ function ProductConfigurator({
   console.log('selectedConfiguration', selectedConfiguration);
 
   // debugger;
-
-  const handleCtaButtonClick = () => {
-    if (isConfigurationComplete) {
-      console.log('ADD TO CART');
-    } else {
-      dispatch({ type: 'ADD_PRODUCT', payload: product });
-      console.log('ADDED PRODUCT, NEED TO ADD DIAMOND');
-    }
-  };
 
   // TODO: this is a hack to get the configurator to work with the current data structure
   const handleConfigChange = useCallback(
@@ -119,7 +105,6 @@ function ProductConfigurator({
         <CtaButton
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
-          onClick={handleCtaButtonClick}
           additionalVariantData={additionalVariantData}
         />
       )}
@@ -146,7 +131,6 @@ const PrimaryButton = styled.button`
 type CtaButtonProps = {
   variantId: string;
   isReadyForCart?: boolean;
-  onClick: Dispatch<SetStateAction<boolean>>;
   additionalVariantData?: any;
 };
 

@@ -1,12 +1,6 @@
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
-import styled, { createGlobalStyle } from 'styled-components';
-
-export const FreezeBody = createGlobalStyle`
-  body, html {
-    overflow: hidden;
-  }
-`;
+import styled from 'styled-components';
 
 export const CartStyles = styled(motion.aside)`
   position: fixed;
