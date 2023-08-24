@@ -1,5 +1,6 @@
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
+import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
@@ -55,6 +56,7 @@ const ModalStyles = styled.div`
     position: relative;
     z-index: 100;
     border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
 
     .header {
@@ -92,8 +94,20 @@ const ModalStyles = styled.div`
       padding: 0 40px 40px;
     }
   }
-  &.sm-modal {
+  &.modal--sm {
     .wrapper {
+      max-width: 90vw;
+      ${media.large`max-width: 1000px;`}
+    }
+  }
+  &.modal--no-title {
+    .wrapper {
+      .header {
+        display: none;
+      }
+      .body {
+        padding: 0;
+      }
     }
   }
   .input-container {
@@ -129,14 +143,18 @@ const ModalStyles = styled.div`
 `;
 
 interface ModalProps extends PropsWithChildren {
-  title: string;
+  title: string | boolean;
   onClose: () => void;
   className?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) => {
   return (
-    <ModalStyles className={className}>
+    <ModalStyles
+      className={clsx(className, {
+        'modal--no-title': title === false,
+      })}
+    >
       <FreezeBody />
       <button className="close" onClick={onClose}></button>
       <div className="wrapper">
