@@ -7,7 +7,7 @@ import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
-import { getCFYOptionsFromUrl } from '@diamantaire/shared/helpers';
+import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
@@ -37,15 +37,18 @@ interface CFYPageProps {
 }
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale } = props;
-
-  const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
-  const { title: seoTitle, description: seoDescription } = ctoDiamondTable?.seo || {};
+  const { locale, options } = props;
+  const { diamondType: selectedDiamondType, carat: selectedCarat } = options;
+  const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { headerTitle, headerCopy } = ctoDiamondTable;
+  let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
+
+  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(selectedDiamondType)?.title || '']);
+  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(selectedDiamondType)?.title || '']);
 
   return (
     <>
-      <StandardPageSeo title={seoTitle} description={seoDescription} />
+      <StandardPageSeo title={seoTitle} description={seoDesc} />
 
       <StyledCFYPage className="container-wrapper">
         <div className="page-main">
@@ -54,7 +57,12 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             <p>{headerCopy}</p>
           </div>
 
-          <DiamondCfyFilters locale={locale} />
+          <DiamondCfyFilters
+            locale={locale}
+            selectedCarat={selectedCarat}
+            selectedDiamondType={selectedDiamondType}
+            diamondShapeDescriptions={allDiamondShapeDescriptions}
+          />
         </div>
 
         <div className="page-aside">
@@ -77,8 +85,6 @@ async function getServerSideProps(
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getCFYOptionsFromUrl(query || {});
-
-  console.log(`** OPTIONS **`, options);
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
   const queryClient = new QueryClient();
