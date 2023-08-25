@@ -34,6 +34,8 @@ const DiamondTable = (props) => {
     flowIndex,
   } = props;
 
+  console.log('initialOptions', initialOptions);
+
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);

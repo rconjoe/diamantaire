@@ -2,10 +2,10 @@ import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/com
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
-import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { isEmptyObject, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import BuilderFlowNav from './BuilderFlowNav';
@@ -74,8 +74,9 @@ const BuilderFlow = ({
   });
 
   const [initDiamond, setInitDiamond] = useState(false);
+  const [initProduct, setInitProduct] = useState(false);
 
-  const { builderProduct, updateURLParam, updateFlowData } = useContext(BuilderProductContext);
+  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const currentStep = builderProduct.step;
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const router = useRouter();
@@ -115,6 +116,8 @@ const BuilderFlow = ({
   const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+
+  console.log('shopifyProductData', shopifyProductData);
 
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null) {
     // Fallback for Jewelry Products
@@ -172,11 +175,18 @@ const BuilderFlow = ({
       .then((res) => res.json())
       .then((res) => res);
 
+    console.log('diamondResponse', diamondResponse);
+
     updateFlowData('ADD_DIAMOND', diamondResponse);
+    updateFlowData('UPDATE_DIAMOND_TYPE', diamondResponse.diamondType);
   }
 
-  async function fetchProductAndDimaond() {
-    if (settingSlugs?.collectionSlug && settingSlugs?.productSlug) {
+  async function fetchProductAndDiamond() {
+    if (
+      (settingSlugs?.collectionSlug && settingSlugs?.productSlug) ||
+      (initialCollectionSlug && initialProductSlug && !initProduct)
+    ) {
+      setInitProduct(true);
       await getPdpProduct();
     }
 
@@ -188,7 +198,7 @@ const BuilderFlow = ({
   }
 
   useEffect(() => {
-    fetchProductAndDimaond();
+    fetchProductAndDiamond();
   }, [settingSlugs]);
 
   // This pulls in a pre-existing product if it exists on the initial URL
@@ -205,30 +215,48 @@ const BuilderFlow = ({
     updateFlowData('UPDATE_STEP', { step: initialStep });
 
     // Type - Sometimes type might not be in url, this makes sure it's always there based on the collectiongSlug and productSlug that come back from getServersideProps
-    updateURLParam('type', type);
+    updateUrlParameter('type', type);
+    updateFlowData('UPDATE_FLOW_TYPE', {
+      flowType: type,
+    });
+
+    if (type === 'diamond-to-setting') {
+      // if there are params for later steps but not the first step, remove them
+      if (!initialLotId && initialCollectionSlug && initialProductSlug) {
+        removeUrlParameter('collectionSlug');
+        removeUrlParameter('productSlug');
+      }
+    }
 
     // Product + variant by productSlug + collectionSlug
-    fetchProductAndDimaond();
+    fetchProductAndDiamond();
   }, []);
+
+  const builderMessage = useMemo(() => {
+    if (type === 'setting-to-diamond' && productTitle) {
+      return productTitle + ' engagement ring';
+    } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
+      return ' a ' + DIAMOND_TYPE_HUMAN_NAMES[builderProduct?.diamond?.diamondType] + ' diamond';
+    } else {
+      return null;
+    }
+  }, [productTitle, builderProduct]);
 
   return (
     <BuilderFlowStyles>
       <FreezeBody />
-      <div className="custom-builder-message">
-        <p>
-          You are currently customizing a{' '}
-          {type === 'setting-to-diamond'
-            ? productTitle + ' engagement ring'
-            : DIAMOND_TYPE_HUMAN_NAMES[builderProduct?.diamond?.diamondType] + ' diamond'}
-        </p>
-        <ul>
-          <li>
-            <DarksideButton type="underline" colorTheme="white">
-              Back to product
-            </DarksideButton>
-          </li>
-        </ul>
-      </div>
+      {builderMessage && (
+        <div className="custom-builder-message">
+          <p>You are currently customizing {builderMessage}</p>
+          <ul>
+            <li>
+              <DarksideButton type="underline" colorTheme="white">
+                Back to product
+              </DarksideButton>
+            </li>
+          </ul>
+        </div>
+      )}
       <AnimatePresence>
         {type === 'setting-to-diamond' ? (
           currentStep === 0 ? (
@@ -237,7 +265,6 @@ const BuilderFlow = ({
                 flowIndex={0}
                 updateFlowData={updateFlowData}
                 shopifyProductData={shopifyProductData}
-                // settingSlugs={settingSlugs}
                 updateSettingSlugs={updateSettingSlugs}
                 configurations={configurations}
                 assetStack={assetStack}
@@ -252,22 +279,24 @@ const BuilderFlow = ({
               />
             )
           ) : currentStep === 1 ? (
-            <DiamondBuildStep flowIndex={1} />
+            <DiamondBuildStep flowIndex={1} diamondTypeToShow={builderProduct?.product?.diamondType} />
           ) : currentStep === 2 ? (
             builderProduct.product && builderProduct.diamond && <ReviewBuildStep settingSlugs={settingSlugs} />
           ) : null
         ) : currentStep === 0 ? (
-          <DiamondBuildStep flowIndex={0} />
+          <DiamondBuildStep flowIndex={0} diamondTypeToShow="round-brilliant" />
         ) : currentStep === 1 ? (
-          <SettingSelectStep flowIndex={1} updateSettingSlugs={updateSettingSlugs} />
+          <SettingSelectStep
+            flowIndex={1}
+            updateSettingSlugs={updateSettingSlugs}
+            settingTypeToShow={builderProduct?.diamond?.diamondType}
+          />
         ) : currentStep === 2 ? (
           shopifyProductData && (
             <SettingBuildStep
               flowIndex={2}
               updateFlowData={updateFlowData}
               shopifyProductData={shopifyProductData}
-              // Do we want variants to be temp or not
-              // settingSlugs={settingSlugs}
               updateSettingSlugs={updateSettingSlugs}
               configurations={configurations}
               assetStack={assetStack}

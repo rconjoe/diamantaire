@@ -1,6 +1,6 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { makeCurrency, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
@@ -55,10 +55,10 @@ const DiamondGridStyles = styled.div`
 `;
 
 const DiamondGrid = ({ items, flowIndex }) => {
-  const { updateURLParam, updateFlowData } = useContext(BuilderProductContext);
+  const { updateFlowData } = useContext(BuilderProductContext);
 
   function selectDiamond(diamond) {
-    updateURLParam('lotId', diamond?.lotId);
+    updateUrlParameter('lotId', diamond?.lotId);
     updateFlowData('ADD_DIAMOND', diamond, flowIndex + 1);
   }
 

@@ -36,16 +36,16 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const initialOptions = {
-  caratMin: 1,
-  diamondType: 'round-brilliant',
-  limit: 20,
-  page: 1,
-  sortBy: 'carat',
-  sortOrder: 'desc',
-};
+const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
+  const initialOptions = {
+    caratMin: 1,
+    diamondType: diamondTypeToShow,
+    limit: 20,
+    page: 1,
+    sortBy: 'carat',
+    sortOrder: 'desc',
+  };
 
-const DiamondBuildStep = ({ flowIndex }) => {
   const [loading, setLoading] = useState(true);
   const [isTableView, setIsTableView] = useState(false);
   const [options, setOptions] = useState(initialOptions);

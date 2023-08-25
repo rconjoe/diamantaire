@@ -1,4 +1,4 @@
-import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
+import { BuilderFlow, validateStep } from '@diamantaire/darkside/components/builder-flows';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
@@ -50,35 +50,18 @@ export async function getServerSideProps(
       type = 'setting-to-diamond';
     } else if (lotId && !collectionSlug && !productSlug) {
       type = 'diamond-to-setting';
+    } else {
+      // what happens if all params are on? how can it guess?
+      type = 'diamond-to-setting';
     }
   }
 
   // 2. Identify the step based on URL params
-  let initialStep = parseFloat(step as string);
+  let initialStep = parseFloat(step);
 
-  console.log('initialStep v1', !initialStep);
+  initialStep = validateStep(initialStep, type, collectionSlug, productSlug, lotId);
 
-  if (!initialStep && initialStep !== 0) {
-    if (type === 'setting-to-diamond') {
-      if (collectionSlug && productSlug && !lotId) {
-        initialStep = 1;
-      } else if (lotId && collectionSlug && productSlug) {
-        initialStep = 2;
-      } else {
-        initialStep = 0;
-      }
-    } else {
-      if (lotId && !collectionSlug && !productSlug) {
-        initialStep = 1;
-      } else if (lotId && collectionSlug && productSlug) {
-        initialStep = 3;
-      } else if (!lotId) {
-        initialStep = 0;
-      } else {
-        initialStep = 0;
-      }
-    }
-  }
+  console.log('initialStep v333', initialStep);
 
   return {
     props: {

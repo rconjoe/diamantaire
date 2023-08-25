@@ -1,7 +1,7 @@
 import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
-import { objectToURLSearchParams } from '@diamantaire/shared/helpers';
+import { objectToURLSearchParams, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -30,10 +30,9 @@ const SettingSelectStepStyles = styled.div`
   }
 `;
 
-const SettingSelectStep = ({ flowIndex, updateSettingSlugs }) => {
+const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow }) => {
   const [availableFilters, setAvailableFilters] = useState<any>(null);
   const [paginationPages, setPaginationPages] = useState<any>(null);
-  const { updateURLParam } = useContext(BuilderProductContext);
 
   const { updateStep } = useContext(BuilderProductContext);
 
@@ -43,9 +42,8 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs }) => {
     root: containerRef.current,
   });
 
-  // const { plpSlug, category, productData, objectParams } = props;
   const category = 'engagement-rings';
-  const plpSlug = 'round-brilliant';
+  const plpSlug = settingTypeToShow || 'round-brilliant';
 
   const objectParams = {
     slug: plpSlug,
@@ -74,11 +72,11 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs }) => {
   }, [inView, fetchNextPage, hasNextPage]);
 
   function selectSetting({ collectionSlug, productSlug }) {
-    console.log('selectSetting running', flowIndex + 1);
+    console.log('selectSetting running', collectionSlug, productSlug);
 
     updateSettingSlugs({ collectionSlug, productSlug });
-    updateURLParam('collectionSlug', collectionSlug);
-    updateURLParam('productSlug', productSlug);
+    updateUrlParameter('collectionSlug', collectionSlug);
+    updateUrlParameter('productSlug', productSlug);
 
     updateStep(flowIndex + 1);
   }
