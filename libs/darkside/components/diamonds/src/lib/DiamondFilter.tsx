@@ -56,7 +56,7 @@ const SliderFilter = (props) => {
           type={type}
           range={{
             min: range[0],
-            max: range[1],
+            max: Math.ceil(range[1]),
           }}
           value={caratValues || range}
           handleChange={handleChange}
