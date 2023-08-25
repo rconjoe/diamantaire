@@ -50,7 +50,7 @@ const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotI
       case value === 'shape':
         return shape;
       case value === 'measurements':
-        return `${width_mm}mm x ${length_mm}mm x ${depth_mm}mm`;
+        return `${length_mm}mm x ${width_mm}mm x ${depth_mm}mm`;
       case value === 'table':
         return `${table_size}%`;
       case value === 'depth':
