@@ -27,10 +27,11 @@ const StyledAccordion = styled.div`
     cursor: pointer;
 
     .text {
-      display: flex;
       gap: 5px;
-      font-size: var(--font-size-xsmall);
+      display: flex;
       align-items: center;
+      font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-normal);
     }
 
     .icon {

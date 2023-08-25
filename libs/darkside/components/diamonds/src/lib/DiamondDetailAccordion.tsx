@@ -339,7 +339,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
   return (
     <StyledDiamondDetailAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} />
+      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} />
     </StyledDiamondDetailAccordion>
   );
 };
