@@ -29,7 +29,7 @@ const StyledAccordion = styled.div`
     .text {
       display: flex;
       gap: 5px;
-      font-size: var(--font-size-xxsmall);
+      font-size: var(--font-size-xsmall);
       align-items: center;
     }
 
@@ -61,11 +61,10 @@ const StyledAccordion = styled.div`
     display: block;
     position: relative;
     padding: 0 0 20px;
-    font-size: var(--font-size-xxsmall);
   }
 
   .accordion-content-wrapper * {
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xsmall);
   }
 
   .accordion-content-wrapper p {
