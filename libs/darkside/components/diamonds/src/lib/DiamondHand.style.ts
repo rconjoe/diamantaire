@@ -49,7 +49,7 @@ const StyledDiamondHand = styled.div`
     width: 100%;
     padding: 1rem;
     * {
-      font-size: var(--font-size-xxxxsmall);
+      font-size: var(--font-size-xxxsmall);
     }
   }
 `;
