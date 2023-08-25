@@ -250,7 +250,7 @@ const DiamondTable = (props) => {
   return (
     <StyledDiamondTable
       className="vo-table"
-      headerHeight={headerHeight}
+      headerHeight={headerHeight - 1}
       triggerOffset={triggerOffset}
       tableHeadHeight={tableHeadHeight}
     >
