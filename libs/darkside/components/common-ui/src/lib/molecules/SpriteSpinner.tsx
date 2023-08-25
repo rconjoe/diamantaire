@@ -84,21 +84,21 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     }
   }
 
-  function playSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+  // function playSpinner() {
+  //   const api = spinnerEl.current.spritespin('api');
 
-    if (api?.data?.animate !== true) {
-      api.toggleAnimation();
-    }
-  }
+  //   if (api?.data?.animate !== true) {
+  //     api.toggleAnimation();
+  //   }
+  // }
 
-  function pauseSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+  // function pauseSpinner() {
+  //   const api = spinnerEl.current.spritespin('api');
 
-    if (api?.data?.animate === true) {
-      api.toggleAnimation();
-    }
-  }
+  //   if (api?.data?.animate === true) {
+  //     api.toggleAnimation();
+  //   }
+  // }
 
   function stopSpinner() {
     if (typeof spinnerEl.current?.spritespin === 'function') {
