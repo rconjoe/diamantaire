@@ -415,8 +415,6 @@ export class DiamondsService {
   async getPlpDiamonds(input: DiamondPlp) {
     try {
       const { slug, sortBy, sortOrder } = input;
-
-      console.log('REQ', slug, sortBy, sortOrder);
       const queryVars = {
         slug,
         category: 'loose-diamonds',
@@ -455,8 +453,6 @@ export class DiamondsService {
 
           const products: ListPageDiamondItem[] = docs.map((diamond: IDiamondCollection) => {
             const { carat, cut, diamondType, clarity, color, price, lotId, dfCertificateUrl, variantId, handle } = diamond;
-
-            console.log(variantId);
 
             return {
               defaultId: variantId,
