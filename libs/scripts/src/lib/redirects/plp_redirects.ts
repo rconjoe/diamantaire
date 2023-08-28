@@ -1,4 +1,7 @@
 import axios from 'axios';
+import 'dotenv/config';
+
+console.log(process.env);
 
 const DIAMOND_PLP_DATA_CONFIG_QUERY = `
   query plpQuery($first: IntType, $skip: IntType) {
@@ -22,11 +25,11 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   console.log('request vars:', page, limit);
   const response = await axios({
     method: 'post',
-    url: `https://graphql.datocms.com/preview`,
+    url: process.env['DATO_GRAPHQL_URI'] || `https://graphql.datocms.com/preview`,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer 7a9eaceb223701945fa52207b67811`,
+      Authorization: `Bearer ${process.env['DATO_READ_ONLY_TOKEN']}`,
     },
     data: {
       query: DIAMOND_PLP_DATA_CONFIG_QUERY,

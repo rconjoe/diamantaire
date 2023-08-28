@@ -1,13 +1,14 @@
 import axios from 'axios';
+import 'dotenv/config';
 
 const CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'caratWeight', 'bandAccent', 'sideStoneShape', 'sideStoneCarat'];
 
 async function getProducts(page = 1) {
   const response = await axios({
     method: 'get',
-    url: `http://localhost:3333/v1/products/feed?limit=100&page=${page}`,
+    url: `${process.env['VRAI_SERVER_BASE_URL']}/v1/products/feed?limit=100&page=${page}`,
     headers: {
-      'x-api-key': '9a508cb5bd527bap332330AK1b4bd9b25b9a508cb5',
+      'x-api-key': process.env['API_KEY'],
       'Content-type': 'application/json',
     },
   });
@@ -101,7 +102,6 @@ function getConfigurationType(productType): { subpath: string[]; query: string[]
         query: CONFIGURATION_PROPERTIES.filter((prop) => !excludedProperties.includes(prop)),
       };
     }
-    case 'GWP':
     case 'Accessory':
     case 'Ring Sizer':
     case 'Gift Card':

@@ -22,14 +22,6 @@ if (!filePath) {
 if (!['-csv', '-json'].includes(exportType)) {
   console.error('Invalid exportType. Must be either -csv or -json');
 }
-
-// if (!source) {
-//   console.error('Missing source base URL argument.');
-// }
-
-// if (!target) {
-//   console.error('Missing target base URL argument.');
-// }
 /** PARAM CHECK END */
 
 async function getDataObj() {
