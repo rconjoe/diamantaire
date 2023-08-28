@@ -2,7 +2,8 @@ import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diaman
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { Fragment, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
@@ -45,17 +46,13 @@ const PlpProductGrid = ({
   promoCardCollectionId,
   creativeBlockIds,
   data,
-  isFetching,
-  initialProducts,
   availableFilters,
   filterValue,
   setFilterValues,
 }: PlpProductGridProps) => {
-  const [products, setProducts] = useState(initialProducts);
-  // const [hasGridInitialized, setHasGridInitialized] = useState(false);
-
+  const router = useRouter();
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
-    'en_US',
+    router.locale,
     promoCardCollectionId,
   );
 
@@ -91,6 +88,7 @@ const PlpProductGrid = ({
   }, [cardCollection]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+  const products = data.pages?.map((page) => page.products).flat() || [];
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -102,25 +100,23 @@ const PlpProductGrid = ({
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
-          {data.pages?.map((page) => {
-            return page.products?.map((product, gridItemIndex) => (
-              <Fragment key={product.defaultId}>
-                {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                  <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
-                )}
+          {products?.map((product, gridItemIndex) => (
+            <Fragment key={product.defaultId}>
+              {cardCollectionObject[gridItemIndex + 1] !== undefined && (
+                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+              )}
 
-                {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                  <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
-                )}
-                {product.productType === 'diamonds' ? (
-                  <PlpDiamondItem product={product} />
-                ) : (
-                  <PlpProductItem product={product} />
-                )}
-              </Fragment>
-            ));
-          })}
-          {products.length === 0 && (
+              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
+                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+              )}
+              {product.productType === 'diamonds' ? (
+                <PlpDiamondItem product={product} />
+              ) : (
+                <PlpProductItem product={product} />
+              )}
+            </Fragment>
+          ))}
+          {products.length > 0 && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>
