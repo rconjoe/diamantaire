@@ -1,9 +1,11 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import StyledAccordion from './Accordion.style';
+import { Heading } from './Heading';
 
 interface AccordionProps {
   activeDefault?: number;
+  isDiamondDetail?: boolean;
   rows: {
     title: React.ReactNode;
     children: React.ReactNode;
@@ -11,7 +13,7 @@ interface AccordionProps {
   }[];
 }
 
-const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => {
+const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDiamondDetail }) => {
   const [activeIndex, setActiveIndex] = useState(activeDefault);
   const accordion = useRef(null);
 
@@ -48,7 +50,11 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null }) => 
         return (
           <div key={index} className={`accordion-row${activeClass} ${row.className}`}>
             <div className="accordion-header" onClick={() => toggleAccordion(index)}>
-              <div className="text">{row.title}</div>
+              {(isDiamondDetail && (
+                <Heading type="h2" className="text">
+                  {row.title}
+                </Heading>
+              )) || <div className="text">{row.title}</div>}
               <div className="icon">{isActive ? '-' : '+'}</div>
             </div>
             <div className="accordion-body">

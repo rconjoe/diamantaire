@@ -62,7 +62,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         </div>
 
         <div className="aside">
-          <Heading className="title" type="h2">
+          <Heading className="title">
             {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
           </Heading>
 
@@ -93,9 +93,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
           <DiamondDetailIconList />
 
           <div className="mail">
-            <Heading className="title" type="h2">
+            <p className="title">
               <UIString>Need more time to think?</UIString>
-            </Heading>
+            </p>
 
             <p>Email this diamond to yourself or drop a hint.</p>
 
