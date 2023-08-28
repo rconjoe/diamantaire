@@ -4,12 +4,12 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TABLE_FILTER_CLARITY_OPTIONS,
-  DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_COLOR_OPTIONS,
-  DIAMOND_TABLE_SHAPES,
+  DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_TITLES,
+  DIAMOND_TABLE_SHAPES,
 } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -41,14 +41,13 @@ const SliderFilter = (props) => {
     return value.toString();
   };
 
-  const values = !!options[type + 'Min'] && !!options[type + 'Max'] ? [options[type + 'Min'], options[type + 'Max']] : null;
+  const { priceMin, priceMax, caratMin, caratMax } = options;
+
+  const priceValues = priceMin && priceMax ? [priceMin, priceMax] : null;
+
+  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1] + 0.1];
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
-
-  if (type === 'price') {
-    console.log(`roundRange`, roundRange);
-    console.log(`values`, values);
-  }
 
   return (
     <div title={type} className="vo-filter-slider">
@@ -58,9 +57,9 @@ const SliderFilter = (props) => {
           type={type}
           range={{
             min: range[0],
-            max: range[1],
+            max: range[1] + 0.1,
           }}
-          value={values || range}
+          value={caratValues || range}
           handleChange={handleChange}
           handleFormat={handleFormat}
         />
@@ -74,7 +73,7 @@ const SliderFilter = (props) => {
             min: roundRange[0],
             max: roundRange[1],
           }}
-          value={values || roundRange}
+          value={priceValues || roundRange}
           handleChange={handleChange}
           handleFormat={handleFormat}
         />
@@ -119,8 +118,28 @@ const RadioFilter = (props) => {
     handleRadioFilterChange(type, values);
   };
 
-  const isActive = (optionUI) => {
-    return optionUI.join() === options[type];
+  const isActive = (optionUI, type) => {
+    if (type === 'diamondType') {
+      return optionUI.join() === options[type];
+    }
+
+    if (type === 'cut') {
+      if (!options[type]) return false;
+
+      const currentActiveOptions = options[type]?.split(',') || [];
+
+      const option = optionUI[0];
+
+      if (currentActiveOptions.includes(option)) return true;
+    }
+
+    if (type === 'clarity' || type === 'color') {
+      if (!options[type]) return false;
+
+      const option = optionUI.join(',');
+
+      if (options[type].includes(option)) return true;
+    }
   };
 
   const handleOnScroll = () => {
@@ -176,10 +195,11 @@ const RadioFilter = (props) => {
           if (type === 'diamondType') {
             const slug = DIAMOND_TABLE_SHAPES[optionUI[0]];
             const shape = diamondIconsMap[slug];
+            const title = getDiamondType(shape.slug).title;
 
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug]) ? 'active' : '')}>
-                <a onClick={() => handleClick([shape.slug])}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
+                <a title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                 </a>
               </li>
@@ -188,7 +208,7 @@ const RadioFilter = (props) => {
 
           if (type === 'color') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'color') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>
                   {stringMap?.option?.[Array.isArray(optionUI) ? optionUI.join('') : optionUI]?.value || ''}
                 </a>
@@ -198,7 +218,7 @@ const RadioFilter = (props) => {
 
           if (type === 'cut') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'cut') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</a>
               </li>
             );
@@ -206,7 +226,7 @@ const RadioFilter = (props) => {
 
           if (type === 'clarity') {
             return (
-              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI) ? 'active' : '')}>
+              <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'clarity') ? 'active' : '')}>
                 <a onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</a>
               </li>
             );

@@ -1,4 +1,5 @@
 import { Slider } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import Image from 'next/image';
@@ -7,18 +8,27 @@ import { useState } from 'react';
 import StyledDiamondHand from './DiamondHand.style';
 import DiamondImage from './DiamondImage';
 
-const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lotId?: string; diamondType?: string }) => {
+const DiamondHand = ({
+  className,
+  lotId,
+  diamondType,
+  withSlider = false,
+}: {
+  className?: string;
+  lotId?: string;
+  diamondType?: string;
+  withSlider?: boolean;
+}) => {
+  const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
+
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
+  const { data: { ranges } = {} } = useDiamondsData({ diamondType });
 
   const [sliderValue, setSliderValue] = useState(Number(product?.carat || 0));
-
-  const { data: { ranges } = {} } = useDiamondsData({ diamondType });
 
   if (!ranges || !product) return;
 
   const range = [ranges?.carat?.[0], ranges?.carat?.[1]];
-
-  const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
   const extraClass = className ? ` ${className}` : '';
 
@@ -168,7 +178,8 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
   };
 
   const handleFormat = (value: number) => {
-    return `${value.toFixed(2)}ct`;
+    // return `${value.toFixed(2)}ct`;
+    return Number(value).toFixed(1) + 'ct';
   };
 
   return (
@@ -183,23 +194,31 @@ const DiamondHand = ({ className, lotId, diamondType }: { className?: string; lo
             <DiamondImage diamondType={diamondType} />
           </div>
         </div>
+
+        <div className="image-caption">
+          <p>
+            {sliderValue}ct | <UIString>Shown on ring size 6</UIString>
+          </p>
+        </div>
       </div>
 
-      <div className="slider swiper-no-swiping">
-        <Slider
-          step={0.01}
-          type="slider-hand"
-          range={{
-            min: range[0],
-            max: range[1],
-          }}
-          value={sliderValue}
-          className="slider-hand"
-          handleChange={(v) => handleChange(v)}
-          handleFormat={(v) => handleFormat(v)}
-          tooltips={{ to: (v) => handleFormat(v) }}
-        />
-      </div>
+      {withSlider && (
+        <div className="slider swiper-no-swiping">
+          <Slider
+            step={0.01}
+            type="slider-hand"
+            range={{
+              min: range[0],
+              max: range[1],
+            }}
+            value={sliderValue}
+            className="slider-hand"
+            handleChange={(v) => handleChange(v)}
+            handleFormat={(v) => handleFormat(v)}
+            tooltips={{ to: (v) => handleFormat(v) }}
+          />
+        </div>
+      )}
     </StyledDiamondHand>
   );
 };

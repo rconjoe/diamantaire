@@ -1,4 +1,3 @@
-import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondPdpData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 
 import StyledDiamondSpecs from './DiamondDetailSpecs.style';
@@ -50,7 +49,7 @@ const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotI
       case value === 'shape':
         return shape;
       case value === 'measurements':
-        return `${width_mm}mm x ${length_mm}mm x ${depth_mm}mm`;
+        return `${length_mm}mm x ${width_mm}mm x ${depth_mm}mm`;
       case value === 'table':
         return `${table_size}%`;
       case value === 'depth':
@@ -97,9 +96,7 @@ const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotI
 
   return (
     <StyledDiamondSpecs className="diamond-specs">
-      <Heading className="title" type="h2">
-        {specsHeadline}
-      </Heading>
+      <p className="title">{specsHeadline}</p>
 
       <div className="spec-list">
         {labels.map(({ copy }: { copy: string; specName: string }) => {

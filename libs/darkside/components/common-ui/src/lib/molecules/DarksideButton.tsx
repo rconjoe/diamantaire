@@ -34,6 +34,10 @@ const DarksideButtonStyles = styled.div`
     font-size: 1.8rem;
     transition: 0.25s;
     font-weight: 500;
+
+    a {
+      color: inherit;
+    }
   }
 
   &.disabled {

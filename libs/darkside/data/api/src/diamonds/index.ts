@@ -54,7 +54,7 @@ export const fetchDiamondData = async (options) => {
 
     const response = await queryClientApi().request({ method: 'GET', url });
 
-    const payload = response.data || {};
+    const payload = response?.data || {};
 
     if (id) {
       return {

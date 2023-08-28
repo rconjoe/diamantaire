@@ -32,6 +32,7 @@ export type ListPageItemConfiguration = {
 
 export type ListPageItemWithConfigurationVariants = {
   defaultId: string;
+  productType: string;
   metal: { value: string; id: string }[];
   variants: {
     [variantId: string]: ListPageItemConfiguration;

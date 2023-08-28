@@ -1,20 +1,17 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { DiamondTable, DiamondFilter, DiamondPromo } from '@diamantaire/darkside/components/diamonds';
+import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
+import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useDiamondsData, OptionsDataTypes } from '@diamantaire/darkside/data/hooks';
+import { UIString } from '@diamantaire/darkside/core';
+import { OptionsDataTypes, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import {
-  DIAMOND_TABLE_DEFAULT_OPTIONS,
-  DIAMOND_TABLE_FACETED_NAV,
-  getCurrencyFromLocale,
-} from '@diamantaire/shared/constants';
+import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getDiamondOptionsFromUrl, getDiamondShallowRoute, getDiamondType } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useState, useEffect, useContext, useMemo } from 'react';
@@ -52,38 +49,77 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   } = useDiamondsData({ ...options });
 
   const DiamondTableContent = useDiamondTableData(locale);
-  const title = DiamondTableContent.data.diamondTable.title;
+
+  const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
+
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
-  const pageSeoTitle = options?.diamondType
-    ? seoTitle.replace(/%%(.*?)%%/g, getDiamondType(options?.diamondType).title)
-    : title;
+  const diamondTypeTitle = (options?.diamondType && getDiamondType(options?.diamondType).title) || '';
+  const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
+  const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
   const updateLoading = (newState) => {
     setLoading(newState);
   };
+
   const updateOptions = (newOptions) => {
     setOptions((prevOptions) => {
-      const updatedOptions = { ...prevOptions, ...newOptions };
-      const keys = Object.keys(updatedOptions);
+      let updatedOptions = { ...prevOptions };
 
-      keys.forEach((key) => {
-        if (DIAMOND_TABLE_FACETED_NAV.includes(key)) {
-          if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
-            delete updatedOptions[key];
-          }
+      const key = Object.keys(newOptions).pop();
+
+      if (key === 'diamondType') {
+        updatedOptions = { ...prevOptions, ...newOptions };
+
+        if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
+          delete updatedOptions[key];
         }
-      });
+      } else if (key === 'cut') {
+        const oldOptionsArray = prevOptions[key]?.split(',') || [];
+        const newOption = newOptions[key];
+
+        if (oldOptionsArray.includes(newOption)) {
+          updatedOptions[key] = oldOptionsArray.filter((v) => v !== newOption).join(',');
+        } else {
+          oldOptionsArray.push(newOption);
+          updatedOptions[key] = oldOptionsArray.join(',');
+        }
+
+        if (!updatedOptions[key]) {
+          delete updatedOptions[key];
+        }
+      } else if (key === 'color' || key === 'clarity') {
+        let oldOptionsArray = prevOptions[key]?.split(',') || []; // [D,E,F,G,H,I]
+        const newOptionsArray = newOptions[key].split(','); // [D,E,F]
+
+        newOptionsArray.forEach((newOption) => {
+          if (oldOptionsArray.includes(newOption)) {
+            oldOptionsArray = oldOptionsArray.filter((v) => v !== newOption);
+          } else {
+            oldOptionsArray.push(newOption);
+          }
+          updatedOptions[key] = oldOptionsArray.join(',');
+        });
+
+        if (!updatedOptions[key]) {
+          delete updatedOptions[key];
+        }
+      } else {
+        updatedOptions = { ...prevOptions, ...newOptions };
+      }
 
       return updatedOptions;
     });
   };
+
   const clearOptions = () => {
     setOptions(DIAMOND_TABLE_DEFAULT_OPTIONS);
   };
+
   const handleRadioFilterChange = (type: string, values: string[]) => {
     updateOptions({ [type]: values.join() });
   };
+
   const handleSliderFilterChange = (type: string, values: number[]) => {
     if (type === 'carat') {
       updateOptions({ caratMin: parseFloat(values[0].toFixed(2)), caratMax: parseFloat(values[1].toFixed(2)) });
@@ -115,7 +151,11 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     };
   }, [options]);
 
-  console.log('tableProps', tableProps);
+  const title = (
+    <div className="page-title">
+      <Heading className="title">{options?.diamondType ? pageDynamicTitle : pageTitle}</Heading>
+    </div>
+  );
 
   return (
     <>
@@ -126,11 +166,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
       <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
       <StyledDiamondPage className="container-wrapper">
-        {isMobile && (
-          <div className="page-title">
-            <Heading className="title">{title}</Heading>
-          </div>
-        )}
+        {isMobile && title}
 
         <div className="page-aside">
           <DiamondFilter
@@ -143,17 +179,19 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             currencyCode={currencyCode}
           />
 
+          {isMobile && (
+            <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
+              <UIString>Clear filters</UIString>
+            </DarksideButton>
+          )}
+
           <ShowTabletAndUpOnly>
             <DiamondPromo locale={locale} />
           </ShowTabletAndUpOnly>
         </div>
 
         <div className="page-main">
-          {!isMobile && (
-            <div className="page-title">
-              <Heading className="title">{title}</Heading>
-            </div>
-          )}
+          {!isMobile && title}
 
           <DiamondTable {...tableProps} />
         </div>

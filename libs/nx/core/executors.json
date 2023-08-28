@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "genql": {
+      "implementation": "./src/executors/genql/executor",
+      "schema": "./src/executors/genql/schema.json",
+      "description": "genql executor"
+    }
+  }
+}

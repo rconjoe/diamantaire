@@ -42,8 +42,6 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
     const { carat: description } = DiamondPdpData || {};
     const handleFormat = (v) => v;
 
-    console.log(createNumberArray(range[1]));
-
     return (
       <>
         <div className="description">
@@ -87,7 +85,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
     );
   };
   const getCutContent = () => {
-    const { cut } = product || {};
+    const cut = product?.cut || product?.cut_grade;
     const { cut: description, cutMapAbridged, cutInfoMapAbridged } = DiamondPdpData || {};
     const sub = getInfo(cutInfoMapAbridged, cut)?.value;
     const cuts: string[] = cutMapAbridged.map((v) => v.key);
@@ -341,7 +339,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
   return (
     <StyledDiamondDetailAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} />
+      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} />
     </StyledDiamondDetailAccordion>
   );
 };

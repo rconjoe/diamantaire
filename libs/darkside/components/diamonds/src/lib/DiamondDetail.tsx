@@ -1,10 +1,10 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { Form, Heading, SwiperStyles, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondsData, useDiamondTableData, useDiamondPdpData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
-import { useContext, Fragment } from 'react';
+import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -26,7 +26,6 @@ interface DiamondDetailDataTypes {
 const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
   const { isMobile, headerHeight } = useContext(GlobalContext);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
-
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
   const { specs } = DiamondTableData || {};
@@ -34,7 +33,8 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const price = makeCurrency(productPrice, locale, currencyCode);
+  const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
+  const diamondTypeSlug = getDiamondType(diamondType).slug;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -62,30 +62,40 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         </div>
 
         <div className="aside">
-          <Heading className="title" type="h2">
+          <Heading className="title">
             {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
           </Heading>
 
-          <div className="price">{price}</div>
+          {price && <div className="price">{price}</div>}
 
           <DiamondDetailAccordion lotId={lotId} />
 
           <div className="cta">
-            <DarksideButton type="solid" colorTheme="black">
-              {buttonTextDiamondFlow}
-            </DarksideButton>
+            {(product?.available_inventory && (
+              <>
+                <DarksideButton type="solid" colorTheme="black">
+                  {buttonTextDiamondFlow}
+                </DarksideButton>
 
-            <DarksideButton type="underline" colorTheme="teal">
-              {quickCheckoutText}
-            </DarksideButton>
+                <DarksideButton type="underline" colorTheme="teal">
+                  {quickCheckoutText}
+                </DarksideButton>
+              </>
+            )) || (
+              <DarksideButton type="outline" colorTheme="black">
+                <UniLink route={`/diamonds/inventory/${diamondTypeSlug}`}>
+                  <UIString>Sold: Browse other diamonds</UIString>
+                </UniLink>
+              </DarksideButton>
+            )}
           </div>
 
           <DiamondDetailIconList />
 
           <div className="mail">
-            <Heading className="title" type="h2">
+            <p className="title">
               <UIString>Need more time to think?</UIString>
-            </Heading>
+            </p>
 
             <p>Email this diamond to yourself or drop a hint.</p>
 

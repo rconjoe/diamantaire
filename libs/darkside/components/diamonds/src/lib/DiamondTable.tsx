@@ -4,12 +4,13 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-import { flexRender, getCoreRowModel, PaginationState, useReactTable } from '@tanstack/react-table';
+import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useContext, useState, useEffect, useMemo, useRef } from 'react';
 
 import DiamondGrid from './DiamondGrid';
 import { StyledDiamondTable } from './DiamondTable.style';
+import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
 import DiamondTableRow from './DiamondTableRow';
 
 interface Info {
@@ -29,12 +30,9 @@ const DiamondTable = (props) => {
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
-    // activeRow,
-    // setActiveRow,
     flowIndex,
+    ranges,
   } = props;
-
-  console.log('initialOptions', initialOptions);
 
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
@@ -65,13 +63,28 @@ const DiamondTable = (props) => {
 
   // DIAMONDS
   const queryDiamond = useInfiniteDiamondsData(options);
+
   const flatDiamonds = useMemo(() => {
-    return queryDiamond.data?.pages?.flatMap((v) => v.diamonds);
+    return queryDiamond.data?.pages?.flatMap((v) => {
+      return v.diamonds;
+    });
   }, [queryDiamond.data]);
 
   // STRINGS
-  const queryDiamondTable = useDiamondTableData(locale);
-  const bottomContent = queryDiamondTable?.data?.diamondTable?.bottomContent;
+  const {
+    data: {
+      diamondTable: {
+        bottomContent,
+        cannotFindDiamondSentence1,
+        // cannotFindDiamondSentence2,
+        bottomPromoContentLargerCarat,
+        bottomPromoContentNoShape,
+        bottomPromoContentCtaCopy,
+        bottomPromoContentCtaLink,
+        bottomPromoContent,
+      } = {},
+    } = {},
+  } = useDiamondTableData(locale);
 
   // COLUMNS
   const columns = useMemo(
@@ -153,7 +166,9 @@ const DiamondTable = (props) => {
 
     table.setPageIndex(1);
 
-    window?.scrollTo(0, 0);
+    setActiveRow(null);
+
+    // window?.scrollTo(0, 0);
   };
 
   const onHeaderClick = (header) => {
@@ -170,10 +185,6 @@ const DiamondTable = (props) => {
   };
 
   // EFFECTS
-  useEffect(() => {
-    setActiveRow(null);
-  }, [flatDiamonds?.[0]?.lotId]);
-
   useEffect(() => {
     const trig = loadTrigger.current;
 
@@ -228,47 +239,126 @@ const DiamondTable = (props) => {
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
   const triggerOffset = tableBody?.current?.offsetHeight / queryDiamond.data?.pages?.length;
 
+  // CFY PROMO CARD
+  const cfyPromoCard = (
+    <DiamondTableCfyPromoCard
+      content={{
+        bottomPromoContentLargerCarat,
+        bottomPromoContentNoShape,
+        bottomPromoContentCtaCopy,
+        bottomPromoContentCtaLink,
+        bottomPromoContent,
+      }}
+      ranges={ranges}
+      options={options}
+    />
+  );
+
   return (
-    <>
-      <StyledDiamondTable
-        className={clsx('vo-table', {
-          'flow-page': isBuilderFlowOpen,
-        })}
-        headerHeight={headerHeight}
-        triggerOffset={triggerOffset}
-        tableHeadHeight={tableHeadHeight}
-        style={{
-          display: isTableView ? 'block' : 'none',
-        }}
-      >
-        <div className="vo-table-container">
-          {/* TABLE HEAD */}
-          <div ref={tableHead} className="vo-table-head">
-            {table.getHeaderGroups().map((headerGroup: any) => (
-              <div key={headerGroup.id} className="vo-table-row">
-                {headerGroup.headers.map((header: any) => {
-                  return (
-                    <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
-                        <span
-                          className={
-                            'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
-                          }
-                        />
-                        <span
-                          className={
-                            'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
-                          }
-                        />
-                      </div>
-                      {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
+    <StyledDiamondTable
+      className={clsx('vo-table', {
+        'flow-page': isBuilderFlowOpen,
+      })}
+      headerHeight={headerHeight - 1}
+      triggerOffset={triggerOffset}
+      tableHeadHeight={tableHeadHeight}
+    >
+      <div className="vo-table-container">
+        {/* TABLE HEAD */}
+        <div ref={tableHead} className="vo-table-head">
+          {table.getHeaderGroups().map((headerGroup: any) => (
+            <div key={headerGroup.id} className="vo-table-row">
+              {headerGroup.headers.map((header: any) => {
+                return (
+                  <div key={header.id} className="vo-table-cell" onClick={() => onHeaderClick(header)}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    <div className={'vo-sort-icon' + (options.sortBy === header.id ? ' has-active' : '')}>
+                      <span
+                        className={
+                          'arrow-up' + (options.sortBy === header.id && options.sortOrder === 'asc' ? ' active' : '')
+                        }
+                      />
+                      <span
+                        className={
+                          'arrow-down' + (options.sortBy === header.id && options.sortOrder === 'desc' ? ' active' : '')
+                        }
+                      />
                     </div>
-                  );
-                })}
+                    {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* TABLE BODY */}
+        <div ref={tableBody} className="vo-table-body">
+          {table.getRowModel().rows.map((row, idx) => {
+            const active = activeRow?.id === row.id;
+
+            return (
+              <>
+                {idx === 10 && cfyPromoCard}
+
+                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                  <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
+                    {row.getVisibleCells().map((cell) => (
+                      <div key={cell.id} className="vo-table-cell">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
+                      </div>
+                    ))}
+                  </div>
+
+                  {active && (
+                    <div className="vo-table-row-body">
+                      <DiamondTableRow product={row?.original} />
+                    </div>
+                  )}
+                </div>
+              </>
+            );
+          })}
+        </div>
+
+        {/* TABLE FOOT */}
+        <div className="vo-table-foot">
+          <div className="vo-table-trigger" ref={loadTrigger} />
+
+          {cfyPromoCard}
+
+          {(table.getRowModel().rows.length === 0 && (
+            <div className="vo-table-no-result">
+              <div className="vo-table-no-result-container">
+                <ul>
+                  <li>
+                    <p>{cannotFindDiamondSentence1}</p>{' '}
+                    <DarksideButton
+                      type="underline"
+                      colorTheme="teal"
+                      className="vo-table-clear-button"
+                      onClick={clearOptions}
+                    >
+                      <UIString>Clear filters</UIString>
+                    </DarksideButton>
+                  </li>
+                  {/* <li>
+                    <Markdown withStyles={false}>{cannotFindDiamondSentence2}</Markdown>
+                  </li> */}
+                </ul>
               </div>
-            ))}
-          </div>
+            </div>
+          )) || (
+            <div className="vo-table-no-result">
+              <div className="vo-table-no-result-container">
+                <p>{bottomContent}</p>
+                <DarksideButton type="underline" colorTheme="teal" className="vo-table-clear-button" onClick={clearOptions}>
+                  <UIString>Clear filters</UIString>
+                </DarksideButton>
+              </div>
+            </div>
+          )}
 
           {/* TABLE BODY */}
           <div ref={tableBody} className="vo-table-body">
@@ -317,9 +407,9 @@ const DiamondTable = (props) => {
             )}
           </div>
         </div>
-      </StyledDiamondTable>
-      {!isTableView && <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />}
-    </>
+        {!isTableView && <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />}
+      </div>
+    </StyledDiamondTable>
   );
 };
 

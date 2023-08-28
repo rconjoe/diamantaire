@@ -90,6 +90,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.vraiandoro.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'videos.diamondfoundry.com',
+      },
     ],
     deviceSizes: [576, 768, 992, 1200, 1440],
     // we should remove this because we don't want it - https://nextjs.org/docs/pages/api-reference/components/image#imagesizes

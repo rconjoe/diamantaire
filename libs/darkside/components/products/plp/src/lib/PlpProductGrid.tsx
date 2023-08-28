@@ -1,12 +1,16 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import PlpCreativeBlock from './PlpCreativeBlock';
+import { PlpDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
+import PlpPromoItem from './PlpPromoItem';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
@@ -27,17 +31,20 @@ type PlpProductGridProps = {
   creativeBlockIds: string[];
   data;
   isFetching: boolean;
-  initialProducts: ListPageItemWithConfigurationVariants[];
-  availableFilters: {
+  initialProducts: ListPageItemWithConfigurationVariants[] | ListPageDiamondItem[];
+  availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
-  filterValue: FilterValueProps;
-  setFilterValues;
 
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
   isSettingSelect?: boolean;
   selectSetting?: (_obj: { collectionSlug: string; productSlug: string }) => void;
+  filterValue?: FilterValueProps;
+  setFilterValues?;
+  initialFilterValues?: {
+    [key in FilterTypeProps]: string;
+  };
 };
 
 const PlpProductGrid = ({
@@ -138,14 +145,12 @@ const PlpProductGrid = ({
         <div className="product-grid__row ">
           {products?.map((product, gridItemIndex) => (
             <Fragment key={product.defaultId}>
-              {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                // <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
-                <h1>Promo block</h1>
+              {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
+                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
               )}
 
-              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                // <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
-                <h1>Creative block</h1>
+              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
+                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
 
               {isSettingSelect ? (
@@ -169,6 +174,11 @@ const PlpProductGrid = ({
                     </DarksideButton>
                   </div>
                 </div>
+              ) : (
+                <PlpProductItem product={product} />
+              )}
+              {product.productType === 'diamonds' ? (
+                <PlpDiamondItem product={product} />
               ) : (
                 <PlpProductItem product={product} />
               )}

@@ -1,4 +1,4 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.aside`
@@ -29,6 +29,7 @@ const StyledDiamondFilter = styled.aside`
   }
 
   .vo-filter-radio .vo-filter-list {
+    justify-content: flex-start;
     gap: 5px;
 
     ${desktopAndUp(`
@@ -40,6 +41,12 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-slider {
     padding: 0;
     flex: 1;
+  }
+
+  .vo-slider-value-start,
+  .vo-slider-value-end {
+    color: ${TEAL_MED};
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-filter-list {
@@ -61,8 +68,9 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-list-item a {
     color: #333;
     width: 100%;
-    padding: 4px 2px;
+    padding: 0.4rem 0.2rem;
     display: flex;
+    justify-content: center;
     border: 1px solid transparent;
   }
 
@@ -74,6 +82,42 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-list-item.active a {
     color: var(--color-teal);
     border: 1px solid var(--color-teal);
+  }
+
+  .vo-filter-cut {
+    padding-top: 1rem;
+  }
+
+  .vo-filter-cut,
+  .vo-filter-clarity {
+    .vo-filter-list-item a {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .vo-filter-color {
+    .vo-filter-list-item:nth-child(1) {
+      width: 6.6rem;
+
+      ${tabletAndUp(`
+        width: 7rem;
+      `)}
+    }
+    .vo-filter-list-item:nth-child(2) {
+      width: 8.9rem;
+
+      ${tabletAndUp(`
+        width: 10rem;
+      `)}
+    }
+    .vo-filter-list-item:nth-child(3) {
+      width: 7.1rem;
+
+      ${tabletAndUp(`
+        width: 8rem;
+      `)}
+    }
   }
 
   .vo-filter-diamondType {
@@ -166,6 +210,7 @@ const StyledDiamondFilter = styled.aside`
     width: 100%;
     margin: 2rem 0 0;
     font-size: var(--font-size-xxxsmall);
+    font-weight: var(--font-weight-normal);
   }
 
   .vo-filter-loading {

@@ -1,4 +1,4 @@
-import { GREY_DARK, GREY_LIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY_DARK, GREY_LIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -107,12 +107,12 @@ const StyledDiamondDetail = styled.div`
     display: block;
     text-align: center;
     margin-top: -1.5rem;
-    color: ${GREY_DARK};
+    color: ${BLACK};
     font-size: var(--font-size-small);
 
     ${desktopAndUp(`
       text-align: left;
-      font-size: var(--font-size-xsmall);
+      font-size: var(--font-size-small);
     `)}
   }
 

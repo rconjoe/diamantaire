@@ -2,8 +2,8 @@ import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
-import { media } from '@diamantaire/styles/darkside-styles';
-import { useMotionValueEvent, useScroll, motion, AnimatePresence } from 'framer-motion';
+import { WHITE, media } from '@diamantaire/styles/darkside-styles';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -32,7 +32,8 @@ const FullHeaderStyles = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: ${WHITE};
+  box-shadow: 0 1px 0 ${WHITE};
 
   ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
 

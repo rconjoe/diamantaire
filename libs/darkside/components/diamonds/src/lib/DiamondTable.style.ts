@@ -1,10 +1,10 @@
-import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, TEAL, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
   font-size: var(--font-size-xxxsmall);
   display: block;
-  margin: 30px -2.5rem 0;
+  margin: 3rem -2.5rem 0;
 
   &.flow-page {
     .vo-table-head {
@@ -41,7 +41,7 @@ const StyledDiamondTable = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 20px;
+    padding: 1.5rem 2rem;
     position: relative;
     width: 16%;
   }
@@ -89,11 +89,11 @@ const StyledDiamondTable = styled.div`
     align-items: center;
     padding: 10px 5px;
     font-size: var(--font-size-xxxxsmall);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-medium);
 
     ${tabletAndUp(`
       background: ${GREY_LIGHTEST} !important;
-      padding: 15px 20px;
+      padding: 10px 20px;
     `)}
   }
 
@@ -235,6 +235,13 @@ const StyledDiamondTable = styled.div`
     }
   }
 
+  .promo {
+    display: flex;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+
   .vo-table-foot {
     display: block;
     position: relative;
@@ -242,7 +249,7 @@ const StyledDiamondTable = styled.div`
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 2.5rem;
+    padding: 3rem 0;
     margin: auto;
     gap: 2rem;
   }
@@ -253,8 +260,36 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-no-result-container {
+    padding: 0 2.5rem;
+
+    ${tabletAndUp(`
+      padding: 0;
+    `)}
+
     p {
       font-size: var(--font-size-xxxsmall);
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    li > * {
+      display: inline-block;
+    }
+
+    li button {
+      margin-left: 5px;
+    }
+
+    li a {
+      color: ${TEAL};
+      text-decoration: underline;
     }
   }
 
@@ -262,12 +297,12 @@ const StyledDiamondTable = styled.div`
     cursor: pointer;
     margin-top: 0.6rem;
     display: inline-block;
-    font-size: var(--font-size-xxxsmall);
-  }
 
-  .vo-table-clear-button:hover,
-  .vo-table-clear-button:focus {
-    background: #000;
+    button {
+      margin-left: 0 !important;
+      font-size: var(--font-size-xxxsmall);
+      font-weight: var(--font-weight-normal);
+    }
   }
 
   .arrow-up {
