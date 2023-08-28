@@ -254,7 +254,7 @@ const DiamondTable = (props) => {
     />
   );
 
-  return (
+  return isTableView ? (
     <StyledDiamondTable
       className={clsx('vo-table', {
         'flow-page': isBuilderFlowOpen,
@@ -299,7 +299,7 @@ const DiamondTable = (props) => {
 
             return (
               <>
-                {idx === 10 && cfyPromoCard}
+                {idx === 10 && !isBuilderFlowOpen && cfyPromoCard}
 
                 <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
@@ -326,7 +326,7 @@ const DiamondTable = (props) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {cfyPromoCard}
+          {!isBuilderFlowOpen && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">
@@ -407,9 +407,10 @@ const DiamondTable = (props) => {
             )}
           </div>
         </div>
-        {!isTableView && <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />}
       </div>
     </StyledDiamondTable>
+  ) : (
+    <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
   );
 };
 
