@@ -49,11 +49,13 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const DiamondTableContent = useDiamondTableData(locale);
 
-  const title = DiamondTableContent.data.diamondTable.title;
+  const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
+
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
   const diamondTypeTitle = (options?.diamondType && getDiamondType(options?.diamondType).title) || '';
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
+  const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
   const updateLoading = (newState) => {
     setLoading(newState);
@@ -152,6 +154,12 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     locale,
   };
 
+  const title = (
+    <div className="page-title">
+      <Heading className="title">{options?.diamondType ? pageDynamicTitle : pageTitle}</Heading>
+    </div>
+  );
+
   return (
     <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
@@ -161,11 +169,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
       <StandardPageSeo title={pageSeoTitle} description={seoDescription} />
 
       <StyledDiamondPage className="container-wrapper">
-        {isMobile && (
-          <div className="page-title">
-            <Heading className="title">{title}</Heading>
-          </div>
-        )}
+        {isMobile && title}
 
         <div className="page-aside">
           <DiamondFilter
@@ -190,11 +194,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         </div>
 
         <div className="page-main">
-          {!isMobile && (
-            <div className="page-title">
-              <Heading className="title">{title}</Heading>
-            </div>
-          )}
+          {!isMobile && title}
 
           <DiamondTable {...tableProps} />
         </div>

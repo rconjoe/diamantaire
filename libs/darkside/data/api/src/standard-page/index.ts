@@ -45,6 +45,7 @@ import {
   TrioStaggered9x7,
   Triosvg,
 } from '../modular';
+import { CelebrityGallery } from '../nonModular';
 
 export const ALL_STANDARD_PAGE_SLUGS_QUERY = `
 query AllStandardPages($first: IntType!, $skip: IntType!) {
@@ -123,6 +124,7 @@ export const STANDARD_PAGE_BY_SLUG = `
         ${SocialMediaSection}
         ${ModularTriGridWithOrderTracking}
         ${TallHalfWidthBlockLocationCTA}
+        ${CelebrityGallery}
       }
       content2 {
         ${Duo}
@@ -166,6 +168,7 @@ export const STANDARD_PAGE_BY_SLUG = `
         ${SocialMediaSection}
         ${ModularTriGridWithOrderTracking}
         ${TallHalfWidthBlockLocationCTA}
+        ${CelebrityGallery}
       }
     }
   }

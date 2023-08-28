@@ -35,7 +35,7 @@ const StyledDiamondDetailAccordion = styled.div`
 
     .graph {
       margin-top: 15px;
-      padding: 50px 30px;
+      padding: 50px 35px;
     }
 
     .slider {
@@ -54,6 +54,10 @@ const StyledDiamondDetailAccordion = styled.div`
     }
   }
 
+  .accordion-row .sub h3 {
+    font-size: var(--font-size-xxxsmall);
+  }
+
   .accordion-row.cut {
     .thb {
       max-width: 30%;
@@ -70,6 +74,10 @@ const StyledDiamondDetailAccordion = styled.div`
       width: 100%;
       margin-top: -60px;
     }
+
+    .sub {
+      margin: 2rem 0 1rem;
+    }
   }
 
   .accordion-row.clarity {
@@ -82,7 +90,7 @@ const StyledDiamondDetailAccordion = styled.div`
       transform: translate(3px, 0);
     }
     .sub {
-      margin: 2rem 0;
+      margin: 2rem 0 1rem;
     }
   }
 
@@ -91,7 +99,7 @@ const StyledDiamondDetailAccordion = styled.div`
       margin-top: 0;
     }
     .thb {
-      width: 200px;
+      width: 130px;
     }
     .description {
       flex: 1;

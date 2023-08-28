@@ -54,3 +54,4 @@ export const MODULAR_CAROUSEL_HOVER_BLOCK = 'modular_carousel_hover_block';
 export const MODULAR_EMAIL_SIGNUP_BLOCK = 'modular_email_signup_block';
 export const MODULAR_SPLIT_VIDEO_BLOCK = 'modular_split_video_block';
 export const MODULAR_SINGLE_MEDIA_BLOCK = 'modular_single_media_block';
+export const STANDALONE_CELEBRITY_GALLERY = 'celebrity_gallery';

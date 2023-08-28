@@ -5,6 +5,7 @@ import {
   MODULAR_CAROUSEL_BLOCK,
   MODULAR_CAROUSEL_HOVER_BLOCK,
   MODULAR_CELEBRITY_CAROUSEL_BLOCK,
+  MODULAR_CELEBRITY_REEL_BLOCK,
   MODULAR_COLLECTION_HERO_BLOCK,
   MODULAR_DUO_BLOCK,
   MODULAR_EMAIL_SIGNUP_BLOCK,
@@ -38,6 +39,7 @@ import {
   MODULAR_TRIO_STAGGERED_9x7_BLOCK,
   MODULAR_TRI_GRID_WITH_ORDER_TRACKING,
   SOCIAL_MEDIA_SECTION,
+  STANDALONE_CELEBRITY_GALLERY,
 } from '@diamantaire/shared/constants';
 import { forceVisible } from 'react-lazyload';
 
@@ -46,6 +48,7 @@ import {
   DynamicModularAccordion,
   DynamicModularBannerBlock,
   DynamicModularCarouselBlock,
+  DynamicModularCelebrityReelRow,
   DynamicModularCollectionHeroBlock,
   DynamicModularContentQuadBlock,
   DynamicModularDiamondLeoBlock,
@@ -70,6 +73,7 @@ import {
   DynamicRandomModularBannerBlock,
   DynamicShowroomBlock,
   DynamicSocialMediaSection,
+  DynamicStandAloneCelebrityGallery,
   DynamicTextOnlyBlock,
   DynamicTrioBlock,
 } from './dynamic-export';
@@ -86,12 +90,10 @@ const config: configProps = {
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
-  // [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 
   // BANNERS
 
   [MODULAR_RANDOM_BANNER_BLOCK]: DynamicRandomModularBannerBlock,
-  // [MODULAR_RANDOM_BANNER_BLOCK]: ModularBannerBlock,
   [MODULAR_FULL_WIDTH_BANNER_BLOCK]: DynamicModularBannerBlock,
   [MODULAR_COLLECTION_HERO_BLOCK]: DynamicModularCollectionHeroBlock,
   [MODULAR_HERO_BANNER_BLOCK]: DynamicModularBannerBlock,
@@ -121,6 +123,7 @@ const config: configProps = {
   [MODULAR_HALF_WIDTH_QUAD_BLOCK]: DynamicModularHalfWidthQuadBlock,
   [MODULAR_QUAD_GRID]: DynamicModularQuadGrid,
   [MODULAR_TRI_GRID_WITH_ORDER_TRACKING]: DynamicModularTriGridWithOrderTracking,
+  [MODULAR_CELEBRITY_REEL_BLOCK]: DynamicModularCelebrityReelRow,
 
   // MISC
   [MODULAR_EMAIL_SIGNUP_BLOCK]: DynamicEmailSignup,
@@ -129,6 +132,7 @@ const config: configProps = {
   [MODULAR_SHOWROOM_BLOCK]: DynamicShowroomBlock,
   [MODULAR_QUOTE_BLOCK]: DynamicModularQuoteBlock,
   [SOCIAL_MEDIA_SECTION]: DynamicSocialMediaSection,
+  [STANDALONE_CELEBRITY_GALLERY]: DynamicStandAloneCelebrityGallery,
 };
 
 type BlockPickerProps = {

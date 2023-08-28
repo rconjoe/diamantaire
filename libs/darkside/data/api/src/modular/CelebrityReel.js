@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CelebrityReel = `
   ... on ModularCelebrityReelBlockRecord {
     _modelApiKey
@@ -28,6 +30,9 @@ const CelebrityReel = `
     shouldIncludeCelebrityNames
     ctaCopy
     ctaLink
+    darksideButtons {
+      ${ButtonFragment}
+    }
   }
 `;
 
