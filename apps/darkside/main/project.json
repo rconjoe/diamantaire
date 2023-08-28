@@ -14,9 +14,15 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/darkside/main"
+          "outputPath": "apps/darkside/main",
+          "debug": true,
+          "profile": true
         },
-        "production": {}
+        "production": {
+          "outputPath": "dist/apps/darkside/main",
+          "debug": true,
+          "profile": true
+        }
       }
     },
     "serve": {
@@ -30,7 +36,8 @@
       "configurations": {
         "development": {
           "buildTarget": "darkside-main:build:development",
-          "dev": true
+          "dev": true,
+          "quiet": false
         },
         "production": {
           "buildTarget": "darkside-main:build:production",
