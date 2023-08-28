@@ -63,8 +63,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   // Handle pagination
   useEffect(() => {
-    console.log('in view', inView, hasNextPage);
-
     if (isFetching) return;
     if (inView && hasNextPage) {
       fetchNextPage();

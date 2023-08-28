@@ -51,8 +51,8 @@ export async function getServerSideProps(
     } else if (lotId && !collectionSlug && !productSlug) {
       type = 'diamond-to-setting';
     } else {
-      // what happens if all params are on? how can it guess?
-      type = 'diamond-to-setting';
+      // if all params are on, default to setting-to-diamond
+      type = 'setting-to-diamond';
     }
   }
 

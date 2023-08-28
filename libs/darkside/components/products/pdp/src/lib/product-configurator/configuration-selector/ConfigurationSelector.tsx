@@ -30,6 +30,8 @@ function configOptionsReducer(state, action: ConfigurationSelectorAction) {
   const { payload, type } = action;
   const { typeId, value } = payload;
 
+  console.log('configOptionsReducer', { state, action });
+
   switch (type) {
     case 'option-change':
       return { ...state, [typeId]: value };
@@ -46,6 +48,7 @@ function ConfigurationSelector({
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   useEffect(() => {
+    console.log('configState', configState);
     if (onChange) {
       onChange(configState);
     }
@@ -99,7 +102,10 @@ function ConfigurationSelector({
             selectedOptionValue={selectedOption}
             onChange={
               isBuilderFlowOpen
-                ? (option) => handleBuilderFlowVariantChange(option, configurationType)
+                ? (option) => {
+                    handleOptionChange(configurationType, option);
+                    handleBuilderFlowVariantChange(option, configurationType);
+                  }
                 : (option) => handleOptionChange(configurationType, option)
             }
             renderItemAsLink={isBuilderFlowOpen ? false : true}

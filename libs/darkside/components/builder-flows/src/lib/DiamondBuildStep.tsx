@@ -4,7 +4,7 @@ import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { GridIcon, TableIcon } from '@diamantaire/shared/icons';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
@@ -101,6 +101,17 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
   function handleViewChange() {
     setIsTableView(!isTableView);
   }
+
+  console.log('tableOptions', tableOptions);
+
+  useEffect(() => {
+    console.log('diamondTypeToShow', diamondTypeToShow);
+
+    setOptions({
+      ...options,
+      diamondType: diamondTypeToShow,
+    });
+  }, [diamondTypeToShow]);
 
   return (
     <DiamondBuildStepStyles

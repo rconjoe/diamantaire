@@ -214,7 +214,7 @@ const BuilderFlow = ({
     // Initial Step - looks for step param, and uses logic to guess when one isn't present
     updateFlowData('UPDATE_STEP', { step: initialStep });
 
-    // Type - Sometimes type might not be in url, this makes sure it's always there based on the collectiongSlug and productSlug that come back from getServersideProps
+    // Flow Type - Sometimes type might not be in url, this makes sure it's always there based on the collectiongSlug and productSlug that come back from getServersideProps
     updateUrlParameter('type', type);
     updateFlowData('UPDATE_FLOW_TYPE', {
       flowType: type,
@@ -242,6 +242,16 @@ const BuilderFlow = ({
     }
   }, [productTitle, builderProduct]);
 
+  const builderInitProductUrl = useMemo(() => {
+    if (type === 'setting-to-diamond') {
+      return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
+    } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
+      return '/diamond';
+    } else {
+      return null;
+    }
+  }, [initialCollectionSlug, initialProductSlug]);
+
   return (
     <BuilderFlowStyles>
       <FreezeBody />
@@ -250,7 +260,7 @@ const BuilderFlow = ({
           <p>You are currently customizing {builderMessage}</p>
           <ul>
             <li>
-              <DarksideButton type="underline" colorTheme="white">
+              <DarksideButton href={builderInitProductUrl} type="underline" colorTheme="white">
                 Back to product
               </DarksideButton>
             </li>

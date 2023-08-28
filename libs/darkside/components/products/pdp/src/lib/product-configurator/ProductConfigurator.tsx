@@ -4,6 +4,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
+import { useRouter } from 'next/router';
 import { useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 
@@ -53,10 +54,11 @@ function ProductConfigurator({
   const handleConfigChange = useCallback(
     (configState) => {
       const { diamondType, caratWeight } = configState;
+
       const usesCustomDiamond = diamondType && caratWeight && caratWeight === 'other';
 
-      if (usesCustomDiamond && diamondId) {
-        setIsConfigurationComplete(true);
+      if (usesCustomDiamond) {
+        setIsConfigurationComplete(false);
       }
     },
     [diamondId, selectedVariantId],
@@ -146,6 +148,10 @@ function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButt
   //   if (!isReadyForCart) onClick(true);
   // };
 
+  const router = useRouter();
+
+  console.log('router', router);
+
   const {
     metal,
     shape,
@@ -164,25 +170,29 @@ function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButt
   } = additionalVariantData;
 
   async function addProductToCart() {
-    // Jewelry
-    if (productType !== 'Engagement Ring') {
-      await addJewelryProductToCart(variantId, productTitle, productType, shape, metal, chainLength, carat, image);
-    } else {
-      // ER - To be refactored
-      const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
-      const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
-      const refinedBandAccent = bandAccent.charAt(0).toUpperCase() + bandAccent.slice(1);
+    if (isReadyForCart) {
+      // Jewelry
+      if (productType !== 'Engagement Ring') {
+        await addJewelryProductToCart(variantId, productTitle, productType, shape, metal, chainLength, carat, image);
+      } else {
+        // ER - To be refactored
+        const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
+        const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+        const refinedBandAccent = bandAccent.charAt(0).toUpperCase() + bandAccent.slice(1);
 
-      await addERProductToCartByVariantId(
-        variantId,
-        productTitle,
-        shape,
-        refinedBandAccent,
-        erMetal,
-        ringSize,
-        diamondSpec,
-        image,
-      );
+        await addERProductToCartByVariantId(
+          variantId,
+          productTitle,
+          shape,
+          refinedBandAccent,
+          erMetal,
+          ringSize,
+          diamondSpec,
+          image,
+        );
+      }
+    } else {
+      router.push(`/customize?collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`);
     }
   }
 
