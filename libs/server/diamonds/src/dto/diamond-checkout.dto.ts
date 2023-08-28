@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class GetDiamondCheckoutDto {
   @ApiProperty({
@@ -59,4 +59,22 @@ export class DiamondPlp {
   @IsNumber()
   @Type(() => Number)
   readonly limit: number;
+
+  @ApiProperty({
+    example: 'price',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortBy?: string;
+
+  @ApiProperty({
+    example: 'desc',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortOrder?: string;
 }

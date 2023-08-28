@@ -27,9 +27,9 @@ export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, l
 
 export async function getVRAIServerDiamondPlpData(
   slug: string,
-  { page = 1, limit = 12 }: { page?: number; limit?: number },
+  { page = 1, limit = 12, sortBy, sortOrder }: { page?: number; limit?: number; sortBy?: string; sortOrder?: string },
 ) {
-  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
+  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
   const reqUrl = `${API_URL}/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
 
@@ -53,6 +53,7 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
     ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
     {
       refetchOnWindowFocus: false,
+      keepPreviousData: true,
       getNextPageParam: (lastPage) => {
         if (lastPage && lastPage.paginator.nextPage) {
           // Return next page number
@@ -69,10 +70,10 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1) {
+export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    [`plp-${slug}`],
-    ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam }),
+    [`plp-${slug}`, options.sortBy, options.sortOrder],
+    ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam, ...options }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
@@ -92,8 +93,8 @@ export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1) {
 }
 
 const LIST_PAGE_DATO_SERVER_QUERY = `
-query listPageQuery($locale: SiteLocale, $slug: String!) {
-    listPage(locale: $locale, filter: {slugNew: {eq: $slug}}) {
+query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
+    listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
       id
       seo {
         id
@@ -128,6 +129,12 @@ query listPageQuery($locale: SiteLocale, $slug: String!) {
           }
         }
       }
+      sortOptions {
+        field
+        label
+        id
+        isDescendingOrder
+      }
       creativeBlocks {
         id
       }
@@ -140,10 +147,10 @@ query listPageQuery($locale: SiteLocale, $slug: String!) {
 `;
 
 // Gets the server-side Dato data for the PLP page
-export async function fetchPlpDatoServerData(locale: string, slug: string | string[]) {
+export async function fetchPlpDatoServerData(locale: string, slug: string | string[], category: string) {
   const datoData = await queryDatoGQL({
     query: LIST_PAGE_DATO_SERVER_QUERY,
-    variables: { locale, slug },
+    variables: { locale, slug, category },
   });
 
   return datoData;
@@ -239,6 +246,8 @@ query diamondPlpQuery($slug: String!, $category: String!) {
     diamondPlpDataConfig {
       colors
       diamondTypes
+      sortBy
+      sortOrder
     }
   }
 }

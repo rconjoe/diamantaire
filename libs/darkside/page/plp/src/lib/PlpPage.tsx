@@ -94,7 +94,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     ...initialFilterValues,
   });
 
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
 

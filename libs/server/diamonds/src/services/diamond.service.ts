@@ -414,7 +414,9 @@ export class DiamondsService {
    */
   async getPlpDiamonds(input: DiamondPlp) {
     try {
-      const { slug } = input;
+      const { slug, sortBy, sortOrder } = input;
+
+      console.log('REQ', slug, sortBy, sortOrder);
       const queryVars = {
         slug,
         category: 'loose-diamonds',
@@ -444,7 +446,7 @@ export class DiamondsService {
           const options = {
             page: input.page || 1,
             limit: input.limit || 12,
-            sort: { carat: 1 },
+            sort: sortBy ? { [sortBy]: sortOrder === 'desc' ? -1 : 1 } : { carat: 1 },
           };
 
           const result = await this.diamondRepository.paginate(filteredQuery, options);
@@ -453,6 +455,8 @@ export class DiamondsService {
 
           const products: ListPageDiamondItem[] = docs.map((diamond: IDiamondCollection) => {
             const { carat, cut, diamondType, clarity, color, price, lotId, dfCertificateUrl, variantId, handle } = diamond;
+
+            console.log(variantId);
 
             return {
               defaultId: variantId,
