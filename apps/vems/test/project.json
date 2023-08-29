@@ -41,19 +41,6 @@
       "options": {
         "command": "vercel dev --cwd='apps/vems/test' --token=zvZzEmCSENremzX4CkEbflyV --scope=vrai  --listen 7555"
       }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/vems/test/**/*.ts"]
-      }
-    },
-    "link": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "vercel link --cwd='apps/vems/test' --token=VKhqGUI5io7Dh2RVkFADberE --scope=vrai  --yes"
-      }
     }
   },
   "tags": ["vems"]
