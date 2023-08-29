@@ -84,6 +84,27 @@ export class ProductsService {
   }
 
   /**
+   * Return available diamond types for the provided collection
+   * @param {object} input input for getting collection data
+   * @returns {object} available diamond types
+   */
+  async getCollectionDiamondTypes({ collectionSlug }) {
+    this.logger.verbose(`getCollectionDiamondTypes :: input : ${collectionSlug}`);
+    try {
+      const availableDiamondTypes: string[] = await this.productRepository.distinct('configuration.diamondType', {
+        collectionSlug,
+      });
+
+      return {
+        availableDiamondTypes,
+      };
+    } catch (error: any) {
+      this.logger.error(`getCollectionDiamondTypes :: error : ${error.message}`);
+      throw new NotFoundException(`Collection not found :: error stack : ${error.message}`);
+    }
+  }
+
+  /**
    * Return a Vrai product based on it's Shopify variant id
    * @param {object} input input object
    * @param {string} input.variantId numerical portion of a shopify product identifier
