@@ -1,4 +1,5 @@
 import {
+  ALL_CTO_DIAMONDS,
   DIAMOND_CFY_FACETED_NAV,
   DIAMOND_CFY_VALID_QUERIES,
   DIAMOND_TABLE_DEFAULT_OPTIONS,
@@ -10,6 +11,7 @@ import {
   DIAMOND_TABLE_VALID_SORT_ORDER,
   DIAMOND_TABLE_VALID_TYPES,
   DIAMOND_VALID_QUERIES,
+  MODULAR_UNIQUE_DIAMOND_PRODUCT_SLUGS,
 } from '@diamantaire/shared/constants';
 import { diamondRouteCfy, diamondRouteCfyResult, diamondRoutePlp } from '@diamantaire/shared/routes';
 
@@ -223,26 +225,7 @@ export const getCFYOptionsFromUrl = (query) => {
   const getOptionsFromQueryNav = (data: { key: string; value: string }) => {
     return Object.keys(data)
       .filter((k) => validQueryType.includes(k))
-      .reduce((a: object, k: string) => {
-        // sortBy and sortOrder sanity checks
-        if (
-          (k === 'sortBy' && !DIAMOND_TABLE_VALID_SORT_BY.includes(data[k])) ||
-          (k === 'sortOrder' && !DIAMOND_TABLE_VALID_SORT_ORDER.includes(data[k]))
-        ) {
-          return { ...a };
-        }
-
-        // page and limit sanity checks
-        if (DIAMOND_VALID_QUERIES.includes(k)) {
-          const num = parseFloat(data[k]);
-
-          if (typeof num !== 'number') {
-            return { ...a };
-          }
-        }
-
-        return { ...a, [k]: data[k] };
-      }, {});
+      .reduce((a: object, k: string) => ({ ...a, [k]: data[k] }), {});
   };
 
   return {
@@ -293,4 +276,22 @@ export const getCFYShallowRoute = (options, page) => {
   const route = `${base}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
 
   return route;
+};
+
+export const getCFYAvailableDiamondTypes = (options, isServer) => {
+  const isUniqueDiamondsJewelry = (slug) => {
+    return MODULAR_UNIQUE_DIAMOND_PRODUCT_SLUGS.includes(slug);
+  };
+  const availableDiamondTypes = ALL_CTO_DIAMONDS;
+  const { product: productSlug } = options;
+
+  if (productSlug) {
+    if (isServer) {
+      if (isUniqueDiamondsJewelry(productSlug)) {
+        console.log(`options`, options);
+      }
+    }
+  }
+
+  return availableDiamondTypes;
 };
