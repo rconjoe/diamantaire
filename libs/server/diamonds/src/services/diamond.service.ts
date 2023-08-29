@@ -731,16 +731,22 @@ export class DiamondsService {
    * @returns An array of objects representing the mixed pairs of solitaire diamonds.
    */
 
-  async solitaireDiamondMixedPairs(input: GetDiamondDto) {
+  async solitaireDiamondPairs(input: GetDiamondDto) {
     const filteredQuery = this.optionalDiamondPairQuery(input);
 
     filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery.slug = 'diamonds';
     const regexPattern = /fancy/i; // Ignore colors containing "fancy"
 
-    //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
     filteredQuery['carat'] = { $gte: MIN_CARAT_WEIGHT };
 
+    /**
+     * 
+      It filters documents based on certain conditions.
+      It sorts the documents based on the 'carat' field and then the calculated 'adjustedCarat' field.
+      It groups documents by the 'color' field and stores them in arrays.
+      It excludes groups with only one document in them.
+     */
     const pipeline: PipelineStage[] = [
       { $match: filteredQuery },
       { $match: { color: { $not: { $regex: regexPattern } } } },
@@ -761,17 +767,24 @@ export class DiamondsService {
       },
     ];
 
-    const result = await this.diamondRepository.aggregate(pipeline);
+    const paginateOptions: PaginateOptions = {
+      limit: input.limit || 5,
+      page: input.page || 1,
+    };
+
+    const result = await this.diamondRepository.aggregatePaginate<IDiamondCollection>(pipeline, paginateOptions);
+    const { docs, ...paginator } = result;
 
     // filter to only keep groups with at least 2 diamonds.
-    const pairedDiamonds = result.flatMap(({ diamonds }) => {
+    const pairedDiamonds = docs.flatMap(({ diamonds }) => {
       const diamondPairs = [];
+      const reversedDiamonds = diamonds.reverse();
 
       // loop through the 2 diamonds array
-      while (diamonds.length >= 2) {
-        // Extract the first two diamonds from the array
-        const firstDiamond = diamonds.shift();
-        const secondDiamond = diamonds.shift();
+      while (reversedDiamonds.length >= 2) {
+        // Extract the first two (last two since it was reversed) diamonds from the array
+        const firstDiamond = reversedDiamonds.pop();
+        const secondDiamond = reversedDiamonds.pop();
         // determines which of the two extracted diamonds has the lowest carat
         const sortedDiamonds = [firstDiamond, secondDiamond].sort((a, b) => a.adjustedCarat - b.adjustedCarat);
 
@@ -783,6 +796,10 @@ export class DiamondsService {
       return diamondPairs;
     });
 
-    return pairedDiamonds;
+    return {
+      docs,
+      // items: pairedDiamonds,
+      paginator,
+    };
   }
 }
