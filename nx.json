@@ -74,5 +74,6 @@
     }
   },
   "defaultProject": "darkside-main",
+  "plugins": ["@diamantaire/nx-core", "@diamantaire/vraicel", "@diamantaire/nx-datocms"],
   "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
