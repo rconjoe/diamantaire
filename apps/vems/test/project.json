@@ -1,0 +1,60 @@
+{
+  "name": "vems-test",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vems/test/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/vems/test",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/vems/test/src/main.ts",
+        "tsConfig": "apps/vems/test/tsconfig.app.json",
+        "assets": ["apps/vems/test/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vercel dev --cwd='apps/vems/test' --token=zvZzEmCSENremzX4CkEbflyV --scope=vrai  --listen 7555"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/vems/test/**/*.ts"]
+      }
+    },
+    "link": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vercel link --cwd='apps/vems/test' --token=VKhqGUI5io7Dh2RVkFADberE --scope=vrai  --yes"
+      }
+    }
+  },
+  "tags": ["vems"]
+}
