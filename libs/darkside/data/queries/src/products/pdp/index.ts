@@ -6,6 +6,7 @@ import {
   fetchDatoProductTrioBlock,
   fetchDatoProductVideoBlock,
   fetchDatoVariant,
+  getProductDiamondTypes,
   getProductPage,
 } from '@diamantaire/darkside/data/api';
 import { PdpTypePlural } from '@diamantaire/shared/constants';
@@ -48,5 +49,9 @@ export const productPage = createQueryKeys('products', {
   datoVariant: (variantSlug: string, locale: string) => ({
     queryKey: [variantSlug, locale],
     queryFn: () => fetchDatoVariant(variantSlug, locale),
+  }),
+  productDiamondTypes: (productSlug: string) => ({
+    queryKey: [productSlug],
+    queryFn: () => getProductDiamondTypes(productSlug),
   }),
 });

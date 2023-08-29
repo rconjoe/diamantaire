@@ -7,12 +7,7 @@ import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
-import {
-  getCFYAvailableDiamondTypes,
-  getCFYOptionsFromUrl,
-  getDiamondType,
-  replacePlaceholders,
-} from '@diamantaire/shared/helpers';
+import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
@@ -90,13 +85,12 @@ async function getServerSideProps(
   context: GetServerSidePropsContext<CFYPageQueryParams>,
 ): Promise<GetServerSidePropsResult<CFYPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
-  const isServer = typeof window === 'undefined';
+
   const { query, locale } = context;
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getCFYOptionsFromUrl(query || {});
-  const availableDiamondTypes = getCFYAvailableDiamondTypes(options, isServer);
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
   const queryClient = new QueryClient();

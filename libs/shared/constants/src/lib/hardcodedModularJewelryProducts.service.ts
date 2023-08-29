@@ -1,10 +1,3 @@
-import { RANDM_RING_SLUGS } from './constant.service';
-/**
- * The slugs in this file correspond to the Jewelry Product
- * model on Dato.
-
-*/
-
 export const MODULAR_EARRING_PRODUCT_SLUGS = [
   'solitaire-diamond-studs',
   'solitaire-diamond-drop-ear-jacket',
@@ -123,6 +116,9 @@ export const MODULAR_UNIQUE_DIAMOND_PRODUCT_SLUGS = [
 ];
 
 export const WHOLE_SIZE_RING_SLUGS = ['perennial-ring', 'petal-ring', 'trellis-ring', 'orion-ring'];
+
+export const RANDM_RING_SLUGS = ['contract-ring', 'compass-ring', 'unity-ring'];
+
 export const MODULAR_RING_PRODUCT_SLUGS = [
   'diamond-signet-ring',
   'diamond-bezel-ring',
