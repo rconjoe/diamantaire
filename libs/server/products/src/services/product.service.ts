@@ -736,7 +736,9 @@ export class ProductsService {
       const variantsMap = variantContentIds.reduce(
         (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
           map[contentId] = {
-            content: variantContentData.find((item) => item['variantId'] === contentId),
+            content: variantContentData.find((item) => {
+              return item['variantId'] === contentId || item['shopifyProductHandle'] === contentId;
+            }),
             product: variantProducts.find((item) => item['contentId'] === contentId),
           };
 
@@ -1178,7 +1180,7 @@ export class ProductsService {
         this.utils.memSet(cachedKey, response, 3600); //set the response in memory
       }
 
-      return [...response.allConfigurations, response.allOmegaProducts];
+      return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
