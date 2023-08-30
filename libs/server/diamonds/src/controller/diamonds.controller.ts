@@ -77,13 +77,15 @@ export class DiamondsController {
   @ApiOperation({ summary: 'Get Diamond Pairs - Solitaire Diamonds' })
   async getSolitaireMixedPairs(
     @Query()
-    { diamondType, color, clarity, cut }: GetDiamondDto,
+    { diamondType, color, clarity, cut, limit, page }: GetDiamondDto,
   ) {
     return await this.diamondsService.solitaireDiamondPairs({
       diamondType,
       color,
       clarity,
       cut,
+      limit,
+      page,
     });
   }
 

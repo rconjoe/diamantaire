@@ -767,6 +767,8 @@ export class DiamondsService {
       },
     ];
 
+    console.log(input);
+
     const paginateOptions: PaginateOptions = {
       limit: input.limit || 5,
       page: input.page || 1,
@@ -798,7 +800,7 @@ export class DiamondsService {
 
     return {
       docs,
-      // items: pairedDiamonds,
+      items: pairedDiamonds,
       paginator,
     };
   }
