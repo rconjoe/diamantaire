@@ -217,7 +217,7 @@
     "stylus-loader": "^7.1.0",
     "swc-loader": "0.2.3",
     "ts-jest": "29.1.0",
-    "ts-node": "^10.9.1",
+    "ts-node": "10.9.1",
     "typedoc-plugin-rename-defaults": "^0.6.4",
     "typedoc-theme-hierarchy": "^3.0.0",
     "typescript": "5.1.6",
