@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { DiamondCfyAsidePromo, DiamondCfyFilters } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
@@ -44,8 +44,9 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
-  const { diamondType: selectedDiamondType, carat: selectedCarat } = options;
+  const { diamondType: selectedDiamondType, carat: selectedCarat, product: selectedProduct } = options;
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
+  const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
   const { headerTitle, headerCopy } = ctoDiamondTable;
   let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
 
@@ -67,6 +68,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             locale={locale}
             selectedCarat={selectedCarat}
             selectedDiamondType={selectedDiamondType}
+            availableDiamondTypes={availableDiamondTypes}
             diamondShapeDescriptions={allDiamondShapeDescriptions}
           />
         </div>
@@ -91,12 +93,16 @@ async function getServerSideProps(
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getCFYOptionsFromUrl(query || {});
+  const { product } = options || {};
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+  const availableDiamondTypesQuery = product ? queries.products.productDiamondTypes(product) : null;
+
   const queryClient = new QueryClient();
 
   // PREFECTH DIAMOND CFY CONTENT FROM DATO
   await queryClient.prefetchQuery(diamondCfyQuery);
+  if (product) await queryClient.prefetchQuery(availableDiamondTypesQuery);
 
   // IF NO RESULT RETURN 404
   if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {

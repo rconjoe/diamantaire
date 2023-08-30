@@ -1,5 +1,4 @@
 import {
-  ALL_CTO_DIAMONDS,
   DIAMOND_CFY_FACETED_NAV,
   DIAMOND_CFY_VALID_QUERIES,
   DIAMOND_TABLE_DEFAULT_OPTIONS,
@@ -9,9 +8,8 @@ import {
   DIAMOND_TABLE_VALID_CUTS,
   DIAMOND_TABLE_VALID_SORT_BY,
   DIAMOND_TABLE_VALID_SORT_ORDER,
-  DIAMOND_TABLE_VALID_TYPES,
+  DIAMOND_TYPE_INTERNAL_NAMES,
   DIAMOND_VALID_QUERIES,
-  MODULAR_UNIQUE_DIAMOND_PRODUCT_SLUGS,
 } from '@diamantaire/shared/constants';
 import { diamondRouteCfy, diamondRouteCfyResult, diamondRoutePlp } from '@diamantaire/shared/routes';
 
@@ -28,9 +26,9 @@ export const diamondOption = {
 };
 
 export const getDiamondType = (value: string) => {
-  const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
+  const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
 
-  const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
+  const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
 
   // GET DIAMOND TYPE ON DIAMOND SLUG
   if (diamondOption.isHandle(value)) {
@@ -48,7 +46,7 @@ export const getDiamondType = (value: string) => {
 
   // GET DIAMOND TYPE FROM ANY STRING
   if (titles.includes(value)) {
-    const slug = DIAMOND_TABLE_VALID_TYPES[value];
+    const slug = DIAMOND_TYPE_INTERNAL_NAMES[value];
 
     const title = titles[slugs.findIndex((v) => v === slug)];
 
@@ -210,26 +208,27 @@ export const getDiamondShallowRoute = (options) => {
  */
 
 export const getCFYOptionsFromUrl = (query) => {
-  const validQueryType = [...DIAMOND_CFY_VALID_QUERIES];
+  const options: {
+    diamondType?: string;
+    [key: string]: string;
+  } = {};
 
-  const getOptionsFromFacetedNav = (option: string) => {
-    const obj: { diamondType?: string } = {};
+  const { diamondType } = query;
 
-    if (diamondOption.isDiamondType(option)) {
-      obj.diamondType = getDiamondType(option).slug;
-    }
-
-    return obj;
-  };
+  if (diamondType && diamondOption.isDiamondType(diamondType)) {
+    options.diamondType = getDiamondType(diamondType).slug;
+  }
 
   const getOptionsFromQueryNav = (data: { key: string; value: string }) => {
+    const validQueryType = [...DIAMOND_CFY_VALID_QUERIES];
+
     return Object.keys(data)
       .filter((k) => validQueryType.includes(k))
       .reduce((a: object, k: string) => ({ ...a, [k]: data[k] }), {});
   };
 
   return {
-    ...getOptionsFromFacetedNav(query.diamondType),
+    ...options,
     ...getOptionsFromQueryNav(query),
   };
 };
@@ -276,22 +275,4 @@ export const getCFYShallowRoute = (options, page) => {
   const route = `${base}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
 
   return route;
-};
-
-export const getCFYAvailableDiamondTypes = (options, isServer) => {
-  const isUniqueDiamondsJewelry = (slug) => {
-    return MODULAR_UNIQUE_DIAMOND_PRODUCT_SLUGS.includes(slug);
-  };
-  const availableDiamondTypes = ALL_CTO_DIAMONDS;
-  const { product: productSlug } = options;
-
-  if (productSlug) {
-    if (isServer) {
-      if (isUniqueDiamondsJewelry(productSlug)) {
-        console.log(`options`, options);
-      }
-    }
-  }
-
-  return availableDiamondTypes;
 };

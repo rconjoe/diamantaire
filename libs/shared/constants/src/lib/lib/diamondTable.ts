@@ -1,5 +1,4 @@
 import { getOptionValues } from '../constant.helpers';
-import { DIAMOND_TYPE_INTERNAL_NAMES } from './diamond';
 
 export const DIAMOND_TABLE_FILTER_TITLES = ['diamondType', 'carat', 'price', 'cut', 'clarity', 'color'];
 export const DIAMOND_TABLE_FILTER_CLARITY_OPTIONS = {
@@ -40,7 +39,6 @@ export const DIAMOND_TABLE_FACETED_NAV = ['diamondType', 'clarity', 'cut', 'colo
 export const DIAMOND_TABLE_VALID_COLORS = getOptionValues(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
 export const DIAMOND_TABLE_VALID_CLARITIES = getOptionValues(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
 export const DIAMOND_TABLE_VALID_CUTS = getOptionValues(DIAMOND_TABLE_FILTER_CUT_OPTIONS);
-export const DIAMOND_TABLE_VALID_TYPES = DIAMOND_TYPE_INTERNAL_NAMES;
 export const DIAMOND_TABLE_VALID_SORT_BY = ['diamondType', 'carat', 'price', 'color', 'cut', 'clarity'];
 export const DIAMOND_TABLE_VALID_SORT_ORDER = ['asc', 'desc'];
 export enum DIAMOND_TABLE_SHAPES {

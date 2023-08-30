@@ -1,21 +1,21 @@
-import { DIAMOND_TABLE_VALID_TYPES } from '@diamantaire/shared/constants';
+import { DIAMOND_TYPE_INTERNAL_NAMES } from '@diamantaire/shared/constants';
 
-import { DIAMOND_TABLE_QUERY, DIAMOND_PDP_QUERY, DIAMOND_INFO_QUERY, DIAMOND_CFY_QUERY } from './query';
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
+import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
 // Get Diamond Data from Mongo
 export const fetchDiamondData = async (options) => {
   try {
     const getFormatedDataForApi = () => {
       const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
+        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
 
-        const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
+        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
 
         if (titles.includes(value)) {
           return {
-            slug: DIAMOND_TABLE_VALID_TYPES[value],
+            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
             title: value,
           };
         }
@@ -78,13 +78,13 @@ export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
   try {
     const getFormatedDataForApi = () => {
       const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TABLE_VALID_TYPES);
+        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
 
-        const slugs = Object.values(DIAMOND_TABLE_VALID_TYPES);
+        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
 
         if (titles.includes(value)) {
           return {
-            slug: DIAMOND_TABLE_VALID_TYPES[value],
+            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
             title: value,
           };
         }

@@ -1,12 +1,11 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UseProducts {
-  productSlug: string;
+interface ProductDiamondTypesDataProps {
+  availableDiamondTypes: string[];
 }
 
-export function useProductDiamondTypes({ productSlug }: UseProducts) {
+export function useProductDiamondTypes(productSlug: string): UseQueryResult<ProductDiamondTypesDataProps, unknown> {
   return useQuery({ ...queries.products.productDiamondTypes(productSlug), staleTime: Infinity });
 }
 
