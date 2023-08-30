@@ -3,6 +3,16 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { queryDatoGQL } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
+type SortedRequestOptions = {
+  sortBy?: string;
+  sortOrder?: string;
+};
+
+type PaginatedRequestOptions = {
+  limit?: number;
+  page?: number;
+};
+
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
 const API_URL = `${BASE_URL}/api/plp`;
@@ -25,9 +35,11 @@ export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, l
   return response;
 }
 
+type DiamondPlpRequestOptions = SortedRequestOptions & PaginatedRequestOptions;
+
 export async function getVRAIServerDiamondPlpData(
   slug: string,
-  { page = 1, limit = 12, sortBy, sortOrder }: { page?: number; limit?: number; sortBy?: string; sortOrder?: string },
+  { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
   const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
