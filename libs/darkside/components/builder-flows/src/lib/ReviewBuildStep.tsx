@@ -1,12 +1,13 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
-import { ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato } from '@diamantaire/darkside/data/hooks';
 import { PdpTypePlural, pdpTypeSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
+import { OptionItemProps } from '@diamantaire/shared/types';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import SummaryItem from './SummaryItem';
@@ -49,6 +50,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
         border-bottom: 1px solid #ccc;
       }
     }
+
+    .ring-size-container {
+      margin: 20px 0;
+      h4 {
+        margin: 0 0 10px;
+      }
+    }
+
     .engraving-container {
       padding: 20px 0;
 
@@ -111,11 +120,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const ReviewBuildStep = ({ settingSlugs }) => {
+const ReviewBuildStep = ({ settingSlugs, type, selectedConfiguration, configurations }) => {
+  const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
+  const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
+  const sizeOptions = configurations[sizeOptionKey];
 
   const { collectionSlug } = settingSlugs;
 
@@ -155,6 +167,12 @@ const ReviewBuildStep = ({ settingSlugs }) => {
     return isEngravingInputVisible && engravingInputText.length === 0;
   }, [engravingInputText]);
 
+  const handleSizeChange = useCallback((option: OptionItemProps) => {
+    console.log('option', option);
+    // setSelectVariantId(option.id);
+    setSelectedSize(option.value);
+  }, []);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -187,14 +205,47 @@ const ReviewBuildStep = ({ settingSlugs }) => {
               <div className="builder-summary__content__inner">
                 {builderProduct &&
                   sortedKeys.map((key: string, index) => {
-                    console.log('builderFlowState[key]', builderProduct[key]);
                     if (!builderProduct[key] || (key !== 'product' && key !== 'diamond')) return null;
 
                     const summaryItem = builderProduct[key];
 
-                    return <SummaryItem item={summaryItem} type={key} key={index} index={index} showPrice={true} />;
+                    const modifyIndex =
+                      key === 'diamond' && type === 'setting-to-diamond'
+                        ? 1
+                        : key === 'diamond' && type === 'diamond-to-setting'
+                        ? 0
+                        : key === 'product' && type === 'diamond-to-setting'
+                        ? 2
+                        : key === 'product' && type === 'setting-to-diamond'
+                        ? 0
+                        : key === 'product' && type === 'diamond-to-setting'
+                        ? 2
+                        : null;
+
+                    return (
+                      <SummaryItem
+                        modifyIndex={modifyIndex}
+                        item={summaryItem}
+                        itemType={key}
+                        key={index}
+                        showPrice={true}
+                      />
+                    );
                   })}
               </div>
+            </div>
+
+            <div className="ring-size-container">
+              <Heading type="h4" className="primary">
+                Ring Size:
+              </Heading>
+              <OptionSelector
+                optionType={sizeOptionKey}
+                label={sizeOptionKey}
+                options={sizeOptions}
+                selectedOptionValue={selectedSize}
+                onChange={handleSizeChange}
+              />
             </div>
 
             <div className="engraving-container">
@@ -255,7 +306,7 @@ const ReviewBuildStep = ({ settingSlugs }) => {
                     <DarksideButton>Add to bag</DarksideButton>
                   </li>
                   <li>
-                    <DarksideButton colorTheme="grey">Vist our New York Location</DarksideButton>
+                    <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
                   </li>
                 </ul>
               </div>

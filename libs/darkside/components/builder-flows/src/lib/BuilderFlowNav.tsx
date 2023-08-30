@@ -2,7 +2,7 @@ import { DarksideButton, Heading } from '@diamantaire/darkside/components/common
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import SummaryItem from './SummaryItem';
@@ -155,7 +155,7 @@ const BuilderFlowNavStyles = styled.div`
   }
 `;
 
-const BuilderFlowNav = ({ currentStep, type, settingSlugs }) => {
+const BuilderFlowNav = ({ currentStep, steps, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const { updateStep, builderProduct } = useContext(BuilderProductContext);
@@ -168,48 +168,13 @@ const BuilderFlowNav = ({ currentStep, type, settingSlugs }) => {
       return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
     });
 
-  const steps = {
-    'setting-to-diamond': [
-      {
-        title: 'Customize a setting',
-        enabled: true,
-      },
-      {
-        title: 'Choose a diamond',
-        enabled: builderProduct?.product,
-      },
-      {
-        title: 'Review and Purchase',
-        enabled: builderProduct?.diamond && builderProduct?.product,
-      },
-    ],
-    'diamond-to-setting': [
-      {
-        title: 'Choose a diamond',
-        enabled: true,
-      },
-      {
-        title: 'Choose a setting',
-        enabled: builderProduct?.diamond,
-      },
-      {
-        title: 'Customize a setting',
-        enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
-      },
-      {
-        title: 'Review and Purchase',
-        enabled: builderProduct?.diamond && builderProduct?.product,
-      },
-    ],
-  };
-
   return (
     <BuilderFlowNavStyles>
       <div className="nav__inner">
         <nav>
           <div className="steps-container">
             <ul>
-              {steps[type].map((step, index) => {
+              {steps.map((step, index) => {
                 return (
                   <li key={`step-${index}`}>
                     <DarksideButton
@@ -271,11 +236,24 @@ const BuilderFlowNav = ({ currentStep, type, settingSlugs }) => {
 
                       const summaryItem = builderProduct[key];
 
+                      const modifyIndex =
+                        key === 'diamond' && type === 'setting-to-diamond'
+                          ? 1
+                          : key === 'diamond' && type === 'diamond-to-setting'
+                          ? 0
+                          : key === 'product' && type === 'diamond-to-setting'
+                          ? 2
+                          : key === 'product' && type === 'setting-to-diamond'
+                          ? 0
+                          : key === 'product' && type === 'diamond-to-setting'
+                          ? 2
+                          : null;
+
                       return (
                         <SummaryItem
                           item={summaryItem}
-                          type={key}
-                          index={index}
+                          itemType={key}
+                          modifyIndex={modifyIndex}
                           key={`summary-item-${index}`}
                           showPrice={false}
                         />

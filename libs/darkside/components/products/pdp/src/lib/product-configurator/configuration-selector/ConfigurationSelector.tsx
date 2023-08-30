@@ -1,15 +1,16 @@
 import { filterConfigurationTypes, configTypesComparitor } from '@diamantaire/shared/helpers';
+import { OptionItemProps } from '@diamantaire/shared/types';
 import { useEffect, useReducer, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { OptionItem } from '../option-item/OptionItem';
 import OptionSelector from '../option-selector/OptionSelector';
 interface ConfigurationSelectorProps {
-  configurations: { [key: string]: OptionItem[] };
+  configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
   onChange?: (configState: { [key: string]: string }) => void;
   isBuilderFlowOpen?: boolean;
   updateSettingSlugs?: (item: object) => void;
+  disableVariantType?: string[];
 }
 
 interface ConfigurationSelectorAction {
@@ -18,6 +19,7 @@ interface ConfigurationSelectorAction {
     typeId: string;
     value: string;
   };
+  disableVariantType?: string[];
 }
 
 const StyledConfigurationSelector = styled.div`
@@ -44,6 +46,7 @@ function ConfigurationSelector({
   onChange,
   isBuilderFlowOpen,
   updateSettingSlugs,
+  disableVariantType,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -54,7 +57,7 @@ function ConfigurationSelector({
     }
   }, [configState, onChange]);
 
-  const handleOptionChange = (typeId: string, option: OptionItem) => {
+  const handleOptionChange = (typeId: string, option: OptionItemProps) => {
     dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
   };
 
@@ -67,7 +70,7 @@ function ConfigurationSelector({
     [configurations],
   );
 
-  function handleBuilderFlowVariantChange(option: OptionItem, configurationType) {
+  function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
     const url = new URL(window.location.href);
@@ -87,11 +90,13 @@ function ConfigurationSelector({
         const options = configurations[configurationType];
         const selectedOption = configState?.[configurationType];
 
+        console.log('configurationType', configurationType);
+
+        if (disableVariantType?.includes(configurationType)) return null;
+
         // if (!options || options.length <= 1) {
         //   return null;
         // }
-
-        if (configurationType === 'caratWeight' && isBuilderFlowOpen) return null;
 
         return (
           <OptionSelector

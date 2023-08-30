@@ -1,20 +1,21 @@
 import { SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
+import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Keyboard, Lazy, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { OptionItem, OptionItemContainer } from '../option-item/OptionItem';
+import { OptionItemContainer } from '../option-item/OptionItem';
 
 interface OptionSelectorProps {
   optionType: string;
   label: string;
-  options: OptionItem[];
+  options: OptionItemProps[];
   selectedOptionValue: string;
-  onChange?: (option: OptionItem) => void;
+  onChange?: (option: OptionItemProps) => void;
   renderItemAsLink?: boolean;
   isBuilderFlowOpen?: boolean;
 }
@@ -50,16 +51,22 @@ const StyledOptionSelector = styled.div`
       position: relative;
       /* overflow: hidden; */
       height: 35px;
-      max-width: 75%;
+      max-width: 78%;
 
       .swiper {
         width: 100%;
         max-width: 100%;
         position: absolute;
+
+        .swiper-slide {
+          width: fit-content !important;
+          margin-right: 30px;
+        }
       }
 
       .swiper-wrapper {
         display: flex;
+        padding-right: 80px;
       }
 
       a {
@@ -85,6 +92,8 @@ function OptionSelector({
   renderItemAsLink = false,
   isBuilderFlowOpen,
 }: OptionSelectorProps) {
+  console.log('optionType', optionType);
+  const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const {
     data: {
       DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
@@ -131,6 +140,8 @@ function OptionSelector({
     (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value);
+
+  const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   return (
     <StyledOptionSelector>
@@ -209,6 +220,52 @@ function OptionSelector({
                 <ArrowRightIcon />
               </button>
             </SwiperStyles>
+          </div>
+        ) : label === 'ringSize' ? (
+          <div className={clsx('option-list', label)}>
+            {!showingAllRingSizes ? (
+              <>
+                {options
+                  .filter((option) => presetRingSizes.includes(option.value))
+                  .map((option) => {
+                    const isSelected = selectedOptionValue === option.value;
+
+                    // human readable value
+                    const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                    return (
+                      <OptionItemContainer
+                        key={option.id}
+                        optionType={optionType}
+                        option={option}
+                        valueLabel={valueLabel}
+                        isSelected={isSelected}
+                        onClick={() => handleOptionClick(option)}
+                        isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                      />
+                    );
+                  })}
+              </>
+            ) : (
+              options.map((option) => {
+                const isSelected = selectedOptionValue === option.value;
+
+                // human readable value
+                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                return (
+                  <OptionItemContainer
+                    key={option.id}
+                    optionType={optionType}
+                    option={option}
+                    valueLabel={valueLabel}
+                    isSelected={isSelected}
+                    onClick={() => handleOptionClick(option)}
+                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                  />
+                );
+              })
+            )}
           </div>
         ) : (
           <div className={clsx('option-list', label)}>

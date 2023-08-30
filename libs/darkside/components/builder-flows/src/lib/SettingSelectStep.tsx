@@ -1,3 +1,4 @@
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
@@ -10,10 +11,20 @@ import styled from 'styled-components';
 const SettingSelectStepStyles = styled.div`
   height: 100vh;
   overflow: hidden;
+
+  .title-container {
+    text-align: center;
+    padding-top: 40px;
+  }
   .wrapper {
     height: 100vh;
     overflow-y: scroll;
     position: relative;
+  }
+
+  .loader-container {
+    text-align: center;
+    padding-top: 40px;
   }
 
   .grid-wrapper {
@@ -23,7 +34,7 @@ const SettingSelectStepStyles = styled.div`
     }
   }
   .load-more-trigger {
-    background-color: red;
+    /* background-color: red; */
     height: 100px;
     width: 100%;
     display: block;
@@ -43,7 +54,7 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   });
 
   const category = 'engagement-rings';
-  const plpSlug = settingTypeToShow || 'round-brilliant';
+  const plpSlug = settingTypeToShow + '-cut' || 'round-brilliant-cut';
 
   const objectParams = {
     slug: plpSlug,
@@ -151,8 +162,19 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   return (
     <SettingSelectStepStyles>
       <div className="wrapper" ref={containerRef}>
-        <h1>Setting Select</h1>
+        <div className="title-container">
+          <h1>Setting Select</h1>
+        </div>
         {/* <PlpHeroBanner data={hero} /> */}
+
+        {/* <div className="loader-container">
+          <Loader color={'#719093'} />
+        </div> */}
+        {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
+          <div className="loader-container">
+            <Loader color={'#719093'} />
+          </div>
+        )}
 
         <div className="grid-wrapper">
           <PlpProductGrid

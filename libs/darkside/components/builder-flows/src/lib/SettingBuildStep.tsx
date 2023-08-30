@@ -8,6 +8,7 @@ import {
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
@@ -31,6 +32,26 @@ const SettingBuildStepStyles = styled(motion.div)`
   }
 `;
 
+type SettingBuildStepProps = {
+  updateSettingSlugs;
+  shopifyProductData;
+  updateFlowData;
+  flowIndex: number;
+  parentProductAttributes: object;
+  assetStack: MediaAsset[];
+  selectedConfiguration: {
+    [key: string]: string;
+  };
+  configurations: { [key: string]: OptionItemProps[] };
+  initialVariantId: string;
+  additionalVariantData: Record<string, string>;
+  productTitle: string;
+  price: string;
+  productDescription: string;
+  productSpecId: string;
+  disableVariantType?: string[];
+};
+
 const SettingBuildStep = ({
   updateSettingSlugs,
   shopifyProductData,
@@ -46,7 +67,8 @@ const SettingBuildStep = ({
   price,
   productDescription,
   productSpecId,
-}) => {
+  disableVariantType,
+}: SettingBuildStepProps) => {
   const product = useMemo(() => {
     return {
       title: productTitle,
@@ -93,6 +115,7 @@ const SettingBuildStep = ({
             updateSettingSlugs={updateSettingSlugs}
             updateFlowData={updateFlowData}
             flowIndex={flowIndex}
+            disableVariantType={disableVariantType}
           />
           <ProductDescription
             description={productDescription}

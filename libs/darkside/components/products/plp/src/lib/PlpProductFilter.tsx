@@ -14,11 +14,13 @@ const PlpProductFilter = ({
   availableFilters,
   filterValue,
   setFilterValues,
+  isSettingSelect,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
   filterValue: FilterValueProps;
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
+  isSettingSelect?: boolean;
 }) => {
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
@@ -141,7 +143,7 @@ const PlpProductFilter = ({
   }
 
   return (
-    <PlpProductFilterStyles headerHeight={headerHeight}>
+    <PlpProductFilterStyles headerHeight={headerHeight} isSettingSelect={isSettingSelect}>
       <div className="filter__sticky-container">
         <div className="filter container-wrapper ">
           <div className="filter__header flex align-center">

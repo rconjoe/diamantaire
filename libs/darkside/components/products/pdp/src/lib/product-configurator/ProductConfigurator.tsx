@@ -3,17 +3,17 @@ import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
+import { OptionItemProps } from '@diamantaire/shared/types';
 import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
-import { OptionItem } from './option-item/OptionItem';
 import OptionSelector from './option-selector/OptionSelector';
 
 type ProductConfiguratorProps = {
-  configurations: { [key: string]: OptionItem[] };
+  configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
   initialVariantId: string;
   diamondId?: string;
@@ -23,6 +23,7 @@ type ProductConfiguratorProps = {
   isBuilderFlowOpen?: boolean;
   updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
   flowIndex?: number;
+  disableVariantType?: string[];
 };
 
 function ProductConfigurator({
@@ -31,22 +32,24 @@ function ProductConfigurator({
   selectedConfiguration,
   initialVariantId,
   additionalVariantData,
-  isBuilderProduct,
   isBuilderFlowOpen = false,
   updateFlowData,
   updateSettingSlugs,
   flowIndex,
+  disableVariantType,
 }: ProductConfiguratorProps) {
   const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(
-    !isBuilderProduct || builderProduct.builderState === 'Complete',
+    builderProduct.builderState === 'Complete',
   );
+
+  console.log('selectedConfiguration zzz', selectedConfiguration);
   const [selectedVariantId, setSelectVariantId] = useState<string>(initialVariantId);
-  const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration[sizeOptionKey]);
+  const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const sizeOptions = configurations[sizeOptionKey];
 
-  console.log('selectedConfiguration', selectedConfiguration);
+  console.log('diamondId', diamondId);
 
   // debugger;
 
@@ -54,6 +57,8 @@ function ProductConfigurator({
   const handleConfigChange = useCallback(
     (configState) => {
       const { diamondType, caratWeight } = configState;
+
+      console.log('configState', configState);
 
       const usesCustomDiamond = diamondType && caratWeight && caratWeight === 'other';
 
@@ -64,7 +69,7 @@ function ProductConfigurator({
     [diamondId, selectedVariantId],
   );
 
-  const handleSizeChange = useCallback((option: OptionItem) => {
+  const handleSizeChange = useCallback((option: OptionItemProps) => {
     setSelectVariantId(option.id);
     setSelectedSize(option.value);
   }, []);
@@ -77,9 +82,10 @@ function ProductConfigurator({
         onChange={handleConfigChange}
         isBuilderFlowOpen={isBuilderFlowOpen}
         updateSettingSlugs={updateSettingSlugs}
+        disableVariantType={disableVariantType}
       />
 
-      {sizeOptions && isConfigurationComplete && (
+      {sizeOptions && isConfigurationComplete && !disableVariantType.includes('ringSize') && (
         <OptionSelector
           optionType={sizeOptionKey}
           label={sizeOptionKey}
@@ -88,7 +94,6 @@ function ProductConfigurator({
           onChange={handleSizeChange}
         />
       )}
-
       {isBuilderFlowOpen ? (
         <div
           style={{
@@ -108,6 +113,7 @@ function ProductConfigurator({
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
           additionalVariantData={additionalVariantData}
+          useCustomDiamondPrompt={!diamondId}
         />
       )}
     </>
@@ -134,15 +140,16 @@ type CtaButtonProps = {
   variantId: string;
   isReadyForCart?: boolean;
   additionalVariantData?: any;
+  useCustomDiamondPrompt?: boolean;
 };
 
 const CtaButtonContainer = styled(PrimaryButton)`
   margin: 10px 0;
 `;
 
-function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButtonProps) {
+function CtaButton({ variantId, isReadyForCart, additionalVariantData, useCustomDiamondPrompt }: CtaButtonProps) {
   const { addJewelryProductToCart, addERProductToCartByVariantId } = useContext(CartContext);
-  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
+  const ctaText = useCustomDiamondPrompt ? 'Select your Diamond' : isReadyForCart ? 'Add to Cart' : 'Unavailable';
 
   // const handleButtonClick = () => {
   //   if (!isReadyForCart) onClick(true);

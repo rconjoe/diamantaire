@@ -10,6 +10,7 @@ export * from './FreezeBody';
 export * from './Heading';
 export * from './LanguageSelector';
 export * from './LazyLoadWrapper';
+export * from './Loader';
 export * from './ImageTile';
 export * from './Markdown';
 export * from './MobileDesktopImage';

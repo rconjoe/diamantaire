@@ -34,7 +34,8 @@ type BuilderFlowType = {
 const builderState = {
   SelectDiamondOrSetting: 'Select Diamond Or Setting',
   SelectDiamond: 'Select Diamond',
-  SelectProduct: 'Select Product',
+  SelectProductSetting: 'Select Product Setting',
+  CustomizeProductSetting: 'Customize Product Setting',
   UpdateStep: 'Update Step',
   Complete: 'Complete',
 } as const;
@@ -43,7 +44,6 @@ interface BuilderProductState {
   product: BuilderProduct | null;
   diamond: BuilderDiamond | null;
   step: number;
-  diamondType: string | null;
   type: FlowType;
   builderState: (typeof builderState)[keyof typeof builderState];
 }
@@ -52,7 +52,6 @@ const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
   step: 0,
-  diamondType: null,
   type: 'setting-to-diamond',
   builderState: builderState.SelectDiamondOrSetting,
 };
@@ -126,7 +125,6 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
       };
     }
     case 'ADD_PRODUCT': {
-      console.log('add product payload', action.payload);
       const newState = {
         ...state,
         product: action.payload,
@@ -206,7 +204,6 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
   };
 
   function updateStep(step: number) {
-    console.log('updating step to ', step);
     dispatch({
       type: 'UPDATE_STEP',
       payload: {
@@ -228,18 +225,16 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
 };
 
 const getState = (state) => {
-  const { diamond, product, step } = state;
+  const { diamond, product } = state;
 
   if (diamond) {
     if (product) {
       return builderState.Complete;
     } else {
-      return builderState.SelectProduct;
+      return builderState.SelectProductSetting;
     }
   } else if (product) {
     return builderState.SelectDiamond;
-  } else if (step) {
-    return builderState.UpdateStep;
   } else {
     return builderState.SelectDiamondOrSetting;
   }

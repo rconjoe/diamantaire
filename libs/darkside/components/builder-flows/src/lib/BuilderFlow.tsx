@@ -1,4 +1,4 @@
-import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, FreezeBody, Loader } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
@@ -50,6 +50,13 @@ const BuilderFlowStyles = styled.div`
         }
       }
     }
+  }
+
+  > .loader-container {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -107,6 +114,7 @@ const BuilderFlow = ({
     collectionContent,
     configuration: selectedConfiguration,
     price,
+    defaultRingSize,
   } = shopifyProductData || {};
   const { productTitle } = collectionContent || {};
 
@@ -119,7 +127,7 @@ const BuilderFlow = ({
 
   console.log('shopifyProductData', shopifyProductData);
 
-  if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null) {
+  if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
     if (!additionalVariantData) {
       additionalVariantData = productContent;
@@ -134,6 +142,7 @@ const BuilderFlow = ({
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = productTitle;
     additionalVariantData.price = price;
+    additionalVariantData.defaultRingSize = defaultRingSize;
     additionalVariantData.image = {
       src: assetStack[0].url,
       width: assetStack[0].width,
@@ -162,7 +171,10 @@ const BuilderFlow = ({
       },
     })
       .then((res) => res.json())
-      .then((res) => res);
+      .then((res) => res)
+      .catch((e) => {
+        console.log('getPdpProduct', e);
+      });
 
     setShopifyProductData(response);
   }
@@ -186,7 +198,7 @@ const BuilderFlow = ({
       (settingSlugs?.collectionSlug && settingSlugs?.productSlug) ||
       (initialCollectionSlug && initialProductSlug && !initProduct)
     ) {
-      setInitProduct(true);
+      //  setInitProduct(true) has to be set after the variant data loads
       await getPdpProduct();
     }
 
@@ -201,9 +213,10 @@ const BuilderFlow = ({
     fetchProductAndDiamond();
   }, [settingSlugs]);
 
-  // This pulls in a pre-existing product if it exists on the initial URL
+  // This pulls in a pre-existing product if it exists on the initial URL - only for setting-to-diamond
   useEffect(() => {
-    if (additionalVariantData && selectedConfiguration) {
+    if (additionalVariantData && selectedConfiguration && !initProduct && type === 'setting-to-diamond') {
+      setInitProduct(true);
       updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration });
     }
   }, [additionalVariantData, selectedConfiguration, shopifyProductData]);
@@ -246,11 +259,48 @@ const BuilderFlow = ({
     if (type === 'setting-to-diamond') {
       return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
     } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
-      return '/diamond';
+      return '/diamonds/inventory?limit=20&page=1&sortBy=carat&sortOrder=desc&caratMin=1';
     } else {
       return null;
     }
-  }, [initialCollectionSlug, initialProductSlug]);
+  }, [type, initialCollectionSlug, initialProductSlug]);
+
+  const steps = useMemo(() => {
+    return {
+      'setting-to-diamond': [
+        {
+          title: 'Customize a setting',
+          enabled: true,
+        },
+        {
+          title: 'Choose a diamond',
+          enabled: builderProduct?.product,
+        },
+        {
+          title: 'Review and Purchase',
+          enabled: builderProduct?.diamond && builderProduct?.product,
+        },
+      ],
+      'diamond-to-setting': [
+        {
+          title: 'Choose a diamond',
+          enabled: true,
+        },
+        {
+          title: 'Choose a setting',
+          enabled: builderProduct?.diamond,
+        },
+        {
+          title: 'Customize a setting',
+          enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
+        },
+        {
+          title: 'Review and Purchase',
+          enabled: builderProduct?.diamond && builderProduct?.product,
+        },
+      ],
+    };
+  }, [builderProduct]);
 
   return (
     <BuilderFlowStyles>
@@ -261,7 +311,7 @@ const BuilderFlow = ({
           <ul>
             <li>
               <DarksideButton href={builderInitProductUrl} type="underline" colorTheme="white">
-                Back to product
+                Back to {type === 'setting-to-diamond' ? 'product' : 'diamonds'}
               </DarksideButton>
             </li>
           </ul>
@@ -286,12 +336,13 @@ const BuilderFlow = ({
                 price={price}
                 productSpecId={productSpecId}
                 parentProductAttributes={parentProductAttributes}
+                disableVariantType={['caratWeight']}
               />
             )
           ) : currentStep === 1 ? (
             <DiamondBuildStep flowIndex={1} diamondTypeToShow={builderProduct?.product?.diamondType} />
           ) : currentStep === 2 ? (
-            builderProduct.product && builderProduct.diamond && <ReviewBuildStep settingSlugs={settingSlugs} />
+            builderProduct.product && builderProduct.diamond && <ReviewBuildStep type={type} settingSlugs={settingSlugs} />
           ) : null
         ) : currentStep === 0 ? (
           <DiamondBuildStep flowIndex={0} diamondTypeToShow="round-brilliant" />
@@ -302,7 +353,7 @@ const BuilderFlow = ({
             settingTypeToShow={builderProduct?.diamond?.diamondType}
           />
         ) : currentStep === 2 ? (
-          shopifyProductData && (
+          shopifyProductData ? (
             <SettingBuildStep
               flowIndex={2}
               updateFlowData={updateFlowData}
@@ -318,14 +369,27 @@ const BuilderFlow = ({
               price={price}
               productSpecId={productSpecId}
               parentProductAttributes={parentProductAttributes}
+              disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
             />
+          ) : (
+            <div className="loader-container">
+              <Loader color="black" />
+            </div>
           )
         ) : currentStep === 3 ? (
-          builderProduct.product && builderProduct.diamond && <ReviewBuildStep settingSlugs={settingSlugs} />
+          builderProduct.product &&
+          builderProduct.diamond && (
+            <ReviewBuildStep
+              settingSlugs={settingSlugs}
+              type={type}
+              selectedConfiguration={selectedConfiguration}
+              configurations={configurations}
+            />
+          )
         ) : null}
       </AnimatePresence>
 
-      <BuilderFlowNav currentStep={currentStep} settingSlugs={settingSlugs} type={type} />
+      <BuilderFlowNav currentStep={currentStep} steps={steps[type]} type={type} />
     </BuilderFlowStyles>
   );
 };

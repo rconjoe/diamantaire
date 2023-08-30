@@ -140,6 +140,7 @@ const PlpProductGrid = ({
         gridRef={gridRef}
         filterValue={filterValue}
         setFilterValues={setFilterValues}
+        isSettingSelect={isSettingSelect}
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
@@ -153,34 +154,30 @@ const PlpProductGrid = ({
                 <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
 
-              {isSettingSelect ? (
-                <div>
-                  <PlpProductItem product={product} />
-
-                  <div
-                    style={{
-                      marginTop: '20px',
-                    }}
-                  >
-                    <DarksideButton
-                      onClick={() =>
-                        selectSetting({
-                          collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                          productSlug: product.variants[product.defaultId]?.productSlug,
-                        })
-                      }
-                    >
-                      Select
-                    </DarksideButton>
-                  </div>
-                </div>
-              ) : (
-                <PlpProductItem product={product} />
-              )}
               {product.productType === 'diamonds' ? (
                 <PlpDiamondItem product={product} />
               ) : (
-                <PlpProductItem product={product} />
+                <div>
+                  <PlpProductItem product={product} />
+                  {isSettingSelect && (
+                    <div
+                      style={{
+                        marginTop: '20px',
+                      }}
+                    >
+                      <DarksideButton
+                        onClick={() =>
+                          selectSetting({
+                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                            productSlug: product.variants[product.defaultId]?.productSlug,
+                          })
+                        }
+                      >
+                        Select
+                      </DarksideButton>
+                    </div>
+                  )}
+                </div>
               )}
             </Fragment>
           ))}

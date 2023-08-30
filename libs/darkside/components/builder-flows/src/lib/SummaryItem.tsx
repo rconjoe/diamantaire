@@ -63,12 +63,12 @@ const SummaryItemStyles = styled.div`
 
 type SummaryItemProps = {
   item: any;
-  type?: 'product' | 'diamond';
+  itemType?: 'product' | 'diamond';
   showPrice: boolean;
-  index: number;
+  modifyIndex: number;
 };
 
-const SummaryItem = ({ item, type = 'product', showPrice = false, index }: SummaryItemProps) => {
+const SummaryItem = ({ item, itemType = 'product', showPrice = false, modifyIndex }: SummaryItemProps) => {
   const { productTitle, image, metal, price, bandAccent, goldPurity, diamondType, clarity, carat, cut, color } = item || {};
   const { updateStep } = useContext(BuilderProductContext);
 
@@ -84,7 +84,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false, index }: Summa
 
   return (
     <SummaryItemStyles>
-      {type === 'diamond' ? (
+      {itemType === 'diamond' ? (
         <div className="summary-item summary-item--diamond">
           <div className="item__image">{src && <img src={src} alt="" />} </div>
           <div className="item__content">
@@ -110,7 +110,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false, index }: Summa
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(index)}>
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(modifyIndex)}>
               Modify
             </DarksideButton>
           </div>
@@ -135,7 +135,7 @@ const SummaryItem = ({ item, type = 'product', showPrice = false, index }: Summa
                 <p>{makeCurrency(price, 'en-US', 'USD')}</p>
               </div>
             )}
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(index)}>
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => updateStep(modifyIndex)}>
               Modify
             </DarksideButton>
           </div>

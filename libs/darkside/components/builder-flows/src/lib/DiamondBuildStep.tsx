@@ -28,6 +28,9 @@ const DiamondBuildStepStyles = styled(motion.div)`
     > aside {
       flex: 0 0 450px;
       padding-right: 50px;
+      top: 20px;
+      height: 100vh;
+      position: sticky;
     }
 
     > div {
@@ -47,7 +50,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
   };
 
   const [loading, setLoading] = useState(true);
-  const [isTableView, setIsTableView] = useState(false);
+  const [isTableView, setIsTableView] = useState(true);
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 

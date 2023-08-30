@@ -27,8 +27,9 @@ const DiamondGridStyles = styled.div`
 
             span {
               font-size: 1.3rem;
-              background-color: #000;
-              color: #fff;
+              background-color: #fff;
+              border: 1px solid #ccc;
+              color: #000;
               display: inline-block;
               border-radius: 5px;
               padding: 2px 5px;

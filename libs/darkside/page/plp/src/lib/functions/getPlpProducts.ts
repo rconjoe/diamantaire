@@ -2,7 +2,10 @@ export default async function getPlpProducts(options) {
   const qParams = new URLSearchParams(options).toString();
 
   let response;
-  const reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams}`;
+  // const reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams}`;
+  const reqUrl = `http://localhost:3003/v1/products/plp?${qParams}`;
+
+  console.log('reqUrl 111', reqUrl);
 
   try {
     response = await fetch(reqUrl, {

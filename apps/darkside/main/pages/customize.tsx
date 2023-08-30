@@ -37,12 +37,12 @@ export default BuilderPage;
 export async function getServerSideProps(
   context: GetServerSidePropsContext<BuilderPageQueryParams>,
 ): Promise<GetServerSidePropsResult<BuilderPageProps>> {
-  console.log('contetxxxx', context.query);
-
   const { query } = context;
 
   const { collectionSlug, productSlug, lotId, step } = query as BuilderPageQueryParams;
   let { type } = query as BuilderPageQueryParams;
+
+  // console.log({ collectionSlug, productSlug });
 
   // 1. Identify the flow type based on URL params
   if (!type) {
@@ -60,8 +60,6 @@ export async function getServerSideProps(
   let initialStep = parseFloat(step);
 
   initialStep = validateStep(initialStep, type, collectionSlug, productSlug, lotId);
-
-  console.log('initialStep v333', initialStep);
 
   return {
     props: {

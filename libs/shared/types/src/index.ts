@@ -5,6 +5,7 @@ import 'styled-components';
 export * from './type-helpers/diamonds';
 export * from './type-helpers/general';
 export * from './type-helpers/media';
+export * from './type-helpers/selectors';
 
 type QueryFunctionContextMeta = {
   locale: string;

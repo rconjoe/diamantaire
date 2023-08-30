@@ -376,7 +376,7 @@ const DiamondTable = (props) => {
                     ))}
                   </div>
 
-                  {active && (
+                  {active && row?.original && (
                     <div className="vo-table-row-body">
                       <DiamondTableRow product={row?.original} isBuilderFlowOpen={isBuilderFlowOpen} />
                     </div>

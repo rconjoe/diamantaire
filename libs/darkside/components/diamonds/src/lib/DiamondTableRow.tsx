@@ -1,7 +1,9 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { useContext } from 'react';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
@@ -15,9 +17,8 @@ const DiamondTableRow = ({
   locale?: string;
   isBuilderFlowOpen?: boolean;
 }) => {
-  if (!product) return;
-
   const { handle, lotId, diamondType } = product;
+  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
@@ -26,6 +27,7 @@ const DiamondTableRow = ({
   const handleSelectDiamond = () => {
     // TODO: add handler
     console.log(`handleSelectDiamond`, product);
+    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
   const handlePurchase = () => {

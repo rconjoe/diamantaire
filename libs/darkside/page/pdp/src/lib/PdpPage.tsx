@@ -180,8 +180,6 @@ export async function getServerSideProps(
 
   const productType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[context.req.url.split('/')[1]] || null;
 
-  console.log('xxx', productType);
-
   await queryClient.prefetchQuery(dataQuery);
   await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });
 
