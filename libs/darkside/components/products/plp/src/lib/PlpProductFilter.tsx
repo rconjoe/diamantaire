@@ -68,9 +68,6 @@ const PlpProductFilter = ({
     const pathSegments = currentPath.split('/').filter((segment) => segment !== '');
     const updatedSegments = [...pathSegments];
     const collectionURL = updatedSegments[0];
-
-    // console.log('updatedSegments', updatedSegments);
-    // console.log('newValue', value);
     const newFilters = { ...filterValue, [filterType]: value };
 
     // Remove attributes with undefined values
@@ -85,8 +82,6 @@ const PlpProductFilter = ({
       const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
         ([key, value]) => value !== null && key in newFilters,
       );
-
-      console.log('sortedEntries', sortedEntries);
 
       const newPath = sortedEntries.map(([_key, value]) => `${value}`).join('/');
 
@@ -141,172 +136,174 @@ const PlpProductFilter = ({
   }
 
   return (
-    <PlpProductFilterStyles headerHeight={headerHeight}>
-      <div className="filter__sticky-container">
-        <div className="filter container-wrapper ">
-          <div className="filter__header flex align-center">
-            <div className="filter__title">
-              <h4>Filter</h4>
-            </div>
-
-            <ul className="list-unstyled flex filter__options">
-              {filterTypes &&
-                Object.keys(filterTypes)?.map((optionSet, index) => {
-                  return (
-                    <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>
-                      <button
-                        className={clsx({
-                          active: filterOptionSetOpen === optionSet,
-                        })}
-                        onClick={() => toggleFilterOptionSet(optionSet as FilterTypeProps)}
-                      >
-                        {optionSet} <span className="arrow-up"></span>
-                      </button>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
-
-          <div className="filter__body">
-            {filterOptionSetOpen === 'diamondType' && (
-              <div className="filter-option-set diamondType ">
-                <ul className="list-unstyled flex">
-                  {filterTypes['diamondType']?.map((diamondType) => {
-                    const Icon = diamondIconsMap[diamondType]?.icon;
-
-                    if (diamondType.includes('+')) return null;
-
-                    return (
-                      <li key={`filter-${diamondType}`}>
-                        <button className="flex align-center" onClick={() => updateFilter('diamondType', diamondType)}>
-                          <span className="diamond-icon">
-                            <Icon />
-                          </span>
-                          <span className="diamond-text">{DIAMOND_TYPE_HUMAN_NAMES[diamondType]}</span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
+    availableFilters && (
+      <PlpProductFilterStyles headerHeight={headerHeight}>
+        <div className="filter__sticky-container">
+          <div className="filter container-wrapper ">
+            <div className="filter__header flex align-center">
+              <div className="filter__title">
+                <h4>Filter</h4>
               </div>
-            )}
 
-            {filterOptionSetOpen === 'metal' && (
-              <div className="filter-option-set metal">
-                <ul className="list-unstyled flex ">
-                  {filterTypes['metal']?.map((metal) => {
+              <ul className="list-unstyled flex filter__options">
+                {filterTypes &&
+                  Object.keys(filterTypes)?.map((optionSet, index) => {
                     return (
-                      <li key={`filter-${metal}`}>
-                        <button className="flex align-center" onClick={() => updateFilter('metal', metal)}>
-                          <span className={clsx('metal-swatch', metal)}></span>
-                          <span className="metal-text">{METAL_HUMAN_NAMES[metal]}</span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-
-            {filterOptionSetOpen === 'price' && (
-              <div className="filter-option-set priceRange">
-                <ul className="list-unstyled flex ">
-                  {priceRanges?.map((price) => {
-                    return (
-                      <li key={`filter-${price.title}`}>
+                      <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>
                         <button
-                          className="flex align-center"
-                          onClick={() => {
-                            setIsCustomPriceRangeOpen(false);
-                            updateFilter('price', {
-                              min: price.min,
-                              max: price.max,
-                            });
-                          }}
+                          className={clsx({
+                            active: filterOptionSetOpen === optionSet,
+                          })}
+                          onClick={() => toggleFilterOptionSet(optionSet as FilterTypeProps)}
                         >
-                          <span className="price-text">{price.title}</span>
+                          {optionSet} <span className="arrow-up"></span>
                         </button>
                       </li>
                     );
-                  })}
-                  <li>
-                    <button
-                      className={clsx('flex align-center', {
-                        active: isCustomPricRangeOpen,
-                      })}
-                      onClick={() => setIsCustomPriceRangeOpen(!isCustomPricRangeOpen)}
-                    >
-                      <span className="price-text">Custom</span>
-                    </button>
-                  </li>
-                </ul>
-                {isCustomPricRangeOpen && (
-                  <div className="filter-slider">
-                    <Slider
-                      step={100}
-                      type={'price'}
-                      range={{
-                        min: priceRange[0],
-                        max: priceRange[1],
-                      }}
-                      value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
-                      handleChange={handleChange}
-                      handleFormat={handleFormat}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="active-filters">
-              <ul className="list-unstyled flex">
-                {filterValue &&
-                  Object.keys(filterValue).map((filterType) => {
-                    const isMetal = filterType === 'metal';
-                    const isDiamondType = filterType === 'diamondType';
-                    const isPrice = filterType === 'price';
-                    const text = isMetal
-                      ? METAL_HUMAN_NAMES[filterValue[filterType]]
-                      : isDiamondType
-                      ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
-                      : filterType;
-
-                    if (filterValue[filterType] === null) return null;
-
-                    if (isPrice) {
-                      const price = filterValue[filterType];
-
-                      const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
-
-                      if (priceRangeMatchesInitialState) return null;
-
-                      return (
-                        <li key={`${filterValue}-${text}`}>
-                          <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
-                            <span className="close">x</span>
-                            {price.min && makeCurrency(price?.min)}
-                            {price.min && price.max && <span className="hyphen">-</span>}
-                            {price && makeCurrency(price?.max)}
-                          </button>
-                        </li>
-                      );
-                    } else {
-                      return (
-                        <li key={`${filterValue}-${text}`}>
-                          <button onClick={() => updateFilter(filterType, undefined)}>
-                            <span className="close">x</span> {text}
-                          </button>
-                        </li>
-                      );
-                    }
                   })}
               </ul>
             </div>
+
+            <div className="filter__body">
+              {filterOptionSetOpen === 'diamondType' && (
+                <div className="filter-option-set diamondType ">
+                  <ul className="list-unstyled flex">
+                    {filterTypes['diamondType']?.map((diamondType) => {
+                      const Icon = diamondIconsMap[diamondType]?.icon;
+
+                      if (diamondType.includes('+')) return null;
+
+                      return (
+                        <li key={`filter-${diamondType}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('diamondType', diamondType)}>
+                            <span className="diamond-icon">
+                              <Icon />
+                            </span>
+                            <span className="diamond-text">{DIAMOND_TYPE_HUMAN_NAMES[diamondType]}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
+              {filterOptionSetOpen === 'metal' && (
+                <div className="filter-option-set metal">
+                  <ul className="list-unstyled flex ">
+                    {filterTypes['metal']?.map((metal) => {
+                      return (
+                        <li key={`filter-${metal}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('metal', metal)}>
+                            <span className={clsx('metal-swatch', metal)}></span>
+                            <span className="metal-text">{METAL_HUMAN_NAMES[metal]}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
+              {filterOptionSetOpen === 'price' && (
+                <div className="filter-option-set priceRange">
+                  <ul className="list-unstyled flex ">
+                    {priceRanges?.map((price) => {
+                      return (
+                        <li key={`filter-${price.title}`}>
+                          <button
+                            className="flex align-center"
+                            onClick={() => {
+                              setIsCustomPriceRangeOpen(false);
+                              updateFilter('price', {
+                                min: price.min,
+                                max: price.max,
+                              });
+                            }}
+                          >
+                            <span className="price-text">{price.title}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                    <li>
+                      <button
+                        className={clsx('flex align-center', {
+                          active: isCustomPricRangeOpen,
+                        })}
+                        onClick={() => setIsCustomPriceRangeOpen(!isCustomPricRangeOpen)}
+                      >
+                        <span className="price-text">Custom</span>
+                      </button>
+                    </li>
+                  </ul>
+                  {isCustomPricRangeOpen && (
+                    <div className="filter-slider">
+                      <Slider
+                        step={100}
+                        type={'price'}
+                        range={{
+                          min: priceRange[0],
+                          max: priceRange[1],
+                        }}
+                        value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
+                        handleChange={handleChange}
+                        handleFormat={handleFormat}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="active-filters">
+                <ul className="list-unstyled flex">
+                  {filterValue &&
+                    Object.keys(filterValue).map((filterType) => {
+                      const isMetal = filterType === 'metal';
+                      const isDiamondType = filterType === 'diamondType';
+                      const isPrice = filterType === 'price';
+                      const text = isMetal
+                        ? METAL_HUMAN_NAMES[filterValue[filterType]]
+                        : isDiamondType
+                        ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
+                        : filterType;
+
+                      if (filterValue[filterType] === null) return null;
+
+                      if (isPrice) {
+                        const price = filterValue[filterType];
+
+                        const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
+
+                        if (priceRangeMatchesInitialState) return null;
+
+                        return (
+                          <li key={`${filterValue}-${text}`}>
+                            <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
+                              <span className="close">x</span>
+                              {price.min && makeCurrency(price?.min)}
+                              {price.min && price.max && <span className="hyphen">-</span>}
+                              {price && makeCurrency(price?.max)}
+                            </button>
+                          </li>
+                        );
+                      } else {
+                        return (
+                          <li key={`${filterValue}-${text}`}>
+                            <button onClick={() => updateFilter(filterType, undefined)}>
+                              <span className="close">x</span> {text}
+                            </button>
+                          </li>
+                        );
+                      }
+                    })}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </PlpProductFilterStyles>
+      </PlpProductFilterStyles>
+    )
   );
 };
 

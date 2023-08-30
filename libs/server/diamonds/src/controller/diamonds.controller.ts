@@ -67,8 +67,10 @@ export class DiamondsController {
   @ApiParam({ name: 'slug', required: true })
   @ApiParam({ name: 'page', required: false })
   @ApiParam({ name: 'limit', required: false })
-  async getDiamondPlp(@Query() { slug, page, limit }: DiamondPlp) {
-    return await this.diamondsService.getPlpDiamonds({ slug, page, limit });
+  @ApiParam({ name: 'sortOrder', required: false })
+  @ApiParam({ name: 'sortBy', required: false })
+  async getDiamondPlp(@Query() { slug, page, limit, sortOrder, sortBy }: DiamondPlp) {
+    return await this.diamondsService.getPlpDiamonds({ slug, page, limit, sortOrder, sortBy });
   }
 
   @Get(':lotId')
