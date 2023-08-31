@@ -1,5 +1,6 @@
 export * from './lib/DiamondCfyAsidePromo';
-export * from './lib/DiamondCfyFilters';
+export * from './lib/DiamondCfyFilterCarat';
+export * from './lib/DiamondCfyFilterShape';
 export * from './lib/DiamondDetail';
 export * from './lib/DiamondDetailAccordion';
 export * from './lib/DiamondDetailIconList';

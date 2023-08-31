@@ -5,14 +5,12 @@ import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/s
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 
-import StyledDiamondCfyFilters from './DiamondCfyFilters.style';
+import StyledDiamondCfyFilterShape from './DiamondCfyFilterShape.style';
 
-const DiamondCfyFilters = (props) => {
-  const { locale, availableDiamondTypes } = props;
+const DiamondCfyFilterShape = (props) => {
+  const { locale, availableDiamondTypes, handleSelectShape } = props;
   const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
   const { diamondSelectorTitle, diamondSelectorSubtitle, diamondResultMatchViewAllCta } = ctoDiamondTable;
-
-  console.log(`ctoDiamondTable`, ctoDiamondTable);
 
   const diamondList = availableDiamondTypes
     ? availableDiamondTypes.map((v) => getDiamondType(v))
@@ -21,20 +19,16 @@ const DiamondCfyFilters = (props) => {
   const popularShapes = diamondList.filter((v) => POPULAR_CFY_DIAMOND_TYPES.includes(v.slug));
   const regularShapes = diamondList.filter((v) => !POPULAR_CFY_DIAMOND_TYPES.includes(v.slug));
 
-  console.log(`POPULAR_CFY_DIAMOND_TYPES`, POPULAR_CFY_DIAMOND_TYPES);
-  console.log(`diamondList`, popularShapes.length, diamondList);
-  console.log(`diamondIconsMap`, diamondIconsMap);
-
   return (
-    <StyledDiamondCfyFilters>
+    <StyledDiamondCfyFilterShape>
       <Heading type="h2" className="title">
         {diamondSelectorTitle}
       </Heading>
 
-      <div className="diamond-lists">
+      <div className="lists">
         {(popularShapes.length === 6 && (
           <>
-            <div className="diamond-list popular">
+            <div className="list popular">
               <Heading type="h3" className="subtitle">
                 {diamondSelectorSubtitle}
               </Heading>
@@ -43,7 +37,7 @@ const DiamondCfyFilters = (props) => {
                 const shape = diamondIconsMap[v.slug];
 
                 return (
-                  <div className="diamond-list-item" key={v.slug} title={v.title}>
+                  <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
                     <div className="icon">
                       <shape.icon />
                     </div>
@@ -53,13 +47,13 @@ const DiamondCfyFilters = (props) => {
               })}
             </div>
 
-            <div className="diamond-list">
-              {regularShapes.map((v, i) => {
+            <div className="list">
+              {regularShapes.map((v) => {
                 const shape = diamondIconsMap[v.slug];
 
                 return (
                   diamondIconsMap[v.slug] && (
-                    <div className="diamond-list-item" key={v.slug} title={v.title}>
+                    <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
                       <div className="icon">
                         <shape.icon />
                       </div>
@@ -71,12 +65,12 @@ const DiamondCfyFilters = (props) => {
             </div>
           </>
         )) || (
-          <div className="diamond-list">
+          <div className="list">
             {diamondList.map((v) => {
               const shape = diamondIconsMap[v.slug];
 
               return (
-                <div className="diamond-list-item" key={v.slug} title={v.title}>
+                <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
                   <shape.icon />
                 </div>
               );
@@ -92,10 +86,10 @@ const DiamondCfyFilters = (props) => {
           </DarksideButton>
         </UniLink>
       </div>
-    </StyledDiamondCfyFilters>
+    </StyledDiamondCfyFilterShape>
   );
 };
 
-export { DiamondCfyFilters };
+export { DiamondCfyFilterShape };
 
-export default DiamondCfyFilters;
+export default DiamondCfyFilterShape;

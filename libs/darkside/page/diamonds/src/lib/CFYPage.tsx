@@ -1,42 +1,29 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { DiamondCfyAsidePromo, DiamondCfyFilters } from '@diamantaire/darkside/components/diamonds';
+import {
+  DiamondCfyAsidePromo,
+  DiamondCfyFilterCarat,
+  DiamondCfyFilterShape,
+} from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
 interface CFYPageQueryParams extends ParsedUrlQuery {
-  product?: string;
-  metal?: string;
-  diamondType?: string;
-  goldPurity?: string;
-  bandAccent?: string;
-  sideStoneCarat?: string;
-  ringSize?: string;
-  bandWidth?: string;
-  diamondOrientation?: string;
   carat?: string;
-  flow?: string;
-  edit?: string;
-  sideStoneShape?: string;
-  bandStoneShape?: string;
-  bandStoneStyle?: string;
-  haloSize?: string;
-  prongStyle?: string;
-  cto?: string;
+  diamondType?: string;
+  product?: string;
 }
 
 interface CFYPageProps {
-  countryCode: string;
-  currencyCode: string;
   dehydratedState: DehydratedState;
   locale: string;
   options?: CFYPageQueryParams;
@@ -44,14 +31,23 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
-  const { diamondType: selectedDiamondType, carat: selectedCarat, product: selectedProduct } = options;
+  const { diamondType, carat: selectedCarat, product: selectedProduct } = options;
+  const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
   const { headerTitle, headerCopy } = ctoDiamondTable;
   let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
 
-  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(selectedDiamondType)?.title || '']);
-  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(selectedDiamondType)?.title || '']);
+  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+
+  const handleSelectShape = (shape) => {
+    setSelectedDiamondType(shape);
+  };
+
+  const handleSelectCarat = (carat) => {
+    console.log(carat);
+  };
 
   return (
     <>
@@ -64,13 +60,23 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             <p>{headerCopy}</p>
           </div>
 
-          <DiamondCfyFilters
-            locale={locale}
-            selectedCarat={selectedCarat}
-            selectedDiamondType={selectedDiamondType}
-            availableDiamondTypes={availableDiamondTypes}
-            diamondShapeDescriptions={allDiamondShapeDescriptions}
-          />
+          {(!selectedDiamondType && (
+            <DiamondCfyFilterShape
+              locale={locale}
+              selectedCarat={selectedCarat}
+              handleSelectShape={handleSelectShape}
+              selectedDiamondType={selectedDiamondType}
+              availableDiamondTypes={availableDiamondTypes}
+              diamondShapeDescriptions={allDiamondShapeDescriptions}
+            />
+          )) || (
+            <DiamondCfyFilterCarat
+              locale={locale}
+              selectedCarat={selectedCarat}
+              selectedDiamondType={selectedDiamondType}
+              handleSelectCarat={handleSelectCarat}
+            />
+          )}
         </div>
 
         <div className="page-aside">
@@ -89,8 +95,6 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { query, locale } = context;
-  const { countryCode } = parseValidLocale(locale);
-  const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getCFYOptionsFromUrl(query || {});
   const { product } = options || {};
@@ -115,8 +119,6 @@ async function getServerSideProps(
     props: {
       locale,
       options,
-      countryCode,
-      currencyCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

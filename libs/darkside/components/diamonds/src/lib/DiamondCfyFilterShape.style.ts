@@ -1,7 +1,7 @@
 import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const StyledDiamondCfyFilters = styled.div`
+const StyledDiamondCfyFilterShape = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -17,26 +17,26 @@ const StyledDiamondCfyFilters = styled.div`
     `)}
   }
 
-  .diamond-lists {
+  .lists {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .diamond-list {
+  .list {
     width: 100%;
     max-width: 500px;
     flex-wrap: wrap;
     display: flex;
     padding: 1.5rem;
     gap: 1rem 0;
-
-    &.popular {
-      background: ${GREY_LIGHTEST};
-    }
   }
 
-  .diamond-list .subtitle {
+  .list.popular {
+    background: ${GREY_LIGHTEST};
+  }
+
+  .list .subtitle {
     width: 100%;
     text-transform: uppercase;
     text-align: center;
@@ -45,14 +45,15 @@ const StyledDiamondCfyFilters = styled.div`
     margin-top: -1rem;
   }
 
-  .diamond-list-item {
+  .list-item {
     display: flex;
     flex-direction: column;
     width: calc(100% / 6);
     gap: 1rem;
+    cursor: pointer;
   }
 
-  .diamond-list-item .name {
+  .list-item .name {
     display: block;
     text-align: center;
     margin: 0 auto;
@@ -61,7 +62,7 @@ const StyledDiamondCfyFilters = styled.div`
     line-height: 1;
   }
 
-  .diamond-list-item .icon {
+  .list-item .icon {
     display: flex;
     justify-content: center;
   }
@@ -73,7 +74,7 @@ const StyledDiamondCfyFilters = styled.div`
   .cta {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
 
     button {
       font-size: var(--font-size-xxsmall);
@@ -81,6 +82,6 @@ const StyledDiamondCfyFilters = styled.div`
   }
 `;
 
-export { StyledDiamondCfyFilters };
+export { StyledDiamondCfyFilterShape };
 
-export default StyledDiamondCfyFilters;
+export default StyledDiamondCfyFilterShape;
