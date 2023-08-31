@@ -39,11 +39,17 @@ const DiamondCfyFilterCarat = (props) => {
 
   const updateParentState = useCallback(() => {
     const caratValue = getSelectedCaratRange(sliderRangeValue, caratMin, caratMax);
-    const roundedCaratValue = Math.round(caratValue * 10) / 10; // Round to nearest 0.1
+    const roundedCaratValue = roundToNearestTenth(caratValue);
 
     if (sliderRangeValue !== roundedCaratValue) {
       handleSelectCarat(roundedCaratValue);
-      setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`); // Update formattedCarat
+
+      const updateCaratAndPrice = () => {
+        setFormattedCarat(`${roundedCaratValue}ct`);
+        setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
+      };
+
+      requestAnimationFrame(updateCaratAndPrice);
     }
   }, [sliderRangeValue, caratMin, caratMax, handleSelectCarat]);
 
@@ -54,16 +60,20 @@ const DiamondCfyFilterCarat = (props) => {
       setSliderRangeValue(value);
 
       const caratValue = getSelectedCaratRange(value, caratMin, caratMax);
-      const roundedCaratValue = Math.round(caratValue * 10) / 10; // Round to nearest 0.1
+      const roundedCaratValue = roundToNearestTenth(caratValue);
 
-      setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
-      setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
+      const updateCaratAndPrice = () => {
+        setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
+        setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
+      };
+
+      requestAnimationFrame(updateCaratAndPrice);
     },
     [caratMin, caratMax],
   );
 
   useEffect(() => {
-    const delay = 500;
+    const delay = 1000;
     const timeoutId = setTimeout(updateParentState, delay);
 
     return () => clearTimeout(timeoutId);
@@ -260,4 +270,8 @@ function getSelectedCaratRange(value, caratMin, caratMax) {
   } else {
     return DIAMOND_CFY_CARAT_DEFAULT;
   }
+}
+
+function roundToNearestTenth(value) {
+  return Math.round(value * 10) / 10;
 }
