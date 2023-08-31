@@ -342,7 +342,15 @@ const BuilderFlow = ({
           ) : currentStep === 1 ? (
             <DiamondBuildStep flowIndex={1} diamondTypeToShow={builderProduct?.product?.diamondType} />
           ) : currentStep === 2 ? (
-            builderProduct.product && builderProduct.diamond && <ReviewBuildStep type={type} settingSlugs={settingSlugs} />
+            builderProduct.product &&
+            builderProduct.diamond && (
+              <ReviewBuildStep
+                settingSlugs={settingSlugs}
+                type={type}
+                selectedConfiguration={selectedConfiguration}
+                configurations={configurations}
+              />
+            )
           ) : null
         ) : currentStep === 0 ? (
           <DiamondBuildStep flowIndex={0} diamondTypeToShow="round-brilliant" />

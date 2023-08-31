@@ -231,7 +231,7 @@ function OptionSelector({
                     const isSelected = selectedOptionValue === option.value;
 
                     // human readable value
-                    const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+                    const valueLabel = DIAMOND_SHAPES_MAP?.[option.value]?.value;
 
                     return (
                       <OptionItemContainer
