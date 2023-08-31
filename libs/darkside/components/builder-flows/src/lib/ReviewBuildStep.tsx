@@ -52,7 +52,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .ring-size-container {
-      margin: 20px 0;
+      margin: 20px 0 0;
       h4 {
         margin: 0 0 10px;
       }

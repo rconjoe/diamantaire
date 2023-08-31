@@ -1,4 +1,4 @@
-import { SwiperStyles } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -45,6 +45,14 @@ const StyledOptionSelector = styled.div`
     list-style: none;
     padding: 0;
     margin: 0;
+
+    &.ringSize {
+      align-items: center;
+      .show-more-sizes-button button {
+        font-size: var(--font-size-xxxsmall);
+        margin-left: 10px;
+      }
+    }
 
     &.diamondType {
       margin-top: 10px;
@@ -245,6 +253,16 @@ function OptionSelector({
                       />
                     );
                   })}
+                {!showingAllRingSizes && (
+                  <DarksideButton
+                    className="show-more-sizes-button"
+                    type="underline"
+                    colorTheme="teal"
+                    onClick={() => setShowingAllRingSizes(true)}
+                  >
+                    Show More Sizes
+                  </DarksideButton>
+                )}
               </>
             ) : (
               options.map((option) => {
