@@ -110,33 +110,9 @@ const StyledDiamondCfyFilterCarat = styled.div`
       font-size: var(--font-size-xxxsmall);
     }
 
-    .graph-price-info {
-      min-width: 92px;
-
-      &.-has-plus {
-        min-width: 96px;
-      }
-
-      &.usd {
-        width: 89px;
-        &.-has-plus {
-          width: 96px;
-        }
-      }
-
-      &.eur {
-        min-width: 96px;
-        &.-has-plus {
-          min-width: 100px;
-        }
-      }
-
-      &.cad {
-        min-width: 110px;
-        &.-has-plus {
-          min-width: 114px;
-        }
-      }
+    .graph-price-info,
+    .graph-carat-info {
+      display: inline-block;
     }
   }
 

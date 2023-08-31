@@ -10,10 +10,11 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
+import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
@@ -31,7 +32,8 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
-  const { diamondType, carat: selectedCarat, product: selectedProduct } = options;
+  const { diamondType, carat, product: selectedProduct } = options;
+  const [selectedCarat, setSelectedCarat] = useState(carat || DIAMOND_CFY_CARAT_DEFAULT);
   const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
@@ -41,13 +43,15 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
 
-  const handleSelectShape = (shape) => {
-    setSelectedDiamondType(shape);
+  const handleSelectShape = (value) => {
+    setSelectedDiamondType(value);
   };
 
-  const handleSelectCarat = (carat) => {
-    console.log(carat);
-  };
+  const handleSelectCarat = useCallback((value) => {
+    console.log('CARAT UPDATE DETECTED', value);
+
+    setSelectedCarat(value);
+  }, []);
 
   return (
     <>
