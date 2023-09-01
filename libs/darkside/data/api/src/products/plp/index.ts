@@ -6,7 +6,7 @@ import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
 const API_URL = `${BASE_URL}/api/plp`;
-console.log({ API_URL });
+
 export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, limit = 12) {
   const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
   const reqUrl = `${API_URL}/getPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
