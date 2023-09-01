@@ -60,7 +60,7 @@ export const getDiamondType = (value: string) => {
     };
   }
 
-  return {};
+  return null;
 };
 
 export const getDiamondId = (slug: string) => {

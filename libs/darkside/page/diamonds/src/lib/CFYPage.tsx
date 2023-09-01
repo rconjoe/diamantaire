@@ -1,8 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCfyAsidePromo,
+  DiamondCfyBreadCrumb,
   DiamondCfyFilterCarat,
   DiamondCfyFilterShape,
 } from '@diamantaire/darkside/components/diamonds';
@@ -33,17 +34,26 @@ interface CFYPageProps {
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
   const { diamondType, carat, product: selectedProduct } = options;
+  const [checkAvailability, setCheckAvailability] = useState(false);
   const [selectedCarat, setSelectedCarat] = useState(carat || DIAMOND_CFY_CARAT_DEFAULT);
   const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
+
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
-  const { headerTitle, headerCopy, caratSliderTooltip } = ctoDiamondTable;
-  let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
+  const {
+    headerTitle,
+    headerCopy,
+    caratSliderTooltip,
+    diamondSelectorNote,
+    checkAvailability: checkAvailabilityLabel,
+  } = ctoDiamondTable;
 
-  console.log(useDiamondCfyData(locale));
+  let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
 
   seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+
+  console.log(`ctoDiamondTable`, ctoDiamondTable);
 
   const handleSelectShape = (value) => {
     setSelectedDiamondType(value);
@@ -54,6 +64,17 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
     setSelectedCarat(value);
   }, []);
+
+  const handleModifyDiamondType = useCallback((value) => {
+    setSelectedDiamondType(null);
+    console.log(`handleModifyDiamondType`, value);
+  }, []);
+
+  const handleModifyCarat = useCallback((value) => {
+    console.log(`handleModifyCarat`, value);
+  }, []);
+
+  console.log(`selectedDiamondType`, selectedDiamondType);
 
   return (
     <>
@@ -66,7 +87,16 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             <p>{headerCopy}</p>
           </div>
 
-          {(!selectedDiamondType && (
+          <DiamondCfyBreadCrumb
+            locale={locale}
+            selectedDiamondType={selectedDiamondType}
+            selectedCarat={selectedCarat}
+            handleModifyCarat={handleModifyCarat}
+            handleModifyDiamondType={handleModifyDiamondType}
+            checkAvailability={checkAvailability}
+          />
+
+          {(!diamondType && (
             <DiamondCfyFilterShape
               locale={locale}
               selectedCarat={selectedCarat}
@@ -76,13 +106,18 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
               diamondShapeDescriptions={allDiamondShapeDescriptions}
             />
           )) || (
-            <DiamondCfyFilterCarat
-              locale={locale}
-              selectedCarat={selectedCarat}
-              selectedDiamondType={selectedDiamondType}
-              handleSelectCarat={handleSelectCarat}
-              caratSliderTooltip={caratSliderTooltip}
-            />
+            <>
+              <DiamondCfyFilterCarat
+                locale={locale}
+                title={diamondSelectorNote}
+                selectedCarat={selectedCarat}
+                selectedDiamondType={selectedDiamondType}
+                handleSelectCarat={handleSelectCarat}
+                caratSliderTooltip={caratSliderTooltip}
+              />
+
+              <DarksideButton className="button-check-availability">{checkAvailabilityLabel}</DarksideButton>
+            </>
           )}
         </div>
 

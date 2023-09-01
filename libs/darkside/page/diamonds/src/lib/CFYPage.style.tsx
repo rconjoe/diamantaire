@@ -54,6 +54,11 @@ const StyledCFYPage = styled.div`
       width: 400px;
     `)}
   }
+
+  .button-check-availability {
+    max-width: 300px;
+    margin: 1rem auto;
+  }
 `;
 
 export default StyledCFYPage;

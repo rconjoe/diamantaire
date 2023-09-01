@@ -4,25 +4,27 @@ import styled from 'styled-components';
 const sliderCircle = 'https://images.vraiandoro.com/cto-diamonds/assets/slider_circle_upd.png';
 
 const StyledDiamondCfyFilterCarat = styled.div`
-  overflow: hidden;
-  max-width: 500px;
-  width: 100%;
   display: block;
-  margin: 0 auto;
+  text-align: center;
 
-  .carat-filter {
+  .title {
+    margin: 2rem 0 0;
+    font-size: var(--font-size-xsmall);
+  }
+
+  .graph {
     display: block;
-    padding: 40px 5px 35px;
+    overflow: hidden;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 5rem 0.5rem;
   }
 
   .graph-wrapper {
     position: relative;
     flex-direction: column;
     display: flex;
-  }
-
-  .price {
-    width: 100px;
   }
 
   .graph-tooltip-container {
@@ -118,6 +120,11 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
     .graph-info-tooltip {
       transform: translate(2px, 5px);
+      text-align: left;
+
+      .tooltip-trigger * {
+        font-size: var(--font-size-xxxxxsmall);
+      }
     }
   }
 

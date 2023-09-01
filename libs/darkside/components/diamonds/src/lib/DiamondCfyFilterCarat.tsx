@@ -1,4 +1,4 @@
-import { Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Tooltip } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_CFY_CARAT_DEFAULT, DIAMOND_CFY_CARAT_RANGE_MAP } from '@diamantaire/shared/constants';
@@ -16,7 +16,7 @@ const SLIDER_RANGE = SLIDER_MAX_VALUE - SLIDER_MIN_VALUE;
 const DiamondCfyFilterCarat = (props) => {
   const { isMobile } = useContext(GlobalContext);
 
-  const { selectedDiamondType, selectedCarat, handleSelectCarat, locale, caratSliderTooltip } = props;
+  const { title, selectedDiamondType, selectedCarat, handleSelectCarat, locale, caratSliderTooltip } = props;
 
   const countryCode = getCountry(locale);
 
@@ -78,14 +78,16 @@ const DiamondCfyFilterCarat = (props) => {
 
   const shape = diamondIconsMap[selectedDiamondType.slug];
 
-  console.log(`caratSliderTooltip`, caratSliderTooltip);
-
   return (
     <StyledDiamondCfyFilterCarat
       scale={getSliderDiamondScale(sliderRangeValue)}
       rotation={getSliderDiamondPosition(sliderRangeValue)}
     >
-      <div className="carat-filter">
+      <Heading type="h2" className="title">
+        {title}
+      </Heading>
+
+      <div className="graph">
         <div className="graph-wrapper">
           <div className="graph-arrow x" />
 
