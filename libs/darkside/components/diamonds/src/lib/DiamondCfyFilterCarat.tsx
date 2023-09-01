@@ -1,8 +1,10 @@
+import { Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_CFY_CARAT_DEFAULT, DIAMOND_CFY_CARAT_RANGE_MAP } from '@diamantaire/shared/constants';
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { formatCurrency, getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import StyledDiamondCfyFilterCarat from './DiamondCfyFilterCarat.style';
 
@@ -12,30 +14,21 @@ const SLIDER_MAX_VALUE = 100 * SLIDER_MULTIPLIER;
 const SLIDER_RANGE = SLIDER_MAX_VALUE - SLIDER_MIN_VALUE;
 
 const DiamondCfyFilterCarat = (props) => {
-  const { selectedDiamondType, selectedCarat, handleSelectCarat, locale } = props;
+  const { isMobile } = useContext(GlobalContext);
 
-  const [caratMin, caratMax] = useMemo(
-    () => getCaratRangeByDiamondType(selectedDiamondType.slug),
-    [selectedDiamondType.slug],
-  );
+  const { selectedDiamondType, selectedCarat, handleSelectCarat, locale, caratSliderTooltip } = props;
 
-  const initialSliderRangeValue = useMemo(
-    () => getSliderValueFromCaratRange(selectedCarat, caratMin, caratMax),
-    [selectedCarat, caratMin, caratMax],
-  );
+  const countryCode = getCountry(locale);
+
+  const [caratMin, caratMax] = getCaratRangeByDiamondType(selectedDiamondType.slug);
+
+  const initialSliderRangeValue = getSliderValueFromCaratRange(selectedCarat, caratMin, caratMax);
+
   const [sliderRangeValue, setSliderRangeValue] = useState(initialSliderRangeValue);
 
   const [caratPrice, setCaratPrice] = useState(getPriceFromCaratWeight(selectedCarat));
 
-  useEffect(() => {
-    setCaratPrice(getPriceFromCaratWeight(selectedCarat));
-  }, [selectedCarat]);
-
   const [formattedCarat, setFormattedCarat] = useState(`${selectedCarat.toFixed(1)}ct`);
-
-  useEffect(() => {
-    setFormattedCarat(`${selectedCarat.toFixed(1)}ct`);
-  }, [selectedCarat]);
 
   const updateParentState = useCallback(() => {
     const caratValue = getSelectedCaratRange(sliderRangeValue, caratMin, caratMax);
@@ -56,21 +49,25 @@ const DiamondCfyFilterCarat = (props) => {
   const handleSliderChange = useCallback(
     (event) => {
       const value = parseFloat(event.target.value);
-
-      setSliderRangeValue(value);
-
       const caratValue = getSelectedCaratRange(value, caratMin, caratMax);
       const roundedCaratValue = roundToNearestTenth(caratValue);
 
-      const updateCaratAndPrice = () => {
+      const updateState = () => {
+        setSliderRangeValue(value);
         setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
         setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
-      requestAnimationFrame(updateCaratAndPrice);
+      requestAnimationFrame(updateState);
     },
     [caratMin, caratMax],
   );
+
+  useEffect(() => {
+    setCaratPrice(getPriceFromCaratWeight(selectedCarat));
+
+    setFormattedCarat(`${selectedCarat.toFixed(1)}ct`);
+  }, [selectedCarat]);
 
   useEffect(() => {
     const delay = 1000;
@@ -80,6 +77,8 @@ const DiamondCfyFilterCarat = (props) => {
   }, [updateParentState]);
 
   const shape = diamondIconsMap[selectedDiamondType.slug];
+
+  console.log(`caratSliderTooltip`, caratSliderTooltip);
 
   return (
     <StyledDiamondCfyFilterCarat
@@ -128,6 +127,20 @@ const DiamondCfyFilterCarat = (props) => {
 
                 <span className="value">{formattedCarat}</span>
               </span>
+            </div>
+
+            <div className="graph-info-tooltip">
+              {caratSliderTooltip?.map(({ copy, supportedCountries, id }) => {
+                if (!isCountrySupported(supportedCountries, countryCode)) {
+                  return null;
+                }
+
+                return (
+                  <Tooltip key={id} id={`tooltip-${id}`} place={isMobile ? 'right' : 'bottom-end'}>
+                    {copy}
+                  </Tooltip>
+                );
+              })}
             </div>
           </div>
 

@@ -105,6 +105,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
     position: absolute;
     top: -25px;
     left: -2px;
+    z-index: 1;
 
     * {
       font-size: var(--font-size-xxxsmall);
@@ -113,6 +114,10 @@ const StyledDiamondCfyFilterCarat = styled.div`
     .graph-price-info,
     .graph-carat-info {
       display: inline-block;
+    }
+
+    .graph-info-tooltip {
+      transform: translate(2px, 5px);
     }
   }
 

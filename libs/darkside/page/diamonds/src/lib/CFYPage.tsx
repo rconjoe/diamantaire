@@ -37,8 +37,10 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
-  const { headerTitle, headerCopy } = ctoDiamondTable;
+  const { headerTitle, headerCopy, caratSliderTooltip } = ctoDiamondTable;
   let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
+
+  console.log(useDiamondCfyData(locale));
 
   seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
@@ -79,6 +81,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
               selectedCarat={selectedCarat}
               selectedDiamondType={selectedDiamondType}
               handleSelectCarat={handleSelectCarat}
+              caratSliderTooltip={caratSliderTooltip}
             />
           )}
         </div>
