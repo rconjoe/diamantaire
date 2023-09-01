@@ -2,6 +2,7 @@ import { ParsedUrlQuery } from 'querystring';
 
 import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
+import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -98,6 +99,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
+        <PageViewTracker productData={{ ...additionalVariantData, price }} />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>

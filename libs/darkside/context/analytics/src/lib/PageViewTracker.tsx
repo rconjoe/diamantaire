@@ -3,20 +3,47 @@ import { useEffect } from 'react';
 
 import { useAnalytics } from './AnalyticsProvider';
 
-const PageViewTracker = () => {
-  const { viewPage } = useAnalytics();
+const PageViewTracker = ({ productData }) => {
+  const { viewPage, productViewed } = useAnalytics();
   const router = useRouter();
+
+  function emitViewPageEvent(pageName: string) {
+    const segments = router?.pathname.split('/').filter(Boolean);
+    const productSlugSegmentPath = segments[segments.length - 1];
+    const isProductSlug = productSlugSegmentPath === '[productSlug]';
+
+    if (isProductSlug) {
+      const { id, productTitle, productType, image, sku, price } = productData || {};
+
+      productViewed({
+        product_id: id,
+        sku: sku,
+        category: productType,
+        name: productTitle,
+        brand: 'VRAI',
+        // variant: '111',
+        price,
+        quantity: 1,
+        currency: 'USD',
+        // url,
+        image_url: image?.src,
+      });
+    } else {
+      viewPage(pageName);
+    }
+  }
 
   useEffect(() => {
     const handleRouteChange = () => {
-      viewPage(router.pathname);
+      console.log('handle route change', router.pathname);
+      emitViewPageEvent(router.pathname);
     };
 
     // Add an event listener for route changes
     router.events.on('routeChangeComplete', handleRouteChange);
 
     // Manually track the initial page view when the component mounts
-    viewPage(router.pathname);
+    emitViewPageEvent(router.pathname);
 
     // Clean up the event listener when the component unmounts
     return () => {

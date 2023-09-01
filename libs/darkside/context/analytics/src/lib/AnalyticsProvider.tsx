@@ -3,6 +3,7 @@ import TagManager from 'react-gtm-module';
 
 type AnalyticsContextType = {
   viewPage: (pageName: string) => void;
+  productViewed: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -19,6 +20,7 @@ export const useAnalytics = () => {
 
 export const GTM_EVENTS = {
   viewPage: 'viewPage',
+  productViewed: 'productViewed',
 };
 
 export const tagManagerArgs = {
@@ -34,7 +36,10 @@ export const AnalyticsProvider = ({ children }) => {
 
   const analytics = {
     viewPage: (pageName: string) => {
-      TagManager.dataLayer({ event: GTM_EVENTS.viewPage, pageName });
+      TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.viewPage, pageName } });
+    },
+    productViewed: (eventData: Record<string, any>) => {
+      TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.productViewed, ...eventData } });
     },
   };
 
