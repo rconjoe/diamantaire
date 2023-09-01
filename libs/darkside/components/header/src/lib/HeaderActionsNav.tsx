@@ -1,5 +1,5 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { SearchIcon, AccountIcon, HeartIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { AccountIcon, LoveIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -88,7 +88,7 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
     },
     {
       title: 'Wishlist',
-      icon: <HeartIcon alt="Favorites" loading="eager" />,
+      icon: <LoveIcon alt="Favorites" loading="eager" />,
       type: 'button',
       alt: 'Wishlist Toggle Button',
       href: '/',
