@@ -38,7 +38,7 @@ const DiamondCfyFilterCarat = (props) => {
       handleSelectCarat(roundedCaratValue);
 
       const updateCaratAndPrice = () => {
-        setFormattedCarat(`${roundedCaratValue}ct`);
+        setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
         setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
@@ -169,7 +169,6 @@ function getCaratRangeByDiamondType(diamondType) {
   if (range) {
     return range;
   } else {
-    // Unexpected shape
     return [1, 10];
   }
 }
