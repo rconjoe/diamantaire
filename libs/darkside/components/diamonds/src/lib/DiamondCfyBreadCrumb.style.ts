@@ -4,16 +4,17 @@ const StyledDiamondCfyBreadCrumb = styled.div`
   display: block;
   width: 100%;
   max-width: 500px;
-  margin: 2rem auto 0;
-
-  &:empty {
-    display: none;
-  }
+  margin: 0 auto;
 
   .breadcrumb {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin: 2rem 0 0;
+
+    &:empty {
+      display: none;
+    }
   }
 
   .row {

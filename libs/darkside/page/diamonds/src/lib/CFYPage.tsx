@@ -53,8 +53,6 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
   seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
 
-  console.log(`ctoDiamondTable`, ctoDiamondTable);
-
   const handleSelectShape = (value) => {
     setSelectedDiamondType(value);
   };
@@ -96,7 +94,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             checkAvailability={checkAvailability}
           />
 
-          {(!diamondType && (
+          {(!selectedDiamondType && (
             <DiamondCfyFilterShape
               locale={locale}
               selectedCarat={selectedCarat}
