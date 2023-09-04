@@ -174,3 +174,58 @@ export const fetchDiamondCfyData = async (locale: string) => {
 
   return diamondCfyData;
 };
+
+// Get Diamond Cut To Order
+export const fetchDiamondCtoData = async (options) => {
+  const number = Number(options.carat);
+
+  const caratNumber = isNaN(number) ? 3 : number;
+
+  try {
+    const queryOptions = {
+      limit: 1,
+      diamondType: options.diamondType,
+      caratMin: caratNumber,
+      caratMax: caratNumber * 1.001,
+    };
+
+    const ctoQueryOptions = {
+      ...queryOptions,
+      isCto: true,
+    };
+
+    const queryString = Object.entries(ctoQueryOptions)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .join('&');
+
+    const searchParams = new URLSearchParams(queryString);
+
+    const url = `/diamondCto?${searchParams.toString()}`;
+
+    // const upgradeQueryOptionsCut = {
+    //   ...queryOptions,
+    //   cut: 'Ideal+Heart',
+    // };
+
+    // const upgradeQueryOptionsColor = {
+    //   ...queryOptions,
+    //   color: 'D,E,F',
+    // };
+
+    const response = await queryClientApi().request({ method: 'GET', url });
+
+    const payload = response?.data || {};
+
+    console.log(`fetchDiamondCtoData url`, url);
+
+    console.log(`fetchDiamondCtoData payload`, payload);
+
+    // const upgradeCut = await fetchDiamondData(upgradeQueryOptionsCut);
+
+    // const upgradeColor = await fetchDiamondData(upgradeQueryOptionsColor);
+
+    return { payload };
+  } catch (error) {
+    console.log(error);
+  }
+};

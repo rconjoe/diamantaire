@@ -1,12 +1,12 @@
-import { mergeQueryKeys, inferQueryKeys, inferQueryKeyStore } from '@lukemorales/query-key-factory';
+import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
 import { cart } from './cart';
-import { infiniteDiamonds, diamonds, diamondPdp, diamondTable, diamondInfo, diamondCfy } from './diamonds';
+import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
 import { footer } from './footer';
 import { header } from './header';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
-import { productPage, plpListPage } from './products';
+import { plpListPage, productPage } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
 
@@ -21,6 +21,7 @@ export const queries = mergeQueryKeys(
   humanNameMappers,
   diamonds,
   infiniteDiamonds,
+  diamondCto,
   diamondCfy,
   diamondPdp,
   diamondInfo,
@@ -28,6 +29,7 @@ export const queries = mergeQueryKeys(
   cart,
 );
 
+export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
 export type InfiniteDiamondsKeys = inferQueryKeys<typeof infiniteDiamonds>;
 export type DiamondsKeys = inferQueryKeys<typeof diamonds>;
 export type DiamondPdpKeys = inferQueryKeys<typeof diamondPdp>;

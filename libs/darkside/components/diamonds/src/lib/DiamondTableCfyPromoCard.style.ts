@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const StyledDiamondTableCfyPromoCard = styled.div`
   display: block;
+  padding: 0 0 2rem;
 
   .vo-table-foot & {
     background: #f0eaea;
@@ -10,17 +11,19 @@ const StyledDiamondTableCfyPromoCard = styled.div`
     width: 100%;
   }
 
-  .container {
+  > div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 2rem 2rem 0;
     gap: 2rem;
   }
 
   p {
-    max-width: 500px;
+    max-width: 100%;
+    width: 550px;
   }
+
   p,
   p * {
     text-align: center;
@@ -30,6 +33,13 @@ const StyledDiamondTableCfyPromoCard = styled.div`
       font-size: var(--font-size-xsmall);
     `)}
   }
+
+  .cta {
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+  }
+
   button {
     background: ${BLACK} !important;
     color: ${WHITE} !important;

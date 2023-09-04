@@ -276,3 +276,40 @@ export const getCFYShallowRoute = (options, page) => {
 
   return route;
 };
+
+/**
+ * CFY Result Faceted Navigation Logic
+ * Will take what's in the url parse it
+ * ex: /diamonds/[diamondType] or /diamonds/results/[diamondType]
+ * Parse it and return a params object for querying the diamond API.
+ */
+
+export const getCFYResultOptionsFromUrl = (query) => {
+  const options: {
+    diamondType?: string;
+    [key: string]: string;
+  } = {};
+
+  const { diamondType } = query;
+
+  if (diamondType && diamondOption.isDiamondType(diamondType)) {
+    options.diamondType = getDiamondType(diamondType).slug;
+  }
+
+  const getOptionsFromQueryNav = (data: { key: string; value: string }) => {
+    const validQueryType = [...DIAMOND_CFY_VALID_QUERIES];
+
+    return Object.keys(data)
+      .filter((k) => validQueryType.includes(k))
+      .reduce((a: object, k: string) => ({ ...a, [k]: data[k] }), {});
+  };
+
+  const result = {
+    ...options,
+    ...getOptionsFromQueryNav(query),
+  };
+
+  if (!result.carat) result.carat = '3.0';
+
+  return result;
+};

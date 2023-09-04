@@ -72,7 +72,9 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     console.log(`handleModifyCarat`, value);
   }, []);
 
-  console.log(`selectedDiamondType`, selectedDiamondType);
+  const handleCheckAvailability = () => {
+    setCheckAvailability(true);
+  };
 
   return (
     <>
@@ -114,7 +116,9 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
                 caratSliderTooltip={caratSliderTooltip}
               />
 
-              <DarksideButton className="button-check-availability">{checkAvailabilityLabel}</DarksideButton>
+              <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
+                {checkAvailabilityLabel}
+              </DarksideButton>
             </>
           )}
         </div>
