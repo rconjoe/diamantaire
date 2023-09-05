@@ -7,6 +7,7 @@ import { makeNextAppHandler } from '../../../../lib/handlers';
 import { makeOkResult } from '../../../../lib/util';
 
 const handlers = makeNextAppHandler(SlugEventEndpoint, {
+  // eslint-disable-next-line prettier/prettier
   async POST(req: NextRequest, { }, body) {
     console.log(body.event_type);
     console.log(JSON.stringify(req.headers.get('Upstash-Signature')));
