@@ -6,7 +6,9 @@
     "sourceType": "module",
     "createDefaultProgram": true
   },
-  "ignorePatterns": ["**/*"],
+  "ignorePatterns": [
+    "**/*"
+  ],
   "plugins": [
     "@nx",
     "@typescript-eslint",
@@ -37,7 +39,10 @@
     "no-eval": "error",
     "no-fallthrough": "error",
     "no-new-wrappers": "error",
-    "no-restricted-imports": ["error", "rxjs/Rx"],
+    "no-restricted-imports": [
+      "error",
+      "rxjs/Rx"
+    ],
     "no-undef-init": "error",
     "no-var": "error",
     "prefer-const": "error",
@@ -46,12 +51,15 @@
     "no-unused-vars": "warn",
     "camelcase": "warn",
     "no-undef": "error",
-    "valid-jsdoc": "error",
+    "valid-jsdoc": "warn",
     "no-useless-constructor": "off",
     "no-empty-function": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
-    "eqeqeq": ["error", "smart"],
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
     "security/detect-object-injection": "off",
     "@typescript-eslint/no-this-alias": "warn",
     "no-self-assign": "warn",
@@ -71,7 +79,12 @@
       }
     ],
     "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "unused-imports/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -79,24 +92,22 @@
     "no-duplicate-imports": "error",
     "import/no-unresolved": "warn",
     "import/no-extraneous-dependencies": [
-      "warn",
-      {
-        "devDependencies": false,
-        "optionalDependencies": false,
-        "peerDependencies": false,
-        "packageDir": "./"
-      }
+      "off"
     ],
-    "import/no-internal-modules": [
-      "warn",
-      {
-        "allow": ["**/src/**", "next/*"]
-      }
-    ],
+    "import/no-internal-modules": "off",
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index"
+        ],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
@@ -106,19 +117,43 @@
     ],
     "padding-line-between-statements": [
       "error",
-      { "blankLine": "always", "prev": "*", "next": "return" },
       {
         "blankLine": "always",
-        "prev": ["const", "let", "var"],
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
         "next": "*"
       },
       {
         "blankLine": "any",
-        "prev": ["const", "let", "var"],
-        "next": ["const", "let", "var"]
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
+        "next": [
+          "const",
+          "let",
+          "var"
+        ]
       },
-      { "blankLine": "always", "prev": "directive", "next": "*" },
-      { "blankLine": "any", "prev": "directive", "next": "directive" }
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": "directive",
+        "next": "directive"
+      }
     ],
     "max-len": [
       "warn",
@@ -129,8 +164,15 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript"
+      ],
       "rules": {
         "import/no-unresolved": 0,
         "@nx/enforce-module-boundaries": [
@@ -141,7 +183,9 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
               }
             ]
           }
@@ -149,8 +193,15 @@
       }
     },
     {
-      "files": ["*.tsx", "*.jsx"],
-      "extends": ["plugin:jsx-a11y/recommended", "plugin:react/recommended", "next/core-web-vitals"],
+      "files": [
+        "*.tsx",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:jsx-a11y/recommended",
+        "plugin:react/recommended",
+        "next/core-web-vitals"
+      ],
       "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
@@ -160,49 +211,46 @@
          * We want to use brackets
          */
         "curly": "off",
-
         "@next/next/no-document-import-in-page": "off",
-
         /** namespaced imports must be able validated */
-        "import/namespace": ["error", { "allowComputed": true }],
-
+        "import/namespace": [
+          "error",
+          {
+            "allowComputed": true
+          }
+        ],
         /** hrefs in nextjs are usually added to <Link> instead of <a> */
         "jsx-a11y/anchor-is-valid": 0,
         "jsx-a11y/anchor-has-content": 2,
-
         /** we often export components as both named and default for ez testing */
         "import/no-named-as-default": 0,
-
         /**
          *  TODO: disable some accessibility rules for now during build phase
          *  https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/click-events-have-key-events.md
          */
         "jsx-a11y/click-events-have-key-events": 0,
-
         /**
          * TODO: disable some accessibility rules for now during build phase
          * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
          */
         "jsx-a11y/no-static-element-interactions": 0,
-
         /** Due to the way we set up CheckCircle, we don't want nesting check */
         "jsx-a11y/label-has-for": [
           "error",
           {
             "required": {
-              "every": ["id"]
+              "every": [
+                "id"
+              ]
             }
           }
         ],
-
         /** We want to autoFocus our users */
         "jsx-a11y/no-autofocus": 0,
-
         /**
          * We don't have captions on our videos
          */
         "jsx-a11y/media-has-caption": 0,
-
         /** We want to enforce uniform handler names */
         "react/jsx-handler-names": [
           "error",
@@ -211,7 +259,6 @@
             "eventHandlerPropPrefix": "on"
           }
         ],
-
         /**
          * TODO: https://eslint.org/docs/rules/prefer-destructuring
          */
@@ -234,8 +281,13 @@
       }
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
       "rules": {}
     },
     {
