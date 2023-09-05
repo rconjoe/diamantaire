@@ -1,3 +1,4 @@
+import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -13,20 +14,27 @@ const PageViewTracker = ({ productData }) => {
     const isProductSlug = productSlugSegmentPath === '[productSlug]';
 
     if (isProductSlug) {
-      const { id, productTitle, productType, image, sku, price } = productData || {};
+      const { shopifyProductId, productTitle, productType, sku, canonicalVariant, cms, styles } = productData || {};
+
+      const { countryCode } = parseValidLocale(router?.locale);
+
+      const currencyCode = getCurrency(countryCode);
 
       productViewed({
-        product_id: id,
+        product_id: shopifyProductId,
         sku: sku,
         category: productType,
-        name: productTitle,
+        name: cms?.productTitle,
         brand: 'VRAI',
-        // variant: '111',
-        price,
+        variant: productTitle,
+        price: getFormattedPrice(canonicalVariant?.price, router?.locale, true, true),
+        ringSize: canonicalVariant?.defaultRingSize,
         quantity: 1,
-        currency: 'USD',
-        // url,
-        image_url: image?.src,
+        currency: currencyCode,
+        url: router?.asPath,
+        image_url: cms?.image?.src,
+        ...canonicalVariant?.configuration,
+        styles,
       });
     } else {
       viewPage(pageName);

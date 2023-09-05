@@ -99,7 +99,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     return (
       <PageContainerStyles>
-        <PageViewTracker productData={{ ...additionalVariantData, price }} />
+        <PageViewTracker productData={{ ...shopifyProductData, cms: additionalVariantData }} />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>

@@ -54,7 +54,15 @@ function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
-  const url = { pathname: router.pathname, query: { collectionSlug, productSlug: id, jewelryCategory } };
+
+  const url = {
+    pathname: router.pathname,
+    query: {
+      collectionSlug,
+      productSlug: id,
+      ...(jewelryCategory && { jewelryCategory }),
+    },
+  };
 
   return (
     <Link href={url} scroll={false}>
