@@ -9,7 +9,7 @@ export const SlugEventEndpoint = {
     POST: {
       auth: false,
       request: S.struct({
-        event_type: S.literal('publish', 'unpublish'),
+        event_type: S.literal('publish', 'delete'),
       }),
       response: S.struct({
         message: S.string,
