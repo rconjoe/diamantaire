@@ -60,3 +60,38 @@ export interface DiamondDataTypes {
   updated_at?: string;
   width_mm?: number;
 }
+
+interface DiamondCtoVariant {
+  dangerousInternalShopifyVariantId: string;
+  isForSale: boolean;
+  price: number;
+  shopifyProductHandle: string;
+  shopifyProductTitle: string;
+  variantId: string;
+  variantSku: string;
+}
+
+export interface DiamondCtoDataTypes {
+  _id: string;
+  dangerousInternalProductId: string;
+  availableForSale: boolean;
+  carat: number;
+  clarity: string;
+  color: string;
+  cut: string;
+  dangerousInternalCollectionId: string;
+  dangerousInternalShopifyVariantId: string;
+  dfCertificateUrl: string;
+  diamondType: string;
+  handle: string;
+  isForSale: string;
+  lotId: string;
+  price: number;
+  productTitle: string;
+  productType: string;
+  slug: string;
+  type: string;
+  variantId: string;
+  variants: DiamondCtoVariant[];
+  hidden: boolean;
+}

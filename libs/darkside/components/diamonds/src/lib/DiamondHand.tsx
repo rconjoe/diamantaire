@@ -13,20 +13,29 @@ const DiamondHand = ({
   lotId,
   diamondType,
   withSlider = false,
+  isCto = false,
+  isThumb = false,
+  product,
 }: {
   className?: string;
   lotId?: string;
   diamondType?: string;
   withSlider?: boolean;
+  product?: { [key: string]: any };
+  isCto?: boolean;
+  isThumb?: boolean;
 }) => {
   const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
-  const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
+  let { data: { diamond } = {} } = useDiamondsData({ lotId });
+
+  if (product) diamond = product;
+
   const { data: { ranges } = {} } = useDiamondsData({ diamondType });
 
-  const [sliderValue, setSliderValue] = useState(Number(product?.carat || 0));
+  const [sliderValue, setSliderValue] = useState(Number(diamond?.carat || 0));
 
-  if (!ranges || !product) return;
+  if (!ranges || !diamond) return;
 
   const range = [ranges?.carat?.[0], ranges?.carat?.[1]];
 
@@ -178,7 +187,6 @@ const DiamondHand = ({
   };
 
   const handleFormat = (value: number) => {
-    // return `${value.toFixed(2)}ct`;
     return Number(value).toFixed(1) + 'ct';
   };
 
@@ -194,12 +202,19 @@ const DiamondHand = ({
             <DiamondImage diamondType={diamondType} />
           </div>
         </div>
-
-        <div className="image-caption">
-          <p>
-            {sliderValue}ct | <UIString>Shown on ring size 6</UIString>
-          </p>
-        </div>
+        {!isThumb && (
+          <div className="image-caption">
+            {isCto ? (
+              <p>
+                <UIString>Example of how it will look cut and polished</UIString>
+              </p>
+            ) : (
+              <p>
+                {sliderValue}ct | <UIString>Shown on ring size 6</UIString>
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {withSlider && (

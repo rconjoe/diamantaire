@@ -8,6 +8,7 @@ import {
   DiamondCfyFilterShape,
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -15,7 +16,7 @@ import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
@@ -33,13 +34,19 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
+
   const { diamondType, carat, product: selectedProduct } = options;
+
   const [checkAvailability, setCheckAvailability] = useState(false);
+
   const [selectedCarat, setSelectedCarat] = useState(carat || DIAMOND_CFY_CARAT_DEFAULT);
+
   const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
 
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
+
   const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
+
   const {
     headerTitle,
     headerCopy,
@@ -58,14 +65,11 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   };
 
   const handleSelectCarat = useCallback((value) => {
-    console.log('CARAT UPDATE DETECTED', value);
-
     setSelectedCarat(value);
   }, []);
 
-  const handleModifyDiamondType = useCallback((value) => {
+  const handleModifyDiamondType = useCallback(() => {
     setSelectedDiamondType(null);
-    console.log(`handleModifyDiamondType`, value);
   }, []);
 
   const handleModifyCarat = useCallback((value) => {
@@ -75,6 +79,13 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   const handleCheckAvailability = () => {
     setCheckAvailability(true);
   };
+
+  const [productRoute, setProductRoute] = useState('');
+
+  useEffect(() => {
+    if (selectedDiamondType?.slug && selectedCarat)
+      setProductRoute(`/diamonds/results/${selectedDiamondType.slug}?carat=${selectedCarat}`);
+  }, [selectedCarat, selectedDiamondType]);
 
   return (
     <>
@@ -115,10 +126,11 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
                 handleSelectCarat={handleSelectCarat}
                 caratSliderTooltip={caratSliderTooltip}
               />
-
-              <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
-                {checkAvailabilityLabel}
-              </DarksideButton>
+              <UniLink route={productRoute}>
+                <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
+                  {checkAvailabilityLabel}
+                </DarksideButton>
+              </UniLink>
             </>
           )}
         </div>

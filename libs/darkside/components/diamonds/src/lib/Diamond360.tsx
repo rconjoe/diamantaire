@@ -1,7 +1,7 @@
 import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
-import { generateDiamondSpriteUrl, canUseWebP } from '@diamantaire/shared/helpers';
-import { useState, useEffect } from 'react';
+import { canUseWebP, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 import DiamondImage from './DiamondImage';
@@ -11,13 +11,16 @@ interface Diamond360Props {
   diamondType?: string;
   lotId?: string;
   useImageOnly?: boolean;
+  isCto?: boolean;
 }
 
-const Diamond360 = ({ lotId, diamondType, useImageOnly, className }: Diamond360Props) => {
-  const id = lotId
-    .split('')
-    .filter((v) => !isNaN(Number(v)))
-    .join('');
+const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diamond360Props) => {
+  const id = lotId.includes('cfy-')
+    ? lotId
+    : lotId
+        .split('')
+        .filter((v) => !isNaN(Number(v)))
+        .join('');
 
   const [mediaType, setMediaType] = useState(null);
 
@@ -76,7 +79,13 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className }: Diamond360P
       <StyledDiamond360 className={className}>
         {renderMedia()}
 
-        {mediaType === 'diamond-video' && (
+        {isCto && mediaType === 'diamond-video' && (
+          <div className="caption">
+            <UIString>Example of how it will look cut and polished</UIString>
+          </div>
+        )}
+
+        {!isCto && mediaType === 'diamond-video' && (
           <div className="caption">
             <UIString>Interactive actual diamond video</UIString>
           </div>

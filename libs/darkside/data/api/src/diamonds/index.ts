@@ -4,7 +4,7 @@ import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
 import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
-// Get Diamond Data from Mongo
+// Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
   try {
     const getFormatedDataForApi = () => {
@@ -74,6 +74,7 @@ export const fetchDiamondData = async (options) => {
   }
 };
 
+// Get infinite diamond list
 export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
   try {
     const getFormatedDataForApi = () => {
@@ -183,10 +184,13 @@ export const fetchDiamondCtoData = async (options) => {
 
   try {
     const queryOptions = {
+      page: 1,
       limit: 1,
+      sortBy: 'carat',
+      sortOrder: 'asc',
       diamondType: options.diamondType,
-      caratMin: caratNumber,
-      caratMax: caratNumber * 1.001,
+      caratMin: caratNumber.toFixed(1),
+      caratMax: (caratNumber + 0.5).toFixed(1),
     };
 
     const ctoQueryOptions = {
@@ -202,29 +206,31 @@ export const fetchDiamondCtoData = async (options) => {
 
     const url = `/diamondCto?${searchParams.toString()}`;
 
-    // const upgradeQueryOptionsCut = {
-    //   ...queryOptions,
-    //   cut: 'Ideal+Heart',
-    // };
+    const upgradeQueryOptionsCut = {
+      ...queryOptions,
+      cut: 'Ideal+Heart',
+    };
 
-    // const upgradeQueryOptionsColor = {
-    //   ...queryOptions,
-    //   color: 'D,E,F',
-    // };
+    const upgradeQueryOptionsColor = {
+      ...queryOptions,
+      color: 'D,E,F',
+    };
 
     const response = await queryClientApi().request({ method: 'GET', url });
 
-    const payload = response?.data || {};
+    const diamond = response?.data || {};
 
-    console.log(`fetchDiamondCtoData url`, url);
+    const upgradeCutResponse = await fetchDiamondData(upgradeQueryOptionsCut);
 
-    console.log(`fetchDiamondCtoData payload`, payload);
+    const diamondCutUpgrade = upgradeCutResponse?.diamonds?.[0] || {};
 
-    // const upgradeCut = await fetchDiamondData(upgradeQueryOptionsCut);
+    const upgradeColorResponse = await fetchDiamondData(upgradeQueryOptionsColor);
 
-    // const upgradeColor = await fetchDiamondData(upgradeQueryOptionsColor);
+    console.log(`upgradeColorResponse`, upgradeColorResponse);
 
-    return { payload };
+    const diamondColorUpgrade = upgradeColorResponse?.diamonds?.[0] || {};
+
+    return { diamond, diamondCutUpgrade, diamondColorUpgrade };
   } catch (error) {
     console.log(error);
   }

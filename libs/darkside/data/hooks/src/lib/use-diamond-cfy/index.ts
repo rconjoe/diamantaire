@@ -110,7 +110,7 @@ interface CtoDiamondTable {
       blocks: CtoDiamondPromoBlock[];
     };
   }[];
-  productIconList: ProductIconListDataTypes[];
+  productIconList: { items: ProductIconListDataTypes[] };
 }
 
 interface DiamondCfyDataProps {

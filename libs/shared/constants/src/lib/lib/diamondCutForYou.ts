@@ -33,6 +33,10 @@ export const ALL_CFY_DIAMOND_TYPES = [
 
 export const POPULAR_CFY_DIAMOND_TYPES = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
 
+export const CUSTOM_CFY_DIAMOND_TYPES = ALL_CFY_DIAMOND_TYPES.filter((v) => {
+  return !POPULAR_CFY_DIAMOND_TYPES.includes(v);
+});
+
 export const DIAMOND_CFY_VALID_QUERIES = ['product', 'carat'];
 
 export const DIAMOND_CFY_FACETED_NAV = ['diamondType'];

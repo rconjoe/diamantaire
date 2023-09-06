@@ -1,15 +1,28 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  Heading,
+  Markdown,
+  SwiperCustomPagination,
+  SwiperStyles,
+} from '@diamantaire/darkside/components/common-ui';
+import { Diamond360, DiamondCfyAccordion, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
+import { UIString } from '@diamantaire/darkside/core';
+import { useDiamondCfyData, useDiamondCtoData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getCFYResultOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import Script from 'next/script';
+import { useRef, useState } from 'react';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { StyledCFYPage } from './CFYPage.style';
+import { StyledCFYResultPage } from './CFYResultPage.style';
 
 interface CFYResultPageQueryParams extends ParsedUrlQuery {
   carat?: string;
@@ -20,36 +33,156 @@ interface CFYResultPageQueryParams extends ParsedUrlQuery {
 interface CFYResultPageProps {
   dehydratedState: DehydratedState;
   locale: string;
+  countryCode: string;
+  currencyCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, options = {} } = props;
-  const { diamondType } = options;
-  const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
+  const { locale, currencyCode, countryCode, options = {} } = props;
 
-  const { headerTitle, headerCopy } = ctoDiamondTable;
-  const payload = useDiamondCtoData(options);
+  const { data: humanStrings = {} } = useHumanNameMapper(locale);
 
-  console.log(`CFYResultPage *************`, payload);
+  // useDiamondCfyData
 
-  let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
+  const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
-  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
-  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+  const {
+    ctoDiamondResultFoundTitle,
+    ctoDiamondResultFinalSaleNote,
+    ctoDiamondResultNote,
+    diamondResultTitleSecond,
+    productIconList,
+    ctoDiamondResultNeedItFaster,
+  } = diamondCfyData;
+
+  const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
+
+  const diamondCtoData = useDiamondCtoData(options)?.data;
+
+  // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
+  const [display, setDisplay] = useState('diamond');
+
+  const [product, setProduct] = useState(diamondCtoData[display]);
+
+  const { diamondType, carat, price } = product;
+
+  const formattedPrice = makeCurrency(price, locale, currencyCode);
+
+  const { items: productIconListItems } = productIconList;
+
+  const productIconListItem = productIconListItems?.[0] || {};
+
+  const { cutForYouShippingBusinessDays, cutForYouShippingText } = productIconListItem;
+
+  const formattedDate = getFormattedShipppingDate(locale, cutForYouShippingBusinessDays);
+
+  const shouldRenderReturnPolicy = !isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, Number(carat));
+
+  const swiperRef = useRef(null);
+
+  const lotIdPicker = `cfy-${diamondType}`;
+
+  const media = [
+    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
+    <DiamondHand
+      className="media-content-item"
+      diamondType={diamondType}
+      product={product}
+      lotId={lotIdPicker}
+      isCto={true}
+      key={1}
+    />,
+  ];
+
+  const thumb = [
+    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} useImageOnly={true} />,
+    <DiamondHand
+      key={1}
+      className="media-content-item"
+      diamondType={diamondType}
+      product={product}
+      lotId={lotIdPicker}
+      isCto={true}
+      isThumb={true}
+    />,
+  ];
+
+  const slides = media.map((mediaComponent, index) => <SwiperSlide key={`media${index}`}>{mediaComponent}</SwiperSlide>);
+
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   return (
     <>
+      <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+
+      <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
+
       <StandardPageSeo title={seoTitle} description={seoDesc} />
 
-      <StyledCFYPage className="container-wrapper">
-        <div className="page-main">
-          <div className="page-header">
-            <Heading className="title">{headerTitle}</Heading>
-            <p>{headerCopy}</p>
+      <StyledCFYResultPage className="container-wrapper">
+        <div className="page-row">
+          <div className="page-content">
+            <div className="media">
+              <SwiperStyles>
+                <Swiper
+                  onSlideChange={(swiper) => setActiveSlideIndex(swiper.activeIndex)}
+                  onSwiper={(swiper) => (swiperRef.current = swiper)}
+                  lazy={{ loadPrevNext: true }}
+                  modules={[Pagination]}
+                  className="carousel"
+                >
+                  {slides}
+                  {diamondCfyData && diamondCtoData && slides && (
+                    <SwiperCustomPagination activeIndex={activeSlideIndex} swiper={swiperRef.current} thumb={thumb} />
+                  )}
+                </Swiper>
+              </SwiperStyles>
+            </div>
+          </div>
+
+          <div className="page-aside">
+            <div className="inner">
+              <div className="title">
+                <Heading>{ctoDiamondResultFoundTitle}</Heading>
+              </div>
+              <div className="subtitle">
+                <p>{`${product?.carat}ct ${getDiamondType(product?.diamondType)?.title} ${diamondResultTitleSecond}`}</p>
+              </div>
+              <div className="price">
+                <p>{formattedPrice}</p>
+              </div>
+              <div className="accordion">
+                <DiamondCfyAccordion product={product} locale={locale} />
+              </div>
+              <div className="date">
+                <p>
+                  {cutForYouShippingText} {formattedDate}
+                </p>
+              </div>
+              <div className="policy">
+                {shouldRenderReturnPolicy ? (
+                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
+                ) : (
+                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
+                )}
+              </div>
+              <div className="links">
+                <Markdown>{ctoDiamondResultNeedItFaster}</Markdown>
+              </div>
+              <div className="cta">
+                <DarksideButton>
+                  <UIString>Select and add a setting</UIString>
+                </DarksideButton>
+                <DarksideButton type="outline">
+                  <UIString>Purchase without setting</UIString>
+                </DarksideButton>
+              </div>
+            </div>
           </div>
         </div>
-      </StyledCFYPage>
+        <div className="page-row">{/* <DiamondCfyGallery locale={locale} /> */}</div>
+      </StyledCFYResultPage>
     </>
   );
 };
@@ -63,23 +196,27 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
+  const currencyCode = getCurrencyFromLocale(locale);
+
+  const countryCode = getCountry(locale);
+
   const options = getCFYResultOptionsFromUrl(query || {});
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
-
-  const diamondCtoResultQuery = queries.diamondCto.content({ ...options });
+  const diamondTableQuery = queries.diamondTable.content(locale);
+  const diamondCtoQuery = queries.diamondCto.content({ ...options });
 
   const queryClient = new QueryClient();
 
-  // PREFECTH DIAMOND CFY CONTENT FROM DATO
-
   await queryClient.prefetchQuery(diamondCfyQuery);
+  await queryClient.prefetchQuery(diamondTableQuery);
+  await queryClient.prefetchQuery(diamondCtoQuery);
 
-  await queryClient.prefetchQuery(diamondCtoResultQuery);
-
-  // IF NO RESULT RETURN 404
-
-  if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {
+  if (
+    !queryClient.getQueryData(diamondCfyQuery.queryKey) ||
+    !queryClient.getQueryData(diamondCtoQuery.queryKey) ||
+    !queryClient.getQueryData(diamondTableQuery.queryKey)
+  ) {
     return {
       notFound: true,
     };
@@ -89,6 +226,8 @@ async function getServerSideProps(
     props: {
       locale,
       options,
+      countryCode,
+      currencyCode,
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -97,3 +236,36 @@ async function getServerSideProps(
 export { CFYResultPage, getServerSideProps as getServerSidePropsCFYResultPage };
 
 export default CFYResultPage;
+
+function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) {
+  if (typeof diamondType !== 'string') {
+    return;
+  }
+
+  if (typeof caratWeight !== 'number') {
+    return;
+  }
+
+  if (diamondType === 'elongated-cushion' && caratWeight <= 3.5) {
+    return true;
+  }
+
+  const validDiamondTypes = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
+  const validCaratWeight = 5;
+
+  return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
+}
+
+function getFormattedShipppingDate(locale, days = 21) {
+  const currentDate = new Date();
+
+  currentDate.setDate(currentDate.getDate() + days);
+
+  const formattedDate = currentDate.toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
+  return formattedDate;
+}
