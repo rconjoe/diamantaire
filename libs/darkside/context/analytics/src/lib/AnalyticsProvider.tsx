@@ -39,6 +39,8 @@ export const AnalyticsProvider = ({ children }) => {
       TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.viewPage, pageName } });
     },
     productViewed: (eventData: Record<string, any>) => {
+      console.log({ eventData });
+
       TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.productViewed, ...eventData } });
     },
   };

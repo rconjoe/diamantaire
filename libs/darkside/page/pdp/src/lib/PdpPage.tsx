@@ -97,9 +97,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   if (shopifyProductData) {
+    const productData = { ...shopifyProductData, cms: additionalVariantData };
+
     return (
       <PageContainerStyles>
-        <PageViewTracker productData={{ ...shopifyProductData, cms: additionalVariantData }} />
+        <PageViewTracker productData={productData} />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>

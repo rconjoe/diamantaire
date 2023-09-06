@@ -1,4 +1,5 @@
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
+import { dangerouslyExtractInternalShopifyId } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -14,15 +15,18 @@ const PageViewTracker = ({ productData }) => {
     const isProductSlug = productSlugSegmentPath === '[productSlug]';
 
     if (isProductSlug) {
-      const { shopifyProductId, productTitle, productType, sku, canonicalVariant, cms, styles } = productData || {};
+      const { shopifyProductId, productTitle, productType, canonicalVariant, cms, styles } = productData || {};
 
       const { countryCode } = parseValidLocale(router?.locale);
 
       const currencyCode = getCurrency(countryCode);
+      const product_id = dangerouslyExtractInternalShopifyId(shopifyProductId);
+      const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.defaultVariantId) || '40058777370717';
 
       productViewed({
-        product_id: shopifyProductId,
-        sku: sku,
+        id,
+        product_id,
+        sku: canonicalVariant?.defaultSku || 'VRAI-0001',
         category: productType,
         name: cms?.productTitle,
         brand: 'VRAI',
@@ -40,23 +44,10 @@ const PageViewTracker = ({ productData }) => {
       viewPage(pageName);
     }
   }
-
   useEffect(() => {
-    const handleRouteChange = () => {
-      console.log('handle route change', router.pathname);
-      emitViewPageEvent(router.pathname);
-    };
-
-    // Add an event listener for route changes
-    router.events.on('routeChangeComplete', handleRouteChange);
-
     // Manually track the initial page view when the component mounts
     emitViewPageEvent(router.pathname);
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
