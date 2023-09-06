@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'feedutils',
+  displayName: 'feeds',
   preset: '../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': [
@@ -9,5 +9,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/feedutils',
+  coverageDirectory: '../../coverage/libs/feeds',
 };

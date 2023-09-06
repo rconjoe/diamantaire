@@ -1,7 +1,7 @@
 {
-  "name": "feedutils",
+  "name": "feeds",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/feedutils/src",
+  "sourceRoot": "libs/feeds/src",
   "projectType": "library",
   "tags": ["feed"],
   "targets": {
@@ -9,23 +9,23 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/feedutils/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/feeds/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
       "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/feedutils",
-        "tsConfig": "libs/feedutils/tsconfig.lib.json",
-        "project": "libs/feedutils/package.json",
-        "entryFile": "libs/feedutils/src/index.ts",
+        "outputPath": "dist/libs/feeds",
+        "tsConfig": "libs/feeds/tsconfig.lib.json",
+        "project": "libs/feeds/package.json",
+        "entryFile": "libs/feeds/src/index.ts",
         "external": ["react", "react-dom", "react/jsx-runtime"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {
-            "glob": "libs/feedutils/README.md",
+            "glob": "libs/feeds/README.md",
             "input": ".",
             "output": "."
           }
@@ -36,7 +36,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/feedutils/jest.config.ts",
+        "jestConfig": "libs/feeds/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
