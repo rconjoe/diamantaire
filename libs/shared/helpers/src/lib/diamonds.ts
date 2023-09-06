@@ -309,7 +309,7 @@ export const getCFYResultOptionsFromUrl = (query) => {
     ...getOptionsFromQueryNav(query),
   };
 
-  if (!result['carat']) result.carat = '3.0';
+  if (!result['carat']) result['carat'] = '3.0';
 
   return result;
 };
