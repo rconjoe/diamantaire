@@ -94,7 +94,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     ...initialFilterValues,
   });
 
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
 
@@ -241,7 +241,7 @@ const createPlpServerSideProps = (category: string) => {
 
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug) });
+    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug, category) });
     const productData = await getVRAIServerPlpData(qParams, 1);
 
     if (productData.error) {

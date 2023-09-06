@@ -2242,11 +2242,6 @@
     "@whatwg-node/fetch" "^0.5.3"
     async-scheduler "^1.4.4"
 
-"@deno/shim-crypto@~0.3.0":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@deno/shim-crypto/-/shim-crypto-0.3.1.tgz#416155b2b6f9ad728f80ebcb422c803efc1023c2"
-  integrity sha512-ed4pNnfur6UbASEgF34gVxR9p7Mc3qF+Ygbmjiil8ws5IhNFhPDFy5vE5hQAUA9JmVsSxXPcVLM5Rf8LOZqQ5Q==
-
 "@discoveryjs/json-ext@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
@@ -2293,10 +2288,10 @@
   dependencies:
     "@effect/data" "^0.16.0"
 
-"@effect/schema@^0.33.1":
-  version "0.33.1"
-  resolved "https://registry.yarnpkg.com/@effect/schema/-/schema-0.33.1.tgz#082464f41a67ec98d7ca14cb8f4d3c742eb2e8cf"
-  integrity sha512-h+fQInui4q3we8fegAygL0Cs5B2DD/+oC3JWthOh8eLcbKkbYM9smCD/PsHuyQ+BaeWiSP5JdvREGlP4Sg+Ysw==
+"@effect/schema@^0.33.2":
+  version "0.33.2"
+  resolved "https://registry.yarnpkg.com/@effect/schema/-/schema-0.33.2.tgz#d9747eafad68439f48c8eb3eeb09dfd42ae8e861"
+  integrity sha512-GfV4kXAs4tkx09bGD6J4RDqVN+xea4UP0I05r1wloox6j0eYgXYaSKAXAZ7qBKVywkba3cDUDZhc9nplAD8TAA==
   dependencies:
     fast-check "^3.12.0"
 
@@ -3615,6 +3610,13 @@
     filenamify "^5.0.2"
     got "^11.8.5"
     os-filter-obj "^2.0.0"
+
+"@mongodb-js/saslprep@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@mongodb-js/saslprep/-/saslprep-1.1.0.tgz#022fa36620a7287d17acd05c4aae1e5f390d250d"
+  integrity sha512-Xfijy7HvfzzqiOAhAepF4SGN5e9leLkMvg/OPOF97XemjfVCYN/oWa75wnkc6mltMSTwY+XlbhWgUOJmkFspSw==
+  dependencies:
+    sparse-bitfield "^3.0.3"
 
 "@motionone/animation@^10.15.1":
   version "10.15.1"
@@ -8057,19 +8059,13 @@
   dependencies:
     "@upstash/redis" "^1.19.3"
 
-"@upstash/kafka@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@upstash/kafka/-/kafka-1.3.3.tgz#7db8dbc118ce1991aaa287474cc6a92e05438736"
-  integrity sha512-CIr657FZuK+IMuwcxkj3oCB6xKO+LMlHd4BL4J/Lwbpj6+5YHO+5ZcpdMIQhbcemthJcRtE0gDUfZEnrfb3Rjg==
+"@upstash/qstash@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@upstash/qstash/-/qstash-2.0.0.tgz#d5dced7adf1db73e80239ddf1f430765921bb96e"
+  integrity sha512-PvnzL2kUOGcK+QvAnd9piH+bQzWXCv2uv0+vnG1olREtQcaUgs6lO1SgpeT3n82OsnXtj/Z56ubOwWqWlMdzkA==
   dependencies:
-    isomorphic-fetch "^3.0.0"
-
-"@upstash/qstash@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@upstash/qstash/-/qstash-0.3.6.tgz#1407f6f6fc1785d21497d31cbaf0a771946fa59c"
-  integrity sha512-NKN4jbPhB5lfHoSIaU7AuQ3F+yGS20e/FBRiUuPetcKoi354wHhKj9AJFfkFT5SSeLq0XEsXRNynm8gqCS4HjQ==
-  dependencies:
-    "@deno/shim-crypto" "~0.3.0"
+    crypto-js "^4.1.1"
+    jose "^4.14.4"
 
 "@upstash/ratelimit@^0.4.3":
   version "0.4.3"
@@ -9752,6 +9748,11 @@ bson@^5.3.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/bson/-/bson-5.4.0.tgz#0eea77276d490953ad8616b483298dbff07384c6"
   integrity sha512-WRZ5SQI5GfUuKnPTNmAYPiKIof3ORXAF4IRU5UcgmivNIon01rWQlw5RUH954dpu8yGL8T59YShVddIPaU/gFA==
+
+bson@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-6.0.0.tgz#685f631a2ce255e2ed3987a7355210e4beace17e"
+  integrity sha512-FoWvdELfF2wQaUo8S/a1Rh2BDwJEUancDDnzdTpYymJTZjmvRpLWoqRPelKn+XSeh5D4YddWDG66cLtEhGGvcg==
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -15437,6 +15438,11 @@ jose@^4.11.4:
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.4.tgz#59e09204e2670c3164ee24cbfe7115c6f8bff9ca"
   integrity sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==
 
+jose@^4.14.4:
+  version "4.14.6"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.14.6.tgz#94dca1d04a0ad8c6bff0998cdb51220d473cc3af"
+  integrity sha512-EqJPEUlZD0/CSUMubKtMaYUOtWe91tZXTWMJZoKSbLk+KtdhNdcvppH8lA9XwVu2V4Ailvsj0GBZJ2ZwDjfesQ==
+
 js-cookie@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
@@ -16639,7 +16645,7 @@ mongodb-connection-string-url@^2.5.4, mongodb-connection-string-url@^2.6.0:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@4.16.0, mongodb@^4.13.0:
+mongodb@4.16.0:
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.16.0.tgz#8b0043de7b577c6a7e0ce44a2ca7315b9c0a7927"
   integrity sha512-0EB113Fsucaq1wsY0dOhi1fmZOwFtLOtteQkiqOXGklvWMnSH3g2QS53f0KTP+/6qOkuoXE2JksubSZNmxeI+g==
@@ -16661,6 +16667,15 @@ mongodb@5.6.0:
     socks "^2.7.1"
   optionalDependencies:
     saslprep "^1.0.3"
+
+mongodb@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-6.0.0.tgz#a01f989d0c1ceb7b08068551c545e6131557a1e8"
+  integrity sha512-wUIYesF4DTyDccm0noE5TwGi9ISdXUAi9T2cQ4xPc+EUBZG44bfMVt2ecOG5Ypca7eCz3oRpJm6YI6c7jAnuNw==
+  dependencies:
+    "@mongodb-js/saslprep" "^1.1.0"
+    bson "^6.0.0"
+    mongodb-connection-string-url "^2.6.0"
 
 mongoose-aggregate-paginate-v2@^1.0.6:
   version "1.0.6"
