@@ -14,6 +14,7 @@ const DiamondCfyBreadCrumb = (props) => {
     selectedDiamondTypeSlug && allDiamondShapeDescriptions.find((v) => v.diamondType === selectedDiamondTypeSlug);
   const shapeDescription = shapeData?.description;
   const shapeTitle = selectedDiamondType?.title;
+  const showCarat = false;
 
   return (
     <StyledDiamondCfyBreadCrumb>
@@ -41,7 +42,7 @@ const DiamondCfyBreadCrumb = (props) => {
           </div>
         )}
 
-        {selectedCarat && checkAvailability && (
+        {showCarat && selectedCarat && checkAvailability && (
           <div className="row carat">
             <div className="info">
               <div className="text">

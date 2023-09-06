@@ -18,7 +18,7 @@ import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } 
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -112,6 +112,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setActiveSlideIndex(1);
+      setActiveSlideIndex(0);
+    }, 500);
+  }, [swiperRef]);
+
   return (
     <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
@@ -126,16 +133,19 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
             <div className="media">
               <SwiperStyles>
                 <Swiper
-                  onSlideChange={(swiper) => setActiveSlideIndex(swiper.activeIndex)}
-                  onSwiper={(swiper) => (swiperRef.current = swiper)}
+                  onSlideChange={(swiper) => {
+                    setActiveSlideIndex(swiper.activeIndex);
+                  }}
+                  onSwiper={(swiper) => {
+                    return (swiperRef.current = swiper);
+                  }}
                   lazy={{ loadPrevNext: true }}
                   modules={[Pagination]}
                   className="carousel"
                 >
                   {slides}
-                  {diamondCfyData && diamondCtoData && slides && (
-                    <SwiperCustomPagination activeIndex={activeSlideIndex} swiper={swiperRef.current} thumb={thumb} />
-                  )}
+
+                  <SwiperCustomPagination swiper={swiperRef.current} activeIndex={activeSlideIndex} thumb={thumb} />
                 </Swiper>
               </SwiperStyles>
             </div>

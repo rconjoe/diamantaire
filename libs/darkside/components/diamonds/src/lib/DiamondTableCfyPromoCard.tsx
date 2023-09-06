@@ -11,7 +11,7 @@ const DiamondTableCfyPromoCard = (props) => {
     bottomPromoContentLargerCarat,
     bottomPromoContentNoShape,
     bottomPromoContentCtaCopy,
-    bottomPromoContentCtaLink,
+    // bottomPromoContentCtaLink,
     bottomPromoContent,
   } = content;
 
@@ -30,8 +30,9 @@ const DiamondTableCfyPromoCard = (props) => {
   return (
     <StyledDiamondTableCfyPromoCard>
       <Markdown withStyles={false}>{promoContent}</Markdown>
+
       <div className="cta">
-        <UniLink route={bottomPromoContentCtaLink}>
+        <UniLink route="/diamonds">
           <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
         </UniLink>
       </div>
