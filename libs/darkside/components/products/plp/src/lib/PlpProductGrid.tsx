@@ -97,6 +97,7 @@ const PlpProductGrid = ({
         gridRef={gridRef}
         filterValue={filterValue}
         setFilterValues={setFilterValues}
+        isParamBased={true}
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
@@ -116,7 +117,7 @@ const PlpProductGrid = ({
               )}
             </Fragment>
           ))}
-          {products.length > 0 && (
+          {products.length === 0 && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>
