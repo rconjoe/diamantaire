@@ -84,6 +84,27 @@ export class ProductsService {
   }
 
   /**
+   * Return available diamond types for the provided collection
+   * @param {object} input input for getting collection data
+   * @returns {object} available diamond types
+   */
+  async getCollectionDiamondTypes({ collectionSlug }) {
+    this.logger.verbose(`getCollectionDiamondTypes :: input : ${collectionSlug}`);
+    try {
+      const availableDiamondTypes: string[] = await this.productRepository.distinct('configuration.diamondType', {
+        collectionSlug,
+      });
+
+      return {
+        availableDiamondTypes,
+      };
+    } catch (error: any) {
+      this.logger.error(`getCollectionDiamondTypes :: error : ${error.message}`);
+      throw new NotFoundException(`Collection not found :: error stack : ${error.message}`);
+    }
+  }
+
+  /**
    * Return a Vrai product based on it's Shopify variant id
    * @param {object} input input object
    * @param {string} input.variantId numerical portion of a shopify product identifier
@@ -715,7 +736,9 @@ export class ProductsService {
       const variantsMap = variantContentIds.reduce(
         (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
           map[contentId] = {
-            content: variantContentData.find((item) => item['variantId'] === contentId),
+            content: variantContentData.find((item) => {
+              return item['variantId'] === contentId || item['shopifyProductHandle'] === contentId;
+            }),
             product: variantProducts.find((item) => item['contentId'] === contentId),
           };
 
@@ -1157,7 +1180,7 @@ export class ProductsService {
         this.utils.memSet(cachedKey, response, 3600); //set the response in memory
       }
 
-      return [...response.allConfigurations, response.allOmegaProducts];
+      return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);

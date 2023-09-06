@@ -4,6 +4,14 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 // This hook fetches all the server-side dato data for a plp
 
+// duplicate definition
+type PlpBasicFieldSortOption = {
+  id: string;
+  label: string;
+  field: string;
+  isDescendingOrder: boolean;
+};
+
 type PlpDatoServersideProps = {
   listPage: {
     id: string;
@@ -31,6 +39,7 @@ type PlpDatoServersideProps = {
         hex: string;
       };
     };
+    sortOptions?: PlpBasicFieldSortOption[];
     creativeBlocks: {
       id: string;
     }[];
@@ -40,9 +49,13 @@ type PlpDatoServersideProps = {
   };
 };
 
-export function usePlpDatoServerside(locale: string, slug: string): UseQueryResult<PlpDatoServersideProps, unknown> {
+export function usePlpDatoServerside(
+  locale: string,
+  slug: string,
+  category: string,
+): UseQueryResult<PlpDatoServersideProps, unknown> {
   return useQuery({
-    ...queries.plp.serverSideDato(locale, slug),
+    ...queries.plp.serverSideDato(locale, slug, category),
   });
 }
 

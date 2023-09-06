@@ -3,7 +3,8 @@ import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diaman
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
@@ -51,8 +52,6 @@ const PlpProductGrid = ({
   promoCardCollectionId,
   creativeBlockIds,
   data,
-  isFetching,
-  initialProducts,
   availableFilters,
   filterValue,
   setFilterValues,
@@ -60,14 +59,12 @@ const PlpProductGrid = ({
   isSettingSelect = false,
   selectSetting,
 }: PlpProductGridProps) => {
-  const [products, setProducts] = useState(initialProducts);
-  const [hasGridInitialized, setHasGridInitialized] = useState(false);
+  const router = useRouter();
 
-  const { data: promoCardOuterLayerData } = usePlpDatoPromoCardCollection('en_US', promoCardCollectionId);
-
-  const { plpPromoCardCollection } = promoCardOuterLayerData || {};
-
-  const { data: cardCollection } = plpPromoCardCollection || {};
+  const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
+    router.locale,
+    promoCardCollectionId,
+  );
 
   const { data: { allCreativeBlocks: creativeBlocksData } = {} } = usePlpDatoCreativeBlocks('en_US', creativeBlockIds);
 
@@ -100,36 +97,8 @@ const PlpProductGrid = ({
     return object;
   }, [cardCollection]);
 
-  function isObjectEmpty(obj) {
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  useEffect(() => {
-    console.log();
-    if (isFetching) return;
-    const allProducts = [];
-
-    data?.pages?.forEach((page) => {
-      page?.products?.forEach((product) => {
-        allProducts.push(product);
-      });
-    });
-
-    console.log('filterValue', filterValue);
-    if ((allProducts.length > 0 && hasGridInitialized) || !isObjectEmpty(filterValue) || !builderFlowOverride) {
-      setProducts(allProducts);
-    }
-
-    if (!hasGridInitialized) setHasGridInitialized(true);
-  }, [data, filterValue, isFetching]);
-
   const gridRef = useRef<HTMLDivElement>(null);
+  const products = data.pages?.map((page) => page.products).flat() || [];
 
   console.log('products', products);
 
@@ -181,7 +150,7 @@ const PlpProductGrid = ({
               )}
             </Fragment>
           ))}
-          {products.length === 0 && (
+          {products.length > 0 && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>

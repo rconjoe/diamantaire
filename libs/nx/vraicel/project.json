@@ -1,0 +1,49 @@
+{
+  "name": "nx-vraicel",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx/vraicel/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx/vraicel",
+        "main": "libs/nx/vraicel/src/index.ts",
+        "tsConfig": "libs/nx/vraicel/tsconfig.lib.json",
+        "assets": [
+          "libs/nx/vraicel/*.md",
+          {
+            "input": "./libs/nx/vraicel/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/vraicel/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/vraicel",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx/vraicel",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nx/vraicel/**/*.ts", "libs/nx/vraicel/package.json"]
+      }
+    }
+  },
+
+  "tags": ["nx", "plugin"]
+}
