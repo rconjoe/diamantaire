@@ -21,6 +21,7 @@ export const useAnalytics = () => {
 export const GTM_EVENTS = {
   viewPage: 'viewPage',
   productViewed: 'productViewed',
+  viewItem: 'view_item',
 };
 
 export const tagManagerArgs = {
@@ -41,7 +42,7 @@ export const AnalyticsProvider = ({ children }) => {
     productViewed: (eventData: Record<string, any>) => {
       console.log({ eventData });
 
-      TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.productViewed, ...eventData } });
+      TagManager.dataLayer({ dataLayer: { event: GTM_EVENTS.viewItem, ...eventData } });
     },
   };
 

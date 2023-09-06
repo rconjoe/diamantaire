@@ -3,7 +3,7 @@ import { dangerouslyExtractInternalShopifyId } from '@diamantaire/shared-product
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { useAnalytics } from './AnalyticsProvider';
+import { useAnalytics, GTM_EVENTS } from './AnalyticsProvider';
 
 const PageViewTracker = ({ productData }) => {
   const { viewPage, productViewed } = useAnalytics();
@@ -22,23 +22,63 @@ const PageViewTracker = ({ productData }) => {
       const currencyCode = getCurrency(countryCode);
       const product_id = dangerouslyExtractInternalShopifyId(shopifyProductId);
       const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.defaultVariantId) || '40058777370717';
+      const price = getFormattedPrice(canonicalVariant?.price, router?.locale, true, true);
+      const quantity = 1;
+      const brand = 'VRAI';
+      const name = cms?.productTitle;
+      const variant = productTitle;
 
       productViewed({
         id,
         product_id,
         sku: canonicalVariant?.defaultSku || 'VRAI-0001',
         category: productType,
-        name: cms?.productTitle,
-        brand: 'VRAI',
+        name,
+        brand,
         variant: productTitle,
-        price: getFormattedPrice(canonicalVariant?.price, router?.locale, true, true),
+        price,
         ringSize: canonicalVariant?.defaultRingSize,
-        quantity: 1,
+        quantity,
         currency: currencyCode,
         url: router?.asPath,
         image_url: cms?.image?.src,
         ...canonicalVariant?.configuration,
         styles,
+        eventCategory: 'product_engagement',
+        eventAction: GTM_EVENTS.viewItem,
+        eventLabel: productType,
+        value: price,
+        product: name,
+        countryCode,
+        ecommerce: {
+          detail: {
+            products: [
+              {
+                id,
+                name,
+                price,
+                brand,
+                category: productType,
+                quantity,
+                currency: currencyCode,
+                variant,
+              },
+            ],
+          },
+          items: [
+            {
+              item_id: id,
+              item_name: name,
+              price,
+              item_brand: brand,
+              item_category: productType,
+              variant,
+              quantity: 1,
+              currency: currencyCode,
+              ...canonicalVariant?.configuration,
+            },
+          ],
+        },
       });
     } else {
       viewPage(pageName);
