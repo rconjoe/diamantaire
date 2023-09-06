@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { NextRequest } from 'next/server';
 
 // import { verifySignatureEdge } from '@diamantaire/feedutils';
@@ -8,11 +9,10 @@ import { makeOkResult } from '../../../../lib/util';
 
 const handlers = makeNextAppHandler(SlugEventEndpoint, {
   // eslint-disable-next-line prettier/prettier
-  async POST(req: NextRequest, { }, body) {
-    console.log(body.event_type);
-    console.log(JSON.stringify(req.headers.get('Upstash-Signature')));
+  async POST(req: NextRequest, _, body) {
+    console.log(body);
 
-    return makeOkResult({ message: JSON.stringify(req) });
+    return makeOkResult({ message: 'ok' });
   },
 });
 

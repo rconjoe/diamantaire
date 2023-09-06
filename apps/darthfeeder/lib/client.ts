@@ -47,7 +47,7 @@ export const makeClient = <D extends EndpointDefinition<any>>(base: string, endp
     const def = endpoint.methods[method as keyof typeof endpoint.methods]!;
 
     // eslint-disable-next-line prettier/prettier
-    client[method] = async function(...args: any[]) {
+    client[method] = async function (...args: any[]) {
       const opts: RequestInit = {
         method: method,
       };
