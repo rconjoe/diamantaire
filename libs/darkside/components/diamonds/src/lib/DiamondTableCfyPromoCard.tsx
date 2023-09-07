@@ -25,7 +25,7 @@ const DiamondTableCfyPromoCard = (props) => {
 
   const promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
 
-  if (!promoContent) return <></>;
+  if (!promoContent) return;
 
   return (
     <StyledDiamondTableCfyPromoCard>
