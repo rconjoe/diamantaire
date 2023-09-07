@@ -23,7 +23,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     vraiApiClientPayload = {};
   }
 
-  const diamond = vraiApiClientPayload?.items?.[0];
+  const diamond = vraiApiClientPayload?.items;
 
   return res.status(200).json({ ...diamond });
 }

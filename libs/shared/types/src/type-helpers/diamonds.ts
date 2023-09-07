@@ -87,6 +87,7 @@ export interface DiamondCtoDataTypes {
   isForSale: string;
   lotId: string;
   price: number;
+  priceUpgrade?: number;
   productTitle: string;
   productType: string;
   slug: string;

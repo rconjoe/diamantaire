@@ -1,5 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
+import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 export interface DiamondCtoOptionsDataTypes {
   diamondType?: string;
@@ -8,8 +8,8 @@ export interface DiamondCtoOptionsDataTypes {
 
 export interface DiamondCtoDataProps {
   diamond?: DiamondCtoDataTypes;
-  diamondCutUpgrade?: DiamondDataTypes;
-  diamondColorUpgrade?: DiamondDataTypes;
+  diamondCutUpgrade?: DiamondCtoDataTypes;
+  diamondColorUpgrade?: DiamondCtoDataTypes;
 }
 
 // TODO write interface

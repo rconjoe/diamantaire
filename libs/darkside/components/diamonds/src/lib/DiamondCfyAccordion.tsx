@@ -1,11 +1,33 @@
-import { Accordion, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondCfyData, useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { UIString, UniLink } from '@diamantaire/darkside/core';
+import {
+  DiamondCtoDataProps,
+  useDiamondCfyData,
+  useDiamondTableData,
+  useHumanNameMapper,
+} from '@diamantaire/darkside/data/hooks';
+import { makeCurrency } from '@diamantaire/shared/helpers';
+import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 import { useContext } from 'react';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 
-const DiamondCfyAccordion = ({ product, locale }: { product?: { [key: string]: any }; locale?: string }) => {
+const DiamondCfyAccordion = ({
+  locale,
+  product,
+  currencyCode,
+  diamondCtoData,
+  handleUpgradeClick,
+  defaultProduct,
+}: {
+  locale?: string;
+  currencyCode?: string;
+  defaultProduct?: DiamondCtoDataTypes;
+  product?: DiamondCtoDataTypes;
+  diamondCtoData?: DiamondCtoDataProps;
+  handleUpgradeClick?: (type: string) => void;
+}) => {
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const { isMobile } = useContext(GlobalContext);
   const { data: humanStrings = {} } = useHumanNameMapper(locale);
@@ -31,10 +53,35 @@ const DiamondCfyAccordion = ({ product, locale }: { product?: { [key: string]: a
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
+    const upgrade = diamondCtoData?.diamondColorUpgrade || null;
+    const upgradePrice =
+      upgrade?.priceUpgrade &&
+      (upgrade.price > defaultProduct.price ? '+' : '-') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
+    const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
+
+    console.log(`upgrade?.priceUpgrade`, upgrade?.priceUpgrade);
+    console.log(`defaultProduct.price`, defaultProduct.price);
 
     return (
       <div className="description">
         <Markdown withStyles={false}>{desc}</Markdown>
+
+        {upgrade && (
+          <div className="upgrade">
+            <form>
+              <input type="checkbox" onClick={() => handleUpgradeClick('diamondColorUpgrade')} />
+              <div className="label">{upgradeLabel}</div>
+              <div className="price">{upgradePrice}</div>
+            </form>
+            <div className="link">
+              <UniLink route="/journal/post/diamond-color">
+                <DarksideButton type="underline" colorTheme="teal">
+                  <UIString>Learn More</UIString>
+                </DarksideButton>
+              </UniLink>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -81,10 +128,35 @@ const DiamondCfyAccordion = ({ product, locale }: { product?: { [key: string]: a
   };
   const getCutContent = () => {
     const { cutDetails } = DiamondCfyData || {};
+    const { cutMapAbridged } = DiamondTableData || {};
+    const upgrade = diamondCtoData?.diamondCutUpgrade || null;
+
+    const upgradePrice =
+      upgrade?.priceUpgrade &&
+      (upgrade?.price > defaultProduct.price ? '+' : '-') +
+        (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
+    const upgradeLabel = (upgrade?.cut && getInfo(cutMapAbridged, upgrade.cut)?.value) || '';
 
     return (
       <div className="description">
         <Markdown withStyles={false}>{cutDetails}</Markdown>
+
+        {upgrade && (
+          <div className="upgrade">
+            <form>
+              <input type="checkbox" onClick={() => handleUpgradeClick('diamondCutUpgrade')} />
+              <div className="label">{upgradeLabel}</div>
+              <div className="price">{upgradePrice}</div>
+            </form>
+            <div className="link">
+              <UniLink route="/journal/post/diamond-cut">
+                <DarksideButton type="underline" colorTheme="teal">
+                  <UIString>Learn More</UIString>
+                </DarksideButton>
+              </UniLink>
+            </div>
+          </div>
+        )}
       </div>
     );
   };

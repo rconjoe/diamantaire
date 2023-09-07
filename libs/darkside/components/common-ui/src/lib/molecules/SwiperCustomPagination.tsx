@@ -1,9 +1,7 @@
 const SwiperCustomPagination = ({ swiper, activeIndex, thumb }) => {
   return (
     <div className="custom-pagination">
-      {swiper?.slides?.map((slide, index) => {
-        console.log(slide);
-
+      {swiper?.slides?.map((_, index) => {
         return (
           <div
             key={index}

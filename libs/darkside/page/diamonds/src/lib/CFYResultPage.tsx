@@ -10,7 +10,7 @@ import {
 import { Diamond360, DiamondCfyAccordion, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondCfyData, useDiamondCtoData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -39,11 +39,7 @@ interface CFYResultPageProps {
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, currencyCode, countryCode, options = {} } = props;
-
-  const { data: humanStrings = {} } = useHumanNameMapper(locale);
-
-  // useDiamondCfyData
+  const { locale, currencyCode, options = {} } = props;
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -60,10 +56,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
-  // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
+  const defaultProduct = diamondCtoData['diamond'];
+
   const [display, setDisplay] = useState('diamond');
 
-  const [product, setProduct] = useState(diamondCtoData[display]);
+  const [product, setProduct] = useState(defaultProduct);
+
+  useEffect(() => setProduct(diamondCtoData[display]), [display]);
 
   const { diamondType, carat, price } = product;
 
@@ -113,11 +112,36 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   useEffect(() => {
+    // reinitialize the custom-nav
+    // bugFix for consistant display
     setTimeout(() => {
       setActiveSlideIndex(1);
       setActiveSlideIndex(0);
     }, 500);
   }, [swiperRef]);
+
+  const handleUpgradeClick = (type: string) => {
+    // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
+    // type: diamondCutUpgrade, diamondColorUpgrade
+
+    if (type === `diamondCutUpgrade`) {
+      if (display === `diamondCutUpgrade`) {
+        setDisplay('diamond');
+      } else {
+        setDisplay('diamondCutUpgrade');
+      }
+    }
+
+    if (type === `diamondColorUpgrade`) {
+      if (display === `diamondColorUpgrade`) {
+        setDisplay('diamond');
+      } else {
+        setDisplay('diamondColorUpgrade');
+      }
+    }
+
+    return;
+  };
 
   return (
     <>
@@ -163,7 +187,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 <p>{formattedPrice}</p>
               </div>
               <div className="accordion">
-                <DiamondCfyAccordion product={product} locale={locale} />
+                <DiamondCfyAccordion
+                  handleUpgradeClick={handleUpgradeClick}
+                  diamondCtoData={diamondCtoData}
+                  defaultProduct={defaultProduct}
+                  product={product}
+                  locale={locale}
+                />
               </div>
               <div className="date">
                 <p>
