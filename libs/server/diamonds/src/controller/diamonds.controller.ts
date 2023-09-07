@@ -57,9 +57,18 @@ export class DiamondsController {
   @ApiOperation({ summary: 'Get Mixed Diamond Pairs - Toi moi' })
   async getMixedDiamondPairs(
     @Query()
-    { limit, page, diamondType, color, clarity, cut }: GetDiamondDto,
+    { limit, page, diamondType, color, clarity, cut, sortOrder, sortBy }: GetDiamondDto,
   ) {
-    return await this.diamondsService.getDiamondMixedPair({ diamondType, color, clarity, cut }, limit, page);
+    return await this.diamondsService.getDiamondMixedPair({
+      diamondType,
+      color,
+      clarity,
+      cut,
+      limit,
+      page,
+      sortOrder,
+      sortBy,
+    });
   }
 
   @Get('plp')
@@ -77,7 +86,7 @@ export class DiamondsController {
   @ApiOperation({ summary: 'Get Diamond Pairs - Solitaire Diamonds' })
   async getSolitaireMixedPairs(
     @Query()
-    { diamondType, color, clarity, cut, limit, page }: GetDiamondDto,
+    { diamondType, color, clarity, cut, limit, page, sortOrder, sortBy }: GetDiamondDto,
   ) {
     return await this.diamondsService.solitaireDiamondPairs({
       diamondType,
@@ -86,6 +95,8 @@ export class DiamondsController {
       cut,
       limit,
       page,
+      sortOrder,
+      sortBy,
     });
   }
 
