@@ -1,8 +1,10 @@
 import { DIAMOND_TYPE_INTERNAL_NAMES } from '@diamantaire/shared/constants';
 
+// eslint-disable-next-line
+import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
+
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
-import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
