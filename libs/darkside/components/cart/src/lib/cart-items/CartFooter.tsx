@@ -1,8 +1,8 @@
-import { formatCurrency } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Checkout } from 'shopify-buy';
 import styled from 'styled-components';
+
+import { Cart } from '../types';
 
 const CartFooterStyles = styled.div`
   height: 17vh;
@@ -125,7 +125,7 @@ const CartFooterStyles = styled.div`
 `;
 
 type CartFooterProps = {
-  checkout: Checkout;
+  checkout: Cart;
   checkoutCta: string;
   termsCta: string;
   termsCtaLink: string;
@@ -139,11 +139,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
       <ul>
         <li>
           <button className="checkout-button">
-            {checkoutCta} |{' '}
-            {formatCurrency({
-              locale: 'en-US',
-              amount: checkout?.subtotalPrice?.amount,
-            })}
+            {checkoutCta} | {checkout?.cost?.subtotalAmount?.amount}
           </button>
         </li>
         <li>

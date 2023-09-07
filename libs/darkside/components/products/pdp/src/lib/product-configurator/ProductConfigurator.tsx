@@ -24,6 +24,7 @@ type ProductConfiguratorProps = {
   updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
   flowIndex?: number;
   disableVariantType?: string[];
+  isBuilderFlow: boolean;
 };
 
 function ProductConfigurator({
@@ -37,6 +38,7 @@ function ProductConfigurator({
   updateSettingSlugs,
   flowIndex,
   disableVariantType,
+  isBuilderFlow = false,
 }: ProductConfiguratorProps) {
   const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -48,11 +50,12 @@ function ProductConfigurator({
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const sizeOptions = configurations[sizeOptionKey];
 
-  // debugger;
+  console.log('initialVariantId', initialVariantId);
 
   // TODO: this is a hack to get the configurator to work with the current data structure
   const handleConfigChange = useCallback(
     (configState) => {
+      console.log('selectedConfiguration', selectedConfiguration);
       const { diamondType, caratWeight } = configState;
 
       console.log('configState', configState);
@@ -61,6 +64,10 @@ function ProductConfigurator({
 
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
+      }
+
+      if (!isBuilderFlow) {
+        setIsConfigurationComplete(true);
       }
     },
     [diamondId, selectedVariantId],
@@ -144,60 +151,90 @@ const CtaButtonContainer = styled(PrimaryButton)`
   margin: 10px 0;
 `;
 
-function CtaButton({ variantId, isReadyForCart, additionalVariantData, useCustomDiamondPrompt }: CtaButtonProps) {
-  const { addJewelryProductToCart, addERProductToCartByVariantId } = useContext(CartContext);
-  const ctaText = useCustomDiamondPrompt ? 'Select your Diamond' : isReadyForCart ? 'Add to Cart' : 'Unavailable';
-
-  // const handleButtonClick = () => {
-  //   if (!isReadyForCart) onClick(true);
-  // };
+function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButtonProps) {
+  const { addItem, setIsCartOpen } = useContext(CartContext);
+  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
 
   const router = useRouter();
 
   console.log('router', router);
 
   const {
-    metal,
+    // metal,
+    // carat,
+    // chainLength,
+    // ringSize,
     shape,
-    carat,
-    chainLength,
     productTitle,
     productType,
     color,
     clarity,
     goldPurity,
     bandAccent,
-    ringSize,
     caratWeightOverride,
     shopifyProductHandle,
     image,
   } = additionalVariantData;
 
   async function addProductToCart() {
-    if (isReadyForCart) {
-      // Jewelry
-      if (productType !== 'Engagement Ring') {
-        await addJewelryProductToCart(variantId, productTitle, productType, shape, metal, chainLength, carat, image);
-      } else {
-        // ER - To be refactored
-        const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
-        const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
-        const refinedBandAccent = bandAccent.charAt(0).toUpperCase() + bandAccent.slice(1);
+    const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
 
-        await addERProductToCartByVariantId(
-          variantId,
-          productTitle,
-          shape,
-          refinedBandAccent,
-          erMetal,
-          ringSize,
-          diamondSpec,
-          image,
-        );
-      }
-    } else {
-      router.push(`/customize?collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`);
-    }
+    console.log('adding', diamondSpec);
+    const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+    const refinedBandAccent = bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1);
+
+    addItem(variantId, [
+      {
+        key: 'productTitle',
+        value: productTitle,
+      },
+      {
+        key: '_image',
+        value: JSON.stringify(image),
+      },
+      {
+        key: 'diamondShape',
+        value: shape,
+      },
+      {
+        key: 'centerStone',
+        value: diamondSpec,
+      },
+      {
+        key: 'productType',
+        value: productType,
+      },
+      {
+        key: 'metal',
+        value: erMetal,
+      },
+      {
+        key: 'bandAccent',
+        value: refinedBandAccent,
+      },
+    ]);
+
+    setIsCartOpen(true);
+    // Jewelry
+    // if (productType !== 'Engagement Ring') {
+    //   await addJewelryProductToCart(variantId, productTitle, productType, shape, metal, chainLength, carat, image);
+    // } else {
+    //   // ER - To be refactored
+    //   const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
+    //   const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+    //   const refinedBandAccent = bandAccent.charAt(0).toUpperCase() + bandAccent.slice(1);
+
+    //   await addERProductToCartByVariantId(
+    //     variantId,
+    //     productTitle,
+    //     shape,
+    //     refinedBandAccent,
+    //     erMetal,
+    //     ringSize,
+    //     diamondSpec,
+    //     image,
+    //   );
+    // }
   }
 
   return (

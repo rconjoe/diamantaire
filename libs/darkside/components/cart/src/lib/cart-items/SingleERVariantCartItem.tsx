@@ -1,12 +1,12 @@
+import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps } from '@diamantaire/darkside/data/hooks';
-import { formatCurrency } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
-import { CheckoutLineItem } from 'shopify-buy';
+import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
-import { ERCartItemProps } from '../types';
+import { CartItem } from '../types';
 
 const SingleERVariantCartItemContainer = styled.div`
   margin-bottom: 40px;
@@ -57,6 +57,10 @@ const SingleERVariantCartItemContainer = styled.div`
         font-size: 1.7rem;
         display: flex;
 
+        &.shape {
+          text-transform: capitalize;
+        }
+
         &:last-child {
           margin-bottom: 0;
         }
@@ -106,29 +110,40 @@ const SingleERVariantCartItemContainer = styled.div`
 `;
 
 const SingleERVariantCartItem = ({
-  product,
+  item,
   info,
   certificate,
-  removeAnyProductFromCart,
+  updateItemQuantity,
   cartItemDetails,
 }: {
-  product: CheckoutLineItem;
+  item: CartItem;
   certificate: CartCertProps;
-  info: ERCartItemProps;
+  info: any;
   cartItemDetails: { [key: string]: string }[];
-  removeAnyProductFromCart: (ids: string[]) => void;
+  updateItemQuantity: ({
+    lineId,
+    variantId,
+    quantity,
+    attributes,
+  }: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }) => Promise<string | undefined>;
 }) => {
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
-  const { variant, customAttributes, id } = product;
+  const { attributes, cost, merchandise } = item;
+  const { selectedOptions } = merchandise;
   const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
 
   const image = useMemo(() => {
-    const matchingAttribute = customAttributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
-  }, [customAttributes]);
+  }, [attributes]);
 
-  const attributes = useMemo(
+  const itemAttributes = useMemo(
     () => [
       {
         label: refinedCartItemDetails?.['diamondType'],
@@ -136,7 +151,7 @@ const SingleERVariantCartItem = ({
       },
       {
         label: refinedCartItemDetails?.['centerStone'],
-        value: info?.diamondInfo,
+        value: info?.centerStone,
       },
       {
         label: refinedCartItemDetails?.['metal'],
@@ -148,7 +163,7 @@ const SingleERVariantCartItem = ({
       },
       {
         label: refinedCartItemDetails?.['ringSize'],
-        value: info?.ringSize,
+        value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
       },
     ],
     [refinedCartItemDetails, info],
@@ -171,20 +186,26 @@ const SingleERVariantCartItem = ({
     <SingleERVariantCartItemContainer>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
-          <button onClick={() => removeAnyProductFromCart([id])}>
+          <button
+            onClick={() =>
+              updateItemQuantity({
+                lineId: item.id,
+                variantId: merchandise.id,
+                quantity: item.quantity - 1,
+                attributes: item.attributes,
+              })
+            }
+          >
             <XIcon />
           </button>
         </div>
         <div className="cart-item__title">
-          <h4 className="no-margin">{info?.pdpTitle}</h4>
+          <Heading type="h4" className="secondary no-margin">
+            {info?.productTitle}
+          </Heading>
         </div>
         <div className="cart-item__price">
-          <p>
-            {formatCurrency({
-              locale: 'en-US',
-              amount: variant?.price?.amount,
-            })}
-          </p>
+          <p>{parseFloat(cost?.totalAmount?.amount) / item.quantity}</p>
         </div>
       </div>
       <div className="cart-item__body">
@@ -192,8 +213,8 @@ const SingleERVariantCartItem = ({
           <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         </div>
         <div className="cart-item__content">
-          {attributes?.map((item, index) => (
-            <p key={`${product.id}-${index}`}>
+          {itemAttributes?.map((item, index) => (
+            <p className={item?.label?.toLowerCase()} key={`${item.id}-${index}`}>
               {item.label !== '' ? item.label + ':' : ''} {item.value}
             </p>
           ))}

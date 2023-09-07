@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
+import { Heading } from './Heading';
 
 const Select = dynamic(() => import('react-select'));
 
@@ -102,7 +103,11 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
 
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
-      {title && <h4>{title}</h4>}
+      {title && (
+        <Heading type="h4" className="secondary">
+          {title}
+        </Heading>
+      )}
       {caption && <p className="small">{caption}</p>}
       <form onSubmit={(e) => onSubmit(e, formState)}>
         {!schema ? (

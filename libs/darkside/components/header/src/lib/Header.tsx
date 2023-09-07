@@ -62,7 +62,7 @@ const Header: FC<HeaderProps> = ({
   const router = useRouter();
   const selectedLocale = router.locale;
 
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const { isCartOpen, setIsCartOpen, getCart } = useContext(CartContext);
 
   const { section } = headerData.headerNavigationDynamic;
   const { scrollY } = useScroll();

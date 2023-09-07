@@ -203,7 +203,9 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
 
         {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
           <div className="description__variant-details">
-            <h4>VRAI created diamond</h4>
+            <Heading type="h4" className="secondary">
+              VRAI created diamond
+            </Heading>
             <ul>
               {diamondLabels?.map((label, index) => {
                 if (!label.value || !refinedLabels[label.title]) return null;

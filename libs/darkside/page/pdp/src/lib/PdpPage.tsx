@@ -18,6 +18,7 @@ import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -72,7 +73,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
+  const { parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
@@ -82,14 +83,16 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
 
+  console.log('additionalVariantData', additionalVariantData);
+
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
   } else {
     // Add Shopify Product Data to Dato Product Data
     additionalVariantData = additionalVariantData?.omegaProduct;
-    additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
-    additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+    additionalVariantData.goldPurity = shopifyProductData?.configuration?.goldPurity;
+    additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
 
@@ -110,6 +113,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const isBuilderProduct = configuration.caratWeight === 'other';
 
   const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
+  const initialVariantId = useMemo(() => {
+    const initialId = shopifyProductData?.variants.filter(
+      (variant) => variant.configuration.ringSize === shopifyProductData?.defaultRingSize,
+    )[0]?.shopifyVariantId;
+
+    return initialId;
+  }, []);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -132,9 +142,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
-              initialVariantId={id}
+              initialVariantId={initialVariantId}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
+              isBuilderFlow={false}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}

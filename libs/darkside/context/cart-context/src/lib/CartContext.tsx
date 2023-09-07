@@ -1,245 +1,288 @@
 import { createContext, useEffect, useState } from 'react';
-import { Checkout } from 'shopify-buy';
+import { AttributeInput } from 'shopify-buy';
 
-import { client } from './client';
+import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
+import { getCartQuery } from './queries/cart';
+import {
+  Cart,
+  Connection,
+  ExtractVariables,
+  ShopifyAddToCartOperation,
+  ShopifyCart,
+  ShopifyCartOperation,
+  ShopifyCreateCartOperation,
+  ShopifyUpdateCartOperation,
+} from './types';
 
 interface CartContextValues {
-  addJewelryProductToCart: (
-    variantId: string,
-    pdpTitle: string,
-    jewelryCategory: string,
-    diamondShape: string,
-    metal: string,
-    size: string,
-    caratWeight: string,
-    image: {
-      src: string;
-      height: number;
-      width: number;
-    },
-  ) => Promise<void>;
-  addERProductToCartByVariantId: (
-    variantId: string,
-    pdpTitle: string,
-    diamondShape: string,
-    bandAccent: string,
-    metal: string,
-    ringSize: string,
-    diamondInfo: string,
-    image: {
-      src: string;
-      height: number;
-      width: number;
-    },
-  ) => Promise<void>;
-  removeAnyProductFromCart: (lineItemId: string[]) => Promise<void>;
+  getCart: (cartId: string) => Promise<Cart | undefined>;
+  addItem: (variantId: string | undefined, customAttributes?: any) => Promise<string | undefined>;
+  updateItemQuantity: ({
+    lineId,
+    variantId,
+    quantity,
+    attributes,
+  }: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }) => Promise<string | undefined>;
   isCartOpen: boolean;
   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  checkout: Checkout;
+  checkout: Cart;
 }
 
 export const CartContext = createContext<CartContextValues | null>(null);
-const isBrowser = typeof window !== 'undefined';
+// const isBrowser = typeof window !== 'undefined';
+
+const endpoint = 'https://vo-live.myshopify.com/api/2022-10/graphql.json';
+const key = 'd9b6861a35a1db39a04206601dc9d809';
 
 export const CartProvider = ({ children }) => {
   const [checkout, setCheckout] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  async function getNewId() {
+  async function shopifyFetch<T>({
+    cache = 'force-cache',
+    headers,
+    query,
+    tags,
+    variables,
+  }: {
+    cache?: RequestCache;
+    headers?: HeadersInit;
+    query: string;
+    tags?: string[];
+    variables?: ExtractVariables<T>;
+  }): Promise<{ status: number; body: T } | never> {
     try {
-      const newCheckout = await client.checkout.create();
+      const result = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': key,
+          ...headers,
+        },
+        body: JSON.stringify({
+          ...(query && { query }),
+          ...(variables && { variables }),
+        }),
+        cache,
+        ...(tags && { next: { tags } }),
+      });
 
-      if (isBrowser) {
-        localStorage.setItem('checkout_id', newCheckout.id);
+      const body = await result.json();
+
+      if (body.errors) {
+        throw body.errors[0];
       }
+
+      return {
+        status: result.status,
+        body,
+      };
     } catch (e) {
-      console.error(e);
+      console.log('shopifyFetch error', e);
     }
   }
+
+  async function createCart(): Promise<Cart> {
+    const res = await shopifyFetch<ShopifyCreateCartOperation>({
+      query: createCartMutation,
+      cache: 'no-store',
+    });
+
+    console.log('ressss', res);
+
+    return reshapeCart(res.body.data.cartCreate.cart);
+  }
+
+  async function addToCart(
+    cartId: string,
+    lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
+  ): Promise<Cart> {
+    const res = await shopifyFetch<ShopifyAddToCartOperation>({
+      query: addToCartMutation,
+      variables: {
+        cartId,
+        lines,
+      },
+      cache: 'no-store',
+    });
+
+    return reshapeCart(res.body.data.cartLinesAdd.cart);
+  }
+
+  const removeEdgesAndNodes = (array: Connection<any>) => {
+    // This also adds duplicate nodes for products that are the same variant
+    const nodes = [];
+
+    array.edges.forEach((edge) => {
+      const node = edge?.node;
+      const quantity = node?.quantity;
+
+      if (quantity > 1) {
+        for (let i = 0; i < quantity; i++) {
+          console.log('node', node);
+          nodes.push(node);
+        }
+      } else {
+        nodes.push(node);
+      }
+    });
+
+    return nodes;
+  };
+
+  const reshapeCart = (cart: ShopifyCart): Cart => {
+    if (!cart.cost?.totalTaxAmount) {
+      cart.cost.totalTaxAmount = {
+        amount: '0.0',
+        currencyCode: 'USD',
+      };
+    }
+
+    setCheckout({
+      ...cart,
+      lines: removeEdgesAndNodes(cart.lines),
+    });
+
+    return {
+      ...cart,
+      lines: removeEdgesAndNodes(cart.lines),
+    };
+  };
+
+  // Saving for later
+  // async function removeFromCart(cartId: string, lineIds: string[]): Promise<Cart> {
+  //   const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
+  //     query: removeFromCartMutation,
+  //     variables: {
+  //       cartId,
+  //       lineIds,
+  //     },
+  //     cache: 'no-store',
+  //   });
+
+  //   return reshapeCart(res.body.data.cartLinesRemove.cart);
+  // }
+
+  async function updateCart(
+    cartId: string,
+    lines: { id: string; merchandiseId: string; quantity: number; attributes: AttributeInput[] }[],
+  ): Promise<Cart> {
+    const res = await shopifyFetch<ShopifyUpdateCartOperation>({
+      query: editCartItemsMutation,
+      variables: {
+        cartId,
+        lines,
+      },
+      cache: 'no-store',
+    });
+
+    return reshapeCart(res.body.data.cartLinesUpdate.cart);
+  }
+
+  async function getCart(cartId: string): Promise<Cart | undefined> {
+    const res = await shopifyFetch<ShopifyCartOperation>({
+      query: getCartQuery,
+      variables: { cartId },
+      cache: 'no-store',
+    });
+
+    // Old carts becomes `null` when you checkout.
+    if (!res.body.data.cart) {
+      return undefined;
+    }
+
+    console.log('get cart res', res);
+
+    return reshapeCart(res.body.data.cart);
+  }
+
+  const addItem = async (
+    variantId: string | undefined,
+    customAttributes?: AttributeInput[],
+  ): Promise<string | undefined> => {
+    let cartId = localStorage.getItem('cartId');
+    let cart;
+
+    if (cartId) {
+      cart = await getCart(cartId);
+    }
+
+    if (!cartId || !cart) {
+      cart = await createCart();
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
+    if (!variantId) {
+      return 'Missing product variant ID';
+    }
+
+    try {
+      await addToCart(cartId, [{ merchandiseId: variantId, quantity: 1, attributes: customAttributes }]);
+    } catch (e) {
+      return 'Error adding item to cart';
+    }
+  };
+
+  const updateItemQuantity = async ({
+    lineId,
+    variantId,
+    quantity,
+    attributes,
+  }: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }): Promise<string | undefined> => {
+    const cartId = localStorage.getItem('cartId');
+
+    console.log('update preview', {
+      lineId,
+      variantId,
+      quantity,
+    });
+
+    if (!cartId) {
+      return 'Missing cart ID';
+    }
+    try {
+      await updateCart(cartId, [
+        {
+          id: lineId,
+          merchandiseId: variantId,
+          quantity,
+          attributes,
+        },
+      ]);
+    } catch (e) {
+      return 'Error updating item quantity';
+    }
+  };
 
   async function initializeCheckout() {
-    try {
-      // Check if id exists
-      const currentCheckoutId = isBrowser ? localStorage.getItem('checkout_id') : null;
+    async function fetchCart() {
+      const cartId = localStorage.getItem('cartId');
 
-      let newCheckout = null;
+      const cart = await getCart(cartId);
 
-      if (currentCheckoutId !== null) {
-        // If id exists, fetch checkout from Shopify
-        newCheckout = await client.checkout.fetch(currentCheckoutId);
+      console.log('cart stat', cart);
 
-        if ((newCheckout && newCheckout.completedAt) || newCheckout === null) {
-          newCheckout = await getNewId();
-        }
-
-        setCheckout(newCheckout);
-      } else {
-        // If id does not, create new checkout
-        newCheckout = await client.checkout.create();
-        if (isBrowser) {
-          localStorage.setItem('checkout_id', newCheckout.id);
-        }
-
-        setCheckout(newCheckout);
-      }
-      // Set checkout to state
-    } catch (e: any) {
-      console.log(e.message);
-      localStorage.removeItem('checkout_id');
+      return cart;
     }
-  }
 
-  // Add single product to cart based on variant ID + customAttributes
-  async function addJewelryProductToCart(
-    variantId: string,
-    pdpTitle: string,
-    jewelryCategory: string,
-    diamondShape: string,
-    metal: string,
-    chainLength: string,
-    caratWeight: string,
-    image: {
-      src: string;
-      height: number;
-      width: number;
-    },
-  ) {
-    try {
-      const lineItems = [
-        {
-          variantId,
-          quantity: 1,
-          customAttributes: [
-            {
-              key: 'pdpTitle',
-              value: pdpTitle,
-            },
-            {
-              key: 'metal',
-              value: metal,
-            },
-            {
-              key: 'subCategory',
-              value: jewelryCategory,
-            },
-            {
-              key: 'diamondShape',
-              value: diamondShape,
-            },
-            {
-              key: 'caratWeight',
-              value: caratWeight,
-            },
-            {
-              key: 'chainLength',
-              value: chainLength,
-            },
-            {
-              key: '_dateAdded',
-              value: Date.now().toString(),
-            },
-            {
-              key: '_productType',
-              value: 'Jewelry',
-            },
-            {
-              key: '_image',
-              value: JSON.stringify(image),
-            },
-          ],
-        },
-      ];
-      // console.log("new checkout", checkout.id, lineItems);
-      const newCheckout = await client.checkout.addLineItems(checkout.id, lineItems);
+    async function loadCart() {
+      const tempCheckout = await fetchCart();
 
-      setCheckout(newCheckout);
-      if (!isCartOpen) {
-        setIsCartOpen(true);
-      }
-    } catch (e: any) {
-      console.log(e.message);
+      return setCheckout(tempCheckout);
     }
-  }
 
-  // Custom Attributes with an _underscore don't show on the Shopify checkout
-  // Add single product to cart based on variant ID
-  async function addERProductToCartByVariantId(
-    variantId: string,
-    pdpTitle: string,
-    diamondShape: string,
-    bandAccent: string,
-    metal: string,
-    ringSize: string,
-    diamondInfo: string,
-    image: {
-      src: string;
-      height: number;
-      width: number;
-    },
-  ) {
-    try {
-      const lineItems = [
-        {
-          variantId,
-          quantity: 1,
-          customAttributes: [
-            {
-              key: 'pdpTitle',
-              value: pdpTitle,
-            },
-            {
-              key: 'metal',
-              value: metal,
-            },
-            {
-              key: 'diamondShape',
-              value: diamondShape,
-            },
-            {
-              key: 'diamondInfo',
-              value: diamondInfo,
-            },
-            {
-              key: 'ringSize',
-              value: ringSize,
-            },
-            {
-              key: 'bandAccent',
-              value: bandAccent,
-            },
-            {
-              key: '_dateAdded',
-              value: Date.now().toString(),
-            },
-            {
-              key: '_image',
-              value: JSON.stringify(image),
-            },
-            {
-              key: '_productType',
-              value: 'ER',
-            },
-          ],
-        },
-      ];
-      // console.log("new checkout", checkout.id, lineItems);
-      const newCheckout = await client.checkout.addLineItems(checkout.id, lineItems);
-
-      setCheckout(newCheckout);
-      if (!isCartOpen) {
-        setIsCartOpen(true);
-      }
-    } catch (e: any) {
-      console.log(e.message);
-    }
-  }
-
-  // Remove single product from cart based on variant ID
-
-  async function removeAnyProductFromCart(lineItemId: string[]) {
-    const newCheckout = await client.checkout.removeLineItems(checkout.id, lineItemId);
-
-    setCheckout(newCheckout);
+    loadCart();
   }
 
   useEffect(() => {
@@ -249,12 +292,12 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
-        addJewelryProductToCart,
-        addERProductToCartByVariantId,
+        addItem,
+        updateItemQuantity,
         isCartOpen,
         setIsCartOpen,
+        getCart,
         checkout,
-        removeAnyProductFromCart,
       }}
     >
       {children}

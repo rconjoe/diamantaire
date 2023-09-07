@@ -140,13 +140,16 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
+  console.log('OPTION_NAMES_MAP label', label);
+  console.log('OPTION_NAMES_MAP', OPTION_NAMES_MAP);
   const selectorLabel = OPTION_NAMES_MAP?.[label]?.value;
 
   const selectorCurrentValue =
     (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value);
+    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
+    selectedOptionValue;
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 

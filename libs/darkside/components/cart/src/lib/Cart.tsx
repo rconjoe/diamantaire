@@ -1,26 +1,26 @@
 import { FreezeBody } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { formatCurrency, getRelativeUrl } from '@diamantaire/shared/helpers';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import SingleERVariantCartItem from './cart-items/SingleERVariantCartItem';
-import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
-import { ERCartItemProps, JewelryCartItemProps } from './types';
 
 const Cart = ({ closeCart }) => {
-  const { checkout, setIsCartOpen, removeAnyProductFromCart } = useContext(CartContext);
+  const { checkout, setIsCartOpen, updateItemQuantity } = useContext(CartContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
-  const isCartEmpty = checkout?.lineItems.length === 0;
+  const isCartEmpty = checkout?.lines.length === 0;
 
   const { data: { cart: cartData } = {} } = useCartInfo('en_US');
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
+
+  console.log('cartItemDetails', cartItemDetails);
 
   const {
     cartHeader,
@@ -78,35 +78,80 @@ const Cart = ({ closeCart }) => {
           </div>
           <div className="cart__items">
             <div className="cart__items-inner">
-              {checkout?.lineItems?.map((product, index) => {
-                const cartItemInfo: JewelryCartItemProps | ERCartItemProps = {};
+              {checkout?.lines?.map((item) => {
+                const cartItemInfo = {
+                  productType: null,
+                };
 
-                product.customAttributes?.map((attr) => {
+                item.attributes?.map((attr) => {
                   cartItemInfo[attr.key] = attr.value;
                 });
 
-                if (cartItemInfo._productType === 'Jewelry') {
-                  return (
-                    <SingleVariantCartItem
-                      product={product}
-                      info={cartItemInfo}
-                      removeAnyProductFromCart={removeAnyProductFromCart}
-                      cartItemDetails={cartItemDetails}
-                      key={`cart-item-${index}`}
-                    />
-                  );
-                } else if (cartItemInfo._productType === 'ER') {
+                console.log('cartItemInfo', cartItemInfo);
+
+                if (cartItemInfo.productType === 'Engagement Ring') {
+                  // Standard Carat Size
                   return (
                     <SingleERVariantCartItem
-                      product={product}
+                      item={item}
                       info={cartItemInfo}
-                      certificate={certificates?.[0]}
+                      updateItemQuantity={updateItemQuantity}
                       cartItemDetails={cartItemDetails}
-                      removeAnyProductFromCart={removeAnyProductFromCart}
-                      key={`cart-item-${index}`}
+                      key={`cart-item-${item.id}`}
+                      certificate={certificates?.[0]}
                     />
                   );
+
+                  // Custom Cara Size
                 }
+
+                return (
+                  <>
+                    <h1>{item.merchandise.product.title}</h1>
+                    <button
+                      onClick={() =>
+                        updateItemQuantity({
+                          lineId: item.id,
+                          variantId: item.merchandise.id,
+                          quantity: item.quantity - 1,
+                          attributes: item.attributes,
+                        })
+                      }
+                    >
+                      {' '}
+                      remove
+                    </button>
+                  </>
+                );
+
+                // const cartItemInfo: JewelryCartItemProps | ERCartItemProps = {};
+
+                // product.customAttributes?.map((attr) => {
+                //   cartItemInfo[attr.key] = attr.value;
+                // });
+
+                // if (cartItemInfo._productType === 'Jewelry') {
+                //   return (
+                //     <SingleVariantCartItem
+                //       product={product}
+                //       info={cartItemInfo}
+                //       removeAnyProductFromCart={removeAnyProductFromCart}
+                //       cartItemDetails={cartItemDetails}
+                //       key={`cart-item-${index}`}
+                //     />
+                //   );
+                // } else if (cartItemInfo._productType === 'ER') {
+                //   return (
+                //     <SingleERVariantCartItem
+                //       product={product}
+                //       info={cartItemInfo}
+                //       certificate={certificates?.[0]}
+                //       cartItemDetails={cartItemDetails}
+                //       removeAnyProductFromCart={removeAnyProductFromCart}
+                //       key={`cart-item-${index}`}
+                //     />
+                //   );
+                // }
               })}
 
               {isCartEmpty ? (
@@ -128,7 +173,7 @@ const Cart = ({ closeCart }) => {
                         <span>(optional)</span>
                       </span>
                     </p>
-                    <p>{formatCurrency({ locale: 'en-US', amount: checkout?.subtotalPrice?.amount })}</p>
+                    <p>{checkout?.cost?.subtotalAmount?.amount}</p>
                   </div>
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">

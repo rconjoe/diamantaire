@@ -26,6 +26,7 @@ const StyledConfigurationSelector = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 function configOptionsReducer(state, action: ConfigurationSelectorAction) {
