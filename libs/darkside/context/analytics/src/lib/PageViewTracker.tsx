@@ -27,6 +27,7 @@ const PageViewTracker = ({ productData }) => {
       const brand = 'VRAI';
       const name = cms?.productTitle;
       const variant = productTitle;
+      const configuration = normalizeVariantConfigurationForGTM(canonicalVariant?.configuration);
 
       productViewed({
         id,
@@ -42,7 +43,7 @@ const PageViewTracker = ({ productData }) => {
         currency: currencyCode,
         url: router?.asPath,
         image_url: cms?.image?.src,
-        ...canonicalVariant?.configuration,
+        ...configuration,
         styles,
         eventCategory: 'product_engagement',
         eventAction: GTM_EVENTS.viewItem,
@@ -75,7 +76,7 @@ const PageViewTracker = ({ productData }) => {
               variant,
               quantity: 1,
               currency: currencyCode,
-              ...canonicalVariant?.configuration,
+              ...configuration,
             },
           ],
         },
@@ -95,3 +96,26 @@ const PageViewTracker = ({ productData }) => {
 };
 
 export { PageViewTracker };
+
+const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
+  const normalizedConfiguration: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(configuration)) {
+    switch (key) {
+      case 'diamondType':
+        normalizedConfiguration.diamond_type = value;
+        break;
+      case 'goldPurity':
+        normalizedConfiguration.gold_purity = value;
+        break;
+      case 'caratWeight':
+        normalizedConfiguration.carat_weight = value;
+        break;
+      default:
+        normalizedConfiguration[key] = value;
+        break;
+    }
+  }
+
+  return normalizedConfiguration;
+};
