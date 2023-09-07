@@ -72,7 +72,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diam
 
   useEffect(() => {
     fetchMediaType();
-  }, [lotId]);
+  }, [lotId, fetchMediaType]);
 
   return (
     mediaType && (

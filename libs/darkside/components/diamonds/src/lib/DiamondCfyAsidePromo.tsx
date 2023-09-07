@@ -16,7 +16,7 @@ type DiamondCfyAsidePromoProps = {
 const DiamondCfyAsidePromo = (props: DiamondCfyAsidePromoProps) => {
   const { data } = props;
 
-  const blocks = data?.map((contentBlock, index) => {
+  const blockList = data?.map((contentBlock, index) => {
     const { title: masterTitle, content: { blocks } = {} } = contentBlock;
 
     return (
@@ -41,7 +41,7 @@ const DiamondCfyAsidePromo = (props: DiamondCfyAsidePromoProps) => {
     );
   });
 
-  return <StyledDiamondCfyAsidePromo>{blocks}</StyledDiamondCfyAsidePromo>;
+  return <StyledDiamondCfyAsidePromo>{blockList}</StyledDiamondCfyAsidePromo>;
 };
 
 export { DiamondCfyAsidePromo };
