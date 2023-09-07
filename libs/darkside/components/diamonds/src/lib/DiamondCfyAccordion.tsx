@@ -61,9 +61,6 @@ const DiamondCfyAccordion = ({
       (upgrade.price > defaultProduct.price ? '+' : '-') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
     const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
 
-    console.log(`upgrade?.priceUpgrade`, upgrade?.priceUpgrade);
-    console.log(`defaultProduct.price`, defaultProduct.price);
-
     return (
       <div className="description">
         <Markdown withStyles={false}>{desc}</Markdown>
@@ -74,7 +71,7 @@ const DiamondCfyAccordion = ({
               <input
                 type="checkbox"
                 checked={display === 'diamondColorUpgrade'}
-                onClick={() => handleUpgradeClick('diamondColorUpgrade')}
+                onChange={() => handleUpgradeClick('diamondColorUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePrice}</div>
@@ -153,7 +150,7 @@ const DiamondCfyAccordion = ({
               <input
                 type="checkbox"
                 checked={display === 'diamondCutUpgrade'}
-                onClick={() => handleUpgradeClick('diamondCutUpgrade')}
+                onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePrice}</div>

@@ -117,7 +117,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     setTimeout(() => {
       setActiveSlideIndex(1);
       setActiveSlideIndex(0);
-    }, 500);
+    }, 1000);
   }, [swiperRef]);
 
   const handleUpgradeClick = (type: string) => {
