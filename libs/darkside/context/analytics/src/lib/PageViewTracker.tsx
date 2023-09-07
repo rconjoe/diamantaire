@@ -20,8 +20,8 @@ const PageViewTracker = ({ productData }) => {
       const { countryCode } = parseValidLocale(router?.locale);
 
       const currencyCode = getCurrency(countryCode);
-      const product_id = dangerouslyExtractInternalShopifyId(shopifyProductId);
       const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.defaultVariantId) || '40058777370717';
+      const product_id = dangerouslyExtractInternalShopifyId(shopifyProductId);
       const price = getFormattedPrice(canonicalVariant?.price, router?.locale, true, true);
       const quantity = 1;
       const brand = 'VRAI';
