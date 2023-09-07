@@ -2,9 +2,6 @@ import { isProdEnv } from '@diamantaire/shared/constants';
 import { useEffect, createContext, useContext } from 'react';
 import TagManager from 'react-gtm-module';
 
-// For local development, set this to true to enable GTM
-const LOCAL_GTM = true;
-
 type AnalyticsContextType = {
   viewPage: (pageName: string) => void;
   productViewed: (eventData: Record<string, any>) => void;
@@ -29,12 +26,12 @@ export const GTM_EVENTS = {
 };
 
 export const tagManagerArgs = {
-  gtmId: process.env.GTM_CONTAINER_ID || 'GTM-KK5KX69',
+  gtmId: process.env.NEXT_PUBLIC_GTM_CONTAINER_ID,
   events: GTM_EVENTS,
 };
 
 const shouldEnableTracking = () => {
-  return isProdEnv || LOCAL_GTM;
+  return isProdEnv || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
 };
 
 const trackEvent = (event: string, data: Record<string, any>) => {
