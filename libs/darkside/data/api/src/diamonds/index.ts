@@ -280,14 +280,14 @@ export const fetchDiamondCtoData = async (options) => {
     const upgradedPrices = getUpgradePrice(diamonds);
 
     if (diamondColorUpgrade !== undefined) {
-      upgrades.diamondColorUpgrade = {
+      upgrades['diamondColorUpgrade'] = {
         ...diamondColorUpgrade,
         priceUpgrade: upgradedPrices['diamondColorUpgrade'],
       };
     }
 
     if (diamondCutUpgrade !== undefined) {
-      upgrades.diamondCutUpgrade = {
+      upgrades['diamondCutUpgrade'] = {
         ...diamondCutUpgrade,
         priceUpgrade: upgradedPrices['diamondCutUpgrade'],
       };

@@ -192,6 +192,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   diamondCtoData={diamondCtoData}
                   defaultProduct={defaultProduct}
                   product={product}
+                  display={display}
                   locale={locale}
                 />
               </div>

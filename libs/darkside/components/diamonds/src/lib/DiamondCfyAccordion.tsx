@@ -20,6 +20,7 @@ const DiamondCfyAccordion = ({
   diamondCtoData,
   handleUpgradeClick,
   defaultProduct,
+  display,
 }: {
   locale?: string;
   currencyCode?: string;
@@ -27,6 +28,7 @@ const DiamondCfyAccordion = ({
   product?: DiamondCtoDataTypes;
   diamondCtoData?: DiamondCtoDataProps;
   handleUpgradeClick?: (type: string) => void;
+  display?: string;
 }) => {
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const { isMobile } = useContext(GlobalContext);
@@ -69,7 +71,11 @@ const DiamondCfyAccordion = ({
         {upgrade && (
           <div className="upgrade">
             <form>
-              <input type="checkbox" onClick={() => handleUpgradeClick('diamondColorUpgrade')} />
+              <input
+                type="checkbox"
+                checked={display === 'diamondColorUpgrade'}
+                onClick={() => handleUpgradeClick('diamondColorUpgrade')}
+              />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePrice}</div>
             </form>
@@ -144,7 +150,11 @@ const DiamondCfyAccordion = ({
         {upgrade && (
           <div className="upgrade">
             <form>
-              <input type="checkbox" onClick={() => handleUpgradeClick('diamondCutUpgrade')} />
+              <input
+                type="checkbox"
+                checked={display === 'diamondCutUpgrade'}
+                onClick={() => handleUpgradeClick('diamondCutUpgrade')}
+              />
               <div className="label">{upgradeLabel}</div>
               <div className="price">{upgradePrice}</div>
             </form>
