@@ -14,11 +14,13 @@ const PlpProductFilter = ({
   availableFilters,
   filterValue,
   setFilterValues,
+  isParamBased,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
   filterValue: FilterValueProps;
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
+  isParamBased: boolean;
 }) => {
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
@@ -78,18 +80,31 @@ const PlpProductFilter = ({
     });
 
     if (filterType !== 'price') {
-      // Build the new URL path based on the filter values
-      const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-        ([key, value]) => value !== null && key in newFilters,
-      );
-
-      const newPath = sortedEntries.map(([_key, value]) => `${value}`).join('/');
-
-      // Construct the new URL with the updated path
-      const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}/${newPath}${window.location.search}`;
-
       // Update the browser URL
-      window.history.pushState({ path: newUrl }, '', newUrl);
+      if (!isParamBased) {
+        // Faceted Nav Filter Behavior
+        // Build the new URL path based on the filter values
+        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
+          ([key, value]) => value !== null && key in newFilters,
+        );
+
+        const newPath = sortedEntries.map(([_key, value]) => `${value}`).join('/');
+
+        // Construct the new URL with the updated path
+        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}/${newPath}${window.location.search}`;
+
+        window.history.pushState({ path: newUrl }, '', newUrl);
+      } else {
+        // Param Filter Behavior
+        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
+          ([key, value]) => value !== null && key in newFilters,
+        );
+        const newPath = sortedEntries.map(([key, value], index) => `${index === 0 ? '?' : ''}${key}=${value}`).join('&');
+
+        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}${newPath}`;
+
+        window.history.pushState({ path: newUrl }, '', newUrl);
+      }
     } else {
       handleSliderURLUpdate(value.min, value.max);
     }
