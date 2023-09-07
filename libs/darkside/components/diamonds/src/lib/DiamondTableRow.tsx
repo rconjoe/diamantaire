@@ -1,13 +1,19 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { UIString } from '@diamantaire/darkside/core';
+import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { useRouter } from 'next/router';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
 const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: string }) => {
+  const { emitDataLayer } = useAnalytics();
+  const router = useRouter();
+
   if (!product) return;
 
   const { handle, lotId, diamondType } = product;
@@ -19,6 +25,27 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
   const handleSelectDiamond = () => {
     // TODO: add handler
     console.log(`handleSelectDiamond`, product);
+    const { diamondType, carat, color, clarity, cut, price } = product;
+    const { locale } = router || {};
+    const { countryCode } = parseValidLocale(locale) || {};
+
+    const currencyCode = getCurrency(countryCode);
+    const formattedPrice = getFormattedPrice(price, locale, true, true);
+
+    emitDataLayer({
+      event: GTM_EVENTS.selectDiamond,
+      eventCategory: 'engagement_ring_creation',
+      eventAction: GTM_EVENTS.selectDiamond,
+      eventLabel: `${diamondType}, ${carat}, ${color}, ${clarity}, ${cut}`,
+      shape: diamondType,
+      diamond_type: diamondType,
+      carat,
+      colour: color,
+      clarity,
+      cut,
+      price: formattedPrice,
+      currencyCode,
+    });
   };
 
   const handlePurchase = () => {
