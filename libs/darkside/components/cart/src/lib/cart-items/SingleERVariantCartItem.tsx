@@ -213,9 +213,9 @@ const SingleERVariantCartItem = ({
           <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         </div>
         <div className="cart-item__content">
-          {itemAttributes?.map((item, index) => (
-            <p className={item?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-              {item.label !== '' ? item.label + ':' : ''} {item.value}
+          {itemAttributes?.map((specItem, index) => (
+            <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
+              {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
             </p>
           ))}
         </div>

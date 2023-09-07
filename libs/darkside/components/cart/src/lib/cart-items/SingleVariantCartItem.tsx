@@ -5,8 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { CheckoutLineItem } from 'shopify-buy';
 import styled from 'styled-components';
 
-import { JewelryCartItemProps } from '../types';
-
 const SingleVariantCartItemStyles = styled.div`
   margin-bottom: 40px;
   .cart-item__header {
@@ -76,7 +74,7 @@ const SingleVariantCartItem = ({
   cartItemDetails,
 }: {
   product: CheckoutLineItem;
-  info: JewelryCartItemProps;
+  info: any;
   cartItemDetails: { [key: string]: string }[];
   removeAnyProductFromCart: (ids: string[]) => void;
 }) => {

@@ -36,8 +36,8 @@ interface CartContextValues {
 export const CartContext = createContext<CartContextValues | null>(null);
 // const isBrowser = typeof window !== 'undefined';
 
-const endpoint = 'https://vo-live.myshopify.com/api/2022-10/graphql.json';
-const key = 'd9b6861a35a1db39a04206601dc9d809';
+const endpoint = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_GRAPHQL_URI'];
+const key = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN'];
 
 export const CartProvider = ({ children }) => {
   const [checkout, setCheckout] = useState(null);
@@ -92,8 +92,6 @@ export const CartProvider = ({ children }) => {
       query: createCartMutation,
       cache: 'no-store',
     });
-
-    console.log('ressss', res);
 
     return reshapeCart(res.body.data.cartCreate.cart);
   }
