@@ -67,7 +67,6 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
       getNextPageParam: (lastPage) => {
-        console.log('lastPage', lastPage);
         if (lastPage && lastPage?.paginator?.nextPage) {
           // Return next page number
           return lastPage.paginator.nextPage;

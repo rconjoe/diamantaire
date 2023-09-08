@@ -42,8 +42,6 @@ export async function getServerSideProps(
   const { collectionSlug, productSlug, lotId, step } = query as BuilderPageQueryParams;
   let { type } = query as BuilderPageQueryParams;
 
-  // console.log({ collectionSlug, productSlug });
-
   // 1. Identify the flow type based on URL params
   if (!type) {
     if (collectionSlug && productSlug && !lotId) {

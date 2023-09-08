@@ -3,6 +3,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES, bandAccentTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
@@ -75,12 +76,10 @@ const SummaryItem = ({ item, itemType = 'product', showPrice = false, modifyInde
   let src = null;
 
   if (item.lotId) {
-    const mutatedLotId = item?.lotId?.replace(/F/g, '');
+    const mutatedLotId = getNumericalLotId(item?.lotId);
 
     src = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
   }
-
-  console.log('item', item);
 
   return (
     <SummaryItemStyles>

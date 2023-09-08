@@ -17,6 +17,7 @@ interface SpriteSpinnerProps {
   bunnyBaseURL: string;
   spriteSource?: string;
   onSpriteLoad?: () => void;
+  spriteImage?: string;
 }
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {

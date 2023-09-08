@@ -44,12 +44,9 @@ function ProductConfigurator({
     builderProduct.builderState === 'Complete',
   );
 
-  console.log('selectedConfiguration zzz', selectedConfiguration);
   const [selectedVariantId, setSelectVariantId] = useState<string>(initialVariantId);
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const sizeOptions = configurations[sizeOptionKey];
-
-  console.log('diamondId', diamondId);
 
   // debugger;
 

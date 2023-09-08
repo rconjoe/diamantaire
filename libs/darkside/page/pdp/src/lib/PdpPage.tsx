@@ -47,8 +47,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
 
-  console.log('parent data', data);
-
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
   const {
@@ -71,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Product Video Clock - Clientside
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
-  // Variant Specfic Data
+  // Variant Specific Data
   const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
@@ -146,7 +144,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
             <ProductDescription
               description={productDescription}
-              productAttributes={{ ...parentProductAttributes }}
+              productAttributes={parentProductAttributes}
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
             />

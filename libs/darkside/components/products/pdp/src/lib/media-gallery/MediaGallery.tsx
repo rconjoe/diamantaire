@@ -135,9 +135,14 @@ function SpriteSpinnerBlock({ sprite, options }) {
     bandAccent ? bandAccent + '/' : ''
   }${metal}`;
 
-  console.log('spriteImage', spriteImage);
-
   return null;
 
-  return <SpriteSpinner spriteSource={'bunny'} bunnyBaseURL={bunny360BaseURL} shouldStartSpinner={true} />;
+  return (
+    <SpriteSpinner
+      spriteImage={spriteImage}
+      spriteSource={'bunny'}
+      bunnyBaseURL={bunny360BaseURL}
+      shouldStartSpinner={true}
+    />
+  );
 }

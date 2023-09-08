@@ -80,6 +80,7 @@ const BuilderFlow = ({
     productSlug: initialProductSlug,
   });
 
+  // These act as flags to prevent the flow from running multiple times when the page loads. Pre-poulates setting + diamond data, and that should only happen once.
   const [initDiamond, setInitDiamond] = useState(false);
   const [initProduct, setInitProduct] = useState(false);
 
@@ -107,7 +108,7 @@ const BuilderFlow = ({
   const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
     datoParentProductData || {};
 
-  // Variant Specfic Data
+  // Variant Specific Data
   const {
     id: initialVariantId,
     productContent,
@@ -124,8 +125,6 @@ const BuilderFlow = ({
   const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
-
-  console.log('shopifyProductData', shopifyProductData);
 
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
@@ -173,7 +172,7 @@ const BuilderFlow = ({
       .then((res) => res.json())
       .then((res) => res)
       .catch((e) => {
-        console.log('getPdpProduct', e);
+        console.log('getPdpProduct error', e);
       });
 
     setShopifyProductData(response);
@@ -187,10 +186,7 @@ const BuilderFlow = ({
       .then((res) => res.json())
       .then((res) => res);
 
-    console.log('diamondResponse', diamondResponse);
-
     updateFlowData('ADD_DIAMOND', diamondResponse);
-    updateFlowData('UPDATE_DIAMOND_TYPE', diamondResponse.diamondType);
   }
 
   async function fetchProductAndDiamond() {

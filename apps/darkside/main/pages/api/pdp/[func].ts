@@ -8,8 +8,6 @@ export default async function handler(req, res) {
 
     const { func, ...qParams } = query;
 
-    console.log('pdp function runnning', qParams);
-
     if (!func) return res.status(400).json({ error: 'missing function' });
     const fn = pdpFunctions[func];
 

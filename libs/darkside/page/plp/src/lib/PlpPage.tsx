@@ -194,8 +194,6 @@ const createPlpServerSideProps = (category: string) => {
       qParamsObject['diamondType'] = diamondType;
     }
 
-    console.log('qParamsObject', qParamsObject);
-
     const qParams = new URLSearchParams(
       Object.entries({ ...qParamsObject }).reduce((prevValue, [key, value]) => {
         if (value) {

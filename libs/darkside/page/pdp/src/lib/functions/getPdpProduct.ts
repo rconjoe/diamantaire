@@ -1,6 +1,4 @@
 export default async function getPdpProduct(options) {
-  console.log('getPdpProduct options', options);
-
   const qParams = new URLSearchParams(options).toString();
 
   let response;

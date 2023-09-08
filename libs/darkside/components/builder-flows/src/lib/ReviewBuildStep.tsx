@@ -5,6 +5,7 @@ import { useProductDato } from '@diamantaire/darkside/data/hooks';
 import { PdpTypePlural, pdpTypeSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -120,6 +121,8 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
 `;
 
+const MAX_CHAR_LIMIT = 16;
+
 const ReviewBuildStep = ({ settingSlugs, type, selectedConfiguration, configurations }) => {
   const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
@@ -135,7 +138,7 @@ const ReviewBuildStep = ({ settingSlugs, type, selectedConfiguration, configurat
 
   const router = useRouter();
 
-  const mutatedLotId = diamond?.lotId?.replace(/F/g, '');
+  const mutatedLotId = getNumericalLotId(diamond?.lotId);
 
   const src = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
   const allowedKeys = ['product', 'diamond'];
@@ -282,11 +285,13 @@ const ReviewBuildStep = ({ settingSlugs, type, selectedConfiguration, configurat
                     type="text"
                     value={engravingInputText}
                     onChange={(e) => {
-                      if (e.target.value.length > 16) return;
+                      if (e.target.value.length > MAX_CHAR_LIMIT) return;
                       setEngravingInputText(e.target.value);
                     }}
                   />
-                  <p className="limit-text">Character Limit ({engravingInputText.length}/16)</p>
+                  <p className="limit-text">
+                    Character Limit ({engravingInputText.length}/{MAX_CHAR_LIMIT})
+                  </p>
                   <DarksideButton
                     onClick={isEngravingInputEmpty ? () => removeEngraving() : () => confirmEngraving()}
                     type="outline"
