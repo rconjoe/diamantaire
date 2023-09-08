@@ -62,7 +62,9 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
 
   const renderMedia = () => {
     if (disabled) {
-      return <Image src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`} sizes="100vw" height={0} width={0} />;
+      return (
+        <Image alt={lotId} src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`} sizes="100vw" height={0} width={0} />
+      );
     }
 
     if (useImageOnly || mediaType === 'diamond-image') {
@@ -72,7 +74,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
     if (mediaType === 'diamond-video') {
       const spriteImageUrl = generateDiamondSpriteUrl(id, mediaJpgFallback ? 'jpg' : 'webp');
 
-      return <SpriteSpinner shouldStartSpinner={true} bunnyBaseURL={spriteImageUrl} disabled={disabled} />;
+      return <SpriteSpinner shouldStartSpinner={true} bunnyBaseURL={spriteImageUrl} />;
     }
   };
 
