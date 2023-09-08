@@ -10,6 +10,10 @@ import { makeOkResult } from '../../../../lib/util';
 const handlers = makeNextAppHandler(SlugEventEndpoint, {
   // eslint-disable-next-line prettier/prettier
   async POST(req: NextRequest, _, body) {
+    console.log('\n\nGeolocation example: (this may be undefined where vrai.dev cloudflare proxy is turned on)\n');
+    console.table(req.geo);
+
+    console.log('\n\nThis body is received by the handler you define, already parsed and validated:\n');
     console.log(body);
 
     return makeOkResult({ message: 'ok' });
