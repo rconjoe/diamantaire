@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
 
 import { EndpointHandlers, handleCoreRequest } from './server';
@@ -42,6 +43,7 @@ export const makeNextAppHandler = <ED extends EndpointDefinition<any>>(
       const bodyIn = 'request' in def ? await req.json() : undefined;
 
       // process the request...
+      // TODO: error handle the execution of handleCoreRequest
       const handlerResponse = await handleCoreRequest(endpoint, handlers, m, req.url, bodyIn, req);
 
       // convert the handlers response to a JSON format and create the actual Response obje
@@ -60,4 +62,20 @@ export const makeNextAppHandler = <ED extends EndpointDefinition<any>>(
   }
 
   return h;
+};
+
+// here is the above function but with everything stripped out that i think will break pages api
+// if we're going to use it for darkside or other things (we should) we'll need to harden this
+export const makeNextPagesHandler = <ED extends EndpointDefinition<any>>(
+  endpoint: ED,
+  handlers: EndpointHandlers<ED, NextApiRequest>,
+) => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    // TODO: error handle the execution of handleCoreRequest also here
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const handlerResponse = await handleCoreRequest(endpoint, handlers, req.method as HTTPMethod, req.url!, req.body, req);
+
+    // @ts-expect-error - again these signatures match i think
+    return res.status(handlerResponse.ok ? 200 : handlerResponse.error.code).json(handlerResponse);
+  };
 };
