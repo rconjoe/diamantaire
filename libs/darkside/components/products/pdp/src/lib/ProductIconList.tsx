@@ -48,7 +48,7 @@ const ProductIconList = ({ productIconListType, locale }) => {
   );
 };
 
-export default ProductIconList;
+export { ProductIconList };
 
 // Single Icon List Item
 const ShippingListItem = ({ item }) => {

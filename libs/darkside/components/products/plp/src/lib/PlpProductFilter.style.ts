@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
   position: sticky;
-  top: ${({ headerHeight }) => headerHeight - 1 + 'px'};
+  top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
   background-color: #fff;
   z-index: 100;
   padding: calc(var(--gutter) / 3) 0;

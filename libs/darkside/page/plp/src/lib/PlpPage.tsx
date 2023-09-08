@@ -5,6 +5,7 @@ import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { objectToURLSearchParams, parseStringToObjectWithNestedValues } from '@diamantaire/shared/helpers';
 import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -37,36 +38,6 @@ type PlpPageProps = {
   objectParams: string;
   dehydratedState: DehydratedState;
 };
-
-function objectToURLSearchParams(obj: object) {
-  const params = new URLSearchParams();
-
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      params.append(key, obj[key]);
-    }
-  }
-
-  return params;
-}
-
-function parseStringToObjectWithNestedValues(initialString: string) {
-  return JSON.parse(initialString, (_key, value) => {
-    // Check if the value is a string and can be parsed again
-    if (typeof value === 'string') {
-      try {
-        const parsedValue = JSON.parse(value);
-
-        return parsedValue;
-      } catch (error) {
-        // If it's not a valid JSON string, return the original value
-        return value;
-      }
-    }
-
-    return value;
-  });
-}
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
   const router = useRouter();
@@ -158,7 +129,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
         initialProducts={initialProducts}
-        initialFilterValues={initialFilterValues}
         setFilterValues={setFilterValues}
         filterValue={filterValue}
       />

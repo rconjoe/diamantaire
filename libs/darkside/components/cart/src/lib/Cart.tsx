@@ -1,3 +1,5 @@
+import { FreezeBody } from '@diamantaire/darkside/components/common-ui';
+import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { formatCurrency, getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -7,8 +9,7 @@ import { useContext, useState } from 'react';
 import CartFooter from './cart-items/CartFooter';
 import SingleERVariantCartItem from './cart-items/SingleERVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
-import { CartOverlay, CartStyles, FreezeBody } from './Cart.style';
-import { CartContext } from './CartContext';
+import { CartOverlay, CartStyles } from './Cart.style';
 import { ERCartItemProps, JewelryCartItemProps } from './types';
 
 const Cart = ({ closeCart }) => {

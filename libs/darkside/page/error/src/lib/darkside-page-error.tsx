@@ -1,6 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { CartProvider } from '@diamantaire/darkside/components/cart';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { CartProvider } from '@diamantaire/darkside/context/cart-context';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { GlobalTemplate } from '@diamantaire/darkside/template/global';

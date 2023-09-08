@@ -99,7 +99,7 @@ export const Typography = styled.createGlobalStyle`
   p {
     &.primary {
       font-weight: var(--font-weight-medium);
-      font-size: 1.4rem;
+      font-size: var(--font-size-xsmall);
       line-height: 1.5;
       &.-medium {
         font-weight: var(--font-weight-medium);
@@ -110,7 +110,7 @@ export const Typography = styled.createGlobalStyle`
     }
     &.secondary {
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-xsmall);
+
       line-height: 1.7;
       &.-medium {
         font-weight: var(--font-weight-medium);

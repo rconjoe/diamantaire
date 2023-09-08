@@ -6,6 +6,12 @@ const StyledDiamondTable = styled.div`
   display: block;
   margin: 3rem -2.5rem 0;
 
+  &.flow-page {
+    .vo-table-head {
+      top: 0;
+    }
+  }
+
   ${tabletAndUp(`
     width: 100%;
     display: flex;

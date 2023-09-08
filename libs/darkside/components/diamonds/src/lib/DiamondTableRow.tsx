@@ -1,24 +1,31 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { useContext } from 'react';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
-const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: string }) => {
-  if (!product) return;
-
+const DiamondTableRow = ({
+  product,
+  isBuilderFlowOpen = false,
+}: {
+  product?: DiamondDataTypes;
+  locale?: string;
+  isBuilderFlowOpen?: boolean;
+}) => {
   const { handle, lotId, diamondType } = product;
+  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
-    // TODO: add handler
-    console.log(`handleSelectDiamond`, product);
+    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
   const handlePurchase = () => {
@@ -40,9 +47,11 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
               <UIString>View More Details</UIString>
             </DarksideButton>
 
-            <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
-              <UIString>Select</UIString>
-            </DarksideButton>
+            {isBuilderFlowOpen && (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            )}
 
             <DarksideButton href={diamondExpertRoute} type="underline" colorTheme="teal" className="button-expert">
               <UIString>Speak to a diamond expert</UIString>
