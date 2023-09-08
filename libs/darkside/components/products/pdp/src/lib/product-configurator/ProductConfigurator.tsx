@@ -50,7 +50,7 @@ function ProductConfigurator({
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const sizeOptions = configurations[sizeOptionKey];
 
-  console.log('initialVariantId', initialVariantId);
+  console.log('sizeOptions', sizeOptions);
 
   // TODO: this is a hack to get the configurator to work with the current data structure
   const handleConfigChange = useCallback(
@@ -98,6 +98,7 @@ function ProductConfigurator({
           onChange={handleSizeChange}
         />
       )}
+
       {isBuilderFlowOpen ? (
         <div
           style={{
@@ -174,16 +175,25 @@ function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButt
     caratWeightOverride,
     shopifyProductHandle,
     image,
+    configuredProductOptionsInOrder,
   } = additionalVariantData;
 
   async function addProductToCart() {
     const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
 
     console.log('adding', diamondSpec);
-    const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+    console.log('shopifyProductHandle', shopifyProductHandle);
+    console.log('additionalVariantData', additionalVariantData);
+    const erMetal =
+      goldPurity + ' ' + shopifyProductHandle
+        ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
+        : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
+
     const refinedBandAccent = bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1);
 
-    addItem(variantId, [
+    console.log('productType', productType);
+
+    const engagementRingItemAttributes = [
       {
         key: 'productTitle',
         value: productTitle,
@@ -212,7 +222,11 @@ function CtaButton({ variantId, isReadyForCart, additionalVariantData }: CtaButt
         key: 'bandAccent',
         value: refinedBandAccent,
       },
-    ]);
+    ];
+
+    if (productType === 'Engagement Ring') {
+      addItem(variantId, [...engagementRingItemAttributes]);
+    }
 
     setIsCartOpen(true);
     // Jewelry

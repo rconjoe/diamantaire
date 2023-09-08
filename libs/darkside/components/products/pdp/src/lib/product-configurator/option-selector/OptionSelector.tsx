@@ -140,8 +140,6 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  console.log('OPTION_NAMES_MAP label', label);
-  console.log('OPTION_NAMES_MAP', OPTION_NAMES_MAP);
   const selectorLabel = OPTION_NAMES_MAP?.[label]?.value;
 
   const selectorCurrentValue =
