@@ -481,7 +481,10 @@ export function hasCentsValues(amount: number) {
 export function applyExchangeRate(amount: number, currency = 'USD') {
   const result = amount * USDollarExchangeRates[currency];
 
-  // rounding up to match vno
+  if (currency === 'USD') {
+    return result;
+  }
+  // round up for international currencies
 
   return Math.ceil(result);
 }

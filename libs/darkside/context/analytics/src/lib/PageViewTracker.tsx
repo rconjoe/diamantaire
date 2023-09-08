@@ -28,6 +28,7 @@ const PageViewTracker = ({ productData }) => {
       const name = cms?.productTitle;
       const variant = productTitle;
       const configuration = normalizeVariantConfigurationForGTM(canonicalVariant?.configuration);
+      const { subStyles } = canonicalVariant || {};
 
       productViewed({
         // rudderstack base ecommerce keys
@@ -46,7 +47,7 @@ const PageViewTracker = ({ productData }) => {
         // gtm specific
         ...configuration,
         ringSize: canonicalVariant?.defaultRingSize,
-        styles,
+        styles: styles || subStyles,
         eventCategory: 'product_engagement',
         eventAction: GTM_EVENTS.viewItem,
         eventLabel: productType,
