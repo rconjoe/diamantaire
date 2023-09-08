@@ -5,6 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { inferSuccessResponse, makeClient } from '../lib/client';
 import { HealthEndpoint } from '../lib/endpoints/health';
 
+// this whole page is huge and a lot to digest, but unfortunately, is really important and relevant all over in react:
+// https://react.dev/learn/removing-effect-dependencies#why-is-suppressing-the-dependency-linter-so-dangerous
+// of course the react docs are literally sassy about it "if its not a dependency, prove it" lol
+// so (per react docs) we move client dependency here, which isn't really a solution, but the linter stops complaining.
+const client = makeClient(typeof window === 'undefined' ? '' : window.location.origin, HealthEndpoint);
+
 // TODO: make a matching health thing for pages to match the new makeNextPagesHandler
 
 function Health() {
@@ -26,7 +32,6 @@ function Health() {
   // -------
   //
   // the self-writing client sdk of lore, in action:
-  const client = makeClient(typeof window === 'undefined' ? '' : window.location.origin, HealthEndpoint);
   const [res, setRes] = useState<inferSuccessResponse<typeof client, 'GET'> | null>(null);
 
   useEffect(() => {
@@ -34,11 +39,8 @@ function Health() {
     client.GET({}).then((r) => {
       if (r.ok) setRes(r.data);
     });
-    // react is literally a meme:
-    // https://react.dev/learn/removing-effect-dependencies#why-is-suppressing-the-dependency-linter-so-dangerous
     // https://react.dev/learn/lifecycle-of-reactive-effects#what-an-effect-with-empty-dependencies-means
   }, []);
-  // ^^^ lol
 
   // this can be expanded upon too! like suspense etc
   return <div>{res?.message}</div>;
