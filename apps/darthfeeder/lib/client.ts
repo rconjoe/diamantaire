@@ -52,8 +52,10 @@ export type inferSuccessResponse<D extends EndpointClient<any>, M extends keyof 
   Awaited<ReturnType<D[M]>>
 >;
 
-// again, same thing as makeNextAppHandler or makeNextPagesHandler, but for an EndpointClient instead of EndpointHandlers
-// see those two functions for more detailed comments...
+// again, same thing as makeNextAppHandler or makeNextPagesHandler, but for an EndpointClient instead of EndpointHandlers.
+// returns an api client for a specific endpoint. again, a client contains handler functions for each method in the ED,
+// so we have one source of truth, implementations write themselves, and we make many kinds of errors impossible.
+// each handler prepares and executes a request to the sibling API and then processes the response based on the ED.
 export const makeClient = <D extends EndpointDefinition<any>>(base: string, endpoint: D): EndpointClient<D> => {
   // this will hold the methods specified in the endpoint definition
   const client: Partial<EndpointClient<D>> = {};
@@ -108,7 +110,7 @@ export const makeClient = <D extends EndpointDefinition<any>>(base: string, endp
         opts.body = body.right;
         opts.headers = {
           // if auth is specified... add token to request headers.
-          // TODO: widen spec to allow others like Authorization bearer, x-shopify-access-token, etc.
+          // TODO: widen spec to allow others like Authorization bearer, x-shopify-access-token, v-our-own-auth etc.
           // TODO: to have a version of the auth feature that is qstash instead would be really useful -
           // it could trigger request validation so that others using the queue don't have to write it themselves.
           ...(def.auth ? { Cookie: `token=${token}` } : {}),
