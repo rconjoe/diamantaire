@@ -1,9 +1,6 @@
 import { vraiApiClient } from '@diamantaire/darkside/data/api';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// if lotID in query, fn returns one diamond: {}
-// if lotID is not in query, fn returns a list: [] of {}
-
 export default async function handler(_req: NextApiRequest, res: NextApiResponse<string>) {
   let vraiApiClientURL = '/v1/diamonds';
 
