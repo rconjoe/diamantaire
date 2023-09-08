@@ -5,6 +5,7 @@ export * from './lib/DiamondCfyBreadCrumb';
 export * from './lib/DiamondCfyFilterCarat';
 export * from './lib/DiamondCfyFilterShape';
 export * from './lib/DiamondCfyGallery';
+export * from './lib/DiamondCfyPolishingPlanImage';
 export * from './lib/DiamondDetail';
 export * from './lib/DiamondDetailAccordion';
 export * from './lib/DiamondDetailIconList';

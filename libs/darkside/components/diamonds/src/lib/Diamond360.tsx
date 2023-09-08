@@ -1,6 +1,7 @@
 import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { canUseWebP, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
@@ -12,9 +13,10 @@ interface Diamond360Props {
   lotId?: string;
   useImageOnly?: boolean;
   isCto?: boolean;
+  disabled?: boolean;
 }
 
-const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diamond360Props) => {
+const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabled }: Diamond360Props) => {
   const id = lotId.includes('cfy-')
     ? lotId
     : lotId
@@ -59,6 +61,10 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diam
   };
 
   const renderMedia = () => {
+    if (disabled) {
+      return <Image src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`} sizes="100vw" height={0} width={0} />;
+    }
+
     if (useImageOnly || mediaType === 'diamond-image') {
       return <DiamondImage diamondType={diamondType} className="diamond-image-only" />;
     }
@@ -66,7 +72,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diam
     if (mediaType === 'diamond-video') {
       const spriteImageUrl = generateDiamondSpriteUrl(id, mediaJpgFallback ? 'jpg' : 'webp');
 
-      return <SpriteSpinner shouldStartSpinner={true} bunnyBaseURL={spriteImageUrl} />;
+      return <SpriteSpinner shouldStartSpinner={true} bunnyBaseURL={spriteImageUrl} disabled={disabled} />;
     }
   };
 
@@ -85,7 +91,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diam
           </div>
         )}
 
-        {!useImageOnly && !isCto && mediaType === 'diamond-video' && (
+        {!disabled && !useImageOnly && !isCto && mediaType === 'diamond-video' && (
           <div className="caption">
             <UIString>Interactive actual diamond video</UIString>
           </div>

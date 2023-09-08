@@ -1,6 +1,6 @@
 import qs from 'querystring';
 
-import { IMAGE_BASE_URL, APPROVED_IMGIX_PARAMS } from '@diamantaire/shared/constants';
+import { APPROVED_IMGIX_PARAMS, IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 
 import { getDiamondType } from '../diamonds';
 
@@ -33,14 +33,14 @@ const getQueryString = ({ noParams = false, quality = 25, ...rest }: ImageParams
   return '?' + qs.stringify(params);
 };
 
-const getCdnImageUrl = (section) => {
+export const getCdnImageUrl = (section) => {
   return (...nameSegments) => {
     return (imageParams: ImageParams = {} as ImageParams) => {
       const name = nameSegments.join('-');
       const { ext = 'jpg' } = imageParams;
       const queryString = getQueryString(imageParams);
 
-      return `${IMAGE_BASE_URL}/${encodeURIComponent(section)}/${encodeURIComponent(name)}.${ext}${queryString}`;
+      return `${IMAGE_BASE_URL}/${section}/${encodeURIComponent(name)}.${ext}${queryString}`;
     };
   };
 };

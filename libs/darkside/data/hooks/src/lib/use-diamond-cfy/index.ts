@@ -75,6 +75,19 @@ interface CtoDiamondTable {
   ctoDiamondResultNote: string;
   ctoDiamondResultFinalSaleNote: string;
   ctoDiamondResultNeedItFaster: string;
+  ctoDiamondResultHowItWorks: {
+    title: string;
+    content: {
+      blocks: {
+        title?: string;
+        media?: any;
+      }[];
+    };
+    additionalClass?: string;
+    headingType?: string;
+    headingAdditionalClass?: string;
+  }[];
+  ctoDiamondResultShapeAndWeightTitle: string;
   diamondsNote: string;
   notesAdditionalInfo: string;
   diamondNotesImages: { url: string; alt: string }[];

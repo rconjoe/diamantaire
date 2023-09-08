@@ -7,7 +7,7 @@ import {
   SwiperCustomPagination,
   SwiperStyles,
 } from '@diamantaire/darkside/components/common-ui';
-import { Diamond360, DiamondCfyAccordion, DiamondHand } from '@diamantaire/darkside/components/diamonds';
+import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
@@ -56,13 +56,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
-  const defaultProduct = diamondCtoData['diamond'] || {};
+  const defaultProduct = diamondCtoData['diamond'];
 
   const [display, setDisplay] = useState('diamond');
 
   const [product, setProduct] = useState(defaultProduct);
-
-  useEffect(() => setProduct(diamondCtoData[display]), [display]);
 
   const { diamondType, carat, price } = product;
 
@@ -82,48 +80,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const lotIdPicker = `cfy-${diamondType}`;
 
-  const media = [
-    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
-    <DiamondHand
-      className="media-content-item"
-      diamondType={diamondType}
-      product={product}
-      lotId={lotIdPicker}
-      isCto={true}
-      key={1}
-    />,
-  ];
+  const media = getMedia({ product, diamondType, lotIdPicker });
 
-  const thumb = [
-    <Diamond360
-      key={0}
-      className="media-content-item diamond36"
-      diamondType={diamondType}
-      lotId={lotIdPicker}
-      useImageOnly={true}
-    />,
-    <DiamondHand
-      key={1}
-      className="media-content-item"
-      diamondType={diamondType}
-      product={product}
-      lotId={lotIdPicker}
-      isCto={true}
-      isThumb={true}
-    />,
-  ];
+  const thumb = getThumb({ product, diamondType, lotIdPicker });
 
   const slides = media.map((mediaComponent, index) => <SwiperSlide key={`media${index}`}>{mediaComponent}</SwiperSlide>);
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-
-  const [loadPagination, setLoadPagination] = useState(0);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadPagination(loadPagination + 1);
-    }, 100);
-  }, []);
 
   const handleUpgradeClick = (type: string) => {
     // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
@@ -147,6 +110,16 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
     return;
   };
+
+  const [loadPagination, setLoadPagination] = useState(0);
+
+  useEffect(() => {
+    setProduct(diamondCtoData[display]);
+  }, [display]);
+
+  useEffect(() => {
+    setTimeout(() => setLoadPagination(loadPagination + 1), 100);
+  }, []);
 
   return (
     <>
@@ -234,7 +207,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
             </div>
           </div>
         </div>
-        <div className="page-row">{/* <DiamondCfyGallery locale={locale} /> */}</div>
+        <div className="page-row">
+          <DiamondCfyGallery locale={locale} diamondType={diamondType} />
+        </div>
       </StyledCFYResultPage>
     </>
   );
@@ -289,6 +264,41 @@ async function getServerSideProps(
 export { CFYResultPage, getServerSideProps as getServerSidePropsCFYResultPage };
 
 export default CFYResultPage;
+
+function getMedia({ product, diamondType, lotIdPicker }) {
+  return [
+    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
+    <DiamondHand
+      className="media-content-item"
+      diamondType={diamondType}
+      product={product}
+      lotId={lotIdPicker}
+      isCto={true}
+      key={1}
+    />,
+  ];
+}
+
+function getThumb({ product, diamondType, lotIdPicker }) {
+  return [
+    <Diamond360
+      key={0}
+      className="media-content-item diamond36"
+      diamondType={diamondType}
+      lotId={lotIdPicker}
+      useImageOnly={true}
+    />,
+    <DiamondHand
+      key={1}
+      className="media-content-item"
+      diamondType={diamondType}
+      product={product}
+      lotId={lotIdPicker}
+      isCto={true}
+      isThumb={true}
+    />,
+  ];
+}
 
 function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) {
   if (typeof diamondType !== 'string') {

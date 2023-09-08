@@ -124,11 +124,11 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
         <div className="row">
           <div className="thb">
             <Image
-              alt={getInfo(specs, 'cut')}
               src="https://www.datocms-assets.com/25216/1661530410-4c-cut.jpg"
+              alt={getInfo(specs, 'cut')}
               sizes="100vw"
-              width={0}
               height={0}
+              width={0}
             />
           </div>
           <div className="sub">
