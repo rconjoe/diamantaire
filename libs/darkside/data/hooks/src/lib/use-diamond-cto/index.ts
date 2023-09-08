@@ -12,8 +12,6 @@ export interface DiamondCtoDataProps {
   diamondColorUpgrade?: DiamondCtoDataTypes;
 }
 
-// TODO write interface
-
 export function useDiamondCtoData(options: DiamondCtoOptionsDataTypes): UseQueryResult<DiamondCtoDataProps, unknown> {
   return useQuery({
     ...queries.diamondCto.content(options),
