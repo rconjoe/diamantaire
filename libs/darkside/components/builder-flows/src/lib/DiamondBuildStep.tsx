@@ -48,7 +48,8 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
   };
 
   const [loading, setLoading] = useState(true);
-  const [isTableView, setIsTableView] = useState(true);
+  // const [isTableView, setIsTableView] = useState(true);
+  const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
