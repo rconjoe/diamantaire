@@ -30,7 +30,8 @@
     "../../dist/apps/feed-api/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../apps/feeds/.next/types/**/*.ts",
-    "../../apps/darthfeeder/.next/types/**/*.ts"
+    "../../apps/darthfeeder/.next/types/**/*.ts",
+    "../../dist/apps/darthfeeder/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
