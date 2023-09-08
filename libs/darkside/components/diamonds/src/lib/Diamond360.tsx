@@ -63,7 +63,13 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
   const renderMedia = () => {
     if (disabled) {
       return (
-        <Image alt={lotId} src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`} sizes="100vw" height={0} width={0} />
+        <Image
+          alt={diamondType}
+          src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`}
+          sizes="100vw"
+          height={0}
+          width={0}
+        />
       );
     }
 
