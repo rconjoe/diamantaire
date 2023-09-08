@@ -5,7 +5,7 @@ const StyledDiamondCfyGallery = styled.div`
   display: flex;
   width: 100%;
   background: #ccc;
-  margin: 4rem 0 0;
+  margin: 4rem 0 2rem;
 
   .circularImage {
     border-radius: 100%;
