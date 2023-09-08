@@ -29,7 +29,8 @@ const StyledTooltip = styled.div`
     border-left: 0;
   }
 
-  .react-tooltip__place-bottom .tooltip-arrow {
+  .react-tooltip__place-bottom .tooltip-arrow,
+  .react-tooltip__place-bottom-start .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
   }

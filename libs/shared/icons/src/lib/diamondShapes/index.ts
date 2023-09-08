@@ -1,33 +1,70 @@
 import { AsscherIcon } from './AsscherIcon';
 import { BaguetteIcon } from './BaguetteIcon';
+import { BrilliantEmeraldIcon } from './BrilliantEmeraldIcon';
+import { BrilliantRoseIcon } from './BrilliantRoseIcon';
+import { CapriIcon } from './CapriIcon';
 import { CushionIcon } from './CushionIcon';
+import { CushionPrincessIcon } from './CushionPrincessIcon';
+import { ElongatedCushionIcon } from './ElongatedCushionIcon';
 import { EmeraldIcon } from './EmeraldIcon';
+import { FelixIcon } from './FelixIcon';
+import { FusionIcon } from './FusionIcon';
+import { HalfMoonIcon } from './HalfMoonIcon';
+import { HarmoniaIcon } from './HarmoniaIcon';
+import { HeartIcon } from './HeartIcon';
 import { HexagonIcon } from './HexagonIcon';
 import { KeystoneIcon } from './KeystoneIcon';
+import { KiteIcon } from './KiteIcon';
+import { LongHexagonIcon } from './LongHexagonIcon';
 import { LozengeIcon } from './LozengeIcon';
+import { LuckyIcon } from './LuckyIcon';
 import { MarquiseIcon } from './MarquiseIcon';
 import { OctaviaIcon } from './OctaviaIcon';
 import { OvalIcon } from './OvalIcon';
+import { OvalRoseIcon } from './OvalRoseIcon';
+import { PassionIcon } from './PassionIcon';
 import { PearIcon } from './PearIcon';
 import { PrincessIcon } from './PrincessIcon';
 import { RadiantIcon } from './RadiantIcon';
-import { RoundBrilliantIcon } from './RoundBriliantIcon';
+import { RandIcon } from './RandIcon';
+import { RegulusIcon } from './RegulusIcon';
+import { RoundBrilliantIcon } from './RoundBrilliantIcon';
+import { RoundRoseIcon } from './RoundRoseIcon';
+import { ShieldIcon } from './ShieldIcon';
 import { TrillionIcon } from './TrillionIcon';
 
 export * from './AsscherIcon';
 export * from './BaguetteIcon';
+export * from './BrilliantEmeraldIcon';
+export * from './BrilliantRoseIcon';
+export * from './CapriIcon';
 export * from './CushionIcon';
+export * from './ElongatedCushionIcon';
 export * from './EmeraldIcon';
+export * from './FelixIcon';
+export * from './FusionIcon';
+export * from './HalfMoonIcon';
+export * from './HarmoniaIcon';
+export * from './HeartIcon';
 export * from './HexagonIcon';
 export * from './KeystoneIcon';
+export * from './KiteIcon';
+export * from './LongHexagonIcon';
 export * from './LozengeIcon';
+export * from './LuckyIcon';
 export * from './MarquiseIcon';
 export * from './OctaviaIcon';
 export * from './OvalIcon';
+export * from './OvalRoseIcon';
+export * from './PassionIcon';
 export * from './PearIcon';
 export * from './PrincessIcon';
 export * from './RadiantIcon';
-export * from './RoundBriliantIcon';
+export * from './RandIcon';
+export * from './RegulusIcon';
+export * from './RoundBrilliantIcon';
+export * from './RoundRoseIcon';
+export * from './ShieldIcon';
 export * from './TrillionIcon';
 
 export const diamondIconsMap = {
@@ -39,13 +76,53 @@ export const diamondIconsMap = {
     slug: 'baguette',
     icon: BaguetteIcon,
   },
+  'brilliant-emerald': {
+    slug: 'brilliant-emerald',
+    icon: BrilliantEmeraldIcon,
+  },
+  'brilliant-rose': {
+    slug: 'brilliant-rose',
+    icon: BrilliantRoseIcon,
+  },
+  capri: {
+    slug: 'capri',
+    icon: CapriIcon,
+  },
   cushion: {
     slug: 'cushion',
     icon: CushionIcon,
   },
+  'cushion-princess': {
+    slug: 'cushion-princess',
+    icon: CushionPrincessIcon,
+  },
+  'elongated-cushion': {
+    slug: 'elongated-cushion',
+    icon: ElongatedCushionIcon,
+  },
   emerald: {
     slug: 'emerald',
     icon: EmeraldIcon,
+  },
+  felix: {
+    slug: 'felix',
+    icon: FelixIcon,
+  },
+  fusion: {
+    slug: 'fusion',
+    icon: FusionIcon,
+  },
+  'half-moon': {
+    slug: 'half-moon',
+    icon: HalfMoonIcon,
+  },
+  harmonia: {
+    slug: 'harmonia',
+    icon: HarmoniaIcon,
+  },
+  heart: {
+    slug: 'heart',
+    icon: HeartIcon,
   },
   hexagon: {
     slug: 'hexagon',
@@ -55,9 +132,21 @@ export const diamondIconsMap = {
     slug: 'keystone',
     icon: KeystoneIcon,
   },
+  kite: {
+    slug: 'kite',
+    icon: KiteIcon,
+  },
+  'long-hexagon': {
+    slug: 'long-hexagon',
+    icon: LongHexagonIcon,
+  },
   lozenge: {
     slug: 'lozenge',
     icon: LozengeIcon,
+  },
+  lucky: {
+    slug: 'lucky',
+    icon: LuckyIcon,
   },
   marquise: {
     slug: 'marquise',
@@ -71,6 +160,14 @@ export const diamondIconsMap = {
     slug: 'oval',
     icon: OvalIcon,
   },
+  'oval-rose': {
+    slug: 'oval-rose',
+    icon: OvalRoseIcon,
+  },
+  passion: {
+    slug: 'passion',
+    icon: PassionIcon,
+  },
   pear: {
     slug: 'pear',
     icon: PearIcon,
@@ -83,9 +180,25 @@ export const diamondIconsMap = {
     slug: 'radiant',
     icon: RadiantIcon,
   },
+  rand: {
+    slug: 'rand',
+    icon: RandIcon,
+  },
+  regulus: {
+    slug: 'regulus',
+    icon: RegulusIcon,
+  },
   'round-brilliant': {
     slug: 'round-brilliant',
     icon: RoundBrilliantIcon,
+  },
+  'round-rose': {
+    slug: 'round-rose',
+    icon: RoundRoseIcon,
+  },
+  shield: {
+    slug: 'shield',
+    icon: ShieldIcon,
   },
   trillion: {
     slug: 'trillion',

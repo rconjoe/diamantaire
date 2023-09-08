@@ -3,7 +3,7 @@ import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darksi
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { makeCurrency } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -34,7 +34,6 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
-  const diamondTypeSlug = getDiamondType(diamondType).slug;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -62,7 +61,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         </div>
 
         <div className="aside">
-          <Heading className="title">
+          <Heading className="title" type="h2">
             {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
           </Heading>
 
@@ -82,20 +81,20 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
                 </DarksideButton>
               </>
             )) || (
-              <DarksideButton type="outline" colorTheme="black">
-                <UniLink route={`/diamonds/inventory/${diamondTypeSlug}`}>
+              <UniLink route={`/diamonds/inventory/${diamondType}`}>
+                <DarksideButton type="outline" colorTheme="black">
                   <UIString>Sold: Browse other diamonds</UIString>
-                </UniLink>
-              </DarksideButton>
+                </DarksideButton>
+              </UniLink>
             )}
           </div>
 
           <DiamondDetailIconList />
 
           <div className="mail">
-            <p className="title">
+            <Heading className="title" type="h2">
               <UIString>Need more time to think?</UIString>
-            </p>
+            </Heading>
 
             <p>Email this diamond to yourself or drop a hint.</p>
 

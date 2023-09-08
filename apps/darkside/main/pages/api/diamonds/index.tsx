@@ -1,5 +1,5 @@
-import { vraiApiClient, dfApiClient } from '@diamantaire/darkside/data/api';
-import { NextApiResponse, NextApiRequest } from 'next';
+import { dfApiClient, vraiApiClient } from '@diamantaire/darkside/data/api';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 // if lotID in query, fn returns one diamond: {}
 // if lotID is not in query, fn returns a list: [] of {}

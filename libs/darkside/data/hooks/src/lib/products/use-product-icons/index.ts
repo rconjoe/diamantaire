@@ -9,7 +9,8 @@ export interface ProductIconListDataTypes {
   shippingBusinessDays?: string;
   shippingBusinessDaysCountryMap?: string;
   shippingText?: string;
-
+  cutForYouShippingBusinessDays?: number;
+  cutForYouShippingText?: string;
   icon?: {
     width: number;
     height: number;
