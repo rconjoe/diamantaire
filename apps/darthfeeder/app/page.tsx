@@ -7,7 +7,7 @@ import { HealthEndpoint } from '../lib/endpoints/health';
 
 // TODO: make a matching health thing for pages to match the new makeNextPagesHandler
 
-export function Health() {
+function Health() {
   // see api/catalog/lookups/lookupHealthStatus.js LMAOOO jk
   //
   // notice how the route of whatever page we are on is not coupled to the backend paths at all.
@@ -44,7 +44,7 @@ export function Health() {
   return <div>{res?.message}</div>;
 }
 
-export default function HealthPage() {
+export default function Page() {
   return (
     <main>
       <Health />
