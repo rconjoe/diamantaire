@@ -1,4 +1,4 @@
-import { TEAL, TEAL_MED, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { TEAL, TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
@@ -63,21 +63,36 @@ const StyledCFYResultPage = styled.div`
   }
 
   .page-content {
-    .media {
-      max-width: 50rem;
+    > .media {
+      ${desktopAndUp(`
+      width: 50rem;
+      height: 57rem;
+      `)}
+
+      .swiper {
+        ${desktopAndUp(`
+        width: 50rem;
+        height: 57rem;
+        `)}
+      }
     }
+
     .custom-pagination {
-      margin: 1rem 0 0;
+      transform: translateX(-50%);
+      position: absolute;
+      bottom: 0;
+      left: 50%;
       display: flex;
       justify-content: center;
       gap: 1rem;
+      z-index: 1;
     }
 
     .custom-pagination-thumbnail {
       width: 6rem;
       height: 6rem;
       cursor: pointer;
-      border: 1px solid transparant;
+      border: 1px solid transparent;
       padding: 0.1rem;
 
       &.active {
@@ -88,9 +103,12 @@ const StyledCFYResultPage = styled.div`
         display: none;
       }
 
-      img {
-        max-width: 6rem;
-        max-height: 6rem;
+      .diamond36 {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
@@ -109,44 +127,54 @@ const StyledCFYResultPage = styled.div`
       flex-direction: column;
       max-width: 450px;
     }
+
     .title,
     .title * {
       font-size: var(--font-size-medium);
       font-weight: var(--font-weight-medium);
     }
+
     .subtitle,
     .subtitle * {
       font-size: var(--font-size-medium);
       text-transform: capitalize;
     }
+
     .price,
     .price * {
       margin: 0.25rem 0 0;
       font-size: var(--font-size-small);
     }
+
     > .accordion {
       margin: 2rem 0 0;
     }
+
     .date {
       margin: 2rem 0 0;
     }
+
     .date,
     .date * {
       font-size: var(--font-size-xsmall);
       font-weight: var(--font-weight-bold) !important;
     }
+
     .policy,
     .policy * {
       padding: 0;
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xxxsmall);
     }
+
     .links * {
       font-size: var(--font-size-xxsmall);
     }
+
     .links a {
       color: ${TEAL};
     }
+
     .cta {
       display: flex;
       gap: 1rem;

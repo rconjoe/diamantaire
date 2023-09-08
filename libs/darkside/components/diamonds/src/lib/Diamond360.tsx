@@ -85,7 +85,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto }: Diam
           </div>
         )}
 
-        {!isCto && mediaType === 'diamond-video' && (
+        {!useImageOnly && !isCto && mediaType === 'diamond-video' && (
           <div className="caption">
             <UIString>Interactive actual diamond video</UIString>
           </div>

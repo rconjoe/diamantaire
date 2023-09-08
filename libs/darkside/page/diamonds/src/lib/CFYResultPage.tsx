@@ -56,7 +56,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
-  const defaultProduct = diamondCtoData['diamond'];
+  const defaultProduct = diamondCtoData['diamond'] || {};
 
   const [display, setDisplay] = useState('diamond');
 
@@ -95,7 +95,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   ];
 
   const thumb = [
-    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} useImageOnly={true} />,
+    <Diamond360
+      key={0}
+      className="media-content-item diamond36"
+      diamondType={diamondType}
+      lotId={lotIdPicker}
+      useImageOnly={true}
+    />,
     <DiamondHand
       key={1}
       className="media-content-item"
@@ -111,14 +117,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
+  const [loadPagination, setLoadPagination] = useState(0);
+
   useEffect(() => {
-    // reinitialize the custom-nav
-    // bugFix for consistant display
     setTimeout(() => {
-      setActiveSlideIndex(1);
-      setActiveSlideIndex(0);
-    }, 1000);
-  }, [swiperRef]);
+      setLoadPagination(loadPagination + 1);
+    }, 100);
+  }, []);
 
   const handleUpgradeClick = (type: string) => {
     // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
@@ -155,23 +160,30 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
         <div className="page-row">
           <div className="page-content">
             <div className="media">
-              <SwiperStyles>
-                <Swiper
-                  onSlideChange={(swiper) => {
-                    setActiveSlideIndex(swiper.activeIndex);
-                  }}
-                  onSwiper={(swiper) => {
-                    return (swiperRef.current = swiper);
-                  }}
-                  lazy={{ loadPrevNext: true }}
-                  modules={[Pagination]}
-                  className="carousel"
-                >
-                  {slides}
+              {diamondCtoData && (
+                <SwiperStyles>
+                  <Swiper
+                    onSlideChange={(swiper) => {
+                      setActiveSlideIndex(swiper.activeIndex);
+                    }}
+                    onSwiper={(swiper) => {
+                      return (swiperRef.current = swiper);
+                    }}
+                    lazy={{ loadPrevNext: true }}
+                    modules={[Pagination]}
+                    className="carousel"
+                  >
+                    {slides}
 
-                  <SwiperCustomPagination swiper={swiperRef.current} activeIndex={activeSlideIndex} thumb={thumb} />
-                </Swiper>
-              </SwiperStyles>
+                    <SwiperCustomPagination
+                      reload={loadPagination}
+                      swiper={swiperRef.current}
+                      activeIndex={activeSlideIndex}
+                      thumb={thumb}
+                    />
+                  </Swiper>
+                </SwiperStyles>
+              )}
             </div>
           </div>
 
