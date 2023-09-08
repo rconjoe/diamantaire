@@ -46,6 +46,7 @@ const StyledDiamondFilter = styled.div`
   .vo-slider-value-start,
   .vo-slider-value-end {
     color: ${TEAL_MED};
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-filter-list {
@@ -67,7 +68,7 @@ const StyledDiamondFilter = styled.div`
   .vo-filter-list-item a {
     color: #333;
     width: 100%;
-    padding: 4px 2px;
+    padding: 0.4rem 0.2rem;
     display: flex;
     justify-content: center;
     border: 1px solid transparent;

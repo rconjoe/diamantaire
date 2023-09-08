@@ -33,6 +33,12 @@ export class ProductController {
     return await this.productService.findProducts({ limit, page, sortOrder, sortBy, slug, productType });
   }
 
+  @Get('collection/diamondtypes/:collectionSlug')
+  @ApiOperation({ summary: 'Get all diamond types of rgiven collection' })
+  async getCollectionDiamondTypes(@Param() { collectionSlug }: { collectionSlug: string }) {
+    return await this.productService.getCollectionDiamondTypes({ collectionSlug });
+  }
+
   @Get('shopify/variant/:variantId')
   @ApiOperation({ summary: 'Get product by shopify variant id' })
   @ApiParam({ name: 'variantId', required: true })

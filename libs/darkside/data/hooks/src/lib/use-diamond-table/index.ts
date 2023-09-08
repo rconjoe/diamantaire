@@ -52,6 +52,7 @@ export interface DiamondTableDataTypes {
     value: string;
   }[];
   title: string;
+  dynamicTitle: string;
   bottomPromoContentLargerCarat: string;
   bottomPromoContentNoShape: string;
   bottomPromoContentCtaCopy: string;

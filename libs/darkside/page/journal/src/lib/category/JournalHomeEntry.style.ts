@@ -68,5 +68,7 @@ export const JournalHomeEntryStyles = styled.div<{
     align-items: center;
     justify-content: center;
     margin-bottom: ${setSpace(6)};
+    max-width: 300px;
+    margin: 0 auto;
   }
 `;

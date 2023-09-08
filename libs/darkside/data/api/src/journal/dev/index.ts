@@ -440,7 +440,6 @@ const SINGLE_JOURNAL_QUERY = `
       
     }
   }
-  ${ResponsiveImageFragment}
 `;
 
 export async function fetchSingleJournal(locale: string, slug: string | string[]) {

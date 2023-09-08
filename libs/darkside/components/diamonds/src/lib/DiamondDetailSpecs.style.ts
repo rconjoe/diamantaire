@@ -25,6 +25,7 @@ const StyledDiamondDetailSpecs = styled.div`
 
   .spec-label {
     font-size: var(--font-size-xxsmall);
+    font-weight: var(--font-weight-medium);
     padding: 5px;
   }
 

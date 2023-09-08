@@ -44,7 +44,7 @@ const SliderFilter = (props) => {
 
   const priceValues = priceMin && priceMax ? [priceMin, priceMax] : null;
 
-  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1]];
+  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1] + 0.1];
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
 
@@ -56,7 +56,7 @@ const SliderFilter = (props) => {
           type={type}
           range={{
             min: range[0],
-            max: range[1],
+            max: range[1] + 0.1,
           }}
           value={caratValues || range}
           handleChange={handleChange}
