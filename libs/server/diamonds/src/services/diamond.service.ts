@@ -8,18 +8,10 @@
 
 import { INVENTORY_LEVEL_QUERY, DIAMOND_PLP_DATA_CONFIG_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
-import {
-  CFY_DIAMOND_LIMIT,
-  MIN_CARAT_EMPTY_RESULT,
-  DIAMOND_PAGINATED_LABELS,
-  ACCEPTABLE_CLARITIES,
-  ACCEPTABLE_COLORS,
-  ACCEPTABLE_CUTS,
-  ACCEPTABLE_DIAMOND_TYPE_PAIRS,
-} from '@diamantaire/shared/constants';
+import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, DIAMOND_PAGINATED_LABELS } from '@diamantaire/shared/constants';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { PaginateOptions, PipelineStage } from 'mongoose';
+import { PaginateOptions } from 'mongoose';
 
 import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto, DiamondPlp } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
@@ -44,7 +36,9 @@ import {
   DiamondTypes,
 } from '../helper/diamond.helper';
 import { IDiamondCollection, IShopifyInventory, IDiamondRecommendation } from '../interface/diamond.interface';
+import { DiamondPairsRepository } from '../repository/diamond-pairs.repository';
 import { DiamondRepository } from '../repository/diamond.repository';
+import { ToiMoiDiamondsRepository } from '../repository/toimoi-diamonds.repository';
 
 const STAFF_PICKS_LABEL = 'staffPick';
 
@@ -52,7 +46,12 @@ const STAFF_PICKS_LABEL = 'staffPick';
 export class DiamondsService {
   private Logger = new Logger('DiamondsService');
 
-  constructor(private readonly diamondRepository: DiamondRepository, private readonly utils: UtilService) {}
+  constructor(
+    private readonly diamondRepository: DiamondRepository,
+    private readonly diamondPairs: DiamondPairsRepository,
+    private readonly toimoiDiamonds: ToiMoiDiamondsRepository,
+    private readonly utils: UtilService,
+  ) {}
 
   /**
    * Get filtered diamond types with paginated results
@@ -493,231 +492,185 @@ export class DiamondsService {
     }
   }
 
-  // async getMixedDiamonds(): Promise<{
-  //   [key: string]: {
-  //     diamonds: IDiamondCollection[];
-  //     carat: string;
-  //     clarity: string;
-  //     color: string;
-  //     cut: string;
-  //     diamondType: string;
-  //   }[];
-  // }> {
-  //   const diamondTypes = ['emerald', 'pear', 'round-brilliant', 'oval'];
-  //   const diamondPairs = diamondTypes.flatMap((type1, index1) =>
-  //     diamondTypes.slice(index1 + 1).map((type2) => `${type1}+${type2}`),
-  //   );
+  /**
+   * Match specific mixed pairs
+   * Emerald and Pear (emerald should be 0.5 carats larger than pear)
+   * Round Brilliant and Pear
+   * Round Brilliant and Oval
+   * @param {object} input - The input object containing filtering and sorting.
+   * @returns {Array} - An array of objects representing the diamond pairs of mixed diamondtype.
+   */
+  async getDiamondMixedPair(input: GetDiamondDto) {
+    const filteredQuery = this.optionalDiamondsQuery(input);
 
-  //   const diamonds = await this.diamondRepository.find({
-  //     diamondType: { $in: diamondTypes },
-  //     slug: 'diamonds',
-  //   });
-
-  //   const pairedDiamonds = diamondPairs.reduce((acc, pair) => {
-  //     acc[pair] = [];
-
-  //     return acc;
-  //   }, {});
-
-  //   diamonds.forEach((diamond) => {
-  //     diamondPairs.forEach((pair) => {
-  //       const [type1, type2] = pair.split('+');
-
-  //       if (diamond.diamondType === type1 || diamond.diamondType === type2) {
-  //         pairedDiamonds[pair].push(diamond);
-  //       }
-  //     });
-  //   });
-
-  //   const result = {};
-
-  //   for (const pair in pairedDiamonds) {
-  //     const diamonds = pairedDiamonds[pair];
-  //     const [firstDiamond, secondDiamond] = diamonds;
-  //     const carat = `${firstDiamond.carat},${secondDiamond.carat}`;
-  //     const clarity = `${firstDiamond.clarity},${secondDiamond.clarity}`;
-  //     const color = `${firstDiamond.color},${secondDiamond.color}`;
-  //     const cut = `${firstDiamond.cut},${secondDiamond.cut}`;
-  //     const diamondType = pair.replace('+', ',');
-
-  //     result[pair] = { diamonds, carat, clarity, color, cut, diamondType };
-  //   }
-
-  //   return result;
-  // }
-
-  // const matchingDiamonds = await this.diamondRepository.find({
-  //   slug: 'diamonds',
-  //   diamondType: { $in: diamondTypePairs.flat() },
-  //   color: { $nin: [/^pink/i], $in: ACCEPTABLE_COLORS },
-  //   cut: { $in: ACCEPTABLE_CUTS },
-  //   carat: { $gte: 0.3 },
-  //   clarity: { $in: ACCEPTABLE_CLARITIES },
-  // });
-
-  async getDiamondMixedPair(input: GetDiamondDto, limit?: number, page?: number) {
-    // const diamondTypePairs = [
-    //   ['emerald', 'pear'],
-    //   ['round-brilliant', 'pear'],
-    //   ['round-brilliant', 'oval'],
-    // ];
+    const sortBy = input.sortBy || 'carat';
+    const sortOrder = input.sortOrder && input.sortOrder === 'desc' ? -1 : 1;
 
     const paginateOptions: PaginateOptions = {
-      limit: limit || 5,
-      page: page || 1,
-    };
-    const filteredQuery = this.optionalDiamondPairQuery(input);
-
-    const diamondInput = input?.diamondType?.toString();
-    const transformedDiamondType = [diamondInput?.split(',')];
-    const diamondTypePairs = transformedDiamondType ?? ACCEPTABLE_DIAMOND_TYPE_PAIRS;
-
-    filteredQuery.availableForSale = true; // only return available diamonds
-    filteredQuery.slug = 'diamonds';
-    const regexPattern = /fancy/i;
-
-    filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
-    filteredQuery['carat'] = { $gte: 0.3 };
-
-    // const query = {
-    //   slug: 'diamonds',
-    //   availableForSale: true,
-    //   diamondType: { $in: diamondTypePairs.flat() },
-    //   color: { $nin: [/^pink/i], $in: ACCEPTABLE_COLORS },
-    //   cut: { $in: ACCEPTABLE_CUTS },
-    //   carat: { $gte: 0.3 },
-    //   clarity: { $in: ACCEPTABLE_CLARITIES },
-    // };
-
-    const pipeline: PipelineStage[] = [
-      { $match: filteredQuery },
-      { $sort: { carat: -1 } },
-      {
-        $group: {
-          _id: '$diamondType',
-          diamonds: { $push: '$$ROOT' },
-        },
+      limit: input.limit || 5,
+      page: input.page || 1,
+      sort: {
+        [sortBy]: sortOrder,
       },
-    ];
-
-    //const matchingDiamonds = await this.diamondRepository.find(query);
-    const matchingDiamonds = await this.diamondRepository.aggregatePaginate<IDiamondCollection>(pipeline, paginateOptions);
-    const diamondPairs = diamondTypePairs.reduce((acc, pair) => {
-      const [firstDiamondTypePair, secondDiamondPair] = pair;
-      const [firstDiamond, secondDiamond] = [firstDiamondTypePair, secondDiamondPair].map((diamondType) => {
-        return matchingDiamonds.docs.find((diamond: any) => diamond._id === diamondType)?.diamonds || [];
-      });
-
-      firstDiamond.flatMap((diamond1: IDiamondCollection) => {
-        const diamond2 = secondDiamond.find((diamond: IDiamondCollection) => diamond.color === diamond1.color);
-
-        if (diamond2) {
-          const diamondTypePair = `${firstDiamondTypePair}+${secondDiamondPair}`;
-
-          if (!acc[diamondTypePair]) {
-            acc[diamondTypePair] = [];
-          }
-          acc[diamondTypePair].push({
-            diamonds: [diamond1, diamond2],
-            totalCarat: parseFloat((diamond1.carat + parseFloat(diamond2.carat)).toFixed(2)),
-            totalPrice: diamond1.price + diamond2.price,
-            diamondType: diamondTypePair,
-          });
-        }
-
-        return [];
-      });
-
-      // if (matchingDiamondsPairs.length > 0) {
-      //   acc.push(...matchingDiamondsPairs);
-      // }
-
-      return acc;
-    }, {});
-
-    const paginator = {
-      totalDocs: matchingDiamonds.totalDocs,
-      limit: matchingDiamonds.limit,
-      page: matchingDiamonds.page,
-      totalPages: matchingDiamonds.totalPages,
-      pagingCounter: matchingDiamonds.pagingCounter,
-      hasPrevPage: matchingDiamonds.hasPrevPage,
-      hasNextPage: matchingDiamonds.hasNextPage,
-      prevPage: matchingDiamonds.prevPage,
-      nextPage: matchingDiamonds.nextPage,
     };
 
-    return { diamonds: diamondPairs, paginator };
+    const availableFiltersCacheKey = `toi-moi-diamonds-available-filters`;
+    const cachedData = await this.utils.memGet(availableFiltersCacheKey);
+    let availableFilters = {};
+
+    if (cachedData) {
+      availableFilters = cachedData;
+    } else {
+      const availableFilterPromises = [
+        this.toimoiDiamonds.distinct('diamondType'),
+        this.toimoiDiamonds.distinct('color'),
+        this.toimoiDiamonds.distinct('clarity'),
+        this.toimoiDiamonds.distinct('cut'),
+        this.toimoiDiamonds.distinct('price'),
+        this.toimoiDiamonds.distinct('carat'),
+      ];
+
+      const [diamondTypes, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
+
+      availableFilters = {
+        diamondTypes,
+        color,
+        clarity,
+        cut,
+        price: [Math.min(...price), Math.max(...price)],
+        caratRange: [Math.min(...carat), Math.max(...carat)],
+      };
+
+      this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600); // set the cache data for 1hr
+    }
+
+    try {
+      const diamondPairCacheKey = `toimoi-diamonds-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
+      const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
+
+      if (cachedDiamondPairs) {
+        return cachedDiamondPairs;
+      } else {
+        const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
+        const { docs, ...paginator } = result;
+        const response = {
+          items: docs,
+          paginator,
+          availableFilters,
+        };
+
+        this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
+
+        return response;
+      }
+    } catch (error) {
+      this.Logger.error(`Error fetching toi moi pairs: ${error}`);
+      throw error;
+    }
   }
-  optionalDiamondPairQuery(input) {
-    const query = { ...input };
+
+  optionalDiamondsQuery(input) {
+    const query = {};
 
     if (input?.diamondType) {
-      const diamondTypes = input.diamondType.trim().split(',');
-
-      query['diamondType'] = {
-        $in: diamondTypes, // mongoose $in take an array value as input
-      };
-    } else {
-      query['diamondType'] = {
-        $in: ACCEPTABLE_DIAMOND_TYPE_PAIRS.flat(),
-      };
+      query['diamondType'] = input.diamondType;
     }
 
-    /**
-     * Optional Color Query
-     * ACCEPTABLE COLORS = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
-     * Colors can be passed in as H,F,D,G ..etc with comma separated
-     */
     if (input?.color) {
-      //const colors: string[] = Array.from(input.color);
-      const colors = input.color.toLocaleUpperCase().trim().split(',');
-
-      // TODO handle errors here
-      // const found = colors.some((ele) => ACCEPTABLE_COLORS.includes(ele));
-      query['color'] = {
-        $in: colors, // mongoose $in take an array value as input
-      };
-    } else {
-      query['color'] = {
-        $in: ACCEPTABLE_COLORS, // get all the colors
-      };
+      query['color'] = input.color;
     }
 
-    /**
-     * Optional Cut Query
-     * ACCEPTABLE_CUTS = ['Excellent', 'Ideal', 'Ideal+Hearts'];
-     * Cuts can be passed in as Excellent,Ideal ...etc with comma separted
-     */
     if (input?.cut) {
-      const cuts = input.cut.trim().split(',');
-
-      query['cut'] = {
-        $in: cuts, // mongoose $in take an array value as input
-      };
-    } else {
-      query['cut'] = {
-        $in: ACCEPTABLE_CUTS, // get all the cuts
-      };
+      query['cut'] = input.cut;
     }
 
-    /**
-     * Optional Clarity Query
-     * ACCEPTABLE_CLARITIES = ['SI1', 'SI2', 'VS2', 'VS1', 'VVS1', 'VVS2'];
-     * Clarity can be passed in as SI1,VS2,WS1 ...etc with comma separted
-     */
     if (input?.clarity) {
-      const clarity = input.clarity.toLocaleUpperCase().trim().split(',');
+      query['clarity'] = input.clarity;
+    }
 
-      query['clarity'] = {
-        $in: clarity, // mongoose $in take an array value as input
-      };
-    } else {
-      query['clarity'] = {
-        $in: ACCEPTABLE_CLARITIES, // get all the clarity
+    if (input?.caratMin || input?.caratMax) {
+      query['carat'] = {
+        ...(input.caratMin && { $gte: input.caratMin }),
+        ...(input.caratMax && { $lte: input.caratMax }),
       };
     }
 
     return query;
+  }
+
+  /**
+   * Fetch solitaire diamond pairs.
+   * Match color and carat sizes within 0.05 of each other.
+   * @param input - The input object containing the diamond type.
+   * @returns An array of objects representing the diamond pairs of the same diamondtype.
+   */
+
+  async solitaireDiamondPairs(input: GetDiamondDto) {
+    const filteredQuery = this.optionalDiamondsQuery(input);
+
+    const sortBy = input.sortBy || 'carat';
+    const sortOrder = input.sortOrder && input.sortOrder === 'desc' ? -1 : 1;
+
+    const paginateOptions: PaginateOptions = {
+      limit: input.limit || 5,
+      page: input.page || 1,
+      sort: {
+        [sortBy]: sortOrder,
+      },
+    };
+
+    const availableFiltersCacheKey = `diamond-pairs-available-filters`;
+    const cachedData = await this.utils.memGet(availableFiltersCacheKey);
+    let availableFilters = {};
+
+    if (cachedData) {
+      availableFilters = cachedData;
+    } else {
+      const availableFilterPromises = [
+        this.diamondPairs.distinct('diamondType'),
+        this.diamondPairs.distinct('color'),
+        this.diamondPairs.distinct('clarity'),
+        this.diamondPairs.distinct('cut'),
+        this.diamondPairs.distinct('price'),
+        this.diamondPairs.distinct('carat'),
+      ];
+
+      const [diamondTypes, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
+
+      availableFilters = {
+        diamondTypes,
+        color,
+        clarity,
+        cut,
+        priceRange: [Math.min(...price), Math.max(...price)],
+        caratRange: [Math.min(...carat), Math.max(...carat)],
+      };
+
+      this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600); // set the cache data for 1hr
+    }
+
+    try {
+      const diamondPairCacheKey = `diamond-pairs-${JSON.stringify(filteredQuery)}-${JSON.stringify(paginateOptions)}`;
+      const cachedDiamondPairs = await this.utils.memGet(diamondPairCacheKey);
+
+      if (cachedDiamondPairs) {
+        return cachedDiamondPairs;
+      } else {
+        const result = await this.diamondPairs.paginate(filteredQuery, paginateOptions);
+        const { docs, ...paginator } = result;
+        const response = {
+          items: docs,
+          paginator,
+          availableFilters,
+        };
+
+        this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
+
+        return response;
+      }
+    } catch (error) {
+      this.Logger.error(`Error fetching solitaire diamond pairs: ${error}`);
+      throw error;
+    }
   }
 }

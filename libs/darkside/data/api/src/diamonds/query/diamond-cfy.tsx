@@ -30,6 +30,14 @@ export const SingleMediaBlockQuery = `
   headingType
   headingAdditionalClass
   copy
+  media {
+      url
+      alt
+      video {
+        streamingUrl
+        thumbnailUrl
+      }
+  }
   supportedCountries {
     code
     name
@@ -104,6 +112,24 @@ query ctoDiamondTable($locale: SiteLocale) {
     ctoDiamondResultNote
     ctoDiamondResultFinalSaleNote
     ctoDiamondResultNeedItFaster
+    ctoDiamondResultHowItWorks {
+      ... on ModularBlockWrapperRecord {
+        _modelApiKey
+        title
+        headingType
+        headingAdditionalClass
+        additionalClass
+        content {
+          ... on ModularBlockWrapperModelContentField {
+            blocks {
+              ${SingleMediaBlockQuery}
+              ${QuoteQuery}
+            }
+          }
+        }
+      }
+    }
+    ctoDiamondResultShapeAndWeightTitle
     diamondsNote
     notesAdditionalInfo
     diamondNotesImages {

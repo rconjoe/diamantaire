@@ -1,15 +1,17 @@
+export * from './hardcodedModularJewelryProducts.service';
 export * from './lib/ariaLabel';
 export * from './lib/band';
-export * from './lib/brand';
 export * from './lib/blockPicker';
+export * from './lib/brand';
 export * from './lib/canonical';
 export * from './lib/carat';
 export * from './lib/cart';
 export * from './lib/color';
-export * from './lib/country';
 export * from './lib/countries-map';
+export * from './lib/country';
 export * from './lib/currency';
 export * from './lib/diamond';
+export * from './lib/diamondCutForYou';
 export * from './lib/diamondTable';
 export * from './lib/email';
 export * from './lib/engagementRing';
@@ -21,6 +23,7 @@ export * from './lib/goldPurity';
 export * from './lib/hiddenPage';
 export * from './lib/hubspot';
 export * from './lib/image';
+export * from './lib/internationalization';
 export * from './lib/jewelry';
 export * from './lib/klaviyo';
 export * from './lib/listPage';
@@ -40,6 +43,8 @@ export * from './lib/url';
 export * from './lib/video';
 
 export const DF_API_KEY = '';
+export const MIN_CARAT_WEIGHT = 1.01;
+export const INCREMENT_WEIGHT = 0.05;
 
 // TODO: tidy up the rest of the list
 export enum ProngStyles {

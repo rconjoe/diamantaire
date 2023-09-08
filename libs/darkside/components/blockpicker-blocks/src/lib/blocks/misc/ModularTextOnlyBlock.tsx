@@ -1,10 +1,10 @@
 import {
+  DarksideButton,
+  DatoDarksideButtonProps,
   Heading,
+  Markdown,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
-  Markdown,
-  DatoDarksideButtonProps,
-  DarksideButton,
 } from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
 

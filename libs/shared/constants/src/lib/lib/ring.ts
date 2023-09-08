@@ -11,4 +11,3 @@ export const POPULAR_RING_SIZES = ['4.5', '5', '6', '7', '8'];
 export const DEFAULT_RING_SIZE = '4.5';
 export const RING_SIZE = 'ringSize';
 export const RING_SPECS = 'ringSpecs';
-export const RANDM_RING_SLUGS = ['contract-ring', 'compass-ring', 'unity-ring'];

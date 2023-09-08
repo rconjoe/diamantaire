@@ -100,7 +100,7 @@ const PlpProductGrid = ({
   const gridRef = useRef<HTMLDivElement>(null);
   const products = data.pages?.map((page) => page.products).flat() || [];
 
-  console.log('products', products);
+  // console.log('products', products);
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -109,7 +109,7 @@ const PlpProductGrid = ({
         gridRef={gridRef}
         filterValue={filterValue}
         setFilterValues={setFilterValues}
-        isSettingSelect={isSettingSelect}
+        isParamBased={true}
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
@@ -150,7 +150,7 @@ const PlpProductGrid = ({
               )}
             </Fragment>
           ))}
-          {products.length > 0 && (
+          {products.length === 0 && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>

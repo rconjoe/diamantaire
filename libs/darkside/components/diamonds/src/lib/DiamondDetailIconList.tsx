@@ -58,6 +58,8 @@ const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
               </UniLink>
             );
           }
+
+          return <></>;
         })}
       </div>
 

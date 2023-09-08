@@ -212,15 +212,19 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
+
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
 
   const diamondQuery = queries.diamonds.content(options);
+
   const diamondTableQuery = queries.diamondTable.content(locale);
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(diamondQuery);
+
   await queryClient.prefetchQuery(diamondTableQuery);
 
   if (!queryClient.getQueryData(diamondQuery.queryKey) || !queryClient.getQueryData(diamondTableQuery.queryKey)) {
