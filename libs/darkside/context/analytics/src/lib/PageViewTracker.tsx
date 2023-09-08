@@ -15,13 +15,13 @@ const PageViewTracker = ({ productData }) => {
     const isProductSlug = productSlugSegmentPath === '[productSlug]';
 
     if (isProductSlug) {
-      const { shopifyProductId, productTitle, productType, canonicalVariant, cms, styles } = productData || {};
+      const { productTitle, productType, canonicalVariant, cms, styles } = productData || {};
 
       const { countryCode } = parseValidLocale(router?.locale);
 
       const currencyCode = getCurrency(countryCode);
-      const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.defaultVariantId) || '40058777370717';
-      const product_id = dangerouslyExtractInternalShopifyId(shopifyProductId);
+      const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.shopifyVariantId);
+      const product_id = dangerouslyExtractInternalShopifyId(canonicalVariant?.shopifyProductId);
       const price = getFormattedPrice(canonicalVariant?.price, router?.locale, true, true);
       const quantity = 1;
       const brand = 'VRAI';
@@ -30,20 +30,22 @@ const PageViewTracker = ({ productData }) => {
       const configuration = normalizeVariantConfigurationForGTM(canonicalVariant?.configuration);
 
       productViewed({
+        // rudderstack base ecommerce keys
         id,
         product_id,
-        sku: canonicalVariant?.defaultSku || 'VRAI-0001',
+        sku: canonicalVariant?.sku,
         category: productType,
         name,
         brand,
         variant: productTitle,
         price,
-        ringSize: canonicalVariant?.defaultRingSize,
         quantity,
         currency: currencyCode,
         url: router?.asPath,
         image_url: cms?.image?.src,
+        // gtm specific
         ...configuration,
+        ringSize: canonicalVariant?.defaultRingSize,
         styles,
         eventCategory: 'product_engagement',
         eventAction: GTM_EVENTS.viewItem,
