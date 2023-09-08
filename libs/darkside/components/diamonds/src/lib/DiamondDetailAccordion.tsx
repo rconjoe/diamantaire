@@ -42,8 +42,6 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
     const { carat: description } = DiamondPdpData || {};
     const handleFormat = (v) => v;
 
-    console.log(createNumberArray(range[1]));
-
     return (
       <>
         <div className="description">
@@ -126,11 +124,11 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
         <div className="row">
           <div className="thb">
             <Image
-              alt={getInfo(specs, 'cut')}
               src="https://www.datocms-assets.com/25216/1661530410-4c-cut.jpg"
+              alt={getInfo(specs, 'cut')}
               sizes="100vw"
-              width={0}
               height={0}
+              width={0}
             />
           </div>
           <div className="sub">
@@ -341,7 +339,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
   return (
     <StyledDiamondDetailAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} />
+      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} />
     </StyledDiamondDetailAccordion>
   );
 };

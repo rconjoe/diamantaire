@@ -2,7 +2,7 @@ import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
 import { MimeTypes } from '@diamantaire/shared/types';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Navigation, Keyboard, Lazy, Pagination } from 'swiper';
+import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 

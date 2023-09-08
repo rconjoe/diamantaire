@@ -32,7 +32,6 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
 
           return (
             <React.Fragment key={`${_modelApiKey}_${idx}`}>
-              <p>{_modelApiKey}</p>
               <BlockPicker
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}

@@ -4,9 +4,10 @@ import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { OptionsDataTypes, useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getDiamondOptionsFromUrl } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsResult } from 'next';
+import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { getCountry, getDiamondOptionsFromUrl } from '@diamantaire/shared/helpers';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
 
 import { StyledDiamondDetailPage } from './DiamondDetailPage.style';
@@ -44,7 +45,9 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
       <StyledDiamondDetailPage className="container-wrapper">
         <div className="page-title">
-          <Heading className="title">{title}</Heading>
+          <Heading type="h2" className="title">
+            {title}
+          </Heading>
         </div>
 
         <div className="page-main">
@@ -66,11 +69,13 @@ DiamondDetailPage.getTemplate = getTemplate;
 async function getServerSideProps(context): Promise<GetServerSidePropsResult<DiamondDetailPageDataTypes>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const locale = 'en_US';
-  const countryCode = 'US';
-  const currencyCode = 'USD';
-  const { query } = context;
+  const { query, locale } = context;
+
   const { diamondHandle: handle } = query;
+
+  const countryCode = getCountry(locale);
+
+  const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getDiamondOptionsFromUrl([handle], 'diamondPDP');
 

@@ -4,6 +4,15 @@ import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
 import { ResponsiveImageFragment } from '../../fragments';
 
+// Get associated DiamondTypes from Product slug
+export async function getProductDiamondTypes(productSlug) {
+  const apiUrl = `/v1/products/collection/diamondtypes/${productSlug}`;
+
+  const response = await vraiApiClient.get(apiUrl);
+
+  return response.data;
+}
+
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
   const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });

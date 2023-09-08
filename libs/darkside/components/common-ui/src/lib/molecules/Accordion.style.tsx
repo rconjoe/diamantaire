@@ -27,10 +27,11 @@ const StyledAccordion = styled.div`
     cursor: pointer;
 
     .text {
-      display: flex;
       gap: 5px;
-      font-size: var(--font-size-xxsmall);
+      display: flex;
       align-items: center;
+      font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-normal);
     }
 
     .icon {
@@ -61,11 +62,10 @@ const StyledAccordion = styled.div`
     display: block;
     position: relative;
     padding: 0 0 20px;
-    font-size: var(--font-size-xxsmall);
   }
 
   .accordion-content-wrapper * {
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xsmall);
   }
 
   .accordion-content-wrapper p {

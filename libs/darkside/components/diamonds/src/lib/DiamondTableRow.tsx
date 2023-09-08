@@ -1,28 +1,43 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
+
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+
 import { UIString } from '@diamantaire/darkside/core';
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+
 import { useRouter } from 'next/router';
+
+import { useContext } from 'react';
+
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
-const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: string }) => {
+
+const DiamondTableRow = ({
+  product,
+  isBuilderFlowOpen = false,
+}: {
+  product?: DiamondDataTypes;
+  locale?: string;
+  isBuilderFlowOpen?: boolean;
+}) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
-
-  if (!product) return;
-
   const { handle, lotId, diamondType } = product;
+  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
+
     // TODO: add handler
     console.log(`handleSelectDiamond`, product);
     const { diamondType, carat, color, clarity, cut, price } = product;
@@ -46,6 +61,9 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
       price: formattedPrice,
       currencyCode,
     });
+
+    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
+
   };
 
   const handlePurchase = () => {
@@ -67,9 +85,11 @@ const DiamondTableRow = ({ product }: { product?: DiamondDataTypes; locale?: str
               <UIString>View More Details</UIString>
             </DarksideButton>
 
-            <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
-              <UIString>Select</UIString>
-            </DarksideButton>
+            {isBuilderFlowOpen && (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            )}
 
             <DarksideButton href={diamondExpertRoute} type="underline" colorTheme="teal" className="button-expert">
               <UIString>Speak to a diamond expert</UIString>

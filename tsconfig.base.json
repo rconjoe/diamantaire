@@ -36,6 +36,7 @@
     "paths": {
       "@diamantaire/_generated/datocms": ["libs/_generated/datocms/src/index.ts"],
       "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
+      "@diamantaire/darkside/components/builder-flows": ["libs/darkside/components/builder-flows/src/index.ts"],
       "@diamantaire/darkside/components/cart": ["libs/darkside/components/cart/src/index.ts"],
       "@diamantaire/darkside/components/common-ui": ["libs/darkside/components/common-ui/src/index.ts"],
       "@diamantaire/darkside/components/diamonds": ["libs/darkside/components/diamonds/src/index.ts"],
@@ -45,8 +46,10 @@
       "@diamantaire/darkside/components/products/plp": ["libs/darkside/components/products/plp/src/index.ts"],
       "@diamantaire/darkside/components/seo": ["libs/darkside/components/seo/src/index.ts"],
       "@diamantaire/darkside/context/analytics": ["libs/darkside/context/analytics/src/index.ts"],
+      "@diamantaire/darkside/context/cart-context": ["libs/darkside/context/cart-context/src/index.ts"],
       "@diamantaire/darkside/context/diamond-icon-context": ["libs/darkside/context/diamond-icon-context/src/index.ts"],
       "@diamantaire/darkside/context/global-context": ["libs/darkside/context/global-context/src/index.ts"],
+      "@diamantaire/darkside/context/product-builder": ["libs/darkside/context/product-builder/src/index.ts"],
       "@diamantaire/darkside/core": ["libs/darkside/core/src/index.ts"],
       "@diamantaire/darkside/data/api": ["libs/darkside/data/api/src/index.ts"],
       "@diamantaire/darkside/data/hooks": ["libs/darkside/data/hooks/src/index.ts"],
@@ -65,8 +68,10 @@
       "@diamantaire/darkside/template/accounts": ["libs/darkside/template/accounts/src/index.ts"],
       "@diamantaire/darkside/template/global": ["libs/darkside/template/global/src/index.ts"],
       "@diamantaire/darkside/template/standard": ["libs/darkside/template/standard/src/index.ts"],
+      "@diamantaire/feedutils": ["libs/feedutils/src/index.ts"],
       "@diamantaire/nx-core": ["libs/nx/core/src/index.ts"],
       "@diamantaire/nx-datocms": ["libs/nx/datocms/src/index.ts"],
+      "@diamantaire/scripts": ["libs/scripts/src/index.ts"],
       "@diamantaire/server/common/auth": ["libs/server/common/auth/src/index.ts"],
       "@diamantaire/server/common/configs": ["libs/server/common/configs/src/index.ts"],
       "@diamantaire/server/common/provider/database": ["libs/server/common/provider/database/src/index.ts"],
@@ -85,7 +90,8 @@
       "@diamantaire/shared/types": ["libs/shared/types/src/index.ts"],
       "@diamantaire/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@diamantaire/storybook-host": ["libs/storybook-host/src/index.ts"],
-      "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.ts"]
+      "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.ts"],
+      "@diamantaire/vraicel": ["libs/nx/vraicel/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "build", "dist", "./dist/**/*"],

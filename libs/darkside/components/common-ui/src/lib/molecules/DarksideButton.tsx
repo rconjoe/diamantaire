@@ -19,9 +19,10 @@ export type DarksideButtonProps = {
   onClick?: () => void;
   buttonType?: 'button' | 'submit' | 'reset';
   type?: 'solid' | 'outline' | 'underline';
-  colorTheme?: 'black' | 'teal' | 'white';
+  colorTheme?: 'black' | 'teal' | 'white' | 'grey';
   mobileColorTheme?: 'desktop' | 'black' | 'teal' | 'white';
   openUrlInNewWindow?: boolean;
+  disabled?: boolean;
 };
 
 const DarksideButtonStyles = styled.div`
@@ -33,6 +34,20 @@ const DarksideButtonStyles = styled.div`
     font-size: 1.8rem;
     transition: 0.25s;
     font-weight: 500;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &.disabled {
+    button {
+      opacity: 0.4;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
   }
   &.button-style--solid {
     button {
@@ -67,6 +82,21 @@ const DarksideButtonStyles = styled.div`
           background-color: var(--color-white);
           color: var(--color-teal);
           border-color: var(--color-teal);
+        }
+      }
+    }
+    &.color-theme--grey {
+      button {
+        border: 2px solid var(--color-lightest-grey);
+        color: var(--color-black);
+        background-color: var(--color-lightest-grey);
+        font-size: 1.3rem;
+        font-weight: 400;
+        min-height: 47px;
+        &:hover {
+          background-color: var(--color-lightest-grey);
+          color: var(--color-grey);
+          border-color: var(--color-lightest-grey);
         }
       }
     }
@@ -140,6 +170,12 @@ const DarksideButtonStyles = styled.div`
         border-bottom: 1px solid var(--color-teal);
       }
     }
+    &.color-theme--white {
+      button {
+        color: var(--color-white);
+        border-bottom: 1px solid var(--color-white);
+      }
+    }
   }
 `;
 
@@ -153,6 +189,7 @@ const DarksideButton = ({
   colorTheme = 'black',
   mobileColorTheme,
   openUrlInNewWindow = false,
+  disabled = false,
 }: DarksideButtonProps) => {
   return (
     <DarksideButtonStyles
@@ -172,7 +209,7 @@ const DarksideButton = ({
           <button>{children}</button>
         </Link>
       ) : (
-        <button type={buttonType} onClick={onClick}>
+        <button disabled={disabled} type={buttonType} onClick={onClick}>
           {children}
         </button>
       )}

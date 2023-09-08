@@ -34,9 +34,9 @@ const StyledDiamondPage = styled.div`
 
     .title {
       font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
       text-align: center;
       line-height: 1;
-      font-weight: 500;
     }
   }
 
@@ -68,6 +68,14 @@ const StyledDiamondPage = styled.div`
     ${desktopAndUp(`
       width: calc(100% - ${asideWidthLG} - ${gapLG});
     `)}
+  }
+
+  .vo-filter-clear-button {
+    margin: 2rem 0 0;
+    * {
+      font-size: var(--font-size-xxxsmall);
+      font-weight: var(--font-weight-normal);
+    }
   }
 `;
 

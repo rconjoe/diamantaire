@@ -7,9 +7,9 @@ import {
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 export const plpListPage = createQueryKeys('plp', {
-  serverSideDato: (locale: string, slug: string | string[]) => ({
+  serverSideDato: (locale: string, slug: string | string[], category: string) => ({
     queryKey: [locale, slug],
-    queryFn: () => fetchPlpDatoServerData(locale, slug),
+    queryFn: () => fetchPlpDatoServerData(locale, slug, category),
   }),
   promoCardCollection: (locale: string, id: string) => ({
     queryKey: [locale, id],

@@ -1,10 +1,10 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { Form, Heading, SwiperStyles, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondsData, useDiamondTableData, useDiamondPdpData } from '@diamantaire/darkside/data/hooks';
+import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { makeCurrency } from '@diamantaire/shared/helpers';
-import { useContext, Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -81,9 +81,11 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
                 </DarksideButton>
               </>
             )) || (
-              <DarksideButton type="outline" colorTheme="black">
-                <UIString>Sold: Browse other diamonds</UIString>
-              </DarksideButton>
+              <UniLink route={`/diamonds/inventory/${diamondType}`}>
+                <DarksideButton type="outline" colorTheme="black">
+                  <UIString>Sold: Browse other diamonds</UIString>
+                </DarksideButton>
+              </UniLink>
             )}
           </div>
 

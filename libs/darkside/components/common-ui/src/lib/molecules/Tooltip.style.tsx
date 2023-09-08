@@ -29,7 +29,8 @@ const StyledTooltip = styled.div`
     border-left: 0;
   }
 
-  .react-tooltip__place-bottom .tooltip-arrow {
+  .react-tooltip__place-bottom .tooltip-arrow,
+  .react-tooltip__place-bottom-start .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
   }
@@ -50,7 +51,7 @@ const StyledTooltip = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid var(--color-teal);
+    border: 1px solid ${GREY};
     height: 12px;
     width: 12px;
 
@@ -58,7 +59,7 @@ const StyledTooltip = styled.div`
       font-size: var(--font-size-xxxxxsmall);
       font-family: ${MAIN_FONT};
       text-transform: none;
-      color: var(--color-teal);
+      color: ${GREY};
     }
   }
 

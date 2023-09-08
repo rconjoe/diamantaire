@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
+    min-height: 300px;
+    border: 1px solid #ccc;
     button {
       padding: 0;
       width: 100%;
@@ -41,27 +43,29 @@ const PlpProductVariant = ({ variant }: { variant: ListPageItemConfiguration }) 
               onMouseLeave={handleImageChange}
               onBlur={handleImageChange}
             >
-              {isPrimaryImage ? (
-                <DatoImage
-                  quality={100}
-                  image={{
-                    url: primaryImage?.src,
-                    responsiveImage: {
-                      ...primaryImage,
-                    },
-                  }}
-                />
-              ) : (
-                <DatoImage
-                  quality={100}
-                  image={{
-                    url: hoverImage?.src,
-                    responsiveImage: {
-                      ...hoverImage,
-                    },
-                  }}
-                />
-              )}
+              {isPrimaryImage
+                ? primaryImage && (
+                    <DatoImage
+                      quality={100}
+                      image={{
+                        url: primaryImage?.src,
+                        responsiveImage: {
+                          ...primaryImage,
+                        },
+                      }}
+                    />
+                  )
+                : hoverImage && (
+                    <DatoImage
+                      quality={100}
+                      image={{
+                        url: hoverImage?.src,
+                        responsiveImage: {
+                          ...hoverImage,
+                        },
+                      }}
+                    />
+                  )}
             </button>
           </div>
           <div className="plp-variant__content">

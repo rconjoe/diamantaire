@@ -1,8 +1,10 @@
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import PlpCreativeBlock from './PlpCreativeBlock';
@@ -34,6 +36,11 @@ type PlpProductGridProps = {
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
+
+  // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
+  builderFlowOverride?: boolean;
+  isSettingSelect?: boolean;
+  selectSetting?: (_obj: { collectionSlug: string; productSlug: string }) => void;
   filterValue?: FilterValueProps;
   setFilterValues?;
   initialFilterValues?: {
@@ -45,17 +52,17 @@ const PlpProductGrid = ({
   promoCardCollectionId,
   creativeBlockIds,
   data,
-  isFetching,
-  initialProducts,
   availableFilters,
   filterValue,
   setFilterValues,
+  builderFlowOverride = false,
+  isSettingSelect = false,
+  selectSetting,
 }: PlpProductGridProps) => {
-  const [products, setProducts] = useState(initialProducts);
-  const [hasGridInitialized, setHasGridInitialized] = useState(false);
+  const router = useRouter();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
-    'en_US',
+    router.locale,
     promoCardCollectionId,
   );
 
@@ -90,34 +97,10 @@ const PlpProductGrid = ({
     return object;
   }, [cardCollection]);
 
-  function isObjectEmpty(obj) {
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  useEffect(() => {
-    if (isFetching) return;
-    const allProducts = [];
-
-    data?.pages?.forEach((page) => {
-      page?.products?.forEach((product) => {
-        allProducts.push(product);
-      });
-    });
-
-    if ((allProducts.length > 0 && hasGridInitialized) || !isObjectEmpty(filterValue)) {
-      setProducts(allProducts);
-    }
-
-    if (!hasGridInitialized) setHasGridInitialized(true);
-  }, [data, filterValue, isFetching]);
-
   const gridRef = useRef<HTMLDivElement>(null);
+  const products = data.pages?.map((page) => page.products).flat() || [];
+
+  // console.log('products', products);
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -126,22 +109,44 @@ const PlpProductGrid = ({
         gridRef={gridRef}
         filterValue={filterValue}
         setFilterValues={setFilterValues}
+        isParamBased={true}
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
           {products?.map((product, gridItemIndex) => (
             <Fragment key={product.defaultId}>
-              {cardCollectionObject[gridItemIndex + 1] !== undefined && (
+              {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
                 <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
               )}
 
-              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
+              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
                 <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
               )}
+
               {product.productType === 'diamonds' ? (
-                <PlpProductItem product={product} />
-              ) : (
                 <PlpDiamondItem product={product} />
+              ) : (
+                <div>
+                  <PlpProductItem product={product} />
+                  {isSettingSelect && (
+                    <div
+                      style={{
+                        marginTop: '20px',
+                      }}
+                    >
+                      <DarksideButton
+                        onClick={() =>
+                          selectSetting({
+                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                            productSlug: product.variants[product.defaultId]?.productSlug,
+                          })
+                        }
+                      >
+                        Select
+                      </DarksideButton>
+                    </div>
+                  )}
+                </div>
               )}
             </Fragment>
           ))}

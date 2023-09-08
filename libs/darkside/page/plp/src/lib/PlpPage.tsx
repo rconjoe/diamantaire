@@ -5,6 +5,7 @@ import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { objectToURLSearchParams, parseStringToObjectWithNestedValues } from '@diamantaire/shared/helpers';
 import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -38,36 +39,6 @@ type PlpPageProps = {
   dehydratedState: DehydratedState;
 };
 
-function objectToURLSearchParams(obj: object) {
-  const params = new URLSearchParams();
-
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      params.append(key, obj[key]);
-    }
-  }
-
-  return params;
-}
-
-function parseStringToObjectWithNestedValues(initialString: string) {
-  return JSON.parse(initialString, (_key, value) => {
-    // Check if the value is a string and can be parsed again
-    if (typeof value === 'string') {
-      try {
-        const parsedValue = JSON.parse(value);
-
-        return parsedValue;
-      } catch (error) {
-        // If it's not a valid JSON string, return the original value
-        return value;
-      }
-    }
-
-    return value;
-  });
-}
-
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
   const router = useRouter();
   const { ref: pageEndRef, inView } = useInView({
@@ -94,7 +65,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     ...initialFilterValues,
   });
 
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
 
@@ -158,7 +129,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
         initialProducts={initialProducts}
-        initialFilterValues={initialFilterValues}
         setFilterValues={setFilterValues}
         filterValue={filterValue}
       />
@@ -173,6 +143,10 @@ PlpPage.getTemplate = getStandardTemplate;
 const createPlpServerSideProps = (category: string) => {
   const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
     const { query, locale } = context;
+
+    // Temp - need reel logic for this
+    const isParamBased = true;
+
     const isFacetedNav = Array.isArray(query.plpSlug);
     const slug = isFacetedNav ? query.plpSlug[0].toString() : query.plpSlug.toString();
     const priceMin = query?.priceMin as string;
@@ -180,18 +154,28 @@ const createPlpServerSideProps = (category: string) => {
 
     const params = Array.isArray(query.plpSlug) && query.plpSlug.slice(1);
 
-    const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]);
-    const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]);
+    const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]) || query?.metal || null;
+
+    const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]) || query?.diamondType || null;
 
     const matchesFacetNavOrder = FACETED_NAV_ORDER.every((facet, index) => {
       if (facet === 'metal') {
         if (!metal) return true;
 
-        return metal === params[index];
+        if (isParamBased) {
+          return true;
+        } else {
+          // Only need to check param order on faceted nav
+          return metal === params[index];
+        }
       } else if (facet === 'diamondType') {
         if (!diamondType) return true;
 
-        return diamondType === params[index];
+        if (isParamBased) {
+          return true;
+        } else {
+          return diamondType === params[index];
+        }
       }
 
       return false;
@@ -241,7 +225,7 @@ const createPlpServerSideProps = (category: string) => {
 
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug) });
+    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug, category) });
     const productData = await getVRAIServerPlpData(qParams, 1);
 
     if (productData.error) {

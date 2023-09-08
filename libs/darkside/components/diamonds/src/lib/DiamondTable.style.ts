@@ -4,7 +4,13 @@ import styled from 'styled-components';
 const StyledDiamondTable = styled.div`
   font-size: var(--font-size-xxxsmall);
   display: block;
-  margin: 30px -2.5rem 0;
+  margin: 3rem -2.5rem 0;
+
+  &.flow-page {
+    .vo-table-head {
+      top: 0;
+    }
+  }
 
   ${tabletAndUp(`
     width: 100%;
@@ -35,7 +41,7 @@ const StyledDiamondTable = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 20px;
+    padding: 1.5rem 2rem;
     position: relative;
     width: 16%;
   }
@@ -83,11 +89,11 @@ const StyledDiamondTable = styled.div`
     align-items: center;
     padding: 10px 5px;
     font-size: var(--font-size-xxxxsmall);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-medium);
 
     ${tabletAndUp(`
       background: ${GREY_LIGHTEST} !important;
-      padding: 15px 20px;
+      padding: 10px 20px;
     `)}
   }
 
@@ -243,7 +249,7 @@ const StyledDiamondTable = styled.div`
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 2.5rem;
+    padding: 3rem 0;
     margin: auto;
     gap: 2rem;
   }
@@ -254,6 +260,12 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-no-result-container {
+    padding: 0 2.5rem;
+
+    ${tabletAndUp(`
+      padding: 0;
+    `)}
+
     p {
       font-size: var(--font-size-xxxsmall);
     }

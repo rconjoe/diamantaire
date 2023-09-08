@@ -4,12 +4,12 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TABLE_FILTER_CLARITY_OPTIONS,
-  DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_COLOR_OPTIONS,
-  DIAMOND_TABLE_SHAPES,
+  DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_TITLES,
+  DIAMOND_TABLE_SHAPES,
 } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -44,7 +44,7 @@ const SliderFilter = (props) => {
 
   const priceValues = priceMin && priceMax ? [priceMin, priceMax] : null;
 
-  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1]];
+  const caratValues = caratMin && caratMax ? [caratMin, caratMax] : [1, range[1] + 0.1];
 
   const roundRange = [roundToNearest100(range[0] / 100, '-'), roundToNearest100(range[1] / 100, '+')];
 
@@ -56,7 +56,7 @@ const SliderFilter = (props) => {
           type={type}
           range={{
             min: range[0],
-            max: range[1],
+            max: range[1] + 0.1,
           }}
           value={caratValues || range}
           handleChange={handleChange}
@@ -194,10 +194,11 @@ const RadioFilter = (props) => {
           if (type === 'diamondType') {
             const slug = DIAMOND_TABLE_SHAPES[optionUI[0]];
             const shape = diamondIconsMap[slug];
+            const title = getDiamondType(shape.slug).title;
 
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
-                <a onClick={() => handleClick([shape.slug])}>
+                <a title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                 </a>
               </li>

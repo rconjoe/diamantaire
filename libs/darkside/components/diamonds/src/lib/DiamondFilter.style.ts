@@ -1,7 +1,7 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const StyledDiamondFilter = styled.div`
+const StyledDiamondFilter = styled.aside`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -43,6 +43,12 @@ const StyledDiamondFilter = styled.div`
     flex: 1;
   }
 
+  .vo-slider-value-start,
+  .vo-slider-value-end {
+    color: ${TEAL_MED};
+    font-size: var(--font-size-xxxsmall);
+  }
+
   .vo-filter-list {
     list-style-position: inside;
     list-style-type: none;
@@ -62,7 +68,7 @@ const StyledDiamondFilter = styled.div`
   .vo-filter-list-item a {
     color: #333;
     width: 100%;
-    padding: 4px 2px;
+    padding: 0.4rem 0.2rem;
     display: flex;
     justify-content: center;
     border: 1px solid transparent;
@@ -204,6 +210,7 @@ const StyledDiamondFilter = styled.div`
     width: 100%;
     margin: 2rem 0 0;
     font-size: var(--font-size-xxxsmall);
+    font-weight: var(--font-weight-normal);
   }
 
   .vo-filter-loading {

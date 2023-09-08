@@ -1,64 +1,142 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Heading } from '@diamantaire/darkside/components/common-ui';
-// import { DiamondPromo } from '@diamantaire/darkside/components/diamonds';
-// import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
+import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import {
+  DiamondCfyAsidePromo,
+  DiamondCfyBreadCrumb,
+  DiamondCfyFilterCarat,
+  DiamondCfyFilterShape,
+} from '@diamantaire/darkside/components/diamonds';
+import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { UniLink } from '@diamantaire/darkside/core';
+import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-// import { DIAMOND_CFY_FACETED_NAV } from '@diamantaire/shared/constants';
-import { getCurrencyFromLocale, parseValidLocale } from '@diamantaire/shared/constants';
-import { getCFYOptionsFromUrl } from '@diamantaire/shared/helpers';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-// import { useRouter } from 'next/router';
-// import { useState, useEffect } from 'react';
+import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
+import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useCallback, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
 interface CFYPageQueryParams extends ParsedUrlQuery {
-  category?: string;
   carat?: string;
+  diamondType?: string;
+  product?: string;
 }
 
 interface CFYPageProps {
-  locale: string;
-  options?: {
-    diamondType?: string;
-    category?: string;
-    carat?: string;
-    cto?: boolean;
-    flow?: string;
-  };
-  countryCode: string;
-  currencyCode: string;
   dehydratedState: DehydratedState;
+  locale: string;
+  options?: CFYPageQueryParams;
 }
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  // const router = useRouter();
-  const { locale } = props;
-  // const [options, setOptions] = useState(props.options);
-  // const [loading, setLoading] = useState(true);
+  const { locale, options } = props;
 
-  const DiamondCfyContent = useDiamondCfyData(locale);
+  const { diamondType, carat, product: selectedProduct } = options;
 
-  // const title = DiamondTableContent.data.diamondTable.title;
-  // const seo = DiamondTableContent.data.diamondTable.seo;
-  // const { seoTitle, seoDescription } = seo || {};
-  // const pageTitleDiamondMatch = seoTitle.match(/%%(.*?)%%/g);
+  const [checkAvailability, setCheckAvailability] = useState(false);
+
+  const [selectedCarat, setSelectedCarat] = useState(carat || DIAMOND_CFY_CARAT_DEFAULT);
+
+  const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
+
+  const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
+
+  const { data: { availableDiamondTypes } = {} } = useProductDiamondTypes(selectedProduct);
+
+  const {
+    headerTitle,
+    headerCopy,
+    caratSliderTooltip,
+    diamondSelectorNote,
+    checkAvailability: checkAvailabilityLabel,
+  } = ctoDiamondTable;
+
+  let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
+
+  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+
+  const handleSelectShape = (value) => {
+    setSelectedDiamondType(value);
+  };
+
+  const handleSelectCarat = useCallback((value) => {
+    setSelectedCarat(value);
+  }, []);
+
+  const handleModifyDiamondType = useCallback(() => {
+    setSelectedDiamondType(null);
+  }, []);
+
+  const handleModifyCarat = useCallback((value) => {
+    console.log(`handleModifyCarat`, value);
+  }, []);
+
+  const handleCheckAvailability = () => {
+    setCheckAvailability(true);
+  };
+
+  const [productRoute, setProductRoute] = useState('');
+
+  useEffect(() => {
+    if (selectedDiamondType?.slug && selectedCarat)
+      setProductRoute(`/diamonds/results/${selectedDiamondType.slug}?carat=${selectedCarat}`);
+  }, [selectedCarat, selectedDiamondType]);
 
   return (
     <>
-      {/* <StandardPageSeo title={pageSeoTitle} description={seoDescription} /> */}
+      <StandardPageSeo title={seoTitle} description={seoDesc} />
+
       <StyledCFYPage className="container-wrapper">
-        <div className="page-title">
-          <Heading className="title">VRAI Created Diamonds</Heading>
+        <div className="page-main">
+          <div className="page-header">
+            <Heading className="title">{headerTitle}</Heading>
+            <p>{headerCopy}</p>
+          </div>
+
+          <DiamondCfyBreadCrumb
+            locale={locale}
+            selectedDiamondType={selectedDiamondType}
+            selectedCarat={selectedCarat}
+            handleModifyCarat={handleModifyCarat}
+            handleModifyDiamondType={handleModifyDiamondType}
+            checkAvailability={checkAvailability}
+          />
+
+          {(!selectedDiamondType && (
+            <DiamondCfyFilterShape
+              locale={locale}
+              selectedCarat={selectedCarat}
+              handleSelectShape={handleSelectShape}
+              selectedDiamondType={selectedDiamondType}
+              availableDiamondTypes={availableDiamondTypes}
+              diamondShapeDescriptions={allDiamondShapeDescriptions}
+            />
+          )) || (
+            <>
+              <DiamondCfyFilterCarat
+                locale={locale}
+                title={diamondSelectorNote}
+                selectedCarat={selectedCarat}
+                selectedDiamondType={selectedDiamondType}
+                handleSelectCarat={handleSelectCarat}
+                caratSliderTooltip={caratSliderTooltip}
+              />
+              <UniLink route={productRoute}>
+                <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
+                  {checkAvailabilityLabel}
+                </DarksideButton>
+              </UniLink>
+            </>
+          )}
         </div>
 
-        <div className="page-main">
-          <p>CFY Page</p>
-          <pre>{JSON.stringify(DiamondCfyContent)}</pre>
+        <div className="page-aside">
+          <DiamondCfyAsidePromo data={ctoDiamondTable?.blocks} />
         </div>
       </StyledCFYPage>
     </>
@@ -72,17 +150,19 @@ async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<CFYPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const { locale } = context;
-  const { countryCode } = parseValidLocale(locale);
-  const currencyCode = getCurrencyFromLocale(locale);
+  const { query, locale } = context;
 
-  const { query } = context;
   const options = getCFYOptionsFromUrl(query || {});
+  const { product } = options || {};
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+  const availableDiamondTypesQuery = product ? queries.products.productDiamondTypes(product) : null;
+
   const queryClient = new QueryClient();
 
   // PREFECTH DIAMOND CFY CONTENT FROM DATO
   await queryClient.prefetchQuery(diamondCfyQuery);
+  if (product) await queryClient.prefetchQuery(availableDiamondTypesQuery);
 
   // IF NO RESULT RETURN 404
   if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {
@@ -95,8 +175,6 @@ async function getServerSideProps(
     props: {
       locale,
       options,
-      countryCode,
-      currencyCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

@@ -1,13 +1,16 @@
 import { filterConfigurationTypes, configTypesComparitor } from '@diamantaire/shared/helpers';
+import { OptionItemProps } from '@diamantaire/shared/types';
 import { useEffect, useReducer, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { OptionItem } from '../option-item/OptionItem';
 import OptionSelector from '../option-selector/OptionSelector';
 interface ConfigurationSelectorProps {
-  configurations: { [key: string]: OptionItem[] };
+  configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
   onChange?: (configState: { [key: string]: string }) => void;
+  isBuilderFlowOpen?: boolean;
+  updateSettingSlugs?: (item: object) => void;
+  disableVariantType?: string[];
 }
 
 interface ConfigurationSelectorAction {
@@ -16,6 +19,7 @@ interface ConfigurationSelectorAction {
     typeId: string;
     value: string;
   };
+  disableVariantType?: string[];
 }
 
 const StyledConfigurationSelector = styled.div`
@@ -28,22 +32,32 @@ function configOptionsReducer(state, action: ConfigurationSelectorAction) {
   const { payload, type } = action;
   const { typeId, value } = payload;
 
+  console.log('configOptionsReducer', { state, action });
+
   switch (type) {
     case 'option-change':
       return { ...state, [typeId]: value };
   }
 }
 
-function ConfigurationSelector({ configurations, selectedConfiguration, onChange }: ConfigurationSelectorProps) {
+function ConfigurationSelector({
+  configurations,
+  selectedConfiguration,
+  onChange,
+  isBuilderFlowOpen,
+  updateSettingSlugs,
+  disableVariantType,
+}: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   useEffect(() => {
+    console.log('configState', configState);
     if (onChange) {
       onChange(configState);
     }
   }, [configState, onChange]);
 
-  const handleOptionChange = (typeId: string, option: OptionItem) => {
+  const handleOptionChange = (typeId: string, option: OptionItemProps) => {
     dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
   };
 
@@ -56,11 +70,29 @@ function ConfigurationSelector({ configurations, selectedConfiguration, onChange
     [configurations],
   );
 
+  function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
+    console.log({ configurationType, option });
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('productSlug', option?.id);
+
+    window.history.pushState(null, '', url);
+
+    updateSettingSlugs({
+      productSlug: option?.id,
+    });
+  }
+
   return (
     <StyledConfigurationSelector>
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
         const selectedOption = configState?.[configurationType];
+
+        console.log('configurationType', configurationType);
+
+        if (disableVariantType?.includes(configurationType)) return null;
 
         // if (!options || options.length <= 1) {
         //   return null;
@@ -73,8 +105,15 @@ function ConfigurationSelector({ configurations, selectedConfiguration, onChange
             label={configurationType}
             options={options}
             selectedOptionValue={selectedOption}
-            onChange={(option) => handleOptionChange(configurationType, option)}
-            renderItemAsLink={true}
+            onChange={
+              isBuilderFlowOpen
+                ? (option) => {
+                    handleOptionChange(configurationType, option);
+                    handleBuilderFlowVariantChange(option, configurationType);
+                  }
+                : (option) => handleOptionChange(configurationType, option)
+            }
+            renderItemAsLink={isBuilderFlowOpen ? false : true}
           />
         );
       })}
