@@ -497,6 +497,8 @@ export class ProductsService {
       // Get Dato PLP data
       const plpContent = await this.datoPLPContent({ slug, category, locale });
 
+      console.log(plpContent.listPage?.productsInOrder);
+
       if (!plpContent.listPage) {
         throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
       }
