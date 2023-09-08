@@ -150,8 +150,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
       ...newFilterObject,
     });
 
-    console.log('newParams', newParams);
-
     setQParams(newParams);
   }, [category, plpSlug]);
 
@@ -165,11 +163,7 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
         <div className="title-container">
           <h1>Setting Select</h1>
         </div>
-        {/* <PlpHeroBanner data={hero} /> */}
 
-        {/* <div className="loader-container">
-          <Loader color={'#719093'} />
-        </div> */}
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
           <div className="loader-container">
             <Loader color={'#719093'} />

@@ -1,13 +1,6 @@
 // This is the logic for identifying where the user is in the flow
 
 export function validateStep(step, type, collectionSlug, productSlug, lotId) {
-  console.log('validate step', {
-    step,
-    type,
-    collectionSlug,
-    productSlug,
-    lotId,
-  });
   // If there is no step, guess the step based on the url params
   if (!step && step !== 0) {
     if (type === 'setting-to-diamond') {

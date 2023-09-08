@@ -100,7 +100,6 @@ function OptionSelector({
   renderItemAsLink = false,
   isBuilderFlowOpen,
 }: OptionSelectorProps) {
-  console.log('optionType', optionType);
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const {
     data: {

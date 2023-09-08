@@ -109,8 +109,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
-  console.log({ configuration });
-
   if (shopifyProductData) {
     return (
       <PageContainerStyles>

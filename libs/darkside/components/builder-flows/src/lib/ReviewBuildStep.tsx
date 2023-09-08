@@ -171,7 +171,6 @@ const ReviewBuildStep = ({ settingSlugs, type, selectedConfiguration, configurat
   }, [engravingInputText]);
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
-    console.log('option', option);
     // setSelectVariantId(option.id);
     setSelectedSize(option.value);
   }, []);

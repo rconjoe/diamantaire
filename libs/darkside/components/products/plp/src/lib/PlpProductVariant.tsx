@@ -27,8 +27,6 @@ const PlpProductVariant = ({ variant }: { variant: ListPageItemConfiguration }) 
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, configuration, price } = variant || {};
 
-  console.log('variant', variant);
-
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
     setIsPrimaryImage(!isPrimaryImage);

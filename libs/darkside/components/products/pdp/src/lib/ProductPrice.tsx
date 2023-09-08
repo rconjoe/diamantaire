@@ -8,8 +8,6 @@ const ProductPriceStyles = styled.h2`
 `;
 
 const ProductPrice = ({ price }) => {
-  console.log('price', price);
-
   return <ProductPriceStyles className="price">Starting at {makeCurrency(price, 'en-US', 'USD')}</ProductPriceStyles>;
 };
 

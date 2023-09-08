@@ -25,8 +25,6 @@ const DiamondTableRow = ({
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
-    // TODO: add handler
-    console.log(`handleSelectDiamond`, product);
     updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
@@ -49,11 +47,7 @@ const DiamondTableRow = ({
               <UIString>View More Details</UIString>
             </DarksideButton>
 
-            {isBuilderFlowOpen ? (
-              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
-                <UIString>Select</UIString>
-              </DarksideButton>
-            ) : (
+            {isBuilderFlowOpen && (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
               </DarksideButton>

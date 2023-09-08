@@ -18,7 +18,6 @@ import { ReactNode, useContext, useRef, useState } from 'react';
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
 const SliderFilter = (props) => {
-  console.log('SliderFilter rendering');
   const { currencyCode, locale, type, ranges, options, handleSliderFilterChange } = props;
 
   const range: number[] = (ranges[type] && Object.values(ranges[type])) || [];

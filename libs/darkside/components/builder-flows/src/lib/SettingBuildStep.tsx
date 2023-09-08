@@ -96,7 +96,7 @@ const SettingBuildStep = ({
       <div className="product-container">
         <div className="media-container">
           <ShowDesktopAndUpOnly>
-            <MediaGallery assets={assetStack} options={selectedConfiguration} title={'WEEE'} disableVideos={true} />
+            <MediaGallery assets={assetStack} options={selectedConfiguration} disableVideos={true} />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
             <MediaSlider assets={assetStack} />

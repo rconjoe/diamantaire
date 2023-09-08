@@ -1,8 +1,6 @@
-import { DarksideSwitch } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
-import { GridIcon, TableIcon } from '@diamantaire/shared/icons';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -101,15 +99,11 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
 
   //  Toggle table change
 
-  function handleViewChange() {
-    setIsTableView(!isTableView);
-  }
-
-  console.log('tableOptions', tableOptions);
+  // function handleViewChange() {
+  //   setIsTableView(!isTableView);
+  // }
 
   useEffect(() => {
-    console.log('diamondTypeToShow', diamondTypeToShow);
-
     setOptions({
       ...options,
       diamondType: diamondTypeToShow,
@@ -143,11 +137,12 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
               currencyCode={'USD'}
             />
             <div className="table">
-              <div className="switch-container">
+              {/* Launcihg re-arch with table view only - this will be helpful in the future */}
+              {/* <div className="switch-container">
                 <GridIcon />
                 <DarksideSwitch value={isTableView} handleChange={handleViewChange} />
                 <TableIcon />
-              </div>
+              </div> */}
               <DiamondTable
                 {...tableOptions}
                 isBuilderFlowOpen={true}

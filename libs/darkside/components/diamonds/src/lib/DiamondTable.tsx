@@ -153,7 +153,6 @@ const DiamondTable = (props) => {
     if (row?.id === activeRow?.id) {
       setActiveRow(null);
     } else {
-      console.log('row', row);
       setActiveRow(row);
     }
   };
