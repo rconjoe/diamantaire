@@ -1,3 +1,4 @@
+import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
@@ -63,7 +64,9 @@ const ModularSplitVideoBlock = (props) => {
         </div>
         <div className="split-video__content">
           <div className="split-video__content-inner">
-            <h3>{title}</h3>
+            <Heading type="h3" className="secondary">
+              {title}
+            </Heading>
             <p>{copy}</p>
           </div>
         </div>

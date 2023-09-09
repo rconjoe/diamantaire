@@ -85,10 +85,14 @@ export const Typography = styled.createGlobalStyle`
       font-weight: var(--font-weight-medium);
       font-size: 1.4rem;
       line-height: ${setSpace(2.5)};
-
-      &.-bold {
-        font-weight: var(--font-weight-bold);
-      }
+    }
+    &.secondary {
+      font-weight: var(--font-weight-medium);
+      font-size: 1.8rem;
+      line-height: ${setSpace(2.5)};
+    }
+    &.-bold {
+      font-weight: var(--font-weight-bold);
     }
   }
 

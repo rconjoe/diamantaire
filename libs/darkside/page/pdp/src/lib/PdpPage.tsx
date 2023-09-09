@@ -139,6 +139,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <div className="info-container">
             <ProductTitle title={productTitle} />
             <ProductPrice price={price} />
+
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
@@ -146,6 +147,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
               isBuilderFlow={false}
+              hasMoreThanOneVariant={shopifyProductData?.variants.length > 1}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
