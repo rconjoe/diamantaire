@@ -37,7 +37,7 @@ function ProductConfigurator({
   updateFlowData,
   updateSettingSlugs,
   flowIndex,
-  disableVariantType,
+  disableVariantType = [],
   isBuilderFlow = false,
   hasMoreThanOneVariant = true,
 }: ProductConfiguratorProps) {
@@ -81,23 +81,27 @@ function ProductConfigurator({
 
   return (
     <>
-      <ConfigurationSelector
-        configurations={configurations}
-        selectedConfiguration={selectedConfiguration}
-        onChange={handleConfigChange}
-        isBuilderFlowOpen={isBuilderFlowOpen}
-        updateSettingSlugs={updateSettingSlugs}
-        disableVariantType={disableVariantType}
-      />
+      {hasMoreThanOneVariant && (
+        <>
+          <ConfigurationSelector
+            configurations={configurations}
+            selectedConfiguration={selectedConfiguration}
+            onChange={handleConfigChange}
+            isBuilderFlowOpen={isBuilderFlowOpen}
+            updateSettingSlugs={updateSettingSlugs}
+            disableVariantType={disableVariantType}
+          />
 
-      {sizeOptions && isConfigurationComplete && !disableVariantType.includes('ringSize') && (
-        <OptionSelector
-          optionType={sizeOptionKey}
-          label={sizeOptionKey}
-          options={sizeOptions}
-          selectedOptionValue={selectedSize}
-          onChange={handleSizeChange}
-        />
+          {sizeOptions && isConfigurationComplete && !disableVariantType.includes('ringSize') && (
+            <OptionSelector
+              optionType={sizeOptionKey}
+              label={sizeOptionKey}
+              options={sizeOptions}
+              selectedOptionValue={selectedSize}
+              onChange={handleSizeChange}
+            />
+          )}
+        </>
       )}
 
       {isBuilderFlowOpen ? (
