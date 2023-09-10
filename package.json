@@ -187,7 +187,7 @@
     "chromatic": "^6.19.9",
     "commitizen": "^4.3.0",
     "css-loader": "^6.4.0",
-    "cypress": "12.17.2",
+    "cypress": "^13.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "0.19.2",
     "eslint": "8.46.0",
