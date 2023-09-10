@@ -52,6 +52,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
 
+  console.log('datoParentProductData', datoParentProductData);
+
   const {
     productDescription,
     bandWidth,
@@ -60,6 +62,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     paveCaratWeight,
     metalWeight,
     shownWithCtwLabel,
+    extraOptions,
+    diamondDescription,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -84,6 +88,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
 
   console.log('additionalVariantData', additionalVariantData);
+  console.log('productContent.carat', productContent.carat);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -94,6 +99,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.goldPurity = shopifyProductData?.configuration?.goldPurity;
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
+  }
+
+  // use parent product carat if none provided on the variant in Dato
+  if (!productContent.carat || productContent.carat === '' || !additionalVariantData.caratWeightOverride) {
+    if (additionalVariantData.caratWeightOverride) {
+      additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    } else {
+      additionalVariantData.carat = datoParentProductData?.caratWeight;
+    }
+  } else {
+    additionalVariantData.carat = additionalVariantData.caratWeightOverride;
   }
 
   additionalVariantData.productType = shopifyProductData.productType;
@@ -112,13 +128,30 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Can this product be added directly to cart?
   const isBuilderProduct = configuration.caratWeight === 'other';
 
-  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
-  const initialVariantId = useMemo(() => {
-    const initialId = shopifyProductData?.variants.filter(
-      (variant) => variant.configuration.ringSize === shopifyProductData?.defaultRingSize,
-    )[0]?.shopifyVariantId;
+  const parentProductAttributes = {
+    bandWidth,
+    bandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    diamondDescription,
+  };
+  const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
 
-    return initialId;
+  console.log('shopifyProductData', shopifyProductData);
+
+  const hasMoreThanOneVariant = useMemo(() => {
+    let hasMoreThanOne = false;
+
+    shopifyProductData?.allAvailableOptions &&
+      Object.keys(shopifyProductData?.allAvailableOptions).map((key) => {
+        if (shopifyProductData?.allAvailableOptions[key].length > 1) {
+          hasMoreThanOne = true;
+        }
+      });
+
+    return hasMoreThanOne;
   }, []);
 
   if (shopifyProductData) {
@@ -138,16 +171,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <ProductTitle title={productTitle} />
-            <ProductPrice price={price} />
+            <ProductPrice price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
 
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
-              initialVariantId={initialVariantId}
+              variantId={variantId}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
               isBuilderFlow={false}
-              hasMoreThanOneVariant={shopifyProductData?.variants.length > 1}
+              hasMoreThanOneVariant={hasMoreThanOneVariant}
+              extraOptions={extraOptions}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}

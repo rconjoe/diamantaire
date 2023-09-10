@@ -1,5 +1,6 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps } from '@diamantaire/darkside/data/hooks';
+import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
@@ -200,12 +201,12 @@ const SingleERVariantCartItem = ({
           </button>
         </div>
         <div className="cart-item__title">
-          <Heading type="h4" className="secondary no-margin">
+          <Heading type="h4" className="primary no-margin">
             {info?.productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
-          <p>{parseFloat(cost?.totalAmount?.amount) / item.quantity}</p>
+          <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
         </div>
       </div>
       <div className="cart-item__body">

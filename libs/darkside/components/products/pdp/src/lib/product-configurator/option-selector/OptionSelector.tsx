@@ -46,6 +46,12 @@ const StyledOptionSelector = styled.div`
     padding: 0;
     margin: 0;
 
+    &.space-between-items {
+      > * {
+        margin-right: 15px;
+      }
+    }
+
     &.ringSize {
       align-items: center;
       .show-more-sizes-button button {
@@ -57,7 +63,7 @@ const StyledOptionSelector = styled.div`
     &.diamondType {
       margin-top: 10px;
       position: relative;
-      /* overflow: hidden; */
+      margin-bottom: 8px;
       height: 35px;
       max-width: 78%;
 
@@ -162,72 +168,97 @@ function OptionSelector({
 
       <div>
         {label === 'diamondType' ? (
-          <div className={clsx('option-list', label)}>
-            <SwiperStyles>
-              <Swiper
-                slidesPerView={7}
-                slidesPerGroup={3}
-                loop={false}
-                // spaceBetween={20}
-                modules={[Navigation, Keyboard, Lazy]}
-                navigation={{
-                  prevEl: prevButtonRef.current,
-                  nextEl: nextButtonRef.current,
-                }}
-                preventClicksPropagation={true}
-                preventClicks={true}
-                draggable={false}
-                onSwiper={setSwiper}
-                allowSlideNext={true}
-                allowSlidePrev={true}
-                keyboard={true}
-                height={40}
-                watchSlidesProgress={true}
-                onSlideChange={handleSlideChange}
-                allowTouchMove={false}
-              >
-                {DIAMOND_SHAPES_MAP &&
-                  options.map((option, index) => {
-                    const isSelected = selectedOptionValue === option.value;
-                    // human readable value
-                    const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+          <div
+            className={clsx('option-list', label, {
+              'space-between-items': options.length < 7,
+            })}
+          >
+            {options.length > 6 ? (
+              <SwiperStyles>
+                <Swiper
+                  slidesPerView={7}
+                  slidesPerGroup={3}
+                  loop={false}
+                  // spaceBetween={20}
+                  modules={[Navigation, Keyboard, Lazy]}
+                  navigation={{
+                    prevEl: prevButtonRef.current,
+                    nextEl: nextButtonRef.current,
+                  }}
+                  preventClicksPropagation={true}
+                  preventClicks={true}
+                  draggable={false}
+                  onSwiper={setSwiper}
+                  allowSlideNext={true}
+                  allowSlidePrev={true}
+                  keyboard={true}
+                  height={40}
+                  watchSlidesProgress={true}
+                  onSlideChange={handleSlideChange}
+                  allowTouchMove={false}
+                >
+                  {DIAMOND_SHAPES_MAP &&
+                    options.map((option, index) => {
+                      const isSelected = selectedOptionValue === option.value;
+                      // human readable value
+                      const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
 
-                    return (
-                      <SwiperSlide key={label + '-' + index}>
-                        <OptionItemContainer
-                          key={option.id}
-                          optionType={optionType}
-                          option={option}
-                          valueLabel={valueLabel}
-                          isSelected={isSelected}
-                          onClick={() => handleOptionClick(option)}
-                          isLink={renderItemAsLink}
-                        />
-                      </SwiperSlide>
-                    );
-                  })}
-              </Swiper>
+                      return (
+                        <SwiperSlide key={label + '-' + index}>
+                          <OptionItemContainer
+                            key={option.id}
+                            optionType={optionType}
+                            option={option}
+                            valueLabel={valueLabel}
+                            isSelected={isSelected}
+                            onClick={() => handleOptionClick(option)}
+                            isLink={renderItemAsLink}
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
+                </Swiper>
 
-              <button
-                ref={prevButtonRef}
-                className="carousel-arrow arrow-left"
-                style={{
-                  display: isLastSlide ? 'block' : 'none',
-                }}
-              >
-                <ArrowLeftIcon />
-              </button>
+                <button
+                  ref={prevButtonRef}
+                  className="carousel-arrow arrow-left"
+                  style={{
+                    display: isLastSlide ? 'block' : 'none',
+                  }}
+                >
+                  <ArrowLeftIcon />
+                </button>
 
-              <button
-                ref={nextButtonRef}
-                className="carousel-arrow arrow-right"
-                style={{
-                  display: isLastSlide ? 'none' : 'block',
-                }}
-              >
-                <ArrowRightIcon />
-              </button>
-            </SwiperStyles>
+                <button
+                  ref={nextButtonRef}
+                  className="carousel-arrow arrow-right"
+                  style={{
+                    display: isLastSlide ? 'none' : 'block',
+                  }}
+                >
+                  <ArrowRightIcon />
+                </button>
+              </SwiperStyles>
+            ) : (
+              DIAMOND_SHAPES_MAP &&
+              options.map((option) => {
+                const isSelected = selectedOptionValue === option.value;
+                // human readable value
+                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                return (
+                  <OptionItemContainer
+                    key={option.id}
+                    optionType={optionType}
+                    option={option}
+                    valueLabel={valueLabel}
+                    isSelected={isSelected}
+                    onClick={() => handleOptionClick(option)}
+                    isLink={renderItemAsLink}
+                  />
+                );
+              })
+            )}
           </div>
         ) : label === 'ringSize' ? (
           <div className={clsx('option-list', label)}>

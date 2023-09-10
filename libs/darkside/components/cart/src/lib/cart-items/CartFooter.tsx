@@ -1,3 +1,5 @@
+import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -20,15 +22,11 @@ const CartFooterStyles = styled.div`
     list-style: none;
 
     li {
-      .checkout-button {
-        background-color: #000;
-        color: #fff;
-        font-size: 1.9rem;
-        border: 1px solid #000;
-        padding: 7px 0;
-        width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      &.checkout-button {
         max-width: 400px;
-        margin-bottom: 30px;
+        margin: 0 auto 30px;
       }
       .consent-container {
         background-color: transparent;
@@ -137,10 +135,10 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
   return (
     <CartFooterStyles>
       <ul>
-        <li>
-          <button className="checkout-button">
-            {checkoutCta} | {checkout?.cost?.subtotalAmount?.amount}
-          </button>
+        <li className="checkout-button">
+          <DarksideButton onClick={() => (window.location.href = checkout.checkoutUrl)}>
+            {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
+          </DarksideButton>
         </li>
         <li>
           <span

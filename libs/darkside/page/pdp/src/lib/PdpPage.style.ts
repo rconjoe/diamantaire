@@ -6,6 +6,7 @@ export const PageContainerStyles = styled.div`
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
       flex: 1;
+      overflow: hidden;
       ${media.medium`padding: 0 20px;`}
     }
     .info-container {

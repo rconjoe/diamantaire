@@ -14,9 +14,13 @@ const ProductDescriptionContainer = styled.div`
   }
 
   p {
-    margin: 0;
+    margin: 0 0 20px;
     line-height: 1.4;
     font-size: 1.7rem;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
   }
 
   ul {
@@ -44,10 +48,17 @@ const ProductDescriptionContainer = styled.div`
       opacity: 0.75;
     }
   }
+  .description__variant-details {
+    p {
+      margin-bottom: 10px;
+    }
+  }
 `;
 
 const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId }) => {
-  const { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } = productAttributes || {};
+  const { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel, diamondDescription } =
+    productAttributes || {};
+
   const {
     origin,
     // Rings
@@ -181,7 +192,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
                 <li key={`er-label-${index}`}>
                   {label.title === 'shownWithCtw'
                     ? `${shownWithCtwLabel}: ${label.value}`
-                    : refinedLabels[label.title] + ':' + label.value}
+                    : refinedLabels[label.title] + ': ' + label.value}
 
                   {label.title === 'paveCaratWeight' && (
                     <span className="small">
@@ -196,21 +207,22 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
             {jewelryLabels?.map((label, index) => {
               if (!label.value || !refinedLabels[label.title]) return null;
 
-              return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
+              return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
             })}
           </ul>
         </div>
 
         {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
           <div className="description__variant-details">
-            <Heading type="h4" className="secondary">
+            <Heading type="h4" className="primary">
               VRAI created diamond
             </Heading>
+            {diamondDescription && <Markdown withStyles={false}>{diamondDescription}</Markdown>}
             <ul>
               {diamondLabels?.map((label, index) => {
                 if (!label.value || !refinedLabels[label.title]) return null;
 
-                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
               })}
 
               <li>

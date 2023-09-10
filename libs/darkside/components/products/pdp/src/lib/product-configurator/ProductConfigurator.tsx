@@ -4,17 +4,19 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { useRouter } from 'next/router';
-import { useCallback, useState, useContext } from 'react';
+import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
 import OptionSelector from './option-selector/OptionSelector';
+import ProductEngraving from '../ProductEngraving';
+import ProductExtraInfo from '../ProductExtraInfo';
+import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
-  initialVariantId: string;
+  variantId: string;
   diamondId?: string;
   additionalVariantData?: Record<string, string>;
   isBuilderProduct?: boolean;
@@ -25,13 +27,17 @@ type ProductConfiguratorProps = {
   disableVariantType?: string[];
   isBuilderFlow: boolean;
   hasMoreThanOneVariant?: boolean;
+  extraOptions: {
+    label: string;
+    name: string;
+  }[];
 };
 
 function ProductConfigurator({
   configurations,
   diamondId,
   selectedConfiguration,
-  initialVariantId,
+  variantId,
   additionalVariantData,
   isBuilderFlowOpen = false,
   updateFlowData,
@@ -40,20 +46,22 @@ function ProductConfigurator({
   disableVariantType = [],
   isBuilderFlow = false,
   hasMoreThanOneVariant = true,
+  extraOptions,
 }: ProductConfiguratorProps) {
+  const [engravingText, setEngravingText] = useState(null);
   const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(
     builderProduct.builderState === 'Complete',
   );
 
-  const [selectedVariantId, setSelectVariantId] = useState<string>(initialVariantId);
+  const [selectedVariantId, setSelectVariantId] = useState<string>(variantId);
   const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const sizeOptions = configurations[sizeOptionKey];
 
   console.log('configurations', configurations);
 
-  // TODO: this is a hack to get the configurator to work with the current data structure
+  // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
     (configState) => {
       console.log('selectedConfiguration', selectedConfiguration);
@@ -79,8 +87,23 @@ function ProductConfigurator({
     setSelectedSize(option.value);
   }, []);
 
+  useEffect(() => {
+    setSelectVariantId(variantId);
+  }, [variantId]);
+
+  const hasCaratWeightSelector = useMemo(() => {
+    return configurations.caratWeight?.length > 1;
+  }, []);
+
   return (
     <>
+      {!hasCaratWeightSelector && (
+        <ProductTypeSpecificMetrics
+          additionalVariantData={additionalVariantData}
+          productType={additionalVariantData?.productType}
+        />
+      )}
+
       {hasMoreThanOneVariant && (
         <>
           <ConfigurationSelector
@@ -92,17 +115,24 @@ function ProductConfigurator({
             disableVariantType={disableVariantType}
           />
 
-          {sizeOptions && isConfigurationComplete && !disableVariantType.includes('ringSize') && (
-            <OptionSelector
-              optionType={sizeOptionKey}
-              label={sizeOptionKey}
-              options={sizeOptions}
-              selectedOptionValue={selectedSize}
-              onChange={handleSizeChange}
-            />
-          )}
+          {sizeOptions &&
+            isConfigurationComplete &&
+            !disableVariantType.includes('ringSize') &&
+            additionalVariantData?.productType === 'Engagement Ring' && (
+              <OptionSelector
+                optionType={sizeOptionKey}
+                label={sizeOptionKey}
+                options={sizeOptions}
+                selectedOptionValue={selectedSize}
+                onChange={handleSizeChange}
+              />
+            )}
         </>
       )}
+
+      {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
+
+      <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
 
       {isBuilderFlowOpen ? (
         <div
@@ -148,15 +178,11 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
   const { addItem, setIsCartOpen } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
 
-  const router = useRouter();
-
-  console.log('router', router);
-
   const {
     // metal,
-    // carat,
-    // chainLength,
+    chainLength,
     // ringSize,
+    carat,
     shape,
     productTitle,
     productType,
@@ -167,11 +193,32 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
     caratWeightOverride,
     shopifyProductHandle,
     image,
-    // configuredProductOptionsInOrder,
+    configuredProductOptionsInOrder,
   } = additionalVariantData;
 
+  console.log('chainLength', chainLength);
+  // dateAdded + productType + productTitle + image are critical for any cart item
   async function addProductToCart() {
     const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
+
+    const cartAttributesForAllItems = [
+      {
+        key: 'productTitle',
+        value: productTitle,
+      },
+      {
+        key: '_image',
+        value: JSON.stringify(image),
+      },
+      {
+        key: '_dateAdded',
+        value: Date.now().toString(),
+      },
+      {
+        key: 'productType',
+        value: productType,
+      },
+    ];
 
     console.log('adding', productType);
     console.log('shopifyProductHandle', shopifyProductHandle);
@@ -182,14 +229,7 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
       const refinedBandAccent = bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1);
 
       const engagementRingItemAttributes = [
-        {
-          key: 'productTitle',
-          value: productTitle,
-        },
-        {
-          key: '_image',
-          value: JSON.stringify(image),
-        },
+        ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
           value: shape,
@@ -197,10 +237,6 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
         {
           key: 'centerStone',
           value: diamondSpec,
-        },
-        {
-          key: 'productType',
-          value: productType,
         },
         {
           key: 'metal',
@@ -214,9 +250,48 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
 
       addItem(variantId, [...engagementRingItemAttributes]);
     } else if (productType === 'Necklace') {
-      console.log('necklace atc');
-    }
+      const metal = goldPurity
+        ? goldPurity + ' '
+        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
+      const necklaceAttributes = [
+        ...cartAttributesForAllItems,
+        {
+          key: 'diamondShape',
+          value: shape,
+        },
+        {
+          key: 'caratWeight',
+          value: carat,
+        },
+        {
+          key: 'metal',
+          value: metal,
+        },
+      ];
 
+      addItem(variantId, [...necklaceAttributes]);
+    } else if (productType === 'Bracelet') {
+      const metal = goldPurity
+        ? goldPurity + ' '
+        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
+      const braceletAttributes = [
+        ...cartAttributesForAllItems,
+        {
+          key: 'diamondShape',
+          value: shape,
+        },
+        {
+          key: 'metal',
+          value: metal,
+        },
+        {
+          key: 'chainLength',
+          value: chainLength?.split('-')?.[1],
+        },
+      ];
+
+      addItem(variantId, [...braceletAttributes]);
+    }
     // Trigger cart to open
     setIsCartOpen(true);
   }

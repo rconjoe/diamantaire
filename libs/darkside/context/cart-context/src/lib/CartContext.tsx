@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 
-import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
+import { addToCartMutation, createCartMutation, editCartItemsMutation, removeFromCartMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import {
   Cart,
@@ -11,6 +11,7 @@ import {
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCreateCartOperation,
+  ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
 } from './types';
 
@@ -113,21 +114,36 @@ export const CartProvider = ({ children }) => {
   }
 
   const removeEdgesAndNodes = (array: Connection<any>) => {
-    // This also adds duplicate nodes for products that are the same variant
-    const nodes = [];
+    // This also adds duplicate nodes for products that are the same variant, and sorts by _datedAdded
+    let nodes = [];
+    const cartId = localStorage.getItem('cartId');
 
     array.edges.forEach((edge) => {
       const node = edge?.node;
       const quantity = node?.quantity;
 
+      if (quantity === 0) {
+        removeFromCart(cartId, [node.id]);
+      }
+
       if (quantity > 1) {
         for (let i = 0; i < quantity; i++) {
-          console.log('node', node);
           nodes.push(node);
         }
       } else {
         nodes.push(node);
       }
+    });
+
+    nodes = nodes.sort((a, b) => {
+      const dateA = parseFloat(a?.attributes?.filter((attr) => attr?.key === '_dateAdded')[0]?.value);
+      const dateB = parseFloat(b?.attributes?.filter((attr) => attr?.key === '_dateAdded')[0]?.value);
+
+      if (dateA && dateB) {
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+      }
+
+      return 0;
     });
 
     return nodes;
@@ -153,18 +169,18 @@ export const CartProvider = ({ children }) => {
   };
 
   // Saving for later
-  // async function removeFromCart(cartId: string, lineIds: string[]): Promise<Cart> {
-  //   const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
-  //     query: removeFromCartMutation,
-  //     variables: {
-  //       cartId,
-  //       lineIds,
-  //     },
-  //     cache: 'no-store',
-  //   });
+  async function removeFromCart(cartId: string, lineIds: string[]): Promise<Cart> {
+    const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
+      query: removeFromCartMutation,
+      variables: {
+        cartId,
+        lineIds,
+      },
+      cache: 'no-store',
+    });
 
-  //   return reshapeCart(res.body.data.cartLinesRemove.cart);
-  // }
+    return reshapeCart(res.body.data.cartLinesRemove.cart);
+  }
 
   async function updateCart(
     cartId: string,

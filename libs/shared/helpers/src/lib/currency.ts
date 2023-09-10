@@ -88,6 +88,12 @@ export function makeCurrency(price, locale = 'en-US', currencyCode = 'USD') {
   return formattedPrice;
 }
 
+export function makeCurrencyFromShopifyPrice(price, locale = 'en-US', currencyCode = 'USD') {
+  const newPrice = price * 100;
+
+  return makeCurrency(newPrice, locale, currencyCode);
+}
+
 /**
  * Formats price for display by dropping 00 cents (USD only)
  * @param {string} price

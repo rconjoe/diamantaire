@@ -104,7 +104,7 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
       {title && (
-        <Heading type="h4" className="secondary">
+        <Heading type="h4" className="primary">
           {title}
         </Heading>
       )}

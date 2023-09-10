@@ -1,4 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
@@ -24,6 +24,9 @@ const PlpProductGridStyles = styled.div`
     gap: 20px;
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
+  }
+  .loader-container {
+    text-align: center;
   }
 `;
 
@@ -60,6 +63,7 @@ const PlpProductGrid = ({
   builderFlowOverride = false,
   isSettingSelect = false,
   selectSetting,
+  isFetching,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -152,13 +156,18 @@ const PlpProductGrid = ({
               )}
             </Fragment>
           ))}
-          {products.length === 0 && (
+          {products.length === 0 && !isFetching && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>
           )}
         </div>
       </div>
+      {isFetching && (
+        <div className="loader-container">
+          <Loader color="#000" />
+        </div>
+      )}
     </PlpProductGridStyles>
   );
 };

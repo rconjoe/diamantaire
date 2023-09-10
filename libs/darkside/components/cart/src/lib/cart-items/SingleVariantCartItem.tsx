@@ -1,8 +1,9 @@
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
-import { CheckoutLineItem } from 'shopify-buy';
+import { AttributeInput, CheckoutLineItem } from 'shopify-buy';
 import styled from 'styled-components';
 
 const SingleVariantCartItemStyles = styled.div`
@@ -25,6 +26,8 @@ const SingleVariantCartItemStyles = styled.div`
         svg {
           stroke-width: 1px;
           transform: scale(0.75);
+          position: relative;
+          top: 2px;
         }
       }
     }
@@ -54,6 +57,10 @@ const SingleVariantCartItemStyles = styled.div`
         font-size: 1.7rem;
         display: flex;
 
+        &.shape {
+          text-transform: capitalize;
+        }
+
         &:last-child {
           margin-bottom: 0;
         }
@@ -68,26 +75,36 @@ const SingleVariantCartItemStyles = styled.div`
 `;
 
 const SingleVariantCartItem = ({
-  product,
+  item,
   info,
-  removeAnyProductFromCart,
+  updateItemQuantity,
   cartItemDetails,
 }: {
   product: CheckoutLineItem;
   info: any;
   cartItemDetails: { [key: string]: string }[];
-  removeAnyProductFromCart: (ids: string[]) => void;
+  updateItemQuantity: ({
+    lineId,
+    variantId,
+    quantity,
+    attributes,
+  }: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }) => Promise<string | undefined>;
 }) => {
-  const { variant, customAttributes, id } = product;
+  const { attributes, cost, merchandise } = item;
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
-    const matchingAttribute = customAttributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
-  }, [customAttributes]);
+  }, [attributes]);
 
-  const attributes = useMemo(
+  const itemAttributes = useMemo(
     () => [
       {
         label: refinedCartItemDetails?.['diamondType'],
@@ -97,10 +114,10 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['metal'],
         value: info?.metal,
       },
-      // {
-      //   label: refinedCartItemDetails?.['chainLength'],
-      //   value: info?.chainLength,
-      // },
+      {
+        label: 'Chain Length',
+        value: info?.chainLength,
+      },
       {
         label: refinedCartItemDetails?.['caratWeight'],
         value: info?.caratWeight,
@@ -123,39 +140,42 @@ const SingleVariantCartItem = ({
     <SingleVariantCartItemStyles>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
-          <button onClick={() => removeAnyProductFromCart([id])}>
+          <button
+            onClick={() =>
+              updateItemQuantity({
+                lineId: item.id,
+                variantId: merchandise.id,
+                quantity: item.quantity - 1,
+                attributes: item.attributes,
+              })
+            }
+          >
             <XIcon />
           </button>
         </div>
         <div className="cart-item__title">
-          <h4 className="no-margin">{info?.pdpTitle}</h4>
+          <Heading type="h4" className="primary no-margin">
+            {info?.productTitle}
+          </Heading>
         </div>
         <div className="cart-item__price">
-          <p>
-            {formatCurrency({
-              locale: 'en-US',
-              amount: variant?.price?.amount,
-            })}
-          </p>
+          <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
         </div>
       </div>
       <div className="cart-item__body">
         <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         <div className="cart-item__content">
-          <p>
-            <strong>{info?.subCategory}</strong>{' '}
-            <span>
-              {formatCurrency({
-                locale: 'en-US',
-                amount: variant?.price?.amount,
-              })}
-            </span>
-          </p>
-          {attributes?.map((item, index) => (
-            <p key={`${product.id}-${index}`}>
-              {item.label !== '' ? item.label + ':' : ''} {item.value}
-            </p>
-          ))}
+          {itemAttributes?.map((specItem, index) => {
+            if (!specItem.value || specItem.value === '') {
+              return null;
+            }
+
+            return (
+              <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
+                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+              </p>
+            );
+          })}
         </div>
       </div>
     </SingleVariantCartItemStyles>

@@ -1,13 +1,15 @@
 import { FreezeBody } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import SingleERVariantCartItem from './cart-items/SingleERVariantCartItem';
+import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
 
 const Cart = ({ closeCart }) => {
@@ -15,8 +17,9 @@ const Cart = ({ closeCart }) => {
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;
+  const router = useRouter();
 
-  const { data: { cart: cartData } = {} } = useCartInfo('en_US');
+  const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
@@ -83,6 +86,8 @@ const Cart = ({ closeCart }) => {
                   productType: null,
                 };
 
+                console.log('item', item);
+
                 item.attributes?.map((attr) => {
                   cartItemInfo[attr.key] = attr.value;
                 });
@@ -102,11 +107,22 @@ const Cart = ({ closeCart }) => {
                     />
                   );
 
-                  // Custom Cara Size
+                  // Custom Carat Size
+                } else if (cartItemInfo.productType === 'Necklace' || cartItemInfo.productType === 'Bracelet') {
+                  return (
+                    <SingleVariantCartItem
+                      item={item}
+                      info={cartItemInfo}
+                      updateItemQuantity={updateItemQuantity}
+                      cartItemDetails={cartItemDetails}
+                      key={`cart-item-${item.id}`}
+                    />
+                  );
                 }
 
                 return (
                   <>
+                    <p>{cartItemInfo.productType}</p>
                     <h1>{item.merchandise.product.title}</h1>
                     <button
                       onClick={() =>
@@ -173,7 +189,7 @@ const Cart = ({ closeCart }) => {
                         <span>(optional)</span>
                       </span>
                     </p>
-                    <p>{checkout?.cost?.subtotalAmount?.amount}</p>
+                    <p>{makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}</p>
                   </div>
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">
