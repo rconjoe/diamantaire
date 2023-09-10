@@ -512,14 +512,15 @@ export class DiamondsService {
       sort: {
         [sortBy]: sortOrder,
       },
+      customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
-    const availableFiltersCacheKey = `toi-moi-diamonds-available-filters`;
-    const cachedData = await this.utils.memGet(availableFiltersCacheKey);
-    let availableFilters = {};
+    const availablePropertyValuesCacheKey = `toi-moi-diamonds-available-filters`;
+    const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
+    let availablePropertyValues = {};
 
     if (cachedData) {
-      availableFilters = cachedData;
+      availablePropertyValues = cachedData;
     } else {
       const availableFilterPromises = [
         this.toimoiDiamonds.distinct('diamondType'),
@@ -530,18 +531,18 @@ export class DiamondsService {
         this.toimoiDiamonds.distinct('carat'),
       ];
 
-      const [diamondTypes, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
+      const [diamondType, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
 
-      availableFilters = {
-        diamondTypes,
+      availablePropertyValues = {
+        diamondType,
         color,
         clarity,
         cut,
         price: [Math.min(...price), Math.max(...price)],
-        caratRange: [Math.min(...carat), Math.max(...carat)],
+        carat: [Math.min(...carat), Math.max(...carat)],
       };
 
-      this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600); // set the cache data for 1hr
+      this.utils.memSet(availablePropertyValuesCacheKey, availablePropertyValues, 3600); // set the cache data for 1hr
     }
 
     try {
@@ -552,11 +553,9 @@ export class DiamondsService {
         return cachedDiamondPairs;
       } else {
         const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
-        const { docs, ...paginator } = result;
         const response = {
-          items: docs,
-          paginator,
-          availableFilters,
+          ...result,
+          ranges: availablePropertyValues,
         };
 
         this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
@@ -595,6 +594,13 @@ export class DiamondsService {
       };
     }
 
+    if (input?.priceMin || input?.priceMax) {
+      query['price'] = {
+        ...(input.priceMin && { $gte: input.priceMin }),
+        ...(input.priceMax && { $lte: input.priceMax }),
+      };
+    }
+
     return query;
   }
 
@@ -617,36 +623,37 @@ export class DiamondsService {
       sort: {
         [sortBy]: sortOrder,
       },
+      customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
-    const availableFiltersCacheKey = `diamond-pairs-available-filters`;
-    const cachedData = await this.utils.memGet(availableFiltersCacheKey);
-    let availableFilters = {};
+    const availablePropertyValuesCacheKey = `diamond-pairs-property-values-${input.diamondType ? input.diamondType : ''}}`;
+    const cachedData = await this.utils.memGet(availablePropertyValuesCacheKey);
+    let availablePropertyValues = {};
 
     if (cachedData) {
-      availableFilters = cachedData;
+      availablePropertyValues = cachedData;
     } else {
       const availableFilterPromises = [
         this.diamondPairs.distinct('diamondType'),
         this.diamondPairs.distinct('color'),
         this.diamondPairs.distinct('clarity'),
         this.diamondPairs.distinct('cut'),
-        this.diamondPairs.distinct('price'),
-        this.diamondPairs.distinct('carat'),
+        this.diamondPairs.distinct('price', { ...(input.diamondType && { diamondType: input.diamondType }) }),
+        this.diamondPairs.distinct('carat', { ...(input.diamondType && { diamondType: input.diamondType }) }),
       ];
 
-      const [diamondTypes, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
+      const [diamondType, color, clarity, cut, price, carat] = await Promise.all(availableFilterPromises);
 
-      availableFilters = {
-        diamondTypes,
+      availablePropertyValues = {
+        diamondType,
         color,
         clarity,
         cut,
-        priceRange: [Math.min(...price), Math.max(...price)],
-        caratRange: [Math.min(...carat), Math.max(...carat)],
+        price: [Math.min(...price), Math.max(...price)],
+        carat: [Math.min(...carat), Math.max(...carat)],
       };
 
-      this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600); // set the cache data for 1hr
+      this.utils.memSet(availablePropertyValuesCacheKey, availablePropertyValues, 3600); // set the cache data for 1hr
     }
 
     try {
@@ -657,11 +664,9 @@ export class DiamondsService {
         return cachedDiamondPairs;
       } else {
         const result = await this.diamondPairs.paginate(filteredQuery, paginateOptions);
-        const { docs, ...paginator } = result;
         const response = {
-          items: docs,
-          paginator,
-          availableFilters,
+          ...result,
+          ranges: availablePropertyValues,
         };
 
         this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
