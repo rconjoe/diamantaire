@@ -1,13 +1,10 @@
 /* eslint-disable camelcase */
+
+import { ProductConfigEventEndpoint } from '@diamantaire/feeds';
+import { makeNextAppHandler, makeOkResult } from '@diamantaire/lapidary';
 import { NextRequest } from 'next/server';
 
-// import { verifySignatureEdge } from '@diamantaire/feedutils';
-
-import { SlugEventEndpoint } from '../../../../lib/endpoints/events/slug';
-import { makeNextAppHandler } from '../../../../lib/handlers';
-import { makeOkResult } from '../../../../lib/util';
-
-const handlers = makeNextAppHandler(SlugEventEndpoint, {
+const handlers = makeNextAppHandler(ProductConfigEventEndpoint, {
   // eslint-disable-next-line prettier/prettier
   async POST(req: NextRequest, _, body) {
     console.log('\n\nGeolocation example: (this may be undefined where vrai.dev cloudflare proxy is turned on)\n');

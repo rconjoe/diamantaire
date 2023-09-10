@@ -1,6 +1,5 @@
-import { HealthEndpoint } from '../../../lib/endpoints/health';
-import { makeNextAppHandler } from '../../../lib/handlers';
-import { makeOkResult } from '../../../lib/util';
+import { HealthEndpoint } from '@diamantaire/feeds';
+import { makeNextAppHandler, makeOkResult } from '@diamantaire/lapidary';
 
 // TODO: can use this to check whatever
 const handlers = makeNextAppHandler(HealthEndpoint, {
