@@ -1,5 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { DiamondDataTypes, DiamondPair } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery, useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
 
 export interface OptionsDataTypes {
@@ -17,6 +17,7 @@ export interface OptionsDataTypes {
   caratMin?: number;
   caratMax?: number;
   lotId?: string;
+  view?: string;
 }
 
 interface MinMax {
@@ -43,7 +44,7 @@ interface Pagination {
 }
 
 interface DiamondsDataProps {
-  diamonds?: DiamondDataTypes[];
+  diamonds?: (DiamondDataTypes | DiamondPair)[];
   diamond?: DiamondDataTypes;
   options?: OptionsDataTypes;
   pagination?: Pagination;
@@ -61,7 +62,11 @@ export function useDiamondsData(options: OptionsDataTypes): UseQueryResult<Diamo
 export function useInfiniteDiamondsData(options: OptionsDataTypes): UseInfiniteQueryResult<DiamondsDataProps, unknown> {
   return useInfiniteQuery({
     ...queries.infiniteDiamonds.content(options),
-    getNextPageParam: (lastPage: any) => lastPage?.pagination?.next,
+    getNextPageParam: (lastPage: any) => {
+      console.log(lastPage);
+
+      return lastPage?.pagination?.next;
+    },
     keepPreviousData: true,
     staleTime: 300000,
   });
