@@ -139,7 +139,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
       }, {});
   };
 
-  const getViewOptions = (data: Record<string, string>) => {
+  const getViewOptions = (data: Record<string, string> & { view: string }) => {
     const obj: {
       view?: 'toimoi' | 'pairs';
     } = {};
