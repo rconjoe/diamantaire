@@ -1,6 +1,5 @@
+import { Endpoint, makePathResolver } from '@diamantaire/lapidary';
 import * as S from '@effect/schema/Schema';
-
-import { Endpoint, makePathResolver } from '../util';
 
 export const HealthEndpoint = {
   path: makePathResolver(S.struct({}), () => '/api/health'),

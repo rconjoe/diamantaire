@@ -1,10 +1,9 @@
 /* eslint-disable camelcase */
 // eslint-disable prettier/prettier
+import { Endpoint, makePathResolver } from '@diamantaire/lapidary';
 import * as S from '@effect/schema/Schema';
 
-import { Endpoint, makePathResolver } from '../../util';
-
-export const SlugEventRequestSchema = S.struct({
+export const ProductConfigEventRequestSchema = S.struct({
   environment: S.literal('sandbox'),
   // https://www.datocms.com/docs/content-management-api/resources/webhook-call
   entity_type: S.literal('item', 'item_type'),
@@ -53,12 +52,12 @@ export const SlugEventRequestSchema = S.struct({
   }),
 });
 
-export const SlugEventEndpoint = {
-  path: makePathResolver(S.struct({}), () => '/api/events/slug'),
+export const ProductConfigEventEndpoint = {
+  path: makePathResolver(S.struct({ sideStoneCarat: S.string }), () => '/api/events/slug'),
   methods: {
     POST: {
       auth: false,
-      request: SlugEventRequestSchema,
+      request: ProductConfigEventRequestSchema,
       response: S.struct({
         message: S.string,
       }),
