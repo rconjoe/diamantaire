@@ -1,9 +1,8 @@
 'use client';
 
+import { HealthEndpoint } from '@diamantaire/feeds';
+import { inferClientSuccessResponse, makeClient } from '@diamantaire/lapidary';
 import React, { useEffect, useState } from 'react';
-
-import { inferSuccessResponse, makeClient } from '../lib/client';
-import { HealthEndpoint } from '../lib/endpoints/health';
 
 // this whole page is huge and a lot to digest, but unfortunately, is really important and relevant all over in react:
 // https://react.dev/learn/removing-effect-dependencies#why-is-suppressing-the-dependency-linter-so-dangerous
@@ -32,7 +31,7 @@ function Health() {
   // -------
   //
   // the self-writing client sdk of lore, in action:
-  const [res, setRes] = useState<inferSuccessResponse<typeof client, 'GET'> | null>(null);
+  const [res, setRes] = useState<inferClientSuccessResponse<typeof client, 'GET'> | null>(null);
 
   useEffect(() => {
     // even r is typesafe :D
