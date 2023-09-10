@@ -65,6 +65,7 @@
       "@diamantaire/darkside/template/global": ["libs/darkside/template/global/src/index.ts"],
       "@diamantaire/darkside/template/standard": ["libs/darkside/template/standard/src/index.ts"],
       "@diamantaire/feeds": ["libs/feeds/src/index.ts"],
+      "@diamantaire/lapidary": ["libs/lapidary/src/index.ts"],
       "@diamantaire/nx-core": ["libs/nx/core/src/index.ts"],
       "@diamantaire/nx-datocms": ["libs/nx/datocms/src/index.ts"],
       "@diamantaire/scripts": ["libs/scripts/src/index.ts"],
