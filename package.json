@@ -126,6 +126,7 @@
     "zod": "3.21.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
@@ -234,4 +235,3 @@
     }
   }
 }
-
