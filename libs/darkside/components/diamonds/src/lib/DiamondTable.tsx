@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import DiamondGrid from './DiamondGrid';
-import { DiamondPairCell, DiamondPairActiveRow } from './DiamondPairs';
+import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
 import DiamondTableRow from './DiamondTableRow';
@@ -36,9 +36,9 @@ type DiamondTableProps = {
   updateOptions: (options: any) => void;
   updateLoading: (newState: boolean) => void;
   clearOptions: () => void;
-  isBuilderFlowOpen: boolean;
-  isTableView: boolean;
-  flowIndex: number;
+  isBuilderFlowOpen?: boolean;
+  isTableView?: boolean;
+  flowIndex?: number;
   ranges: Record<string, any>;
   isDiamondPairs?: boolean;
 };
@@ -456,53 +456,6 @@ const DiamondTable = (props: DiamondTableProps) => {
               </div>
             </div>
           )}
-
-          {/* TABLE BODY */}
-          <div ref={tableBody} className="vo-table-body">
-            {table.getRowModel().rows.map((row) => {
-              const active = activeRow?.id === row.id;
-
-              return (
-                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
-                  <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
-                    {row.getVisibleCells().map((cell) => (
-                      <div key={cell.id} className="vo-table-cell">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
-                      </div>
-                    ))}
-                  </div>
-
-                  {active && row?.original && (
-                    <div className="vo-table-row-body">
-                      <DiamondTableRow product={row?.original} isBuilderFlowOpen={isBuilderFlowOpen} />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* TABLE FOOT */}
-          <div className="vo-table-foot">
-            <div className="vo-table-trigger" ref={loadTrigger} />
-
-            <div className="vo-table-no-result">
-              <div className="vo-table-no-result-container">
-                <p>{bottomContent}</p>
-                <DarksideButton type="underline" colorTheme="teal" onClick={clearOptions}>
-                  <UIString>Clear filters</UIString>
-                </DarksideButton>
-              </div>
-            </div>
-
-            {queryDiamond.isFetching && (
-              <div className="vo-table-loading">
-                <span className="vo-loader-icon"></span>
-                <span>Loading...</span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </StyledDiamondTable>
