@@ -4,9 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 export function useHeader(locale: string) {
   return useQuery({
     ...queries.header.content(locale),
-    meta: {
-      locale,
-    },
   });
 }
 

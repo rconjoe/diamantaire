@@ -1,6 +1,6 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
-import { useHeader, useFooter } from '@diamantaire/darkside/data/hooks';
+import { useHeader /* useFooter */ } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
@@ -19,8 +19,13 @@ export type GlobalTemplateProps = {
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
-  const headerData = useHeader(router.locale);
-  const footerData = useFooter(router.locale);
+  // const headerData = useHeader(router.locale);
+  // const footerData = useFooter(router.locale);
+  const globalTemplateData = useHeader(router.locale);
+
+  const headerData = globalTemplateData.data?.headerNavigationDynamic;
+  const footerData = globalTemplateData.data?.footerNavigation;
+
   const headerRef = useRef(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
@@ -59,9 +64,9 @@ export const GlobalTemplate = ({ children }) => {
 
   return (
     <>
-      {headerData?.data && (
+      {headerData && (
         <Header
-          headerData={headerData.data}
+          headerData={headerData}
           isHome={isHome}
           headerRef={headerRef}
           isTopbarShowing={isTopbarShowing}
@@ -72,7 +77,7 @@ export const GlobalTemplate = ({ children }) => {
       <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
-      {footerData?.data && <Footer footerData={footerData?.data} />}
+      {footerData && <Footer footerData={footerData} />}
     </>
   );
 };

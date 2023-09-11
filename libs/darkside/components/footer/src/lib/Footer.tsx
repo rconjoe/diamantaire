@@ -192,9 +192,10 @@ const socialItems = [
 ];
 
 const Footer: FC<FooterTypes> = ({ footerData }) => {
+  console.log({ footerData });
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageListOpen, setIsLanguageListOpen] = useState(false);
-  const { columns, copyright, emailSignUpColumn } = footerData.footerNavigation;
+  const { columns, copyright, emailSignUpColumn } = footerData;
   const { copy, title } = emailSignUpColumn[0];
   const router = useRouter();
   const selectedLocale = router.locale;

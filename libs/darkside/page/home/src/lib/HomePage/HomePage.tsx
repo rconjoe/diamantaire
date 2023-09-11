@@ -5,7 +5,7 @@ import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticPropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 
 export interface HomePageProps {
@@ -40,7 +40,11 @@ const HomePage = (props: HomePageProps) => {
 
 HomePage.getTemplate = getStandardTemplate;
 
-async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
+//async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
+
+async function getServerSideProps({ locale, res }: GetServerSidePropsContext<undefined>) {
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1800');
+
   // device - needs to be static for now:
   const isMobile = false;
   const { countryCode } = parseValidLocale(locale);
@@ -54,9 +58,9 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
     ...queries.header.content(locale),
   });
 
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-  });
+  // await queryClient.prefetchQuery({
+  //   ...queries.footer.content(locale),
+  // });
 
   await queryClient.prefetchQuery({
     ...queries['standard-page'].content('darkside-home', locale),
@@ -72,4 +76,4 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
   };
 }
 
-export { HomePage, getStaticProps };
+export { HomePage, getServerSideProps };

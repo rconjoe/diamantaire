@@ -1,6 +1,4 @@
-import { queryDatoGQL } from '../../clients';
-
-const HEADER_NAV_QUERY = `
+export const HEADER_NAV_QUERY = `
 query headerNavigationDynamicQuery($locale: SiteLocale) {
     headerNavigationDynamic(locale: $locale) {
       section {
@@ -49,11 +47,19 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
   }
 `;
 
-export async function fetchHeaderData(locale: string) {
-  const headerData = await queryDatoGQL({
-    query: HEADER_NAV_QUERY,
-    variables: { locale },
-  });
+// export async function fetchHeaderData(locale: string) {
+//   const headerData = await fetch({
+//     query: HEADER_NAV_QUERY,
+//     variables: { locale },
+//   });
 
-  return headerData;
+//   return headerData;
+// }
+
+export async function fetchHeaderData(locale: string) {
+  const response = await fetch(
+    `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/api/template/global?locale=${locale}`,
+  );
+
+  return response.json();
 }

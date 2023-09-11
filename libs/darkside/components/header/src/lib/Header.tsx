@@ -55,6 +55,8 @@ const Header: FC<HeaderProps> = ({
   isTopbarShowing,
   setIsTopbarShowing,
 }): JSX.Element => {
+  console.log('headerData', headerData);
+
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
@@ -64,7 +66,7 @@ const Header: FC<HeaderProps> = ({
 
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
 
-  const { section } = headerData.headerNavigationDynamic;
+  const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
 
