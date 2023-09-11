@@ -7,7 +7,7 @@ const StyledCFYResultPage = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 !important;
 
   ${tabletAndUp(`
   margin: 2rem auto;

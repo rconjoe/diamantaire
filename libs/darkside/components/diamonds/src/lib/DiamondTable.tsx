@@ -6,7 +6,7 @@ import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useContext, useState, useEffect, useMemo, useRef } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import DiamondGrid from './DiamondGrid';
 import { StyledDiamondTable } from './DiamondTable.style';
@@ -31,7 +31,6 @@ const DiamondTable = (props) => {
     isBuilderFlowOpen,
     isTableView = true,
     flowIndex,
-    ranges,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
@@ -248,7 +247,6 @@ const DiamondTable = (props) => {
         bottomPromoContentCtaLink,
         bottomPromoContent,
       }}
-      ranges={ranges}
       options={options}
     />
   );

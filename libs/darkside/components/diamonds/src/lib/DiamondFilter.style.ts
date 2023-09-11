@@ -80,6 +80,7 @@ const StyledDiamondFilter = styled.aside`
   }
 
   .vo-filter-list-item.active a {
+    cursor: pointer;
     color: var(--color-teal);
     border: 1px solid var(--color-teal);
   }
