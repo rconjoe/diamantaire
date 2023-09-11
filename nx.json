@@ -33,7 +33,7 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@rconjoe/remote-nx",
+      "runner": "@rconjoe/nx-vercel-remote",
       "options": {
         "cacheableOperations": ["build", "lint"],
         "cacheDirectory": "/tmp/nx-cache",

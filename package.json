@@ -156,7 +156,7 @@
     "@nx/web": "16.8.1",
     "@nx/webpack": "16.8.1",
     "@nx/workspace": "16.8.1",
-    "@rconjoe/remote-nx": "^1.1.1",
+    "@rconjoe/nx-vercel-remote": "^1.1.3",
     "@rollup/plugin-url": "^8.0.1",
     "@storybook/addon-essentials": "7.4.0",
     "@storybook/addon-styling": "^1.3.0",
