@@ -17,6 +17,7 @@ interface SpriteSpinnerProps {
   bunnyBaseURL: string;
   spriteSource?: string;
   onSpriteLoad?: () => void;
+  spriteImage?: string;
 }
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
@@ -84,21 +85,21 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     }
   }
 
-  function playSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+  // function playSpinner() {
+  //   const api = spinnerEl.current.spritespin('api');
 
-    if (api?.data?.animate !== true) {
-      api.toggleAnimation();
-    }
-  }
+  //   if (api?.data?.animate !== true) {
+  //     api.toggleAnimation();
+  //   }
+  // }
 
-  function pauseSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+  // function pauseSpinner() {
+  //   const api = spinnerEl.current.spritespin('api');
 
-    if (api?.data?.animate === true) {
-      api.toggleAnimation();
-    }
-  }
+  //   if (api?.data?.animate === true) {
+  //     api.toggleAnimation();
+  //   }
+  // }
 
   function stopSpinner() {
     if (typeof spinnerEl.current?.spritespin === 'function') {
@@ -110,13 +111,13 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     <SpritSpinnerContainer>
       <SpriteSpinnerInit />
 
-      <div
+      {/* <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}
         // eslint-disable-next-line no-undef
         // @ts-expect-error - $ is a global
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
-      />
+      /> */}
     </SpritSpinnerContainer>
   );
 };

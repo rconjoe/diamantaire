@@ -3,6 +3,8 @@ export * from './ArrowNewWindowIcon';
 export * from './BookCalendarIcon';
 export * from './ChatIcon';
 export * from './DiamondIcon';
+export * from './TableIcon';
+export * from './GridIcon';
 export * from './EmptyCalendarIcon';
 export * from './LoveIcon';
 export * from './MailIcon';
