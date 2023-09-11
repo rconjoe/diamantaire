@@ -6,50 +6,32 @@ const pageGap = '5rem';
 const StyledCFYResultPage = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  padding: 0 !important;
+
+  ${tabletAndUp(`
   margin: 2rem auto;
-
-  .page-header {
-    padding: 1rem 1.5rem 0;
-    text-align: center;
-
-    ${tabletAndUp(`
-      padding: 0.5rem 3rem 0;
-    `)}
-
-    .title {
-      font-size: var(--font-size-large);
-      font-weight: var(--font-weight-medium);
-      margin: 0 0 1.5rem;
-      line-height: 1.1;
-
-      ${tabletAndUp(`
-        font-size: var(--font-size-large);
-        margin: 0 0 1.5rem;
-      `)}
-    }
-
-    p {
-      font-size: var(--font-size-xxxsmall);
-      max-width: 100%;
-      margin: 0 auto;
-      width: 360px;
-
-      ${tabletAndUp(`
-        font-size: var(--font-size-xsmall);
-        width: 550px;
-      `)}
-    }
-  }
+  `)};
 
   .page-row {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${pageGap};
 
     ${tabletAndUp(`
+    gap: ${pageGap};
     flex-direction: row;  
-  `)}
+    `)}
+  }
+
+  .page-head {
+    display: block;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    * {
+      font-size: var(--font-size-xsmall);
+    }
   }
 
   .page-content {
@@ -64,13 +46,19 @@ const StyledCFYResultPage = styled.div`
 
   .page-content {
     > .media {
+      width: 100%;
+
       ${desktopAndUp(`
       width: 50rem;
       height: 57rem;
       `)}
 
       .swiper {
+        width: 100%;
+        padding: 0 0 80px;
+
         ${desktopAndUp(`
+        padding: 0;
         width: 50rem;
         height: 57rem;
         `)}
@@ -115,8 +103,11 @@ const StyledCFYResultPage = styled.div`
 
   .page-aside {
     width: 100%;
+    padding: 0 2.4rem;
+    margin: 4rem 0 0;
 
     ${tabletAndUp(`
+      margin: 0;
       width: calc(50% - (${pageGap} / 2));
     `)}
   }
@@ -136,14 +127,21 @@ const StyledCFYResultPage = styled.div`
 
     .subtitle,
     .subtitle * {
-      font-size: var(--font-size-medium);
       text-transform: capitalize;
+      font-size: var(--font-size-xsmall);
+
+      ${tabletAndUp(`
+        font-size: var(--font-size-medium);
+      `)};
     }
 
     .price,
     .price * {
       margin: 0.25rem 0 0;
+      font-size: var(--font-size-xsmall);
+      ${tabletAndUp(`
       font-size: var(--font-size-small);
+      `)};
     }
 
     > .accordion {
@@ -177,7 +175,12 @@ const StyledCFYResultPage = styled.div`
 
     .cta {
       display: flex;
+      flex-direction: column;
       gap: 1rem;
+
+      ${desktopAndUp(`
+        flex-direction: row;
+      `)}
     }
   }
 `;

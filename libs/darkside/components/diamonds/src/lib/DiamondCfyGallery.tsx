@@ -76,10 +76,6 @@ const DiamondCfyGallery: React.FC<DiamondCfyGalleryProps> = ({ locale, diamondTy
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
   const { ctoDiamondResultHowItWorks } = diamondCfyData;
 
-  console.log(`diamondCfyData`, diamondCfyData);
-  console.log(`ctoDiamondResultHowItWorks`, ctoDiamondResultHowItWorks);
-  console.log(`{ diamondType, diamondSlug, diamondName }`, { diamondType, diamondTypeSlug, diamondTypeName });
-
   return (
     <StyledDiamondCfyGallery>
       {ctoDiamondResultHowItWorks
@@ -100,8 +96,6 @@ const DiamondCfyGallery: React.FC<DiamondCfyGalleryProps> = ({ locale, diamondTy
                   {blocks &&
                     blocks?.map((block, idx) => {
                       const { media } = block;
-
-                      console.log(`block`, block);
 
                       if (idx === 0) {
                         const shape = diamondIconsMap[diamondTypeSlug];
@@ -140,7 +134,7 @@ const DiamondCfyGallery: React.FC<DiamondCfyGalleryProps> = ({ locale, diamondTy
                         return (
                           <HowItWorksItem key={idx} {...block}>
                             <div className="circularImage">
-                              <Image alt="" height={300} width={300} src={media.url} />
+                              <Image alt={diamondTypeName} height={300} width={300} src={media.url} />
                             </div>
                           </HowItWorksItem>
                         );

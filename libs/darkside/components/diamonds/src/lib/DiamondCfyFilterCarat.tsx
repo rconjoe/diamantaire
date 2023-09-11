@@ -138,7 +138,7 @@ const DiamondCfyFilterCarat = (props) => {
                 }
 
                 return (
-                  <Tooltip key={id} id={`tooltip-${id}`} place={isMobile ? 'right' : 'bottom-end'}>
+                  <Tooltip key={id} id={`tooltip-${id}`} place={isMobile ? 'bottom' : 'bottom-end'}>
                     {copy}
                   </Tooltip>
                 );

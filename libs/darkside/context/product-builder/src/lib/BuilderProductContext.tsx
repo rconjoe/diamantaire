@@ -1,6 +1,6 @@
 import { removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
-import { createContext, useReducer, Dispatch, useEffect } from 'react';
+import { Dispatch, createContext, useEffect, useReducer } from 'react';
 
 type BuilderDiamond = {
   lotId: string;
@@ -214,7 +214,7 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
   }
 
   useEffect(() => {
-    console.log('state changed', state);
+    // console.log('state changed', state);
   }, [state]);
 
   return (

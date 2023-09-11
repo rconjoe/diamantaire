@@ -9,6 +9,8 @@ const StyledTooltip = styled.div`
     border: 1px solid ${GREY};
     padding: 2rem;
     color: ${BLACK};
+    text-wrap: wrap;
+    max-width: 97vw;
 
     ${tabletAndUp(`
       max-width: 360px;

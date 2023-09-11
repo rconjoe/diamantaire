@@ -1,7 +1,7 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
-import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
+import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useContext } from 'react';
 
