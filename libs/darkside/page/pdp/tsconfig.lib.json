@@ -2,7 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "files": [
     "../../../../node_modules/@nx/react/typings/cssmodule.d.ts",
@@ -23,8 +25,6 @@
     "src/**/*.js",
     "src/**/*.jsx",
     "src/**/*.ts",
-    "src/**/*.tsx",
-    "../../components/products/pdp/src/lib/ProductDescription.tsx",
-    "../../components/products/pdp/src/lib/ProductIconList.tsx"
+    "src/**/*.tsx"
   ]
 }
