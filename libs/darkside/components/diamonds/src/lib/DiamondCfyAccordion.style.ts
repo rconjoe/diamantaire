@@ -1,7 +1,25 @@
-import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHTER, GREY_LIGHTEST, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyAccordion = styled.div`
+  border-top: 1px solid ${GREY_LIGHTER};
+  margin: 2rem 0 0;
+
+  ${desktopAndUp(`
+    border-top: 0;
+    margin: 0;
+  `)}
+
+  .accordion-header {
+    .text {
+      font-size: var(--font-size-xxxsmall);
+
+      ${desktopAndUp(`
+        font-size: var(--font-size-xsmall);
+      `)}
+    }
+  }
+
   .accordion-row {
     .row {
       display: flex;

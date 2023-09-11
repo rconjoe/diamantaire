@@ -1,11 +1,15 @@
-import { XLDesktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { XLDesktopAndUp, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyGallery = styled.div`
   display: flex;
   width: 100%;
   background: #ccc;
-  margin: 4rem 0 2rem;
+  margin: 3rem 0 0;
+
+  ${desktopAndUp(`
+    margin: 4rem 0 2rem;
+  `)}
 
   .circularImage {
     border-radius: 100%;
@@ -72,11 +76,12 @@ const StyledDiamondCfyGallery = styled.div`
 
   .inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     gap: 20px;
 
     ${tabletAndUp(`
+      align-items: center;
       flex-direction: column;
       gap: 0;
     `)}
@@ -101,6 +106,10 @@ const StyledDiamondCfyGallery = styled.div`
     ${tabletAndUp(`
       display: none;
     `)}
+
+    svg {
+      transform: rotate(90deg);
+    }
   }
 
   .diamondTypeIcon {

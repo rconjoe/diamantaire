@@ -9,6 +9,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -18,7 +19,7 @@ import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } 
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -40,6 +41,8 @@ interface CFYResultPageProps {
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, currencyCode, options = {} } = props;
+
+  const { isMobile } = useContext(GlobalContext);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -131,6 +134,14 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
       <StyledCFYResultPage className="container-wrapper">
         <div className="page-row">
+          {isMobile && (
+            <div className="page-head">
+              <div className="title">
+                <Heading>{ctoDiamondResultFoundTitle}</Heading>
+              </div>
+            </div>
+          )}
+
           <div className="page-content">
             <div className="media">
               {diamondCtoData && (
@@ -162,9 +173,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
           <div className="page-aside">
             <div className="inner">
-              <div className="title">
-                <Heading>{ctoDiamondResultFoundTitle}</Heading>
-              </div>
+              {!isMobile && (
+                <div className="title">
+                  <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                </div>
+              )}
               <div className="subtitle">
                 <p>{`${product?.carat}ct ${getDiamondType(product?.diamondType)?.title} ${diamondResultTitleSecond}`}</p>
               </div>
