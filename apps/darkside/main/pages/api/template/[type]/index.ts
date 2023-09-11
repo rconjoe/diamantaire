@@ -37,6 +37,13 @@ type ErrorData = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData | ErrorData>) {
   console.log('template data reuest made', req.query);
   res.setHeader('Cache-Control', 's-maxage=86400');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*'); // replace this your actual origin
+  res.setHeader('Access-Control-Allow-Methods', 'GET,DELETE,PATCH,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+  );
   // const { query } = req;
   const locale = 'en_US'; // TODO: get locale from query
 
