@@ -13,3 +13,4 @@ export * from './modular';
 export * from './nonModular';
 export * from './fragments';
 export * from './utils';
+export * from './template';

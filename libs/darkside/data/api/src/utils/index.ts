@@ -1,6 +1,6 @@
 import { NextApiResponse } from 'next';
 
-export function setCacheHeader(res: NextApiResponse) {
+export function setApiRouteCacheHeader(res: NextApiResponse) {
   res.setHeader('Cache-Control', 's-maxage=86400');
 }
 

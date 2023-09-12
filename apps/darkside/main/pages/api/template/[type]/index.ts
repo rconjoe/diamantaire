@@ -1,142 +1,36 @@
-import { setCacheHeader } from '@diamantaire/darkside/data/api';
+import { setApiRouteCacheHeader, queryDatoGQL, GLOBAL_TEMPLATE_QUERY } from '@diamantaire/darkside/data/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-async function fetchDatoQuery(query: string, variables: Record<string, string>) {
-  const url = 'https://graphql.datocms.com/preview';
-
-  console.log('Making a request to DatoCMS...');
-  variables.locale = 'en_US'; // TODO: fix this
-
-  const response = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${process.env['NEXT_PUBLIC_DATO_READ_ONLY_TOKEN']}`,
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
-
-  if (response.status !== 200) {
-    throw new Error(await response.text());
-  }
-
-  return response;
-}
-
-type ResponseData = {
-  message: string;
-  json?: Record<string, string | string[]>;
-};
 
 type ErrorData = {
   message: string;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData | ErrorData>) {
-  setCacheHeader(res);
-  const { query } = req;
-  const locale = query?.locale?.toString(); // TODO: get locale from query
+const routeHandlers = {
+  global: getGlobalTemplateData,
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<unknown | ErrorData>) {
+  setApiRouteCacheHeader(res);
+  const { type } = req.query;
+  const routeHandler = routeHandlers[type.toString()];
+
+  if (!routeHandler) {
+    return res.status(400).json({ message: `Invalid template type: ${type}` });
+  }
 
   try {
-    const response = await fetchDatoQuery(GLOBAL_TEMPLATE_QUERY, { locale });
-    const jsonResponse = await response.json();
+    const response = await routeHandler(req, res);
 
-    return res.status(200).json(jsonResponse.data);
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 }
 
-const GLOBAL_TEMPLATE_QUERY = `
-query headerNavigationDynamicQuery($locale: SiteLocale) {
-    headerNavigationDynamic(locale: $locale) {
-      section {
-        title
-        key
-        route
-        columns {
-          columnTitle
-          route
-          colKey
-          links {
-            _modelApiKey
-            id
-            copy
-            route
-            isBold
-            linkKey
-            flags
-            nestedLinks {
-              id
-              copy
-              route
-              isBold
-            }
-            supportedCountries {
-              code
-            }
-          }
-        }
-      }
-      mobileAccordionOrder {
-        key
-        label
-        isCollapsible
-      }
-      mobileLocalizationAccordionOrder {
-        key
-        isCollapsible
-        label
-      }
-      iconsAltText {
-        key
-        value
-      }
-    }
-    footerNavigation(locale: $locale) {
-      columns {
-        title
-        links {
-          route
-          copy
-          flags
-          supportedCountries {
-            code
-          }
-        }
-      }
-      emailSignUpColumn {
-        ctaCopy
-        copy
-        title
-      }
-      emailSignUpCopy {
-        emailInputPlaceholder
-        emailInputEmpty
-        emailInputNotValid
-        emailInputBeingSent
-        emailInputSuccessfullySent
-        emailInputUnsuccessfullySent
-        gdprOptInCopy
-        gdprCtaCopy
-        gdprCtaRoute
-        phoneInputPlaceholder
-      }
-      copyright
-      countryPicker {
-        ... on BasicTextLabelRecord {
-          key
-          copy
-        }
-        ... on CountryPickerColumnRecord {
-          label
-          countries
-        }
-      }
-    }
-  }
-`;
+async function getGlobalTemplateData(req: NextApiRequest) {
+  const { query } = req;
+  const locale = query?.locale?.toString();
+  const response = await queryDatoGQL({ query: GLOBAL_TEMPLATE_QUERY, variables: { locale } });
+
+  return response;
+}
