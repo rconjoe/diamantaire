@@ -14,9 +14,10 @@ interface Diamond360Props {
   useImageOnly?: boolean;
   isCto?: boolean;
   disabled?: boolean;
+  noCaption?: boolean;
 }
 
-const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabled }: Diamond360Props) => {
+const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabled, noCaption }: Diamond360Props) => {
   const id = lotId.includes('cfy-')
     ? lotId
     : lotId
@@ -93,16 +94,20 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
       <StyledDiamond360 className={className}>
         {renderMedia()}
 
-        {isCto && mediaType === 'diamond-video' && (
-          <div className="caption">
-            <UIString>Example of how it will look cut and polished</UIString>
-          </div>
-        )}
+        {!noCaption && (
+          <>
+            {isCto && mediaType === 'diamond-video' && (
+              <div className="caption">
+                <UIString>Example of how it will look cut and polished</UIString>
+              </div>
+            )}
 
-        {!disabled && !useImageOnly && !isCto && mediaType === 'diamond-video' && (
-          <div className="caption">
-            <UIString>Interactive actual diamond video</UIString>
-          </div>
+            {!disabled && !useImageOnly && !isCto && mediaType === 'diamond-video' && (
+              <div className="caption">
+                <UIString>Interactive actual diamond video</UIString>
+              </div>
+            )}
+          </>
         )}
       </StyledDiamond360>
     )

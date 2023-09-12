@@ -1,9 +1,9 @@
-import { XLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
 
-const mediaWidth = '375px';
+const mediaWidth = '45rem';
 
 export const StyledDiamondPairCell = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ export const StyledDiamondPairActiveRow = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
 
-    ${XLDesktopAndUp(`
+    ${desktopAndUp(`
       flex-direction: row;
       gap: ${gap};
       padding: ${gap} 0;
@@ -29,31 +29,34 @@ export const StyledDiamondPairActiveRow = styled.div`
 
   .row-media {
     width: 100%;
-    display: flex;
     padding: 0;
+    display: flex;
     align-items: flex-start;
 
-    ${XLDesktopAndUp(`
+    ${desktopAndUp(`
       width: ${mediaWidth};
     `)}
 
     .row-media-content {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+      width: 100%;
+      display: block;
+      position: relative;
+      font-size: 0;
+
+      > div {
+        display: inline-block;
+        width: 50%;
+      }
+
+      > div > div {
+        display: block;
+      }
     }
 
     img {
       width: auto;
       max-width: 100%;
       max-height: 100%;
-    }
-
-    .row-media-content {
-      display: block;
-      position: relative;
     }
   }
 
@@ -66,7 +69,7 @@ export const StyledDiamondPairActiveRow = styled.div`
     padding: ${gap};
     margin-bottom: ${gap};
 
-    ${XLDesktopAndUp(`
+    ${desktopAndUp(`
       padding: 0;
     `)}
   }
@@ -76,12 +79,48 @@ export const StyledDiamondPairActiveRow = styled.div`
     align-items: center;
     justify-content: center;
     padding: 0;
-    order: 2;
 
-    ${XLDesktopAndUp(`
-      order: 1;
+    ${desktopAndUp(`
       padding-right: ${gap};
     `)}
+
+    .certificate {
+      .accordion-content-wrapper {
+        display: flex;
+        gap: 2rem;
+        .thb {
+          width: auto;
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .row-info {
+    color: ${BLACK};
+    display: block;
+    font-size: var(--font-size-xsmall);
+    margin: -1rem 0 1rem;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    li {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .label {
+      display: inline-block;
+      font-weight: var(--font-weight-bold);
+    }
+
+    .value {
+      display: inline-block;
+    }
   }
 
   .row-cta {
@@ -89,13 +128,10 @@ export const StyledDiamondPairActiveRow = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 0 0 ${gap};
-    order: 1;
     width: 100%;
     gap: ${gap};
 
-    ${XLDesktopAndUp(`
-      order: 2;
+    ${desktopAndUp(`
       padding-right: ${gap};
     `)}
 

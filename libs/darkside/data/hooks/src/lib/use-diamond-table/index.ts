@@ -58,6 +58,7 @@ export interface DiamondTableDataTypes {
   bottomPromoContentCtaCopy: string;
   bottomPromoContentCtaLink: string;
   bottomPromoContent: string;
+  origin: string;
 }
 
 interface DiamondTableDataProps {

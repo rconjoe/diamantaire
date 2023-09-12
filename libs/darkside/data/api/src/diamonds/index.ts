@@ -127,8 +127,6 @@ export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
 
     const payload = response.data || {};
 
-    console.log({ url, response, payload });
-
     return {
       diamonds: payload.items,
       options,

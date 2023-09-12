@@ -1,6 +1,6 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { DiamondDataTypes, DiamondPair } from '@diamantaire/shared/types';
-import { UseQueryResult, useQuery, useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { UseInfiniteQueryResult, UseQueryResult, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 export interface OptionsDataTypes {
   page?: number;
@@ -63,8 +63,6 @@ export function useInfiniteDiamondsData(options: OptionsDataTypes): UseInfiniteQ
   return useInfiniteQuery({
     ...queries.infiniteDiamonds.content(options),
     getNextPageParam: (lastPage: any) => {
-      console.log(lastPage);
-
       return lastPage?.pagination?.next;
     },
     keepPreviousData: true,

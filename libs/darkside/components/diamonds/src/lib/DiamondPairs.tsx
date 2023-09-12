@@ -1,5 +1,6 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
+import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 
 import Diamond360 from './Diamond360';
@@ -24,8 +25,12 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
   );
 };
 
-export const DiamondPairActiveRow = ({ diamonds }: { diamonds: DiamondDataTypes[] }) => {
+export const DiamondPairActiveRow = ({ diamonds, locale }: { locale: string; diamonds: DiamondDataTypes[] }) => {
   const [diamond1, diamond2] = diamonds;
+
+  const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
+
+  const originLabel = (specs && Object.values(specs).find((v) => v.key === 'origin').value) || null;
 
   const { diamondType } = diamond1;
 
@@ -39,18 +44,28 @@ export const DiamondPairActiveRow = ({ diamonds }: { diamonds: DiamondDataTypes[
       <div className="row-container">
         <div className="row-media">
           <div className="row-media-content">
-            <Diamond360 lotId={diamond1.lotId} diamondType={diamondType} />
-            <Diamond360 lotId={diamond2.lotId} diamondType={diamondType} />
+            <Diamond360 noCaption={true} lotId={diamond1.lotId} diamondType={diamondType} />
+            <Diamond360 noCaption={true} lotId={diamond2.lotId} diamondType={diamondType} />
           </div>
         </div>
         <div className="row-aside">
+          <div className="row-accordion">
+            <DiamondtableRowAccordion product={diamond1} productPair={diamond2} />
+          </div>
+
+          <div className="row-info">
+            <ul>
+              <li>
+                <div className="label">{originLabel}:</div>
+                <div className="value">{originValue}</div>
+              </li>
+            </ul>
+          </div>
+
           <div className="row-cta">
             <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
               <UIString>Select</UIString>
             </DarksideButton>
-          </div>
-          <div className="row-accordion">
-            <DiamondtableRowAccordion product={diamond1} />
           </div>
         </div>
       </div>

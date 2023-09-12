@@ -95,7 +95,7 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
       }
     });
 
-    console.log(initialFormState);
+    // console.log(initialFormState);
 
     return setFormState(initialFormState);
   }, [schema]);
