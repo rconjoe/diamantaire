@@ -57,9 +57,12 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
 // }
 
 export async function fetchHeaderData(locale: string) {
-  const response = await fetch(
-    `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/api/template/global?locale=${locale}`,
-  );
+  let reqUrl = `api/template/global?locale=${locale}`;
+
+  if (typeof window === 'undefined') {
+    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  }
+  const response = await fetch(reqUrl);
 
   return response.json();
 }

@@ -12,3 +12,4 @@ export * from './product-inventory';
 export * from './modular';
 export * from './nonModular';
 export * from './fragments';
+export * from './utils';

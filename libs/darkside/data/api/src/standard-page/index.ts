@@ -177,11 +177,12 @@ ${ResponsiveImageFragment}
 
 export async function fetchStandardPageDataBySlug(slug: string, locale: string) {
   const qParams = new URLSearchParams({ slug, locale });
-  const reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${
-    process.env['NEXT_PUBLIC_VERCEL_URL']
-  }/api/page/standard?${qParams.toString()}`;
+  let reqUrl = `api/page/standard?${qParams.toString()}`;
 
-  console.log(reqUrl);
+  if (typeof window === 'undefined') {
+    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  }
+
   const pageData = await fetch(reqUrl);
 
   return pageData.json();
@@ -191,6 +192,19 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
   // });
 
   // return pageData;
+}
+
+export async function fetchDatoStandardPageDataBySlug(slug: string, locale: string) {
+  const qParams = new URLSearchParams({ slug, locale });
+  let reqUrl = `api/page/standard?${qParams.toString()}`;
+
+  if (typeof window === 'undefined') {
+    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  }
+
+  const pageData = await fetch(reqUrl);
+
+  return pageData.json();
 }
 
 export const LIST_PAGE_BY_SLUG = `
