@@ -1,27 +1,16 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
-
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-
 import { UIString } from '@diamantaire/darkside/core';
-
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
-
-import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
-
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-
 import { useRouter } from 'next/router';
-
 import { useContext } from 'react';
-
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
-
 
 const DiamondTableRow = ({
   product,
@@ -41,7 +30,6 @@ const DiamondTableRow = ({
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
-
     // TODO: add handler
     console.log(`handleSelectDiamond`, product);
     const { diamondType, carat, color, clarity, cut, price } = product;
@@ -67,7 +55,6 @@ const DiamondTableRow = ({
     });
 
     updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
-
   };
 
   const handlePurchase = () => {
