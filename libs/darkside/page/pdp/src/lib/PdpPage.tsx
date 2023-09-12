@@ -10,6 +10,7 @@ import {
   ProductTitle,
   ProductIconList,
 } from '@diamantaire/darkside/components/products/pdp';
+import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -110,8 +111,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
   if (shopifyProductData) {
+    const productData = { ...shopifyProductData, cms: additionalVariantData };
+
     return (
       <PageContainerStyles>
+        <PageViewTracker productData={productData} />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>
