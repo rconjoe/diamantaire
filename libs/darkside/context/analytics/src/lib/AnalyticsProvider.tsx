@@ -32,7 +32,7 @@ export const tagManagerArgs = {
 };
 
 const shouldEnableTracking = () => {
-  return isProdEnv || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
+  return (isProdEnv && Boolean(process.env.NEXT_PUBLIC_GTM_CONTAINER_ID)) || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
 };
 
 const trackEvent = (event: string, data: Record<string, any>) => {
