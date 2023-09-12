@@ -5,6 +5,7 @@ async function fetchDatoQuery(query: string, variables: Record<string, string>) 
   const url = 'https://graphql.datocms.com/preview';
 
   console.log('Making a request to DatoCMS...');
+  variables.locale = 'en_US'; // TODO: fix this
 
   const response = await fetch(url, {
     headers: {
@@ -37,8 +38,8 @@ type ErrorData = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData | ErrorData>) {
   setCacheHeader(res);
-  // const { query } = req;
-  const locale = 'en_US'; // TODO: get locale from query
+  const { query } = req;
+  const locale = query?.locale?.toString(); // TODO: get locale from query
 
   try {
     const response = await fetchDatoQuery(GLOBAL_TEMPLATE_QUERY, { locale });

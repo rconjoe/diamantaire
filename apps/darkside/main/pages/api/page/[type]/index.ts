@@ -4,6 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 async function fetchDatoQuery(query: string, variables: Record<string, string>) {
   const url = 'https://graphql.datocms.com/preview';
 
+  variables.locale = 'en_US'; // TODO: fix this
+
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
