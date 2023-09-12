@@ -186,25 +186,6 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
   const pageData = await fetch(reqUrl);
 
   return pageData.json();
-  // const pageData = await queryDatoGQL({
-  //   query: STANDARD_PAGE_BY_SLUG,
-  //   variables: { slug, locale },
-  // });
-
-  // return pageData;
-}
-
-export async function fetchDatoStandardPageDataBySlug(slug: string, locale: string) {
-  const qParams = new URLSearchParams({ slug, locale });
-  let reqUrl = `api/page/standard?${qParams.toString()}`;
-
-  if (typeof window === 'undefined') {
-    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
-  }
-
-  const pageData = await fetch(reqUrl);
-
-  return pageData.json();
 }
 
 export const LIST_PAGE_BY_SLUG = `

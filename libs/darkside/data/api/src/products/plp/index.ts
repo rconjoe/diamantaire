@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { queryDatoGQL } from '../../clients';
+import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
 type SortedRequestOptions = {
@@ -104,7 +104,7 @@ export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, opti
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-const LIST_PAGE_DATO_SERVER_QUERY = `
+export const LIST_PAGE_DATO_SERVER_QUERY = `
 query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
     listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
       id
@@ -159,13 +159,12 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
 `;
 
 // Gets the server-side Dato data for the PLP page
-export async function fetchPlpDatoServerData(locale: string, slug: string | string[], category: string) {
-  const datoData = await queryDatoGQL({
-    query: LIST_PAGE_DATO_SERVER_QUERY,
-    variables: { locale, slug, category },
-  });
+export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
+  const qParams = new URLSearchParams({ slug, category, locale });
+  const reqUrl = `/page/plpssr?${qParams.toString()}`;
+  const response = await queryClientApi().request({ url: reqUrl });
 
-  return datoData;
+  return response.data;
 }
 
 const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `

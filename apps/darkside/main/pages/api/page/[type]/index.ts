@@ -1,4 +1,9 @@
-import { STANDARD_PAGE_BY_SLUG, setApiRouteCacheHeader, queryDatoGQL } from '@diamantaire/darkside/data/api';
+import {
+  STANDARD_PAGE_BY_SLUG,
+  LIST_PAGE_DATO_SERVER_QUERY,
+  setApiRouteCacheHeader,
+  queryDatoGQL,
+} from '@diamantaire/darkside/data/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type ErrorData = {
@@ -7,6 +12,7 @@ type ErrorData = {
 
 const routeHandlers = {
   standard: getStandardPageData,
+  plpssr: getPlpSsrPageData,
   plp: getPlpPageData,
   pdp: getPdpPageData,
 };
@@ -39,6 +45,23 @@ async function getStandardPageData(req: NextApiRequest) {
   }
 
   const response = await queryDatoGQL({ query: STANDARD_PAGE_BY_SLUG, variables: { locale, slug } });
+
+  return response;
+}
+
+async function getPlpSsrPageData(req: NextApiRequest) {
+  const { query } = req;
+  const locale = query?.locale?.toString();
+  const slug = query?.slug?.toString();
+  const category = query?.category?.toString();
+
+  console.log(query);
+
+  if (!slug || !category) {
+    throw new Error('Get PLP Page: Slug and category are required');
+  }
+
+  const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { slug, category, locale } });
 
   return response;
 }

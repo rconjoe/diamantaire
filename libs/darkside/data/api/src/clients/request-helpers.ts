@@ -1,7 +1,7 @@
 type FetchDataProps = {
   url: string;
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE';
-  body?: any;
+  body?: unknown;
 };
 
 export async function fetchData({ url, body, method = 'POST' }: FetchDataProps) {
