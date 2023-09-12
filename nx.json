@@ -3,10 +3,7 @@
     "defaultBase": "develop"
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
@@ -14,56 +11,31 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
-    "sharedGlobals": [
-      "{workspaceRoot}/babel.config.json"
-    ]
+    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js"
-      ]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     },
     "e2e": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     },
     "lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json"
-      ]
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     },
     "build-storybook": {
-      "inputs": [
-        "default",
-        "^production",
-        "{projectRoot}/.storybook/**/*",
-        "{projectRoot}/tsconfig.storybook.json"
-      ]
+      "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*", "{projectRoot}/tsconfig.storybook.json"]
     }
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@rconjoe/remote-nx",
+      "runner": "@rconjoe/nx-vercel-remote",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint"
-        ],
+        "cacheableOperations": ["build", "lint"],
         "cacheDirectory": "/tmp/nx-cache",
         "token": "VKhqGUI5io7Dh2RVkFADberE",
         "teamId": "team_AHhj2mpChoiZMkRRP2fr4ol4",
@@ -102,10 +74,11 @@
     }
   },
   "defaultProject": "darkside-main",
-  "plugins": [
-    "@diamantaire/nx-core",
-    "@diamantaire/vraicel",
-    "@diamantaire/nx-datocms"
-  ],
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "plugins": ["@diamantaire/nx-core", "@diamantaire/vraicel", "@diamantaire/nx-datocms"],
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": true
+    }
+  }
 }
