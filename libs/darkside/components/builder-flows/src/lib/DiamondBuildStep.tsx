@@ -2,7 +2,7 @@ import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/di
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
@@ -58,6 +58,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
   const updateLoading = (newState) => {
     setLoading(newState);
   };
+
   const tableOptions = {
     locale: 'en-US',
     initialOptions: { ...options },

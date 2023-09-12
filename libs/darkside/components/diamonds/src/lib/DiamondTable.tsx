@@ -6,7 +6,7 @@ import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPair, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import DiamondGrid from './DiamondGrid';
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
@@ -391,10 +391,10 @@ const DiamondTable = (props: DiamondTableProps) => {
             }
 
             return (
-              <>
+              <Fragment key={row.id}>
                 {idx === 10 && !isBuilderFlowOpen && cfyPromoCard}
 
-                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
                     {row.getVisibleCells().map((cell) => (
                       <div key={cell.id} className="vo-table-cell">
@@ -407,14 +407,14 @@ const DiamondTable = (props: DiamondTableProps) => {
                   {active && (
                     <div className="vo-table-row-body">
                       {isDiamondPairs ? (
-                        <DiamondPairActiveRow diamonds={diamonds} />
+                        <DiamondPairActiveRow diamonds={diamonds} locale={locale} />
                       ) : (
                         <DiamondTableRow product={row?.original} />
                       )}
                     </div>
                   )}
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>

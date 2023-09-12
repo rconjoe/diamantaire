@@ -26,7 +26,6 @@ export const diamondOption = {
 };
 
 export const getDiamondType = (value: string) => {
-  console.log({ value });
   const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
 
   const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
