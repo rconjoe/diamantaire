@@ -32,7 +32,7 @@ const DiamondTableRow = ({
   const handleSelectDiamond = () => {
     // TODO: add handler
     console.log(`handleSelectDiamond`, product);
-    const { diamondType, carat, color, clarity, cut, price } = product;
+    const { carat, color, clarity, cut, price } = product;
     const { locale } = router || {};
     const { countryCode } = parseValidLocale(locale) || {};
 
@@ -45,6 +45,7 @@ const DiamondTableRow = ({
       eventAction: GTM_EVENTS.selectDiamond,
       eventLabel: `${diamondType}, ${carat}, ${color}, ${clarity}, ${cut}`,
       shape: diamondType,
+      // eslint-disable-next-line camelcase
       diamond_type: diamondType,
       carat,
       colour: color,
