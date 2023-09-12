@@ -1,7 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import {
   MediaGallery,
   MediaSlider,
@@ -11,7 +10,7 @@ import {
   ProductTitle,
   ProductIconList,
 } from '@diamantaire/darkside/components/products/pdp';
-
+import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
