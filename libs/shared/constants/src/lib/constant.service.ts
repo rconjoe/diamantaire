@@ -1,15 +1,17 @@
+export * from './hardcodedModularJewelryProducts.service';
 export * from './lib/ariaLabel';
 export * from './lib/band';
-export * from './lib/brand';
 export * from './lib/blockPicker';
+export * from './lib/brand';
 export * from './lib/canonical';
 export * from './lib/carat';
 export * from './lib/cart';
 export * from './lib/color';
-export * from './lib/country';
 export * from './lib/countries-map';
+export * from './lib/country';
 export * from './lib/currency';
 export * from './lib/diamond';
+export * from './lib/diamondCutForYou';
 export * from './lib/diamondTable';
 export * from './lib/email';
 export * from './lib/engagementRing';
@@ -21,6 +23,7 @@ export * from './lib/goldPurity';
 export * from './lib/hiddenPage';
 export * from './lib/hubspot';
 export * from './lib/image';
+export * from './lib/internationalization';
 export * from './lib/jewelry';
 export * from './lib/klaviyo';
 export * from './lib/listPage';
@@ -89,6 +92,16 @@ export const pdpTypePluralAsConst = {
 export const pdpTypeHandleAsConst = {
   ['engagement-rings']: 'Engagement Rings',
   ['jewelry']: 'Jewelry',
+} as const;
+
+export const pdpTypeHandleSingleToPluralAsConst = {
+  ['engagement-ring']: 'Engagement Rings',
+  ['jewelry']: 'Jewelry',
+} as const;
+
+export const pdpTypeSingleToPluralAsConst = {
+  ['Engagement Ring']: 'Engagement Rings',
+  ['Jewelry']: 'Jewelry',
 } as const;
 
 export const metalTypeAsConst = {

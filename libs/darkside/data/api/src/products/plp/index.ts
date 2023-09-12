@@ -67,7 +67,7 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
       getNextPageParam: (lastPage) => {
-        if (lastPage && lastPage.paginator.nextPage) {
+        if (lastPage && lastPage?.paginator?.nextPage) {
           // Return next page number
           return lastPage.paginator.nextPage;
         } else {
@@ -199,6 +199,7 @@ ${ResponsiveImageFragment}
 `;
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
+  if (!id) return {};
   const datoData = await queryDatoGQL({
     query: LIST_PAGE_PROMO_CARD_COLLECTION_QUERY,
     variables: { locale, id },

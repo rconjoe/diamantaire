@@ -1,5 +1,6 @@
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
+import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,22 +11,6 @@ import styled from 'styled-components';
 /**
  * This Component is a good candidate for a globally shared component
  */
-
-export interface OptionItem {
-  id: string;
-  value?: string;
-  valueLabel?: string;
-  isSelected?: boolean;
-}
-
-interface OptionItemContainerProps {
-  option: OptionItem;
-  optionType: string;
-  isSelected: boolean;
-  onClick: () => void;
-  isLink?: boolean;
-  valueLabel: string;
-}
 
 export function OptionItemContainer({
   option,
@@ -46,7 +31,7 @@ export function OptionItemContainer({
   );
 }
 
-interface OptionItemLinkProps extends OptionItem {
+interface OptionItemLinkProps extends OptionItemProps {
   children?: React.ReactNode;
 }
 
@@ -102,7 +87,7 @@ const StyledRoundOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-interface OptionItemComponent extends OptionItem {
+interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
 }
 
@@ -202,6 +187,9 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #ccc;
   padding: 5px;
+  min-width: 30px;
+  text-align: center;
+  font-size: 1.3rem;
   &.selected {
     border-color: var(--color-teal);
   }

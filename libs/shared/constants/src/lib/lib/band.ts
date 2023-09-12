@@ -13,6 +13,11 @@ export enum BandAccentType {
   Pave = 'pave',
   DoublePave = 'double-pave',
 }
+export const bandAccentTypeAsConst = {
+  plain: 'Plain',
+  pave: 'Pave',
+  'double-pave': 'Double-Pave',
+};
 export const OMEGA_WEDDING_BAND_PRODUCT_TYPE = 'Omega Wedding Band';
 export const MOCK_WEDDING_BAND_PRODUCT_TYPE = 'Mock Wedding Band';
 export const MOCK_WEDDING_BAND_DEFAULT_SIZE = '7';

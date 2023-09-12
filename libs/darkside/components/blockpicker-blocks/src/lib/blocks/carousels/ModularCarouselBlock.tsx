@@ -21,7 +21,6 @@ import VideoHoverSlide from './slides/VideoHoverSlide';
 import ModularQuoteBlock from '../misc/ModularQuoteBlock';
 
 const ModularCarouselBlock = (props) => {
-  console.log('carousel props', props);
   const { _modelApiKey, blocks, darksideButtons } = props;
 
   const sliderTypes = [

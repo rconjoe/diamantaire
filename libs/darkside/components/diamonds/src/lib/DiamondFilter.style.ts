@@ -1,7 +1,7 @@
 import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const StyledDiamondFilter = styled.div`
+const StyledDiamondFilter = styled.aside`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -80,6 +80,7 @@ const StyledDiamondFilter = styled.div`
   }
 
   .vo-filter-list-item.active a {
+    cursor: pointer;
     color: var(--color-teal);
     border: 1px solid var(--color-teal);
   }

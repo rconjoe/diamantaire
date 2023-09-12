@@ -9,6 +9,8 @@ const StyledTooltip = styled.div`
     border: 1px solid ${GREY};
     padding: 2rem;
     color: ${BLACK};
+    text-wrap: wrap;
+    max-width: 97vw;
 
     ${tabletAndUp(`
       max-width: 360px;
@@ -29,7 +31,8 @@ const StyledTooltip = styled.div`
     border-left: 0;
   }
 
-  .react-tooltip__place-bottom .tooltip-arrow {
+  .react-tooltip__place-bottom .tooltip-arrow,
+  .react-tooltip__place-bottom-start .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
   }

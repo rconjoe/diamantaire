@@ -1,10 +1,10 @@
 import {
-  Heading,
-  MobileDesktopImage,
-  ShowTabletAndUpOnly,
-  ShowMobileOnly,
   DarksideButton,
   DatoDarksideButtonProps,
+  Heading,
+  MobileDesktopImage,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
@@ -13,7 +13,7 @@ import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { TallHalfWidthBlockLocationCTAContainer } from './TallHalfWidthBlockLocation.style';
 

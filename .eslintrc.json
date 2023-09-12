@@ -6,9 +6,7 @@
     "sourceType": "module",
     "createDefaultProgram": true
   },
-  "ignorePatterns": [
-    "**/*"
-  ],
+  "ignorePatterns": ["**/*"],
   "plugins": [
     "@nx",
     "@typescript-eslint",
@@ -39,10 +37,7 @@
     "no-eval": "error",
     "no-fallthrough": "error",
     "no-new-wrappers": "error",
-    "no-restricted-imports": [
-      "error",
-      "rxjs/Rx"
-    ],
+    "no-restricted-imports": ["error", "rxjs/Rx"],
     "no-undef-init": "error",
     "no-var": "error",
     "prefer-const": "error",
@@ -56,10 +51,7 @@
     "no-empty-function": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "eqeqeq": ["error", "smart"],
     "security/detect-object-injection": "off",
     "@typescript-eslint/no-this-alias": "warn",
     "no-self-assign": "warn",
@@ -91,23 +83,12 @@
     "import/extensions": "off",
     "no-duplicate-imports": "error",
     "import/no-unresolved": "warn",
-    "import/no-extraneous-dependencies": [
-      "off"
-    ],
+    "import/no-extraneous-dependencies": ["off"],
     "import/no-internal-modules": "off",
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          [
-            "parent",
-            "sibling"
-          ],
-          "index"
-        ],
+        "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
@@ -124,25 +105,13 @@
       },
       {
         "blankLine": "always",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
+        "prev": ["const", "let", "var"],
         "next": "*"
       },
       {
         "blankLine": "any",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
-        "next": [
-          "const",
-          "let",
-          "var"
-        ]
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
       },
       {
         "blankLine": "always",
@@ -164,15 +133,8 @@
   },
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {
         "import/no-unresolved": 0,
         "@nx/enforce-module-boundaries": [
@@ -183,9 +145,7 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -193,15 +153,8 @@
       }
     },
     {
-      "files": [
-        "*.tsx",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:jsx-a11y/recommended",
-        "plugin:react/recommended",
-        "next/core-web-vitals"
-      ],
+      "files": ["*.tsx", "*.jsx"],
+      "extends": ["plugin:jsx-a11y/recommended", "plugin:react/recommended", "next/core-web-vitals"],
       "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
@@ -239,9 +192,7 @@
           "error",
           {
             "required": {
-              "every": [
-                "id"
-              ]
+              "every": ["id"]
             }
           }
         ],
@@ -281,13 +232,8 @@
       }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {

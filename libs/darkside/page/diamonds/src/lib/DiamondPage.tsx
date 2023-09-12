@@ -14,7 +14,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useContext, useEffect, useState } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -38,6 +38,7 @@ interface DiamondPageProps {
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+
   const { isMobile } = useContext(GlobalContext);
   const { locale, currencyCode } = props;
   const [options, setOptions] = useState(props.options);
@@ -135,24 +136,20 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   useEffect(() => {
     router.push(getDiamondShallowRoute(options), undefined, { shallow: true });
-
-    // window.scrollTo(0, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
 
-  const tableProps = {
-    initialDiamonds: diamonds,
-    initialOptions: options,
-    initialPagination: pagination,
-    updateOptions,
-    updateLoading,
-    clearOptions,
-    currencyCode,
-    ranges:
-      (options.caratMin && options.caratMax && { ...ranges, carat: { min: options.caratMin, max: options.caratMax } }) ||
-      ranges,
-    locale,
-  };
+  const tableProps = useMemo(() => {
+    return {
+      initialDiamonds: diamonds,
+      initialOptions: options,
+      initialPagination: pagination,
+      updateOptions,
+      updateLoading,
+      clearOptions,
+      currencyCode,
+      locale,
+    };
+  }, [options]);
 
   const title = (
     <div className="page-title">
@@ -215,15 +212,19 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
+
   const currencyCode = getCurrencyFromLocale(locale);
 
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
 
   const diamondQuery = queries.diamonds.content(options);
+
   const diamondTableQuery = queries.diamondTable.content(locale);
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(diamondQuery);
+
   await queryClient.prefetchQuery(diamondTableQuery);
 
   if (!queryClient.getQueryData(diamondQuery.queryKey) || !queryClient.getQueryData(diamondTableQuery.queryKey)) {

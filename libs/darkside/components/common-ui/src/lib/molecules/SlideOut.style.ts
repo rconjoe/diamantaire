@@ -72,7 +72,6 @@ export const SlideOutWrapper = styled(motion.aside)`
     align-items: center;
     justify-content: center;
   }
-}
 `;
 
 export const SlideOutOverlay = styled(motion.div)`

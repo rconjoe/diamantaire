@@ -9,7 +9,8 @@ export interface ProductIconListDataTypes {
   shippingBusinessDays?: string;
   shippingBusinessDaysCountryMap?: string;
   shippingText?: string;
-
+  cutForYouShippingBusinessDays?: number;
+  cutForYouShippingText?: string;
   icon?: {
     width: number;
     height: number;
@@ -23,7 +24,10 @@ type ProductIconListProps = {
   };
 };
 
-export function useProductIconList(productType: string, locale: string): UseQueryResult<ProductIconListProps, unknown> {
+export function useProductIconList(
+  productType: 'engagement-ring' | 'wedding-band' | 'jewelry' | 'Diamond PDP',
+  locale: string,
+): UseQueryResult<ProductIconListProps, unknown> {
   return useQuery({
     ...queries.products.productIconList(productType, locale),
   });

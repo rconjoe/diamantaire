@@ -1,21 +1,25 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
-import { MediaGallery, MediaSlider, ProductConfigurator } from '@diamantaire/darkside/components/products/pdp';
+import {
+  MediaGallery,
+  MediaSlider,
+  ProductConfigurator,
+  ProductDescription,
+  ProductPrice,
+  ProductTitle,
+  ProductIconList,
+} from '@diamantaire/darkside/components/products/pdp';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { pdpTypeHandleAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
+import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductDescription from './pdp-blocks/ProductDescription';
-import ProductIconList from './pdp-blocks/ProductIconList';
-import ProductPrice from './pdp-blocks/ProductPrice';
 import ProductReviews from './pdp-blocks/ProductReviews';
-import { ProductTitle } from './pdp-blocks/ProductTitle';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
@@ -39,7 +43,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter();
 
   // Jewelry | ER | Wedding Band
-  const pdpType: PdpTypePlural = pdpTypeHandleAsConst[router.pathname.split('/')[1]];
+  const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
 
   const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
 
@@ -65,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Product Video Clock - Clientside
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
-  // Variant Specfic Data
+  // Variant Specific Data
   const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
@@ -89,11 +93,21 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   additionalVariantData.productType = shopifyProductData.productType;
   additionalVariantData.productTitle = productTitle;
+  additionalVariantData.price = price;
   additionalVariantData.image = {
     src: assetStack[0].url,
     width: assetStack[0].width,
     height: assetStack[0].width,
+    responsiveImage: {
+      src: assetStack[0].url,
+      ...assetStack[0].responsiveImage,
+    },
   };
+
+  // Can this product be added directly to cart?
+  const isBuilderProduct = configuration.caratWeight === 'other';
+
+  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
 
   if (shopifyProductData) {
     return (
@@ -115,6 +129,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               selectedConfiguration={configuration}
               initialVariantId={id}
               additionalVariantData={additionalVariantData}
+              isBuilderProduct={isBuilderProduct}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
@@ -127,7 +142,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
             <ProductDescription
               description={productDescription}
-              productAttributes={{ bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel }}
+              productAttributes={parentProductAttributes}
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
             />
@@ -159,7 +174,7 @@ export async function getServerSideProps(
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
-  const productType: PdpTypePlural = pdpTypeHandleAsConst[context.req.url.split('/')[1]] || null;
+  const productType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[context.req.url.split('/')[1]] || null;
 
   await queryClient.prefetchQuery(dataQuery);
   await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });
