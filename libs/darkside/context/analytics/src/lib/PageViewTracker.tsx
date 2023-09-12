@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { dangerouslyExtractInternalShopifyId } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
@@ -5,21 +6,70 @@ import { useEffect } from 'react';
 
 import { useAnalytics, GTM_EVENTS } from './AnalyticsProvider';
 
-const PageViewTracker = ({ productData }) => {
-  const { viewPage, productViewed } = useAnalytics();
+interface ProductData {
+  productTitle: string;
+  productType: string;
+  canonicalVariant: {
+    shopifyVariantId: string;
+    shopifyProductId: string;
+    price: number;
+    sku: string;
+    configuration: {
+      [key: string]: string;
+    };
+    defaultRingSize: string;
+    subStyles: string[];
+  };
+  cms: {
+    productTitle: string;
+    image: {
+      src: string;
+    };
+  };
+  styles: string[];
+}
+
+interface Props {
+  productData?: ProductData;
+  listPageData?: {
+    hero: {
+      title: string;
+    };
+    category: string;
+    productData: ProductData[];
+  };
+}
+
+const PageViewTracker = ({ productData, listPageData }: Props) => {
+  const { viewPage, productViewed, productListViewed } = useAnalytics();
+
   const router = useRouter();
+  const { countryCode } = parseValidLocale(router?.locale);
+
+  const currencyCode = getCurrency(countryCode);
 
   function emitViewPageEvent(pageName: string) {
     const segments = router?.pathname.split('/').filter(Boolean);
     const productSlugSegmentPath = segments[segments.length - 1];
     const isProductSlug = productSlugSegmentPath === '[productSlug]';
+    const isListPageSlug = productSlugSegmentPath === '[...plpSlug]';
 
-    if (isProductSlug) {
+    if (isListPageSlug) {
+      const { hero, productData: products, category } = listPageData || {};
+
+      const normalizedProducts = getNormalizedListPageProducts({ products, locale: router?.locale, currencyCode });
+      const firstThreeProducts = normalizedProducts.slice(0, 3);
+      const variantIds = firstThreeProducts.map(({ id }) => id);
+
+      productListViewed({
+        listName: hero?.title,
+        category,
+        variantIds,
+        products: firstThreeProducts,
+      });
+    } else if (isProductSlug) {
       const { productTitle, productType, canonicalVariant, cms, styles } = productData || {};
 
-      const { countryCode } = parseValidLocale(router?.locale);
-
-      const currencyCode = getCurrency(countryCode);
       const id = dangerouslyExtractInternalShopifyId(canonicalVariant?.shopifyVariantId);
       const product_id = dangerouslyExtractInternalShopifyId(canonicalVariant?.shopifyProductId);
       const price = getFormattedPrice(canonicalVariant?.price, router?.locale, true, true);
@@ -122,3 +172,42 @@ const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>)
 
   return normalizedConfiguration;
 };
+
+function getNormalizedListPageProducts({ products, locale, currencyCode }) {
+  if (!products) {
+    return [];
+  }
+
+  const normalizedProducts =
+    products &&
+    products.map((product, idx) => {
+      const { defaultId, variants } = product;
+      const {
+        productSlug,
+        productType,
+        primaryImage: { src },
+        price,
+        title,
+      } = variants[defaultId];
+      const variantId = productSlug.split('-').pop();
+      const formattedPrice = getFormattedPrice(price, locale, true, true);
+      const brand = 'VRAI';
+
+      return {
+        id: variantId,
+        position: idx,
+        category: productType,
+        image_url: src,
+        price: formattedPrice,
+        currencyCode,
+        brand,
+        name: title,
+        // rudderstack base ecommerce keys could add later
+        // sku,
+        // variant,
+        // product_id
+      };
+    });
+
+  return normalizedProducts;
+}

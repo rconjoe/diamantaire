@@ -1,5 +1,6 @@
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -117,9 +118,12 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     setQParams(newParams);
   }, [availableFilters.price, category, filterValue, paginationPages, plpSlug]);
 
+  const listPageData = { productData: data, hero, category };
+
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
+      <PageViewTracker listPageData={listPageData} />
       <Breadcrumb breadcrumb={breadcrumb} />
       <PlpHeroBanner data={hero} />
       <PlpProductGrid
