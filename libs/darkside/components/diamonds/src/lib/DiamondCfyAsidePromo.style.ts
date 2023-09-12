@@ -5,7 +5,7 @@ const StyledDiamondCfyAsidePromo = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #f0eaea;
-  padding: 20px 10px 40px;
+  padding: 2rem 2.4rem 4rem;
   margin: 0;
   width: 100%;
 
@@ -15,13 +15,14 @@ const StyledDiamondCfyAsidePromo = styled.div`
 
   .section-title {
     font-size: var(--font-size-xsmall);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
     line-height: 1.1;
     text-align: center;
     margin: 0 0 20px;
 
     ${tabletAndUp(`
       font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
       margin: 0 0 25px;
     `)}
   }

@@ -1,3 +1,4 @@
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyBreadCrumb = styled.div`
@@ -11,6 +12,11 @@ const StyledDiamondCfyBreadCrumb = styled.div`
     flex-direction: column;
     gap: 0.5rem;
     margin: 2rem 0 0;
+    padding: 0 2.4rem;
+
+    ${desktopAndUp(`
+    padding:0;
+    `)}
 
     &:empty {
       display: none;

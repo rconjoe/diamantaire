@@ -5,8 +5,12 @@ import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytic
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 
 import { UIString } from '@diamantaire/darkside/core';
+
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
+
+import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
+
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 
 import { useRouter } from 'next/router';

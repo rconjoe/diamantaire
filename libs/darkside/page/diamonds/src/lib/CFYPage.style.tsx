@@ -1,12 +1,14 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledCFYPage = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2rem auto;
+  margin: 0 auto 0;
+  padding: 0;
 
   ${tabletAndUp(`
+    margin: 2rem auto;
     flex-direction: row;  
   `)}
 
@@ -19,7 +21,7 @@ const StyledCFYPage = styled.div`
     `)}
 
     .title {
-      font-size: var(--font-size-large);
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
       margin: 0 0 1.5rem;
       line-height: 1.1;
@@ -49,15 +51,21 @@ const StyledCFYPage = styled.div`
 
   .page-aside {
     width: 100%;
+    margin: 4rem 0 0;
 
     ${tabletAndUp(`
-      width: 400px;
+      width: 40rem;
+      margin: 0;
     `)}
   }
 
   .button-check-availability {
-    max-width: 300px;
+    max-width: calc(100% - 4.8rem);
     margin: 1rem auto;
+
+    ${desktopAndUp(`
+      max-width: 30rem;
+    `)}
   }
 `;
 

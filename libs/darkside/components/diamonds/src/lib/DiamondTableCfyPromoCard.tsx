@@ -5,7 +5,7 @@ import { getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers
 import StyledDiamondTableCfyPromoCard from './DiamondTableCfyPromoCard.style';
 
 const DiamondTableCfyPromoCard = (props) => {
-  const { content, options, ranges } = props;
+  const { content, options } = props;
 
   const {
     bottomPromoContentLargerCarat,
@@ -15,7 +15,8 @@ const DiamondTableCfyPromoCard = (props) => {
     bottomPromoContent,
   } = content;
 
-  const bottomPromoContentWithShapeByCarat = ranges.carat.max > 4 ? bottomPromoContentLargerCarat : bottomPromoContent;
+  const bottomPromoContentWithShapeByCarat =
+    options.caratMax && options.caratMax > 4 ? bottomPromoContentLargerCarat : bottomPromoContent;
 
   const bottomPromoContentWithShape = replacePlaceholders(
     bottomPromoContentWithShapeByCarat,
