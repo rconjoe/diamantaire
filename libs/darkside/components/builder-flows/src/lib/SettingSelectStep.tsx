@@ -177,7 +177,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
             availableFilters={availableFilters}
             promoCardCollectionId={''}
             creativeBlockIds={[]}
-            initialProducts={[]}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
             isSettingSelect={true}
