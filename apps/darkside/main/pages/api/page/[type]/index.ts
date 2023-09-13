@@ -55,8 +55,6 @@ async function getPlpSsrPageData(req: NextApiRequest) {
   const slug = query?.slug?.toString();
   const category = query?.category?.toString();
 
-  console.log(query);
-
   if (!slug || !category) {
     throw new Error('Get PLP Page: Slug and category are required');
   }

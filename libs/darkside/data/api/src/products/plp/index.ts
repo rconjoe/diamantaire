@@ -82,9 +82,9 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, options) {
+export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    [`plp-${slug}`, options.sortBy, options.sortOrder],
+    [`plp-${slug}`, ...Object.values(options || {})],
     ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam, ...options }),
     {
       refetchOnWindowFocus: false,
@@ -97,7 +97,6 @@ export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, opti
           return false;
         }
       },
-      initialData,
     },
   );
 

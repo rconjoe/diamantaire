@@ -55,8 +55,6 @@ const Header: FC<HeaderProps> = ({
   isTopbarShowing,
   setIsTopbarShowing,
 }): JSX.Element => {
-  console.log('headerData', headerData);
-
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);

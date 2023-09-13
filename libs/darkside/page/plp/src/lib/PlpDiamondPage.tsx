@@ -16,7 +16,7 @@ import { PlpSortOptions } from './components/PlpSortOptions';
 type DiamondPlpPageProps = {
   plpSlug: string;
   category: string;
-  productData: {
+  productData?: {
     variantsInOrder: string[];
     products: ListPageDiamondItem[];
     paginator: {
@@ -38,8 +38,8 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
   const router = useRouter();
   const [activeSortOptions, setActiveSortOptions] = useState({});
 
-  const { plpSlug, productData, category } = props;
-  const { products: initialProducts } = productData;
+  const { plpSlug, category } = props;
+  // const { products: initialProducts } = productData;
 
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
@@ -47,12 +47,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(
-    plpSlug,
-    initialProducts,
-    1,
-    activeSortOptions,
-  );
+  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(plpSlug, 1, activeSortOptions);
 
   const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
@@ -74,7 +69,6 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         isFetching={isFetching}
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
-        initialProducts={initialProducts}
       />
       {hasNextPage && (
         <DarksideButton type="outline" onClick={() => fetchNextPage()}>
@@ -94,31 +88,23 @@ const getDiamondPlpServerSideProps = async (
   const category = 'loose-diamonds';
 
   const queryClient = new QueryClient();
+  const contentQuery = queries.plp.serverSideDato(locale, plpSlug, category);
 
-  await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, plpSlug, category) });
-  const productData = await getVRAIServerDiamondPlpData(plpSlug.toString(), { page: 1 });
-
-  // Should only fail to render if Dato data is not retrieved?  Can empty with empty products?
-  if (productData.error) {
-    return {
-      notFound: true,
-    };
-  }
-
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
+  await queryClient.prefetchQuery({ ...contentQuery });
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: [`plp-${plpSlug}`],
+    queryFn: () => getVRAIServerDiamondPlpData(plpSlug.toString(), { page: 1 }),
   });
 
   await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
+    ...queries.header.content(locale),
   });
 
   return {
     props: {
       plpSlug: plpSlug.toString(),
       category,
-      productData,
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 };
