@@ -61,16 +61,17 @@ const PlpProductItemStyles = styled.div`
 type PlpProductItemProps = {
   product: ListPageItemWithConfigurationVariants;
   position: number;
+  plpTitle: string;
 };
 
-const PlpProductItem = ({ product, position }: PlpProductItemProps) => {
+const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) => {
   const { defaultId, variants, metal } = product;
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
 
   return (
     <PlpProductItemStyles>
-      <PlpProductVariant variant={selectedVariant} position={position} />
+      <PlpProductVariant variant={selectedVariant} position={position} plpTitle={plpTitle} />
       <div className="metal-selector">
         <ul className="list-unstyled flex">
           {metal?.map((option) => (

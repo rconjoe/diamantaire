@@ -37,6 +37,7 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string[];
   };
 
+  plpTitle?: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
   isSettingSelect?: boolean;
@@ -55,6 +56,7 @@ const PlpProductGrid = ({
   availableFilters,
   filterValue,
   setFilterValues,
+  plpTitle,
   builderFlowOverride = false,
   isSettingSelect = false,
   selectSetting,
@@ -127,7 +129,7 @@ const PlpProductGrid = ({
                 <PlpDiamondItem product={product} />
               ) : (
                 <div>
-                  <PlpProductItem product={product} position={gridItemIndex} />
+                  <PlpProductItem product={product} position={gridItemIndex} plpTitle={plpTitle} />
                   {isSettingSelect && (
                     <div
                       style={{

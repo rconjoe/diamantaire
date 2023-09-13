@@ -128,6 +128,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       <PlpHeroBanner data={hero} />
       <PlpProductGrid
         data={data}
+        plpTitle={hero?.title}
         isFetching={isFetching}
         availableFilters={availableFilters}
         promoCardCollectionId={promoCardCollection?.id}

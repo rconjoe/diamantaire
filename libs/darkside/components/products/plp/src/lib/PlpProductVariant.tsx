@@ -26,7 +26,15 @@ const PlpProductVariantStyles = styled.div`
   }
 `;
 
-const PlpProductVariant = ({ variant, position }: { variant: ListPageItemConfiguration; position: number }) => {
+const PlpProductVariant = ({
+  variant,
+  position,
+  plpTitle,
+}: {
+  variant: ListPageItemConfiguration;
+  position: number;
+  plpTitle: string;
+}) => {
   const { productClicked } = useAnalytics();
   const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
@@ -56,6 +64,38 @@ const PlpProductVariant = ({ variant, position }: { variant: ListPageItemConfigu
       brand,
       name: title,
       ...configuration,
+      // used for select_item
+      item_list_name: plpTitle,
+      item_name: title,
+      product: title,
+      ecommerce: {
+        click: {
+          products: [
+            {
+              id,
+              brand,
+              category: productType,
+              price: formattedPrice,
+              quantity: 1,
+              currency: currencyCode,
+            },
+          ],
+        },
+        item_list_name: plpTitle,
+        items: [
+          {
+            item_id: id,
+            item_name: title,
+            item_brand: brand,
+            item_category: productType,
+            price: formattedPrice,
+            currency: currencyCode,
+            position,
+            ...configuration,
+          },
+        ],
+        item_name: title,
+      },
     });
   };
 
