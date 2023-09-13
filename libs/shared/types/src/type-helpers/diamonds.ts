@@ -8,6 +8,20 @@ interface DiamondVariantTypes {
   variantTitle?: string;
 }
 
+export interface DiamondPair {
+  id: string;
+  diamondType: string;
+  carat: number;
+  color: string;
+  clarity: string;
+  cut: string;
+  diamonds: [DiamondDataTypes, DiamondDataTypes];
+}
+
+export function isDiamondPairType(data: DiamondDataTypes | DiamondPair): data is DiamondPair {
+  return (data as DiamondPair).diamonds !== undefined;
+}
+
 export interface DiamondDataTypes {
   _id?: string;
   dangerousInternalProductId?: string;

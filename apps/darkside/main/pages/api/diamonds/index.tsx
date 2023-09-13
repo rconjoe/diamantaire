@@ -14,14 +14,19 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   const array = Object.keys(query || {});
 
   const id = query?.lotId || null;
+  const view = query?.view;
+
+  const qParams = new URLSearchParams(query);
+
+  qParams.delete('view');
 
   if (id) {
-    vraiApiClientURL += '/' + id;
+    vraiApiClientURL += `/` + id;
 
     dfApiClientURL += '/' + id.replace(/\D/g, '');
   } else {
     // URL path to get a list of dimaonds by filter options
-    vraiApiClientURL += '?' + (array.length ? new URLSearchParams(query).toString() : '');
+    vraiApiClientURL += `${getApiRouteFromViewParam(view) ?? ''}?` + (array.length ? qParams.toString() : '');
   }
 
   let vraiApiClientPayload: any = {};
@@ -49,4 +54,15 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   }
 
   return res.status(200).json({ ...vraiApiClientPayload });
+}
+
+function getApiRouteFromViewParam(viewParam?: string) {
+  switch (viewParam) {
+    case 'toimoi':
+      return '/toimoi';
+    case 'pairs':
+      return '/pairs';
+    default:
+      return;
+  }
 }

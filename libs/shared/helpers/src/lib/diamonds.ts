@@ -8,6 +8,7 @@ import {
   DIAMOND_TABLE_VALID_CUTS,
   DIAMOND_TABLE_VALID_SORT_BY,
   DIAMOND_TABLE_VALID_SORT_ORDER,
+  DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_TYPE_INTERNAL_NAMES,
   DIAMOND_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
@@ -17,7 +18,7 @@ export const diamondOption = {
   isClarity: (v) => DIAMOND_TABLE_VALID_CLARITIES.includes(v || v.toLowercase()),
   isCut: (v) => DIAMOND_TABLE_VALID_CUTS.includes(v || v.toLowercase()),
   isColor: (v) => DIAMOND_TABLE_VALID_COLORS.includes(v || v.toLowercase()),
-  isDiamondType: (v) => !diamondOption.isHandle(v) && getDiamondType(v).title,
+  isDiamondType: (v) => !diamondOption.isHandle(v) && getDiamondType(v)?.title,
   isHandle: (v) => {
     const len = (v && v.split('-').length - 1) || 0;
 
@@ -26,9 +27,9 @@ export const diamondOption = {
 };
 
 export const getDiamondType = (value: string) => {
-  const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
+  const titles = Object.values(DIAMOND_TYPE_HUMAN_NAMES);
 
-  const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
+  const slugs = Object.keys(DIAMOND_TYPE_HUMAN_NAMES);
 
   // GET DIAMOND TYPE ON DIAMOND SLUG
   if (diamondOption.isHandle(value)) {
@@ -138,6 +139,18 @@ export const getDiamondOptionsFromUrl = (query, page) => {
       }, {});
   };
 
+  const getViewOptions = (data: Record<string, string> & { view: string }) => {
+    const obj: {
+      view?: 'toimoi' | 'pairs';
+    } = {};
+
+    if (data.view && (data.view === 'toimoi' || data.view === 'pairs')) {
+      obj.view = data.view;
+    }
+
+    return obj;
+  };
+
   if (page === 'diamondTable') {
     const options = { ...DIAMOND_TABLE_DEFAULT_OPTIONS, ...query };
     const optCaratMin = (options.caratMin && parseFloat(options.caratMin)) || null;
@@ -145,6 +158,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
     const opt = {
       ...getOptionsFromFacetedNav(options.filterOptions),
       ...getOptionsFromQueryNav(options),
+      ...getViewOptions(options),
       ...(!optCaratMin || (optCaratMin && optCaratMin < 1) ? { caratMin: 1 } : {}),
     };
 

@@ -14,7 +14,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -69,6 +69,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
       const key = Object.keys(newOptions).pop();
 
       if (key === 'diamondType') {
+        newOptions[key].split().join();
+
         updatedOptions = { ...prevOptions, ...newOptions };
 
         if (prevOptions[key] && prevOptions[key] === newOptions[key]) {
@@ -138,18 +140,22 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
     router.push(getDiamondShallowRoute(options), undefined, { shallow: true });
   }, [options]);
 
-  const tableProps = useMemo(() => {
-    return {
-      initialDiamonds: diamonds,
-      initialOptions: options,
-      initialPagination: pagination,
-      updateOptions,
-      updateLoading,
-      clearOptions,
-      currencyCode,
-      locale,
-    };
-  }, [options]);
+  const isDiamondPairs = options.view === 'pairs' || options.view === 'toimoi';
+
+  const tableProps = {
+    initialDiamonds: diamonds,
+    initialOptions: options,
+    initialPagination: pagination,
+    updateOptions,
+    updateLoading,
+    clearOptions,
+    currencyCode,
+    ranges:
+      (options.caratMin && options.caratMax && { ...ranges, carat: { min: options.caratMin, max: options.caratMax } }) ||
+      ranges,
+    locale,
+    isDiamondPairs,
+  };
 
   const title = (
     <div className="page-title">

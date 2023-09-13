@@ -9,19 +9,22 @@ import paginate from 'mongoose-paginate-v2';
 })
 export class ToiMoiDiamondsEntity extends AbstractDocument {
   @Prop({ type: Number })
-  carat?: number;
+  carat: number;
 
   @Prop({ type: String })
-  cut?: string;
+  cut: string;
 
   @Prop({ type: String })
-  color?: string;
+  color: string;
 
   @Prop({ type: String })
-  clarity?: string;
+  clarity: string;
 
   @Prop({ type: String })
-  diamondType?: string;
+  diamondType: string;
+
+  @Prop({ type: Number })
+  price: number;
 }
 
 export const ToiMoiDiamondsSchema = SchemaFactory.createForClass(ToiMoiDiamondsEntity);

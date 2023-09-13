@@ -144,12 +144,16 @@ const StyledDiamondFilter = styled.aside`
       ${tabletAndUp(`
         display: flex;
         white-space: normal;
-        justify-content: space-between;
+        gap: 1.5rem;
       `)}
     }
 
     .vo-filter-list-item {
       display: inline-block;
+
+      .-pair {
+        padding: 0 0 0 0.5rem;
+      }
 
       ${tabletAndUp(`
         display: flex;

@@ -7,7 +7,15 @@ import { useContext } from 'react';
 
 import StyledDiamondTableRowAccordion from './DiamondTableRowAccordion.style';
 
-const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: DiamondDataTypes; locale?: string }) => {
+const DiamondDetailRowAccordion = ({
+  product,
+  productPair,
+  locale = 'en_US',
+}: {
+  product?: DiamondDataTypes;
+  productPair?: DiamondDataTypes;
+  locale?: string;
+}) => {
   const { isMobile } = useContext(GlobalContext);
   const { data: diamondTableData } = useDiamondTableData(locale);
 
@@ -74,8 +82,8 @@ const DiamondDetailRowAccordion = ({ product, locale = 'en_US' }: { product?: Di
           </Tooltip>
         </>
       ),
-      children: <CertificateThumb certificateUrl={dfCertificateUrl} />,
-      className: 'certificate',
+      children: <CertificateThumb certificateUrl={dfCertificateUrl} productPair={productPair} />,
+      className: 'certificate product-pair',
     },
   ];
 
