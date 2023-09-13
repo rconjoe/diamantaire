@@ -163,7 +163,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         availableFilters={availableFilters}
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
-        initialProducts={initialProducts}
         setFilterValues={setFilterValues}
         filterValue={filterValue}
       />
