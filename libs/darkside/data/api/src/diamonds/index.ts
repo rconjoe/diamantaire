@@ -1,37 +1,13 @@
-import { DIAMOND_TYPE_INTERNAL_NAMES } from '@diamantaire/shared/constants';
-
 // eslint-disable-next-line
-import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
-
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
+import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
   try {
     const getFormatedDataForApi = () => {
-      const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        if (titles.includes(value)) {
-          return {
-            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
-            title: value,
-          };
-        }
-
-        if (slugs.includes(value)) {
-          return {
-            slug: value,
-            title: titles[slugs.findIndex((v) => v === value)],
-          };
-        }
-
-        return {};
-      };
-
       const diamondType =
         (options.diamondType && {
           diamondType: options.diamondType
@@ -54,9 +30,13 @@ export const fetchDiamondData = async (options) => {
 
     const url: string = '/diamonds' + getFormatedDataForApi();
 
+    console.log(`URL!!`, url);
+
     const response = await queryClientApi().request({ method: 'GET', url });
 
     const payload = response?.data || {};
+
+    console.log(`payload!!`, payload);
 
     if (id) {
       return {
@@ -80,28 +60,6 @@ export const fetchDiamondData = async (options) => {
 export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
   try {
     const getFormatedDataForApi = () => {
-      const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        if (titles.includes(value)) {
-          return {
-            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
-            title: value,
-          };
-        }
-
-        if (slugs.includes(value)) {
-          return {
-            slug: value,
-            title: titles[slugs.findIndex((v) => v === value)],
-          };
-        }
-
-        return {};
-      };
-
       const diamondType =
         (options.diamondType && {
           diamondType: options.diamondType

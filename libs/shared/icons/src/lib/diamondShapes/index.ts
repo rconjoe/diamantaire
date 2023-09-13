@@ -204,4 +204,19 @@ export const diamondIconsMap = {
     slug: 'trillion',
     icon: TrillionIcon,
   },
+  'emerald+pear': {
+    slug: 'emerald+pear',
+    icon: EmeraldIcon,
+    icon2: PearIcon,
+  },
+  'round-brilliant+pear': {
+    slug: 'round-brilliant+pear',
+    icon: RoundBrilliantIcon,
+    icon2: PearIcon,
+  },
+  'round-brilliant+oval': {
+    slug: 'round-brilliant+oval',
+    icon: RoundBrilliantIcon,
+    icon2: OvalIcon,
+  },
 };

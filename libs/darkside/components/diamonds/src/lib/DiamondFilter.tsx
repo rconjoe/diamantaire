@@ -90,17 +90,21 @@ const RadioFilter = (props) => {
 
   let optionsUI,
     rangeTypes,
-    shapeTitles,
     shapeHandles = [];
 
   switch (type) {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
-      shapeTitles = Object.keys(DIAMOND_TABLE_SHAPES);
       shapeHandles = Object.values(DIAMOND_TABLE_SHAPES);
+
       optionsUI = shapeHandles
-        .filter((handle) => rangeTypes?.includes(handle))
-        .reduce((a, _, i) => [...a, [shapeTitles[i]]], []);
+        .filter((handle) => {
+          return rangeTypes?.includes(handle);
+        })
+        .reduce((a, v) => {
+          return [...a, getDiamondType(v).slug];
+        }, []);
+
       break;
     case 'clarity':
       optionsUI = Object.values(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
@@ -192,14 +196,21 @@ const RadioFilter = (props) => {
       <ul className="vo-filter-list">
         {optionsUI.map((optionUI: string, index: number) => {
           if (type === 'diamondType') {
-            const slug = DIAMOND_TABLE_SHAPES[optionUI[0]];
+            const slug = optionUI;
+            const title = getDiamondType(optionUI)?.title;
             const shape = diamondIconsMap[slug];
-            const title = getDiamondType(shape.slug).title;
+
+            if (!shape) return <></>;
 
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
                 <a title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
+                  {shape.icon2 && (
+                    <div className="-pair">
+                      <shape.icon2 />
+                    </div>
+                  )}
                 </a>
               </li>
             );

@@ -14,7 +14,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { StyledDiamondPage } from './DiamondPage.style';
 
@@ -69,6 +69,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
       const key = Object.keys(newOptions).pop();
 
       if (key === 'diamondType') {
+        newOptions[key].split().join();
+
         updatedOptions = { ...prevOptions, ...newOptions };
 
         if (prevOptions[key] && prevOptions[key] === newOptions[key]) {

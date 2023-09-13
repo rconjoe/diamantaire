@@ -8,6 +8,7 @@ import {
   DIAMOND_TABLE_VALID_CUTS,
   DIAMOND_TABLE_VALID_SORT_BY,
   DIAMOND_TABLE_VALID_SORT_ORDER,
+  DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_TYPE_INTERNAL_NAMES,
   DIAMOND_VALID_QUERIES,
 } from '@diamantaire/shared/constants';
@@ -26,9 +27,9 @@ export const diamondOption = {
 };
 
 export const getDiamondType = (value: string) => {
-  const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
+  const titles = Object.values(DIAMOND_TYPE_HUMAN_NAMES);
 
-  const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
+  const slugs = Object.keys(DIAMOND_TYPE_HUMAN_NAMES);
 
   // GET DIAMOND TYPE ON DIAMOND SLUG
   if (diamondOption.isHandle(value)) {
