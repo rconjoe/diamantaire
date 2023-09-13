@@ -9,6 +9,7 @@ interface DiamondVariantTypes {
 }
 
 export interface DiamondPair {
+  id: string;
   diamondType: string;
   carat: number;
   color: string;

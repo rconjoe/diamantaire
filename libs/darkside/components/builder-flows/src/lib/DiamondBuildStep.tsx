@@ -152,6 +152,9 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
                 flowIndex={flowIndex}
+                updateOptions={() => null}
+                clearOptions={() => null}
+                ranges={ranges}
               />
             </div>
           </div>
