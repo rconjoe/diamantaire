@@ -36,7 +36,7 @@ interface Props {
       title: string;
     };
     category: string;
-    productData: ProductData[];
+    productData: any;
   };
 }
 

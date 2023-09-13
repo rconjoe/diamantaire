@@ -1,11 +1,16 @@
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
+import { PageViewTracker, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import {
+  getFormattedPrice,
+  DIAMOND_TYPE_HUMAN_NAMES,
+  FACETED_NAV_ORDER,
+  METALS_IN_HUMAN_NAMES,
+} from '@diamantaire/shared/constants';
 import { objectToURLSearchParams, parseStringToObjectWithNestedValues } from '@diamantaire/shared/helpers';
 import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
@@ -41,6 +46,7 @@ type PlpPageProps = {
 };
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
+  const { productListFiltered } = useAnalytics();
   const router = useRouter();
   const { ref: pageEndRef, inView } = useInView({
     rootMargin: '800px',
@@ -115,10 +121,33 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       ...newFilterObject,
     });
 
+    handleFilterEvent(filterValue);
     setQParams(newParams);
   }, [availableFilters.price, category, filterValue, paginationPages, plpSlug]);
 
   const listPageData = { productData: data, hero, category };
+
+  function handleFilterEvent(filters) {
+    if (window.location.search !== '') {
+      const { price } = filters || {};
+      const formattedMinPrice = price?.min && getFormattedPrice(price.min);
+      const formattedMaxPrice = price?.max && getFormattedPrice(price.max);
+      const priceRange = formattedMinPrice && formattedMaxPrice ? `${formattedMinPrice} - ${formattedMaxPrice}` : price;
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const hasPriceFilter = urlSearchParams.has('priceMin') || urlSearchParams.has('priceMax');
+
+      const filterEvent = {
+        list_id: hero?.title,
+        filters: {
+          ...filters,
+          price: hasPriceFilter ? priceRange : undefined,
+        },
+        // TODO: add sort_by data when ready
+      };
+
+      productListFiltered(filterEvent);
+    }
+  }
 
   return (
     <div>
