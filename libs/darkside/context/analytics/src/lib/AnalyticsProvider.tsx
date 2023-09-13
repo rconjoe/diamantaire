@@ -59,7 +59,6 @@ export const AnalyticsProvider = ({ children }) => {
 
   const analytics = {
     viewPage: (pageName: string) => {
-      console.log('viewPage', pageName);
       trackEvent(GTM_EVENTS.viewPage, { pageName });
     },
     productViewed: (eventData: Record<string, any>) => {
