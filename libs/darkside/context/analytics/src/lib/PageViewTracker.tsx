@@ -174,40 +174,38 @@ const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>)
 };
 
 function getNormalizedListPageProducts({ products, locale, currencyCode }) {
-  if (!products) {
+  if (!Array.isArray(products)) {
     return [];
   }
 
-  const normalizedProducts =
-    products &&
-    products.map((product, idx) => {
-      const { defaultId, variants } = product;
-      const {
-        productSlug,
-        productType,
-        primaryImage: { src },
-        price,
-        title,
-      } = variants[defaultId];
-      const variantId = productSlug.split('-').pop();
-      const formattedPrice = getFormattedPrice(price, locale, true, true);
-      const brand = 'VRAI';
+  const normalizedProducts = products.map((product, idx) => {
+    const { defaultId, variants } = product;
+    const {
+      productSlug,
+      productType,
+      primaryImage: { src },
+      price,
+      title,
+    } = variants[defaultId];
+    const variantId = productSlug.split('-').pop();
+    const formattedPrice = getFormattedPrice(price, locale, true, true);
+    const brand = 'VRAI';
 
-      return {
-        id: variantId,
-        position: idx,
-        category: productType,
-        image_url: src,
-        price: formattedPrice,
-        currencyCode,
-        brand,
-        name: title,
-        // rudderstack base ecommerce keys could add later
-        // sku,
-        // variant,
-        // product_id
-      };
-    });
+    return {
+      id: variantId,
+      position: idx,
+      category: productType,
+      image_url: src,
+      price: formattedPrice,
+      currencyCode,
+      brand,
+      name: title,
+      // rudderstack base ecommerce keys could add later
+      // sku,
+      // variant,
+      // product_id
+    };
+  });
 
   return normalizedProducts;
 }

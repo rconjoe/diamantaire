@@ -1,7 +1,10 @@
+/* eslint-disable camelcase */
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { metalTypeAsConst } from '@diamantaire/shared/constants';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
+import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -23,7 +26,12 @@ const PlpProductVariantStyles = styled.div`
   }
 `;
 
-const PlpProductVariant = ({ variant }: { variant: ListPageItemConfiguration }) => {
+const PlpProductVariant = ({ variant, position }: { variant: ListPageItemConfiguration; position: number }) => {
+  const { productClicked } = useAnalytics();
+  const router = useRouter();
+  const { countryCode } = parseValidLocale(router?.locale);
+
+  const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, configuration, price } = variant || {};
 
@@ -32,9 +40,28 @@ const PlpProductVariant = ({ variant }: { variant: ListPageItemConfiguration }) 
     setIsPrimaryImage(!isPrimaryImage);
   };
 
+  const handleClick = () => {
+    const { primaryImage: { src } = { src: '' } } = variant || {};
+    const id = productSlug.split('-').pop();
+    const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
+    const brand = 'VRAI';
+
+    productClicked({
+      id,
+      position,
+      category: productType,
+      image_url: src,
+      price: formattedPrice,
+      currencyCode,
+      brand,
+      name: title,
+      ...configuration,
+    });
+  };
+
   return (
     <PlpProductVariantStyles>
-      <ProductLink productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
+      <ProductLink onClick={handleClick} productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
         <div className="plp-variant__inner">
           <div className="plp-variant__image">
             <button

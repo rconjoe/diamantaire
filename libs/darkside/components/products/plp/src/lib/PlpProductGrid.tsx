@@ -127,7 +127,7 @@ const PlpProductGrid = ({
                 <PlpDiamondItem product={product} />
               ) : (
                 <div>
-                  <PlpProductItem product={product} />
+                  <PlpProductItem product={product} position={gridItemIndex} />
                   {isSettingSelect && (
                     <div
                       style={{
