@@ -552,13 +552,15 @@ export class DiamondsService {
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
+        console.log({ filteredQuery });
+
         const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
         const response = {
           ...result,
           ranges: availablePropertyValues,
         };
 
-        this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
+        this.utils.memSet(diamondPairCacheKey, response, 15); // set cache for 15 seconds
 
         return response;
       }
@@ -569,6 +571,7 @@ export class DiamondsService {
   }
 
   optionalDiamondsQuery(input) {
+    console.log(input);
     const query = {};
 
     if (input?.diamondType) {
@@ -669,7 +672,7 @@ export class DiamondsService {
           ranges: availablePropertyValues,
         };
 
-        this.utils.memSet(diamondPairCacheKey, response, 60); // set cache for 1 min
+        this.utils.memSet(diamondPairCacheKey, response, 15); // set cache for 15 seconds
 
         return response;
       }
