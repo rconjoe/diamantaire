@@ -177,10 +177,10 @@ function generateRedirects(products, fromBaseUrl, toBaseUrl) {
 
     return;
   }
-  const redirects = products.reduce((redirects, product) => {
-    redirects.push({ from: generateFromUrl(product, fromBaseUrl), to: generateToUrl(product, toBaseUrl) });
+  const redirects = products.reduce((acc, current) => {
+    acc.push({ from: generateFromUrl(current, fromBaseUrl), to: generateToUrl(current, toBaseUrl) });
 
-    return redirects;
+    return acc;
   }, []);
 
   return redirects;

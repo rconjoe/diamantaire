@@ -181,7 +181,7 @@ export const countries: Record<string, CountryDetails> = {
   },
   SE: {
     code: 'SE',
-    name: 'Sweeden',
+    name: 'Sweden',
     region: countryRegions.Europe,
     currency: Currency.Euros,
     languages: [Language.English],
@@ -198,8 +198,9 @@ export const countries: Record<string, CountryDetails> = {
     code: 'GB',
     name: 'United Kingdom',
     region: countryRegions.Europe,
-    currency: Currency.Euros,
+    currency: Currency.BritishPounds,
     languages: [Language.English],
+    vat: 0.2,
   },
   AU: {
     code: 'AU',
@@ -478,7 +479,14 @@ export function hasCentsValues(amount: number) {
  * @returns {number} - amount with exchange rate applied
  */
 export function applyExchangeRate(amount: number, currency = 'USD') {
-  return amount * USDollarExchangeRates[currency];
+  const result = amount * USDollarExchangeRates[currency];
+
+  if (currency === 'USD') {
+    return result;
+  }
+  // round up for international currencies
+
+  return Math.ceil(result);
 }
 
 /**
@@ -486,13 +494,23 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
  * @param {number} priceInCents - USD price in cents
  * @param {string} locale - locale to format the price
  * @param {boolean} hideZeroCents - should show trailing 00 cents if price is a whole number
+ * @param {boolean} excludeCurrency - should exclude currency symbol
  * @returns {string} - formatted price
  */
-export function getFormattedPrice(priceInCents: number, locale = 'en-US', hideZeroCents = true): string {
+export function getFormattedPrice(
+  priceInCents: number,
+  locale = 'en-US',
+  hideZeroCents = true,
+  excludeCurrency = false,
+): string {
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
   const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
   const convertedPrice = applyExchangeRate(priceInDollars, currency);
+
+  if (excludeCurrency) {
+    return Number(convertedPrice).toFixed(2);
+  }
 
   const numberFormat = new Intl.NumberFormat(locale, {
     style: 'currency',

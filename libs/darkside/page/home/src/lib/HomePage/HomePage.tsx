@@ -28,6 +28,7 @@ const HomePage = (props: HomePageProps) => {
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
       <StandardPageEntry
+        gtmClass="mkt-is-homepage"
         page={page}
         isMobile={props?.isMobile}
         countryCode={props?.countryCode}
