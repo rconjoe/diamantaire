@@ -29,6 +29,7 @@ interface PdpPageParams extends ParsedUrlQuery {
   productSlug: string;
 }
 export interface PdpPageProps {
+  key: string;
   params: PdpPageParams;
   dehydratedState: DehydratedState;
 }
@@ -191,6 +192,7 @@ export async function getServerSideProps(
 
   return {
     props: {
+      key: productSlug,
       params,
       dehydratedState: dehydrate(queryClient),
     },

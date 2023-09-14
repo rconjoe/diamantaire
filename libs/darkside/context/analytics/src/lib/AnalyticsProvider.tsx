@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { isProdEnv } from '@diamantaire/shared/constants';
 import { useEffect, createContext, useContext } from 'react';
 import TagManager from 'react-gtm-module';
@@ -6,6 +7,9 @@ type AnalyticsContextType = {
   viewPage: (pageName: string) => void;
   productViewed: (eventData: Record<string, any>) => void;
   emitDataLayer: (data: Record<string, any>) => void;
+  productListViewed: ({ listName, category, variantIds, products }) => void;
+  productClicked: (eventData: Record<string, any>) => void;
+  productListFiltered: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -24,6 +28,9 @@ export const GTM_EVENTS = {
   viewPage: 'viewPage',
   viewItem: 'view_item',
   selectDiamond: 'select_diamond',
+  viewListPage: 'viewListPage',
+  productClicked: 'productClicked',
+  productListFiltered: 'productListFiltered',
 };
 
 export const tagManagerArgs = {
@@ -58,6 +65,15 @@ export const AnalyticsProvider = ({ children }) => {
     productViewed: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.viewItem, eventData);
     },
+    productListViewed: ({ listName, category, variantIds, products }) => {
+      trackEvent(GTM_EVENTS.viewListPage, { listName, category, variantIds, products });
+    },
+    productClicked: (eventData: Record<string, any>) => {
+      trackEvent(GTM_EVENTS.productClicked, eventData);
+    },
+    productListFiltered: (eventData: Record<string, any>) => {
+      trackEvent(GTM_EVENTS.productListFiltered, eventData);
+    },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
       if (shouldEnableTracking()) {
@@ -67,4 +83,30 @@ export const AnalyticsProvider = ({ children }) => {
   };
 
   return <AnalyticsContext.Provider value={analytics}>{children}</AnalyticsContext.Provider>;
+};
+
+export const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
+  const normalizedConfiguration: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(configuration)) {
+    switch (key) {
+      case 'diamondType':
+        normalizedConfiguration.diamond_type = value;
+        break;
+      case 'goldPurity':
+        normalizedConfiguration.gold_purity = value;
+        break;
+      case 'caratWeight':
+        normalizedConfiguration.carat_weight = value;
+        break;
+      case 'bandAccent':
+        normalizedConfiguration.band_accent = value;
+        break;
+      default:
+        normalizedConfiguration[key] = value;
+        break;
+    }
+  }
+
+  return normalizedConfiguration;
 };

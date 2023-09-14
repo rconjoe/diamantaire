@@ -1,7 +1,10 @@
+/* eslint-disable camelcase */
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { metalTypeAsConst } from '@diamantaire/shared/constants';
+import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/darkside/context/analytics';
+import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -23,18 +26,85 @@ const PlpProductVariantStyles = styled.div`
   }
 `;
 
-const PlpProductVariant = ({ variant }: { variant: ListPageItemConfiguration }) => {
+const PlpProductVariant = ({
+  variant,
+  position,
+  plpTitle,
+}: {
+  variant: ListPageItemConfiguration;
+  position: number;
+  plpTitle: string;
+}) => {
+  const { productClicked } = useAnalytics();
+  const router = useRouter();
+  const { countryCode } = parseValidLocale(router?.locale);
+
+  const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
-  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, configuration, price } = variant || {};
+  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
+  const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
     setIsPrimaryImage(!isPrimaryImage);
   };
 
+  const handleClick = () => {
+    const { primaryImage: { src } = { src: '' } } = variant || {};
+    const id = productSlug.split('-').pop();
+    const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
+    const brand = 'VRAI';
+
+    productClicked({
+      id,
+      position,
+      category: productType,
+      image_url: src,
+      price: formattedPrice,
+      currencyCode,
+      brand,
+      name: title,
+      ...configuration,
+      // used for select_setting
+      setting: title,
+      // used for select_item
+      item_list_name: plpTitle,
+      item_name: title,
+      product: title,
+      ecommerce: {
+        click: {
+          products: [
+            {
+              id,
+              brand,
+              category: productType,
+              price: formattedPrice,
+              quantity: 1,
+              currency: currencyCode,
+            },
+          ],
+        },
+        item_list_name: plpTitle,
+        items: [
+          {
+            item_id: id,
+            item_name: title,
+            item_brand: brand,
+            item_category: productType,
+            price: formattedPrice,
+            currency: currencyCode,
+            position,
+            ...configuration,
+          },
+        ],
+        item_name: title,
+      },
+    });
+  };
+
   return (
     <PlpProductVariantStyles>
-      <ProductLink productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
+      <ProductLink onClick={handleClick} productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
         <div className="plp-variant__inner">
           <div className="plp-variant__image">
             <button

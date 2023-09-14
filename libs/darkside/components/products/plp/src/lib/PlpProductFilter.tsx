@@ -53,7 +53,7 @@ const PlpProductFilter = ({
   ];
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
-  const [isCustomPricRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
+  const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
   const router = useRouter();
   const { headerHeight } = useGlobalContext();
 
@@ -244,15 +244,15 @@ const PlpProductFilter = ({
                     <li>
                       <button
                         className={clsx('flex align-center', {
-                          active: isCustomPricRangeOpen,
+                          active: isCustomPriceRangeOpen,
                         })}
-                        onClick={() => setIsCustomPriceRangeOpen(!isCustomPricRangeOpen)}
+                        onClick={() => setIsCustomPriceRangeOpen(!isCustomPriceRangeOpen)}
                       >
                         <span className="price-text">Custom</span>
                       </button>
                     </li>
                   </ul>
-                  {isCustomPricRangeOpen && (
+                  {isCustomPriceRangeOpen && (
                     <div className="filter-slider">
                       <Slider
                         step={100}
