@@ -58,10 +58,6 @@ async function getServerSideProps({ locale, res }: GetServerSidePropsContext<und
     ...queries.header.content(locale),
   });
 
-  // await queryClient.prefetchQuery({
-  //   ...queries.footer.content(locale),
-  // });
-
   await queryClient.prefetchQuery({
     ...queries['standard-page'].content('darkside-home', locale),
   });

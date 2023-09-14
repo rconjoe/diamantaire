@@ -10,16 +10,21 @@ type SortedRequestOptions = {
 
 type PaginatedRequestOptions = {
   limit?: number;
-  page?: number;
+  page: number;
 };
 
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
-const API_URL = `${BASE_URL}/api/plp`;
 
-export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, limit = 12) {
-  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
-  const reqUrl = `${API_URL}/getPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+export async function getVRAIServerPlpData(
+  category: string,
+  slug: string,
+  filterOptions = {},
+  { page = 1, limit = 12 }: PaginatedRequestOptions,
+) {
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+  const qParams = new URLSearchParams({ category, slug, ...filterOptions, page: page.toString(), limit: limit.toString() });
+  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -41,9 +46,10 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
-  const reqUrl = `${API_URL}/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+  const reqUrl = `${baseUrl}/api/plp/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -59,10 +65,10 @@ export async function getVRAIServerDiamondPlpData(
   return response;
 }
 
-export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
+export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    [`plp-${qParams.toString()}`],
-    ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
+    [`plp`, category, slug, ...Object.values(filterOptions || {})],
+    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
@@ -75,7 +81,6 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
           return false;
         }
       },
-      initialData,
     },
   );
 

@@ -109,6 +109,8 @@ const PlpProductGrid = ({
     return;
   }
 
+  console.log('PRODUCTS', products);
+
   return (
     <PlpProductGridStyles ref={gridRef}>
       <PlpProductFilter

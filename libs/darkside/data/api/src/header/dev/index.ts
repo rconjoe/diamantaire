@@ -61,6 +61,8 @@ export async function fetchHeaderData(locale: string) {
 
   if (typeof window === 'undefined') {
     reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  } else {
+    reqUrl = `${window.location.origin}/${reqUrl}`;
   }
   const response = await fetch(reqUrl);
 
