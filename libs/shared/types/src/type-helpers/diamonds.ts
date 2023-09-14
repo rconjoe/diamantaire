@@ -8,7 +8,7 @@ interface DiamondVariantTypes {
   variantTitle?: string;
 }
 
-export interface DiamondPair {
+export interface DiamondPairDataTypes {
   id: string;
   diamondType: string;
   carat: number;
@@ -18,8 +18,8 @@ export interface DiamondPair {
   diamonds: [DiamondDataTypes, DiamondDataTypes];
 }
 
-export function isDiamondPairType(data: DiamondDataTypes | DiamondPair): data is DiamondPair {
-  return (data as DiamondPair).diamonds !== undefined;
+export function isDiamondPairType(data: DiamondDataTypes | DiamondPairDataTypes): data is DiamondPairDataTypes {
+  return (data as DiamondPairDataTypes).diamonds !== undefined;
 }
 
 export interface DiamondDataTypes {

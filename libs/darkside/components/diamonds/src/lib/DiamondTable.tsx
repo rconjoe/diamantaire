@@ -2,8 +2,8 @@ import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
-import { DiamondDataTypes, DiamondPair, isDiamondPairType } from '@diamantaire/shared/types';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -21,15 +21,15 @@ type Info =
     }
   | {
       getValue: () => string;
-      row: { original: DiamondPair };
+      row: { original: DiamondPairDataTypes };
     };
 
 type DiamondTableProps = {
-  activeRow?: DiamondDataTypes | DiamondPair;
-  setActiveRow?: (item: DiamondDataTypes | DiamondPair) => void;
+  activeRow?: DiamondDataTypes | DiamondPairDataTypes;
+  setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
   currencyCode: string;
   locale: string;
-  initialDiamonds: DiamondDataTypes[] | DiamondPair[];
+  initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
     currentPage?: number;
     perPage?: number;
@@ -65,7 +65,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
-  const [activeRow, setActiveRow] = useState<DiamondDataTypes | DiamondPair | null>(props.activeRow);
+  const [activeRow, setActiveRow] = useState<DiamondDataTypes | DiamondPairDataTypes | null>(props.activeRow);
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -119,7 +119,10 @@ const DiamondTable = (props: DiamondTableProps) => {
       {
         accessorKey: 'diamondType',
         cell: (info: Info) => {
-          return info.getValue();
+          const shape = info.getValue();
+          const diamondTypeTitle = (shape && getDiamondType(shape)?.title) || info.getValue();
+
+          return diamondTypeTitle;
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -164,7 +167,19 @@ const DiamondTable = (props: DiamondTableProps) => {
           if (isDiamondPairType(info.row.original)) {
             const diamonds = info.row.original.diamonds;
 
-            return <DiamondPairCell diamonds={diamonds} accessorKey="diamondType" />;
+            return (
+              <DiamondPairCell
+                diamonds={diamonds}
+                accessorKey="diamondType"
+                renderValue={(v: unknown): string => {
+                  if (typeof v === 'string') {
+                    return v && getDiamondType(v).title;
+                  } else {
+                    return 'Invalid Diamond Type';
+                  }
+                }}
+              />
+            );
           }
         },
         header: () => <UIString>shape</UIString>,
@@ -221,7 +236,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   );
 
   // TABLE
-  const table = useReactTable<DiamondDataTypes | DiamondPair>({
+  const table = useReactTable<DiamondDataTypes | DiamondPairDataTypes>({
     columns: isDiamondPairs ? diamondPairColumns : singleDiamondColumns,
     data: flatDiamonds ?? initialDiamonds,
     getCoreRowModel: getCoreRowModel(),
@@ -232,21 +247,16 @@ const DiamondTable = (props: DiamondTableProps) => {
   const onLoadMore = () => {
     if (queryDiamond.hasNextPage && !queryDiamond.isFetching && !queryDiamond.isLoading) {
       queryDiamond.fetchNextPage();
-
-      // setPagination((prevPagination) => ({
-      //   ...prevPagination,
-      //   pageIndex: prevPagination.pageIndex + 1,
-      // }));
     }
   };
 
   const onRowClick = (row) => {
     if (row?.id === activeRow?.id) {
       setActiveRow(null);
-      props.setActiveRow(null);
+      // props.setActiveRow(null);
     } else {
       setActiveRow(row);
-      props.setActiveRow(row);
+      // props.setActiveRow(row);
     }
   };
 
@@ -259,9 +269,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     table.setPageIndex(1);
 
     setActiveRow(null);
-    props.setActiveRow(null);
 
-    // window?.scrollTo(0, 0);
+    // props.setActiveRow(null);
   };
 
   const onHeaderClick = (header) => {
