@@ -4,7 +4,7 @@ import { dangerouslyExtractInternalShopifyId } from '@diamantaire/shared-product
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { useAnalytics, GTM_EVENTS } from './AnalyticsProvider';
+import { useAnalytics, GTM_EVENTS, normalizeVariantConfigurationForGTM } from './AnalyticsProvider';
 
 interface ProductData {
   productTitle: string;
@@ -149,29 +149,6 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
 };
 
 export { PageViewTracker };
-
-const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
-  const normalizedConfiguration: Record<string, any> = {};
-
-  for (const [key, value] of Object.entries(configuration)) {
-    switch (key) {
-      case 'diamondType':
-        normalizedConfiguration.diamond_type = value;
-        break;
-      case 'goldPurity':
-        normalizedConfiguration.gold_purity = value;
-        break;
-      case 'caratWeight':
-        normalizedConfiguration.carat_weight = value;
-        break;
-      default:
-        normalizedConfiguration[key] = value;
-        break;
-    }
-  }
-
-  return normalizedConfiguration;
-};
 
 function getNormalizedListPageProducts({ products, locale, currencyCode }) {
   if (!Array.isArray(products)) {

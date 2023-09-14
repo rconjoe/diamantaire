@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
+import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/darkside/context/analytics';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
@@ -41,7 +41,8 @@ const PlpProductVariant = ({
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
-  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, configuration, price } = variant || {};
+  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
+  const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
@@ -64,6 +65,8 @@ const PlpProductVariant = ({
       brand,
       name: title,
       ...configuration,
+      // used for select_setting
+      setting: title,
       // used for select_item
       item_list_name: plpTitle,
       item_name: title,

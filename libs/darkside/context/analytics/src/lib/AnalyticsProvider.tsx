@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { isProdEnv } from '@diamantaire/shared/constants';
 import { useEffect, createContext, useContext } from 'react';
 import TagManager from 'react-gtm-module';
@@ -82,4 +83,30 @@ export const AnalyticsProvider = ({ children }) => {
   };
 
   return <AnalyticsContext.Provider value={analytics}>{children}</AnalyticsContext.Provider>;
+};
+
+export const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
+  const normalizedConfiguration: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(configuration)) {
+    switch (key) {
+      case 'diamondType':
+        normalizedConfiguration.diamond_type = value;
+        break;
+      case 'goldPurity':
+        normalizedConfiguration.gold_purity = value;
+        break;
+      case 'caratWeight':
+        normalizedConfiguration.carat_weight = value;
+        break;
+      case 'bandAccent':
+        normalizedConfiguration.band_accent = value;
+        break;
+      default:
+        normalizedConfiguration[key] = value;
+        break;
+    }
+  }
+
+  return normalizedConfiguration;
 };
