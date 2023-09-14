@@ -22,7 +22,6 @@ const PlpProductFilter = ({
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
   isParamBased: boolean;
 }) => {
-  console.log(filterValue);
   const router = useRouter();
   const [plpSlug] = router.query.plpSlug;
   const filterTypes = availableFilters;
