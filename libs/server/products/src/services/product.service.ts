@@ -3,7 +3,7 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT } from '@diamantaire/darkside/data/api';
+import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
@@ -159,7 +159,7 @@ export class ProductsService {
 
       let collectionContent, productContent;
 
-      if ([ProductType.EngagementRing as string, ProductType.WeddingBand as string].includes(requestedProduct.productType)) {
+      if ([ProductType.EngagementRing as string].includes(requestedProduct.productType)) {
         // dato ER query
         const queryVars = {
           collectionSlug: input.slug,
@@ -171,6 +171,18 @@ export class ProductsService {
         const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
 
         collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
+        productContent = datoEngagementRingPDP?.['variantContent'];
+      } else if ([ProductType.WeddingBand as string].includes(requestedProduct.productType)) {
+        const queryVars = {
+          collectionSlug: input.slug,
+          productHandle: requestedContentId,
+          locale: setLocal,
+        };
+
+        // TODO: Add Dato types
+        const datoEngagementRingPDP: object = await this.datoContentForWeddingBands(queryVars); // return dato engagement ring pdp content
+
+        collectionContent = datoEngagementRingPDP?.['weddingBandProduct'];
         productContent = datoEngagementRingPDP?.['variantContent'];
       } else {
         // dato ER query
@@ -411,6 +423,31 @@ export class ProductsService {
     try {
       if (!response) {
         response = await this.utils.createDataGateway().request(ERPDP, queryVars); // dato engagement ring pdp query
+        this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+      }
+
+      return response;
+    } catch (error: any) {
+      this.logger.error(`datoContentForEngagementRings :: error : ${error.message}`);
+      throw error;
+    }
+  }
+
+  async datoContentForWeddingBands({ collectionSlug, productHandle, locale = 'en_US' }): Promise<object> {
+    this.logger.verbose(`Entering into dataContent ${collectionSlug}-${productHandle}-${locale}`);
+    const cachedKey = `${collectionSlug}-${productHandle}-${locale}`;
+    let response = await this.utils.memGet<object>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      collectionSlug,
+      productHandle,
+      locale: getDatoRequestLocale(locale),
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(WEDDING_BAND_PDP, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
         this.utils.memSet(cachedKey, response, 3600); //set the response in memory
       }
