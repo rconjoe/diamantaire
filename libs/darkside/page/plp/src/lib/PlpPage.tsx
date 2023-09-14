@@ -5,7 +5,7 @@ import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { FACETED_NAV_ORDER, getFormattedPrice } from '@diamantaire/shared/constants';
+import { FACETED_NAV_ORDER, MetalType, DiamondTypes, getFormattedPrice } from '@diamantaire/shared/constants';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -181,10 +181,8 @@ function getValidFiltersFromFacetedNav(
   const style = query.style?.toString();
   const subStyle = query.subStyle?.toString();
 
-  const metalParamIndex = params.findIndex((param) =>
-    ['platinum', 'silver', 'yellow-gold', 'white-gold', 'rose-gold'].includes(param),
-  ); // need all metal types
-  const diamondTypeParamIndex = params.findIndex((param) => ['round-brilliant', 'pear', 'oval', 'marquise'].includes(param)); // needs all diamond types
+  const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
+  const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
 
   const facetOrder = [];
 
@@ -202,6 +200,7 @@ function getValidFiltersFromFacetedNav(
     return index === 0 || facetIndex > facetOrder[index - 1];
   });
 
+  // TODO: Need to return 404 if a single facet is not valid
   if (!areFacetsInOrder) {
     return undefined;
   }
@@ -234,6 +233,8 @@ function getValidFiltersFromFacetedNav(
   if (diamondTypeParamIndex !== -1) {
     filterOptions['diamondType'] = params[diamondTypeParamIndex];
   }
+
+  console.log('filterOptions', filterOptions);
 
   return filterOptions;
 }

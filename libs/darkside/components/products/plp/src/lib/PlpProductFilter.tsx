@@ -23,6 +23,8 @@ const PlpProductFilter = ({
   isParamBased: boolean;
 }) => {
   console.log(filterValue);
+  const router = useRouter();
+  const [plpSlug] = router.query.plpSlug;
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
 
@@ -55,7 +57,6 @@ const PlpProductFilter = ({
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
-  const router = useRouter();
   const { headerHeight } = useGlobalContext();
 
   function toggleFilterOptionSet(filterSlug: FilterTypeProps) {
@@ -67,10 +68,6 @@ const PlpProductFilter = ({
   }
 
   function updateFilter(filterType: string, value) {
-    const currentPath = window.location.pathname;
-    const pathSegments = currentPath.split('/').filter((segment) => segment !== '');
-    const updatedSegments = [...pathSegments];
-    const collectionURL = updatedSegments[0];
     const newFilters = { ...filterValue, [filterType]: value };
 
     // Remove attributes with undefined values
@@ -83,34 +80,59 @@ const PlpProductFilter = ({
     if (filterType !== 'price') {
       // Update the browser URL
       if (!isParamBased) {
-        // Faceted Nav Filter Behavior
         // Build the new URL path based on the filter values
-        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, v]) => v !== null && key in newFilters,
-        );
+        const sortedQParams = Object.entries(newFilters)
+          .sort(([k], [k2]) => (k > k2 ? 1 : 0))
+          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
+            if (k === 'price' && typeof v === 'object') {
+              if (v.min) acc['priceMin'] = v.min;
+              if (v.max) acc['priceMax'] = v.max;
+            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+              acc[k] = v;
+            }
 
-        const newPath = sortedEntries.map(([_key, v]) => `${v}`).join('/');
+            return acc;
+          }, {});
 
         // Construct the new URL with the updated path
-        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}/${newPath}${window.location.search}`;
-
-        window.history.pushState({ path: newUrl }, '', newUrl);
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { plpSlug: [plpSlug], ...sortedQParams },
+          },
+          undefined,
+          { shallow: true },
+        );
       } else {
         // Param Filter Behavior
-        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, v]) => v !== null && key in newFilters,
-        );
-        const newPath = sortedEntries.map(([key, v], index) => `${index === 0 ? '?' : ''}${key}=${v}`).join('&');
+        const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]])
+          .filter(([key, v]) => v !== null && key in newFilters)
+          .map(([, v]) => v);
 
-        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}${newPath}`;
+        const sortedQParams = Object.entries(newFilters)
+          .sort(([k], [k2]) => (k > k2 ? 1 : 0))
+          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
+            if (k === 'price' && typeof v === 'object') {
+              if (v.min) acc['priceMin'] = v.min;
+              if (v.max) acc['priceMax'] = v.max;
+            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+              acc[k] = v;
+            }
 
-        window.history.pushState({ path: newUrl }, '', newUrl);
+            return acc;
+          }, {});
+
+        router.push({
+          pathname: router.pathname,
+          query: {
+            plpSlug: [plpSlug, ...sortedPathEntries],
+            ...sortedQParams,
+          },
+        });
       }
     } else {
       handleSliderURLUpdate(value.min, value.max);
     }
-
-    console.log('Update URl', newFilters, filterType, value);
 
     setFilterValues(newFilters);
   }
@@ -302,10 +324,9 @@ const PlpProductFilter = ({
 
                         if (priceRangeMatchesInitialState) return null;
 
+                        // generate slug to match predefined filters
                         const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
                         const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
-
-                        console.log({ selectedPriceSlug, priceLabel, price });
 
                         return (
                           <li key={`${filterValue}-${text}`}>
