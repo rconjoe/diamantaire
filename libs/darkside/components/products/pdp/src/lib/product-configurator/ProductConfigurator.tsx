@@ -1,6 +1,5 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -48,7 +47,6 @@ function ProductConfigurator({
   extraOptions,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
-  const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
 
@@ -119,7 +117,8 @@ function ProductConfigurator({
           {sizeOptions &&
             isConfigurationComplete &&
             !disableVariantType.includes('ringSize') &&
-            additionalVariantData?.productType === 'Engagement Ring' && (
+            (additionalVariantData?.productType === 'Engagement Ring' ||
+              additionalVariantData?.productType === 'Wedding Band') && (
               <OptionSelector
                 optionType={sizeOptionKey}
                 label={sizeOptionKey}

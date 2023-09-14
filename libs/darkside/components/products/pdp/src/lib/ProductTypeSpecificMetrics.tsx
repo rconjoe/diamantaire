@@ -10,9 +10,9 @@ const ProductTypeSpecificMetricsStyles = styled.div`
 const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
   return (
     <ProductTypeSpecificMetricsStyles>
-      {productType === 'Necklace' || productType === 'Bracelet' ? (
+      {productType === 'Necklace' || productType === 'Bracelet' || productType === 'Wedding Band' ? (
         <p>
-          <strong>Carat weight</strong>: {additionalVariantData?.carat}
+          <strong>Carat weight</strong>: {Math.ceil(additionalVariantData?.carat * 100) / 100}
         </p>
       ) : (
         ''

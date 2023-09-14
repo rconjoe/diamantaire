@@ -35,21 +35,23 @@ export type FormSchemaType = {
 const FormContainer = styled.div`
   p {
     margin-top: calc(var(--gutter) / 20);
+    font-size: var(--font-size-xxsmall);
   }
   form {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
     .input-container {
       display: flex;
-      flex-wrap: wrap;
-      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' || stackedSubmit ? '0 0 100%' : '0 0 50%')};
+      flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
+      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' && stackedSubmit ? '0 0 100%' : '1')};
       margin-bottom: ${({ fieldsLength, stackedSubmit }) =>
         !stackedSubmit && fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`};
 
       &.submit {
         margin-bottom: 0px;
+        flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
       > * {

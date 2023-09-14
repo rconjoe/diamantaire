@@ -48,10 +48,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
 
-  const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
+  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
 
-  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
+  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
+  console.log('init data', data);
   console.log('datoParentProductData', datoParentProductData);
 
   const {
@@ -93,6 +94,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
+  } else if (additionalVariantData?.omegaProduct) {
+    // Wedding bands have a different structure
+    additionalVariantData = additionalVariantData?.omegaProduct;
   } else {
     // Add Shopify Product Data to Dato Product Data
     additionalVariantData = additionalVariantData?.omegaProduct;
@@ -190,6 +194,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               title="Need more time to think?"
               caption="Email this customized ring to yourself or drop a hint."
               onSubmit={(e) => e.preventDefault()}
+              stackedSubmit={false}
             />
 
             <ProductDescription

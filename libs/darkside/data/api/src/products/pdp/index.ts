@@ -77,6 +77,23 @@ const JEWELRY_QUERY = gql`
   }
 `;
 
+const WEDDING_BAND_QUERY = gql`
+  query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
+    weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      id
+      productDescription
+      productIconList {
+        productType
+      }
+      caratWeight
+      specLabels {
+        id
+      }
+      diamondDescription
+    }
+  }
+`;
+
 // PDP - GENERAL COMPONENTS IN ORDER THEY APPEAR - DatoCMS
 const PRODUCT_ICON_LIST_QUERY = `
   query iconListQuery($locale: SiteLocale, $productType: String!) {
@@ -375,12 +392,15 @@ const DATO_VARIANT_QUERY = `
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
+  console.log('query productType', productType);
   const datoData = await queryDatoGQL({
     query:
       productType === pdpTypePluralAsConst['Engagement Rings']
         ? ENGAGEMENT_RING_QUERY
         : productType === pdpTypePluralAsConst['Jewelry']
         ? JEWELRY_QUERY
+        : productType === pdpTypePluralAsConst['Wedding Bands']
+        ? WEDDING_BAND_QUERY
         : null,
     variables: { slug, locale },
   });
