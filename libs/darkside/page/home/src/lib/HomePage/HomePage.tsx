@@ -55,7 +55,7 @@ async function getServerSideProps({ locale, res }: GetServerSidePropsContext<und
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
+    ...queries.template.global(locale),
   });
 
   await queryClient.prefetchQuery({

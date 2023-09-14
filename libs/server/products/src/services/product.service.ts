@@ -604,8 +604,10 @@ export class ProductsService {
           query.push({ 'configuration.diamondType': dT });
         }
 
-        if (typeof pMin !== 'undefined' && pMax) {
+        if (typeof pMin !== 'undefined') {
           query.push({ price: { $gte: priceMin } });
+        }
+        if (typeof pMax !== 'undefined') {
           query.push({ price: { $lte: priceMax } });
         }
 

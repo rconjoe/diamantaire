@@ -5,13 +5,8 @@ import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import {
-  DIAMOND_TYPE_HUMAN_NAMES,
-  FACETED_NAV_ORDER,
-  METALS_IN_HUMAN_NAMES,
-  getFormattedPrice,
-} from '@diamantaire/shared/constants';
-import { ListPageItemWithConfigurationVariants, FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
+import { FACETED_NAV_ORDER, getFormattedPrice } from '@diamantaire/shared/constants';
+import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -23,26 +18,17 @@ type PlpPageProps = {
   key: string;
   plpSlug: string;
   category: string;
-  productData?: {
-    variantsInOrder: string[];
-    products: ListPageItemWithConfigurationVariants[];
-    paginator: {
-      totalPages: number;
-      totalDocs: number;
-      limit: number;
-      page: number;
-      pagingCounter: number;
-      hasPrevPage: boolean;
-      hasNextPage: boolean;
-      prevPage: number | null;
-      nextPage: number | null;
-    };
-    availableFilters: {
-      [key in FilterTypeProps]: string[];
-    };
-  };
-  filterOptions: FilterValueProps;
+  initialFilterValues: FilterValueProps;
   dehydratedState: DehydratedState;
+};
+
+type FilterQueryValues = {
+  metal?: string;
+  diamondType?: string;
+  priceMin?: string;
+  priceMax?: string;
+  style?: string;
+  subStyle?: string;
 };
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
@@ -51,8 +37,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const { ref: pageEndRef, inView } = useInView({
     rootMargin: '800px',
   });
-  const { plpSlug, category, filterOptions } = props;
-  const [filterValue, setFilterValues] = useState<FilterValueProps>(filterOptions);
+  const { plpSlug, category, initialFilterValues } = props;
+  const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
   const { seoTitle, seoDescription } = seo || {};
@@ -122,11 +108,13 @@ PlpPage.getTemplate = getStandardTemplate;
 
 const createPlpServerSideProps = (category: string) => {
   const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
+    context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
     const { query, locale } = context;
 
-    const isParamBased = true; // Temp: Need to determine which pages use faceted nav
+    // const isParamBased = true; // Temp: Need to determine which pages use faceted nav
     const { plpSlug, ...qParams } = query;
 
+    //Render 404 if no plpSlug
     if (!plpSlug) {
       return {
         notFound: true,
@@ -135,9 +123,10 @@ const createPlpServerSideProps = (category: string) => {
 
     const [slug, ...params] = plpSlug;
 
-    const filterOptions = getValidFiltersFromFacetedNav(params, qParams, isParamBased);
+    const initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
 
-    if (!filterOptions) {
+    // Render 404 if the filter options are not valid / in valid order
+    if (!initialFilterValues) {
       return {
         notFound: true,
       };
@@ -146,13 +135,14 @@ const createPlpServerSideProps = (category: string) => {
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug, category) });
+    // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
-      queryKey: [`plp`, category, slug, ...Object.values(filterOptions || {})],
-      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { page: pageParam }),
+      queryKey: [`plp`, category, slug, ...Object.values(initialFilterValues || {})],
+      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
     });
 
     await queryClient.prefetchQuery({
-      ...queries.header.content(locale),
+      ...queries.template.global(locale),
     });
 
     return {
@@ -160,7 +150,7 @@ const createPlpServerSideProps = (category: string) => {
         key: slug,
         plpSlug: slug,
         category,
-        filterOptions,
+        initialFilterValues,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
     };
@@ -185,58 +175,64 @@ export { PlpPage, createPlpServerSideProps };
 function getValidFiltersFromFacetedNav(
   params: string[],
   query: Record<string, string | string[]>,
-  isParamBased = true,
 ): Record<string, string> | undefined {
-  const priceMin = query?.priceMin?.toString();
-  const priceMax = query?.priceMax?.toString();
+  const priceMin = query.priceMin?.toString();
+  const priceMax = query.priceMax?.toString();
+  const style = query.style?.toString();
+  const subStyle = query.subStyle?.toString();
 
-  const metal = params.find((param) => METALS_IN_HUMAN_NAMES[param]) || null;
+  const metalParamIndex = params.findIndex((param) =>
+    ['platinum', 'silver', 'yellow-gold', 'white-gold', 'rose-gold'].includes(param),
+  ); // need all metal types
+  const diamondTypeParamIndex = params.findIndex((param) => ['round-brilliant', 'pear', 'oval', 'marquise'].includes(param)); // needs all diamond types
 
-  const diamondType = params.find((param) => DIAMOND_TYPE_HUMAN_NAMES[param]) || null;
+  const facetOrder = [];
 
-  const matchesFacetNavOrder = FACETED_NAV_ORDER.every((facet, index) => {
-    if (facet === 'metal') {
-      if (!metal) return true;
+  // For each facet, find the index in the FACETED_NAV_ORDER array
+  if (metalParamIndex !== -1) {
+    facetOrder[FACETED_NAV_ORDER.indexOf('metal')] = metalParamIndex;
+  }
+  if (diamondTypeParamIndex !== -1) {
+    facetOrder[FACETED_NAV_ORDER.indexOf('diamondType')] = diamondTypeParamIndex;
+  }
 
-      if (isParamBased) {
-        return true;
-      } else {
-        // Only need to check param order on faceted nav
-        return metal === params[index];
-      }
-    } else if (facet === 'diamondType') {
-      if (!diamondType) return true;
-
-      if (isParamBased) {
-        return true;
-      } else {
-        return diamondType === params[index];
-      }
-    }
-
-    return false;
+  // Check if the facets are in order by checking if the index of the current facet
+  // is greater than the index of the previous facet
+  const areFacetsInOrder = facetOrder.filter(Boolean).every((facetIndex, index) => {
+    return index === 0 || facetIndex > facetOrder[index - 1];
   });
 
-  if (!matchesFacetNavOrder) {
+  if (!areFacetsInOrder) {
     return undefined;
   }
 
   const filterOptions = {};
 
-  if (priceMin) {
-    filterOptions['priceMin'] = parseFloat(priceMin);
+  if (priceMin || priceMax) {
+    filterOptions['price'] = {};
+    if (priceMin) {
+      filterOptions['price'].min = parseFloat(priceMin);
+    }
+
+    if (priceMax) {
+      filterOptions['price'].max = parseFloat(priceMax);
+    }
   }
 
-  if (priceMax) {
-    filterOptions['priceMax'] = parseFloat(priceMax);
+  if (style) {
+    filterOptions['style'] = style;
   }
 
-  if (metal) {
-    filterOptions['metal'] = metal;
+  if (subStyle) {
+    filterOptions['subStyle'] = subStyle;
   }
 
-  if (diamondType) {
-    filterOptions['diamondType'] = diamondType;
+  if (metalParamIndex !== -1) {
+    filterOptions['metal'] = params[metalParamIndex];
+  }
+
+  if (diamondTypeParamIndex !== -1) {
+    filterOptions['diamondType'] = params[diamondTypeParamIndex];
   }
 
   return filterOptions;

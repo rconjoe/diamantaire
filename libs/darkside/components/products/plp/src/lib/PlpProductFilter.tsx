@@ -22,33 +22,34 @@ const PlpProductFilter = ({
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
   isParamBased: boolean;
 }) => {
+  console.log(filterValue);
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
 
   const priceRanges = [
     {
       title: 'Below $500',
-      min: priceRange[0],
+      min: undefined, //priceRange[0],
       max: 50000,
-      slug: 'below-500',
+      slug: 'below-50000',
     },
     {
       title: '$500-$1,500',
       min: 50000,
       max: 150000,
-      slug: '500-1500',
+      slug: '50000-150000',
     },
     {
       title: '$1,500-$3000',
       min: 150000,
       max: 300000,
-      slug: '1500-3000',
+      slug: '150000-300000',
     },
     {
       title: '$3000+',
       min: 300000,
-      max: priceRange[1],
-      slug: '3000-plus',
+      max: undefined, // priceRange[1],
+      slug: '300000-plus',
     },
   ];
 
@@ -85,10 +86,10 @@ const PlpProductFilter = ({
         // Faceted Nav Filter Behavior
         // Build the new URL path based on the filter values
         const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, value]) => value !== null && key in newFilters,
+          ([key, v]) => v !== null && key in newFilters,
         );
 
-        const newPath = sortedEntries.map(([_key, value]) => `${value}`).join('/');
+        const newPath = sortedEntries.map(([_key, v]) => `${v}`).join('/');
 
         // Construct the new URL with the updated path
         const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}/${newPath}${window.location.search}`;
@@ -97,9 +98,9 @@ const PlpProductFilter = ({
       } else {
         // Param Filter Behavior
         const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, value]) => value !== null && key in newFilters,
+          ([key, v]) => v !== null && key in newFilters,
         );
-        const newPath = sortedEntries.map(([key, value], index) => `${index === 0 ? '?' : ''}${key}=${value}`).join('&');
+        const newPath = sortedEntries.map(([key, v], index) => `${index === 0 ? '?' : ''}${key}=${v}`).join('&');
 
         const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}${newPath}`;
 
@@ -108,6 +109,8 @@ const PlpProductFilter = ({
     } else {
       handleSliderURLUpdate(value.min, value.max);
     }
+
+    console.log('Update URl', newFilters, filterType, value);
 
     setFilterValues(newFilters);
   }
@@ -121,10 +124,7 @@ const PlpProductFilter = ({
 
     const newFilters = {
       ...filterValue,
-      price: {
-        min: sliderValue[0],
-        max: sliderValue[1],
-      },
+      price: { min: sliderValue[0], max: sliderValue[1] },
     };
 
     setFilterValues(newFilters);
@@ -149,6 +149,16 @@ const PlpProductFilter = ({
       removeUrlParameter('priceMax');
     }
   }
+
+  const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
+    return (
+      <>
+        {price.min && makeCurrency(price?.min)}
+        {price.min && price.max && <span className="hyphen">-</span>}
+        {price && makeCurrency(price?.max)}
+      </>
+    );
+  };
 
   return (
     availableFilters && (
@@ -261,7 +271,7 @@ const PlpProductFilter = ({
                           min: priceRange[0],
                           max: priceRange[1],
                         }}
-                        value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
+                        value={[filterValue?.price.min || priceRange[0], filterValue?.price.max || priceRange[1]]}
                         handleChange={handleChange}
                         handleFormat={handleFormat}
                       />
@@ -292,13 +302,16 @@ const PlpProductFilter = ({
 
                         if (priceRangeMatchesInitialState) return null;
 
+                        const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
+                        const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
+
+                        console.log({ selectedPriceSlug, priceLabel, price });
+
                         return (
                           <li key={`${filterValue}-${text}`}>
                             <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
                               <span className="close">x</span>
-                              {price.min && makeCurrency(price?.min)}
-                              {price.min && price.max && <span className="hyphen">-</span>}
-                              {price && makeCurrency(price?.max)}
+                              {priceLabel ? priceLabel : renderCustomPriceRange(price)}
                             </button>
                           </li>
                         );

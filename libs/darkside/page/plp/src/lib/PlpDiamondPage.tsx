@@ -83,6 +83,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 const getDiamondPlpServerSideProps = async (
   context: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<DiamondPlpPageProps>> => {
+  context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
   const { query, locale } = context;
   const { plpSlug } = query;
   const category = 'loose-diamonds';

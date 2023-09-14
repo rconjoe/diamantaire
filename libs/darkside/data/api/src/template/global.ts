@@ -1,3 +1,16 @@
+export async function fetchGlobalTemplateData(locale: string) {
+  let reqUrl = `api/template/global?locale=${locale}`;
+
+  if (typeof window === 'undefined') {
+    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  } else {
+    reqUrl = `${window.location.origin}/${reqUrl}`;
+  }
+  const response = await fetch(reqUrl);
+
+  return response.json();
+}
+
 export const GLOBAL_TEMPLATE_QUERY = `
 query headerNavigationDynamicQuery($locale: SiteLocale) {
     headerNavigationDynamic(locale: $locale) {
