@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
-import SingleERVariantCartItem from './cart-items/SingleERVariantCartItem';
+import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
 
@@ -85,30 +85,46 @@ const Cart = ({ closeCart }) => {
                 const cartItemInfo = {
                   productType: null,
                 };
+                let childProduct = null;
 
-                console.log('item', item);
+                let hasChildProduct = false;
 
                 item.attributes?.map((attr) => {
+                  if (attr.key === '_childProduct') {
+                    hasChildProduct = true;
+                  }
                   cartItemInfo[attr.key] = attr.value;
                 });
 
-                console.log('cartItemInfo', cartItemInfo);
+                if (hasChildProduct) {
+                  childProduct = checkout.lines.find((line) => line.merchandise.id === cartItemInfo._childProduct);
+                }
 
-                if (cartItemInfo.productType === 'Engagement Ring') {
+                if (item.attributes.find((item) => item.key === 'isChildDiamond')) {
+                  return null;
+                }
+
+                if (hasChildProduct && childProduct) {
                   // Standard Carat Size
                   return (
-                    <SingleERVariantCartItem
+                    <MultiVariantCartItem
                       item={item}
                       info={cartItemInfo}
                       updateItemQuantity={updateItemQuantity}
                       cartItemDetails={cartItemDetails}
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
+                      hasChildProduct={hasChildProduct}
+                      childProduct={childProduct}
                     />
                   );
 
                   // Custom Carat Size
-                } else if (cartItemInfo.productType === 'Necklace' || cartItemInfo.productType === 'Bracelet') {
+                } else if (
+                  cartItemInfo.productType === 'Necklace' ||
+                  cartItemInfo.productType === 'Bracelet' ||
+                  cartItemInfo.productType === 'Engagement Ring'
+                ) {
                   return (
                     <SingleVariantCartItem
                       item={item}

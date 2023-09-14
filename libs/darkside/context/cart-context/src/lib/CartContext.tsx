@@ -18,6 +18,7 @@ import {
 interface CartContextValues {
   getCart: (cartId: string) => Promise<Cart | undefined>;
   addItem: (variantId: string | undefined, customAttributes?: any) => Promise<string | undefined>;
+  addCustomizedItem: (variantId: string | undefined, customAttributes?: AttributeInput[]) => Promise<string | undefined>;
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -101,6 +102,7 @@ export const CartProvider = ({ children }) => {
     cartId: string,
     lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
   ): Promise<Cart> {
+    console.log('atc is getting ', cartId, lines);
     const res = await shopifyFetch<ShopifyAddToCartOperation>({
       query: addToCartMutation,
       variables: {
@@ -110,6 +112,8 @@ export const CartProvider = ({ children }) => {
       cache: 'no-store',
     });
 
+    console.log('add to cart res', res);
+
     return reshapeCart(res.body.data.cartLinesAdd.cart);
   }
 
@@ -117,6 +121,8 @@ export const CartProvider = ({ children }) => {
     // This also adds duplicate nodes for products that are the same variant, and sorts by _datedAdded
     let nodes = [];
     const cartId = localStorage.getItem('cartId');
+
+    console.log('case 1', array.edges);
 
     array.edges.forEach((edge) => {
       const node = edge?.node;
@@ -146,16 +152,21 @@ export const CartProvider = ({ children }) => {
       return 0;
     });
 
+    console.log('case 2', nodes);
+
     return nodes;
   };
 
   const reshapeCart = (cart: ShopifyCart): Cart => {
+    console.log('reshape running', cart);
     if (!cart.cost?.totalTaxAmount) {
       cart.cost.totalTaxAmount = {
         amount: '0.0',
         currencyCode: 'USD',
       };
     }
+
+    const refinedItems = removeEdgesAndNodes(cart.lines);
 
     setCheckout({
       ...cart,
@@ -164,7 +175,7 @@ export const CartProvider = ({ children }) => {
 
     return {
       ...cart,
-      lines: removeEdgesAndNodes(cart.lines),
+      lines: refinedItems,
     };
   };
 
@@ -243,6 +254,84 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Customized ER
+  const addCustomizedItem = async (
+    items:
+      | {
+          variantId: string | undefined;
+          customAttributes?: AttributeInput[];
+        }[]
+      | undefined,
+  ): Promise<string | undefined> => {
+    let cartId = localStorage.getItem('cartId');
+    let cart;
+
+    if (cartId) {
+      cart = await getCart(cartId);
+    }
+
+    if (!cartId || !cart) {
+      cart = await createCart();
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
+    if (items.length === 0) {
+      return 'Missing product or diamond';
+    }
+
+    const refinedItems = [];
+
+    items?.map((item) => {
+      const newItem = { merchandiseId: item.variantId, quantity: 1, attributes: item.customAttributes };
+
+      return refinedItems.push(newItem);
+    });
+    console.log('addCustomizedItem refinedItems', Array.from(refinedItems));
+    console.log('addCustomizedItem cartId', cartId);
+
+    try {
+      await addToCart(cartId, Array.from(refinedItems));
+    } catch (e) {
+      console.log('Error adding customized item to cart', e);
+    }
+  };
+
+  const updateMultipleItemsQuantity = async ({
+    items,
+  }: {
+    items: {
+      lineId: string;
+      variantId: string;
+      quantity: number;
+      attributes: AttributeInput[];
+    }[];
+  }): Promise<string | undefined> => {
+    const cartId = localStorage.getItem('cartId');
+
+    const refinedItems = [];
+
+    items.map((item) => {
+      const newItem = {
+        id: item.lineId,
+        merchandiseId: item.variantId,
+        quantity: item.quantity,
+        attributes: item.attributes,
+      };
+
+      return refinedItems.push(newItem);
+    });
+
+    if (!cartId) {
+      return 'Missing cart ID';
+    }
+    try {
+      await updateCart(cartId, refinedItems);
+    } catch (e) {
+      return 'Error updating item quantity';
+    }
+  };
+
   const updateItemQuantity = async ({
     lineId,
     variantId,
@@ -281,13 +370,21 @@ export const CartProvider = ({ children }) => {
 
   async function initializeCheckout() {
     async function fetchCart() {
-      const cartId = localStorage.getItem('cartId');
+      let cartId = localStorage.getItem('cartId');
 
-      const cart = await getCart(cartId);
+      if (!cartId) {
+        const cart = await createCart();
 
-      console.log('cart stat', cart);
+        cartId = cart.id;
 
-      return cart;
+        localStorage.setItem('cartId', cartId);
+
+        return cart;
+      } else {
+        const cart = await getCart(cartId);
+
+        return cart;
+      }
     }
 
     async function loadCart() {
@@ -307,7 +404,9 @@ export const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         addItem,
+        addCustomizedItem,
         updateItemQuantity,
+        updateMultipleItemsQuantity,
         isCartOpen,
         setIsCartOpen,
         getCart,

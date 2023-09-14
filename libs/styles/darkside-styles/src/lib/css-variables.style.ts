@@ -6,6 +6,8 @@ const styled = { createGlobalStyle };
 const CssVariables = styled.createGlobalStyle`
   :root {
     --gutter: 5rem;
+    --toastify-toast-width: 400px;
+    --toastify-color-progress-light: #719093;
 
     /* Colors */
     --color-teal: #719093;

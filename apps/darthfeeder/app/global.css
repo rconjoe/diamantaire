@@ -376,6 +376,10 @@ summary svg {
   display: inline;
   margin-top: -0.25rem;
 }
+
+.Toastify__toast-body {
+  font-size: 1.4rem;
+}
 @media screen and (min-width: 768px) {
   #hero {
     grid-template-columns: repeat(2, minmax(0, 1fr));

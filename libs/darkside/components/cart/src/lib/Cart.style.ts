@@ -8,7 +8,7 @@ export const CartStyles = styled(motion.aside)`
   right: 0;
   width: 100%;
   height: 100vh;
-  z-index: 6000;
+  z-index: 10000;
   background-color: #fff;
   ${media.medium`width: 30%;`}
 
@@ -18,6 +18,7 @@ export const CartStyles = styled(motion.aside)`
 
     h2 {
       font-size: 1.4rem;
+      font-weight: 400;
     }
 
     .close {
@@ -141,7 +142,7 @@ export const CartOverlay = styled(motion.button)`
   position: fixed;
   background-color: #000;
   width: 100%;
-  z-index: 6000;
+  z-index: 10000;
   height: 100%;
   top: 0;
   opacity: 0.6;

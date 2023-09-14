@@ -46,7 +46,7 @@ const SingleVariantCartItemStyles = styled.div`
 
     .cart-item__image {
       flex: 0 0 168px;
-      padding-right: 10px;
+      padding-right: 20px;
     }
 
     .cart-item__content {
@@ -54,8 +54,13 @@ const SingleVariantCartItemStyles = styled.div`
       flex: 1;
       p {
         margin: 0 0 5px;
-        font-size: 1.7rem;
+        font-size: 1.5rem;
         display: flex;
+
+        &.setting-text {
+          font-weight: bold;
+          color: var(--color-black);
+        }
 
         &.shape {
           text-transform: capitalize;
@@ -74,7 +79,7 @@ const SingleVariantCartItemStyles = styled.div`
   }
 `;
 
-const SingleVariantCartItem = ({
+const MultiVariantCartItem = ({
   item,
   info,
   updateItemQuantity,
@@ -102,6 +107,12 @@ const SingleVariantCartItem = ({
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
+  }, [attributes]);
+
+  const productType = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+
+    return matchingAttribute;
   }, [attributes]);
 
   const itemAttributes = useMemo(
@@ -165,6 +176,7 @@ const SingleVariantCartItem = ({
       <div className="cart-item__body">
         <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         <div className="cart-item__content">
+          <p className="setting-text">{productType}</p>
           {itemAttributes?.map((specItem, index) => {
             if (!specItem.value || specItem.value === '') {
               return null;
@@ -182,4 +194,4 @@ const SingleVariantCartItem = ({
   );
 };
 
-export default SingleVariantCartItem;
+export default MultiVariantCartItem;

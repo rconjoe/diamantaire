@@ -4,6 +4,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { metalTypeAsConst } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { useRouter } from 'next/router';
 import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -25,9 +26,8 @@ type ProductConfiguratorProps = {
   updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
   flowIndex?: number;
   disableVariantType?: string[];
-  isBuilderFlow: boolean;
   hasMoreThanOneVariant?: boolean;
-  extraOptions: {
+  extraOptions?: {
     label: string;
     name: string;
   }[];
@@ -44,22 +44,25 @@ function ProductConfigurator({
   updateSettingSlugs,
   flowIndex,
   disableVariantType = [],
-  isBuilderFlow = false,
   hasMoreThanOneVariant = true,
   extraOptions,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const { builderProduct } = useContext(BuilderProductContext);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(
-    builderProduct.builderState === 'Complete',
-  );
+  const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(variantId);
-  const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
+
+  // Ring size is not being returned on the config
+  // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
+  const [selectedSize, setSelectedSize] = useState<string>('5' || null);
+
   const sizeOptions = configurations[sizeOptionKey];
 
+  console.log('selectedConfiguration', selectedConfiguration);
   console.log('configurations', configurations);
+  console.log('selectedSize', selectedSize);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -67,15 +70,13 @@ function ProductConfigurator({
       console.log('selectedConfiguration', selectedConfiguration);
       const { diamondType, caratWeight } = configState;
 
-      console.log('configState', configState);
+      const usesCustomDiamond =
+        diamondType && configurations.diamondType.length > 1 && caratWeight && caratWeight === 'other';
 
-      const usesCustomDiamond = diamondType && caratWeight && caratWeight === 'other';
-
+      console.log('usesCustomDiamond', usesCustomDiamond);
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
-      }
-
-      if (!isBuilderFlow) {
+      } else {
         setIsConfigurationComplete(true);
       }
     },
@@ -142,7 +143,11 @@ function ProductConfigurator({
         >
           <DarksideButton
             onClick={() => {
-              updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration }, flowIndex + 1);
+              updateFlowData(
+                'ADD_PRODUCT',
+                { ...additionalVariantData, ...selectedConfiguration, variantId: selectedVariantId },
+                flowIndex + 1,
+              );
             }}
           >
             Next
@@ -152,8 +157,9 @@ function ProductConfigurator({
         <AddToCartButton
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
+          isConfigurationComplete={isConfigurationComplete}
           additionalVariantData={additionalVariantData}
-          useCustomDiamondPrompt={!diamondId}
+          selectedConfiguration={selectedConfiguration}
         />
       )}
     </>
@@ -167,16 +173,31 @@ type CtaButtonProps = {
   isReadyForCart?: boolean;
   additionalVariantData?: any;
   useCustomDiamondPrompt?: boolean;
+  isConfigurationComplete?: boolean;
   enableEngraving?: boolean;
+  selectedConfiguration?: { [key: string]: string };
 };
 
 const AddToCartButtonContainer = styled.div`
   margin: 10px 0;
 `;
 
-function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, enableEngraving = false }: CtaButtonProps) {
+// Button states
+// -- Add to Cart
+// -- Select Custom Diamond
+// -- Unavailable
+function AddToCartButton({
+  variantId,
+  isReadyForCart,
+  additionalVariantData,
+  enableEngraving = false,
+  selectedConfiguration,
+  isConfigurationComplete,
+}: CtaButtonProps) {
   const { addItem, setIsCartOpen } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
+
+  console.log('selectedConfiguration', selectedConfiguration);
 
   const {
     // metal,
@@ -196,7 +217,14 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
     configuredProductOptionsInOrder,
   } = additionalVariantData;
 
-  console.log('chainLength', chainLength);
+  const router = useRouter();
+
+  console.log('router', router);
+
+  function elminateEmptyValues(items) {
+    return items.filter((item) => item.value !== '');
+  }
+
   // dateAdded + productType + productTitle + image are critical for any cart item
   async function addProductToCart() {
     const diamondSpec = caratWeightOverride + ', ' + color + ', ' + clarity;
@@ -253,11 +281,11 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
       const metal = goldPurity
         ? goldPurity + ' '
         : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
-      const necklaceAttributes = [
+      let necklaceAttributes = [
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: shape,
+          value: selectedConfiguration.diamondType,
         },
         {
           key: 'caratWeight',
@@ -269,6 +297,8 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
         },
       ];
 
+      necklaceAttributes = elminateEmptyValues(necklaceAttributes);
+
       addItem(variantId, [...necklaceAttributes]);
     } else if (productType === 'Bracelet') {
       const metal = goldPurity
@@ -278,7 +308,7 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: shape,
+          value: selectedConfiguration.diamondShape,
         },
         {
           key: 'metal',
@@ -296,9 +326,23 @@ function AddToCartButton({ variantId, isReadyForCart, additionalVariantData, ena
     setIsCartOpen(true);
   }
 
+  console.log('proxxx', configuredProductOptionsInOrder);
+
   return (
     <AddToCartButtonContainer>
-      <DarksideButton onClick={addProductToCart}>{ctaText}</DarksideButton>
+      <DarksideButton
+        onClick={() => {
+          if (isConfigurationComplete) {
+            addProductToCart();
+          } else {
+            router.push(
+              `/customize?type=setting-to-diamond&collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`,
+            );
+          }
+        }}
+      >
+        {ctaText}
+      </DarksideButton>
     </AddToCartButtonContainer>
   );
 }

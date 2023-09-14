@@ -54,6 +54,7 @@ const StyledOptionSelector = styled.div`
 
     &.ringSize {
       align-items: center;
+      margin-bottom: 20px;
       .show-more-sizes-button button {
         font-size: var(--font-size-xxxsmall);
         margin-left: 10px;

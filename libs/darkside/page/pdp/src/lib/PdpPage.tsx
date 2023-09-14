@@ -139,8 +139,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
   const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
 
-  console.log('shopifyProductData', shopifyProductData);
-
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;
 
@@ -153,6 +151,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     return hasMoreThanOne;
   }, []);
+
+  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

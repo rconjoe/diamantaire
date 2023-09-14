@@ -1,16 +1,19 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { CartCertProps } from '@diamantaire/darkside/data/hooks';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
+import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
 
-const SingleERVariantCartItemContainer = styled.div`
+const MultiVariantCartItemStyles = styled.div`
   margin-bottom: 40px;
+
   .cart-item__header {
     display: flex;
     align-items: center;
@@ -19,7 +22,7 @@ const SingleERVariantCartItemContainer = styled.div`
 
     .cart-item__remove-product {
       position: relative;
-      top: 2px;
+      top: 4px;
       padding-right: 10px;
 
       button {
@@ -43,20 +46,31 @@ const SingleERVariantCartItemContainer = styled.div`
   .cart-item__body {
     display: flex;
     align-items: center;
-    padding-top: 15px;
+    margin-top: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
 
     .cart-item__image {
       flex: 0 0 168px;
-      padding-right: 10px;
+      padding-right: 20px;
     }
 
     .cart-item__content {
       color: #737368;
       flex: 1;
+      padding-right: 15px;
+
+      button {
+        font-size: 1.4rem;
+      }
       p {
         margin: 0 0 5px;
-        font-size: 1.7rem;
+        font-size: 1.5rem;
         display: flex;
+
+        &.setting-text {
+          color: #000;
+        }
 
         &.shape {
           text-transform: capitalize;
@@ -73,49 +87,16 @@ const SingleERVariantCartItemContainer = styled.div`
       }
     }
   }
-
-  .certificate-info {
-    border: 1px solid #000;
-    margin-top: 15px;
-    .certificate-info__inner {
-      padding: 20px;
-
-      .certificate-info__title {
-        display: flex;
-        margin-bottom: 10px;
-        p {
-          flex: 1;
-          margin: 0;
-          font-size: 1.7rem;
-          display: block;
-          color: #000;
-
-          &:first-child {
-            flex: 2;
-          }
-          &:last-child {
-            text-align: right;
-          }
-        }
-      }
-      .certificate-info__body {
-        p {
-          margin: 0;
-          font-size: 1.4rem;
-          display: block;
-          color: #737368;
-        }
-      }
-    }
-  }
 `;
 
-const SingleERVariantCartItem = ({
+const MultiVariantCartItem = ({
   item,
   info,
   certificate,
   updateItemQuantity,
   cartItemDetails,
+  hasChildProduct,
+  childProduct,
 }: {
   item: CartItem;
   certificate: CartCertProps;
@@ -132,11 +113,13 @@ const SingleERVariantCartItem = ({
     quantity: number;
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
+  hasChildProduct: boolean;
 }) => {
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { attributes, cost, merchandise } = item;
   const { selectedOptions } = merchandise;
-  const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
+
+  const { updateMultipleItemsQuantity, checkout } = useContext(CartContext);
 
   const image = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
@@ -180,22 +163,36 @@ const SingleERVariantCartItem = ({
     setRefinedCartItemDetails(tempRefinedCartItemDetails);
   }, [cartItemDetails]);
 
-  console.log('attty', attributes);
-  console.log('refinedCartItemDetails', refinedCartItemDetails);
-
   return (
-    <SingleERVariantCartItemContainer>
+    <MultiVariantCartItemStyles>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
           <button
-            onClick={() =>
-              updateItemQuantity({
-                lineId: item.id,
-                variantId: merchandise.id,
-                quantity: item.quantity - 1,
-                attributes: item.attributes,
-              })
-            }
+            onClick={() => {
+              hasChildProduct && childProduct && checkout.lines.length > 1
+                ? updateMultipleItemsQuantity({
+                    items: [
+                      {
+                        lineId: item.id,
+                        variantId: merchandise.id,
+                        quantity: item.quantity - 1,
+                        attributes: item.attributes,
+                      },
+                      {
+                        lineId: childProduct.id,
+                        variantId: childProduct.merchandise.id,
+                        quantity: childProduct.quantity - 1,
+                        attributes: childProduct.attributes,
+                      },
+                    ],
+                  })
+                : updateItemQuantity({
+                    lineId: item.id,
+                    variantId: merchandise.id,
+                    quantity: item.quantity - 1,
+                    attributes: item.attributes,
+                  });
+            }}
           >
             <XIcon />
           </button>
@@ -206,34 +203,41 @@ const SingleERVariantCartItem = ({
           </Heading>
         </div>
         <div className="cart-item__price">
-          <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
+          {hasChildProduct ? (
+            <p>
+              {makeCurrencyFromShopifyPrice(
+                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount),
+              )}
+            </p>
+          ) : (
+            <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
+          )}
         </div>
       </div>
       <div className="cart-item__body">
-        <div className="cart-item__image">
-          <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
-        </div>
+        <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
+
         <div className="cart-item__content">
-          {itemAttributes?.map((specItem, index) => (
-            <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-              {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
-            </p>
-          ))}
+          <p className="setting-text">
+            <strong>{info?.productCategory}</strong>
+            <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</span>
+          </p>
+          {itemAttributes?.map((specItem, index) => {
+            if (!specItem?.value || specItem.value === 'other') return null;
+
+            return (
+              <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
+                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+              </p>
+            );
+          })}
         </div>
       </div>
-      <div className="certificate-info">
-        <div className="certificate-info__inner">
-          <div className="certificate-info__title">
-            <p>{certTitle}</p>
-            <p>{certPrice}</p>
-          </div>
-          <div className="certificate-info__body">
-            <p>{certCopy}</p>
-          </div>
-        </div>
-      </div>
-    </SingleERVariantCartItemContainer>
+      {hasChildProduct && childProduct && (
+        <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} certificate={certificate} />
+      )}
+    </MultiVariantCartItemStyles>
   );
 };
 
-export default SingleERVariantCartItem;
+export default MultiVariantCartItem;

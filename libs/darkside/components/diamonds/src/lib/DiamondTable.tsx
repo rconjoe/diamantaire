@@ -61,6 +61,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     isDiamondPairs,
   } = props;
 
+  console.log('yyyy', isBuilderFlowOpen);
+
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
