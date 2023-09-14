@@ -579,7 +579,9 @@ export class DiamondsService {
     }
 
     if (input?.color) {
-      query['color'] = input.color;
+      const colorsArr = input.color.split(',').map((s) => s.trim());
+
+      query['color'] = { $in: colorsArr };
     }
 
     if (input?.cut) {
@@ -587,7 +589,9 @@ export class DiamondsService {
     }
 
     if (input?.clarity) {
-      query['clarity'] = input.clarity;
+      const clarityArr = input.clarity.split(',').map((s) => s.trim());
+
+      query['clarity'] = { $in: clarityArr };
     }
 
     if (input?.caratMin || input?.caratMax) {
