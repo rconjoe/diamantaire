@@ -1,5 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { DiamondDataTypes, DiamondPair } from '@diamantaire/shared/types';
+import { DiamondDataTypes, DiamondPairDataTypes } from '@diamantaire/shared/types';
 import { UseInfiniteQueryResult, UseQueryResult, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 export interface OptionsDataTypes {
@@ -44,7 +44,7 @@ interface Pagination {
 }
 
 interface DiamondsDataProps {
-  diamonds?: (DiamondDataTypes | DiamondPair)[];
+  diamonds?: (DiamondDataTypes | DiamondPairDataTypes)[];
   diamond?: DiamondDataTypes;
   options?: OptionsDataTypes;
   pagination?: Pagination;
