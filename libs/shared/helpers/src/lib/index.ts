@@ -3,8 +3,6 @@ export * from './currency';
 export * from './diamonds';
 export * from './extractMetalTypeFromShopifyHandle';
 export * from './formatCurrency';
-export * from './getAllShowroomSlugs';
-export * from './getAllStandardPageSlugs';
 export * from './getCountry';
 export * from './getRelativeUrl';
 export * from './images';

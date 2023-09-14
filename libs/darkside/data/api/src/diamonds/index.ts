@@ -1,7 +1,8 @@
-// eslint-disable-next-line
 import { getDiamondType } from '@diamantaire/shared/helpers';
+
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
+// eslint-disable-next-line
 import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
 // Get a single diamond per id or a list per other options

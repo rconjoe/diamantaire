@@ -25,6 +25,8 @@ type Info =
     };
 
 type DiamondTableProps = {
+  activeRow?: DiamondDataTypes | DiamondPair;
+  setActiveRow?: (item: DiamondDataTypes | DiamondPair) => void;
   currencyCode: string;
   locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPair[];
@@ -63,7 +65,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
-  const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
+  const [activeRow, setActiveRow] = useState<DiamondDataTypes | DiamondPair | null>(props.activeRow);
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -241,8 +243,10 @@ const DiamondTable = (props: DiamondTableProps) => {
   const onRowClick = (row) => {
     if (row?.id === activeRow?.id) {
       setActiveRow(null);
+      props.setActiveRow(null);
     } else {
       setActiveRow(row);
+      props.setActiveRow(row);
     }
   };
 
@@ -255,6 +259,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     table.setPageIndex(1);
 
     setActiveRow(null);
+    props.setActiveRow(null);
 
     // window?.scrollTo(0, 0);
   };
