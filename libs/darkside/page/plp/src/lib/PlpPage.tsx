@@ -21,6 +21,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 type PlpPageProps = {
+  key: string;
   plpSlug: string;
   category: string;
   productData: {
@@ -290,6 +291,7 @@ const createPlpServerSideProps = (category: string) => {
 
     return {
       props: {
+        key: slug,
         plpSlug: slug,
         category,
         productData,

@@ -96,7 +96,7 @@ export interface GetStaticPropsRequest extends NextRequest {
 async function getServerSideProps({ locale, params }: GetServerSidePropsContext<{ pageSlug: string }>) {
   // device:
   const isMobile = false;
-
+  const { pageSlug } = params || {};
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
 
@@ -112,11 +112,12 @@ async function getServerSideProps({ locale, params }: GetServerSidePropsContext<
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(params.pageSlug, locale),
+    ...queries['standard-page'].content(pageSlug, locale),
   });
 
   return {
     props: {
+      key: pageSlug,
       isMobile,
       currencyCode,
       countryCode,
