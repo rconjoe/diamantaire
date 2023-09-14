@@ -8,7 +8,6 @@ import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tan
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useState } from 'react';
 import './styles.css';
 
@@ -25,7 +24,7 @@ export type AppPropsWithTemplate = AppProps & {
 
 export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
   const getTemplate = Component.getTemplate ?? ((page) => page);
-  const router = useRouter();
+
   // https://tanstack.com/query/v4/docs/guides/ssr#using-hydration
   // Layout files can then use useQuery() hooks to call for their data by key.
   // As long as the same keys are prefetched in the GSSP/SSG of the page using that layout,
@@ -41,9 +40,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
             <CartProvider>
               <DefaultSeo />
               <GlobalStyles />
-              <Hydrate state={pageProps.dehydratedState}>
-                {getTemplate(<Component {...pageProps} key={router.asPath} />)}
-              </Hydrate>
+              <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
               <ReactQueryDevtools initialIsOpen={false} />
             </CartProvider>
           </BuilderProductContextProvider>
