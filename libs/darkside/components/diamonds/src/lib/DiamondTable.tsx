@@ -65,7 +65,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
-  const [activeRow, setActiveRow] = useState<DiamondDataTypes | DiamondPairDataTypes | null>(props.activeRow);
+  const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -253,10 +253,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   const onRowClick = (row) => {
     if (row?.id === activeRow?.id) {
       setActiveRow(null);
-      // props.setActiveRow(null);
     } else {
       setActiveRow(row);
-      // props.setActiveRow(row);
     }
   };
 
@@ -421,9 +419,9 @@ const DiamondTable = (props: DiamondTableProps) => {
                   {active && (
                     <div className="vo-table-row-body">
                       {isDiamondPairs ? (
-                        <DiamondPairActiveRow diamonds={diamonds} locale={locale} />
+                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow product={row?.original} />
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} />
                       )}
                     </div>
                   )}

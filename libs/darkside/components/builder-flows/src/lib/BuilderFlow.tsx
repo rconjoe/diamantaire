@@ -3,7 +3,8 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { isEmptyObject, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
-import { AnimatePresence } from 'framer-motion';
+import { Logo } from '@diamantaire/shared/icons';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -22,6 +23,20 @@ const BuilderFlowStyles = styled.div`
   z-index: 5000;
   background-color: #fff;
   padding: 0 0 100px;
+  min-height: 100vh;
+
+  .loader-container {
+    &.full-width {
+      position: fixed;
+      height: 84.5vh;
+      width: 100%;
+      background: #fff;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 
   .custom-builder-message {
     background-color: #000;
@@ -30,6 +45,15 @@ const BuilderFlowStyles = styled.div`
     text-align: center;
     justify-content: center;
     position: relative;
+    .logo {
+      position: absolute;
+      left: 20px;
+      svg {
+        fill: #fff;
+        width: 60px;
+        height: auto;
+      }
+    }
     p {
       margin: 0;
       color: #fff;
@@ -80,12 +104,13 @@ const BuilderFlow = ({
     productSlug: initialProductSlug,
   });
 
-  // These act as flags to prevent the flow from running multiple times when the page loads. Pre-poulates setting + diamond data, and that should only happen once.
+  // These act as flags to prevent the flow from running multiple times when the page loads. Pre-poulates setting + diamond data on page load, and that should only happen once.
   const [initDiamond, setInitDiamond] = useState(false);
   const [initProduct, setInitProduct] = useState(false);
 
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const currentStep = builderProduct.step;
+
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const router = useRouter();
 
@@ -110,7 +135,6 @@ const BuilderFlow = ({
 
   // Variant Specific Data
   const {
-    id: initialVariantId,
     productContent,
     collectionContent,
     configuration: selectedConfiguration,
@@ -211,9 +235,9 @@ const BuilderFlow = ({
 
   // This pulls in a pre-existing product if it exists on the initial URL - only for setting-to-diamond
   useEffect(() => {
-    if (additionalVariantData && selectedConfiguration && !initProduct && type === 'setting-to-diamond') {
+    if (additionalVariantData && selectedConfiguration && !initProduct) {
       setInitProduct(true);
-      updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration });
+      updateFlowData('ADD_PRODUCT', { ...additionalVariantData, ...selectedConfiguration, variantId });
     }
   }, [additionalVariantData, selectedConfiguration, shopifyProductData]);
 
@@ -243,7 +267,7 @@ const BuilderFlow = ({
 
   const builderMessage = useMemo(() => {
     if (type === 'setting-to-diamond' && productTitle) {
-      return productTitle + ' engagement ring';
+      return productTitle;
     } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
       return ' a ' + DIAMOND_TYPE_HUMAN_NAMES[builderProduct?.diamond?.diamondType] + ' diamond';
     } else {
@@ -253,9 +277,10 @@ const BuilderFlow = ({
 
   const builderInitProductUrl = useMemo(() => {
     if (type === 'setting-to-diamond') {
-      return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
+      // return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
+      return builderProduct?.product?.productType + initialCollectionSlug + '/' + initialProductSlug;
     } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
-      return '/diamonds/inventory?limit=20&page=1&sortBy=carat&sortOrder=desc&caratMin=1';
+      return '/diamonds/inventory';
     } else {
       return null;
     }
@@ -296,14 +321,36 @@ const BuilderFlow = ({
         },
       ],
     };
-  }, [builderProduct]);
+  }, [builderProduct, settingSlugs]);
+
+  const variantId = shopifyProductData?.variants?.[0]?.shopifyVariantId;
 
   return (
     <BuilderFlowStyles>
       <FreezeBody />
+
       {builderMessage && (
-        <div className="custom-builder-message">
-          <p>You are currently customizing {builderMessage}</p>
+        <motion.div
+          className="custom-builder-message"
+          key="cart-container"
+          initial="collapsed"
+          animate="open"
+          exit="collapsed"
+          variants={{
+            open: { y: 0, opacity: 1 },
+            collapsed: { y: -300, opacity: 0 },
+          }}
+          transition={{
+            duration: 0.75,
+          }}
+        >
+          <div className="logo">
+            <Logo />
+          </div>
+          <p>
+            You are currently customizing {builderMessage.includes('The') || builderMessage.includes(' a ') ? '' : 'the'}{' '}
+            {builderMessage}
+          </p>
           <ul>
             <li>
               <DarksideButton href={builderInitProductUrl} type="underline" colorTheme="white">
@@ -311,9 +358,15 @@ const BuilderFlow = ({
               </DarksideButton>
             </li>
           </ul>
-        </div>
+        </motion.div>
       )}
+
       <AnimatePresence>
+        {!shopifyProductData && !builderProduct.diamond && !builderProduct.product && (
+          <div className="loader-container full-width">
+            <Loader color="#000" />
+          </div>
+        )}
         {type === 'setting-to-diamond' ? (
           currentStep === 0 ? (
             shopifyProductData && (
@@ -324,7 +377,7 @@ const BuilderFlow = ({
                 updateSettingSlugs={updateSettingSlugs}
                 configurations={configurations}
                 assetStack={assetStack}
-                initialVariantId={initialVariantId}
+                variantId={variantId}
                 selectedConfiguration={selectedConfiguration}
                 additionalVariantData={additionalVariantData}
                 productDescription={productDescription}
@@ -332,20 +385,19 @@ const BuilderFlow = ({
                 price={price}
                 productSpecId={productSpecId}
                 parentProductAttributes={parentProductAttributes}
-                disableVariantType={['caratWeight']}
+                disableVariantType={['caratWeight', 'ringSize']}
               />
             )
           ) : currentStep === 1 ? (
-            <DiamondBuildStep flowIndex={1} diamondTypeToShow={builderProduct?.product?.diamondType} />
+            <DiamondBuildStep
+              flowIndex={1}
+              diamondTypeToShow={builderProduct?.product?.diamondType}
+              hideFilters={['diamondType']}
+            />
           ) : currentStep === 2 ? (
             builderProduct.product &&
             builderProduct.diamond && (
-              <ReviewBuildStep
-                settingSlugs={settingSlugs}
-                type={type}
-                selectedConfiguration={selectedConfiguration}
-                configurations={configurations}
-              />
+              <ReviewBuildStep settingSlugs={settingSlugs} type={type} configurations={configurations} />
             )
           ) : null
         ) : currentStep === 0 ? (
@@ -365,7 +417,7 @@ const BuilderFlow = ({
               updateSettingSlugs={updateSettingSlugs}
               configurations={configurations}
               assetStack={assetStack}
-              initialVariantId={initialVariantId}
+              variantId={variantId}
               selectedConfiguration={selectedConfiguration}
               additionalVariantData={additionalVariantData}
               productDescription={productDescription}
@@ -383,12 +435,7 @@ const BuilderFlow = ({
         ) : currentStep === 3 ? (
           builderProduct.product &&
           builderProduct.diamond && (
-            <ReviewBuildStep
-              settingSlugs={settingSlugs}
-              type={type}
-              selectedConfiguration={selectedConfiguration}
-              configurations={configurations}
-            />
+            <ReviewBuildStep settingSlugs={settingSlugs} type={type} configurations={configurations} />
           )
         ) : null}
       </AnimatePresence>

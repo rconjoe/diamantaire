@@ -1,7 +1,5 @@
-// TODO: DELETE THIS FILE
-
 export function extractMetalTypeFromShopifyHandle(string) {
-  const metalTypes = ['yellow-gold', 'white-gold', 'rose-gold', 'platinum'];
+  const metalTypes = ['yellow-gold', 'white-gold', 'rose-gold', 'platinum', 'sterling-silver'];
   const regex = new RegExp(metalTypes.join('|'), 'i');
   const match = string.match(regex);
 

@@ -1,4 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
@@ -24,6 +24,9 @@ const PlpProductGridStyles = styled.div`
     gap: 20px;
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
+  }
+  .loader-container {
+    text-align: center;
   }
 `;
 
@@ -60,6 +63,7 @@ const PlpProductGrid = ({
   builderFlowOverride = false,
   isSettingSelect = false,
   selectSetting,
+  isFetching,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -102,7 +106,10 @@ const PlpProductGrid = ({
   const gridRef = useRef<HTMLDivElement>(null);
   const products = data.pages?.map((page) => page.products).flat() || [];
 
-  // console.log('products', products);
+  // Prevents the grid from rendering if there are no products
+  if (!products[0]) {
+    return;
+  }
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -115,50 +122,56 @@ const PlpProductGrid = ({
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
-          {products?.map((product, gridItemIndex) => (
-            <Fragment key={product.defaultId}>
-              {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
-                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
-              )}
+          {products?.length > 0 &&
+            products?.map((product, gridItemIndex) => (
+              <Fragment key={product.defaultId}>
+                {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
+                  <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                )}
 
-              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
-                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
-              )}
+                {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
+                  <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                )}
 
-              {product.productType === 'diamonds' ? (
-                <PlpDiamondItem product={product} />
-              ) : (
-                <div>
-                  <PlpProductItem product={product} position={gridItemIndex} plpTitle={plpTitle} />
-                  {isSettingSelect && (
-                    <div
-                      style={{
-                        marginTop: '20px',
-                      }}
-                    >
-                      <DarksideButton
-                        onClick={() =>
-                          selectSetting({
-                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                            productSlug: product.variants[product.defaultId]?.productSlug,
-                          })
-                        }
+                {product.productType === 'diamonds' ? (
+                  <PlpDiamondItem product={product} />
+                ) : (
+                  <div>
+                    <PlpProductItem product={product} position={gridItemIndex} plpTitle={plpTitle} />
+                    {isSettingSelect && (
+                      <div
+                        style={{
+                          marginTop: '20px',
+                        }}
                       >
-                        Select
-                      </DarksideButton>
-                    </div>
-                  )}
-                </div>
-              )}
-            </Fragment>
-          ))}
-          {products.length === 0 && (
+                        <DarksideButton
+                          onClick={() =>
+                            selectSetting({
+                              collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                              productSlug: product.variants[product.defaultId]?.productSlug,
+                            })
+                          }
+                        >
+                          Select
+                        </DarksideButton>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Fragment>
+            ))}
+          {products.length === 0 && !isFetching && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>
           )}
         </div>
       </div>
+      {isFetching && (
+        <div className="loader-container">
+          <Loader color="#000" />
+        </div>
+      )}
     </PlpProductGridStyles>
   );
 };

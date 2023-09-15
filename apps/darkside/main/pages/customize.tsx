@@ -1,6 +1,7 @@
 import { BuilderFlow, validateStep } from '@diamantaire/darkside/components/builder-flows';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import Script from 'next/script';
 
 type BuilderPageQueryParams = {
   collectionSlug?: string | null;
@@ -20,13 +21,17 @@ export type BuilderPageProps = {
 
 const BuilderPage = ({ collectionSlug, productSlug, type, lotId, initialStep }: BuilderPageProps) => {
   return (
-    <BuilderFlow
-      type={type}
-      collectionSlug={collectionSlug}
-      lotId={lotId}
-      productSlug={productSlug}
-      initialStep={initialStep}
-    />
+    <>
+      <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+      <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
+      <BuilderFlow
+        type={type}
+        collectionSlug={collectionSlug}
+        lotId={lotId}
+        productSlug={productSlug}
+        initialStep={initialStep}
+      />
+    </>
   );
 };
 

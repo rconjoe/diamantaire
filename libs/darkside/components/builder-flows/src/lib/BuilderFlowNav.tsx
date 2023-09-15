@@ -1,4 +1,5 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -159,6 +160,7 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const { updateStep, builderProduct } = useContext(BuilderProductContext);
+  const { setIsCartOpen, isCartOpen } = useContext(CartContext);
 
   const allowedKeys = ['product', 'diamond'];
 
@@ -193,18 +195,22 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
             </ul>
           </div>
           <div className="summary-container">
-            <DarksideButton
-              className={clsx({
-                active: isSummaryOpen,
-                disabled: !builderProduct?.diamond && !builderProduct?.product,
-              })}
-              type="solid"
-              colorTheme="teal"
-              disabled={!builderProduct?.diamond && !builderProduct?.product}
-              onClick={() => setIsSummaryOpen(!isSummaryOpen)}
-            >
-              Summary
-            </DarksideButton>
+            {currentStep === steps?.length - 1 ? (
+              <DarksideButton onClick={() => setIsCartOpen(!isCartOpen)}>View Cart</DarksideButton>
+            ) : (
+              <DarksideButton
+                className={clsx({
+                  active: isSummaryOpen,
+                  disabled: !builderProduct?.diamond && !builderProduct?.product,
+                })}
+                type="solid"
+                colorTheme="teal"
+                disabled={!builderProduct?.diamond && !builderProduct?.product}
+                onClick={() => setIsSummaryOpen(!isSummaryOpen)}
+              >
+                Summary
+              </DarksideButton>
+            )}
           </div>
         </nav>
 

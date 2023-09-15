@@ -77,7 +77,10 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
   }
 }
 
-const StyledOptionItem = styled.div``;
+const StyledOptionItem = styled.button`
+  background-color: transparent;
+  padding: 0;
+`;
 
 const StyledRoundOptionItem = styled(StyledOptionItem)`
   border-radius: 50%;
@@ -198,6 +201,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   min-width: 30px;
   text-align: center;
   font-size: 1.3rem;
+  cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
   }

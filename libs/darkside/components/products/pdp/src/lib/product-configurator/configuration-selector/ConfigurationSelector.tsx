@@ -26,6 +26,7 @@ const StyledConfigurationSelector = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 function configOptionsReducer(state, action: ConfigurationSelectorAction) {
@@ -88,15 +89,15 @@ function ConfigurationSelector({
     <StyledConfigurationSelector>
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
-        const selectedOption = configState?.[configurationType];
-
-        console.log('configurationType', configurationType);
+        // Need help here - Can't rely on configState here because it's not updated yet
+        // const selectedOption = configState?.[configurationType];
+        const selectedOption = selectedConfiguration?.[configurationType];
 
         if (disableVariantType?.includes(configurationType)) return null;
 
-        // if (!options || options.length <= 1) {
-        //   return null;
-        // }
+        if (!options || options.length <= 1) {
+          return null;
+        }
 
         return (
           <OptionSelector

@@ -21,7 +21,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
 
   .table-container {
     display: flex;
-    padding: 40px 50px;
+    padding: 40px 20px;
 
     > aside {
       flex: 0 0 450px;
@@ -37,7 +37,13 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
+type DiamondBuildStepProps = {
+  flowIndex: number;
+  diamondTypeToShow: string;
+  hideFilters?: string[];
+};
+
+const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: DiamondBuildStepProps) => {
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -137,6 +143,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
               ranges={ranges}
               locale={'en-US'}
               currencyCode={'USD'}
+              hideFilters={hideFilters}
             />
             <div className="table">
               {/* Launcihg re-arch with table view only - this will be helpful in the future */}

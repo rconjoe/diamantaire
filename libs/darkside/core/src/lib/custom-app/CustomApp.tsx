@@ -10,6 +10,8 @@ import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
 import './styles.css';
+import { ToastContainer } from 'react-toastify';
+import 'node_modules/react-toastify/dist/ReactToastify.css';
 
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
 
@@ -42,6 +44,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
               <GlobalStyles />
               <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
               <ReactQueryDevtools initialIsOpen={false} />
+              <ToastContainer position="bottom-center" autoClose={10000} />
             </CartProvider>
           </BuilderProductContextProvider>
         </GlobalProvider>

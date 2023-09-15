@@ -18,6 +18,7 @@ import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -47,9 +48,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
 
-  const { data }: { data: any } = useProductDato(collectionSlug, 'en_US', pdpType);
+  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
 
-  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
+  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
   const {
     productDescription,
@@ -59,6 +60,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     paveCaratWeight,
     metalWeight,
     shownWithCtwLabel,
+    extraOptions,
+    diamondDescription,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -72,7 +75,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { id, parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
+  const { parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
@@ -80,17 +83,31 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const variantHandle = productContent.shopifyProductHandle;
 
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
+  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
+  } else if (additionalVariantData?.omegaProduct) {
+    // Wedding bands have a different data structure
+    additionalVariantData = additionalVariantData?.omegaProduct;
   } else {
     // Add Shopify Product Data to Dato Product Data
     additionalVariantData = additionalVariantData?.omegaProduct;
-    additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
-    additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+    additionalVariantData.goldPurity = shopifyProductData?.configuration?.goldPurity;
+    additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
+  }
+
+  // use parent product carat if none provided on the variant in Dato
+  if (!productContent.carat || productContent.carat === '' || !additionalVariantData.caratWeightOverride) {
+    if (additionalVariantData.caratWeightOverride) {
+      additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    } else {
+      additionalVariantData.carat = datoParentProductData?.caratWeight;
+    }
+  } else {
+    additionalVariantData.carat = additionalVariantData.caratWeightOverride;
   }
 
   additionalVariantData.productType = shopifyProductData.productType;
@@ -109,7 +126,30 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Can this product be added directly to cart?
   const isBuilderProduct = configuration.caratWeight === 'other';
 
-  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
+  const parentProductAttributes = {
+    bandWidth,
+    bandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    diamondDescription,
+    productType: shopifyProductData.productType,
+  };
+  const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
+
+  const hasMoreThanOneVariant = useMemo(() => {
+    let hasMoreThanOne = false;
+
+    shopifyProductData?.allAvailableOptions &&
+      Object.keys(shopifyProductData?.allAvailableOptions).map((key) => {
+        if (shopifyProductData?.allAvailableOptions[key].length > 1) {
+          hasMoreThanOne = true;
+        }
+      });
+
+    return hasMoreThanOne;
+  }, []);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -128,13 +168,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <ProductTitle title={productTitle} />
-            <ProductPrice price={price} />
+            <ProductPrice isBuilderProduct={isBuilderProduct} price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
+
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
-              initialVariantId={id}
+              variantId={variantId}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
+              hasMoreThanOneVariant={hasMoreThanOneVariant}
+              extraOptions={extraOptions}
+              defaultRingSize={shopifyProductData?.defaultRingSize}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
@@ -143,6 +187,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               title="Need more time to think?"
               caption="Email this customized ring to yourself or drop a hint."
               onSubmit={(e) => e.preventDefault()}
+              stackedSubmit={false}
             />
 
             <ProductDescription
@@ -150,6 +195,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               productAttributes={parentProductAttributes}
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
+              title={productTitle}
             />
           </div>
         </div>
