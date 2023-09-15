@@ -11,15 +11,15 @@ const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotI
   const {
     data: {
       diamondProduct: {
-        specLabels: { labels = [] },
+        specLabels: { labels = [] } = {},
         specsHeadline,
         originLabel,
         cutMapAbridged,
         girdleAbridged,
         fluorescenceAbridged,
         polishAndSymmetryAbridged,
-      },
-    },
+      } = {},
+    } = {},
   } = useDiamondPdpData(locale);
 
   const {
