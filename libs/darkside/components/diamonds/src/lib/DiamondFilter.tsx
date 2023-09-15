@@ -271,10 +271,12 @@ export interface DiamondFilterProps {
   ranges: object;
   locale: string;
   currencyCode: string;
+  hideFilters?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange } = props;
+  const { locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, hideFilters } =
+    props;
 
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
@@ -336,6 +338,8 @@ const DiamondFilter = (props: DiamondFilterProps) => {
     <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
         const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
+
+        if (hideFilters?.includes(filter)) return null;
 
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>

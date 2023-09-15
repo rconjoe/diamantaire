@@ -1,6 +1,10 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { metalTypeAsConst } from '@diamantaire/shared/constants';
+import {
+  ENGRAVEABLE_JEWELRY_SLUGS,
+  NON_ENGRAVEABLE_WEDDING_BAND_SLUGS,
+  metalTypeAsConst,
+} from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
@@ -30,6 +34,7 @@ type ProductConfiguratorProps = {
     label: string;
     name: string;
   }[];
+  defaultRingSize?: string;
 };
 
 function ProductConfigurator({
@@ -45,6 +50,7 @@ function ProductConfigurator({
   disableVariantType = [],
   hasMoreThanOneVariant = true,
   extraOptions,
+  defaultRingSize,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -54,7 +60,7 @@ function ProductConfigurator({
 
   // Ring size is not being returned on the config
   // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
-  const [selectedSize, setSelectedSize] = useState<string>('5' || null);
+  const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
   const sizeOptions = configurations[sizeOptionKey];
 
@@ -77,6 +83,8 @@ function ProductConfigurator({
       } else {
         setIsConfigurationComplete(true);
       }
+
+      return selectedConfiguration;
     },
     [diamondId, selectedVariantId],
   );
@@ -92,7 +100,29 @@ function ProductConfigurator({
 
   const hasCaratWeightSelector = useMemo(() => {
     return configurations.caratWeight?.length > 1;
-  }, []);
+  }, [configurations]);
+
+  const { query } = useRouter();
+
+  const isEngravable = useMemo(() => {
+    const productType = additionalVariantData?.productType;
+
+    if (productType === 'Engagement Ring') {
+      return true;
+    } else if (productType === 'Wedding Band') {
+      if (NON_ENGRAVEABLE_WEDDING_BAND_SLUGS.includes(query.collectionSlug.toString())) {
+        return false;
+      } else {
+        return true;
+      }
+    } else if (productType === 'Necklace' || productType === 'Bracelet') {
+      if (ENGRAVEABLE_JEWELRY_SLUGS.includes(query.collectionSlug.toString())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, [additionalVariantData]);
 
   return (
     <>
@@ -132,7 +162,9 @@ function ProductConfigurator({
 
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
 
-      <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
+      {isEngravable && isConfigurationComplete && !isBuilderFlowOpen && (
+        <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
+      )}
 
       {isBuilderFlowOpen ? (
         <div
@@ -173,7 +205,6 @@ type CtaButtonProps = {
   additionalVariantData?: any;
   useCustomDiamondPrompt?: boolean;
   isConfigurationComplete?: boolean;
-  enableEngraving?: boolean;
   selectedConfiguration?: { [key: string]: string };
 };
 
@@ -189,7 +220,6 @@ function AddToCartButton({
   variantId,
   isReadyForCart,
   additionalVariantData,
-  enableEngraving = false,
   selectedConfiguration,
   isConfigurationComplete,
 }: CtaButtonProps) {
@@ -221,7 +251,7 @@ function AddToCartButton({
   console.log('router', router);
 
   function elminateEmptyValues(items) {
-    return items.filter((item) => item.value !== '');
+    return items.filter((item) => item.value !== '' && item.value !== null && item.value);
   }
 
   // dateAdded + productType + productTitle + image are critical for any cart item
@@ -246,10 +276,6 @@ function AddToCartButton({
         value: productType,
       },
     ];
-
-    console.log('adding', productType);
-    console.log('shopifyProductHandle', shopifyProductHandle);
-    console.log('additionalVariantData', additionalVariantData);
 
     if (productType === 'Engagement Ring') {
       const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
@@ -303,7 +329,7 @@ function AddToCartButton({
       const metal = goldPurity
         ? goldPurity + ' '
         : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
-      const braceletAttributes = [
+      let braceletAttributes = [
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
@@ -318,6 +344,8 @@ function AddToCartButton({
           value: chainLength?.split('-')?.[1],
         },
       ];
+
+      braceletAttributes = elminateEmptyValues(braceletAttributes);
 
       addItem(variantId, [...braceletAttributes]);
     }

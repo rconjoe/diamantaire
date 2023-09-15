@@ -8,10 +8,10 @@ const ProductPriceStyles = styled.h2`
   margin-bottom: calc(var(--gutter) / 4);
 `;
 
-const ProductPrice = ({ price, hasMoreThanOneVariant }) => {
+const ProductPrice = ({ price, hasMoreThanOneVariant, isBuilderProduct }) => {
   return (
     <ProductPriceStyles className="price">
-      {hasMoreThanOneVariant && <UIString>Starting at</UIString>} {makeCurrency(price, 'en-US', 'USD')}
+      {hasMoreThanOneVariant && isBuilderProduct && <UIString>Starting at</UIString>} {makeCurrency(price, 'en-US', 'USD')}
     </ProductPriceStyles>
   );
 };

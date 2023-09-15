@@ -2,6 +2,12 @@
 // Keep state regarding actual engraving text outside of this component
 
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import {
+  ENGRAVING_CHARACTER_LIMITS,
+  ENGRAVING_INITIALS_OPTIONS,
+  JEWELRY_ENGRAVING_MAX_LENGTH,
+} from '@diamantaire/shared/constants';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -54,7 +60,10 @@ const ProductEngravingStyles = styled.div`
 const ProductEngraving = ({ engravingText, setEngravingText }) => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
-  const MAX_CHAR_LIMIT = 16;
+  const { query } = useRouter();
+  const MAX_CHAR_LIMIT = ENGRAVING_CHARACTER_LIMITS[query.collectionSlug.toString()]
+    ? ENGRAVING_CHARACTER_LIMITS[query.collectionSlug.toString()]
+    : JEWELRY_ENGRAVING_MAX_LENGTH;
 
   const isEngravingInputEmpty = useMemo(() => {
     return isEngravingInputVisible && engravingInputText.length === 0;
@@ -106,8 +115,21 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
               type="text"
               value={engravingInputText}
               onChange={(e) => {
-                if (e.target.value.length > MAX_CHAR_LIMIT) return;
-                setEngravingInputText(e.target.value);
+                // Validate input value against allowed characters
+                const newValue = e.target.value;
+                let isValid = true;
+
+                if (newValue.length > MAX_CHAR_LIMIT) return;
+
+                newValue.split('').forEach((char) => {
+                  if (ENGRAVING_INITIALS_OPTIONS.includes(char.toUpperCase())) {
+                    return;
+                  } else {
+                    isValid = false;
+                  }
+                });
+
+                if (isValid) setEngravingInputText(e.target.value);
               }}
             />
             <p className="limit-text">

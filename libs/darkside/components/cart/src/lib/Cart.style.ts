@@ -129,9 +129,13 @@ export const CartStyles = styled(motion.aside)`
     ul {
       margin-top: 10px;
       li {
-        margin-right: 10px;
+        margin-right: 15px;
         &:last-child {
           margin-right: 0px;
+        }
+
+        button {
+          font-size: 1.3rem;
         }
       }
     }

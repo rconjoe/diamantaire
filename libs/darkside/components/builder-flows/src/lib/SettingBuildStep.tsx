@@ -105,7 +105,7 @@ const SettingBuildStep = ({
 
         <div className="info-container">
           <ProductTitle title={product.title} />
-          <ProductPrice hasMoreThanOneVariant={true} price={product.price} />
+          <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={product.price} />
           <ProductConfigurator
             configurations={configurations}
             selectedConfiguration={selectedConfiguration}
@@ -116,6 +116,7 @@ const SettingBuildStep = ({
             updateFlowData={updateFlowData}
             flowIndex={flowIndex}
             disableVariantType={disableVariantType}
+            shopifyProductData={shopifyProductData}
           />
           <ProductDescription
             description={productDescription}

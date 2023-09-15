@@ -90,6 +90,8 @@ const WEDDING_BAND_QUERY = gql`
         id
       }
       diamondDescription
+      bandWidth
+      bandDepth
     }
   }
 `;
@@ -387,12 +389,14 @@ const DATO_VARIANT_QUERY = `
       clarity
       dimensions
       caratWeightOverride
+      bandWidthOverride
+      metalWeightOverride
+      paveCaratWeightOverride
     }
     }
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
-  console.log('query productType', productType);
   const datoData = await queryDatoGQL({
     query:
       productType === pdpTypePluralAsConst['Engagement Rings']

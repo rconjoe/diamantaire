@@ -19,6 +19,9 @@ const ChildProductStyles = styled.div`
     .child-product__image {
       flex: 0 0 168px;
       padding-right: 20px;
+      img {
+        min-height: 150px;
+      }
     }
 
     .cart-item__content {

@@ -42,6 +42,15 @@ const ReviewBuildStepStyles = styled(motion.div)`
         padding: 0 10px;
         flex: 1;
       }
+
+      .diamond-image {
+        display: flex;
+
+        img {
+          object-fit: cover;
+          max-height: 608px;
+        }
+      }
     }
     .product-summary {
       flex: 1;
@@ -198,9 +207,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
-  const [selectedSize, setSelectedSize] = useState<object>(
-    configurations.ringSize.filter((item) => item.value === '5')[0] || null,
-  );
+  const [selectedSize, setSelectedSize] = useState<{
+    id: string;
+    value?: string;
+    valueLabel?: string;
+    isSelected?: boolean;
+  }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
   const sizeOptions = configurations[sizeOptionKey];
 
   const { collectionSlug } = settingSlugs;
@@ -247,21 +259,14 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
   }, []);
 
   const {
-    // metal,
-    chainLength,
-    // ringSize,
-    carat,
-    shape,
     productTitle,
     productType,
-    color,
-    clarity,
     goldPurity,
     bandAccent,
-    caratWeightOverride,
     shopifyProductHandle,
     image,
     configuredProductOptionsInOrder,
+    // caratWeightOverride,
   } = product;
 
   // Need the ring size

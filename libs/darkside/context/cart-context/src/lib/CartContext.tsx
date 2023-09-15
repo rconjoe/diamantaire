@@ -18,7 +18,12 @@ import {
 interface CartContextValues {
   getCart: (cartId: string) => Promise<Cart | undefined>;
   addItem: (variantId: string | undefined, customAttributes?: any) => Promise<string | undefined>;
-  addCustomizedItem: (variantId: string | undefined, customAttributes?: AttributeInput[]) => Promise<string | undefined>;
+  addCustomizedItem: (
+    items: {
+      variantId: string | undefined;
+      customAttributes?: AttributeInput[];
+    }[],
+  ) => Promise<string | undefined>;
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -29,6 +34,16 @@ interface CartContextValues {
     variantId: string;
     quantity: number;
     attributes: AttributeInput[];
+  }) => Promise<string | undefined>;
+  updateMultipleItemsQuantity: ({
+    items,
+  }: {
+    items: {
+      lineId: string;
+      variantId: string;
+      quantity: number;
+      attributes: AttributeInput[];
+    }[];
   }) => Promise<string | undefined>;
   isCartOpen: boolean;
   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;

@@ -41,6 +41,11 @@ const MultiVariantCartItemStyles = styled.div`
     .cart-item__price {
       flex: 1;
       text-align: right;
+
+      p {
+        position: relative;
+        top: 2px;
+      }
     }
   }
   .cart-item__body {
@@ -114,6 +119,7 @@ const MultiVariantCartItem = ({
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
   hasChildProduct: boolean;
+  childProduct: CartItem | null;
 }) => {
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { attributes, cost, merchandise } = item;

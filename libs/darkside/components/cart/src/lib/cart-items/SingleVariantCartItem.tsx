@@ -3,8 +3,10 @@ import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
-import { AttributeInput, CheckoutLineItem } from 'shopify-buy';
+import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
+
+import { CartItem } from '../types';
 
 const SingleVariantCartItemStyles = styled.div`
   margin-bottom: 40px;
@@ -85,7 +87,7 @@ const MultiVariantCartItem = ({
   updateItemQuantity,
   cartItemDetails,
 }: {
-  product: CheckoutLineItem;
+  item: CartItem;
   info: any;
   cartItemDetails: { [key: string]: string }[];
   updateItemQuantity: ({

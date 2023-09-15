@@ -1,4 +1,4 @@
-import { FreezeBody } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
@@ -84,6 +84,7 @@ const Cart = ({ closeCart }) => {
               {checkout?.lines?.map((item) => {
                 const cartItemInfo = {
                   productType: null,
+                  _childProduct: null,
                 };
                 let childProduct = null;
 
@@ -155,35 +156,6 @@ const Cart = ({ closeCart }) => {
                     </button>
                   </>
                 );
-
-                // const cartItemInfo: JewelryCartItemProps | ERCartItemProps = {};
-
-                // product.customAttributes?.map((attr) => {
-                //   cartItemInfo[attr.key] = attr.value;
-                // });
-
-                // if (cartItemInfo._productType === 'Jewelry') {
-                //   return (
-                //     <SingleVariantCartItem
-                //       product={product}
-                //       info={cartItemInfo}
-                //       removeAnyProductFromCart={removeAnyProductFromCart}
-                //       cartItemDetails={cartItemDetails}
-                //       key={`cart-item-${index}`}
-                //     />
-                //   );
-                // } else if (cartItemInfo._productType === 'ER') {
-                //   return (
-                //     <SingleERVariantCartItem
-                //       product={product}
-                //       info={cartItemInfo}
-                //       certificate={certificates?.[0]}
-                //       cartItemDetails={cartItemDetails}
-                //       removeAnyProductFromCart={removeAnyProductFromCart}
-                //       key={`cart-item-${index}`}
-                //     />
-                //   );
-                // }
               })}
 
               {isCartEmpty ? (
@@ -210,13 +182,14 @@ const Cart = ({ closeCart }) => {
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">
                       <textarea name="" id=""></textarea>
-                      {/* // TODO: Replace with new style guide buttons- https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-178 */}
-                      <ul className="flex list-unstyled">
+                      <ul className="flex list-unstyled align-center">
                         <li>
-                          <button>Save</button>
+                          <DarksideButton>Save</DarksideButton>
                         </li>
                         <li>
-                          <button>Cancel</button>
+                          <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsGiftNoteOpen(false)}>
+                            Cancel
+                          </DarksideButton>
                         </li>
                       </ul>
                     </div>

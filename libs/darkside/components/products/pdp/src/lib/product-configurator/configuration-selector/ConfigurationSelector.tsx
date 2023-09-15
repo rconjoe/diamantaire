@@ -90,9 +90,8 @@ function ConfigurationSelector({
     <StyledConfigurationSelector>
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
+        // Need help here - Can't rely on configState here because it's not updated yet
         const selectedOption = configState?.[configurationType];
-
-        console.log('configurationType', configurationType);
 
         if (disableVariantType?.includes(configurationType)) return null;
 

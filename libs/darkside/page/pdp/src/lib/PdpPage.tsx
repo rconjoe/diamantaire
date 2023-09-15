@@ -52,9 +52,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  console.log('init data', data);
-  console.log('datoParentProductData', datoParentProductData);
-
   const {
     productDescription,
     bandWidth,
@@ -86,16 +83,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const variantHandle = productContent.shopifyProductHandle;
 
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, 'en_US');
-
-  console.log('additionalVariantData', additionalVariantData);
-  console.log('productContent.carat', productContent.carat);
+  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
   } else if (additionalVariantData?.omegaProduct) {
-    // Wedding bands have a different structure
+    // Wedding bands have a different data structure
     additionalVariantData = additionalVariantData?.omegaProduct;
   } else {
     // Add Shopify Product Data to Dato Product Data
@@ -140,11 +134,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     metalWeight,
     shownWithCtwLabel,
     diamondDescription,
+    productType: shopifyProductData.productType,
   };
   const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
 
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;
+
+    console.log('shopifyProductData?.allAvailableOptions', shopifyProductData?.allAvailableOptions);
 
     shopifyProductData?.allAvailableOptions &&
       Object.keys(shopifyProductData?.allAvailableOptions).map((key) => {
@@ -175,7 +172,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <ProductTitle title={productTitle} />
-            <ProductPrice price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
+            <ProductPrice isBuilderProduct={isBuilderProduct} price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
 
             <ProductConfigurator
               configurations={configurations}
@@ -183,9 +180,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               variantId={variantId}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
-              isBuilderFlow={false}
               hasMoreThanOneVariant={hasMoreThanOneVariant}
               extraOptions={extraOptions}
+              defaultRingSize={shopifyProductData?.defaultRingSize}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
