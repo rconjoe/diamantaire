@@ -1,5 +1,6 @@
 import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
+import { sendHubspotForm } from '@diamantaire/darkside/data/api';
+import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
@@ -266,7 +267,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <p className="col-heading">{title}</p>
                 <p>{copy}</p>
 
-                <Form onSubmit={(e) => e.preventDefault()} />
+                <FooterEmailSignup />
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
@@ -305,3 +306,34 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 };
 
 export { Footer };
+
+export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST }) => {
+  const [formState, setFormState] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  const onSubmit = async (e, formState) => {
+    e.preventDefault();
+
+    const { email } = formState;
+
+    try {
+      const response = await sendHubspotForm({ email, listData });
+
+      setMessage(response.inlineMessage);
+    } catch (error) {
+      console.error('Error submitting form data to HubSpot:', error);
+    }
+  };
+
+  return message ? (
+    <div dangerouslySetInnerHTML={{ __html: message }}></div>
+  ) : (
+    <Form
+      title="Need more time to think?"
+      caption="Email this customized ring to yourself or drop a hint."
+      formState={formState}
+      onSubmit={onSubmit}
+      setFormState={setFormState}
+    />
+  );
+};

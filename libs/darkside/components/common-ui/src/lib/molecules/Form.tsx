@@ -1,12 +1,15 @@
 /*
- 
+
 This is the master form component, we should never need to manually create a customer facing form that doesn't use this
 
 */
 
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  // useState
+} from 'react';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
@@ -21,6 +24,8 @@ type FormProps = {
   schema?: FormSchemaType[];
   formGridStyle?: 'single' | 'split';
   stackedSubmit?: boolean;
+  formState?: object;
+  setFormState?: (state: object) => void;
 };
 
 export type FormSchemaType = {
@@ -79,8 +84,18 @@ const FormContainer = styled.div`
   }
 `;
 
-const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', stackedSubmit = true }: FormProps) => {
-  const [formState, setFormState] = useState(null);
+const Form = ({
+  onSubmit,
+  title,
+  caption,
+  schema,
+  id,
+  formGridStyle = 'single',
+  stackedSubmit = true,
+  formState,
+  setFormState = () => console.log('initial'),
+}: FormProps) => {
+  // const [formState, setFormState] = useState(null);
 
   useEffect(() => {
     const initialFormState = {};
@@ -107,7 +122,17 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
       <form onSubmit={(e) => onSubmit(e, formState)}>
         {!schema ? (
           <div className="input-container">
-            <input type="text" name="email" id="email" placeholder="Enter your email" />
+            <input
+              type="text"
+              name="email"
+              id="email"
+              placeholder="Enter your email"
+              onChange={(e) => {
+                const { name, value } = e.target;
+
+                setFormState((prevState) => ({ ...prevState, [name]: value }));
+              }}
+            />
           </div>
         ) : (
           schema?.map((field, index) => {
