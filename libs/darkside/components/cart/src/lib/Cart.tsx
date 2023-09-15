@@ -23,6 +23,8 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
+  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring'];
+
   const {
     cartHeader,
     subtotalCopy,
@@ -104,7 +106,7 @@ const Cart = ({ closeCart }) => {
                 }
 
                 if (hasChildProduct && childProduct) {
-                  // Standard Carat Size
+                  // Builder Products
                   return (
                     <MultiVariantCartItem
                       item={item}
@@ -117,13 +119,8 @@ const Cart = ({ closeCart }) => {
                       childProduct={childProduct}
                     />
                   );
-
-                  // Custom Carat Size
-                } else if (
-                  cartItemInfo.productType === 'Necklace' ||
-                  cartItemInfo.productType === 'Bracelet' ||
-                  cartItemInfo.productType === 'Engagement Ring'
-                ) {
+                } else if (singleVariantProductTypes.includes(cartItemInfo.productType)) {
+                  // Non-Builder Products
                   return (
                     <SingleVariantCartItem
                       item={item}
@@ -135,6 +132,7 @@ const Cart = ({ closeCart }) => {
                   );
                 }
 
+                // Temp fallback while we QA
                 return (
                   <>
                     <p>{cartItemInfo.productType}</p>

@@ -143,10 +143,7 @@ const BuilderFlow = ({
   } = shopifyProductData || {};
   const { productTitle } = collectionContent || {};
 
-  // const configurations = shopifyProductData?.optionConfigs;
-  const configurations = useMemo(() => {
-    return shopifyProductData?.optionConfigs;
-  }, [shopifyProductData]);
+  const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
   const variantHandle = productContent?.shopifyProductHandle;
@@ -283,7 +280,7 @@ const BuilderFlow = ({
       // return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
       return builderProduct?.product?.productType + initialCollectionSlug + '/' + initialProductSlug;
     } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
-      return '/diamonds/inventory?limit=20&page=1&sortBy=carat&sortOrder=desc&caratMin=1';
+      return '/diamonds/inventory';
     } else {
       return null;
     }

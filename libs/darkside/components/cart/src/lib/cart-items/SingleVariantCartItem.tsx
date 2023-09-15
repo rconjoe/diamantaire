@@ -81,7 +81,7 @@ const SingleVariantCartItemStyles = styled.div`
   }
 `;
 
-const MultiVariantCartItem = ({
+const SingleVariantCartItem = ({
   item,
   info,
   updateItemQuantity,
@@ -196,4 +196,4 @@ const MultiVariantCartItem = ({
   );
 };
 
-export default MultiVariantCartItem;
+export default SingleVariantCartItem;

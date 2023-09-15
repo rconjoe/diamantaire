@@ -5,6 +5,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { useProductDato } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
+  DIAMOND_VIDEO_BASE_URL,
   PdpTypePlural,
   metalTypeAsConst,
   pdpTypeSingleToPluralAsConst,
@@ -220,11 +221,13 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
 
   const { product, diamond } = builderProduct;
 
+  console.log('product', product);
+
   const router = useRouter();
 
   const mutatedLotId = getNumericalLotId(diamond?.lotId);
 
-  const diamondImage = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
+  const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
   const allowedKeys = ['product', 'diamond'];
 
   const sortedKeys = Object.keys(builderProduct)
@@ -242,6 +245,10 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     setEngravingText(null);
     setEngravingInputText('');
     setIsEngravingInputVisible(false);
+  }
+
+  function removeEmptyCartLineItemAttributes(array) {
+    return array.filter((attr) => attr.value !== '' && attr.value !== 'other');
   }
 
   const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
@@ -332,7 +339,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
         key: 'totalPrice',
         value: (product.price + diamond.price).toString(),
       },
-      // Temp - need to get this from the product
       {
         key: 'productCategory',
         value: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
@@ -346,7 +352,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
 
     // Submitting an empty string or null as value will cause an error
     // other is returned when no ringSize has been selected
-    settingItemAttributes = settingItemAttributes.filter((attr) => attr.value !== '' && attr.value !== 'other');
+    settingItemAttributes = removeEmptyCartLineItemAttributes(settingItemAttributes);
 
     // 4. Create custom attributes for the diamond
 
@@ -394,6 +400,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
         customAttributes: diamondItemAttributes,
       },
     ];
+
+    // TODO: Add Sentry Loggin
 
     addCustomizedItem(items);
 

@@ -55,7 +55,7 @@ const ProductDescriptionContainer = styled.div`
   }
 `;
 
-const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId }) => {
+const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId, title }) => {
   const {
     productType,
     bandWidth: parentProductBandWidth,
@@ -208,11 +208,13 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     ];
   }, [variantBandWidth, parentProductBandWidth, parentProductBandDepth, metalWeight]);
 
+  const jewelryProductTypes = ['Necklace', 'Bracelet'];
+
   return (
     description && (
       <ProductDescriptionContainer>
         <Heading type="h4" className="primary">
-          Details
+          {title ? title + ' Design' : 'Details'}
         </Heading>
         <Markdown withStyles={false}>{description}</Markdown>
 
@@ -240,11 +242,12 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
               })}
 
             {/* Jewelry Fields */}
-            {jewelryLabels?.map((label, index) => {
-              if (!label.value || !refinedLabels[label.title]) return null;
+            {jewelryProductTypes.includes(productType) &&
+              jewelryLabels?.map((label, index) => {
+                if (!label.value || !refinedLabels[label.title]) return null;
 
-              return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
-            })}
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
+              })}
 
             {/* Wedding Band Fields */}
             {productType === 'Wedding Band' &&
@@ -265,7 +268,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
         {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
           <div className="description__variant-details">
             <Heading type="h4" className="primary">
-              VRAI created diamond
+              {title ? 'VRAI created diamond for ' + title : 'VRAI created diamond'}
             </Heading>
             {diamondDescription && <Markdown withStyles={false}>{diamondDescription}</Markdown>}
             <ul>

@@ -195,6 +195,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               productAttributes={parentProductAttributes}
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
+              title={productTitle}
             />
           </div>
         </div>

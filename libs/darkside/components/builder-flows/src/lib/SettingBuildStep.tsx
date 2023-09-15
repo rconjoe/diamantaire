@@ -119,9 +119,10 @@ const SettingBuildStep = ({
           />
           <ProductDescription
             description={productDescription}
-            productAttributes={{ ...parentProductAttributes }}
+            productAttributes={parentProductAttributes}
             variantAttributes={additionalVariantData}
             productSpecId={productSpecId}
+            title={productTitle}
           />
         </div>
       </div>
