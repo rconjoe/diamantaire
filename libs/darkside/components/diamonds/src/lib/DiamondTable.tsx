@@ -65,7 +65,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
-  const [activeRow, setActiveRow] = useState<DiamondDataTypes | DiamondPair | null>(null);
+  const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
