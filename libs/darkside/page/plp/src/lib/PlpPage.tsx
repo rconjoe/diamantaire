@@ -137,7 +137,7 @@ const createPlpServerSideProps = (category: string) => {
     await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug, category) });
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
-      queryKey: [`plp`, category, slug, ...Object.values(initialFilterValues || {})],
+      queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
       queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
     });
 

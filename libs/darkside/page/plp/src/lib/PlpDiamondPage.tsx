@@ -98,7 +98,7 @@ const getDiamondPlpServerSideProps = async (
   });
 
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
+    ...queries.template.global(locale),
   });
 
   return {
