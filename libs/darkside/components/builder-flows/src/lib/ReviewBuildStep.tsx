@@ -281,8 +281,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
     const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondId);
 
-    console.log('isDiamondInCart', isDiamondInCart);
-
     if (isDiamondInCart) {
       return toast.error(ToastError, {
         autoClose: 3000,
@@ -349,8 +347,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     // other is returned when no ringSize has been selected
     settingItemAttributes = settingItemAttributes.filter((attr) => attr.value !== '' && attr.value !== 'other');
 
-    console.log('product cart attributes', settingItemAttributes);
-
     // 4. Create custom attributes for the diamond
 
     const diamondItemAttributes = [
@@ -398,15 +394,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
       },
     ];
 
-    console.log('bundle add', items);
-
     addCustomizedItem(items);
 
     setIsCartOpen(true);
-
-    console.log('productId', settingProductId);
-    console.log('diamondId', diamondId);
-    console.log('configurations', configurations);
   }
 
   return (

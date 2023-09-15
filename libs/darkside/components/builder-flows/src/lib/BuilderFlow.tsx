@@ -111,7 +111,6 @@ const BuilderFlow = ({
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const currentStep = builderProduct.step;
 
-  console.log('currentStep', currentStep, type);
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const router = useRouter();
 
@@ -328,8 +327,6 @@ const BuilderFlow = ({
   }, [builderProduct, settingSlugs]);
 
   const variantId = shopifyProductData?.variants?.[0]?.shopifyVariantId;
-
-  console.log('shopifyProductData', shopifyProductData);
 
   return (
     <BuilderFlowStyles>

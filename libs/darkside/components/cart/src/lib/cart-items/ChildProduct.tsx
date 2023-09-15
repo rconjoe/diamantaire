@@ -135,7 +135,6 @@ const ChildProductStyles = styled.div`
 `;
 
 const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
-  console.log('lineItem', lineItem);
   const { attributes, cost } = lineItem || {};
   const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
   const [showCert, setShowCert] = useState(false);

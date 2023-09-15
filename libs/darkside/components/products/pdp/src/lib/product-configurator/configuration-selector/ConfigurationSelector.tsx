@@ -59,7 +59,6 @@ function ConfigurationSelector({
   }, [configState, onChange]);
 
   const handleOptionChange = (typeId: string, option: OptionItemProps) => {
-    console.log('handleOptionChange', { typeId, option });
     dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
   };
 

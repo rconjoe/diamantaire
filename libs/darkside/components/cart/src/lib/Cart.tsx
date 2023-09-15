@@ -23,8 +23,6 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
-  console.log('cartItemDetails', cartItemDetails);
-
   const {
     cartHeader,
     subtotalCopy,
