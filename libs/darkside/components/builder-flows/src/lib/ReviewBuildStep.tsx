@@ -37,6 +37,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
     .product-images {
       flex: 2;
       display: flex;
+      margin: 0 -10px;
 
       > .image {
         padding: 0 10px;
