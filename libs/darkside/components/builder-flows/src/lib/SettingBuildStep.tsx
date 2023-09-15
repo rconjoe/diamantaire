@@ -116,7 +116,6 @@ const SettingBuildStep = ({
             updateFlowData={updateFlowData}
             flowIndex={flowIndex}
             disableVariantType={disableVariantType}
-            shopifyProductData={shopifyProductData}
           />
           <ProductDescription
             description={productDescription}
