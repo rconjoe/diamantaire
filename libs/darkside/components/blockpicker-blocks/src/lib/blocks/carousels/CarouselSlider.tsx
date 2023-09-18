@@ -40,7 +40,6 @@ const CarouselSlider = ({
   className,
   darksideButtons,
 }: CarouselContentBlockProps) => {
-  console.log('darksideButtons', darksideButtons);
   // LIST REF
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);

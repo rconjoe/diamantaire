@@ -9,6 +9,7 @@ import { journal } from './journal';
 import { plpListPage, productPage } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
+import { template } from './template';
 
 export const queries = mergeQueryKeys(
   header,
@@ -27,6 +28,7 @@ export const queries = mergeQueryKeys(
   diamondInfo,
   diamondTable,
   cart,
+  template,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -45,3 +47,4 @@ export type PLPPageKeys = inferQueryKeys<typeof plpListPage>;
 export type ShowroomKeys = inferQueryKeys<typeof showrooms>;
 export type HumanNameWrapperKeys = inferQueryKeys<typeof humanNameMappers>;
 export type QueryKeys = inferQueryKeyStore<typeof queries>;
+export type TemplateKeys = inferQueryKeys<typeof template>;

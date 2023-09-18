@@ -51,11 +51,7 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
+    ...queries.template.global(locale),
   });
 
   await queryClient.prefetchQuery({

@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     if (!fn) return res.status(400).json({ error: "function doesn't exist" });
 
     if (!qParams) return res.status(400).json({ error: 'missing payload' });
-    const data = await fn(qParams);
+    const data = await fn(qParams, res);
 
     res.status(200).json(data);
   } catch (error) {

@@ -1,7 +1,6 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
-import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
-import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
+import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
@@ -35,7 +34,6 @@ type PlpProductGridProps = {
   creativeBlockIds: string[];
   data;
   isFetching: boolean;
-  initialProducts: ListPageItemWithConfigurationVariants[] | ListPageDiamondItem[];
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };

@@ -93,7 +93,8 @@ export interface GetStaticPropsRequest extends NextRequest {
 //   };
 // }
 
-async function getServerSideProps({ locale, params }: GetServerSidePropsContext<{ pageSlug: string }>) {
+async function getServerSideProps({ locale, params, res }: GetServerSidePropsContext<{ pageSlug: string }>) {
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1800');
   // device:
   const isMobile = false;
   const { pageSlug } = params || {};
@@ -104,11 +105,7 @@ async function getServerSideProps({ locale, params }: GetServerSidePropsContext<
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
+    ...queries.template.global(locale),
   });
 
   await queryClient.prefetchQuery({

@@ -64,7 +64,7 @@ const Header: FC<HeaderProps> = ({
 
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
 
-  const { section } = headerData.headerNavigationDynamic;
+  const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
 
