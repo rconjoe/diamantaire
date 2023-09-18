@@ -136,7 +136,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     diamondDescription,
     productType: shopifyProductData.productType,
   };
-  const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
+  const variantId = shopifyProductData?.shopifyVariantId;
+
+  console.log('shopifyProductData', shopifyProductData);
 
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;

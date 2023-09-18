@@ -51,8 +51,6 @@ interface CartContextValues {
 }
 
 export const CartContext = createContext<CartContextValues | null>(null);
-// const isBrowser = typeof window !== 'undefined';
-
 const endpoint = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_GRAPHQL_URI'];
 const key = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN'];
 

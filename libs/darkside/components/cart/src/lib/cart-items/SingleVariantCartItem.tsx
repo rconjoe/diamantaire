@@ -129,6 +129,7 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['metal'],
         value: info?.metal,
       },
+      // Bracelet Specific
       {
         label: 'Chain Length',
         value: info?.chainLength,
@@ -141,9 +142,15 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['caratWeight'],
         value: info?.caratWeight,
       },
+      // REPLACE UISTRING
       {
-        label: refinedCartItemDetails?.['ringSize'],
-        value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
+        label:
+          productType === 'Bracelet'
+            ? 'Size'
+            : productType === 'Necklace'
+            ? 'Chain Length'
+            : refinedCartItemDetails?.['ringSize'],
+        value: `${selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value}`,
       },
     ],
     [refinedCartItemDetails, info],

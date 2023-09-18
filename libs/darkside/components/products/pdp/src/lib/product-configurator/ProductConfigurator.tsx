@@ -321,7 +321,7 @@ function AddToCartButton({
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: selectedConfiguration.diamondType,
+          value: shape,
         },
         {
           key: 'caratWeight',

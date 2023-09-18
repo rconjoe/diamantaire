@@ -5,7 +5,9 @@ const CONFIG_TYPE_ORDER = [
   'metal',
   'bandWidth',
   'bandAccent',
+  'size',
   'caratWeight',
+  'chainLength',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
