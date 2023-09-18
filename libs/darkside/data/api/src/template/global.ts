@@ -98,5 +98,12 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         }
       }
     }
+    allHumanNamesMappers(first: "100") {
+      title
+      map {
+        key
+        value
+      }
+    }
   }
 `;

@@ -1,4 +1,12 @@
-export function replacePlaceholders(string, placeHoldersArr, valuesArr) {
+/**
+ * Replaces named placeholders with provided array of values. Will accept components as values to replace.
+ * @param {string} placeholderString - string which includes placeholders
+ * @param {string[]} placeHoldersArr - array of placeholders, e.g ['{{namedPlaceholder1}}, {{namedPlaceholder2}}]
+ * @param {string[]} valuesArr - array of values to replace placeholders, e.g. [5, 'string value']
+ * @returns {array} - returns array of strings and replaced values which can be rendered as JSX. If all values in valuesArr are strings, it will return a string
+ */
+
+export function replacePlaceholders(string: string, placeHoldersArr: string[], valuesArr: string[]) {
   if (!string) {
     return '';
   }
