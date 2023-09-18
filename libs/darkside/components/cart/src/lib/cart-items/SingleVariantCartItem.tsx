@@ -103,6 +103,8 @@ const SingleVariantCartItem = ({
   }) => Promise<string | undefined>;
 }) => {
   const { attributes, cost, merchandise } = item;
+  const { selectedOptions } = merchandise;
+
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
@@ -132,8 +134,16 @@ const SingleVariantCartItem = ({
         value: info?.chainLength,
       },
       {
+        label: refinedCartItemDetails?.['bandWidth'],
+        value: info?.bandWidth,
+      },
+      {
         label: refinedCartItemDetails?.['caratWeight'],
         value: info?.caratWeight,
+      },
+      {
+        label: refinedCartItemDetails?.['ringSize'],
+        value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
       },
     ],
     [refinedCartItemDetails, info],

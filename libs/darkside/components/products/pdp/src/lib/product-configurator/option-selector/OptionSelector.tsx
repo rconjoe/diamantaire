@@ -1,8 +1,10 @@
 import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { sortBandWidth } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Keyboard, Lazy, Navigation } from 'swiper';
@@ -108,6 +110,7 @@ function OptionSelector({
   isBuilderFlowOpen,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
+  const { locale } = useRouter();
   const {
     data: {
       DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
@@ -115,8 +118,9 @@ function OptionSelector({
       METALS_IN_HUMAN_NAMES: METALS_IN_HUMAN_NAMES_MAP,
       CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
       BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
+      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
     } = {},
-  } = useHumanNameMapper('en_US');
+  } = useHumanNameMapper(locale);
 
   const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -147,16 +151,28 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel = OPTION_NAMES_MAP?.[label]?.value;
+  const selectorLabel = OPTION_NAMES_MAP?.[label]?.value || BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value;
 
   const selectorCurrentValue =
     (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
+    (BAND_WIDTH_HUMAN_NAMES_MAP && BAND_WIDTH_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     selectedOptionValue;
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
+
+  console.log('BAND_WIDTH_HUMAN_NAMES_MAP', BAND_WIDTH_HUMAN_NAMES_MAP);
+  console.log('selectedOptionValue', selectedOptionValue);
+
+  function handleOptionValueSort(options, optionType) {
+    if (optionType !== 'bandWidth') {
+      return options;
+    } else {
+      return sortBandWidth(options);
+    }
+  }
 
   return (
     <StyledOptionSelector>
@@ -320,7 +336,7 @@ function OptionSelector({
         ) : (
           <div className={clsx('option-list', label)}>
             {DIAMOND_SHAPES_MAP &&
-              options.map((option) => {
+              handleOptionValueSort(options, optionType).map((option) => {
                 const isSelected = selectedOptionValue === option.value;
 
                 // human readable value

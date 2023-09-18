@@ -154,6 +154,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
+    console.log('productData', productData);
+
     return (
       <PageContainerStyles>
         <PageViewTracker productData={productData} />
