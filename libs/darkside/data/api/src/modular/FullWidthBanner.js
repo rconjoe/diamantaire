@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const FullWidthBanner = `
   ... on ModularFullWidthBannerBlockRecord {
     id
@@ -49,6 +51,9 @@ const FullWidthBanner = `
         priceValue
         currencyCode
       }
+    }
+    darksideButtons {
+      ${ButtonFragment}
     }
     ctaCopy
     ctaRoute
