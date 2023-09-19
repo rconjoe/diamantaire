@@ -13,12 +13,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import CarouselSlider from './CarouselSlider';
 import { ModularCarouselBlockContainer } from './ModularCarouselBlock.style';
+import ModularCarouselBlockOptions from './ModularCarouselBlockOptions';
 import CelebrityThumbnailSlide from './slides/CelebrityThumbnailSlide';
 import DiamondSlide from './slides/DiamondSlide';
 import InstagramThumnailSlide from './slides/InstagramThumbnailSlide';
 import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
-import ModularQuoteBlock from '../misc/ModularQuoteBlock';
 
 const ModularCarouselBlock = (props) => {
   const { _modelApiKey, blocks, darksideButtons } = props;
@@ -70,7 +70,7 @@ const ModularCarouselBlock = (props) => {
     {
       type: 'modular_carousel_block',
       title: null,
-      slide: ModularQuoteBlock,
+      slide: ModularCarouselBlockOptions,
       className: 'quote-slider',
       breakpoints: {
         200: {

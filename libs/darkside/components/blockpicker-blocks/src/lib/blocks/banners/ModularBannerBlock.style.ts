@@ -21,6 +21,8 @@ export const FullWidthImageContainer = styled.div`
 
   ${XXLDesktopAndUp(`
     min-height: 480px;
+    display: flex;
+    align-items: center;
   `)};
 
   &.-full-screen & {

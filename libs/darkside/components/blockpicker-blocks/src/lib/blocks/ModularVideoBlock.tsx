@@ -50,10 +50,6 @@ const ModularVideoBlock = ({
   const { streamingUrl } = video.video;
   const mobileStreamingUrl = mobileVideo?.video?.streamingUrl;
 
-  function handleToggleVideoPlay() {
-    setIsVideoPlaying(!isVideoPlaying);
-  }
-
   return (
     <ModularVideoBlockStyles
       className={additionalClass}
