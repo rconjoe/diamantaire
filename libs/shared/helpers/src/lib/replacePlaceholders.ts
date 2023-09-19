@@ -6,7 +6,11 @@
  * @returns {array} - returns array of strings and replaced values which can be rendered as JSX. If all values in valuesArr are strings, it will return a string
  */
 
-export function replacePlaceholders(string: string, placeHoldersArr: string[], valuesArr: string[]) {
+export function replacePlaceholders(
+  string: string,
+  placeHoldersArr: string[],
+  valuesArr: string[],
+): string | (object | string)[] {
   if (!string) {
     return '';
   }

@@ -7,7 +7,7 @@ import { createLogger } from '../utils';
 const logger = createLogger('UIString');
 
 interface UIStringProps {
-  children: string;
+  children: string | string[];
   placeholders?: string[];
   values?: string[];
   mapType?: (typeof HumanNameMapperTypes)[keyof typeof HumanNameMapperTypes];
@@ -93,10 +93,10 @@ const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTyp
   logger.debug(`Map: ${mapType}`, map);
 
   if (placeholders && values) {
-    return <>{replacePlaceholders(children, placeholders, values)}</>;
+    return <>{replacePlaceholders(children.toString(), placeholders, values)}</>;
   }
 
-  return map[children] || map[String(children).toLowerCase()] || children;
+  return map[children.toString()] || map[String(children).toLowerCase()] || children;
 };
 
 export { UIString };
