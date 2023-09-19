@@ -3,7 +3,7 @@ import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darksi
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -34,6 +34,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
+  const diamondTitle = getDiamondType(diamondType)?.title;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -62,7 +63,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
         <div className="aside">
           <Heading className="title" type="h2">
-            {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
+            {productCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
           </Heading>
 
           {price && <div className="price">{price}</div>}
