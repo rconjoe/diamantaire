@@ -1,3 +1,5 @@
+import { FullWidthBanner, Trio1x1 } from '../../modular';
+
 export const DIAMOND_PDP_QUERY = `
 query diamondPdpQuery($locale: SiteLocale) {
   diamondProduct(locale: $locale){
@@ -19,71 +21,8 @@ query diamondPdpQuery($locale: SiteLocale) {
       seoDescription
     }
     content {
-      ... on ModularTrio1x1BlockRecord {
-        id
-        _modelApiKey
-        aboveCopy
-        belowCopy
-        title1
-        copy1
-        image1 {
-          url
-          alt
-        }
-        ctaCopy1
-        ctaRoute1
-        title2
-        copy2
-        image2 {
-          url
-          alt
-        }
-        ctaCopy2
-        ctaRoute2
-        title3
-        copy3
-        image3 {
-          url
-          alt
-        }
-        ctaCopy3
-        ctaRoute3
-      }
-      ... on ModularFullWidthBannerBlockRecord {
-        id
-        _modelApiKey
-        title
-        headingType
-        headingAdditionalClass
-        desktopCopy
-        desktopImage {
-          url
-          alt
-        }
-        mobileCopy
-        mobileImage {
-          url
-          alt
-        }
-        ctaCopy
-        ctaRoute
-        ctaButtonType
-        isTextBlockWide
-        textColor
-        textBlockAlignment
-        ctaCopy2
-        ctaRoute2
-        ctaButtonType2
-        openInNewWindow
-        ctaCopy3
-        ctaRoute3
-        ctaButtonType3
-        supportedCountries {
-          code
-          name
-        }
-        additionalClass
-      }
+      ${Trio1x1}
+      ${FullWidthBanner}
     }
     specLabels {
       labels {
