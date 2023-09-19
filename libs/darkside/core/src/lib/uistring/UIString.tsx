@@ -67,8 +67,10 @@ const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTyp
 
   logger.debug('allHumanNamesMappers', allHumanNamesMappers);
 
-  if ((placeholders && !values) || (values && !placeholders)) {
-    logger.warn('Requires both placeholders and values to be defined if either is defined');
+  if (!allHumanNamesMappers) {
+    logger.warn('allHumanNamesMappers is not defined');
+
+    return children;
   }
 
   let stringArr = [];
@@ -92,7 +94,9 @@ const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTyp
 
   logger.debug(`Map: ${mapType}`, map);
 
-  if (placeholders && values) {
+  if ((placeholders && !values) || (values && !placeholders)) {
+    logger.warn('Requires both placeholders and values to be defined if either is defined');
+  } else if (placeholders && values) {
     return <>{replacePlaceholders(children.toString(), placeholders, values)}</>;
   }
 

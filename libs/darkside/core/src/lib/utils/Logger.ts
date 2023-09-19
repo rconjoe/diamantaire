@@ -46,11 +46,11 @@ const Logger = (context?: string, level?: (typeof LogLevel)[keyof typeof LogLeve
     console.log(msgWithContext(message), data);
   };
   const warn = (message, data) => {
-    if (!isEnabled([LogLevel.STANDARD])) return;
+    if (!isEnabled([LogLevel.DEBUG, LogLevel.STANDARD])) return;
     console.warn(msgWithContext(message), data);
   };
   const error = (err) => {
-    if (!isEnabled([LogLevel.STANDARD])) return;
+    if (!isEnabled([LogLevel.DEBUG, LogLevel.STANDARD])) return;
     console.error(msgWithContext(err.message));
   };
   const exception = (err) => {
