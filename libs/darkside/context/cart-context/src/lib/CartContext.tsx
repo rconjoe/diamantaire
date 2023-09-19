@@ -387,11 +387,14 @@ export const CartProvider = ({ children }) => {
     async function fetchCart() {
       let cartId = localStorage.getItem('cartId');
 
+      console.log('cartId 1', cartId);
+
       if (!cartId) {
         const cart = await createCart();
 
         cartId = cart.id;
 
+        console.log('cartId 2', cartId);
         localStorage.setItem('cartId', cartId);
 
         return cart;

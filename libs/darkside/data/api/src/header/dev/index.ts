@@ -47,15 +47,6 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
   }
 `;
 
-// export async function fetchHeaderData(locale: string) {
-//   const headerData = await fetch({
-//     query: HEADER_NAV_QUERY,
-//     variables: { locale },
-//   });
-
-//   return headerData;
-// }
-
 export async function fetchHeaderData(locale: string) {
   let reqUrl = `api/template/global?locale=${locale}`;
 
