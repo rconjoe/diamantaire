@@ -25,7 +25,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     dfApiClientURL += '/' + id.replace(/\D/g, '');
   } else {
-    // URL path to get a list of dimaonds by filter options
+    // URL path to get a list of diamonds by filter options
     vraiApiClientURL += `${getApiRouteFromViewParam(view) ?? ''}?` + (array.length ? qParams.toString() : '');
   }
 

@@ -31,21 +31,6 @@ export const getDiamondType = (value: string) => {
 
   const slugs = Object.keys(DIAMOND_TYPE_HUMAN_NAMES);
 
-  // GET DIAMOND TYPE ON DIAMOND SLUG
-  if (diamondOption.isHandle(value)) {
-    const diamondTypeSegment = value?.split('-')?.[0];
-
-    if (slugs.some((slug) => slug.includes(diamondTypeSegment))) {
-      const index = slugs.findIndex((slug) => slug.includes(diamondTypeSegment));
-
-      return {
-        slug: slugs[index],
-        title: titles[index],
-      };
-    }
-  }
-
-  // GET DIAMOND TYPE FROM ANY STRING
   if (titles.includes(value)) {
     const slug = DIAMOND_TYPE_INTERNAL_NAMES[value];
 
@@ -79,12 +64,14 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   const validQueryType = [...DIAMOND_VALID_QUERIES];
 
   const getOptionsFromFacetedNav = (data: string[]) => {
+    console.log(`getOptionsFromFacetedNav`, query, page);
+
     const obj: {
       diamondType?: string;
       clarity?: string;
-      cut?: string;
       color?: string;
       lotId?: string;
+      cut?: string;
     } = {};
 
     data?.forEach((value) => {
@@ -103,11 +90,6 @@ export const getDiamondOptionsFromUrl = (query, page) => {
         obj.color = value.toUpperCase();
       } else if (arr.every(diamondOption.isHandle)) {
         obj.lotId = getDiamondId(value);
-
-        obj.diamondType = arr
-          .map(getDiamondType)
-          .map((v) => v.title)
-          .join();
       }
     });
 
