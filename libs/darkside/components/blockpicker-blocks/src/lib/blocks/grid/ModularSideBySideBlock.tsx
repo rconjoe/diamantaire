@@ -4,7 +4,7 @@ import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
-import { ModularSideBySideBlockContainer } from './ModularSideBySideBlock.style';
+import { ModularSideBySideBlockStyles } from './ModularSideBySideBlock.style';
 
 type ModularSideBySideBlockProps = {
   title?: string;
@@ -48,7 +48,7 @@ const ModularSideBySideBlock = ({
   });
 
   return (
-    <ModularSideBySideBlockContainer
+    <ModularSideBySideBlockStyles
       className={clsx('container-wrapper', additionalClass)}
       $textBlockAlignment={textBlockAlignment}
     >
@@ -69,7 +69,11 @@ const ModularSideBySideBlock = ({
               {title}
             </Heading>
           )}
-          {copy && <Markdown extraClass="-modularSideBySideBlock">{copy}</Markdown>}
+          {copy && (
+            <Markdown withStyles={false} extraClass="-modularSideBySideBlock side-by-side__copy">
+              {copy}
+            </Markdown>
+          )}
           {ctaRoute && ctaCopy && (
             <UniLink route={ctaRoute} className="side-by-side__cta">
               {ctaCopy}
@@ -82,7 +86,7 @@ const ModularSideBySideBlock = ({
           )}
         </div>
       </div>
-    </ModularSideBySideBlockContainer>
+    </ModularSideBySideBlockStyles>
   );
 };
 

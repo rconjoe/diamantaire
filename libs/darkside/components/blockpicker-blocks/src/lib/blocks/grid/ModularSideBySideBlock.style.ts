@@ -8,7 +8,7 @@ import {
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const ModularSideBySideBlockContainer = styled.div`
+export const ModularSideBySideBlockStyles = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -82,7 +82,7 @@ export const ModularSideBySideBlockContainer = styled.div`
   }
 
   .side-by-side__title {
-    margin: ${setSpace(1.5)} 0;
+    margin: 0;
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xsmall);
     font-family: ${MAIN_FONT};
@@ -115,7 +115,7 @@ export const ModularSideBySideBlockContainer = styled.div`
     line-height: 20px;
 
     p {
-      margin-bottom: 20px;
+      margin: 0 0 20px;
     }
 
     p:last-child {
