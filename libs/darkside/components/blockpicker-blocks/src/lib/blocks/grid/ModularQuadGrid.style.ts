@@ -54,7 +54,7 @@ export const ModularQuadGridContainer = styled.div`
           }
 
           .item__caption {
-            margin-top: 15px;
+            margin-top: 10px;
             p {
               font-size: 1.6rem;
             }

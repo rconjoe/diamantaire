@@ -99,6 +99,16 @@ export const BannerWrapper = styled.div`
     max-width: 350px;
     .cta__button {
       margin: 0 0 20px;
+      /* We're overriding DarksideButton styles here */
+      .button-style--outline,
+      .button-style--solid {
+        a,
+        button {
+          display: inline-block;
+          width: auto;
+          min-width: 300px;
+        }
+      }
 
       &:last-child {
         margin-bottom: 0px;

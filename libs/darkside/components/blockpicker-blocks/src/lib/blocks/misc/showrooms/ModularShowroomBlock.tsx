@@ -11,7 +11,7 @@ import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
-import { ModularShowroomBlockContainer } from './ModularShowroomBlock.style';
+import { ModularShowroomBlockStyles } from './ModularShowroomBlock.style';
 
 type ModularShowroomBlockProps = {
   data: {
@@ -31,6 +31,8 @@ type ModularShowroomBlockProps = {
     emailCtaStyle: string;
     servicesLabel: string;
     services: string;
+    locationLabel: string;
+    hoursOfOperationLabel: string;
   };
   image: DatoImageType;
 };
@@ -53,12 +55,16 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
     emailCtaStyle,
     servicesLabel,
     services,
+    locationLabel,
+    hoursOfOperationLabel,
   } = data;
+
+  console.log('ModularShowroomBlock', data);
 
   const directionsImageAlt = getBlockPictureAlt({ image: directionsImage, title });
 
   return (
-    <ModularShowroomBlockContainer>
+    <ModularShowroomBlockStyles>
       <ShowMobileOnly>
         {image && (
           <div className="showroom__image-container">
@@ -73,18 +79,29 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
         <div className="showroom__text-inner-container">
           <div className="showroom__text-section">
             {directionsCtaLink && (
-              <UniLink className="showroom__cta" route={directionsCtaLink}>
-                <Markdown options={{ forceBlock: true }}>{address}</Markdown>
-              </UniLink>
+              <>
+                <p>
+                  <strong>{locationLabel}</strong>
+                </p>
+                <UniLink className="showroom__cta" route={directionsCtaLink}>
+                  <Markdown options={{ forceBlock: true }}>{address}</Markdown>
+                </UniLink>
+              </>
             )}
             {!directionsCtaLink && <Markdown options={{ forceBlock: true }}>{address}</Markdown>}
           </div>
           <div className="showroom__text-section">
+            <p>
+              <strong>{hoursOfOperationLabel}</strong>
+            </p>
             <Markdown options={{ forceBlock: true }}>{hoursOfOperation}</Markdown>
           </div>
           {phoneLabel && phone && (
             <div className="showroom__text-section">
-              <a href={`tel:${phone}`}>{phone}</a>
+              <p>
+                <strong>{phoneLabel}</strong>
+                <a href={`tel:${phone}`}>{phone}</a>
+              </p>
             </div>
           )}
           {email && (
@@ -100,7 +117,12 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
           )}
           {appointmentCtaLink && appointmentCtaCopy && (
             <div className="showroom__text-section">
-              <DarksideButton href={appointmentCtaLink} className="showroom__appt-cta-button primary">
+              <DarksideButton
+                href={appointmentCtaLink}
+                type="underline"
+                colorTheme="teal"
+                className="showroom__appt-cta-button primary"
+              >
                 {appointmentCtaCopy}
               </DarksideButton>
             </div>
@@ -137,7 +159,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
           </div>
         </ShowMobileOnly>
       )}
-    </ModularShowroomBlockContainer>
+    </ModularShowroomBlockStyles>
   );
 };
 
