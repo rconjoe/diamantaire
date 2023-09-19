@@ -38,18 +38,8 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
     isSVG ||
     (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
-  const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
-    const params = {
-      auto: 'format',
-      ar: '1%3A1',
-      fit: 'crop',
-      crop: 'focalpoint',
-      w: width.toString(),
-      q: quality.toString(),
-    };
-    const searchParams = new URLSearchParams(params);
-
-    return `${src}?${searchParams.toString()}`;
+  const loader = ({ src }: ImageLoaderProps) => {
+    return `${src}`;
   };
 
   return isSvgCheck ? (

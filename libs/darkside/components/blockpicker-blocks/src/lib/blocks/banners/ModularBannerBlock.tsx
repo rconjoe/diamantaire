@@ -81,8 +81,6 @@ const ModularBannerBlock = (props) => {
     darksideButtons,
   }: ModularBannerBlockProps = props;
 
-  console.log('darksideButtons', props, title);
-
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
