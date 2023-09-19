@@ -64,8 +64,6 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   const validQueryType = [...DIAMOND_VALID_QUERIES];
 
   const getOptionsFromFacetedNav = (data: string[]) => {
-    console.log(`getOptionsFromFacetedNav`, query, page);
-
     const obj: {
       diamondType?: string;
       clarity?: string;
