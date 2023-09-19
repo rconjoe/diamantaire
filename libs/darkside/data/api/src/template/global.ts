@@ -1,6 +1,6 @@
 export async function fetchGlobalTemplateData(locale: string) {
   // TODO: need logic for this to work with journal
-  let reqUrl = `journal/api/template/global?locale=${locale}`;
+  let reqUrl = `api/template/global?locale=${locale}`;
 
   if (typeof window === 'undefined') {
     reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;

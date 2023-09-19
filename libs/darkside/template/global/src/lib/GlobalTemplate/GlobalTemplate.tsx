@@ -22,8 +22,6 @@ export const GlobalTemplate = ({ children }) => {
 
   const globalTemplateData = useGlobalData(router.locale);
 
-  console.log('globalTemplateData', globalTemplateData);
-
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
   const footerData = globalTemplateData.data?.footerNavigation;
 
