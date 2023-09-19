@@ -37,6 +37,7 @@ const StyledOptionSelector = styled.div`
     span {
       font-size: 1.7rem;
       font-weight: 300;
+      text-transform: capitalize;
     }
   }
   .option-list {
@@ -173,6 +174,8 @@ function OptionSelector({
       return sortBandWidth(options);
     }
   }
+
+  console.log('opppps', options);
 
   return (
     <StyledOptionSelector>

@@ -48,6 +48,7 @@ function ConfigurationSelector({
   isBuilderFlowOpen,
   updateSettingSlugs,
   disableVariantType,
+  hasMultipleDiamondOrientations,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -87,6 +88,7 @@ function ConfigurationSelector({
 
   return (
     <StyledConfigurationSelector>
+      {hasMultipleDiamondOrientations && <button>Rotate</button>}
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
 

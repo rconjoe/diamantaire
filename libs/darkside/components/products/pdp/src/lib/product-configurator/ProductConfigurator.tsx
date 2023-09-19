@@ -2,6 +2,7 @@ import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
+  DIAMOND_TYPE_HUMAN_NAMES,
   ENGRAVEABLE_JEWELRY_SLUGS,
   NON_ENGRAVEABLE_WEDDING_BAND_SLUGS,
   metalTypeAsConst,
@@ -52,6 +53,7 @@ function ProductConfigurator({
   hasMoreThanOneVariant = true,
   extraOptions,
   defaultRingSize,
+  hasMultipleDiamondOrientations,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -148,6 +150,7 @@ function ProductConfigurator({
             isBuilderFlowOpen={isBuilderFlowOpen}
             updateSettingSlugs={updateSettingSlugs}
             disableVariantType={disableVariantType}
+            hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
           />
 
           {sizeOptions &&
@@ -238,7 +241,7 @@ function AddToCartButton({
   console.log('additionalVariantData', additionalVariantData);
 
   const {
-    // metal,
+    metal: variantMetal,
     chainLength,
     // ringSize,
     carat,
@@ -337,18 +340,15 @@ function AddToCartButton({
 
       addItem(variantId, [...necklaceAttributes]);
     } else if (productType === 'Bracelet') {
-      const metal = goldPurity
-        ? goldPurity + ' '
-        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
       let braceletAttributes = [
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: selectedConfiguration.diamondShape,
+          value: selectedConfiguration.diamondShape || DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
         },
         {
           key: 'metal',
-          value: metal,
+          value: variantMetal,
         },
         {
           key: 'chainLength',

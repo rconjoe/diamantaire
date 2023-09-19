@@ -8,6 +8,7 @@ const CONFIG_TYPE_ORDER = [
   'size',
   'caratWeight',
   'chainLength',
+  'diamondSize',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
