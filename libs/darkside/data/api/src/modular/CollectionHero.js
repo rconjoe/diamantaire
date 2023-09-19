@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CollectionHero = `
   ... on ModularCollectionHeroBlockRecord {
     id
@@ -6,6 +8,9 @@ const CollectionHero = `
     titleFont
     subtitle
     subtitleFont
+    darksideButtons {
+      ${ButtonFragment}
+    }
     desktopImage {
       url
       video {

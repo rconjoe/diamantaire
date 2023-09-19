@@ -33,6 +33,7 @@ export const ModularQuoteBlockContainer = styled.div`
 
     img {
       max-width: 40px;
+      margin: 0 auto;
     }
 
     ${mobileOnly(`

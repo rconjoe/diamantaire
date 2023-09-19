@@ -7,7 +7,7 @@ interface Props {
   $titleColor: string;
 }
 
-export const ModularVideoBlockContainer = styled.div<Props>`
+export const ModularVideoBlockStyles = styled.div<Props>`
   width: 100%;
   max-width: 1440px;
   margin: ${setSpace(3)} auto;

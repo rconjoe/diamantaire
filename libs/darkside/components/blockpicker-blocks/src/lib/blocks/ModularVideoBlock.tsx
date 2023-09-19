@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 
-import { ModularVideoBlockContainer } from './ModularVideoBlock.style';
+import { ModularVideoBlockStyles } from './ModularVideoBlock.style';
 
 // See https://www.npmjs.com/package/react-player
 const ReactPlayer = dynamic(() => import('react-player'));
@@ -55,9 +55,8 @@ const ModularVideoBlock = ({
   }
 
   return (
-    <ModularVideoBlockContainer
+    <ModularVideoBlockStyles
       className={additionalClass}
-      onClick={handleToggleVideoPlay}
       $titleColor={titleColor?.hex}
       $titleFont={titleFont}
       $titleStyle={titleStyle}
@@ -86,6 +85,8 @@ const ModularVideoBlock = ({
           muted={shouldAutoplay}
           loop={shouldLoop}
           controls={showControls}
+          onPlay={() => setIsVideoPlaying(true)}
+          onPause={() => setIsVideoPlaying(false)}
           config={{
             file: {
               attributes: { title },
@@ -110,7 +111,7 @@ const ModularVideoBlock = ({
           }}
         />
       </ShowMobileOnly>
-    </ModularVideoBlockContainer>
+    </ModularVideoBlockStyles>
   );
 };
 

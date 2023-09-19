@@ -23,6 +23,8 @@ type ModularSkinnyBannerBlockProps = {
 const ModularSkinnyBannerBlock = (props: ModularSkinnyBannerBlockProps) => {
   const { title, copy, mobileImage, desktopImage, textColor, ctaCopy, ctaRoute, additionalClass } = props || {};
 
+  console.log('props', props);
+
   const alt = getBlockPictureAlt({
     desktopImage,
     mobileImage,

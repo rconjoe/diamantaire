@@ -91,7 +91,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   .hero-block__title {
     font-family: futura-pt, sans-serif;
     font-style: initial;
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1;
     font-size: 4rem;
     text-align: center;
