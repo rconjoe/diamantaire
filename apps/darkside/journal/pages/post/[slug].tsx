@@ -36,13 +36,7 @@ export async function getServerSideProps({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-    meta: { locale },
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-    meta: { locale },
+    ...queries.template.global(locale),
   });
 
   await queryClient.prefetchQuery({

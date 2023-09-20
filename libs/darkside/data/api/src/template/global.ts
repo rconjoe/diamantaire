@@ -1,4 +1,5 @@
 export async function fetchGlobalTemplateData(locale: string) {
+  // TODO: need logic for this to work with journal
   let reqUrl = `api/template/global?locale=${locale}`;
 
   if (typeof window === 'undefined') {

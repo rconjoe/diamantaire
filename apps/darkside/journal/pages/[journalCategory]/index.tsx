@@ -54,11 +54,7 @@ export async function getStaticProps({
 
   // Header + Footer
   await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
+    ...queries.template.global(locale),
   });
 
   await queryClient.prefetchQuery({
