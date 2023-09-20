@@ -89,14 +89,17 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
     };
   }
 
+  const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content({ lotId: options?.lotId });
   const diamondPdpQuery = queries.diamondPdp.content(locale);
   const diamondInfoQuery = queries.diamondInfo.content(locale);
   const diamondTableQuery = queries.diamondTable.content(locale);
-  const productIconListQuery = queries.products.productIconList('DiamondPDP', locale);
+  const productIconListQuery = queries.products.productIconList('Diamond PDP', locale);
 
   const queryClient = new QueryClient();
 
+  await queryClient.prefetchQuery(globalQuery);
+  await queryClient.prefetchQuery(diamondQuery);
   await queryClient.prefetchQuery(diamondQuery);
   await queryClient.prefetchQuery(diamondPdpQuery);
   await queryClient.prefetchQuery(diamondInfoQuery);

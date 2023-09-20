@@ -10,7 +10,7 @@ import { useContext, useState } from 'react';
 
 import { StyledDiamondDetailIconList } from './DiamondDetailIconList.style';
 
-const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
+const DiamondDetailIconList = ({ locale = 'en-US' }: { locale?: string }) => {
   const [isSlideOutOpen, setIsSlideOutOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const { isMobile } = useContext(GlobalContext);
@@ -59,7 +59,7 @@ const DiamondDetailIconList = ({ locale = 'en_US' }: { locale?: string }) => {
             );
           }
 
-          return <></>;
+          return null;
         })}
       </div>
 

@@ -68,7 +68,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
           {price && <div className="price">{price}</div>}
 
-          <DiamondDetailAccordion lotId={lotId} />
+          <DiamondDetailAccordion lotId={lotId} locale={locale} />
 
           <div className="cta">
             {(product?.available_inventory && (
@@ -90,7 +90,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             )}
           </div>
 
-          <DiamondDetailIconList />
+          <DiamondDetailIconList locale={locale} />
 
           <div className="mail">
             <Heading className="title" type="h2">
@@ -102,7 +102,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             <Form onSubmit={(e) => e.preventDefault()} />
           </div>
 
-          <DiamondDetailSpecs lotId={lotId} />
+          <DiamondDetailSpecs lotId={lotId} locale={locale} />
         </div>
       </div>
 
