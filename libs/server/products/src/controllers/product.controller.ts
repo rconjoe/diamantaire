@@ -27,6 +27,42 @@ export class ProductController {
     return await this.productService.findProductBySlug({ slug, id, locale });
   }
 
+  @Get('catalog')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'slug', required: true, description: 'Filter products by option types and values' })
+  async findCatalogProducts(@Query() { slug, ...filterOptions }: { type: string; slug: string }) {
+    const products = await this.productService.findProductsFromCollectionByOptions(slug, filterOptions);
+
+    return products;
+  }
+
+  @Get('catalog/slugs')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'type', required: false, description: 'Filter by Product Type' })
+  async getCollectionSlugs(@Query() { type, slug, ...filterOptions }: { type: string; slug: string }) {
+    const collectionSlugs = await this.productService.getCollectionSlugs({ type });
+    const collectionOptions = await this.productService.getCollectionOptions(slug, filterOptions);
+
+    return {
+      input: {
+        type,
+        slug,
+        filterOptions,
+      },
+      collectionSlugs,
+      collectionOptions,
+    };
+  }
+
+  @Get('catalog/options')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'collectionSlug', required: true, description: 'Get allpossible configuration Options per collection' })
+  async getCollectionOptions(@Query() { slug, ...filterOptions }: { slug: string } & Record<string, string>) {
+    const collectionOptions = await this.productService.getCollectionOptions(slug, filterOptions);
+
+    return collectionOptions;
+  }
+
   @Get('feed')
   @ApiOperation({ summary: 'Get all products' })
   async findProducts(@Query() { limit, page, sortOrder, sortBy, slug, productType }: PaginateFilterDto) {

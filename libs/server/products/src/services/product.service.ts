@@ -1225,6 +1225,131 @@ export class ProductsService {
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
   }
+
+  getCollectionSlugs(input: CatalogProductInput): any {
+    return this.getCollectionSlugsByType(input.type);
+  }
+
+  async getCollectionSlugsByType(
+    type: string,
+  ): Promise<{ _id: string; productType: string; collectionSlugs: string[] }[] | any> {
+    const pipeline = [
+      type && {
+        $match: { productType: type },
+      },
+      {
+        $group: {
+          _id: '$productType',
+          slugs: { $addToSet: '$collectionSlug' },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          productType: '$_id',
+          slugs: 1,
+        },
+      },
+    ];
+
+    try {
+      const slugs = await this.productRepository.aggregate(pipeline.filter(Boolean));
+
+      return slugs;
+    } catch (e) {
+      this.logger.error(`Error retrieving collection slugs for product type: ${type}`, e);
+
+      return {
+        pipeline,
+      };
+    }
+  }
+
+  async getCollectionOptions(
+    collectionSlug: string,
+    filterOptions?: Record<string, string>,
+  ): Promise<Record<string, string[] | any>> {
+    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
+
+    Object.entries(filterOptions).forEach(([k, v]) => {
+      matchQueries.push({ [`configuration.${k}`]: v });
+    });
+
+    const pipeline = [
+      collectionSlug && {
+        $match: { $and: matchQueries },
+      },
+      {
+        $project: {
+          arrayofkeyvalue: { $objectToArray: '$$ROOT.configuration' },
+        },
+      },
+      {
+        $unwind: '$arrayofkeyvalue',
+      },
+      {
+        $group: {
+          _id: null,
+          allOptions: { $addToSet: '$arrayofkeyvalue' },
+        },
+      },
+      {
+        $unwind: '$allOptions',
+      },
+      {
+        $group: {
+          _id: '$allOptions.k',
+          values: { $push: '$allOptions.v' },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          type: '$_id',
+          values: 1,
+        },
+      },
+    ];
+
+    try {
+      const options = await this.productRepository.aggregate(pipeline.filter(Boolean));
+
+      return {
+        collectionSlug,
+        options,
+      };
+    } catch (e) {
+      this.logger.error(`Error retrieving collection options for collection slugs: ${collectionSlug}`, e);
+
+      return {
+        pipeline,
+      };
+    }
+  }
+
+  async findProductsFromCollectionByOptions(collectionSlug: string, filterOptions?: Record<string, string>) {
+    this.logger.debug(
+      'Getting products from collection: ',
+      collectionSlug,
+      ' with options: ',
+      JSON.stringify(filterOptions),
+    );
+    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
+
+    Object.entries(filterOptions || {}).forEach(([k, v]) => {
+      matchQueries.push({ [`configuration.${k}`]: v });
+    });
+
+    const queries = { $and: matchQueries.filter(Boolean) };
+
+    try {
+      const slugs = await this.productRepository.find(queries);
+
+      return slugs;
+    } catch (e) {
+      this.logger.error(`Error retrieving products from collection: ${collectionSlug}`, e);
+    }
+  }
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {
@@ -1235,4 +1360,8 @@ function getDatoRequestLocale(locale = 'en_US'): string {
   } else {
     return language;
   }
+}
+
+interface CatalogProductInput {
+  type: string;
 }

@@ -22,6 +22,7 @@ type FormProps = {
   schema?: FormSchemaType[];
   formGridStyle?: 'single' | 'split';
   stackedSubmit?: boolean;
+  gridStyle?: 'single' | 'split';
 };
 
 export type FormSchemaType = {
@@ -32,7 +33,7 @@ export type FormSchemaType = {
   required: boolean;
 };
 
-const FormContainer = styled.div`
+const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
   p {
     margin-top: calc(var(--gutter) / 20);
     font-size: var(--font-size-xxsmall);

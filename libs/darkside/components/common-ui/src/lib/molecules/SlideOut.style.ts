@@ -5,7 +5,7 @@ const defaultWidth = '30%';
 
 const gap = '2rem';
 
-export const SlideOutFreezeBody = createGlobalStyle`
+export const SlideOutFreezeBody = createGlobalStyle<{ scrollPosition: number }>`
   html {
     overflow: hidden;
     top: ${(props) => `-${props.scrollPosition}px`};
