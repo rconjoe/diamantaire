@@ -1,5 +1,6 @@
+import clsx from 'clsx';
 import noUiSlider, { API } from 'nouislider';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import StyledSlider from './Slider.style';
 
@@ -119,7 +120,7 @@ const Slider = (props: SliderProps) => {
   }, [value]);
 
   return (
-    <StyledSlider className={['slider', pips ? 'with-pips' : '', className]}>
+    <StyledSlider className={clsx(['slider', pips ? 'with-pips' : '', className])}>
       {edge && (
         <div className="vo-slider-values" title={type}>
           <div ref={sliderValueStartRef} className="vo-slider-value-start" />
