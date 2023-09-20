@@ -21,6 +21,7 @@ type ModularSideBySideBlockProps = {
   countryCode: string;
   image: DatoImageType;
   imageInline: DatoImageType;
+  imageMobile: DatoImageType;
 };
 
 const ModularSideBySideBlock = ({
