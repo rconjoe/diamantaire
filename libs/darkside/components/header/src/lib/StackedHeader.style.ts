@@ -151,4 +151,8 @@ export const StackedHeaderStylesContainer = styled.div`
       }
     }
   }
+
+  .stacked-header__desktop-nav {
+    text-transform: uppercase;
+  }
 `;

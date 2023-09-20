@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { FC, useState, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';
@@ -45,6 +45,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           width: 100%;
           align-items: center;
           font-family: ${MAIN_FONT};
+          text-transform: uppercase;
 
           &:focus,
           &:active {

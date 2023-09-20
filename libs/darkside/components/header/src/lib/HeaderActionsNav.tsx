@@ -1,5 +1,5 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { AccountIcon, LoveIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -71,14 +71,14 @@ const HeaderActionsNavContainer = styled.nav`
 
 const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
   const links = [
-    {
-      title: 'Search',
-      icon: <SearchIcon alt="Search" loading="eager" />,
-      type: 'button',
-      alt: 'Search Toggle Button',
-      onClick: () => null,
-      href: '/',
-    },
+    // {
+    //   title: 'Search',
+    //   icon: <SearchIcon alt="Search" loading="eager" />,
+    //   type: 'button',
+    //   alt: 'Search Toggle Button',
+    //   onClick: () => null,
+    //   href: '/',
+    // },
     {
       title: 'Accounts',
       icon: <AccountIcon alt="Accounts" loading="eager" />,
