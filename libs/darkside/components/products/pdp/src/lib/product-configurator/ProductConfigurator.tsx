@@ -37,6 +37,7 @@ type ProductConfiguratorProps = {
     name: string;
   }[];
   defaultRingSize?: string;
+  hasMultipleDiamondOrientations?: boolean;
 };
 
 function ProductConfigurator({
@@ -60,8 +61,6 @@ function ProductConfigurator({
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
 
-  console.log('sizeOptions', sizeOptions);
-
   console.log('init id', sizeOptions.find((option) => option.value === defaultRingSize)?.id);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
@@ -71,10 +70,6 @@ function ProductConfigurator({
   // Ring size is not being returned on the config
   // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
-
-  console.log('selectedConfiguration', selectedConfiguration);
-  console.log('configurations', configurations);
-  console.log('selectedSize', selectedSize);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -238,8 +233,6 @@ function AddToCartButton({
   const { locale } = useRouter();
   const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
 
-  console.log('additionalVariantData', additionalVariantData);
-
   const {
     metal: variantMetal,
     chainLength,
@@ -378,7 +371,6 @@ function AddToCartButton({
 
       weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
-      console.log('weddingBandAttributes', weddingBandAttributes);
       addItem(variantId, [...weddingBandAttributes]);
     }
     // Trigger cart to open

@@ -40,7 +40,5 @@ export async function fetchHumanMapperData(locale: string) {
     return (updatedData[item.title] = updatedItem);
   });
 
-  console.log('updatedData', updatedData);
-
   return updatedData;
 }

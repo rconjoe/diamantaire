@@ -164,9 +164,6 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
-  console.log('BAND_WIDTH_HUMAN_NAMES_MAP', BAND_WIDTH_HUMAN_NAMES_MAP);
-  console.log('selectedOptionValue', selectedOptionValue);
-
   function handleOptionValueSort(options, optionType) {
     if (optionType !== 'bandWidth') {
       return options;
