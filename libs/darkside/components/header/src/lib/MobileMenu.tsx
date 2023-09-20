@@ -48,6 +48,10 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           text-transform: uppercase;
           font-weight: var(--font-weight-bold);
 
+          &.open {
+            border-color: transparent;
+          }
+
           &:focus,
           &:active {
             outline: none;
