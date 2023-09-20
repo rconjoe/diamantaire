@@ -23,3 +23,5 @@ export const getProducts = async (selectedSlug, selectedOptions) => {
 
   return response.data;
 };
+
+export * from './handlers/';
