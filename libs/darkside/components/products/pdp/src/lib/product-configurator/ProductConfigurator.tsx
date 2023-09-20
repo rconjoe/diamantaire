@@ -377,8 +377,6 @@ function AddToCartButton({
     setIsCartOpen(true);
   }
 
-  console.log('proxxx', configuredProductOptionsInOrder);
-
   return (
     <AddToCartButtonContainer>
       <DarksideButton

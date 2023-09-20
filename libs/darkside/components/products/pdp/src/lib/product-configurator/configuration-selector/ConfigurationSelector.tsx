@@ -11,6 +11,7 @@ interface ConfigurationSelectorProps {
   isBuilderFlowOpen?: boolean;
   updateSettingSlugs?: (item: object) => void;
   disableVariantType?: string[];
+  hasMultipleDiamondOrientations?: boolean;
 }
 
 interface ConfigurationSelectorAction {
@@ -19,7 +20,6 @@ interface ConfigurationSelectorAction {
     typeId: string;
     value: string;
   };
-  disableVariantType?: string[];
 }
 
 const StyledConfigurationSelector = styled.div`
