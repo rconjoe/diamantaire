@@ -122,7 +122,6 @@ const Header: FC<HeaderProps> = ({
       <FullHeaderStyles $isHome={isHome}>
         <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-
           {isHome ? (
             <>
               <StackedHeader
@@ -136,7 +135,6 @@ const Header: FC<HeaderProps> = ({
                 selectedLanguage={languagesByCode[selectedLanguageCode].name}
                 isLanguageSelectorOpen={isLanguageSelectorOpen}
               />
-
               <AnimatePresence>
                 <motion.div
                   key="slide-in-header"
@@ -172,9 +170,7 @@ const Header: FC<HeaderProps> = ({
               toggleCart={toggleCart}
             />
           )}
-
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
-
           {isLoaded && (
             <MegaMenu
               navItems={section}
@@ -183,7 +179,6 @@ const Header: FC<HeaderProps> = ({
               isCompactMenuVisible={isCompactMenuVisible}
             />
           )}
-
           {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
         </div>
       </FullHeaderStyles>
