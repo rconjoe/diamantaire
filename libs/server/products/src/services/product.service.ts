@@ -1269,7 +1269,6 @@ export class ProductsService {
     collectionSlug: string,
     filterOptions?: Record<string, string>,
   ): Promise<Record<string, string[] | any>> {
-    console.log('MATCH??', collectionSlug, filterOptions);
     const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
 
     Object.entries(filterOptions).forEach(([k, v]) => {
