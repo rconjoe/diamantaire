@@ -57,8 +57,8 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   let { title: seoTitle = '', description: seoDesc = '' } = ctoDiamondTable?.seo || {};
 
-  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
-  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']);
+  seoTitle = replacePlaceholders(seoTitle, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']) as string;
+  seoDesc = replacePlaceholders(seoDesc, ['%%product_name%%'], [getDiamondType(diamondType)?.title || '']) as string;
 
   const handleSelectShape = (value) => {
     setSelectedDiamondType(value);
