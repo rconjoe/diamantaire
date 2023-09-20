@@ -35,6 +35,7 @@
     "baseUrl": ".",
     "paths": {
       "@diamantaire/_generated/datocms": ["libs/_generated/datocms/src/index.ts"],
+      "@diamantaire/darkside/page/catalog": ["libs/darkside/page/catalog/src/index.ts"],
       "@diamantaire/darkside/components/blockpicker-blocks": ["libs/darkside/components/blockpicker-blocks/src/index.ts"],
       "@diamantaire/darkside/components/builder-flows": ["libs/darkside/components/builder-flows/src/index.ts"],
       "@diamantaire/darkside/components/cart": ["libs/darkside/components/cart/src/index.ts"],
@@ -55,7 +56,6 @@
       "@diamantaire/darkside/data/hooks": ["libs/darkside/data/hooks/src/index.ts"],
       "@diamantaire/darkside/data/queries": ["libs/darkside/data/queries/src/index.ts"],
       "@diamantaire/darkside/page/accounts": ["libs/darkside/page/accounts/src/index.ts"],
-      "@diamantaire/darkside/page/catalog": ["libs/darkside/page/catalog/src/index.ts"],
       "@diamantaire/darkside/page/diamonds": ["libs/darkside/page/diamonds/src/index.ts"],
       "@diamantaire/darkside/page/error": ["libs/darkside/page/error/src/index.ts"],
       "@diamantaire/darkside/page/error/server": ["libs/darkside/page/error/src/server.ts"],
