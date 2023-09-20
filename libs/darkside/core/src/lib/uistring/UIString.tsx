@@ -103,6 +103,8 @@ const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTyp
   return map[children.toString()] || map[String(children).toLowerCase()] || children;
 };
 
+export { UIString }
+
 function getMapByType(allMappers: StringMapper[], type: (typeof HumanNameMapperTypes)[keyof typeof HumanNameMapperTypes]) {
   return allMappers.find((m) => m.title === type)?.map || [];
 }
