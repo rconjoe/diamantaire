@@ -20,11 +20,8 @@ export const ModularSwiperCarouselBlockContainer = styled.div`
 `;
 
 export const SlideContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   outline: none;
+  text-align: center;
 
   .slide__image-container {
     img {

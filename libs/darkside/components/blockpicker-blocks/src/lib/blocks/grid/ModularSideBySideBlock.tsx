@@ -20,6 +20,7 @@ type ModularSideBySideBlockProps = {
   supportedCountries?: Array<string>;
   countryCode: string;
   image: DatoImageType;
+  imageInline: DatoImageType;
 };
 
 const ModularSideBySideBlock = ({
@@ -36,6 +37,8 @@ const ModularSideBySideBlock = ({
   headingAdditionalClass,
   supportedCountries,
   countryCode,
+  imageInline,
+  imageMobile,
 }: ModularSideBySideBlockProps) => {
   // If there are supported countries listed, check to see if its supported.
   if (supportedCountries?.length && !supportedCountries.includes(countryCode)) {
@@ -47,13 +50,20 @@ const ModularSideBySideBlock = ({
     title,
   });
 
+  console.log('imageMobile', imageMobile);
+
   return (
     <ModularSideBySideBlockStyles
       className={clsx('container-wrapper', additionalClass)}
       $textBlockAlignment={textBlockAlignment}
     >
       <div className={clsx('side-by-side__image-container', additionalClass)}>
-        <DatoImage image={image} overrideAlt={alt} />
+        <div className="desktop">
+          <DatoImage image={image} overrideAlt={alt} />
+        </div>
+        <div className="mobile">
+          <DatoImage image={imageMobile} overrideAlt={alt} />
+        </div>
       </div>
       <div className={clsx('side-by-side__text-container', additionalClass)}>
         <div className={clsx('side-by-side__inner-text-container', additionalClass)}>
@@ -69,6 +79,13 @@ const ModularSideBySideBlock = ({
               {title}
             </Heading>
           )}
+
+          {imageInline && (
+            <div className="side-by-side-inline-image">
+              <DatoImage image={imageInline}></DatoImage>
+            </div>
+          )}
+
           {copy && (
             <Markdown withStyles={false} extraClass="-modularSideBySideBlock side-by-side__copy">
               {copy}

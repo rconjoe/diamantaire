@@ -98,7 +98,11 @@ const ModularCarouselBlock = (props) => {
   return (
     <ModularCarouselBlockContainer>
       {SelectedSliderSlide ? (
-        <CarouselSlider {...sliderType} darksideButtons={darksideButtons}>
+        <CarouselSlider
+          {...sliderType}
+          hasPagination={_modelApiKey === 'modular_carousel_block'}
+          darksideButtons={darksideButtons}
+        >
           {blocks?.map((slide) => {
             return (
               <SwiperSlide key={`slide-${slide.id ? slide.id : uuidv4()}`}>

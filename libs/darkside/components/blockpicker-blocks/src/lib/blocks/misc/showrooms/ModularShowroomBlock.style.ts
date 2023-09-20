@@ -35,12 +35,14 @@ export const ModularShowroomBlockStyles = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: left;
+    padding: 20px;
 
     ${desktopAndUp(`
     display: flex;
     justify-content: flex-start;
     padding-right: ${setSpace(4)};
     margin: 0 ${setSpace(2)};
+    padding: 0;
   `)};
   }
   .showroom__text-inner-container {

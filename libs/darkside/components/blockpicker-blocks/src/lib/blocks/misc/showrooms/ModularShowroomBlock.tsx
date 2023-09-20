@@ -59,8 +59,6 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
     hoursOfOperationLabel,
   } = data;
 
-  console.log('ModularShowroomBlock', data);
-
   const directionsImageAlt = getBlockPictureAlt({ image: directionsImage, title });
 
   return (
