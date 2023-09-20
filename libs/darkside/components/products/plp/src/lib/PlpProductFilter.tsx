@@ -14,16 +14,17 @@ const PlpProductFilter = ({
   availableFilters,
   filterValue,
   setFilterValues,
-  isParamBased,
+  urlFilterMethod,
+  plpSlug,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
   filterValue: FilterValueProps;
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
-  isParamBased: boolean;
+  plpSlug: string;
+  urlFilterMethod: 'facet' | 'param' | 'none';
 }) => {
   const router = useRouter();
-  const [plpSlug] = router.query.plpSlug;
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
 
@@ -78,7 +79,7 @@ const PlpProductFilter = ({
 
     if (filterType !== 'price') {
       // Update the browser URL
-      if (!isParamBased) {
+      if (urlFilterMethod === 'param') {
         // Build the new URL path based on the filter values
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
@@ -102,7 +103,7 @@ const PlpProductFilter = ({
           undefined,
           { shallow: true },
         );
-      } else {
+      } else if (urlFilterMethod === 'facet') {
         // Param Filter Behavior
         const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]])
           .filter(([key, v]) => v !== null && key in newFilters)
@@ -128,9 +129,13 @@ const PlpProductFilter = ({
             ...sortedQParams,
           },
         });
+      } else {
+        // No URL update
       }
     } else {
-      handleSliderURLUpdate(value.min, value.max);
+      if (urlFilterMethod !== 'none') {
+        handleSliderURLUpdate(value.min, value.max);
+      }
     }
 
     setFilterValues(newFilters);
