@@ -110,7 +110,7 @@ export const CartProvider = ({ children }) => {
       cache: 'no-store',
     });
 
-    return reshapeCart(res.body.data.cartCreate.cart);
+    return reshapeCart(res?.body?.data?.cartCreate?.cart);
   }
 
   async function addToCart(
@@ -174,7 +174,10 @@ export const CartProvider = ({ children }) => {
 
   const reshapeCart = (cart: ShopifyCart): Cart => {
     console.log('reshape running', cart);
-    if (!cart.cost?.totalTaxAmount) {
+
+    if (!cart) return;
+
+    if (!cart?.cost?.totalTaxAmount) {
       cart.cost.totalTaxAmount = {
         amount: '0.0',
         currencyCode: 'USD',
@@ -230,6 +233,8 @@ export const CartProvider = ({ children }) => {
       variables: { cartId },
       cache: 'no-store',
     });
+
+    if (!res) return;
 
     // Old carts becomes `null` when you checkout.
     if (!res.body.data.cart) {
