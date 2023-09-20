@@ -17,7 +17,6 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-title {
     display: flex;
     align-items: center;
-    text-transform: capitalize;
     gap: 5px;
     width: 90px;
 
