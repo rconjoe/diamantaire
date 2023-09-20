@@ -1,4 +1,5 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { UIString } from '@diamantaire/darkside/core';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
@@ -27,6 +28,7 @@ const HomePage = (props: HomePageProps) => {
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
+      <UIString>Home Page</UIString>
       <StandardPageEntry
         gtmClass="mkt-is-homepage"
         page={page}
