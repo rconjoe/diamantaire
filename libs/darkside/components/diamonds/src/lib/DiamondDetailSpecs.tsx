@@ -7,7 +7,7 @@ export interface DiamondSpecsProps {
   lotId?: string;
 }
 
-const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotId?: string }) => {
+const DiamondDetailSpecs = ({ locale = 'en-US', lotId }: { locale?: string; lotId?: string }) => {
   const {
     data: {
       diamondProduct: {
