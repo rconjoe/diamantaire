@@ -3,6 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import {
   DarksideButton,
   Heading,
+  HideTopBar,
   Markdown,
   SwiperCustomPagination,
   SwiperStyles,
@@ -126,6 +127,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   return (
     <>
+      <HideTopBar />
+
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
 
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
@@ -244,13 +247,17 @@ async function getServerSideProps(
   const options = getCFYResultOptionsFromUrl(query || {});
 
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+
   const diamondTableQuery = queries.diamondTable.content(locale);
+
   const diamondCtoQuery = queries.diamondCto.content({ ...options });
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(diamondCfyQuery);
+
   await queryClient.prefetchQuery(diamondTableQuery);
+
   await queryClient.prefetchQuery(diamondCtoQuery);
 
   if (

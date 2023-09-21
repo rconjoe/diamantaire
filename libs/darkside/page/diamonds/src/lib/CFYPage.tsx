@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, HideTopBar } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCfyAsidePromo,
   DiamondCfyBreadCrumb,
@@ -92,6 +92,8 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   return (
     <>
+      <HideTopBar />
+
       <StandardPageSeo title={seoTitle} description={seoDesc} />
 
       <StyledCFYPage className="container-wrapper" headerHeight={headerHeight}>
