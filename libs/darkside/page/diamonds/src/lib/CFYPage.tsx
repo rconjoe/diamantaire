@@ -8,6 +8,7 @@ import {
   DiamondCfyFilterShape,
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -16,7 +17,7 @@ import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
@@ -34,6 +35,8 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
+
+  const { headerHeight } = useContext(GlobalContext);
 
   const { diamondType, carat, product: selectedProduct } = options;
 
@@ -91,7 +94,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     <>
       <StandardPageSeo title={seoTitle} description={seoDesc} />
 
-      <StyledCFYPage className="container-wrapper">
+      <StyledCFYPage className="container-wrapper" headerHeight={headerHeight}>
         <div className="page-main">
           <div className="page-header">
             <Heading className="title">{headerTitle}</Heading>

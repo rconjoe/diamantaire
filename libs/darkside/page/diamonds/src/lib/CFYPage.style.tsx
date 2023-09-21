@@ -6,6 +6,7 @@ const StyledCFYPage = styled.div`
   flex-direction: column;
   margin: 0 auto 0;
   padding: 0;
+  position: relative;
 
   ${tabletAndUp(`
     margin: 2rem auto;
@@ -47,6 +48,13 @@ const StyledCFYPage = styled.div`
 
   .page-main {
     flex: 1;
+    position: sticky;
+    align-self: flex-start;
+    top: ${(props) => props.headerHeight + 20}px;
+
+    ${tabletAndUp(`
+      padding: 0 0 4rem;
+    `)}
   }
 
   .page-aside {
@@ -54,8 +62,9 @@ const StyledCFYPage = styled.div`
     margin: 4rem 0 0;
 
     ${tabletAndUp(`
+    margin: 0;
       width: 40rem;
-      margin: 0;
+      padding: 0 0 4rem;
     `)}
   }
 

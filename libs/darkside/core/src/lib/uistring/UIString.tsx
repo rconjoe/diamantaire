@@ -51,6 +51,7 @@ export const HumanNameMapperTypes = {
   ProngStyleNames: 'PRONG_STYLE_HUMAN_NAMES',
   PriceRangeOptionNames: 'PRICE_RANGE_OPTIONS_HUMAN_NAMES',
   DiamondSizeNames: 'DIAMOND_SIZE_HUMAN_NAMES',
+  Languages: 'LANGUAGES',
 } as const;
 
 /**
