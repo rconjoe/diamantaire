@@ -158,18 +158,23 @@ async function getServerSideProps(
   const { query, locale } = context;
 
   const options = getCFYOptionsFromUrl(query || {});
+
   const { product } = options || {};
 
+  const globalQuery = queries.template.global(locale);
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+
   const availableDiamondTypesQuery = product ? queries.products.productDiamondTypes(product) : null;
 
   const queryClient = new QueryClient();
 
-  // PREFECTH DIAMOND CFY CONTENT FROM DATO
+  await queryClient.prefetchQuery(globalQuery);
+
   await queryClient.prefetchQuery(diamondCfyQuery);
+
   if (product) await queryClient.prefetchQuery(availableDiamondTypesQuery);
 
-  // IF NO RESULT RETURN 404
   if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {
     return {
       notFound: true,

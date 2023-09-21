@@ -246,6 +246,8 @@ async function getServerSideProps(
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
+  const globalQuery = queries.template.global(locale);
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
 
   const diamondTableQuery = queries.diamondTable.content(locale);
@@ -253,6 +255,8 @@ async function getServerSideProps(
   const diamondCtoQuery = queries.diamondCto.content({ ...options });
 
   const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(globalQuery);
 
   await queryClient.prefetchQuery(diamondCfyQuery);
 
