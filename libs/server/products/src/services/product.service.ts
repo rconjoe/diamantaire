@@ -1328,12 +1328,7 @@ export class ProductsService {
   }
 
   async findProductsFromCollectionByOptions(collectionSlug: string, filterOptions?: Record<string, string>) {
-    this.logger.debug(
-      'Getting products from collection: ',
-      collectionSlug,
-      ' with options: ',
-      JSON.stringify(filterOptions),
-    );
+    this.logger.debug(`Getting products from collection: ${collectionSlug} with options ${JSON.stringify(filterOptions)}`);
     const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
 
     Object.entries(filterOptions || {}).forEach(([k, v]) => {
@@ -1350,6 +1345,13 @@ export class ProductsService {
       this.logger.error(`Error retrieving products from collection: ${collectionSlug}`, e);
     }
   }
+
+  async getCollectionTreeStruct(collectionSlug: string) {
+    this.logger.debug(`Get tree structure for collection: ${collectionSlug}`);
+    const collectionProducts = await this.productRepository.find({ collectionSlug });
+
+    return generateProductTree(collectionProducts);
+  }
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {
@@ -1364,4 +1366,86 @@ function getDatoRequestLocale(locale = 'en_US'): string {
 
 interface CatalogProductInput {
   type: string;
+}
+
+interface ProductNode {
+  path: string[];
+  typePath: string[];
+  configurationType?: string; // non root node
+  configurationValue?: unknown; // non root node
+  collectionSlug?: string; // root node only
+  product?: {
+    productSlug: string;
+    shopifyVariantId: string;
+  }; // leaf node only
+  children: Record<string, ProductNode>;
+}
+
+const o = [
+  'diamondOrientation',
+  'diamondType',
+  'metal',
+  'caratWeight',
+  'bandAccent',
+  'sideStoneShape',
+  'sideStoneCarat',
+  'prongStyle',
+  'haloSize',
+  'size',
+];
+// exclude : 'goldPurity'
+
+function generateProductTree(collectionProducts: VraiProduct[]) {
+  const collectionSlug = collectionProducts[0].collectionSlug;
+
+  const treeRoot: ProductNode = {
+    path: [],
+    typePath: [],
+    collectionSlug,
+    children: {},
+  };
+
+  for (const product of collectionProducts) {
+    const { configuration } = product;
+    let currentNode: ProductNode = treeRoot;
+
+    Object.entries(configuration)
+      .filter(([k]) => o.includes(k))
+      .sort((a, b) => o.indexOf(a[0]) - o.indexOf(b[0]))
+      .forEach(([k, v]) => {
+        const existingNode = currentNode.children[v];
+
+        if (existingNode) {
+          currentNode = existingNode;
+        } else {
+          const newNode: ProductNode = {
+            path: currentNode.path.concat([v]),
+            typePath: currentNode.typePath.concat([k]),
+            children: {},
+            configurationType: k,
+            configurationValue: v,
+          };
+
+          currentNode.children[v] = newNode;
+          currentNode = newNode;
+        }
+      });
+
+    currentNode.product = {
+      productSlug: product.productSlug,
+      shopifyVariantId: product['shopifyVariantId'],
+    };
+  }
+
+  return treeRoot;
+}
+
+function getNode(startNode: ProductNode, path: string[]) {
+  let cNode = startNode;
+
+  path.forEach((segment) => {
+    cNode = cNode.children[segment];
+  });
+
+  return cNode;
 }

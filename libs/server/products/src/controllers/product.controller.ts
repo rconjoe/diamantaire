@@ -44,14 +44,18 @@ export class ProductController {
     const collectionOptions = await this.productService.getCollectionOptions(slug, filterOptions);
 
     return {
-      input: {
-        type,
-        slug,
-        filterOptions,
-      },
       collectionSlugs,
       collectionOptions,
     };
+  }
+
+  @Get('collection/tree/:slug')
+  @ApiOperation({ summary: 'Get collection data in a tree data structure' })
+  @ApiQuery({ name: 'slug', required: false, description: 'Filter by Product Type' })
+  async getCollectionTreeData(@Param() { slug }: { slug: string }) {
+    const collectionTree = await this.productService.getCollectionTreeStruct(slug);
+
+    return collectionTree;
   }
 
   @Get('catalog/options')
