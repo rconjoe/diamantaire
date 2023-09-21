@@ -11,6 +11,7 @@ interface ConfigurationSelectorProps {
   isBuilderFlowOpen?: boolean;
   updateSettingSlugs?: (item: object) => void;
   disableVariantType?: string[];
+  hasMultipleDiamondOrientations?: boolean;
 }
 
 interface ConfigurationSelectorAction {
@@ -19,7 +20,6 @@ interface ConfigurationSelectorAction {
     typeId: string;
     value: string;
   };
-  disableVariantType?: string[];
 }
 
 const StyledConfigurationSelector = styled.div`
@@ -48,6 +48,7 @@ function ConfigurationSelector({
   isBuilderFlowOpen,
   updateSettingSlugs,
   disableVariantType,
+  hasMultipleDiamondOrientations,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -87,10 +88,10 @@ function ConfigurationSelector({
 
   return (
     <StyledConfigurationSelector>
+      {hasMultipleDiamondOrientations && <button>Rotate</button>}
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
-        // Need help here - Can't rely on configState here because it's not updated yet
-        // const selectedOption = configState?.[configurationType];
+
         const selectedOption = selectedConfiguration?.[configurationType];
 
         if (disableVariantType?.includes(configurationType)) return null;

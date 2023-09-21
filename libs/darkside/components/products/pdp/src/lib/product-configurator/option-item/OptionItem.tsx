@@ -1,3 +1,4 @@
+import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -201,6 +202,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   min-width: 30px;
   text-align: center;
   font-size: 1.3rem;
+  text-transform: capitalize;
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
@@ -208,9 +210,16 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
 `;
 
 export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+  const { locale } = useRouter();
+  // Band Width
+
+  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
+
+  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || value;
+
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {value}
+      {valueLabel}
     </StyledBasicOptionItem>
   );
 }
