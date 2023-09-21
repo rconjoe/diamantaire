@@ -4,6 +4,12 @@ import styled from 'styled-components';
 
 import { sortSlugProductType } from '../utils';
 
+interface ProductTypeSlugsData {
+  _id: string;
+  productType: string;
+  slugs: string[];
+}
+
 const StyledSlugSelector = styled.div`
   .selected {
     background-color: purple;
@@ -55,6 +61,7 @@ const StyledSlugSelector = styled.div`
 
 const SlugSelector = ({ collectionSlugs, onSlugSelected, selectedSlug }) => {
   const [selectedProductType, setSelectedProductType] = useState<string>('');
+  const [slugs, setSlugs] = useState<ProductTypeSlugsData[]>(collectionSlugs);
 
   const handleProductTypeSelection = (productType: string) => {
     if (selectedProductType === productType) {
@@ -65,10 +72,36 @@ const SlugSelector = ({ collectionSlugs, onSlugSelected, selectedSlug }) => {
     setSelectedProductType(productType);
   };
 
+  const handleSearchChange = (evt) => {
+    const { value } = evt.target;
+    const searchProductType = 'Search Results';
+
+    if (value.length > 0) {
+      const filteredSlugs = [
+        {
+          _id: 'search-results',
+          productType: searchProductType,
+          slugs: collectionSlugs.flatMap((section) => section.slugs.filter((slug) => slug.includes(value))),
+        },
+      ];
+
+      setSelectedProductType(searchProductType);
+
+      return setSlugs(filteredSlugs);
+    }
+
+    setSelectedProductType('');
+
+    return setSlugs(collectionSlugs);
+  };
+
   return (
     <StyledSlugSelector>
-      {collectionSlugs &&
-        collectionSlugs.sort(sortSlugProductType).map((slugItem) => {
+      <div>
+        <input type="text" placeholder="Search slugs" onChange={handleSearchChange} />
+      </div>
+      {slugs &&
+        slugs.sort(sortSlugProductType).map((slugItem) => {
           const isProductTypeSelected = selectedProductType === slugItem.productType;
 
           return (
