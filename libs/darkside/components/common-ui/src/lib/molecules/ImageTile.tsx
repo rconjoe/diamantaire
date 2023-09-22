@@ -62,7 +62,6 @@ const ImageTile = ({
               '-blog': forceAspectRatio,
             })}
             shouldLazyLoad={shouldLazyLoad}
-            quality={100}
           />
         </UniLink>
       ) : (
