@@ -73,7 +73,7 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
   const links = [
     {
       title: 'Search',
-      icon: <SearchIcon alt="Search" loading="eager" />,
+      icon: <SearchIcon />,
       type: 'button',
       alt: 'Search Toggle Button',
       onClick: () => null,
@@ -81,21 +81,21 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
     },
     {
       title: 'Accounts',
-      icon: <AccountIcon alt="Accounts" loading="eager" />,
+      icon: <AccountIcon />,
       type: 'link',
       href: '/account/login',
       alt: 'Accounts Toggle Button',
     },
     {
       title: 'Wishlist',
-      icon: <LoveIcon alt="Favorites" loading="eager" />,
+      icon: <LoveIcon />,
       type: 'button',
       alt: 'Wishlist Toggle Button',
       href: '/',
     },
     {
       title: 'Cart',
-      icon: <ShoppingBagIcon alt="Cart" loading="eager" />,
+      icon: <ShoppingBagIcon />,
       type: 'button',
       onClick: () => toggleCart(),
       alt: 'Cart Toggle Button',
