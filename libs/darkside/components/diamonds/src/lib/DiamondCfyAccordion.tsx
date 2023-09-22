@@ -46,7 +46,7 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong>{title}:</strong>
-        <span>{DIAMOND_COLOR_GROUPS[color]?.value}</span>
+        <span>{DIAMOND_COLOR_GROUPS[color]?.value}.</span>
         <strong>{DIAMOND_COLOR_GROUP_TYPES[color]?.value}</strong>
       </>
     );
