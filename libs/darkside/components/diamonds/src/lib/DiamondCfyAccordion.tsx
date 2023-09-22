@@ -58,7 +58,7 @@ const DiamondCfyAccordion = ({
     const upgrade = diamondCtoData?.diamondColorUpgrade || null;
     const upgradePrice =
       upgrade?.priceUpgrade &&
-      (upgrade.price > defaultProduct.price ? '+' : '-') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
+      (upgrade.price > defaultProduct.price && '+') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
     const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
 
     return (
@@ -136,7 +136,7 @@ const DiamondCfyAccordion = ({
 
     const upgradePrice =
       upgrade?.priceUpgrade &&
-      (upgrade?.price > defaultProduct.price ? '+' : '-') +
+      (upgrade?.price > defaultProduct.price && '+') +
         (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
     const upgradeLabel = (upgrade?.cut && getInfo(cutMapAbridged, upgrade.cut)?.value) || '';
 

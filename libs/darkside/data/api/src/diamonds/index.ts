@@ -180,6 +180,7 @@ export const fetchDiamondCtoData = async (options) => {
   const getUpgradePrice = (diamonds) => {
     const upgradePrices = {};
     const defaultDiamond = getDefaultCtoDiamond(diamonds);
+
     const availableUpgrades = getAvailableUpgrades(diamonds, defaultDiamond);
     const getPrice = (diamond) => diamond?.price;
 
@@ -201,7 +202,7 @@ export const fetchDiamondCtoData = async (options) => {
   try {
     const queryOptions = {
       page: 1,
-      limit: 5,
+      limit: 3,
       sortBy: 'carat',
       sortOrder: 'asc',
       diamondType: options.diamondType,
