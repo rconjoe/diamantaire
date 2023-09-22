@@ -51,9 +51,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultFoundTitle,
     ctoDiamondResultFinalSaleNote,
     ctoDiamondResultNote,
-    diamondResultTitleSecond,
     productIconList,
     ctoDiamondResultNeedItFaster,
+    ctoDiamondResultShapeAndWeightTitle,
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
@@ -114,6 +114,12 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
     return;
   };
+
+  const diamondTypeTitle = getDiamondType(product?.diamondType)?.title || '';
+  const caratValue = product?.carat?.toFixed(1) || '';
+  const pageTitle = `${ctoDiamondResultShapeAndWeightTitle
+    .replace('%%diamond_shape%%', diamondTypeTitle)
+    .replace('%%diamond_carat%%', caratValue)}`;
 
   const [loadPagination, setLoadPagination] = useState(0);
 
@@ -182,9 +188,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </div>
               )}
               <div className="subtitle">
-                <p>{`${product?.carat?.toFixed(1)}ct ${
-                  getDiamondType(product?.diamondType)?.title
-                } ${diamondResultTitleSecond}`}</p>
+                <p>{pageTitle}</p>
               </div>
               <div className="price">
                 <p>{formattedPrice}</p>
