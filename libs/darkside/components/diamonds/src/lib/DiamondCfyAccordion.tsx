@@ -58,7 +58,7 @@ const DiamondCfyAccordion = ({
     const upgrade = diamondCtoData?.diamondColorUpgrade || null;
     const upgradePrice =
       upgrade?.priceUpgrade &&
-      (upgrade.price > defaultProduct.price && '+') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
+      (upgrade.price > defaultProduct.price ? '+' : '') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
     const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
 
     return (

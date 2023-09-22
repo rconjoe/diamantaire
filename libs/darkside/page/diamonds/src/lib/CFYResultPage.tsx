@@ -292,14 +292,7 @@ export default CFYResultPage;
 function getMedia({ product, diamondType, lotIdPicker }) {
   return [
     <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
-    <DiamondHand
-      className="media-content-item"
-      diamondType={diamondType}
-      product={product}
-      lotId={lotIdPicker}
-      isCto={true}
-      key={1}
-    />,
+    <DiamondHand className="media-content-item" diamondType={diamondType} product={product} lotId={lotIdPicker} key={1} />,
   ];
 }
 
@@ -318,7 +311,6 @@ function getThumb({ product, diamondType, lotIdPicker }) {
       diamondType={diamondType}
       product={product}
       lotId={lotIdPicker}
-      isCto={true}
       isThumb={true}
     />,
   ];

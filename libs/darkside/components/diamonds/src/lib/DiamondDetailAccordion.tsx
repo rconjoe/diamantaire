@@ -63,7 +63,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
               mode: 'values',
               density: 100 / range[1],
               values: [0, ...createNumberArray(Math.round(range[1]))],
-              format: { to: (v) => `${Math.round(v)}` },
+              format: { to: (v) => Math.round(v) },
             }}
           />
         </div>
@@ -112,7 +112,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
+            tooltips={{ to: () => `${UIString({ children: 'Your diamond' })}` }}
             pips={{
               mode: 'steps',
               density: 100 / cuts.length,
