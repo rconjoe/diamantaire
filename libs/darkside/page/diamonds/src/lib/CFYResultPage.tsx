@@ -15,7 +15,7 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
@@ -123,6 +123,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const [loadPagination, setLoadPagination] = useState(0);
 
+  const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
+  const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
+
   useEffect(() => {
     setProduct(diamondCtoData[display]);
   }, [display]);
@@ -216,7 +219,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 )}
               </div>
               <div className="links">
-                <Markdown>{ctoDiamondResultNeedItFaster}</Markdown>
+                <Markdown
+                  options={{
+                    overrides: getOverrides(diamondTableInventoryLink, 'mkt-need-it-faster'),
+                  }}
+                >
+                  {ctoDiamondResultNeedItFaster}
+                </Markdown>
               </div>
               <div className="cta">
                 <DarksideButton>
@@ -354,4 +363,20 @@ function getFormattedShipppingDate(locale, days = 21) {
   });
 
   return formattedDate;
+}
+
+function getOverrides(href, classOverride) {
+  const props = { href };
+
+  if (classOverride !== undefined) {
+    props.className = classOverride;
+  }
+  const overrides = {
+    a: {
+      component: 'a',
+      props,
+    },
+  };
+
+  return overrides;
 }
