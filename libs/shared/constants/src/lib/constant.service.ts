@@ -35,6 +35,7 @@ export * from './lib/productOption';
 export * from './lib/productSpec';
 export * from './lib/productType';
 export * from './lib/ring';
+export * from './lib/ringStyles';
 export * from './lib/shipping';
 export * from './lib/showRoom';
 export * from './lib/states-map';

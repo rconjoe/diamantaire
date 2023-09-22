@@ -63,11 +63,12 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   const plpData = usePlpVRAIProducts(category, plpSlug, filterValue, { page: 1 });
 
   console.log('plpData paramsss', category, plpSlug, filterValue);
-  console.log('plpData dataaa', plpData);
 
   const { data, fetchNextPage, isFetching, hasNextPage } = plpData;
 
   const availableFilters = data?.pages?.[0]?.availableFilters;
+
+  console.log('availableFilters', availableFilters);
 
   // Handle pagination
   useEffect(() => {

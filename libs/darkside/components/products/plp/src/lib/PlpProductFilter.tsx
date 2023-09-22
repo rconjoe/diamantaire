@@ -1,6 +1,12 @@
 import { Slider } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METAL_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TYPE_HUMAN_NAMES,
+  FACETED_NAV_ORDER,
+  METAL_HUMAN_NAMES,
+  RING_STYLES_MAP,
+  ringStylesWithIconMap,
+} from '@diamantaire/shared/constants';
 import { makeCurrency, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -306,6 +312,29 @@ const PlpProductFilter = ({
                 </div>
               )}
 
+              {filterOptionSetOpen === 'styles' && (
+                <div className="filter-option-set styles ">
+                  <ul className="list-unstyled flex">
+                    {filterTypes['styles']?.map((ringStyle) => {
+                      const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
+
+                      if (ringStyle.includes('+')) return null;
+
+                      return (
+                        <li key={`filter-${ringStyle}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('style', ringStyle)}>
+                            <span className="setting-icon">
+                              <Icon />
+                            </span>
+                            <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
               <div className="active-filters">
                 <ul className="list-unstyled flex">
                   {filterValue &&
@@ -313,10 +342,14 @@ const PlpProductFilter = ({
                       const isMetal = filterType === 'metal';
                       const isDiamondType = filterType === 'diamondType';
                       const isPrice = filterType === 'price';
+                      const isStyle = filterType === 'style';
+
                       const text = isMetal
                         ? METAL_HUMAN_NAMES[filterValue[filterType]]
                         : isDiamondType
                         ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
+                        : isStyle
+                        ? RING_STYLES_MAP[filterValue[filterType]]
                         : filterType;
 
                       if (filterValue[filterType] === null) return null;

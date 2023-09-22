@@ -39,7 +39,7 @@ export type ListPageItemWithConfigurationVariants = {
   };
 };
 
-export type FilterTypeProps = 'metal' | 'diamondType' | 'price';
+export type FilterTypeProps = 'metal' | 'diamondType' | 'price' | 'styles' | 'subStyles';
 export type FilterValueProps = {
   metal?: string;
   diamondType?: string;
