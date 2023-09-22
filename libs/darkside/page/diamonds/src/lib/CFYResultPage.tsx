@@ -182,7 +182,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </div>
               )}
               <div className="subtitle">
-                <p>{`${product?.carat}ct ${getDiamondType(product?.diamondType)?.title} ${diamondResultTitleSecond}`}</p>
+                <p>{`${product?.carat?.toFixed(1)}ct ${
+                  getDiamondType(product?.diamondType)?.title
+                } ${diamondResultTitleSecond}`}</p>
               </div>
               <div className="price">
                 <p>{formattedPrice}</p>
@@ -223,6 +225,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
             </div>
           </div>
         </div>
+
         <div className="page-row">
           <DiamondCfyGallery locale={locale} diamondType={diamondType} />
         </div>
