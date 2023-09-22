@@ -1,23 +1,7 @@
-import { mobileOnly, tabletAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const ModularSwiperCarouselBlockContainer = styled.div`
-  .product-slide {
-    width: 100%;
-    height: auto;
-    flex-direction: column;
-
-    transition: all 0.2s ease-in-out 0s;
-    ${mobileOnly(`
-    transform: scale(0.7);
-  `)}
-    &.swiper-slide-active {
-      ${mobileOnly(`
-    transform: scale(1);
-  `)}
-    }
-  }
-`;
+export const ModularSwiperCarouselBlockContainer = styled.div``;
 
 export const SlideContainer = styled.div`
   outline: none;

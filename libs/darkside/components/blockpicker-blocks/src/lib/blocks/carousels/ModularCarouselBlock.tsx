@@ -105,7 +105,7 @@ const ModularCarouselBlock = (props) => {
         >
           {blocks?.map((slide) => {
             return (
-              <SwiperSlide key={`slide-${slide.id ? slide.id : uuidv4()}`}>
+              <SwiperSlide className={_modelApiKey} key={`slide-${slide.id ? slide.id : uuidv4()}`}>
                 <SelectedSliderSlide {...slide} />
               </SwiperSlide>
             );

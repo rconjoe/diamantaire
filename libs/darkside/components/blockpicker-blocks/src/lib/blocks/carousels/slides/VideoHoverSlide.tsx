@@ -25,7 +25,7 @@ const VideoHoverSlide = (props) => {
           onBlur={() => setIsHovered(false)}
         >
           <div className="list-item__media">
-            <DatoImage image={image} overrideAlt={title} quality={70} />
+            <DatoImage image={image} overrideAlt={title} quality={90} />
 
             {Boolean(hover) && !isMobile && (
               <div className="list-item__media--hover">

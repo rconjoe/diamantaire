@@ -12,7 +12,7 @@ const HalfWidthBanner = `
     desktopImage {
         url
         alt
-        responsiveImage(imgixParams: {w: 900, h: 727, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+        responsiveImage(imgixParams: {w: 922, h: 576, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
             src
             alt
             aspectRatio
