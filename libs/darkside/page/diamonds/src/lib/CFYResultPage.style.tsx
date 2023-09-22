@@ -163,6 +163,10 @@ const StyledCFYResultPage = styled.div`
       padding: 0;
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xxxsmall);
+
+      a {
+        color: ${TEAL};
+      }
     }
 
     .links * {

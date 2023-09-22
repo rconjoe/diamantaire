@@ -72,6 +72,8 @@ const StyledCFYPage = styled.div`
   .button-check-availability {
     max-width: calc(100% - 4.8rem);
     margin: 1rem auto;
+    position: relative;
+    z-index: 1;
 
     ${desktopAndUp(`
       max-width: 30rem;
