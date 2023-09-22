@@ -136,7 +136,7 @@ const DiamondCfyAccordion = ({
 
     const upgradePrice =
       upgrade?.priceUpgrade &&
-      (upgrade?.price > defaultProduct.price && '+') +
+      (upgrade?.price > defaultProduct.price ? '+' : '') +
         (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
     const upgradeLabel = (upgrade?.cut && getInfo(cutMapAbridged, upgrade.cut)?.value) || '';
 

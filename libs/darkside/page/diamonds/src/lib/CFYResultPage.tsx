@@ -193,7 +193,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               <div className="subtitle">
                 <p>{pageTitle}</p>
               </div>
-              <div className="price">
+              <div className="primary-price">
                 <p>{formattedPrice}</p>
               </div>
               <div className="accordion">
@@ -341,11 +341,20 @@ function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) 
     return;
   }
 
-  if (diamondType === 'elongated-cushion' && caratWeight <= 3.5) {
-    return true;
-  }
+  const validDiamondTypes = [
+    'round-brilliant',
+    'oval',
+    'emerald',
+    'pear',
+    'radiant',
+    'cushion',
+    'elongated-cushion',
+    'trillion',
+    'marquise',
+    'asscher',
+    'princess',
+  ];
 
-  const validDiamondTypes = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
   const validCaratWeight = 5;
 
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
@@ -365,18 +374,23 @@ function getFormattedShipppingDate(locale, days = 21) {
   return formattedDate;
 }
 
-function getOverrides(href, classOverride) {
-  const props = { href };
+function getOverrides(href: string, classOverride?: string) {
+  // Initialize the `props` object with the `href` value.
+  const props: React.HTMLProps<HTMLAnchorElement> = { href };
 
+  // If `classOverride` is provided, add it as a `className` property to `props`.
   if (classOverride !== undefined) {
     props.className = classOverride;
   }
-  const overrides = {
+
+  // Create an `overrides` object with an override for the `<a>` element.
+  const overrides: { a: { component: string; props: React.HTMLProps<HTMLAnchorElement> } } = {
     a: {
       component: 'a',
       props,
     },
   };
 
+  // Return the `overrides` object.
   return overrides;
 }

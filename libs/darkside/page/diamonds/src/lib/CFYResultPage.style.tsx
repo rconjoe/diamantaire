@@ -135,8 +135,8 @@ const StyledCFYResultPage = styled.div`
       `)};
     }
 
-    .price,
-    .price * {
+    .primary-price,
+    .primary-price * {
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xsmall);
       ${tabletAndUp(`
