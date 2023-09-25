@@ -28,6 +28,8 @@ type FormProps = {
   formState?: object;
   setFormState?: (state: object) => void;
   gridStyle?: 'single' | 'split';
+  formState?: object;
+  setFormState?: (state: object) => void;
 };
 
 export type FormSchemaType = {
