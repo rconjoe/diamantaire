@@ -5,6 +5,7 @@ This is the master form component, we should never need to manually create a cus
 */
 
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
+import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, {
   useEffect,
@@ -14,6 +15,7 @@ import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
 import { Heading } from './Heading';
+import { Markdown } from './Markdown';
 
 const Select = dynamic(() => import('react-select'));
 
@@ -27,6 +29,12 @@ type FormProps = {
   stackedSubmit?: boolean;
   formState?: object;
   setFormState?: (state: object) => void;
+  showOptIn?: boolean;
+  ctaCopy?: string;
+  optInCopy?: string;
+  extraClass?: string;
+  isValid?: boolean;
+  setIsValid?: (state: boolean) => void;
 };
 
 export type FormSchemaType = {
@@ -42,7 +50,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     margin-top: calc(var(--gutter) / 20);
     font-size: var(--font-size-xxsmall);
   }
-  form {
+  .form {
     display: flex;
     /* flex-wrap: wrap; */
     align-items: flex-end;
@@ -85,6 +93,37 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       }
     }
   }
+  .input-opt-in {
+    input[type='checkbox'] {
+      width: 13px;
+      height: 13px;
+      appearance: none;
+      background-color: #fff;
+      margin: 0;
+      font: inherit;
+      color: currentColor;
+      border: 0.15em solid currentColor;
+    }
+    input[type='checkbox']::before {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 100%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 13px 13px currentColor;
+    }
+
+    input[type='checkbox']:checked::before {
+      transform: scale(1);
+    }
+    &.-error {
+      color: red;
+      a {
+        color: red;
+      }
+    }
+  }
 `;
 
 const Form = ({
@@ -97,6 +136,12 @@ const Form = ({
   stackedSubmit = true,
   formState,
   setFormState = (e) => console.log('initial', e),
+  showOptIn,
+  ctaCopy = 'Submit',
+  optInCopy,
+  extraClass,
+  isValid,
+  setIsValid,
 }: FormProps) => {
   // const [formState, setFormState] = useState(null);
 
@@ -118,6 +163,8 @@ const Form = ({
     return setFormState(initialFormState);
   }, [schema]);
 
+  const showGdprError = showOptIn && !isValid;
+
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
       {title && (
@@ -127,51 +174,77 @@ const Form = ({
       )}
       {caption && <p className="small">{caption}</p>}
       <form onSubmit={(e) => onSubmit(e, formState)}>
-        {!schema ? (
-          <div className="input-container">
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter your email"
-              pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
-              required
-              onChange={(e) => {
-                const { name, value } = e.target;
+        <div className="form">
+          {!schema ? (
+            <div className="input-container">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+                required
+                onChange={(e) => {
+                  const { name, value } = e.target;
 
-                setFormState((prevState) => ({ ...prevState, [name]: value }));
+                  setFormState((prevState) => ({ ...prevState, [name]: value }));
+                }}
+              />
+            </div>
+          ) : (
+            schema?.map((field, index) => {
+              const { inputType, required, placeholder, name } = field || {};
+
+              return (
+                <div className="input-container" key={`${id}-${index}`}>
+                  {inputType === 'text' || inputType === 'phone' ? (
+                    <input
+                      type={inputType}
+                      required={required}
+                      name={name}
+                      value={formState?.[name]}
+                      placeholder={placeholder}
+                      onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
+                    />
+                  ) : (
+                    <div className="dropdown-container">
+                      <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+          <div className="input-container submit">
+            <DarksideButton type="solid" colorTheme="black" buttonType="submit">
+              {ctaCopy}
+            </DarksideButton>
+          </div>
+        </div>
+        {showOptIn && (
+          <div
+            className={clsx('input-opt-in', {
+              '-error': showGdprError,
+            })}
+          >
+            <input
+              type="checkbox"
+              name="isConsent"
+              id="optin"
+              onChange={(e) => {
+                const { name, checked } = e.target;
+
+                setFormState((prevState) => ({ ...prevState, [name]: checked }));
+                setIsValid(true);
               }}
             />
+            <label htmlFor="optin">
+              <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+                {optInCopy}
+              </Markdown>
+            </label>
           </div>
-        ) : (
-          schema?.map((field, index) => {
-            const { inputType, required, placeholder, name } = field || {};
-
-            return (
-              <div className="input-container" key={`${id}-${index}`}>
-                {inputType === 'text' || inputType === 'phone' ? (
-                  <input
-                    type={inputType}
-                    required={required}
-                    name={name}
-                    value={formState?.[name]}
-                    placeholder={placeholder}
-                    onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
-                  />
-                ) : (
-                  <div className="dropdown-container">
-                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
-                  </div>
-                )}
-              </div>
-            );
-          })
         )}
-        <div className="input-container submit">
-          <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-            Submit
-          </DarksideButton>
-        </div>
       </form>
     </FormContainer>
   );

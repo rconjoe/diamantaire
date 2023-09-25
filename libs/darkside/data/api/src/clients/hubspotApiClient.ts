@@ -15,7 +15,7 @@ const sendHubspotForm = async ({
   email,
   locale,
   countryCode,
-  //isConsent,
+  isConsent,
   pageUrl,
   pageTitle,
   recipientEmail,
@@ -141,14 +141,14 @@ const sendHubspotForm = async ({
     },
   };
 
-  // if (isConsent) {
-  //   data.legalConsentOptions = {
-  //     consent: {
-  //       consentToProcess: isConsent,
-  //       text: '', // TODO: HUBSPOT_CONSENT_TEXT,
-  //     },
-  //   };
-  // }
+  if (isConsent) {
+    data.legalConsentOptions = {
+      consent: {
+        consentToProcess: isConsent,
+        text: '', // TODO: HUBSPOT_CONSENT_TEXT,
+      },
+    };
+  }
   const url = generateHubspotURL(listData?.listId);
   // TODO: hubspotEmailCookie.set(email);
 

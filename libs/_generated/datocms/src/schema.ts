@@ -2590,6 +2590,7 @@ export interface EmailSignupPageCopyRecord {
     gdprCtaCopy: (Scalars['String'] | null)
     gdprCtaRoute: (Scalars['String'] | null)
     gdprOptInCopy: (Scalars['String'] | null)
+    optInCopy: (Scalars['String'] | null)
     id: Scalars['ItemId']
     phoneInputPlaceholder: (Scalars['String'] | null)
     updatedAt: Scalars['DateTime']
@@ -14052,6 +14053,7 @@ export interface EmailSignupPageCopyRecordGenqlSelection{
     gdprCtaCopy?: boolean | number
     gdprCtaRoute?: boolean | number
     gdprOptInCopy?: boolean | number
+    optInCopy?: boolean | string
     id?: boolean | number
     phoneInputPlaceholder?: boolean | number
     updatedAt?: boolean | number

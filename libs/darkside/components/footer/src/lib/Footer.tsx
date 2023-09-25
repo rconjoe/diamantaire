@@ -3,6 +3,7 @@ import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
@@ -195,8 +196,8 @@ const socialItems = [
 const Footer: FC<FooterTypes> = ({ footerData }) => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageListOpen, setIsLanguageListOpen] = useState(false);
-  const { columns, copyright, emailSignUpColumn } = footerData;
-  const { copy, title } = emailSignUpColumn[0];
+  const { columns, copyright, emailSignUpColumn, emailSignUpCopy } = footerData;
+  const { copy, title, ctaCopy } = emailSignUpColumn[0];
   const router = useRouter();
   const selectedLocale = router.locale;
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
@@ -204,7 +205,9 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
   const selectedCountry = countries[selectedCountryCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
-
+  const selectedRegion = countries[selectedCountryCode].region;
+  const isUserInEu = selectedRegion === 'Europe';
+  const { optInCopy } = emailSignUpCopy[0];
   const date = new Date();
 
   function toggleLanguageSelector() {
@@ -267,7 +270,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <p className="col-heading">{title}</p>
                 <p>{copy}</p>
 
-                <FooterEmailSignup />
+                <FooterEmailSignup showOptIn={isUserInEu} ctaCopy={ctaCopy} optInCopy={optInCopy} />
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
@@ -307,19 +310,28 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
 export { Footer };
 
-export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST }) => {
+export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST, showOptIn = false, ctaCopy, optInCopy }) => {
   const [formState, setFormState] = useState(null);
   const [message, setMessage] = useState(null);
+  const [isValid, setIsValid] = useState(true);
 
   const onSubmit = async (e, formState) => {
     e.preventDefault();
 
-    const { email } = formState;
+    const { email, isConsent } = formState;
+
+    if (showOptIn && !isConsent) {
+      setIsValid(false);
+
+      return;
+    }
 
     try {
-      const response = await sendHubspotForm({ email, listData });
+      if (!showOptIn || (showOptIn && isConsent)) {
+        const response = await sendHubspotForm({ email, listData, isConsent });
 
-      setMessage(response.inlineMessage);
+        setMessage(response.inlineMessage);
+      }
     } catch (error) {
       console.error('Error submitting form data to HubSpot:', error);
     }
@@ -334,6 +346,12 @@ export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST }) => {
       setFormState={setFormState}
       formGridStyle="split"
       stackedSubmit={false}
+      showOptIn={showOptIn}
+      ctaCopy={ctaCopy}
+      optInCopy={optInCopy}
+      extraClass="-links-teal -opt-in"
+      isValid={isValid}
+      setIsValid={setIsValid}
     />
   );
 };
