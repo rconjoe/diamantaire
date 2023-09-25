@@ -69,7 +69,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
 
       input {
         border: 1px solid #ccc;
-        height: 4.6rem;
+        height: 4.7rem;
         padding-left: 10px;
         font-size: var(--font-size-xxxsmall);
       }
@@ -130,10 +130,12 @@ const Form = ({
         {!schema ? (
           <div className="input-container">
             <input
-              type="text"
+              type="email"
               name="email"
               id="email"
               placeholder="Enter your email"
+              pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+              required
               onChange={(e) => {
                 const { name, value } = e.target;
 
