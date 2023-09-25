@@ -126,7 +126,7 @@ export const ModularSideBySideBlockStyles = styled.div`
     line-height: 20px;
 
     p {
-      margin: 0 0 20px;
+      margin: 0 0 2rem;
     }
 
     p:last-child {

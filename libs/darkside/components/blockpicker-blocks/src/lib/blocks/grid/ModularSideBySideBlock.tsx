@@ -51,8 +51,6 @@ const ModularSideBySideBlock = ({
     title,
   });
 
-  console.log('imageMobile', imageMobile);
-
   return (
     <ModularSideBySideBlockStyles
       className={clsx('container-wrapper', additionalClass)}

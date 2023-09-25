@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const ModularCarouselBlockContainer = styled.div`
   .carousel-footer {
     max-width: 90vw;
-    margin: 50px auto 0;
-    ${media.small`max-width: 350px;`}
+    margin: 5rem auto 0;
+    ${media.small`max-width: 35rem;`}
   }
 `;
