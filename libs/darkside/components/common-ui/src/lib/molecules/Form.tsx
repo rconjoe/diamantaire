@@ -13,6 +13,7 @@ import React, {
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
+import { Heading } from './Heading';
 
 const Select = dynamic(() => import('react-select'));
 
@@ -26,6 +27,7 @@ type FormProps = {
   stackedSubmit?: boolean;
   formState?: object;
   setFormState?: (state: object) => void;
+  gridStyle?: 'single' | 'split';
 };
 
 export type FormSchemaType = {
@@ -36,24 +38,26 @@ export type FormSchemaType = {
   required: boolean;
 };
 
-const FormContainer = styled.div`
+const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
   p {
     margin-top: calc(var(--gutter) / 20);
+    font-size: var(--font-size-xxsmall);
   }
   form {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
     .input-container {
       display: flex;
-      flex-wrap: wrap;
-      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' || stackedSubmit ? '0 0 100%' : '0 0 50%')};
+      flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
+      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' && stackedSubmit ? '0 0 100%' : '1')};
       margin-bottom: ${({ fieldsLength, stackedSubmit }) =>
         !stackedSubmit && fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`};
 
       &.submit {
         margin-bottom: 0px;
+        flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
       > * {
@@ -117,7 +121,11 @@ const Form = ({
 
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
-      {title && <h4>{title}</h4>}
+      {title && (
+        <Heading type="h4" className="primary">
+          {title}
+        </Heading>
+      )}
       {caption && <p className="small">{caption}</p>}
       <form onSubmit={(e) => onSubmit(e, formState)}>
         {!schema ? (

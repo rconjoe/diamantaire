@@ -5,7 +5,7 @@ import { OptionsDataTypes, useDiamondPdpData, useDiamondTableData, useDiamondsDa
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
-import { getCountry, getDiamondOptionsFromUrl } from '@diamantaire/shared/helpers';
+import { getCountry, getDiamondOptionsFromUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -23,9 +23,11 @@ interface DiamondDetailPageDataTypes {
 const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, currencyCode, countryCode, options } = props;
 
-  const { lotId, diamondType } = options || {};
+  const { lotId } = options || {};
 
-  const { data: { diamond: { carat } = {} } = {} } = useDiamondsData({ lotId });
+  const { data: { diamond: { carat, diamondType } = {} } = {} } = useDiamondsData({ lotId });
+
+  const diamondTitle = getDiamondType(diamondType)?.title;
 
   const { data: { diamondTable: { title } = {} } = {} } = useDiamondTableData(locale);
 
@@ -33,7 +35,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const { seoTitle, seoDescription } = seoFields || {};
 
-  const pageSeoTitle = `${carat} Carat ` + (diamondType ? seoTitle.replace(/%%(.*?)%%/g, diamondType) : seoTitle);
+  const pageSeoTitle = `${carat} Carat ` + (diamondTitle ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
 
   return (
     <>
@@ -69,6 +71,8 @@ DiamondDetailPage.getTemplate = getTemplate;
 async function getServerSideProps(context): Promise<GetServerSidePropsResult<DiamondDetailPageDataTypes>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
+  console.log(`DiamondDetailPage :: getServerSideProps...`);
+
   const { query, locale } = context;
 
   const { diamondHandle: handle } = query;
@@ -79,23 +83,24 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
 
   const options = getDiamondOptionsFromUrl([handle], 'diamondPDP');
 
-  if (!options?.lotId || !options?.diamondType) {
+  if (!options?.lotId) {
     return {
       notFound: true,
     };
   }
 
+  const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content({ lotId: options?.lotId });
-  const diamondsQuery = queries.diamonds.content({ diamondType: options?.diamondType });
   const diamondPdpQuery = queries.diamondPdp.content(locale);
   const diamondInfoQuery = queries.diamondInfo.content(locale);
   const diamondTableQuery = queries.diamondTable.content(locale);
-  const productIconListQuery = queries.products.productIconList('DiamondPDP', locale);
+  const productIconListQuery = queries.products.productIconList('Diamond PDP', locale);
 
   const queryClient = new QueryClient();
 
+  await queryClient.prefetchQuery(globalQuery);
   await queryClient.prefetchQuery(diamondQuery);
-  await queryClient.prefetchQuery(diamondsQuery);
+  await queryClient.prefetchQuery(diamondQuery);
   await queryClient.prefetchQuery(diamondPdpQuery);
   await queryClient.prefetchQuery(diamondInfoQuery);
   await queryClient.prefetchQuery(diamondTableQuery);
@@ -103,7 +108,6 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
 
   if (
     !queryClient.getQueryData(diamondQuery.queryKey) ||
-    !queryClient.getQueryData(diamondsQuery.queryKey) ||
     !queryClient.getQueryData(diamondPdpQuery.queryKey) ||
     !queryClient.getQueryData(diamondInfoQuery.queryKey) ||
     !queryClient.getQueryData(diamondTableQuery.queryKey) ||

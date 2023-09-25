@@ -27,3 +27,20 @@ export const ENGRAVING_INITIALS_OPTIONS = [
   'Y',
   'Z',
 ];
+
+export const JEWELRY_ENGRAVING_MAX_LENGTH = 16;
+export const JEWELRY_INPUT_STYLE = 'jewelryInput';
+export const JEWELRY_ENGRAVING_TEXT_STYLE = 'jewleryEngravingText';
+export const FREE_ENGRAVING_HANDLES = ['engravable-bar-necklace'];
+
+export const ENGRAVING_CHARACTER_LIMITS = {
+  // Add this first one temp, slugs don't match up
+  'solitaire-bar-necklace': 12,
+  'engravable-bar-necklace': 12,
+  'solitaire-bar-pendant': 8,
+};
+
+export const ENGRAVEABLE_JEWELRY_SLUGS = ['solitaire-bar-necklace', 'solitaire-bar-pendant'];
+
+// Wedding Bands
+export const NON_ENGRAVEABLE_WEDDING_BAND_SLUGS = ['baguette-bar-band', 'alternating-shapes-band', 'devotion-band'];

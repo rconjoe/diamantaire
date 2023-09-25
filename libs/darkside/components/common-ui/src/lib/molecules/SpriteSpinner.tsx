@@ -110,7 +110,6 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   return (
     <SpritSpinnerContainer>
       <SpriteSpinnerInit />
-
       <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}

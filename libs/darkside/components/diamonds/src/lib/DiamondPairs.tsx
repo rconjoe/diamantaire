@@ -25,7 +25,15 @@ export const DiamondPairCell = ({ diamonds, accessorKey, renderValue }: DiamondP
   );
 };
 
-export const DiamondPairActiveRow = ({ diamonds, locale }: { locale: string; diamonds: DiamondDataTypes[] }) => {
+export const DiamondPairActiveRow = ({
+  diamonds,
+  locale,
+  isBuilderFlowOpen,
+}: {
+  locale: string;
+  diamonds: DiamondDataTypes[];
+  isBuilderFlowOpen: boolean;
+}) => {
   const [diamond1, diamond2] = diamonds;
 
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
@@ -37,6 +45,8 @@ export const DiamondPairActiveRow = ({ diamonds, locale }: { locale: string; dia
   const handleSelectDiamond = () => {
     // TODO: add handler
     console.log(`handleSelectDiamond`, diamonds);
+    // updateUrlParameter('lotId', product.lotId);
+    // updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
   return (
@@ -63,9 +73,13 @@ export const DiamondPairActiveRow = ({ diamonds, locale }: { locale: string; dia
           </div>
 
           <div className="row-cta">
-            <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
-              <UIString>Select</UIString>
-            </DarksideButton>
+            {isBuilderFlowOpen ? (
+              <DarksideButton>Select</DarksideButton>
+            ) : (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            )}
           </div>
         </div>
       </div>

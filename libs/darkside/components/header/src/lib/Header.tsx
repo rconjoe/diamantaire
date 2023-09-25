@@ -64,7 +64,7 @@ const Header: FC<HeaderProps> = ({
 
   const { isCartOpen, setIsCartOpen } = useContext(CartContext);
 
-  const { section } = headerData.headerNavigationDynamic;
+  const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
 
@@ -185,7 +185,6 @@ const Header: FC<HeaderProps> = ({
           )}
 
           {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
-          <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
         </div>
       </FullHeaderStyles>
       {isCountrySelectorOpen && (
@@ -193,6 +192,7 @@ const Header: FC<HeaderProps> = ({
           <CountrySelector toggleCountrySelector={toggleCountrySelector} />
         </Modal>
       )}
+      <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
     </>
   );
 };

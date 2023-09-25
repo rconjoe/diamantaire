@@ -1,3 +1,4 @@
+export * from './lib/use-global-data';
 export * from './lib/journal';
 export * from './lib/use-cart-info';
 export * from './lib/use-diamond-cfy';

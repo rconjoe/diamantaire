@@ -86,6 +86,7 @@ export enum PdpTypePlural {
 
 export const pdpTypePluralAsConst = {
   ['Engagement Rings']: 'Engagement Rings',
+  ['Wedding Bands']: 'Wedding Bands',
   ['Jewelry']: 'Jewelry',
 } as const;
 
@@ -97,6 +98,7 @@ export const pdpTypeHandleAsConst = {
 export const pdpTypeHandleSingleToPluralAsConst = {
   ['engagement-ring']: 'Engagement Rings',
   ['jewelry']: 'Jewelry',
+  ['wedding-bands']: 'Wedding Bands',
 } as const;
 
 export const pdpTypeSingleToPluralAsConst = {

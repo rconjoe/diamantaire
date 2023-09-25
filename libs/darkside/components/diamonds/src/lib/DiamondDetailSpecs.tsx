@@ -7,19 +7,19 @@ export interface DiamondSpecsProps {
   lotId?: string;
 }
 
-const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotId?: string }) => {
+const DiamondDetailSpecs = ({ locale = 'en-US', lotId }: { locale?: string; lotId?: string }) => {
   const {
     data: {
       diamondProduct: {
-        specLabels: { labels = [] },
+        specLabels: { labels = [] } = {},
         specsHeadline,
         originLabel,
         cutMapAbridged,
         girdleAbridged,
         fluorescenceAbridged,
         polishAndSymmetryAbridged,
-      },
-    },
+      } = {},
+    } = {},
   } = useDiamondPdpData(locale);
 
   const {

@@ -11,6 +11,7 @@ interface ConfigurationSelectorProps {
   isBuilderFlowOpen?: boolean;
   updateSettingSlugs?: (item: object) => void;
   disableVariantType?: string[];
+  hasMultipleDiamondOrientations?: boolean;
 }
 
 interface ConfigurationSelectorAction {
@@ -19,13 +20,13 @@ interface ConfigurationSelectorAction {
     typeId: string;
     value: string;
   };
-  disableVariantType?: string[];
 }
 
 const StyledConfigurationSelector = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 function configOptionsReducer(state, action: ConfigurationSelectorAction) {
@@ -47,6 +48,7 @@ function ConfigurationSelector({
   isBuilderFlowOpen,
   updateSettingSlugs,
   disableVariantType,
+  hasMultipleDiamondOrientations,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -86,17 +88,17 @@ function ConfigurationSelector({
 
   return (
     <StyledConfigurationSelector>
+      {hasMultipleDiamondOrientations && <button>Rotate</button>}
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
-        const selectedOption = configState?.[configurationType];
 
-        console.log('configurationType', configurationType);
+        const selectedOption = selectedConfiguration?.[configurationType];
 
         if (disableVariantType?.includes(configurationType)) return null;
 
-        // if (!options || options.length <= 1) {
-        //   return null;
-        // }
+        if (!options || options.length <= 1) {
+          return null;
+        }
 
         return (
           <OptionSelector

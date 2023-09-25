@@ -43,6 +43,10 @@ export async function getStaticProps({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
+    ...queries.template.global(locale),
+  });
+
+  await queryClient.prefetchQuery({
     ...queries.journal.journalHeader(locale),
   });
 
@@ -69,10 +73,6 @@ export async function getStaticProps({
 
   await queryClient.prefetchInfiniteQuery({
     ...subcatQueryParams,
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.journal.journalHeader(locale),
   });
 
   return {

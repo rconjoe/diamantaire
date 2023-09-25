@@ -3,6 +3,7 @@ import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytic
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
 import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
+import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
@@ -30,7 +31,6 @@ const DiamondTableRow = ({
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
-    // TODO: add handler
     console.log(`handleSelectDiamond`, product);
     const { carat, color, clarity, cut, price } = product;
     const { locale } = router || {};
@@ -55,6 +55,13 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
+    updateUrlParameter('lotId', product.lotId);
+    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
+  };
+
+  const handleInitBuilderFlow = () => {
+    router.push(`/customize?lotId=${product.lotId}`);
+    updateUrlParameter('lotId', product.lotId);
     updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
@@ -77,8 +84,12 @@ const DiamondTableRow = ({
               <UIString>View More Details</UIString>
             </DarksideButton>
 
-            {isBuilderFlowOpen && (
+            {isBuilderFlowOpen ? (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
+                <UIString>Select</UIString>
+              </DarksideButton>
+            ) : (
+              <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleInitBuilderFlow}>
                 <UIString>Select</UIString>
               </DarksideButton>
             )}

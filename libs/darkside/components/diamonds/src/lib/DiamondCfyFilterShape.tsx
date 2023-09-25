@@ -16,8 +16,10 @@ const DiamondCfyFilterShape = (props) => {
     ? availableDiamondTypes.map((v) => getDiamondType(v))
     : ALL_CFY_DIAMOND_TYPES.map((v) => getDiamondType(v));
 
-  const popularShapes = diamondList.filter((v) => POPULAR_CFY_DIAMOND_TYPES.includes(v.slug));
-  const regularShapes = diamondList.filter((v) => !POPULAR_CFY_DIAMOND_TYPES.includes(v.slug));
+  const diamondListTrimmed = diamondList.filter((v) => v);
+
+  const popularShapes = diamondListTrimmed.filter((v) => POPULAR_CFY_DIAMOND_TYPES.includes(v?.slug));
+  const regularShapes = diamondListTrimmed.filter((v) => !POPULAR_CFY_DIAMOND_TYPES.includes(v?.slug));
 
   return (
     <StyledDiamondCfyFilterShape>
@@ -49,10 +51,10 @@ const DiamondCfyFilterShape = (props) => {
 
             <div className="list">
               {regularShapes.map((v) => {
-                const shape = diamondIconsMap[v.slug];
+                const shape = diamondIconsMap[v?.slug];
 
                 return (
-                  diamondIconsMap[v.slug] && (
+                  shape && (
                     <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
                       <div className="icon">
                         <shape.icon />
@@ -67,12 +69,14 @@ const DiamondCfyFilterShape = (props) => {
         )) || (
           <div className="list">
             {diamondList.map((v) => {
-              const shape = diamondIconsMap[v.slug];
+              const shape = diamondIconsMap[v?.slug];
 
               return (
-                <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
-                  <shape.icon />
-                </div>
+                shape && (
+                  <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
+                    <shape.icon />
+                  </div>
+                )
               );
             })}
           </div>

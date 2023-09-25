@@ -15,3 +15,4 @@ export * from './products';
 export * from './replacePlaceholders';
 export * from './routes';
 export * from './object-transformations';
+export * from './sortBandWidth';

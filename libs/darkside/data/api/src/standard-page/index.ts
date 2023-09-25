@@ -176,12 +176,18 @@ ${ResponsiveImageFragment}
 `;
 
 export async function fetchStandardPageDataBySlug(slug: string, locale: string) {
-  const pageData = await queryDatoGQL({
-    query: STANDARD_PAGE_BY_SLUG,
-    variables: { slug, locale },
-  });
+  const qParams = new URLSearchParams({ slug, locale });
+  let reqUrl = `api/page/standard?${qParams.toString()}`;
 
-  return pageData;
+  if (typeof window === 'undefined') {
+    reqUrl = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}/${reqUrl}`;
+  } else {
+    reqUrl = `${window.location.origin}/${reqUrl}`;
+  }
+
+  const pageData = await fetch(reqUrl);
+
+  return pageData.json();
 }
 
 export const LIST_PAGE_BY_SLUG = `

@@ -1,11 +1,12 @@
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
-import { CheckoutLineItem } from 'shopify-buy';
+import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
-import { JewelryCartItemProps } from '../types';
+import { CartItem } from '../types';
 
 const SingleVariantCartItemStyles = styled.div`
   margin-bottom: 40px;
@@ -27,6 +28,8 @@ const SingleVariantCartItemStyles = styled.div`
         svg {
           stroke-width: 1px;
           transform: scale(0.75);
+          position: relative;
+          top: 2px;
         }
       }
     }
@@ -45,7 +48,7 @@ const SingleVariantCartItemStyles = styled.div`
 
     .cart-item__image {
       flex: 0 0 168px;
-      padding-right: 10px;
+      padding-right: 20px;
     }
 
     .cart-item__content {
@@ -53,8 +56,17 @@ const SingleVariantCartItemStyles = styled.div`
       flex: 1;
       p {
         margin: 0 0 5px;
-        font-size: 1.7rem;
+        font-size: 1.5rem;
         display: flex;
+
+        &.setting-text {
+          font-weight: bold;
+          color: var(--color-black);
+        }
+
+        &.shape {
+          text-transform: capitalize;
+        }
 
         &:last-child {
           margin-bottom: 0;
@@ -70,26 +82,44 @@ const SingleVariantCartItemStyles = styled.div`
 `;
 
 const SingleVariantCartItem = ({
-  product,
+  item,
   info,
-  removeAnyProductFromCart,
+  updateItemQuantity,
   cartItemDetails,
 }: {
-  product: CheckoutLineItem;
-  info: JewelryCartItemProps;
+  item: CartItem;
+  info: any;
   cartItemDetails: { [key: string]: string }[];
-  removeAnyProductFromCart: (ids: string[]) => void;
+  updateItemQuantity: ({
+    lineId,
+    variantId,
+    quantity,
+    attributes,
+  }: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }) => Promise<string | undefined>;
 }) => {
-  const { variant, customAttributes, id } = product;
+  const { attributes, cost, merchandise } = item;
+  const { selectedOptions } = merchandise;
+
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
-    const matchingAttribute = customAttributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
-  }, [customAttributes]);
+  }, [attributes]);
 
-  const attributes = useMemo(
+  const productType = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
+  const itemAttributes = useMemo(
     () => [
       {
         label: refinedCartItemDetails?.['diamondType'],
@@ -99,13 +129,28 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['metal'],
         value: info?.metal,
       },
-      // {
-      //   label: refinedCartItemDetails?.['chainLength'],
-      //   value: info?.chainLength,
-      // },
+      // Bracelet Specific
+      {
+        label: 'Chain Length',
+        value: info?.chainLength,
+      },
+      {
+        label: refinedCartItemDetails?.['bandWidth'],
+        value: info?.bandWidth,
+      },
       {
         label: refinedCartItemDetails?.['caratWeight'],
         value: info?.caratWeight,
+      },
+      // REPLACE UISTRING
+      {
+        label:
+          productType === 'Bracelet'
+            ? 'Size'
+            : productType === 'Necklace'
+            ? 'Chain Length'
+            : refinedCartItemDetails?.['ringSize'],
+        value: `${selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value}`,
       },
     ],
     [refinedCartItemDetails, info],
@@ -125,39 +170,43 @@ const SingleVariantCartItem = ({
     <SingleVariantCartItemStyles>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
-          <button onClick={() => removeAnyProductFromCart([id])}>
+          <button
+            onClick={() =>
+              updateItemQuantity({
+                lineId: item.id,
+                variantId: merchandise.id,
+                quantity: item.quantity - 1,
+                attributes: item.attributes,
+              })
+            }
+          >
             <XIcon />
           </button>
         </div>
         <div className="cart-item__title">
-          <h4 className="no-margin">{info?.pdpTitle}</h4>
+          <Heading type="h4" className="primary no-margin">
+            {info?.productTitle}
+          </Heading>
         </div>
         <div className="cart-item__price">
-          <p>
-            {formatCurrency({
-              locale: 'en-US',
-              amount: variant?.price?.amount,
-            })}
-          </p>
+          <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
         </div>
       </div>
       <div className="cart-item__body">
         <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         <div className="cart-item__content">
-          <p>
-            <strong>{info?.subCategory}</strong>{' '}
-            <span>
-              {formatCurrency({
-                locale: 'en-US',
-                amount: variant?.price?.amount,
-              })}
-            </span>
-          </p>
-          {attributes?.map((item, index) => (
-            <p key={`${product.id}-${index}`}>
-              {item.label !== '' ? item.label + ':' : ''} {item.value}
-            </p>
-          ))}
+          <p className="setting-text">{productType}</p>
+          {itemAttributes?.map((specItem, index) => {
+            if (!specItem.value || specItem.value === '') {
+              return null;
+            }
+
+            return (
+              <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
+                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+              </p>
+            );
+          })}
         </div>
       </div>
     </SingleVariantCartItemStyles>

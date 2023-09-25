@@ -3,14 +3,14 @@
 */
 
 import {
+  DarksideButton,
+  DatoDarksideButtonProps,
   Heading,
+  MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
-  MobileDesktopImage,
-  DatoDarksideButtonProps,
-  DarksideButton,
 } from '@diamantaire/darkside/components/common-ui';
-import { replaceMoneyByCurrency, getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
+import { getBlockPictureAlt, isCountrySupported, replaceMoneyByCurrency } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
