@@ -15,7 +15,7 @@ const BreadcrumbStyles = styled.div`
 
       &:last-child {
         a {
-          font-weight: bold;
+          font-weight: ${({ lastItemBolded }) => (lastItemBolded ? 'bold' : 'normal')};
         }
       }
     }
@@ -27,14 +27,13 @@ type BreadcrumbProps = {
     title: string;
     path: string;
   }[];
+  lastItemBolded?: boolean;
   simple?: boolean;
 };
 
-const Breadcrumb = ({ breadcrumb, simple = false }: BreadcrumbProps) => {
-  console.log('breadcrumb', breadcrumb);
-
+const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: BreadcrumbProps) => {
   return (
-    <BreadcrumbStyles className="container-wrapper">
+    <BreadcrumbStyles className="container-wrapper" lastItemBolded={lastItemBolded}>
       {simple ? (
         <ul className="list-unstyled flex">
           {breadcrumb?.map((item, index) => {
