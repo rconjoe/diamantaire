@@ -112,7 +112,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{ to: () => `${UIString({ children: 'Your diamond' })}` }}
+            tooltips={{
+              to: () => UIString({ children: 'Your diamond' }) || '',
+            }}
             pips={{
               mode: 'steps',
               density: 100 / cuts.length,
@@ -181,7 +183,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
+            tooltips={{
+              to: () => UIString({ children: 'Your diamond' }) || '',
+            }}
             pips={{
               mode: 'steps',
               density: 100 / colors.length,
@@ -246,7 +250,9 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{ to: () => UIString({ children: 'Your diamond' }) }}
+            tooltips={{
+              to: () => UIString({ children: 'Your diamond' }) || '',
+            }}
             pips={{
               mode: 'steps',
               density: 100 / clarities.length,
