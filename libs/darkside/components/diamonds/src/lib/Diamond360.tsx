@@ -1,11 +1,10 @@
 import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
-import { canUseWebP, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { canUseWebP, generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
-import DiamondImage from './DiamondImage';
 
 interface Diamond360Props {
   className?: string;
@@ -75,7 +74,11 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
     }
 
     if (useImageOnly || mediaType === 'diamond-image') {
-      return <DiamondImage diamondType={diamondType} className="diamond-image-only" />;
+      const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+
+      console.log(`spriteImageUrl`, spriteImageUrl);
+
+      return <Image src={spriteImageUrl} alt={diamondType} width={0} height={0} sizes="100vw" />;
     }
 
     if (mediaType === 'diamond-video') {

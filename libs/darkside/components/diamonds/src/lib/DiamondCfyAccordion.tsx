@@ -1,5 +1,4 @@
 import { Accordion, DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import {
   DiamondCtoDataProps,
@@ -9,7 +8,6 @@ import {
 } from '@diamantaire/darkside/data/hooks';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
-import { useContext } from 'react';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 
@@ -31,7 +29,6 @@ const DiamondCfyAccordion = ({
   display?: string;
 }) => {
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const { isMobile } = useContext(GlobalContext);
   const { data: humanStrings = {} } = useHumanNameMapper(locale);
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
