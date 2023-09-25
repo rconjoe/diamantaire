@@ -229,9 +229,12 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </Markdown>
               </div>
               <div className="cta">
-                <DarksideButton>
-                  <UIString>Select and add a setting</UIString>
-                </DarksideButton>
+                <StickyElementWrapper>
+                  <DarksideButton>
+                    <UIString>Select and add a setting</UIString>
+                  </DarksideButton>
+                </StickyElementWrapper>
+
                 <DarksideButton type="outline">
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
@@ -243,10 +246,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
         <div className="page-row">
           <DiamondCfyGallery locale={locale} diamondType={diamondType} />
         </div>
-
-        <StickyElementWrapper>
-          <DarksideButton>YAY</DarksideButton>
-        </StickyElementWrapper>
       </StyledCFYResultPage>
     </>
   );
