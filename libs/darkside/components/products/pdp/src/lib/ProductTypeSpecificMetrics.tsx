@@ -8,11 +8,15 @@ const ProductTypeSpecificMetricsStyles = styled.div`
 `;
 
 const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
+  const caratWeight = Math.ceil(additionalVariantData?.carat * 100) / 100;
+
+  const acceptableProductTypes = ['Necklace', 'Bracelet', 'Wedding Band'];
+
   return (
     <ProductTypeSpecificMetricsStyles>
-      {productType === 'Necklace' || productType === 'Bracelet' || productType === 'Wedding Band' ? (
+      {acceptableProductTypes.includes(productType) && caratWeight !== 0 ? (
         <p>
-          <strong>Carat weight</strong>: {Math.ceil(additionalVariantData?.carat * 100) / 100}
+          <strong>Carat weight</strong>: {caratWeight}
         </p>
       ) : (
         ''
