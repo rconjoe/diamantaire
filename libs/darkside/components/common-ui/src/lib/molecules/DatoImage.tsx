@@ -39,17 +39,20 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
     (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
+    const datoUrl = new URL(src);
+
     const params = {
-      auto: 'format',
-      ar: '1%3A1',
-      fit: 'crop',
-      crop: 'focalpoint',
       w: width.toString(),
       q: quality.toString(),
     };
-    const searchParams = new URLSearchParams(params);
 
-    return `${src}?${searchParams.toString()}`;
+    for (const [key, value] of Object.entries(params)) {
+      if (value) {
+        datoUrl.searchParams.set(key, value);
+      }
+    }
+
+    return datoUrl.toString();
   };
 
   return isSvgCheck ? (

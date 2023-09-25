@@ -52,6 +52,9 @@ const FullWidthBanner = `
         currencyCode
       }
     }
+    darksideButtons {
+      ${ButtonFragment}
+    }
     ctaCopy
     ctaRoute
     ctaButtonType

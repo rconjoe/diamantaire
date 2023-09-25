@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CollectionHero = `
   ... on ModularCollectionHeroBlockRecord {
     id
@@ -6,13 +8,16 @@ const CollectionHero = `
     titleFont
     subtitle
     subtitleFont
+    darksideButtons {
+      ${ButtonFragment}
+    }
     desktopImage {
       url
       video {
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 1440, h: 432, q: 40, auto: format, fit: crop, crop: focalpoint },sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
+      responsiveImage(imgixParams: {w: 1440, h: 576, q: 40, auto: format, fit: crop, crop: focalpoint },sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
             src
             alt
             aspectRatio
@@ -32,7 +37,7 @@ const CollectionHero = `
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 360, h: 163, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
+      responsiveImage(imgixParams: {w: 1125, h: 1800, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
             src
             alt
             aspectRatio

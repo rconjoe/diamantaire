@@ -1,7 +1,7 @@
 /** This section is a 4 item image grid on desktop,
  * and a stacked 2x2 image grid on mobile */
 
-import { DarksideButton, DatoDarksideButtonProps, ImageTile } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoDarksideButtonProps, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -28,10 +28,12 @@ const ModularQuadGrid = ({ title, gridItems, darksideButtons }: ModularQuadGridP
             <div className="item__container" key={uuidv4()}>
               <div className="item__inner">
                 <UniLink route={itemUrl}>
-                  <ImageTile isProductImage={false} image={{ ...itemImage }} extraClass="no-bottom-padding" />
+                  <ImageTile isProductImage={false} image={itemImage} extraClass="no-bottom-padding" />
                 </UniLink>
                 <div className="item__content">
-                  <h4>{itemTitle}</h4>
+                  <Heading type="h4" className="primary">
+                    {itemTitle}
+                  </Heading>
                   {itemCaption && <div className="item__caption" dangerouslySetInnerHTML={{ __html: itemCaption }}></div>}
                 </div>
               </div>

@@ -47,8 +47,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
       flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' && stackedSubmit ? '0 0 100%' : '1')};
-      margin-bottom: ${({ fieldsLength, stackedSubmit }) =>
-        !stackedSubmit && fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`};
+      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
 
       &.submit {
         margin-bottom: 0px;

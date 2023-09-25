@@ -22,7 +22,7 @@ export const ModularQuadImageGridContainer = styled.div`
       padding: 0 10px;
 
       .item__title {
-        padding: 1rem 0 2rem;
+        padding: 0.5rem 0 2rem;
         h3 {
           font-size: 2.2rem;
           margin: 0;
