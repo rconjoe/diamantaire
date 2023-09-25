@@ -136,8 +136,6 @@ function ProductConfigurator({
     }
   }, [additionalVariantData]);
 
-  console.log('configurations', configurations);
-
   return (
     <>
       {!hasCaratWeightSelector && (

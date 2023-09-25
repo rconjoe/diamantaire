@@ -102,7 +102,7 @@ export const pdpTypeTitleSingleToPluralHandleAsConst = {
   ['Ring']: 'ring',
   ['Earring']: 'earrings',
   ['Bracelet']: 'bracelets',
-  ['jewelry']: 'Jewelry',
+  ['Wedding Band']: 'wedding-bands',
 } as const;
 
 export const pdpTypeHandleSingleToPluralAsConst = {
@@ -118,6 +118,7 @@ export const pdpTypeSingleToPluralAsConst = {
   ['Bracelet']: 'Bracelets',
   ['Ring']: 'Rings',
   ['Earring']: 'Earrings',
+  ['Wedding Band']: 'Wedding Bands',
 } as const;
 
 export const jewelryTypes = ['Necklace', 'Bracelet', 'Earrings'];

@@ -176,8 +176,6 @@ function OptionSelector({
     }
   }
 
-  console.log('opppps', options);
-
   return (
     <StyledOptionSelector>
       {selectorLabel && (

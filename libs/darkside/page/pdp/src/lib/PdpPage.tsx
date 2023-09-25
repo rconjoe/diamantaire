@@ -165,7 +165,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     // First option is just for jewelry, and it won't show title is null
     {
       title: isProductJewelry ? 'Jewelry' : null,
-      path: '/jewelry',
+      path: isProductJewelry ? '/jewelry' : null,
     },
     {
       title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
