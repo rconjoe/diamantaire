@@ -75,7 +75,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const productIconListItem = productIconListItems?.[0] || {};
 
-  const { cutForYouShippingBusinessDays, cutForYouShippingText } = productIconListItem;
+  const { cutForYouShippingBusinessDays } = productIconListItem;
 
   const formattedDate = getFormattedShipppingDate(locale, cutForYouShippingBusinessDays);
 
@@ -209,7 +209,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
               <div className="date">
                 <p>
-                  {cutForYouShippingText} {formattedDate}
+                  <UIString>Ships by</UIString> {formattedDate}
                 </p>
               </div>
               <div className="policy">
@@ -370,12 +370,13 @@ function getFormattedShipppingDate(locale, days = 21) {
   currentDate.setDate(currentDate.getDate() + days);
 
   const formattedDate = currentDate.toLocaleDateString(locale, {
+    weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
   });
 
-  return formattedDate;
+  return formattedDate.replace(',', '');
 }
 
 function getOverrides(href: string, classOverride?: string) {
