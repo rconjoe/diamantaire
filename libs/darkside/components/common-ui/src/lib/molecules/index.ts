@@ -20,6 +20,7 @@ export * from './ShopifyImage';
 export * from './SlideOut';
 export * from './Slider';
 export * from './SpriteSpinner';
+export * from './StickyElementWrapper';
 export * from './SwiperCustomPagination';
 export * from './SwiperStyles';
 export * from './Switch';

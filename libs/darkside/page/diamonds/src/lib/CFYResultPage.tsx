@@ -5,6 +5,7 @@ import {
   Heading,
   HideTopBar,
   Markdown,
+  StickyElementWrapper,
   SwiperCustomPagination,
   SwiperStyles,
 } from '@diamantaire/darkside/components/common-ui';
@@ -242,6 +243,10 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
         <div className="page-row">
           <DiamondCfyGallery locale={locale} diamondType={diamondType} />
         </div>
+
+        <StickyElementWrapper>
+          <DarksideButton>YAY</DarksideButton>
+        </StickyElementWrapper>
       </StyledCFYResultPage>
     </>
   );

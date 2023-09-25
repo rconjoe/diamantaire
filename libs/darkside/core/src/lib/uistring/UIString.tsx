@@ -1,10 +1,6 @@
-import { useGlobalData } from '@diamantaire/darkside/data/hooks';
-import { replacePlaceholders } from '@diamantaire/shared/helpers';
-import { useRouter } from 'next/router';
+// import { createLogger } from '../utils';
 
-import { createLogger } from '../utils';
-
-const logger = createLogger('UIString');
+// const logger = createLogger('UIString');
 
 interface UIStringProps {
   children: string | string[];
@@ -13,15 +9,15 @@ interface UIStringProps {
   mapType?: (typeof HumanNameMapperTypes)[keyof typeof HumanNameMapperTypes];
 }
 
-interface StringValue {
-  key: string;
-  value: string;
-}
+// interface StringValue {
+//   key: string;
+//   value: string;
+// }
 
-interface StringMapper {
-  title: string;
-  map: StringValue[];
-}
+// interface StringMapper {
+//   title: string;
+//   map: StringValue[];
+// }
 
 export const HumanNameMapperTypes = {
   OptionNames: 'OPTION_NAMES',
@@ -61,51 +57,62 @@ export const HumanNameMapperTypes = {
  * @param {string} fallbackString - optional fallback string override (defaults to key value)
  * @returns {string} - returns mapped string or fallback string.
  */
+
 const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTypes.UIStrings }: UIStringProps) => {
-  const router = useRouter();
-  const { data } = useGlobalData(router.locale);
-  const { allHumanNamesMappers } = data || {};
+  console.log(`**`);
+  console.log(`UIString: children`, children);
+  console.log(`UIString: placeholders`, placeholders);
+  console.log(`UIString: values`, values);
+  console.log(`UIString: mapType`, mapType);
 
-  logger.debug('allHumanNamesMappers', allHumanNamesMappers);
-
-  if (!allHumanNamesMappers) {
-    logger.warn('allHumanNamesMappers is not defined');
-
-    return children;
-  }
-
-  let stringArr = [];
-
-  // Join UI_STRING with UI_STRING_2
-  if (mapType === HumanNameMapperTypes.UIStrings) {
-    stringArr = [
-      ...getMapByType(allHumanNamesMappers, HumanNameMapperTypes.UIStrings),
-      ...getMapByType(allHumanNamesMappers, HumanNameMapperTypes.UIStrings2),
-    ];
-  } else {
-    stringArr = getMapByType(allHumanNamesMappers, mapType);
-  }
-
-  // Transform from array to map
-  const map = stringArr.reduce((acc, item) => {
-    acc[item.key] = item.value;
-
-    return acc;
-  }, {});
-
-  logger.debug(`Map: ${mapType}`, map);
-
-  if ((placeholders && !values) || (values && !placeholders)) {
-    logger.warn('Requires both placeholders and values to be defined if either is defined');
-  } else if (placeholders && values) {
-    return <>{replacePlaceholders(children.toString(), placeholders, values)}</>;
-  }
-
-  return map[children.toString()] || map[String(children).toLowerCase()] || children;
+  return children;
 };
+
+// const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTypes.UIStrings }: UIStringProps) => {
+//   const router = useRouter();
+//   const { data } = useGlobalData(router.locale);
+//   const { allHumanNamesMappers } = data || {};
+
+//   logger.debug('allHumanNamesMappers', allHumanNamesMappers);
+
+//   if (!allHumanNamesMappers) {
+//     logger.warn('allHumanNamesMappers is not defined');
+
+//     return children;
+//   }
+
+//   let stringArr = [];
+
+//   // Join UI_STRING with UI_STRING_2
+//   if (mapType === HumanNameMapperTypes.UIStrings) {
+//     stringArr = [
+//       ...getMapByType(allHumanNamesMappers, HumanNameMapperTypes.UIStrings),
+//       ...getMapByType(allHumanNamesMappers, HumanNameMapperTypes.UIStrings2),
+//     ];
+//   } else {
+//     stringArr = getMapByType(allHumanNamesMappers, mapType);
+//   }
+
+//   // Transform from array to map
+//   const map = stringArr.reduce((acc, item) => {
+//     acc[item.key] = item.value;
+
+//     return acc;
+//   }, {});
+
+//   logger.debug(`Map: ${mapType}`, map);
+
+//   if ((placeholders && !values) || (values && !placeholders)) {
+//     logger.warn('Requires both placeholders and values to be defined if either is defined');
+//   } else if (placeholders && values) {
+//     return <>{replacePlaceholders(children.toString(), placeholders, values)}</>;
+//   }
+
+//   return map[children.toString()] || map[String(children).toLowerCase()] || children;
+// };
 
 export { UIString };
 
-function getMapByType(allMappers: StringMapper[], type: (typeof HumanNameMapperTypes)[keyof typeof HumanNameMapperTypes]) {
-  return allMappers.find((m) => m.title === type)?.map || [];
-}
+// function getMapByType(allMappers: StringMapper[], type: (typeof HumanNameMapperTypes)[keyof typeof HumanNameMapperTypes]) {
+//   return allMappers.find((m) => m.title === type)?.map || [];
+// }
