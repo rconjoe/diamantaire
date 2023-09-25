@@ -81,7 +81,9 @@ const StyledCFYResultPage = styled.div`
       height: 6rem;
       cursor: pointer;
       border: 1px solid transparent;
-      padding: 0.1rem;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
 
       &.active {
         border: 1px solid ${TEAL_MED};
@@ -97,6 +99,7 @@ const StyledCFYResultPage = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        transform: scale(1.05);
       }
     }
   }
