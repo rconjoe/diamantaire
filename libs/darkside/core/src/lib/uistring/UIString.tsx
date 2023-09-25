@@ -59,13 +59,38 @@ export const HumanNameMapperTypes = {
  */
 
 const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTypes.UIStrings }: UIStringProps) => {
-  console.log(`**`);
-  console.log(`UIString: children`, children);
-  console.log(`UIString: placeholders`, placeholders);
-  console.log(`UIString: values`, values);
-  console.log(`UIString: mapType`, mapType);
+  const dev = false;
 
-  return children;
+  if (dev) {
+    console.log(`UIString.mapType`, mapType);
+  }
+
+  if (!children) {
+    // Handle empty or undefined input
+    return '';
+  }
+
+  if (Array.isArray(children)) {
+    // If children is an array of strings, join them into a single string
+    children = children.join('');
+  }
+
+  if (typeof children !== 'string') {
+    // Handle unexpected input types
+    return '';
+  }
+
+  // Your logic to format the string based on placeholders and values
+  let formattedString = children;
+
+  if (placeholders && values) {
+    // Replace placeholders with corresponding values
+    for (let i = 0; i < placeholders.length; i++) {
+      formattedString = formattedString.replace(placeholders[i], values[i]);
+    }
+  }
+
+  return formattedString;
 };
 
 // const UIString = ({ children, placeholders, values, mapType = HumanNameMapperTypes.UIStrings }: UIStringProps) => {
