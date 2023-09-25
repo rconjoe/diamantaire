@@ -1,14 +1,18 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 import { StyledStickyElementWrapper } from './StickyElementWrapper.style';
 
 interface StickyElementWrapperProps {
-  children: ReactNode;
+  children?: ReactNode;
+  mobileOnly?: boolean;
 }
 
-const StickyElementWrapper = ({ children }: StickyElementWrapperProps) => {
+const StickyElementWrapper = ({ children, mobileOnly = true }: StickyElementWrapperProps) => {
   const [isSticky, setIsSticky] = useState(false);
   const stickyEl = useRef(null);
+
+  const { isMobile } = useContext(GlobalContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +35,8 @@ const StickyElementWrapper = ({ children }: StickyElementWrapperProps) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  if (mobileOnly && !isMobile) return children;
 
   return (
     <StyledStickyElementWrapper>
