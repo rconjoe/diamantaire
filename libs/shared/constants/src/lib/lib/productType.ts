@@ -21,6 +21,7 @@ export const PDPProductType = {
   ['engagement-rings']: 'Engagement Rings',
   ['jewelry']: 'Jewelry',
 } as const;
+
 export const WEDDING_BAND_PRODUCT_TYPE = 'Wedding Band';
 export const ENGAGEMENT_RING_PRODUCT_TYPE = 'Engagement Ring';
 export const EARRING_PRODUCT_TYPE = 'Earrings';

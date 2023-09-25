@@ -63,6 +63,7 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'sideStoneShape': {
       return DiamondIconOptionItem;
     }
+    case 'ceramicColor':
     case 'metal': {
       return MetalOptionItem;
     }
@@ -155,6 +156,31 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: rgb(206, 172, 139);
     }
   }
+  &.black {
+    .inner {
+      background-color: #000;
+    }
+  }
+  &.dark-green {
+    .inner {
+      background-color: #1f4d4e;
+    }
+  }
+  &.white {
+    .inner {
+      border: 1px solid #000;
+    }
+  }
+  &.turquoise {
+    .inner {
+      background-color: #4faed9;
+    }
+  }
+  &.yellow {
+    .inner {
+      background-color: #e9d540;
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
@@ -211,6 +237,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
 
 export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
   const { locale } = useRouter();
+
   // Band Width
 
   const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);

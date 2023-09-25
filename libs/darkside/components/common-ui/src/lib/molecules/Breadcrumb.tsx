@@ -22,15 +22,25 @@ const BreadcrumbStyles = styled.div`
   }
 `;
 
-const Breadcrumb = ({ breadcrumb, simple = false }) => {
+type BreadcrumbProps = {
+  breadcrumb: {
+    title: string;
+    path: string;
+  }[];
+  simple?: boolean;
+};
+
+const Breadcrumb = ({ breadcrumb, simple = false }: BreadcrumbProps) => {
+  console.log('breadcrumb', breadcrumb);
+
   return (
     <BreadcrumbStyles className="container-wrapper">
       {simple ? (
         <ul className="list-unstyled flex">
           {breadcrumb?.map((item, index) => {
             return (
-              <li key={item?.key}>
-                <Link href={item?.path}>{item?.copy}</Link>
+              <li key={item?.path}>
+                <Link href={item?.path}>{item?.title}</Link>
                 {breadcrumb.length - 1 !== index && <span>/</span>}
               </li>
             );
@@ -43,13 +53,13 @@ const Breadcrumb = ({ breadcrumb, simple = false }) => {
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
-            if (!item.link) {
+            if (!item.path) {
               return null;
             }
 
             return (
-              <li key={item.id}>
-                <Link href={item?.link}>{item?.name?.trim()}</Link>
+              <li key={item.path}>
+                <Link href={item?.path}>{item?.title?.trim()}</Link>
                 {breadcrumb.length - 1 !== index && <span>/</span>}
               </li>
             );

@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -9,15 +9,23 @@ import {
   ProductPrice,
   ProductTitle,
   ProductIconList,
+  ProductKlarna,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { pdpTypeHandleSingleToPluralAsConst, PdpTypePlural } from '@diamantaire/shared/constants';
+import {
+  jewelryTypes,
+  pdpTypeHandleSingleToPluralAsConst,
+  PdpTypePlural,
+  pdpTypeSingleToPluralAsConst,
+  pdpTypeTitleSingleToPluralHandleAsConst,
+} from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useMemo } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
@@ -79,9 +87,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
-  const assetStack = productContent.assetStack; // flatten array in normalization
+  const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const variantHandle = productContent.shopifyProductHandle;
+  const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
@@ -151,12 +159,38 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     return hasMoreThanOne;
   }, []);
 
+  const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
+
+  const breadcrumb = [
+    // First option is just for jewelry, and it won't show title is null
+    {
+      title: isProductJewelry ? 'Jewelry' : null,
+      path: '/jewelry',
+    },
+    {
+      title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
+      path: `/${isProductJewelry ? 'jewelry/' : ''}${
+        pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
+      }`,
+    },
+    {
+      title: productTitle,
+      path: '#',
+    },
+  ];
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
     return (
       <PageContainerStyles>
+        <Script
+          id="klara-script"
+          src="https://na-library.klarnaservices.com/lib.js"
+          data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
+        ></Script>
         <PageViewTracker productData={productData} />
+        <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
           <div className="media-container">
             <ShowDesktopAndUpOnly>
@@ -169,7 +203,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <div className="info-container">
             <ProductTitle title={productTitle} />
             <ProductPrice isBuilderProduct={isBuilderProduct} price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
-
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
@@ -184,15 +217,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               price={price}
             />
 
+            <ProductKlarna title={productTitle} currentPrice={price} />
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
-
             <Form
               title="Need more time to think?"
               caption="Email this customized ring to yourself or drop a hint."
               onSubmit={(e) => e.preventDefault()}
               stackedSubmit={false}
             />
-
             <ProductDescription
               description={productDescription}
               productAttributes={parentProductAttributes}

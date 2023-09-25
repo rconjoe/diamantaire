@@ -136,6 +136,8 @@ function ProductConfigurator({
     }
   }, [additionalVariantData]);
 
+  console.log('configurations', configurations);
+
   return (
     <>
       {!hasCaratWeightSelector && (
@@ -161,6 +163,7 @@ function ProductConfigurator({
             isConfigurationComplete &&
             !disableVariantType.includes('ringSize') &&
             (additionalVariantData?.productType === 'Engagement Ring' ||
+              additionalVariantData?.productType === 'Ring' ||
               additionalVariantData?.productType === 'Wedding Band') && (
               <OptionSelector
                 optionType={sizeOptionKey}
