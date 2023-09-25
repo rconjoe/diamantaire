@@ -329,11 +329,11 @@ export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST }) => {
     <div dangerouslySetInnerHTML={{ __html: message }}></div>
   ) : (
     <Form
-      title="Need more time to think?"
-      caption="Email this customized ring to yourself or drop a hint."
       formState={formState}
       onSubmit={onSubmit}
       setFormState={setFormState}
+      formGridStyle="split"
+      stackedSubmit={false}
     />
   );
 };

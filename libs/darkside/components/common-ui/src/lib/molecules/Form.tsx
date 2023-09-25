@@ -27,9 +27,6 @@ type FormProps = {
   stackedSubmit?: boolean;
   formState?: object;
   setFormState?: (state: object) => void;
-  gridStyle?: 'single' | 'split';
-  formState?: object;
-  setFormState?: (state: object) => void;
 };
 
 export type FormSchemaType = {
@@ -99,7 +96,7 @@ const Form = ({
   formGridStyle = 'single',
   stackedSubmit = true,
   formState,
-  setFormState = () => console.log('initial'),
+  setFormState = (e) => console.log('initial', e),
 }: FormProps) => {
   // const [formState, setFormState] = useState(null);
 
