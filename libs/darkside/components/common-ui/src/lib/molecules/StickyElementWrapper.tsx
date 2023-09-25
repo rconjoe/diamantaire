@@ -22,7 +22,7 @@ const StickyElementWrapper = ({ children, mobileOnly = true }: StickyElementWrap
 
       const mainElementRect = mainElement.getBoundingClientRect();
 
-      if (mainElementRect.bottom <= window.innerHeight) {
+      if (mainElementRect.bottom <= window.innerHeight && mainElementRect.top >= 0 && mainElementRect.bottom >= 0) {
         setIsSticky(false);
       } else {
         setIsSticky(true);
