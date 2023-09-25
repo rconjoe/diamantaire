@@ -202,7 +202,7 @@ export const fetchDiamondCtoData = async (options) => {
   try {
     const queryOptions = {
       page: 1,
-      limit: 3,
+      limit: 100,
       sortBy: 'carat',
       sortOrder: 'asc',
       diamondType: options.diamondType,

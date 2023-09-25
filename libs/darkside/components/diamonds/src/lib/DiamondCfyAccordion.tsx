@@ -56,10 +56,18 @@ const DiamondCfyAccordion = ({
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
     const upgrade = diamondCtoData?.diamondColorUpgrade || null;
-    const upgradePrice =
-      upgrade?.priceUpgrade &&
-      (upgrade.price > defaultProduct.price ? '+' : '') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
     const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
+    const isAnUpgrade = () => {
+      if (upgrade && defaultProduct) {
+        return upgrade?.price > defaultProduct.price;
+      }
+    };
+    const getPrice = () => {
+      if (upgrade?.priceUpgrade) {
+        return makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
+      }
+    };
+    const upgradePrice = (isAnUpgrade() ? '+' : '') + getPrice();
 
     return (
       <div className="description">
@@ -114,7 +122,7 @@ const DiamondCfyAccordion = ({
     );
   };
 
-  // // CUT
+  // CUT
   const getCutTitle = () => {
     const { cut } = product || {};
     const { cutMapAbridged } = DiamondTableData || {};
@@ -133,10 +141,17 @@ const DiamondCfyAccordion = ({
     const { cutDetails } = DiamondCfyData || {};
     const upgrade = diamondCtoData?.diamondCutUpgrade || null;
     const upgradeLabel = upgrade?.cut || '';
-    const upgradePrice =
-      upgrade?.priceUpgrade &&
-      (upgrade?.price > defaultProduct.price ? '+' : '') +
-        (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
+    const isAnUpgrade = () => {
+      if (upgrade && defaultProduct) {
+        return upgrade?.price > defaultProduct.price;
+      }
+    };
+    const getPrice = () => {
+      if (upgrade?.priceUpgrade) {
+        return makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
+      }
+    };
+    const upgradePrice = (isAnUpgrade() ? '+' : '') + getPrice();
 
     return (
       <div className="description">
@@ -169,25 +184,60 @@ const DiamondCfyAccordion = ({
   // ACCORDION
   const accordionContent = [
     {
+      type: 'color',
       title: getColorTitle(),
       children: getColorContent(),
       className: 'color',
     },
     {
+      type: 'clarity',
       title: getClarityTitle(),
       children: getClarityContent(),
       className: 'clarity',
     },
     {
+      type: 'cut',
       title: getCutTitle(),
       children: getCutContent(),
       className: 'cut',
     },
   ];
 
+  const getActiveDefault = () => {
+    let activeDefault = null;
+
+    const upgradeColor = diamondCtoData?.diamondColorUpgrade || null;
+
+    const upgradeCut = diamondCtoData?.diamondCutUpgrade || null;
+
+    const isAnUpgrade = (upgrade) => {
+      if (upgrade && product) {
+        return upgrade?.price > product.price;
+      }
+    };
+
+    if (upgradeColor) {
+      const index = accordionContent.findIndex((v) => v.type === 'color');
+
+      if (isAnUpgrade(upgradeColor)) {
+        activeDefault = index;
+      }
+    }
+
+    if (upgradeCut) {
+      const index = accordionContent.findIndex((v) => v.type === 'cut');
+
+      if (isAnUpgrade(upgradeCut)) {
+        activeDefault = index;
+      }
+    }
+
+    return activeDefault;
+  };
+
   return (
     <StyledDiamondCfyAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} />
+      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} />
     </StyledDiamondCfyAccordion>
   );
 };
