@@ -131,14 +131,12 @@ const DiamondCfyAccordion = ({
   };
   const getCutContent = () => {
     const { cutDetails } = DiamondCfyData || {};
-    const { cutMapAbridged } = DiamondTableData || {};
     const upgrade = diamondCtoData?.diamondCutUpgrade || null;
-
+    const upgradeLabel = upgrade?.cut || '';
     const upgradePrice =
       upgrade?.priceUpgrade &&
       (upgrade?.price > defaultProduct.price ? '+' : '') +
         (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
-    const upgradeLabel = (upgrade?.cut && getInfo(cutMapAbridged, upgrade.cut)?.value) || '';
 
     return (
       <div className="description">
