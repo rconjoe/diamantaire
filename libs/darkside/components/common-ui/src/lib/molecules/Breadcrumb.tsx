@@ -12,12 +12,6 @@ const BreadcrumbStyles = styled.div`
         margin: 0 8px;
         font-size: var(--font-size-xxxsmall);
       }
-
-      &:last-child {
-        a {
-          font-weight: ${({ lastItemBolded }) => (lastItemBolded ? 'bold' : 'normal')};
-        }
-      }
     }
   }
 `;
