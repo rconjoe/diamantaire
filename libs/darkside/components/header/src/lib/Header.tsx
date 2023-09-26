@@ -1,5 +1,6 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
@@ -59,10 +60,11 @@ const Header: FC<HeaderProps> = ({
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const { cartViewed } = useAnalytics();
   const router = useRouter();
-  const selectedLocale = router.locale;
 
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+  const selectedLocale = router.locale;
+  const { isCartOpen, setIsCartOpen, checkout } = useContext(CartContext);
 
   const { section } = headerData;
   const { scrollY } = useScroll();
@@ -95,6 +97,35 @@ const Header: FC<HeaderProps> = ({
   }
 
   function toggleCart() {
+    const { id, lines } = checkout || {};
+    const cartId = id?.split('/')[2];
+
+    const cartProducts = (lines || []).map((line, index) => {
+      const { merchandise } = line || {};
+      const { product, sku, price, id } = merchandise || {};
+      const { title, availableForSale, featuredImage, productType } = product || {};
+      const { url } = featuredImage || {};
+      const { amount } = price;
+      const variantId = id?.split('/')[3];
+
+      return {
+        id: variantId,
+        sku,
+        name: title,
+        price: amount,
+        position: index + 1,
+        category: productType,
+        // url: `https://www.vrai.com/products/${handle}`,
+        image_url: url,
+        availableForSale,
+      };
+    });
+
+    cartViewed({
+      cart_id: cartId,
+      products: cartProducts,
+    });
+
     return setIsCartOpen(!isCartOpen);
   }
 

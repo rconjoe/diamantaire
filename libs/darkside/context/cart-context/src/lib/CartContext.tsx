@@ -222,7 +222,8 @@ export const CartProvider = ({ children }) => {
     return reshapeCart(res.body.data.cartLinesUpdate.cart);
   }
 
-  async function getCart(cartId: string): Promise<Cart | undefined> {
+  async function getCart(): Promise<Cart | undefined> {
+    const cartId = localStorage.getItem('cartId');
     const res = await shopifyFetch<ShopifyCartOperation>({
       query: getCartQuery,
       variables: { cartId },
