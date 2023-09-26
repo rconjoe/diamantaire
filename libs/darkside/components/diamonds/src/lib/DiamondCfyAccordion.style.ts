@@ -56,7 +56,7 @@ const StyledDiamondCfyAccordion = styled.div`
 
   .upgrade {
     background: ${GREY_LIGHTEST};
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     margin: 2rem 0 0;
@@ -68,12 +68,16 @@ const StyledDiamondCfyAccordion = styled.div`
     form {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 1rem;
+
+      .price {
+        margin: 0 0 0 1rem;
+      }
     }
 
     input {
       cursor: pointer;
-      margin: 0 1.25rem 0 0;
+      margin: 0 0 0 0;
     }
   }
 `;
