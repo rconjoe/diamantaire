@@ -14,6 +14,8 @@ const CONFIG_TYPE_ORDER = [
   'eternityStyle',
   'stoneSetting',
   'earringSize',
+  'bandStyle',
+  'bandVersion',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
