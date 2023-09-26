@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
@@ -230,6 +232,7 @@ function AddToCartButton({
   const { addItem, setIsCartOpen } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
 
+  const { emitDataLayer } = useAnalytics();
   const { locale } = useRouter();
   const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
 
@@ -384,6 +387,17 @@ function AddToCartButton({
           if (isConfigurationComplete) {
             addProductToCart();
           } else {
+            // ER select shape from pdp setting flow
+            const { diamondType } = selectedConfiguration || {};
+
+            emitDataLayer({
+              event: GTM_EVENTS.selectShape,
+              eventCategory: 'engagement_ring_creation',
+              eventAction: GTM_EVENTS.selectShape,
+              eventLabel: diamondType,
+              select_shape: diamondType,
+              diamond_type: diamondType,
+            });
             router.push(
               `/customize?type=setting-to-diamond&collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`,
             );

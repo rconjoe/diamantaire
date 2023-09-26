@@ -33,6 +33,7 @@ export const GTM_EVENTS = {
   productClicked: 'productClicked',
   productListFiltered: 'productListFiltered',
   cartViewed: 'cartViewed',
+  selectShape: 'select_shape',
 };
 
 export const tagManagerArgs = {
