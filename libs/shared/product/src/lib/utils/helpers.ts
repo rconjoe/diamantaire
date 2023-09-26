@@ -25,7 +25,7 @@ export function getOptionValueType(optionValue: string) {
     }
   }
 
-  return;
+  return undefined;
 }
 
 export function getOptionValueSorterByType(optionType: string) {
