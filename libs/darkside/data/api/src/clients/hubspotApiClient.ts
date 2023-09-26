@@ -133,6 +133,14 @@ const sendHubspotForm = async ({
       },
     ],
     sfdcCampaignId: listData?.sfdcCampaignId || '',
+    ...(isConsent && {
+      legalConsentOptions: {
+        consent: {
+          consentToProcess: isConsent,
+          text: '', // TODO: HUBSPOT_CONSENT_TEXT,
+        },
+      },
+    }),
     context: {
       // hutk: hubspotCookieToken(),
       // TODO: include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission
@@ -141,14 +149,6 @@ const sendHubspotForm = async ({
     },
   };
 
-  if (isConsent) {
-    data.legalConsentOptions = {
-      consent: {
-        consentToProcess: isConsent,
-        text: '', // TODO: HUBSPOT_CONSENT_TEXT,
-      },
-    };
-  }
   const url = generateHubspotURL(listData?.listId);
   // TODO: hubspotEmailCookie.set(email);
 
