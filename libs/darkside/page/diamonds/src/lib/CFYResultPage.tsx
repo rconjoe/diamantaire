@@ -63,7 +63,40 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const defaultProduct = diamondCtoData['diamond'];
 
-  const [display, setDisplay] = useState('diamond');
+  const getDisplay = () => {
+    if (diamondCtoData['diamondColorUpgrade'] && diamondCtoData['diamondCutUpgrade']) {
+      const priceCut = diamondCtoData['diamondCutUpgrade']?.price;
+      const priceColor = diamondCtoData['diamondColorUpgrade']?.price;
+
+      if (priceColor && priceCut) {
+        if (priceColor > priceCut) {
+          return 'diamondColorUpgrade';
+        } else {
+          return 'diamondCutUpgrade';
+        }
+      }
+    }
+
+    if (diamondCtoData['diamondColorUpgrade'] && !diamondCtoData['diamondCutUpgrade']) {
+      const priceColor = diamondCtoData['diamondColorUpgrade']?.price;
+
+      if (priceColor > defaultProduct.price) {
+        return 'diamondColorUpgrade';
+      }
+    }
+
+    if (!diamondCtoData['diamondColorUpgrade'] && diamondCtoData['diamondCutUpgrade']) {
+      const priceCut = diamondCtoData['diamondCutUpgrade']?.price;
+
+      if (priceCut > defaultProduct.price) {
+        return 'diamondCutUpgrade';
+      }
+    }
+
+    return 'diamond';
+  };
+
+  const [display, setDisplay] = useState(getDisplay());
 
   const [product, setProduct] = useState(defaultProduct);
 
@@ -117,7 +150,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   };
 
   const diamondTypeTitle = getDiamondType(product?.diamondType)?.title || '';
+
   const caratValue = product?.carat?.toFixed(1) || '';
+
   const pageTitle = `${ctoDiamondResultShapeAndWeightTitle
     .replace('%%diamond_shape%%', diamondTypeTitle)
     .replace('%%diamond_carat%%', caratValue)}`;
@@ -125,6 +160,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [loadPagination, setLoadPagination] = useState(0);
 
   const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
+
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
   useEffect(() => {
@@ -133,10 +169,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   useEffect(() => {
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
-
-    if (diamondCtoData['diamondColorUpgrade']) {
-      setDisplay('diamondColorUpgrade');
-    }
   }, []);
 
   return (

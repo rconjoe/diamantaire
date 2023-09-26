@@ -8,7 +8,6 @@ import {
 } from '@diamantaire/darkside/data/hooks';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
-import { useEffect, useState } from 'react';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 
@@ -50,22 +49,25 @@ const DiamondCfyAccordion = ({
     );
   };
   const getColorContent = () => {
+    let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
-    const upgrade = diamondCtoData?.diamondColorUpgrade || null;
-    const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
-    const isAnUpgrade = () => {
-      if (upgrade && defaultProduct) {
-        return upgrade?.price > defaultProduct.price;
+    const upgrade = diamondCtoData?.diamondColorUpgrade;
+
+    if (product && upgrade) {
+      upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade.color]?.value || '';
+
+      if (display !== 'diamondColorUpgrade') {
+        upgradePrice = Math.abs(upgrade.price - product.price);
+        upgradePriceSymbol = upgrade.price > product.price ? '+' : '-';
+      } else {
+        upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+        upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
       }
-    };
-    const getPrice = () => {
-      if (upgrade?.priceUpgrade) {
-        return makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
-      }
-    };
-    const upgradePrice = (isAnUpgrade() ? '+' : '') + getPrice();
+
+      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+    }
 
     return (
       <div className="description">
@@ -80,7 +82,7 @@ const DiamondCfyAccordion = ({
                 onChange={() => handleUpgradeClick('diamondColorUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
-              <div className="price">{upgradePrice}</div>
+              <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
               <UniLink route="/journal/post/diamond-color">
@@ -136,20 +138,23 @@ const DiamondCfyAccordion = ({
     );
   };
   const getCutContent = () => {
+    let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { cutDetails } = DiamondCfyData || {};
-    const upgrade = diamondCtoData?.diamondCutUpgrade || null;
-    const upgradeLabel = upgrade?.cut || '';
-    const isAnUpgrade = () => {
-      if (upgrade && defaultProduct) {
-        return upgrade?.price > defaultProduct.price;
+    const upgrade = diamondCtoData?.diamondCutUpgrade;
+
+    if (product && upgrade) {
+      upgradeLabel = upgrade.cut || '';
+
+      if (display !== 'diamondCutUpgrade') {
+        upgradePrice = Math.abs(upgrade.price - product.price);
+        upgradePriceSymbol = upgrade.price > product.price ? '+' : '-';
+      } else {
+        upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+        upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
       }
-    };
-    const getPrice = () => {
-      if (upgrade?.priceUpgrade) {
-        return makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
-      }
-    };
-    const upgradePrice = (isAnUpgrade() ? '+' : '') + getPrice();
+
+      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+    }
 
     return (
       <div className="description">
@@ -164,7 +169,7 @@ const DiamondCfyAccordion = ({
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
-              <div className="price">{upgradePrice}</div>
+              <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
               <UniLink route="/journal/post/diamond-cut">
@@ -179,7 +184,56 @@ const DiamondCfyAccordion = ({
     );
   };
 
-  // ACCORDION
+  // ACTIVE DEFAULT
+  const getActiveDefault = () => {
+    let activeDefault = -1;
+
+    const data = diamondCtoData || {};
+
+    if (display !== 'diamondColorUpgrade' && data.diamondColorUpgrade) {
+      const index = accordionContent.findIndex((v) => v.type === 'color');
+
+      if (data.diamondColorUpgrade.price > defaultProduct.price) {
+        activeDefault = index;
+      }
+    }
+
+    if (display !== 'diamondCutUpgrade' && data.diamondCutUpgrade) {
+      const index = accordionContent.findIndex((v) => v.type === 'cut');
+
+      if (data.diamondCutUpgrade.price > defaultProduct.price) {
+        activeDefault = index;
+      }
+    }
+
+    if (
+      display !== 'diamondColorUpgrade' &&
+      display !== 'diamondCutUpgrade' &&
+      data.diamondColorUpgrade &&
+      data.diamondCutUpgrade
+    ) {
+      const colorIndex = accordionContent.findIndex((v) => v.type === 'color');
+      const cutIndex = accordionContent.findIndex((v) => v.type === 'cut');
+      const colorPrice = data.diamondColorUpgrade?.price;
+      const cutPrice = data.diamondCutUpgrade?.price;
+
+      if (cutPrice && colorPrice) {
+        if (cutPrice > colorPrice && cutPrice > defaultProduct.price) {
+          activeDefault = cutIndex;
+        }
+
+        if (colorPrice > cutPrice && colorPrice > defaultProduct.price) {
+          activeDefault = colorIndex;
+        }
+      }
+    }
+
+    console.log(`activeDefault`, activeDefault);
+
+    return activeDefault;
+  };
+
+  // CONTENT
   const accordionContent = [
     {
       type: 'color',
@@ -201,55 +255,9 @@ const DiamondCfyAccordion = ({
     },
   ];
 
-  // ACTIVE DEFAULT
-  const getActiveDefault = () => {
-    let activeDefault = null;
-    const data = diamondCtoData || {};
-
-    if (display !== 'diamondColorUpgrade' && data.diamondColorUpgrade) {
-      const index = accordionContent.findIndex((v) => v.type === 'color');
-
-      activeDefault = index;
-    }
-
-    if (display !== 'diamondCutUpgrade' && data.diamondCutUpgrade) {
-      const index = accordionContent.findIndex((v) => v.type === 'cut');
-
-      activeDefault = index;
-    }
-
-    if (
-      display !== 'diamondColorUpgrade' &&
-      display !== 'diamondCutUpgrade' &&
-      data.diamondColorUpgrade &&
-      data.diamondCutUpgrade
-    ) {
-      const colorIndex = accordionContent.findIndex((v) => v.type === 'color');
-      const cutIndex = accordionContent.findIndex((v) => v.type === 'cut');
-      const colorPrice = data.diamondColorUpgrade?.price;
-      const cutPrice = data.diamondCutUpgrade?.price;
-
-      if (cutPrice && colorPrice) {
-        if (cutPrice > colorPrice) {
-          activeDefault = cutIndex;
-        } else {
-          activeDefault = colorIndex;
-        }
-      }
-    }
-
-    return activeDefault;
-  };
-
-  const [activeDefault, setActiveDefault] = useState(-1);
-
-  useEffect(() => {
-    setActiveDefault(getActiveDefault());
-  }, []);
-
   return (
     <StyledDiamondCfyAccordion>
-      <Accordion rows={accordionContent} activeDefault={activeDefault} isDiamondDetail={true} />
+      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} />
     </StyledDiamondCfyAccordion>
   );
 };
