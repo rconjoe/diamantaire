@@ -58,6 +58,13 @@ const StyledCatalogPage = styled.div`
     }
   }
 
+  input {
+    border: 1px solid #888;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+  }
+
   .columns {
     display: flex;
     flex-direction: row;
