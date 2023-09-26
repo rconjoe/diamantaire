@@ -79,7 +79,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const formattedDate = getFormattedShipppingDate(locale, cutForYouShippingBusinessDays);
 
-  const shouldRenderReturnPolicy = !isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, Number(carat));
+  const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
   const swiperRef = useRef(null);
 
@@ -133,6 +133,10 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   useEffect(() => {
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
+
+    if (diamondCtoData['diamondColorUpgrade']) {
+      setDisplay('diamondColorUpgrade');
+    }
   }, []);
 
   return (
@@ -336,7 +340,7 @@ function getThumb({ product, diamondType, lotIdPicker }) {
   ];
 }
 
-function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) {
+function isValidForReturn(diamondType, caratWeight) {
   if (typeof diamondType !== 'string') {
     return;
   }

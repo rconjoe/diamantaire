@@ -8,6 +8,7 @@ import {
 } from '@diamantaire/darkside/data/hooks';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
+import { useEffect, useState } from 'react';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 
@@ -200,41 +201,55 @@ const DiamondCfyAccordion = ({
     },
   ];
 
+  // ACTIVE DEFAULT
   const getActiveDefault = () => {
     let activeDefault = null;
+    const data = diamondCtoData || {};
 
-    const upgradeColor = diamondCtoData?.diamondColorUpgrade || null;
-
-    const upgradeCut = diamondCtoData?.diamondCutUpgrade || null;
-
-    const isAnUpgrade = (upgrade) => {
-      if (upgrade && product) {
-        return upgrade?.price > product.price;
-      }
-    };
-
-    if (upgradeColor) {
+    if (display !== 'diamondColorUpgrade' && data.diamondColorUpgrade) {
       const index = accordionContent.findIndex((v) => v.type === 'color');
 
-      if (isAnUpgrade(upgradeColor)) {
-        activeDefault = index;
-      }
+      activeDefault = index;
     }
 
-    if (upgradeCut) {
+    if (display !== 'diamondCutUpgrade' && data.diamondCutUpgrade) {
       const index = accordionContent.findIndex((v) => v.type === 'cut');
 
-      if (isAnUpgrade(upgradeCut)) {
-        activeDefault = index;
+      activeDefault = index;
+    }
+
+    if (
+      display !== 'diamondColorUpgrade' &&
+      display !== 'diamondCutUpgrade' &&
+      data.diamondColorUpgrade &&
+      data.diamondCutUpgrade
+    ) {
+      const colorIndex = accordionContent.findIndex((v) => v.type === 'color');
+      const cutIndex = accordionContent.findIndex((v) => v.type === 'cut');
+      const colorPrice = data.diamondColorUpgrade?.price;
+      const cutPrice = data.diamondCutUpgrade?.price;
+
+      if (cutPrice && colorPrice) {
+        if (cutPrice > colorPrice) {
+          activeDefault = cutIndex;
+        } else {
+          activeDefault = colorIndex;
+        }
       }
     }
 
     return activeDefault;
   };
 
+  const [activeDefault, setActiveDefault] = useState(-1);
+
+  useEffect(() => {
+    setActiveDefault(getActiveDefault());
+  }, []);
+
   return (
     <StyledDiamondCfyAccordion>
-      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} />
+      <Accordion rows={accordionContent} activeDefault={activeDefault} isDiamondDetail={true} />
     </StyledDiamondCfyAccordion>
   );
 };
