@@ -10,6 +10,7 @@ type AnalyticsContextType = {
   productListViewed: ({ listName, category, variantIds, products }) => void;
   productClicked: (eventData: Record<string, any>) => void;
   productListFiltered: (eventData: Record<string, any>) => void;
+  cartViewed: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -31,6 +32,7 @@ export const GTM_EVENTS = {
   viewListPage: 'viewListPage',
   productClicked: 'productClicked',
   productListFiltered: 'productListFiltered',
+  cartViewed: 'cartViewed',
 };
 
 export const tagManagerArgs = {
@@ -73,6 +75,9 @@ export const AnalyticsProvider = ({ children }) => {
     },
     productListFiltered: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.productListFiltered, eventData);
+    },
+    cartViewed: (eventData: Record<string, any>) => {
+      trackEvent(GTM_EVENTS.cartViewed, eventData);
     },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
