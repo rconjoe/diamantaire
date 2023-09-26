@@ -208,15 +208,35 @@ export class ProductsService {
         const { productType } = requestedProduct;
 
         const allAvailableOptions = this.getAllAvailableOptions(collection);
+        const sortedAllAvailableOptions = Object.entries(allAvailableOptions).reduce((map, [type, values]) => {
+          map[type] = values.sort(getOptionValueSorterByType(type));
+
+          return map;
+        }, {});
+        const optionConfigs = this.getOptionsConfigurations(collection, requestedProduct);
+        const sortedOptionConfigs = Object.entries(optionConfigs).reduce((map, [type, values]) => {
+          const optionSorter = getOptionValueSorterByType(type);
+
+          map[type] = values.sort((objA, objB) => optionSorter(objA.value, objB.value));
+
+          return map;
+        }, {});
+
+        const canonicalVariant = findCanonivalVariant(collection, requestedProduct);
+        const reducedCanonicalVariant = {
+          productType: canonicalVariant.productType,
+          productSlug: canonicalVariant.productSlug,
+          collectionSlug: canonicalVariant.collectionSlug,
+        };
 
         const pdpProductData = {
           productType,
           ...requestedProduct,
-          allAvailableOptions,
-          optionConfigs: this.getOptionsConfigurations(collection, requestedProduct),
+          allAvailableOptions: sortedAllAvailableOptions,
+          optionConfigs: sortedOptionConfigs,
           collectionContent, // dato er collection content
           productContent, // dato er variant content
-          canonicalVariant: findCanonivalVariant(collection, requestedProduct),
+          canonicalVariant: reducedCanonicalVariant,
         };
 
         //await this.cacheService.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
@@ -825,7 +845,9 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            metal: Object.keys(metalOptions).map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
+            metal: Object.keys(metalOptions)
+              .sort(getOptionValueSorterByType('metal'))
+              .map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
               ...altConfigs,

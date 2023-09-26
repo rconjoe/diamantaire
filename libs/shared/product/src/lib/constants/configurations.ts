@@ -1,13 +1,12 @@
-export const prongStyleValues = ['pave', 'plain'] as const;
-export const bandVersionValues = ['large', 'original', 'petite'] as const;
-export const bandStoneStyleValues = ['large', 'original'] as const;
-export const hoopAccentValues = ['pave', 'plain'] as const;
-export const haloSizeValues = ['large', 'original'] as const;
+export const prongStyleValues = ['plain', 'pave'] as const;
+export const bandVersionValues = ['petite', 'original', 'large'] as const;
+export const bandStoneStyleValues = ['original', 'large'] as const;
+export const hoopAccentValues = ['plain', 'pave'] as const;
+export const haloSizeValues = ['original', 'large'] as const;
 export const sideStoneCaratValues = ['0.10ct', '0.25ct', '0.50ct'] as const;
 export const ceramicColorValues = ['black', 'dark-green', 'turquoise', 'white', 'yellow'] as const;
 export const diamondCountValues = ['3', '4', '5', '6'] as const;
 export const diamondOrientationValues = ['horizontal', 'vertical'] as const;
-export const bandStoneShapeValues = ['baguette', 'round-brilliant'] as const;
 export const sizeValues = ['Large', 'Medium'] as const;
 export const bandWidthValues = [
   '0.01ct',
@@ -34,14 +33,14 @@ export const sideStoneShapeValues = [
   'trillion',
 ] as const;
 export const goldPurityValues = ['14k', '18k'] as const;
-export const bandAccentValues = ['double-pave', 'double-pave-twisted', 'pave', 'pave-twisted', 'plain'] as const;
-export const metalValues = ['platinum', 'rose-gold', 'sterling-silver', 'white-gold', 'yellow-gold'] as const;
-export const stoneSettingValues = ['full-bezel', 'semi-bezel'] as const;
-export const eternityStyleValues = ['full', 'half'] as const;
-export const bandStyleValues = ['full', 'half'] as const;
-export const diamondSizeValues = ['large', 'medium', 'original', 'petite'] as const;
-export const paveClusterValues = ['cushion', 'round'] as const;
-export const sideValues = ['left'] as const;
+export const bandAccentValues = ['plain', 'pave', 'double-pave', 'double-pave-twisted', 'pave-twisted'] as const;
+export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
+export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
+export const eternityStyleValues = ['half', 'full'] as const;
+export const bandStyleValues = ['half', 'full'] as const;
+export const diamondSizeValues = ['petite', 'original', 'medium', 'large'] as const;
+export const paveClusterValues = ['round', 'cushion'] as const;
+export const sideValues = ['left', 'right'] as const;
 
 export const standardDiamondTypeValues = [
   'round-brilliant',
@@ -98,6 +97,7 @@ export const mixedDiamondTypes = [
 ];
 
 export const diamondTypeValues = [...standardDiamondTypeValues, ...nonStandardDiamondTypes, ...mixedDiamondTypes];
+export const bandStoneShapeValues = diamondTypeValues;
 
 export const earringSizeValues = ['10mm', '12mm', '15mm', '18mm', 'One Size'] as const;
 export const caratWeightValues = [
