@@ -76,8 +76,6 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
     if (useImageOnly || mediaType === 'diamond-image') {
       const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
 
-      console.log(`spriteImageUrl`, spriteImageUrl);
-
       return <Image src={spriteImageUrl} alt={diamondType} width={0} height={0} sizes="100vw" />;
     }
 
