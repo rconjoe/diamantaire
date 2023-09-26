@@ -146,6 +146,19 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
           }
         }
       }
+      showHeroWithBanner
+      subcategoryFilter {
+        id
+        data {
+          title
+          image {
+            responsiveImage(imgixParams: {w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+          }
+          slug
+        }
+      }
       hero {
         title
         copy

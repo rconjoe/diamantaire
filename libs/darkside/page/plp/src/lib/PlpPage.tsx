@@ -1,5 +1,10 @@
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
-import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import {
+  PlpBlockPicker,
+  PlpHeroBanner,
+  PlpProductGrid,
+  PlpSubCategories,
+} from '@diamantaire/darkside/components/products/plp';
 import { PageViewTracker, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
@@ -40,7 +45,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const { plpSlug, category, initialFilterValues } = props;
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
-  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo } = plpData || {};
+  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter } =
+    plpData || {};
   const { seoTitle, seoDescription } = seo || {};
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, filterValue, {});
   const availableFilters = data?.pages[0]?.availableFilters;
@@ -99,7 +105,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       <NextSeo title={seoTitle} description={seoDescription} />
       <PageViewTracker listPageData={listPageData} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
-      <PlpHeroBanner data={hero} />
+      <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+      <PlpSubCategories subcategoryFilter={subcategoryFilter} />
       <PlpProductGrid
         data={data}
         plpTitle={hero?.title}

@@ -43,7 +43,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
-  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, sortOptions } = plpData || {};
+  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, sortOptions, showHeroWithBanner } = plpData || {};
 
   const { seoTitle, seoDescription } = seo || {};
 
@@ -69,7 +69,8 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
-      <PlpHeroBanner data={hero} />
+      <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+
       {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
       <PlpProductGrid
         data={data}
