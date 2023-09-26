@@ -10,6 +10,7 @@ interface AccordionProps {
     title: React.ReactNode;
     children: React.ReactNode;
     className: string;
+    withHeading?: boolean;
   }[];
 }
 
@@ -46,15 +47,22 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
       {rows.map((row, index) => {
         const isActive = activeIndex === index;
         const activeClass = isActive ? ' accordion-row-active' : '';
+        const { withHeading = true } = row;
 
         return (
           <div key={index} className={`accordion-row${activeClass} ${row.className}`}>
             <div className="accordion-header" onClick={() => toggleAccordion(index)}>
-              {(isDiamondDetail && (
-                <Heading type="h2" className="text">
-                  {row.title}
-                </Heading>
-              )) || <div className="text">{row.title}</div>}
+              {isDiamondDetail ? (
+                withHeading ? (
+                  <Heading type="h2" className="text">
+                    {row.title}
+                  </Heading>
+                ) : (
+                  <div className="text">{row.title}</div>
+                )
+              ) : (
+                <div className="text">{row.title}</div>
+              )}
               <div className="icon">{isActive ? '-' : '+'}</div>
             </div>
             <div className="accordion-body">

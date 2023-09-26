@@ -340,6 +340,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
       title: getCertificateTitle(),
       children: getCertificateContent(),
       className: 'certificate',
+      withHeading: false,
     },
   ];
 
