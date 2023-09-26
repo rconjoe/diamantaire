@@ -59,7 +59,7 @@ export function generateProductTree(
         if (excludeSingleValueOptions && allValues.length === 1) {
           console.log(`skipping config type: ${k} since it only has one possible value`);
 
-          return;
+          return undefined;
         }
 
         // if (!configuration[k]) {
@@ -109,7 +109,7 @@ function getNode(startNode: ProductNode, path: string[]) {
     if (!cNode?.children?.[segment]) {
       console.log('No node matches this path', path);
 
-      return;
+      return undefined;
     }
     cNode = cNode.children[segment];
   }
@@ -133,7 +133,7 @@ function getParent(rootNode: ProductNode, node: ProductNode) {
   if (!isRootNode(rootNode)) {
     console.log('start node provided must be a root node');
 
-    return;
+    return undefined;
   }
   const parentPath = getParentPath(node);
 
@@ -144,7 +144,7 @@ export function getSiblings(rootNode: ProductNode, node: ProductNode) {
   if (!isRootNode(rootNode)) {
     console.log('start node provided must be a root node');
 
-    return;
+    return undefined;
   }
   const parent = getParent(rootNode, node);
 
@@ -157,7 +157,7 @@ function replacePathSegment(path: string[], typePath: string[], [newType, newVal
   if (typeIndex < 0) {
     console.log('Could not find type in typePath');
 
-    return;
+    return undefined;
   }
   const newPath = [...path];
 
@@ -170,7 +170,7 @@ function getMatchingLeavesByConfigType(rootNode: ProductNode, leafNode: ProductN
   if (!isRootNode(rootNode) || !isLeafNode(leafNode)) {
     console.log('start node must be a root node and match node a leaf node');
 
-    return;
+    return undefined;
   }
   const typeIndex = leafNode.typePath.indexOf(matchType);
 
@@ -188,7 +188,7 @@ function getConfigOptionByType(rootNode: ProductNode, leafNode: ProductNode, mat
   if (!isRootNode(rootNode) || !isLeafNode(leafNode)) {
     console.log('start node must be a root node and match node a leaf node');
 
-    return;
+    return undefined;
   }
   const matchArray = getMatchingLeavesByConfigType(rootNode, leafNode, matchType);
 
@@ -211,13 +211,13 @@ function getConfigOptionByType(rootNode: ProductNode, leafNode: ProductNode, mat
     );
   }
 
-  return;
+  return undefined;
 }
 
 function getAllOptionSets(currentNode: ProductNode, options: Record<string, Set<string>> = {}) {
   const addOption = (type: string | undefined, value: string | undefined) => {
     if (!type || !value) {
-      return;
+      return undefined;
     }
     if (!options[type]) {
       options[type] = new Set([value]);
@@ -318,7 +318,7 @@ export function addMissingDiamondTypesToConfigs(productConfigs, product, collect
   const productNode = getNode(collectionTree, productPath);
 
   if (!productNode) {
-    return;
+    return undefined;
   }
 
   const missingDiamondTypes = allDiamondTypes.filter((dt) => !Object.keys(productConfigs.diamondType).includes(dt));
