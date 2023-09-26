@@ -17,7 +17,6 @@ import {
   generateProductTree,
   getProductConfigMatrix,
   ProductNode,
-  addMissingDiamondTypesToConfigs,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -1431,10 +1430,10 @@ export class ProductsService {
       const productConfigs = getProductConfigMatrix(product as any, collectionTree);
 
       // Ensure all diamond types are represented
-      const collectionOptions = await this.getCollectionOptions(collectionSlug);
-      const allDiamondTypes: string[] = collectionOptions['diamondType'];
+      // const collectionOptions = await this.getCollectionOptions(collectionSlug);
+      // const allDiamondTypes: string[] = collectionOptions['diamondType'];
 
-      addMissingDiamondTypesToConfigs(productConfigs, product, collectionTree, allDiamondTypes);
+      // addMissingDiamondTypesToConfigs(productConfigs, product, collectionTree, allDiamondTypes);
 
       this.utils.memSet(cacheKey, productConfigs, PRODUCT_DATA_TTL);
 

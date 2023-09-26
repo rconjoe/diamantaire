@@ -42,43 +42,38 @@ export const bandStyleValues = ['full', 'half'] as const;
 export const diamondSizeValues = ['large', 'medium', 'original', 'petite'] as const;
 export const paveClusterValues = ['cushion', 'round'] as const;
 export const sideValues = ['left'] as const;
-export const diamondTypeValues = [
-  'asscher',
-  'baguette',
-  'baguette+lozenge+hexagon+marquise+round-brilliant+half-moon',
-  'baguette+marquise',
-  'baguette+oval',
-  'baguette+trillion',
-  'cushion',
+
+export const standardDiamondTypeValues = [
+  'round-brilliant',
+  'oval',
   'emerald',
-  'emerald+marquise+round-brilliant+lozenge',
-  'emerald+pear',
+  'pear',
+  'radiant',
+  'cushion',
+  'marquise',
+  'trillion',
+  'asscher',
+  'princess',
+] as const;
+
+export const nonStandardDiamondTypes = [
+  'baguette',
   'half-moon',
   'hexagon',
-  'hexagon+lozenge+marquise',
   'keystone',
   'longHexagon',
   'lozenge',
-  'lozenge+half-moon+hexagon+baguette+round-brilliant+marquise',
-  'lozenge+round-brilliant',
-  'marquise',
-  'marquise+baguette',
-  'marquise+pear',
-  'marquise+round-brilliant',
-  'marquise+trillion',
-  'none',
   'octavia',
-  'oval',
+  'shield',
+];
+export const mixedDiamondTypes = [
   'oval+trillion',
-  'pear',
   'pear+emerald',
+  'hexagon+lozenge+marquise',
   'pear+round-brilliant',
   'pear+round-brilliant+baguette',
   'pear+round-brilliant+baguette+trillion+marquise',
   'pear+round-brilliant+emerald',
-  'princess',
-  'radiant',
-  'round-brilliant',
   'round-brilliant+baguette',
   'round-brilliant+baguette+marquise',
   'round-brilliant+emerald',
@@ -86,11 +81,24 @@ export const diamondTypeValues = [
   'round-brilliant+oval',
   'round-brilliant+pear',
   'round-brilliant+pear+marquise',
-  'shield',
-  'trillion',
   'trillion+half-moon+round-brilliant+marquise+baguette',
   'trillion+pear+marquise+half-moon+lozenge+kite+hexagon',
-] as const;
+  'lozenge+half-moon+hexagon+baguette+round-brilliant+marquise',
+  'lozenge+round-brilliant',
+  'marquise+baguette',
+  'marquise+pear',
+  'marquise+round-brilliant',
+  'marquise+trillion',
+  'baguette+lozenge+hexagon+marquise+round-brilliant+half-moon',
+  'baguette+marquise',
+  'baguette+oval',
+  'baguette+trillion',
+  'emerald+marquise+round-brilliant+lozenge',
+  'emerald+pear',
+];
+
+export const diamondTypeValues = [...standardDiamondTypeValues, ...nonStandardDiamondTypes, ...mixedDiamondTypes];
+
 export const earringSizeValues = ['10mm', '12mm', '15mm', '18mm', 'One Size'] as const;
 export const caratWeightValues = [
   '0.10ct',
