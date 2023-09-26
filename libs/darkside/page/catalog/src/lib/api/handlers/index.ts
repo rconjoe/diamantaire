@@ -16,6 +16,10 @@ export const collectionProductsHandler = async (req: NextApiRequest, res: NextAp
   await fetchVraiServerData('/v1/products/catalog', req.query, res);
 };
 
+export const collectionCollectionTreeHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await fetchVraiServerData(`/v1/products/collection/tree/${req.query.slug}`, {}, res);
+};
+
 async function fetchVraiServerData(
   url: string,
   query: Record<string, string | string[] | number> = {},

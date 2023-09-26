@@ -37,33 +37,43 @@ const StyledOptionList = styled.div`
   }
 `;
 
-const OptionsList = ({ selectedOptions, onOptionsChange, availableOptions }) => {
+interface OptionsListProps {
+  selectedOptions: Record<string, string>;
+  onOptionsChange: (type: string, value: string) => void;
+  availableOptions: Record<string, string[]>;
+}
+
+const OptionsList = ({ selectedOptions, onOptionsChange, availableOptions }: OptionsListProps) => {
+  console.log(selectedOptions, availableOptions);
+
   return (
     <StyledOptionList className="options-selector">
       <h3>Options:</h3>
       <div className="options-list">
-        {availableOptions.sort(sortOptionTypes).map((option) => {
-          return (
-            <div className="option-item" key={option._id}>
-              <h3>{option.type}</h3>
-              <div className="option-values">
-                {option.values.sort().map((value) => {
-                  const isOptionSelected = selectedOptions[option.type] === value;
+        {Object.entries(availableOptions)
+          .sort(sortOptionTypes)
+          .map(([type, values]: [string, string[]]) => {
+            return (
+              <div className="option-item" key={type}>
+                <h3>{type}</h3>
+                <div className="option-values">
+                  {values.sort().map((value) => {
+                    const isOptionSelected = selectedOptions[type] === value;
 
-                  return (
-                    <button
-                      className={clsx('option-value', { selected: isOptionSelected })}
-                      key={value}
-                      onClick={() => onOptionsChange(option.type, value)}
-                    >
-                      {value}
-                    </button>
-                  );
-                })}
+                    return (
+                      <button
+                        className={clsx('option-value', { selected: isOptionSelected })}
+                        key={value}
+                        onClick={() => onOptionsChange(type, value)}
+                      >
+                        {value}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </StyledOptionList>
   );

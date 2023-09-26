@@ -76,6 +76,35 @@ export class ProductVariantInput {
   readonly priceMax?: number;
 }
 
+export class ProductInput {
+  @ApiProperty({
+    example: 'three-stone',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Type(() => String)
+  readonly collectionSlug?: string;
+
+  @ApiProperty({
+    example: '16168879784002',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Type(() => String)
+  readonly productSlug?: string;
+
+  @ApiProperty({
+    example: 'en_US',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly locale?: string;
+}
+
 export class PlpInput {
   @ApiProperty({
     example: 'graduation-gifts-jewelry',
