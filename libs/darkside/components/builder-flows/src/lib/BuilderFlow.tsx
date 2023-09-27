@@ -325,8 +325,6 @@ const BuilderFlow = ({
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
-  console.log('temp');
-
   return (
     <BuilderFlowStyles>
       <FreezeBody />
