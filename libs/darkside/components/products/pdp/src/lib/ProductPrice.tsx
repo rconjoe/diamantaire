@@ -10,7 +10,14 @@ const ProductPriceStyles = styled.h2`
   margin-bottom: calc(var(--gutter) / 4);
 `;
 
-const ProductPrice = ({ shouldDoublePrice, price, hasMoreThanOneVariant, isBuilderProduct }) => {
+type ProductPriceProps = {
+  price: number;
+  shouldDoublePrice?: boolean;
+  hasMoreThanOneVariant: boolean;
+  isBuilderProduct: boolean;
+};
+
+const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant, isBuilderProduct }: ProductPriceProps) => {
   const router = useRouter();
   const { countryCode } = parseValidLocale(router.locale);
   const currencyCode = getCurrency(countryCode);
