@@ -71,7 +71,6 @@ const StyledOptionSelector = styled.div`
     &.diamondType {
       margin-top: 10px;
       position: relative;
-      margin-bottom: 8px;
       max-width: 78%;
 
       .swiper {
