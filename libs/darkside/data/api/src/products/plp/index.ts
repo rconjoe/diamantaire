@@ -272,6 +272,7 @@ type FetchCreativeBlocksProps = {
 };
 
 export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[]) {
+  if (!ids) return {};
   const datoData = (await queryDatoGQL({
     query: LIST_PAGE_CREATIVE_BLOCK_QUERY,
     variables: { locale, ids },
