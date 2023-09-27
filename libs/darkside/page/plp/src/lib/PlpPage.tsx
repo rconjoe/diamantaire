@@ -89,8 +89,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     }
   }
 
-  console.log('breadcrumb', breadcrumb);
-
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
@@ -98,15 +96,19 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     };
   });
 
-  console.log('refinedBreadcrumb', refinedBreadcrumb);
-
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
       <PageViewTracker listPageData={listPageData} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
-      <PlpSubCategories subcategoryFilter={subcategoryFilter} />
+      {subcategoryFilter?.length > 0 && (
+        <PlpSubCategories
+          subcategoryFilter={subcategoryFilter}
+          setFilterValues={setFilterValues}
+          filterValue={filterValue}
+        />
+      )}
       <PlpProductGrid
         data={data}
         plpTitle={hero?.title}

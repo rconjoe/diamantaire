@@ -15,3 +15,17 @@ export const JEWELRY_TYPES = [
   '/all-jewelry/marquise',
   '/all-jewelry/baguette',
 ];
+
+export const JEWELRY_SUB_CATEGORY_HUMAN_NAMES = {
+  eternity: 'Eternity',
+  anniversary: 'Anniversary',
+  tennis: 'Tennis',
+  statement: 'Statement',
+  stacking: 'Stacking',
+  chain: 'Chain',
+  pendant: 'Pendant',
+  hoop: 'Hoop',
+  'drop-dangle': 'Drop & Dangle',
+  'new-arrivals': 'New Arrivals',
+  stud: 'Stud',
+};

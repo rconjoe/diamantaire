@@ -40,7 +40,7 @@ type PlpDatoServersideProps = {
         };
         slug: string;
       }[];
-    };
+    }[];
     hero: {
       title: string;
       copy: string;
