@@ -101,6 +101,7 @@ export const pdpTypeTitleSingleToPluralHandleAsConst = {
   ['Necklace']: 'necklaces',
   ['Ring']: 'ring',
   ['Earring']: 'earrings',
+  ['Earrings']: 'earrings',
   ['Bracelet']: 'bracelets',
   ['Wedding Band']: 'wedding-bands',
 } as const;
