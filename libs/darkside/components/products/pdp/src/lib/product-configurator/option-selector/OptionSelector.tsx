@@ -72,6 +72,7 @@ const StyledOptionSelector = styled.div`
       margin-top: 10px;
       position: relative;
       max-width: 78%;
+      gap: 15px;
 
       .swiper {
         width: 100%;
@@ -103,9 +104,7 @@ const StyledOptionSelector = styled.div`
 
     &.space-between-items {
       max-width: 100%;
-      > * {
-        margin-right: 15px;
-      }
+      gap: 20px;
     }
   }
 `;
