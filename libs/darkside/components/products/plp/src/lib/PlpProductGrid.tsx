@@ -102,7 +102,7 @@ const PlpProductGrid = ({
   }, [cardCollection]);
 
   const gridRef = useRef<HTMLDivElement>(null);
-  const products = data.pages?.map((page) => page.products).flat() || [];
+  const products = data?.pages?.map((page) => page.products).flat() || [];
 
   // Prevents the grid from rendering if there are no products
   if (!products[0]) {

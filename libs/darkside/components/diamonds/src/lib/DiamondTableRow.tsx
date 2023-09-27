@@ -60,9 +60,8 @@ const DiamondTableRow = ({
   };
 
   const handleInitBuilderFlow = () => {
+    handleSelectDiamond();
     router.push(`/customize?lotId=${product.lotId}`);
-    updateUrlParameter('lotId', product.lotId);
-    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
   };
 
   const handlePurchase = () => {
