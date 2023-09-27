@@ -50,10 +50,12 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: Bread
               return null;
             }
 
+            const isLastItem = breadcrumb.length - 1 === index;
+
             return (
               <li key={item.path}>
-                <Link href={item?.path}>{item?.title?.trim()}</Link>
-                {breadcrumb.length - 1 !== index && <span>/</span>}
+                <Link href={isLastItem ? '#' : item?.path}>{item?.title?.trim()}</Link>
+                {!isLastItem && <span>/</span>}
               </li>
             );
           })}

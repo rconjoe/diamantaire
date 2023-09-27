@@ -83,12 +83,16 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     }
   }
 
+  console.log('breadcrumb', breadcrumb);
+
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
-      path: crumb.link.slug,
+      path: '/' + crumb.link.slug,
     };
   });
+
+  console.log('refinedBreadcrumb', refinedBreadcrumb);
 
   return (
     <div>
