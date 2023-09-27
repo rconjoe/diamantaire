@@ -109,25 +109,27 @@ export const AnalyticsProvider = ({ children }) => {
 export const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
   const normalizedConfiguration: Record<string, any> = {};
 
-  for (const [key, value] of Object.entries(configuration)) {
-    switch (key) {
-      case 'diamondType':
-        normalizedConfiguration.diamond_type = value;
-        break;
-      case 'goldPurity':
-        normalizedConfiguration.gold_purity = value;
-        break;
-      case 'caratWeight':
-        normalizedConfiguration.carat_weight = value;
-        break;
-      case 'bandAccent':
-        normalizedConfiguration.band_accent = value;
-        break;
-      default:
-        normalizedConfiguration[key] = value;
-        break;
+  if (configuration) {
+    for (const [key, value] of Object.entries(configuration)) {
+      switch (key) {
+        case 'diamondType':
+          normalizedConfiguration.diamond_type = value;
+          break;
+        case 'goldPurity':
+          normalizedConfiguration.gold_purity = value;
+          break;
+        case 'caratWeight':
+          normalizedConfiguration.carat_weight = value;
+          break;
+        case 'bandAccent':
+          normalizedConfiguration.band_accent = value;
+          break;
+        default:
+          normalizedConfiguration[key] = value;
+          break;
+      }
     }
-  }
 
-  return normalizedConfiguration;
+    return normalizedConfiguration;
+  }
 };
