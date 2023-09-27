@@ -24,4 +24,13 @@ export const getProducts = async (selectedSlug, selectedOptions) => {
   return response.data;
 };
 
+export const getCollectionTree = async (selectedSlug) => {
+  const qParams = new URLSearchParams({ slug: selectedSlug });
+  const reqUrl = `/collections/tree?${qParams.toString()}`;
+
+  const response = await queryClientApi().request({ url: reqUrl });
+
+  return response.data;
+};
+
 export * from './handlers/';

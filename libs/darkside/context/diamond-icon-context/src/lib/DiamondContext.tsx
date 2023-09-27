@@ -1,3 +1,5 @@
+// We should prob delete this
+
 import {
   AsscherIcon,
   BaguetteIcon,

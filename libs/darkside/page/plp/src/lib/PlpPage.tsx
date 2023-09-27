@@ -97,6 +97,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         creativeBlockIds={creativeBlockIds}
         setFilterValues={onFilterChange}
         filterValue={filterValue}
+        urlFilterMethod={'param'}
+        plpSlug={router.query.plpSlug as string}
       />
       <div ref={pageEndRef} />
       <PlpBlockPicker plpSlug={plpSlug} />

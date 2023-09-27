@@ -1,9 +1,17 @@
-import accountImage from '../../assets/account-icon.png';
-import BaseIcon from '../BaseIcon';
-import { IconType } from '../types';
-
-const AccountIcon = ({ alt, loading }: IconType) => {
-  return <BaseIcon image={accountImage} alt={alt} loading={loading} />;
+const AccountIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="21px" height="22px" viewBox="0 0 21 22" role="img">
+      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g transform="translate(-316.000000, -13.000000)" stroke="#000000">
+          <g transform="translate(317.000000, 14.000000)">
+            <g>
+              <path d="M13.4083252,11 C15.1619873,11.7471924 16.3103636,13.2299908 17.3465863,14.8896277 C18.382809,16.5492645 18.9339469,18.2527219 19,20 L0,20 C0.188275506,18.0909658 0.750979755,16.3875083 1.68811275,14.8896277 C2.62524574,13.391747 4.20469835,12.0952044 6.42647059,11 C7.02819824,11.4647217 7.91088867,12.162259 10,12.162259 C12.0891113,12.162259 13.4083252,11 13.4083252,11 Z M10,0 C12.7614237,0 15,2.23857625 15,5 C15,7.76142375 12.7614237,10 10,10 C7.23857625,10 5,7.76142375 5,5 C5,2.23857625 7.23857625,0 10,0 Z" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  );
 };
 
 export { AccountIcon };

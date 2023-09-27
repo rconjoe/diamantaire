@@ -1,5 +1,6 @@
 export * from './BezelIcon';
 export * from './CathedralIcon';
+export * from './FloralIcon';
 export * from './HaloIcon';
 export * from './HiddenHaloIcon';
 export * from './SolitaireIcon';
