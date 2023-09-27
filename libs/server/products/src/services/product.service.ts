@@ -842,16 +842,29 @@ export class ProductsService {
             return map;
           }, {});
 
+          const useLowestPrice = !product?.['collection']?.shouldUseDefaultPrice;
+          const hasOnlyOnePrice = product?.['collection']?.hasOnlyOnePrice;
+          const variants = {
+            [product.contentId]: this.createPlpProduct(product, content),
+            ...altConfigs,
+          };
+          const lowestPrice = Object.values(variants).reduce((minPrice, variant) => {
+            minPrice = Math.min(variant['price']);
+
+            return minPrice;
+          }, Infinity);
+
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
+            productLabel: content['collection'].productLabel,
+            ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+            ...(useLowestPrice && { useLowestPrice }),
+            ...(lowestPrice && { lowestPrice }),
             metal: Object.keys(metalOptions)
               .sort(getOptionValueSorterByType('metal'))
               .map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
-            variants: {
-              [product.contentId]: this.createPlpProduct(product, content),
-              ...altConfigs,
-            },
+            variants,
           });
 
           return plpItems;
