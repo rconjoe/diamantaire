@@ -233,7 +233,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               price={price}
               isEngraveable={shopifyProductData?.isEngraveable}
               isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
-              shouldDoublePrice={shouldDoublePrice}
               setShouldDoublePrice={setShouldDoublePrice}
             />
 

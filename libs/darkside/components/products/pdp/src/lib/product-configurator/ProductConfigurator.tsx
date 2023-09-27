@@ -55,6 +55,8 @@ type ProductConfiguratorProps = {
   price?: number;
   isEngraveable?: boolean;
   isSoldAsDouble?: boolean;
+  variantPrice?: number;
+  setShouldDoublePrice?: (value: boolean) => void;
 };
 
 function ProductConfigurator({
