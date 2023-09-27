@@ -70,6 +70,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       const hasPriceFilter = urlSearchParams.has('priceMin') || urlSearchParams.has('priceMax');
 
       const filterEvent = {
+        // eslint-disable-next-line camelcase
         list_id: hero?.title,
         filters: {
           ...filters,
