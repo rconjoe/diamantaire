@@ -79,7 +79,7 @@ export async function getVRAIServerDiamondPlpData(
 }
 
 export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
-  const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, isFetching, hasNextPage, error } = useInfiniteQuery(
     [`plp`, category, slug, JSON.stringify(filterOptions || {})],
     ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
     {
@@ -97,7 +97,7 @@ export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
     },
   );
 
-  return { data, fetchNextPage, isFetching, hasNextPage };
+  return { data, fetchNextPage, isFetching, hasNextPage, error };
 }
 
 export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {

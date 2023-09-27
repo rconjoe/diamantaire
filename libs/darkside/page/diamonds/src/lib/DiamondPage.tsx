@@ -244,7 +244,7 @@ async function getServerSideProps(
       locale,
       options,
       currencyCode,
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }
