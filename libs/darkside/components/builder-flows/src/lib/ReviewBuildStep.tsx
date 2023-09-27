@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato } from '@diamantaire/darkside/data/hooks';
@@ -9,6 +11,9 @@ import {
   PdpTypePlural,
   metalTypeAsConst,
   pdpTypeSingleToPluralAsConst,
+  getCurrency,
+  parseValidLocale,
+  getFormattedPrice,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -202,7 +207,7 @@ const ToastError = () => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
+const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductData, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
   const { addCustomizedItem, setIsCartOpen, checkout } = useContext(CartContext);
@@ -215,6 +220,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     valueLabel?: string;
     isSelected?: boolean;
   }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+  const { productAdded } = useAnalytics();
+
   const sizeOptions = configurations[sizeOptionKey];
 
   const { collectionSlug } = settingSlugs;
@@ -224,6 +231,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
   console.log('product', product);
 
   const router = useRouter();
+  const { countryCode } = parseValidLocale(router?.locale);
+  const currencyCode = getCurrency(countryCode);
 
   const mutatedLotId = getNumericalLotId(diamond?.lotId);
 
@@ -276,6 +285,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     configuredProductOptionsInOrder,
     // caratWeightOverride,
   } = product;
+  const { productTitle: shopifyProductTitle } = shopifyProductData;
 
   // Need the ring size
   function addCustomProductToCart() {
@@ -402,6 +412,71 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations }) => {
     ];
 
     // TODO: Add Sentry Loggin
+
+    const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
+    const formattedSettingPrice = getFormattedPrice(settingPrice, router?.locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamond?.price, router?.locale, true, true);
+    const id = settingProductId.split('/').pop();
+    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, router?.locale, true, true);
+
+    productAdded({
+      id,
+      // sku: 'F15',
+      category: pdpType,
+      name: settingProductTitle,
+      brand: 'VRAI',
+      variant: shopifyProductTitle,
+      // url: 'https://www.website.com/product/path',
+      image_url: src,
+      ...selectedConfiguration,
+      ecommerce: {
+        value: totalAmount,
+        currency: currencyCode,
+        add: {
+          products: [
+            {
+              id,
+              name: settingProductTitle,
+              price: formattedSettingPrice,
+              category: pdpType,
+              variant: shopifyProductTitle,
+              quantity: 1,
+              brand: 'VRAI',
+            },
+            {
+              id: diamond?.dangerousInternalShopifyVariantId,
+              name: diamond?.productTitle,
+              price: formattedDiamondPrice,
+              brand: 'VRAI',
+              category: diamond?.productType,
+              variant: diamond?.productTitle,
+              quantity: 1,
+            },
+          ],
+        },
+      },
+      items: [
+        {
+          item_id: id,
+          item_name: shopifyProductTitle,
+          item_brand: 'VRAI',
+          item_category: pdpType,
+          price: formattedSettingPrice,
+          currency: currencyCode,
+          quantity: 1,
+          ...selectedConfiguration,
+        },
+        {
+          item_id: diamond?.dangerousInternalShopifyVariantId,
+          item_name: diamond?.productTitle,
+          item_brand: 'VRAI',
+          item_category: diamond?.productType,
+          price: formattedDiamondPrice,
+          currency: currencyCode,
+          quantity: 1,
+        },
+      ],
+    });
 
     addCustomizedItem(items);
 

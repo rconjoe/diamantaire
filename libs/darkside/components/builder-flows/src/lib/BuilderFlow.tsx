@@ -397,7 +397,13 @@ const BuilderFlow = ({
           ) : currentStep === 2 ? (
             builderProduct.product &&
             builderProduct.diamond && (
-              <ReviewBuildStep settingSlugs={settingSlugs} type={type} configurations={configurations} />
+              <ReviewBuildStep
+                settingSlugs={settingSlugs}
+                type={type}
+                configurations={configurations}
+                shopifyProductData={shopifyProductData}
+                selectedConfiguration={selectedConfiguration}
+              />
             )
           ) : null
         ) : currentStep === 0 ? (
