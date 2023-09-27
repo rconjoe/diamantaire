@@ -64,6 +64,16 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.soldAsDouble {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      button {
+        flex: 1 1 50%;
+        height: 48px;
+      }
+    }
+
     &.diamondType {
       margin-top: 10px;
       position: relative;

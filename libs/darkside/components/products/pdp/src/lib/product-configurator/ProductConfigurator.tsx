@@ -11,8 +11,16 @@ import {
   getCurrency,
   DIAMOND_TYPE_HUMAN_NAMES,
   metalTypeAsConst,
+  DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
+  metalTypeAsConst,
+  parseValidLocale,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
+import {
+  extractMetalTypeFromShopifyHandle,
+  extractMetalTypeFromShopifyHandle,
+  makeCurrency,
+} from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
@@ -46,6 +54,7 @@ type ProductConfiguratorProps = {
   variantProductTitle?: string;
   price?: number;
   isEngraveable?: boolean;
+  isSoldAsDouble?: boolean;
 };
 
 function ProductConfigurator({
@@ -53,6 +62,7 @@ function ProductConfigurator({
   diamondId,
   selectedConfiguration,
   variantId,
+  variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
   updateFlowData,
@@ -66,6 +76,8 @@ function ProductConfigurator({
   variantProductTitle,
   price,
   isEngraveable = false,
+  isSoldAsDouble,
+  setShouldDoublePrice,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -78,9 +90,11 @@ function ProductConfigurator({
     sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
 
-  // Ring size is not being returned on the config
-  // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
+  // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
+
+  // Pair or single
+  const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -119,6 +133,35 @@ function ProductConfigurator({
   console.log('configurations', configurations);
   console.log('isEngravable', isEngraveable);
 
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrency(countryCode);
+
+  const pairSelector: OptionItemProps[] = [
+    {
+      id: 'pair',
+      value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+      valueLabel: 'Pair',
+      isSelected: selectedPair === 'pair',
+    },
+    {
+      id: 'single',
+      value: 'single - ' + makeCurrency(variantPrice, locale, currencyCode),
+      valueLabel: 'Single',
+      isSelected: selectedPair === 'single',
+    },
+  ];
+
+  const handlePairChange = useCallback((option: OptionItemProps) => {
+    console.log('pair option', option);
+    setSelectedPair(option.value as 'pair' | 'single');
+    if (option.value === 'pair') {
+      setShouldDoublePrice(true);
+    } else {
+      setShouldDoublePrice(false);
+    }
+  }, []);
+
   return (
     <>
       {!hasCaratWeightSelector && (
@@ -155,6 +198,16 @@ function ProductConfigurator({
               />
             )}
         </>
+      )}
+
+      {isSoldAsDouble && isConfigurationComplete && (
+        <OptionSelector
+          optionType={'soldAsDouble'}
+          label={'soldAsDouble'}
+          options={pairSelector}
+          selectedOptionValue={selectedPair}
+          onChange={handlePairChange}
+        />
       )}
 
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
@@ -419,6 +472,27 @@ function AddToCartButton({
       weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
       addItem(variantId, [...weddingBandAttributes]);
+    } else if (productType === 'Earrings') {
+      console.log('add earring');
+      // const metal = goldPurity
+      //   ? goldPurity + ' '
+      //   : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+
+      // let weddingBandAttributes = [
+      //   ...cartAttributesForAllItems,
+      //   {
+      //     key: 'metal',
+      //     value: metal,
+      //   },
+      //   {
+      //     key: 'bandWidth',
+      //     value: BAND_WIDTH_HUMAN_NAMES_MAP[selectedConfiguration.bandWidth]?.value,
+      //   },
+      // ];
+
+      // weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
+
+      // addItem(variantId, [...weddingBandAttributes]);
     }
     // Trigger cart to open
     setIsCartOpen(true);

@@ -26,7 +26,7 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -183,6 +183,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   console.log('shopifyProductData', shopifyProductData);
 
+  // Doubles price if product is earrings and
+
+  const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
+    additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
+  );
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
@@ -206,11 +212,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <ProductTitle title={productTitle} />
-            <ProductPrice isBuilderProduct={isBuilderProduct} price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
+            <ProductPrice
+              isBuilderProduct={isBuilderProduct}
+              price={price}
+              hasMoreThanOneVariant={hasMoreThanOneVariant}
+              shouldDoublePrice={shouldDoublePrice}
+            />
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={configuration}
               variantId={variantId}
+              variantPrice={price}
               additionalVariantData={additionalVariantData}
               isBuilderProduct={isBuilderProduct}
               hasMoreThanOneVariant={hasMoreThanOneVariant}
@@ -220,9 +232,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               variantProductTitle={shopifyProductData?.productTitle}
               price={price}
               isEngraveable={shopifyProductData?.isEngraveable}
+              isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
+              shouldDoublePrice={shouldDoublePrice}
+              setShouldDoublePrice={setShouldDoublePrice}
             />
 
-            <ProductKlarna title={productTitle} currentPrice={price} />
+            <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
             <Form
               title="Need more time to think?"
