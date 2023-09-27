@@ -160,6 +160,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }, []);
 
   const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
+  const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
 
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
@@ -167,9 +168,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       title: isProductJewelry ? 'Jewelry' : null,
       path: isProductJewelry ? '/jewelry' : null,
     },
+
     {
       title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
-      path: `/${isProductJewelry ? 'jewelry/' : ''}${
+      path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
         pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,
     },
