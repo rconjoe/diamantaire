@@ -49,12 +49,6 @@ const StyledOptionSelector = styled.div`
     padding: 0;
     margin: 0;
 
-    &.space-between-items {
-      > * {
-        margin-right: 15px;
-      }
-    }
-
     &.ringSize {
       align-items: center;
       margin-bottom: 20px;
@@ -78,7 +72,6 @@ const StyledOptionSelector = styled.div`
       margin-top: 10px;
       position: relative;
       margin-bottom: 8px;
-      height: 35px;
       max-width: 78%;
 
       .swiper {
@@ -106,6 +99,13 @@ const StyledOptionSelector = styled.div`
         right: -40px;
         top: 10px;
         background-color: transparent;
+      }
+    }
+
+    &.space-between-items {
+      max-width: 100%;
+      > * {
+        margin-right: 15px;
       }
     }
   }
