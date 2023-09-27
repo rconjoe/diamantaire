@@ -108,7 +108,6 @@ const PlpProductGrid = ({
   const gridRef = useRef<HTMLDivElement>(null);
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
-
   return (
     <PlpProductGridStyles ref={gridRef}>
       <PlpProductFilter
