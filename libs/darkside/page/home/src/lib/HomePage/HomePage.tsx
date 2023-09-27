@@ -17,7 +17,7 @@ export interface HomePageProps {
 
 const HomePage = (props: HomePageProps) => {
   const router = useRouter();
-  const { _t } = useTranslations({ locale: router.locale });
+  const { _t } = useTranslations(router.locale);
 
   const { data }: any = useStandardPage('darkside-home', router.locale);
 
@@ -28,7 +28,6 @@ const HomePage = (props: HomePageProps) => {
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
-      <span>{_t('chainLength')}</span>
       <StandardPageEntry
         gtmClass="mkt-is-homepage"
         page={page}

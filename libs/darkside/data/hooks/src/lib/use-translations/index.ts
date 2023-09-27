@@ -15,27 +15,28 @@ export function useTranslations(locale = 'en-US') {
 
   const { allHumanNamesMappers } = data || {};
 
-  const translations = allHumanNamesMappers.reduce((acc, { map }) => {
+  const translations = allHumanNamesMappers?.reduce((acc, { map }) => {
     map.forEach(({ key, value }) => (acc[key] = value));
 
     return acc;
   }, {});
 
   function _t(key: string, replacements?: (string | ReactNode)[]) {
+    if (!translations) {
+      return key;
+    }
     if (!replacements) {
-      if (!translations[key]) {
+      if (translations[key]) {
         return translations[key];
       } else {
-        console.warn('No translations found for key: ', key);
-
+        // console.warn('No translations found for key: ', key);\
         return key;
       }
     } else {
       const matches = key.match(replacementRegExp);
 
       if (matches.length !== replacements.length) {
-        console.warn('Number of replacements does not match number of placeholders');
-
+        // console.warn('Number of replacements does not match number of placeholders');
         return key;
       } else {
         const ouputArray: (string | ReactNode)[] = [];
