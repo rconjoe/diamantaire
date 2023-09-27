@@ -1,5 +1,5 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { useStandardPage, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -17,7 +17,6 @@ export interface HomePageProps {
 
 const HomePage = (props: HomePageProps) => {
   const router = useRouter();
-  const { _t } = useTranslations(router.locale);
 
   const { data }: any = useStandardPage('darkside-home', router.locale);
 
