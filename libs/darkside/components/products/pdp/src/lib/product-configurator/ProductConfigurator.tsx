@@ -9,6 +9,8 @@ import {
   metalTypeAsConst,
   parseValidLocale,
   getCurrency,
+  DIAMOND_TYPE_HUMAN_NAMES,
+  metalTypeAsConst,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
