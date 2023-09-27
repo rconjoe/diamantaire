@@ -62,40 +62,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const defaultProduct = diamondCtoData['diamond'];
 
-  const getDisplay = () => {
-    if (diamondCtoData['diamondColorUpgrade'] && diamondCtoData['diamondCutUpgrade']) {
-      const priceCut = diamondCtoData['diamondCutUpgrade']?.price;
-      const priceColor = diamondCtoData['diamondColorUpgrade']?.price;
-
-      if (priceColor && priceCut) {
-        if (priceColor > priceCut) {
-          return 'diamondColorUpgrade';
-        } else {
-          return 'diamondCutUpgrade';
-        }
-      }
-    }
-
-    if (diamondCtoData['diamondColorUpgrade'] && !diamondCtoData['diamondCutUpgrade']) {
-      const priceColor = diamondCtoData['diamondColorUpgrade']?.price;
-
-      if (priceColor > defaultProduct.price) {
-        return 'diamondColorUpgrade';
-      }
-    }
-
-    if (!diamondCtoData['diamondColorUpgrade'] && diamondCtoData['diamondCutUpgrade']) {
-      const priceCut = diamondCtoData['diamondCutUpgrade']?.price;
-
-      if (priceCut > defaultProduct.price) {
-        return 'diamondCutUpgrade';
-      }
-    }
-
-    return 'diamond';
-  };
-
-  const [display, setDisplay] = useState(getDisplay());
+  const [display, setDisplay] = useState('diamond');
 
   const [product, setProduct] = useState(defaultProduct);
 
@@ -120,20 +87,25 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const handleUpgradeClick = (type: string) => {
-    // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
-    // type: diamondCutUpgrade, diamondColorUpgrade
-
-    if (type === `diamondCutUpgrade`) {
-      if (display === `diamondCutUpgrade`) {
+    if (type === 'diamondCutUpgrade') {
+      if (display === 'diamondCutUpgrade') {
         setDisplay('diamond');
+      } else if (display === 'diamondColorUpgrade') {
+        setDisplay('diamondCutAndColorUpgrade');
+      } else if (display === 'diamondCutAndColorUpgrade') {
+        setDisplay('diamondColorUpgrade');
       } else {
         setDisplay('diamondCutUpgrade');
       }
     }
 
-    if (type === `diamondColorUpgrade`) {
-      if (display === `diamondColorUpgrade`) {
+    if (type === 'diamondColorUpgrade') {
+      if (display === 'diamondColorUpgrade') {
         setDisplay('diamond');
+      } else if (display === 'diamondCutUpgrade') {
+        setDisplay('diamondCutAndColorUpgrade');
+      } else if (display === 'diamondCutAndColorUpgrade') {
+        setDisplay('diamondCutUpgrade');
       } else {
         setDisplay('diamondColorUpgrade');
       }

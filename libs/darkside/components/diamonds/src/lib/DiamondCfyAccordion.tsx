@@ -58,13 +58,11 @@ const DiamondCfyAccordion = ({
     if (product && upgrade) {
       upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade.color]?.value || '';
 
-      if (display !== 'diamondColorUpgrade') {
-        upgradePrice = Math.abs(upgrade.price - product.price);
-        upgradePriceSymbol = upgrade.price > product.price ? '+' : '-';
-      } else {
-        upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-        upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
-      }
+      upgradeLabel += ` (${DIAMOND_COLOR_GROUP_TYPES[upgrade.color]?.value})`;
+
+      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+
+      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
       upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
     }
@@ -78,7 +76,7 @@ const DiamondCfyAccordion = ({
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondColorUpgrade'}
+                checked={display === 'diamondColorUpgrade' || display === 'diamondCutAndColorUpgrade'}
                 onChange={() => handleUpgradeClick('diamondColorUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
@@ -145,13 +143,9 @@ const DiamondCfyAccordion = ({
     if (product && upgrade) {
       upgradeLabel = upgrade.cut || '';
 
-      if (display !== 'diamondCutUpgrade') {
-        upgradePrice = Math.abs(upgrade.price - product.price);
-        upgradePriceSymbol = upgrade.price > product.price ? '+' : '-';
-      } else {
-        upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-        upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
-      }
+      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+
+      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
       upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
     }
@@ -165,7 +159,7 @@ const DiamondCfyAccordion = ({
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondCutUpgrade'}
+                checked={display === 'diamondCutUpgrade' || display === 'diamondCutAndColorUpgrade'}
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
@@ -190,7 +184,7 @@ const DiamondCfyAccordion = ({
 
     const data = diamondCtoData || {};
 
-    if (display !== 'diamondColorUpgrade' && data.diamondColorUpgrade) {
+    if (data.diamondColorUpgrade) {
       const index = accordionContent.findIndex((v) => v.type === 'color');
 
       if (data.diamondColorUpgrade.price > defaultProduct.price) {
@@ -198,7 +192,7 @@ const DiamondCfyAccordion = ({
       }
     }
 
-    if (display !== 'diamondCutUpgrade' && data.diamondCutUpgrade) {
+    if (data.diamondCutUpgrade) {
       const index = accordionContent.findIndex((v) => v.type === 'cut');
 
       if (data.diamondCutUpgrade.price > defaultProduct.price) {

@@ -153,6 +153,7 @@ export const fetchDiamondCtoData = async (options) => {
 
     return options;
   };
+
   const getDefaultCtoDiamond = (diamonds) => {
     const upgradeOptions = getAvailableOptions(diamonds);
 
@@ -166,33 +167,24 @@ export const fetchDiamondCtoData = async (options) => {
 
     return diamonds?.[0];
   };
+
   const getAvailableUpgrades = (diamonds, selectedDiamond) => {
     const { cut: selectedCut, color: selectedColor } = selectedDiamond;
 
     const colorUpgrade = diamonds.find((diamond) => diamond.cut === selectedCut && diamond.color !== selectedColor);
+
     const cutUgrade = diamonds.find((diamond) => diamond.color === selectedColor && diamond.cut !== selectedCut);
 
-    return {
+    const cutAndColorUpgrade = diamonds.find((diamond) => diamond.color !== selectedColor && diamond.cut !== selectedCut);
+
+    const result = {
+      diamond: selectedDiamond,
       diamondColorUpgrade: colorUpgrade,
       diamondCutUpgrade: cutUgrade,
+      diamondCutAndColorUpgrade: cutAndColorUpgrade,
     };
-  };
-  const getUpgradePrice = (diamonds) => {
-    const upgradePrices = {};
-    const defaultDiamond = getDefaultCtoDiamond(diamonds);
 
-    const availableUpgrades = getAvailableUpgrades(diamonds, defaultDiamond);
-    const getPrice = (diamond) => diamond?.price;
-
-    for (const upgradeType in availableUpgrades) {
-      const upgradeDiamond = availableUpgrades[upgradeType];
-
-      if (upgradeDiamond) {
-        upgradePrices[upgradeType] = getPrice(upgradeDiamond) - getPrice(defaultDiamond);
-      }
-    }
-
-    return upgradePrices;
+    return result;
   };
 
   const number = Number(options.carat);
@@ -204,10 +196,10 @@ export const fetchDiamondCtoData = async (options) => {
       page: 1,
       limit: 100,
       sortBy: 'carat',
-      sortOrder: 'asc',
+      sortOrder: 'desc',
       diamondType: options.diamondType,
-      caratMin: caratNumber.toFixed(1),
-      caratMax: (caratNumber + 0.5).toFixed(1),
+      caratMin: caratNumber,
+      caratMax: caratNumber * 1.001,
     };
 
     const ctoQueryOptions = {
@@ -233,22 +225,18 @@ export const fetchDiamondCtoData = async (options) => {
 
     const upgrades: { [key: string]: any } = {};
 
-    const { diamondColorUpgrade, diamondCutUpgrade } = diamondAvailableUpgrade || {};
-
-    const upgradedPrices = getUpgradePrice(diamonds);
-
-    if (diamondColorUpgrade !== undefined) {
-      upgrades['diamondColorUpgrade'] = {
-        ...diamondColorUpgrade,
-        priceUpgrade: upgradedPrices['diamondColorUpgrade'],
-      };
-    }
+    const { diamondColorUpgrade, diamondCutUpgrade, diamondCutAndColorUpgrade } = diamondAvailableUpgrade || {};
 
     if (diamondCutUpgrade !== undefined) {
-      upgrades['diamondCutUpgrade'] = {
-        ...diamondCutUpgrade,
-        priceUpgrade: upgradedPrices['diamondCutUpgrade'],
-      };
+      upgrades['diamondCutUpgrade'] = diamondCutUpgrade;
+    }
+
+    if (diamondColorUpgrade !== undefined) {
+      upgrades['diamondColorUpgrade'] = diamondColorUpgrade;
+    }
+
+    if (diamondCutAndColorUpgrade !== undefined) {
+      upgrades['diamondCutAndColorUpgrade'] = diamondCutAndColorUpgrade;
     }
 
     return {
