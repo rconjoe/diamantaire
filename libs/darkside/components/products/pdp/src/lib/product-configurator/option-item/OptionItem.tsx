@@ -240,9 +240,11 @@ export function BasicOptionItem({ value, isSelected, onClick }: OptionItemCompon
 
   // Band Width
 
-  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
+  const {
+    data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP, BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP } = {},
+  } = useHumanNameMapper(locale);
 
-  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || value;
+  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || BAND_STYLE_HUMAN_NAMES_MAP?.[value]?.value || value;
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>

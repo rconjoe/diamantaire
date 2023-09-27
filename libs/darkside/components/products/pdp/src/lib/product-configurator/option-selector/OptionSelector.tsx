@@ -120,6 +120,7 @@ function OptionSelector({
       CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
       BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
       BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
+      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
     } = {},
   } = useHumanNameMapper(locale);
 
@@ -164,6 +165,7 @@ function OptionSelector({
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_WIDTH_HUMAN_NAMES_MAP && BAND_WIDTH_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
+    (BAND_STYLE_HUMAN_NAMES_MAP && BAND_STYLE_HUMAN_NAMES_MAP?.[selectedOptionValue]?.value) ||
     selectedOptionValue;
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
