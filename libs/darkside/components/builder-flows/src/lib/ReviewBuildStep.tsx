@@ -429,6 +429,17 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       // url: 'https://www.website.com/product/path',
       image_url: src,
       ...selectedConfiguration,
+      // complete_your_ring
+      setting: settingProductTitle,
+      diamond_lot_Id: diamond?.lotId,
+      diamond_type: diamond?.diamondType,
+      carat: diamond?.carat,
+      gold_purity: goldPurity,
+      band_accent: bandAccent,
+      shape: diamond?.diamondType,
+      clarity: diamond?.clarity,
+      colour: diamond?.color,
+      centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
       ecommerce: {
         value: totalAmount,
         currency: currencyCode,
