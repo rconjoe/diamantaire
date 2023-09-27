@@ -426,6 +426,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductDat
       name: settingProductTitle,
       brand: 'VRAI',
       variant: shopifyProductTitle,
+      product: shopifyProductTitle,
       // url: 'https://www.website.com/product/path',
       image_url: src,
       ...selectedConfiguration,
