@@ -5,8 +5,6 @@ import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
-  ENGRAVEABLE_JEWELRY_SLUGS,
-  NON_ENGRAVEABLE_WEDDING_BAND_SLUGS,
   getFormattedPrice,
   metalTypeAsConst,
   parseValidLocale,
@@ -45,6 +43,7 @@ type ProductConfiguratorProps = {
   hasMultipleDiamondOrientations?: boolean;
   variantProductTitle?: string;
   price?: number;
+  isEngraveable?: boolean;
 };
 
 function ProductConfigurator({
@@ -64,6 +63,7 @@ function ProductConfigurator({
   hasMultipleDiamondOrientations,
   variantProductTitle,
   price,
+  isEngraveable = false,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -114,29 +114,8 @@ function ProductConfigurator({
     return configurations.caratWeight?.length > 1;
   }, [configurations]);
 
-  const { query } = useRouter();
-
-  const isEngravable = useMemo(() => {
-    const productType = additionalVariantData?.productType;
-
-    if (productType === 'Engagement Ring') {
-      return true;
-    } else if (productType === 'Wedding Band') {
-      if (NON_ENGRAVEABLE_WEDDING_BAND_SLUGS.includes(query.collectionSlug.toString())) {
-        return false;
-      } else {
-        return true;
-      }
-    } else if (productType === 'Necklace' || productType === 'Bracelet') {
-      if (ENGRAVEABLE_JEWELRY_SLUGS.includes(query.collectionSlug.toString())) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }, [additionalVariantData]);
-
   console.log('configurations', configurations);
+  console.log('isEngravable', isEngraveable);
 
   return (
     <>
@@ -178,7 +157,7 @@ function ProductConfigurator({
 
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
 
-      {isEngravable && isConfigurationComplete && !isBuilderFlowOpen && (
+      {isEngraveable && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
       )}
 
