@@ -207,7 +207,7 @@ const ToastError = () => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductData, selectedConfiguration }) => {
+const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
   const { addCustomizedItem, setIsCartOpen, checkout } = useContext(CartContext);
@@ -285,7 +285,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductDat
     configuredProductOptionsInOrder,
     // caratWeightOverride,
   } = product;
-  const { productTitle: shopifyProductTitle } = shopifyProductData;
 
   // Need the ring size
   function addCustomProductToCart() {
@@ -425,8 +424,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductDat
       category: pdpType,
       name: settingProductTitle,
       brand: 'VRAI',
-      variant: shopifyProductTitle,
-      product: shopifyProductTitle,
+      variant: variantProductTitle,
+      product: variantProductTitle,
       // url: 'https://www.website.com/product/path',
       image_url: src,
       ...selectedConfiguration,
@@ -440,7 +439,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductDat
               name: settingProductTitle,
               price: formattedSettingPrice,
               category: pdpType,
-              variant: shopifyProductTitle,
+              variant: variantProductTitle,
               quantity: 1,
               brand: 'VRAI',
             },
@@ -459,7 +458,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, shopifyProductDat
       items: [
         {
           item_id: id,
-          item_name: shopifyProductTitle,
+          item_name: variantProductTitle,
           item_brand: 'VRAI',
           item_category: pdpType,
           price: formattedSettingPrice,

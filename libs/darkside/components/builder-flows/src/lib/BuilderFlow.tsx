@@ -401,7 +401,7 @@ const BuilderFlow = ({
                 settingSlugs={settingSlugs}
                 type={type}
                 configurations={configurations}
-                shopifyProductData={shopifyProductData}
+                variantProductTitle={shopifyProductData?.productTitle}
                 selectedConfiguration={selectedConfiguration}
               />
             )
