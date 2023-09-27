@@ -52,7 +52,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultFoundTitle,
     ctoDiamondResultFinalSaleNote,
     ctoDiamondResultNote,
-    productIconList,
     ctoDiamondResultNeedItFaster,
     ctoDiamondResultShapeAndWeightTitle,
   } = diamondCfyData;
@@ -104,13 +103,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const formattedPrice = makeCurrency(price, locale, currencyCode);
 
-  const { items: productIconListItems } = productIconList;
-
-  const productIconListItem = productIconListItems?.[0] || {};
-
-  const { cutForYouShippingBusinessDays } = productIconListItem;
-
-  const formattedDate = getFormattedShipppingDate(locale, cutForYouShippingBusinessDays);
+  const formattedDate = getFormattedShipppingDate(locale);
 
   const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
@@ -400,12 +393,20 @@ function isValidForReturn(diamondType, caratWeight) {
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
 }
 
-function getFormattedShipppingDate(locale, days = 21) {
-  const currentDate = new Date();
+function getFormattedShipppingDate(locale) {
+  const result = new Date();
+  let days = 20;
 
-  currentDate.setDate(currentDate.getDate() + days);
+  while (days > 0) {
+    result.setDate(result.getDate() + 1); // Move to the next day
 
-  const formattedDate = currentDate.toLocaleDateString(locale, {
+    // Check if the current day is not a Saturday (6) or Sunday (0)
+    if (result.getDay() !== 6 && result.getDay() !== 0) {
+      days--; // Subtract a day if it's a business day
+    }
+  }
+
+  const formattedDate = result.toLocaleDateString(locale, {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
