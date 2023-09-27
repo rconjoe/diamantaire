@@ -105,7 +105,7 @@ const SettingBuildStep = ({
 
         <div className="info-container">
           <ProductTitle title={product.title} />
-          <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={product.price} />
+          <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={parseFloat(product.price)} />
           <ProductConfigurator
             configurations={configurations}
             selectedConfiguration={selectedConfiguration}
