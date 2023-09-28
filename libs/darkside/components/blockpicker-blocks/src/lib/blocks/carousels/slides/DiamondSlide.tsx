@@ -25,6 +25,7 @@ const DiamondSlide = ({ image, itemName, url }: DiamondSlideProps) => {
                 desktopImage: image,
                 title: itemName,
               })}
+              quality={70}
             />
           )}
         </UniLink>

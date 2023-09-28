@@ -1,6 +1,6 @@
 /** This is the default slide component. Useful for basic slides on mobile */
 
-import { MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
+import { Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType } from '@diamantaire/shared/types';
 import Link from 'next/link';
 
@@ -22,9 +22,11 @@ const StandardSlide = ({ desktopImage, mobileImage, title, link }: StandardSlide
         </Link>
       </div>
       <div className="slide__title">
-        <h3>
-          <Link href={link}>{title}</Link>
-        </h3>
+        <Link href={link}>
+          <Heading type="h3" className="secondary">
+            {title}
+          </Heading>
+        </Link>
       </div>
     </StandardSlideContainer>
   );

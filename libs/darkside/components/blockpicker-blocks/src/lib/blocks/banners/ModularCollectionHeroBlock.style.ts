@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, tabletAndUp, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, tabletAndUp, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularCollectionHeroBlockContainer = styled.div`
@@ -91,7 +91,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   .hero-block__title {
     font-family: futura-pt, sans-serif;
     font-style: initial;
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1;
     font-size: 4rem;
     text-align: center;
@@ -245,6 +245,13 @@ export const ModularCollectionHeroBlockContainer = styled.div`
       padding-left: 2rem;
       padding-right: 2rem;
       margin: 0;
+    }
+  }
+
+  .hero-block__image-wrapper {
+    img {
+      min-height: 710px;
+      ${media.medium`min-height: 576px;`}
     }
   }
 `;

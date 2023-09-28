@@ -610,4 +610,8 @@ export const SwiperStyles = styled.div`
     backface-visibility: hidden;
     overflow: hidden;
   }
+
+  .swiper-pagination-bullet-active {
+    background-color: #000;
+  }
 `;

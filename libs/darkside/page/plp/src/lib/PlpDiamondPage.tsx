@@ -69,6 +69,8 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         isFetching={isFetching}
         promoCardCollectionId={promoCardCollection?.id}
         creativeBlockIds={creativeBlockIds}
+        urlFilterMethod="param"
+        plpSlug={plpSlug}
       />
       {hasNextPage && (
         <DarksideButton type="outline" onClick={() => fetchNextPage()}>

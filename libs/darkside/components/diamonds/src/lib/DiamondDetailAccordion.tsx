@@ -1,7 +1,7 @@
 import { Accordion, CertificateThumb, Heading, Slider } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
 import { useContext } from 'react';
@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { StyledDiamondDetailAccordion } from './DiamondDetailAccordion.style';
 
 const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; locale?: string }) => {
+  const { _t } = useTranslations(locale);
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const { isMobile } = useContext(GlobalContext);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
@@ -58,7 +59,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             value={[carat]}
             disabled={true}
             handleFormat={(v) => handleFormat(v)}
-            tooltips={{ to: (v) => `${UIString({ children: 'Your diamond' })} ${v.toFixed(2)}ct` }}
+            tooltips={{ to: (v) => `${_t('Your diamond')} ${v.toFixed(2)}ct` }}
             pips={{
               mode: 'values',
               density: 100 / range[1],
@@ -112,9 +113,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{
-              to: () => UIString({ children: 'Your diamond' }) || '',
-            }}
+            tooltips={{ to: () => _t('Your diamond') }}
             pips={{
               mode: 'steps',
               density: 100 / cuts.length,
@@ -183,9 +182,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{
-              to: () => UIString({ children: 'Your diamond' }) || '',
-            }}
+            tooltips={{ to: () => _t('Your diamond') }}
             pips={{
               mode: 'steps',
               density: 100 / colors.length,
@@ -250,9 +247,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
             }}
             value={[index]}
             disabled={true}
-            tooltips={{
-              to: () => UIString({ children: 'Your diamond' }) || '',
-            }}
+            tooltips={{ to: () => _t('Your diamond') }}
             pips={{
               mode: 'steps',
               density: 100 / clarities.length,

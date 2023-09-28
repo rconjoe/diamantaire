@@ -99,8 +99,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         }
       }
     }
-    allHumanNamesMappers(first: "100") {
-      title
+    allHumanNamesMappers(locale: $locale, first: "100") {
       map {
         key
         value

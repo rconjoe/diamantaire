@@ -169,6 +169,8 @@ export const fetchDiamondCtoData = async (options) => {
   };
 
   const getAvailableUpgrades = (diamonds, selectedDiamond) => {
+    if (!selectedDiamond) return;
+
     const { cut: selectedCut, color: selectedColor } = selectedDiamond;
 
     const colorUpgrade = diamonds.find((diamond) => diamond.cut === selectedCut && diamond.color !== selectedColor);

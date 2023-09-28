@@ -59,7 +59,7 @@ const ProductsList = ({ products }) => {
           return (
             <div className="product-item" key={product._id}>
               <h2>
-                {product.collectionTitle} | {product.productTitle}
+                {product.collectionTitle} | {product.productTitle} | {product.productType}
               </h2>
               <p>
                 <strong className="price">Price:</strong>${product.price / 100}

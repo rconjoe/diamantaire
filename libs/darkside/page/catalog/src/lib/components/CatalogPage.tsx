@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import 'react-json-pretty/themes/monikai.css';
+import { CollectionTree } from './CollectionTree';
 import { OptionsList } from './OptionsList';
 import { ProductsList } from './ProductsList';
 import { SlugSelector } from './SlugSelector';
@@ -13,24 +14,14 @@ interface ProductTypeSlugsData {
   slugs: string[];
 }
 
-interface ProductConfigurationOption {
-  _id: string;
-  type: string;
-  values: string[];
-}
-
-interface CollectionsOptionsData {
-  collectionSlug?: string;
-  options: ProductConfigurationOption[];
-}
-
+type CollectionsOptionsData = Record<string, string[]>;
 interface DataType {
-  input: Record<string, unknown>;
+  input: Record<string, string>;
   collectionSlugs: ProductTypeSlugsData[];
   collectionOptions: CollectionsOptionsData;
 }
 
-interface CatelogPageProps {
+interface CatalogPageProps {
   title: string;
   data: DataType;
 }
@@ -56,6 +47,13 @@ const StyledCatalogPage = styled.div`
       background-color: purple;
       color: white;
     }
+  }
+
+  input {
+    border: 1px solid #888;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
   }
 
   .columns {
@@ -166,22 +164,21 @@ const StyledCatalogPage = styled.div`
   }
 `;
 
-const CatalogPage = ({ title, data }: CatelogPageProps) => {
-  const { collectionSlugs, collectionOptions } = data;
-  const { options } = collectionOptions;
+const CatalogPage = ({ title, data }: CatalogPageProps) => {
+  const { collectionSlugs, collectionOptions: options } = data;
   const [selectedSlug, setSelectedSlug] = useState<string>('');
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
-  const [availableOptions, setAvailableOptions] = useState<ProductConfigurationOption[]>(options);
+  const [availableOptions, setAvailableOptions] = useState<CollectionsOptionsData>(options);
+  const [isTreeVisible, setIsTreeVisible] = useState<boolean>(false);
   const [products, setProducts] = useState([]);
 
   const handleSlugSelection = async (slug: string) => {
     setSelectedSlug(slug);
     const newOptions = await getCollectionOptions(slug, {});
 
-    setAvailableOptions(newOptions.options);
+    setAvailableOptions(newOptions);
     setSelectedOptions({});
     setProducts([]);
-    console.log(newOptions.options, newOptions);
   };
 
   const handleOptionSelection = async (type, value) => {
@@ -201,7 +198,7 @@ const CatalogPage = ({ title, data }: CatelogPageProps) => {
     const newOptions = await getCollectionOptions(selectedSlug, newSelectedOptions);
     const newProducts = await getProducts(selectedSlug, newSelectedOptions);
 
-    setAvailableOptions(newOptions.options);
+    setAvailableOptions(newOptions);
     setProducts(newProducts);
   };
 
@@ -219,7 +216,12 @@ const CatalogPage = ({ title, data }: CatelogPageProps) => {
             onOptionsChange={handleOptionSelection}
             availableOptions={availableOptions}
           />
-          <ProductsList products={products} />
+          <div>
+            <button onClick={() => setIsTreeVisible(!isTreeVisible)}>
+              {isTreeVisible ? 'View Product List' : 'View Collection Tree'}
+            </button>
+          </div>
+          {isTreeVisible ? <CollectionTree collectionSlug={selectedSlug} /> : <ProductsList products={products} />}
         </div>
       </div>
     </StyledCatalogPage>

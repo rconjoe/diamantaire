@@ -39,7 +39,7 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__title {
-    margin: 5px 0;
+    margin: 5px 0 1px;
     .in-the-media & {
       font-weight: var(--font-weight-bold);
       text-transform: uppercase;
@@ -82,7 +82,7 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__copy {
-    margin: calc(var(--gutter) / 10) 0 calc(var(--gutter) / 5);
+    margin: 0 0 4px;
   }
 
   .image-tile__anchor {

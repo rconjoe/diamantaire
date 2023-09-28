@@ -51,18 +51,24 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   });
 
   const category = 'engagement-rings';
-  const plpSlug = settingTypeToShow + '-cut' || 'round-brilliant-cut';
+  const plpSlug = settingTypeToShow ? settingTypeToShow + '-cut' : 'round-brilliant-cut';
 
-  const [filterValue, setFilterValues] = useState<FilterValueProps>(null);
+  const [filterValue, setFilterValues] = useState<FilterValueProps>({});
 
   // Keep in case we're asked to add creative to PLP in this view
   // const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
   // const { hero, promoCardCollection, creativeBlocks } = plpData || {};
   // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, filterValue, { page: 1 });
+  const plpData = usePlpVRAIProducts(category, plpSlug, filterValue, { page: 1 });
+
+  console.log('plpData paramsss', category, plpSlug, filterValue);
+
+  const { data, fetchNextPage, isFetching, hasNextPage } = plpData;
 
   const availableFilters = data?.pages?.[0]?.availableFilters;
+
+  console.log('availableFilters', availableFilters);
 
   // Handle pagination
   useEffect(() => {
@@ -110,6 +116,8 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
             filterValue={filterValue}
             isSettingSelect={true}
             selectSetting={selectSetting}
+            plpSlug={plpSlug}
+            urlFilterMethod={'none'}
           />
         </div>
 

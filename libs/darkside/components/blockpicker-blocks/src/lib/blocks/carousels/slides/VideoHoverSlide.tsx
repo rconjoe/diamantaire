@@ -3,11 +3,8 @@ import { UniLink } from '@diamantaire/darkside/core';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-// import ReactPlayer from 'react-player';
 
 import { VideoSlideContainer } from './VideoHoverSlide.style';
-
-// TODO: Let's figure out the best way to load videos for this
 
 const ReactPlayer = dynamic(() => import('react-player'));
 
@@ -28,7 +25,7 @@ const VideoHoverSlide = (props) => {
           onBlur={() => setIsHovered(false)}
         >
           <div className="list-item__media">
-            <DatoImage image={image} overrideAlt={title} />
+            <DatoImage image={image} overrideAlt={title} quality={90} />
 
             {Boolean(hover) && !isMobile && (
               <div className="list-item__media--hover">

@@ -103,7 +103,9 @@ const ModularCollectionHeroBlock = (props: ModularCollectionHeroBlockProps) => {
           </ShowMobileOnly>
         </>
       ) : hasImage ? (
-        <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
+        <div className="hero-block__image-wrapper">
+          <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} quality={90} />
+        </div>
       ) : (
         ''
       )}

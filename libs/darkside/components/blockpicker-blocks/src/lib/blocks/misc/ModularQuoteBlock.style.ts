@@ -31,6 +31,11 @@ export const ModularQuoteBlockContainer = styled.div`
     text-align: center;
     margin-bottom: ${setSpace(2)};
 
+    img {
+      max-width: 40px;
+      margin: 0 auto;
+    }
+
     ${mobileOnly(`
       margin-bottom: ${setSpace(3)};
   `)}
@@ -49,7 +54,7 @@ export const ModularQuoteBlockContainer = styled.div`
     font-size: 2rem;
     font-family: ${(props) => (props.$textFont ? `${props.$textFont}, futura-pt, sans` : 'futura-pt, sans')};
     font-style: ${(props) => (props.$textStyle ? props.$textStyle : 'initial')};
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1.6;
     letter-spacing: 1px;
     color: ${(props) => props.$textColor};
@@ -63,5 +68,6 @@ export const ModularQuoteBlockContainer = styled.div`
     margin: ${setSpace(1)} 0;
     text-align: center;
     width: 100%;
+    font-weight: 400;
   }
 `;
