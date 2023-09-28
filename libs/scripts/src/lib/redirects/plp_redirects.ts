@@ -19,7 +19,7 @@ const DIAMOND_PLP_DATA_CONFIG_QUERY = `
 
 type PlpData = { slug: string; category: string; slugNew: string };
 type PlpResponse = { data: { allListPages: PlpData[] } };
-type RedirectData = { source: string; destination: string };
+// type RedirectData = { source: string; destination: string };
 
 type LocalRedirects = {
   [k: string]:
