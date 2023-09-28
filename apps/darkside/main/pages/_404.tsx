@@ -9,10 +9,7 @@ import { useRouter } from 'next/router';
 
 const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
-
-  const { pageSlug } = router.query;
-
-  const { data }: any = useStandardPage(pageSlug.toString(), router.locale);
+  const { data }: any = useStandardPage('error-page', router.locale);
   const page = data?.standardPage;
 
   const { seo } = page || {};
