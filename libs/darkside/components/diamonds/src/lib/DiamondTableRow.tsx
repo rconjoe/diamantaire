@@ -1,10 +1,10 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
+import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
-import { getCurrency, parseValidLocale, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
-import { diamondRoutePdp, diamondRouteAppointment } from '@diamantaire/shared/routes';
+import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
@@ -15,6 +15,7 @@ import DiamondtableRowAccordion from './DiamondTableRowAccordion';
 
 const DiamondTableRow = ({
   product,
+  locale,
   isBuilderFlowOpen = false,
 }: {
   product?: DiamondDataTypes;
@@ -31,7 +32,6 @@ const DiamondTableRow = ({
   const diamondExpertRoute = diamondRouteAppointment;
 
   const handleSelectDiamond = () => {
-    console.log(`handleSelectDiamond`, product);
     const { carat, color, clarity, cut, price } = product;
     const { locale } = router || {};
     const { countryCode } = parseValidLocale(locale) || {};
@@ -103,7 +103,7 @@ const DiamondTableRow = ({
             </DarksideButton>
           </div>
           <div className="row-accordion">
-            <DiamondtableRowAccordion product={product} />
+            <DiamondtableRowAccordion product={product} locale={locale} />
           </div>
         </div>
       </div>

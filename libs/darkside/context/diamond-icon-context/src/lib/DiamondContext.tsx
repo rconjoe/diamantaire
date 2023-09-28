@@ -3,21 +3,23 @@
 import {
   AsscherIcon,
   BaguetteIcon,
+  BezelIcon,
+  CathedralIcon,
   CushionIcon,
+  ElongatedCushionIcon,
   EmeraldIcon,
+  FloralIcon,
+  HaloIcon,
+  HiddenHaloIcon,
   MarquiseIcon,
   OvalIcon,
   PearIcon,
   PrincessIcon,
   RadiantIcon,
   RoundBrilliantIcon,
-  TrillionIcon,
-  BezelIcon,
-  CathedralIcon,
-  HaloIcon,
-  HiddenHaloIcon,
   SolitaireIcon,
   ThreeStoneIcon,
+  TrillionIcon,
   TwoToneIcon,
   VintageInspiredIcon,
 } from '@diamantaire/shared/icons';
@@ -116,6 +118,10 @@ export const DiamondShapesProvider = ({ children }: { children: React.ReactNode 
       title: 'Princess',
       icon: <PrincessIcon />,
     },
+    'elongated-cushion': {
+      title: 'Elongated Cushion',
+      icon: <ElongatedCushionIcon />,
+    },
     'half-moon': 'Half Moon',
     shield: 'Shield',
     octavia: 'Octavia',
@@ -167,6 +173,10 @@ export const DiamondShapesProvider = ({ children }: { children: React.ReactNode 
     'vintage-inspired': {
       title: 'Vintage Inspired',
       icon: <VintageInspiredIcon />,
+    },
+    floral: {
+      title: 'Floral',
+      icon: <FloralIcon />,
     },
   };
 

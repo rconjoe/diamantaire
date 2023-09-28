@@ -1,6 +1,7 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -122,7 +123,6 @@ const Header: FC<HeaderProps> = ({
       <FullHeaderStyles $isHome={isHome}>
         <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-
           {isHome ? (
             <>
               <StackedHeader
@@ -136,7 +136,6 @@ const Header: FC<HeaderProps> = ({
                 selectedLanguage={languagesByCode[selectedLanguageCode].name}
                 isLanguageSelectorOpen={isLanguageSelectorOpen}
               />
-
               <AnimatePresence>
                 <motion.div
                   key="slide-in-header"
@@ -172,18 +171,17 @@ const Header: FC<HeaderProps> = ({
               toggleCart={toggleCart}
             />
           )}
-
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
-
           {isLoaded && (
-            <MegaMenu
-              navItems={section}
-              megaMenuIndex={megaMenuIndex}
-              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-              isCompactMenuVisible={isCompactMenuVisible}
-            />
+            <DiamondShapesProvider>
+              <MegaMenu
+                navItems={section}
+                megaMenuIndex={megaMenuIndex}
+                headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                isCompactMenuVisible={isCompactMenuVisible}
+              />
+            </DiamondShapesProvider>
           )}
-
           {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
         </div>
       </FullHeaderStyles>

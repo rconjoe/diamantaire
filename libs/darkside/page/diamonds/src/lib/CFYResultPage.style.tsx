@@ -143,7 +143,7 @@ const StyledCFYResultPage = styled.div`
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xsmall);
       ${tabletAndUp(`
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-xsmall);
       `)};
     }
 

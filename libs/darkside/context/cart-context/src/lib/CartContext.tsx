@@ -110,7 +110,7 @@ export const CartProvider = ({ children }) => {
       cache: 'no-store',
     });
 
-    return reshapeCart(res?.body?.data?.cartCreate?.cart);
+    return reshapeCart(res.body.data.cartCreate.cart);
   }
 
   async function addToCart(

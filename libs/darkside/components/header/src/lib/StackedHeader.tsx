@@ -1,4 +1,5 @@
 import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
 import { LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
@@ -34,7 +35,9 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   isLanguageSelectorOpen,
 }): JSX.Element => {
   const router = useRouter();
+
   const selectedLocale = router.locale;
+
   const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
 
   const availableLanguages = countries[selectedCountryCode].languages;
@@ -52,16 +55,19 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
               </li>
               {availableLanguages.length > 1 && (
                 <>
-                  <li className="divider">/</li>
+                  <li className="divider">|</li>
                   <li>
                     <button className="language-selector" onClick={() => toggleLanguageSelector()}>
-                      {selectedLanguage}
+                      <UIString>{selectedLanguage && selectedLanguage.toLowerCase()}</UIString>
+                      <div className={'language-icon' + (isLanguageSelectorOpen ? ' active' : '')}>▼</div>
                     </button>
                     {isLanguageSelectorOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
                   </li>
                 </>
               )}
-              <li>Book an appointment</li>
+              <li>
+                <UIString>Book an appointment</UIString>
+              </li>
             </ul>
           </div>
 
@@ -77,6 +83,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
             <HeaderActionsNav toggleCart={toggleCart} />
           </div>
         </div>
+
         <div className="stacked-header__nav-wrapper stacked-bottom-level">
           <nav className="stacked-header__desktop-nav">
             <ul>

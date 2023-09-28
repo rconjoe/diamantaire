@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { FC, useState, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';
@@ -17,7 +17,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
   max-height: 100vh;
   overflow-y: auto;
   position: fixed;
-  padding-bottom: 140px;
+  padding-bottom: 14rem;
   top: ${(props) => props.$headerHeight + 'px'};
   left: 0;
   width: 100%;
@@ -32,7 +32,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
   nav {
     .mobile-top-level-links-container {
       margin: 0;
-      padding: 0 20px;
+      padding: 0 2rem;
       list-style: none;
 
       li {
@@ -40,11 +40,17 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
-          padding: 20px 0;
+          padding: 1rem 0;
           display: flex;
           width: 100%;
           align-items: center;
           font-family: ${MAIN_FONT};
+          text-transform: uppercase;
+          font-weight: var(--font-weight-bold);
+
+          &.open {
+            border-color: transparent;
+          }
 
           &:focus,
           &:active {
@@ -56,6 +62,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
             text-align: right;
             position: relative;
             top: 2px;
+
             svg {
               transition: 0.25s;
               width: 10px;
@@ -79,25 +86,24 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
   .mobile-submenu__container {
     .mobile-submenu__inner {
-      padding: 20px 10px;
+      padding: 1rem;
 
       .submenu__title {
         font-size: 14px;
-        margin: 0 0 20px;
+        margin: 0 0 1rem;
       }
 
       .submenu__list {
         list-style: none;
         padding: 0;
         margin: 0;
-        li {
-          margin-bottom: 10px;
 
-          &:last-child {
-            margin-bottom: 0px;
-          }
+        li {
           a {
+            display: block;
             font-size: 1.7rem;
+            margin-top: 1rem;
+
             &.has-icon {
               display: flex;
               align-items: center;
@@ -119,31 +125,29 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
               &.diamond {
                 top: 4px;
-                flex: 0 0 30px;
+                flex: 0 0 3rem;
                 svg {
-                  max-width: 28px;
-                  height: 28px;
+                  max-width: 2.8rem;
+                  height: 2.8rem;
                 }
               }
               &.ring-style {
-                flex: 0 0 60px;
-                margin-right: 10px;
-                top: 3px;
+                flex: 0 0 6rem;
+                margin-right: 1rem;
+                top: 0.3rem;
 
                 svg {
-                  max-width: 60px;
-                  height: 28px;
+                  max-width: 6rem;
+                  height: 2.8rem;
                 }
               }
             }
           }
 
           .grandchildren-links {
-            padding: 20px 20px 10px;
-            margin: 0;
+            padding: 0 2rem;
             list-style: none;
-            li {
-            }
+            margin: 0;
           }
         }
       }
