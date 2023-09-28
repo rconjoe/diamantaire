@@ -81,7 +81,7 @@ const LanguageSelector = ({ toggleLanguageSelector }: LanguageSelectorProps) => 
             <li key={languageCode} className={selectedLocale === locale ? 'active' : ''}>
               <button className="language-selector-sub" onClick={() => toggleLanguageSelector()}>
                 <Link href={router.asPath} locale={locale} scroll={false}>
-                  {name !== 'English' ? <UIString>{name}</UIString> : name}
+                  {name !== 'English' ? <UIString>{name && name.toLowerCase()}</UIString> : name}
                 </Link>
               </button>
             </li>

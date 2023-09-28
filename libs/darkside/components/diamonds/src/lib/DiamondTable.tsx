@@ -421,7 +421,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {isDiamondPairs ? (
                         <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} />
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
                       )}
                     </div>
                   )}

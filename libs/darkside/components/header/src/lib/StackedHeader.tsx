@@ -58,7 +58,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   <li className="divider">|</li>
                   <li>
                     <button className="language-selector" onClick={() => toggleLanguageSelector()}>
-                      <UIString>{selectedLanguage}</UIString>
+                      <UIString>{selectedLanguage && selectedLanguage.toLowerCase()}</UIString>
                       <div className={'language-icon' + (isLanguageSelectorOpen ? ' active' : '')}>▼</div>
                     </button>
                     {isLanguageSelectorOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
