@@ -85,6 +85,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         gdprOptInCopy
         gdprCtaCopy
         gdprCtaRoute
+        optInCopy
         phoneInputPlaceholder
       }
       copyright
