@@ -223,11 +223,15 @@ async function getServerSideProps(
 
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
 
+  const globalQuery = queries.template.global(locale);
+
   const diamondQuery = queries.diamonds.content(options);
 
   const diamondTableQuery = queries.diamondTable.content(locale);
 
   const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(globalQuery);
 
   await queryClient.prefetchQuery(diamondQuery);
 
@@ -244,7 +248,7 @@ async function getServerSideProps(
       locale,
       options,
       currencyCode,
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }

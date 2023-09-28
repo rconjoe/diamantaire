@@ -1,11 +1,11 @@
 import { setSpace, desktopAndUp, tabletAndUp, MAIN_FONT, makeTealLink } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const ModularShowroomBlockContainer = styled.div`
+export const ModularShowroomBlockStyles = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 1140px;
-  margin: 0;
+  margin: 0 auto;
   ${desktopAndUp(`
     flex-direction: row;
     justify-content: space-between;
@@ -35,12 +35,14 @@ export const ModularShowroomBlockContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: left;
+    padding: 20px;
 
     ${desktopAndUp(`
     display: flex;
     justify-content: flex-start;
     padding-right: ${setSpace(4)};
     margin: 0 ${setSpace(2)};
+    padding: 0;
   `)};
   }
   .showroom__text-inner-container {
@@ -98,14 +100,15 @@ export const ModularShowroomBlockContainer = styled.div`
   }
 
   .showroom__appt-cta-button button {
-    width: 100% !important;
     font-size: var(--font-size-xsmall) !important;
-    max-height: none;
     margin-top: ${setSpace(0.5)};
-    white-space: nowrap;
-    min-width: 250px;
-    ${desktopAndUp(`
-    width: 100% !important;
-  `)}
+    text-align: left;
+  }
+
+  p {
+    strong {
+      margin-bottom: 5px;
+      display: block;
+    }
   }
 `;

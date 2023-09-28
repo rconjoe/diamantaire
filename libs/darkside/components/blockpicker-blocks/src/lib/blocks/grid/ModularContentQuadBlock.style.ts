@@ -1,4 +1,4 @@
-import { setSpace, tabletAndUp, mobileOnly, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, mobileOnly, XXLDesktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const MINI_BANNER_IMAGE_WIDTH = '1180px';
@@ -77,6 +77,13 @@ export const ModularContentQuadBlockContainer = styled.div`
   .image-tile__container {
     margin: 0;
     padding: 0;
+    .button-style--underline {
+      button,
+      a {
+        font-size: 1.6rem;
+        ${media.medium`font-size: 1.8rem;`}
+      }
+    }
 
     ${mobileOnly(`
     &:nth-child(odd) {
@@ -89,7 +96,7 @@ export const ModularContentQuadBlockContainer = styled.div`
     &.-modular-content-quad-block {
       ${mobileOnly(
         `
-        margin: 0;
+        margin: 0 0 2rem;
       `,
       )}
     }

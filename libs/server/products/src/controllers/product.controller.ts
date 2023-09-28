@@ -6,11 +6,12 @@
  * @version 1.0
  */
 
+import { convertObjTreeToArray } from '@diamantaire/shared-product';
 import { Controller, Get, Query, Param } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { ProductVariantInput, PlpInput, ProductByVariantIdInput } from '../dto/product.input';
+import { ProductVariantInput, PlpInput, ProductByVariantIdInput, ProductInput } from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
 @ApiHeader({ name: 'x-api-key', required: true })
@@ -25,6 +26,54 @@ export class ProductController {
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
   async shopifyProduct(@Query() { id, slug, locale }: ProductVariantInput) {
     return await this.productService.findProductBySlug({ slug, id, locale });
+  }
+
+  @Get('options')
+  @ApiOperation({ summary: 'Get product configuration options' })
+  @ApiQuery({ name: 'collectionSlug', required: true, description: 'collection slug' })
+  @ApiQuery({ name: 'productSlug', required: true, description: 'Product slug' })
+  async getProductOptionConfigs(@Query() { collectionSlug, productSlug }: ProductInput) {
+    return await this.productService.getProductOptionConfigs(collectionSlug, productSlug);
+  }
+
+  @Get('catalog')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'slug', required: true, description: 'Filter products by option types and values' })
+  async findCatalogProducts(@Query() { slug, ...filterOptions }: { type: string; slug: string }) {
+    const products = await this.productService.findProductsFromCollectionByOptions(slug, filterOptions);
+
+    return products;
+  }
+
+  @Get('catalog/slugs')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'type', required: false, description: 'Filter by Product Type' })
+  async getCollectionSlugs(@Query() { type, slug, ...filterOptions }: { type: string; slug: string }) {
+    const collectionSlugs = await this.productService.getCollectionSlugs({ type });
+    const collectionOptions = await this.productService.getCollectionOptions(slug, filterOptions);
+
+    return {
+      collectionSlugs,
+      collectionOptions,
+    };
+  }
+
+  @Get('collection/tree/:slug')
+  @ApiOperation({ summary: 'Get collection data in a tree data structure' })
+  @ApiQuery({ name: 'slug', required: false, description: 'Filter by Product Type' })
+  async getCollectionTreeData(@Param() { slug }: { slug: string }) {
+    const collectionTree = await this.productService.getCollectionTreeStruct(slug);
+
+    return convertObjTreeToArray(collectionTree);
+  }
+
+  @Get('catalog/options')
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({ name: 'collectionSlug', required: true, description: 'Get allpossible configuration Options per collection' })
+  async getCollectionOptions(@Query() { slug, ...filterOptions }: { slug: string } & Record<string, string>) {
+    const collectionOptions = await this.productService.getCollectionOptions(slug, filterOptions);
+
+    return collectionOptions;
   }
 
   @Get('feed')

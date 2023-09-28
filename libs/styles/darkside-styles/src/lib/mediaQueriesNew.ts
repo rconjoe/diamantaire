@@ -28,11 +28,15 @@ export const media: SizeProps = (Object.keys(sizes) as Array<keyof typeof sizes>
   // changing their browsers font-size: https://zellwk.com/blog/media-query-units/
   const emSize = sizes[label] / 16;
 
-  accumulator[label] = (...args) => css`
-    @media (min-width: ${emSize}em) {
-      ${css(...args)};
-    }
-  `;
+  accumulator[label] = (...args) => {
+    const [first, ...remaining] = args;
+
+    return css`
+      @media (min-width: ${emSize}em) {
+        ${css(first, ...remaining)};
+      }
+    `;
+  };
 
   return accumulator;
 }, {});

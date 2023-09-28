@@ -21,7 +21,6 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
   .graph {
     display: block;
-    overflow: hidden;
     max-width: 500px;
     width: 100%;
     margin: 0 auto;
@@ -121,6 +120,11 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
     * {
       font-size: var(--font-size-xxxsmall);
+    }
+
+    .graph-price-info {
+      min-width: 8.5rem;
+      text-align: left;
     }
 
     .graph-price-info,

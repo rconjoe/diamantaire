@@ -1,9 +1,12 @@
-import searchIcon from '../../assets/search-icon.png';
-import BaseIcon from '../BaseIcon';
-import { IconType } from '../types';
-
-const SearchIcon = ({ alt, loading }: IconType) => {
-  return <BaseIcon image={searchIcon} alt={alt} loading={loading} />;
+const SearchIcon = () => {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M9.71302 8.81503C10.4681 7.86526 10.8827 6.66324 10.8827 5.44632C10.8827 2.44862 8.43967 0 5.43393 0C2.42824 0 0 2.44867 0 5.44632C0 8.44403 2.44299 10.8926 5.43393 10.8926C6.63322 10.8926 7.83253 10.4771 8.79497 9.72033L12.0672 13L13 12.065L9.71302 8.81503ZM5.43398 9.60156C3.16861 9.60156 1.31782 7.74654 1.31782 5.47601C1.31782 3.20547 3.16861 1.35045 5.43398 1.35045C7.69935 1.35045 9.55015 3.20547 9.55015 5.47601C9.55015 7.74654 7.69935 9.60156 5.43398 9.60156Z"
+        fill="black"
+      />
+    </svg>
+  );
 };
 
 export { SearchIcon };

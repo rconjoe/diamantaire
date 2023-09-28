@@ -13,6 +13,10 @@ import {
   ProductType,
   VraiProductData,
   ListPageItemWithConfigurationVariants,
+  getOptionValueSorterByType,
+  generateProductTree,
+  getProductConfigMatrix,
+  ProductNode,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -35,6 +39,7 @@ import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../in
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
+const PRODUCT_DATA_TTL = 3600;
 
 @Injectable()
 export class ProductsService {
@@ -203,19 +208,39 @@ export class ProductsService {
         const { productType } = requestedProduct;
 
         const allAvailableOptions = this.getAllAvailableOptions(collection);
+        const sortedAllAvailableOptions = Object.entries(allAvailableOptions).reduce((map, [type, values]) => {
+          map[type] = values.sort(getOptionValueSorterByType(type));
+
+          return map;
+        }, {});
+        const optionConfigs = this.getOptionsConfigurations(collection, requestedProduct);
+        const sortedOptionConfigs = Object.entries(optionConfigs).reduce((map, [type, values]) => {
+          const optionSorter = getOptionValueSorterByType(type);
+
+          map[type] = values.sort((objA, objB) => optionSorter(objA.value, objB.value));
+
+          return map;
+        }, {});
+
+        const canonicalVariant = findCanonivalVariant(collection, requestedProduct);
+        const reducedCanonicalVariant = {
+          productType: canonicalVariant.productType,
+          productSlug: canonicalVariant.productSlug,
+          collectionSlug: canonicalVariant.collectionSlug,
+        };
 
         const pdpProductData = {
           productType,
           ...requestedProduct,
-          allAvailableOptions,
-          optionConfigs: this.getOptionsConfigurations(collection, requestedProduct),
+          allAvailableOptions: sortedAllAvailableOptions,
+          optionConfigs: sortedOptionConfigs,
           collectionContent, // dato er collection content
           productContent, // dato er variant content
-          canonicalVariant: findCanonivalVariant(collection, requestedProduct),
+          canonicalVariant: reducedCanonicalVariant,
         };
 
-        //await this.cacheService.set(cachedKey, pdpProductData, 3600);
-        this.utils.memSet(cachedKey, pdpProductData, 3600);
+        //await this.cacheService.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
+        this.utils.memSet(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
 
         return pdpProductData;
       } else {
@@ -424,7 +449,7 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(ERPDP, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -449,7 +474,7 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(WEDDING_BAND_PDP, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -474,7 +499,7 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(JEWELRYPRODUCT, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -551,7 +576,7 @@ export class ProductsService {
           limit,
         });
 
-        this.utils.memSet(cachedKey, plpReturnData, 3600);
+        this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
 
         return plpReturnData;
       }
@@ -688,7 +713,7 @@ export class ProductsService {
           subStyles: availableSubStyles,
         };
 
-        this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);
+        this.utils.memSet(availableFiltersCacheKey, availableFilters, PRODUCT_DATA_TTL);
       }
 
       // Add product data to PLP data
@@ -820,7 +845,9 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            metal: Object.keys(metalOptions).map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
+            metal: Object.keys(metalOptions)
+              .sort(getOptionValueSorterByType('metal'))
+              .map((metalType) => ({ value: metalType, id: metalOptions[metalType] })),
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
               ...altConfigs,
@@ -851,7 +878,7 @@ export class ProductsService {
         paginator,
       };
 
-      this.utils.memSet(cachedKey, plpReturnData, 3600);
+      this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
 
       return plpReturnData;
     } catch (error: any) {
@@ -1044,7 +1071,7 @@ export class ProductsService {
           subStyles: availableSubStyles,
         };
 
-        this.utils.memSet(availableFiltersCacheKey, availableFilters, 3600);
+        this.utils.memSet(availableFiltersCacheKey, availableFilters, PRODUCT_DATA_TTL);
       }
 
       const paginator = {
@@ -1114,7 +1141,7 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -1141,7 +1168,7 @@ export class ProductsService {
         // });
         response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -1165,7 +1192,7 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(PLP_QUERY, queryVars); // dato engagement ring pdp query
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return response;
@@ -1216,13 +1243,226 @@ export class ProductsService {
       if (!response) {
         response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
         this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
-        this.utils.memSet(cachedKey, response, 3600); //set the response in memory
+        this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
       }
 
       return [...response.allConfigurations, ...response.allOmegaProducts];
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+    }
+  }
+
+  getCollectionSlugs(input: CatalogProductInput): any {
+    return this.getCollectionSlugsByType(input.type);
+  }
+
+  async getCollectionSlugsByType(
+    type: string,
+  ): Promise<{ _id: string; productType: string; collectionSlugs: string[] }[] | any> {
+    const pipeline = [
+      type && {
+        $match: { productType: type },
+      },
+      {
+        $group: {
+          _id: '$productType',
+          slugs: { $addToSet: '$collectionSlug' },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          productType: '$_id',
+          slugs: 1,
+        },
+      },
+    ];
+
+    try {
+      const slugs = await this.productRepository.aggregate(pipeline.filter(Boolean));
+
+      return slugs;
+    } catch (e) {
+      this.logger.error(`Error retrieving collection slugs for product type: ${type}`, e);
+
+      return {
+        pipeline,
+      };
+    }
+  }
+
+  async getCollectionOptions(
+    collectionSlug: string,
+    filterOptions?: Record<string, string>,
+  ): Promise<Record<string, string[] | any>> {
+    this.logger.debug(`Getting collection options for collection: ${collectionSlug}`);
+    const matchQueries: Record<string, string>[] = [{ collectionSlug }];
+
+    const cacheKey = `collection-options-${collectionSlug}-with-options:${JSON.stringify(filterOptions)}`;
+    const cachedData = await this.utils.memGet(cacheKey);
+
+    if (cachedData) {
+      this.logger.debug(`Cache hit for collection options: ${cacheKey}`);
+
+      return cachedData;
+    }
+
+    if (filterOptions) {
+      Object.entries(filterOptions).forEach(([k, v]) => {
+        matchQueries.push({ [`configuration.${k}`]: v });
+      });
+    }
+
+    const pipeline = [
+      collectionSlug && {
+        $match: { $and: matchQueries },
+      },
+      {
+        $project: {
+          arrayofkeyvalue: { $objectToArray: '$$ROOT.configuration' },
+        },
+      },
+      {
+        $unwind: '$arrayofkeyvalue',
+      },
+      {
+        $group: {
+          _id: null,
+          allOptions: { $addToSet: '$arrayofkeyvalue' },
+        },
+      },
+      {
+        $unwind: '$allOptions',
+      },
+      {
+        $group: {
+          _id: '$allOptions.k',
+          values: { $push: '$allOptions.v' },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          type: '$_id',
+          values: 1,
+        },
+      },
+    ];
+
+    try {
+      const optionsResults = await this.productRepository.aggregate(pipeline.filter(Boolean));
+
+      // console.log('optionsResults', optionsResults);
+      const options = optionsResults.reduce((acc, option) => {
+        const { type } = option;
+        const sortFn = getOptionValueSorterByType(type);
+
+        acc[type] = option.values.sort(sortFn);
+
+        return acc;
+      }, {});
+
+      this.utils.memSet(cacheKey, options, PRODUCT_DATA_TTL);
+
+      return options;
+    } catch (e) {
+      this.logger.error(`Error retrieving collection options for collection slugs: ${collectionSlug}`, e);
+
+      throw new InternalServerErrorException(
+        `Error retrieving collection options for collection slugs: ${collectionSlug}`,
+        e,
+      );
+    }
+  }
+
+  async findProductsFromCollectionByOptions(collectionSlug: string, configurationOptions?: Record<string, string>) {
+    this.logger.debug(
+      `Getting products from collection: ${collectionSlug} with options ${JSON.stringify(configurationOptions)}`,
+    );
+    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
+
+    Object.entries(configurationOptions || {}).forEach(([k, v]) => {
+      matchQueries.push({ [`configuration.${k}`]: v });
+    });
+
+    const queries = { $and: matchQueries.filter(Boolean) };
+
+    try {
+      const slugs = await this.productRepository.find(queries);
+
+      return slugs;
+    } catch (e) {
+      this.logger.error(`Error retrieving products from collection: ${collectionSlug}`, e);
+    }
+  }
+
+  async findProduct(collectionSlug: string, productSlug: string) {
+    this.logger.debug(`Getting product from collection: ${collectionSlug} with slug ${productSlug}`);
+
+    try {
+      const product = await this.productRepository.findOne<VraiProduct>({ collectionSlug, productSlug });
+
+      return product;
+    } catch (e) {
+      this.logger.error(`Error retrieving product from collection: ${collectionSlug} with slug ${productSlug}`, e);
+    }
+  }
+
+  async getCollectionTreeStruct(collectionSlug: string): Promise<ProductNode> {
+    this.logger.debug(`Get tree structure for collection: ${collectionSlug}`);
+    const cachKey = `collection-tree-${collectionSlug}`;
+    const cachedData = await this.utils.memGet<ProductNode>(cachKey);
+
+    if (cachedData) {
+      this.logger.debug(`Cache hit for collection: ${collectionSlug}`);
+
+      return cachedData;
+    }
+
+    try {
+      const collectionProducts = await this.productRepository.find({ collectionSlug });
+      const collectionOptions = await this.getCollectionOptions(collectionSlug);
+      const collectionTree = generateProductTree(collectionProducts, collectionOptions);
+
+      this.utils.memSet(cachKey, collectionTree, PRODUCT_DATA_TTL);
+
+      return collectionTree;
+    } catch (e) {
+      this.logger.error(`Error retrieving tree structure for collection: ${collectionSlug}`, e);
+      throw new InternalServerErrorException(`Error retrieving tree structure for collection: ${collectionSlug}`, e);
+    }
+  }
+
+  async getProductOptionConfigs(collectionSlug: string, productSlug: string) {
+    this.logger.debug(`Get option configs for collection: ${collectionSlug} : ${productSlug}`);
+    const cacheKey = `collection-option-configs-${collectionSlug}-${productSlug}`;
+    const cachedData = await this.utils.memGet(cacheKey);
+
+    if (cachedData) {
+      this.logger.debug(`Cache hit for collection option configs: ${cacheKey}`);
+
+      return cachedData;
+    }
+
+    try {
+      const collectionTree = await this.getCollectionTreeStruct(collectionSlug);
+      const product = await this.findProduct(collectionSlug, productSlug);
+
+      const productConfigs = getProductConfigMatrix(product as any, collectionTree);
+
+      // Ensure all diamond types are represented
+      // const collectionOptions = await this.getCollectionOptions(collectionSlug);
+      // const allDiamondTypes: string[] = collectionOptions['diamondType'];
+
+      // addMissingDiamondTypesToConfigs(productConfigs, product, collectionTree, allDiamondTypes);
+
+      this.utils.memSet(cacheKey, productConfigs, PRODUCT_DATA_TTL);
+
+      return productConfigs;
+    } catch (e) {
+      this.logger.error(`Error retrieving option configs for collection: ${collectionSlug}`, e);
+      throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
   }
 }
@@ -1235,4 +1475,8 @@ function getDatoRequestLocale(locale = 'en_US'): string {
   } else {
     return language;
   }
+}
+
+interface CatalogProductInput {
+  type: string;
 }

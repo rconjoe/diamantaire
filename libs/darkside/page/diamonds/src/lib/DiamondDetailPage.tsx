@@ -47,9 +47,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
       <StyledDiamondDetailPage className="container-wrapper">
         <div className="page-title">
-          <Heading type="h2" className="title">
-            {title}
-          </Heading>
+          <Heading className="title">{title}</Heading>
         </div>
 
         <div className="page-main">

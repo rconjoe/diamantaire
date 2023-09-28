@@ -115,7 +115,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight, toggleCar
                   <Hamburger label="Toggle mobile menu" toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={18} />
                 </li>
                 <li className="calendar">
-                  <EmptyCalendarIcon alt="Book an appointment" loading="eager" />
+                  <EmptyCalendarIcon />
                 </li>
               </ul>
             </nav>

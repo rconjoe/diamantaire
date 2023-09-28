@@ -323,7 +323,7 @@ const BuilderFlow = ({
     };
   }, [builderProduct, settingSlugs]);
 
-  const variantId = shopifyProductData?.variants?.[0]?.shopifyVariantId;
+  const variantId = shopifyProductData?.shopifyVariantId;
 
   return (
     <BuilderFlowStyles>

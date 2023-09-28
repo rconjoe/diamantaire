@@ -1,6 +1,8 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
+  DIAMOND_TYPE_HUMAN_NAMES,
   ENGRAVEABLE_JEWELRY_SLUGS,
   NON_ENGRAVEABLE_WEDDING_BAND_SLUGS,
   metalTypeAsConst,
@@ -35,6 +37,7 @@ type ProductConfiguratorProps = {
     name: string;
   }[];
   defaultRingSize?: string;
+  hasMultipleDiamondOrientations?: boolean;
 };
 
 function ProductConfigurator({
@@ -51,22 +54,22 @@ function ProductConfigurator({
   hasMoreThanOneVariant = true,
   extraOptions,
   defaultRingSize,
+  hasMultipleDiamondOrientations,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
+  const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
 
-  const [selectedVariantId, setSelectVariantId] = useState<string>(variantId);
+  console.log('init id', sizeOptions.find((option) => option.value === defaultRingSize)?.id);
+
+  const [selectedVariantId, setSelectVariantId] = useState<string>(
+    sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
+  );
 
   // Ring size is not being returned on the config
   // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
-
-  const sizeOptions = configurations[sizeOptionKey];
-
-  console.log('selectedConfiguration', selectedConfiguration);
-  console.log('configurations', configurations);
-  console.log('selectedSize', selectedSize);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -142,6 +145,7 @@ function ProductConfigurator({
             isBuilderFlowOpen={isBuilderFlowOpen}
             updateSettingSlugs={updateSettingSlugs}
             disableVariantType={disableVariantType}
+            hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
           />
 
           {sizeOptions &&
@@ -226,10 +230,11 @@ function AddToCartButton({
   const { addItem, setIsCartOpen } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
 
-  console.log('selectedConfiguration', selectedConfiguration);
+  const { locale } = useRouter();
+  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
 
   const {
-    // metal,
+    metal: variantMetal,
     chainLength,
     // ringSize,
     carat,
@@ -278,7 +283,9 @@ function AddToCartButton({
     ];
 
     if (productType === 'Engagement Ring') {
-      const erMetal = goldPurity + ' ' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+      const erMetal = goldPurity
+        ? goldPurity + ' '
+        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
       const refinedBandAccent = bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1);
 
       const engagementRingItemAttributes = [
@@ -310,7 +317,7 @@ function AddToCartButton({
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: selectedConfiguration.diamondType,
+          value: shape,
         },
         {
           key: 'caratWeight',
@@ -326,18 +333,15 @@ function AddToCartButton({
 
       addItem(variantId, [...necklaceAttributes]);
     } else if (productType === 'Bracelet') {
-      const metal = goldPurity
-        ? goldPurity + ' '
-        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)];
       let braceletAttributes = [
         ...cartAttributesForAllItems,
         {
           key: 'diamondShape',
-          value: selectedConfiguration.diamondShape,
+          value: selectedConfiguration.diamondShape || DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
         },
         {
           key: 'metal',
-          value: metal,
+          value: variantMetal,
         },
         {
           key: 'chainLength',
@@ -348,12 +352,30 @@ function AddToCartButton({
       braceletAttributes = elminateEmptyValues(braceletAttributes);
 
       addItem(variantId, [...braceletAttributes]);
+    } else if (productType === 'Wedding Band') {
+      const metal = goldPurity
+        ? goldPurity + ' '
+        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+
+      let weddingBandAttributes = [
+        ...cartAttributesForAllItems,
+        {
+          key: 'metal',
+          value: metal,
+        },
+        {
+          key: 'bandWidth',
+          value: BAND_WIDTH_HUMAN_NAMES_MAP[selectedConfiguration.bandWidth]?.value,
+        },
+      ];
+
+      weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
+
+      addItem(variantId, [...weddingBandAttributes]);
     }
     // Trigger cart to open
     setIsCartOpen(true);
   }
-
-  console.log('proxxx', configuredProductOptionsInOrder);
 
   return (
     <AddToCartButtonContainer>

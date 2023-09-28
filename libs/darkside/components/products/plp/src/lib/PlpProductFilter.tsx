@@ -1,6 +1,12 @@
 import { Slider } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METAL_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TYPE_HUMAN_NAMES,
+  FACETED_NAV_ORDER,
+  METAL_HUMAN_NAMES,
+  RING_STYLES_MAP,
+  ringStylesWithIconMap,
+} from '@diamantaire/shared/constants';
 import { makeCurrency, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -14,16 +20,17 @@ const PlpProductFilter = ({
   availableFilters,
   filterValue,
   setFilterValues,
-  isParamBased,
+  urlFilterMethod,
+  plpSlug,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
   filterValue: FilterValueProps;
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
-  isParamBased: boolean;
+  plpSlug: string;
+  urlFilterMethod: 'facet' | 'param' | 'none';
 }) => {
   const router = useRouter();
-  const [plpSlug] = router.query.plpSlug;
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
 
@@ -78,7 +85,7 @@ const PlpProductFilter = ({
 
     if (filterType !== 'price') {
       // Update the browser URL
-      if (!isParamBased) {
+      if (urlFilterMethod === 'param') {
         // Build the new URL path based on the filter values
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
@@ -102,7 +109,7 @@ const PlpProductFilter = ({
           undefined,
           { shallow: true },
         );
-      } else {
+      } else if (urlFilterMethod === 'facet') {
         // Param Filter Behavior
         const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]])
           .filter(([key, v]) => v !== null && key in newFilters)
@@ -128,9 +135,13 @@ const PlpProductFilter = ({
             ...sortedQParams,
           },
         });
+      } else {
+        // No URL update
       }
     } else {
-      handleSliderURLUpdate(value.min, value.max);
+      if (urlFilterMethod !== 'none') {
+        handleSliderURLUpdate(value.min, value.max);
+      }
     }
 
     setFilterValues(newFilters);
@@ -301,6 +312,29 @@ const PlpProductFilter = ({
                 </div>
               )}
 
+              {filterOptionSetOpen === 'styles' && (
+                <div className="filter-option-set styles ">
+                  <ul className="list-unstyled flex">
+                    {filterTypes['styles']?.map((ringStyle) => {
+                      const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
+
+                      if (ringStyle.includes('+')) return null;
+
+                      return (
+                        <li key={`filter-${ringStyle}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('style', ringStyle)}>
+                            <span className="setting-icon">
+                              <Icon />
+                            </span>
+                            <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
               <div className="active-filters">
                 <ul className="list-unstyled flex">
                   {filterValue &&
@@ -308,10 +342,14 @@ const PlpProductFilter = ({
                       const isMetal = filterType === 'metal';
                       const isDiamondType = filterType === 'diamondType';
                       const isPrice = filterType === 'price';
+                      const isStyle = filterType === 'style';
+
                       const text = isMetal
                         ? METAL_HUMAN_NAMES[filterValue[filterType]]
                         : isDiamondType
                         ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
+                        : isStyle
+                        ? RING_STYLES_MAP[filterValue[filterType]]
                         : filterType;
 
                       if (filterValue[filterType] === null) return null;

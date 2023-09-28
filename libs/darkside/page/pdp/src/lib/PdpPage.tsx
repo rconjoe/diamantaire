@@ -136,7 +136,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     diamondDescription,
     productType: shopifyProductData.productType,
   };
-  const variantId = shopifyProductData?.variants[0]?.shopifyVariantId;
+  const variantId = shopifyProductData?.shopifyVariantId;
 
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;
@@ -179,6 +179,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               hasMoreThanOneVariant={hasMoreThanOneVariant}
               extraOptions={extraOptions}
               defaultRingSize={shopifyProductData?.defaultRingSize}
+              hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
