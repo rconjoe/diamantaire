@@ -58,7 +58,12 @@
     "@upstash/qstash": "^2.0.0",
     "@upstash/ratelimit": "^0.4.3",
     "@upstash/redis": "^1.21.0",
+<<<<<<< HEAD
     "@use-cookie-consent/react": "^0.3.7",
+=======
+    "@vercel/edge-config": "0.4.1",
+    "@vercel/kv": "0.2.3",
+>>>>>>> f6ad36fe (feat(kv redirects): getting redirect data from vercel kv)
     "apollo-server-express": "^3.11.1",
     "axios": "^1.2.4",
     "babel-plugin-styled-components": "^2.1.4",

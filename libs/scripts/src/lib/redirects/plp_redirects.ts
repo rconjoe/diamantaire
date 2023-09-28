@@ -1,3 +1,4 @@
+import { kv } from '@vercel/kv';
 import axios from 'axios';
 import 'dotenv/config';
 
@@ -59,22 +60,29 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
 }
 
 function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
-  return plpDataArr.reduce((redirects: LocalRedirects[], plpData) => {
+  return plpDataArr.reduce((redirects: LocalRedirects, plpData) => {
     const { slug, category, slugNew } = plpData;
 
     if (!slugNew || !category) {
       console.log('PLP missing slugNew or category', slug);
-    } else {
-      redirects.push({
-        [`${fromUrl}/${slug}`]: {
-          destination: `${toUrl}/${category}/${slugNew}`,
-          permanent: true,
-        },
-      });
+
+      return redirects;
     }
 
+    const source = `${fromUrl}/${slug}`;
+    const destination = `${toUrl}/${category}/${slugNew}`;
+    const isPermanent = true;
+
+    redirects[source] = {
+      destination,
+      permanent: isPermanent,
+    };
+
+    kv.hset('redirects', { [source]: destination });
+    if (isPermanent) kv.sadd(source, 'permanent_redirects');
+
     return redirects;
-  }, []);
+  }, {});
 }
 
 // : Promise<{ data: { allListPages: RedirectData } } | undefined> ??
@@ -93,7 +101,10 @@ export async function getPlpRedirects(sourceBaseUrl = '', targetBaseUrl = '') {
     const pageRedirects = generatePLPRedirects(allListPages, sourceBaseUrl, targetBaseUrl);
 
     console.log('requesting page', page, allListPages.length);
-    redirects = redirects.concat(pageRedirects);
+    redirects = {
+      ...redirects,
+      ...pageRedirects,
+    };
   } while (allListPages.length >= limit);
 
   return redirects;
