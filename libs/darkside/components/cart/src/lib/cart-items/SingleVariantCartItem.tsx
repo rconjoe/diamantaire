@@ -107,6 +107,8 @@ const SingleVariantCartItem = ({
   const { productRemoved } = useAnalytics();
   const { attributes, cost, merchandise, quantity } = item;
   const price = cost?.totalAmount?.amount;
+  const currency = cost?.totalAmount?.currencyCode;
+  const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
 
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
@@ -183,9 +185,6 @@ const SingleVariantCartItem = ({
   }, [cartItemDetails]);
 
   function handleRemoveProduct() {
-    const id = merchandise.id.split('/').pop();
-    const currency = cost?.totalAmount?.currencyCode;
-
     productRemoved({
       name: productTitle,
       id,

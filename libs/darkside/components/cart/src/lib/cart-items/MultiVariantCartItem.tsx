@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { CartCertProps } from '@diamantaire/darkside/data/hooks';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
@@ -122,7 +124,11 @@ const MultiVariantCartItem = ({
   childProduct: CartItem | null;
 }) => {
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
-  const { attributes, cost, merchandise } = item;
+  const { productRemoved } = useAnalytics();
+  const { attributes, cost, merchandise, quantity } = item;
+  const price = cost?.totalAmount?.amount;
+  const currency = cost?.totalAmount?.currencyCode;
+  const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
 
   const { updateMultipleItemsQuantity, checkout } = useContext(CartContext);
@@ -132,7 +138,22 @@ const MultiVariantCartItem = ({
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
+  const productType = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
 
+    return matchingAttribute;
+  }, [attributes]);
+  const productTitle = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productTitle')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
+  const diamondShape = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'diamondShape')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
   const itemAttributes = useMemo(
     () => [
       {
@@ -169,35 +190,140 @@ const MultiVariantCartItem = ({
     setRefinedCartItemDetails(tempRefinedCartItemDetails);
   }, [cartItemDetails]);
 
+  function handleRemoveProduct() {
+    if (hasChildProduct && childProduct && checkout.lines.length > 1) {
+      const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
+      const formattedTotal = total.toFixed(2);
+
+      productRemoved({
+        name: productTitle,
+        id,
+        price,
+        quantity,
+        variant: productTitle,
+        brand: 'VRAI',
+        category: productType,
+        product: productTitle,
+        ...(diamondShape && { diamond_type: diamondShape }),
+        ecommerce: {
+          value: formattedTotal,
+          currency,
+          remove: {
+            products: [
+              {
+                brand: 'VRAI',
+                category: productType,
+                variant: productTitle,
+                id,
+                name: productTitle,
+                price,
+                quantity,
+              },
+              {
+                brand: 'VRAI',
+                category: childProduct?.merchandise?.product?.productType,
+                variant: childProduct?.merchandise?.product?.title,
+                id: childProduct?.merchandise.id.split('/').pop(),
+                name: childProduct?.merchandise?.product?.title,
+                price: childProduct?.cost?.totalAmount?.amount,
+                quantity: childProduct?.quantity,
+              },
+            ],
+          },
+          items: [
+            {
+              item_id: id,
+              item_name: productTitle,
+              item_brand: 'VRAI',
+              currency,
+              item_category: productType,
+              price,
+              quantity,
+            },
+            {
+              item_id: childProduct?.merchandise.id.split('/').pop(),
+              item_name: childProduct?.merchandise?.product?.title,
+              item_brand: 'VRAI',
+              currency,
+              item_category: childProduct?.merchandise?.product?.productType,
+              price: childProduct?.cost?.totalAmount?.amount,
+              quantity: childProduct?.quantity,
+            },
+          ],
+        },
+      });
+      updateMultipleItemsQuantity({
+        items: [
+          {
+            lineId: item.id,
+            variantId: merchandise.id,
+            quantity: item.quantity - 1,
+            attributes: item.attributes,
+          },
+          {
+            lineId: childProduct.id,
+            variantId: childProduct.merchandise.id,
+            quantity: childProduct.quantity - 1,
+            attributes: childProduct.attributes,
+          },
+        ],
+      });
+    } else {
+      productRemoved({
+        name: productTitle,
+        id,
+        price,
+        quantity,
+        variant: productTitle,
+        brand: 'VRAI',
+        category: productType,
+        product: productTitle,
+        ...(diamondShape && { diamond_type: diamondShape }),
+        ecommerce: {
+          value: price,
+          currency,
+          remove: {
+            products: [
+              {
+                brand: 'VRAI',
+                category: productType,
+                variant: productTitle,
+                id,
+                name: productTitle,
+                price,
+                quantity,
+              },
+            ],
+          },
+          items: [
+            {
+              item_id: id,
+              item_name: productTitle,
+              item_brand: 'VRAI',
+              currency,
+              item_category: productType,
+              price,
+              quantity,
+            },
+          ],
+        },
+      });
+      updateItemQuantity({
+        lineId: item.id,
+        variantId: merchandise.id,
+        quantity: item.quantity - 1,
+        attributes: item.attributes,
+      });
+    }
+  }
+
   return (
     <MultiVariantCartItemStyles>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
           <button
             onClick={() => {
-              hasChildProduct && childProduct && checkout.lines.length > 1
-                ? updateMultipleItemsQuantity({
-                    items: [
-                      {
-                        lineId: item.id,
-                        variantId: merchandise.id,
-                        quantity: item.quantity - 1,
-                        attributes: item.attributes,
-                      },
-                      {
-                        lineId: childProduct.id,
-                        variantId: childProduct.merchandise.id,
-                        quantity: childProduct.quantity - 1,
-                        attributes: childProduct.attributes,
-                      },
-                    ],
-                  })
-                : updateItemQuantity({
-                    lineId: item.id,
-                    variantId: merchandise.id,
-                    quantity: item.quantity - 1,
-                    attributes: item.attributes,
-                  });
+              handleRemoveProduct();
             }}
           >
             <XIcon />
