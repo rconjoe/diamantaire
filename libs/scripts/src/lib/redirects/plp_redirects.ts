@@ -19,7 +19,7 @@ const DIAMOND_PLP_DATA_CONFIG_QUERY = `
 
 type PlpData = { slug: string; category: string; slugNew: string };
 type PlpResponse = { data: { allListPages: PlpData[] } };
-type RedirectData = { from: string; to: string };
+type RedirectData = { source: string; destination: string };
 
 async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   console.log('request vars:', page, limit);
@@ -49,7 +49,7 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   }
 }
 
-function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = 'https://www.vrai.com', toUrl = 'http://localhost:4200') {
+function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
   return plpDataArr.reduce((redirects: RedirectData[], plpData) => {
     const { slug, category, slugNew } = plpData;
 
@@ -57,8 +57,8 @@ function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = 'https://www.vrai
       console.log('PLP missing slugNew or category', slug);
     }
     redirects.push({
-      from: `${fromUrl}/${slug}`,
-      to: `${toUrl}/${category}/${slugNew}`,
+      source: `${fromUrl}/${slug}`,
+      destination: `${toUrl}/${category}/${slugNew}`,
     });
 
     return redirects;
@@ -66,7 +66,7 @@ function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = 'https://www.vrai
 }
 
 // : Promise<{ data: { allListPages: RedirectData } } | undefined> ??
-export async function getPlpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {
+export async function getPlpRedirects(sourceBaseUrl = '', targetBaseUrl = '') {
   const limit = 100;
   let page = 0;
   let allListPages;

@@ -37,11 +37,6 @@ CustomErrorComponent.getInitialProps = async (contextData) => {
   await Sentry.captureUnderscoreErrorException(contextData);
 
   const { locale } = contextData;
-
-  // const { countryCode } = parseValidLocale(locale);
-
-  // const currencyCode = getCurrency(countryCode);
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

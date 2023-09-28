@@ -100,6 +100,7 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
   const { pageSlug } = params || {};
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
+  const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
 
   // dato
   const queryClient = new QueryClient();
@@ -109,8 +110,14 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
   });
 
   await queryClient.prefetchQuery({
-    ...queries['standard-page'].content(pageSlug, locale),
+    ...standardPageContentQuery,
   });
+
+  if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

@@ -189,8 +189,9 @@ const createPlpServerSideProps = (category: string) => {
     }
 
     const queryClient = new QueryClient();
+    const contentQuery = queries.plp.serverSideDato(locale, slug, category);
 
-    await queryClient.prefetchQuery({ ...queries.plp.serverSideDato(locale, slug, category) });
+    await queryClient.prefetchQuery({ ...contentQuery });
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
@@ -200,6 +201,12 @@ const createPlpServerSideProps = (category: string) => {
     await queryClient.prefetchQuery({
       ...queries.template.global(locale),
     });
+
+    if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
+      return {
+        notFound: true,
+      };
+    }
 
     return {
       props: {
