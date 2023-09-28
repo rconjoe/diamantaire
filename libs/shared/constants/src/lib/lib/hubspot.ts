@@ -8,7 +8,7 @@ export const HUBSPOT_PORTAL_ID = '21830550';
 export const HUBSPOT_CAMPAIGN_ID = '7012E000001lWbSQAU';
 export const HUBSPOT_FORM_SUBMIT_URL = 'https://api.hsforms.com/submissions/v3/integration/submit';
 export const HUBSPOT_CONSENT_TEXT =
-  'By clicking submit below, you consent to allow VRAI to store and process the personal information submitted above to provide you the content requested..';
+  'By clicking submit below, you consent to allow VRAI to store and process the personal information submitted above to provide you the content requested.';
 
 export const HUBSPOT_FOOTER_LIST = {
   source: 'Email Sub - Footer Signup',

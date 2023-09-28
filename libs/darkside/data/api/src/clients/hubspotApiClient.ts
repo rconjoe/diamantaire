@@ -1,5 +1,6 @@
-import { HUBSPOT_FORM_SUBMIT_URL, HUBSPOT_PORTAL_ID } from '@diamantaire/shared/constants';
+import { HUBSPOT_FORM_SUBMIT_URL, HUBSPOT_PORTAL_ID, HUBSPOT_CONSENT_TEXT } from '@diamantaire/shared/constants';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const generateHubspotURL = (listId: string) => {
   if (!listId) {
@@ -7,6 +8,10 @@ const generateHubspotURL = (listId: string) => {
   }
 
   return `${HUBSPOT_FORM_SUBMIT_URL}/${HUBSPOT_PORTAL_ID}/${listId}`;
+};
+
+const getHubspotCookieToken = () => {
+  return Cookies.get('hubspotutk');
 };
 
 const sendHubspotForm = async ({
@@ -37,120 +42,119 @@ const sendHubspotForm = async ({
   erName,
   erUrl,
 }: any) => {
+  const hubspotCookieToken = getHubspotCookieToken();
   const data = {
     fields: [
       {
         name: 'email',
-        value: email || '',
+        value: email,
       },
       {
         name: 'phone',
-        value: phone || '',
+        value: phone,
       },
       {
         name: 'partner_email__c',
-        value: recipientEmail || '',
+        value: recipientEmail,
       },
       {
         name: 'partner_name__c',
-        value: partnerName || '',
+        value: partnerName,
       },
       {
         name: 'firstname',
-        value: name || '',
+        value: name,
       },
       {
         name: 'message',
-        value: message || '',
+        value: message,
       },
       {
         name: 'image_url',
-        value: productImageUrl || '',
+        value: productImageUrl,
       },
       {
         name: 'product_image',
-        value: productImage || '',
+        value: productImage,
       },
       {
         name: 'locale',
-        value: locale || '',
+        value: locale,
       },
       {
         name: 'country',
-        value: countryCode || '',
+        value: countryCode,
       },
       {
         name: 'subscription_source',
-        value: listData?.source || '',
+        value: listData?.source,
       },
       {
         name: 'sms_subscription',
-        value: smsSubscription || '',
+        value: smsSubscription,
       },
       {
         name: 'sms_consent_source',
-        value: smsConsentSource || '',
+        value: smsConsentSource,
       },
       {
         name: 'sakari_send_sms',
-        value: sendSMS || '',
+        value: sendSMS,
       },
       {
         name: 'wishlisting_link_property',
-        value: wishlistingLinkProperty || '',
+        value: wishlistingLinkProperty,
       },
       {
         name: 'er_summary_angle_image',
-        value: erAngleImage || '',
+        value: erAngleImage,
       },
       {
         name: 'er_summary_detail_image',
-        value: erDetailImage || '',
+        value: erDetailImage,
       },
       {
         name: 'er_summary_profile_image',
-        value: erProfileImage || '',
+        value: erProfileImage,
       },
       {
         name: 'er_summary_upright_image',
-        value: erUprightImage || '',
+        value: erUprightImage,
       },
       {
         name: 'er_summary_front_image',
-        value: erFrontImage || '',
+        value: erFrontImage,
       },
       {
         name: 'er_summary_side_image',
-        value: erSideImage || '',
+        value: erSideImage,
       },
       {
         name: 'er_summary_name',
-        value: erName || '',
+        value: erName,
       },
       {
         name: 'er_summary_url',
-        value: erUrl || '',
+        value: erUrl,
       },
-    ],
-    sfdcCampaignId: listData?.sfdcCampaignId || '',
+    ].filter((field) => field.value !== undefined),
+    ...(listData?.sfdcCampaignId && { sfdcCampaignId: listData?.sfdcCampaignId }),
     ...(isConsent && {
       legalConsentOptions: {
         consent: {
           consentToProcess: isConsent,
-          text: '', // TODO: HUBSPOT_CONSENT_TEXT, https://diamondfoundry.atlassian.net/browse/DIA-532?atlOrigin=eyJpIjoiMTY0Njk0MWQ1ZmQwNDM0Y2E3ZDhiNTM2NTkwZGFkMTYiLCJwIjoiaiJ9
+          text: HUBSPOT_CONSENT_TEXT,
         },
       },
     }),
     context: {
-      // hutk: hubspotCookieToken(),
-      // TODO: include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission
+      ...(hubspotCookieToken && { hutk: hubspotCookieToken }), // include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission
       pageUri: typeof window !== 'undefined' ? window.location.href : pageUrl,
       pageName: typeof document !== 'undefined' ? document.title : pageTitle,
     },
   };
 
   const url = generateHubspotURL(listData?.listId);
-  // TODO: hubspotEmailCookie.set(email);
 
   try {
     const response = await axios.post(url, data);
