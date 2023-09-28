@@ -9,6 +9,7 @@ type AnalyticsContextType = {
   emitDataLayer: (data: Record<string, any>) => void;
   productListViewed: ({ listName, category, variantIds, products }) => void;
   productAdded: (eventData: Record<string, any>) => void;
+  productRemoved: (eventData: Record<string, any>) => void;
   productClicked: (eventData: Record<string, any>) => void;
   productListFiltered: (eventData: Record<string, any>) => void;
   cartViewed: (eventData: Record<string, any>) => void;
@@ -35,8 +36,8 @@ export const GTM_EVENTS = {
   productListFiltered: 'productListFiltered',
   cartViewed: 'cartViewed',
   selectShape: 'select_shape',
-  productAdded: 'productAdded',
   addToCart: 'add_to_cart',
+  removeFromCart: 'remove_from_cart',
 };
 
 export const tagManagerArgs = {
@@ -78,7 +79,19 @@ export const AnalyticsProvider = ({ children }) => {
       };
       const mergedData = { ...eventData, ...ga360Data };
 
-      trackEvent(GTM_EVENTS.productAdded, mergedData);
+      trackEvent(GTM_EVENTS.addToCart, mergedData);
+    },
+    productRemoved: (eventData: Record<string, any>) => {
+      const { name } = eventData;
+      const ga360Data = {
+        event: GTM_EVENTS.removeFromCart,
+        eventCategory: 'Ecommerce',
+        eventAction: GTM_EVENTS.removeFromCart,
+        eventLabel: name,
+      };
+      const mergedData = { ...eventData, ...ga360Data };
+
+      trackEvent(GTM_EVENTS.removeFromCart, mergedData);
     },
     productViewed: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.viewItem, eventData);
