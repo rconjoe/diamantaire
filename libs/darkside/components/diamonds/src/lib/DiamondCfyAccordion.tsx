@@ -1,5 +1,4 @@
 import { Accordion, DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import {
   DiamondCtoDataProps,
@@ -9,7 +8,6 @@ import {
 } from '@diamantaire/darkside/data/hooks';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
-import { useContext } from 'react';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 
@@ -31,7 +29,6 @@ const DiamondCfyAccordion = ({
   display?: string;
 }) => {
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
-  const { isMobile } = useContext(GlobalContext);
   const { data: humanStrings = {} } = useHumanNameMapper(locale);
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
@@ -46,20 +43,29 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong>{title}:</strong>
-        <span>{DIAMOND_COLOR_GROUPS[color]?.value}</span>
+        <span>{DIAMOND_COLOR_GROUPS[color]?.value}.</span>
         <strong>{DIAMOND_COLOR_GROUP_TYPES[color]?.value}</strong>
       </>
     );
   };
   const getColorContent = () => {
+    let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
-    const upgrade = diamondCtoData?.diamondColorUpgrade || null;
-    const upgradePrice =
-      upgrade?.priceUpgrade &&
-      (upgrade.price > defaultProduct.price ? '+' : '-') + makeCurrency(upgrade.priceUpgrade, locale, currencyCode);
-    const upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade?.color]?.value;
+    const upgrade = diamondCtoData?.diamondColorUpgrade;
+
+    if (product && upgrade) {
+      upgradeLabel = DIAMOND_COLOR_GROUPS[upgrade.color]?.value || '';
+
+      upgradeLabel += ` (${DIAMOND_COLOR_GROUP_TYPES[upgrade.color]?.value})`;
+
+      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+
+      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+
+      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+    }
 
     return (
       <div className="description">
@@ -70,11 +76,11 @@ const DiamondCfyAccordion = ({
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondColorUpgrade'}
+                checked={display === 'diamondColorUpgrade' || display === 'diamondCutAndColorUpgrade'}
                 onChange={() => handleUpgradeClick('diamondColorUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
-              <div className="price">{upgradePrice}</div>
+              <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
               <UniLink route="/journal/post/diamond-color">
@@ -114,7 +120,7 @@ const DiamondCfyAccordion = ({
     );
   };
 
-  // // CUT
+  // CUT
   const getCutTitle = () => {
     const { cut } = product || {};
     const { cutMapAbridged } = DiamondTableData || {};
@@ -130,15 +136,19 @@ const DiamondCfyAccordion = ({
     );
   };
   const getCutContent = () => {
+    let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { cutDetails } = DiamondCfyData || {};
-    const { cutMapAbridged } = DiamondTableData || {};
-    const upgrade = diamondCtoData?.diamondCutUpgrade || null;
+    const upgrade = diamondCtoData?.diamondCutUpgrade;
 
-    const upgradePrice =
-      upgrade?.priceUpgrade &&
-      (upgrade?.price > defaultProduct.price ? '+' : '-') +
-        (upgrade?.priceUpgrade && makeCurrency(upgrade.priceUpgrade, locale, currencyCode));
-    const upgradeLabel = (upgrade?.cut && getInfo(cutMapAbridged, upgrade.cut)?.value) || '';
+    if (product && upgrade) {
+      upgradeLabel = upgrade.cut || '';
+
+      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+
+      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+
+      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+    }
 
     return (
       <div className="description">
@@ -149,11 +159,11 @@ const DiamondCfyAccordion = ({
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondCutUpgrade'}
+                checked={display === 'diamondCutUpgrade' || display === 'diamondCutAndColorUpgrade'}
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
-              <div className="price">{upgradePrice}</div>
+              <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
               <UniLink route="/journal/post/diamond-cut">
@@ -168,19 +178,71 @@ const DiamondCfyAccordion = ({
     );
   };
 
-  // ACCORDION
+  // ACTIVE DEFAULT
+  const getActiveDefault = () => {
+    let activeDefault = -1;
+
+    const data = diamondCtoData || {};
+
+    if (data.diamondColorUpgrade) {
+      const index = accordionContent.findIndex((v) => v.type === 'color');
+
+      if (data.diamondColorUpgrade.price > defaultProduct.price) {
+        activeDefault = index;
+      }
+    }
+
+    if (data.diamondCutUpgrade) {
+      const index = accordionContent.findIndex((v) => v.type === 'cut');
+
+      if (data.diamondCutUpgrade.price > defaultProduct.price) {
+        activeDefault = index;
+      }
+    }
+
+    if (
+      display !== 'diamondColorUpgrade' &&
+      display !== 'diamondCutUpgrade' &&
+      data.diamondColorUpgrade &&
+      data.diamondCutUpgrade
+    ) {
+      const colorIndex = accordionContent.findIndex((v) => v.type === 'color');
+      const cutIndex = accordionContent.findIndex((v) => v.type === 'cut');
+      const colorPrice = data.diamondColorUpgrade?.price;
+      const cutPrice = data.diamondCutUpgrade?.price;
+
+      if (cutPrice && colorPrice) {
+        if (cutPrice > colorPrice && cutPrice > defaultProduct.price) {
+          activeDefault = cutIndex;
+        }
+
+        if (colorPrice > cutPrice && colorPrice > defaultProduct.price) {
+          activeDefault = colorIndex;
+        }
+      }
+    }
+
+    console.log(`activeDefault`, activeDefault);
+
+    return activeDefault;
+  };
+
+  // CONTENT
   const accordionContent = [
     {
+      type: 'color',
       title: getColorTitle(),
       children: getColorContent(),
       className: 'color',
     },
     {
+      type: 'clarity',
       title: getClarityTitle(),
       children: getClarityContent(),
       className: 'clarity',
     },
     {
+      type: 'cut',
       title: getCutTitle(),
       children: getCutContent(),
       className: 'cut',
@@ -189,7 +251,7 @@ const DiamondCfyAccordion = ({
 
   return (
     <StyledDiamondCfyAccordion>
-      <Accordion rows={accordionContent} activeDefault={isMobile ? 0 : 4} isDiamondDetail={true} />
+      <Accordion rows={accordionContent} activeDefault={getActiveDefault()} isDiamondDetail={true} />
     </StyledDiamondCfyAccordion>
   );
 };

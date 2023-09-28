@@ -25,7 +25,7 @@ export const GlobalTemplate = ({ children }) => {
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
   const footerData = globalTemplateData.data?.footerNavigation;
 
-  const headerRef = useRef(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -34,9 +34,8 @@ export const GlobalTemplate = ({ children }) => {
   const isHome = pathname === '/';
 
   useEffect(() => {
-    if (!headerRef?.current?.offsetHeight) return;
-
-    const fullHeaderHeight = headerRef?.current?.offsetHeight;
+    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
     setHeaderHeight(fullHeaderHeight);
   }, [isTopbarShowing]);
@@ -44,17 +43,22 @@ export const GlobalTemplate = ({ children }) => {
   useEffect(() => {
     if (!headerRef.current) return;
 
-    const resizeObserver = new ResizeObserver(() => {
-      setHeaderHeight(headerRef?.current?.offsetHeight);
-    });
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Use entries to get the new height
+      if (entries[0].target instanceof HTMLElement) {
+        const newHeight = entries[0].target.offsetHeight;
 
-    window.dispatchEvent(
-      new CustomEvent('RESET_HEADER_HEIGHT', {
-        detail: {
-          headerHeight,
-        },
-      }),
-    );
+        setHeaderHeight(newHeight);
+
+        window.dispatchEvent(
+          new CustomEvent('RESET_HEADER_HEIGHT', {
+            detail: {
+              headerHeight: newHeight,
+            },
+          }),
+        );
+      }
+    });
 
     resizeObserver.observe(headerRef.current);
 
@@ -67,7 +71,7 @@ export const GlobalTemplate = ({ children }) => {
         <Header
           headerData={headerData}
           isHome={isHome}
-          headerRef={headerRef}
+          headerRef={headerRef as React.MutableRefObject<HTMLDivElement>}
           isTopbarShowing={isTopbarShowing}
           setIsTopbarShowing={setIsTopbarShowing}
           headerHeight={headerHeight}

@@ -6,6 +6,7 @@ const StyledCFYPage = styled.div`
   flex-direction: column;
   margin: 0 auto 0;
   padding: 0;
+  position: relative;
 
   ${tabletAndUp(`
     margin: 2rem auto;
@@ -47,6 +48,14 @@ const StyledCFYPage = styled.div`
 
   .page-main {
     flex: 1;
+
+    top: ${(props) => props.headerHeight + 20}px;
+
+    ${tabletAndUp(`
+      padding: 0 0 4rem;
+      position: sticky;
+      align-self: flex-start;
+    `)}
   }
 
   .page-aside {
@@ -54,14 +63,17 @@ const StyledCFYPage = styled.div`
     margin: 4rem 0 0;
 
     ${tabletAndUp(`
+    margin: 0;
       width: 40rem;
-      margin: 0;
+      padding: 0 0 4rem;
     `)}
   }
 
   .button-check-availability {
     max-width: calc(100% - 4.8rem);
     margin: 1rem auto;
+    position: relative;
+    z-index: 1;
 
     ${desktopAndUp(`
       max-width: 30rem;

@@ -10,7 +10,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     text-align: center;
     line-height: 1.1;
     font-size: var(--font-size-xxxsmall);
-    margin: 2.5rem auto;
+    margin: 2rem auto;
 
     ${tabletAndUp(`
       font-size: var(--font-size-xsmall);
@@ -74,7 +74,7 @@ const StyledDiamondCfyFilterShape = styled.div`
   .cta {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 
     button {
       font-size: var(--font-size-xxsmall);

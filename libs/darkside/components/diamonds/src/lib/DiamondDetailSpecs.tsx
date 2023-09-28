@@ -96,7 +96,7 @@ const DiamondDetailSpecs = ({ locale = 'en-US', lotId }: { locale?: string; lotI
 
   return (
     <StyledDiamondSpecs className="diamond-specs">
-      <p className="title">{specsHeadline}</p>
+      <strong className="title">{specsHeadline}</strong>
 
       <div className="spec-list">
         {labels.map(({ copy }: { copy: string; specName: string }) => {

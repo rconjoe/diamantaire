@@ -93,9 +93,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
           <DiamondDetailIconList locale={locale} />
 
           <div className="mail">
-            <Heading className="title" type="h2">
+            <strong className="title">
               <UIString>Need more time to think?</UIString>
-            </Heading>
+            </strong>
 
             <p>Email this diamond to yourself or drop a hint.</p>
 

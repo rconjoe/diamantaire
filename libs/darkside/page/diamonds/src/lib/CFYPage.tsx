@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, HideTopBar } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCfyAsidePromo,
   DiamondCfyBreadCrumb,
@@ -8,6 +8,7 @@ import {
   DiamondCfyFilterShape,
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -16,7 +17,7 @@ import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
 import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
 
@@ -34,6 +35,8 @@ interface CFYPageProps {
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options } = props;
+
+  const { headerHeight } = useContext(GlobalContext);
 
   const { diamondType, carat, product: selectedProduct } = options;
 
@@ -89,9 +92,11 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   return (
     <>
+      <HideTopBar />
+
       <StandardPageSeo title={seoTitle} description={seoDesc} />
 
-      <StyledCFYPage className="container-wrapper">
+      <StyledCFYPage className="container-wrapper" headerHeight={headerHeight}>
         <div className="page-main">
           <div className="page-header">
             <Heading className="title">{headerTitle}</Heading>
@@ -153,18 +158,23 @@ async function getServerSideProps(
   const { query, locale } = context;
 
   const options = getCFYOptionsFromUrl(query || {});
+
   const { product } = options || {};
 
+  const globalQuery = queries.template.global(locale);
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+
   const availableDiamondTypesQuery = product ? queries.products.productDiamondTypes(product) : null;
 
   const queryClient = new QueryClient();
 
-  // PREFECTH DIAMOND CFY CONTENT FROM DATO
+  await queryClient.prefetchQuery(globalQuery);
+
   await queryClient.prefetchQuery(diamondCfyQuery);
+
   if (product) await queryClient.prefetchQuery(availableDiamondTypesQuery);
 
-  // IF NO RESULT RETURN 404
   if (!queryClient.getQueryData(diamondCfyQuery.queryKey)) {
     return {
       notFound: true,

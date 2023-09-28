@@ -64,7 +64,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
               mode: 'values',
               density: 100 / range[1],
               values: [0, ...createNumberArray(Math.round(range[1]))],
-              format: { to: (v) => `${Math.round(v)}` },
+              format: { to: (v) => Math.round(v) },
             }}
           />
         </div>
@@ -335,6 +335,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
       title: getCertificateTitle(),
       children: getCertificateContent(),
       className: 'certificate',
+      withHeading: false,
     },
   ];
 
