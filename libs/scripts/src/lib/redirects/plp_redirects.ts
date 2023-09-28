@@ -21,6 +21,15 @@ type PlpData = { slug: string; category: string; slugNew: string };
 type PlpResponse = { data: { allListPages: PlpData[] } };
 type RedirectData = { source: string; destination: string };
 
+type LocalRedirects = {
+  [k: string]:
+    | {
+        destination: string;
+        permanent: boolean;
+      }
+    | undefined;
+};
+
 async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   console.log('request vars:', page, limit);
   const response = await axios({
@@ -50,16 +59,19 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
 }
 
 function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
-  return plpDataArr.reduce((redirects: RedirectData[], plpData) => {
+  return plpDataArr.reduce((redirects: LocalRedirects[], plpData) => {
     const { slug, category, slugNew } = plpData;
 
     if (!slugNew || !category) {
       console.log('PLP missing slugNew or category', slug);
+    } else {
+      redirects.push({
+        [`${fromUrl}/${slug}`]: {
+          destination: `${toUrl}/${category}/${slugNew}`,
+          permanent: true,
+        },
+      });
     }
-    redirects.push({
-      source: `${fromUrl}/${slug}`,
-      destination: `${toUrl}/${category}/${slugNew}`,
-    });
 
     return redirects;
   }, []);

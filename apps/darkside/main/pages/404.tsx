@@ -7,7 +7,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 
-const StandardPage = (props: StandardPageProps) => {
+const NotFoundPage = (props: StandardPageProps) => {
   const router = useRouter();
   const { data }: any = useStandardPage('error-page', router.locale);
   const page = data?.standardPage;
@@ -28,7 +28,7 @@ const StandardPage = (props: StandardPageProps) => {
   );
 };
 
-StandardPage.getTemplate = getStandardTemplate;
+NotFoundPage.getTemplate = getStandardTemplate;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -51,4 +51,4 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   };
 }
 
-export default StandardPage;
+export default NotFoundPage;

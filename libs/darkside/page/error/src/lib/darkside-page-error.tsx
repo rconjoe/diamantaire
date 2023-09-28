@@ -21,6 +21,7 @@ const DarksidePageError = (props: DarksidePageErrorProps) => {
 
   return (
     <>
+      <h1>500</h1>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
       <StyledErrorPage>
         {content1?.map((contentBlockData, idx) => {
