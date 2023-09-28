@@ -381,21 +381,26 @@ export const FooterEmailSignup = ({
     }
   };
 
-  return message ? (
-    <div dangerouslySetInnerHTML={{ __html: message }}></div>
-  ) : (
-    <Form
-      formState={formState}
-      onSubmit={onSubmit}
-      setFormState={setFormState}
-      formGridStyle="split"
-      stackedSubmit={false}
-      showOptIn={showOptIn}
-      ctaCopy={ctaCopy}
-      optInCopy={optInCopy}
-      extraClass="-links-teal -opt-in"
-      isValid={isValid}
-      setIsValid={setIsValid}
-    />
+  return (
+    <>
+      {message ? (
+        <div dangerouslySetInnerHTML={{ __html: message }}></div>
+      ) : (
+        <Form
+          formState={formState}
+          onSubmit={onSubmit}
+          setFormState={setFormState}
+          formGridStyle="split"
+          stackedSubmit={false}
+          showOptIn={showOptIn}
+          ctaCopy={ctaCopy}
+          optInCopy={optInCopy}
+          extraClass="-links-teal -opt-in"
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
+      )}
+      ;
+    </>
   );
 };

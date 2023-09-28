@@ -7,11 +7,7 @@ This is the master form component, we should never need to manually create a cus
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import React, {
-  useEffect,
-  useState,
-  // useState
-} from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
@@ -21,7 +17,7 @@ import { Markdown } from './Markdown';
 const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
-  onSubmit: (e: React.SyntheticEvent, formState: object) => void;
+  onSubmit?: (e: React.SyntheticEvent, formState: object) => void;
   caption?: string;
   id?: string;
   title?: string;
@@ -142,9 +138,9 @@ const Form = ({
   extraClass,
   isValid,
   setIsValid,
+  formState,
+  setFormState,
 }: FormProps) => {
-  const [formState, setFormState] = useState(null);
-
   useEffect(() => {
     const initialFormState = {};
 
