@@ -137,7 +137,7 @@ const sendHubspotForm = async ({
       legalConsentOptions: {
         consent: {
           consentToProcess: isConsent,
-          text: '', // TODO: HUBSPOT_CONSENT_TEXT,
+          text: '', // TODO: HUBSPOT_CONSENT_TEXT, https://diamondfoundry.atlassian.net/browse/DIA-532?atlOrigin=eyJpIjoiMTY0Njk0MWQ1ZmQwNDM0Y2E3ZDhiNTM2NTkwZGFkMTYiLCJwIjoiaiJ9
         },
       },
     }),
@@ -154,8 +154,6 @@ const sendHubspotForm = async ({
 
   try {
     const response = await axios.post(url, data);
-
-    console.log('response from client', { response });
 
     return response.data;
   } catch (error) {
