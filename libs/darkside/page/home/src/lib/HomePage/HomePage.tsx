@@ -72,7 +72,7 @@ async function getStaticProps(props) {
       isMobile,
       currencyCode,
       countryCode,
-      query,
+      query: query || '',
       dehydratedState: dehydrate(queryClient),
     },
   };
