@@ -241,8 +241,8 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
           ),
         },
         items,
-        feedIds: (items || []).map(({ item_id }) => item_id),
       },
+      feedIds: (items || []).map(({ item_id }) => item_id),
     };
 
     checkoutStarted(eventData);
