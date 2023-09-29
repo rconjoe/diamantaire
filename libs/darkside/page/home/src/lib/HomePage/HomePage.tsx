@@ -23,6 +23,8 @@ const HomePage = (props: HomePageProps) => {
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
 
+  console.log('router', router);
+
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
