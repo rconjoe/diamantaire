@@ -5,7 +5,6 @@ import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 
 export interface HomePageProps {
@@ -40,7 +39,11 @@ const HomePage = (props: HomePageProps) => {
 
 HomePage.getTemplate = getStandardTemplate;
 
-async function getStaticProps(props: GetStaticPropsContext<undefined>) {
+// interface GetStaticPropsContextProps extends GetStaticPropsContext {
+//   query: string;
+// }
+
+async function getStaticProps(props) {
   const { locale, query } = props;
 
   console.log('queryxxx', props, query);
