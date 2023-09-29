@@ -96,8 +96,20 @@ export const StackedHeaderStylesContainer = styled.div`
           }
         }
 
+        &.calendar {
+          display: flex;
+          svg {
+            height: 18px;
+          }
+        }
+
+        &.language {
+          min-width: 80px;
+          margin-right: 0;
+        }
+
         &:last-child {
-          margin-left: 20px;
+          margin-left: 0;
           margin-right: 0;
         }
       }
@@ -105,6 +117,18 @@ export const StackedHeaderStylesContainer = styled.div`
 
     .nav__col--right ul {
       justify-content: flex-end;
+
+      .cart svg {
+        height: 21px;
+      }
+
+      .wishlist svg {
+        transform: translate(0, 1px);
+      }
+
+      .accounts svg {
+        transform: translate(0, 1px);
+      }
     }
   }
 
