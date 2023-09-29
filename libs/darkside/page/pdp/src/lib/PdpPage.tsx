@@ -232,8 +232,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               variantProductTitle={shopifyProductData?.productTitle}
               price={price}
               isEngraveable={shopifyProductData?.isEngraveable}
-              isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
+              hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
               setShouldDoublePrice={setShouldDoublePrice}
+              isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
+              isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
             />
 
             <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />

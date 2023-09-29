@@ -391,7 +391,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         value: diamond.color,
       },
       {
-        key: 'isChildDiamond',
+        key: 'isChildProduct',
         value: 'true',
       },
     ];

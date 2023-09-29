@@ -20,8 +20,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.accounts {
-        img {
-          top: 1px;
+        svg {
           width: 20px;
           height: auto;
           position: relative;
@@ -29,7 +28,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.search {
-        img {
+        svg {
           width: 26px;
           height: auto;
           transform: scale(0.8);
@@ -39,7 +38,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.wishlist {
-        img {
+        svg {
           width: 24px;
           height: auto;
           transform: scale(0.8);
@@ -50,7 +49,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.cart {
-        img {
+        svg {
           width: 24px;
           height: auto;
           position: relative;

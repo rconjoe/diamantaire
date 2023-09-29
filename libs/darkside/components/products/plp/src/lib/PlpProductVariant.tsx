@@ -102,6 +102,8 @@ const PlpProductVariant = ({
     });
   };
 
+  // console.log('variant', variant);
+
   return (
     <PlpProductVariantStyles>
       <ProductLink onClick={handleClick} productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>

@@ -116,6 +116,8 @@ const CompactHeader: FC<CompactHeaderTypes> = ({
   compactHeaderRef,
   toggleCart,
 }): JSX.Element => {
+  console.log('navItems', navItems);
+
   return (
     <CompactHeaderStyles ref={compactHeaderRef ? compactHeaderRef : null}>
       <div className="compact-header__container">

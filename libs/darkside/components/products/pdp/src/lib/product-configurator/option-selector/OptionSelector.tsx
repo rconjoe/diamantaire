@@ -347,25 +347,24 @@ function OptionSelector({
           </div>
         ) : (
           <div className={clsx('option-list', label)}>
-            {DIAMOND_SHAPES_MAP &&
-              handleOptionValueSort(options, optionType).map((option) => {
-                const isSelected = selectedOptionValue === option.value;
+            {handleOptionValueSort(options, optionType).map((option) => {
+              const isSelected = selectedOptionValue === option.value;
 
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+              // human readable value
+              const valueLabel = DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[option.value]?.value;
 
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                  />
-                );
-              })}
+              return (
+                <OptionItemContainer
+                  key={option.id}
+                  optionType={optionType}
+                  option={option}
+                  valueLabel={valueLabel}
+                  isSelected={isSelected}
+                  onClick={() => handleOptionClick(option)}
+                  isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                />
+              );
+            })}
           </div>
         )}
       </div>

@@ -101,7 +101,7 @@ const Cart = ({ closeCart }) => {
                   childProduct = checkout.lines.find((line) => line.merchandise.id === cartItemInfo._childProduct);
                 }
 
-                if (item.attributes.find((item) => item.key === 'isChildDiamond')) {
+                if (item.attributes.find((item) => item.key === 'isChildProduct')) {
                   return null;
                 }
 

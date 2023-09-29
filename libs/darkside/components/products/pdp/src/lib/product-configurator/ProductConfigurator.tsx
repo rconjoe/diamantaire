@@ -57,6 +57,8 @@ type ProductConfiguratorProps = {
   isSoldAsDouble?: boolean;
   variantPrice?: number;
   setShouldDoublePrice?: (value: boolean) => void;
+  hasSingleInitialEngraving?: boolean;
+  isSoldAsPairOnly?: boolean;
 };
 
 function ProductConfigurator({
@@ -80,6 +82,8 @@ function ProductConfigurator({
   isEngraveable = false,
   isSoldAsDouble,
   setShouldDoublePrice,
+  hasSingleInitialEngraving = false,
+  isSoldAsPairOnly = false,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -139,30 +143,55 @@ function ProductConfigurator({
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
 
-  const pairSelector: OptionItemProps[] = [
-    {
-      id: 'pair',
-      value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
-      valueLabel: 'Pair',
-      isSelected: selectedPair === 'pair',
-    },
-    {
-      id: 'single',
-      value: 'single - ' + makeCurrency(variantPrice, locale, currencyCode),
-      valueLabel: 'Single',
-      isSelected: selectedPair === 'single',
-    },
-  ];
-
-  const handlePairChange = useCallback((option: OptionItemProps) => {
-    console.log('pair option', option);
-    setSelectedPair(option.value as 'pair' | 'single');
-    if (option.value === 'pair') {
-      setShouldDoublePrice(true);
+  const pairSelector = useMemo(() => {
+    if (isSoldAsPairOnly) {
+      return [
+        {
+          id: 'pair',
+          value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          valueLabel: 'Pair',
+          isSelected: selectedPair === 'pair',
+        },
+      ];
     } else {
-      setShouldDoublePrice(false);
+      return [
+        {
+          id: 'pair',
+          value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          valueLabel: 'Pair',
+          isSelected: selectedPair === 'pair',
+        },
+        {
+          id: 'single',
+          value: 'single - ' + makeCurrency(variantPrice, locale, currencyCode),
+          valueLabel: 'Single',
+          isSelected: selectedPair === 'single',
+        },
+      ];
     }
-  }, []);
+  }, [isSoldAsPairOnly]);
+
+  const handlePairChange = useCallback(
+    (option: OptionItemProps) => {
+      console.log('pair option', option);
+      setSelectedPair(option.id as 'pair' | 'single');
+      if (option.id === 'pair') {
+        setShouldDoublePrice(true);
+      } else {
+        setShouldDoublePrice(false);
+      }
+    },
+    [isSoldAsDouble],
+  );
+
+  useEffect(() => {
+    if (isSoldAsDouble) {
+      //
+      setSelectedPair('pair');
+    }
+  }, [isSoldAsPairOnly]);
+
+  console.log('additionalVariantData', additionalVariantData);
 
   return (
     <>
@@ -202,6 +231,7 @@ function ProductConfigurator({
         </>
       )}
 
+      {/* Pair Products */}
       {isSoldAsDouble && isConfigurationComplete && (
         <OptionSelector
           optionType={'soldAsDouble'}
@@ -214,8 +244,12 @@ function ProductConfigurator({
 
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
 
-      {isEngraveable && isConfigurationComplete && !isBuilderFlowOpen && (
-        <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
+      {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
+        <ProductEngraving
+          engravingText={engravingText}
+          setEngravingText={setEngravingText}
+          hasSingleInitialEngraving={hasSingleInitialEngraving}
+        />
       )}
 
       {isBuilderFlowOpen ? (
@@ -476,21 +510,25 @@ function AddToCartButton({
       addItem(variantId, [...weddingBandAttributes]);
     } else if (productType === 'Earrings') {
       console.log('add earring');
-      // const metal = goldPurity
-      //   ? goldPurity + ' '
-      //   : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
+      const metal = goldPurity
+        ? goldPurity + ' '
+        : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
 
-      // let weddingBandAttributes = [
-      //   ...cartAttributesForAllItems,
-      //   {
-      //     key: 'metal',
-      //     value: metal,
-      //   },
-      //   {
-      //     key: 'bandWidth',
-      //     value: BAND_WIDTH_HUMAN_NAMES_MAP[selectedConfiguration.bandWidth]?.value,
-      //   },
-      // ];
+      const earringsAttributes = [
+        ...cartAttributesForAllItems,
+        {
+          key: 'metal',
+          value: metal,
+        },
+        {
+          key: 'diamondShape',
+          value: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
+        },
+        {
+          key: 'caratWeight',
+          value: diamond.carat.toString(),
+        },
+      ];
 
       // weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
