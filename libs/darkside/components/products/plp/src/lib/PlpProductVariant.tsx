@@ -61,6 +61,7 @@ const PlpProductVariant = ({
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
+
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
   const handleImageChange = () => {

@@ -443,8 +443,8 @@ export class ProductsService {
     });
 
     // Match for ringSize from parent product
-    const ringSizeConfigs = productToMatch.variants
-      .filter((variant) => {
+    const ringSizeConfigs = productToMatch?.variants
+      ?.filter((variant) => {
         /* eslint-disable */
         const { ringSize, side, ...optionsToMatch } = productOptionsToMatch;
 
@@ -1467,7 +1467,6 @@ export class ProductsService {
     try {
       const optionsResults = await this.productRepository.aggregate(pipeline.filter(Boolean));
 
-      // console.log('optionsResults', optionsResults);
       const options = optionsResults.reduce((acc, option) => {
         const { type } = option;
         const sortFn = getOptionValueSorterByType(type);
