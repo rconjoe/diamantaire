@@ -117,6 +117,18 @@ export const StackedHeaderStylesContainer = styled.div`
 
     .nav__col--right ul {
       justify-content: flex-end;
+
+      .cart svg {
+        height: 21px;
+      }
+
+      .wishlist svg {
+        transform: translate(0, 1px);
+      }
+
+      .accounts svg {
+        transform: translate(0, 1px);
+      }
     }
   }
 
