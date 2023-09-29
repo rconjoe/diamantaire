@@ -9,18 +9,8 @@ import {
   metalTypeAsConst,
   parseValidLocale,
   getCurrency,
-  DIAMOND_TYPE_HUMAN_NAMES,
-  metalTypeAsConst,
-  DIAMOND_TYPE_HUMAN_NAMES,
-  getCurrency,
-  metalTypeAsConst,
-  parseValidLocale,
 } from '@diamantaire/shared/constants';
-import {
-  extractMetalTypeFromShopifyHandle,
-  extractMetalTypeFromShopifyHandle,
-  makeCurrency,
-} from '@diamantaire/shared/helpers';
+import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
@@ -524,12 +514,13 @@ function AddToCartButton({
           key: 'diamondShape',
           value: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
         },
-        {
-          key: 'caratWeight',
-          value: diamond.carat.toString(),
-        },
+        // {
+        //   key: 'caratWeight',
+        //   value: diamond.carat.toString(),
+        // },
       ];
 
+      console.log('earringsAttributes', earringsAttributes);
       // weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
       // addItem(variantId, [...weddingBandAttributes]);
