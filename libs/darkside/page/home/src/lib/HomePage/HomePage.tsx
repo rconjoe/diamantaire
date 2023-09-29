@@ -24,6 +24,7 @@ const HomePage = (props: HomePageProps) => {
   const { seoTitle, seoDescription } = seo || {};
 
   console.log('router', router);
+  console.log('props', props);
 
   return (
     <>
@@ -71,6 +72,7 @@ async function getStaticProps(props) {
       isMobile,
       currencyCode,
       countryCode,
+      query,
       dehydratedState: dehydrate(queryClient),
     },
   };
