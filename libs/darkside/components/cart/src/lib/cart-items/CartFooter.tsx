@@ -142,6 +142,63 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     const { amount: subtotalAmountPrice, currencyCode } = subtotalAmount || {};
     const { amount: totalTaxAmountPrice } = totalTaxAmount || {};
 
+    const items = lines?.map(
+      ({
+        merchandise,
+        attributes,
+        cost: {
+          totalAmount: { amount: productAmount },
+        },
+        quantity,
+      }) => {
+        const { id: merchandiseID, product } = merchandise || {};
+        const { title: variantTitle, tags, productType } = product || {};
+
+        const productTitle = attributes.find(({ key }) => key === 'productTitle')?.value;
+        const isChildDiamond = attributes.find(({ key }) => key === 'isChildDiamond')?.value === 'true';
+
+        const diamondOptions = attributes
+          .filter(({ key }) => ['caratWeight', 'clarity', 'cut', 'color', 'lotId'].includes(key))
+          .reduce((acc, { key, value }) => {
+            if (key === 'lotId') {
+              return { ...acc, diamondLotId: value, lotId: value };
+            }
+
+            return { ...acc, [key]: value };
+          }, {});
+        const name = variantTitle || productTitle;
+        const parsedId = merchandiseID.split('/').pop();
+
+        const brand = 'VRAI';
+
+        const options = isChildDiamond
+          ? diamondOptions
+          : tags
+              ?.filter((tag) => tag.startsWith('_'))
+              .reduce((acc, tag) => {
+                const [key, value] = tag.split(':');
+                const parsedKey = key.replace('_', '');
+
+                if (parsedKey !== 'diamondType' || (parsedKey === 'diamondType' && value !== 'any')) {
+                  return { ...acc, [parsedKey]: value };
+                }
+
+                return acc;
+              }, {});
+
+        return {
+          item_id: parsedId,
+          item_name: name,
+          item_brand: brand,
+          item_category: productType,
+          price: productAmount,
+          currency: currencyCode,
+          quantity,
+          ...options,
+        };
+      },
+    );
+
     const eventData = {
       order_id: cartId?.split('/').pop(),
       value: subtotalAmountPrice,
@@ -183,62 +240,8 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             },
           ),
         },
-        items: lines?.map(
-          ({
-            merchandise,
-            attributes,
-            cost: {
-              totalAmount: { amount: productAmount },
-            },
-            quantity,
-          }) => {
-            const { id: merchandiseID, product } = merchandise || {};
-            const { title: variantTitle, tags, productType } = product || {};
-
-            const productTitle = attributes.find(({ key }) => key === 'productTitle')?.value;
-            const isChildDiamond = attributes.find(({ key }) => key === 'isChildDiamond')?.value === 'true';
-
-            const diamondOptions = attributes
-              .filter(({ key }) => ['caratWeight', 'clarity', 'cut', 'color', 'lotId'].includes(key))
-              .reduce((acc, { key, value }) => {
-                if (key === 'lotId') {
-                  return { ...acc, diamondLotId: value, lotId: value };
-                }
-
-                return { ...acc, [key]: value };
-              }, {});
-            const name = variantTitle || productTitle;
-            const parsedId = merchandiseID.split('/').pop();
-
-            const brand = 'VRAI';
-
-            const options = isChildDiamond
-              ? diamondOptions
-              : tags
-                  ?.filter((tag) => tag.startsWith('_'))
-                  .reduce((acc, tag) => {
-                    const [key, value] = tag.split(':');
-                    const parsedKey = key.replace('_', '');
-
-                    if (parsedKey !== 'diamondType' || (parsedKey === 'diamondType' && value !== 'any')) {
-                      return { ...acc, [parsedKey]: value };
-                    }
-
-                    return acc;
-                  }, {});
-
-            return {
-              item_id: parsedId,
-              item_name: name,
-              item_brand: brand,
-              item_category: productType,
-              price: productAmount,
-              currency: currencyCode,
-              quantity,
-              ...options,
-            };
-          },
-        ),
+        items,
+        feedIds: (items || []).map(({ item_id }) => item_id),
       },
     };
 
