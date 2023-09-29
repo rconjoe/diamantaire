@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
@@ -102,7 +104,11 @@ const SingleVariantCartItem = ({
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
 }) => {
-  const { attributes, cost, merchandise } = item;
+  const { productRemoved } = useAnalytics();
+  const { attributes, cost, merchandise, quantity } = item;
+  const price = cost?.totalAmount?.amount;
+  const currency = cost?.totalAmount?.currencyCode;
+  const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
 
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
@@ -115,6 +121,18 @@ const SingleVariantCartItem = ({
 
   const productType = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
+  const productTitle = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productTitle')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
+  const diamondShape = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'diamondShape')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
@@ -166,19 +184,63 @@ const SingleVariantCartItem = ({
     setRefinedCartItemDetails(tempRefinedCartItemDetails);
   }, [cartItemDetails]);
 
+  function handleRemoveProduct() {
+    productRemoved({
+      name: productTitle,
+      id,
+      price,
+      quantity,
+      variant: productTitle,
+      brand: 'VRAI',
+      category: productType,
+      product: productTitle,
+      ...(diamondShape && { diamond_type: diamondShape }),
+      ecommerce: {
+        value: price,
+        currency,
+        remove: {
+          products: [
+            {
+              brand: 'VRAI',
+              category: productType,
+              variant: productTitle,
+              id,
+              name: productTitle,
+              price,
+              quantity,
+            },
+          ],
+        },
+        items: [
+          {
+            item_id: id,
+            item_name: productTitle,
+            item_brand: 'VRAI',
+            currency,
+            item_category: productType,
+            price,
+            quantity,
+          },
+        ],
+      },
+    });
+
+    updateItemQuantity({
+      lineId: item.id,
+      variantId: merchandise.id,
+      quantity: 0,
+      attributes: item.attributes,
+    });
+  }
+
   return (
     <SingleVariantCartItemStyles>
       <div className="cart-item__header">
         <div className="cart-item__remove-product">
           <button
-            onClick={() =>
-              updateItemQuantity({
-                lineId: item.id,
-                variantId: merchandise.id,
-                quantity: item.quantity - 1,
-                attributes: item.attributes,
-              })
-            }
+            onClick={() => {
+              handleRemoveProduct();
+            }}
           >
             <XIcon />
           </button>
@@ -189,7 +251,7 @@ const SingleVariantCartItem = ({
           </Heading>
         </div>
         <div className="cart-item__price">
-          <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
+          <p>{makeCurrencyFromShopifyPrice(parseFloat(price) / quantity)}</p>
         </div>
       </div>
       <div className="cart-item__body">

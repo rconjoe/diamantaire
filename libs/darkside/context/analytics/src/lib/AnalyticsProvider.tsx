@@ -8,8 +8,11 @@ type AnalyticsContextType = {
   productViewed: (eventData: Record<string, any>) => void;
   emitDataLayer: (data: Record<string, any>) => void;
   productListViewed: ({ listName, category, variantIds, products }) => void;
+  productAdded: (eventData: Record<string, any>) => void;
+  productRemoved: (eventData: Record<string, any>) => void;
   productClicked: (eventData: Record<string, any>) => void;
   productListFiltered: (eventData: Record<string, any>) => void;
+  cartViewed: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -31,6 +34,10 @@ export const GTM_EVENTS = {
   viewListPage: 'viewListPage',
   productClicked: 'productClicked',
   productListFiltered: 'productListFiltered',
+  cartViewed: 'cartViewed',
+  selectShape: 'select_shape',
+  addToCart: 'add_to_cart',
+  removeFromCart: 'remove_from_cart',
 };
 
 export const tagManagerArgs = {
@@ -62,6 +69,30 @@ export const AnalyticsProvider = ({ children }) => {
     viewPage: (pageName: string) => {
       trackEvent(GTM_EVENTS.viewPage, { pageName });
     },
+    productAdded: (eventData: Record<string, any>) => {
+      const { name } = eventData;
+      const ga360Data = {
+        event: GTM_EVENTS.addToCart,
+        eventCategory: 'Ecommerce',
+        eventAction: GTM_EVENTS.addToCart,
+        eventLabel: name,
+      };
+      const mergedData = { ...eventData, ...ga360Data };
+
+      trackEvent(GTM_EVENTS.addToCart, mergedData);
+    },
+    productRemoved: (eventData: Record<string, any>) => {
+      const { name } = eventData;
+      const ga360Data = {
+        event: GTM_EVENTS.removeFromCart,
+        eventCategory: 'Ecommerce',
+        eventAction: GTM_EVENTS.removeFromCart,
+        eventLabel: name,
+      };
+      const mergedData = { ...eventData, ...ga360Data };
+
+      trackEvent(GTM_EVENTS.removeFromCart, mergedData);
+    },
     productViewed: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.viewItem, eventData);
     },
@@ -73,6 +104,9 @@ export const AnalyticsProvider = ({ children }) => {
     },
     productListFiltered: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.productListFiltered, eventData);
+    },
+    cartViewed: (eventData: Record<string, any>) => {
+      trackEvent(GTM_EVENTS.cartViewed, eventData);
     },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
@@ -88,25 +122,27 @@ export const AnalyticsProvider = ({ children }) => {
 export const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
   const normalizedConfiguration: Record<string, any> = {};
 
-  for (const [key, value] of Object.entries(configuration)) {
-    switch (key) {
-      case 'diamondType':
-        normalizedConfiguration.diamond_type = value;
-        break;
-      case 'goldPurity':
-        normalizedConfiguration.gold_purity = value;
-        break;
-      case 'caratWeight':
-        normalizedConfiguration.carat_weight = value;
-        break;
-      case 'bandAccent':
-        normalizedConfiguration.band_accent = value;
-        break;
-      default:
-        normalizedConfiguration[key] = value;
-        break;
+  if (configuration) {
+    for (const [key, value] of Object.entries(configuration)) {
+      switch (key) {
+        case 'diamondType':
+          normalizedConfiguration.diamond_type = value;
+          break;
+        case 'goldPurity':
+          normalizedConfiguration.gold_purity = value;
+          break;
+        case 'caratWeight':
+          normalizedConfiguration.carat_weight = value;
+          break;
+        case 'bandAccent':
+          normalizedConfiguration.band_accent = value;
+          break;
+        default:
+          normalizedConfiguration[key] = value;
+          break;
+      }
     }
-  }
 
-  return normalizedConfiguration;
+    return normalizedConfiguration;
+  }
 };

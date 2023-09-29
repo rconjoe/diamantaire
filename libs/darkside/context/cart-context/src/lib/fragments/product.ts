@@ -11,6 +11,7 @@ const productFragment = gql`
     title
     description
     descriptionHtml
+    productType
     options {
       id
       name
