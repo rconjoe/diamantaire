@@ -180,6 +180,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               extraOptions={extraOptions}
               defaultRingSize={shopifyProductData?.defaultRingSize}
               hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
+              variantProductTitle={shopifyProductData?.productTitle}
+              price={price}
             />
 
             {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}

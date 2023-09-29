@@ -397,7 +397,13 @@ const BuilderFlow = ({
           ) : currentStep === 2 ? (
             builderProduct.product &&
             builderProduct.diamond && (
-              <ReviewBuildStep settingSlugs={settingSlugs} type={type} configurations={configurations} />
+              <ReviewBuildStep
+                settingSlugs={settingSlugs}
+                type={type}
+                configurations={configurations}
+                variantProductTitle={shopifyProductData?.productTitle}
+                selectedConfiguration={selectedConfiguration}
+              />
             )
           ) : null
         ) : currentStep === 0 ? (
@@ -435,7 +441,13 @@ const BuilderFlow = ({
         ) : currentStep === 3 ? (
           builderProduct.product &&
           builderProduct.diamond && (
-            <ReviewBuildStep settingSlugs={settingSlugs} type={type} configurations={configurations} />
+            <ReviewBuildStep
+              settingSlugs={settingSlugs}
+              type={type}
+              configurations={configurations}
+              selectedConfiguration={selectedConfiguration}
+              variantProductTitle={shopifyProductData?.productTitle}
+            />
           )
         ) : null}
       </AnimatePresence>

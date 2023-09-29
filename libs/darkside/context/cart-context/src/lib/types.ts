@@ -24,6 +24,8 @@ export type CartItem = {
   merchandise: {
     id: string;
     title: string;
+    sku: string;
+    price: Money;
     selectedOptions: {
       name: string;
       value: string;
@@ -129,6 +131,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  productType: string;
 };
 
 export type ShopifyCartOperation = {

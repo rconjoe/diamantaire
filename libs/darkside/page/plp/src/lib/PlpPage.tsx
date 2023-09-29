@@ -44,7 +44,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const { seoTitle, seoDescription } = seo || {};
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, filterValue, {});
   const availableFilters = data?.pages[0]?.availableFilters;
-  const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
+  const creativeBlockIds = Array.from(creativeBlocks || [])?.map((block) => block.id);
 
   // Handle pagination
   useEffect(() => {
@@ -70,6 +70,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       const hasPriceFilter = urlSearchParams.has('priceMin') || urlSearchParams.has('priceMax');
 
       const filterEvent = {
+        // eslint-disable-next-line camelcase
         list_id: hero?.title,
         filters: {
           ...filters,

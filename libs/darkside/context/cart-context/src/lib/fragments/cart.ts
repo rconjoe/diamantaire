@@ -35,6 +35,11 @@ const cartFragment = gql`
             ... on ProductVariant {
               id
               title
+              sku
+              price {
+                amount
+                currencyCode
+              }
               selectedOptions {
                 name
                 value

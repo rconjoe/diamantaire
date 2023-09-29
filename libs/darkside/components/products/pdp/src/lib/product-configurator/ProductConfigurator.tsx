@@ -1,11 +1,16 @@
+/* eslint-disable camelcase */
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   ENGRAVEABLE_JEWELRY_SLUGS,
   NON_ENGRAVEABLE_WEDDING_BAND_SLUGS,
+  getFormattedPrice,
   metalTypeAsConst,
+  parseValidLocale,
+  getCurrency,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -38,6 +43,8 @@ type ProductConfiguratorProps = {
   }[];
   defaultRingSize?: string;
   hasMultipleDiamondOrientations?: boolean;
+  variantProductTitle?: string;
+  price?: number;
 };
 
 function ProductConfigurator({
@@ -55,6 +62,8 @@ function ProductConfigurator({
   extraOptions,
   defaultRingSize,
   hasMultipleDiamondOrientations,
+  variantProductTitle,
+  price,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -195,6 +204,8 @@ function ProductConfigurator({
           isConfigurationComplete={isConfigurationComplete}
           additionalVariantData={additionalVariantData}
           selectedConfiguration={selectedConfiguration}
+          variantProductTitle={variantProductTitle}
+          price={price}
         />
       )}
     </>
@@ -210,6 +221,8 @@ type CtaButtonProps = {
   useCustomDiamondPrompt?: boolean;
   isConfigurationComplete?: boolean;
   selectedConfiguration?: { [key: string]: string };
+  variantProductTitle?: string;
+  price?: number;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -226,11 +239,15 @@ function AddToCartButton({
   additionalVariantData,
   selectedConfiguration,
   isConfigurationComplete,
+  variantProductTitle,
+  price,
 }: CtaButtonProps) {
   const { addItem, setIsCartOpen } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
 
-  const { locale } = useRouter();
+  const { emitDataLayer, productAdded } = useAnalytics();
+  const router = useRouter();
+  const { locale } = router;
   const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
 
   const {
@@ -251,9 +268,9 @@ function AddToCartButton({
     configuredProductOptionsInOrder,
   } = additionalVariantData;
 
-  const router = useRouter();
-
-  console.log('router', router);
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrency(countryCode);
+  const formattedPrice = getFormattedPrice(price, locale, true, true);
 
   function elminateEmptyValues(items) {
     return items.filter((item) => item.value !== '' && item.value !== null && item.value);
@@ -281,6 +298,52 @@ function AddToCartButton({
         value: productType,
       },
     ];
+
+    const id = variantId?.split('/').pop();
+
+    productAdded({
+      id,
+      name: productTitle,
+      variant: variantProductTitle,
+      product: variantProductTitle,
+      price: formattedPrice,
+      quantity: 1,
+      currencyCode,
+      brand: 'VRAI',
+      category: productType,
+      image_url: image?.src,
+      diamond_type: selectedConfiguration?.diamondType,
+      ...selectedConfiguration,
+      ecommerce: {
+        value: formattedPrice,
+        currency: currencyCode,
+        add: {
+          products: [
+            {
+              id,
+              name: productTitle,
+              variant: variantProductTitle,
+              product: variantProductTitle,
+              price: formattedPrice,
+              quantity: 1,
+              brand: 'VRAI',
+            },
+          ],
+        },
+      },
+      items: [
+        {
+          item_id: id,
+          item_name: variantProductTitle,
+          item_brand: 'VRAI',
+          item_category: productType,
+          price: formattedPrice,
+          currency: currencyCode,
+          quantity: 1,
+          ...selectedConfiguration,
+        },
+      ],
+    });
 
     if (productType === 'Engagement Ring') {
       const erMetal = goldPurity
@@ -384,6 +447,17 @@ function AddToCartButton({
           if (isConfigurationComplete) {
             addProductToCart();
           } else {
+            // ER select shape from pdp setting flow
+            const { diamondType } = selectedConfiguration || {};
+
+            emitDataLayer({
+              event: GTM_EVENTS.selectShape,
+              eventCategory: 'engagement_ring_creation',
+              eventAction: GTM_EVENTS.selectShape,
+              eventLabel: diamondType,
+              select_shape: diamondType,
+              diamond_type: diamondType,
+            });
             router.push(
               `/customize?type=setting-to-diamond&collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`,
             );
