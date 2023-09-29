@@ -14,17 +14,20 @@ const HeaderActionsNavContainer = styled.nav`
 
     li {
       margin-right: 10px;
+
       &:last-child {
         margin-right: 0px;
       }
+
       &.accounts {
         img {
+          top: 1px;
           width: 20px;
           height: auto;
           position: relative;
-          top: 1px;
         }
       }
+
       &.search {
         img {
           width: 26px;
@@ -34,6 +37,7 @@ const HeaderActionsNavContainer = styled.nav`
           top: 1px;
         }
       }
+
       &.wishlist {
         img {
           width: 24px;
@@ -44,6 +48,7 @@ const HeaderActionsNavContainer = styled.nav`
           top: 1px;
         }
       }
+
       &.cart {
         img {
           width: 24px;
@@ -51,9 +56,6 @@ const HeaderActionsNavContainer = styled.nav`
           position: relative;
           top: -1px;
         }
-      }
-      a {
-        display: inline-block;
       }
 
       button {
@@ -64,6 +66,14 @@ const HeaderActionsNavContainer = styled.nav`
         &:hover {
           cursor: pointer;
         }
+      }
+
+      a {
+        display: inline-block;
+      }
+
+      svg {
+        height: 18px;
       }
     }
   }

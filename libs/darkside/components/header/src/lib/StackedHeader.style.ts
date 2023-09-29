@@ -96,8 +96,20 @@ export const StackedHeaderStylesContainer = styled.div`
           }
         }
 
+        &.calendar {
+          display: flex;
+          svg {
+            height: 18px;
+          }
+        }
+
+        &.language {
+          min-width: 80px;
+          margin-right: 0;
+        }
+
         &:last-child {
-          margin-left: 20px;
+          margin-left: 0;
           margin-right: 0;
         }
       }

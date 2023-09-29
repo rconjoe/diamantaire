@@ -34,7 +34,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvgCheck =
-    image.mimeType === 'image/svg' ||
+    image?.mimeType === 'image/svg' ||
     isSVG ||
     (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
@@ -55,24 +55,26 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
     return datoUrl.toString();
   };
 
-  return isSvgCheck ? (
+  return isSvgCheck && image?.url ? (
     <img src={image.url} alt={overrideAlt || alt} />
   ) : (
     <DatoImageContainer>
-      <Image
-        alt={overrideAlt ? overrideAlt : alt ? alt : ''}
-        src={responsiveImageSrc}
-        placeholder="blur"
-        blurDataURL={responsiveImage?.base64}
-        loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
-        className={clsx('image', className)}
-        sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
-        loading={shouldLazyLoad ? 'lazy' : 'eager'}
-        fill={true}
-        style={{
-          aspectRatio,
-        }}
-      />
+      {responsiveImage && responsiveImageSrc && (
+        <Image
+          alt={overrideAlt ? overrideAlt : alt ? alt : ''}
+          src={responsiveImageSrc}
+          placeholder="blur"
+          blurDataURL={responsiveImage?.base64}
+          loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
+          className={clsx('image', className)}
+          sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
+          loading={shouldLazyLoad ? 'lazy' : 'eager'}
+          fill={true}
+          style={{
+            aspectRatio,
+          }}
+        />
+      )}
     </DatoImageContainer>
   );
 };

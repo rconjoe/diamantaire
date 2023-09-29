@@ -50,9 +50,11 @@ const MobileHeaderContainer = styled.div`
                   top: -1px;
                 }
               }
+
               .hamburger-react {
-                width: 20px !important;
-                height: 20px !important;
+                width: 18px !important;
+                height: 18px !important;
+                overflow: hidden;
                 position: relative;
                 top: 2px;
 

@@ -87,6 +87,13 @@ const FooterStyles = styled.footer`
         .footer-col__inner {
           max-width: 420px;
         }
+
+        .input-container {
+          flex: 2;
+        }
+        .input-container.submit {
+          flex: 1;
+        }
         h4 {
           margin: 0 0 10px;
           font-size: 1.9rem;
@@ -114,6 +121,12 @@ const FooterStyles = styled.footer`
               position: relative;
               a {
                 display: inline-block;
+
+                svg {
+                  max-height: 20px;
+                  width: auto;
+                }
+
                 img {
                   height: 23px;
                 }

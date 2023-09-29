@@ -1,7 +1,7 @@
 import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
-import { LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import { EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -48,7 +48,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
             <ul className="country-locale-selector">
-              <li>
+              <li className="country">
                 <button className="country-selector" onClick={() => toggleCountrySelector()}>
                   <LocationPinIcon /> <span>{selectedCountry}</span>
                 </button>
@@ -56,7 +56,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
               {availableLanguages.length > 1 && (
                 <>
                   <li className="divider">|</li>
-                  <li>
+                  <li className="language">
                     <button className="language-selector" onClick={() => toggleLanguageSelector()}>
                       <UIString>{selectedLanguage && selectedLanguage.toLowerCase()}</UIString>
                       <div className={'language-icon' + (isLanguageSelectorOpen ? ' active' : '')}>▼</div>
@@ -65,7 +65,8 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   </li>
                 </>
               )}
-              <li>
+              <li className="calendar">
+                <EmptyCalendarIcon />
                 <UIString>Book an appointment</UIString>
               </li>
             </ul>
