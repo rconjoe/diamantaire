@@ -22,7 +22,7 @@ export function darksideMiddleware(
   url.searchParams.set('country', country);
   url.searchParams.set('city', city);
 
-  NextResponse.rewrite(url);
+  request['userAgent'] = geo;
 
   // geo:
   // if (!request.cookies.has('geo')) {

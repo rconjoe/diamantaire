@@ -49,7 +49,7 @@ HomePage.getTemplate = getStandardTemplate;
 async function getStaticProps(props) {
   const { locale, query } = props;
 
-  console.log('queryxxx', props, query);
+  console.log('queryxxx', props);
   // device - needs to be static for now:
   const isMobile = false;
   const { countryCode } = parseValidLocale(locale);
