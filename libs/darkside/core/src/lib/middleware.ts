@@ -1,5 +1,5 @@
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
-import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export function darksideMiddleware(
   request: NextRequest,
@@ -11,10 +11,23 @@ export function darksideMiddleware(
   //   return NextResponse.rewrite(new URL('/about-2', request.url))
   // }
 
+  const { nextUrl: url, geo } = request;
+
+  console.log('geo', geo);
+
+  const country = geo.country || 'US';
+  const city = geo.city || 'San Francisco';
+  // const region = geo.region || 'CA';
+
+  url.searchParams.set('country', country);
+  url.searchParams.set('city', city);
+
+  NextResponse.rewrite(url);
+
   // geo:
-  if (!request.cookies.has('geo')) {
-    //response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
-  }
+  // if (!request.cookies.has('geo')) {
+  //   response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
+  // }
 
   // we don't need to store our own locale cookie - only hook up our locale switcher to set the NEXT_LOCALE cookie.
   // when this cookie is set, the next router will redirect to that locale route.

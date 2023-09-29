@@ -28,6 +28,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
             id
             copy
             route
+            newRoute
             isBold
             linkKey
             flags
@@ -35,6 +36,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
               id
               copy
               route
+              newRoute
               isBold
             }
             supportedCountries {

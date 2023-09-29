@@ -52,7 +52,9 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                               linkKey,
                               nestedLinks,
                               route: subMenuRoute,
+                              newRoute,
                               copy: nestedLinkCopy,
+                              isBold,
                             }: Partial<SubMenuChildLink> = link;
 
                             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
@@ -63,7 +65,7 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
 
                             return (
                               <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
-                                <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
+                                <Link href={getRelativeUrl(newRoute || subMenuRoute)} className={iconType ? 'has-icon' : ''}>
                                   <>
                                     {linkKey && (
                                       <span className={iconType}>
@@ -75,19 +77,21 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                                       </span>
                                     )}
 
-                                    <span className="link-text">{nestedLinkCopy}</span>
+                                    <span className="link-text">
+                                      {isBold ? <strong>{nestedLinkCopy}</strong> : nestedLinkCopy}
+                                    </span>
                                   </>
                                 </Link>
 
                                 {nestedLinks?.length > 0 && (
                                   <ul className="grandchildren-links">
                                     {nestedLinks?.map((nestedLink, nestedLinkIndex: number) => {
-                                      const { route, copy }: { route: string; copy: string } = nestedLink;
+                                      const { newRoute, route, copy } = nestedLink;
 
                                       return (
                                         <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                                          <Link href={getRelativeUrl(route)}>
-                                            <span className="link-text">{copy}</span>
+                                          <Link href={getRelativeUrl(newRoute || route)}>
+                                            <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
                                           </Link>
                                         </li>
                                       );

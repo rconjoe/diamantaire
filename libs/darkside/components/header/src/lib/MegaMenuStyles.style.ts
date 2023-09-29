@@ -57,7 +57,8 @@ export const MegaMenuStylesContainer = styled.div<Props>`
             &:last-child {
               margin-bottom: 0px;
             }
-            a {
+            a,
+            span {
               font-size: 1.5rem;
               font-family: ${MAIN_FONT};
               letter-spacing: 0.3px;
@@ -120,7 +121,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
           }
 
           &.grandchildren-links {
-            padding: 15px 0px 5px 1.6rem;
+            padding: 10px 0px 5px 1.6rem;
           }
         }
       }
