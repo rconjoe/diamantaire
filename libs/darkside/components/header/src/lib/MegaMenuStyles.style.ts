@@ -84,6 +84,10 @@ export const MegaMenuStylesContainer = styled.div<Props>`
                   transition: 0.25s;
                   width: 0%;
                 }
+
+                strong {
+                  font-weight: 600;
+                }
               }
 
               &:hover,

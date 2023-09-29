@@ -22,6 +22,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         columns {
           columnTitle
           route
+          newRoute
           colKey
           links {
             _modelApiKey

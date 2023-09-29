@@ -37,7 +37,9 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                 }}
               >
                 {columns?.map((column, index) => {
-                  const { columnTitle, colKey, links } = column || {};
+                  const { columnTitle, colKey, links, route, newRoute } = column || {};
+
+                  console.log('column', column);
 
                   return (
                     <div
@@ -45,7 +47,15 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                       key={`mm-c-${index}`}
                     >
                       <div className="col__inner">
-                        <h4>{columnTitle}</h4>
+                        <h4>
+                          {newRoute !== '' ? (
+                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                          ) : route !== '' ? (
+                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                          ) : (
+                            columnTitle
+                          )}
+                        </h4>
                         <ul>
                           {links.map((link, colIndex: number) => {
                             const {
