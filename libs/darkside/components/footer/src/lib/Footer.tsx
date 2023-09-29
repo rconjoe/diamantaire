@@ -269,7 +269,13 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <p className="col-heading">{title}</p>
                 <p>{copy}</p>
 
-                <FooterEmailSignup showOptIn={isUserInEu} ctaCopy={ctaCopy} optInCopy={optInCopy} />
+                <FooterEmailSignup
+                  showOptIn={isUserInEu}
+                  ctaCopy={ctaCopy}
+                  optInCopy={optInCopy}
+                  countryCode={selectedCountryCode}
+                  locale={selectedLocale}
+                />
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
@@ -309,7 +315,14 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
 export { Footer };
 
-export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST, showOptIn = false, ctaCopy, optInCopy }) => {
+export const FooterEmailSignup = ({
+  listData = HUBSPOT_FOOTER_LIST,
+  showOptIn = false,
+  ctaCopy,
+  optInCopy,
+  countryCode,
+  locale,
+}) => {
   const [formState, setFormState] = useState(null);
   const [message, setMessage] = useState(null);
   const [isValid, setIsValid] = useState(true);
@@ -327,7 +340,7 @@ export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST, showOptIn = 
 
     try {
       if (!showOptIn || (showOptIn && isConsent)) {
-        const response = await sendHubspotForm({ email, listData, isConsent });
+        const response = await sendHubspotForm({ email, listData, isConsent, countryCode, locale });
 
         setMessage(response.inlineMessage);
       }
