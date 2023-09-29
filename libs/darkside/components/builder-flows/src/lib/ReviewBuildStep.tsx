@@ -364,7 +364,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     settingItemAttributes = removeEmptyCartLineItemAttributes(settingItemAttributes);
 
     // 4. Create custom attributes for the diamond
-
+    console.log({ diamond });
     const diamondItemAttributes = [
       {
         key: '_image',
@@ -389,6 +389,10 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       {
         key: 'color',
         value: diamond.color,
+      },
+      {
+        key: 'lotId',
+        value: diamond.lotId,
       },
       {
         key: 'isChildDiamond',

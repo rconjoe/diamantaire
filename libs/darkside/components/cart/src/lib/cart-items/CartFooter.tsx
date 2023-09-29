@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -131,12 +133,124 @@ type CartFooterProps = {
 
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
   const [hasTermsConsent, setHasTermsConsent] = useState(true);
+  const { checkoutStarted } = useAnalytics();
+  const handleCheckoutClick = () => {
+    if (!hasTermsConsent) return;
+
+    const { checkoutUrl, cost, lines, id: cartId } = checkout || {};
+    const { subtotalAmount, totalTaxAmount } = cost || {};
+    const { amount: subtotalAmountPrice, currencyCode } = subtotalAmount || {};
+    const { amount: totalTaxAmountPrice } = totalTaxAmount || {};
+
+    const eventData = {
+      order_id: cartId?.split('/').pop(),
+      value: subtotalAmountPrice,
+      currency: currencyCode,
+      tax: totalTaxAmountPrice,
+      ecommerce: {
+        value: subtotalAmountPrice,
+        currency: currencyCode,
+        checkout: {
+          actionField: { step: 1 },
+          products: lines?.map(
+            ({
+              merchandise,
+              attributes,
+              cost: {
+                totalAmount: { amount: productAmount },
+              },
+              quantity,
+            }) => {
+              const { id: merchandiseID, product } = merchandise || {};
+              const { title: variantTitle, productType } = product || {};
+
+              const productTitle = attributes.find(({ key }) => key === 'productTitle')?.value;
+
+              const name = variantTitle || productTitle;
+              const parsedId = merchandiseID.split('/').pop();
+
+              const brand = 'VRAI';
+
+              return {
+                id: parsedId,
+                name,
+                brand,
+                category: productType,
+                price: productAmount,
+                quantity,
+                currency: currencyCode,
+              };
+            },
+          ),
+        },
+        items: lines?.map(
+          ({
+            merchandise,
+            attributes,
+            cost: {
+              totalAmount: { amount: productAmount },
+            },
+            quantity,
+          }) => {
+            const { id: merchandiseID, product } = merchandise || {};
+            const { title: variantTitle, tags, productType } = product || {};
+
+            const productTitle = attributes.find(({ key }) => key === 'productTitle')?.value;
+            const isChildDiamond = attributes.find(({ key }) => key === 'isChildDiamond')?.value === 'true';
+
+            const diamondOptions = attributes
+              .filter(({ key }) => ['caratWeight', 'clarity', 'cut', 'color', 'lotId'].includes(key))
+              .reduce((acc, { key, value }) => {
+                if (key === 'lotId') {
+                  return { ...acc, diamondLotId: value, lotId: value };
+                }
+
+                return { ...acc, [key]: value };
+              }, {});
+            const name = variantTitle || productTitle;
+            const parsedId = merchandiseID.split('/').pop();
+
+            const brand = 'VRAI';
+
+            const options = isChildDiamond
+              ? diamondOptions
+              : tags
+                  ?.filter((tag) => tag.startsWith('_'))
+                  .reduce((acc, tag) => {
+                    const [key, value] = tag.split(':');
+                    const parsedKey = key.replace('_', '');
+
+                    if (parsedKey !== 'diamondType' || (parsedKey === 'diamondType' && value !== 'any')) {
+                      return { ...acc, [parsedKey]: value };
+                    }
+
+                    return acc;
+                  }, {});
+
+            return {
+              item_id: parsedId,
+              item_name: name,
+              item_brand: brand,
+              item_category: productType,
+              price: productAmount,
+              currency: currencyCode,
+              quantity,
+              ...options,
+            };
+          },
+        ),
+      },
+    };
+
+    checkoutStarted(eventData);
+    window.location.href = checkoutUrl;
+  };
 
   return (
     <CartFooterStyles>
       <ul>
         <li className="checkout-button">
-          <DarksideButton onClick={() => (window.location.href = checkout.checkoutUrl)}>
+          <DarksideButton onClick={handleCheckoutClick}>
             {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
           </DarksideButton>
         </li>

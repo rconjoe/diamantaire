@@ -79,9 +79,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { productTitle } = collectionContent || {}; // flatten array in normalization
 
   const configurations = shopifyProductData?.optionConfigs;
-  const assetStack = productContent.assetStack; // flatten array in normalization
+  const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const variantHandle = productContent.shopifyProductHandle;
+  const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
@@ -100,7 +100,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }
 
   // use parent product carat if none provided on the variant in Dato
-  if (!productContent.carat || productContent.carat === '' || !additionalVariantData.caratWeightOverride) {
+  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
     if (additionalVariantData.caratWeightOverride) {
       additionalVariantData.carat = additionalVariantData.caratWeightOverride;
     } else {
