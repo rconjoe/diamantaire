@@ -36,7 +36,13 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
-  const qParams = new URLSearchParams({ category, slug, ...optionsQuery, page: page?.toString(), limit: limit?.toString() });
+  const qParams = new URLSearchParams({
+    category,
+    slug,
+    ...optionsQuery,
+    page: page?.toString() || '1',
+    limit: limit?.toString(),
+  });
   const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
 
   const response = await fetch(reqUrl, {

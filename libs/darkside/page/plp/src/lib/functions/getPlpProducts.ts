@@ -11,6 +11,8 @@ export default async function getPlpProducts(options: GetPlpProductsOptions, res
   setApiRouteCacheHeader(res);
   const qParams = new URLSearchParams(options).toString();
 
+  console.log('xxx', qParams);
+
   let response;
   const reqUrl = `/v1/products/plp?${qParams}`;
 
