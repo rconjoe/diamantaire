@@ -499,6 +499,7 @@ function AddToCartButton({
 
       addItem(variantId, [...weddingBandAttributes]);
     } else if (productType === 'Earrings') {
+      // WIP
       console.log('add earring');
       const metal = goldPurity
         ? goldPurity + ' '
