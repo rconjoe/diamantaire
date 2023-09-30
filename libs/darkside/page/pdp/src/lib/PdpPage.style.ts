@@ -8,6 +8,7 @@ export const PageContainerStyles = styled.div`
       flex: 1 1 100%;
       overflow: hidden;
       ${media.medium`padding: 0 20px;`}
+      ${media.large`padding: 0 50px 0 20px;`}
     }
     .info-container {
       flex: 0 0 550px;
