@@ -1,6 +1,7 @@
 import { XIcon } from '@diamantaire/shared/icons';
 import React, { PropsWithChildren, ReactNode } from 'react';
 
+import { Heading } from './Heading';
 import { SlideOutWrapper, SlideOutOverlay, SlideOutFreezeBody } from './SlideOut.style';
 
 interface SlideOutProps extends PropsWithChildren {
@@ -39,10 +40,10 @@ const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className
         exit="collapsed"
         variants={{
           open: { x: 0, opacity: 1 },
-          collapsed: { x: width, opacity: 0 },
+          collapsed: { x: 300, opacity: 0 },
         }}
         transition={{
-          duration: 0.25,
+          duration: 0.5,
         }}
         className={className}
         width={width}
@@ -50,7 +51,9 @@ const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className
         <div className="wrapper">
           <div className="head">
             <div className="title">
-              <h4>{title}</h4>
+              <Heading type="h4" className="primary">
+                {title}
+              </Heading>
             </div>
           </div>
           <div className="body">{children}</div>

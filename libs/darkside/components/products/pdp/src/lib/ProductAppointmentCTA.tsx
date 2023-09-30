@@ -1,14 +1,45 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const ProductAppointmentCTAStyles = styled.div`
+  margin-top: 1rem;
+  .appointment-button {
+    width: 100%;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+
+    span {
+      flex: 0 0 25px;
+      position: relative;
+      top: 2px;
+      margin-right: 2px;
+    }
+  }
+
+  /* Slideout styles */
+  iframe {
+    min-height: 90vh;
+  }
+
+  .appointment-slideout {
+    .primary {
+      text-align: center;
+    }
+  }
+`;
 
 const ProductAppointmentCTA = () => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
 
   return (
-    <div>
-      <h1>Product Appointment CTA</h1>
-      <button onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}>
+    <ProductAppointmentCTAStyles>
+      {/* Lets refine later */}
+      <button className="appointment-button" onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}>
         <span>
           <BookCalendarIcon />
         </span>
@@ -16,11 +47,22 @@ const ProductAppointmentCTA = () => {
       </button>
 
       {isAppointmentSlideoutShowing && (
-        <SlideOut title="Book an Appointment" onClose={() => setIsAppointmentSlideoutShowing(false)}>
-          Weee
+        <SlideOut
+          title="Schedule your appointment"
+          className="appointment-slideout"
+          onClose={() => setIsAppointmentSlideoutShowing(false)}
+          width="30%"
+        >
+          <iframe
+            src={`https://app.acuityscheduling.com/schedule.php?owner=17078948`}
+            title="Schedule Appointment"
+            width="100%"
+            height="450"
+            frameBorder="0"
+          ></iframe>
         </SlideOut>
       )}
-    </div>
+    </ProductAppointmentCTAStyles>
   );
 };
 
