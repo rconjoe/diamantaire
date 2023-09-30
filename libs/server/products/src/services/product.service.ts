@@ -855,8 +855,6 @@ export class ProductsService {
             return minPrice;
           }, Infinity);
 
-          console.log("CONTENT", content)
-
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
