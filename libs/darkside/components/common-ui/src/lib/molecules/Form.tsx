@@ -7,7 +7,7 @@ This is the master form component, we should never need to manually create a cus
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
@@ -138,9 +138,9 @@ const Form = ({
   extraClass,
   isValid,
   setIsValid,
-  formState,
-  setFormState,
 }: FormProps) => {
+  const [formState, setFormState] = useState(null);
+
   useEffect(() => {
     const initialFormState = {};
 

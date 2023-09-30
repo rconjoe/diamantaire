@@ -355,7 +355,6 @@ export const FooterEmailSignup = ({
   countryCode,
   locale,
 }) => {
-  const [formState, setFormState] = useState(null);
   const [message, setMessage] = useState(null);
   const [isValid, setIsValid] = useState(true);
 
@@ -387,9 +386,7 @@ export const FooterEmailSignup = ({
         <div dangerouslySetInnerHTML={{ __html: message }}></div>
       ) : (
         <Form
-          formState={formState}
           onSubmit={onSubmit}
-          setFormState={setFormState}
           formGridStyle="split"
           stackedSubmit={false}
           showOptIn={showOptIn}
