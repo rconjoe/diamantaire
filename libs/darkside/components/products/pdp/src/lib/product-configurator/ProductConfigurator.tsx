@@ -181,8 +181,6 @@ function ProductConfigurator({
     }
   }, [isSoldAsPairOnly]);
 
-  console.log('additionalVariantData', additionalVariantData);
-
   return (
     <>
       {!hasCaratWeightSelector && (

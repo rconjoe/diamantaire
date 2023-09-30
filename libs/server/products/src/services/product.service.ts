@@ -849,6 +849,7 @@ export class ProductsService {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
           };
+
           const lowestPrice = Object.values(variants).reduce((minPrice: number, variant) => {
             minPrice = Math.min(variant['price']);
 
