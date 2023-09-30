@@ -37,7 +37,7 @@ export async function getVRAIServerPlpData(
   }, {});
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({ category, slug, ...optionsQuery, page: page.toString(), limit: limit.toString() });
-  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams.toString()}`;
+  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -60,9 +60,9 @@ export async function getVRAIServerDiamondPlpData(
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
-  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString(), sortBy, sortOrder });
+  const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
-  const reqUrl = `${baseUrl}/api/plp/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+  const reqUrl = `${baseUrl}/api/plp/getDiamondPlpProducts?${qParams?.toString()}&${pageParams?.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -194,7 +194,7 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
   const qParams = new URLSearchParams({ slug, category, locale });
-  const reqUrl = `/page/plpssr?${qParams.toString()}`;
+  const reqUrl = `/page/plpssr?${qParams?.toString()}`;
   const response = await queryClientApi().request({ url: reqUrl });
 
   return response.data;
