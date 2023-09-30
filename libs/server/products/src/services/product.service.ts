@@ -844,7 +844,7 @@ export class ProductsService {
 
           const useLowestPrice = !content?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          const productLabel = content?.productLabel;
+          // const productLabel = content?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
@@ -858,7 +858,7 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            ...(productLabel && { productLabel }),
+            productLabel: content['collection']?.productLabel,
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
             ...(lowestPrice && { lowestPrice }),
