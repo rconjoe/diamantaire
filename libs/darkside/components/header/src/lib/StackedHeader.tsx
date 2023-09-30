@@ -1,7 +1,8 @@
 import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
-import { EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -48,8 +49,8 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
             <ul className="country-locale-selector">
-              <li className="country">
-                <button className="country-selector" onClick={() => toggleCountrySelector()}>
+              <li className="country-selector">
+                <button onClick={() => toggleCountrySelector()}>
                   <LocationPinIcon /> <span>{selectedCountry}</span>
                 </button>
               </li>
@@ -65,6 +66,16 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   </li>
                 </>
               )}
+
+              <li
+                className={clsx('country-selector__chat', {
+                  'with-lang': availableLanguages.length < 2,
+                })}
+              >
+                <button>
+                  <ChatIcon />
+                </button>
+              </li>
               <li className="calendar">
                 <EmptyCalendarIcon />
                 <UIString>Book an appointment</UIString>

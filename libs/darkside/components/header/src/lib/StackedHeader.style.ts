@@ -78,23 +78,38 @@ export const StackedHeaderStylesContainer = styled.div`
           }
         }
 
-        .country-selector {
-          display: flex;
-          align-items: baseline;
-          width: 100%;
-          margin-right: 10px;
+        &.country-selector {
+          /* flex: 0 0 100px; */
+          button {
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+            margin-right: 10px;
 
+            svg {
+              flex: 0 0 30px;
+              position: relative;
+              top: 6px;
+            }
+
+            span {
+              flex: 1;
+              white-space: nowrap;
+              font-size: 1.3rem;
+              color: var(--color-black);
+            }
+          }
+        }
+
+        &.country-selector__chat {
           svg {
-            flex: 0 0 30px;
+            width: 17px;
             position: relative;
-            top: 6px;
+            top: 3px;
           }
 
-          span {
-            flex: 1;
-            white-space: nowrap;
-            font-size: 1.3rem;
-            color: var(--color-black);
+          &.with-lang {
+            margin-left: 20px;
           }
         }
 
@@ -111,7 +126,11 @@ export const StackedHeaderStylesContainer = styled.div`
         }
 
         &:last-child {
+<<<<<<< HEAD
           margin-left: 0;
+=======
+          /* margin-left: 20px; */
+>>>>>>> e191a175 (add chat icon)
           margin-right: 0;
         }
       }
