@@ -215,12 +215,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               extraOptions={extraOptions}
               defaultRingSize={shopifyProductData?.defaultRingSize}
               hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
-<<<<<<< HEAD
               variantProductTitle={shopifyProductData?.productTitle}
               price={price}
-=======
               isEngraveable={shopifyProductData?.isEngraveable}
->>>>>>> 5a8ddf3e (fix variant based engravings)
             />
 
             <ProductKlarna title={productTitle} currentPrice={price} />
