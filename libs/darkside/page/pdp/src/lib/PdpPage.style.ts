@@ -5,7 +5,7 @@ export const PageContainerStyles = styled.div`
   .product-container {
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
-      flex: 1;
+      flex: 1 1 100%;
       overflow: hidden;
       ${media.medium`padding: 0 20px;`}
     }
