@@ -23,7 +23,7 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
-  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band'];
+  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band', 'Earrings'];
 
   const {
     cartHeader,
@@ -86,25 +86,45 @@ const Cart = ({ closeCart }) => {
                   productType: null,
                   _childProduct: null,
                 };
+                const childProductId = item.attributes.find((attr) => attr.key === '_childProduct')?.value;
+
+                console.log('childProductId', childProductId);
                 let childProduct = null;
 
                 let hasChildProduct = false;
 
+                const shouldShowChildProduct =
+                  item.attributes?.find((attr) => attr.key === 'showChildProduct')?.value === 'true';
+
                 item.attributes?.map((attr) => {
-                  if (attr.key === '_childProduct') {
+                  if (attr.key === 'hasChildProduct') {
                     hasChildProduct = true;
                   }
                   cartItemInfo[attr.key] = attr.value;
                 });
 
+                console.log('checkout lines', checkout.lines);
+
                 if (hasChildProduct) {
-                  childProduct = checkout.lines.find((line) => line.merchandise.id === cartItemInfo._childProduct);
+                  childProduct =
+                    checkout.lines.find((line) => line.merchandise.id === cartItemInfo._childProduct) ||
+                    checkout.lines.find((line) =>
+                      line.attributes.find((attr) => attr.key === '_childProduct' && attr.value === childProductId),
+                    );
                 }
+
+                console.log('childProduct', childProduct);
 
                 if (item.attributes.find((item) => item.key === 'isChildProduct')) {
                   return null;
                 }
 
+                const isProductPairedEarring = item.attributes
+                  .find((item) => item.key === 'productType')
+                  ?.value?.includes('Earrings');
+
+                console.log('isProductPairedEarring', isProductPairedEarring);
+                // Core: Adding a pair of earrings to cart is still adding the same variant
                 if (hasChildProduct && childProduct) {
                   // Builder Products
                   return (
@@ -117,10 +137,12 @@ const Cart = ({ closeCart }) => {
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}
                       childProduct={childProduct}
+                      shouldShowChildProduct={shouldShowChildProduct}
                     />
                   );
                 } else if (singleVariantProductTypes.includes(cartItemInfo.productType)) {
-                  // Non-Builder Products
+                  // Non-Builder Products + Paired Earing Products
+
                   return (
                     <SingleVariantCartItem
                       item={item}

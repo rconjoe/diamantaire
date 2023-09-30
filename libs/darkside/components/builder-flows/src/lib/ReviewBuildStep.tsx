@@ -352,6 +352,14 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       },
       // Diamond Sync
       {
+        key: 'showChildProduct',
+        value: 'true',
+      },
+      {
+        key: 'hasChildProduct',
+        value: 'true',
+      },
+      {
         key: '_childProduct',
         value: diamondId,
       },

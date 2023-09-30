@@ -72,6 +72,7 @@ const StyledOptionSelector = styled.div`
       position: relative;
       max-width: 78%;
       gap: 15px;
+      min-height: 44px;
 
       .swiper {
         width: 100%;
@@ -104,6 +105,7 @@ const StyledOptionSelector = styled.div`
     &.space-between-items {
       max-width: 100%;
       gap: 20px;
+      min-height: 0;
     }
   }
 `;
@@ -350,10 +352,18 @@ function OptionSelector({
         ) : (
           <div className={clsx('option-list', label)}>
             {handleOptionValueSort(options, optionType).map((option) => {
-              const isSelected = selectedOptionValue === option.value;
+              const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
+
+              if (optionType === 'soldAsDouble') {
+                console.log('selectedOptionValue', selectedOptionValue);
+                console.log('option.value', option.id);
+                console.log('isSelected', isSelected);
+              }
 
               // human readable value
               const valueLabel = DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[option.value]?.value;
+
+              console.log('optionType', optionType);
 
               return (
                 <OptionItemContainer

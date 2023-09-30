@@ -35,6 +35,7 @@ interface CartContextValues {
     quantity: number;
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
+  removeFromCart: (lineIds: string[]) => Promise<Cart>;
   updateMultipleItemsQuantity: ({
     items,
   }: {
@@ -135,14 +136,13 @@ export const CartProvider = ({ children }) => {
   const removeEdgesAndNodes = (array: Connection<any>) => {
     // This also adds duplicate nodes for products that are the same variant, and sorts by _datedAdded
     let nodes = [];
-    const cartId = localStorage.getItem('cartId');
 
     array.edges.forEach((edge) => {
       const node = edge?.node;
       const quantity = node?.quantity;
 
       if (quantity === 0) {
-        removeFromCart(cartId, [node.id]);
+        removeFromCart([node.id]);
       }
 
       if (quantity > 1) {
@@ -192,7 +192,16 @@ export const CartProvider = ({ children }) => {
   };
 
   // Saving for later
-  async function removeFromCart(cartId: string, lineIds: string[]): Promise<Cart> {
+  async function removeFromCart(lineIds: string[]): Promise<Cart> {
+    let cartId = localStorage.getItem('cartId');
+    let cart;
+
+    if (cartId) {
+      cart = await getCart(cartId);
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
     const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
       query: removeFromCartMutation,
       variables: {
@@ -275,6 +284,7 @@ export const CartProvider = ({ children }) => {
       | {
           variantId: string | undefined;
           customAttributes?: AttributeInput[];
+          quantity?: number;
         }[]
       | undefined,
   ): Promise<string | undefined> => {
@@ -298,7 +308,7 @@ export const CartProvider = ({ children }) => {
     const refinedItems = [];
 
     items?.map((item) => {
-      const newItem = { merchandiseId: item.variantId, quantity: 1, attributes: item.customAttributes };
+      const newItem = { merchandiseId: item.variantId, quantity: item?.quantity || 1, attributes: item.customAttributes };
 
       return refinedItems.push(newItem);
     });
@@ -322,6 +332,8 @@ export const CartProvider = ({ children }) => {
       attributes: AttributeInput[];
     }[];
   }): Promise<string | undefined> => {
+    console.log('itemsss', items);
+
     const cartId = localStorage.getItem('cartId');
 
     const refinedItems = [];
@@ -420,6 +432,7 @@ export const CartProvider = ({ children }) => {
       value={{
         addItem,
         addCustomizedItem,
+        removeFromCart,
         updateItemQuantity,
         updateMultipleItemsQuantity,
         isCartOpen,

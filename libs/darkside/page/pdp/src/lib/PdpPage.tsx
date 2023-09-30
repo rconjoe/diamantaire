@@ -143,6 +143,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     metalWeight,
     shownWithCtwLabel,
     diamondDescription,
+    styles: shopifyProductData?.styles,
     productType: shopifyProductData.productType,
   };
   const variantId = shopifyProductData?.shopifyVariantId;
@@ -182,13 +183,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  console.log('shopifyProductData', shopifyProductData);
-
   // Doubles price if product is earrings and
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
+
+  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -235,6 +236,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               isEngraveable={shopifyProductData?.isEngraveable}
               hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
               setShouldDoublePrice={setShouldDoublePrice}
+              shouldDoublePrice={shouldDoublePrice}
               isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
               isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
             />
@@ -255,6 +257,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               variantAttributes={additionalVariantData}
               productSpecId={datoParentProductData?.specLabels?.id}
               title={productTitle}
+              selectedConfiguration={configuration}
             />
           </div>
         </div>

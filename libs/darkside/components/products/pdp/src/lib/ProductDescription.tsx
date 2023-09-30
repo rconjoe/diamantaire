@@ -1,6 +1,8 @@
 import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -20,6 +22,11 @@ const ProductDescriptionContainer = styled.div`
 
     &:last-child {
       margin-bottom: 0px;
+    }
+
+    &.sub-title {
+      font-weight: 500;
+      margin-bottom: 1rem;
     }
   }
 
@@ -55,7 +62,14 @@ const ProductDescriptionContainer = styled.div`
   }
 `;
 
-const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId, title }) => {
+const ProductDescription = ({
+  description,
+  productAttributes,
+  variantAttributes,
+  productSpecId,
+  title,
+  selectedConfiguration,
+}) => {
   const {
     productType,
     bandWidth: parentProductBandWidth,
@@ -66,6 +80,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     metalWeight,
     shownWithCtwLabel,
     diamondDescription,
+    styles,
   } = productAttributes || {};
 
   const {
@@ -77,6 +92,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     shape,
     shownWithCtw,
     caratWeightOverride,
+    pdpSubTitle,
 
     // Jewelry
     metal,
@@ -91,6 +107,8 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     paveCaratWeightOverride,
   } = variantAttributes || {};
 
+  console.log('variantAttributes', variantAttributes);
+
   // Product Spec - These are the locale-based labels for the product
   const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
   const labels = data?.productSpecLabelCollection?.labels;
@@ -100,6 +118,8 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
   labels?.forEach((label) => {
     return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
   });
+
+  console.log('selectedConfiguration', selectedConfiguration);
 
   const diamondLabels = useMemo(
     () => [
@@ -210,12 +230,37 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
 
   const jewelryProductTypes = ['Necklace', 'Bracelet'];
 
+  const generatedSubTitle =
+    title +
+    ' ' +
+    styles?.[0] +
+    ' ring in ' +
+    selectedConfiguration?.goldPurity +
+    ' ' +
+    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal].toLowerCase() +
+    ' ' +
+    ' with a ' +
+    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType].toLowerCase() +
+    ' diamond';
+
+  const { locale } = useRouter();
+  const isInUS = locale === 'en-US';
+
   return (
     description && (
       <ProductDescriptionContainer>
         <Heading type="h4" className="primary">
           {title ? title + ' Design' : 'Details'}
         </Heading>
+
+        {pdpSubTitle !== '' ? (
+          <p className="sub-title">{pdpSubTitle}</p>
+        ) : productType === 'Engagement Ring' && isInUS ? (
+          <p className="sub-title">{generatedSubTitle}</p>
+        ) : (
+          ''
+        )}
+
         <Markdown withStyles={false}>{description}</Markdown>
 
         <div className="description__product-details">

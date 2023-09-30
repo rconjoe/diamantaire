@@ -392,6 +392,7 @@ const DATO_VARIANT_QUERY = `
       bandWidthOverride
       metalWeightOverride
       paveCaratWeightOverride
+      pdpSubTitle
     }
     }
 `;
