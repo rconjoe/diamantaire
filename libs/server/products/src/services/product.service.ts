@@ -842,8 +842,9 @@ export class ProductsService {
             return map;
           }, {});
 
-          const useLowestPrice = !product?.['collection']?.shouldUseDefaultPrice;
-          const hasOnlyOnePrice = product?.['collection']?.hasOnlyOnePrice;
+          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const hasOnlyOnePrice = content?.hasOnlyOnePrice;
+          const productLabel = content?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
@@ -854,10 +855,12 @@ export class ProductsService {
             return minPrice;
           }, Infinity);
 
+          console.log("CONTENT", content)
+
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            productLabel: content['collection'].productLabel,
+            ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
             ...(lowestPrice && { lowestPrice }),
