@@ -137,8 +137,6 @@ export const CartProvider = ({ children }) => {
     let nodes = [];
     const cartId = localStorage.getItem('cartId');
 
-    console.log('case 1', array.edges);
-
     array.edges.forEach((edge) => {
       const node = edge?.node;
       const quantity = node?.quantity;
@@ -167,14 +165,10 @@ export const CartProvider = ({ children }) => {
       return 0;
     });
 
-    console.log('case 2', nodes);
-
     return nodes;
   };
 
   const reshapeCart = (cart: ShopifyCart): Cart => {
-    console.log('reshape running', cart);
-
     if (!cart) return;
 
     if (!cart?.cost?.totalTaxAmount) {

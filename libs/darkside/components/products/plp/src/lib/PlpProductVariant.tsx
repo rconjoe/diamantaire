@@ -30,14 +30,18 @@ const PlpProductVariant = ({
   variant,
   position,
   plpTitle,
+  lowestPrice,
+  useLowestPrice,
 }: {
   variant: ListPageItemConfiguration;
   position: number;
   plpTitle: string;
+  lowestPrice: number;
+  useLowestPrice: boolean;
 }) => {
   const { productClicked } = useAnalytics();
-  const router = useRouter();
-  const { countryCode } = parseValidLocale(router?.locale);
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
@@ -52,7 +56,7 @@ const PlpProductVariant = ({
   const handleClick = () => {
     const { primaryImage: { src } = { src: '' } } = variant || {};
     const id = productSlug.split('-').pop();
-    const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
+    const formattedPrice = getFormattedPrice(price, locale, true, true);
     const brand = 'VRAI';
 
     productClicked({
@@ -102,8 +106,6 @@ const PlpProductVariant = ({
     });
   };
 
-  // console.log('variant', variant);
-
   return (
     <PlpProductVariantStyles>
       <ProductLink onClick={handleClick} productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
@@ -142,7 +144,10 @@ const PlpProductVariant = ({
           </div>
           <div className="plp-variant__content">
             <h3>
-              {title} | {metalTypeAsConst[configuration?.metal]} | {makeCurrency(price)}
+              {title} | {metalTypeAsConst[configuration?.metal]} |{' '}
+              {useLowestPrice
+                ? makeCurrency(lowestPrice, locale, currencyCode) + ' +'
+                : makeCurrency(price, locale, currencyCode)}
             </h3>
           </div>
         </div>

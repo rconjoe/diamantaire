@@ -40,6 +40,7 @@ export type ListPageItemWithConfigurationVariants = {
   productType: string;
   productLabel?: string;
   useLowestPrice?: boolean;
+  lowestPrice?: number;
   hasOnlyOnePrice?: boolean;
   metal: { value: string; id: string }[];
   variants: {

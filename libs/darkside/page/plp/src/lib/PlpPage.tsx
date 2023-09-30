@@ -96,8 +96,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     };
   });
 
-  console.log('availableFilters', availableFilters);
-
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
