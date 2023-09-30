@@ -69,8 +69,6 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
 
-  console.log('product', product);
-
   return (
     <PlpProductItemStyles>
       <PlpProductVariant variant={selectedVariant} position={position} plpTitle={plpTitle} />

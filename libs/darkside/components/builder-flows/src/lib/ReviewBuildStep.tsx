@@ -228,8 +228,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { product, diamond } = builderProduct;
 
-  console.log('product', product);
-
   const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
   const currencyCode = getCurrency(countryCode);

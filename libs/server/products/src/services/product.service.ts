@@ -978,6 +978,7 @@ export class ProductsService {
               __goldPurityOrder: 1,
               __prongStyleOrder: 1,
               __haloSizeOrder: 1,
+              __bandStyleOrder: 1,
             },
           },
           // Groups them by collectionSlug
