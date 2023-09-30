@@ -6,4 +6,5 @@ export * from './lib/ProductTitle';
 export * from './lib/ProductPrice';
 export * from './lib/ProductIconList';
 export * from './lib/ProductKlarna';
+export * from './lib/ProductAppointmentCTA';
 export { default as OptionSelector } from './lib/product-configurator/option-selector/OptionSelector';
