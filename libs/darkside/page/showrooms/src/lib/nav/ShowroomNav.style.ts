@@ -67,7 +67,6 @@ export const ShowroomNavContainer = styled.div`
           color: #979797;
           font-size: 1.7rem;
           font-weight: 400;
-          color: #979797;
 
           &.active {
             color: var(--color-teal);
