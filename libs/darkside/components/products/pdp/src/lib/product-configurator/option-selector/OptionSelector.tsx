@@ -35,8 +35,8 @@ const StyledOptionSelector = styled.div`
     }
 
     span {
-      font-size: 1.7rem;
-      font-weight: 300;
+      font-size: 1.6rem;
+      font-weight: 400;
       text-transform: capitalize;
     }
   }
@@ -152,7 +152,11 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel = OPTION_NAMES_MAP?.[label]?.value || BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value;
+  const selectorLabel =
+    OPTION_NAMES_MAP?.[label]?.value ||
+    BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value ||
+    OPTION_NAMES_MAP?.[label.replace('eternityStyle', 'style')]?.value ||
+    OPTION_NAMES_MAP?.[label.replace('earringSize', 'hoopLength')]?.value;
 
   const selectorCurrentValue =
     (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
@@ -185,10 +189,10 @@ function OptionSelector({
         {label === 'diamondType' ? (
           <div
             className={clsx('option-list', label, {
-              'space-between-items': options.length < 7,
+              'space-between-items': options.length < 8,
             })}
           >
-            {options.length > 6 ? (
+            {options.length > 7 ? (
               <SwiperStyles>
                 <Swiper
                   slidesPerView={7}

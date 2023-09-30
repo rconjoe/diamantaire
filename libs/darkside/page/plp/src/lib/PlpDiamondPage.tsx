@@ -58,10 +58,17 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
     });
   };
 
+  const refinedBreadcrumb = breadcrumb?.map((crumb) => {
+    return {
+      title: crumb.name,
+      path: crumb.link.slug,
+    };
+  });
+
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
-      <Breadcrumb breadcrumb={breadcrumb} />
+      <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner data={hero} />
       {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
       <PlpProductGrid

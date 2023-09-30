@@ -53,6 +53,7 @@ interface MediaAssetProps {
 
 function MediaAsset({ type, asset, options, defaultAlt, disableVideos }: MediaAssetProps) {
   switch (type) {
+    case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
       if (asset.customData?.bunny === 'true') {
         return <SpriteSpinnerBlock sprite={asset} options={options} />;
