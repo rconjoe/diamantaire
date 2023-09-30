@@ -23,9 +23,6 @@ const ShowroomPage = (props: ShowroomPageProps) => {
   const { showroomLocation } = router.query;
   const page = data?.standardPage;
 
-  console.log('showroomLocation', showroomLocation);
-  console.log('data', data);
-
   const selectedShowroom = {
     ...page,
     content1: page.content1.filter((block) => block?.data?.slug === showroomLocation),
