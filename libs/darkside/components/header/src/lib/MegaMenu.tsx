@@ -39,8 +39,6 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                 {columns?.map((column, index) => {
                   const { columnTitle, colKey, links, route, newRoute } = column || {};
 
-                  console.log('column', column);
-
                   return (
                     <div
                       className={`menu-container__col ${colKey ? colKey : columnTitle.toLowerCase()}`}

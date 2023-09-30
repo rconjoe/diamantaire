@@ -23,9 +23,6 @@ const HomePage = (props: HomePageProps) => {
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
 
-  console.log('router', router);
-  console.log('props', props);
-
   return (
     <>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
@@ -41,15 +38,10 @@ const HomePage = (props: HomePageProps) => {
 };
 
 HomePage.getTemplate = getStandardTemplate;
-
-// interface GetStaticPropsContextProps extends GetStaticPropsContext {
-//   query: string;
-// }
-
+// WIP
 async function getStaticProps(props) {
   const { locale, query } = props;
 
-  console.log('queryxxx', props);
   // device - needs to be static for now:
   const isMobile = false;
   const { countryCode } = parseValidLocale(locale);
