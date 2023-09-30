@@ -63,6 +63,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         title
         links {
           route
+          newRoute
           copy
           flags
           supportedCountries {

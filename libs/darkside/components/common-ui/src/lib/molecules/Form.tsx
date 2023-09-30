@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, {
   useEffect,
+  useState,
   // useState
 } from 'react';
 import styled from 'styled-components';
@@ -35,6 +36,8 @@ type FormProps = {
   extraClass?: string;
   isValid?: boolean;
   setIsValid?: (state: boolean) => void;
+  gridStyle?: 'single' | 'split';
+  emailPlaceholderText?: string;
 };
 
 export type FormSchemaType = {
@@ -58,8 +61,8 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     .input-container {
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
-      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' && stackedSubmit ? '0 0 100%' : '1')};
       margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
+      flex: 1;
 
       &.submit {
         margin-bottom: 0px;
@@ -67,7 +70,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       }
 
       > * {
-        flex: 1 1 100%;
+        flex: 1;
       }
 
       label {
@@ -133,8 +136,6 @@ const Form = ({
   id,
   formGridStyle = 'single',
   stackedSubmit = true,
-  formState,
-  setFormState = (e) => console.log('initial', e),
   showOptIn,
   ctaCopy = 'Submit',
   optInCopy,
@@ -142,7 +143,7 @@ const Form = ({
   isValid,
   setIsValid,
 }: FormProps) => {
-  // const [formState, setFormState] = useState(null);
+  const [formState, setFormState] = useState(null);
 
   useEffect(() => {
     const initialFormState = {};

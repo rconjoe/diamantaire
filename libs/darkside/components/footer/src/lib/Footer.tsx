@@ -1,6 +1,7 @@
 import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
@@ -31,7 +32,7 @@ const FooterStyles = styled.footer`
   border-top: 1px solid #ddd;
 
   .footer__column-wrapper {
-    max-width: 1280px;
+    max-width: 1180px;
     margin: 0 auto;
     display: flex;
 
@@ -63,7 +64,7 @@ const FooterStyles = styled.footer`
           list-style: none;
 
           > li {
-            margin-bottom: 10px;
+            margin-bottom: 7px;
             position: relative;
             font-size: 1.7rem;
             &:last-child {
@@ -75,6 +76,16 @@ const FooterStyles = styled.footer`
               transition: 0.25s;
               &:hover {
                 opacity: 0.6;
+              }
+            }
+            > button {
+              background-color: #fff;
+              font-size: 1.7rem;
+              transition: 0.25s;
+              text-decoration: underline;
+
+              &:hover {
+                opacity: 0.7;
               }
             }
           }
@@ -128,25 +139,21 @@ const FooterStyles = styled.footer`
                   width: auto;
                 }
 
-                img {
-                  height: 23px;
-                }
-
                 &.pinterest,
                 &.tiktok {
-                  img {
+                  svg {
                     height: 19px;
                     width: auto;
                   }
                 }
                 &.instagram {
-                  img {
+                  svg {
                     position: relative;
                     top: 4px;
                   }
                 }
                 &.facebook {
-                  img {
+                  svg {
                     position: relative;
                     top: 2px;
                   }
@@ -230,6 +237,12 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
     return setIsCountrySelectorOpen(!isCountrySelectorOpen);
   }
 
+  const countryLabel = footerData?.countryPicker.find((item) => item?.key === 'desktop_footer_1')?.copy ?? 'Country';
+
+  const { locale } = useRouter();
+
+  const countryCode = getCountry(locale);
+
   return (
     <>
       <FooterStyles>
@@ -244,12 +257,18 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     <p className="col-heading">{title}</p>
                     <ul>
                       {links?.map((link, linkIndex) => {
-                        const { route, copy } = link;
+                        const { route, newRoute, copy, supportedCountries } = link;
+
+                        // If the link has supportedCountries, confirm that the current country is in the list
+
+                        if (supportedCountries.length > 0) {
+                          if (supportedCountries.filter((item) => item.code === countryCode).length === 0) return null;
+                        }
 
                         return (
                           <li key={`footer-col-${index}-link-${linkIndex}`}>
-                            <Link href={route} legacyBehavior>
-                              {copy}
+                            <Link href={newRoute || route} legacyBehavior>
+                              {copy.includes('hello') ? <strong>{copy}</strong> : copy}
                             </Link>
                           </li>
                         );
@@ -257,7 +276,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                       {index === 0 && (
                         <>
                           <li>
-                            Country:
+                            {countryLabel}:
                             <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
                               {selectedCountry}
                             </button>

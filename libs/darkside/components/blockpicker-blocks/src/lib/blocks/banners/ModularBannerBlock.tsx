@@ -81,10 +81,14 @@ const ModularBannerBlock = (props) => {
     darksideButtons,
   }: ModularBannerBlockProps = props;
 
+  console.log('supportedCountries', supportedCountries);
+
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
   }
+
+  // return;
 
   // Replace any money value with appropriate currency format and value
   if (copyPrices) {
