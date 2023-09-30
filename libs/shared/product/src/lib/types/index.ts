@@ -3,7 +3,12 @@ import { z } from 'zod';
 import { transformedShopifyProductSchema } from '../utils/normalizers/product';
 export type VraiProduct = z.infer<typeof transformedShopifyProductSchema>;
 
-export type VraiProductData = { content: object; product: VraiProduct; metal?: Record<string, string> };
+export type VraiProductContent = {
+  shouldUseDefaultPrice?: boolean;
+  hasOnlyOnePrice?: boolean;
+  productLabel?: string;
+};
+export type VraiProductData = { content: VraiProductContent; product: VraiProduct; metal?: Record<string, string> };
 
 // TODO: move somewhere else
 type ProgressiveImage = {
