@@ -37,7 +37,6 @@ const StyledOptionSelector = styled.div`
     span {
       font-size: 1.6rem;
       font-weight: 400;
-      text-transform: capitalize;
     }
   }
   .option-list {
@@ -191,7 +190,10 @@ function OptionSelector({
       {selectorLabel && (
         <div className="selector-label">
           <h4>{selectorLabel}:</h4>
-          <span>{selectorCurrentValue}</span>
+          <span>
+            {selectorCurrentValue}
+            {label === 'caratWeight' ? 'ct' : ''}{' '}
+          </span>
         </div>
       )}
 

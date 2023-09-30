@@ -228,7 +228,6 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   min-width: 30px;
   text-align: center;
   font-size: 1.3rem;
-  text-transform: capitalize;
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
