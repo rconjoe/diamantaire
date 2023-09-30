@@ -138,7 +138,7 @@ function ProductConfigurator({
       return [
         {
           id: 'pair',
-          value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          value: 'Pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -147,13 +147,13 @@ function ProductConfigurator({
       return [
         {
           id: 'pair',
-          value: 'pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          value: 'Pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
         {
           id: 'single',
-          value: 'single - ' + makeCurrency(variantPrice, locale, currencyCode),
+          value: 'Single - ' + makeCurrency(variantPrice, locale, currencyCode),
           valueLabel: 'Single',
           isSelected: selectedPair === 'single',
         },

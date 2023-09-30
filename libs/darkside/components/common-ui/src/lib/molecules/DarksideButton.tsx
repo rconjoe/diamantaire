@@ -37,6 +37,7 @@ const DarksideButtonStyles = styled.div`
 
     a {
       color: inherit;
+      font-weight: 500;
     }
   }
 
