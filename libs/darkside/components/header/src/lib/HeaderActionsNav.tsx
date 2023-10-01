@@ -1,5 +1,6 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { media } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -52,7 +53,8 @@ const HeaderActionsNavContainer = styled.nav`
           width: 24px;
           height: auto;
           position: relative;
-          top: 1px;
+          top: 0px;
+          ${media.small`top: 1px;`}
         }
       }
 
