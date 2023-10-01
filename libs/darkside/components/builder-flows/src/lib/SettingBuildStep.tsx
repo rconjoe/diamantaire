@@ -124,6 +124,7 @@ const SettingBuildStep = ({
             variantAttributes={additionalVariantData}
             productSpecId={productSpecId}
             title={productTitle}
+            selectedConfiguration={selectedConfiguration}
           />
         </div>
       </div>
