@@ -43,7 +43,10 @@ export async function getVRAIServerPlpData(
     page: page?.toString() || '1',
     limit: limit?.toString(),
   });
+
   const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
+
+  console.log('reqUrl', reqUrl);
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -55,6 +58,8 @@ export async function getVRAIServerPlpData(
       return res.json();
     })
     .then((res) => res);
+
+  console.log('ressxxx', response);
 
   return response;
 }

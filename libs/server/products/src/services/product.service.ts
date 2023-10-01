@@ -844,12 +844,11 @@ export class ProductsService {
 
           const useLowestPrice = !content?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          // const productLabel = content?.productLabel;
+          const productLabel = content?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
           };
-
           const lowestPrice = Object.values(variants).reduce((minPrice: number, variant) => {
             minPrice = Math.min(variant['price']);
 
@@ -859,7 +858,7 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            productLabel: content['collection']?.productLabel,
+            ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
             ...(lowestPrice && { lowestPrice }),
@@ -979,7 +978,6 @@ export class ProductsService {
               __goldPurityOrder: 1,
               __prongStyleOrder: 1,
               __haloSizeOrder: 1,
-              __bandStyleOrder: 1,
             },
           },
           // Groups them by collectionSlug
