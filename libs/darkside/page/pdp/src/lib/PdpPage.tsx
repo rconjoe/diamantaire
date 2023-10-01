@@ -94,8 +94,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
-  console.log('additionalVariantData', additionalVariantData);
-
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;

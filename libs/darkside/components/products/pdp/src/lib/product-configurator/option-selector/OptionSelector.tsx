@@ -354,16 +354,14 @@ function OptionSelector({
             {handleOptionValueSort(options, optionType).map((option) => {
               const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
 
-              if (optionType === 'soldAsDouble') {
-                console.log('selectedOptionValue', selectedOptionValue);
-                console.log('option.value', option.id);
-                console.log('isSelected', isSelected);
-              }
+              // if (optionType === 'soldAsDouble') {
+              //   console.log('selectedOptionValue', selectedOptionValue);
+              //   console.log('option.value', option.id);
+              //   console.log('isSelected', isSelected);
+              // }
 
               // human readable value
               const valueLabel = DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[option.value]?.value;
-
-              console.log('optionType', optionType);
 
               return (
                 <OptionItemContainer
