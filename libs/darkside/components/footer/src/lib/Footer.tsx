@@ -220,9 +220,9 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   const router = useRouter();
   const selectedLocale = router.locale;
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
+  const selectedCountry = countries[selectedCountryCode].name;
 
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
-  const selectedCountry = countries[selectedCountryCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
   const selectedRegion = countries[selectedCountryCode].region;
   const isUserInEu = selectedRegion === 'Europe';
@@ -328,7 +328,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
           </div>
         </div>
         <div className="footer-mobile">
-          <FooterMobileAccordions columns={columns} />
+          <FooterMobileAccordions columns={columns} countryLabel={countryLabel} />
         </div>
         <div className="footer__copyright-wrapper">
           <p>
