@@ -43,6 +43,35 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
 
   const availableLanguages = countries[selectedCountryCode].languages;
 
+  function removeHash() {
+    window &&
+      window.history.replaceState(
+        '',
+        document.title,
+        window.location.origin + window.location.pathname + window.location.search,
+      );
+  }
+
+  function addHashToURL() {
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    // Check if the hash already exists in the URL
+    if (currentURL.indexOf('#hs-chat-open') === -1) {
+      // Add the hash to the URL
+      window.location.href = currentURL + '#hs-chat-open';
+    }
+
+    setTimeout(() => {
+      // call removeHash function after set timeout
+      removeHash();
+    }, 5); // 5 millisecond timeout in this case
+  }
+
+  function toggleChat() {
+    addHashToURL();
+  }
+
   return (
     <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
@@ -72,7 +101,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   'with-lang': availableLanguages.length < 2,
                 })}
               >
-                <button id="hs-chat-open">
+                <button onClick={() => toggleChat()}>
                   <ChatIcon />
                 </button>
               </li>
