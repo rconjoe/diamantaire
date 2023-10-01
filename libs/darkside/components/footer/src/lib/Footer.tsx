@@ -1,4 +1,5 @@
 import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
@@ -283,7 +284,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                           </li>
                           {availableLanguages.length > 1 && (
                             <li>
-                              Language:
+                              <UIString>Language</UIString>:
                               <button onClick={() => setIsLanguageListOpen(!isLanguageListOpen)}>{selectedLanguage}</button>
                               {isLanguageListOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
                             </li>

@@ -72,7 +72,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   'with-lang': availableLanguages.length < 2,
                 })}
               >
-                <button>
+                <button id="hs-chat-open">
                   <ChatIcon />
                 </button>
               </li>
