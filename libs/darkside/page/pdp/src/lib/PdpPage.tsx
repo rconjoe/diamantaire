@@ -71,6 +71,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
+    productTitle,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -84,8 +85,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
-  const { productTitle } = collectionContent || {}; // flatten array in normalization
+  const { parentProductId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -93,6 +93,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+
+  console.log('additionalVariantData', additionalVariantData);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -120,7 +122,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }
 
   additionalVariantData.productType = shopifyProductData.productType;
-  additionalVariantData.productTitle = productTitle;
+  additionalVariantData.productTitle = datoParentProductData?.productTitle;
   additionalVariantData.price = price;
   additionalVariantData.image = {
     src: assetStack[0].url,
@@ -213,52 +215,58 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             </ShowMobileOnly>
           </div>
           <div className="info-container">
-            <ProductTitle title={productTitle} />
-            <ProductPrice
-              isBuilderProduct={isBuilderProduct}
-              price={price}
-              hasMoreThanOneVariant={hasMoreThanOneVariant}
-              shouldDoublePrice={shouldDoublePrice}
-            />
-            <ProductConfigurator
-              configurations={configurations}
-              selectedConfiguration={configuration}
-              variantId={variantId}
-              variantPrice={price}
-              additionalVariantData={additionalVariantData}
-              isBuilderProduct={isBuilderProduct}
-              hasMoreThanOneVariant={hasMoreThanOneVariant}
-              extraOptions={extraOptions}
-              defaultRingSize={shopifyProductData?.defaultRingSize}
-              hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
-              variantProductTitle={shopifyProductData?.productTitle}
-              price={price}
-              isEngraveable={shopifyProductData?.isEngraveable}
-              hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
-              setShouldDoublePrice={setShouldDoublePrice}
-              shouldDoublePrice={shouldDoublePrice}
-              isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
-              isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
-            />
+            <div className="info__inner">
+              <ProductTitle
+                title={productTitle}
+                diamondType={configuration.diamondType}
+                productType={shopifyProductData?.productType}
+              />
+              <ProductPrice
+                isBuilderProduct={isBuilderProduct}
+                price={price}
+                hasMoreThanOneVariant={hasMoreThanOneVariant}
+                shouldDoublePrice={shouldDoublePrice}
+              />
+              <ProductConfigurator
+                configurations={configurations}
+                selectedConfiguration={configuration}
+                variantId={variantId}
+                variantPrice={price}
+                additionalVariantData={additionalVariantData}
+                isBuilderProduct={isBuilderProduct}
+                hasMoreThanOneVariant={hasMoreThanOneVariant}
+                extraOptions={extraOptions}
+                defaultRingSize={shopifyProductData?.defaultRingSize}
+                hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
+                variantProductTitle={shopifyProductData?.productTitle}
+                price={price}
+                isEngraveable={shopifyProductData?.isEngraveable}
+                hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
+                setShouldDoublePrice={setShouldDoublePrice}
+                shouldDoublePrice={shouldDoublePrice}
+                isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
+                isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
+              />
 
-            <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
 
-            <ProductAppointmentCTA />
-            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
-            <Form
-              title="Need more time to think?"
-              caption="Email this customized ring to yourself or drop a hint."
-              onSubmit={(e) => e.preventDefault()}
-              stackedSubmit={false}
-            />
-            <ProductDescription
-              description={productDescription}
-              productAttributes={parentProductAttributes}
-              variantAttributes={additionalVariantData}
-              productSpecId={datoParentProductData?.specLabels?.id}
-              title={productTitle}
-              selectedConfiguration={configuration}
-            />
+              <ProductAppointmentCTA />
+              {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+              <Form
+                title="Need more time to think?"
+                caption="Email this customized ring to yourself or drop a hint."
+                onSubmit={(e) => e.preventDefault()}
+                stackedSubmit={false}
+              />
+              <ProductDescription
+                description={productDescription}
+                productAttributes={parentProductAttributes}
+                variantAttributes={additionalVariantData}
+                productSpecId={datoParentProductData?.specLabels?.id}
+                title={productTitle}
+                selectedConfiguration={configuration}
+              />
+            </div>
           </div>
         </div>
 

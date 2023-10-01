@@ -74,7 +74,7 @@ export const SlideOutWrapper = styled(motion.aside)`
   }
 `;
 
-export const SlideOutOverlay = styled(motion.div)`
+export const SlideOutOverlay = styled(motion.button)`
   position: fixed;
   background-color: #000;
   width: 100%;

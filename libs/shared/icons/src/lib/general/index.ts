@@ -11,3 +11,4 @@ export * from './MailIcon';
 export * from './SearchIcon';
 export * from './ShoppingBagIcon';
 export * from './XIcon';
+export * from './InfoIcon';

@@ -26,40 +26,42 @@ export async function getProductPage(productSlug, variantSlug) {
 
 // PDP - ENGAGEMENT RING DATA - DatoCMS - TODO: What should be prefetched (prob this)
 
-const ENGAGEMENT_RING_QUERY = `
+const ENGAGEMENT_RING_QUERY = gql`
   query engagementRingQuery($locale: SiteLocale, $slug: String!) {
-      engagementRingProduct(filter: {slug: {eq: $slug}}, locale: $locale) {
+    engagementRingProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      id
+      productDescription
+      productTitle
+      bandDepth(locale: $locale)
+      bandWidth(locale: $locale)
+      paveCaratWeight(locale: $locale)
+      settingHeight(locale: $locale)
+      metalWeight(locale: $locale)
+      shownWithCtwLabel(locale: $locale)
+      trioBlocks {
         id
-        productDescription
-        bandDepth(locale: $locale)
-        bandWidth(locale: $locale)
-        paveCaratWeight(locale: $locale)
-        settingHeight(locale: $locale)
-        metalWeight(locale: $locale)
-        shownWithCtwLabel(locale: $locale)
-        trioBlocks {
-          id
-        }
-        productIconList {
-          productType
-        }
-        specLabels {
-          id
-        }
-        instagramReelBlock {
-          id
-        }
-        diamondContentBlock {
-          id
-        }
+      }
+      productIconList {
+        productType
+      }
+      specLabels {
+        id
+      }
+      instagramReelBlock {
+        id
+      }
+      diamondContentBlock {
+        id
       }
     }
+  }
 `;
 
 const JEWELRY_QUERY = gql`
   query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
     jewelryProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      productTitle
       productDescription
       productIconList {
         productType
@@ -81,6 +83,7 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      productTitle
       productDescription
       productIconList {
         productType
@@ -97,209 +100,220 @@ const WEDDING_BAND_QUERY = gql`
 `;
 
 // PDP - GENERAL COMPONENTS IN ORDER THEY APPEAR - DatoCMS
-const PRODUCT_ICON_LIST_QUERY = `
+const PRODUCT_ICON_LIST_QUERY = gql`
   query iconListQuery($locale: SiteLocale, $productType: String!) {
-    productIconList(locale: $locale, filter: {productType: {eq: $productType}}) {
-      items (locale: $locale) {
-          ...on ModularProductIconListItemRecord {
-            _modelApiKey
-            ctaRoute
-            ctaCopy
-            copy
-            icon {
-              width
-              height
-              url
-            }
+    productIconList(locale: $locale, filter: { productType: { eq: $productType } }) {
+      items(locale: $locale) {
+        ... on ModularProductIconListItemRecord {
+          _modelApiKey
+          ctaRoute
+          ctaCopy
+          copy
+          icon {
+            width
+            height
+            url
           }
-          ...on ModularShippingProductIconListItemRecord  {
-            _modelApiKey
-            shippingBusinessDays
-            shippingBusinessDaysCountryMap
-            shippingText
-            icon {
-              width
-              height
-              url
+          additionalInfo {
+            id
+            title
+            image {
+              responsiveImage(imgixParams: { w: 448, q: 60, auto: format }) {
+                ...responsiveImageFragment
+              }
             }
+            text
+          }
+        }
+        ... on ModularShippingProductIconListItemRecord {
+          _modelApiKey
+          shippingBusinessDays
+          shippingBusinessDaysCountryMap
+          shippingText
+          icon {
+            width
+            height
+            url
           }
         }
       }
     }
+  }
+  ${ResponsiveImageFragment}
 `;
 
-const PRODUCT_SPEC_LABEL_QUERY = `
-query productSpecs($locale: SiteLocale, $id: ItemId) {
-  productSpecLabelCollection(filter: {id: {eq: $id}}, locale: $locale) {
-    id
-    labels(locale: en_US) {
-      ... on BandDepthLabelRecord {
-        copy
-        specName
-      }
-      ... on BandHeightLabelRecord {
-        copy
-        specName
-      }
-      ... on BandWidthLabelRecord {
-        copy
-        specName
-      }
-      ... on CaratLabelRecord {
-        copy
-        specName
-      }
-      ... on CertificateLabelRecord {
-        copy
-        specName
-      }
-      ... on ChainLengthLabelRecord {
-        copy
-        specName
-      }
-      ... on ChainWidthLabelRecord {
-        copy
-        specName
-      }
-      ... on CharmLabelRecord {
-        copy
-        specName
-      }
-      ... on ClarityLabelRecord {
-        copy
-        specName
-      }
-      ... on ClosureLabelRecord {
-        copy
-        specName
-      }
-      ... on ColorLabelRecord {
-        copy
-        specName
-      }
-      ... on CordWidthLabelRecord {
-        copy
-        specName
-      }
-      ... on CutLabelRecord {
-        copy
-        specName
-      }
-      ... on CutletLabelRecord {
-        copy
-        specName
-      }
-      ... on DepthLabelRecord {
-        copy
-        specName
-      }
-      ... on DescriptionLabelRecord {
-        copy
-        specName
-      }
-      ... on DiamondClarityLabelRecord {
-        copy
-        specName
-      }
-      ... on DiamondColorLabelRecord {
-        copy
-        specName
-      }
-      ... on DiamondCountLabelRecord {
-        copy
-        specName
-      }
-      ... on DiamondSizeLabelRecord {
-        copy
-        specName
-      }
-      ... on FluorescenceLabelRecord {
-        copy
-        specName
-      }
-      ... on GirdleLabelRecord {
-        copy
-        specName
-      }
-      ... on JacketLengthLabelRecord {
-        copy
-        specName
-      }
-      ... on MeasurementsLabelRecord {
-        copy
-        specName
-      }
-      ... on MetalLabelRecord {
-        copy
-        specName
-      }
-      ... on MetalWeightLabelRecord {
-        copy
-        specName
-      }
-      ... on OriginLabelRecord {
-        copy
-        specName
-      }
-      ... on OuterDiameterLabelRecord {
-        copy
-        specName
-      }
-      ... on PaveCaratWeightLabelRecord {
-        copy
-        specName
-      }
-      ... on PolishLabelRecord {
-        copy
-        specName
-      }
-      ... on PostsLabelRecord {
-        copy
-        specName
-      }
-      ... on RingFaceLabelRecord {
-        copy
-        specName
-      }
-      ... on RingSizeLabelRecord {
-        copy
-        specName
-      }
-      ... on SettingHeightLabelRecord {
-        copy
-        specName
-      }
-      ... on SettingLabelRecord {
-        copy
-        specName
-      }
-      ... on ShapeLabelRecord {
-        copy
-        specName
-      }
-      ... on ShippingAndReturnsLabelRecord {
-        copy
-        specName
-      }
-      ... on ShownWithCenterStoneLabelRecord {
-        copy
-        specName
-      }
-      ... on SpecificationsLabelRecord {
-        copy
-        specName
-      }
-      ... on SymmetryLabelRecord {
-        copy
-        specName
-      }
-      ... on TableLabelRecord {
-        copy
-        specName
+const PRODUCT_SPEC_LABEL_QUERY = gql`
+  query productSpecs($locale: SiteLocale, $id: ItemId) {
+    productSpecLabelCollection(filter: { id: { eq: $id } }, locale: $locale) {
+      id
+      labels(locale: $locale) {
+        ... on BandDepthLabelRecord {
+          copy
+          specName
+        }
+        ... on BandHeightLabelRecord {
+          copy
+          specName
+        }
+        ... on BandWidthLabelRecord {
+          copy
+          specName
+        }
+        ... on CaratLabelRecord {
+          copy
+          specName
+        }
+        ... on CertificateLabelRecord {
+          copy
+          specName
+        }
+        ... on ChainLengthLabelRecord {
+          copy
+          specName
+        }
+        ... on ChainWidthLabelRecord {
+          copy
+          specName
+        }
+        ... on CharmLabelRecord {
+          copy
+          specName
+        }
+        ... on ClarityLabelRecord {
+          copy
+          specName
+        }
+        ... on ClosureLabelRecord {
+          copy
+          specName
+        }
+        ... on ColorLabelRecord {
+          copy
+          specName
+        }
+        ... on CordWidthLabelRecord {
+          copy
+          specName
+        }
+        ... on CutLabelRecord {
+          copy
+          specName
+        }
+        ... on CutletLabelRecord {
+          copy
+          specName
+        }
+        ... on DepthLabelRecord {
+          copy
+          specName
+        }
+        ... on DescriptionLabelRecord {
+          copy
+          specName
+        }
+        ... on DiamondClarityLabelRecord {
+          copy
+          specName
+        }
+        ... on DiamondColorLabelRecord {
+          copy
+          specName
+        }
+        ... on DiamondCountLabelRecord {
+          copy
+          specName
+        }
+        ... on DiamondSizeLabelRecord {
+          copy
+          specName
+        }
+        ... on FluorescenceLabelRecord {
+          copy
+          specName
+        }
+        ... on GirdleLabelRecord {
+          copy
+          specName
+        }
+        ... on JacketLengthLabelRecord {
+          copy
+          specName
+        }
+        ... on MeasurementsLabelRecord {
+          copy
+          specName
+        }
+        ... on MetalLabelRecord {
+          copy
+          specName
+        }
+        ... on MetalWeightLabelRecord {
+          copy
+          specName
+        }
+        ... on OriginLabelRecord {
+          copy
+          specName
+        }
+        ... on OuterDiameterLabelRecord {
+          copy
+          specName
+        }
+        ... on PaveCaratWeightLabelRecord {
+          copy
+          specName
+        }
+        ... on PolishLabelRecord {
+          copy
+          specName
+        }
+        ... on PostsLabelRecord {
+          copy
+          specName
+        }
+        ... on RingFaceLabelRecord {
+          copy
+          specName
+        }
+        ... on RingSizeLabelRecord {
+          copy
+          specName
+        }
+        ... on SettingHeightLabelRecord {
+          copy
+          specName
+        }
+        ... on SettingLabelRecord {
+          copy
+          specName
+        }
+        ... on ShapeLabelRecord {
+          copy
+          specName
+        }
+        ... on ShippingAndReturnsLabelRecord {
+          copy
+          specName
+        }
+        ... on ShownWithCenterStoneLabelRecord {
+          copy
+          specName
+        }
+        ... on SpecificationsLabelRecord {
+          copy
+          specName
+        }
+        ... on SymmetryLabelRecord {
+          copy
+          specName
+        }
+        ... on TableLabelRecord {
+          copy
+          specName
+        }
       }
     }
   }
-}
 `;
 
 const DATO_PRODUCT_TRIO_BLOCK_QUERY = `
@@ -351,9 +365,9 @@ const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = `
     ${ResponsiveImageFragment}
 `;
 
-const DATO_PRODUCT_VIDEO_BLOCK_QUERY = `
+const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
   query datoVideoBlock($locale: SiteLocale, $id: ItemId) {
-    diamondContentBlock(filter: {id: {eq: $id}}, locale: $locale) {
+    diamondContentBlock(filter: { id: { eq: $id } }, locale: $locale) {
       id
       _modelApiKey
       videoBlock {
@@ -373,12 +387,12 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = `
         }
       }
     }
-    }
+  }
 `;
 
-const DATO_VARIANT_QUERY = `
+const DATO_VARIANT_QUERY = gql`
   query datoVariantQuery($locale: SiteLocale, $slug: String!) {
-    omegaProduct(filter: {shopifyProductHandle: {eq: $slug}}, locale: $locale) {
+    omegaProduct(filter: { shopifyProductHandle: { eq: $slug } }, locale: $locale) {
       id
       shownWithCtw
       shopifyProductHandle
@@ -394,7 +408,7 @@ const DATO_VARIANT_QUERY = `
       paveCaratWeightOverride
       pdpSubTitle
     }
-    }
+  }
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {

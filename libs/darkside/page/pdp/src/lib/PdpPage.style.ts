@@ -14,6 +14,11 @@ export const PageContainerStyles = styled.div`
       flex: 0 0 550px;
       padding: 0 40px 0 20px;
       overflow: hidden;
+
+      .info__inner {
+        max-width: 450px;
+        margin: 0 auto;
+      }
     }
   }
 `;

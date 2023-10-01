@@ -51,7 +51,7 @@ const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className
         <div className="wrapper">
           <div className="head">
             <div className="title">
-              <Heading type="h4" className="primary">
+              <Heading type="h4" className="primary slideout__title">
                 {title}
               </Heading>
             </div>
