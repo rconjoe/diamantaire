@@ -13,8 +13,7 @@ const HeaderActionsNavContainer = styled.nav`
     justify-content: flex-end;
 
     li {
-      margin-right: 10px;
-
+      margin-right: 7px;
       &:last-child {
         margin-right: 0px;
       }
@@ -44,7 +43,7 @@ const HeaderActionsNavContainer = styled.nav`
           transform: scale(0.8);
           stroke-width: 1.5px;
           position: relative;
-          top: 1px;
+          top: 2px;
         }
       }
 
@@ -53,7 +52,7 @@ const HeaderActionsNavContainer = styled.nav`
           width: 24px;
           height: auto;
           position: relative;
-          top: -1px;
+          top: 1px;
         }
       }
 
