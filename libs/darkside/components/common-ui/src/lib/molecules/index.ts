@@ -25,3 +25,4 @@ export * from './SwiperCustomPagination';
 export * from './SwiperStyles';
 export * from './Switch';
 export * from './Tooltip';
+export * from './CheckSquare';
