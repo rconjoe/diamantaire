@@ -115,6 +115,8 @@ export const StackedHeaderStylesContainer = styled.div`
 
         &.calendar {
           display: flex;
+          top: 3px;
+
           svg {
             height: 18px;
           }
@@ -126,11 +128,6 @@ export const StackedHeaderStylesContainer = styled.div`
         }
 
         &:last-child {
-<<<<<<< HEAD
-          margin-left: 0;
-=======
-          /* margin-left: 20px; */
->>>>>>> e191a175 (add chat icon)
           margin-right: 0;
         }
       }

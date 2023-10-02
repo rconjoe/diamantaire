@@ -14,7 +14,7 @@ const HeaderActionsNavContainer = styled.nav`
     justify-content: flex-end;
 
     li {
-      margin-right: 7px;
+      margin-right: 10px;
       &:last-child {
         margin-right: 0px;
       }
@@ -39,7 +39,7 @@ const HeaderActionsNavContainer = styled.nav`
 
       &.wishlist {
         svg {
-          width: 24px;
+          width: 19px;
           height: auto;
           transform: scale(0.8);
           stroke-width: 1.5px;
