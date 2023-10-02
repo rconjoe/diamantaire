@@ -54,7 +54,12 @@ export const MarkdownContainer = styled.div`
         color: var(--color-teal);
       }
     }
-
+    &.-opt-in {
+      display: inline-block;
+      padding-left: 5px;
+      margin: 5px 0 0;
+      font-size: var(--font-size-xxxsmall);
+    }
     &.-modularSideBySideBlock {
       margin: 0;
       h2 {

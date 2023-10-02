@@ -52,6 +52,9 @@ export enum DIAMOND_TABLE_SHAPES {
   Trillion = 'trillion',
   Asscher = 'asscher',
   Princess = 'princess',
+  'Emerald and Pear' = 'emerald+pear',
+  'Round and Brilliant Pear' = 'round-brilliant+pear',
+  'Round and Brilliant Oval' = 'round-brilliant+oval',
 }
 export const TABLE_SHAPE_EDIT = 'table-shape';
 export const TABLE_DIAMOND_EDIT_FROM_SUMMARY = 'table-diamond-from-summary';

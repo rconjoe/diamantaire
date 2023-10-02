@@ -3,7 +3,9 @@ import { ParsedUrlQuery } from 'querystring';
 import {
   DarksideButton,
   Heading,
+  HideTopBar,
   Markdown,
+  StickyElementWrapper,
   SwiperCustomPagination,
   SwiperStyles,
 } from '@diamantaire/darkside/components/common-ui';
@@ -14,7 +16,7 @@ import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
 import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
@@ -50,9 +52,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultFoundTitle,
     ctoDiamondResultFinalSaleNote,
     ctoDiamondResultNote,
-    diamondResultTitleSecond,
-    productIconList,
     ctoDiamondResultNeedItFaster,
+    ctoDiamondResultShapeAndWeightTitle,
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
@@ -69,15 +70,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const formattedPrice = makeCurrency(price, locale, currencyCode);
 
-  const { items: productIconListItems } = productIconList;
+  const formattedDate = getFormattedShipppingDate(locale);
 
-  const productIconListItem = productIconListItems?.[0] || {};
-
-  const { cutForYouShippingBusinessDays, cutForYouShippingText } = productIconListItem;
-
-  const formattedDate = getFormattedShipppingDate(locale, cutForYouShippingBusinessDays);
-
-  const shouldRenderReturnPolicy = !isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, Number(carat));
+  const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
   const swiperRef = useRef(null);
 
@@ -92,20 +87,25 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const handleUpgradeClick = (type: string) => {
-    // display:  diamond, diamondCutUpgrade, diamondColorUpgrade
-    // type: diamondCutUpgrade, diamondColorUpgrade
-
-    if (type === `diamondCutUpgrade`) {
-      if (display === `diamondCutUpgrade`) {
+    if (type === 'diamondCutUpgrade') {
+      if (display === 'diamondCutUpgrade') {
         setDisplay('diamond');
+      } else if (display === 'diamondColorUpgrade') {
+        setDisplay('diamondCutAndColorUpgrade');
+      } else if (display === 'diamondCutAndColorUpgrade') {
+        setDisplay('diamondColorUpgrade');
       } else {
         setDisplay('diamondCutUpgrade');
       }
     }
 
-    if (type === `diamondColorUpgrade`) {
-      if (display === `diamondColorUpgrade`) {
+    if (type === 'diamondColorUpgrade') {
+      if (display === 'diamondColorUpgrade') {
         setDisplay('diamond');
+      } else if (display === 'diamondCutUpgrade') {
+        setDisplay('diamondCutAndColorUpgrade');
+      } else if (display === 'diamondCutAndColorUpgrade') {
+        setDisplay('diamondCutUpgrade');
       } else {
         setDisplay('diamondColorUpgrade');
       }
@@ -114,7 +114,19 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     return;
   };
 
+  const diamondTypeTitle = getDiamondType(product?.diamondType)?.title || '';
+
+  const caratValue = product?.carat?.toFixed(1) || '';
+
+  const pageTitle = `${ctoDiamondResultShapeAndWeightTitle
+    .replace('%%diamond_shape%%', diamondTypeTitle)
+    .replace('%%diamond_carat%%', caratValue)}`;
+
   const [loadPagination, setLoadPagination] = useState(0);
+
+  const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
+
+  const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
   useEffect(() => {
     setProduct(diamondCtoData[display]);
@@ -126,6 +138,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   return (
     <>
+      <HideTopBar />
+
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
 
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
@@ -179,9 +193,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </div>
               )}
               <div className="subtitle">
-                <p>{`${product?.carat}ct ${getDiamondType(product?.diamondType)?.title} ${diamondResultTitleSecond}`}</p>
+                <p>{pageTitle}</p>
               </div>
-              <div className="price">
+              <div className="primary-price">
                 <p>{formattedPrice}</p>
               </div>
               <div className="accordion">
@@ -196,7 +210,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
               <div className="date">
                 <p>
-                  {cutForYouShippingText} {formattedDate}
+                  <UIString>Ships by</UIString> {formattedDate}
                 </p>
               </div>
               <div className="policy">
@@ -207,12 +221,21 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 )}
               </div>
               <div className="links">
-                <Markdown>{ctoDiamondResultNeedItFaster}</Markdown>
+                <Markdown
+                  options={{
+                    overrides: getOverrides(diamondTableInventoryLink, 'mkt-need-it-faster'),
+                  }}
+                >
+                  {ctoDiamondResultNeedItFaster}
+                </Markdown>
               </div>
               <div className="cta">
-                <DarksideButton>
-                  <UIString>Select and add a setting</UIString>
-                </DarksideButton>
+                <StickyElementWrapper>
+                  <DarksideButton>
+                    <UIString>Select and add a setting</UIString>
+                  </DarksideButton>
+                </StickyElementWrapper>
+
                 <DarksideButton type="outline">
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
@@ -220,6 +243,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
             </div>
           </div>
         </div>
+
         <div className="page-row">
           <DiamondCfyGallery locale={locale} diamondType={diamondType} />
         </div>
@@ -243,14 +267,22 @@ async function getServerSideProps(
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
+  const globalQuery = queries.template.global(locale);
+
   const diamondCfyQuery = queries.diamondCfy.content(locale);
+
   const diamondTableQuery = queries.diamondTable.content(locale);
+
   const diamondCtoQuery = queries.diamondCto.content({ ...options });
 
   const queryClient = new QueryClient();
 
+  await queryClient.prefetchQuery(globalQuery);
+
   await queryClient.prefetchQuery(diamondCfyQuery);
+
   await queryClient.prefetchQuery(diamondTableQuery);
+
   await queryClient.prefetchQuery(diamondCtoQuery);
 
   if (
@@ -281,14 +313,7 @@ export default CFYResultPage;
 function getMedia({ product, diamondType, lotIdPicker }) {
   return [
     <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
-    <DiamondHand
-      className="media-content-item"
-      diamondType={diamondType}
-      product={product}
-      lotId={lotIdPicker}
-      isCto={true}
-      key={1}
-    />,
+    <DiamondHand className="media-content-item" diamondType={diamondType} product={product} lotId={lotIdPicker} key={1} />,
   ];
 }
 
@@ -307,13 +332,12 @@ function getThumb({ product, diamondType, lotIdPicker }) {
       diamondType={diamondType}
       product={product}
       lotId={lotIdPicker}
-      isCto={true}
       isThumb={true}
     />,
   ];
 }
 
-function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) {
+function isValidForReturn(diamondType, caratWeight) {
   if (typeof diamondType !== 'string') {
     return;
   }
@@ -322,26 +346,65 @@ function isCfyDiamondTypeAndCaratWeightValidForReturn(diamondType, caratWeight) 
     return;
   }
 
-  if (diamondType === 'elongated-cushion' && caratWeight <= 3.5) {
-    return true;
-  }
+  const validDiamondTypes = [
+    'round-brilliant',
+    'oval',
+    'emerald',
+    'pear',
+    'radiant',
+    'cushion',
+    'elongated-cushion',
+    'trillion',
+    'marquise',
+    'asscher',
+    'princess',
+  ];
 
-  const validDiamondTypes = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
   const validCaratWeight = 5;
 
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
 }
 
-function getFormattedShipppingDate(locale, days = 21) {
-  const currentDate = new Date();
+function getFormattedShipppingDate(locale) {
+  const result = new Date();
+  let days = 20;
 
-  currentDate.setDate(currentDate.getDate() + days);
+  while (days > 0) {
+    result.setDate(result.getDate() + 1); // Move to the next day
 
-  const formattedDate = currentDate.toLocaleDateString(locale, {
+    // Check if the current day is not a Saturday (6) or Sunday (0)
+    if (result.getDay() !== 6 && result.getDay() !== 0) {
+      days--; // Subtract a day if it's a business day
+    }
+  }
+
+  const formattedDate = result.toLocaleDateString(locale, {
+    weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
   });
 
-  return formattedDate;
+  return formattedDate.replace(',', '');
+}
+
+function getOverrides(href: string, classOverride?: string) {
+  // Initialize the `props` object with the `href` value.
+  const props: React.HTMLProps<HTMLAnchorElement> = { href };
+
+  // If `classOverride` is provided, add it as a `className` property to `props`.
+  if (classOverride !== undefined) {
+    props.className = classOverride;
+  }
+
+  // Create an `overrides` object with an override for the `<a>` element.
+  const overrides: { a: { component: string; props: React.HTMLProps<HTMLAnchorElement> } } = {
+    a: {
+      component: 'a',
+      props,
+    },
+  };
+
+  // Return the `overrides` object.
+  return overrides;
 }

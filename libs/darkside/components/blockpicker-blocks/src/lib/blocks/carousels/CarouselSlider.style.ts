@@ -1,4 +1,4 @@
-import { desktopAndUp, tabletAndUp, XXLDesktopAndUp, setSpace } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp, XXLDesktopAndUp, setSpace, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const chevronWidth = '50px';
@@ -205,5 +205,21 @@ export const CarouselSliderContainer = styled.div`
 
   .carousel-footer {
     margin-top: 40px;
+  }
+
+  .swiper-slide.modular_slick_carousel_block {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+
+    transition: all 0.2s ease-in-out 0s;
+    ${mobileOnly(`
+    transform: scale(0.7);
+  `)}
+    &.swiper-slide-active {
+      ${mobileOnly(`
+    transform: scale(1);
+  `)}
+    }
   }
 `;

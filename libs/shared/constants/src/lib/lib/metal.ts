@@ -5,6 +5,7 @@ export enum MetalType {
   YellowGold = 'yellow-gold',
   WhiteGold = 'white-gold',
   RoseGold = 'rose-gold',
+  SterlingSilver = 'sterling-silver',
 }
 export const METALS_IN_HUMAN_NAMES = {
   'yellow-gold': 'Yellow Gold',

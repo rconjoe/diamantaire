@@ -1,6 +1,7 @@
 import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
-import { LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import { EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -34,7 +35,9 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   isLanguageSelectorOpen,
 }): JSX.Element => {
   const router = useRouter();
+
   const selectedLocale = router.locale;
+
   const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
 
   const availableLanguages = countries[selectedCountryCode].languages;
@@ -45,23 +48,27 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
             <ul className="country-locale-selector">
-              <li>
+              <li className="country">
                 <button className="country-selector" onClick={() => toggleCountrySelector()}>
                   <LocationPinIcon /> <span>{selectedCountry}</span>
                 </button>
               </li>
               {availableLanguages.length > 1 && (
                 <>
-                  <li className="divider">/</li>
-                  <li>
+                  <li className="divider">|</li>
+                  <li className="language">
                     <button className="language-selector" onClick={() => toggleLanguageSelector()}>
-                      {selectedLanguage}
+                      <UIString>{selectedLanguage && selectedLanguage.toLowerCase()}</UIString>
+                      <div className={'language-icon' + (isLanguageSelectorOpen ? ' active' : '')}>▼</div>
                     </button>
                     {isLanguageSelectorOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
                   </li>
                 </>
               )}
-              <li>Book an appointment</li>
+              <li className="calendar">
+                <EmptyCalendarIcon />
+                <UIString>Book an appointment</UIString>
+              </li>
             </ul>
           </div>
 
@@ -77,6 +84,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
             <HeaderActionsNav toggleCart={toggleCart} />
           </div>
         </div>
+
         <div className="stacked-header__nav-wrapper stacked-bottom-level">
           <nav className="stacked-header__desktop-nav">
             <ul>

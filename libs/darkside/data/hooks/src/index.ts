@@ -1,3 +1,4 @@
+export * from './lib/use-global-data';
 export * from './lib/journal';
 export * from './lib/use-cart-info';
 export * from './lib/use-diamond-cfy';
@@ -13,6 +14,7 @@ export * from './lib/use-header';
 export * from './lib/use-human-name-mapper';
 export * from './lib/use-showroom-nav';
 export * from './lib/use-standard-page';
+export * from './lib/use-translations';
 
 // products
 export * from './lib/products/use-product';

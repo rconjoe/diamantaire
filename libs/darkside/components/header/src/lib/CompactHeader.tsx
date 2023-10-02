@@ -60,6 +60,7 @@ const CompactHeaderStyles = styled.div`
           flex: 1;
 
           .compact-header__nav {
+            min-width: 500px;
             ul {
               display: flex;
               justify-content: center;

@@ -1,5 +1,5 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
-import { AccountIcon, LoveIcon, SearchIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -14,17 +14,20 @@ const HeaderActionsNavContainer = styled.nav`
 
     li {
       margin-right: 10px;
+
       &:last-child {
         margin-right: 0px;
       }
+
       &.accounts {
         img {
+          top: 1px;
           width: 20px;
           height: auto;
           position: relative;
-          top: 1px;
         }
       }
+
       &.search {
         img {
           width: 26px;
@@ -34,6 +37,7 @@ const HeaderActionsNavContainer = styled.nav`
           top: 1px;
         }
       }
+
       &.wishlist {
         img {
           width: 24px;
@@ -44,6 +48,7 @@ const HeaderActionsNavContainer = styled.nav`
           top: 1px;
         }
       }
+
       &.cart {
         img {
           width: 24px;
@@ -51,9 +56,6 @@ const HeaderActionsNavContainer = styled.nav`
           position: relative;
           top: -1px;
         }
-      }
-      a {
-        display: inline-block;
       }
 
       button {
@@ -65,37 +67,45 @@ const HeaderActionsNavContainer = styled.nav`
           cursor: pointer;
         }
       }
+
+      a {
+        display: inline-block;
+      }
+
+      svg {
+        height: 18px;
+      }
     }
   }
 `;
 
 const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
   const links = [
-    {
-      title: 'Search',
-      icon: <SearchIcon alt="Search" loading="eager" />,
-      type: 'button',
-      alt: 'Search Toggle Button',
-      onClick: () => null,
-      href: '/',
-    },
+    // {
+    //   title: 'Search',
+    //   icon: <SearchIcon />,
+    //   type: 'button',
+    //   alt: 'Search Toggle Button',
+    //   onClick: () => null,
+    //   href: '/',
+    // },
     {
       title: 'Accounts',
-      icon: <AccountIcon alt="Accounts" loading="eager" />,
+      icon: <AccountIcon />,
       type: 'link',
       href: '/account/login',
       alt: 'Accounts Toggle Button',
     },
     {
       title: 'Wishlist',
-      icon: <LoveIcon alt="Favorites" loading="eager" />,
+      icon: <LoveIcon />,
       type: 'button',
       alt: 'Wishlist Toggle Button',
       href: '/',
     },
     {
       title: 'Cart',
-      icon: <ShoppingBagIcon alt="Cart" loading="eager" />,
+      icon: <ShoppingBagIcon />,
       type: 'button',
       onClick: () => toggleCart(),
       alt: 'Cart Toggle Button',

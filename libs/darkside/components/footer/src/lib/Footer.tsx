@@ -1,5 +1,7 @@
 import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
+import { sendHubspotForm } from '@diamantaire/darkside/data/api';
+import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
@@ -30,7 +32,7 @@ const FooterStyles = styled.footer`
   border-top: 1px solid #ddd;
 
   .footer__column-wrapper {
-    max-width: 1280px;
+    max-width: 1180px;
     margin: 0 auto;
     display: flex;
 
@@ -62,7 +64,7 @@ const FooterStyles = styled.footer`
           list-style: none;
 
           > li {
-            margin-bottom: 10px;
+            margin-bottom: 7px;
             position: relative;
             font-size: 1.7rem;
             &:last-child {
@@ -76,6 +78,16 @@ const FooterStyles = styled.footer`
                 opacity: 0.6;
               }
             }
+            > button {
+              background-color: #fff;
+              font-size: 1.7rem;
+              transition: 0.25s;
+              text-decoration: underline;
+
+              &:hover {
+                opacity: 0.7;
+              }
+            }
           }
         }
       }
@@ -86,6 +98,13 @@ const FooterStyles = styled.footer`
 
         .footer-col__inner {
           max-width: 420px;
+        }
+
+        .input-container {
+          flex: 2;
+        }
+        .input-container.submit {
+          flex: 1;
         }
         h4 {
           margin: 0 0 10px;
@@ -114,25 +133,27 @@ const FooterStyles = styled.footer`
               position: relative;
               a {
                 display: inline-block;
-                img {
-                  height: 23px;
+
+                svg {
+                  max-height: 20px;
+                  width: auto;
                 }
 
                 &.pinterest,
                 &.tiktok {
-                  img {
+                  svg {
                     height: 19px;
                     width: auto;
                   }
                 }
                 &.instagram {
-                  img {
+                  svg {
                     position: relative;
                     top: 4px;
                   }
                 }
                 &.facebook {
-                  img {
+                  svg {
                     position: relative;
                     top: 2px;
                   }
@@ -194,8 +215,8 @@ const socialItems = [
 const Footer: FC<FooterTypes> = ({ footerData }) => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageListOpen, setIsLanguageListOpen] = useState(false);
-  const { columns, copyright, emailSignUpColumn } = footerData.footerNavigation;
-  const { copy, title } = emailSignUpColumn[0];
+  const { columns, copyright, emailSignUpColumn, emailSignUpCopy } = footerData;
+  const { copy, title, ctaCopy } = emailSignUpColumn[0];
   const router = useRouter();
   const selectedLocale = router.locale;
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
@@ -203,7 +224,9 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
   const selectedCountry = countries[selectedCountryCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
-
+  const selectedRegion = countries[selectedCountryCode].region;
+  const isUserInEu = selectedRegion === 'Europe';
+  const { optInCopy } = emailSignUpCopy[0];
   const date = new Date();
 
   function toggleLanguageSelector() {
@@ -213,6 +236,12 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   function toggleCountrySelector() {
     return setIsCountrySelectorOpen(!isCountrySelectorOpen);
   }
+
+  const countryLabel = footerData?.countryPicker.find((item) => item?.key === 'desktop_footer_1')?.copy ?? 'Country';
+
+  const { locale } = useRouter();
+
+  const countryCode = getCountry(locale);
 
   return (
     <>
@@ -228,12 +257,18 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                     <p className="col-heading">{title}</p>
                     <ul>
                       {links?.map((link, linkIndex) => {
-                        const { route, copy } = link;
+                        const { route, newRoute, copy, supportedCountries } = link;
+
+                        // If the link has supportedCountries, confirm that the current country is in the list
+
+                        if (supportedCountries.length > 0) {
+                          if (supportedCountries.filter((item) => item.code === countryCode).length === 0) return null;
+                        }
 
                         return (
                           <li key={`footer-col-${index}-link-${linkIndex}`}>
-                            <Link href={route} legacyBehavior>
-                              {copy}
+                            <Link href={newRoute || route} legacyBehavior>
+                              {copy.includes('hello') ? <strong>{copy}</strong> : copy}
                             </Link>
                           </li>
                         );
@@ -241,7 +276,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                       {index === 0 && (
                         <>
                           <li>
-                            Country:
+                            {countryLabel}:
                             <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
                               {selectedCountry}
                             </button>
@@ -266,7 +301,13 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <p className="col-heading">{title}</p>
                 <p>{copy}</p>
 
-                <Form onSubmit={(e) => e.preventDefault()} />
+                <FooterEmailSignup
+                  showOptIn={isUserInEu}
+                  ctaCopy={ctaCopy}
+                  optInCopy={optInCopy}
+                  countryCode={selectedCountryCode}
+                  locale={selectedLocale}
+                />
                 <div className="footer-social">
                   <ul>
                     {socialItems.map((item, index) => {
@@ -305,3 +346,58 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 };
 
 export { Footer };
+
+export const FooterEmailSignup = ({
+  listData = HUBSPOT_FOOTER_LIST,
+  showOptIn = false,
+  ctaCopy,
+  optInCopy,
+  countryCode,
+  locale,
+}) => {
+  const [message, setMessage] = useState(null);
+  const [isValid, setIsValid] = useState(true);
+
+  const onSubmit = async (e, formState) => {
+    e.preventDefault();
+
+    const { email, isConsent } = formState;
+
+    if (showOptIn && !isConsent) {
+      setIsValid(false);
+
+      return;
+    }
+
+    try {
+      if (!showOptIn || (showOptIn && isConsent)) {
+        const response = await sendHubspotForm({ email, listData, isConsent, countryCode, locale });
+
+        setMessage(response.inlineMessage);
+      }
+    } catch (error) {
+      console.error('Error submitting form data to HubSpot:', error);
+    }
+  };
+
+  return (
+    <>
+      {message ? (
+        <div dangerouslySetInnerHTML={{ __html: message }}></div>
+      ) : (
+        <Form
+          onSubmit={onSubmit}
+          formGridStyle="split"
+          stackedSubmit={false}
+          showOptIn={showOptIn}
+          ctaCopy={ctaCopy}
+          optInCopy={optInCopy}
+          extraClass="-links-teal -opt-in"
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
+      )}
+      ;
+    </>
+  );
+};

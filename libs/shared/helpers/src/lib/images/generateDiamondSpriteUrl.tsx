@@ -8,6 +8,12 @@ const generateDiamondSpriteUrl = (lotId: string, format: string): string => {
   return url;
 };
 
-export default generateDiamondSpriteUrl;
+const generateCfyDiamondSpriteThumbUrl = (diamondType: string): string => {
+  const corsIssueHackUsingQuery = `timestamp=${new Date()}`;
 
-export { generateDiamondSpriteUrl };
+  const url = `${DIAMOND_VIDEO_BASE_URL}/cfy-${diamondType}-thumb.jpg?${corsIssueHackUsingQuery}`;
+
+  return url;
+};
+
+export { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl };

@@ -14,9 +14,13 @@ const ProductDescriptionContainer = styled.div`
   }
 
   p {
-    margin: 0;
+    margin: 0 0 20px;
     line-height: 1.4;
     font-size: 1.7rem;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
   }
 
   ul {
@@ -44,13 +48,29 @@ const ProductDescriptionContainer = styled.div`
       opacity: 0.75;
     }
   }
+  .description__variant-details {
+    p {
+      margin-bottom: 10px;
+    }
+  }
 `;
 
-const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId }) => {
-  const { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } = productAttributes || {};
+const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId, title }) => {
+  const {
+    productType,
+    bandWidth: parentProductBandWidth,
+    // Depth always comes from parent product
+    bandDepth: parentProductBandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    diamondDescription,
+  } = productAttributes || {};
+
   const {
     origin,
-    // Rings
+    // Engagement Rings
     clarity,
     color,
     dimensions,
@@ -64,6 +84,11 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     closure,
     chainWidth,
     chainLength,
+
+    // Wedding Bands
+    bandWidthOverride: variantBandWidth,
+    metalWeightOverride,
+    paveCaratWeightOverride,
   } = variantAttributes || {};
 
   // Product Spec - These are the locale-based labels for the product
@@ -110,11 +135,11 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     () => [
       {
         title: 'bandWidth',
-        value: bandWidth,
+        value: parentProductBandWidth,
       },
       {
         title: 'bandDepth',
-        value: bandDepth,
+        value: parentProductBandDepth,
       },
       {
         title: 'settingHeight',
@@ -133,7 +158,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
         value: shownWithCtw,
       },
     ],
-    [bandWidth, bandDepth, settingHeight, metalWeight, paveCaratWeight, shownWithCtw],
+    [parentProductBandDepth, parentProductBandWidth, settingHeight, metalWeight, paveCaratWeight, shownWithCtw],
   );
 
   const jewelryLabels = useMemo(
@@ -162,11 +187,34 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     [metal, setting, closure, chainWidth, chainLength],
   );
 
+  const weddingBandLabels = useMemo(() => {
+    return [
+      {
+        title: 'bandWidth',
+        value: variantBandWidth || parentProductBandWidth,
+      },
+      {
+        title: 'bandDepth',
+        value: parentProductBandDepth,
+      },
+      {
+        title: 'metalWeight',
+        value: metalWeightOverride,
+      },
+      {
+        title: 'paveCaratWeight',
+        value: paveCaratWeightOverride,
+      },
+    ];
+  }, [variantBandWidth, parentProductBandWidth, parentProductBandDepth, metalWeight]);
+
+  const jewelryProductTypes = ['Necklace', 'Bracelet'];
+
   return (
     description && (
       <ProductDescriptionContainer>
         <Heading type="h4" className="primary">
-          Details
+          {title ? title + ' Design' : 'Details'}
         </Heading>
         <Markdown withStyles={false}>{description}</Markdown>
 
@@ -174,41 +222,60 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
           <ul>
             {/* Engagement Ring Fields */}
 
-            {engagementRingLabels?.map((label, index) => {
-              if (!label.value || (!refinedLabels[label.title] && label.title !== 'shownWithCtw')) return null;
+            {productType === 'Engagement Ring' &&
+              engagementRingLabels?.map((label, index) => {
+                if (!label.value || (!refinedLabels[label.title] && label.title !== 'shownWithCtw')) return null;
 
-              return (
-                <li key={`er-label-${index}`}>
-                  {label.title === 'shownWithCtw'
-                    ? `${shownWithCtwLabel}: ${label.value}`
-                    : refinedLabels[label.title] + ':' + label.value}
+                return (
+                  <li key={`er-label-${index}`}>
+                    {label.title === 'shownWithCtw'
+                      ? `${shownWithCtwLabel}: ${label.value}`
+                      : refinedLabels[label.title] + ': ' + label.value}
 
-                  {label.title === 'paveCaratWeight' && (
-                    <span className="small">
-                      <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-                    </span>
-                  )}
-                </li>
-              );
-            })}
+                    {label.title === 'paveCaratWeight' && (
+                      <span className="small">
+                        <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
 
             {/* Jewelry Fields */}
-            {jewelryLabels?.map((label, index) => {
-              if (!label.value || !refinedLabels[label.title]) return null;
+            {jewelryProductTypes.includes(productType) &&
+              jewelryLabels?.map((label, index) => {
+                if (!label.value || !refinedLabels[label.title]) return null;
 
-              return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
-            })}
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
+              })}
+
+            {/* Wedding Band Fields */}
+            {productType === 'Wedding Band' &&
+              weddingBandLabels?.map((label, index) => {
+                if (!label.value || !refinedLabels[label.title]) return null;
+
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
+              })}
+            <li>
+              <span className="small">
+                <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+              </span>
+            </li>
           </ul>
         </div>
 
+        {/* Just for products with potential custom diamonds */}
         {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
           <div className="description__variant-details">
-            <h4>VRAI created diamond</h4>
+            <Heading type="h4" className="primary">
+              {title ? 'VRAI created diamond for ' + title : 'VRAI created diamond'}
+            </Heading>
+            {diamondDescription && <Markdown withStyles={false}>{diamondDescription}</Markdown>}
             <ul>
               {diamondLabels?.map((label, index) => {
                 if (!label.value || !refinedLabels[label.title]) return null;
 
-                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ':' + label.value}</li>;
+                return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
               })}
 
               <li>

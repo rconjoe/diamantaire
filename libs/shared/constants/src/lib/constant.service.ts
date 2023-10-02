@@ -35,6 +35,7 @@ export * from './lib/productOption';
 export * from './lib/productSpec';
 export * from './lib/productType';
 export * from './lib/ring';
+export * from './lib/ringStyles';
 export * from './lib/shipping';
 export * from './lib/showRoom';
 export * from './lib/states-map';
@@ -86,6 +87,7 @@ export enum PdpTypePlural {
 
 export const pdpTypePluralAsConst = {
   ['Engagement Rings']: 'Engagement Rings',
+  ['Wedding Bands']: 'Wedding Bands',
   ['Jewelry']: 'Jewelry',
 } as const;
 
@@ -94,15 +96,32 @@ export const pdpTypeHandleAsConst = {
   ['jewelry']: 'Jewelry',
 } as const;
 
+export const pdpTypeTitleSingleToPluralHandleAsConst = {
+  ['Engagement Ring']: 'engagement-rings',
+  ['Necklace']: 'necklaces',
+  ['Ring']: 'ring',
+  ['Earring']: 'earrings',
+  ['Bracelet']: 'bracelets',
+  ['Wedding Band']: 'wedding-bands',
+} as const;
+
 export const pdpTypeHandleSingleToPluralAsConst = {
   ['engagement-ring']: 'Engagement Rings',
   ['jewelry']: 'Jewelry',
+  ['wedding-bands']: 'Wedding Bands',
 } as const;
 
 export const pdpTypeSingleToPluralAsConst = {
   ['Engagement Ring']: 'Engagement Rings',
   ['Jewelry']: 'Jewelry',
+  ['Necklace']: 'Necklaces',
+  ['Bracelet']: 'Bracelets',
+  ['Ring']: 'Rings',
+  ['Earring']: 'Earrings',
+  ['Wedding Band']: 'Wedding Bands',
 } as const;
+
+export const jewelryTypes = ['Necklace', 'Bracelet', 'Earrings'];
 
 export const metalTypeAsConst = {
   platinum: 'Platinum',

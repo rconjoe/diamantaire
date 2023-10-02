@@ -1,3 +1,4 @@
+import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -39,7 +40,15 @@ function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
-  const url = { pathname: router.pathname, query: { collectionSlug, productSlug: id, jewelryCategory } };
+
+  const url = {
+    pathname: router.pathname,
+    query: {
+      collectionSlug,
+      productSlug: id,
+      ...(jewelryCategory && { jewelryCategory }),
+    },
+  };
 
   return (
     <Link href={url} scroll={false}>
@@ -54,6 +63,7 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'sideStoneShape': {
       return DiamondIconOptionItem;
     }
+    case 'ceramicColor':
     case 'metal': {
       return MetalOptionItem;
     }
@@ -69,7 +79,10 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
   }
 }
 
-const StyledOptionItem = styled.div``;
+const StyledOptionItem = styled.button`
+  background-color: transparent;
+  padding: 0;
+`;
 
 const StyledRoundOptionItem = styled(StyledOptionItem)`
   border-radius: 50%;
@@ -143,6 +156,31 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: rgb(206, 172, 139);
     }
   }
+  &.black {
+    .inner {
+      background-color: #000;
+    }
+  }
+  &.dark-green {
+    .inner {
+      background-color: #1f4d4e;
+    }
+  }
+  &.white {
+    .inner {
+      border: 1px solid #000;
+    }
+  }
+  &.turquoise {
+    .inner {
+      background-color: #4faed9;
+    }
+  }
+  &.yellow {
+    .inner {
+      background-color: #e9d540;
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
@@ -190,15 +228,25 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   min-width: 30px;
   text-align: center;
   font-size: 1.3rem;
+  text-transform: capitalize;
+  cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
   }
 `;
 
 export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+  const { locale } = useRouter();
+
+  // Band Width
+
+  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
+
+  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || value;
+
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {value}
+      {valueLabel}
     </StyledBasicOptionItem>
   );
 }

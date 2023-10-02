@@ -34,42 +34,47 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvgCheck =
-    image.mimeType === 'image/svg' ||
+    image?.mimeType === 'image/svg' ||
     isSVG ||
     (!image?.width && !image?.responsiveImage?.width && !image?.height && !image?.responsiveImage?.height);
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
+    const datoUrl = new URL(src);
+
     const params = {
-      auto: 'format',
-      ar: '1%3A1',
-      fit: 'crop',
-      crop: 'focalpoint',
       w: width.toString(),
       q: quality.toString(),
     };
-    const searchParams = new URLSearchParams(params);
 
-    return `${src}?${searchParams.toString()}`;
+    for (const [key, value] of Object.entries(params)) {
+      if (value) {
+        datoUrl.searchParams.set(key, value);
+      }
+    }
+
+    return datoUrl.toString();
   };
 
-  return isSvgCheck ? (
+  return isSvgCheck && image?.url ? (
     <img src={image.url} alt={overrideAlt || alt} />
   ) : (
     <DatoImageContainer>
-      <Image
-        alt={overrideAlt ? overrideAlt : alt ? alt : ''}
-        src={responsiveImageSrc}
-        placeholder="blur"
-        blurDataURL={responsiveImage?.base64}
-        loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
-        className={clsx('image', className)}
-        sizes={responsiveImage ? responsiveImage.width + 'px' : image.width + 'px'}
-        loading={shouldLazyLoad ? 'lazy' : 'eager'}
-        fill={true}
-        style={{
-          aspectRatio,
-        }}
-      />
+      {responsiveImage && responsiveImageSrc && (
+        <Image
+          alt={overrideAlt ? overrideAlt : alt ? alt : ''}
+          src={responsiveImageSrc}
+          placeholder="blur"
+          blurDataURL={responsiveImage?.base64}
+          loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
+          className={clsx('image', className)}
+          sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
+          loading={shouldLazyLoad ? 'lazy' : 'eager'}
+          fill={true}
+          style={{
+            aspectRatio,
+          }}
+        />
+      )}
     </DatoImageContainer>
   );
 };

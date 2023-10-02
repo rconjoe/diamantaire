@@ -1,6 +1,12 @@
 import { Slider } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, FACETED_NAV_ORDER, METAL_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_TYPE_HUMAN_NAMES,
+  FACETED_NAV_ORDER,
+  METAL_HUMAN_NAMES,
+  RING_STYLES_MAP,
+  ringStylesWithIconMap,
+} from '@diamantaire/shared/constants';
 import { makeCurrency, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -14,47 +20,49 @@ const PlpProductFilter = ({
   availableFilters,
   filterValue,
   setFilterValues,
-  isParamBased,
+  urlFilterMethod,
+  plpSlug,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
   filterValue: FilterValueProps;
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
-  isParamBased: boolean;
+  plpSlug: string;
+  urlFilterMethod: 'facet' | 'param' | 'none';
 }) => {
+  const router = useRouter();
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
 
   const priceRanges = [
     {
       title: 'Below $500',
-      min: priceRange[0],
+      min: undefined, //priceRange[0],
       max: 50000,
-      slug: 'below-500',
+      slug: 'below-50000',
     },
     {
       title: '$500-$1,500',
       min: 50000,
       max: 150000,
-      slug: '500-1500',
+      slug: '50000-150000',
     },
     {
       title: '$1,500-$3000',
       min: 150000,
       max: 300000,
-      slug: '1500-3000',
+      slug: '150000-300000',
     },
     {
       title: '$3000+',
       min: 300000,
-      max: priceRange[1],
-      slug: '3000-plus',
+      max: undefined, // priceRange[1],
+      slug: '300000-plus',
     },
   ];
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
-  const [isCustomPricRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
-  const router = useRouter();
+  const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
   const { headerHeight } = useGlobalContext();
 
   function toggleFilterOptionSet(filterSlug: FilterTypeProps) {
@@ -66,10 +74,6 @@ const PlpProductFilter = ({
   }
 
   function updateFilter(filterType: string, value) {
-    const currentPath = window.location.pathname;
-    const pathSegments = currentPath.split('/').filter((segment) => segment !== '');
-    const updatedSegments = [...pathSegments];
-    const collectionURL = updatedSegments[0];
     const newFilters = { ...filterValue, [filterType]: value };
 
     // Remove attributes with undefined values
@@ -81,32 +85,63 @@ const PlpProductFilter = ({
 
     if (filterType !== 'price') {
       // Update the browser URL
-      if (!isParamBased) {
-        // Faceted Nav Filter Behavior
+      if (urlFilterMethod === 'param') {
         // Build the new URL path based on the filter values
-        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, value]) => value !== null && key in newFilters,
-        );
+        const sortedQParams = Object.entries(newFilters)
+          .sort(([k], [k2]) => (k > k2 ? 1 : 0))
+          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
+            if (k === 'price' && typeof v === 'object') {
+              if (v.min) acc['priceMin'] = v.min;
+              if (v.max) acc['priceMax'] = v.max;
+            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+              acc[k] = v;
+            }
 
-        const newPath = sortedEntries.map(([_key, value]) => `${value}`).join('/');
+            return acc;
+          }, {});
 
         // Construct the new URL with the updated path
-        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}/${newPath}${window.location.search}`;
-
-        window.history.pushState({ path: newUrl }, '', newUrl);
-      } else {
-        // Param Filter Behavior
-        const sortedEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]]).filter(
-          ([key, value]) => value !== null && key in newFilters,
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { plpSlug: [plpSlug], ...sortedQParams },
+          },
+          undefined,
+          { shallow: true },
         );
-        const newPath = sortedEntries.map(([key, value], index) => `${index === 0 ? '?' : ''}${key}=${value}`).join('&');
+      } else if (urlFilterMethod === 'facet') {
+        // Param Filter Behavior
+        const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]])
+          .filter(([key, v]) => v !== null && key in newFilters)
+          .map(([, v]) => v);
 
-        const newUrl = `${window.location.origin}/${collectionURL}/${router.query.plpSlug[0]}${newPath}`;
+        const sortedQParams = Object.entries(newFilters)
+          .sort(([k], [k2]) => (k > k2 ? 1 : 0))
+          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
+            if (k === 'price' && typeof v === 'object') {
+              if (v.min) acc['priceMin'] = v.min;
+              if (v.max) acc['priceMax'] = v.max;
+            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+              acc[k] = v;
+            }
 
-        window.history.pushState({ path: newUrl }, '', newUrl);
+            return acc;
+          }, {});
+
+        router.push({
+          pathname: router.pathname,
+          query: {
+            plpSlug: [plpSlug, ...sortedPathEntries],
+            ...sortedQParams,
+          },
+        });
+      } else {
+        // No URL update
       }
     } else {
-      handleSliderURLUpdate(value.min, value.max);
+      if (urlFilterMethod !== 'none') {
+        handleSliderURLUpdate(value.min, value.max);
+      }
     }
 
     setFilterValues(newFilters);
@@ -121,10 +156,7 @@ const PlpProductFilter = ({
 
     const newFilters = {
       ...filterValue,
-      price: {
-        min: sliderValue[0],
-        max: sliderValue[1],
-      },
+      price: { min: sliderValue[0], max: sliderValue[1] },
     };
 
     setFilterValues(newFilters);
@@ -149,6 +181,16 @@ const PlpProductFilter = ({
       removeUrlParameter('priceMax');
     }
   }
+
+  const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
+    return (
+      <>
+        {price.min && makeCurrency(price?.min)}
+        {price.min && price.max && <span className="hyphen">-</span>}
+        {price && makeCurrency(price?.max)}
+      </>
+    );
+  };
 
   return (
     availableFilters && (
@@ -244,15 +286,15 @@ const PlpProductFilter = ({
                     <li>
                       <button
                         className={clsx('flex align-center', {
-                          active: isCustomPricRangeOpen,
+                          active: isCustomPriceRangeOpen,
                         })}
-                        onClick={() => setIsCustomPriceRangeOpen(!isCustomPricRangeOpen)}
+                        onClick={() => setIsCustomPriceRangeOpen(!isCustomPriceRangeOpen)}
                       >
                         <span className="price-text">Custom</span>
                       </button>
                     </li>
                   </ul>
-                  {isCustomPricRangeOpen && (
+                  {isCustomPriceRangeOpen && (
                     <div className="filter-slider">
                       <Slider
                         step={100}
@@ -261,12 +303,35 @@ const PlpProductFilter = ({
                           min: priceRange[0],
                           max: priceRange[1],
                         }}
-                        value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
+                        value={[filterValue?.price.min || priceRange[0], filterValue?.price.max || priceRange[1]]}
                         handleChange={handleChange}
                         handleFormat={handleFormat}
                       />
                     </div>
                   )}
+                </div>
+              )}
+
+              {filterOptionSetOpen === 'styles' && (
+                <div className="filter-option-set styles ">
+                  <ul className="list-unstyled flex">
+                    {filterTypes['styles']?.map((ringStyle) => {
+                      const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
+
+                      if (ringStyle.includes('+')) return null;
+
+                      return (
+                        <li key={`filter-${ringStyle}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('style', ringStyle)}>
+                            <span className="setting-icon">
+                              <Icon />
+                            </span>
+                            <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               )}
 
@@ -277,10 +342,14 @@ const PlpProductFilter = ({
                       const isMetal = filterType === 'metal';
                       const isDiamondType = filterType === 'diamondType';
                       const isPrice = filterType === 'price';
+                      const isStyle = filterType === 'style';
+
                       const text = isMetal
                         ? METAL_HUMAN_NAMES[filterValue[filterType]]
                         : isDiamondType
                         ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
+                        : isStyle
+                        ? RING_STYLES_MAP[filterValue[filterType]]
                         : filterType;
 
                       if (filterValue[filterType] === null) return null;
@@ -292,13 +361,15 @@ const PlpProductFilter = ({
 
                         if (priceRangeMatchesInitialState) return null;
 
+                        // generate slug to match predefined filters
+                        const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
+                        const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
+
                         return (
                           <li key={`${filterValue}-${text}`}>
                             <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
                               <span className="close">x</span>
-                              {price.min && makeCurrency(price?.min)}
-                              {price.min && price.max && <span className="hyphen">-</span>}
-                              {price && makeCurrency(price?.max)}
+                              {priceLabel ? priceLabel : renderCustomPriceRange(price)}
                             </button>
                           </li>
                         );

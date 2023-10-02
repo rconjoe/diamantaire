@@ -1,37 +1,14 @@
-import { DIAMOND_TYPE_INTERNAL_NAMES } from '@diamantaire/shared/constants';
-
-// eslint-disable-next-line
-import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 
 import { queryDatoGQL } from '../clients';
 import { queryClientApi } from '../clients/client-api';
+// eslint-disable-next-line
+import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE_QUERY } from './query';
 
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
   try {
     const getFormatedDataForApi = () => {
-      const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        if (titles.includes(value)) {
-          return {
-            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
-            title: value,
-          };
-        }
-
-        if (slugs.includes(value)) {
-          return {
-            slug: value,
-            title: titles[slugs.findIndex((v) => v === value)],
-          };
-        }
-
-        return {};
-      };
-
       const diamondType =
         (options.diamondType && {
           diamondType: options.diamondType
@@ -80,28 +57,6 @@ export const fetchDiamondData = async (options) => {
 export const fetchInfiniteDiamondData = async (options, pageParam = 1) => {
   try {
     const getFormatedDataForApi = () => {
-      const getDiamondType = (value) => {
-        const titles = Object.keys(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        const slugs = Object.values(DIAMOND_TYPE_INTERNAL_NAMES);
-
-        if (titles.includes(value)) {
-          return {
-            slug: DIAMOND_TYPE_INTERNAL_NAMES[value],
-            title: value,
-          };
-        }
-
-        if (slugs.includes(value)) {
-          return {
-            slug: value,
-            title: titles[slugs.findIndex((v) => v === value)],
-          };
-        }
-
-        return {};
-      };
-
       const diamondType =
         (options.diamondType && {
           diamondType: options.diamondType
@@ -198,6 +153,7 @@ export const fetchDiamondCtoData = async (options) => {
 
     return options;
   };
+
   const getDefaultCtoDiamond = (diamonds) => {
     const upgradeOptions = getAvailableOptions(diamonds);
 
@@ -211,32 +167,26 @@ export const fetchDiamondCtoData = async (options) => {
 
     return diamonds?.[0];
   };
+
   const getAvailableUpgrades = (diamonds, selectedDiamond) => {
+    if (!selectedDiamond) return;
+
     const { cut: selectedCut, color: selectedColor } = selectedDiamond;
 
     const colorUpgrade = diamonds.find((diamond) => diamond.cut === selectedCut && diamond.color !== selectedColor);
+
     const cutUgrade = diamonds.find((diamond) => diamond.color === selectedColor && diamond.cut !== selectedCut);
 
-    return {
+    const cutAndColorUpgrade = diamonds.find((diamond) => diamond.color !== selectedColor && diamond.cut !== selectedCut);
+
+    const result = {
+      diamond: selectedDiamond,
       diamondColorUpgrade: colorUpgrade,
       diamondCutUpgrade: cutUgrade,
+      diamondCutAndColorUpgrade: cutAndColorUpgrade,
     };
-  };
-  const getUpgradePrice = (diamonds) => {
-    const upgradePrices = {};
-    const defaultDiamond = getDefaultCtoDiamond(diamonds);
-    const availableUpgrades = getAvailableUpgrades(diamonds, defaultDiamond);
-    const getPrice = (diamond) => diamond?.price;
 
-    for (const upgradeType in availableUpgrades) {
-      const upgradeDiamond = availableUpgrades[upgradeType];
-
-      if (upgradeDiamond) {
-        upgradePrices[upgradeType] = getPrice(upgradeDiamond) - getPrice(defaultDiamond);
-      }
-    }
-
-    return upgradePrices;
+    return result;
   };
 
   const number = Number(options.carat);
@@ -246,12 +196,12 @@ export const fetchDiamondCtoData = async (options) => {
   try {
     const queryOptions = {
       page: 1,
-      limit: 5,
+      limit: 100,
       sortBy: 'carat',
-      sortOrder: 'asc',
+      sortOrder: 'desc',
       diamondType: options.diamondType,
-      caratMin: caratNumber.toFixed(1),
-      caratMax: (caratNumber + 0.5).toFixed(1),
+      caratMin: caratNumber,
+      caratMax: caratNumber * 1.001,
     };
 
     const ctoQueryOptions = {
@@ -277,22 +227,18 @@ export const fetchDiamondCtoData = async (options) => {
 
     const upgrades: { [key: string]: any } = {};
 
-    const { diamondColorUpgrade, diamondCutUpgrade } = diamondAvailableUpgrade || {};
-
-    const upgradedPrices = getUpgradePrice(diamonds);
-
-    if (diamondColorUpgrade !== undefined) {
-      upgrades['diamondColorUpgrade'] = {
-        ...diamondColorUpgrade,
-        priceUpgrade: upgradedPrices['diamondColorUpgrade'],
-      };
-    }
+    const { diamondColorUpgrade, diamondCutUpgrade, diamondCutAndColorUpgrade } = diamondAvailableUpgrade || {};
 
     if (diamondCutUpgrade !== undefined) {
-      upgrades['diamondCutUpgrade'] = {
-        ...diamondCutUpgrade,
-        priceUpgrade: upgradedPrices['diamondCutUpgrade'],
-      };
+      upgrades['diamondCutUpgrade'] = diamondCutUpgrade;
+    }
+
+    if (diamondColorUpgrade !== undefined) {
+      upgrades['diamondColorUpgrade'] = diamondColorUpgrade;
+    }
+
+    if (diamondCutAndColorUpgrade !== undefined) {
+      upgrades['diamondCutAndColorUpgrade'] = diamondCutAndColorUpgrade;
     }
 
     return {

@@ -29,6 +29,7 @@ const FOOTER_NAV_QUERY = `
               gdprOptInCopy
               gdprCtaCopy
               gdprCtaRoute
+              optInCopy
               phoneInputPlaceholder
             }
             copyright

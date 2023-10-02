@@ -3,22 +3,49 @@ import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
-import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import DiamondGrid from './DiamondGrid';
+import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
 import DiamondTableRow from './DiamondTableRow';
 
-interface Info {
-  getValue: () => string;
-  row: { original: DiamondDataTypes };
-}
+type Info =
+  | {
+      getValue: () => string;
+      row: { original: DiamondDataTypes };
+    }
+  | {
+      getValue: () => string;
+      row: { original: DiamondPairDataTypes };
+    };
 
-const DiamondTable = (props) => {
+type DiamondTableProps = {
+  activeRow?: DiamondDataTypes | DiamondPairDataTypes;
+  setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
+  currencyCode: string;
+  locale: string;
+  initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
+  initialPagination: {
+    currentPage?: number;
+    perPage?: number;
+  };
+  initialOptions: any;
+  updateOptions: (options: any) => void;
+  updateLoading: (newState: boolean) => void;
+  clearOptions: () => void;
+  isBuilderFlowOpen?: boolean;
+  isTableView?: boolean;
+  flowIndex?: number;
+  ranges: Record<string, any>;
+  isDiamondPairs?: boolean;
+};
+
+const DiamondTable = (props: DiamondTableProps) => {
   const {
     currencyCode,
     locale,
@@ -31,6 +58,7 @@ const DiamondTable = (props) => {
     isBuilderFlowOpen,
     isTableView = true,
     flowIndex,
+    isDiamondPairs,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
@@ -39,7 +67,7 @@ const DiamondTable = (props) => {
 
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
-  // PAGINATION
+  // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: initialPagination?.currentPage,
     pageSize: initialPagination?.perPage,
@@ -57,7 +85,7 @@ const DiamondTable = (props) => {
   const options = {
     ...initialOptions,
     page: initialPagination?.currentPage,
-    limit: initialPagination?.perPage,
+    limit: initialPagination?.perPage || 20,
   };
 
   // DIAMONDS
@@ -86,12 +114,15 @@ const DiamondTable = (props) => {
   } = useDiamondTableData(locale);
 
   // COLUMNS
-  const columns = useMemo(
+  const singleDiamondColumns = useMemo(
     () => [
       {
-        accessorKey: 'type',
+        accessorKey: 'diamondType',
         cell: (info: Info) => {
-          return getDiamondType(info.getValue()).title;
+          const shape = info.getValue();
+          const diamondTypeTitle = (shape && getDiamondType(shape)?.title) || info.getValue();
+
+          return diamondTypeTitle;
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -125,12 +156,88 @@ const DiamondTable = (props) => {
         header: () => <UIString>price</UIString>,
       },
     ],
-    [],
+    [currencyCode, locale],
+  );
+
+  const diamondPairColumns = useMemo(
+    () => [
+      {
+        accessorKey: 'diamondType',
+        cell: (info: Info) => {
+          if (isDiamondPairType(info.row.original)) {
+            const diamonds = info.row.original.diamonds;
+
+            return (
+              <DiamondPairCell
+                diamonds={diamonds}
+                accessorKey="diamondType"
+                renderValue={(v: unknown): string => {
+                  if (typeof v === 'string') {
+                    return v && getDiamondType(v).title;
+                  } else {
+                    return 'Invalid Diamond Type';
+                  }
+                }}
+              />
+            );
+          }
+        },
+        header: () => <UIString>shape</UIString>,
+      },
+      {
+        accessorKey: 'carat',
+        cell: (info: Info) => {
+          if (isDiamondPairType(info.row.original)) {
+            const diamonds = info.row.original.diamonds;
+
+            return <DiamondPairCell diamonds={diamonds} accessorKey="carat" renderValue={(v) => Number(v).toFixed(2)} />;
+          }
+        },
+        header: () => <UIString>carat</UIString>,
+      },
+      {
+        accessorKey: 'color',
+        cell: (info: Info) => info.getValue(),
+        header: () => <UIString>color</UIString>,
+      },
+      {
+        accessorKey: 'clarity',
+        cell: (info: Info) => {
+          if (isDiamondPairType(info.row.original)) {
+            const diamonds = info.row.original.diamonds;
+
+            return <DiamondPairCell diamonds={diamonds} accessorKey="clarity" />;
+          }
+        },
+        header: () => <UIString>clarity</UIString>,
+      },
+      {
+        accessorKey: 'cut',
+        cell: (info: Info) => {
+          if (isDiamondPairType(info.row.original)) {
+            const diamonds = info.row.original.diamonds;
+
+            return <DiamondPairCell diamonds={diamonds} accessorKey="cut" />;
+          }
+        },
+        header: () => <UIString>cut</UIString>,
+      },
+      {
+        accessorKey: 'price',
+        cell: (info: Info) => {
+          const amount = info.getValue();
+
+          return makeCurrency(Number(amount), locale, currencyCode);
+        },
+        header: () => <UIString>price</UIString>,
+      },
+    ],
+    [currencyCode, locale],
   );
 
   // TABLE
-  const table = useReactTable({
-    columns,
+  const table = useReactTable<DiamondDataTypes | DiamondPairDataTypes>({
+    columns: isDiamondPairs ? diamondPairColumns : singleDiamondColumns,
     data: flatDiamonds ?? initialDiamonds,
     getCoreRowModel: getCoreRowModel(),
     state: { pagination },
@@ -140,11 +247,6 @@ const DiamondTable = (props) => {
   const onLoadMore = () => {
     if (queryDiamond.hasNextPage && !queryDiamond.isFetching && !queryDiamond.isLoading) {
       queryDiamond.fetchNextPage();
-
-      setPagination((prevPagination) => ({
-        ...prevPagination,
-        pageIndex: prevPagination.pageIndex + 1,
-      }));
     }
   };
 
@@ -166,7 +268,7 @@ const DiamondTable = (props) => {
 
     setActiveRow(null);
 
-    // window?.scrollTo(0, 0);
+    // props.setActiveRow(null);
   };
 
   const onHeaderClick = (header) => {
@@ -293,12 +395,18 @@ const DiamondTable = (props) => {
         <div ref={tableBody} className="vo-table-body">
           {table.getRowModel().rows.map((row, idx) => {
             const active = activeRow?.id === row.id;
+            let diamonds;
+
+            // Diamond Pair Typeguard
+            if (isDiamondPairType(row.original)) {
+              diamonds = row.original.diamonds;
+            }
 
             return (
-              <>
+              <Fragment key={row.id}>
                 {idx === 10 && !isBuilderFlowOpen && cfyPromoCard}
 
-                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
                     {row.getVisibleCells().map((cell) => (
                       <div key={cell.id} className="vo-table-cell">
@@ -310,11 +418,15 @@ const DiamondTable = (props) => {
 
                   {active && (
                     <div className="vo-table-row-body">
-                      <DiamondTableRow product={row?.original} />
+                      {isDiamondPairs ? (
+                        <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
+                      ) : (
+                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
+                      )}
                     </div>
                   )}
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>
@@ -356,53 +468,6 @@ const DiamondTable = (props) => {
               </div>
             </div>
           )}
-
-          {/* TABLE BODY */}
-          <div ref={tableBody} className="vo-table-body">
-            {table.getRowModel().rows.map((row) => {
-              const active = activeRow?.id === row.id;
-
-              return (
-                <div key={row.id} className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
-                  <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
-                    {row.getVisibleCells().map((cell) => (
-                      <div key={cell.id} className="vo-table-cell">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        {queryDiamond.isFetching && <div className="vo-table-cell-loading" />}
-                      </div>
-                    ))}
-                  </div>
-
-                  {active && row?.original && (
-                    <div className="vo-table-row-body">
-                      <DiamondTableRow product={row?.original} isBuilderFlowOpen={isBuilderFlowOpen} />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* TABLE FOOT */}
-          <div className="vo-table-foot">
-            <div className="vo-table-trigger" ref={loadTrigger} />
-
-            <div className="vo-table-no-result">
-              <div className="vo-table-no-result-container">
-                <p>{bottomContent}</p>
-                <DarksideButton type="underline" colorTheme="teal" onClick={clearOptions}>
-                  <UIString>Clear filters</UIString>
-                </DarksideButton>
-              </div>
-            </div>
-
-            {queryDiamond.isFetching && (
-              <div className="vo-table-loading">
-                <span className="vo-loader-icon"></span>
-                <span>Loading...</span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </StyledDiamondTable>

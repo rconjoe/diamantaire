@@ -27,23 +27,19 @@ const SingleJournalEntry = () => {
   const crumbs = useMemo(
     () => [
       {
-        key: 'home',
-        copy: 'Home',
-        path: 'https://www.vrai.com/',
-      },
-      {
-        key: 'journal',
-        copy: 'Journal',
+        title: 'Home',
         path: '/',
       },
       {
-        key: singleJournal?.category.key,
-        copy: singleJournal?.category.copy,
+        title: 'Journal',
+        path: '/',
+      },
+      {
+        title: singleJournal?.category.copy,
         path: `/${singleJournal?.category.key}`,
       },
       {
-        key: slug,
-        copy: singleJournal?.title,
+        title: singleJournal?.title,
         path: router.asPath,
       },
     ],

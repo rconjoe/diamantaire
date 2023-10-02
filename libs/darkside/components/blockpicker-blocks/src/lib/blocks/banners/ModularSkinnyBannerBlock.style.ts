@@ -5,6 +5,7 @@ import {
   desktopAndUp,
   makeTealLink,
   WHITE,
+  media,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -35,7 +36,7 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
     text-align: center;
     max-width: ${setSpace(40)};
 
-    ${tabletAndUp(`
+    ${media.small`
       color: ${(props) => props.$textColor};
       margin: 0 auto;
       text-align: left;
@@ -56,7 +57,8 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
         text-align: center !important;
         top: 85% !important;
       }
-    `)};
+    
+    `}
 
     ${desktopAndUp(`
       max-width: ${setSpace(59)};

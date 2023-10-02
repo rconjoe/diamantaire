@@ -1,4 +1,5 @@
 import { PdpTypePlural, pdpTypePluralAsConst } from '@diamantaire/shared/constants';
+import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
@@ -55,19 +56,44 @@ const ENGAGEMENT_RING_QUERY = `
     }
 `;
 
-const JEWELRY_QUERY = `
-query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
-  jewelryProduct(filter: {slug: {eq: $slug}}, locale: $locale) {
-    id
-    productDescription
-    productIconList {
-      productType
-    }
-    specLabels {
+const JEWELRY_QUERY = gql`
+  query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
+    jewelryProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      productDescription
+      productIconList {
+        productType
+      }
+      caratWeight
+      specLabels {
+        id
+      }
+      extraOptions {
+        label
+        name
+      }
+      diamondDescription
     }
   }
-}
+`;
+
+const WEDDING_BAND_QUERY = gql`
+  query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
+    weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      id
+      productDescription
+      productIconList {
+        productType
+      }
+      caratWeight
+      specLabels {
+        id
+      }
+      diamondDescription
+      bandWidth
+      bandDepth
+    }
+  }
 `;
 
 // PDP - GENERAL COMPONENTS IN ORDER THEY APPEAR - DatoCMS
@@ -363,6 +389,9 @@ const DATO_VARIANT_QUERY = `
       clarity
       dimensions
       caratWeightOverride
+      bandWidthOverride
+      metalWeightOverride
+      paveCaratWeightOverride
     }
     }
 `;
@@ -374,6 +403,8 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
         ? ENGAGEMENT_RING_QUERY
         : productType === pdpTypePluralAsConst['Jewelry']
         ? JEWELRY_QUERY
+        : productType === pdpTypePluralAsConst['Wedding Bands']
+        ? WEDDING_BAND_QUERY
         : null,
     variables: { slug, locale },
   });

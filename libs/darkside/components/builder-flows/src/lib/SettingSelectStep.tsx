@@ -2,7 +2,7 @@ import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
-import { objectToURLSearchParams, updateUrlParameter } from '@diamantaire/shared/helpers';
+import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -42,9 +42,6 @@ const SettingSelectStepStyles = styled.div`
 `;
 
 const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow }) => {
-  const [availableFilters, setAvailableFilters] = useState<any>(null);
-  const [paginationPages, setPaginationPages] = useState<any>(null);
-
   const { updateStep } = useContext(BuilderProductContext);
 
   const containerRef = useRef(null);
@@ -54,23 +51,24 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   });
 
   const category = 'engagement-rings';
-  const plpSlug = settingTypeToShow + '-cut' || 'round-brilliant-cut';
+  const plpSlug = settingTypeToShow ? settingTypeToShow + '-cut' : 'round-brilliant-cut';
 
-  const objectParams = {
-    slug: plpSlug,
-    category,
-  };
-
-  const [qParams, setQParams] = useState(objectToURLSearchParams(objectParams));
-
-  const [filterValue, setFilterValues] = useState<FilterValueProps>(null);
+  const [filterValue, setFilterValues] = useState<FilterValueProps>({});
 
   // Keep in case we're asked to add creative to PLP in this view
   // const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
   // const { hero, promoCardCollection, creativeBlocks } = plpData || {};
   // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(qParams, []);
+  const plpData = usePlpVRAIProducts(category, plpSlug, filterValue, { page: 1 });
+
+  console.log('plpData paramsss', category, plpSlug, filterValue);
+
+  const { data, fetchNextPage, isFetching, hasNextPage } = plpData;
+
+  const availableFilters = data?.pages?.[0]?.availableFilters;
+
+  console.log('availableFilters', availableFilters);
 
   // Handle pagination
   useEffect(() => {
@@ -78,7 +76,7 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage, hasNextPage]);
+  }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
   function selectSetting({ collectionSlug, productSlug }) {
     console.log('selectSetting running', collectionSlug, productSlug);
@@ -89,69 +87,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
     updateStep(flowIndex + 1);
   }
-
-  // Handle filter changes
-  useEffect(() => {
-    // const price = filterValue?.price;
-
-    const newFilterObject = {
-      slug: plpSlug,
-      category,
-    };
-
-    if (data?.pages) {
-      if (filterValue?.metal) {
-        newFilterObject['metal'] = filterValue?.metal;
-      }
-
-      if (filterValue?.diamondType) {
-        newFilterObject['diamondType'] = filterValue.diamondType;
-      }
-
-      if (filterValue?.price?.min) {
-        newFilterObject['priceMin'] = filterValue?.price?.min;
-      } else if (availableFilters?.price[0]) {
-        newFilterObject['priceMin'] = availableFilters?.price[0];
-      }
-
-      if (filterValue?.price?.max) {
-        newFilterObject['priceMax'] = filterValue?.price?.max;
-      } else if (availableFilters?.price[1]) {
-        newFilterObject['priceMax'] = availableFilters?.price[1];
-      }
-
-      if (availableFilters === null) {
-        setAvailableFilters(data?.[0]?.availableFilters);
-      }
-
-      if (availableFilters === null) {
-        setAvailableFilters(data?.pages?.[0]?.availableFilters);
-      }
-
-      if (filterValue === null) {
-        const initialFilterValues: FilterValueProps | object = {};
-
-        data?.pages?.[0]?.availableFilters &&
-          Object.keys(data?.pages?.[0]?.availableFilters).forEach((key) => {
-            initialFilterValues[key] = null;
-          });
-
-        console.log('initialFilterValues', initialFilterValues);
-
-        setFilterValues(initialFilterValues as FilterValueProps);
-      }
-
-      if (paginationPages === null) {
-        setPaginationPages(data?.pages?.[0]?.paginator?.totalPages || 1);
-      }
-    }
-
-    const newParams = objectToURLSearchParams({
-      ...newFilterObject,
-    });
-
-    setQParams(newParams);
-  }, [category, plpSlug]);
 
   useEffect(() => {
     console.log('plp data changing', data);
@@ -177,11 +112,12 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
             availableFilters={availableFilters}
             promoCardCollectionId={''}
             creativeBlockIds={[]}
-            initialProducts={[]}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
             isSettingSelect={true}
             selectSetting={selectSetting}
+            plpSlug={plpSlug}
+            urlFilterMethod={'none'}
           />
         </div>
 

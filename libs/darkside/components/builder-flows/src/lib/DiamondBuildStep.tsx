@@ -2,7 +2,7 @@ import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/di
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
@@ -21,7 +21,7 @@ const DiamondBuildStepStyles = styled(motion.div)`
 
   .table-container {
     display: flex;
-    padding: 40px 50px;
+    padding: 40px 20px;
 
     > aside {
       flex: 0 0 450px;
@@ -37,7 +37,13 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 `;
 
-const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
+type DiamondBuildStepProps = {
+  flowIndex: number;
+  diamondTypeToShow: string;
+  hideFilters?: string[];
+};
+
+const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: DiamondBuildStepProps) => {
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -58,6 +64,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
   const updateLoading = (newState) => {
     setLoading(newState);
   };
+
   const tableOptions = {
     locale: 'en-US',
     initialOptions: { ...options },
@@ -136,6 +143,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
               ranges={ranges}
               locale={'en-US'}
               currencyCode={'USD'}
+              hideFilters={hideFilters}
             />
             <div className="table">
               {/* Launcihg re-arch with table view only - this will be helpful in the future */}
@@ -151,6 +159,9 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow }) => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
                 flowIndex={flowIndex}
+                updateOptions={() => null}
+                clearOptions={() => null}
+                ranges={ranges}
               />
             </div>
           </div>

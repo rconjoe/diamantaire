@@ -48,6 +48,10 @@ const ResetStyles = styled.createGlobalStyle`
   a.disabled {
     pointer-events: none;
   }
+
+  div[data-lastpass-icon-root='true'] {
+    display: none !important;
+  }
 `;
 
 export { ResetStyles };

@@ -1,6 +1,8 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -59,12 +61,13 @@ const Header: FC<HeaderProps> = ({
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const { cartViewed } = useAnalytics();
   const router = useRouter();
+
   const selectedLocale = router.locale;
+  const { isCartOpen, setIsCartOpen, checkout } = useContext(CartContext);
 
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
-
-  const { section } = headerData.headerNavigationDynamic;
+  const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
 
@@ -95,6 +98,35 @@ const Header: FC<HeaderProps> = ({
   }
 
   function toggleCart() {
+    const { id, lines } = checkout || {};
+    const cartId = id?.split('/')[2];
+
+    const cartProducts = (lines || []).map((line, index) => {
+      const { merchandise } = line || {};
+      const { product, sku, price, id } = merchandise || {};
+      const { title, availableForSale, featuredImage, productType } = product || {};
+      const { url } = featuredImage || {};
+      const { amount } = price;
+      const variantId = id?.split('/')[3];
+
+      return {
+        id: variantId,
+        sku,
+        name: title,
+        price: amount,
+        position: index + 1,
+        category: productType,
+        // url: `https://www.vrai.com/products/${handle}`,
+        image_url: url,
+        availableForSale,
+      };
+    });
+
+    cartViewed({
+      cart_id: cartId,
+      products: cartProducts,
+    });
+
     return setIsCartOpen(!isCartOpen);
   }
 
@@ -122,7 +154,6 @@ const Header: FC<HeaderProps> = ({
       <FullHeaderStyles $isHome={isHome}>
         <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-
           {isHome ? (
             <>
               <StackedHeader
@@ -136,7 +167,6 @@ const Header: FC<HeaderProps> = ({
                 selectedLanguage={languagesByCode[selectedLanguageCode].name}
                 isLanguageSelectorOpen={isLanguageSelectorOpen}
               />
-
               <AnimatePresence>
                 <motion.div
                   key="slide-in-header"
@@ -172,20 +202,18 @@ const Header: FC<HeaderProps> = ({
               toggleCart={toggleCart}
             />
           )}
-
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
-
           {isLoaded && (
-            <MegaMenu
-              navItems={section}
-              megaMenuIndex={megaMenuIndex}
-              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-              isCompactMenuVisible={isCompactMenuVisible}
-            />
+            <DiamondShapesProvider>
+              <MegaMenu
+                navItems={section}
+                megaMenuIndex={megaMenuIndex}
+                headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                isCompactMenuVisible={isCompactMenuVisible}
+              />
+            </DiamondShapesProvider>
           )}
-
           {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
-          <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
         </div>
       </FullHeaderStyles>
       {isCountrySelectorOpen && (
@@ -193,6 +221,7 @@ const Header: FC<HeaderProps> = ({
           <CountrySelector toggleCountrySelector={toggleCountrySelector} />
         </Modal>
       )}
+      <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
     </>
   );
 };

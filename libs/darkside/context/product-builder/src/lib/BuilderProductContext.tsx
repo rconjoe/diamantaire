@@ -7,6 +7,12 @@ type BuilderDiamond = {
   diamondType: string;
   productType: string;
   price: number;
+  clarity: string;
+  carat: string;
+  cut: string;
+  color: string;
+  dangerousInternalShopifyVariantId: string;
+  productTitle: string;
 };
 
 type BuilderProduct = {
@@ -19,6 +25,10 @@ type BuilderProduct = {
   productTitle?: string;
   price?: number;
   image?: DatoImageType;
+  goldPurity: string;
+  bandAccent: string;
+  shopifyProductHandle: string;
+  configuredProductOptionsInOrder: string;
 };
 
 type BuilderStep = {

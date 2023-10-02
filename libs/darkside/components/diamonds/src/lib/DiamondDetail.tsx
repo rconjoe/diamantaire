@@ -3,7 +3,7 @@ import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darksi
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -34,6 +34,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
+  const diamondTitle = getDiamondType(diamondType)?.title;
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -62,12 +63,12 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
         <div className="aside">
           <Heading className="title" type="h2">
-            {productCarat} {getInfo(specs, 'carat')?.value} {diamondType} {productTitle}
+            {productCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
           </Heading>
 
           {price && <div className="price">{price}</div>}
 
-          <DiamondDetailAccordion lotId={lotId} />
+          <DiamondDetailAccordion lotId={lotId} locale={locale} />
 
           <div className="cta">
             {(product?.available_inventory && (
@@ -89,19 +90,19 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             )}
           </div>
 
-          <DiamondDetailIconList />
+          <DiamondDetailIconList locale={locale} />
 
           <div className="mail">
-            <Heading className="title" type="h2">
+            <strong className="title">
               <UIString>Need more time to think?</UIString>
-            </Heading>
+            </strong>
 
             <p>Email this diamond to yourself or drop a hint.</p>
 
             <Form onSubmit={(e) => e.preventDefault()} />
           </div>
 
-          <DiamondDetailSpecs lotId={lotId} />
+          <DiamondDetailSpecs lotId={lotId} locale={locale} />
         </div>
       </div>
 

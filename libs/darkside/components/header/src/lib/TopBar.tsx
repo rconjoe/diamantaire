@@ -78,7 +78,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   }, []);
 
   return (
-    <TopBarContainer>
+    <TopBarContainer id="top-bar">
       <div className="top-bar__wrapper">
         <div className="top-bar__content" dangerouslySetInnerHTML={{ __html: topbarText }}></div>
 

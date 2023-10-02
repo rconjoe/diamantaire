@@ -1,4 +1,6 @@
-import { ALL_STANDARD_PAGE_SLUGS_QUERY, queryDatoGQL } from '@diamantaire/darkside/data/api';
+import { queryDatoGQL } from '../clients/dato-graphql';
+
+import { ALL_STANDARD_PAGE_SLUGS_QUERY } from './index';
 
 const REQ_PAGE_SIZE = 100;
 

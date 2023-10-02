@@ -81,7 +81,9 @@ const StyledCFYResultPage = styled.div`
       height: 6rem;
       cursor: pointer;
       border: 1px solid transparent;
-      padding: 0.1rem;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
 
       &.active {
         border: 1px solid ${TEAL_MED};
@@ -97,6 +99,7 @@ const StyledCFYResultPage = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        transform: scale(1.05);
       }
     }
   }
@@ -135,12 +138,12 @@ const StyledCFYResultPage = styled.div`
       `)};
     }
 
-    .price,
-    .price * {
+    .primary-price,
+    .primary-price * {
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xsmall);
       ${tabletAndUp(`
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-xsmall);
       `)};
     }
 
@@ -163,6 +166,10 @@ const StyledCFYResultPage = styled.div`
       padding: 0;
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xxxsmall);
+
+      a {
+        color: ${TEAL};
+      }
     }
 
     .links * {

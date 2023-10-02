@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { queryDatoGQL } from '../../clients';
+import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
 type SortedRequestOptions = {
@@ -10,16 +10,34 @@ type SortedRequestOptions = {
 
 type PaginatedRequestOptions = {
   limit?: number;
-  page?: number;
+  page: number;
 };
 
 // Fetches VRAI server-side data for PLP
 const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
-const API_URL = `${BASE_URL}/api/plp`;
 
-export async function getVRAIServerPlpData(qParams: URLSearchParams, page = 1, limit = 12) {
-  const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
-  const reqUrl = `${API_URL}/getPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+export async function getVRAIServerPlpData(
+  category: string,
+  slug: string,
+  filterOptions = {},
+  { page = 1, limit = 12 }: PaginatedRequestOptions,
+) {
+  // Convert price Obj to price Params
+  const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
+    if (key === 'price') {
+      const { min, max } = value;
+
+      if (min) acc['priceMin'] = min;
+      if (max) acc['priceMax'] = max;
+    } else {
+      acc[key] = value;
+    }
+
+    return acc;
+  }, {});
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+  const qParams = new URLSearchParams({ category, slug, ...optionsQuery, page: page.toString(), limit: limit.toString() });
+  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -41,9 +59,10 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
-  const reqUrl = `${API_URL}/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
+  const reqUrl = `${baseUrl}/api/plp/getDiamondPlpProducts?${qParams.toString()}&${pageParams.toString()}`;
 
   const response = await fetch(reqUrl, {
     method: 'GET',
@@ -59,10 +78,10 @@ export async function getVRAIServerDiamondPlpData(
   return response;
 }
 
-export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
-  const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    [`plp-${qParams.toString()}`],
-    ({ pageParam = pageParamInit }) => getVRAIServerPlpData(qParams, pageParam),
+export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
+  const { data, fetchNextPage, isFetching, hasNextPage, error } = useInfiniteQuery(
+    [`plp`, category, slug, JSON.stringify(filterOptions || {})],
+    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
@@ -75,16 +94,15 @@ export function usePlpVRAIProducts(qParams, initialData, pageParamInit = 1) {
           return false;
         }
       },
-      initialData,
     },
   );
 
-  return { data, fetchNextPage, isFetching, hasNextPage };
+  return { data, fetchNextPage, isFetching, hasNextPage, error };
 }
 
-export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, options) {
+export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
-    [`plp-${slug}`, options.sortBy, options.sortOrder],
+    [`plp-${slug}`, ...Object.values(options || {})],
     ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam, ...options }),
     {
       refetchOnWindowFocus: false,
@@ -97,14 +115,13 @@ export function useDiamondPlpProducts(slug, initialData, pageParamInit = 1, opti
           return false;
         }
       },
-      initialData,
     },
   );
 
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-const LIST_PAGE_DATO_SERVER_QUERY = `
+export const LIST_PAGE_DATO_SERVER_QUERY = `
 query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
     listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
       id
@@ -122,6 +139,9 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         name
         link {
           ...on ListPageRecord {
+            slug
+          }
+          ... on StandardPageRecord {
             slug
           }
         }
@@ -159,13 +179,12 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
 `;
 
 // Gets the server-side Dato data for the PLP page
-export async function fetchPlpDatoServerData(locale: string, slug: string | string[], category: string) {
-  const datoData = await queryDatoGQL({
-    query: LIST_PAGE_DATO_SERVER_QUERY,
-    variables: { locale, slug, category },
-  });
+export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
+  const qParams = new URLSearchParams({ slug, category, locale });
+  const reqUrl = `/page/plpssr?${qParams.toString()}`;
+  const response = await queryClientApi().request({ url: reqUrl });
 
-  return datoData;
+  return response.data;
 }
 
 const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `

@@ -3,6 +3,7 @@
 * */
 
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
+import clsx from 'clsx';
 import React, { Suspense } from 'react';
 
 type StandardPageEntryProps = {
@@ -12,14 +13,15 @@ type StandardPageEntryProps = {
   isMobile?: boolean;
   countryCode?: string;
   currencyCode?: string;
+  gtmClass?: string;
 };
 
-const StandardPageEntry = ({ page, countryCode, currencyCode }: StandardPageEntryProps) => {
+const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
   // console.log(page);
 
   return (
-    <div className="content-one-container">
+    <div className={clsx('content-one-container', gtmClass)}>
       <Suspense fallback={'Loading'}>
         {page?.content1?.slice(0, page.content1.length).map((contentBlockData, idx) => {
           const { _modelApiKey } = contentBlockData;

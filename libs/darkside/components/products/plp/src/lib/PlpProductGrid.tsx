@@ -1,7 +1,6 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
-import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
-import { FilterTypeProps, FilterValueProps, ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
+import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
@@ -25,6 +24,9 @@ const PlpProductGridStyles = styled.div`
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
+  .loader-container {
+    text-align: center;
+  }
 `;
 
 type PlpProductGridProps = {
@@ -32,11 +34,12 @@ type PlpProductGridProps = {
   creativeBlockIds: string[];
   data;
   isFetching: boolean;
-  initialProducts: ListPageItemWithConfigurationVariants[] | ListPageDiamondItem[];
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
 
+  plpTitle?: string;
+  plpSlug: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
   isSettingSelect?: boolean;
@@ -46,6 +49,7 @@ type PlpProductGridProps = {
   initialFilterValues?: {
     [key in FilterTypeProps]: string;
   };
+  urlFilterMethod: 'facet' | 'param' | 'none';
 };
 
 const PlpProductGrid = ({
@@ -55,9 +59,13 @@ const PlpProductGrid = ({
   availableFilters,
   filterValue,
   setFilterValues,
+  plpTitle,
   builderFlowOverride = false,
   isSettingSelect = false,
   selectSetting,
+  isFetching,
+  plpSlug,
+  urlFilterMethod,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -98,9 +106,7 @@ const PlpProductGrid = ({
   }, [cardCollection]);
 
   const gridRef = useRef<HTMLDivElement>(null);
-  const products = data.pages?.map((page) => page.products).flat() || [];
-
-  // console.log('products', products);
+  const products = data?.pages?.map((page) => page.products).flat() || [];
 
   return (
     <PlpProductGridStyles ref={gridRef}>
@@ -109,54 +115,67 @@ const PlpProductGrid = ({
         gridRef={gridRef}
         filterValue={filterValue}
         setFilterValues={setFilterValues}
-        isParamBased={true}
+        urlFilterMethod={urlFilterMethod}
+        plpSlug={plpSlug}
       />
       <div className="container-wrapper">
         <div className="product-grid__row ">
-          {products?.map((product, gridItemIndex) => (
-            <Fragment key={product.defaultId}>
-              {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
-                <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
-              )}
+          {products?.length > 0 &&
+            products?.map((product, gridItemIndex) => {
+              if (!product) {
+                return null;
+              }
 
-              {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
-                <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
-              )}
+              return (
+                <Fragment key={product?.defaultId}>
+                  {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
+                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                  )}
 
-              {product.productType === 'diamonds' ? (
-                <PlpDiamondItem product={product} />
-              ) : (
-                <div>
-                  <PlpProductItem product={product} />
-                  {isSettingSelect && (
-                    <div
-                      style={{
-                        marginTop: '20px',
-                      }}
-                    >
-                      <DarksideButton
-                        onClick={() =>
-                          selectSetting({
-                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                            productSlug: product.variants[product.defaultId]?.productSlug,
-                          })
-                        }
-                      >
-                        Select
-                      </DarksideButton>
+                  {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
+                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                  )}
+
+                  {product?.productType === 'diamonds' ? (
+                    <PlpDiamondItem product={product} />
+                  ) : (
+                    <div>
+                      <PlpProductItem product={product} position={gridItemIndex} plpTitle={plpTitle} />
+                      {isSettingSelect && (
+                        <div
+                          style={{
+                            marginTop: '20px',
+                          }}
+                        >
+                          <DarksideButton
+                            onClick={() =>
+                              selectSetting({
+                                collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                                productSlug: product.variants[product.defaultId]?.productSlug,
+                              })
+                            }
+                          >
+                            Select
+                          </DarksideButton>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
-            </Fragment>
-          ))}
-          {products.length === 0 && (
+                </Fragment>
+              );
+            })}
+          {products.length === 0 && !isFetching && (
             <div className="no-items-message">
               <p>No items match your selection</p>
             </div>
           )}
         </div>
       </div>
+      {isFetching && (
+        <div className="loader-container">
+          <Loader color="#000" />
+        </div>
+      )}
     </PlpProductGridStyles>
   );
 };

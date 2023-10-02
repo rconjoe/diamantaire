@@ -12,6 +12,12 @@ export const StackedHeaderStylesContainer = styled.div`
   @media (min-width: ${BP_LG}) {
     display: block;
   }
+
+  .language-selector-sub,
+  .language-selector {
+    text-transform: capitalize;
+  }
+
   .stacked-header__container {
     padding: 2.4rem 0;
   }
@@ -54,11 +60,22 @@ export const StackedHeaderStylesContainer = styled.div`
         &.divider {
           margin: 0 10px;
         }
+
         button {
           background-color: transparent;
           border: none;
           padding: 0;
           line-height: 1;
+        }
+
+        .language-icon {
+          display: inline-block;
+          transform: translateY(-2px) rotate(180deg);
+          padding: 0 0.7rem;
+
+          &.active {
+            transform: translateY(1px) rotate(0deg);
+          }
         }
 
         .country-selector {
@@ -72,14 +89,27 @@ export const StackedHeaderStylesContainer = styled.div`
             position: relative;
             top: -1px;
           }
+
           span {
             flex: 1;
             white-space: nowrap;
           }
         }
 
+        &.calendar {
+          display: flex;
+          svg {
+            height: 18px;
+          }
+        }
+
+        &.language {
+          min-width: 80px;
+          margin-right: 0;
+        }
+
         &:last-child {
-          margin-left: 20px;
+          margin-left: 0;
           margin-right: 0;
         }
       }
@@ -87,6 +117,18 @@ export const StackedHeaderStylesContainer = styled.div`
 
     .nav__col--right ul {
       justify-content: flex-end;
+
+      .cart svg {
+        height: 21px;
+      }
+
+      .wishlist svg {
+        transform: translate(0, 1px);
+      }
+
+      .accounts svg {
+        transform: translate(0, 1px);
+      }
     }
   }
 
@@ -125,11 +167,16 @@ export const StackedHeaderStylesContainer = styled.div`
         &:hover,
         &.active {
           color: #000;
+
           &::before {
             width: 100%;
           }
         }
       }
     }
+  }
+
+  .stacked-header__desktop-nav {
+    text-transform: uppercase;
   }
 `;

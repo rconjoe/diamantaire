@@ -1,4 +1,22 @@
-const CONFIG_TYPE_ORDER = ['diamondType', 'sideStoneShape', 'sideStoneCarat', 'metal', 'bandAccent', 'caratWeight'];
+const CONFIG_TYPE_ORDER = [
+  'diamondType',
+  'sideStoneShape',
+  'sideStoneCarat',
+  'metal',
+  'ceramicColor',
+  'bandWidth',
+  'bandAccent',
+  'size',
+  'caratWeight',
+  'chainLength',
+  'diamondCount',
+  'diamondSize',
+  'eternityStyle',
+  'stoneSetting',
+  'earringSize',
+  'bandStyle',
+  'bandVersion',
+];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
   const pos = order.indexOf(configType);

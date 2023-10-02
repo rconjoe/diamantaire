@@ -102,6 +102,21 @@ export const PlpProductFilterStyles = styled.div`
       }
     }
 
+    &.styles {
+      button {
+        border-bottom: 2px solid transparent;
+        transition: 0.25s;
+        &:hover {
+          border-bottom: 2px solid var(--color-teal);
+        }
+        .setting-icon {
+          margin-right: 10px;
+          position: relative;
+          top: 1px;
+        }
+      }
+    }
+
     &.metal {
       button {
         width: 100%;

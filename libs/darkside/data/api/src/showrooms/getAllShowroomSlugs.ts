@@ -1,5 +1,5 @@
-import { queryDatoGQL, ShowroomNav as SHOWROOM_NAV_QUERY } from '@diamantaire/darkside/data/api';
-
+import { queryDatoGQL } from '../clients/dato-graphql';
+import { ShowroomNav as SHOWROOM_NAV_QUERY } from '../nonModular';
 type ShowroomNavReponse = {
   showroomNav?: {
     links: Array<{

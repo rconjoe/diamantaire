@@ -43,7 +43,7 @@ type SettingBuildStepProps = {
     [key: string]: string;
   };
   configurations: { [key: string]: OptionItemProps[] };
-  initialVariantId: string;
+  variantId: string;
   additionalVariantData: Record<string, string>;
   productTitle: string;
   price: string;
@@ -61,7 +61,7 @@ const SettingBuildStep = ({
   assetStack,
   selectedConfiguration,
   configurations,
-  initialVariantId,
+  variantId,
   additionalVariantData,
   productTitle,
   price,
@@ -105,23 +105,25 @@ const SettingBuildStep = ({
 
         <div className="info-container">
           <ProductTitle title={product.title} />
-          <ProductPrice price={product.price} />
+          <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={product.price} />
           <ProductConfigurator
             configurations={configurations}
             selectedConfiguration={selectedConfiguration}
-            initialVariantId={initialVariantId}
+            variantId={variantId}
             additionalVariantData={additionalVariantData}
             isBuilderFlowOpen={true}
             updateSettingSlugs={updateSettingSlugs}
             updateFlowData={updateFlowData}
             flowIndex={flowIndex}
             disableVariantType={disableVariantType}
+            variantProductTitle={shopifyProductData?.productTitle}
           />
           <ProductDescription
             description={productDescription}
-            productAttributes={{ ...parentProductAttributes }}
+            productAttributes={parentProductAttributes}
             variantAttributes={additionalVariantData}
             productSpecId={productSpecId}
+            title={productTitle}
           />
         </div>
       </div>

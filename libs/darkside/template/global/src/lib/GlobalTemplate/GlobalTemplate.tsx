@@ -1,6 +1,6 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
-import { useHeader, useFooter } from '@diamantaire/darkside/data/hooks';
+import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
@@ -19,9 +19,13 @@ export type GlobalTemplateProps = {
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
-  const headerData = useHeader(router.locale);
-  const footerData = useFooter(router.locale);
-  const headerRef = useRef(null);
+
+  const globalTemplateData = useGlobalData(router.locale);
+
+  const headerData = globalTemplateData.data?.headerNavigationDynamic;
+  const footerData = globalTemplateData.data?.footerNavigation;
+
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -30,9 +34,8 @@ export const GlobalTemplate = ({ children }) => {
   const isHome = pathname === '/';
 
   useEffect(() => {
-    if (!headerRef?.current?.offsetHeight) return;
-
-    const fullHeaderHeight = headerRef?.current?.offsetHeight;
+    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
     setHeaderHeight(fullHeaderHeight);
   }, [isTopbarShowing]);
@@ -40,17 +43,22 @@ export const GlobalTemplate = ({ children }) => {
   useEffect(() => {
     if (!headerRef.current) return;
 
-    const resizeObserver = new ResizeObserver(() => {
-      setHeaderHeight(headerRef?.current?.offsetHeight);
-    });
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Use entries to get the new height
+      if (entries[0].target instanceof HTMLElement) {
+        const newHeight = entries[0].target.offsetHeight;
 
-    window.dispatchEvent(
-      new CustomEvent('RESET_HEADER_HEIGHT', {
-        detail: {
-          headerHeight,
-        },
-      }),
-    );
+        setHeaderHeight(newHeight);
+
+        window.dispatchEvent(
+          new CustomEvent('RESET_HEADER_HEIGHT', {
+            detail: {
+              headerHeight: newHeight,
+            },
+          }),
+        );
+      }
+    });
 
     resizeObserver.observe(headerRef.current);
 
@@ -59,11 +67,11 @@ export const GlobalTemplate = ({ children }) => {
 
   return (
     <>
-      {headerData?.data && (
+      {headerData && (
         <Header
-          headerData={headerData.data}
+          headerData={headerData}
           isHome={isHome}
-          headerRef={headerRef}
+          headerRef={headerRef as React.MutableRefObject<HTMLDivElement>}
           isTopbarShowing={isTopbarShowing}
           setIsTopbarShowing={setIsTopbarShowing}
           headerHeight={headerHeight}
@@ -72,7 +80,7 @@ export const GlobalTemplate = ({ children }) => {
       <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
-      {footerData?.data && <Footer footerData={footerData?.data} />}
+      {footerData && <Footer footerData={footerData} />}
     </>
   );
 };

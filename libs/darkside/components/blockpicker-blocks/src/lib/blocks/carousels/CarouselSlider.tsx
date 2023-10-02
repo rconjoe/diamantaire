@@ -2,7 +2,7 @@ import { DarksideButton, DatoDarksideButtonProps, Heading, SwiperStyles } from '
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Keyboard, Lazy, Navigation } from 'swiper';
+import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper } from 'swiper/react';
 
 import { CarouselSliderContainer } from './CarouselSlider.style';
@@ -18,6 +18,7 @@ type CarouselContentBlockProps = {
   breakpoints?: any;
   className?: string;
   darksideButtons?: DatoDarksideButtonProps[];
+  hasPagination?: boolean;
 };
 
 const DEFAULT_BREAKPOINTS = {
@@ -39,8 +40,8 @@ const CarouselSlider = ({
   loopItems = true,
   className,
   darksideButtons,
+  hasPagination = false,
 }: CarouselContentBlockProps) => {
-  console.log('darksideButtons', darksideButtons);
   // LIST REF
   const prevButtonRef = useRef(null);
   const nextButtonRef = useRef(null);
@@ -48,6 +49,7 @@ const CarouselSlider = ({
 
   useEffect(() => {
     // TODO: Resolve error
+
     if (swiper) {
       swiper.params.navigation.prevEl = prevButtonRef.current;
       swiper.params.navigation.nextEl = nextButtonRef.current;
@@ -60,6 +62,8 @@ const CarouselSlider = ({
   if (!children) {
     return null;
   }
+
+  const modules = hasPagination ? [Navigation, Keyboard, Lazy, Pagination] : [Navigation, Keyboard, Lazy];
 
   return (
     <SwiperStyles>
@@ -113,11 +117,12 @@ const CarouselSlider = ({
               prevEl: prevButtonRef.current,
               nextEl: nextButtonRef.current,
             }}
-            modules={[Navigation, Keyboard, Lazy]}
+            modules={modules}
             breakpoints={breakpoints}
             keyboard={true}
             watchSlidesProgress={true}
             onSwiper={setSwiper}
+            pagination={hasPagination ? { clickable: true, type: 'bullets' } : false}
           >
             {children}
           </Swiper>

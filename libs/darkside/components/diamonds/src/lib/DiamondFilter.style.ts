@@ -17,7 +17,6 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-title {
     display: flex;
     align-items: center;
-    text-transform: capitalize;
     gap: 5px;
     width: 90px;
 
@@ -144,12 +143,16 @@ const StyledDiamondFilter = styled.aside`
       ${tabletAndUp(`
         display: flex;
         white-space: normal;
-        justify-content: space-between;
+        gap: 1.5rem;
       `)}
     }
 
     .vo-filter-list-item {
       display: inline-block;
+
+      .-pair {
+        padding: 0 0 0 0.5rem;
+      }
 
       ${tabletAndUp(`
         display: flex;

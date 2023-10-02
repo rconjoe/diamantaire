@@ -5,19 +5,19 @@ import {
   mobileOnly,
   tabletAndUp,
   MAIN_FONT,
+  media,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-export const ModularSideBySideBlockContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+export const ModularSideBySideBlockStyles = styled.div`
   justify-content: left;
-  flex-direction: ${(props) => (props.$textBlockAlignment === 'left' ? 'row-reverse' : 'row')};
 
-  ${desktopAndUp(`
+  ${media.medium`
+    display: flex;
+    flex-direction: ${(props) => (props.$textBlockAlignment === 'left' ? 'row-reverse' : 'row')};
     justify-content: space-evenly;
     margin: ${setSpace(5)} auto;
-  `)};
+  `}
 
   &.more-square {
     margin: ${setSpace(5)} auto;
@@ -65,9 +65,20 @@ export const ModularSideBySideBlockContainer = styled.div`
 
     ${desktopAndUp(`
       width: 50%;
-      max-width: 408px;
+      max-width: 610px;
       margin: 0 ${setSpace(2)};
     `)}
+
+    .desktop {
+      flex: 1;
+      display: none;
+      ${media.medium`display: block;`}
+    }
+
+    .mobile {
+      flex: 1;
+      ${media.medium`display: none;`}
+    }
 
     img {
       width: 100%;
@@ -82,7 +93,7 @@ export const ModularSideBySideBlockContainer = styled.div`
   }
 
   .side-by-side__title {
-    margin: ${setSpace(1.5)} 0;
+    margin: 0;
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xsmall);
     font-family: ${MAIN_FONT};
@@ -115,12 +126,18 @@ export const ModularSideBySideBlockContainer = styled.div`
     line-height: 20px;
 
     p {
-      margin-bottom: 20px;
+      margin: 0 0 2rem;
     }
 
     p:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .side-by-side-inline-image {
+    margin: 10px 0;
+    display: none;
+    ${media.medium`display: block;`}
   }
 
   .side-by-side__cta {

@@ -7,19 +7,19 @@ export interface DiamondSpecsProps {
   lotId?: string;
 }
 
-const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotId?: string }) => {
+const DiamondDetailSpecs = ({ locale = 'en-US', lotId }: { locale?: string; lotId?: string }) => {
   const {
     data: {
       diamondProduct: {
-        specLabels: { labels = [] },
+        specLabels: { labels = [] } = {},
         specsHeadline,
         originLabel,
         cutMapAbridged,
         girdleAbridged,
         fluorescenceAbridged,
         polishAndSymmetryAbridged,
-      },
-    },
+      } = {},
+    } = {},
   } = useDiamondPdpData(locale);
 
   const {
@@ -96,7 +96,7 @@ const DiamondDetailSpecs = ({ locale = 'en_US', lotId }: { locale?: string; lotI
 
   return (
     <StyledDiamondSpecs className="diamond-specs">
-      <p className="title">{specsHeadline}</p>
+      <strong className="title">{specsHeadline}</strong>
 
       <div className="spec-list">
         {labels.map(({ copy }: { copy: string; specName: string }) => {

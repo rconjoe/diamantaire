@@ -1,26 +1,39 @@
 /*
- 
+
 This is the master form component, we should never need to manually create a customer facing form that doesn't use this
 
 */
 
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
+import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
+import { Heading } from './Heading';
+import { Markdown } from './Markdown';
 
 const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
-  onSubmit: (e: React.SyntheticEvent, formState: object) => void;
+  onSubmit?: (e: React.SyntheticEvent, formState: object) => void;
   caption?: string;
   id?: string;
   title?: string;
   schema?: FormSchemaType[];
   formGridStyle?: 'single' | 'split';
   stackedSubmit?: boolean;
+  formState?: object;
+  setFormState?: (state: object) => void;
+  showOptIn?: boolean;
+  ctaCopy?: string;
+  optInCopy?: string;
+  extraClass?: string;
+  isValid?: boolean;
+  setIsValid?: (state: boolean) => void;
+  gridStyle?: 'single' | 'split';
+  emailPlaceholderText?: string;
 };
 
 export type FormSchemaType = {
@@ -31,28 +44,29 @@ export type FormSchemaType = {
   required: boolean;
 };
 
-const FormContainer = styled.div`
+const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
   p {
     margin-top: calc(var(--gutter) / 20);
+    font-size: var(--font-size-xxsmall);
   }
-  form {
+  .form {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
     .input-container {
       display: flex;
-      flex-wrap: wrap;
-      flex: ${({ gridStyle, stackedSubmit }) => (gridStyle === 'single' || stackedSubmit ? '0 0 100%' : '0 0 50%')};
-      margin-bottom: ${({ fieldsLength, stackedSubmit }) =>
-        !stackedSubmit && fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`};
+      flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
+      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
+      flex: 1;
 
       &.submit {
         margin-bottom: 0px;
+        flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
       > * {
-        flex: 1 1 100%;
+        flex: 1;
       }
 
       label {
@@ -61,7 +75,7 @@ const FormContainer = styled.div`
 
       input {
         border: 1px solid #ccc;
-        height: 4.6rem;
+        height: 4.7rem;
         padding-left: 10px;
         font-size: var(--font-size-xxxsmall);
       }
@@ -77,9 +91,54 @@ const FormContainer = styled.div`
       }
     }
   }
+  .input-opt-in {
+    input[type='checkbox'] {
+      width: 13px;
+      height: 13px;
+      appearance: none;
+      background-color: #fff;
+      margin: 0;
+      font: inherit;
+      color: currentColor;
+      border: 0.15em solid currentColor;
+    }
+    input[type='checkbox']::before {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 100%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 13px 13px currentColor;
+    }
+
+    input[type='checkbox']:checked::before {
+      transform: scale(1);
+    }
+    &.-error {
+      color: red;
+      a {
+        color: red;
+      }
+    }
+  }
 `;
 
-const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', stackedSubmit = true }: FormProps) => {
+const Form = ({
+  onSubmit,
+  title,
+  caption,
+  schema,
+  id,
+  formGridStyle = 'single',
+  stackedSubmit = true,
+  showOptIn,
+  ctaCopy = 'Submit',
+  optInCopy,
+  extraClass,
+  isValid,
+  setIsValid,
+}: FormProps) => {
   const [formState, setFormState] = useState(null);
 
   useEffect(() => {
@@ -95,49 +154,93 @@ const Form = ({ onSubmit, title, caption, schema, id, formGridStyle = 'single', 
       }
     });
 
-    console.log(initialFormState);
+    // console.log(initialFormState);
 
     return setFormState(initialFormState);
   }, [schema]);
 
+  const showGdprError = showOptIn && !isValid;
+
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
-      {title && <h4>{title}</h4>}
+      {title && (
+        <Heading type="h4" className="primary">
+          {title}
+        </Heading>
+      )}
       {caption && <p className="small">{caption}</p>}
       <form onSubmit={(e) => onSubmit(e, formState)}>
-        {!schema ? (
-          <div className="input-container">
-            <input type="text" name="email" id="email" placeholder="Enter your email" />
-          </div>
-        ) : (
-          schema?.map((field, index) => {
-            const { inputType, required, placeholder, name } = field || {};
+        <div className="form">
+          {!schema ? (
+            <div className="input-container">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+                required
+                onChange={(e) => {
+                  const { name, value } = e.target;
 
-            return (
-              <div className="input-container" key={`${id}-${index}`}>
-                {inputType === 'text' || inputType === 'phone' ? (
-                  <input
-                    type={inputType}
-                    required={required}
-                    name={name}
-                    value={formState?.[name]}
-                    placeholder={placeholder}
-                    onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
-                  />
-                ) : (
-                  <div className="dropdown-container">
-                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
-        <div className="input-container submit">
-          <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-            Submit
-          </DarksideButton>
+                  setFormState((prevState) => ({ ...prevState, [name]: value }));
+                }}
+              />
+            </div>
+          ) : (
+            schema?.map((field, index) => {
+              const { inputType, required, placeholder, name } = field || {};
+
+              return (
+                <div className="input-container" key={`${id}-${index}`}>
+                  {inputType === 'text' || inputType === 'phone' ? (
+                    <input
+                      type={inputType}
+                      required={required}
+                      name={name}
+                      value={formState?.[name]}
+                      placeholder={placeholder}
+                      onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
+                    />
+                  ) : (
+                    <div className="dropdown-container">
+                      <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+          <div className="input-container submit">
+            <DarksideButton type="solid" colorTheme="black" buttonType="submit">
+              {ctaCopy}
+            </DarksideButton>
+          </div>
         </div>
+        {showOptIn && (
+          <div
+            className={clsx('input-opt-in', {
+              '-error': showGdprError,
+            })}
+          >
+            <input
+              type="checkbox"
+              name="isConsent"
+              id="optin"
+              onChange={(e) => {
+                const { name, checked } = e.target;
+
+                setFormState((prevState) => ({ ...prevState, [name]: checked }));
+                setIsValid(true);
+              }}
+            />
+            <label htmlFor="optin">
+              <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+                {optInCopy}
+              </Markdown>
+            </label>
+          </div>
+        )}
       </form>
     </FormContainer>
   );
