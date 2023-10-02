@@ -29,12 +29,11 @@ import {
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
-// import { Variables } from 'graphql-request';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
-import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
+import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators, getDraftQuery } from '../helper/product.helper';
 import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
@@ -66,7 +65,9 @@ export class ProductsService {
       customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
-    const query = {};
+    const query = {
+      ...getDraftQuery()
+    };
 
     if (input?.slug) {
       query['collectionSlug'] = input?.slug;
@@ -121,6 +122,7 @@ export class ProductsService {
       const shopifyVariantGid = `gid://shopify/ProductVariant/${variantId}`;
       const query = {
         'variants.shopifyVariantId': shopifyVariantGid,
+        ...getDraftQuery(),
       };
       const product: VraiProduct = await this.productRepository.find(query);
 
@@ -139,6 +141,7 @@ export class ProductsService {
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
+        ...getDraftQuery()
       };
       // create unique cacheKey for each prodyct variant
       const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
@@ -658,7 +661,7 @@ export class ProductsService {
 
       // Build Query
       const pipeline: PipelineStage[] = [
-        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
+        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries, getDraftQuery()] } },
         { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
         { $sort: { __order: 1 } },
       ];
@@ -924,6 +927,7 @@ export class ProductsService {
               collectionSlug: { $in: collectionSlugsInOrder },
               'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
               'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+              ...getDraftQuery(),
             },
           },
           // Add fields to allow sorting by collectionSlug array
@@ -1311,7 +1315,7 @@ export class ProductsService {
     filterOptions?: Record<string, string>,
   ): Promise<Record<string, string[] | any>> {
     this.logger.debug(`Getting collection options for collection: ${collectionSlug}`);
-    const matchQueries: Record<string, string>[] = [{ collectionSlug }];
+    const matchQueries: Record<string, string>[] = [{ collectionSlug }, getDraftQuery()];
 
     const cacheKey = `collection-options-${collectionSlug}-with-options:${JSON.stringify(filterOptions)}`;
     const cachedData = await this.utils.memGet(cacheKey);
@@ -1394,7 +1398,7 @@ export class ProductsService {
     this.logger.debug(
       `Getting products from collection: ${collectionSlug} with options ${JSON.stringify(configurationOptions)}`,
     );
-    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
+    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }, getDraftQuery()];
 
     Object.entries(configurationOptions || {}).forEach(([k, v]) => {
       matchQueries.push({ [`configuration.${k}`]: v });
@@ -1415,7 +1419,7 @@ export class ProductsService {
     this.logger.debug(`Getting product from collection: ${collectionSlug} with slug ${productSlug}`);
 
     try {
-      const product = await this.productRepository.findOne<VraiProduct>({ collectionSlug, productSlug });
+      const product = await this.productRepository.findOne<VraiProduct>({ collectionSlug, productSlug, ...getDraftQuery() });
 
       return product;
     } catch (e) {
@@ -1435,7 +1439,7 @@ export class ProductsService {
     }
 
     try {
-      const collectionProducts = await this.productRepository.find({ collectionSlug });
+      const collectionProducts = await this.productRepository.find({ collectionSlug, ...getDraftQuery() });
       const collectionOptions = await this.getCollectionOptions(collectionSlug);
       const collectionTree = generateProductTree(collectionProducts, collectionOptions);
 
