@@ -5,6 +5,7 @@ import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 
 export interface HomePageProps {
