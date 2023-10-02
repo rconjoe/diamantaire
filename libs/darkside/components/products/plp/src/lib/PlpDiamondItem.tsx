@@ -19,10 +19,23 @@ const PlpDiamondItemStyles = styled.div`
   }
 `;
 
+function capitalizeFirstLetter(str) {
+  const words = str.split('-');
+
+  for (let i = 0; i < words.length; i++) {
+    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+  }
+
+  return words.join('-');
+}
+
 const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
-  const title = `${carat} carat, ${diamondType} | ${cut}, ${color}, ${clarity} | ${getFormattedPrice(price, router.locale)}`;
+  const title = `${carat} carat, ${capitalizeFirstLetter(diamondType)} | ${cut}, ${color}, ${clarity} | ${getFormattedPrice(
+    price,
+    router.locale,
+  )}`;
 
   return (
     <PlpDiamondItemStyles>

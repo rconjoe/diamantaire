@@ -1,4 +1,5 @@
 import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
@@ -194,7 +195,7 @@ function OptionSelector({
           <h4>{selectorLabel}:</h4>
           <span>
             {selectorCurrentValue}
-            {label === 'caratWeight' ? 'ct' : ''}{' '}
+            {label === 'caratWeight' && !isNaN(parseFloat(selectorCurrentValue)) ? 'ct' : ''}{' '}
           </span>
         </div>
       )}
@@ -324,7 +325,7 @@ function OptionSelector({
                     colorTheme="teal"
                     onClick={() => setShowingAllRingSizes(true)}
                   >
-                    Show More Sizes
+                    <UIString>Show more sizes</UIString>
                   </DarksideButton>
                 )}
               </>

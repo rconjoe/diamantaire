@@ -2,6 +2,7 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { UIString } from '@diamantaire/darkside/core';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -304,8 +305,8 @@ function AddToCartButton({
   price,
   shouldDoublePrice,
 }: CtaButtonProps) {
-  const { addItem, setIsCartOpen, addCustomizedItem } = useContext(CartContext);
-  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
+  const { addItemToCart, setIsCartOpen, addCustomizedItem } = useContext(CartContext);
+  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your diamond';
 
   console.log('additionalVariantData', additionalVariantData);
 
@@ -435,7 +436,7 @@ function AddToCartButton({
         },
       ];
 
-      addItem(variantId, [...engagementRingItemAttributes]);
+      addItemToCart(variantId, [...engagementRingItemAttributes]);
     } else if (productType === 'Necklace') {
       const metal = goldPurity
         ? goldPurity + ' '
@@ -458,7 +459,7 @@ function AddToCartButton({
 
       necklaceAttributes = elminateEmptyValues(necklaceAttributes);
 
-      addItem(variantId, [...necklaceAttributes]);
+      addItemToCart(variantId, [...necklaceAttributes]);
     } else if (productType === 'Bracelet') {
       let braceletAttributes = [
         ...cartAttributesForAllItems,
@@ -478,7 +479,7 @@ function AddToCartButton({
 
       braceletAttributes = elminateEmptyValues(braceletAttributes);
 
-      addItem(variantId, [...braceletAttributes]);
+      addItemToCart(variantId, [...braceletAttributes]);
     } else if (productType === 'Wedding Band') {
       const metal = goldPurity
         ? goldPurity + ' '
@@ -498,7 +499,7 @@ function AddToCartButton({
 
       weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
-      addItem(variantId, [...weddingBandAttributes]);
+      addItemToCart(variantId, [...weddingBandAttributes]);
     } else if (productType === 'Earrings') {
       const earringsAttributes = [
         ...cartAttributesForAllItems,
@@ -549,7 +550,7 @@ function AddToCartButton({
         addCustomizedItem(items);
       } else {
         // Single variant add to cart
-        addItem(variantId, [...earringsAttributes]);
+        addItemToCart(variantId, [...earringsAttributes]);
       }
 
       console.log('earringsAttributes', earringsAttributes);
@@ -583,7 +584,7 @@ function AddToCartButton({
           }
         }}
       >
-        {ctaText}
+        <UIString>{ctaText}</UIString>
       </DarksideButton>
     </AddToCartButtonContainer>
   );

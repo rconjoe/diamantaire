@@ -225,7 +225,8 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #ccc;
   padding: 5px;
-  min-width: 30px;
+  min-width: 35px;
+  min-height: 35px;
   text-align: center;
   font-size: 1.3rem;
   cursor: pointer;

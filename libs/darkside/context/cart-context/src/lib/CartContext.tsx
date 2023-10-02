@@ -17,7 +17,7 @@ import {
 
 interface CartContextValues {
   getCart: (cartId: string) => Promise<Cart | undefined>;
-  addItem: (variantId: string | undefined, customAttributes?: any) => Promise<string | undefined>;
+  addItemToCart: (variantId: string | undefined, customAttributes?: any) => Promise<string | undefined>;
   addCustomizedItem: (
     items: {
       variantId: string | undefined;
@@ -250,7 +250,7 @@ export const CartProvider = ({ children }) => {
     return reshapeCart(res.body.data.cart);
   }
 
-  const addItem = async (
+  const addItemToCart = async (
     variantId: string | undefined,
     customAttributes?: AttributeInput[],
   ): Promise<string | undefined> => {
@@ -430,7 +430,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
-        addItem,
+        addItemToCart,
         addCustomizedItem,
         removeFromCart,
         updateItemQuantity,
