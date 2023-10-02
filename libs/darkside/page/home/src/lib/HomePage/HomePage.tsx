@@ -38,10 +38,8 @@ const HomePage = (props: HomePageProps) => {
 };
 
 HomePage.getTemplate = getStandardTemplate;
-// WIP
-async function getStaticProps(props) {
-  const { locale, query } = props;
 
+async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
   // device - needs to be static for now:
   const isMobile = false;
   const { countryCode } = parseValidLocale(locale);
@@ -64,7 +62,6 @@ async function getStaticProps(props) {
       isMobile,
       currencyCode,
       countryCode,
-      query: query || '',
       dehydratedState: dehydrate(queryClient),
     },
   };
