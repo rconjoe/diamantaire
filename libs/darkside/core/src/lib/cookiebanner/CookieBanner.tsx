@@ -35,6 +35,7 @@ const CookieBannerStyles = styled.div`
   .title {
     font-size: var(--font-size-large);
     font-weight: 400;
+    line-height: 1;
   }
   .col {
     margin: 30px;
@@ -60,6 +61,9 @@ const CookieBannerStyles = styled.div`
     ${tabletAndUp(`
         flex-direction: row;
     `)}
+  }
+  .copy {
+    margin: 20px 0 25px !important;
   }
 `;
 
