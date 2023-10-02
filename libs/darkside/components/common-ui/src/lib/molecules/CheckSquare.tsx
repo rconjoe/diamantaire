@@ -1,5 +1,4 @@
 import { BLACK, GREY_LIGHT, WHITE, RED_ERROR } from '@diamantaire/styles/darkside-styles';
-import clsx from 'clsx';
 import styled from 'styled-components';
 
 const StyledCheckSquare = styled.div`

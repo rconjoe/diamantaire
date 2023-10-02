@@ -179,4 +179,6 @@ const CookieBanner = () => {
   );
 };
 
+export { CookieBanner };
+
 export default CookieBanner;
