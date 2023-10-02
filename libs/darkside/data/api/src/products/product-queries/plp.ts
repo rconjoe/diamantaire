@@ -48,93 +48,6 @@ export const CONFIGURATIONS_LIST = `
 
 export const PLP_QUERY = `query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
   listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}, locale: $locale) {
-    breadcrumb {
-      name
-      link {
-          ... on ListPageRecord{
-              slug
-          }
-          ... on StandardPageRecord{
-              slug
-          }
-      }
-    }
-    seo {
-      seoTitle
-      seoDescription
-    }
-    showAllCtaCopy
-    showAllCtaLink
-    hero {
-        title
-        copy
-        textColor {
-            hex
-        }
-        desktopImage {
-            url
-            blurUpThumb
-            responsiveImage(imgixParams: {w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
-            }
-        }
-        mobileImage {
-            url
-            blurUpThumb
-            responsiveImage(imgixParams: {w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-                ...responsiveImageFragment
-            }
-        }
-        copyPrices {
-            prices {
-                priceValue
-                currencyCode
-            }
-        }
-        ctaCopy
-        ctaRoute
-        ctaButtonType
-    }
-    showHeroWithBanner
-    filterAndSort {
-        ... on PlpSortRecord {
-            label
-            sort1
-            sort2
-            sort3
-        }
-        ... on PlpFilterRecord {
-            label
-            filter1
-            filter2
-        }
-    }
-    creativeBlocks {
-      title
-      desktopCopy
-      mobileCopy
-      ctaCopy
-      ctaRoute
-      desktopImage {
-          url
-          alt
-          responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-              ...responsiveImageFragment
-          }
-      }
-      mobileImage {
-          url
-          alt
-          responsiveImage(imgixParams: {w: 375, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-              ...responsiveImageFragment
-          }
-      }
-      supportedCountries {
-          code
-      }
-      gtmClass
-      openInNewTab
-    }
     configurationsInOrder {
       ... on OmegaProductRecord {
         _modelApiKey
@@ -195,6 +108,7 @@ export const PLP_QUERY = `query PLP($slug: String!, $category: String!, $locale:
               productType
           }
           shouldUseDefaultPrice
+          hasOnlyOnePrice
         }
         variantId
         plpImage {

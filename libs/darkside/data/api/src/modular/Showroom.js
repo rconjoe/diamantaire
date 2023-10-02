@@ -5,6 +5,7 @@ const Showroom = `
     data {
       title
       address
+      slug
       appointmentCtaCopy
       appointmentCtaLink
       appointmentMarkdown

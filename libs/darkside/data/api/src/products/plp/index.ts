@@ -141,6 +141,9 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
           ...on ListPageRecord {
             slug
           }
+          ... on StandardPageRecord {
+            slug
+          }
         }
       }
       hero {
