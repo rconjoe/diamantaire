@@ -85,6 +85,7 @@ const CookieBanner = () => {
     marketing: false,
     customerSupport: false,
   });
+  const [showBanner, setShowBanner] = useState(false);
 
   // Function to update the state when a user selects an option
   const handleOptionClick = (option) => {
@@ -100,6 +101,7 @@ const CookieBanner = () => {
 
     // Call acceptCookies with the selected options
     acceptCookies(selectedOptions);
+    setShowBanner(false);
   };
   const handleAcceptAllCookies = () => {
     acceptCookies({
@@ -107,9 +109,11 @@ const CookieBanner = () => {
       marketing: true,
       customerSupport: true,
     });
+    setShowBanner(false);
   };
 
   // Use useEffect to update the state with the values from cookies when available
+  // TODO: add a check if user is in EU based on middleware geo data
   useEffect(() => {
     if (consent) {
       setCookieConsentOptions({
@@ -119,6 +123,10 @@ const CookieBanner = () => {
       });
     }
   }, [consent]);
+
+  if (!showBanner) {
+    return null;
+  }
 
   return (
     <CookieBannerStyles>

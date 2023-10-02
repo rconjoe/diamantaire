@@ -62,7 +62,7 @@ const trackEvent = (event: string, data: Record<string, any>) => {
 
 export const AnalyticsProvider = ({ children }) => {
   // const { consent } = useCookieConsentContext();
-
+  // TODO: add a check if user is in EU based on middleware geo data
   useEffect(() => {
     // Initialize GTM here with your GTM container ID
     if (shouldEnableTracking()) {
