@@ -100,7 +100,7 @@ const CookieBanner = () => {
   };
 
   // Function to accept cookies based on the user's selections
-  const handleAcceptCookies = () => {
+  const handleAcceptSelectedCookieOptions = () => {
     const selectedOptions = Object.fromEntries(Object.entries(cookieConsentOptions).filter(([, selected]) => selected));
 
     // Call acceptCookies with the selected options
@@ -170,7 +170,7 @@ const CookieBanner = () => {
         </div>
         <div className="col col-right">
           <DarksideButton onClick={handleAcceptAllCookies}>{acceptAllCtaText}</DarksideButton>
-          <DarksideButton type="text-underline" className="button-select" onClick={handleAcceptCookies}>
+          <DarksideButton type="text-underline" className="button-select" onClick={handleAcceptSelectedCookieOptions}>
             {acceptSelectionCtaText}
           </DarksideButton>
         </div>
