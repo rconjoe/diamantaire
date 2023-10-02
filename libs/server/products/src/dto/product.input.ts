@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductVariantInput {
   @ApiProperty({
@@ -103,6 +103,7 @@ export class ProductInput {
   @IsOptional()
   @Type(() => String)
   readonly locale?: string;
+
 }
 
 export class PlpInput {
@@ -262,4 +263,25 @@ export class ProductByVariantIdInput {
   @IsNumber()
   @Type(() => Number)
   readonly variantId: number;
+}
+
+export class ProductByContentIdsInput {
+  @ApiProperty({
+    example: 'contentID1,contentID2',
+    required: true,
+  })
+  @IsString()
+  @Type(() => Array)
+  readonly ids: string;
+}
+
+export class ProductByProductSlugsInput {
+  @ApiProperty({
+    example: 'productSlug1,ProductSlug2',
+    required: false,
+  })
+  @IsArray()
+  @IsString()
+  @Type(() => Array)
+  readonly ids: string;
 }
