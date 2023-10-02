@@ -63,6 +63,7 @@ const CountrySelectorStyles = styled.div`
             a {
               color: #777;
               transition: 0.25s;
+              font-size: var(--font-size-xxxsmall);
               &:hover {
                 color: #000;
               }

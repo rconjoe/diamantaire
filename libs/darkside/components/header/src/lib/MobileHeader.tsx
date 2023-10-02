@@ -1,6 +1,6 @@
 import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
-import { BP_LG, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
@@ -18,16 +18,10 @@ type MobileHeaderTypes = {
 };
 
 const MobileHeaderContainer = styled.div`
-  padding: 0 10px 0 0px;
-  height: 5.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  padding: 15px 20px;
+  max-height: 56px;
 
-  @media (min-width: ${BP_LG}) {
-    display: none;
-  }
+  ${media.medium`display: none;`}
 
   .mobile-header-wrapper {
     align-items: center;

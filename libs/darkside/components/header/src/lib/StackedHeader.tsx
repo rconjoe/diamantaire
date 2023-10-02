@@ -1,7 +1,8 @@
 import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
 import { UIString } from '@diamantaire/darkside/core';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
-import { EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -42,14 +43,43 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
 
   const availableLanguages = countries[selectedCountryCode].languages;
 
+  function removeHash() {
+    window &&
+      window.history.replaceState(
+        '',
+        document.title,
+        window.location.origin + window.location.pathname + window.location.search,
+      );
+  }
+
+  function addHashToURL() {
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    // Check if the hash already exists in the URL
+    if (currentURL.indexOf('#hs-chat-open') === -1) {
+      // Add the hash to the URL
+      window.location.href = currentURL + '#hs-chat-open';
+    }
+
+    setTimeout(() => {
+      // call removeHash function after set timeout
+      removeHash();
+    }, 5); // 5 millisecond timeout in this case
+  }
+
+  function toggleChat() {
+    addHashToURL();
+  }
+
   return (
     <StackedHeaderStylesContainer>
       <div className="stacked-header__container">
         <div className="stacked-header__nav-wrapper stacked-header__top-level">
           <div className="nav__col--left">
             <ul className="country-locale-selector">
-              <li className="country">
-                <button className="country-selector" onClick={() => toggleCountrySelector()}>
+              <li className="country-selector">
+                <button onClick={() => toggleCountrySelector()}>
                   <LocationPinIcon /> <span>{selectedCountry}</span>
                 </button>
               </li>
@@ -65,6 +95,16 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                   </li>
                 </>
               )}
+
+              <li
+                className={clsx('country-selector__chat', {
+                  'with-lang': availableLanguages.length < 2,
+                })}
+              >
+                <button onClick={() => toggleChat()}>
+                  <ChatIcon />
+                </button>
+              </li>
               <li className="calendar">
                 <EmptyCalendarIcon />
                 <UIString>Book an appointment</UIString>

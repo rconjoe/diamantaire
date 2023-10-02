@@ -49,7 +49,7 @@ export const StackedHeaderStylesContainer = styled.div`
       margin: 0;
       padding: 0;
       display: flex;
-      align-items: center;
+      align-items: baseline;
 
       > li {
         font-size: 1.3rem;
@@ -78,26 +78,45 @@ export const StackedHeaderStylesContainer = styled.div`
           }
         }
 
-        .country-selector {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          margin-right: 10px;
+        &.country-selector {
+          /* flex: 0 0 100px; */
+          button {
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+            margin-right: 10px;
 
+            svg {
+              flex: 0 0 30px;
+              position: relative;
+              top: 6px;
+            }
+
+            span {
+              flex: 1;
+              white-space: nowrap;
+              font-size: 1.3rem;
+              color: var(--color-black);
+            }
+          }
+        }
+
+        &.country-selector__chat {
           svg {
-            flex: 0 0 30px;
+            width: 17px;
             position: relative;
-            top: -1px;
+            top: 3px;
           }
 
-          span {
-            flex: 1;
-            white-space: nowrap;
+          &.with-lang {
+            margin-left: 20px;
           }
         }
 
         &.calendar {
           display: flex;
+          top: 3px;
+
           svg {
             height: 18px;
           }
@@ -109,7 +128,6 @@ export const StackedHeaderStylesContainer = styled.div`
         }
 
         &:last-child {
-          margin-left: 0;
           margin-right: 0;
         }
       }
