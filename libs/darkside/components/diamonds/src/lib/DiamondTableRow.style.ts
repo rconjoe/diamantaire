@@ -101,13 +101,13 @@ const StyledDiamondTableRow = styled.div`
 
     .button-details button {
       font-size: var(--font-size-xxsmall);
-      font-weight: 400;
+      font-weight: 500;
       width: auto;
     }
 
     .button-expert button,
     .button-purchase button {
-      font-weight: 400;
+      font-weight: 500;
     }
   }
 `;

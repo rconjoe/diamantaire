@@ -16,8 +16,8 @@ interface MediaGalleryProps {
 
 const MediaGalleryStyles = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-auto-flow: dense;
+  grid-template-columns: 1fr 1fr;
   gap: 6px;
   width: 100%;
 `;
@@ -112,7 +112,13 @@ function ImageAsset({ image, defaultAlt }: { image: DatoImageType; defaultAlt: s
   );
 }
 
-const VideoAssetContainer = styled.div``;
+const VideoAssetContainer = styled.div`
+  aspect-ratio: 1/1;
+  position: relative;
+  video {
+    object-fit: cover;
+  }
+`;
 
 function VideoAsset({ video }) {
   if (!video) return null;

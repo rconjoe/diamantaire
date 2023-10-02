@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
@@ -110,6 +112,8 @@ const SingleVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
 
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
@@ -120,7 +124,18 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productType = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+    let matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+
+    if (matchingAttribute === 'Earrings') {
+      // Check if Earrings product has child. If so, it's a pair
+      const hasChildProduct = attributes?.find((attr) => attr.key === 'hasChildProduct').value === 'true';
+
+      if (hasChildProduct) {
+        matchingAttribute += ' (' + _t('Pair') + ')';
+      } else {
+        matchingAttribute += ' (' + _t('Single') + ')';
+      }
+    }
 
     return matchingAttribute;
   }, [attributes]);
@@ -167,6 +182,8 @@ const SingleVariantCartItem = ({
             ? 'Size'
             : productType === 'Necklace'
             ? 'Chain Length'
+            : info.productType === 'Earrings'
+            ? 'Carat Weight'
             : refinedCartItemDetails?.['ringSize'],
         value: `${selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value}`,
       },
@@ -247,7 +264,7 @@ const SingleVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            {info?.productTitle}
+            single --- {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">

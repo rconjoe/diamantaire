@@ -45,7 +45,13 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
   const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass, blogPosts, blogPostCtaCopy, _modelApiKey } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
+  const [additionalClass, setAdditionalClass] = useState('');
+
   useEffect(() => {
+    if (_modelApiKey === 'modular_triosvg_block') {
+      setAdditionalClass('trio-svg');
+    }
+
     if (_modelApiKey === 'modular_blog_list_trio_block') {
       const trioBlocksTemp = blogPosts.map((post) => {
         const updatedPost = {
@@ -70,7 +76,7 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
   }, []);
 
   return (
-    <ModularTrioBlockContainer className="container-wrapper">
+    <ModularTrioBlockContainer className={clsx('container-wrapper', additionalClass)}>
       {aboveCopy && (
         <Heading type={headingType} className={clsx('above-copy secondary', headingAdditionalClass)}>
           {aboveCopy}

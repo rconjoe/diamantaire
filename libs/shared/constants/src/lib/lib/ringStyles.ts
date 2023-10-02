@@ -47,6 +47,10 @@ export const ringStylesWithIconMap = {
     title: 'Hidden Halo',
     icon: HiddenHaloIcon,
   },
+  statement: {
+    title: 'Statement',
+    icon: HiddenHaloIcon,
+  },
   'three-stone': {
     title: 'Three Stone',
     icon: ThreeStoneIcon,

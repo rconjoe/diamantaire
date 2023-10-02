@@ -61,8 +61,6 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                               ? 'ring-style'
                               : '';
 
-                            console.log(`iconType`, linkKey, iconType);
-
                             return (
                               <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
                                 <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
