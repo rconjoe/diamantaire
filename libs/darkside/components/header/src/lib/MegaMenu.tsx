@@ -1,6 +1,8 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { getRelativeUrl, isCountrySupported } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, useContext } from 'react';
 
 import { MenuLink, NavItemsProps, SubMenuChildLink } from './header-types';
@@ -13,9 +15,13 @@ type MegaMenuProps = {
   isCompactMenuVisible: boolean;
 };
 
-const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, isCompactMenuVisible }) => {
+const MegaMenu: FC<MegaMenuProps> = (props) => {
+  const { navItems, headerHeight, isCompactMenuVisible, megaMenuIndex } = props;
   const data: any = useContext(DiamondShapesContext);
   const { diamondShapesWithIcon, ringStylesWithIcon } = data || {};
+  const router = useRouter();
+  const locale = router.locale;
+  const { countryCode } = parseValidLocale(locale);
 
   return (
     <MegaMenuStylesContainer
@@ -53,6 +59,7 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                               nestedLinks,
                               route: subMenuRoute,
                               copy: nestedLinkCopy,
+                              supportedCountries,
                             }: Partial<SubMenuChildLink> = link;
 
                             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
@@ -61,42 +68,44 @@ const MegaMenu: FC<MegaMenuProps> = ({ navItems, megaMenuIndex, headerHeight, is
                               ? 'ring-style'
                               : '';
 
-                            console.log(`iconType`, linkKey, iconType);
+                            const isSupportedCountry = isCountrySupported(supportedCountries, countryCode);
 
                             return (
-                              <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
-                                <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
-                                  <>
-                                    {linkKey && (
-                                      <span className={iconType}>
-                                        {diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]
-                                          ? diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]?.['icon']
-                                          : ringStylesWithIcon
-                                          ? ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]?.['icon']
-                                          : ''}
-                                      </span>
-                                    )}
+                              isSupportedCountry && (
+                                <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
+                                  <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
+                                    <>
+                                      {linkKey && (
+                                        <span className={iconType}>
+                                          {diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]
+                                            ? diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]?.['icon']
+                                            : ringStylesWithIcon
+                                            ? ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]?.['icon']
+                                            : ''}
+                                        </span>
+                                      )}
 
-                                    <span className="link-text">{nestedLinkCopy}</span>
-                                  </>
-                                </Link>
+                                      <span className="link-text">{nestedLinkCopy}</span>
+                                    </>
+                                  </Link>
 
-                                {nestedLinks?.length > 0 && (
-                                  <ul className="grandchildren-links">
-                                    {nestedLinks?.map((nestedLink, nestedLinkIndex: number) => {
-                                      const { route, copy }: { route: string; copy: string } = nestedLink;
+                                  {nestedLinks?.length > 0 && (
+                                    <ul className="grandchildren-links">
+                                      {nestedLinks?.map((nestedLink, nestedLinkIndex: number) => {
+                                        const { route, copy }: { route: string; copy: string } = nestedLink;
 
-                                      return (
-                                        <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                                          <Link href={getRelativeUrl(route)}>
-                                            <span className="link-text">{copy}</span>
-                                          </Link>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                )}
-                              </li>
+                                        return (
+                                          <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
+                                            <Link href={getRelativeUrl(route)}>
+                                              <span className="link-text">{copy}</span>
+                                            </Link>
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  )}
+                                </li>
+                              )
                             );
                           })}
                         </ul>
