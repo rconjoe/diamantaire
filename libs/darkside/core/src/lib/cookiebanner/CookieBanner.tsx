@@ -1,9 +1,14 @@
+import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 const CookieBanner = () => {
+  const router = useRouter();
+  const selectedLocale = router.locale;
   const { acceptCookies, consent } = useCookieConsentContext();
-
+  const cookieBannerData = useCookieBanner(selectedLocale);
+  console.log('cookieBannerData', cookieBannerData);
   // Initialize the state to manage cookie consent options
   const [cookieConsentOptions, setCookieConsentOptions] = useState({
     statistics: false,

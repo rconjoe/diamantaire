@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { isProdEnv } from '@diamantaire/shared/constants';
+// import { useCookieConsentContext } from '@use-cookie-consent/react';
 import { useEffect, createContext, useContext } from 'react';
 import TagManager from 'react-gtm-module';
 
@@ -60,6 +61,8 @@ const trackEvent = (event: string, data: Record<string, any>) => {
 };
 
 export const AnalyticsProvider = ({ children }) => {
+  // const { consent } = useCookieConsentContext();
+
   useEffect(() => {
     // Initialize GTM here with your GTM container ID
     if (shouldEnableTracking()) {
