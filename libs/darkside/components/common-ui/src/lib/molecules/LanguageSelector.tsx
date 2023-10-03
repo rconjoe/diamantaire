@@ -25,7 +25,7 @@ const StyledLanguageSelector = styled.ul`
     border: 1px solid #ddd;
     position: absolute;
     top: -0.5rem;
-    left: 1.2rem;
+    left: 1.8rem;
     transform: rotate(45deg);
     background: ${WHITE};
   }

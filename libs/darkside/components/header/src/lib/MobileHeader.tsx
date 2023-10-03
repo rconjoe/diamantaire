@@ -18,8 +18,8 @@ type MobileHeaderTypes = {
 };
 
 const MobileHeaderContainer = styled.div`
-  padding: 15px 20px;
-  max-height: 56px;
+  padding: 1.5rem 1rem 1.5rem 0;
+  max-height: 5.6rem;
 
   ${media.medium`display: none;`}
 
@@ -67,7 +67,7 @@ const MobileHeaderContainer = styled.div`
                 transform: translate(-5px, 0);
 
                 svg {
-                  height: 23px;
+                  height: 24px;
 
                   ${desktopAndUp(`
                     height: 18px;
@@ -102,21 +102,22 @@ const MobileHeaderContainer = styled.div`
         li {
           display: flex;
           align-items: center;
+        }
 
-          svg {
-            height: 23px;
-          }
+        svg {
+          width: auto;
         }
 
         li.wishlist {
-          transform: translateY(1px);
           svg {
-            height: 20px;
+            height: 24px;
           }
         }
 
         li.cart {
-          transform: translateY(-1px);
+          svg {
+            height: 24px;
+          }
         }
 
         li.accounts {

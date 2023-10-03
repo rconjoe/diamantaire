@@ -44,5 +44,7 @@ export type SubMenuChildLink = {
     route: string;
     newRoute?: string;
   }>;
-  supportedCountries: Array<string>;
+  supportedCountries: {
+    code: string;
+  }[];
 };
