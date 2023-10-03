@@ -16,6 +16,7 @@ export const StackedHeaderStylesContainer = styled.div`
   .language-selector-sub,
   .language-selector {
     text-transform: capitalize;
+    background: transparent;
   }
 
   .stacked-header__container {
@@ -58,13 +59,6 @@ export const StackedHeaderStylesContainer = styled.div`
         margin-right: 0px;
         position: relative;
 
-        button {
-          background-color: transparent;
-          line-height: 1;
-          border: none;
-          padding: 0;
-        }
-
         .language-icon {
           display: inline-block;
           transform: translateY(-2px) rotate(180deg);
@@ -75,19 +69,43 @@ export const StackedHeaderStylesContainer = styled.div`
           }
         }
 
-        .country-selector {
+        &.country-selector {
           display: flex;
           align-items: center;
+
+          button {
+            background-color: transparent;
+            display: block;
+            line-height: 1;
+            border: none;
+            padding: 0;
+          }
+
+          svg {
+            float: left;
+            position: relative;
+            height: 20px;
+          }
+
+          span {
+            float: left;
+            line-height: 20px;
+            white-space: nowrap;
+            color: var(--color-black);
+          }
+        }
+
+        &.country-selector__chat {
+          button {
+            margin: 0 0 0 1rem;
+            padding: 0;
+            background: transparent;
+          }
 
           svg {
             display: block;
             position: relative;
             height: 18px;
-          }
-
-          span {
-            flex: 1;
-            white-space: nowrap;
           }
         }
 
@@ -103,7 +121,6 @@ export const StackedHeaderStylesContainer = styled.div`
         }
 
         &:last-child {
-          margin-left: 0;
           margin-right: 0;
         }
       }

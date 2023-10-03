@@ -1,5 +1,6 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
+import { media } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -14,14 +15,12 @@ const HeaderActionsNavContainer = styled.nav`
 
     li {
       margin-right: 10px;
-
       &:last-child {
         margin-right: 0px;
       }
 
       &.accounts {
-        img {
-          top: 1px;
+        svg {
           width: 20px;
           height: auto;
           position: relative;
@@ -29,7 +28,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.search {
-        img {
+        svg {
           width: 26px;
           height: auto;
           transform: scale(0.8);
@@ -39,22 +38,23 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.wishlist {
-        img {
-          width: 24px;
+        svg {
+          width: 19px;
           height: auto;
           transform: scale(0.8);
           stroke-width: 1.5px;
           position: relative;
-          top: 1px;
+          top: 2px;
         }
       }
 
       &.cart {
-        img {
+        svg {
           width: 24px;
           height: auto;
           position: relative;
-          top: -1px;
+          top: 0px;
+          ${media.small`top: 1px;`}
         }
       }
 

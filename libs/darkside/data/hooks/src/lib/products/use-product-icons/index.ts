@@ -1,4 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 export interface ProductIconListDataTypes {
@@ -15,6 +16,11 @@ export interface ProductIconListDataTypes {
     width: number;
     height: number;
     url: string;
+  };
+  additionalInfo?: {
+    title: string;
+    image: DatoImageType;
+    copy: string;
   };
 }
 

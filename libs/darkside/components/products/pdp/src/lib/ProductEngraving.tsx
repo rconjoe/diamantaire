@@ -7,8 +7,9 @@ import {
   ENGRAVING_INITIALS_OPTIONS,
   JEWELRY_ENGRAVING_MAX_LENGTH,
 } from '@diamantaire/shared/constants';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const ProductEngravingStyles = styled.div`
@@ -49,6 +50,15 @@ const ProductEngravingStyles = styled.div`
         padding-left: 10px;
       }
 
+      &.is-initial {
+        input {
+          max-width: 40px;
+          padding-left: 0;
+          text-align: center;
+          font-size: var(--font-size-xsmall);
+        }
+      }
+
       p {
         font-size: 1.3rem;
         margin: 5px 0 20px;
@@ -57,11 +67,15 @@ const ProductEngravingStyles = styled.div`
   }
 `;
 
-const ProductEngraving = ({ engravingText, setEngravingText }) => {
+const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEngraving }) => {
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
+
+  const inputRef = useRef(null);
   const { query } = useRouter();
-  const MAX_CHAR_LIMIT = ENGRAVING_CHARACTER_LIMITS[query.collectionSlug.toString()]
+  const MAX_CHAR_LIMIT = hasSingleInitialEngraving
+    ? 1
+    : ENGRAVING_CHARACTER_LIMITS[query.collectionSlug.toString()]
     ? ENGRAVING_CHARACTER_LIMITS[query.collectionSlug.toString()]
     : JEWELRY_ENGRAVING_MAX_LENGTH;
 
@@ -80,6 +94,14 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
     setIsEngravingInputVisible(false);
   }
 
+  useEffect(() => {
+    if (isEngravingInputVisible) {
+      inputRef.current.focus();
+    }
+  }, [isEngravingInputVisible]);
+
+  console.log('hasSingleInitialEngraving', hasSingleInitialEngraving);
+
   return (
     <ProductEngravingStyles>
       <div className="engraving-container">
@@ -90,7 +112,7 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
               type="underline"
               colorTheme="teal"
             >
-              Add engraving
+              Add {hasSingleInitialEngraving ? 'initial' : 'engraving'}
             </DarksideButton>
             <p>(optional)</p>
           </div>
@@ -101,7 +123,9 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
               {engravingText}
             </p>
             <DarksideButton
-              onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
+              onClick={() => {
+                setIsEngravingInputVisible(!isEngravingInputVisible);
+              }}
               type="underline"
               colorTheme="teal"
             >
@@ -110,16 +134,26 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
           </div>
         )}
         {isEngravingInputVisible && (
-          <div className="engraving-input-container">
+          <div
+            className={clsx('engraving-input-container', {
+              'is-initial': hasSingleInitialEngraving,
+            })}
+          >
             <input
               type="text"
+              ref={inputRef}
               value={engravingInputText}
               onChange={(e) => {
                 // Validate input value against allowed characters
-                const newValue = e.target.value;
+                let newValue = e.target.value;
                 let isValid = true;
 
                 if (newValue.length > MAX_CHAR_LIMIT) return;
+
+                // If initial, force uppercase
+                if (hasSingleInitialEngraving) {
+                  newValue = newValue.toUpperCase();
+                }
 
                 newValue.split('').forEach((char) => {
                   if (ENGRAVING_INITIALS_OPTIONS.includes(char.toUpperCase())) {
@@ -129,7 +163,7 @@ const ProductEngraving = ({ engravingText, setEngravingText }) => {
                   }
                 });
 
-                if (isValid) setEngravingInputText(e.target.value);
+                if (isValid) setEngravingInputText(newValue);
               }}
             />
             <p className="limit-text">

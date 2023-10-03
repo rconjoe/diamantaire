@@ -7,7 +7,7 @@ export const ModularTrioStaggeredBlockContainer = styled.div`
     text-align: center;
 
     ${tabletAndUp(`
-      padding-bottom: ${setSpace(3)};
+      padding-bottom: 0;
       padding-top: ${setSpace(6)};
       margin: auto;
       max-width: ${setSpace(60)};
@@ -46,7 +46,6 @@ export const ModularTrioStaggeredBlockContainer = styled.div`
   .trio-block__tile-wrapper {
     width: 100%;
     display: flex;
-    padding-top: ${setSpace(4)};
 
     &.-end {
       justify-content: flex-end;

@@ -64,7 +64,8 @@ export const MegaMenuStylesContainer = styled.div<Props>`
               margin: 0;
             }
 
-            a {
+            a,
+            span {
               font-size: 1.5rem;
               font-family: ${MAIN_FONT};
               letter-spacing: 0.3px;
@@ -91,6 +92,10 @@ export const MegaMenuStylesContainer = styled.div<Props>`
                   height: 0.2rem;
                   transition: 0.25s;
                   width: 0%;
+                }
+
+                strong {
+                  font-weight: var(--font-weight-bold);
                 }
               }
 
@@ -146,10 +151,6 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
         li:last-child {
           margin-top: 1.5rem !important;
-
-          * {
-            font-weight: var(--font-weight-bold);
-          }
         }
       }
       &.wedding {

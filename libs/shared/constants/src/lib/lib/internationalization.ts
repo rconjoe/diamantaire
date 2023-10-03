@@ -496,6 +496,8 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
  * @param {boolean} hideZeroCents - should show trailing 00 cents if price is a whole number
  * @param {boolean} excludeCurrency - should exclude currency symbol
  * @returns {string} - formatted price
+ *
+ * THIS IS THE MAIN CURRENCY FORMATTING METHOD, ANYTHING ELSE IS WRONG
  */
 export function getFormattedPrice(
   priceInCents: number,

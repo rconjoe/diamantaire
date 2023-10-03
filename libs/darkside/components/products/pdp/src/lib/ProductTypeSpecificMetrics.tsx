@@ -8,13 +8,13 @@ const ProductTypeSpecificMetricsStyles = styled.div`
 `;
 
 const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
-  const caratWeight = parseFloat(((additionalVariantData?.carat * 100) / 100).toFixed(2));
+  const caratWeight = additionalVariantData?.carat;
 
   const acceptableProductTypes = ['Necklace', 'Bracelet', 'Wedding Band', 'Earrings', 'Ring'];
 
   return (
     <ProductTypeSpecificMetricsStyles>
-      {acceptableProductTypes.includes(productType) && caratWeight !== 0 ? (
+      {acceptableProductTypes.includes(productType) && caratWeight ? (
         <p>
           <strong>Carat weight</strong>: {caratWeight}
         </p>

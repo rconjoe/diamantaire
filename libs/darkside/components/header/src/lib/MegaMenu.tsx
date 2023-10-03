@@ -43,7 +43,7 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                 }}
               >
                 {columns?.map((column, index) => {
-                  const { columnTitle, colKey, links } = column || {};
+                  const { columnTitle, colKey, links, route, newRoute } = column || {};
 
                   return (
                     <div
@@ -51,15 +51,27 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                       key={`mm-c-${index}`}
                     >
                       <div className="col__inner">
-                        <h4>{columnTitle}</h4>
+                        <h4>
+                          {newRoute !== '' ? (
+                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                          ) : route !== '' ? (
+                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                          ) : (
+                            columnTitle
+                          )}
+                        </h4>
                         <ul>
                           {links.map((link, colIndex: number) => {
                             const {
                               linkKey,
                               nestedLinks,
                               route: subMenuRoute,
+                              newRoute,
                               copy: nestedLinkCopy,
+
                               supportedCountries,
+
+                              isBold,
                             }: Partial<SubMenuChildLink> = link;
 
                             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
@@ -73,7 +85,10 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                             return (
                               isSupportedCountry && (
                                 <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
-                                  <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
+                                  <Link
+                                    href={getRelativeUrl(newRoute || subMenuRoute)}
+                                    className={iconType ? 'has-icon' : ''}
+                                  >
                                     <>
                                       {linkKey && (
                                         <span className={iconType}>
@@ -85,19 +100,21 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                                         </span>
                                       )}
 
-                                      <span className="link-text">{nestedLinkCopy}</span>
+                                      <span className="link-text">
+                                        {isBold ? <strong>{nestedLinkCopy}</strong> : nestedLinkCopy}
+                                      </span>
                                     </>
                                   </Link>
 
                                   {nestedLinks?.length > 0 && (
                                     <ul className="grandchildren-links">
                                       {nestedLinks?.map((nestedLink, nestedLinkIndex: number) => {
-                                        const { route, copy }: { route: string; copy: string } = nestedLink;
+                                        const { newRoute, route, copy } = nestedLink;
 
                                         return (
                                           <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                                            <Link href={getRelativeUrl(route)}>
-                                              <span className="link-text">{copy}</span>
+                                            <Link href={getRelativeUrl(newRoute || route)}>
+                                              <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
                                             </Link>
                                           </li>
                                         );

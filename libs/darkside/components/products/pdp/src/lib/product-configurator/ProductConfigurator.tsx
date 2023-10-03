@@ -2,6 +2,7 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { UIString } from '@diamantaire/darkside/core';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -10,11 +11,12 @@ import {
   parseValidLocale,
   getCurrency,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
+import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
 import OptionSelector from './option-selector/OptionSelector';
@@ -44,6 +46,12 @@ type ProductConfiguratorProps = {
   variantProductTitle?: string;
   price?: number;
   isEngraveable?: boolean;
+  isSoldAsDouble?: boolean;
+  variantPrice?: number;
+  shouldDoublePrice?: boolean;
+  setShouldDoublePrice?: (value: boolean) => void;
+  hasSingleInitialEngraving?: boolean;
+  isSoldAsPairOnly?: boolean;
 };
 
 function ProductConfigurator({
@@ -51,6 +59,7 @@ function ProductConfigurator({
   diamondId,
   selectedConfiguration,
   variantId,
+  variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
   updateFlowData,
@@ -64,6 +73,11 @@ function ProductConfigurator({
   variantProductTitle,
   price,
   isEngraveable = false,
+  isSoldAsDouble,
+  setShouldDoublePrice,
+  shouldDoublePrice,
+  hasSingleInitialEngraving = false,
+  isSoldAsPairOnly = false,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -76,9 +90,11 @@ function ProductConfigurator({
     sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
 
-  // Ring size is not being returned on the config
-  // const [selectedSize, setSelectedSize] = useState<string>(selectedConfiguration?.[sizeOptionKey] || null);
+  // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
+
+  // Pair or single
+  const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -114,8 +130,55 @@ function ProductConfigurator({
     return configurations.caratWeight?.length > 1;
   }, [configurations]);
 
-  console.log('configurations', configurations);
-  console.log('isEngravable', isEngraveable);
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
+  const currencyCode = getCurrency(countryCode);
+
+  // Earrings - soldAsDouble logic
+  const pairSelector = useMemo(() => {
+    if (isSoldAsPairOnly) {
+      return [
+        {
+          id: 'pair',
+          value: 'Pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          valueLabel: 'Pair',
+          isSelected: selectedPair === 'pair',
+        },
+      ];
+    } else {
+      return [
+        {
+          id: 'pair',
+          value: 'Pair - ' + makeCurrency(variantPrice * 2, locale, currencyCode),
+          valueLabel: 'Pair',
+        },
+        {
+          id: 'single',
+          value: 'Single - ' + makeCurrency(variantPrice, locale, currencyCode),
+          valueLabel: 'Single',
+        },
+      ];
+    }
+  }, [isSoldAsPairOnly]);
+
+  const handlePairChange = useCallback(
+    (option: OptionItemProps) => {
+      setSelectedPair(option.id as 'pair' | 'single');
+
+      if (option.id === 'pair') {
+        setShouldDoublePrice(true);
+      } else {
+        setShouldDoublePrice(false);
+      }
+    },
+    [isSoldAsDouble],
+  );
+
+  useEffect(() => {
+    if (isSoldAsDouble) {
+      setSelectedPair('pair');
+    }
+  }, [isSoldAsPairOnly]);
 
   return (
     <>
@@ -155,10 +218,25 @@ function ProductConfigurator({
         </>
       )}
 
+      {/* Pair Products */}
+      {isSoldAsDouble && isConfigurationComplete && (
+        <OptionSelector
+          optionType={'soldAsDouble'}
+          label={'soldAsDouble'}
+          options={pairSelector}
+          selectedOptionValue={selectedPair}
+          onChange={handlePairChange}
+        />
+      )}
+
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
 
-      {isEngraveable && isConfigurationComplete && !isBuilderFlowOpen && (
-        <ProductEngraving engravingText={engravingText} setEngravingText={setEngravingText} />
+      {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
+        <ProductEngraving
+          engravingText={engravingText}
+          setEngravingText={setEngravingText}
+          hasSingleInitialEngraving={hasSingleInitialEngraving}
+        />
       )}
 
       {isBuilderFlowOpen ? (
@@ -188,6 +266,7 @@ function ProductConfigurator({
           selectedConfiguration={selectedConfiguration}
           variantProductTitle={variantProductTitle}
           price={price}
+          shouldDoublePrice={shouldDoublePrice}
         />
       )}
     </>
@@ -205,6 +284,7 @@ type CtaButtonProps = {
   selectedConfiguration?: { [key: string]: string };
   variantProductTitle?: string;
   price?: number;
+  shouldDoublePrice?: boolean;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -223,9 +303,12 @@ function AddToCartButton({
   isConfigurationComplete,
   variantProductTitle,
   price,
+  shouldDoublePrice,
 }: CtaButtonProps) {
-  const { addItem, setIsCartOpen } = useContext(CartContext);
-  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your Diamond';
+  const { addItemToCart, setIsCartOpen, addCustomizedItem } = useContext(CartContext);
+  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your diamond';
+
+  console.log('additionalVariantData', additionalVariantData);
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const router = useRouter();
@@ -353,7 +436,7 @@ function AddToCartButton({
         },
       ];
 
-      addItem(variantId, [...engagementRingItemAttributes]);
+      addItemToCart(variantId, [...engagementRingItemAttributes]);
     } else if (productType === 'Necklace') {
       const metal = goldPurity
         ? goldPurity + ' '
@@ -376,7 +459,7 @@ function AddToCartButton({
 
       necklaceAttributes = elminateEmptyValues(necklaceAttributes);
 
-      addItem(variantId, [...necklaceAttributes]);
+      addItemToCart(variantId, [...necklaceAttributes]);
     } else if (productType === 'Bracelet') {
       let braceletAttributes = [
         ...cartAttributesForAllItems,
@@ -396,7 +479,7 @@ function AddToCartButton({
 
       braceletAttributes = elminateEmptyValues(braceletAttributes);
 
-      addItem(variantId, [...braceletAttributes]);
+      addItemToCart(variantId, [...braceletAttributes]);
     } else if (productType === 'Wedding Band') {
       const metal = goldPurity
         ? goldPurity + ' '
@@ -416,7 +499,62 @@ function AddToCartButton({
 
       weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
 
-      addItem(variantId, [...weddingBandAttributes]);
+      addItemToCart(variantId, [...weddingBandAttributes]);
+    } else if (productType === 'Earrings') {
+      const earringsAttributes = [
+        ...cartAttributesForAllItems,
+        {
+          key: 'metal',
+          value: variantMetal,
+        },
+        {
+          key: 'diamondShape',
+          value: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
+        },
+        {
+          key: 'hasChildProduct',
+          value: shouldDoublePrice ? 'true' : 'false',
+        },
+      ];
+
+      if (shouldDoublePrice) {
+        // Multi-variant add to cart
+        const linkId = uuidv4();
+        const items = [
+          {
+            variantId,
+            quantity: 2,
+            customAttributes: [
+              ...earringsAttributes,
+              {
+                key: '_childProduct',
+                value: linkId,
+              },
+              {
+                key: 'totalPrice',
+                value: (price * 2).toString(),
+              },
+              {
+                key: 'showChildProduct',
+                value: 'false',
+              },
+              {
+                key: 'childProductType',
+                value: 'self',
+              },
+            ],
+          },
+        ];
+
+        console.log('two products', items);
+        addCustomizedItem(items);
+      } else {
+        // Single variant add to cart
+        addItemToCart(variantId, [...earringsAttributes]);
+      }
+
+      console.log('earringsAttributes', earringsAttributes);
+      // weddingBandAttributes = elminateEmptyValues(weddingBandAttributes);
     }
     // Trigger cart to open
     setIsCartOpen(true);
@@ -446,7 +584,7 @@ function AddToCartButton({
           }
         }}
       >
-        {ctaText}
+        <UIString>{ctaText}</UIString>
       </DarksideButton>
     </AddToCartButtonContainer>
   );

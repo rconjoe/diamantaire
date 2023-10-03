@@ -23,6 +23,8 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
     });
   };
 
+  if (!sortOptions?.length) return null;
+
   return (
     <PlpSortOptionStyle>
       <select value={selectedOptionsId} className="sort-options" onChange={handleSortOptionChange}>

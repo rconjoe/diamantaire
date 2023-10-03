@@ -34,5 +34,7 @@ export function isJK(color: (typeof DiamondColor)[keyof typeof DiamondColor]): b
  * @returns {string} lotId without any letters
  */
 export function getNumericalLotId(lotId: string) {
-  return lotId.replace(/\D/g, '');
+  const numericalLotId = lotId.replace(/\D/g, '');
+
+  return numericalLotId;
 }

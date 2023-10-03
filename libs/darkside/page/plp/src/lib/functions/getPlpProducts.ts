@@ -9,7 +9,7 @@ type GetPlpProductsOptions = {
 
 export default async function getPlpProducts(options: GetPlpProductsOptions, res: NextApiResponse) {
   setApiRouteCacheHeader(res);
-  const qParams = new URLSearchParams(options).toString();
+  const qParams = new URLSearchParams(options)?.toString();
 
   let response;
   const reqUrl = `/v1/products/plp?${qParams}`;

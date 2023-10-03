@@ -24,6 +24,7 @@ export type SubMenuParentLink = {
   copy: string;
   linkKey: string;
   columnTitle: string;
+  newRoute?: string;
   links: Array<SubMenuChildLink>;
 };
 
@@ -34,12 +35,14 @@ export type SubMenuChildLink = {
   isBold: boolean;
   linkKey: string;
   route: string;
+  newRoute?: string;
   nestedLinks: Array<{
     copy: string;
     id: string;
     _modelApiKey: string;
     isBold: boolean;
     route: string;
+    newRoute?: string;
   }>;
   supportedCountries: {
     code: string;

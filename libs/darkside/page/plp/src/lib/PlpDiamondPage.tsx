@@ -1,5 +1,6 @@
 import { Breadcrumb, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import { UIString } from '@diamantaire/darkside/core';
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -10,6 +11,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSide
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useState } from 'react';
+import styled from 'styled-components';
 
 import { PlpSortOptions } from './components/PlpSortOptions';
 
@@ -34,6 +36,22 @@ type DiamondPlpPageProps = {
   dehydratedState: DehydratedState;
 };
 
+const StyledPlpDiamondPage = styled.div`
+  .filter-bar {
+    height: 40px;
+  }
+  .view-more {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+
+    & > div {
+      max-width: 300px;
+    }
+  }
+`;
+
 function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpServerSideProps>) {
   const router = useRouter();
   const [activeSortOptions, setActiveSortOptions] = useState({});
@@ -43,7 +61,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
-  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, sortOptions } = plpData || {};
+  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, sortOptions, showHeroWithBanner } = plpData || {};
 
   const { seoTitle, seoDescription } = seo || {};
 
@@ -60,17 +78,19 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
-      title: crumb.name,
-      path: crumb.link.slug,
+      title: crumb?.name,
+      path: crumb?.link?.slug,
     };
   });
 
   return (
-    <div>
+    <StyledPlpDiamondPage>
       <NextSeo title={seoTitle} description={seoDescription} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
-      <PlpHeroBanner data={hero} />
-      {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+      <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+      <div className="filter-bar">
+        {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+      </div>
       <PlpProductGrid
         data={data}
         isFetching={isFetching}
@@ -80,12 +100,14 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         plpSlug={plpSlug}
       />
       {hasNextPage && (
-        <DarksideButton type="outline" onClick={() => fetchNextPage()}>
-          View More
-        </DarksideButton>
+        <div className="view-more">
+          <DarksideButton type="outline" onClick={() => fetchNextPage()}>
+            <UIString>View More</UIString>
+          </DarksideButton>
+        </div>
       )}
       <PlpBlockPicker plpSlug={plpSlug} />
-    </div>
+    </StyledPlpDiamondPage>
   );
 }
 

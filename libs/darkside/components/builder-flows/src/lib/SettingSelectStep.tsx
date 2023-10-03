@@ -68,8 +68,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   const availableFilters = data?.pages?.[0]?.availableFilters;
 
-  console.log('availableFilters', availableFilters);
-
   // Handle pagination
   useEffect(() => {
     if (isFetching) return;
