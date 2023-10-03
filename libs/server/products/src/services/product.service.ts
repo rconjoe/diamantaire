@@ -456,7 +456,6 @@ export class ProductsService {
 
         return map;
       }, {});
-      console.log('LOWEST PRICES', lowestPrices);
       await this.utils.memSet(cacheKey, lowestPrices, PRODUCT_DATA_TTL);
     } catch (error: any) {
       this.logger.error(`Error while aggregating lowest prices by collection: ${error}`);
