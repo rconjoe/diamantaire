@@ -3,6 +3,7 @@ import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -67,9 +68,21 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.bandAccent {
+      button {
+        max-width: 38px;
+        max-height: 38px;
+      }
+    }
+
+    &.version {
+      button {
+        text-transform: capitalize;
+      }
+    }
+
     &.prongStyle {
       button {
-        min-width: 110px;
         text-transform: capitalize;
       }
     }
@@ -77,9 +90,10 @@ const StyledOptionSelector = styled.div`
     &.diamondType {
       margin-top: 10px;
       position: relative;
-      max-width: 78%;
+      max-width: 100%;
       gap: 15px;
       min-height: 44px;
+      ${media.medium`max-width: 80%;`}
 
       .swiper {
         width: 100%;
@@ -88,13 +102,14 @@ const StyledOptionSelector = styled.div`
 
         .swiper-slide {
           width: fit-content !important;
-          margin-right: 30px;
+          margin-right: 25px;
+          ${media.medium`margin-right: 30px;`}
         }
       }
 
       .swiper-wrapper {
         display: flex;
-        padding-right: 80px;
+        padding-right: 165px;
       }
 
       a {
@@ -103,9 +118,20 @@ const StyledOptionSelector = styled.div`
 
       .carousel-arrow {
         position: absolute;
-        right: -40px;
         top: 10px;
         background-color: transparent;
+        right: -30px;
+        ${media.medium`right: -40px;`}
+      }
+    }
+
+    /* For selectors with medium sized buttons */
+    &.prongStyle,
+    &.bandWidth,
+    &.bandStyle {
+      button {
+        min-width: 115px;
+        font-size: var(--font-size-xxxsmall);
       }
     }
 

@@ -16,8 +16,6 @@ export const StackedHeaderStylesContainer = styled.div`
   .language-selector-sub,
   .language-selector {
     text-transform: capitalize;
-    background: transparent;
-    padding: 0;
   }
 
   .stacked-header__container {
@@ -47,104 +45,108 @@ export const StackedHeaderStylesContainer = styled.div`
     }
 
     .nav__col--left .country-locale-selector {
+      list-style: none;
       margin: 0;
       padding: 0;
       display: flex;
-      list-style: none;
-      align-items: center;
-      gap: 1rem;
+      align-items: baseline;
 
       > li {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         display: inline-block;
         margin-right: 20px;
         position: relative;
 
+        &.divider {
+          margin: 0 10px;
+        }
+
+        button {
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          line-height: 1;
+        }
+
         .language-icon {
           display: inline-block;
           transform: translateY(-2px) rotate(180deg);
-          padding: 0 0.7rem 0 0;
+          padding: 0 0.7rem;
 
           &.active {
             transform: translateY(1px) rotate(0deg);
-            padding: 0 0 0 0.7rem;
           }
         }
 
         &.country-selector {
-          display: flex;
-          align-items: center;
-
+          /* flex: 0 0 100px; */
           button {
-            background-color: transparent;
-            display: block;
-            line-height: 1;
-            border: none;
-            padding: 0;
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+            margin-right: 10px;
+
+            svg {
+              flex: 0 0 30px;
+              position: relative;
+              top: 6px;
+            }
+
+            span {
+              flex: 1;
+              white-space: nowrap;
+              font-size: 1.3rem;
+              color: var(--color-black);
+            }
           }
+        }
+
+        &.country-selector__chat {
+          svg {
+            width: 17px;
+            position: relative;
+            top: 3px;
+          }
+
+          &.with-lang {
+            margin-left: 20px;
+          }
+        }
+
+        &.calendar {
+          display: flex;
+          top: 4px;
 
           svg {
-            flex: 0 0 30px;
-            position: relative;
-            top: 5px;
-          }
-
-          span {
-            flex: 1;
-            white-space: nowrap;
-            font-size: 1.4rem;
-            color: var(--color-black);
+            height: 18px;
           }
         }
-      }
 
-      &.country-selector__chat {
-        button {
-          padding: 0;
-          background: transparent;
+        &.language {
+          min-width: 80px;
+          margin-right: 0;
         }
 
-        svg {
-          display: block;
-          position: relative;
-          height: 1.8rem;
+        &:last-child {
+          margin-right: 0;
         }
       }
-
-      &.calendar {
-        cursor: pointer;
-
-        svg {
-          height: 18px;
-          top: 1px;
-          position: relative;
-        }
-      }
-
-      &.language {
-        min-width: 7rem;
-        margin-right: 0;
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  .nav__col--right ul {
-    justify-content: flex-end;
-
-    .cart svg {
-      height: 2.1rem;
     }
 
-    .wishlist svg {
-      transform: translate(0, 1px);
-    }
+    .nav__col--right ul {
+      justify-content: flex-end;
 
-    .accounts svg {
-      transform: translate(0, 1px);
+      .cart svg {
+        height: 21px;
+      }
+
+      .wishlist svg {
+        transform: scale(0.8) translate(0, 1px);
+      }
+
+      .accounts svg {
+        transform: translate(0, 1px);
+      }
     }
   }
 

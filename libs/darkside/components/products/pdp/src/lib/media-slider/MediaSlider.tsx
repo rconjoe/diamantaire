@@ -1,5 +1,6 @@
 import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
 import { MimeTypes } from '@diamantaire/shared/types';
+import { media } from '@diamantaire/styles/darkside-styles';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';
@@ -15,6 +16,7 @@ const MediaSliderContainer = styled.div`
   max-width: 100%;
   overflow: hidden;
   width: 100vw;
+  ${media.medium`display: none;`}
 
   .swiper-wrapper {
     display: flex;
@@ -26,7 +28,7 @@ const MediaSliderContainer = styled.div`
   .swiper-pagination {
     display: flex;
     justify-content: center;
-    padding: calc(var(--gutter) / 2) 0 calc(var(--gutter) / 4);
+    padding: calc(var(--gutter) / 3) 0;
 
     .swiper-pagination-bullet {
       height: 5px;

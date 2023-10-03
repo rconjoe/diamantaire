@@ -83,6 +83,7 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
         plpTitle={plpTitle}
         useLowestPrice={useLowestPrice}
         lowestPrice={lowestPrice}
+        label={product?.productLabel?.title || null}
       />
       <div className="metal-selector">
         <ul className="list-unstyled flex">

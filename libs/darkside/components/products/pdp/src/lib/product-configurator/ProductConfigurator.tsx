@@ -305,7 +305,7 @@ function AddToCartButton({
   shouldDoublePrice,
 }: CtaButtonProps) {
   const { addItemToCart, setIsCartOpen, addCustomizedItem } = useContext(CartContext);
-  const ctaText = isReadyForCart ? 'Add to Cart' : 'Select your diamond';
+  const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
 
   console.log('additionalVariantData', additionalVariantData);
 

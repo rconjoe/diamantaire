@@ -1,4 +1,5 @@
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
+import { UIString } from '@diamantaire/darkside/core';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -36,7 +37,8 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       list-style: none;
 
       li {
-        button.top-level-link {
+        button.top-level-link,
+        > a {
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
@@ -47,6 +49,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           font-family: ${MAIN_FONT};
           text-transform: uppercase;
           font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-xxxsmall);
 
           &.open {
             border-color: transparent;
@@ -181,6 +184,11 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
             navItems?.map((item, index) => {
               return <MobileTopLevelLink item={item} key={`mobile-menu-parent-link-${index}`} />;
             })}
+          <li>
+            <Link href="/account/login">
+              <UIString>Account</UIString>
+            </Link>
+          </li>
         </ul>
       </nav>
     </MobileMenuContainer>
@@ -213,7 +221,7 @@ const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
 };
 
 const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) => {
-  const { columnTitle, colKey, links }: NavColumn = col;
+  const { columnTitle, links }: NavColumn = col;
 
   const diamondShapesContext = useContext(DiamondShapesContext);
 
@@ -225,18 +233,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
     diamondShapesContext;
 
   return (
-    <motion.div
-      className="mobile-submenu__container"
-      key={`mobile-menu-${colKey}`}
-      initial="collapsed"
-      animate="open"
-      exit="collapsed"
-      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-      variants={{
-        open: { opacity: 1, height: 'auto' },
-        collapsed: { opacity: 0, height: 0 },
-      }}
-    >
+    <div className="mobile-submenu__container">
       <div className="mobile-submenu__inner">
         <h4 className="submenu__title">{columnTitle}</h4>
         <ul className="submenu__list">
@@ -293,7 +290,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
           })}
         </ul>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -144,7 +144,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
           }
 
           &.grandchildren-links {
-            padding: 1.5rem 0 0.5rem 1.6rem;
+            padding: 1rem 0 0.5rem 1.6rem;
           }
         }
       }

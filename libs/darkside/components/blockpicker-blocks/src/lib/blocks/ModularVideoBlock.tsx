@@ -2,7 +2,7 @@ import { Heading, ShowTabletAndUpOnly, ShowMobileOnly } from '@diamantaire/darks
 import { PlayVideoTriangleIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ModularVideoBlockStyles } from './ModularVideoBlock.style';
 

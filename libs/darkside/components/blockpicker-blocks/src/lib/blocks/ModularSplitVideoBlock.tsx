@@ -14,7 +14,7 @@ const ModularSplitVideoBlockContainer = styled.div`
     }
 
     .split-video__video {
-      flex: 1.5;
+      flex: 1.73;
 
       > * {
         height: 250px !important;
