@@ -9,8 +9,6 @@ type PlpSortOptionsProps = {
 };
 
 function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps) {
-  if (!sortOptions?.length) return null;
-
   const [selectedOptionsId, setSelectedOptionsId] = useState<string>(sortOptions?.[0].id);
 
   const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,6 +22,8 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
       id: value,
     });
   };
+
+  if (!sortOptions?.length) return null;
 
   return (
     <PlpSortOptionStyle>
