@@ -5,8 +5,7 @@ import clsx from 'clsx';
 import { DarksideButton } from './DarksideButton';
 import { DatoImage } from './DatoImage';
 import { ImageTileContainer } from './ImageTile.style';
-
-import { UniLink } from './';
+import { UniLink } from './UniLink';
 
 type ImageTilePropTypes = {
   title?: string;

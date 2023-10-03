@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { UIString } from './';
+import { UIString } from './UIString';
 
 const StyledLanguageSelector = styled.ul`
   font-size: 16px;
