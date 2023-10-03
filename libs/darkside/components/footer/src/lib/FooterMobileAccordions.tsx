@@ -1,26 +1,77 @@
+import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale, countries } from '@diamantaire/shared/constants';
+import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import React, { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
-
-// import ChevronRight from 'public/static/icons/general/chevron-right.svg';
 
 import { FooterColumn } from './Footer';
 
 type FooterMobileAccordionProps = {
   columns: Array<FooterColumn>;
+  countryLabel: string;
 };
 
 const FooterMobileAccordionsContainer = styled.div`
   padding-top: 20px;
 `;
 
-const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JSX.Element => {
+const CountryLabelListItem = styled.div`
+  button {
+    font-size: 1.4rem;
+    color: var(--color-black);
+    background-color: transparent;
+    padding: 1.5rem 0;
+    display: flex;
+    width: 100%;
+
+    .label {
+      font-weight: bold;
+      margin-right: 10px;
+      text-transform: uppercase;
+      font-size: 1.4rem;
+    }
+
+    .icon {
+      flex: 1;
+      text-align: right;
+    }
+  }
+`;
+
+const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, countryLabel }): JSX.Element => {
+  const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
+
+  const { locale } = useRouter();
+  const { countryCode: selectedCountryCode } = parseValidLocale(locale);
+  const selectedCountry = countries[selectedCountryCode].name;
+
+  function toggleCountrySelector() {
+    return setIsCountrySelectorOpen(!isCountrySelectorOpen);
+  }
+
   return (
     <FooterMobileAccordionsContainer>
       {columns?.map((col, index) => {
         return <FooterAccordion col={col} key={`footer-accordion-${index}`} colKey={index} />;
       })}
+      <CountryLabelListItem>
+        <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
+          <span className="label">{countryLabel}:</span>
+          {selectedCountry}
+          <span className="icon">
+            <ArrowRightIcon />
+          </span>
+        </button>
+      </CountryLabelListItem>
+
+      {isCountrySelectorOpen && (
+        <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
+          <CountrySelector toggleCountrySelector={toggleCountrySelector} />
+        </Modal>
+      )}
     </FooterMobileAccordionsContainer>
   );
 };
@@ -37,6 +88,7 @@ const FooterAccordionContainer = styled.div`
     background-color: transparent;
     font-weight: bold;
     font-size: 1.4rem;
+    color: var(--color-black);
 
     span {
       position: relative;
@@ -72,6 +124,7 @@ const FooterAccordionContainer = styled.div`
 
       a {
         font-size: 1.7rem;
+        color: var(--color-black);
       }
     }
   }
@@ -84,7 +137,10 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
   return (
     <FooterAccordionContainer>
       <button onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
-        {title} <span className={isAccordionOpen ? 'open' : ''}>{/* <ChevronRight /> */}</span>
+        {title}{' '}
+        <span className={isAccordionOpen ? 'open' : ''}>
+          <ArrowRightIcon />
+        </span>
       </button>
 
       <AnimatePresence>

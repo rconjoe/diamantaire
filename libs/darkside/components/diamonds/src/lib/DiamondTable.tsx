@@ -404,7 +404,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
             return (
               <Fragment key={row.id}>
-                {idx === 10 && !isBuilderFlowOpen && cfyPromoCard}
+                {idx === 10 && cfyPromoCard}
 
                 <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>

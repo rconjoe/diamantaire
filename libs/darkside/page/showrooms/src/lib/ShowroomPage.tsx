@@ -30,7 +30,7 @@ const ShowroomPage = (props: ShowroomPageProps) => {
 
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
-  const { title } = selectedShowroom.content1?.[0].data || {};
+  const { title } = selectedShowroom?.content1?.[0]?.data || {};
 
   let showroomSeoTitle = seoTitle.split('|');
 

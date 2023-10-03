@@ -1,4 +1,5 @@
 export enum MimeTypes {
+  ImagePng = 'image/png',
   ImageJpeg = 'image/jpeg',
   VideoMP4 = 'video/mp4',
   VideoMov = 'video/mov',

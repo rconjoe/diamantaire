@@ -63,6 +63,7 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'sideStoneShape': {
       return DiamondIconOptionItem;
     }
+    case 'ceramicColor':
     case 'metal': {
       return MetalOptionItem;
     }
@@ -155,6 +156,31 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: rgb(206, 172, 139);
     }
   }
+  &.black {
+    .inner {
+      background-color: #000;
+    }
+  }
+  &.dark-green {
+    .inner {
+      background-color: #1f4d4e;
+    }
+  }
+  &.white {
+    .inner {
+      border: 1px solid #000;
+    }
+  }
+  &.turquoise {
+    .inner {
+      background-color: #4faed9;
+    }
+  }
+  &.yellow {
+    .inner {
+      background-color: #e9d540;
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
@@ -199,10 +225,10 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #ccc;
   padding: 5px;
-  min-width: 30px;
+  min-width: 35px;
+  min-height: 35px;
   text-align: center;
   font-size: 1.3rem;
-  text-transform: capitalize;
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
@@ -211,11 +237,22 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
 
 export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
   const { locale } = useRouter();
+
   // Band Width
 
-  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
+  const {
+    data: {
+      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
+      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
+      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAPS,
+    } = {},
+  } = useHumanNameMapper(locale);
 
-  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || value;
+  const valueLabel =
+    BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value ||
+    BAND_STYLE_HUMAN_NAMES_MAP?.[value]?.value ||
+    CARAT_WEIGHT_HUMAN_NAMES_MAPS?.[value]?.value ||
+    value;
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>

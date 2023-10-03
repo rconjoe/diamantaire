@@ -66,7 +66,6 @@ function convertHumanNameMappersArrayIntoFlatMap(humanNameMappers: HumanNameMapp
 async function createLanguageJsonFile(humanNameMappers: HumanNameMapper[], locale: string) {
   const flatMap = convertHumanNameMappersArrayIntoFlatMap(humanNameMappers);
 
-  console.log('flatMap', flatMap);
   const filename = `locale/${locale === 'en_US' ? 'en' : locale}.json`;
 
   const { url } = await put(filename, JSON.stringify(flatMap), { access: 'public' });

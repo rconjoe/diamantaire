@@ -31,6 +31,16 @@ type PlpDatoServersideProps = {
         slug: string;
       };
     }[];
+    showHeroWithBanner: boolean;
+    subcategoryFilter: {
+      data: {
+        title: string;
+        image: {
+          responsiveImage: DatoImageType;
+        };
+        slug: string;
+      }[];
+    }[];
     hero: {
       title: string;
       copy: string;

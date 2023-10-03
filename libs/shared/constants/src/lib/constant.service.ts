@@ -96,6 +96,16 @@ export const pdpTypeHandleAsConst = {
   ['jewelry']: 'Jewelry',
 } as const;
 
+export const pdpTypeTitleSingleToPluralHandleAsConst = {
+  ['Engagement Ring']: 'engagement-rings',
+  ['Necklace']: 'necklaces',
+  ['Ring']: 'ring',
+  ['Earring']: 'earrings',
+  ['Earrings']: 'earrings',
+  ['Bracelet']: 'bracelets',
+  ['Wedding Band']: 'wedding-bands',
+} as const;
+
 export const pdpTypeHandleSingleToPluralAsConst = {
   ['engagement-ring']: 'Engagement Rings',
   ['jewelry']: 'Jewelry',
@@ -105,7 +115,14 @@ export const pdpTypeHandleSingleToPluralAsConst = {
 export const pdpTypeSingleToPluralAsConst = {
   ['Engagement Ring']: 'Engagement Rings',
   ['Jewelry']: 'Jewelry',
+  ['Necklace']: 'Necklaces',
+  ['Bracelet']: 'Bracelets',
+  ['Ring']: 'Rings',
+  ['Earring']: 'Earrings',
+  ['Wedding Band']: 'Wedding Bands',
 } as const;
+
+export const jewelryTypes = ['Necklace', 'Bracelet', 'Earrings'];
 
 export const metalTypeAsConst = {
   platinum: 'Platinum',

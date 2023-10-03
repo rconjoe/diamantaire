@@ -20,11 +20,11 @@ export const SlideOutWrapper = styled(motion.aside)`
   position: fixed;
   top: 0;
   right: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  flex-direction: column;
+  display: block;
   background-color: #fff;
+  /* align-items: flex-end;
+  justify-content: flex-start; */
+  /* flex-direction: column; */
 
   .wrapper {
     flex: 1;
@@ -74,7 +74,7 @@ export const SlideOutWrapper = styled(motion.aside)`
   }
 `;
 
-export const SlideOutOverlay = styled(motion.div)`
+export const SlideOutOverlay = styled(motion.button)`
   position: fixed;
   background-color: #000;
   width: 100%;

@@ -1,6 +1,6 @@
 import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
-import { BP_LG } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
@@ -18,17 +18,22 @@ type MobileHeaderTypes = {
 };
 
 const MobileHeaderContainer = styled.div`
-  padding: 20px;
+  padding: 15px 20px;
+  max-height: 56px;
 
-  @media (min-width: ${BP_LG}) {
-    display: none;
-  }
+  ${media.medium`display: none;`}
 
   .mobile-header-wrapper {
-    display: flex;
     align-items: center;
+    display: flex;
+    flex: 1;
+
     .col {
       flex: 1;
+
+      svg {
+        height: 21px;
+      }
 
       &.col--left {
         nav {
@@ -41,40 +46,38 @@ const MobileHeaderContainer = styled.div`
 
             li {
               margin-right: 5px;
+              display: flex;
+              align-items: center;
+
               &:last-child {
                 margin-right: 0px;
               }
 
-              &.menu-toggle-container.active {
-                .hamburger-react {
-                  top: -1px;
-                }
-              }
-              .hamburger-react {
-                width: 20px !important;
-                height: 20px !important;
+              &.hamburger {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 48px;
+                height: 28px;
+                overflow: hidden;
                 position: relative;
-                top: 2px;
+              }
 
-                > div {
-                  left: 0 !important;
+              &.calendar {
+                transform: translate(-5px, 0);
 
-                  &:first-child {
-                    top: 0 !important;
-                  }
-                  &:nth-child(2) {
-                    top: 6px !important;
-                  }
-                  &:nth-child(3) {
-                    top: 12px !important;
-                  }
+                svg {
+                  height: 23px;
+
+                  ${desktopAndUp(`
+                    height: 18px;
+                  `)}
                 }
               }
 
               img {
                 max-width: 28px;
                 position: relative;
-                top: -1px;
               }
             }
           }
@@ -83,6 +86,8 @@ const MobileHeaderContainer = styled.div`
 
       &.col--center {
         text-align: center;
+        font-size: 0;
+
         a {
           display: inline-block;
 
@@ -92,7 +97,28 @@ const MobileHeaderContainer = styled.div`
           }
         }
       }
+
       &.col--right {
+        li {
+          display: flex;
+          align-items: center;
+
+          svg {
+            height: 23px;
+          }
+        }
+
+        li.wishlist {
+          transform: translateY(1px);
+          svg {
+            height: 20px;
+          }
+        }
+
+        li.cart {
+          transform: translateY(-1px);
+        }
+
         li.accounts {
           display: none;
         }
@@ -111,8 +137,10 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight, toggleCar
           <div className="col col--left">
             <nav>
               <ul>
-                <li className={isMobileMenuOpen ? 'menu-toggle-container active' : 'menu-toggle-container'}>
-                  <Hamburger label="Toggle mobile menu" toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={18} />
+                <li
+                  className={'hamburger' + (isMobileMenuOpen ? ' menu-toggle-container active' : ' menu-toggle-container')}
+                >
+                  <Hamburger label="Toggle mobile menu" toggled={isMobileMenuOpen} toggle={setIsMobileMenuOpen} size={16} />
                 </li>
                 <li className="calendar">
                   <EmptyCalendarIcon />

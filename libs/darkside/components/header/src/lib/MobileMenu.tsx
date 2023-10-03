@@ -122,6 +122,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
             span {
               position: relative;
               margin-right: 5px;
+              font-size: 1.7rem;
 
               &.diamond {
                 top: 4px;
@@ -240,7 +241,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
         <h4 className="submenu__title">{columnTitle}</h4>
         <ul className="submenu__list">
           {links?.map((link, index) => {
-            const { linkKey, nestedLinks, route, copy }: Partial<SubMenuChildLink> = link;
+            const { linkKey, nestedLinks, route, copy, isBold }: Partial<SubMenuChildLink> = link;
 
             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
               ? 'diamond'
@@ -262,7 +263,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
                             : ''}
                         </span>
                       )}
-                      <span className="link-text">{copy}</span>
+                      <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
                     </>
                   </Link>
                 )}

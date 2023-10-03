@@ -65,13 +65,19 @@ type PlpProductItemProps = {
 };
 
 const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) => {
-  const { defaultId, variants, metal } = product;
+  const { defaultId, variants, metal, useLowestPrice, lowestPrice } = product;
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
 
   return (
     <PlpProductItemStyles>
-      <PlpProductVariant variant={selectedVariant} position={position} plpTitle={plpTitle} />
+      <PlpProductVariant
+        variant={selectedVariant}
+        position={position}
+        plpTitle={plpTitle}
+        useLowestPrice={useLowestPrice}
+        lowestPrice={lowestPrice}
+      />
       <div className="metal-selector">
         <ul className="list-unstyled flex">
           {metal?.map((option) => (

@@ -1,4 +1,5 @@
 import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/core';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
@@ -35,9 +36,8 @@ const StyledOptionSelector = styled.div`
     }
 
     span {
-      font-size: 1.7rem;
-      font-weight: 300;
-      text-transform: capitalize;
+      font-size: 1.6rem;
+      font-weight: 400;
     }
   }
   .option-list {
@@ -49,12 +49,6 @@ const StyledOptionSelector = styled.div`
     padding: 0;
     margin: 0;
 
-    &.space-between-items {
-      > * {
-        margin-right: 15px;
-      }
-    }
-
     &.ringSize {
       align-items: center;
       margin-bottom: 20px;
@@ -64,12 +58,22 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.soldAsDouble {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      button {
+        flex: 1 1 50%;
+        height: 48px;
+      }
+    }
+
     &.diamondType {
       margin-top: 10px;
       position: relative;
-      margin-bottom: 8px;
-      height: 35px;
       max-width: 78%;
+      gap: 15px;
+      min-height: 44px;
 
       .swiper {
         width: 100%;
@@ -98,6 +102,12 @@ const StyledOptionSelector = styled.div`
         background-color: transparent;
       }
     }
+
+    &.space-between-items {
+      max-width: 100%;
+      gap: 20px;
+      min-height: 0;
+    }
   }
 `;
 
@@ -120,6 +130,7 @@ function OptionSelector({
       CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
       BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
       BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
+      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
     } = {},
   } = useHumanNameMapper(locale);
 
@@ -152,7 +163,11 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel = OPTION_NAMES_MAP?.[label]?.value || BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value;
+  const selectorLabel =
+    OPTION_NAMES_MAP?.[label]?.value ||
+    BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value ||
+    OPTION_NAMES_MAP?.[label.replace('eternityStyle', 'style')]?.value ||
+    OPTION_NAMES_MAP?.[label.replace('earringSize', 'hoopLength')]?.value;
 
   const selectorCurrentValue =
     (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
@@ -160,6 +175,7 @@ function OptionSelector({
     (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_WIDTH_HUMAN_NAMES_MAP && BAND_WIDTH_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
     (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
+    (BAND_STYLE_HUMAN_NAMES_MAP && BAND_STYLE_HUMAN_NAMES_MAP?.[selectedOptionValue]?.value) ||
     selectedOptionValue;
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
@@ -172,14 +188,15 @@ function OptionSelector({
     }
   }
 
-  console.log('opppps', options);
-
   return (
     <StyledOptionSelector>
       {selectorLabel && (
         <div className="selector-label">
           <h4>{selectorLabel}:</h4>
-          <span>{selectorCurrentValue}</span>
+          <span>
+            {selectorCurrentValue}
+            {label === 'caratWeight' && !isNaN(parseFloat(selectorCurrentValue)) ? 'ct' : ''}{' '}
+          </span>
         </div>
       )}
 
@@ -187,10 +204,10 @@ function OptionSelector({
         {label === 'diamondType' ? (
           <div
             className={clsx('option-list', label, {
-              'space-between-items': options.length < 7,
+              'space-between-items': options.length < 8,
             })}
           >
-            {options.length > 6 ? (
+            {options.length > 7 ? (
               <SwiperStyles>
                 <Swiper
                   slidesPerView={7}
@@ -308,7 +325,7 @@ function OptionSelector({
                     colorTheme="teal"
                     onClick={() => setShowingAllRingSizes(true)}
                   >
-                    Show More Sizes
+                    <UIString>Show more sizes</UIString>
                   </DarksideButton>
                 )}
               </>
@@ -335,25 +352,30 @@ function OptionSelector({
           </div>
         ) : (
           <div className={clsx('option-list', label)}>
-            {DIAMOND_SHAPES_MAP &&
-              handleOptionValueSort(options, optionType).map((option) => {
-                const isSelected = selectedOptionValue === option.value;
+            {handleOptionValueSort(options, optionType).map((option) => {
+              const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
 
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+              // if (optionType === 'soldAsDouble') {
+              //   console.log('selectedOptionValue', selectedOptionValue);
+              //   console.log('option.value', option.id);
+              //   console.log('isSelected', isSelected);
+              // }
 
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                  />
-                );
-              })}
+              // human readable value
+              const valueLabel = DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[option.value]?.value;
+
+              return (
+                <OptionItemContainer
+                  key={option.id}
+                  optionType={optionType}
+                  option={option}
+                  valueLabel={valueLabel}
+                  isSelected={isSelected}
+                  onClick={() => handleOptionClick(option)}
+                  isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                />
+              );
+            })}
           </div>
         )}
       </div>

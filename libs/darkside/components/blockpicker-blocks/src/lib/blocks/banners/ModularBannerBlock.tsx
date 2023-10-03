@@ -134,8 +134,8 @@ const ModularBannerBlock = (props) => {
         <BannerTextContainer
           className={clsx(
             {
-              '-left': textBlockAlignment.toLowerCase() === 'left',
-              '-right': textBlockAlignment.toLowerCase() === 'right',
+              '-left': textBlockAlignment?.toLowerCase() === 'left',
+              '-right': textBlockAlignment?.toLowerCase() === 'right',
               '-bg': !isFullWidth,
               '-white': textColor?.toLowerCase() === 'white',
               '-wide': isTextBlockWide,

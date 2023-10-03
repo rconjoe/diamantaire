@@ -1,11 +1,12 @@
 import { Slider } from '@diamantaire/darkside/components/common-ui';
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
+import { useGlobalContext, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   FACETED_NAV_ORDER,
   METAL_HUMAN_NAMES,
   RING_STYLES_MAP,
   ringStylesWithIconMap,
+  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
 } from '@diamantaire/shared/constants';
 import { makeCurrency, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
@@ -33,6 +34,8 @@ const PlpProductFilter = ({
   const router = useRouter();
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+
+  const { data: { OPTION_NAMES: OPTION_NAMES_MAP } = {} } = useHumanNameMapper(router.locale);
 
   const priceRanges = [
     {
@@ -104,7 +107,7 @@ const PlpProductFilter = ({
         router.push(
           {
             pathname: router.pathname,
-            query: { plpSlug: [plpSlug], ...sortedQParams },
+            query: { plpSlug, ...sortedQParams },
           },
           undefined,
           { shallow: true },
@@ -213,7 +216,7 @@ const PlpProductFilter = ({
                           })}
                           onClick={() => toggleFilterOptionSet(optionSet as FilterTypeProps)}
                         >
-                          {optionSet} <span className="arrow-up"></span>
+                          {OPTION_NAMES_MAP?.[optionSet]?.value || optionSet} <span className="arrow-up"></span>
                         </button>
                       </li>
                     );
@@ -303,7 +306,7 @@ const PlpProductFilter = ({
                           min: priceRange[0],
                           max: priceRange[1],
                         }}
-                        value={[filterValue?.price.min || priceRange[0], filterValue?.price.max || priceRange[1]]}
+                        value={[filterValue?.price?.min || priceRange[0], filterValue?.price?.max || priceRange[1]]}
                         handleChange={handleChange}
                         handleFormat={handleFormat}
                       />
@@ -319,6 +322,7 @@ const PlpProductFilter = ({
                       const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
 
                       if (ringStyle.includes('+')) return null;
+                      if (!Icon) return <p>icon missing for {ringStyle}</p>;
 
                       return (
                         <li key={`filter-${ringStyle}`}>
@@ -335,14 +339,32 @@ const PlpProductFilter = ({
                 </div>
               )}
 
+              {filterOptionSetOpen === 'subStyles' && (
+                <div className="filter-option-set styles ">
+                  <ul className="list-unstyled flex">
+                    {filterTypes['subStyles']?.map((style) => {
+                      return (
+                        <li key={`filter-${style}`}>
+                          <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
+                            <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style]} </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
               <div className="active-filters">
                 <ul className="list-unstyled flex">
                   {filterValue &&
                     Object.keys(filterValue).map((filterType) => {
+                      // This could be better.....
                       const isMetal = filterType === 'metal';
                       const isDiamondType = filterType === 'diamondType';
                       const isPrice = filterType === 'price';
                       const isStyle = filterType === 'style';
+                      const isSubStyle = filterType === 'subStyle';
 
                       const text = isMetal
                         ? METAL_HUMAN_NAMES[filterValue[filterType]]
@@ -350,6 +372,8 @@ const PlpProductFilter = ({
                         ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
                         : isStyle
                         ? RING_STYLES_MAP[filterValue[filterType]]
+                        : isSubStyle
+                        ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                         : filterType;
 
                       if (filterValue[filterType] === null) return null;

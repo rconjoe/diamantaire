@@ -22,12 +22,14 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         columns {
           columnTitle
           route
+          newRoute
           colKey
           links {
             _modelApiKey
             id
             copy
             route
+            newRoute
             isBold
             linkKey
             flags
@@ -35,6 +37,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
               id
               copy
               route
+              newRoute
               isBold
             }
             supportedCountries {
@@ -63,6 +66,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         title
         links {
           route
+          newRoute
           copy
           flags
           supportedCountries {
