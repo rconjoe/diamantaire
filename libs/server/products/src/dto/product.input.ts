@@ -103,7 +103,6 @@ export class ProductInput {
   @IsOptional()
   @Type(() => String)
   readonly locale?: string;
-
 }
 
 export class PlpInput {

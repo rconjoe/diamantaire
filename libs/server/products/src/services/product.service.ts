@@ -32,7 +32,7 @@ import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 // import { Variables } from 'graphql-request';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { PlpInput, ProductSlugInput, ProductByVariantIdInput, ProductByContentIdsInput, ProductByProductSlugsInput } from '../dto/product.input';
+import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
 import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
@@ -89,38 +89,36 @@ export class ProductsService {
   }
 
   async findProductsByContentIds(contentIds: string[]) {
-    
     try {
       const products = await this.productRepository.find({
-        contentId: { $in: contentIds }
-      })
-      return products
+        contentId: { $in: contentIds },
+      });
 
-    } catch (error: any){
-      this.logger.debug("Error fetching products by contentId")
+      return products;
+    } catch (error: any) {
+      this.logger.debug('Error fetching products by contentId');
       throw new InternalServerErrorException({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'http.serverError.internalServerError',
         error: error.message,
-      })
+      });
     }
   }
 
   async findProductsByProductSlugs(productSlugs: string[]) {
-
     try {
       const products = await this.productRepository.find({
-        productSlug: { $in: productSlugs }
-      })
-      return products
+        productSlug: { $in: productSlugs },
+      });
 
-    } catch (error: any){
-      this.logger.debug("Error fetching products by product slugs")
+      return products;
+    } catch (error: any) {
+      this.logger.debug('Error fetching products by product slugs');
       throw new InternalServerErrorException({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'http.serverError.internalServerError',
         error: error.message,
-      })
+      });
     }
   }
 

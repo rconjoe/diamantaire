@@ -11,7 +11,14 @@ import { Controller, Get, Query, Param } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { ProductVariantInput, PlpInput, ProductByVariantIdInput, ProductInput, ProductByContentIdsInput, ProductByProductSlugsInput } from '../dto/product.input';
+import {
+  ProductVariantInput,
+  PlpInput,
+  ProductByVariantIdInput,
+  ProductInput,
+  ProductByContentIdsInput,
+  ProductByProductSlugsInput,
+} from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
 @ApiHeader({ name: 'x-api-key', required: true })
@@ -32,7 +39,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Get products by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
   async getProductsByids(@Query() { ids }: ProductByContentIdsInput) {
-    const contentIds = ids.split(',').map(s => s.trim());
+    const contentIds = ids.split(',').map((s) => s.trim());
 
     return await this.productService.findProductsByContentIds(contentIds);
   }
@@ -41,7 +48,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Get products by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
   async getProductsBySlugs(@Query() { ids }: ProductByProductSlugsInput) {
-    const productSlugs = ids.split(',').map(s => s.trim());
+    const productSlugs = ids.split(',').map((s) => s.trim());
 
     return await this.productService.findProductsByProductSlugs(productSlugs);
   }
