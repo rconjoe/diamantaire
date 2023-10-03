@@ -33,7 +33,12 @@ import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
-import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators, getDraftQuery } from '../helper/product.helper';
+import {
+  findCanonivalVariant,
+  compareProductConfigurations,
+  optionTypesComparators,
+  getDraftQuery,
+} from '../helper/product.helper';
 import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
@@ -66,7 +71,7 @@ export class ProductsService {
     };
 
     const query = {
-      ...getDraftQuery()
+      ...getDraftQuery(),
     };
 
     if (input?.slug) {
@@ -141,7 +146,7 @@ export class ProductsService {
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
-        ...getDraftQuery()
+        ...getDraftQuery(),
       };
       // create unique cacheKey for each prodyct variant
       const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
