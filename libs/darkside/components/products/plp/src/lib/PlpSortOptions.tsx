@@ -1,7 +1,8 @@
+import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { PlpSortOption, SortProperties, PlpBasicFieldSortOption } from './PlpSortOption';
+import { PlpSortOption, SortProperties } from './PlpSortOption';
 
 type PlpSortOptionsProps = {
   sortOptions: PlpBasicFieldSortOption[];
@@ -9,7 +10,7 @@ type PlpSortOptionsProps = {
 };
 
 function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps) {
-  const [selectedOptionsId, setSelectedOptionsId] = useState<string>(sortOptions?.[0].id);
+  const [selectedOptionsId, setSelectedOptionsId] = useState<string>(sortOptions?.[0]?.id);
 
   const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;

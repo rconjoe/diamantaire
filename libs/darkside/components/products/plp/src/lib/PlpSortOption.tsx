@@ -1,11 +1,5 @@
+import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { clsx } from 'clsx';
-
-export type PlpBasicFieldSortOption = {
-  id: string;
-  label: string;
-  field: string;
-  isDescendingOrder: boolean;
-};
 
 export type SortProperties = {
   id: string;

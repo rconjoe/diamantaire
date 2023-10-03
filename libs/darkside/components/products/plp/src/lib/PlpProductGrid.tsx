@@ -11,6 +11,7 @@ import { PlpDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
+import { SortProperties } from './PlpSortOption';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
@@ -51,6 +52,7 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
+  handleSortChange?: ({ sortBy, sortOrder }: SortProperties) => void;
 };
 
 const PlpProductGrid = ({
@@ -67,6 +69,8 @@ const PlpProductGrid = ({
   isFetching,
   plpSlug,
   urlFilterMethod,
+  sortOptions,
+  handleSortChange,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -83,11 +87,11 @@ const PlpProductGrid = ({
     const object = {};
 
     if (creativeBlocksData[0]) {
-      object[4] = { ...creativeBlocksData[0], className: 'creative-block--left' };
+      object[8] = { ...creativeBlocksData[0], className: 'creative-block--left' };
     }
 
     if (creativeBlocksData[1]) {
-      object[15] = { ...creativeBlocksData[1], className: 'creative-block--right' };
+      object[19] = { ...creativeBlocksData[1], className: 'creative-block--right' };
     }
 
     return object;
@@ -118,6 +122,8 @@ const PlpProductGrid = ({
         setFilterValues={setFilterValues}
         urlFilterMethod={urlFilterMethod}
         plpSlug={plpSlug}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
 
       <div className="container-wrapper">

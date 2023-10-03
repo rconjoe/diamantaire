@@ -1,5 +1,10 @@
 import { Breadcrumb, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import {
+  PlpBlockPicker,
+  PlpHeroBanner,
+  PlpProductGrid,
+  PlpSortOptions,
+} from '@diamantaire/darkside/components/products/plp';
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -11,8 +16,6 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useState } from 'react';
 import styled from 'styled-components';
-
-import { PlpSortOptions } from './components/PlpSortOptions';
 
 type DiamondPlpPageProps = {
   plpSlug: string;

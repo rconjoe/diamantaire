@@ -47,14 +47,27 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   });
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
+  const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
     plpData || {};
   const { seoTitle, seoDescription } = seo || {};
-  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, { ...filterValue }, {});
+  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(
+    category,
+    plpSlug,
+    { ...filterValue, ...activeSortOptions },
+    {},
+  );
   const availableFilters = data?.pages[0]?.availableFilters;
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
+
+  const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
+    setActiveSortOptions({
+      sortBy,
+      sortOrder,
+    });
+  };
 
   // Handle pagination
   useEffect(() => {
@@ -126,6 +139,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         filterValue={filterValue}
         urlFilterMethod={urlFilterMethod}
         plpSlug={router.query.plpSlug as string}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
       <div ref={pageEndRef} />
       <PlpBlockPicker plpSlug={plpSlug} />
@@ -269,8 +284,6 @@ function getValidFiltersFromFacetedNav(
   if (diamondTypeParamIndex !== -1) {
     filterOptions['diamondType'] = params[diamondTypeParamIndex];
   }
-
-  console.log('filterOptions', filterOptions);
 
   return filterOptions;
 }
