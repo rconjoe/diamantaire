@@ -1,11 +1,11 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { Markdown, Heading, DarksideButton, CheckSquare } from '@diamantaire/darkside/components/common-ui';
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { HEADER_BACKGROUND, GREY_DARK, NAV_Z_INDEX, BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import { Markdown, Heading, DarksideButton, CheckSquare } from './';
 
 const CookieBannerStyles = styled.div`
   position: fixed;

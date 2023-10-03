@@ -8,11 +8,11 @@ import {
   StickyElementWrapper,
   SwiperCustomPagination,
   SwiperStyles,
+  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';

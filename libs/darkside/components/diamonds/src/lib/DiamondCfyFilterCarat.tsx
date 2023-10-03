@@ -1,6 +1,5 @@
-import { Heading, Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_CFY_CARAT_DEFAULT, DIAMOND_CFY_CARAT_RANGE_MAP } from '@diamantaire/shared/constants';
 import { formatCurrency, getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';

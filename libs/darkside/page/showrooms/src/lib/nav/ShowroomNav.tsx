@@ -1,5 +1,4 @@
-import { ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { ShowMobileOnly, ShowTabletAndUpOnly, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useShowroomNav } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';

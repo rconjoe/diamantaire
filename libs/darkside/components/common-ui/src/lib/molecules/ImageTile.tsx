@@ -1,4 +1,3 @@
-import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -6,6 +5,8 @@ import clsx from 'clsx';
 import { DarksideButton } from './DarksideButton';
 import { DatoImage } from './DatoImage';
 import { ImageTileContainer } from './ImageTile.style';
+
+import { UniLink } from './';
 
 type ImageTilePropTypes = {
   title?: string;

@@ -1,4 +1,4 @@
-import { UIString } from '@diamantaire/darkside/core';
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';

@@ -1,5 +1,4 @@
-import { Markdown, Heading, DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { Markdown, Heading, DatoImage, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';

@@ -1,5 +1,4 @@
-import { MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { MobileDesktopImage, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { BLACK } from '@diamantaire/styles/darkside-styles';

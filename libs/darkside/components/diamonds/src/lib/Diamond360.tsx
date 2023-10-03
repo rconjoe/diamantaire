@@ -1,5 +1,4 @@
-import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
 import { canUseWebP, generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

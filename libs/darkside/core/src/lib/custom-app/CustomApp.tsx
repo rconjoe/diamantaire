@@ -1,3 +1,4 @@
+import { CookieBanner } from '@diamantaire/darkside/components/common-ui';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { AnalyticsProvider } from '@diamantaire/darkside/context/analytics';
 import { CartProvider } from '@diamantaire/darkside/context/cart-context';
@@ -13,7 +14,6 @@ import { ReactElement, ReactNode, useState } from 'react';
 import './styles.css';
 import { ToastContainer } from 'react-toastify';
 
-import CookieBanner from '../cookiebanner/CookieBanner';
 import 'node_modules/react-toastify/dist/ReactToastify.css';
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
 
