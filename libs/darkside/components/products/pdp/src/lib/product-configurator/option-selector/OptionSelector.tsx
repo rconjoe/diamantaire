@@ -104,12 +104,14 @@ const StyledOptionSelector = styled.div`
           width: fit-content !important;
           margin-right: 25px;
           ${media.medium`margin-right: 30px;`}
+          &:last-child {
+            margin-right: 100px;
+          }
         }
       }
 
       .swiper-wrapper {
         display: flex;
-        padding-right: 165px;
       }
 
       a {
@@ -227,9 +229,9 @@ function OptionSelector({
               <SwiperStyles>
                 <Swiper
                   slidesPerView={7}
-                  slidesPerGroup={3}
+                  slidesPerGroup={8}
                   loop={false}
-                  // spaceBetween={20}
+                  spaceBetween={25}
                   modules={[Navigation, Keyboard, Lazy]}
                   navigation={{
                     prevEl: prevButtonRef.current,
@@ -267,6 +269,8 @@ function OptionSelector({
                         </SwiperSlide>
                       );
                     })}
+                  {/* Spacer slide */}
+                  {/* <SwiperSlide /> */}
                 </Swiper>
 
                 <button

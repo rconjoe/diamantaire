@@ -1,5 +1,6 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -53,6 +54,7 @@ type PlpProductGridProps = {
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
   handleSortChange?: ({ sortBy, sortOrder }: SortProperties) => void;
+  sortOptions: PlpBasicFieldSortOption[];
 };
 
 const PlpProductGrid = ({

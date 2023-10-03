@@ -100,6 +100,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         creativeBlockIds={creativeBlockIds}
         urlFilterMethod="param"
         plpSlug={plpSlug}
+        sortOptions={sortOptions}
       />
       {hasNextPage && (
         <div className="view-more">

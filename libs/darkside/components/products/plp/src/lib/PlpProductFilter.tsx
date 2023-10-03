@@ -20,7 +20,6 @@ import { Dispatch, MutableRefObject, SetStateAction, useState } from 'react';
 import { PlpProductFilterStyles } from './PlpProductFilter.style';
 import { SortProperties } from './PlpSortOption';
 import { PlpSortOptions } from './PlpSortOptions';
-// import { PlpSortOptions } from './PlpSortOptions';
 
 const PlpProductFilter = ({
   availableFilters,
