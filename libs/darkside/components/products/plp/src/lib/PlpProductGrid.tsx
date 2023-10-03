@@ -172,11 +172,8 @@ const PlpProductGrid = ({
           )}
         </div>
       </div>
-      
-      <div className="loader-container">
-        { isFetching && ( <Loader color="#000" /> )}
-      </div>
-      
+
+      <div className="loader-container">{isFetching && <Loader color="#000" />}</div>
     </PlpProductGridStyles>
   );
 };
