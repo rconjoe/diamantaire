@@ -40,7 +40,9 @@ export type ListPageItemConfiguration = {
 export type ListPageItemWithConfigurationVariants = {
   defaultId: string;
   productType: string;
-  productLabel?: string;
+  productLabel?: {
+    title: string;
+  };
   useLowestPrice?: boolean;
   lowestPrice?: number;
   hasOnlyOnePrice?: boolean;
