@@ -93,8 +93,6 @@ type ModularMiniBannerBlockProps = {
 };
 
 const ModularMiniBannerBlock = (props: ModularMiniBannerBlockProps) => {
-  console.log('mini banner block', props);
-
   const { title, copy, copyTerms, mobileImage, desktopImage, textColor, additionalClass, supportedCountries, ctaRoute } =
     props;
   const { hex } = textColor;
