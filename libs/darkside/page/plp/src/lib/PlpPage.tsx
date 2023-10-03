@@ -19,12 +19,15 @@ import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { jewelryFacetNavLinks } from '../facet-nav-plp-links';
+
 type PlpPageProps = {
   key: string;
   plpSlug: string;
   category: string;
   initialFilterValues: FilterValueProps;
   dehydratedState: DehydratedState;
+  urlFilterMethod: 'facet' | 'param' | 'none';
 };
 
 type FilterQueryValues = {
@@ -42,10 +45,11 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const { ref: pageEndRef, inView } = useInView({
     rootMargin: '800px',
   });
-  const { plpSlug, category, initialFilterValues } = props;
+  const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
-  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter } =
+
+  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
     plpData || {};
   const { seoTitle, seoDescription } = seo || {};
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, filterValue, {});
@@ -96,6 +100,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     };
   });
 
+  console.log('sortOptions', sortOptions);
+
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
@@ -118,7 +124,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         creativeBlockIds={creativeBlockIds}
         setFilterValues={onFilterChange}
         filterValue={filterValue}
-        urlFilterMethod={'param'}
+        urlFilterMethod={urlFilterMethod}
         plpSlug={router.query.plpSlug as string}
       />
       <div ref={pageEndRef} />
@@ -134,7 +140,8 @@ const createPlpServerSideProps = (category: string) => {
     context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
     const { query, locale } = context;
 
-    // const isParamBased = true; // Temp: Need to determine which pages use faceted nav
+    let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
+
     const { plpSlug, ...qParams } = query;
 
     //Render 404 if no plpSlug
@@ -145,6 +152,11 @@ const createPlpServerSideProps = (category: string) => {
     }
 
     const [slug, ...params] = plpSlug;
+
+    // All ER PLPs use faceted nav
+    if (category === 'engagement-rings' || (category === 'jewelry' && jewelryFacetNavLinks.includes(slug.toLowerCase()))) {
+      urlFilterMethod = 'facet';
+    }
 
     const initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
 
@@ -174,6 +186,7 @@ const createPlpServerSideProps = (category: string) => {
         plpSlug: slug,
         category,
         initialFilterValues,
+        urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
     };

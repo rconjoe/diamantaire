@@ -55,9 +55,9 @@ export const StackedHeaderStylesContainer = styled.div`
       gap: 1rem;
 
       > li {
-        display: flex;
-        font-size: 1.3rem;
-        margin-right: 0px;
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-right: 20px;
         position: relative;
 
         .language-icon {
@@ -84,66 +84,67 @@ export const StackedHeaderStylesContainer = styled.div`
           }
 
           svg {
-            float: left;
+            flex: 0 0 30px;
             position: relative;
-            height: 2rem;
+            top: 5px;
           }
 
           span {
-            float: left;
-            line-height: 2rem;
+            flex: 1;
             white-space: nowrap;
+            font-size: 1.4rem;
             color: var(--color-black);
           }
         }
+      }
 
-        &.country-selector__chat {
-          button {
-            padding: 0;
-            background: transparent;
-          }
-
-          svg {
-            display: block;
-            position: relative;
-            height: 1.8rem;
-          }
+      &.country-selector__chat {
+        button {
+          padding: 0;
+          background: transparent;
         }
 
-        &.calendar {
-          cursor: pointer;
-
-          svg {
-            height: 1.8rem;
-            margin: 0 0.5rem 0 0;
-          }
+        svg {
+          display: block;
+          position: relative;
+          height: 1.8rem;
         }
+      }
 
-        &.language {
-          min-width: 7rem;
-          margin-right: 0;
-        }
+      &.calendar {
+        cursor: pointer;
 
-        &:last-child {
-          margin-right: 0;
+        svg {
+          height: 18px;
+          top: 1px;
+          position: relative;
         }
+      }
+
+      &.language {
+        min-width: 7rem;
+        margin-right: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
       }
     }
+  }
 
-    .nav__col--right ul {
-      justify-content: flex-end;
+  .nav__col--right ul {
+    justify-content: flex-end;
 
-      .cart svg {
-        height: 2.1rem;
-      }
+    .cart svg {
+      height: 2.1rem;
+    }
 
-      .wishlist svg {
-        transform: translate(0, 1px);
-      }
+    .wishlist svg {
+      transform: translate(0, 1px);
+    }
 
-      .accounts svg {
-        transform: translate(0, 1px);
-      }
+    .accounts svg {
+      transform: translate(0, 1px);
     }
   }
 

@@ -119,6 +119,7 @@ const PlpProductGrid = ({
         urlFilterMethod={urlFilterMethod}
         plpSlug={plpSlug}
       />
+
       <div className="container-wrapper">
         <div className="product-grid__row ">
           {products?.length > 0 &&

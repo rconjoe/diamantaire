@@ -104,7 +104,6 @@ function ProductConfigurator({
       const usesCustomDiamond =
         diamondType && configurations.diamondType.length > 1 && caratWeight && caratWeight === 'other';
 
-      console.log('usesCustomDiamond', usesCustomDiamond);
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
       } else {
@@ -200,6 +199,7 @@ function ProductConfigurator({
             hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
           />
 
+          {/* Ring Size */}
           {sizeOptions &&
             isConfigurationComplete &&
             !disableVariantType.includes('ringSize') &&

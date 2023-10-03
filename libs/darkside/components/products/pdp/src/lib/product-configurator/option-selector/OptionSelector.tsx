@@ -1,6 +1,6 @@
-import { DarksideButton, SwiperStyles, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
-import { sortBandWidth } from '@diamantaire/shared/helpers';
+import { DarksideButton, SwiperStyles, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
+import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -67,6 +67,13 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.prongStyle {
+      button {
+        min-width: 110px;
+        text-transform: capitalize;
+      }
+    }
+
     &.diamondType {
       margin-top: 10px;
       position: relative;
@@ -121,22 +128,14 @@ function OptionSelector({
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
-  const {
-    data: {
-      DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
-      OPTION_NAMES: OPTION_NAMES_MAP,
-      METALS_IN_HUMAN_NAMES: METALS_IN_HUMAN_NAMES_MAP,
-      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
-      BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
-      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
-      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
-    } = {},
-  } = useHumanNameMapper(locale);
+  const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
 
   const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
   const nextButtonRef = useRef(null);
   const prevButtonRef = useRef(null);
+
+  const { _t } = useTranslations(locale);
 
   useEffect(() => {
     // TODO: Resolve error
@@ -162,39 +161,31 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel =
-    OPTION_NAMES_MAP?.[label]?.value ||
-    BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value ||
-    OPTION_NAMES_MAP?.[label.replace('eternityStyle', 'style')]?.value ||
-    OPTION_NAMES_MAP?.[label.replace('earringSize', 'hoopLength')]?.value;
-
-  const selectorCurrentValue =
-    (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
-    (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_WIDTH_HUMAN_NAMES_MAP && BAND_WIDTH_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_STYLE_HUMAN_NAMES_MAP && BAND_STYLE_HUMAN_NAMES_MAP?.[selectedOptionValue]?.value) ||
-    selectedOptionValue;
-
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function handleOptionValueSort(options, optionType) {
-    if (optionType !== 'bandWidth') {
-      return options;
-    } else {
+    console.log('hereeeee', { options, optionType });
+    if (optionType === 'bandWidth') {
       return sortBandWidth(options);
+    } else if (optionType === 'ringSize') {
+      return sortRingSize(options);
+    } else {
+      return options;
     }
   }
 
+  console.log('optionType', optionType);
+
   return (
     <StyledOptionSelector>
-      {selectorLabel && (
+      {label && (
         <div className="selector-label">
-          <h4>{selectorLabel}:</h4>
+          <Heading type="h4">
+            <UIString>{label}</UIString>:
+          </Heading>
           <span>
-            {selectorCurrentValue}
-            {label === 'caratWeight' && !isNaN(parseFloat(selectorCurrentValue)) ? 'ct' : ''}{' '}
+            <UIString>{selectedOptionValue}</UIString>
+            {label === 'caratWeight' && !isNaN(parseFloat(_t(selectedOptionValue))) ? 'ct' : ''}{' '}
           </span>
         </div>
       )}
@@ -276,8 +267,8 @@ function OptionSelector({
               DIAMOND_SHAPES_MAP &&
               options.map((option) => {
                 const isSelected = selectedOptionValue === option.value;
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                const valueLabel = option.value;
 
                 return (
                   <OptionItemContainer
@@ -302,8 +293,7 @@ function OptionSelector({
                   .map((option) => {
                     const isSelected = selectedOptionValue === option.value;
 
-                    // human readable value
-                    const valueLabel = DIAMOND_SHAPES_MAP?.[option.value]?.value;
+                    const valueLabel = option.value;
 
                     return (
                       <OptionItemContainer
@@ -329,24 +319,27 @@ function OptionSelector({
                 )}
               </>
             ) : (
-              options.map((option) => {
-                const isSelected = selectedOptionValue === option.value;
+              <>
+                {handleOptionValueSort(options, optionType)?.map((option) => {
+                  const isSelected = selectedOptionValue === option.value;
 
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+                  console.log('option', option);
+                  // human readable value
+                  const valueLabel = option.value;
 
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                  />
-                );
-              })
+                  return (
+                    <OptionItemContainer
+                      key={option.id}
+                      optionType={optionType}
+                      option={option}
+                      valueLabel={valueLabel}
+                      isSelected={isSelected}
+                      onClick={() => handleOptionClick(option)}
+                      isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                    />
+                  );
+                })}
+              </>
             )}
           </div>
         ) : (
@@ -361,7 +354,7 @@ function OptionSelector({
               // }
 
               // human readable value
-              const valueLabel = DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[option.value]?.value;
+              const valueLabel = option.value;
 
               return (
                 <OptionItemContainer

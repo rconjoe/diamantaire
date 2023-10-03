@@ -77,6 +77,7 @@ const PlpProductFilter = ({
   }
 
   function updateFilter(filterType: string, value) {
+    console.log('urlFilterMethodxxxx', urlFilterMethod);
     const newFilters = { ...filterValue, [filterType]: value };
 
     // Remove attributes with undefined values
@@ -90,13 +91,11 @@ const PlpProductFilter = ({
       // Update the browser URL
       if (urlFilterMethod === 'param') {
         // Build the new URL path based on the filter values
+        console.log('newFilters', newFilters);
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
           .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
-            if (k === 'price' && typeof v === 'object') {
-              if (v.min) acc['priceMin'] = v.min;
-              if (v.max) acc['priceMax'] = v.max;
-            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+            if (FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
               acc[k] = v;
             }
 
@@ -107,7 +106,7 @@ const PlpProductFilter = ({
         router.push(
           {
             pathname: router.pathname,
-            query: { plpSlug, ...sortedQParams },
+            query: { plpSlug: plpSlug[0], ...sortedQParams },
           },
           undefined,
           { shallow: true },
@@ -134,7 +133,8 @@ const PlpProductFilter = ({
         router.push({
           pathname: router.pathname,
           query: {
-            plpSlug: [plpSlug, ...sortedPathEntries],
+            // For faceted nav, we only want the base slug, not the full path
+            plpSlug: [plpSlug?.[0], ...sortedPathEntries],
             ...sortedQParams,
           },
         });
