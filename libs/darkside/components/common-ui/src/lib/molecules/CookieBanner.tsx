@@ -71,7 +71,7 @@ const CookieBannerStyles = styled.div`
 const CookieBanner = () => {
   const router = useRouter();
   const selectedLocale = router.locale;
-  const { acceptCookies, consent } = useCookieConsentContext();
+  const { acceptCookies, consent, acceptAllCookies } = useCookieConsentContext();
   const { data: { cookieBanner: cookieBannerContent } = {} } = useCookieBanner(selectedLocale);
 
   const {
@@ -88,7 +88,7 @@ const CookieBanner = () => {
   const [cookieConsentOptions, setCookieConsentOptions] = useState({
     statistics: false,
     marketing: false,
-    customerSupport: false,
+    preferences: false,
   });
   const [showBanner, setShowBanner] = useState(false);
 
@@ -109,11 +109,7 @@ const CookieBanner = () => {
     setShowBanner(false);
   };
   const handleAcceptAllCookies = () => {
-    acceptCookies({
-      statistics: true,
-      marketing: true,
-      customerSupport: true,
-    });
+    acceptAllCookies();
     setShowBanner(false);
   };
 
@@ -124,7 +120,7 @@ const CookieBanner = () => {
       setCookieConsentOptions({
         statistics: consent.statistics || false,
         marketing: consent.marketing || false,
-        customerSupport: consent.customerSupport || false,
+        preferences: consent.preferences || false,
       });
     }
   }, [consent]);
@@ -162,8 +158,8 @@ const CookieBanner = () => {
 
             <CheckSquare
               checkSquareId="chk-customerSupport"
-              onCheckSquareClick={() => handleOptionClick('customerSupport')}
-              checked={cookieConsentOptions.customerSupport}
+              onCheckSquareClick={() => handleOptionClick('preferences')}
+              checked={cookieConsentOptions.preferences}
             >
               {customerSupportCookiesCategoryName}
             </CheckSquare>
