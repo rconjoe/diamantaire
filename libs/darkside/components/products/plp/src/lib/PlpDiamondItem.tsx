@@ -1,4 +1,5 @@
 import { DiamondVideoThumbImage } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { ListPageDiamondItem, DiamondLink } from '@diamantaire/shared-diamond';
 import { useRouter } from 'next/router';
@@ -19,20 +20,11 @@ const PlpDiamondItemStyles = styled.div`
   }
 `;
 
-function capitalizeFirstLetter(str) {
-  const words = str.split('-');
-
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-  }
-
-  return words.join('-');
-}
-
 const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
+  const { _t } = useTranslations();
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
-  const title = `${carat} carat, ${capitalizeFirstLetter(diamondType)} | ${cut}, ${color}, ${clarity} | ${getFormattedPrice(
+  const title = `${carat} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
     price,
     router.locale,
   )}`;

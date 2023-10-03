@@ -25,6 +25,7 @@ const PlpProductGridStyles = styled.div`
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
   .loader-container {
+    margin: 1rem 0;
     text-align: center;
   }
 `;
@@ -171,11 +172,8 @@ const PlpProductGrid = ({
           )}
         </div>
       </div>
-      {isFetching && (
-        <div className="loader-container">
-          <Loader color="#000" />
-        </div>
-      )}
+
+      <div className="loader-container">{isFetching && <Loader color="#000" />}</div>
     </PlpProductGridStyles>
   );
 };
