@@ -414,7 +414,8 @@ function AddToCartButton({
       const erMetal = goldPurity
         ? goldPurity + ' '
         : '' + metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)];
-      const refinedBandAccent = bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1);
+      const pickBandAccent = bandAccent || selectedConfiguration?.bandAccent;
+      const refinedBandAccent = pickBandAccent?.charAt(0)?.toUpperCase() + (pickBandAccent ? pickBandAccent.slice(1) : '');
 
       const engagementRingItemAttributes = [
         ...cartAttributesForAllItems,

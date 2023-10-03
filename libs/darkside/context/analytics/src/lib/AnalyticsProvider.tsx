@@ -13,6 +13,7 @@ type AnalyticsContextType = {
   productClicked: (eventData: Record<string, any>) => void;
   productListFiltered: (eventData: Record<string, any>) => void;
   cartViewed: (eventData: Record<string, any>) => void;
+  checkoutStarted: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -38,6 +39,7 @@ export const GTM_EVENTS = {
   selectShape: 'select_shape',
   addToCart: 'add_to_cart',
   removeFromCart: 'remove_from_cart',
+  beginCheckout: 'begin_checkout',
 };
 
 export const tagManagerArgs = {
@@ -107,6 +109,17 @@ export const AnalyticsProvider = ({ children }) => {
     },
     cartViewed: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.cartViewed, eventData);
+    },
+    checkoutStarted: (eventData: Record<string, any>) => {
+      const ga360Data = {
+        event: GTM_EVENTS.beginCheckout,
+        eventCategory: 'Ecommerce',
+        eventAction: GTM_EVENTS.beginCheckout,
+        eventLabel: '1',
+      };
+      const mergedData = { ...eventData, ...ga360Data };
+
+      trackEvent(GTM_EVENTS.beginCheckout, mergedData);
     },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
