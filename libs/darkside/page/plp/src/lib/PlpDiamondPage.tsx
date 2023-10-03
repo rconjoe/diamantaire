@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Breadcrumb, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import {
   PlpBlockPicker,
@@ -5,6 +6,11 @@ import {
   PlpProductGrid,
   PlpSortOptions,
 } from '@diamantaire/darkside/components/products/plp';
+=======
+import { Breadcrumb, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
+import { UIString } from '@diamantaire/darkside/core';
+>>>>>>> 2a7bbd32 (more type fixes)
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -90,9 +96,9 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
       <NextSeo title={seoTitle} description={seoDescription} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
-      <div className="filter-bar">
+      {/* <div className="filter-bar">
         {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
-      </div>
+      </div> */}
       <PlpProductGrid
         data={data}
         isFetching={isFetching}
@@ -101,6 +107,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         urlFilterMethod="param"
         plpSlug={plpSlug}
         sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
       {hasNextPage && (
         <div className="view-more">

@@ -53,7 +53,7 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
-  handleSortChange?: ({ sortBy, sortOrder }: SortProperties) => void;
+  handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
   sortOptions: PlpBasicFieldSortOption[];
 };
 
