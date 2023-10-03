@@ -22,12 +22,12 @@ export function darksideMiddleware(
 
   url.searchParams.set('country', country);
   url.searchParams.set('city', city);
-  // store user's geo data in a cookie
-  request.cookies.set('geoCountry', country);
-  request.cookies.set('geo', JSON.stringify(geo));
 
   request['userAgent'] = geo;
 
+  // store user's geo data in a cookie
+  response.cookies.set('geoCountry', country);
+  response.cookies.set('geo', JSON.stringify(geo));
   // geo:
   // if (!request.cookies.has('geo')) {
   //   response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
