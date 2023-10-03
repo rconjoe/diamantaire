@@ -11,7 +11,14 @@ import { Controller, Get, Query, Param } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { ProductVariantInput, PlpInput, ProductByVariantIdInput, ProductInput } from '../dto/product.input';
+import {
+  ProductVariantInput,
+  PlpInput,
+  ProductByVariantIdInput,
+  ProductInput,
+  ProductByContentIdsInput,
+  ProductByProductSlugsInput,
+} from '../dto/product.input';
 import { ProductsService } from '../services/product.service';
 @ApiTags('Products')
 @ApiHeader({ name: 'x-api-key', required: true })
@@ -26,6 +33,24 @@ export class ProductController {
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
   async shopifyProduct(@Query() { id, slug, locale }: ProductVariantInput) {
     return await this.productService.findProductBySlug({ slug, id, locale });
+  }
+
+  @Get('/contentids')
+  @ApiOperation({ summary: 'Get products by content IDs' })
+  @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
+  async getProductsByids(@Query() { ids }: ProductByContentIdsInput) {
+    const contentIds = ids.split(',').map((s) => s.trim());
+
+    return await this.productService.findProductsByContentIds(contentIds);
+  }
+
+  @Get('/slugs')
+  @ApiOperation({ summary: 'Get products by content IDs' })
+  @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
+  async getProductsBySlugs(@Query() { ids }: ProductByProductSlugsInput) {
+    const productSlugs = ids.split(',').map((s) => s.trim());
+
+    return await this.productService.findProductsByProductSlugs(productSlugs);
   }
 
   @Get('options')

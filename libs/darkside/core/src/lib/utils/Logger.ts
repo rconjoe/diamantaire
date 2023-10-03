@@ -41,13 +41,13 @@ const Logger = (context?: string, level?: (typeof LogLevel)[keyof typeof LogLeve
     return activeValues.includes(level);
   };
 
-  const debug = (message, data) => {
+  const debug = (message, ...data) => {
     if (!isEnabled([LogLevel.DEBUG])) return;
-    console.log(msgWithContext(message), data);
+    console.log(msgWithContext(message), data ? data : '');
   };
   const warn = (message, data) => {
     if (!isEnabled([LogLevel.DEBUG, LogLevel.STANDARD])) return;
-    console.warn(msgWithContext(message), data);
+    console.warn(msgWithContext(message), data ? data : '');
   };
   const error = (err) => {
     if (!isEnabled([LogLevel.DEBUG, LogLevel.STANDARD])) return;
