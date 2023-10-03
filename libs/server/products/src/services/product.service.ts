@@ -458,6 +458,51 @@ export class ProductsService {
     return altConfigs;
   };
 
+  async getLowestPricesByCollection() {
+    const cacheKey = 'lowest-prices-by-collection';
+    let lowestPrices = await this.utils.memGet(cacheKey);
+
+    if (lowestPrices) {
+      return lowestPrices;
+    }
+
+    const pipeline: PipelineStage[] = [
+      {
+        $group: {
+          _id: '$collectionSlug',
+          minPrice: { $min: '$price' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          collectionSlug: '$_id',
+          minPrice: '$minPrice',
+        },
+      },
+    ];
+
+    try {
+      const lowestPricesArr = await this.productRepository.aggregate(pipeline);
+
+      lowestPrices = lowestPricesArr.reduce((map, { collectionSlug, minPrice }) => {
+        map[collectionSlug] = minPrice;
+
+        return map;
+      }, {});
+      await this.utils.memSet(cacheKey, lowestPrices, PRODUCT_DATA_TTL);
+    } catch (error: any) {
+      this.logger.error(`Error while aggregating lowest prices by collection: ${error}`);
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'http.serverError.internalServerError',
+        error: error.message,
+      });
+    }
+
+    return lowestPrices;
+  }
+
   /**
    * The Dato API is not rate limited. They just charge us for every call on request
    * that does not hit their CDN. https://www.datocms.com/docs/content-delivery-api/rate-limiting
@@ -845,6 +890,8 @@ export class ProductsService {
         {},
       );
 
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
+
       // merge and reduce
       const plpProducts = Object.values(scopedPlpData).reduce(
         (plpItems: ListPageItemWithConfigurationVariants[], item: VraiProductData) => {
@@ -883,11 +930,8 @@ export class ProductsService {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
           };
-          const lowestPrice = Object.values(variants).reduce((minPrice: number, variant) => {
-            minPrice = Math.min(variant['price']);
 
-            return minPrice;
-          }, Infinity);
+          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
 
           plpItems.push({
             defaultId: product.contentId,
