@@ -7,7 +7,6 @@ export async function darksideMiddleware(
   response: NextResponse,
   _event: NextFetchEvent,
 ): Promise<NextMiddlewareResult> {
-  const url = request.nextUrl;
   // an example of how you can make middleware functions only apply to certain routes:
   // if (request.nextUrl.pathname.startsWith('/about')) {
   //   return NextResponse.rewrite(new URL('/about-2', request.url))
