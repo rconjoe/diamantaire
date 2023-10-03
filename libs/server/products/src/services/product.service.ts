@@ -923,9 +923,9 @@ export class ProductsService {
             return map;
           }, {});
 
-          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const useLowestPrice = !content?.['collection']?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          const productLabel = content?.productLabel;
+          const productLabel = content?.['collection']?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
