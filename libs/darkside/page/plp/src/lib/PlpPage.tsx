@@ -52,7 +52,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
     plpData || {};
   const { seoTitle, seoDescription } = seo || {};
-  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, filterValue, {});
+  const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(category, plpSlug, { ...filterValue }, {});
   const availableFilters = data?.pages[0]?.availableFilters;
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 

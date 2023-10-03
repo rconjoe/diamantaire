@@ -52,6 +52,10 @@ const PlpProductItemStyles = styled.div`
           &.rose-gold::after {
             background: #ceac8b;
           }
+
+          &.platinum::after {
+            background-color: rgb(200, 200, 200);
+          }
         }
       }
     }

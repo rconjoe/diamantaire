@@ -38,6 +38,12 @@ export const MegaMenuStylesContainer = styled.div<Props>`
     .menu-container__col {
       padding: 0 6rem;
 
+      &.byRecipient {
+        .col__inner {
+          min-width: 130px;
+        }
+      }
+
       .col__inner {
         display: inline-block;
 

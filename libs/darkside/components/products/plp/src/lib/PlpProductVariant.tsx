@@ -146,7 +146,7 @@ const PlpProductVariant = ({
             <h3>
               {title} | {metalTypeAsConst[configuration?.metal]} |{' '}
               {useLowestPrice
-                ? makeCurrency(lowestPrice, locale, currencyCode) + ' +'
+                ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
                 : makeCurrency(price, locale, currencyCode)}
             </h3>
           </div>
