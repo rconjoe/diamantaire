@@ -67,7 +67,7 @@ const MobileHeaderContainer = styled.div`
                 transform: translate(-5px, 0);
 
                 svg {
-                  height: 23px;
+                  height: 24px;
 
                   ${desktopAndUp(`
                     height: 18px;
@@ -102,21 +102,22 @@ const MobileHeaderContainer = styled.div`
         li {
           display: flex;
           align-items: center;
+        }
 
-          svg {
-            height: 23px;
-          }
+        svg {
+          width: auto;
         }
 
         li.wishlist {
           svg {
-            width: auto;
             height: 24px;
           }
         }
 
         li.cart {
-          transform: translateY(-1px);
+          svg {
+            height: 24px;
+          }
         }
 
         li.accounts {

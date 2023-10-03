@@ -32,11 +32,12 @@ const TopBarContainer = styled.div`
   }
 
   .close__container {
+    transform: scale(0.6);
     position: absolute;
-    right: 0.7rem;
+    right: 1rem;
     top: 0.7rem;
-    height: 24px;
-    width: 24px;
+    height: 2.4rem;
+    width: 2.4rem;
 
     button {
       padding: 0;
