@@ -28,6 +28,9 @@ export function darksideMiddleware(
   // store user's geo data in a cookie
   response.cookies.set('geoCountry', country);
   response.cookies.set('geo', JSON.stringify(geo));
+
+  // store in header
+  response.headers.set('X-Geo-Country', country);
   // geo:
   // if (!request.cookies.has('geo')) {
   //   response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
