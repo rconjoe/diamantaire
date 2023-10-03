@@ -8155,6 +8155,11 @@
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-7.1.0.tgz#50652c82439aa13a8fdb422dcfa607c72ae28667"
   integrity sha512-NoeBoZIueYUpuQc6W+4YuN3+XgxcuuQwZdahw1bfO2pWuWK4ikoZNHfSACyA/BL2j2LqjRBxIhVOI08CnPCXcA==
 
+"@vercel/edge@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@vercel/edge/-/edge-1.1.0.tgz#1a0cf6487d45b89a26d70d91e8f34c95a06e7df3"
+  integrity sha512-84H2EavY5Kul9Ef1DnTH0XEG5vChqcXjyqoRLVPjjZjLWw47sMapzXXQH09pybcshR+8AKqULGvFqPTWuRh3Rw==
+
 "@vercel/error-utils@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@vercel/error-utils/-/error-utils-2.0.1.tgz#ea16a69542fe18013ff4f4a93dfc0d2fea9cae64"
