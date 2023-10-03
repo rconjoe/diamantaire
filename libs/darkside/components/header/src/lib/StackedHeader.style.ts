@@ -17,6 +17,7 @@ export const StackedHeaderStylesContainer = styled.div`
   .language-selector {
     text-transform: capitalize;
     background: transparent;
+    padding: 0;
   }
 
   .stacked-header__container {
@@ -62,10 +63,11 @@ export const StackedHeaderStylesContainer = styled.div`
         .language-icon {
           display: inline-block;
           transform: translateY(-2px) rotate(180deg);
-          padding: 0 0.7rem;
+          padding: 0 0.7rem 0 0;
 
           &.active {
             transform: translateY(1px) rotate(0deg);
+            padding: 0 0 0 0.7rem;
           }
         }
 
@@ -84,12 +86,12 @@ export const StackedHeaderStylesContainer = styled.div`
           svg {
             float: left;
             position: relative;
-            height: 20px;
+            height: 2rem;
           }
 
           span {
             float: left;
-            line-height: 20px;
+            line-height: 2rem;
             white-space: nowrap;
             color: var(--color-black);
           }
@@ -97,7 +99,6 @@ export const StackedHeaderStylesContainer = styled.div`
 
         &.country-selector__chat {
           button {
-            margin: 0 0 0 1rem;
             padding: 0;
             background: transparent;
           }
@@ -105,18 +106,21 @@ export const StackedHeaderStylesContainer = styled.div`
           svg {
             display: block;
             position: relative;
-            height: 18px;
+            height: 1.8rem;
           }
         }
 
         &.calendar {
+          cursor: pointer;
+
           svg {
-            height: 18px;
+            height: 1.8rem;
+            margin: 0 0.5rem 0 0;
           }
         }
 
         &.language {
-          min-width: 80px;
+          min-width: 7rem;
           margin-right: 0;
         }
 
@@ -130,7 +134,7 @@ export const StackedHeaderStylesContainer = styled.div`
       justify-content: flex-end;
 
       .cart svg {
-        height: 21px;
+        height: 2.1rem;
       }
 
       .wishlist svg {

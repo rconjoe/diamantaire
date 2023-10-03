@@ -36,9 +36,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
     }
 
     .menu-container__col {
-      flex: 1;
-      max-width: 32rem;
-      padding: 0 4rem;
+      padding: 0 6rem;
 
       .col__inner {
         display: inline-block;
