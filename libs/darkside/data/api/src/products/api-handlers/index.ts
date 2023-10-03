@@ -1,35 +1,48 @@
-import { createLogger } from '@diamantaire/darkside/core';
-import { vraiApiClient } from '@diamantaire/darkside/data/api';
+// import { createLogger } from '@diamantaire/darkside/core';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const logger = createLogger('api:products');
+import { vraiApiClient } from '../../clients';
+
+// const logger = createLogger('api:products');
 
 export const productsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
-  
-  switch(endpoint){
+
+  console.log(endpoint, req.query);
+
+  switch (endpoint) {
     case 'slugs': {
-      collectionSlugsHandler(req, res);
+      productsBySlugsHandler(req, res);
+
       return;
     }
     case 'contentids': {
-      collectionSlugsHandler(req, res);
+      productsByContentIdsHandler(req, res);
+
       return;
-    } 
+    }
     default: {
       const errorMsg = `No handler available for API endpoint: ${endpoint}`;
-      logger.warn(errorMsg)
-      logger.exception(errorMsg)
+
+      console.warn(errorMsg);
+      // logger.warn(errorMsg);
+      // logger.exception(errorMsg);
     }
   }
-}
-
-export const productsByContentIdsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await fetchVraiServerData('/v1/products/contentids', req.query, res);
 };
 
-export const collectionSlugsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await fetchVraiServerData('/v1/products/slugs', req.query, res);
+export const productsByContentIdsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { endpoint, ...query } = req.query;
+
+  await fetchVraiServerData('/v1/products/contentids', query as any, res);
+};
+
+export const productsBySlugsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { endpoint, ...query } = req.query;
+
+  await fetchVraiServerData('/v1/products/slugs', query as any, res);
 };
 
 async function fetchVraiServerData(
@@ -48,7 +61,8 @@ async function fetchVraiServerData(
       throw new Error(`Error fetching data for the product catalog: ${reqUrl}`);
     }
   } catch (error) {
-    logger.exception(error);
+    // logger.exception(error);
+    console.log(error);
     res.status(500).json({ error: error['message'] });
   }
 }

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductVariantInput {
   @ApiProperty({
@@ -279,7 +279,6 @@ export class ProductByProductSlugsInput {
     example: 'productSlug1,ProductSlug2',
     required: false,
   })
-  @IsArray()
   @IsString()
   @Type(() => Array)
   readonly ids: string;
