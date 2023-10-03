@@ -18,8 +18,8 @@ type MobileHeaderTypes = {
 };
 
 const MobileHeaderContainer = styled.div`
-  padding: 15px 20px;
-  max-height: 56px;
+  padding: 1.5rem 1rem 1.5rem 0;
+  max-height: 5.6rem;
 
   ${media.medium`display: none;`}
 
@@ -109,9 +109,9 @@ const MobileHeaderContainer = styled.div`
         }
 
         li.wishlist {
-          transform: translateY(1px);
           svg {
-            height: 20px;
+            width: auto;
+            height: 24px;
           }
         }
 
