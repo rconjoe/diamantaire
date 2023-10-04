@@ -1,6 +1,7 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { UIString } from '@diamantaire/darkside/core';
 import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
@@ -26,9 +27,12 @@ const DiamondTableRow = ({
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
+
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
   const { addItemToCart, setIsCartOpen } = useContext(CartContext);
+  const { isMobile } = useContext(GlobalContext);
 
+  console.log(`isMobile`, isMobile);
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
@@ -103,10 +107,11 @@ const DiamondTableRow = ({
         </div>
         <div className="row-aside">
           <div className="row-cta">
-            <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
-              <UIString>View More Details</UIString>
-            </DarksideButton>
-
+            {!isMobile && (
+              <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
+                <UIString>View More Details</UIString>
+              </DarksideButton>
+            )}
             {isBuilderFlowOpen ? (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
@@ -125,8 +130,15 @@ const DiamondTableRow = ({
               <UIString>Purchase without setting</UIString>
             </DarksideButton>
           </div>
+
           <div className="row-accordion">
             <DiamondtableRowAccordion product={product} locale={locale} />
+
+            {isMobile && (
+              <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
+                <UIString>View More Details</UIString>
+              </DarksideButton>
+            )}
           </div>
         </div>
       </div>
