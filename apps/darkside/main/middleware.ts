@@ -47,5 +47,5 @@ export default async function middleware(
   // when this cookie is set, the next router will redirect to that locale route.
   // https://nextjs.org/docs/advanced-features/i18n-routing#leveraging-the-next_locale-cookie
 
-  return response;
+  return NextResponse.next();
 }
