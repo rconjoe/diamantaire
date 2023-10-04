@@ -21,7 +21,7 @@ import {
   getCFYResultOptionsFromUrl,
   getCountry,
   getDiamondType,
-  isLocaleInEurope,
+  getIsUserInEu,
   makeCurrency,
 } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
@@ -206,7 +206,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               <div className="primary-price">
                 <p>{formattedPrice}</p>
 
-                {isLocaleInEurope(locale) && (
+                {getIsUserInEu() && (
                   <small>
                     <UIString>incl. VAT</UIString>
                   </small>

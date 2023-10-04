@@ -9,7 +9,6 @@ export * from './getRelativeUrl';
 export * from './images';
 export * from './isCountrySupported';
 export * from './isEmptyObject';
-export * from './isLocaleInEurope';
 export * from './journalHelpers';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
