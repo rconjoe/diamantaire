@@ -144,9 +144,16 @@ const Header: FC<HeaderProps> = ({
 
   useEffect(() => {
     setIsLoaded(true);
+
     if (isHome) {
       setIsCompactMenuVisible(false);
     }
+
+    router.events.on('routeChangeComplete', toggleMegaMenuClose);
+
+    return () => {
+      router.events.off('routeChangeComplete', toggleMegaMenuClose);
+    };
   }, []);
 
   return (
