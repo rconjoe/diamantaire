@@ -12,7 +12,7 @@ const StyledDiamondCfyAccordion = styled.div`
 
   .accordion-header {
     .text {
-      font-size: var(--font-size-xxxsmall);
+      font-size: var(--font-size-xxsmall);
 
       ${desktopAndUp(`
         font-size: var(--font-size-xsmall);
