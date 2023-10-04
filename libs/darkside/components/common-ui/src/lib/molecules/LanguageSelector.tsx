@@ -1,4 +1,3 @@
-import { UIString } from '@diamantaire/darkside/core';
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -6,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { UIString } from './UIString';
 
 const StyledLanguageSelector = styled.ul`
   font-size: 16px;

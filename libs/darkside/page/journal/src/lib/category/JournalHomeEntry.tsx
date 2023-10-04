@@ -1,5 +1,4 @@
-import { ImageTile, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { ImageTile, Heading, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateSubheading } from '@diamantaire/shared/helpers';
 import { NextSeo } from 'next-seo';
 

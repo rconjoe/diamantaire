@@ -1,6 +1,5 @@
-import { Breadcrumb, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
-import { UIString } from '@diamantaire/darkside/core';
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';

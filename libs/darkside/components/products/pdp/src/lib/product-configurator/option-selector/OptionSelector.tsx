@@ -1,5 +1,4 @@
-import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { DarksideButton, SwiperStyles, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';

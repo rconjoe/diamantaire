@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { DarksideButton, Heading, HideTopBar } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, HideTopBar, UniLink } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCfyAsidePromo,
   DiamondCfyBreadCrumb,
@@ -9,7 +9,6 @@ import {
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';

@@ -1,6 +1,5 @@
-import { SlideOut } from '@diamantaire/darkside/components/common-ui';
+import { SlideOut, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UniLink } from '@diamantaire/darkside/core';
 import { useDiamondInfoData, useDiamondPdpData, useProductIconList } from '@diamantaire/darkside/data/hooks';
 import { DiamondIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';

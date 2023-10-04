@@ -1,8 +1,7 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { UIString } from '@diamantaire/darkside/core';
 import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';

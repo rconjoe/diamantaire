@@ -1,5 +1,4 @@
-import { Slider } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import Image from 'next/image';

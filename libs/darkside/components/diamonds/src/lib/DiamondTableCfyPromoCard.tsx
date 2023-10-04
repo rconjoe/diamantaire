@@ -1,5 +1,4 @@
-import { DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { DarksideButton, Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 
 import StyledDiamondTableCfyPromoCard from './DiamondTableCfyPromoCard.style';

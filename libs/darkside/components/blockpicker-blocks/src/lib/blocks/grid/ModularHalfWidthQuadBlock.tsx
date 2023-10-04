@@ -1,5 +1,4 @@
-import { MobileDesktopImage, ImageTile } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { MobileDesktopImage, ImageTile, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';

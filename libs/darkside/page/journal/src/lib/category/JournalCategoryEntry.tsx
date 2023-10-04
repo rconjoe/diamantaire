@@ -1,7 +1,6 @@
 // import PageMetaTitleAndDescription from '../document/PageMetaTitleAndDescription';
 
-import { DarksideButton, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { DarksideButton, Heading, ImageTile, UniLink, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useJournalConfig } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';

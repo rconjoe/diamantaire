@@ -1,5 +1,4 @@
-import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { Heading, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 
 import { JournalNavigationStyles } from './JournalNavigation.style';

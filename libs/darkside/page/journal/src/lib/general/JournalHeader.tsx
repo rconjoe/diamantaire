@@ -1,5 +1,4 @@
-import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import Link from 'next/link';
 
 import { JournalHeaderStyles } from './JournalHeader.style';
