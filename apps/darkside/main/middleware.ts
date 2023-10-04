@@ -4,7 +4,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(
   request: NextRequest,
-  response: NextResponse,
+  // response: NextResponse,
   _event: NextFetchEvent,
 ): Promise<NextMiddlewareResult> {
   // an example of how you can make middleware functions only apply to certain routes:
