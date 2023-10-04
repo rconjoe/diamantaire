@@ -2,7 +2,7 @@
 import { isProdEnv } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
-import { useEffect, createContext, useContext } from 'react';
+import { useEffect, createContext, useContext, useState } from 'react';
 import TagManager from 'react-gtm-module';
 
 type AnalyticsContextType = {
@@ -49,9 +49,7 @@ export const tagManagerArgs = {
   events: GTM_EVENTS,
 };
 
-const shouldEnableTracking = (consent) => {
-  const isUserInEu = getIsUserInEu();
-
+const shouldEnableTracking = ({ consent, isUserInEu }) => {
   // Check if the user has accepted statistics and marketing cookies
   const hasAcceptedStatistics = consent?.statistics || false;
   const hasAcceptedMarketing = consent?.marketing || false;
@@ -66,9 +64,9 @@ const shouldEnableTracking = (consent) => {
   return enableTracking && hasAcceptedStatistics && hasAcceptedMarketing;
 };
 
-const createTrackEvent = (consentValue) => {
+const createTrackEvent = (isEnabled) => {
   return (event, data) => {
-    if (shouldEnableTracking(consentValue)) {
+    if (isEnabled) {
       TagManager.dataLayer({ dataLayer: { event, ...data } });
     } else {
       console.log('no analytics', { event, data });
@@ -77,17 +75,20 @@ const createTrackEvent = (consentValue) => {
 };
 
 export const AnalyticsProvider = ({ children }) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+
   const { consent } = useCookieConsentContext();
 
-  const trackEvent = createTrackEvent(consent);
+  const trackEvent = createTrackEvent(isEnabled);
 
-  // TODO: add a check if user is in EU based on middleware geo data
   useEffect(() => {
-    // Initialize GTM here with your GTM container ID
-    if (shouldEnableTracking(consent)) {
+    const isUserInEu = getIsUserInEu();
+
+    if (shouldEnableTracking({ consent, isUserInEu })) {
+      setIsEnabled(true);
       TagManager.initialize(tagManagerArgs);
     }
-  }, []);
+  }, [isEnabled, consent]);
 
   const analytics = {
     viewPage: (pageName: string) => {
@@ -145,7 +146,7 @@ export const AnalyticsProvider = ({ children }) => {
     },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
-      if (shouldEnableTracking(consent)) {
+      if (isEnabled) {
         TagManager.dataLayer({ dataLayer: { ...data } });
       }
     },
