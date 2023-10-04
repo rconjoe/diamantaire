@@ -120,9 +120,10 @@ const DiamondTable = (props: DiamondTableProps) => {
         accessorKey: 'diamondType',
         cell: (info: Info) => {
           const shape = info.getValue();
-          const diamondTypeTitle = (shape && getDiamondType(shape)?.title) || info.getValue();
 
-          return diamondTypeTitle;
+          const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
+
+          return <UIString>{diamondTypeHandle}</UIString>;
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -133,7 +134,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       },
       {
         accessorKey: 'color',
-        cell: (info: Info) => info.getValue(),
+        cell: (info: Info) => <UIString>{info.getValue()}</UIString>,
         header: () => <UIString>color</UIString>,
       },
       {
@@ -143,7 +144,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       },
       {
         accessorKey: 'cut',
-        cell: (info: Info) => info.getValue(),
+        cell: (info: Info) => <UIString>{info.getValue()}</UIString>,
         header: () => <UIString>cut</UIString>,
       },
       {

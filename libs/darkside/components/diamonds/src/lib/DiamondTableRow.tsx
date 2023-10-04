@@ -32,7 +32,6 @@ const DiamondTableRow = ({
   const { addItemToCart, setIsCartOpen } = useContext(CartContext);
   const { isMobile } = useContext(GlobalContext);
 
-  console.log(`isMobile`, isMobile);
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
