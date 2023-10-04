@@ -1,5 +1,4 @@
-import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { CountrySelector, Form, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
