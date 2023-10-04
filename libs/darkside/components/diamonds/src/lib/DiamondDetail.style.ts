@@ -114,6 +114,17 @@ const StyledDiamondDetail = styled.div`
       text-align: left;
       font-size: var(--font-size-small);
     `)}
+
+    .price-text {
+      display: block;
+      text-align: center;
+      font-size: var(--font-size-xxxsmall);
+
+      ${desktopAndUp(`
+        text-align: left;
+        font-size: var(--font-size-xxxxsmall);
+      `)}
+    }
   }
 
   .aside > .cta {
