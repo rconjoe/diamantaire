@@ -129,7 +129,7 @@ const DiamondCfyAccordion = ({
 
     return (
       <>
-        <strong>{title}</strong>
+        <strong>{title}:</strong>
         <span>{label}</span>
         <strong>{cut}</strong>
       </>
@@ -221,8 +221,6 @@ const DiamondCfyAccordion = ({
         }
       }
     }
-
-    console.log(`activeDefault`, activeDefault);
 
     return activeDefault;
   };

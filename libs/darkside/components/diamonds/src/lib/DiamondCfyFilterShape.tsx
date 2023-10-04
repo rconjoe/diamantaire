@@ -1,6 +1,6 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
 import { UniLink } from '@diamantaire/darkside/core';
-import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
@@ -11,6 +11,7 @@ const DiamondCfyFilterShape = (props) => {
   const { locale, availableDiamondTypes, handleSelectShape } = props;
   const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
   const { diamondSelectorTitle, diamondSelectorSubtitle, diamondResultMatchViewAllCta } = ctoDiamondTable;
+  const { _t } = useTranslations(locale);
 
   const diamondList = availableDiamondTypes
     ? availableDiamondTypes.map((v) => getDiamondType(v))
@@ -39,11 +40,11 @@ const DiamondCfyFilterShape = (props) => {
                 const shape = diamondIconsMap[v.slug];
 
                 return (
-                  <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
+                  <div className="list-item" key={v.slug} title={_t(v.slug)} onClick={() => handleSelectShape(v)}>
                     <div className="icon">
                       <shape.icon />
                     </div>
-                    <div className="name">{v.title}</div>
+                    <div className="name">{_t(v.slug)}</div>
                   </div>
                 );
               })}
@@ -55,11 +56,11 @@ const DiamondCfyFilterShape = (props) => {
 
                 return (
                   shape && (
-                    <div className="list-item" key={v.slug} title={v.title} onClick={() => handleSelectShape(v)}>
+                    <div className="list-item" key={v.slug} title={_t(v.slug)} onClick={() => handleSelectShape(v)}>
                       <div className="icon">
                         <shape.icon />
                       </div>
-                      <div className="name">{v.title}</div>
+                      <div className="name">{_t(v.slug)}</div>
                     </div>
                   )
                 );

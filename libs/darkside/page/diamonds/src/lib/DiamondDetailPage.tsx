@@ -1,7 +1,13 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { DiamondDetail } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import { OptionsDataTypes, useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import {
+  OptionsDataTypes,
+  useDiamondPdpData,
+  useDiamondTableData,
+  useDiamondsData,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -23,17 +29,19 @@ interface DiamondDetailPageDataTypes {
 const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, currencyCode, countryCode, options } = props;
 
+  const { _t } = useTranslations(locale);
+
   const { lotId } = options || {};
 
   const { data: { diamond: { carat, diamondType } = {} } = {} } = useDiamondsData({ lotId });
-
-  const diamondTitle = getDiamondType(diamondType)?.title;
 
   const { data: { diamondTable: { title } = {} } = {} } = useDiamondTableData(locale);
 
   const { data: { diamondProduct: { seoFields } = {} } = {} } = useDiamondPdpData(locale);
 
   const { seoTitle, seoDescription } = seoFields || {};
+
+  const diamondTitle = _t(getDiamondType(diamondType)?.slug);
 
   const pageSeoTitle = `${carat} Carat ` + (diamondTitle ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
 
@@ -68,8 +76,6 @@ DiamondDetailPage.getTemplate = getTemplate;
 
 async function getServerSideProps(context): Promise<GetServerSidePropsResult<DiamondDetailPageDataTypes>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
-
-  console.log(`DiamondDetailPage :: getServerSideProps...`);
 
   const { query, locale } = context;
 

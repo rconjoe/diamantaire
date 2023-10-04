@@ -2,7 +2,7 @@ import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks
 import { DarksideButton, Form, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString, UniLink } from '@diamantaire/darkside/core';
-import { useDiamondPdpData, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getDiamondType, isLocaleInEurope, makeCurrency } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
@@ -25,6 +25,7 @@ interface DiamondDetailDataTypes {
 
 const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
   const { isMobile, headerHeight } = useContext(GlobalContext);
+  const { _t } = useTranslations(locale);
   const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
@@ -34,7 +35,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
   const { carat: productCarat, price: productPrice } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? makeCurrency(productPrice, locale, currencyCode) : null;
-  const diamondTitle = getDiamondType(diamondType)?.title;
+  const diamondTitle = _t(getDiamondType(diamondType)?.slug);
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,

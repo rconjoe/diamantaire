@@ -13,7 +13,7 @@ import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from 
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { UIString } from '@diamantaire/darkside/core';
-import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -57,6 +57,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
+
+  const { _t } = useTranslations(locale);
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
@@ -114,7 +116,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     return;
   };
 
-  const diamondTypeTitle = getDiamondType(product?.diamondType)?.title || '';
+  const diamondTypeTitle = _t(getDiamondType(product?.diamondType)?.slug || '');
 
   const caratValue = product?.carat?.toFixed(1) || '';
 
@@ -203,6 +205,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   handleUpgradeClick={handleUpgradeClick}
                   diamondCtoData={diamondCtoData}
                   defaultProduct={defaultProduct}
+                  currencyCode={currencyCode}
                   product={product}
                   display={display}
                   locale={locale}

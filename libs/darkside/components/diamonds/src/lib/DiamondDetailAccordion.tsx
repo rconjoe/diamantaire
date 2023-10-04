@@ -8,7 +8,7 @@ import { useContext } from 'react';
 
 import { StyledDiamondDetailAccordion } from './DiamondDetailAccordion.style';
 
-const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; locale?: string }) => {
+const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: string }) => {
   const { _t } = useTranslations(locale);
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const { isMobile } = useContext(GlobalContext);
@@ -34,7 +34,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
     return (
       <>
-        <strong>{title}</strong> <span>{label}</span>
+        <strong>{title}:</strong> <span>{label}</span>
       </>
     );
   };
@@ -81,7 +81,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
     return (
       <>
-        <strong>{title}</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
       </>
     );
   };
@@ -152,7 +152,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
     return (
       <>
-        <strong>{title}</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
       </>
     );
   };
@@ -220,7 +220,7 @@ const DiamondDetailAccordion = ({ lotId, locale = 'en_US' }: { lotId?: string; l
 
     return (
       <>
-        <strong>{title}</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
       </>
     );
   };
