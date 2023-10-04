@@ -142,9 +142,20 @@ const StyledCFYResultPage = styled.div`
     .primary-price * {
       margin: 0.25rem 0 0;
       font-size: var(--font-size-xsmall);
+
       ${tabletAndUp(`
-      font-size: var(--font-size-xsmall);
+        font-size: var(--font-size-xsmall);
       `)};
+
+      small {
+        margin: 0;
+        display: block;
+        font-size: var(--font-size-xxxxsmall);
+
+        ${tabletAndUp(`
+          font-size: var(--font-size-xxxxsmall);
+        `)};
+      }
     }
 
     > .accordion {

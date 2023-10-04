@@ -17,7 +17,13 @@ import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamanta
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
-import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import {
+  getCFYResultOptionsFromUrl,
+  getCountry,
+  getDiamondType,
+  isLocaleInEurope,
+  makeCurrency,
+} from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -199,6 +205,12 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
               <div className="primary-price">
                 <p>{formattedPrice}</p>
+
+                {isLocaleInEurope(locale) && (
+                  <small>
+                    <UIString>incl. VAT</UIString>
+                  </small>
+                )}
               </div>
               <div className="accordion">
                 <DiamondCfyAccordion
