@@ -1,6 +1,8 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
+import { getIsUserInEu } from '@diamantaire/shared/helpers';
 import { HEADER_BACKGROUND, GREY_DARK, NAV_Z_INDEX, BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -90,7 +92,13 @@ const CookieBanner = () => {
     marketing: false,
     preferences: false,
   });
+
   const [showBanner, setShowBanner] = useState(false);
+
+  const handleAcceptPrivacy = () => {
+    Cookies.set('didAcceptPrivacy', 'true');
+    setShowBanner(false);
+  };
 
   // Function to update the state when a user selects an option
   const handleOptionClick = (option) => {
@@ -106,22 +114,25 @@ const CookieBanner = () => {
 
     // Call acceptCookies with the selected options
     acceptCookies(selectedOptions);
-    setShowBanner(false);
+    handleAcceptPrivacy();
   };
   const handleAcceptAllCookies = () => {
     acceptAllCookies();
-    setShowBanner(false);
+    handleAcceptPrivacy();
   };
 
-  // Use useEffect to update the state with the values from cookies when available
-  // TODO: add a check if user is in EU based on middleware geo data
   useEffect(() => {
-    if (consent) {
+    const isUserInEu = getIsUserInEu();
+    const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
+    const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
+
+    if (shouldShowBanner) {
       setCookieConsentOptions({
         statistics: consent.statistics || false,
         marketing: consent.marketing || false,
         preferences: consent.preferences || false,
       });
+      setShowBanner(true);
     }
   }, [consent]);
 
