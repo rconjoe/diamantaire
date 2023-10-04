@@ -2,7 +2,7 @@ import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-export async function darksideMiddleware(
+export async function middleware(
   request: NextRequest,
   response: NextResponse,
   _event: NextFetchEvent,
