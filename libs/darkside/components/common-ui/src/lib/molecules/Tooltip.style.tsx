@@ -56,6 +56,15 @@ const StyledTooltip = styled.div`
     border: 1px solid ${GREY};
     height: 12px;
     width: 12px;
+    position: relative;
+
+    &:after {
+      content: '';
+      background: transparent;
+      width: 3rem;
+      height: 3rem;
+      position: absolute;
+    }
 
     * {
       font-size: var(--font-size-xxxxxsmall);
