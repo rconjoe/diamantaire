@@ -16,15 +16,15 @@ export async function darksideMiddleware(
 
   // console.log('geo', geo);
 
-  // WIP
+  //   // WIP
   const country = geo.country || 'US';
-  const city = geo.city || 'San Francisco';
-  // const region = geo.region || 'CA';
+  // const city = geo.city || 'San Francisco';
+  //   // const region = geo.region || 'CA';
 
-  url.searchParams.set('country', country);
-  url.searchParams.set('city', city);
+  //   url.searchParams.set('country', country);
+  //   url.searchParams.set('city', city);
 
-  request['userAgent'] = geo;
+  //   request['userAgent'] = geo;
 
   // store user's geo data in a cookie
   response.cookies.set('geoCountry', country);
