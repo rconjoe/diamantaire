@@ -1,5 +1,7 @@
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -13,6 +15,8 @@ type PlpSortOptionsProps = {
 };
 
 function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps) {
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
   const handleSortOptionChange = (val) => {
     const { value } = val;
     const selectedSortOption = sortOptions.find((sortOption) => sortOption.id === value);
@@ -29,7 +33,7 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
   const options = [
     // Always the default sort option
     {
-      label: 'Featured',
+      label: _t('Featured'),
       value: null,
       field: null,
       isDescendingOrder: false,
@@ -38,7 +42,7 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
 
   sortOptions.map((sortOption) => {
     const newOption = {
-      label: sortOption.label,
+      label: _t(sortOption.label),
       value: sortOption.id,
       field: sortOption.field,
       isDescendingOrder: sortOption.isDescendingOrder,
@@ -60,7 +64,6 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
         value={currentSortOption}
         isSearchable={false}
         classNamePrefix="sort-dropdown"
-        // menuIsOpen={true}
         components={{
           IndicatorSeparator: () => null,
         }}

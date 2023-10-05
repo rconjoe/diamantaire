@@ -23,7 +23,5 @@ export function sortBandWidth(options) {
     return caratA - caratB;
   });
 
-  console.log('new oppppss', options);
-
   return options;
 }

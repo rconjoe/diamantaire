@@ -66,8 +66,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     console.log({ sortBy, sortOrder });
     // If null is passed, reset the sort options
     if (!sortBy) {
-      console.log('resetting sort options');
-
       return setActiveSortOptions({});
     }
 
