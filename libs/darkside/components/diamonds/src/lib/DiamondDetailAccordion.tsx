@@ -80,7 +80,10 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong> <span>{label?.value}</span>{' '}
+        <strong>
+          <UIString>{label?.key}</UIString>
+        </strong>
       </>
     );
   };
@@ -116,7 +119,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
             pips={{
               mode: 'steps',
               density: 100 / cuts.length,
-              format: { to: (v) => cuts[v] },
+              format: { to: (v) => _t(cuts[v]) },
             }}
             boldPip={true}
           />
