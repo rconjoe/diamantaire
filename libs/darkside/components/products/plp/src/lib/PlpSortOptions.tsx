@@ -57,7 +57,7 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
 
   return (
     <PlpSortOptionStyle>
-      <span className="sort-label">Sort:</span>
+      <span className="sort-label">{_t('Sort')}:</span>
       <Select
         options={options}
         onChange={(val) => handleSortOptionChange(val)}
