@@ -1,3 +1,4 @@
+import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import styled, { createGlobalStyle } from 'styled-components';
 
@@ -13,18 +14,23 @@ export const SlideOutFreezeBody = createGlobalStyle<{ scrollPosition: number }>`
 `;
 
 export const SlideOutWrapper = styled(motion.aside)`
-  width: ${(props) => props.width || defaultWidth};
+  width: 100%;
+
   height: 100vh;
   overflow-y: auto;
   z-index: 6000;
   position: fixed;
   top: 0;
   right: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  flex-direction: column;
+  display: block;
   background-color: #fff;
+  ${media.medium`width: ${(props) => props.width || defaultWidth};`}
+
+  &.extra-side-padding {
+    .wrapper {
+      padding: 2rem 4rem;
+    }
+  }
 
   .wrapper {
     flex: 1;
@@ -74,7 +80,7 @@ export const SlideOutWrapper = styled(motion.aside)`
   }
 `;
 
-export const SlideOutOverlay = styled(motion.div)`
+export const SlideOutOverlay = styled(motion.button)`
   position: fixed;
   background-color: #000;
   width: 100%;

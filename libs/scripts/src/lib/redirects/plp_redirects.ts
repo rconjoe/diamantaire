@@ -1,3 +1,4 @@
+import { kv } from '@vercel/kv';
 import axios from 'axios';
 import 'dotenv/config';
 
@@ -19,7 +20,16 @@ const DIAMOND_PLP_DATA_CONFIG_QUERY = `
 
 type PlpData = { slug: string; category: string; slugNew: string };
 type PlpResponse = { data: { allListPages: PlpData[] } };
-type RedirectData = { from: string; to: string };
+// type RedirectData = { source: string; destination: string };
+
+type LocalRedirects = {
+  [k: string]:
+    | {
+        destination: string;
+        permanent: boolean;
+      }
+    | undefined;
+};
 
 async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   console.log('request vars:', page, limit);
@@ -49,24 +59,34 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   }
 }
 
-function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = 'https://www.vrai.com', toUrl = 'http://localhost:4200') {
-  return plpDataArr.reduce((redirects: RedirectData[], plpData) => {
+function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
+  return plpDataArr.reduce((redirects: LocalRedirects, plpData) => {
     const { slug, category, slugNew } = plpData;
 
     if (!slugNew || !category) {
       console.log('PLP missing slugNew or category', slug);
+
+      return redirects;
     }
-    redirects.push({
-      from: `${fromUrl}/${slug}`,
-      to: `${toUrl}/${category}/${slugNew}`,
-    });
+
+    const source = `${fromUrl}/${slug}`;
+    const destination = `${toUrl}/${category}/${slugNew}`;
+    const isPermanent = true;
+
+    redirects[source] = {
+      destination,
+      permanent: isPermanent,
+    };
+
+    kv.hset('redirects', { [source]: destination });
+    if (isPermanent) kv.sadd(source, 'permanent_redirects');
 
     return redirects;
-  }, []);
+  }, {});
 }
 
 // : Promise<{ data: { allListPages: RedirectData } } | undefined> ??
-export async function getPlpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {
+export async function getPlpRedirects(sourceBaseUrl = '', targetBaseUrl = '') {
   const limit = 100;
   let page = 0;
   let allListPages;
@@ -81,7 +101,10 @@ export async function getPlpRedirects(sourceBaseUrl = 'https://www.vrai.com', ta
     const pageRedirects = generatePLPRedirects(allListPages, sourceBaseUrl, targetBaseUrl);
 
     console.log('requesting page', page, allListPages.length);
-    redirects = redirects.concat(pageRedirects);
+    redirects = {
+      ...redirects,
+      ...pageRedirects,
+    };
   } while (allListPages.length >= limit);
 
   return redirects;

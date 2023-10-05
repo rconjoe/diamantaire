@@ -1,8 +1,9 @@
-import { DarksideButton, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
-import { sortBandWidth } from '@diamantaire/shared/helpers';
+import { DarksideButton, SwiperStyles, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
+import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -20,6 +21,8 @@ interface OptionSelectorProps {
   onChange?: (option: OptionItemProps) => void;
   renderItemAsLink?: boolean;
   isBuilderFlowOpen?: boolean;
+  isWeddingBandProduct?: boolean;
+  setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
 }
 
 const StyledOptionSelector = styled.div`
@@ -37,7 +40,6 @@ const StyledOptionSelector = styled.div`
     span {
       font-size: 1.6rem;
       font-weight: 400;
-      text-transform: capitalize;
     }
   }
   .option-list {
@@ -49,12 +51,6 @@ const StyledOptionSelector = styled.div`
     padding: 0;
     margin: 0;
 
-    &.space-between-items {
-      > * {
-        margin-right: 15px;
-      }
-    }
-
     &.ringSize {
       align-items: center;
       margin-bottom: 20px;
@@ -62,14 +58,51 @@ const StyledOptionSelector = styled.div`
         font-size: var(--font-size-xxxsmall);
         margin-left: 10px;
       }
+      .size-guide-button {
+        flex: 0 0 100%;
+        margin-top: 0.5rem;
+        button {
+          font-size: var(--font-size-xxxsmall);
+        }
+      }
+    }
+
+    &.soldAsDouble {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      button {
+        flex: 1 1 50%;
+        height: 48px;
+      }
+    }
+
+    &.bandAccent {
+      button {
+        max-width: 38px;
+        max-height: 38px;
+      }
+    }
+
+    &.bandVersion {
+      button {
+        text-transform: capitalize;
+      }
+    }
+
+    &.prongStyle {
+      button {
+        text-transform: capitalize;
+      }
     }
 
     &.diamondType {
       margin-top: 10px;
       position: relative;
-      margin-bottom: 8px;
-      height: 35px;
-      max-width: 78%;
+      max-width: 100%;
+      gap: 15px;
+      min-height: 44px;
+      ${media.medium`max-width: 80%;`}
 
       .swiper {
         width: 100%;
@@ -78,13 +111,16 @@ const StyledOptionSelector = styled.div`
 
         .swiper-slide {
           width: fit-content !important;
-          margin-right: 30px;
+          margin-right: 25px;
+          ${media.medium`margin-right: 30px;`}
+          &:last-child {
+            margin-right: 100px;
+          }
         }
       }
 
       .swiper-wrapper {
         display: flex;
-        padding-right: 80px;
       }
 
       a {
@@ -93,10 +129,28 @@ const StyledOptionSelector = styled.div`
 
       .carousel-arrow {
         position: absolute;
-        right: -40px;
         top: 10px;
         background-color: transparent;
+        right: -30px;
+        ${media.medium`right: -40px;`}
       }
+    }
+
+    /* For selectors with medium sized buttons */
+    &.prongStyle,
+    &.bandWidth,
+    &.bandVersion,
+    &.bandStyle {
+      button {
+        min-width: 115px;
+        font-size: var(--font-size-xxxsmall);
+      }
+    }
+
+    &.space-between-items {
+      max-width: 100%;
+      gap: 20px;
+      min-height: 0;
     }
   }
 `;
@@ -109,24 +163,19 @@ function OptionSelector({
   label,
   renderItemAsLink = false,
   isBuilderFlowOpen,
+  isWeddingBandProduct = false,
+  setIsWeddingBandSizeGuideOpen,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
-  const {
-    data: {
-      DIAMOND_SHAPES: DIAMOND_SHAPES_MAP,
-      OPTION_NAMES: OPTION_NAMES_MAP,
-      METALS_IN_HUMAN_NAMES: METALS_IN_HUMAN_NAMES_MAP,
-      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAP,
-      BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP,
-      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
-    } = {},
-  } = useHumanNameMapper(locale);
+  const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
 
   const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
   const nextButtonRef = useRef(null);
   const prevButtonRef = useRef(null);
+
+  const { _t } = useTranslations(locale);
 
   useEffect(() => {
     // TODO: Resolve error
@@ -152,36 +201,29 @@ function OptionSelector({
     setIsLastSlide(swiper.isEnd);
   }
 
-  const selectorLabel =
-    OPTION_NAMES_MAP?.[label]?.value ||
-    BAND_WIDTH_HUMAN_NAMES_MAP?.[label]?.value ||
-    OPTION_NAMES_MAP?.[label.replace('eternityStyle', 'style')]?.value ||
-    OPTION_NAMES_MAP?.[label.replace('earringSize', 'hoopLength')]?.value;
-
-  const selectorCurrentValue =
-    (CARAT_WEIGHT_HUMAN_NAMES_MAP && CARAT_WEIGHT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (DIAMOND_SHAPES_MAP && DIAMOND_SHAPES_MAP[selectedOptionValue]?.value) ||
-    (METALS_IN_HUMAN_NAMES_MAP && METALS_IN_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_WIDTH_HUMAN_NAMES_MAP && BAND_WIDTH_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    (BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP && BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES_MAP[selectedOptionValue]?.value) ||
-    selectedOptionValue;
-
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function handleOptionValueSort(options, optionType) {
-    if (optionType !== 'bandWidth') {
-      return options;
-    } else {
+    if (optionType === 'bandWidth') {
       return sortBandWidth(options);
+    } else if (optionType === 'ringSize') {
+      return sortRingSize(options);
+    } else {
+      return options;
     }
   }
 
   return (
     <StyledOptionSelector>
-      {selectorLabel && (
+      {label && (
         <div className="selector-label">
-          <h4>{selectorLabel}:</h4>
-          <span>{selectorCurrentValue}</span>
+          <Heading type="h4">
+            <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
+          </Heading>
+          <span>
+            <UIString>{selectedOptionValue}</UIString>
+            {label === 'caratWeight' && !isNaN(parseFloat(_t(selectedOptionValue))) ? 'ct' : ''}{' '}
+          </span>
         </div>
       )}
 
@@ -196,9 +238,9 @@ function OptionSelector({
               <SwiperStyles>
                 <Swiper
                   slidesPerView={7}
-                  slidesPerGroup={3}
+                  slidesPerGroup={8}
                   loop={false}
-                  // spaceBetween={20}
+                  spaceBetween={25}
                   modules={[Navigation, Keyboard, Lazy]}
                   navigation={{
                     prevEl: prevButtonRef.current,
@@ -262,8 +304,8 @@ function OptionSelector({
               DIAMOND_SHAPES_MAP &&
               options.map((option) => {
                 const isSelected = selectedOptionValue === option.value;
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                const valueLabel = option.value;
 
                 return (
                   <OptionItemContainer
@@ -288,8 +330,7 @@ function OptionSelector({
                   .map((option) => {
                     const isSelected = selectedOptionValue === option.value;
 
-                    // human readable value
-                    const valueLabel = DIAMOND_SHAPES_MAP?.[option.value]?.value;
+                    const valueLabel = option.value;
 
                     return (
                       <OptionItemContainer
@@ -310,16 +351,16 @@ function OptionSelector({
                     colorTheme="teal"
                     onClick={() => setShowingAllRingSizes(true)}
                   >
-                    Show More Sizes
+                    <UIString>Show more sizes</UIString>
                   </DarksideButton>
                 )}
               </>
             ) : (
-              options.map((option) => {
+              handleOptionValueSort(options, optionType)?.map((option) => {
                 const isSelected = selectedOptionValue === option.value;
 
                 // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+                const valueLabel = option.value;
 
                 return (
                   <OptionItemContainer
@@ -334,28 +375,40 @@ function OptionSelector({
                 );
               })
             )}
+            {isWeddingBandProduct && (
+              <div className="size-guide-button">
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
+                  <UIString>Size Guide</UIString>
+                </DarksideButton>
+              </div>
+            )}
           </div>
         ) : (
           <div className={clsx('option-list', label)}>
-            {DIAMOND_SHAPES_MAP &&
-              handleOptionValueSort(options, optionType).map((option) => {
-                const isSelected = selectedOptionValue === option.value;
+            {handleOptionValueSort(options, optionType).map((option) => {
+              const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
 
-                // human readable value
-                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+              // if (optionType === 'soldAsDouble') {
+              //   console.log('selectedOptionValue', selectedOptionValue);
+              //   console.log('option.value', option.id);
+              //   console.log('isSelected', isSelected);
+              // }
 
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                  />
-                );
-              })}
+              // human readable value
+              const valueLabel = option.value;
+
+              return (
+                <OptionItemContainer
+                  key={option.id}
+                  optionType={optionType}
+                  option={option}
+                  valueLabel={valueLabel}
+                  isSelected={isSelected}
+                  onClick={() => handleOptionClick(option)}
+                  isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                />
+              );
+            })}
           </div>
         )}
       </div>

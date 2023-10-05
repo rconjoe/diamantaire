@@ -1,5 +1,4 @@
-import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { DatoImage, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, getRelativeUrl } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 

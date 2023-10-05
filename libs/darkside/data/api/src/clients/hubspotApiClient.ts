@@ -150,7 +150,7 @@ const sendHubspotForm = async ({
     context: {
       ...(hubspotCookieToken && { hutk: hubspotCookieToken }), // include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission
       pageUri: typeof window !== 'undefined' ? window.location.href : pageUrl,
-      pageName: typeof document !== 'undefined' ? document.title : pageTitle,
+      pageName: typeof document !== 'undefined' ? document?.title : pageTitle,
     },
   };
 

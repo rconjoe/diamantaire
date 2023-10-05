@@ -57,10 +57,11 @@ const CompactHeaderStyles = styled.div`
         }
 
         &--center {
-          flex: 1;
+          flex: 2;
 
           .compact-header__nav {
             min-width: 500px;
+
             ul {
               display: flex;
               justify-content: center;
@@ -75,6 +76,7 @@ const CompactHeaderStyles = styled.div`
                   text-decoration: none;
                   position: relative;
                   transition: 0.25s;
+                  text-transform: uppercase;
 
                   &::before {
                     content: '';

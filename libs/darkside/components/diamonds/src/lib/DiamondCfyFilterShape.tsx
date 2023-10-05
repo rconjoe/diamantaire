@@ -1,5 +1,4 @@
-import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { DarksideButton, Heading, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondCfyData } from '@diamantaire/darkside/data/hooks';
 import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';

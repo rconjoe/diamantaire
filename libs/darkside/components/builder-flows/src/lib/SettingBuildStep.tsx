@@ -28,6 +28,11 @@ const SettingBuildStepStyles = styled(motion.div)`
       flex: 0 0 550px;
       padding: 0 40px 0 20px;
       overflow: hidden;
+
+      .info__inner {
+        max-width: 450px;
+        margin: 0 auto;
+      }
     }
   }
 `;
@@ -104,27 +109,34 @@ const SettingBuildStep = ({
         </div>
 
         <div className="info-container">
-          <ProductTitle title={product.title} />
-          <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={product.price} />
-          <ProductConfigurator
-            configurations={configurations}
-            selectedConfiguration={selectedConfiguration}
-            variantId={variantId}
-            additionalVariantData={additionalVariantData}
-            isBuilderFlowOpen={true}
-            updateSettingSlugs={updateSettingSlugs}
-            updateFlowData={updateFlowData}
-            flowIndex={flowIndex}
-            disableVariantType={disableVariantType}
-            variantProductTitle={shopifyProductData?.productTitle}
-          />
-          <ProductDescription
-            description={productDescription}
-            productAttributes={parentProductAttributes}
-            variantAttributes={additionalVariantData}
-            productSpecId={productSpecId}
-            title={productTitle}
-          />
+          <div className="info__inner">
+            <ProductTitle
+              title={product.title}
+              diamondType={selectedConfiguration?.diamondType}
+              productType={shopifyProductData?.productType}
+            />
+            <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={parseFloat(product.price)} />
+            <ProductConfigurator
+              configurations={configurations}
+              selectedConfiguration={selectedConfiguration}
+              variantId={variantId}
+              additionalVariantData={additionalVariantData}
+              isBuilderFlowOpen={true}
+              updateSettingSlugs={updateSettingSlugs}
+              updateFlowData={updateFlowData}
+              flowIndex={flowIndex}
+              disableVariantType={disableVariantType}
+              variantProductTitle={shopifyProductData?.productTitle}
+            />
+            <ProductDescription
+              description={productDescription}
+              productAttributes={parentProductAttributes}
+              variantAttributes={additionalVariantData}
+              productSpecId={productSpecId}
+              title={productTitle}
+              selectedConfiguration={selectedConfiguration}
+            />
+          </div>
         </div>
       </div>
     </SettingBuildStepStyles>

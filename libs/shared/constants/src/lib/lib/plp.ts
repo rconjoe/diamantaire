@@ -6,4 +6,4 @@ export const PRICE_RANGE_OPTIONS_HUMAN_NAMES_VALUES = {
   custom: [],
 };
 
-export const FACETED_NAV_ORDER = ['metal', 'diamondType'];
+export const FACETED_NAV_ORDER = ['metal', 'diamondType', 'styles'];

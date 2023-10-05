@@ -1,5 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 

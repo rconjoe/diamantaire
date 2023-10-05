@@ -141,19 +141,24 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: rgb(200, 171, 110);
     }
   }
+  &.rose-gold {
+    .inner {
+      background-color: rgb(206, 172, 139);
+    }
+  }
+  &.white-gold {
+    .inner {
+      background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
+    }
+  }
   &.platinum {
     .inner {
       background-color: rgb(200, 200, 200);
     }
   }
-  &.white-gold {
+  &.sterling-silver {
     .inner {
-      background: linear-gradient(135deg, rgb(254, 254, 254), rgb(206, 206, 206));
-    }
-  }
-  &.rose-gold {
-    .inner {
-      background-color: rgb(206, 172, 139);
+      background: linear-gradient(138deg, rgb(210, 210, 208) 0%, rgb(247, 247, 247) 50%, rgb(201, 202, 200) 100%);
     }
   }
   &.black {
@@ -225,10 +230,11 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #ccc;
   padding: 5px;
-  min-width: 30px;
+  min-width: 35px;
+  min-height: 35px;
   text-align: center;
   font-size: 1.3rem;
-  text-transform: capitalize;
+  color: var(--color-black);
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
@@ -240,9 +246,19 @@ export function BasicOptionItem({ value, isSelected, onClick }: OptionItemCompon
 
   // Band Width
 
-  const { data: { BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP } = {} } = useHumanNameMapper(locale);
+  const {
+    data: {
+      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
+      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
+      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAPS,
+    } = {},
+  } = useHumanNameMapper(locale);
 
-  const valueLabel = BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value || value;
+  const valueLabel =
+    BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value ||
+    BAND_STYLE_HUMAN_NAMES_MAP?.[value]?.value ||
+    CARAT_WEIGHT_HUMAN_NAMES_MAPS?.[value]?.value ||
+    value;
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>

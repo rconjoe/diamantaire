@@ -133,10 +133,4 @@ export const CssHelpers = styled.createGlobalStyle`
     -ms-transform: rotate(3deg) translate(0px, -4px);
     transform: rotate(3deg) translate(0px, -4px);
   }
-
-  /* Metal backgrounds */
-
-  .sterling-silver {
-    background: linear-gradient(138deg, rgb(210, 210, 208) 0%, rgb(247, 247, 247) 50%, rgb(201, 202, 200) 100%);
-  }
 `;

@@ -7976,6 +7976,11 @@
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.7.tgz#5b06ad6894b236a1d2bd6b2f07850ca5c59cf4d6"
   integrity sha512-cputDpIbFgLUaGQn6Vqg3/YsJwxUwHLO13v3i5ouxT4lat0khip9AEWxtERujXV9wxIB1EyF97BSJFt6vpdI8g==
 
+"@types/uuid@^9.0.4":
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.4.tgz#e884a59338da907bda8d2ed03e01c5c49d036f1c"
+  integrity sha512-zAuJWQflfx6dYJM62vna+Sn5aeSWhh3OB+wfUEACNcqUSc0AGc5JKl+ycL1vrH7frGTXhJchYjE1Hak8L819dA==
+
 "@types/validator@^13.7.10":
   version "13.7.17"
   resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.7.17.tgz#0a6d1510395065171e3378a4afc587a3aefa7cc1"
@@ -8138,17 +8143,43 @@
   dependencies:
     "@upstash/core-analytics" "^0.0.6"
 
-"@upstash/redis@^1.19.3", "@upstash/redis@^1.21.0":
+"@upstash/redis@1.22.0", "@upstash/redis@^1.19.3", "@upstash/redis@^1.21.0":
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.22.0.tgz#3ae3ef056608c8598f46e8bc3b3f405a94781142"
   integrity sha512-sXoJDoEqqik0HbrNE7yRWckOySEFsoBxfRdCgOqkc0w6py19ZZG50SpGkDDEUXSnBqP8VgGYXhWAiBpqxrt5oA==
   dependencies:
     isomorphic-fetch "^3.0.0"
 
+"@use-cookie-consent/core@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@use-cookie-consent/core/-/core-0.3.6.tgz#5de64fc57b33cab9bb86ed71a85e926b210c77bb"
+  integrity sha512-fFDqPzJIr83Z2pJ5rCsi996BB+tYhdkNnyNzA9Dxp8Jpxn/QJyJ3TiIIAxqxutkEHc3IkcWBGWf7CKwwYRv5gw==
+  dependencies:
+    js-cookie "^2"
+
+"@use-cookie-consent/react@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@use-cookie-consent/react/-/react-0.3.7.tgz#adb6dc3a30dad56ec6ccd7019eff487a9ade1860"
+  integrity sha512-IcxOJuprgWlOuED/ILFRFPxqLUV4bNOeyvM+tfpR8rlm+xUTa44ZCwTxA1BPXOpMBd0xYXDzhShn0Hl5n0jUAQ==
+  dependencies:
+    "@use-cookie-consent/core" "^0.3.6"
+
 "@vercel/build-utils@7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-7.1.0.tgz#50652c82439aa13a8fdb422dcfa607c72ae28667"
   integrity sha512-NoeBoZIueYUpuQc6W+4YuN3+XgxcuuQwZdahw1bfO2pWuWK4ikoZNHfSACyA/BL2j2LqjRBxIhVOI08CnPCXcA==
+
+"@vercel/edge-config-fs@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vercel/edge-config-fs/-/edge-config-fs-0.1.0.tgz#cda8327f611418c1d1cbb28c6bed02d782be928b"
+  integrity sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==
+
+"@vercel/edge-config@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@vercel/edge-config/-/edge-config-0.4.1.tgz#c247011dcd05ce6a6b4d17139215c8f684d83cb3"
+  integrity sha512-4Mc3H7lE+x4RrL17nY8CWeEorvJHbkNbQTy9p8H1tO7y11WeKj5xeZSr07wNgfWInKXDUwj5FZ3qd/jIzjPxug==
+  dependencies:
+    "@vercel/edge-config-fs" "0.1.0"
 
 "@vercel/error-utils@2.0.1":
   version "2.0.1"
@@ -8185,6 +8216,13 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@vercel/hydrogen/-/hydrogen-1.0.0.tgz#50844fff596eb4f58578f4dbbdd1bb280142be2e"
   integrity sha512-hcst/Sml5rFX7U7b2aDNZ6HiQZOahhLTHEuGGS5pV955tFTTO/fQ3gmsIKdjdLwyB69oru1C/bmLbn34QT2xlQ==
+
+"@vercel/kv@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@vercel/kv/-/kv-0.2.3.tgz#182419a8e44fcc7ff1638522f8d79a1846d99795"
+  integrity sha512-Wq1+EsRBQmvLlcqCZeYVg1MAARWrnETgLe3Sy3UCqG+zg7LThpkt0YHZe1NN3Aj4IRmCKQamotWrLDdEx+ZB3w==
+  dependencies:
+    "@upstash/redis" "1.22.0"
 
 "@vercel/next@4.0.1":
   version "4.0.1"
@@ -15592,6 +15630,11 @@ js-cookie@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
   integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
+
+js-cookie@^2:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
 
 js-cookie@^3.0.5:
   version "3.0.5"

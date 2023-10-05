@@ -29,12 +29,16 @@ import {
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
-// import { Variables } from 'graphql-request';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
 import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
-import { findCanonivalVariant, compareProductConfigurations, optionTypesComparators } from '../helper/product.helper';
+import {
+  findCanonivalVariant,
+  compareProductConfigurations,
+  optionTypesComparators,
+  getDraftQuery,
+} from '../helper/product.helper';
 import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
@@ -66,7 +70,9 @@ export class ProductsService {
       customLabels: DIAMOND_PAGINATED_LABELS,
     };
 
-    const query = {};
+    const query = {
+      ...getDraftQuery(),
+    };
 
     if (input?.slug) {
       query['collectionSlug'] = input?.slug;
@@ -80,6 +86,40 @@ export class ProductsService {
       return await this.productRepository.paginate(query, options);
     } catch (error: any) {
       this.logger.error(`Error while fetching all partners: ${error}`);
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'http.serverError.internalServerError',
+        error: error.message,
+      });
+    }
+  }
+
+  async findProductsByContentIds(contentIds: string[]) {
+    try {
+      const products = await this.productRepository.find({
+        contentId: { $in: contentIds },
+      });
+
+      return products;
+    } catch (error: any) {
+      this.logger.debug('Error fetching products by contentId');
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'http.serverError.internalServerError',
+        error: error.message,
+      });
+    }
+  }
+
+  async findProductsByProductSlugs(productSlugs: string[]) {
+    try {
+      const products = await this.productRepository.find({
+        productSlug: { $in: productSlugs },
+      });
+
+      return products;
+    } catch (error: any) {
+      this.logger.debug('Error fetching products by product slugs');
       throw new InternalServerErrorException({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'http.serverError.internalServerError',
@@ -121,6 +161,7 @@ export class ProductsService {
       const shopifyVariantGid = `gid://shopify/ProductVariant/${variantId}`;
       const query = {
         'variants.shopifyVariantId': shopifyVariantGid,
+        ...getDraftQuery(),
       };
       const product: VraiProduct = await this.productRepository.find(query);
 
@@ -139,6 +180,7 @@ export class ProductsService {
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
+        ...getDraftQuery(),
       };
       // create unique cacheKey for each prodyct variant
       const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
@@ -401,8 +443,8 @@ export class ProductsService {
     });
 
     // Match for ringSize from parent product
-    const ringSizeConfigs = productToMatch.variants
-      .filter((variant) => {
+    const ringSizeConfigs = productToMatch?.variants
+      ?.filter((variant) => {
         /* eslint-disable */
         const { ringSize, side, ...optionsToMatch } = productOptionsToMatch;
 
@@ -423,6 +465,51 @@ export class ProductsService {
 
     return altConfigs;
   };
+
+  async getLowestPricesByCollection() {
+    const cacheKey = 'lowest-prices-by-collection';
+    let lowestPrices = await this.utils.memGet(cacheKey);
+
+    if (lowestPrices) {
+      return lowestPrices;
+    }
+
+    const pipeline: PipelineStage[] = [
+      {
+        $group: {
+          _id: '$collectionSlug',
+          minPrice: { $min: '$price' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          collectionSlug: '$_id',
+          minPrice: '$minPrice',
+        },
+      },
+    ];
+
+    try {
+      const lowestPricesArr = await this.productRepository.aggregate(pipeline);
+
+      lowestPrices = lowestPricesArr.reduce((map, { collectionSlug, minPrice }) => {
+        map[collectionSlug] = minPrice;
+
+        return map;
+      }, {});
+      await this.utils.memSet(cacheKey, lowestPrices, PRODUCT_DATA_TTL);
+    } catch (error: any) {
+      this.logger.error(`Error while aggregating lowest prices by collection: ${error}`);
+      throw new InternalServerErrorException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'http.serverError.internalServerError',
+        error: error.message,
+      });
+    }
+
+    return lowestPrices;
+  }
 
   /**
    * The Dato API is not rate limited. They just charge us for every call on request
@@ -534,6 +621,8 @@ export class ProductsService {
     subStyle,
     page,
     limit,
+    sortBy,
+    sortOrder,
   }: PlpInput) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
       metal,
@@ -544,6 +633,8 @@ export class ProductsService {
       limit,
       style,
       subStyle,
+      sortBy,
+      sortOrder,
     })}`;
     let plpReturnData;
     // check for cached data
@@ -658,14 +749,23 @@ export class ProductsService {
 
       // Build Query
       const pipeline: PipelineStage[] = [
-        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries] } },
+        { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries, getDraftQuery()] } },
         { $addFields: { __order: { $indexOfArray: [contentIdsInOrder, '$contentId'] } } },
         { $sort: { __order: 1 } },
       ];
 
+      // sortOrder already declared
+      const sortByKey = sortBy || null;
+      const sortByObj = {};
+
+      if (sortByKey) {
+        sortByObj[sortByKey] = sortOrder;
+      }
+
       const paginateOptions: PaginateOptions = {
         limit: limit || 20,
         page: page || 1,
+        ...(sortByKey && { sort: sortByObj }),
       };
 
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
@@ -811,6 +911,8 @@ export class ProductsService {
         {},
       );
 
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
+
       // merge and reduce
       const plpProducts = Object.values(scopedPlpData).reduce(
         (plpItems: ListPageItemWithConfigurationVariants[], item: VraiProductData) => {
@@ -842,18 +944,15 @@ export class ProductsService {
             return map;
           }, {});
 
-          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const useLowestPrice = !content?.['collection']?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          const productLabel = content?.productLabel;
+          const productLabel = content?.['collection']?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
           };
-          const lowestPrice = Object.values(variants).reduce((minPrice, variant) => {
-            minPrice = Math.min(variant['price']);
 
-            return minPrice;
-          }, Infinity);
+          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
 
           plpItems.push({
             defaultId: product.contentId,
@@ -924,6 +1023,7 @@ export class ProductsService {
               collectionSlug: { $in: collectionSlugsInOrder },
               'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
               'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+              ...getDraftQuery(),
             },
           },
           // Add fields to allow sorting by collectionSlug array
@@ -1311,7 +1411,7 @@ export class ProductsService {
     filterOptions?: Record<string, string>,
   ): Promise<Record<string, string[] | any>> {
     this.logger.debug(`Getting collection options for collection: ${collectionSlug}`);
-    const matchQueries: Record<string, string>[] = [{ collectionSlug }];
+    const matchQueries: Record<string, string>[] = [{ collectionSlug }, getDraftQuery()];
 
     const cacheKey = `collection-options-${collectionSlug}-with-options:${JSON.stringify(filterOptions)}`;
     const cachedData = await this.utils.memGet(cacheKey);
@@ -1367,7 +1467,6 @@ export class ProductsService {
     try {
       const optionsResults = await this.productRepository.aggregate(pipeline.filter(Boolean));
 
-      // console.log('optionsResults', optionsResults);
       const options = optionsResults.reduce((acc, option) => {
         const { type } = option;
         const sortFn = getOptionValueSorterByType(type);
@@ -1394,7 +1493,7 @@ export class ProductsService {
     this.logger.debug(
       `Getting products from collection: ${collectionSlug} with options ${JSON.stringify(configurationOptions)}`,
     );
-    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }];
+    const matchQueries: Record<string, string>[] = [{ collectionSlug: collectionSlug }, getDraftQuery()];
 
     Object.entries(configurationOptions || {}).forEach(([k, v]) => {
       matchQueries.push({ [`configuration.${k}`]: v });
@@ -1415,7 +1514,7 @@ export class ProductsService {
     this.logger.debug(`Getting product from collection: ${collectionSlug} with slug ${productSlug}`);
 
     try {
-      const product = await this.productRepository.findOne<VraiProduct>({ collectionSlug, productSlug });
+      const product = await this.productRepository.findOne<VraiProduct>({ collectionSlug, productSlug, ...getDraftQuery() });
 
       return product;
     } catch (e) {
@@ -1435,7 +1534,7 @@ export class ProductsService {
     }
 
     try {
-      const collectionProducts = await this.productRepository.find({ collectionSlug });
+      const collectionProducts = await this.productRepository.find({ collectionSlug, ...getDraftQuery() });
       const collectionOptions = await this.getCollectionOptions(collectionSlug);
       const collectionTree = generateProductTree(collectionProducts, collectionOptions);
 

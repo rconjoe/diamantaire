@@ -4,8 +4,8 @@ import {
   ShowTabletAndUpOnly,
   DatoImage,
   DarksideButton,
+  UniLink,
 } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';

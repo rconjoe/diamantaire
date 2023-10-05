@@ -1,4 +1,4 @@
-import { CountrySelector, Form, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
+import { CountrySelector, Form, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
@@ -144,6 +144,8 @@ const FooterStyles = styled.footer`
                   svg {
                     height: 19px;
                     width: auto;
+                    position: relative;
+                    top: 1px;
                   }
                 }
                 &.instagram {
@@ -220,9 +222,9 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   const router = useRouter();
   const selectedLocale = router.locale;
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
+  const selectedCountry = countries[selectedCountryCode].name;
 
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
-  const selectedCountry = countries[selectedCountryCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
   const selectedRegion = countries[selectedCountryCode].region;
   const isUserInEu = selectedRegion === 'Europe';
@@ -283,7 +285,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                           </li>
                           {availableLanguages.length > 1 && (
                             <li>
-                              Language:
+                              <UIString>Language</UIString>:
                               <button onClick={() => setIsLanguageListOpen(!isLanguageListOpen)}>{selectedLanguage}</button>
                               {isLanguageListOpen && <LanguageSelector toggleLanguageSelector={toggleLanguageSelector} />}
                             </li>
@@ -328,7 +330,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
           </div>
         </div>
         <div className="footer-mobile">
-          <FooterMobileAccordions columns={columns} />
+          <FooterMobileAccordions columns={columns} countryLabel={countryLabel} />
         </div>
         <div className="footer__copyright-wrapper">
           <p>
@@ -380,24 +382,19 @@ export const FooterEmailSignup = ({
     }
   };
 
-  return (
-    <>
-      {message ? (
-        <div dangerouslySetInnerHTML={{ __html: message }}></div>
-      ) : (
-        <Form
-          onSubmit={onSubmit}
-          formGridStyle="split"
-          stackedSubmit={false}
-          showOptIn={showOptIn}
-          ctaCopy={ctaCopy}
-          optInCopy={optInCopy}
-          extraClass="-links-teal -opt-in"
-          isValid={isValid}
-          setIsValid={setIsValid}
-        />
-      )}
-      ;
-    </>
+  return message ? (
+    <div dangerouslySetInnerHTML={{ __html: message }}></div>
+  ) : (
+    <Form
+      onSubmit={onSubmit}
+      formGridStyle="split"
+      stackedSubmit={false}
+      showOptIn={showOptIn}
+      ctaCopy={ctaCopy}
+      optInCopy={optInCopy}
+      extraClass="-links-teal -opt-in"
+      isValid={isValid}
+      setIsValid={setIsValid}
+    />
   );
 };

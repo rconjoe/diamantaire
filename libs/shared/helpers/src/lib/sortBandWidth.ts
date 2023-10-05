@@ -1,8 +1,8 @@
 export function sortBandWidth(options) {
   options.sort((a, b) => {
     // Extract the carat value as a number from the 'value' property
-    const caratA = parseFloat(a.value);
-    const caratB = parseFloat(b.value);
+    const caratA = parseFloat(a.value.replace('.mm', ''));
+    const caratB = parseFloat(b.value.replace('.mm', ''));
 
     // If both carat values are 0.01, keep the original order
     if (caratA === 0.01 && caratB === 0.01) {

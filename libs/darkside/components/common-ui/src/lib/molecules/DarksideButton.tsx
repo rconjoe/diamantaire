@@ -18,7 +18,7 @@ export type DarksideButtonProps = {
   className?: string;
   onClick?: () => void;
   buttonType?: 'button' | 'submit' | 'reset';
-  type?: 'solid' | 'outline' | 'underline';
+  type?: 'solid' | 'outline' | 'underline' | 'text-underline';
   colorTheme?: 'black' | 'teal' | 'white' | 'grey';
   mobileColorTheme?: 'desktop' | 'black' | 'teal' | 'white';
   openUrlInNewWindow?: boolean;
@@ -37,6 +37,7 @@ const DarksideButtonStyles = styled.div`
 
     a {
       color: inherit;
+      font-weight: 500;
     }
   }
 
@@ -174,6 +175,31 @@ const DarksideButtonStyles = styled.div`
       button {
         color: var(--color-white);
         border-bottom: 1px solid var(--color-white);
+      }
+    }
+  }
+  &.button-style--text-underline {
+    width: auto;
+    button {
+      width: auto;
+      padding: 0;
+      text-decoration: underline;
+      background-color: transparent;
+      display: inline-block;
+      color: var(--color-black);
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    &.color-theme--teal {
+      button {
+        color: var(--color-teal);
+      }
+    }
+    &.color-theme--white {
+      button {
+        color: var(--color-white);
       }
     }
   }

@@ -1,5 +1,4 @@
-import { Markdown } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { AccordionButton, AccordionItem, AccordionPanel } from '@reach/accordion';
 import clsx from 'clsx';
 
@@ -26,10 +25,10 @@ const ModularAccordionItem = ({ title, copy, ctacopy, ctaroute }: ModularAccordi
           <span className={clsx(['acc-item__header-icon', 'minus'])}>-</span>
         </AccordionButton>
         <AccordionPanel className="slide-down">
-          <div className="acc-item__icon-header-cion">
+          <div className="acc-item__icon-header-copy">
             <Markdown>{copy}</Markdown>
             {ctacopy && ctaroute && (
-              <UniLink route={ctaroute} className="acc-item">
+              <UniLink route={ctaroute} className="acc-item__cta-link">
                 {ctacopy}
               </UniLink>
             )}

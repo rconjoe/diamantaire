@@ -1,5 +1,4 @@
-import { DarksideButton, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { DarksideButton, Heading, ImageTile, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useJournalConfig, useJournalSubcategory } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { generateSubheading, getRelativeUrl } from '@diamantaire/shared/helpers';

@@ -1,6 +1,5 @@
-import { Heading, Slider, Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Slider, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondTableData, useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TABLE_FILTER_CLARITY_OPTIONS,

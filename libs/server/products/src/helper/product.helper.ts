@@ -13,8 +13,11 @@ import {
   GoldPurityValue,
 } from '@diamantaire/shared/constants';
 import { VraiProduct } from '@diamantaire/shared-product';
+import { FilterQuery } from 'mongoose';
 
 import { Variant } from '../index';
+
+// const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 export function getCompareFunctionByOptionType(optionType: string) {
   const compareFn = optionTypesComparators[optionType];
@@ -206,3 +209,21 @@ export const getCurrencyCode = (countryCode: string): string => {
 
   return countryCode;
 };
+
+export function includeDraftProducts() {
+  // if (IS_PRODUCTION) {
+  //   return false;
+  // } else {
+  //   return true;
+  // }
+
+  return false;
+}
+
+export function getDraftQuery(): FilterQuery<{ isDraft: boolean }> {
+  if (includeDraftProducts()) {
+    return { isDraft: true };
+  } else {
+    return { isDraft: { $exists: false } };
+  }
+}

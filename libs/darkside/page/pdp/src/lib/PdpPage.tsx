@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Breadcrumb, Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -10,6 +10,7 @@ import {
   ProductTitle,
   ProductIconList,
   ProductKlarna,
+  ProductAppointmentCTA,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
@@ -26,7 +27,7 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -70,6 +71,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
+    productTitle,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -83,8 +85,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { parentProductId, productContent, collectionContent, configuration, price } = shopifyProductData;
-  const { productTitle } = collectionContent || {}; // flatten array in normalization
+  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -108,7 +109,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }
 
   // use parent product carat if none provided on the variant in Dato
-  if (!productContent.carat || productContent.carat === '' || !additionalVariantData.caratWeightOverride) {
+  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
     if (additionalVariantData.caratWeightOverride) {
       additionalVariantData.carat = additionalVariantData.caratWeightOverride;
     } else {
@@ -119,7 +120,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }
 
   additionalVariantData.productType = shopifyProductData.productType;
-  additionalVariantData.productTitle = productTitle;
+  additionalVariantData.productTitle = datoParentProductData?.productTitle;
   additionalVariantData.price = price;
   additionalVariantData.image = {
     src: assetStack[0].url,
@@ -142,6 +143,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     metalWeight,
     shownWithCtwLabel,
     diamondDescription,
+    styles: shopifyProductData?.styles,
     productType: shopifyProductData.productType,
   };
   const variantId = shopifyProductData?.shopifyVariantId;
@@ -160,6 +162,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   }, []);
 
   const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
+  const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
 
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
@@ -167,9 +170,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       title: isProductJewelry ? 'Jewelry' : null,
       path: isProductJewelry ? '/jewelry' : null,
     },
+
     {
       title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
-      path: `/${isProductJewelry ? 'jewelry/' : ''}${
+      path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
         pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,
     },
@@ -178,6 +182,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       path: '#',
     },
   ];
+
+  // Doubles price if product is earrings and
+
+  const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
+    additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
+  );
 
   console.log('shopifyProductData', shopifyProductData);
 
@@ -195,52 +205,68 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
           <div className="media-container">
-            <ShowDesktopAndUpOnly>
-              <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
-            </ShowDesktopAndUpOnly>
-            <ShowMobileOnly>
-              <MediaSlider assets={assetStack} />
-            </ShowMobileOnly>
+            <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
+            <MediaSlider assets={assetStack} />
           </div>
           <div className="info-container">
-            <ProductTitle title={productTitle} />
-            <ProductPrice isBuilderProduct={isBuilderProduct} price={price} hasMoreThanOneVariant={hasMoreThanOneVariant} />
-            <ProductConfigurator
-              configurations={configurations}
-              selectedConfiguration={configuration}
-              variantId={variantId}
-              additionalVariantData={additionalVariantData}
-              isBuilderProduct={isBuilderProduct}
-              hasMoreThanOneVariant={hasMoreThanOneVariant}
-              extraOptions={extraOptions}
-              defaultRingSize={shopifyProductData?.defaultRingSize}
-              hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
-              variantProductTitle={shopifyProductData?.productTitle}
-              price={price}
-              isEngraveable={shopifyProductData?.isEngraveable}
-            />
+            <div className="info__inner">
+              <ProductTitle
+                title={productTitle}
+                diamondType={configuration.diamondType}
+                productType={shopifyProductData?.productType}
+              />
+              <ProductPrice
+                isBuilderProduct={isBuilderProduct}
+                price={price}
+                hasMoreThanOneVariant={hasMoreThanOneVariant}
+                shouldDoublePrice={shouldDoublePrice}
+              />
+              <ProductConfigurator
+                configurations={configurations}
+                selectedConfiguration={configuration}
+                variantId={variantId}
+                variantPrice={price}
+                additionalVariantData={additionalVariantData}
+                isBuilderProduct={isBuilderProduct}
+                hasMoreThanOneVariant={hasMoreThanOneVariant}
+                extraOptions={extraOptions}
+                defaultRingSize={shopifyProductData?.defaultRingSize}
+                hasMultipleDiamondOrientations={shopifyProductData?.allAvailableOptions?.diamondOrientation?.length > 1}
+                variantProductTitle={shopifyProductData?.productTitle}
+                price={price}
+                isEngraveable={shopifyProductData?.isEngraveable}
+                hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
+                setShouldDoublePrice={setShouldDoublePrice}
+                shouldDoublePrice={shouldDoublePrice}
+                isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
+                isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
+              />
 
-            <ProductKlarna title={productTitle} currentPrice={price} />
-            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={'en_US'} />}
-            <Form
-              title="Need more time to think?"
-              caption="Email this customized ring to yourself or drop a hint."
-              onSubmit={(e) => e.preventDefault()}
-              stackedSubmit={false}
-            />
-            <ProductDescription
-              description={productDescription}
-              productAttributes={parentProductAttributes}
-              variantAttributes={additionalVariantData}
-              productSpecId={datoParentProductData?.specLabels?.id}
-              title={productTitle}
-            />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+
+              <ProductAppointmentCTA />
+              {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+              <Form
+                title="Need more time to think?"
+                caption="Email this customized ring to yourself or drop a hint."
+                onSubmit={(e) => e.preventDefault()}
+                stackedSubmit={false}
+              />
+              <ProductDescription
+                description={productDescription}
+                productAttributes={parentProductAttributes}
+                variantAttributes={additionalVariantData}
+                productSpecId={datoParentProductData?.specLabels?.id}
+                title={productTitle}
+                selectedConfiguration={configuration}
+              />
+            </div>
           </div>
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
-        <ProductReviews reviewsId={parentProductId} />
+        <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>
     );
   }

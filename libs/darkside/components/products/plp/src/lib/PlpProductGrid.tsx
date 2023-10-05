@@ -1,5 +1,6 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -11,6 +12,7 @@ import { PlpDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
+import { SortProperties } from './PlpSortOption';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
@@ -25,6 +27,7 @@ const PlpProductGridStyles = styled.div`
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
   .loader-container {
+    margin: 1rem 0;
     text-align: center;
   }
 `;
@@ -50,6 +53,8 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
+  handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
+  sortOptions: PlpBasicFieldSortOption[];
 };
 
 const PlpProductGrid = ({
@@ -66,6 +71,8 @@ const PlpProductGrid = ({
   isFetching,
   plpSlug,
   urlFilterMethod,
+  sortOptions,
+  handleSortChange,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -74,23 +81,25 @@ const PlpProductGrid = ({
     promoCardCollectionId,
   );
 
-  const { data: { allCreativeBlocks: creativeBlocksData } = {} } = usePlpDatoCreativeBlocks('en_US', creativeBlockIds);
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
+    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks;
+
     if (!creativeBlocksData) return {}; // Return an empty object if cardCollection is falsy
 
     const object = {};
 
     if (creativeBlocksData[0]) {
-      object[4] = { ...creativeBlocksData[0], className: 'creative-block--left' };
+      object[8] = { ...creativeBlocksData[0], className: 'creative-block--left' };
     }
 
     if (creativeBlocksData[1]) {
-      object[15] = { ...creativeBlocksData[1], className: 'creative-block--right' };
+      object[19] = { ...creativeBlocksData[1], className: 'creative-block--right' };
     }
 
     return object;
-  }, [creativeBlocksData]);
+  }, [creativeBlockParentData]);
 
   const cardCollectionObject = useMemo(() => {
     if (!cardCollection) return {}; // Return an empty object if cardCollection is falsy
@@ -117,7 +126,10 @@ const PlpProductGrid = ({
         setFilterValues={setFilterValues}
         urlFilterMethod={urlFilterMethod}
         plpSlug={plpSlug}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
+
       <div className="container-wrapper">
         <div className="product-grid__row ">
           {products?.length > 0 &&
@@ -171,11 +183,8 @@ const PlpProductGrid = ({
           )}
         </div>
       </div>
-      {isFetching && (
-        <div className="loader-container">
-          <Loader color="#000" />
-        </div>
-      )}
+
+      <div className="loader-container">{isFetching && <Loader color="#000" />}</div>
     </PlpProductGridStyles>
   );
 };

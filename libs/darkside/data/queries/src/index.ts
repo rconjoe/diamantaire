@@ -1,12 +1,13 @@
 import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
 import { cart } from './cart';
+import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
 import { footer } from './footer';
 import { header } from './header';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
-import { plpListPage, productPage } from './products';
+import { plpListPage, productPage, productBlocks } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
 import { template } from './template';
@@ -17,6 +18,7 @@ export const queries = mergeQueryKeys(
   standardPage,
   journal,
   productPage,
+  productBlocks,
   plpListPage,
   showrooms,
   humanNameMappers,
@@ -29,6 +31,7 @@ export const queries = mergeQueryKeys(
   diamondTable,
   cart,
   template,
+  cookieBanner,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -43,8 +46,10 @@ export type JournalKeys = inferQueryKeys<typeof journal>;
 export type CartKeys = inferQueryKeys<typeof cart>;
 export type StandardPageKeys = inferQueryKeys<typeof standardPage>;
 export type ProductPageKeys = inferQueryKeys<typeof productPage>;
+export type ProductBlocksKeys = inferQueryKeys<typeof productBlocks>;
 export type PLPPageKeys = inferQueryKeys<typeof plpListPage>;
 export type ShowroomKeys = inferQueryKeys<typeof showrooms>;
 export type HumanNameWrapperKeys = inferQueryKeys<typeof humanNameMappers>;
 export type QueryKeys = inferQueryKeyStore<typeof queries>;
 export type TemplateKeys = inferQueryKeys<typeof template>;
+export type CookieBannerKeys = inferQueryKeys<typeof cookieBanner>;

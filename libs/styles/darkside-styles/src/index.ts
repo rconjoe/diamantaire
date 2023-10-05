@@ -5,3 +5,4 @@ export * from './lib/setSpace';
 export * from './lib/mediaQueries';
 export * from './lib/mediaQueriesNew';
 export * from './lib/globalStylesNew';
+export * from './lib/zIndexMap';

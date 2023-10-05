@@ -15,6 +15,7 @@ export * from './lib/use-human-name-mapper';
 export * from './lib/use-showroom-nav';
 export * from './lib/use-standard-page';
 export * from './lib/use-translations';
+export * from './lib/use-cookie-banner';
 
 // products
 export * from './lib/products/use-product';

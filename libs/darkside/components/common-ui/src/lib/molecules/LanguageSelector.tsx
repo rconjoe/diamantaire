@@ -1,4 +1,3 @@
-import { UIString } from '@diamantaire/darkside/core';
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -6,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { UIString } from './UIString';
 
 const StyledLanguageSelector = styled.ul`
   font-size: 16px;
@@ -25,7 +26,7 @@ const StyledLanguageSelector = styled.ul`
     border: 1px solid #ddd;
     position: absolute;
     top: -0.5rem;
-    left: 1.2rem;
+    left: 1.8rem;
     transform: rotate(45deg);
     background: ${WHITE};
   }
@@ -50,6 +51,7 @@ const StyledLanguageSelector = styled.ul`
 
     button {
       background-color: transparent;
+      text-transform: capitalize;
     }
   }
 `;

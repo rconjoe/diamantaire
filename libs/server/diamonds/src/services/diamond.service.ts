@@ -552,8 +552,6 @@ export class DiamondsService {
       if (cachedDiamondPairs) {
         return cachedDiamondPairs;
       } else {
-        console.log({ filteredQuery });
-
         const result = await this.toimoiDiamonds.paginate(filteredQuery, paginateOptions);
         const response = {
           ...result,
@@ -571,7 +569,6 @@ export class DiamondsService {
   }
 
   optionalDiamondsQuery(input) {
-    console.log(input);
     const query = {};
 
     if (input?.diamondType) {

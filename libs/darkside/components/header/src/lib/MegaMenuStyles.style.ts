@@ -7,7 +7,7 @@ interface Props {
 
 export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 1px solid #000;
-  padding-bottom: 2.4rem;
+  padding-bottom: 4rem;
   position: ${({ $isFixed }) => ($isFixed ? 'fixed' : 'absolute')};
   top: ${({ $headerHeight }) => $headerHeight + 'px'};
   left: 0;
@@ -25,39 +25,51 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
   .menu-container {
     justify-content: center;
-    margin: 0 -40px;
-    padding-top: 20px;
+    margin: 0 -4rem;
+    padding-top: 2rem;
 
     &.VRAIcreatedDiamond,
     &.Gifts,
     &.about {
-      max-width: 1000px;
+      max-width: 100rem;
       margin: 0 auto;
     }
 
     .menu-container__col {
-      flex: 1;
-      padding: 0 40px;
+      padding: 0 6rem;
+
+      &.byRecipient {
+        .col__inner {
+          min-width: 130px;
+        }
+      }
+
       .col__inner {
         display: inline-block;
+
         h4 {
           font-size: 1.4rem;
           line-height: 2rem;
-          margin: 0 0 10px;
+          margin: 0 0 1rem;
           text-transform: uppercase;
         }
+
         ul {
           margin: 0;
           padding: 0;
           list-style: none;
           display: inline-block;
+
           li {
-            margin-bottom: 10px;
+            display: block;
+            margin: 0 0 0.5rem;
 
             &:last-child {
-              margin-bottom: 0px;
+              margin: 0;
             }
-            a {
+
+            a,
+            span {
               font-size: 1.5rem;
               font-family: ${MAIN_FONT};
               letter-spacing: 0.3px;
@@ -72,16 +84,22 @@ export const MegaMenuStylesContainer = styled.div<Props>`
               }
 
               span.link-text {
+                white-space: nowrap;
+
                 &::before {
                   content: '';
                   background: var(--color-teal);
                   display: block;
                   position: absolute;
-                  bottom: -5px;
+                  bottom: -0.2rem;
                   left: 0;
-                  height: 2px;
+                  height: 0.2rem;
                   transition: 0.25s;
                   width: 0%;
+                }
+
+                strong {
+                  font-weight: var(--font-weight-bold);
                 }
               }
 
@@ -89,6 +107,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
               &.active {
                 .link-text {
                   color: #000;
+
                   &::before {
                     width: 100%;
                   }
@@ -97,22 +116,27 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
               span {
                 position: relative;
-                top: 2px;
-                margin-right: 5px;
+                margin-right: 0.5rem;
+                top: 0.2rem;
 
                 &.diamond {
-                  flex: 0 0 30px;
+                  flex: 0 0 3rem;
+                  display: flex;
+                  justify-content: center;
+
                   svg {
-                    max-width: 28px;
-                    height: 28px;
+                    max-width: 2.8rem;
+                    height: 2.8rem;
                   }
                 }
+
                 &.ring-style {
-                  flex: 0 0 60px;
+                  flex: 0 0 6rem;
                   top: 4px;
+
                   svg {
-                    max-width: 60px;
-                    height: 28px;
+                    max-width: 6rem;
+                    height: 2.8rem;
                   }
                 }
               }
@@ -120,8 +144,17 @@ export const MegaMenuStylesContainer = styled.div<Props>`
           }
 
           &.grandchildren-links {
-            padding: 15px 0px 5px 1.6rem;
+            padding: 1rem 0 0.5rem 1.6rem;
           }
+        }
+      }
+      &.shop_by_shape {
+        ul li {
+          margin: 0 0 0.8rem;
+        }
+
+        li:last-child {
+          margin-top: 1.5rem !important;
         }
       }
       &.wedding {

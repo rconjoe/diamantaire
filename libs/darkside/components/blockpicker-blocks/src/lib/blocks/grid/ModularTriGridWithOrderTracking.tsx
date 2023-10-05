@@ -1,4 +1,4 @@
-import { UniLink } from '@diamantaire/darkside/core';
+import { UniLink } from '@diamantaire/darkside/components/common-ui';
 import { BookCalendarIcon, MailIcon, ChatIcon } from '@diamantaire/shared/icons';
 import { v4 as uuidv4 } from 'uuid';
 

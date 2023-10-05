@@ -11,10 +11,23 @@ import styled from 'styled-components';
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
     min-height: 300px;
-    border: 1px solid #ccc;
+    position: relative;
     button {
       padding: 0;
       width: 100%;
+      display: block;
+      border: none;
+    }
+
+    .plp-variant__label {
+      position: absolute;
+      font-size: 14px;
+      left: 15px;
+      top: 15px;
+      background: rgb(255, 255, 255);
+      border: 1px solid rgb(216, 214, 209);
+      padding: 4px 6px;
+      border-radius: 2px;
     }
   }
   .plp-variant__content {
@@ -30,18 +43,25 @@ const PlpProductVariant = ({
   variant,
   position,
   plpTitle,
+  lowestPrice,
+  useLowestPrice,
+  label,
 }: {
   variant: ListPageItemConfiguration;
   position: number;
   plpTitle: string;
+  lowestPrice: number;
+  useLowestPrice: boolean;
+  label: string | null;
 }) => {
   const { productClicked } = useAnalytics();
-  const router = useRouter();
-  const { countryCode } = parseValidLocale(router?.locale);
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
+
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
   const handleImageChange = () => {
@@ -52,7 +72,7 @@ const PlpProductVariant = ({
   const handleClick = () => {
     const { primaryImage: { src } = { src: '' } } = variant || {};
     const id = productSlug.split('-').pop();
-    const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
+    const formattedPrice = getFormattedPrice(price, locale, true, true);
     const brand = 'VRAI';
 
     productClicked({
@@ -137,10 +157,14 @@ const PlpProductVariant = ({
                     />
                   )}
             </button>
+            {label && <span className="plp-variant__label">{label}</span>}
           </div>
           <div className="plp-variant__content">
             <h3>
-              {title} | {metalTypeAsConst[configuration?.metal]} | {makeCurrency(price)}
+              {title} | {metalTypeAsConst[configuration?.metal]} |{' '}
+              {useLowestPrice
+                ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
+                : makeCurrency(price, locale, currencyCode)}
             </h3>
           </div>
         </div>

@@ -47,5 +47,5 @@ export function replacePlaceholders(
     strArr[index] = valuesArr[i];
   });
 
-  return valuesArr.every((s) => typeof s == 'string') ? strArr.join('') : strArr;
+  return valuesArr.every((s) => typeof s == 'string') ? (strArr.join('') as string) : strArr;
 }

@@ -6,7 +6,9 @@ export type VraiProduct = z.infer<typeof transformedShopifyProductSchema>;
 export type VraiProductContent = {
   shouldUseDefaultPrice?: boolean;
   hasOnlyOnePrice?: boolean;
-  productLabel?: string;
+  productLabel?: {
+    title: string;
+  };
 };
 export type VraiProductData = { content: VraiProductContent; product: VraiProduct; metal?: Record<string, string> };
 
@@ -38,8 +40,11 @@ export type ListPageItemConfiguration = {
 export type ListPageItemWithConfigurationVariants = {
   defaultId: string;
   productType: string;
-  productLabel?: string;
+  productLabel?: {
+    title: string;
+  };
   useLowestPrice?: boolean;
+  lowestPrice?: number;
   hasOnlyOnePrice?: boolean;
   metal: { value: string; id: string }[];
   variants: {

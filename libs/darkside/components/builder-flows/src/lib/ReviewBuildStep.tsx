@@ -228,8 +228,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { product, diamond } = builderProduct;
 
-  console.log('product', product);
-
   const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
   const currencyCode = getCurrency(countryCode);
@@ -354,6 +352,14 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       },
       // Diamond Sync
       {
+        key: 'showChildProduct',
+        value: 'true',
+      },
+      {
+        key: 'hasChildProduct',
+        value: 'true',
+      },
+      {
         key: '_childProduct',
         value: diamondId,
       },
@@ -391,7 +397,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         value: diamond.color,
       },
       {
-        key: 'isChildDiamond',
+        key: 'lotId',
+        value: diamond.lotId,
+      },
+      {
+        key: 'isChildProduct',
         value: 'true',
       },
     ];

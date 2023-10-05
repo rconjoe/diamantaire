@@ -53,7 +53,6 @@ function ConfigurationSelector({
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   useEffect(() => {
-    console.log('configState', configState);
     if (onChange) {
       onChange(configState);
     }

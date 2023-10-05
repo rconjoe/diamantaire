@@ -1,7 +1,19 @@
-import { setSpace, tabletAndUp, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTrioBlockContainer = styled.div`
+  &.trio-svg {
+    .content-block__container {
+      img {
+        max-width: 125px;
+        margin: 0 auto;
+      }
+      /* ImageTile */
+      > * {
+        ${media.medium`max-width: 200px;margin: 0 auto;`}
+      }
+    }
+  }
   .content-block__container {
     display: grid;
 

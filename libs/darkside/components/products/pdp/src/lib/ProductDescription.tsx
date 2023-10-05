@@ -1,6 +1,9 @@
 import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -20,6 +23,11 @@ const ProductDescriptionContainer = styled.div`
 
     &:last-child {
       margin-bottom: 0px;
+    }
+
+    &.sub-title {
+      font-weight: 500;
+      margin-bottom: 1rem;
     }
   }
 
@@ -55,7 +63,14 @@ const ProductDescriptionContainer = styled.div`
   }
 `;
 
-const ProductDescription = ({ description, productAttributes, variantAttributes, productSpecId, title }) => {
+const ProductDescription = ({
+  description,
+  productAttributes,
+  variantAttributes,
+  productSpecId,
+  title,
+  selectedConfiguration,
+}) => {
   const {
     productType,
     bandWidth: parentProductBandWidth,
@@ -66,6 +81,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     metalWeight,
     shownWithCtwLabel,
     diamondDescription,
+    styles,
   } = productAttributes || {};
 
   const {
@@ -77,6 +93,7 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     shape,
     shownWithCtw,
     caratWeightOverride,
+    pdpSubTitle,
 
     // Jewelry
     metal,
@@ -91,6 +108,8 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
     paveCaratWeightOverride,
   } = variantAttributes || {};
 
+  console.log('variantAttributes', variantAttributes);
+
   // Product Spec - These are the locale-based labels for the product
   const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
   const labels = data?.productSpecLabelCollection?.labels;
@@ -100,6 +119,8 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
   labels?.forEach((label) => {
     return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
   });
+
+  console.log('selectedConfiguration', selectedConfiguration);
 
   const diamondLabels = useMemo(
     () => [
@@ -150,12 +171,12 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
         value: metalWeight,
       },
       {
-        title: 'paveCaratWeight',
-        value: paveCaratWeight,
-      },
-      {
         title: 'shownWithCtw',
         value: shownWithCtw,
+      },
+      {
+        title: 'paveCaratWeight',
+        value: paveCaratWeight,
       },
     ],
     [parentProductBandDepth, parentProductBandWidth, settingHeight, metalWeight, paveCaratWeight, shownWithCtw],
@@ -210,13 +231,40 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
 
   const jewelryProductTypes = ['Necklace', 'Bracelet'];
 
+  const generatedSubTitle =
+    title +
+    ' ' +
+    styles?.[0] +
+    ' ring in ' +
+    selectedConfiguration?.goldPurity +
+    ' ' +
+    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal].toLowerCase() +
+    ' ' +
+    ' with a ' +
+    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType].toLowerCase() +
+    ' diamond';
+
+  const { locale } = useRouter();
+  const isInUS = locale === 'en-US';
+
+  const refinedDescription: string = replacePlaceholders(description, ['%%product-name%%'], [title]).toString();
+
   return (
     description && (
       <ProductDescriptionContainer>
         <Heading type="h4" className="primary">
           {title ? title + ' Design' : 'Details'}
         </Heading>
-        <Markdown withStyles={false}>{description}</Markdown>
+
+        {pdpSubTitle !== '' ? (
+          <p className="sub-title">{pdpSubTitle}</p>
+        ) : productType === 'Engagement Ring' && isInUS ? (
+          <p className="sub-title">{generatedSubTitle}</p>
+        ) : (
+          ''
+        )}
+
+        <Markdown withStyles={false}>{refinedDescription}</Markdown>
 
         <div className="description__product-details">
           <ul>
@@ -232,11 +280,12 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
                       ? `${shownWithCtwLabel}: ${label.value}`
                       : refinedLabels[label.title] + ': ' + label.value}
 
-                    {label.title === 'paveCaratWeight' && (
-                      <span className="small">
-                        <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-                      </span>
-                    )}
+                    {label.title === 'paveCaratWeight' &&
+                      (variantAttributes?.shape === 'Shape' || variantAttributes?.shape === '') && (
+                        <span className="small">
+                          <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                        </span>
+                      )}
                   </li>
                 );
               })}
@@ -256,11 +305,13 @@ const ProductDescription = ({ description, productAttributes, variantAttributes,
 
                 return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
               })}
-            <li>
-              <span className="small">
-                <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-              </span>
-            </li>
+            {productType === 'Wedding Band' && (
+              <li>
+                <span className="small">
+                  <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                </span>
+              </li>
+            )}
           </ul>
         </div>
 

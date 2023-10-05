@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import { isProdEnv } from '@diamantaire/shared/constants';
-import { useEffect, createContext, useContext } from 'react';
+import { getIsUserInEu } from '@diamantaire/shared/helpers';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
+import { useEffect, createContext, useContext, useState } from 'react';
 import TagManager from 'react-gtm-module';
 
 type AnalyticsContextType = {
@@ -13,6 +15,7 @@ type AnalyticsContextType = {
   productClicked: (eventData: Record<string, any>) => void;
   productListFiltered: (eventData: Record<string, any>) => void;
   cartViewed: (eventData: Record<string, any>) => void;
+  checkoutStarted: (eventData: Record<string, any>) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextType>({} as AnalyticsContextType);
@@ -38,6 +41,7 @@ export const GTM_EVENTS = {
   selectShape: 'select_shape',
   addToCart: 'add_to_cart',
   removeFromCart: 'remove_from_cart',
+  beginCheckout: 'begin_checkout',
 };
 
 export const tagManagerArgs = {
@@ -45,25 +49,46 @@ export const tagManagerArgs = {
   events: GTM_EVENTS,
 };
 
-const shouldEnableTracking = () => {
-  return (isProdEnv && Boolean(process.env.NEXT_PUBLIC_GTM_CONTAINER_ID)) || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
+const shouldEnableTracking = ({ consent, isUserInEu }) => {
+  // Check if the user has accepted statistics and marketing cookies
+  const hasAcceptedStatistics = consent?.statistics || false;
+  const hasAcceptedMarketing = consent?.marketing || false;
+  const enableTracking =
+    (isProdEnv && Boolean(process.env.NEXT_PUBLIC_GTM_CONTAINER_ID)) || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
+
+  if (!isUserInEu) {
+    return enableTracking;
+  }
+
+  // EU users must accept statistics and marketing cookies to enable tracking
+  return enableTracking && hasAcceptedStatistics && hasAcceptedMarketing;
 };
 
-const trackEvent = (event: string, data: Record<string, any>) => {
-  if (shouldEnableTracking()) {
-    TagManager.dataLayer({ dataLayer: { event, ...data } });
-  } else {
-    console.log('no analytics', { event, data });
-  }
+const createTrackEvent = (isEnabled) => {
+  return (event, data) => {
+    if (isEnabled) {
+      TagManager.dataLayer({ dataLayer: { event, ...data } });
+    } else {
+      console.log('no analytics', { event, data });
+    }
+  };
 };
 
 export const AnalyticsProvider = ({ children }) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const { consent } = useCookieConsentContext();
+
+  const trackEvent = createTrackEvent(isEnabled);
+
   useEffect(() => {
-    // Initialize GTM here with your GTM container ID
-    if (shouldEnableTracking()) {
+    const isUserInEu = getIsUserInEu();
+
+    if (shouldEnableTracking({ consent, isUserInEu })) {
+      setIsEnabled(true);
       TagManager.initialize(tagManagerArgs);
     }
-  }, []);
+  }, [isEnabled, consent]);
 
   const analytics = {
     viewPage: (pageName: string) => {
@@ -108,9 +133,20 @@ export const AnalyticsProvider = ({ children }) => {
     cartViewed: (eventData: Record<string, any>) => {
       trackEvent(GTM_EVENTS.cartViewed, eventData);
     },
+    checkoutStarted: (eventData: Record<string, any>) => {
+      const ga360Data = {
+        event: GTM_EVENTS.beginCheckout,
+        eventCategory: 'Ecommerce',
+        eventAction: GTM_EVENTS.beginCheckout,
+        eventLabel: '1',
+      };
+      const mergedData = { ...eventData, ...ga360Data };
+
+      trackEvent(GTM_EVENTS.beginCheckout, mergedData);
+    },
     // generic method to emit data layer
     emitDataLayer: (data: Record<string, any>) => {
-      if (shouldEnableTracking()) {
+      if (isEnabled) {
         TagManager.dataLayer({ dataLayer: { ...data } });
       }
     },

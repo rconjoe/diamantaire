@@ -2,10 +2,11 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { CartCertProps } from '@diamantaire/darkside/data/hooks';
+import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
@@ -104,11 +105,13 @@ const MultiVariantCartItem = ({
   cartItemDetails,
   hasChildProduct,
   childProduct,
+  shouldShowChildProduct,
 }: {
   item: CartItem;
   certificate: CartCertProps;
   info: any;
   cartItemDetails: { [key: string]: string }[];
+  shouldShowChildProduct: boolean;
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -131,7 +134,10 @@ const MultiVariantCartItem = ({
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
 
-  const { updateMultipleItemsQuantity, checkout } = useContext(CartContext);
+  const { updateMultipleItemsQuantity, checkout, removeFromCart } = useContext(CartContext);
+
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
@@ -139,7 +145,13 @@ const MultiVariantCartItem = ({
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
   const productType = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+    let matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+
+    console.log('double matchingAttribute', matchingAttribute);
+
+    if (matchingAttribute === 'Earrings') {
+      matchingAttribute += ' (' + _t('Pair') + ')';
+    }
 
     return matchingAttribute;
   }, [attributes]);
@@ -195,6 +207,7 @@ const MultiVariantCartItem = ({
       const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 
+      console.log('case 1', { checkout, hasChildProduct, childProduct });
       productRemoved({
         name: productTitle,
         id,
@@ -252,23 +265,31 @@ const MultiVariantCartItem = ({
           ],
         },
       });
-      updateMultipleItemsQuantity({
-        items: [
-          {
-            lineId: item.id,
-            variantId: merchandise.id,
-            quantity: item.quantity - 1,
-            attributes: item.attributes,
-          },
-          {
-            lineId: childProduct.id,
-            variantId: childProduct.merchandise.id,
-            quantity: childProduct.quantity - 1,
-            attributes: childProduct.attributes,
-          },
-        ],
-      });
+
+      const isProductPairedEarrings = item.attributes?.find((attr) => attr.key === 'childProductType')?.value === 'self';
+
+      if (isProductPairedEarrings) {
+        removeFromCart([item.id, childProduct.id]);
+      } else {
+        updateMultipleItemsQuantity({
+          items: [
+            {
+              lineId: item.id,
+              variantId: merchandise.id,
+              quantity: item.quantity - (isProductPairedEarrings ? 2 : 1),
+              attributes: item.attributes,
+            },
+            {
+              lineId: childProduct.id,
+              variantId: childProduct.merchandise.id,
+              quantity: childProduct.quantity - 1,
+              attributes: childProduct.attributes,
+            },
+          ],
+        });
+      }
     } else {
+      console.log('case 2');
       productRemoved({
         name: productTitle,
         id,
@@ -331,7 +352,7 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            {info?.productTitle}
+            double {info?.productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
@@ -351,8 +372,10 @@ const MultiVariantCartItem = ({
 
         <div className="cart-item__content">
           <p className="setting-text">
-            <strong>{info?.productCategory}</strong>
-            <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</span>
+            <strong>{info?.productCategory || productType}</strong>
+            {shouldShowChildProduct && (
+              <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</span>
+            )}
           </p>
           {itemAttributes?.map((specItem, index) => {
             if (!specItem?.value || specItem.value === 'other') return null;
@@ -365,7 +388,7 @@ const MultiVariantCartItem = ({
           })}
         </div>
       </div>
-      {hasChildProduct && childProduct && (
+      {hasChildProduct && childProduct && shouldShowChildProduct && (
         <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} certificate={certificate} />
       )}
     </MultiVariantCartItemStyles>

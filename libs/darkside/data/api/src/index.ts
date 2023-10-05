@@ -14,3 +14,4 @@ export * from './nonModular';
 export * from './fragments';
 export * from './utils';
 export * from './template';
+export * from './cookie-banner';

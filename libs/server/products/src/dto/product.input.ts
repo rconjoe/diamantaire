@@ -204,6 +204,24 @@ export class PlpInput {
   @IsOptional()
   @Type(() => Number)
   readonly limit?: number;
+
+  @ApiProperty({
+    example: 'price',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortBy?: string;
+
+  @ApiProperty({
+    example: 'desc',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortOrder?: string;
 }
 
 export class ProductSlugInput {
@@ -262,4 +280,24 @@ export class ProductByVariantIdInput {
   @IsNumber()
   @Type(() => Number)
   readonly variantId: number;
+}
+
+export class ProductByContentIdsInput {
+  @ApiProperty({
+    example: 'contentID1,contentID2',
+    required: true,
+  })
+  @IsString()
+  @Type(() => Array)
+  readonly ids: string;
+}
+
+export class ProductByProductSlugsInput {
+  @ApiProperty({
+    example: 'productSlug1,ProductSlug2',
+    required: false,
+  })
+  @IsString()
+  @Type(() => Array)
+  readonly ids: string;
 }
