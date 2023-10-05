@@ -1,5 +1,4 @@
-import { CountrySelector, LanguageSelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { CountrySelector, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { parseValidLocale, countries, languagesByCode } from '@diamantaire/shared/constants';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
