@@ -4,7 +4,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(
   request: NextRequest,
-  // response: NextResponse,
+  response: NextResponse,
   _event: NextFetchEvent,
 ): Promise<NextMiddlewareResult> {
   // an example of how you can make middleware functions only apply to certain routes:
@@ -18,18 +18,15 @@ export default async function middleware(
 
   // WIP
   const country = geo.country || 'US';
-  const city = geo.city || 'San Francisco';
+  // const city = geo.city || 'San Francisco';
   // const region = geo.region || 'CA';
 
-  url.searchParams.set('country', country);
-  url.searchParams.set('city', city);
+  // store user's geo data in a cookie
+  response.cookies.set('geoCountry', country);
+  response.cookies.set('geo', JSON.stringify(geo));
 
-  request['userAgent'] = geo;
-
-  // geo:
-  if (!request.cookies.has('geo')) {
-    // response.cookies.set('geo', request?.geo); // commment out for now, linting issue.
-  }
+  // store in header
+  response.headers.set('X-Geo-Country', country);
 
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {

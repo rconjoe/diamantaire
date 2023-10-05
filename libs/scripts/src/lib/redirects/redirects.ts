@@ -2,7 +2,6 @@ import { getPdpRedirects } from './pdp_redirects';
 import { getPlpRedirects } from './plp_redirects';
 import { generateCSVfromObj } from '../utils/to_csv';
 import { generateJSONfromObj } from '../utils/to_json';
-import {} from '@vercel/edge-config';
 
 // node redirects -type -filePath -source -target
 const [pathToExecutable, pathToScript, type, filePath, exportType, source, target] = process.argv;

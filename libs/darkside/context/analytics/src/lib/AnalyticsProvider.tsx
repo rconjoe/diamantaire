@@ -156,9 +156,6 @@ export const AnalyticsProvider = ({ children }) => {
 };
 
 export const normalizeVariantConfigurationForGTM = (configuration: Record<string, any>) => {
-  console.log('normalizeVariantConfigurationForGTM', configuration);
-
-  return {};
   const normalizedConfiguration: Record<string, any> = {};
 
   if (configuration) {
