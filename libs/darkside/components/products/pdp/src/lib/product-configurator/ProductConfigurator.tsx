@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { DarksideButton, SlideOut } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
