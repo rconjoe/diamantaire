@@ -21,6 +21,8 @@ interface OptionSelectorProps {
   onChange?: (option: OptionItemProps) => void;
   renderItemAsLink?: boolean;
   isBuilderFlowOpen?: boolean;
+  isWeddingBandProduct?: boolean;
+  setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
 }
 
 const StyledOptionSelector = styled.div`
@@ -56,6 +58,13 @@ const StyledOptionSelector = styled.div`
         font-size: var(--font-size-xxxsmall);
         margin-left: 10px;
       }
+      .size-guide-button {
+        flex: 0 0 100%;
+        margin-top: 0.5rem;
+        button {
+          font-size: var(--font-size-xxxsmall);
+        }
+      }
     }
 
     &.soldAsDouble {
@@ -75,7 +84,7 @@ const StyledOptionSelector = styled.div`
       }
     }
 
-    &.version {
+    &.bandVersion {
       button {
         text-transform: capitalize;
       }
@@ -130,6 +139,7 @@ const StyledOptionSelector = styled.div`
     /* For selectors with medium sized buttons */
     &.prongStyle,
     &.bandWidth,
+    &.bandVersion,
     &.bandStyle {
       button {
         min-width: 115px;
@@ -153,6 +163,8 @@ function OptionSelector({
   label,
   renderItemAsLink = false,
   isBuilderFlowOpen,
+  isWeddingBandProduct = false,
+  setIsWeddingBandSizeGuideOpen,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -192,7 +204,6 @@ function OptionSelector({
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function handleOptionValueSort(options, optionType) {
-    console.log('hereeeee', { options, optionType });
     if (optionType === 'bandWidth') {
       return sortBandWidth(options);
     } else if (optionType === 'ringSize') {
@@ -202,14 +213,12 @@ function OptionSelector({
     }
   }
 
-  console.log('optionType', optionType);
-
   return (
     <StyledOptionSelector>
       {label && (
         <div className="selector-label">
           <Heading type="h4">
-            <UIString>{label}</UIString>:
+            <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
           </Heading>
           <span>
             <UIString>{selectedOptionValue}</UIString>
@@ -269,8 +278,6 @@ function OptionSelector({
                         </SwiperSlide>
                       );
                     })}
-                  {/* Spacer slide */}
-                  {/* <SwiperSlide /> */}
                 </Swiper>
 
                 <button
@@ -349,27 +356,31 @@ function OptionSelector({
                 )}
               </>
             ) : (
-              <>
-                {handleOptionValueSort(options, optionType)?.map((option) => {
-                  const isSelected = selectedOptionValue === option.value;
+              handleOptionValueSort(options, optionType)?.map((option) => {
+                const isSelected = selectedOptionValue === option.value;
 
-                  console.log('option', option);
-                  // human readable value
-                  const valueLabel = option.value;
+                // human readable value
+                const valueLabel = option.value;
 
-                  return (
-                    <OptionItemContainer
-                      key={option.id}
-                      optionType={optionType}
-                      option={option}
-                      valueLabel={valueLabel}
-                      isSelected={isSelected}
-                      onClick={() => handleOptionClick(option)}
-                      isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                    />
-                  );
-                })}
-              </>
+                return (
+                  <OptionItemContainer
+                    key={option.id}
+                    optionType={optionType}
+                    option={option}
+                    valueLabel={valueLabel}
+                    isSelected={isSelected}
+                    onClick={() => handleOptionClick(option)}
+                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                  />
+                );
+              })
+            )}
+            {isWeddingBandProduct && (
+              <div className="size-guide-button">
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
+                  <UIString>Size Guide</UIString>
+                </DarksideButton>
+              </div>
             )}
           </div>
         ) : (

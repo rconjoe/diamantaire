@@ -26,6 +26,12 @@ export const SlideOutWrapper = styled(motion.aside)`
   background-color: #fff;
   ${media.medium`width: ${(props) => props.width || defaultWidth};`}
 
+  &.extra-side-padding {
+    .wrapper {
+      padding: 2rem 4rem;
+    }
+  }
+
   .wrapper {
     flex: 1;
     position: relative;

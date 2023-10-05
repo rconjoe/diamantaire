@@ -19,6 +19,7 @@ import {
   MODULAR_LEO_BLOCK,
   MODULAR_LOGO_BANNER_BLOCK,
   MODULAR_MINI_BANNER_BLOCK,
+  MODULAR_PRODUCT_SLIDER_BLOCK,
   MODULAR_QUAD_BLOCK,
   MODULAR_QUAD_GRID,
   MODULAR_QUAD_LOGO_BLOCK,
@@ -92,6 +93,7 @@ const config: configProps = {
   [MODULAR_CELEBRITY_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_INSTAGRAM_REEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_SLICK_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
+  [MODULAR_PRODUCT_SLIDER_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_GRID_CAROUSEL_BLOCK]: DynamicModularQuadImageGrid,
 

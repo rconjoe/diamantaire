@@ -13,6 +13,7 @@ const ModularMiniBannerBlockStyles = styled.div`
   height: auto;
   margin: 0 auto;
   position: relative;
+  margin-bottom: 80px;
   .image-container {
   }
 

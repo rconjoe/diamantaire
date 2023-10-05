@@ -52,7 +52,7 @@ export const StackedHeaderStylesContainer = styled.div`
       align-items: baseline;
 
       > li {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         display: inline-block;
         margin-right: 20px;
         position: relative;
@@ -95,7 +95,7 @@ export const StackedHeaderStylesContainer = styled.div`
             span {
               flex: 1;
               white-space: nowrap;
-              font-size: 1.3rem;
+              font-size: 1.4rem;
               color: var(--color-black);
             }
           }

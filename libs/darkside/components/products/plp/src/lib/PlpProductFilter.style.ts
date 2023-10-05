@@ -8,6 +8,12 @@ export const PlpProductFilterStyles = styled.div`
   z-index: 100;
   padding: calc(var(--gutter) / 3) 0;
 
+  .filter__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .filter__header {
     .filter__title {
       margin-right: 10px;

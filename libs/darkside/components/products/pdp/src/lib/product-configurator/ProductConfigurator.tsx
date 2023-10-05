@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
@@ -12,6 +12,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
@@ -22,6 +23,7 @@ import OptionSelector from './option-selector/OptionSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
+import RingSizeGuide from '../RingSizeGuide';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
@@ -94,6 +96,9 @@ function ProductConfigurator({
 
   // Pair or single
   const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
+
+  // Wedding Band Size Guide
+  const [isWeddingBandSizeGuideOpen, setIsWeddingBandSizeGuideOpen] = useState<boolean>(false);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
   const handleConfigChange = useCallback(
@@ -186,7 +191,6 @@ function ProductConfigurator({
           productType={additionalVariantData?.productType}
         />
       )}
-
       {hasMoreThanOneVariant && (
         <>
           <ConfigurationSelector
@@ -212,10 +216,20 @@ function ProductConfigurator({
                 options={sizeOptions}
                 selectedOptionValue={selectedSize}
                 onChange={handleSizeChange}
+                isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
+                setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
               />
             )}
         </>
       )}
+
+      <AnimatePresence>
+        {isWeddingBandSizeGuideOpen && (
+          <SlideOut title="Size Guide" onClose={() => setIsWeddingBandSizeGuideOpen(false)} className="extra-side-padding">
+            <RingSizeGuide />
+          </SlideOut>
+        )}
+      </AnimatePresence>
 
       {/* Pair Products */}
       {isSoldAsDouble && isConfigurationComplete && (
@@ -227,9 +241,7 @@ function ProductConfigurator({
           onChange={handlePairChange}
         />
       )}
-
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
-
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
         <ProductEngraving
           engravingText={engravingText}
@@ -237,7 +249,6 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-
       {isBuilderFlowOpen ? (
         <div
           style={{

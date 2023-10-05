@@ -1,3 +1,5 @@
+import { gql } from 'graphql-request';
+
 export const CONFIGURATIONS_LIST = `
   query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip){
@@ -46,144 +48,146 @@ export const CONFIGURATIONS_LIST = `
   }
 `;
 
-export const PLP_QUERY = `query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
-  listPage(filter: {slugNew: {eq: $slug}, category: {eq: $category}}, locale: $locale) {
-    configurationsInOrder {
-      ... on OmegaProductRecord {
-        _modelApiKey
-        shopifyProductHandle
-        collection {
-          ... on WeddingBandProductRecord {
+export const PLP_QUERY = gql`
+  query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
+    listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
+      configurationsInOrder {
+        ... on OmegaProductRecord {
+          _modelApiKey
+          shopifyProductHandle
+          collection {
+            ... on WeddingBandProductRecord {
               slug
               productType
               productLabel {
-                  title
+                title
               }
               subCategory {
-                  slug
-                  title
+                slug
+                title
               }
               shouldUseDefaultPrice
-          }
-          ... on EngagementRingProductRecord {
+            }
+            ... on EngagementRingProductRecord {
               slug
               productType
               productLabel {
-                  title
+                title
               }
               subCategory {
-                  slug
-                  title
+                slug
+                title
               }
               shouldUseDefaultPrice
+            }
           }
-        }
-        countrySpecificPrices
-        plpTitle
-        plpImage {
-            responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-                ...responsiveImageFragment
+          countrySpecificPrices
+          plpTitle
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
             }
             alt
-        }
-        plpImageHover {
-            responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-                ...responsiveImageFragment
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
             }
+          }
         }
-      }
-      ... on ConfigurationRecord {
-        _modelApiKey
-        jewelryProduct {
-          slug
-          category
-          subCategory {
+        ... on ConfigurationRecord {
+          _modelApiKey
+          jewelryProduct {
+            slug
+            category
+            subCategory {
               slug
               title
-          }
-          productLabel {
+            }
+            productLabel {
               title
-          }
-          productAccordionSpecsLabel {
+            }
+            productAccordionSpecsLabel {
               productType
+            }
+            shouldUseDefaultPrice
+            hasOnlyOnePrice
           }
-          shouldUseDefaultPrice
-          hasOnlyOnePrice
-        }
-        variantId
-        plpImage {
-          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          variantId
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
+            }
+            alt
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpTitle
+        }
+      }
+      productsInOrder {
+        _modelApiKey
+        shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
           }
           alt
         }
         plpImageHover {
-            responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-                ...responsiveImageFragment
-            }
-        }
-        plpTitle
-      }
-    }
-    productsInOrder {
-      _modelApiKey
-      shopifyProductHandle
-      plpImage {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
+          }
         }
-        alt
-      }
-      plpImageHover {
-          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-              ...responsiveImageFragment
-          }
-      }
-      collection {
-        ... on WeddingBandProductRecord {
-          slug
-          productType
-          productLabel {
-              title
-          }
-          subCategory {
-              slug
-              title
-          }
-          shouldUseDefaultPrice
-      }
-        ... on EngagementRingProductRecord {
+        collection {
+          ... on WeddingBandProductRecord {
             slug
             productType
             productLabel {
-                title
+              title
             }
             subCategory {
-                slug
-                title
+              slug
+              title
             }
             shouldUseDefaultPrice
+          }
+          ... on EngagementRingProductRecord {
+            slug
+            productType
+            productLabel {
+              title
+            }
+            subCategory {
+              slug
+              title
+            }
+            shouldUseDefaultPrice
+          }
+        }
+      }
+      collectionsInOrder {
+        ... on EngagementRingProductRecord {
+          id
+          _modelApiKey
+          slug
         }
       }
     }
-    collectionsInOrder {
-      ... on EngagementRingProductRecord {
-        id
-        _modelApiKey
-        slug
-      }
-    }
   }
-}
-fragment responsiveImageFragment on ResponsiveImage {
-  webpSrcSet
-  sizes
-  src
-  width
-  height
-  aspectRatio
-  alt
-  title
-  bgColor
-  base64
-}`;
+  fragment responsiveImageFragment on ResponsiveImage {
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    bgColor
+    base64
+  }
+`;

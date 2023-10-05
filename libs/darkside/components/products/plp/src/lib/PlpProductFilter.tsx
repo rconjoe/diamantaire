@@ -205,8 +205,8 @@ const PlpProductFilter = ({
     availableFilters && (
       <PlpProductFilterStyles headerHeight={headerHeight}>
         <div className="filter__sticky-container">
-          <div className="filter__wrapper">
-            <div className="filter container-wrapper ">
+          <div className="filter__wrapper container-wrapper">
+            <div className="filter">
               <div className="filter__header flex align-center">
                 <div className="filter__title">
                   <h4>Filter</h4>

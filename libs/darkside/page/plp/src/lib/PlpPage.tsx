@@ -63,6 +63,14 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
+    console.log({ sortBy, sortOrder });
+    // If null is passed, reset the sort options
+    if (!sortBy) {
+      console.log('resetting sort options');
+
+      return setActiveSortOptions({});
+    }
+
     setActiveSortOptions({
       sortBy,
       sortOrder,
