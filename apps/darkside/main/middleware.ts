@@ -22,11 +22,13 @@ export default async function middleware(
   // const region = geo.region || 'CA';
 
   // store user's geo data in a cookie
-  response.cookies.set('geoCountry', country);
-  response.cookies.set('geo', JSON.stringify(geo));
+  if (response.cookies) {
+    response.cookies?.set('geoCountry', country);
+    response.cookies?.set('geo', JSON.stringify(geo));
 
-  // store in header
-  response.headers.set('X-Geo-Country', country);
+    // store in header
+    response.headers?.set('X-Geo-Country', country);
+  }
 
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
