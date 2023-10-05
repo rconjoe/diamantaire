@@ -15,6 +15,7 @@ query emailPopup($locale: SiteLocale) {
       }
       placeholder1
       placeholder2
+      optInCopy
       privacyctacopy
       privacyctalink
       submitCopy

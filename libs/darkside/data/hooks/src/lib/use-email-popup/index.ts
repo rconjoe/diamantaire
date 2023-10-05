@@ -30,6 +30,7 @@ export type EmailPopupProps = {
       code: string;
       name: string;
     };
+    optInCopy: string;
   };
 };
 

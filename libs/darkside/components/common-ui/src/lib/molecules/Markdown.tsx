@@ -12,6 +12,11 @@ type MarkdownProps = {
 };
 
 const Markdown = ({ children, options, extraClass, withStyles = true }: PropsWithChildren<MarkdownProps>) => {
+  if (typeof children !== 'string') {
+    // Handle cases where children is not a string (or undefined)
+    return null; // or any other appropriate action
+  }
+
   return (
     <MarkdownContainer
       className={clsx({

@@ -14,6 +14,9 @@ import { DarksideButton } from './DarksideButton';
 import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+
 const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
@@ -92,6 +95,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     }
   }
   .input-opt-in {
+    width: 100%;
     input[type='checkbox'] {
       width: 13px;
       height: 13px;
@@ -100,7 +104,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       margin: 0;
       font: inherit;
       color: currentColor;
-      border: 0.15em solid currentColor;
+      border: 1px solid currentColor;
     }
     input[type='checkbox']::before {
       display: block;
@@ -189,27 +193,92 @@ const Form = ({
             </div>
           ) : (
             schema?.map((field, index) => {
-              const { inputType, required, placeholder, name } = field || {};
+              const { inputType, required, placeholder, name, defaultCountry } = field || {};
 
-              return (
-                <div className="input-container" key={`${id}-${index}`}>
-                  {inputType === 'text' || inputType === 'phone' ? (
+              if (inputType === 'text') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
                     <input
-                      type={inputType}
+                      type="text"
                       required={required}
                       name={name}
                       value={formState?.[name]}
                       placeholder={placeholder}
                       onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
                     />
-                  ) : (
-                    <div className="dropdown-container">
-                      <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
-                    </div>
-                  )}
-                </div>
-              );
+                  </div>
+                );
+              } else if (inputType === 'email') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder={placeholder}
+                      pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+                      required
+                      onChange={(e) => {
+                        const { name, value } = e.target;
+
+                        setFormState((prevState) => ({ ...prevState, [name]: value }));
+                      }}
+                    />
+                  </div>
+                );
+              } else if (inputType === 'phone') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <PhoneInput
+                      value={formState?.[name]}
+                      placeholder={placeholder}
+                      onChange={(selectedPhone) => {
+                        setFormState({ ...formState, [name]: selectedPhone });
+                      }}
+                      defaultCountry={defaultCountry}
+                    />
+                  </div>
+                );
+              } else if (inputType === 'country-dropdown') {
+                // Render the country dropdown using the Select component
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <Select classNamePrefix="dropdown" options={allCountries} value={formState?.[name]} />
+                  </div>
+                );
+              } else if (inputType === 'state-dropdown') {
+                // Render the state dropdown using the Select component (assuming you have a similar component)
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                  </div>
+                );
+              }
             })
+          )}
+          {showOptIn && stackedSubmit && (
+            <div
+              className={clsx('input-opt-in', {
+                '-error': showGdprError,
+              })}
+            >
+              <input
+                type="checkbox"
+                name="isConsent"
+                id="optin"
+                onChange={(e) => {
+                  const { name, checked } = e.target;
+
+                  setFormState((prevState) => ({ ...prevState, [name]: checked }));
+                  setIsValid(true);
+                }}
+              />
+              <label htmlFor="optin">
+                <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+                  {optInCopy}
+                </Markdown>
+              </label>
+            </div>
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
@@ -217,7 +286,7 @@ const Form = ({
             </DarksideButton>
           </div>
         </div>
-        {showOptIn && (
+        {showOptIn && !stackedSubmit && (
           <div
             className={clsx('input-opt-in', {
               '-error': showGdprError,
