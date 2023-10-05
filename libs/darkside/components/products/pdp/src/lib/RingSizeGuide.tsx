@@ -1,5 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { formatRingSize } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';

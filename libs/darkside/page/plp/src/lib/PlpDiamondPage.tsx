@@ -1,16 +1,5 @@
-<<<<<<< HEAD
 import { Breadcrumb, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import {
-  PlpBlockPicker,
-  PlpHeroBanner,
-  PlpProductGrid,
-  PlpSortOptions,
-} from '@diamantaire/darkside/components/products/plp';
-=======
-import { Breadcrumb, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
-import { UIString } from '@diamantaire/darkside/core';
->>>>>>> 2a7bbd32 (more type fixes)
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';

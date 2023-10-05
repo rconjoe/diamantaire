@@ -1,5 +1,5 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';

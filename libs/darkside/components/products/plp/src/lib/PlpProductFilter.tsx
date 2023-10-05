@@ -1,5 +1,4 @@
-import { Slider } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
