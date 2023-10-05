@@ -49,11 +49,11 @@ const StyledCFYPage = styled.div`
   .page-main {
     flex: 1;
 
-    top: ${(props) => props.headerHeight + 20}px;
+    // top: ${(props) => props.headerHeight + 20}px;
 
     ${tabletAndUp(`
       padding: 0 0 4rem;
-      position: sticky;
+      // position: sticky;
       align-self: flex-start;
     `)}
   }
