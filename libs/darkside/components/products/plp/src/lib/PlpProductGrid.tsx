@@ -81,9 +81,11 @@ const PlpProductGrid = ({
     promoCardCollectionId,
   );
 
-  const { data: { allCreativeBlocks: creativeBlocksData } = {} } = usePlpDatoCreativeBlocks('en_US', creativeBlockIds);
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
+    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks;
+
     if (!creativeBlocksData) return {}; // Return an empty object if cardCollection is falsy
 
     const object = {};
@@ -97,7 +99,7 @@ const PlpProductGrid = ({
     }
 
     return object;
-  }, [creativeBlocksData]);
+  }, [creativeBlockParentData]);
 
   const cardCollectionObject = useMemo(() => {
     if (!cardCollection) return {}; // Return an empty object if cardCollection is falsy
