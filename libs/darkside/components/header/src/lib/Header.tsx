@@ -213,7 +213,6 @@ const Header: FC<HeaderProps> = ({
               />
             </DiamondShapesProvider>
           )}
-          {/* <AnimatePresence>{isSearchOpen && <Search />}</AnimatePresence> */}
         </div>
       </FullHeaderStyles>
       {isCountrySelectorOpen && (

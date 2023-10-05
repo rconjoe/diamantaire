@@ -8,6 +8,8 @@
  * Darkside note: This carousel handles what was previously: InstagramReelSwiper, CelebritySwiper, ModularHoverBlock, ModularSlickCarouselBlock
  */
 
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import clsx from 'clsx';
 import { SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,6 +19,7 @@ import ModularCarouselBlockOptions from './ModularCarouselBlockOptions';
 import CelebrityThumbnailSlide from './slides/CelebrityThumbnailSlide';
 import DiamondSlide from './slides/DiamondSlide';
 import InstagramThumnailSlide from './slides/InstagramThumbnailSlide';
+import SimpleProductSlide from './slides/SimpleProductSlide';
 import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
 
@@ -68,6 +71,11 @@ const ModularCarouselBlock = (props) => {
       slide: StandardSlide,
     },
     {
+      type: 'modular_product_slider_block',
+      title: null,
+      slide: SimpleProductSlide,
+    },
+    {
       type: 'modular_carousel_block',
       title: null,
       slide: ModularCarouselBlockOptions,
@@ -95,8 +103,26 @@ const ModularCarouselBlock = (props) => {
   const sliderType = sliderTypes.filter((slider) => slider.type === _modelApiKey)?.[0];
   const SelectedSliderSlide = sliderType?.slide;
 
+  console.log('simpleeeee', props);
+  // Use the product hook
+
   return (
-    <ModularCarouselBlockContainer>
+    <ModularCarouselBlockContainer
+      className={clsx({
+        'modular-grid-carousel-block': _modelApiKey === 'modular_grid_carousel_block',
+        'modular-product-slider-block': _modelApiKey === 'modular_product_slider_block',
+        'modular-slick-carousel-block': _modelApiKey === 'modular_slick_carousel_block',
+        'modular-carousel-hover-block': _modelApiKey === 'modular_carousel_hover_block',
+        'modular-instagram-reel-block': _modelApiKey === 'modular_instagram_reel_block',
+        'modular-celebrity-carousel-block': _modelApiKey === 'modular_celebrity_carousel_block',
+        'modular-carousel-block': _modelApiKey === 'modular_carousel_block',
+      })}
+    >
+      {_modelApiKey === 'modular_product_slider_block' && props.title && (
+        <Heading type="h2" className="h1 primary carousel__title">
+          {props.title}
+        </Heading>
+      )}
       {SelectedSliderSlide ? (
         <CarouselSlider
           {...sliderType}

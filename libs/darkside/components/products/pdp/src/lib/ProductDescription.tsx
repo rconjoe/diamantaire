@@ -1,6 +1,7 @@
 import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -170,12 +171,12 @@ const ProductDescription = ({
         value: metalWeight,
       },
       {
-        title: 'paveCaratWeight',
-        value: paveCaratWeight,
-      },
-      {
         title: 'shownWithCtw',
         value: shownWithCtw,
+      },
+      {
+        title: 'paveCaratWeight',
+        value: paveCaratWeight,
       },
     ],
     [parentProductBandDepth, parentProductBandWidth, settingHeight, metalWeight, paveCaratWeight, shownWithCtw],
@@ -246,6 +247,8 @@ const ProductDescription = ({
   const { locale } = useRouter();
   const isInUS = locale === 'en-US';
 
+  const refinedDescription: string = replacePlaceholders(description, ['%%product-name%%'], [title]).toString();
+
   return (
     description && (
       <ProductDescriptionContainer>
@@ -261,7 +264,7 @@ const ProductDescription = ({
           ''
         )}
 
-        <Markdown withStyles={false}>{description}</Markdown>
+        <Markdown withStyles={false}>{refinedDescription}</Markdown>
 
         <div className="description__product-details">
           <ul>
@@ -277,11 +280,12 @@ const ProductDescription = ({
                       ? `${shownWithCtwLabel}: ${label.value}`
                       : refinedLabels[label.title] + ': ' + label.value}
 
-                    {label.title === 'paveCaratWeight' && (
-                      <span className="small">
-                        <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-                      </span>
-                    )}
+                    {label.title === 'paveCaratWeight' &&
+                      (variantAttributes?.shape === 'Shape' || variantAttributes?.shape === '') && (
+                        <span className="small">
+                          <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                        </span>
+                      )}
                   </li>
                 );
               })}
@@ -301,11 +305,13 @@ const ProductDescription = ({
 
                 return <li key={`jewelry-label-${index}`}>{refinedLabels[label.title] + ': ' + label.value}</li>;
               })}
-            <li>
-              <span className="small">
-                <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
-              </span>
-            </li>
+            {productType === 'Wedding Band' && (
+              <li>
+                <span className="small">
+                  <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                </span>
+              </li>
+            )}
           </ul>
         </div>
 

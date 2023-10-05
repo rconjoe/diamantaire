@@ -621,6 +621,8 @@ export class ProductsService {
     subStyle,
     page,
     limit,
+    sortBy,
+    sortOrder,
   }: PlpInput) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
       metal,
@@ -631,6 +633,8 @@ export class ProductsService {
       limit,
       style,
       subStyle,
+      sortBy,
+      sortOrder,
     })}`;
     let plpReturnData;
     // check for cached data
@@ -750,9 +754,18 @@ export class ProductsService {
         { $sort: { __order: 1 } },
       ];
 
+      // sortOrder already declared
+      const sortByKey = sortBy || null;
+      const sortByObj = {};
+
+      if (sortByKey) {
+        sortByObj[sortByKey] = sortOrder;
+      }
+
       const paginateOptions: PaginateOptions = {
         limit: limit || 20,
         page: page || 1,
+        ...(sortByKey && { sort: sortByObj }),
       };
 
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);

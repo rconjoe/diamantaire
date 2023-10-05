@@ -141,19 +141,24 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: rgb(200, 171, 110);
     }
   }
+  &.rose-gold {
+    .inner {
+      background-color: rgb(206, 172, 139);
+    }
+  }
+  &.white-gold {
+    .inner {
+      background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
+    }
+  }
   &.platinum {
     .inner {
       background-color: rgb(200, 200, 200);
     }
   }
-  &.white-gold {
+  &.sterling-silver {
     .inner {
-      background: linear-gradient(135deg, rgb(254, 254, 254), rgb(206, 206, 206));
-    }
-  }
-  &.rose-gold {
-    .inner {
-      background-color: rgb(206, 172, 139);
+      background: linear-gradient(138deg, rgb(210, 210, 208) 0%, rgb(247, 247, 247) 50%, rgb(201, 202, 200) 100%);
     }
   }
   &.black {
@@ -229,6 +234,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   min-height: 35px;
   text-align: center;
   font-size: 1.3rem;
+  color: var(--color-black);
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);

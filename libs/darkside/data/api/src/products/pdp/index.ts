@@ -316,9 +316,9 @@ const PRODUCT_SPEC_LABEL_QUERY = gql`
   }
 `;
 
-const DATO_PRODUCT_TRIO_BLOCK_QUERY = `
+const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
   query datoTrioBlockQuery($locale: SiteLocale, $id: ItemId) {
-    trioBlock(filter: {id: {eq: $id}}, locale: $locale) {
+    trioBlock(filter: { id: { eq: $id } }, locale: $locale) {
       id
       blocks {
         title
@@ -326,14 +326,14 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = `
         ctaCopy
         ctaRoute
         image {
-          responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
       }
     }
-    }
-    ${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = `

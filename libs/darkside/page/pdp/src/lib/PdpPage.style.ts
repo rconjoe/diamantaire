@@ -8,16 +8,19 @@ export const PageContainerStyles = styled.div`
       flex: 1 1 100%;
       overflow: hidden;
       ${media.medium`padding: 0 20px;`}
-      ${media.large`padding: 0 50px 0 20px;`}
+      ${media.xl`padding: 0 30px 0 20px;`}
     }
     .info-container {
-      flex: 0 0 550px;
       padding: 0 40px 0 20px;
       overflow: hidden;
+      flex: 0 0 400px;
+      ${media.xl`flex: 0 0 550px;`}
 
       .info__inner {
-        max-width: 450px;
         margin: 0 auto;
+        /* ${media.small`max-width: 250px;`} */
+        ${media.medium`max-width: 350px;`}
+        ${media.xl`max-width: 450px;`}
       }
     }
   }

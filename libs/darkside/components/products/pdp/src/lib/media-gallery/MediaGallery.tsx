@@ -1,5 +1,6 @@
 import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
+import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
@@ -15,11 +16,12 @@ interface MediaGalleryProps {
 }
 
 const MediaGalleryStyles = styled.div`
-  display: grid;
+  display: none;
   grid-auto-flow: dense;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
   width: 100%;
+  ${media.medium`display: grid;`}
 `;
 
 function MediaGallery({ assets, options, title, disableVideos = false }: MediaGalleryProps) {

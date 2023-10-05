@@ -1,5 +1,6 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
 import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -11,6 +12,7 @@ import { PlpDiamondItem } from './PlpDiamondItem';
 import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
+import { SortProperties } from './PlpSortOption';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
@@ -51,6 +53,8 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
+  handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
+  sortOptions: PlpBasicFieldSortOption[];
 };
 
 const PlpProductGrid = ({
@@ -67,6 +71,8 @@ const PlpProductGrid = ({
   isFetching,
   plpSlug,
   urlFilterMethod,
+  sortOptions,
+  handleSortChange,
 }: PlpProductGridProps) => {
   const router = useRouter();
 
@@ -83,11 +89,11 @@ const PlpProductGrid = ({
     const object = {};
 
     if (creativeBlocksData[0]) {
-      object[4] = { ...creativeBlocksData[0], className: 'creative-block--left' };
+      object[8] = { ...creativeBlocksData[0], className: 'creative-block--left' };
     }
 
     if (creativeBlocksData[1]) {
-      object[15] = { ...creativeBlocksData[1], className: 'creative-block--right' };
+      object[19] = { ...creativeBlocksData[1], className: 'creative-block--right' };
     }
 
     return object;
@@ -118,7 +124,10 @@ const PlpProductGrid = ({
         setFilterValues={setFilterValues}
         urlFilterMethod={urlFilterMethod}
         plpSlug={plpSlug}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
+
       <div className="container-wrapper">
         <div className="product-grid__row ">
           {products?.length > 0 &&

@@ -17,3 +17,5 @@ export * from './routes';
 export * from './object-transformations';
 export * from './sortBandWidth';
 export * from './getIsUserInEu';
+export * from './sortRingSize';
+export * from './formatRingSize';

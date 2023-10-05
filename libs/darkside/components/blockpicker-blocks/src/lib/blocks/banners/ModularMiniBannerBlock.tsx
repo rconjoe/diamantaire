@@ -13,6 +13,7 @@ const ModularMiniBannerBlockStyles = styled.div`
   height: auto;
   margin: 0 auto;
   position: relative;
+  margin-bottom: 80px;
   .image-container {
   }
 
@@ -93,8 +94,6 @@ type ModularMiniBannerBlockProps = {
 };
 
 const ModularMiniBannerBlock = (props: ModularMiniBannerBlockProps) => {
-  console.log('mini banner block', props);
-
   const { title, copy, copyTerms, mobileImage, desktopImage, textColor, additionalClass, supportedCountries, ctaRoute } =
     props;
   const { hex } = textColor;
