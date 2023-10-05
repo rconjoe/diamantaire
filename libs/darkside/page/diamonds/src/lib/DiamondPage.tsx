@@ -1,10 +1,15 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { DarksideButton, Heading, ShowMobileOnly, ShowTabletAndUpOnly } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  Heading,
+  ShowMobileOnly,
+  ShowTabletAndUpOnly,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { OptionsDataTypes, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';

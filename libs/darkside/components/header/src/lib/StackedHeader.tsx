@@ -1,5 +1,4 @@
-import { LanguageSelector } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { LanguageSelector, UIString } from '@diamantaire/darkside/components/common-ui';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
 import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import clsx from 'clsx';

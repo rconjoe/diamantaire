@@ -1,5 +1,4 @@
-import { DarksideButton, Tooltip } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
+import { DarksideButton, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
 
 import StyledDiamondCfyBreadCrumb from './DiamondCfyBreadCrumb.style';

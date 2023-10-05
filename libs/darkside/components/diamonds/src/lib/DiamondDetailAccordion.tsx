@@ -1,6 +1,5 @@
-import { Accordion, CertificateThumb, Heading, Slider } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, CertificateThumb, Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { UIString } from '@diamantaire/darkside/core';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';

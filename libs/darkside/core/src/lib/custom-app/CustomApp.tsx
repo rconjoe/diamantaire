@@ -1,3 +1,4 @@
+import { CookieBanner } from '@diamantaire/darkside/components/common-ui';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { AnalyticsProvider } from '@diamantaire/darkside/context/analytics';
 import { CartProvider } from '@diamantaire/darkside/context/cart-context';
@@ -6,13 +7,14 @@ import { BuilderProductContextProvider } from '@diamantaire/darkside/context/pro
 import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { CookieConsentProvider } from '@use-cookie-consent/react';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
 import './styles.css';
 import { ToastContainer } from 'react-toastify';
-import 'node_modules/react-toastify/dist/ReactToastify.css';
 
+import 'node_modules/react-toastify/dist/ReactToastify.css';
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
 
 export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
@@ -35,20 +37,23 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AnalyticsProvider>
-        <GlobalProvider>
-          <PageLoadProgressBar />
-          <BuilderProductContextProvider>
-            <CartProvider>
-              <DefaultSeo />
-              <GlobalStyles />
-              <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-              <ReactQueryDevtools initialIsOpen={false} />
-              <ToastContainer position="bottom-center" autoClose={10000} />
-            </CartProvider>
-          </BuilderProductContextProvider>
-        </GlobalProvider>
-      </AnalyticsProvider>
+      <CookieConsentProvider>
+        <AnalyticsProvider>
+          <GlobalProvider>
+            <PageLoadProgressBar />
+            <BuilderProductContextProvider>
+              <CartProvider>
+                <DefaultSeo />
+                <GlobalStyles />
+                <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <ToastContainer position="bottom-center" autoClose={10000} />
+                <CookieBanner />
+              </CartProvider>
+            </BuilderProductContextProvider>
+          </GlobalProvider>
+        </AnalyticsProvider>
+      </CookieConsentProvider>
     </QueryClientProvider>
   );
 }

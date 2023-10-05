@@ -5,8 +5,8 @@ import {
   MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
+  UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { UIString } from '@diamantaire/darkside/core';
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';

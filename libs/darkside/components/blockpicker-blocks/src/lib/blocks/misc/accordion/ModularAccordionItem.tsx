@@ -1,5 +1,4 @@
-import { Markdown } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { AccordionButton, AccordionItem, AccordionPanel } from '@reach/accordion';
 import clsx from 'clsx';
 

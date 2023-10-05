@@ -1,5 +1,4 @@
-import { Accordion, DarksideButton, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { UIString, UniLink } from '@diamantaire/darkside/core';
+import { Accordion, DarksideButton, Markdown, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import {
   DiamondCtoDataProps,
   useDiamondCfyData,

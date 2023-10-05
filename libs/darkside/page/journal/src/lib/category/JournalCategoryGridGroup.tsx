@@ -1,5 +1,4 @@
-import { ImageTile, Heading } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { ImageTile, Heading, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useJournalsByCategory } from '@diamantaire/darkside/data/hooks';
 import { generateSubheading } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';

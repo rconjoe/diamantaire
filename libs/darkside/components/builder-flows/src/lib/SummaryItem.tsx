@@ -1,6 +1,5 @@
-import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoImage, UIString } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { UIString } from '@diamantaire/darkside/core';
 import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES, bandAccentTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';

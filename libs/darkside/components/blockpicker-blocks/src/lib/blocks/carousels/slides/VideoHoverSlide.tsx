@@ -1,5 +1,4 @@
-import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { UniLink } from '@diamantaire/darkside/core';
+import { DatoImage, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
