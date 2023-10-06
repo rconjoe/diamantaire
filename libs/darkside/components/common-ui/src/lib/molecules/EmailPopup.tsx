@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { DatoImage, Heading, Modal, Form, Markdown, UIString } from './';
+import { DatoImage, Heading, Modal, Form, Markdown, UIString, DarksideButton, FormSchemaType } from './';
 
 const EmailPopUpStyles = styled.div`
   .wrapper {
@@ -37,11 +37,10 @@ const EmailPopUpStyles = styled.div`
       align-items: center;
 
       .emailpopup-content__inner {
-        padding: 40px;
+        padding: 20px;
         flex: 1;
-        max-width: 450px;
         margin: 0 auto;
-
+        ${media.medium`padding: 40px;max-width: 450px;`}
         h2 {
           margin-bottom: 10px;
         }
@@ -59,6 +58,10 @@ const EmailPopUpStyles = styled.div`
     .react-international-phone-country-selector-button {
       height: 100%;
     }
+  }
+  .button--decline button {
+    font-size: var(--font-size-xxxsmall);
+    margin-top: 10px;
   }
 `;
 
@@ -146,9 +149,11 @@ const EmailPopUp = () => {
       console.error('Error submitting form data to HubSpot:', error);
     }
   };
-
+  const handleClose = () => {
+    toggleModal();
+  };
   const lowercaseUserCountryCode = userCountryCode?.toLowerCase();
-  const schema = [
+  const schema: FormSchemaType[] = [
     {
       inputType: 'email',
       name: 'email',
@@ -160,13 +165,14 @@ const EmailPopUp = () => {
       name: 'phone',
       placeholder: placeholder1,
       defaultCountry: lowercaseUserCountryCode,
+      required: false,
     },
   ];
 
   if (isModalOpen) {
     return (
       <EmailPopUpStyles>
-        <Modal title={false} onClose={() => toggleModal()} className="modal--position-bottom-left">
+        <Modal title={false} onClose={handleClose} className="modal--position-bottom-left">
           <div className="modal-emailpopup-wrapper">
             <div className="emailpopup-image">
               <DatoImage image={image} />
@@ -191,7 +197,9 @@ const EmailPopUp = () => {
                     schema={schema}
                   />
                 ) : null}
-                <UIString>Decline Offer</UIString>
+                <DarksideButton type="text-underline" onClick={handleClose} colorTheme="teal" className="button--decline">
+                  <UIString>Decline Offer</UIString>
+                </DarksideButton>
               </div>
             </div>
           </div>

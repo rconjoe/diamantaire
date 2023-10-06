@@ -76,16 +76,21 @@ const ModalStyles = styled.div`
           font-size: 1.6rem;
         }
       }
-      .close {
-        button {
-          background-color: transparent;
-          border: none;
-          padding: 0;
-          position: relative;
-          right: -4px;
-          svg path {
-            stroke: #fff;
-          }
+    }
+    .close {
+      &.close--fixed {
+        position: absolute;
+        right: 0;
+        padding: 5px 10px;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        position: relative;
+        right: -4px;
+        svg path {
+          stroke: #fff;
         }
       }
     }
@@ -105,6 +110,7 @@ const ModalStyles = styled.div`
       margin-top: auto;
       margin-left: 10px;
       margin-bottom: 10px;
+      margin-right: 10px;
     }
   }
   &.modal--no-title {
@@ -169,6 +175,12 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) =>
       <div className="wrapper">
         <div className="inner">
           {isHeaderDisabled ? (
+            <div className="close close--fixed">
+              <button onClick={onClose}>
+                <XIcon />
+              </button>
+            </div>
+          ) : (
             <div className="header">
               <div className="title">
                 <h4>{title}</h4>
@@ -179,7 +191,7 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) =>
                 </button>
               </div>
             </div>
-          ) : null}
+          )}
           <div className="body">{children}</div>
         </div>
       </div>

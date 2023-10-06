@@ -8,13 +8,13 @@ import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
+import { PhoneInput } from 'react-international-phone';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
 import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
-import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
 const Select = dynamic(() => import('react-select'));
@@ -39,12 +39,15 @@ type FormProps = {
   emailPlaceholderText?: string;
 };
 
+type InputType = 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+
 export type FormSchemaType = {
   name: string;
   placeholder: string;
-  inputType?: 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+  inputType?: InputType;
   defaultValue?: string;
   required: boolean;
+  defaultCountry?: string;
 };
 
 const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
@@ -65,7 +68,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
 
       &.submit {
         margin-bottom: 0px;
-        flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
+        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
       > * {

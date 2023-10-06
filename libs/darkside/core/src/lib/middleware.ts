@@ -16,7 +16,7 @@ export function darksideMiddleware(
   console.log('geo', geo);
 
   // WIP
-  const country = geo.country || 'IE';
+  const country = geo.country || 'GB';
   const city = geo.city || 'San Francisco';
   // const region = geo.region || 'CA';
 
