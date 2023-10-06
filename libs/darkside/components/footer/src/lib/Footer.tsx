@@ -144,6 +144,8 @@ const FooterStyles = styled.footer`
                   svg {
                     height: 19px;
                     width: auto;
+                    position: relative;
+                    top: 1px;
                   }
                 }
                 &.instagram {

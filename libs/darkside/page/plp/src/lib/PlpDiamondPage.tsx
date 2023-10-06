@@ -12,8 +12,6 @@ import { NextSeo } from 'next-seo';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { PlpSortOptions } from './components/PlpSortOptions';
-
 type DiamondPlpPageProps = {
   plpSlug: string;
   category: string;
@@ -87,9 +85,9 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
       <NextSeo title={seoTitle} description={seoDescription} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
-      <div className="filter-bar">
+      {/* <div className="filter-bar">
         {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
-      </div>
+      </div> */}
       <PlpProductGrid
         data={data}
         isFetching={isFetching}
@@ -97,6 +95,8 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         creativeBlockIds={creativeBlockIds}
         urlFilterMethod="param"
         plpSlug={plpSlug}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
       />
       {hasNextPage && (
         <div className="view-more">

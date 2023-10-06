@@ -25,10 +25,10 @@ const ModularAccordionItem = ({ title, copy, ctacopy, ctaroute }: ModularAccordi
           <span className={clsx(['acc-item__header-icon', 'minus'])}>-</span>
         </AccordionButton>
         <AccordionPanel className="slide-down">
-          <div className="acc-item__icon-header-cion">
+          <div className="acc-item__icon-header-copy">
             <Markdown>{copy}</Markdown>
             {ctacopy && ctaroute && (
-              <UniLink route={ctaroute} className="acc-item">
+              <UniLink route={ctaroute} className="acc-item__cta-link">
                 {ctacopy}
               </UniLink>
             )}

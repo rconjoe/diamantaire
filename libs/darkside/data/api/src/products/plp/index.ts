@@ -201,10 +201,17 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
   const qParams = new URLSearchParams({ slug, category, locale });
-  const reqUrl = `/page/plpssr?${qParams?.toString()}`;
-  const response = await queryClientApi().request({ url: reqUrl });
+  const reqUrl = `/page/plpssr?${qParams.toString()}`;
 
-  return response.data;
+  try {
+    const response = await queryClientApi().request({ url: reqUrl });
+
+    return response.data;
+  } catch (e) {
+    console.log(e);
+
+    return null;
+  }
 }
 
 const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `

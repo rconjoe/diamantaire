@@ -2,6 +2,7 @@ const CONFIG_TYPE_ORDER = [
   'diamondType',
   'sideStoneShape',
   'sideStoneCarat',
+  'prongStyle',
   'metal',
   'ceramicColor',
   'bandWidth',

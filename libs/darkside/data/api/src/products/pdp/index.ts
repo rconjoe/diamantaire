@@ -316,9 +316,9 @@ const PRODUCT_SPEC_LABEL_QUERY = gql`
   }
 `;
 
-const DATO_PRODUCT_TRIO_BLOCK_QUERY = `
+const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
   query datoTrioBlockQuery($locale: SiteLocale, $id: ItemId) {
-    trioBlock(filter: {id: {eq: $id}}, locale: $locale) {
+    trioBlock(filter: { id: { eq: $id } }, locale: $locale) {
       id
       blocks {
         title
@@ -326,14 +326,14 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = `
         ctaCopy
         ctaRoute
         image {
-          responsiveImage(imgixParams: {w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
+          responsiveImage(imgixParams: { w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         }
       }
     }
-    }
-    ${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = `
@@ -412,19 +412,30 @@ const DATO_VARIANT_QUERY = gql`
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
-  const datoData = await queryDatoGQL({
-    query:
-      productType === pdpTypePluralAsConst['Engagement Rings']
-        ? ENGAGEMENT_RING_QUERY
-        : productType === pdpTypePluralAsConst['Jewelry']
-        ? JEWELRY_QUERY
-        : productType === pdpTypePluralAsConst['Wedding Bands']
-        ? WEDDING_BAND_QUERY
-        : null,
-    variables: { slug, locale },
-  });
+  let query = null;
 
-  return datoData;
+  if (productType === pdpTypePluralAsConst['Engagement Rings']) {
+    query = ENGAGEMENT_RING_QUERY;
+  } else if (productType === pdpTypePluralAsConst['Jewelry']) {
+    query = JEWELRY_QUERY;
+  } else if (productType === pdpTypePluralAsConst['Wedding Bands']) {
+    query = WEDDING_BAND_QUERY;
+  } else {
+    console.log('Unknown productType');
+
+    return null;
+  }
+
+  try {
+    const datoData = await queryDatoGQL({
+      query,
+      variables: { slug, locale },
+    });
+
+    return datoData;
+  } catch (e) {
+    console.log('Error fetching PDP content', e);
+  }
 }
 
 export async function fetchDatoProductSpec(id: string, locale: string) {

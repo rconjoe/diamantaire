@@ -59,9 +59,13 @@ async function getPlpSsrPageData(req: NextApiRequest) {
     throw new Error('Get PLP Page: Slug and category are required');
   }
 
-  const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { slug, category, locale } });
+  try {
+    const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { slug, category, locale } });
 
-  return response;
+    return response;
+  } catch {
+    return null;
+  }
 }
 
 async function getPlpPageData(req: NextApiRequest) {

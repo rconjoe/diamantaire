@@ -16,8 +16,6 @@ export const StackedHeaderStylesContainer = styled.div`
   .language-selector-sub,
   .language-selector {
     text-transform: capitalize;
-    background: transparent;
-    padding: 0;
   }
 
   .stacked-header__container {
@@ -47,80 +45,85 @@ export const StackedHeaderStylesContainer = styled.div`
     }
 
     .nav__col--left .country-locale-selector {
+      list-style: none;
       margin: 0;
       padding: 0;
       display: flex;
-      list-style: none;
-      align-items: center;
-      gap: 1rem;
+      align-items: baseline;
 
       > li {
-        display: flex;
-        font-size: 1.3rem;
-        margin-right: 0px;
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-right: 20px;
         position: relative;
+
+        &.divider {
+          margin: 0 10px;
+        }
+
+        button {
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          line-height: 1;
+        }
 
         .language-icon {
           display: inline-block;
           transform: translateY(-2px) rotate(180deg);
-          padding: 0 0.7rem 0 0;
+          padding: 0 0.7rem;
 
           &.active {
             transform: translateY(1px) rotate(0deg);
-            padding: 0 0 0 0.7rem;
           }
         }
 
         &.country-selector {
-          display: flex;
-          align-items: center;
-
+          /* flex: 0 0 100px; */
           button {
-            background-color: transparent;
-            display: block;
-            line-height: 1;
-            border: none;
-            padding: 0;
-          }
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+            margin-right: 10px;
 
-          svg {
-            float: left;
-            position: relative;
-            height: 2rem;
-          }
+            svg {
+              flex: 0 0 30px;
+              position: relative;
+              top: 6px;
+            }
 
-          span {
-            float: left;
-            line-height: 2rem;
-            white-space: nowrap;
-            color: var(--color-black);
+            span {
+              flex: 1;
+              white-space: nowrap;
+              font-size: 1.4rem;
+              color: var(--color-black);
+            }
           }
         }
 
         &.country-selector__chat {
-          button {
-            padding: 0;
-            background: transparent;
+          svg {
+            width: 17px;
+            position: relative;
+            top: 3px;
           }
 
-          svg {
-            display: block;
-            position: relative;
-            height: 1.8rem;
+          &.with-lang {
+            margin-left: 20px;
           }
         }
 
         &.calendar {
-          cursor: pointer;
+          display: flex;
+          top: 4px;
 
           svg {
-            height: 1.8rem;
-            margin: 0 0.5rem 0 0;
+            height: 18px;
           }
         }
 
         &.language {
-          min-width: 7rem;
+          min-width: 80px;
           margin-right: 0;
         }
 
@@ -134,11 +137,11 @@ export const StackedHeaderStylesContainer = styled.div`
       justify-content: flex-end;
 
       .cart svg {
-        height: 2.1rem;
+        height: 21px;
       }
 
       .wishlist svg {
-        transform: translate(0, 1px);
+        transform: scale(0.8) translate(0, 1px);
       }
 
       .accounts svg {

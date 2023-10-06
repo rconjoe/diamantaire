@@ -51,6 +51,7 @@ const StyledLanguageSelector = styled.ul`
 
     button {
       background-color: transparent;
+      text-transform: capitalize;
     }
   }
 `;

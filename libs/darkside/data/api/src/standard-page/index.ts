@@ -184,10 +184,13 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
   } else {
     reqUrl = `${window.location.origin}/${reqUrl}`;
   }
+  try {
+    const pageData = await fetch(reqUrl);
 
-  const pageData = await fetch(reqUrl);
-
-  return pageData.json();
+    return pageData.json();
+  } catch {
+    return null;
+  }
 }
 
 export const LIST_PAGE_BY_SLUG = `

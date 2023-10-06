@@ -8,10 +8,6 @@ const carouselWidth = '1280px';
 export const CarouselSliderContainer = styled.div`
   position: relative;
   display: block;
-  margin: calc(var(--gutter) / 2) 0;
-  ${tabletAndUp(`
-    margin: 80px 0;
-  `)}
 
   .content-block__layout {
     position: relative;

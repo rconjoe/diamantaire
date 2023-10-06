@@ -1,7 +1,7 @@
-import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { parseValidLocale, countries } from '@diamantaire/shared/constants';
+import { CountrySelector, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale, countries, languagesByCode } from '@diamantaire/shared/constants';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
@@ -41,12 +41,72 @@ const CountryLabelListItem = styled.div`
   }
 `;
 
+const LanguageLabelListItem = styled.div`
+  border-bottom: 1px solid #ccc;
+  .language-list {
+    position: static;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
+  .selected {
+    text-transform: capitalize;
+  }
+
+  > button {
+    font-size: 1.4rem;
+    color: var(--color-black);
+    background-color: transparent;
+    padding: 1.5rem 0;
+    display: flex;
+    width: 100%;
+
+    &.active {
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    svg {
+      transition: 0.25s;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-right: 10px;
+      text-transform: uppercase;
+      font-size: 1.4rem;
+    }
+
+    .icon {
+      flex: 1;
+      text-align: right;
+    }
+  }
+  ul {
+    padding: 1.5rem 0 0;
+    button {
+      font-size: 1.7rem;
+      color: var(--color-black);
+      background-color: transparent;
+      padding: 0 0 1.5rem;
+      display: flex;
+      width: 100%;
+    }
+  }
+`;
+
 const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, countryLabel }): JSX.Element => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
+  const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
 
   const { locale } = useRouter();
-  const { countryCode: selectedCountryCode } = parseValidLocale(locale);
+
+  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const selectedCountry = countries[selectedCountryCode].name;
+  const selectedLanguage = languagesByCode[selectedLanguageCode].name;
+  const availableLanguages = countries[selectedCountryCode].languages;
 
   function toggleCountrySelector() {
     return setIsCountrySelectorOpen(!isCountrySelectorOpen);
@@ -57,9 +117,37 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, count
       {columns?.map((col, index) => {
         return <FooterAccordion col={col} key={`footer-accordion-${index}`} colKey={index} />;
       })}
+
+      {availableLanguages.length > 1 && (
+        <LanguageLabelListItem>
+          <>
+            <button
+              className={isLanguageSelectorOpen ? 'active language-selector' : 'language-selector'}
+              onClick={() => setIsLanguageSelectorOpen(!isLanguageSelectorOpen)}
+            >
+              <span className="label">
+                <UIString>Language</UIString>
+              </span>
+              <span className="selected">
+                <UIString>{selectedLanguage && selectedLanguage.toLowerCase()}</UIString>
+              </span>
+              <span className="icon">
+                <ArrowRightIcon />
+              </span>
+            </button>
+
+            {isLanguageSelectorOpen && (
+              <LanguageSelector toggleLanguageSelector={() => setIsLanguageSelectorOpen(!isLanguageSelectorOpen)} />
+            )}
+          </>
+        </LanguageLabelListItem>
+      )}
+
       <CountryLabelListItem>
         <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
-          <span className="label">{countryLabel}:</span>
+          <span className="label">
+            <UIString>{countryLabel}</UIString>:
+          </span>
           {selectedCountry}
           <span className="icon">
             <ArrowRightIcon />
@@ -145,32 +233,19 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
 
       <AnimatePresence>
         {isAccordionOpen && (
-          <motion.div
-            className="links-container"
-            key={`mobile-accordion-${colKey}`}
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-            variants={{
-              open: { opacity: 1, height: 'auto' },
-              collapsed: { opacity: 0, height: 0 },
-            }}
-          >
+          <div className="links-container">
             <ul>
               {links?.map((link, index) => {
                 const { route, copy } = link;
 
                 return (
                   <li key={`mobile-accordion-${colKey}-link-${index}`}>
-                    <Link href={route} legacyBehavior>
-                      <a>{copy}</a>
-                    </Link>
+                    <Link href={route}>{copy}</Link>
                   </li>
                 );
               })}
             </ul>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </FooterAccordionContainer>

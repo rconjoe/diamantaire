@@ -3,22 +3,35 @@ const ProductSlider = `
   id
   title
   _modelApiKey
-  productListItems {
+  blocks: productListItems {
     id
     title
     link
     _modelApiKey
     configuration {
+      
       ... on OmegaProductRecord {
         id
         _modelApiKey
         shopifyProductHandle
+
+        plpImage {
+          responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
+          alt
+        }
+
+
         collection {
           ... on WeddingBandProductRecord {
             slug
+            productType
+
           }
           ... on EngagementRingProductRecord {
             slug
+            productType
           }
         }
       }

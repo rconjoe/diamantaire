@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Breadcrumb, Form, ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -85,7 +85,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { parentProductId, productContent, configuration, price } = shopifyProductData;
+  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -205,12 +205,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
           <div className="media-container">
-            <ShowDesktopAndUpOnly>
-              <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
-            </ShowDesktopAndUpOnly>
-            <ShowMobileOnly>
-              <MediaSlider assets={assetStack} />
-            </ShowMobileOnly>
+            <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
+            <MediaSlider assets={assetStack} />
           </div>
           <div className="info-container">
             <div className="info__inner">
@@ -270,7 +266,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
-        <ProductReviews reviewsId={parentProductId} />
+        <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>
     );
   }
