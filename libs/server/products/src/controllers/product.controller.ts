@@ -131,9 +131,25 @@ export class ProductController {
   @ApiQuery({ name: 'priceMax', required: false, description: 'price range filter max' })
   @ApiQuery({ name: 'style', required: false, description: 'style filter' })
   @ApiQuery({ name: 'subStyle', required: false, description: 'substyle filter' })
+  @ApiQuery({ name: 'sortOrder', required: false, description: 'sort order' })
+  @ApiQuery({ name: 'sortBy', required: false, description: 'sort by' })
   async datoPLP(
     @Query()
-    { slug, category, locale, metal, diamondType, priceMin, priceMax, style, subStyle, page, limit }: PlpInput,
+    {
+      slug,
+      category,
+      locale,
+      metal,
+      diamondType,
+      priceMin,
+      priceMax,
+      style,
+      subStyle,
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    }: PlpInput,
   ) {
     return await this.productService.findPlpData({
       slug,
@@ -147,6 +163,8 @@ export class ProductController {
       subStyle,
       page,
       limit,
+      sortBy,
+      sortOrder,
     });
   }
 }

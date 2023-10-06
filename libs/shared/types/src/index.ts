@@ -6,6 +6,7 @@ export * from './type-helpers/diamonds';
 export * from './type-helpers/general';
 export * from './type-helpers/media';
 export * from './type-helpers/selectors';
+export * from './type-helpers/plp';
 
 type QueryFunctionContextMeta = {
   locale: string;

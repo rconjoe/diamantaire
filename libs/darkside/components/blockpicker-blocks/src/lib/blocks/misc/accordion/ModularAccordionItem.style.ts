@@ -53,28 +53,28 @@ export const ModularAccordionItemContainer = styled.div`
     font-size: var(--font-size-xsmall);
     padding-bottom: ${setSpace(4)};
 
-    & p,
+    p,
     span {
       font-size: var(--font-size-xsmall);
       line-height: 1.5;
       margin: ${setSpace(2)} 0;
     }
 
-    & a {
+    a {
       color: var(--color-teal);
     }
 
-    & a:hover {
+    a:hover {
       text-decoration: underline;
     }
 
-    & ul.links,
+    ul.links,
     ul {
       list-style: none;
       padding-left: ${setSpace(1)};
     }
 
-    & ul li {
+    ul li {
       margin-bottom: ${setSpace(1)};
     }
   }
@@ -84,6 +84,8 @@ export const ModularAccordionItemContainer = styled.div`
     line-height: 1.5;
     color: var(--color-teal);
     text-decoration: underline;
+    margin-bottom: 2rem;
+    display: inline-block;
     &:hover {
       text-decoration: none !important;
     }

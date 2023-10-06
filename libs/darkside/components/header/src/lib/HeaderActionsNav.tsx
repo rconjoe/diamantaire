@@ -42,7 +42,7 @@ const HeaderActionsNavContainer = styled.nav`
 
       &.wishlist {
         svg {
-          width: 19px;
+          width: 24px;
           height: auto;
           transform: scale(0.8);
           stroke-width: 1.5px;

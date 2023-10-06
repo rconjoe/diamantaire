@@ -204,6 +204,24 @@ export class PlpInput {
   @IsOptional()
   @Type(() => Number)
   readonly limit?: number;
+
+  @ApiProperty({
+    example: 'price',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortBy?: string;
+
+  @ApiProperty({
+    example: 'desc',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly sortOrder?: string;
 }
 
 export class ProductSlugInput {

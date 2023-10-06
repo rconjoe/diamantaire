@@ -31,6 +31,8 @@ const DatoImageContainer = styled.div`
 const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false, quality }: DatoImageProps) => {
   const { alt, responsiveImage } = image || {};
 
+  if (!image) return null;
+
   const { aspectRatio, src: responsiveImageSrc } = responsiveImage || {};
 
   const isSvgCheck =

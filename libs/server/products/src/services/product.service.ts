@@ -443,8 +443,8 @@ export class ProductsService {
     });
 
     // Match for ringSize from parent product
-    const ringSizeConfigs = productToMatch.variants
-      .filter((variant) => {
+    const ringSizeConfigs = productToMatch?.variants
+      ?.filter((variant) => {
         /* eslint-disable */
         const { ringSize, side, ...optionsToMatch } = productOptionsToMatch;
 
@@ -621,6 +621,8 @@ export class ProductsService {
     subStyle,
     page,
     limit,
+    sortBy,
+    sortOrder,
   }: PlpInput) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
       metal,
@@ -631,6 +633,8 @@ export class ProductsService {
       limit,
       style,
       subStyle,
+      sortBy,
+      sortOrder,
     })}`;
     let plpReturnData;
     // check for cached data
@@ -750,9 +754,18 @@ export class ProductsService {
         { $sort: { __order: 1 } },
       ];
 
+      // sortOrder already declared
+      const sortByKey = sortBy || null;
+      const sortByObj = {};
+
+      if (sortByKey) {
+        sortByObj[sortByKey] = sortOrder;
+      }
+
       const paginateOptions: PaginateOptions = {
         limit: limit || 20,
         page: page || 1,
+        ...(sortByKey && { sort: sortByObj }),
       };
 
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
@@ -1454,7 +1467,6 @@ export class ProductsService {
     try {
       const optionsResults = await this.productRepository.aggregate(pipeline.filter(Boolean));
 
-      // console.log('optionsResults', optionsResults);
       const options = optionsResults.reduce((acc, option) => {
         const { type } = option;
         const sortFn = getOptionValueSorterByType(type);

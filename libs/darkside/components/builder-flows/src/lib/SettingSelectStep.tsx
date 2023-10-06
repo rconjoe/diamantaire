@@ -2,8 +2,10 @@ import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
@@ -43,6 +45,7 @@ const SettingSelectStepStyles = styled.div`
 
 const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow }) => {
   const { updateStep } = useContext(BuilderProductContext);
+  const { locale } = useRouter();
 
   const containerRef = useRef(null);
 
@@ -54,17 +57,20 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   const plpSlug = settingTypeToShow ? settingTypeToShow + '-cut' : 'round-brilliant-cut';
 
   const [filterValue, setFilterValues] = useState<FilterValueProps>({});
+  const [activeSortOptions, setActiveSortOptions] = useState({});
 
   // Keep in case we're asked to add creative to PLP in this view
-  // const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug);
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
   // const { hero, promoCardCollection, creativeBlocks } = plpData || {};
   // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
 
-  const plpData = usePlpVRAIProducts(category, plpSlug, filterValue, { page: 1 });
+  const { sortOptions } = plpData || {};
+
+  const productData = usePlpVRAIProducts(category, plpSlug, { ...filterValue, ...activeSortOptions }, { page: 1 });
 
   console.log('plpData paramsss', category, plpSlug, filterValue);
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = plpData;
+  const { data, fetchNextPage, isFetching, hasNextPage } = productData;
 
   const availableFilters = data?.pages?.[0]?.availableFilters;
 
@@ -85,6 +91,13 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
     updateStep(flowIndex + 1);
   }
+
+  const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
+    setActiveSortOptions({
+      sortBy,
+      sortOrder,
+    });
+  };
 
   useEffect(() => {
     console.log('plp data changing', data);
@@ -116,6 +129,8 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
             selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
+            handleSortChange={handleSortChange}
+            sortOptions={sortOptions}
           />
         </div>
 
