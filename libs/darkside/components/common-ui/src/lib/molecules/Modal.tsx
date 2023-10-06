@@ -158,10 +158,11 @@ const ModalStyles = styled.div`
 interface ModalProps extends PropsWithChildren {
   title: string | boolean;
   onClose: () => void;
+  onCloseIcon?: () => void;
   className?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) => {
+const Modal: React.FC<ModalProps> = ({ title, onClose, children, className, onCloseIcon }) => {
   const isHeaderDisabled = title === false;
 
   return (
@@ -176,7 +177,7 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) =>
         <div className="inner">
           {isHeaderDisabled ? (
             <div className="close close--fixed">
-              <button onClick={onClose}>
+              <button onClick={onCloseIcon ? onCloseIcon : onClose}>
                 <XIcon />
               </button>
             </div>
@@ -186,7 +187,7 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) =>
                 <h4>{title}</h4>
               </div>
               <div className="close">
-                <button onClick={onClose}>
+                <button onClick={onCloseIcon ? onCloseIcon : onClose}>
                   <XIcon />
                 </button>
               </div>

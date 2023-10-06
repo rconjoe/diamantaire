@@ -3,6 +3,7 @@ import { useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, HUBSPOT_EMAIL_POPUP_LISTDATA } from '@diamantaire/shared/constants';
 import { getIsUserInEu, getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -67,10 +68,15 @@ const EmailPopUpStyles = styled.div`
 `;
 
 const EmailPopUp = () => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showOptIn, setShowOptIn] = useState(false);
   const [userCountryCode, setUserCountryCode] = useState(null);
   // showOptIn is true if isUserInEurope is true
+  const router = useRouter();
+
+  const { locale, pathname } = router || {};
+
+  const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
 
   useEffect(() => {
     const isUserInEu = getIsUserInEu();
@@ -82,12 +88,15 @@ const EmailPopUp = () => {
     if (countryCode) {
       setUserCountryCode(countryCode);
     }
+    const shouldOpenEmailPopup = shouldRenderOnThisPage && !Cookies.get('email-popup');
+
+    if (shouldOpenEmailPopup) {
+      // Set a timeout to open the email popup after 20 seconds
+      setTimeout(openEmailPopup, 20000);
+    }
   }, []);
 
-  const router = useRouter();
-  const selectedLocale = router.locale;
-
-  const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(selectedLocale);
+  const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
   const {
     title,
     copy,
@@ -143,7 +152,7 @@ const EmailPopUp = () => {
           listData: HUBSPOT_EMAIL_POPUP_LISTDATA,
           isConsent,
           countryCode: userCountryCode,
-          locale: selectedLocale,
+          locale,
           smsSubscription,
           smsConsentSource,
           sendSMS,
@@ -153,6 +162,7 @@ const EmailPopUp = () => {
           autoClose: 3000,
         });
         setIsModalOpen(false);
+        setEmailPopupCookies();
       }
     } catch (error) {
       toast.error(errorCopy, {
@@ -163,7 +173,16 @@ const EmailPopUp = () => {
     }
   };
   const handleClose = () => {
+    setEmailPopupCookies();
     toggleModal();
+  };
+
+  const openEmailPopup = () => {
+    setIsModalOpen(true);
+  };
+
+  const setEmailPopupCookies = () => {
+    Cookies.set('email-popup', 'true', { expires: 30 });
   };
   const lowercaseUserCountryCode = userCountryCode?.toLowerCase();
   const schema: FormSchemaType[] = [
@@ -185,7 +204,7 @@ const EmailPopUp = () => {
   if (isModalOpen) {
     return (
       <EmailPopUpStyles>
-        <Modal title={false} onClose={handleClose} className="modal--position-bottom-left">
+        <Modal title={false} onClose={() => toggleModal()} onCloseIcon={handleClose} className="modal--position-bottom-left">
           <div className="modal-emailpopup-wrapper">
             <div className="emailpopup-image">
               <DatoImage image={image} />
@@ -290,4 +309,40 @@ export function getUserTitle({ title = '', countryCode = 'US', dataPrices = [] }
   });
 
   return replacedTitle;
+}
+
+/**
+ * Based on the pathname property of the Router object
+ * from the next/router module. This is a blacklist for
+ * which pages should not show the email popup.
+ *
+ * @param {String} pagePathname
+ * @returns {Boolean}
+ */
+export default function getShouldRenderOnThisPage(pagePathname) {
+  const blockedPages = [
+    '/',
+    '/diamonds/inventory',
+    '/diamonds',
+    '/customize',
+    '/account/[accountPageSlug]',
+    '/diamonds/results/[diamondType]',
+    // VNO-SITE
+    // TODO:
+    // '/jewelry/diamond',
+    // '/jewelry/summary',
+    // DONE
+    // '/builderDiamonds',
+    // '/builderEngagementRingSummary',
+    // '/account/login',
+    // '/account/register',
+    // '/account/details',
+    // '/account/ordersPage',
+    // '/account/reset',
+    // '/home',
+    // '/diamonds',
+    // '/cut-for-you-results',
+  ];
+
+  return blockedPages.indexOf(pagePathname) === -1;
 }

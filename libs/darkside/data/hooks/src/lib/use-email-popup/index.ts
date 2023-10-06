@@ -21,10 +21,10 @@ export type EmailPopupProps = {
     successCopy: string;
     errorCopy: string;
     copyPrices: {
-      prices: {
+      prices: Array<{
         priceValue: number;
         currencyCode: string;
-      };
+      }>;
     };
     supportedCountries: {
       code: string;
