@@ -5,6 +5,7 @@ import { getIsUserInEu, getUserCountry, makeCurrency } from '@diamantaire/shared
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import { DatoImage, Heading, Modal, Form, Markdown, UIString, DarksideButton, FormSchemaType } from './';
@@ -104,7 +105,6 @@ const EmailPopUp = () => {
     optInCopy,
   } = emailPopUpContent || {};
 
-  console.log({ emailPopUpContent });
   function toggleModal() {
     if (isModalOpen) {
       setIsModalOpen(false);
@@ -119,13 +119,15 @@ const EmailPopUp = () => {
     copy,
   });
 
-  // const [message, setMessage] = useState(null);
   const [isValid, setIsValid] = useState(true);
 
   const onSubmit = async (e, formState) => {
     e.preventDefault();
 
-    const { email, isConsent } = formState;
+    const { email, isConsent, phone } = formState;
+    const smsSubscription = phone.length > 0 ? 'Yes' : 'No';
+    const smsConsentSource = phone.length > 0 ? 'popup' : '';
+    const sendSMS = phone.length > 0 ? 'subscribed' : '';
 
     if (showOptIn && !isConsent) {
       setIsValid(false);
@@ -137,13 +139,20 @@ const EmailPopUp = () => {
       if (!showOptIn || (showOptIn && isConsent)) {
         const response = await sendHubspotForm({
           email,
+          phone,
           listData: HUBSPOT_EMAIL_POPUP_LISTDATA,
           isConsent,
           countryCode: userCountryCode,
           locale: selectedLocale,
+          smsSubscription,
+          smsConsentSource,
+          sendSMS,
         });
 
-        // setMessage(response.inlineMessage);
+        toast.success(<div dangerouslySetInnerHTML={{ __html: response.inlineMessage }}></div>, {
+          autoClose: 3000,
+        });
+        setIsModalOpen(false);
       }
     } catch (error) {
       console.error('Error submitting form data to HubSpot:', error);

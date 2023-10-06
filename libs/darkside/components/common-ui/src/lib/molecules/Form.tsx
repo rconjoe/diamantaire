@@ -7,7 +7,7 @@ This is the master form component, we should never need to manually create a cus
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import styled from 'styled-components';
 
@@ -146,25 +146,25 @@ const Form = ({
   isValid,
   setIsValid,
 }: FormProps) => {
+  const initialFormState = {};
+
+  schema?.forEach((field) => {
+    if (field.inputType === 'state-dropdown') {
+      initialFormState[field.name] = fiftyStates.find((state) => state.value === field.defaultValue) || null;
+    } else if (field.inputType === 'country-dropdown') {
+      initialFormState[field.name] = allCountries.find((country) => country.label === field.defaultValue) || null;
+    } else {
+      initialFormState[field.name] = field.defaultValue || '';
+    }
+  });
+
   const [formState, setFormState] = useState(null);
 
-  useEffect(() => {
-    const initialFormState = {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-    schema?.map((field) => {
-      if (field.inputType === 'state-dropdown') {
-        return (initialFormState[field.name] = fiftyStates.filter((state) => state.value === field.defaultValue)[0]);
-      } else if (field.inputType === 'country-dropdown') {
-        return (initialFormState[field.name] = allCountries.filter((state) => state.label === field.defaultValue)[0]);
-      } else {
-        return (initialFormState[field.name] = field.defaultValue);
-      }
-    });
-
-    // console.log(initialFormState);
-
-    return setFormState(initialFormState);
-  }, [schema]);
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   const showGdprError = showOptIn && !isValid;
 
@@ -207,7 +207,7 @@ const Form = ({
                       name={name}
                       value={formState?.[name]}
                       placeholder={placeholder}
-                      onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
+                      onChange={handleInputChange}
                     />
                   </div>
                 );
@@ -221,11 +221,8 @@ const Form = ({
                       placeholder={placeholder}
                       pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                       required
-                      onChange={(e) => {
-                        const { name, value } = e.target;
-
-                        setFormState((prevState) => ({ ...prevState, [name]: value }));
-                      }}
+                      value={formState?.[name]}
+                      onChange={handleInputChange}
                     />
                   </div>
                 );
