@@ -1,11 +1,7 @@
 import { Heading, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import {
-  DIAMOND_CFY_CARAT_DEFAULT,
-  DIAMOND_CFY_CARAT_RANGE_MAP,
-  getCurrencyFromLocale,
-} from '@diamantaire/shared/constants';
-import { getCountry, isCountrySupported, makeCurrency } from '@diamantaire/shared/helpers';
+import { DIAMOND_CFY_CARAT_DEFAULT, DIAMOND_CFY_CARAT_RANGE_MAP, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
@@ -22,8 +18,6 @@ const DiamondCfyFilterCarat = (props) => {
   const { title, selectedDiamondType, selectedCarat, handleSelectCarat, locale, caratSliderTooltip } = props;
 
   const countryCode = getCountry(locale);
-
-  const currencyCode = getCurrencyFromLocale(locale);
 
   const [caratMin, caratMax] = getCaratRangeByDiamondType(selectedDiamondType.slug);
 
@@ -122,8 +116,7 @@ const DiamondCfyFilterCarat = (props) => {
               <span className="label">
                 <UIString>Price</UIString>:{' '}
               </span>
-
-              <span className="value">{makeCurrency(caratPrice, locale, currencyCode)}</span>
+              <span className="value">{getFormattedPrice(caratPrice, locale)}</span>
             </div>
 
             <div className="graph-carat-info">

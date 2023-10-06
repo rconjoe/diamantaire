@@ -1,4 +1,4 @@
-import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHTEST, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyFilterShape = styled.div`
@@ -31,6 +31,16 @@ const StyledDiamondCfyFilterShape = styled.div`
       margin: 0;
       font-size: var(--font-size-xxsmall);
       font-weight: var(--font-weight-normal);
+    }
+
+    a {
+      color: ${TEAL};
+      transition: all 0.2s ease;
+      font-weight: var(--font-weight-medium);
+
+      &:hover {
+        opacity: 0.75;
+      }
     }
   }
 

@@ -32,7 +32,8 @@ const StyledTooltip = styled.div`
   }
 
   .react-tooltip__place-bottom .tooltip-arrow,
-  .react-tooltip__place-bottom-start .tooltip-arrow {
+  .react-tooltip__place-bottom-start .tooltip-arrow,
+  .react-tooltip__place-bottom-end .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
   }
