@@ -81,6 +81,7 @@ const EmailPopUp = () => {
   useEffect(() => {
     const isUserInEu = getIsUserInEu();
     const countryCode = getUserCountry();
+    const isUserInUs = countryCode === 'US';
 
     if (isUserInEu) {
       setShowOptIn(true);
@@ -88,7 +89,7 @@ const EmailPopUp = () => {
     if (countryCode) {
       setUserCountryCode(countryCode);
     }
-    const shouldOpenEmailPopup = shouldRenderOnThisPage && !Cookies.get('email-popup');
+    const shouldOpenEmailPopup = shouldRenderOnThisPage && !Cookies.get('email-popup') && !isUserInUs;
 
     if (shouldOpenEmailPopup) {
       // Set a timeout to open the email popup after 20 seconds
