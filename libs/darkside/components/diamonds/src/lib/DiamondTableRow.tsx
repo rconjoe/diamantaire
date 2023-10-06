@@ -20,7 +20,7 @@ const DiamondTableRow = ({
   isBuilderFlowOpen = false,
 }: {
   product?: DiamondDataTypes;
-  locale?: string;
+  locale: string;
   isBuilderFlowOpen?: boolean;
 }) => {
   const { emitDataLayer } = useAnalytics();
@@ -37,10 +37,11 @@ const DiamondTableRow = ({
 
   const handleSelectDiamond = () => {
     const { carat, color, clarity, cut, price } = product;
-    const { locale } = router || {};
+
     const { countryCode } = parseValidLocale(locale) || {};
 
     const currencyCode = getCurrency(countryCode);
+
     const formattedPrice = getFormattedPrice(price, locale, true, true);
 
     emitDataLayer({

@@ -15,7 +15,6 @@ const DiamondCfyFilterShape = (props) => {
     diamondSelectorSubtitle,
     diamondResultMatchViewAllCta,
     selectFromOurMostPopularShapes,
-    mostPopularShapes,
     interestedInARareShape,
     bookAnAppointmentWithADiamondExpert,
   } = ctoDiamondTable;
