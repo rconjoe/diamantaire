@@ -93,14 +93,14 @@ const EmailPopUp = () => {
     copy,
     copyPrices,
     countrySpecificCopy,
-    // errorCopy,
+    errorCopy,
     image,
     placeholder1,
     placeholder2,
     // privacyctacopy,
     // privacyctalink,
     submitCopy,
-    // successCopy,
+    successCopy,
     // supportedCountries,
     optInCopy,
   } = emailPopUpContent || {};
@@ -137,7 +137,7 @@ const EmailPopUp = () => {
 
     try {
       if (!showOptIn || (showOptIn && isConsent)) {
-        const response = await sendHubspotForm({
+        await sendHubspotForm({
           email,
           phone,
           listData: HUBSPOT_EMAIL_POPUP_LISTDATA,
@@ -149,12 +149,16 @@ const EmailPopUp = () => {
           sendSMS,
         });
 
-        toast.success(<div dangerouslySetInnerHTML={{ __html: response.inlineMessage }}></div>, {
+        toast.success(successCopy, {
           autoClose: 3000,
         });
         setIsModalOpen(false);
       }
     } catch (error) {
+      toast.error(errorCopy, {
+        autoClose: 3000,
+      });
+
       console.error('Error submitting form data to HubSpot:', error);
     }
   };
