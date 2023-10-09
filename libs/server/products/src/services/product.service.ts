@@ -680,18 +680,25 @@ export class ProductsService {
 
       if (configurationsInOrder || productsInOrder) {
         plpProductsContentData = productList.reduce((data, item) => {
-          let contentId: string;
+          let contentId: string, content: object;
 
           if (item._modelApiKey === 'configuration') {
             contentId = item.variantId;
+            content = { ...item.jewelryProduct };
+            // delete item.jewelryProduct;
           } else if (item._modelApiKey === 'omega_product') {
             contentId = item.shopifyProductHandle;
+            content = { ...item.collection };
+            // delete item.collection;
           }
 
           contentIdsInOrder.push(contentId);
 
           data[contentId] = {
-            content: item,
+            content: {
+              ...item,
+              ...content,
+            },
           };
 
           return data;
@@ -944,9 +951,9 @@ export class ProductsService {
             return map;
           }, {});
 
-          const useLowestPrice = !content?.['collection']?.shouldUseDefaultPrice;
+          const useLowestPrice = !content?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
-          const productLabel = content?.['collection']?.productLabel;
+          const productLabel = content?.productLabel;
           const variants = {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
