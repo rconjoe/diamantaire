@@ -1,6 +1,6 @@
 import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -245,7 +245,8 @@ const ProductDescription = ({
     ' diamond';
 
   const { locale } = useRouter();
-  const isInUS = locale === 'en-US';
+
+  const isInUS = locale === DEFAULT_LOCALE;
 
   const refinedDescription: string = replacePlaceholders(description, ['%%product-name%%'], [title]).toString();
 

@@ -5,7 +5,7 @@ import {
   useDiamondTableData,
   useHumanNameMapper,
 } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
@@ -13,14 +13,12 @@ import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 const DiamondCfyAccordion = ({
   locale,
   product,
-  currencyCode,
   diamondCtoData,
   handleUpgradeClick,
   defaultProduct,
   display,
 }: {
   locale?: string;
-  currencyCode?: string;
   defaultProduct?: DiamondCtoDataTypes;
   product?: DiamondCtoDataTypes;
   diamondCtoData?: DiamondCtoDataProps;
@@ -65,7 +63,12 @@ const DiamondCfyAccordion = ({
 
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
-      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+      upgradePriceHuman = (
+        <>
+          <i>{upgradePriceSymbol}</i>
+          <span>{getFormattedPrice(upgradePrice, locale, false)}</span>
+        </>
+      );
     }
 
     return (
@@ -152,7 +155,12 @@ const DiamondCfyAccordion = ({
 
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
-      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+      upgradePriceHuman = (
+        <>
+          <i>{upgradePriceSymbol}</i>
+          <span>{getFormattedPrice(upgradePrice, locale, false)}</span>
+        </>
+      );
     }
 
     return (

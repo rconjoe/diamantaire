@@ -7,6 +7,7 @@ const { withNx } = require('@nrwl/next/plugins/with-nx');
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const DEFAULT_LOCALE = 'en-US';
+
 const AVAILABLE_LOCALES = [
   DEFAULT_LOCALE,
   'en-CA',

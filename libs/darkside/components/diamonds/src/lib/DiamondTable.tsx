@@ -1,7 +1,8 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
@@ -26,7 +27,6 @@ type Info =
 type DiamondTableProps = {
   activeRow?: DiamondDataTypes | DiamondPairDataTypes;
   setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
-  currencyCode: string;
   locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
@@ -46,7 +46,6 @@ type DiamondTableProps = {
 
 const DiamondTable = (props: DiamondTableProps) => {
   const {
-    currencyCode,
     locale,
     initialDiamonds,
     initialPagination,
@@ -151,12 +150,12 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return makeCurrency(Number(amount), locale, currencyCode);
+          return getFormattedPrice(Number(amount), locale, false);
         },
         header: () => <UIString>price</UIString>,
       },
     ],
-    [currencyCode, locale],
+    [locale],
   );
 
   const diamondPairColumns = useMemo(
@@ -227,12 +226,12 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return makeCurrency(Number(amount), locale, currencyCode);
+          return getFormattedPrice(Number(amount), locale, false);
         },
         header: () => <UIString>price</UIString>,
       },
     ],
-    [currencyCode, locale],
+    [locale],
   );
 
   // TABLE

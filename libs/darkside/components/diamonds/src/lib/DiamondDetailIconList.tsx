@@ -1,6 +1,7 @@
 import { SlideOut, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondInfoData, useDiamondPdpData, useProductIconList } from '@diamantaire/darkside/data/hooks';
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { DiamondIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
 import Markdown from 'markdown-to-jsx';
@@ -9,7 +10,7 @@ import { useContext, useState } from 'react';
 
 import { StyledDiamondDetailIconList } from './DiamondDetailIconList.style';
 
-const DiamondDetailIconList = ({ locale = 'en-US' }: { locale?: string }) => {
+const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string }) => {
   const [isSlideOutOpen, setIsSlideOutOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const { isMobile } = useContext(GlobalContext);

@@ -76,6 +76,14 @@ const StyledDiamondCfyAccordion = styled.div`
 
       .price {
         margin: 0 0 0 1rem;
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+
+        i {
+          transform: translateY(-0.1rem);
+          line-height: 1;
+        }
       }
     }
 

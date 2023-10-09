@@ -1,3 +1,5 @@
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+
 import { toBCP47LocaleTag } from './currency';
 
 /**
@@ -20,8 +22,6 @@ export function formatNumber(number, locale = 'en', options = { minimumFractionD
  * @param {string} ringSizeString - ringSize
  * @param {string} locale - locale ISO
  */
-
-const DEFAULT_LOCALE = 'en-US';
 
 export function formatRingSize(ringSizeString, locale = DEFAULT_LOCALE) {
   // ring sizes are entered in en_US, no need to reformat

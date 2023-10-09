@@ -1,4 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { useQuery } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
@@ -10,7 +11,7 @@ const replacementRegExp = new RegExp('%%(.*?)%%', 'g');
 // _t('replace this string with %%this%% and %%that%%', ['that', 'this']);
 // _t('replace this string with %%this%% and %%that%%', ['that', <ReactComponent>]);
 
-export function useTranslations(locale = 'en-US', category?: string) {
+export function useTranslations(locale = DEFAULT_LOCALE, category?: string) {
   const { data } = useQuery({ ...queries.template.global(locale) });
 
   const { allHumanNamesMappers } = data || {};
@@ -32,8 +33,6 @@ export function useTranslations(locale = 'en-US', category?: string) {
 
         return acc;
       }, {});
-
-  console.log(`translations`, translations);
 
   function _t(key: string, replacements?: (string | ReactNode)[]) {
     if (!translations) {

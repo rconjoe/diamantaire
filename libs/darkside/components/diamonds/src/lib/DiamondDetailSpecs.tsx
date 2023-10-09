@@ -1,4 +1,5 @@
 import { useDiamondPdpData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 
 import StyledDiamondSpecs from './DiamondDetailSpecs.style';
 
@@ -7,7 +8,7 @@ export interface DiamondSpecsProps {
   lotId?: string;
 }
 
-const DiamondDetailSpecs = ({ locale = 'en-US', lotId }: { locale?: string; lotId?: string }) => {
+const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: string; lotId?: string }) => {
   const {
     data: {
       diamondProduct: {

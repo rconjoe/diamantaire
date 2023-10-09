@@ -16,14 +16,8 @@ import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
-import {
-  getCFYResultOptionsFromUrl,
-  getCountry,
-  getDiamondType,
-  getIsUserInEu,
-  makeCurrency,
-} from '@diamantaire/shared/helpers';
+import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, getIsUserInEu } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -76,7 +70,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { diamondType, carat, price } = product;
 
-  const formattedPrice = makeCurrency(price, locale, currencyCode);
+  const formattedPrice = getFormattedPrice(price, locale, false);
 
   const formattedDate = getFormattedShipppingDate(locale);
 
@@ -220,7 +214,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   handleUpgradeClick={handleUpgradeClick}
                   diamondCtoData={diamondCtoData}
                   defaultProduct={defaultProduct}
-                  currencyCode={currencyCode}
                   product={product}
                   display={display}
                   locale={locale}

@@ -116,7 +116,7 @@ const DiamondCfyFilterCarat = (props) => {
               <span className="label">
                 <UIString>Price</UIString>:{' '}
               </span>
-              <span className="value">{getFormattedPrice(caratPrice, locale)}</span>
+              <span className="value">{getFormattedPrice(caratPrice, locale, false)}</span>
             </div>
 
             <div className="graph-carat-info">

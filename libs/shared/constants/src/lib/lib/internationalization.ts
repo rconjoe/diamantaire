@@ -501,7 +501,7 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
  */
 export function getFormattedPrice(
   priceInCents: number,
-  locale = 'en-US',
+  locale: string = DEFAULT_LOCALE,
   hideZeroCents = true,
   excludeCurrency = false,
 ): string {
@@ -515,8 +515,8 @@ export function getFormattedPrice(
   }
 
   const numberFormat = new Intl.NumberFormat(locale, {
-    style: 'currency',
     currency,
+    style: 'currency',
     minimumFractionDigits: 0,
     maximumFractionDigits: hideZeroCents && hasCentsValues(convertedPrice) ? 0 : 2,
   });

@@ -191,7 +191,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             options={options}
             ranges={ranges}
             locale={locale}
-            currencyCode={currencyCode}
           />
 
           {isMobile && (

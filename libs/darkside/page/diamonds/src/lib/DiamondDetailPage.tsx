@@ -27,7 +27,7 @@ interface DiamondDetailPageDataTypes {
 }
 
 const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, currencyCode, countryCode, options } = props;
+  const { locale, countryCode, options } = props;
 
   const { _t } = useTranslations(locale);
 
@@ -59,13 +59,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
         </div>
 
         <div className="page-main">
-          <DiamondDetail
-            countryCode={countryCode}
-            currencyCode={currencyCode}
-            diamondType={diamondType}
-            locale={locale}
-            lotId={lotId}
-          />
+          <DiamondDetail countryCode={countryCode} diamondType={diamondType} locale={locale} lotId={lotId} />
         </div>
       </StyledDiamondDetailPage>
     </>

@@ -1,7 +1,8 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { makeCurrency, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+import { makeCurrency, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
@@ -70,7 +71,7 @@ const DiamondGrid = ({ items, flowIndex }) => {
         {items?.map((diamond) => {
           const mutatedLotId = getNumericalLotId(diamond?.lotId);
           const src = `https://videos.diamondfoundry.com/${mutatedLotId}-thumb.jpg`;
-          const price = makeCurrency(diamond.price, 'en-US', 'USD');
+          const price = makeCurrency(diamond.price, DEFAULT_LOCALE, 'USD');
 
           return (
             <div className="diamond-grid-item" key={diamond.id}>

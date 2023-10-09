@@ -2,6 +2,8 @@
  * Helper function for pricing and currency related operations
  */
 
+import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
+
 /**
  * Given a shopify price number and localization values, it will return a properly formatted price string
  * @param {integer|float} shopifyNumber
@@ -72,7 +74,7 @@ export function shopifyPriceToShopifyNumber(num) {
  * @param {string} currencyCode
  */
 
-export function makeCurrency(price, locale = 'en-US', currencyCode = 'USD') {
+export function makeCurrency(price, locale = DEFAULT_LOCALE, currencyCode = 'USD') {
   const currencyLocale = checkLocale(toBCP47LocaleTag(locale), currencyCode);
 
   // in built JS currency formatter
@@ -88,7 +90,7 @@ export function makeCurrency(price, locale = 'en-US', currencyCode = 'USD') {
   return formattedPrice;
 }
 
-export function makeCurrencyFromShopifyPrice(price, locale = 'en-US', currencyCode = 'USD') {
+export function makeCurrencyFromShopifyPrice(price, locale = DEFAULT_LOCALE, currencyCode = 'USD') {
   const newPrice = price * 100;
 
   return makeCurrency(newPrice, locale, currencyCode);
@@ -162,7 +164,7 @@ export function replaceMoneyByCurrency(str, currencyCode = 'USD', valueMap) {
 
   if (currencyValue && newValue) {
     const [value] = currencyValue;
-    const formatterValue = makeCurrency(newValue, currencyCode === 'EUR' ? 'nl-NL' : 'en-US', currencyCode);
+    const formatterValue = makeCurrency(newValue, currencyCode === 'EUR' ? 'nl-NL' : DEFAULT_LOCALE, currencyCode);
 
     finalStr = str.replace(value, formatterValue);
   }
