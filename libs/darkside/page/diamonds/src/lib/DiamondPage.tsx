@@ -59,7 +59,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
 
-  console.log(`dynamicTitle`, dynamicTitle);
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
   const diamondTypeTitle = options?.diamondType ? _t(getDiamondType(options?.diamondType).slug) : '';

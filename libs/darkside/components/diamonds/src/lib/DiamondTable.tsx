@@ -1,7 +1,7 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
@@ -127,7 +127,11 @@ const DiamondTable = (props: DiamondTableProps) => {
       },
       {
         accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()).toFixed(2),
+        cell: (info: Info) => {
+          const caratValue = Number(info.getValue());
+
+          return getFormattedCarat(caratValue, locale);
+        },
         header: () => <UIString>carat</UIString>,
       },
       {
@@ -150,7 +154,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return getFormattedPrice(Number(amount), locale, false);
+          return getFormattedPrice(Number(amount), locale, true);
         },
         header: () => <UIString>price</UIString>,
       },
@@ -189,7 +193,15 @@ const DiamondTable = (props: DiamondTableProps) => {
           if (isDiamondPairType(info.row.original)) {
             const diamonds = info.row.original.diamonds;
 
-            return <DiamondPairCell diamonds={diamonds} accessorKey="carat" renderValue={(v) => Number(v).toFixed(2)} />;
+            return (
+              <DiamondPairCell
+                diamonds={diamonds}
+                accessorKey="carat"
+                renderValue={(v) => {
+                  return getFormattedCarat(Number(v), locale);
+                }}
+              />
+            );
           }
         },
         header: () => <UIString>carat</UIString>,

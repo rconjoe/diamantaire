@@ -1,6 +1,7 @@
 import { Accordion, CertificateThumb, Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedCarat } from '@diamantaire/shared/constants';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
 import { useContext } from 'react';
@@ -29,7 +30,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
   const getCaratTitle = () => {
     const { carat } = product || {};
     const title = getInfo(specs, 'carat')?.value;
-    const label = carat + 'ct';
+    const formattedCarat = getFormattedCarat(carat, locale);
+    const label = formattedCarat + 'ct';
 
     return (
       <>

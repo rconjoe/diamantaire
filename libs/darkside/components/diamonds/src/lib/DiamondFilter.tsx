@@ -7,6 +7,7 @@ import {
   DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_TITLES,
   DIAMOND_TABLE_SHAPES,
+  getFormattedCarat,
   getFormattedPrice,
 } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
@@ -30,11 +31,13 @@ const SliderFilter = (props) => {
 
   const handleFormat = (value: number | string) => {
     if (type === 'carat') {
-      return Number(value).toFixed(1) + 'ct';
+      const caratValue = Number(value);
+
+      return getFormattedCarat(caratValue, locale, 1) + 'ct';
     }
 
     if (type === 'price') {
-      return getFormattedPrice(Number(value), locale, false);
+      return getFormattedPrice(Number(value), locale, true);
     }
 
     return value.toString();

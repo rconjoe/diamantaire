@@ -66,7 +66,7 @@ const DiamondCfyAccordion = ({
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
-          <span>{getFormattedPrice(upgradePrice, locale, false)}</span>
+          <span>{getFormattedPrice(upgradePrice, locale)}</span>
         </>
       );
     }
@@ -158,7 +158,7 @@ const DiamondCfyAccordion = ({
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
-          <span>{getFormattedPrice(upgradePrice, locale, false)}</span>
+          <span>{getFormattedPrice(upgradePrice, locale)}</span>
         </>
       );
     }

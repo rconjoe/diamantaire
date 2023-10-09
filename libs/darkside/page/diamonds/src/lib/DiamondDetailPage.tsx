@@ -10,7 +10,7 @@ import {
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { getCurrencyFromLocale } from '@diamantaire/shared/constants';
+import { getCurrencyFromLocale, getFormattedCarat } from '@diamantaire/shared/constants';
 import { getCountry, getDiamondOptionsFromUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
@@ -43,7 +43,9 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const diamondTitle = _t(getDiamondType(diamondType)?.slug);
 
-  const pageSeoTitle = `${carat} Carat ` + (diamondTitle ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
+  const formattedCarat = getFormattedCarat(carat, locale);
+
+  const pageSeoTitle = `${formattedCarat} Carat ` + (diamondTitle ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
 
   return (
     <>

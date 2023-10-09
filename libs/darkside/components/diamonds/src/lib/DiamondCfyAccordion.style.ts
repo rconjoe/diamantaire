@@ -81,8 +81,7 @@ const StyledDiamondCfyAccordion = styled.div`
         align-items: center;
 
         i {
-          transform: translateY(-0.1rem);
-          line-height: 1;
+          font-style: normal;
         }
       }
     }

@@ -1,6 +1,11 @@
 import { Heading, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { DIAMOND_CFY_CARAT_DEFAULT, DIAMOND_CFY_CARAT_RANGE_MAP, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_CFY_CARAT_DEFAULT,
+  DIAMOND_CFY_CARAT_RANGE_MAP,
+  getFormattedCarat,
+  getFormattedPrice,
+} from '@diamantaire/shared/constants';
 import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -25,9 +30,9 @@ const DiamondCfyFilterCarat = (props) => {
 
   const [sliderRangeValue, setSliderRangeValue] = useState(initialSliderRangeValue);
 
-  const [caratPrice, setCaratPrice] = useState(getPriceFromCaratWeight(selectedCarat));
+  const [price, setPrice] = useState(getPriceFromCaratWeight(selectedCarat));
 
-  const [formattedCarat, setFormattedCarat] = useState(`${selectedCarat.toFixed(1)}ct`);
+  const [carat, setCarat] = useState(`${selectedCarat.toFixed(1)}ct`);
 
   const updateParentState = useCallback(() => {
     const caratValue = getSelectedCaratRange(sliderRangeValue, caratMin, caratMax);
@@ -37,8 +42,8 @@ const DiamondCfyFilterCarat = (props) => {
       handleSelectCarat(roundedCaratValue);
 
       const updateCaratAndPrice = () => {
-        setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
-        setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
+        setCarat(`${roundedCaratValue.toFixed(1)}ct`);
+        setPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
       requestAnimationFrame(updateCaratAndPrice);
@@ -53,8 +58,8 @@ const DiamondCfyFilterCarat = (props) => {
 
       const updateState = () => {
         setSliderRangeValue(value);
-        setFormattedCarat(`${roundedCaratValue.toFixed(1)}ct`);
-        setCaratPrice(getPriceFromCaratWeight(roundedCaratValue));
+        setCarat(`${roundedCaratValue.toFixed(1)}ct`);
+        setPrice(getPriceFromCaratWeight(roundedCaratValue));
       };
 
       requestAnimationFrame(updateState);
@@ -63,9 +68,9 @@ const DiamondCfyFilterCarat = (props) => {
   );
 
   useEffect(() => {
-    setCaratPrice(getPriceFromCaratWeight(selectedCarat));
+    setPrice(getPriceFromCaratWeight(selectedCarat));
 
-    setFormattedCarat(`${selectedCarat.toFixed(1)}ct`);
+    setCarat(`${selectedCarat.toFixed(1)}ct`);
   }, [selectedCarat]);
 
   useEffect(() => {
@@ -116,7 +121,7 @@ const DiamondCfyFilterCarat = (props) => {
               <span className="label">
                 <UIString>Price</UIString>:{' '}
               </span>
-              <span className="value">{getFormattedPrice(caratPrice, locale, false)}</span>
+              <span className="value">{getFormattedPrice(price, locale, true)}</span>
             </div>
 
             <div className="graph-carat-info">
@@ -125,7 +130,7 @@ const DiamondCfyFilterCarat = (props) => {
                   <UIString>for</UIString>{' '}
                 </span>
 
-                <span className="value">{formattedCarat}</span>
+                <span className="value">{getFormattedCarat(parseFloat(carat), locale, 1)}ct</span>
               </span>
             </div>
 

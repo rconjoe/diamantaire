@@ -16,7 +16,7 @@ import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale, getFormattedPrice } from '@diamantaire/shared/constants';
+import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, getIsUserInEu } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
@@ -37,12 +37,11 @@ interface CFYResultPageProps {
   dehydratedState: DehydratedState;
   locale: string;
   countryCode: string;
-  currencyCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, currencyCode, options = {} } = props;
+  const { locale, options = {} } = props;
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -70,7 +69,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { diamondType, carat, price } = product;
 
-  const formattedPrice = getFormattedPrice(price, locale, false);
+  const formattedPrice = getFormattedPrice(price, locale);
 
   const formattedDate = getFormattedShipppingDate(locale);
 
@@ -118,11 +117,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondTypeTitle = _t(getDiamondType(product?.diamondType)?.slug || '');
 
-  const caratValue = product?.carat?.toFixed(1) || '';
+  const caratValue = parseFloat(product?.carat?.toFixed(1) || '');
+
+  const formattedCaratValue = getFormattedCarat(caratValue, locale, 1);
 
   const pageTitle = `${ctoDiamondResultShapeAndWeightTitle
     .replace('%%diamond_shape%%', diamondTypeTitle)
-    .replace('%%diamond_carat%%', caratValue)}`;
+    .replace('%%diamond_carat%%', formattedCaratValue)}`;
 
   const [loadPagination, setLoadPagination] = useState(0);
 
@@ -276,8 +277,6 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const currencyCode = getCurrencyFromLocale(locale);
-
   const countryCode = getCountry(locale);
 
   const options = getCFYResultOptionsFromUrl(query || {});
@@ -315,7 +314,6 @@ async function getServerSideProps(
       locale,
       options,
       countryCode,
-      currencyCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

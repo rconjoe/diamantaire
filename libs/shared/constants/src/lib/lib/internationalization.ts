@@ -517,11 +517,18 @@ export function getFormattedPrice(
   const numberFormat = new Intl.NumberFormat(locale, {
     currency,
     style: 'currency',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: hideZeroCents && hasCentsValues(convertedPrice) ? 0 : 2,
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
   const formattedPrice = numberFormat.format(convertedPrice);
 
   return formattedPrice;
+}
+
+export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE, digits?: number) {
+  return Intl.NumberFormat(locale, {
+    minimumFractionDigits: digits ? digits : 2,
+    maximumFractionDigits: digits ? digits : 2,
+  }).format(carat);
 }
