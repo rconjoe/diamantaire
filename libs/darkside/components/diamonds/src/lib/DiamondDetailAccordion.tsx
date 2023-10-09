@@ -80,7 +80,10 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <strong>{title}:</strong> <span>{label?.value}</span>{' '}
+        <strong>{title}:</strong>{' '}
+        <span className="ellipsis" title={label?.value}>
+          {label?.value}
+        </span>{' '}
         <strong>
           <UIString>{label?.key}</UIString>
         </strong>
@@ -154,7 +157,11 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong>{' '}
+        <span className="ellipsis" title={label?.value}>
+          {label?.value}
+        </span>{' '}
+        <strong>{label?.key}</strong>
       </>
     );
   };
@@ -222,7 +229,11 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <strong>{title}:</strong> <span>{label?.value}</span> <strong>{label?.key}</strong>
+        <strong>{title}:</strong>{' '}
+        <span className="ellipsis" title={label?.value}>
+          {label?.value}
+        </span>{' '}
+        <strong>{label?.key}</strong>
       </>
     );
   };

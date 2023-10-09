@@ -11,6 +11,10 @@ const StyledDiamondCfyAccordion = styled.div`
   `)}
 
   .accordion-header {
+    .ellipsis {
+      max-width: 25rem;
+    }
+
     .text {
       font-size: var(--font-size-xxsmall);
 

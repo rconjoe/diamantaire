@@ -3,13 +3,8 @@ import styled from 'styled-components';
 
 const StyledDiamondDetailAccordion = styled.div`
   .accordion-header {
-    .text {
-      span {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        max-width: 160px;
-      }
+    .ellipsis {
+      max-width: 17rem;
     }
   }
 

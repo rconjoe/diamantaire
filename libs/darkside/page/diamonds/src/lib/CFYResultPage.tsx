@@ -200,9 +200,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <Heading>{ctoDiamondResultFoundTitle}</Heading>
                 </div>
               )}
+
               <div className="subtitle">
                 <p>{pageTitle}</p>
               </div>
+
               <div className="primary-price">
                 <p>{formattedPrice}</p>
 
@@ -212,6 +214,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   </small>
                 )}
               </div>
+
               <div className="accordion">
                 <DiamondCfyAccordion
                   handleUpgradeClick={handleUpgradeClick}
@@ -223,11 +226,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   locale={locale}
                 />
               </div>
+
               <div className="date">
                 <p>
                   <UIString>Ships by</UIString> {formattedDate}
                 </p>
               </div>
+
               <div className="policy">
                 {shouldRenderReturnPolicy ? (
                   <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
@@ -235,6 +240,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <Markdown>{ctoDiamondResultNote || ''}</Markdown>
                 )}
               </div>
+
               <div className="links">
                 <Markdown
                   options={{
@@ -244,6 +250,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   {ctoDiamondResultNeedItFaster}
                 </Markdown>
               </div>
+
               <div className="cta">
                 <StickyElementWrapper>
                   <DarksideButton>
