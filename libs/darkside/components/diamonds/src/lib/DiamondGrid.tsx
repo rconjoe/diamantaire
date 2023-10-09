@@ -1,8 +1,9 @@
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { makeCurrency, updateUrlParameter } from '@diamantaire/shared/helpers';
+// eslint-disable-line
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
