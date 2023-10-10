@@ -42,7 +42,7 @@ const EmailPopUpStyles = styled.div`
         padding: 20px;
         flex: 1;
         margin: 0 auto;
-        ${media.medium`padding: 40px;max-width: 450px;`}
+        ${media.medium`padding: 0;max-width: 450px;`}
         h2 {
           margin-bottom: 10px;
         }
@@ -328,6 +328,7 @@ export default function getShouldRenderOnThisPage(pagePathname) {
     '/customize',
     '/account/[accountPageSlug]',
     '/diamonds/results/[diamondType]',
+    '/book-appointment',
     // VNO-SITE
     // TODO:
     // '/jewelry/diamond',
