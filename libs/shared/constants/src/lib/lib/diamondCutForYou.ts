@@ -31,7 +31,18 @@ export const ALL_CFY_DIAMOND_TYPES = [
   'trillion',
 ];
 
-export const POPULAR_CFY_DIAMOND_TYPES = ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion'];
+export const POPULAR_CFY_DIAMOND_TYPES = [
+  'round-brilliant',
+  'oval',
+  'emerald',
+  'pear',
+  'radiant',
+  'cushion',
+  'marquise',
+  'trillion',
+  'asscher',
+  'princess',
+];
 
 export const CUSTOM_CFY_DIAMOND_TYPES = ALL_CFY_DIAMOND_TYPES.filter((v) => {
   return !POPULAR_CFY_DIAMOND_TYPES.includes(v);

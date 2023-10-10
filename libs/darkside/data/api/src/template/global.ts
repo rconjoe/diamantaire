@@ -105,6 +105,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
       }
     }
     allHumanNamesMappers(locale: $locale, first: "100") {
+      title
       map {
         key
         value

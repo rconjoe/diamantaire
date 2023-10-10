@@ -1,7 +1,8 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
@@ -26,7 +27,6 @@ type Info =
 type DiamondTableProps = {
   activeRow?: DiamondDataTypes | DiamondPairDataTypes;
   setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
-  currencyCode: string;
   locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
@@ -46,7 +46,6 @@ type DiamondTableProps = {
 
 const DiamondTable = (props: DiamondTableProps) => {
   const {
-    currencyCode,
     locale,
     initialDiamonds,
     initialPagination,
@@ -119,20 +118,25 @@ const DiamondTable = (props: DiamondTableProps) => {
         accessorKey: 'diamondType',
         cell: (info: Info) => {
           const shape = info.getValue();
-          const diamondTypeTitle = (shape && getDiamondType(shape)?.title) || info.getValue();
 
-          return diamondTypeTitle;
+          const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
+
+          return <UIString>{diamondTypeHandle}</UIString>;
         },
         header: () => <UIString>shape</UIString>,
       },
       {
         accessorKey: 'carat',
-        cell: (info: Info) => Number(info.getValue()).toFixed(2),
+        cell: (info: Info) => {
+          const caratValue = Number(info.getValue());
+
+          return getFormattedCarat(caratValue, locale);
+        },
         header: () => <UIString>carat</UIString>,
       },
       {
         accessorKey: 'color',
-        cell: (info: Info) => info.getValue(),
+        cell: (info: Info) => <UIString>{info.getValue()}</UIString>,
         header: () => <UIString>color</UIString>,
       },
       {
@@ -142,7 +146,7 @@ const DiamondTable = (props: DiamondTableProps) => {
       },
       {
         accessorKey: 'cut',
-        cell: (info: Info) => info.getValue(),
+        cell: (info: Info) => <UIString>{info.getValue()}</UIString>,
         header: () => <UIString>cut</UIString>,
       },
       {
@@ -150,12 +154,12 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return makeCurrency(Number(amount), locale, currencyCode);
+          return getFormattedPrice(Number(amount), locale, true);
         },
         header: () => <UIString>price</UIString>,
       },
     ],
-    [currencyCode, locale],
+    [locale],
   );
 
   const diamondPairColumns = useMemo(
@@ -189,7 +193,15 @@ const DiamondTable = (props: DiamondTableProps) => {
           if (isDiamondPairType(info.row.original)) {
             const diamonds = info.row.original.diamonds;
 
-            return <DiamondPairCell diamonds={diamonds} accessorKey="carat" renderValue={(v) => Number(v).toFixed(2)} />;
+            return (
+              <DiamondPairCell
+                diamonds={diamonds}
+                accessorKey="carat"
+                renderValue={(v) => {
+                  return getFormattedCarat(Number(v), locale);
+                }}
+              />
+            );
           }
         },
         header: () => <UIString>carat</UIString>,
@@ -226,12 +238,12 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const amount = info.getValue();
 
-          return makeCurrency(Number(amount), locale, currencyCode);
+          return getFormattedPrice(Number(amount), locale, false);
         },
         header: () => <UIString>price</UIString>,
       },
     ],
-    [currencyCode, locale],
+    [locale],
   );
 
   // TABLE

@@ -11,8 +11,12 @@ const StyledDiamondCfyAccordion = styled.div`
   `)}
 
   .accordion-header {
+    .ellipsis {
+      max-width: 25rem;
+    }
+
     .text {
-      font-size: var(--font-size-xxxsmall);
+      font-size: var(--font-size-xxsmall);
 
       ${desktopAndUp(`
         font-size: var(--font-size-xsmall);
@@ -72,6 +76,13 @@ const StyledDiamondCfyAccordion = styled.div`
 
       .price {
         margin: 0 0 0 1rem;
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+
+        i {
+          font-style: normal;
+        }
       }
     }
 

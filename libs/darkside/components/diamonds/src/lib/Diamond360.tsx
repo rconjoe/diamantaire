@@ -1,7 +1,7 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
 import { canUseWebP, generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 
@@ -27,7 +27,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
 
   const [mediaJpgFallback, setMediaJpgFallback] = useState(false);
 
-  const fetchMediaType = async (): Promise<void> => {
+  const fetchMediaType = useCallback(async () => {
     const isWebPCompatible = canUseWebP();
 
     if (!isWebPCompatible) {
@@ -57,7 +57,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
         setMediaType('diamond-video');
       }
     }
-  };
+  }, [lotId, id]);
 
   const renderMedia = () => {
     if (disabled) {

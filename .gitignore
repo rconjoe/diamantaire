@@ -132,7 +132,11 @@ env.list
 .env*
 .local.env
 apps/**/*.env
+apps/**/.env.*
+apps/**/.env.*.local
 
+# Apps gitignore
+apps/**/.gitignore
 
 #Project Docs
 docs/apps/darkside/main

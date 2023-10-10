@@ -148,4 +148,9 @@ export const Typography = styled.createGlobalStyle`
       font-size: var(--font-size-xsmall);
     }
   }
+  .ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 `;
