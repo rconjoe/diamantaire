@@ -13,11 +13,11 @@ import {
 import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondCfyData, useDiamondCtoData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { POPULAR_CFY_DIAMOND_TYPES, getCurrencyFromLocale } from '@diamantaire/shared/constants';
-import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import { getCFYResultOptionsFromUrl, getCountry, getDiamondType, getIsUserInEu } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -37,12 +37,11 @@ interface CFYResultPageProps {
   dehydratedState: DehydratedState;
   locale: string;
   countryCode: string;
-  currencyCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, currencyCode, options = {} } = props;
+  const { locale, options = {} } = props;
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -58,6 +57,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
 
+  const { _t } = useTranslations(locale);
+
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
   const defaultProduct = diamondCtoData['diamond'];
@@ -68,7 +69,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { diamondType, carat, price } = product;
 
-  const formattedPrice = makeCurrency(price, locale, currencyCode);
+  const formattedPrice = getFormattedPrice(price, locale);
 
   const formattedDate = getFormattedShipppingDate(locale);
 
@@ -114,13 +115,15 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     return;
   };
 
-  const diamondTypeTitle = getDiamondType(product?.diamondType)?.title || '';
+  const diamondTypeTitle = _t(getDiamondType(product?.diamondType)?.slug || '');
 
-  const caratValue = product?.carat?.toFixed(1) || '';
+  const caratValue = parseFloat(product?.carat?.toFixed(1) || '');
+
+  const formattedCaratValue = getFormattedCarat(caratValue, locale, 1);
 
   const pageTitle = `${ctoDiamondResultShapeAndWeightTitle
     .replace('%%diamond_shape%%', diamondTypeTitle)
-    .replace('%%diamond_carat%%', caratValue)}`;
+    .replace('%%diamond_carat%%', formattedCaratValue)}`;
 
   const [loadPagination, setLoadPagination] = useState(0);
 
@@ -192,12 +195,21 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <Heading>{ctoDiamondResultFoundTitle}</Heading>
                 </div>
               )}
+
               <div className="subtitle">
                 <p>{pageTitle}</p>
               </div>
+
               <div className="primary-price">
                 <p>{formattedPrice}</p>
+
+                {getIsUserInEu() && (
+                  <small>
+                    <UIString>incl. VAT</UIString>
+                  </small>
+                )}
               </div>
+
               <div className="accordion">
                 <DiamondCfyAccordion
                   handleUpgradeClick={handleUpgradeClick}
@@ -208,11 +220,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   locale={locale}
                 />
               </div>
+
               <div className="date">
                 <p>
                   <UIString>Ships by</UIString> {formattedDate}
                 </p>
               </div>
+
               <div className="policy">
                 {shouldRenderReturnPolicy ? (
                   <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
@@ -220,6 +234,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <Markdown>{ctoDiamondResultNote || ''}</Markdown>
                 )}
               </div>
+
               <div className="links">
                 <Markdown
                   options={{
@@ -229,6 +244,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   {ctoDiamondResultNeedItFaster}
                 </Markdown>
               </div>
+
               <div className="cta">
                 <StickyElementWrapper>
                   <DarksideButton>
@@ -260,8 +276,6 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { query, locale } = context;
-
-  const currencyCode = getCurrencyFromLocale(locale);
 
   const countryCode = getCountry(locale);
 
@@ -300,7 +314,6 @@ async function getServerSideProps(
       locale,
       options,
       countryCode,
-      currencyCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

@@ -1,4 +1,4 @@
-import { parseValidLocale } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, parseValidLocale } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ const ProductKlarna = ({ title, currentPrice }) => {
       <klarna-placement
         title={title}
         data-key="credit-promotion-auto-size"
-        data-locale="en-US"
+        data-locale={DEFAULT_LOCALE}
         data-purchase-amount={currentPrice}
         id="klarna-placement"
       />

@@ -72,6 +72,15 @@ export type OmegaProductRecord = {
   _modelApiKey: 'omega_product';
   id: string;
   shopifyProductHandle: string;
+  collection: {
+    slug: string;
+    productType: string;
+    productLabel: {
+      name: string;
+    } | null;
+    subCategory: string[];
+    shouldUseDefaultPrice: boolean | null;
+  };
 };
 
 export type ConfigurationRecord = {
@@ -79,6 +88,15 @@ export type ConfigurationRecord = {
   id: string;
   variantId: string;
   configuredProductOptionsInOrder: string;
+  jewelryProduct: {
+    slug: string;
+    category: string;
+    subCategory: string[];
+    productLabel: { name: string } | null;
+    productAccordionSpecsLabel: { productType: string };
+    shouldUseDefaultPrice: boolean | null;
+    hasOnlyOnePrice: boolean | null;
+  };
 };
 
 export type CollectionRecord = EngagementRingProductRecord; // | WeddingBandProductRecord | JewelryProductRecord;

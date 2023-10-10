@@ -1,6 +1,7 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
@@ -19,14 +20,16 @@ const DiamondTableRow = ({
   isBuilderFlowOpen = false,
 }: {
   product?: DiamondDataTypes;
-  locale?: string;
+  locale: string;
   isBuilderFlowOpen?: boolean;
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
+
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
   const { addItemToCart, setIsCartOpen } = useContext(CartContext);
+  const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
@@ -34,10 +37,11 @@ const DiamondTableRow = ({
 
   const handleSelectDiamond = () => {
     const { carat, color, clarity, cut, price } = product;
-    const { locale } = router || {};
+
     const { countryCode } = parseValidLocale(locale) || {};
 
     const currencyCode = getCurrency(countryCode);
+
     const formattedPrice = getFormattedPrice(price, locale, true, true);
 
     emitDataLayer({
@@ -102,10 +106,11 @@ const DiamondTableRow = ({
         </div>
         <div className="row-aside">
           <div className="row-cta">
-            <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
-              <UIString>View More Details</UIString>
-            </DarksideButton>
-
+            {!isMobile && (
+              <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
+                <UIString>View More Details</UIString>
+              </DarksideButton>
+            )}
             {isBuilderFlowOpen ? (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>
@@ -124,8 +129,15 @@ const DiamondTableRow = ({
               <UIString>Purchase without setting</UIString>
             </DarksideButton>
           </div>
+
           <div className="row-accordion">
             <DiamondtableRowAccordion product={product} locale={locale} />
+
+            {isMobile && (
+              <DarksideButton href={diamondDetailRoute} type="underline" colorTheme="teal" className="button-details">
+                <UIString>View More Details</UIString>
+              </DarksideButton>
+            )}
           </div>
         </div>
       </div>

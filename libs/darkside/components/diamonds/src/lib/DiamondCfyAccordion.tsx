@@ -5,7 +5,7 @@ import {
   useDiamondTableData,
   useHumanNameMapper,
 } from '@diamantaire/darkside/data/hooks';
-import { makeCurrency } from '@diamantaire/shared/helpers';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { DiamondCtoDataTypes } from '@diamantaire/shared/types';
 
 import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
@@ -13,14 +13,12 @@ import StyledDiamondCfyAccordion from './DiamondCfyAccordion.style';
 const DiamondCfyAccordion = ({
   locale,
   product,
-  currencyCode,
   diamondCtoData,
   handleUpgradeClick,
   defaultProduct,
   display,
 }: {
   locale?: string;
-  currencyCode?: string;
   defaultProduct?: DiamondCtoDataTypes;
   product?: DiamondCtoDataTypes;
   diamondCtoData?: DiamondCtoDataProps;
@@ -42,7 +40,9 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong>{title}:</strong>
-        <span>{DIAMOND_COLOR_GROUPS[color]?.value}.</span>
+        <span className="ellipsis" title={DIAMOND_COLOR_GROUPS[color]?.value}>
+          {DIAMOND_COLOR_GROUPS[color]?.value}
+        </span>
         <strong>{DIAMOND_COLOR_GROUP_TYPES[color]?.value}</strong>
       </>
     );
@@ -63,7 +63,12 @@ const DiamondCfyAccordion = ({
 
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
-      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+      upgradePriceHuman = (
+        <>
+          <i>{upgradePriceSymbol}</i>
+          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+        </>
+      );
     }
 
     return (
@@ -104,7 +109,9 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong>{title}:</strong>
-        <span>{label}</span>
+        <span className="ellipsis" title={label}>
+          {label}
+        </span>
         <strong>{clarity}</strong>
       </>
     );
@@ -128,8 +135,10 @@ const DiamondCfyAccordion = ({
 
     return (
       <>
-        <strong>{title}</strong>
-        <span>{label}</span>
+        <strong>{title}:</strong>
+        <span className="ellipsis" title={label}>
+          {label}
+        </span>
         <strong>{cut}</strong>
       </>
     );
@@ -146,7 +155,12 @@ const DiamondCfyAccordion = ({
 
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
 
-      upgradePriceHuman = upgradePriceSymbol + makeCurrency(upgradePrice, locale, currencyCode);
+      upgradePriceHuman = (
+        <>
+          <i>{upgradePriceSymbol}</i>
+          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+        </>
+      );
     }
 
     return (
@@ -220,8 +234,6 @@ const DiamondCfyAccordion = ({
         }
       }
     }
-
-    console.log(`activeDefault`, activeDefault);
 
     return activeDefault;
   };

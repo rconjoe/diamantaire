@@ -88,6 +88,10 @@ query ctoDiamondTable($locale: SiteLocale) {
     headerTitle
     headerCopy
     headerSubtext
+    selectFromOurMostPopularShapes
+    mostPopularShapes
+    interestedInARareShape
+    bookAnAppointmentWithADiamondExpert
     diamondSelectorTitle
     diamondSelectorSubtitle
     diamondSelectorNote

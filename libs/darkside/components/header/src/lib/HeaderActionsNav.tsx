@@ -15,13 +15,16 @@ const HeaderActionsNavContainer = styled.nav`
 
     li {
       margin-right: 10px;
+
       &:last-child {
         margin-right: 0px;
       }
 
       &.accounts {
+        padding: 0 4px 0 0;
+
         svg {
-          width: 20px;
+          width: 18px;
           height: auto;
           position: relative;
         }

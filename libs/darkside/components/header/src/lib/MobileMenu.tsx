@@ -37,8 +37,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       list-style: none;
 
       li {
-        button.top-level-link,
-        > a {
+        button.top-level-link {
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
@@ -185,9 +184,11 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
               return <MobileTopLevelLink item={item} key={`mobile-menu-parent-link-${index}`} />;
             })}
           <li>
-            <Link href="/account/login">
-              <UIString>Account</UIString>
-            </Link>
+            <button className="bold top-level-link">
+              <Link href="/account/login">
+                <UIString>Account</UIString>
+              </Link>
+            </button>
           </li>
         </ul>
       </nav>

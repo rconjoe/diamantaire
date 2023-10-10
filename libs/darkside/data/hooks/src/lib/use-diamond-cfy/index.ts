@@ -51,6 +51,10 @@ interface CtoDiamondTable {
   headerTitle: string;
   headerCopy: string;
   headerSubtext: string;
+  selectFromOurMostPopularShapes: string;
+  mostPopularShapes: string;
+  interestedInARareShape: string;
+  bookAnAppointmentWithADiamondExpert: string;
   diamondSelectorTitle: string;
   diamondSelectorSubtitle: string;
   diamondSelectorNote: string;

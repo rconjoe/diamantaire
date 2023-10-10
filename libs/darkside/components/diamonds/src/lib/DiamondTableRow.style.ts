@@ -68,8 +68,10 @@ const StyledDiamondTableRow = styled.div`
 
   .row-accordion {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
+    gap: 2rem;
     padding: 0;
     order: 2;
 
@@ -84,13 +86,13 @@ const StyledDiamondTableRow = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 0 0 ${gap};
-    order: 1;
     width: 100%;
     gap: ${gap};
+    order: 1;
 
     ${XLDesktopAndUp(`
       order: 2;
+      padding: 0 0 ${gap};
       padding-right: ${gap};
     `)}
 

@@ -10,7 +10,7 @@ import {
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { OptionsDataTypes, useDiamondTableData, useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { OptionsDataTypes, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -49,6 +49,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const [options, setOptions] = useState(props.options);
   const [loading, setLoading] = useState(true);
 
+  const { _t } = useTranslations(locale);
+
   const {
     data: { diamonds, pagination, ranges },
   } = useDiamondsData({ ...options });
@@ -59,7 +61,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const seo = DiamondTableContent.data.diamondTable.seo;
   const { seoTitle, seoDescription } = seo || {};
-  const diamondTypeTitle = (options?.diamondType && getDiamondType(options?.diamondType).title) || '';
+  const diamondTypeTitle = options?.diamondType ? _t(getDiamondType(options?.diamondType).slug) : '';
+
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
   const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
@@ -187,7 +190,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             options={options}
             ranges={ranges}
             locale={locale}
-            currencyCode={currencyCode}
           />
 
           {isMobile && (

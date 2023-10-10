@@ -1,6 +1,6 @@
 import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -66,7 +66,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
   };
 
   const tableOptions = {
-    locale: 'en-US',
+    locale: DEFAULT_LOCALE,
     initialOptions: { ...options },
     initialDiamonds: diamonds,
     initialPagination: pagination,
@@ -141,12 +141,11 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
               loading={loading}
               options={options}
               ranges={ranges}
-              locale={'en-US'}
-              currencyCode={'USD'}
+              locale={DEFAULT_LOCALE}
               hideFilters={hideFilters}
             />
             <div className="table">
-              {/* Launcihg re-arch with table view only - this will be helpful in the future */}
+              {/* Launching re-arch with table view only - this will be helpful in the future */}
               {/* <div className="switch-container">
                 <GridIcon />
                 <DarksideSwitch value={isTableView} handleChange={handleViewChange} />
