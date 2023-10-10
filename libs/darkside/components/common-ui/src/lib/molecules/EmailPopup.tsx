@@ -14,7 +14,6 @@ import { DatoImage, Heading, Modal, Form, Markdown, UIString, DarksideButton, Fo
 const EmailPopUpStyles = styled.div`
   .wrapper {
     max-width: 860px !important;
-    max-height: 500px !important;
   }
   .modal-emailpopup-wrapper {
     overflow-y: auto;
