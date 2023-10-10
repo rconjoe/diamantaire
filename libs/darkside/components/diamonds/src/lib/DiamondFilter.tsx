@@ -7,8 +7,10 @@ import {
   DIAMOND_TABLE_FILTER_CUT_OPTIONS,
   DIAMOND_TABLE_FILTER_TITLES,
   DIAMOND_TABLE_SHAPES,
+  getFormattedCarat,
+  getFormattedPrice,
 } from '@diamantaire/shared/constants';
-import { getDiamondType, makeCurrency } from '@diamantaire/shared/helpers';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { clsx } from 'clsx';
 import Markdown from 'markdown-to-jsx';
@@ -17,7 +19,7 @@ import { ReactNode, useContext, useRef, useState } from 'react';
 import { StyledDiamondFilter } from './DiamondFilter.style';
 
 const SliderFilter = (props) => {
-  const { currencyCode, locale, type, ranges, options, handleSliderFilterChange } = props;
+  const { locale, type, ranges, options, handleSliderFilterChange } = props;
 
   const range: number[] = (ranges[type] && Object.values(ranges[type])) || [];
 
@@ -29,11 +31,13 @@ const SliderFilter = (props) => {
 
   const handleFormat = (value: number | string) => {
     if (type === 'carat') {
-      return Number(value).toFixed(1) + 'ct';
+      const caratValue = Number(value);
+
+      return getFormattedCarat(caratValue, locale, 1) + 'ct';
     }
 
     if (type === 'price') {
-      return makeCurrency(Number(value), locale, currencyCode);
+      return getFormattedPrice(Number(value), locale, true);
     }
 
     return value.toString();
@@ -269,13 +273,11 @@ export interface DiamondFilterProps {
   options: object;
   ranges: object;
   locale: string;
-  currencyCode: string;
   hideFilters?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, currencyCode, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, hideFilters } =
-    props;
+  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, hideFilters } = props;
 
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
@@ -361,7 +363,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 ranges={ranges}
                 locale={locale}
                 type={filter}
-                currencyCode={currencyCode}
               />
             )}
 

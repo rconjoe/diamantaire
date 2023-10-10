@@ -1,5 +1,5 @@
-import { UIString, Heading } from '@diamantaire/darkside/components/common-ui';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -25,7 +25,7 @@ type ProductPriceProps = {
 const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant, isBuilderProduct }: ProductPriceProps) => {
   const { locale } = useRouter();
 
-  const isInUS = locale === 'en-US';
+  const isInUS = locale === DEFAULT_LOCALE;
 
   return (
     <ProductPriceStyles className="price">

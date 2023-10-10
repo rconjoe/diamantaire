@@ -66,11 +66,8 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                               linkKey,
                               nestedLinks,
                               route: subMenuRoute,
-                              newRoute,
                               copy: nestedLinkCopy,
-
                               supportedCountries,
-
                               isBold,
                             }: Partial<SubMenuChildLink> = link;
 
@@ -80,10 +77,8 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                               ? 'ring-style'
                               : '';
 
-                            const isSupportedCountry = isCountrySupported(supportedCountries, countryCode);
-
                             return (
-                              isSupportedCountry && (
+                              isCountrySupported(supportedCountries, countryCode) && (
                                 <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
                                   <Link
                                     href={getRelativeUrl(newRoute || subMenuRoute)}

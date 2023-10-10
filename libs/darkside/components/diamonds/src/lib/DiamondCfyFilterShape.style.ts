@@ -1,20 +1,52 @@
-import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHTEST, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyFilterShape = styled.div`
   display: flex;
   flex-direction: column;
 
+  .appointment-button {
+    display: none;
+  }
+
   .title {
     display: block;
     text-align: center;
     line-height: 1.1;
     font-size: var(--font-size-xxxsmall);
-    margin: 2rem auto;
+    margin: 2rem auto 0.5rem;
 
     ${tabletAndUp(`
       font-size: var(--font-size-xsmall);
     `)}
+  }
+
+  .subtitle {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin: 0 0 1rem;
+
+    p {
+      margin: 0;
+      font-size: var(--font-size-xxsmall);
+      font-weight: var(--font-weight-normal);
+    }
+
+    a {
+      color: ${TEAL};
+      transition: all 0.2s ease;
+      font-weight: var(--font-weight-medium);
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+
+  .box {
+    background: ${GREY_LIGHTEST};
+    padding: 0 0 1rem;
   }
 
   .lists {
@@ -32,23 +64,10 @@ const StyledDiamondCfyFilterShape = styled.div`
     gap: 1rem 0;
   }
 
-  .list.popular {
-    background: ${GREY_LIGHTEST};
-  }
-
-  .list .subtitle {
-    width: 100%;
-    text-transform: uppercase;
-    text-align: center;
-    font-size: var(--font-size-xxxsmall);
-    font-weight: var(--font-weight-normal);
-    margin-top: -1rem;
-  }
-
   .list-item {
     display: flex;
     flex-direction: column;
-    width: calc(100% / 6);
+    width: calc(100% / 5);
     gap: 1rem;
     cursor: pointer;
   }
@@ -74,7 +93,7 @@ const StyledDiamondCfyFilterShape = styled.div`
   .cta {
     display: flex;
     justify-content: center;
-    margin-top: 0.5rem;
+    margin: 1rem 0 3rem;
 
     button {
       font-size: var(--font-size-xxsmall);

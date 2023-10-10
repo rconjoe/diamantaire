@@ -8169,18 +8169,6 @@
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-7.1.0.tgz#50652c82439aa13a8fdb422dcfa607c72ae28667"
   integrity sha512-NoeBoZIueYUpuQc6W+4YuN3+XgxcuuQwZdahw1bfO2pWuWK4ikoZNHfSACyA/BL2j2LqjRBxIhVOI08CnPCXcA==
 
-"@vercel/edge-config-fs@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@vercel/edge-config-fs/-/edge-config-fs-0.1.0.tgz#cda8327f611418c1d1cbb28c6bed02d782be928b"
-  integrity sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==
-
-"@vercel/edge-config@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@vercel/edge-config/-/edge-config-0.4.1.tgz#c247011dcd05ce6a6b4d17139215c8f684d83cb3"
-  integrity sha512-4Mc3H7lE+x4RrL17nY8CWeEorvJHbkNbQTy9p8H1tO7y11WeKj5xeZSr07wNgfWInKXDUwj5FZ3qd/jIzjPxug==
-  dependencies:
-    "@vercel/edge-config-fs" "0.1.0"
-
 "@vercel/error-utils@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@vercel/error-utils/-/error-utils-2.0.1.tgz#ea16a69542fe18013ff4f4a93dfc0d2fea9cae64"

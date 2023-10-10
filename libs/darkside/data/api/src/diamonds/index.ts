@@ -160,7 +160,7 @@ export const fetchDiamondCtoData = async (options) => {
     if (upgradeOptions.color.includes('Colorless')) {
       const colorlessDiamonds = diamonds.filter((diamond) => diamond.color === 'Colorless');
 
-      if (colorlessDiamonds.length === 1) {
+      if (colorlessDiamonds.length >= 1) {
         return colorlessDiamonds[0];
       }
     }

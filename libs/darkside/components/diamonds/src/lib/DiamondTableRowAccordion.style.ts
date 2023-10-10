@@ -16,12 +16,13 @@ const StyledDiamondTableRowAccordion = styled.div`
     }
   }
 
-  .accordion-row.color .accordion-content {
-    img {
-      width: 100%;
-      object-fit: cover;
-      clip-path: inset(30px 0 0 0);
-      margin: -30px 0 0;
+  .accordion-row.color,
+  .accordion-row.clarity {
+    .accordion-content {
+      img {
+        display: block;
+        margin: 10px 0;
+      }
     }
   }
 `;

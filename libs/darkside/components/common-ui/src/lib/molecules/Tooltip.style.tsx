@@ -32,7 +32,8 @@ const StyledTooltip = styled.div`
   }
 
   .react-tooltip__place-bottom .tooltip-arrow,
-  .react-tooltip__place-bottom-start .tooltip-arrow {
+  .react-tooltip__place-bottom-start .tooltip-arrow,
+  .react-tooltip__place-bottom-end .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
   }
@@ -56,6 +57,15 @@ const StyledTooltip = styled.div`
     border: 1px solid ${GREY};
     height: 12px;
     width: 12px;
+    position: relative;
+
+    &:after {
+      content: '';
+      background: transparent;
+      width: 3rem;
+      height: 3rem;
+      position: absolute;
+    }
 
     * {
       font-size: var(--font-size-xxxxxsmall);

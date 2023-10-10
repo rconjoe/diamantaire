@@ -63,9 +63,6 @@ export default JournalIndex;
 JournalIndex.getTemplate = getStandardTemplate;
 
 export async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
-  // locale
-  // const refinedLocale = context.locale.replace('en-US', 'en_US');
-
   const queryClient = new QueryClient();
 
   // Header + Footer

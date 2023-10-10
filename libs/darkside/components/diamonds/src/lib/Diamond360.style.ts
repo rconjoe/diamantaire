@@ -1,4 +1,4 @@
-import { BLACK, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, desktopAndUp, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamond360 = styled.div`
@@ -42,11 +42,16 @@ const StyledDiamond360 = styled.div`
 
   .caption {
     font-size: var(--font-size-xxxsmall);
-    display: block;
-    color: ${BLACK};
     position: absolute;
-    bottom: 10px;
-    left: 20px;
+    color: ${BLACK};
+    display: block;
+    bottom: 1rem;
+    left: 2rem;
+
+    ${mobileOnly(`
+      padding: 0 8rem 0 2.4rem;
+      left: 1rem;
+    `)}
   }
 `;
 

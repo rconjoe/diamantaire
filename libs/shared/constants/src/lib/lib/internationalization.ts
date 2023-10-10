@@ -501,7 +501,7 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
  */
 export function getFormattedPrice(
   priceInCents: number,
-  locale = 'en-US',
+  locale: string = DEFAULT_LOCALE,
   hideZeroCents = true,
   excludeCurrency = false,
 ): string {
@@ -515,13 +515,20 @@ export function getFormattedPrice(
   }
 
   const numberFormat = new Intl.NumberFormat(locale, {
-    style: 'currency',
     currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: hideZeroCents && hasCentsValues(convertedPrice) ? 0 : 2,
+    style: 'currency',
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
   const formattedPrice = numberFormat.format(convertedPrice);
 
   return formattedPrice;
+}
+
+export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE, digits?: number) {
+  return Intl.NumberFormat(locale, {
+    minimumFractionDigits: digits ? digits : 2,
+    maximumFractionDigits: digits ? digits : 2,
+  }).format(carat);
 }
