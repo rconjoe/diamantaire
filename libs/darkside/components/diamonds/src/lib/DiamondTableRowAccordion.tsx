@@ -49,7 +49,8 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleCut?.value}:</strong> <span>{labelCut?.value}</span> <strong>{labelCut?.key}</strong>
+          <strong className="label">{titleCut?.value}:</strong> <span>{labelCut?.value}</span>{' '}
+          <strong className="value">{labelCut?.key}</strong>
         </>
       ),
       children: <Markdown>{cutContent}</Markdown>,
@@ -58,7 +59,8 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleColor?.value}:</strong> <span>{labelColor?.value}</span> <strong>{labelColor?.key}</strong>
+          <strong className="label">{titleColor?.value}:</strong> <span className="info">{labelColor?.value}</span>{' '}
+          <strong className="value">{labelColor?.key}</strong>
         </>
       ),
       children: <Markdown>{colorContent}</Markdown>,
@@ -67,7 +69,8 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleClarity?.value}:</strong> <span>{labelClarity?.value}</span> <strong>{labelClarity?.key}</strong>
+          <strong className="label">{titleClarity?.value}:</strong> <span className="info">{labelClarity?.value}</span>{' '}
+          <strong className="value">{labelClarity?.key}</strong>
         </>
       ),
       children: <Markdown>{clarityContent}</Markdown>,
