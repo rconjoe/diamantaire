@@ -56,15 +56,15 @@ const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: strin
       case value === 'depth':
         return `${depth_pct}%`;
       case value === 'symmetry':
-        return polishAndSymmetryAbridged[symmetry?.toLowerCase()] || symmetry;
+        return getValue(polishAndSymmetryAbridged, symmetry) || symmetry;
       case value === 'polish':
-        return polishAndSymmetryAbridged[polish?.toLowerCase()] || polish;
+        return getValue(polishAndSymmetryAbridged, polish) || polish;
       case value === 'girdle':
-        return girdleAbridged[girdle?.toLowerCase()] || girdle;
+        return getValue(girdleAbridged, girdle) || girdle;
       case value === 'cutlet':
-        return cutMapAbridged[cut_grade];
+        return getValue(cutMapAbridged, cut_grade) || cut_grade;
       case value === 'fluorescence':
-        return fluorescenceAbridged[fluorescence?.toLowerCase()] || fluorescence;
+        return getValue(fluorescenceAbridged, fluorescence) || fluorescence;
     }
   };
 
@@ -83,15 +83,15 @@ const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: strin
       case value === 'depth':
         return Boolean(depth_pct);
       case value === 'symmetry':
-        return Boolean(polishAndSymmetryAbridged[symmetry?.toLowerCase()] || symmetry);
+        return Boolean(getValue(polishAndSymmetryAbridged, symmetry));
       case value === 'polish':
-        return Boolean(polishAndSymmetryAbridged[polish?.toLowerCase()] || polish);
+        return Boolean(getValue(polishAndSymmetryAbridged, polish));
       case value === 'girdle':
-        return Boolean(girdleAbridged[girdle?.toLowerCase()] || girdle);
+        return Boolean(getValue(girdleAbridged, girdle));
       case value === 'cutlet':
-        return Boolean(cutMapAbridged[cut_grade]);
+        return Boolean(getValue(cutMapAbridged, cut_grade));
       case value === 'fluorescence':
-        return Boolean(fluorescenceAbridged[fluorescence?.toLowerCase()] || fluorescence);
+        return Boolean(getValue(fluorescenceAbridged, fluorescence));
     }
   };
 
@@ -118,3 +118,9 @@ const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: strin
 export { DiamondDetailSpecs };
 
 export default DiamondDetailSpecs;
+
+function getValue(arr, val) {
+  return arr.find((v) => {
+    return v.key === val?.toLowerCase() || v.key === val;
+  })?.value;
+}

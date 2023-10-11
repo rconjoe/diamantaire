@@ -14,7 +14,7 @@ export default async function middleware(
 
   const { nextUrl: url, geo } = request;
 
-  console.log('geo', geo);
+  // console.log('geo', geo);
 
   // WIP
   const country = geo.country || 'US';
