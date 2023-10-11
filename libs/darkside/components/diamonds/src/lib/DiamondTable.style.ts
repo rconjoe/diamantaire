@@ -1,4 +1,12 @@
-import { GREY_LIGHT, GREY_LIGHTER, GREY_LIGHTEST, TEAL, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import {
+  GREY_LIGHT,
+  GREY_LIGHTER,
+  GREY_LIGHTEST,
+  TEAL,
+  WHITE,
+  desktopAndUp,
+  tabletAndUp,
+} from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
@@ -41,9 +49,13 @@ const StyledDiamondTable = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem 2rem;
+    padding: 0.5rem 2rem;
     position: relative;
     width: 16%;
+
+    ${desktopAndUp(`
+      padding: 1.5rem 2rem;
+    `)}
   }
 
   .vo-table-cell:nth-child(1),
