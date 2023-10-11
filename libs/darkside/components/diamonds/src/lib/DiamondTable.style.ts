@@ -48,6 +48,7 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-cell:nth-child(1),
   .vo-table-cell:last-child {
+    text-align: center;
     flex: 1;
   }
 
