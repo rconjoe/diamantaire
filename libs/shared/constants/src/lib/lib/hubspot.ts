@@ -23,3 +23,9 @@ export const HUBSPOT_CONTENT_BLOCK_LIST = {
 };
 
 export const HUBSPOT_WISHLIST_SHARE_FORM_ID = '905f6151-0abd-4514-81ae-e76dccacf87d';
+
+export const HUBSPOT_EMAIL_POPUP_LISTDATA = {
+  source: 'Email Sub - Email Popup Signup',
+  listId: HUBSPOT_EMAIL_POPUP_FORM_ID,
+  sfdcCampaignId: HUBSPOT_CAMPAIGN_ID,
+};

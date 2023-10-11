@@ -15,3 +15,4 @@ export * from './fragments';
 export * from './utils';
 export * from './template';
 export * from './cookie-banner';
+export * from './email-popup';

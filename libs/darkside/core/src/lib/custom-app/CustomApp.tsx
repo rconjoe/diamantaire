@@ -1,4 +1,4 @@
-import { CookieBanner } from '@diamantaire/darkside/components/common-ui';
+import { CookieBanner, EmailPopUp } from '@diamantaire/darkside/components/common-ui';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { AnalyticsProvider } from '@diamantaire/darkside/context/analytics';
 import { CartProvider } from '@diamantaire/darkside/context/cart-context';
@@ -49,6 +49,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
                 <ReactQueryDevtools initialIsOpen={false} />
                 <ToastContainer position="bottom-center" autoClose={10000} />
                 <CookieBanner />
+                <EmailPopUp />
               </CartProvider>
             </BuilderProductContextProvider>
           </GlobalProvider>

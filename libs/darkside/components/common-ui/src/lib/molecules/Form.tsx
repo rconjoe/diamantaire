@@ -7,12 +7,15 @@ This is the master form component, we should never need to manually create a cus
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { PhoneInput } from 'react-international-phone';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
 import { Heading } from './Heading';
 import { Markdown } from './Markdown';
+
+import 'react-international-phone/style.css';
 
 const Select = dynamic(() => import('react-select'));
 
@@ -36,12 +39,15 @@ type FormProps = {
   emailPlaceholderText?: string;
 };
 
+type InputType = 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+
 export type FormSchemaType = {
   name: string;
   placeholder: string;
-  inputType?: 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+  inputType?: InputType;
   defaultValue?: string;
   required: boolean;
+  defaultCountry?: string;
 };
 
 const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
@@ -62,7 +68,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
 
       &.submit {
         margin-bottom: 0px;
-        flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
+        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
       > * {
@@ -92,6 +98,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     }
   }
   .input-opt-in {
+    width: 100%;
     input[type='checkbox'] {
       width: 13px;
       height: 13px;
@@ -100,7 +107,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       margin: 0;
       font: inherit;
       color: currentColor;
-      border: 0.15em solid currentColor;
+      border: 1px solid currentColor;
     }
     input[type='checkbox']::before {
       display: block;
@@ -139,25 +146,25 @@ const Form = ({
   isValid,
   setIsValid,
 }: FormProps) => {
+  const initialFormState = {};
+
+  schema?.forEach((field) => {
+    if (field.inputType === 'state-dropdown') {
+      initialFormState[field.name] = fiftyStates.find((state) => state.value === field.defaultValue) || null;
+    } else if (field.inputType === 'country-dropdown') {
+      initialFormState[field.name] = allCountries.find((country) => country.label === field.defaultValue) || null;
+    } else {
+      initialFormState[field.name] = field.defaultValue || '';
+    }
+  });
+
   const [formState, setFormState] = useState(null);
 
-  useEffect(() => {
-    const initialFormState = {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-    schema?.map((field) => {
-      if (field.inputType === 'state-dropdown') {
-        return (initialFormState[field.name] = fiftyStates.filter((state) => state.value === field.defaultValue)[0]);
-      } else if (field.inputType === 'country-dropdown') {
-        return (initialFormState[field.name] = allCountries.filter((state) => state.label === field.defaultValue)[0]);
-      } else {
-        return (initialFormState[field.name] = field.defaultValue);
-      }
-    });
-
-    // console.log(initialFormState);
-
-    return setFormState(initialFormState);
-  }, [schema]);
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   const showGdprError = showOptIn && !isValid;
 
@@ -189,27 +196,89 @@ const Form = ({
             </div>
           ) : (
             schema?.map((field, index) => {
-              const { inputType, required, placeholder, name } = field || {};
+              const { inputType, required, placeholder, name, defaultCountry } = field || {};
 
-              return (
-                <div className="input-container" key={`${id}-${index}`}>
-                  {inputType === 'text' || inputType === 'phone' ? (
+              if (inputType === 'text') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
                     <input
-                      type={inputType}
+                      type="text"
                       required={required}
                       name={name}
                       value={formState?.[name]}
                       placeholder={placeholder}
-                      onChange={(e) => setFormState({ ...formState, [name]: e.target.value })}
+                      onChange={handleInputChange}
                     />
-                  ) : (
-                    <div className="dropdown-container">
-                      <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
-                    </div>
-                  )}
-                </div>
-              );
+                  </div>
+                );
+              } else if (inputType === 'email') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder={placeholder}
+                      pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+                      required
+                      value={formState?.[name]}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                );
+              } else if (inputType === 'phone') {
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <PhoneInput
+                      value={formState?.[name]}
+                      placeholder={placeholder}
+                      onChange={(selectedPhone) => {
+                        setFormState({ ...formState, [name]: selectedPhone });
+                      }}
+                      defaultCountry={defaultCountry}
+                    />
+                  </div>
+                );
+              } else if (inputType === 'country-dropdown') {
+                // Render the country dropdown using the Select component
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <Select classNamePrefix="dropdown" options={allCountries} value={formState?.[name]} />
+                  </div>
+                );
+              } else if (inputType === 'state-dropdown') {
+                // Render the state dropdown using the Select component (assuming you have a similar component)
+                return (
+                  <div className="input-container" key={`${id}-${index}`}>
+                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                  </div>
+                );
+              }
             })
+          )}
+          {showOptIn && stackedSubmit && (
+            <div
+              className={clsx('input-opt-in', {
+                '-error': showGdprError,
+              })}
+            >
+              <input
+                type="checkbox"
+                name="isConsent"
+                id="optin"
+                onChange={(e) => {
+                  const { name, checked } = e.target;
+
+                  setFormState((prevState) => ({ ...prevState, [name]: checked }));
+                  setIsValid(true);
+                }}
+              />
+              <label htmlFor="optin">
+                <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+                  {optInCopy}
+                </Markdown>
+              </label>
+            </div>
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
@@ -217,7 +286,7 @@ const Form = ({
             </DarksideButton>
           </div>
         </div>
-        {showOptIn && (
+        {showOptIn && !stackedSubmit && (
           <div
             className={clsx('input-opt-in', {
               '-error': showGdprError,

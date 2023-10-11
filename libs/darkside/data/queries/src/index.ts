@@ -3,6 +3,7 @@ import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales
 import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
+import { emailPopup } from './email-popup';
 import { footer } from './footer';
 import { header } from './header';
 import { humanNameMappers } from './human-names-mapper';
@@ -32,6 +33,7 @@ export const queries = mergeQueryKeys(
   cart,
   template,
   cookieBanner,
+  emailPopup,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -53,3 +55,4 @@ export type HumanNameWrapperKeys = inferQueryKeys<typeof humanNameMappers>;
 export type QueryKeys = inferQueryKeyStore<typeof queries>;
 export type TemplateKeys = inferQueryKeys<typeof template>;
 export type CookieBannerKeys = inferQueryKeys<typeof cookieBanner>;
+export type EmailPopupKeys = inferQueryKeys<typeof emailPopup>;

@@ -29,3 +29,4 @@ export * from './CheckSquare';
 export * from './CookieBanner';
 export * from './UIString';
 export * from './UniLink';
+export * from './EmailPopup';
