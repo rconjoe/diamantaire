@@ -40,10 +40,9 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong className="label">{title}:</strong>
-        <span className="info" title={DIAMOND_COLOR_GROUPS[color]?.value}>
-          {DIAMOND_COLOR_GROUPS[color]?.value}
-        </span>
-        <strong className="value">{DIAMOND_COLOR_GROUP_TYPES[color]?.value}</strong>
+        <div className="value">
+          <span>{DIAMOND_COLOR_GROUPS[color]?.value}</span> <strong>{DIAMOND_COLOR_GROUP_TYPES[color]?.value}</strong>
+        </div>
       </>
     );
   };
@@ -109,10 +108,12 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong className="label">{title}:</strong>
-        <span className="info" title={label}>
-          {label}
-        </span>
-        <strong className="value">{clarity}</strong>
+        <div className="value">
+          <span>{label}</span>{' '}
+          <strong>
+            <UIString>{clarity}</UIString>
+          </strong>
+        </div>
       </>
     );
   };
@@ -136,12 +137,12 @@ const DiamondCfyAccordion = ({
     return (
       <>
         <strong className="label">{title}:</strong>
-        <span className="info" title={label}>
-          {label}
-        </span>
-        <strong className="value">
-          <UIString>{cut}</UIString>
-        </strong>
+        <div className="value">
+          <span>{label}</span>{' '}
+          <strong>
+            <UIString>{cut}</UIString>
+          </strong>
+        </div>
       </>
     );
   };
