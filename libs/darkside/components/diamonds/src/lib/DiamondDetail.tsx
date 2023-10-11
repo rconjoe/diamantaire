@@ -109,7 +109,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               <UIString>Need more time to think?</UIString>
             </strong>
 
-            <p>Email this diamond to yourself or drop a hint.</p>
+            <p>
+              <UIString>Email this diamond to yourself or drop a hint.</UIString>
+            </p>
 
             <Form onSubmit={(e) => e.preventDefault()} />
           </div>

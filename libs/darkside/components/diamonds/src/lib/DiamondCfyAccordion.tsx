@@ -139,7 +139,9 @@ const DiamondCfyAccordion = ({
         <span className="ellipsis" title={label}>
           {label}
         </span>
-        <strong>{cut}</strong>
+        <strong>
+          <UIString>{cut}</UIString>
+        </strong>
       </>
     );
   };

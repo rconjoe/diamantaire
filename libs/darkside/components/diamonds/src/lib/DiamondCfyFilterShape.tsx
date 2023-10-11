@@ -12,7 +12,6 @@ const DiamondCfyFilterShape = (props) => {
   const { locale, availableDiamondTypes, handleSelectShape } = props;
   const { data: { ctoDiamondTable } = {} } = useDiamondCfyData(locale);
   const {
-    diamondSelectorSubtitle,
     diamondResultMatchViewAllCta,
     selectFromOurMostPopularShapes,
     interestedInARareShape,
@@ -56,9 +55,6 @@ const DiamondCfyFilterShape = (props) => {
       <Heading type="h2" className="title">
         {selectFromOurMostPopularShapes}
       </Heading>
-      <div className="subtitle">
-        <p>{diamondSelectorSubtitle}</p>
-      </div>
       <div className="lists">
         <div className="list popular">
           {popularShapes.map((v) => {
