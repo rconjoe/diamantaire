@@ -4,7 +4,7 @@ import { queryDatoGQL } from '../clients';
 
 export const TOP_BAR_QUERY = gql`
   query announcementBar($locale: SiteLocale) {
-    announcementBar {
+    announcementBar(locale: $locale) {
       data {
         copy
       }

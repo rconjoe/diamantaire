@@ -1,6 +1,8 @@
-import { calculateProximityToShowrooms } from '@diamantaire/shared/helpers';
+import { useTopBar } from '@diamantaire/darkside/data/hooks';
+import { isUserCloseToShowroom } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -61,11 +63,17 @@ const menuTexts = [
 ];
 
 const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
+  const { locale } = useRouter();
   const [topbarText, setTopbarText] = useState(menuTexts[0]);
   //   temp
   const [topbarIndex, setTopbarIndex] = useState(0);
 
-  calculateProximityToShowrooms(40.6505, -73.94958);
+  const showroomLocation = isUserCloseToShowroom();
+
+  const data = useTopBar(locale);
+
+  console.log('top-bar data', data);
+  console.log('top-bar showroomLocation', showroomLocation);
 
   useEffect(() => {
     const interval = setInterval(() => {

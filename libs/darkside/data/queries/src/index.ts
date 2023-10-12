@@ -3,7 +3,11 @@ import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales
 import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
+<<<<<<< HEAD
 import { emailPopup } from './email-popup';
+=======
+import { footer } from './footer';
+>>>>>>> a7c2f5bc (test geo func)
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
 import { plpListPage, productPage, productBlocks } from './products';
@@ -14,6 +18,7 @@ import { topBar } from './top-bar';
 
 export const queries = mergeQueryKeys(
   topBar,
+  footer,
   standardPage,
   journal,
   productPage,
@@ -41,6 +46,7 @@ export type DiamondPdpKeys = inferQueryKeys<typeof diamondPdp>;
 export type DiamondInfoKeys = inferQueryKeys<typeof diamondInfo>;
 export type DiamondTableKeys = inferQueryKeys<typeof diamondTable>;
 export type TopBarKeys = inferQueryKeys<typeof topBar>;
+export type FooterKeys = inferQueryKeys<typeof footer>;
 export type JournalKeys = inferQueryKeys<typeof journal>;
 export type CartKeys = inferQueryKeys<typeof cart>;
 export type StandardPageKeys = inferQueryKeys<typeof standardPage>;
