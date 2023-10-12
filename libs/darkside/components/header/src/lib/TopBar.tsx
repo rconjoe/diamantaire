@@ -1,3 +1,4 @@
+import { calculateProximityToShowrooms } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import React, { FC, useEffect, useState } from 'react';
@@ -63,6 +64,8 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const [topbarText, setTopbarText] = useState(menuTexts[0]);
   //   temp
   const [topbarIndex, setTopbarIndex] = useState(0);
+
+  calculateProximityToShowrooms(40.6505, -73.94958);
 
   useEffect(() => {
     const interval = setInterval(() => {

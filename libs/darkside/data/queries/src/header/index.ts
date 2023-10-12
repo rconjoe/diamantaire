@@ -1,9 +1,9 @@
-import { fetchHeaderData } from '@diamantaire/darkside/data/api';
+import { fetchTopBarData } from '@diamantaire/darkside/data/api';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 
-export const header = createQueryKeys('header', {
+export const topBar = createQueryKeys('top-bar', {
   content: (locale: string) => ({
     queryKey: [locale],
-    queryFn: () => fetchHeaderData(locale),
+    queryFn: () => fetchTopBarData(locale),
   }),
 });

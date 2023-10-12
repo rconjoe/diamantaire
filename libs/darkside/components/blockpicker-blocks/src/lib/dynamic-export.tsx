@@ -38,6 +38,9 @@ export const DynamicEmailSignup = dynamic(() => import('./blocks/misc/email-sign
 export const DynamicModularHalfWidthQuadBlock = dynamic(() => import('./blocks/grid/ModularHalfWidthQuadBlock'));
 export const DynamicSocialMediaSection = dynamic(() => import('./blocks/misc/SocialMediaSection'));
 export const DynamicModularQuadGrid = dynamic(() => import('./blocks/grid/ModularQuadGrid'));
+export const DynamicModularProductSuggestionQuadGrid = dynamic(
+  () => import('./blocks/grid/ModularProductSuggestionQuadGrid'),
+);
 export const DynamicModularTriGridWithOrderTracking = dynamic(() => import('./blocks/grid/ModularTriGridWithOrderTracking'));
 export const DynamicModularCelebrityReelRow = dynamic(() => import('./blocks/grid/ModularCelebrityReelRow'));
 export const DynamicShowroomBlock = dynamic(() => import('./blocks/misc/showrooms/ModularShowroomBlock'));
