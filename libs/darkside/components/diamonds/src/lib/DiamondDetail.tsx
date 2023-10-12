@@ -126,7 +126,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             <Fragment key={`${v._modelApiKey}_${i}`}>
               <BlockPicker
                 _modelApiKey={v._modelApiKey}
-                modularBlockData={{ ...v }}
+                modularBlockData={{ ...v, additionalClass: 'container-wrapper' }}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={true}
