@@ -42,7 +42,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
-          padding: 1rem 0;
+          padding: 1.5rem 0;
           display: flex;
           width: 100%;
           align-items: center;
