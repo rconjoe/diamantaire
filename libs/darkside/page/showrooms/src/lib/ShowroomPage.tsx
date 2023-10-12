@@ -66,13 +66,7 @@ async function getServerSideProps({ locale }: GetServerSidePropsContext<undefine
   // dato
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-  });
+  await queryClient.prefetchQuery({ ...queries.template.global(locale) });
 
   await queryClient.prefetchQuery({
     ...queries['standard-page'].content('showrooms', locale),
