@@ -12,14 +12,13 @@ import { CookieConsentProvider } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import './styles.css';
 
 import 'node_modules/react-toastify/dist/ReactToastify.css';
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';
-
-import { useRouter } from 'next/router';
 
 export type PageComponentWithTemplate<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getTemplate?: (page: ReactElement) => ReactNode;
