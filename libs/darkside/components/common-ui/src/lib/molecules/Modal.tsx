@@ -17,7 +17,7 @@ const ModalStyles = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgb(0 0 0 / 70%);
+  background-color: rgb(0 0 0 / 46%);
   overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
@@ -57,7 +57,7 @@ const ModalStyles = styled.div`
     z-index: 100;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
     .header {
       display: flex;
@@ -76,16 +76,21 @@ const ModalStyles = styled.div`
           font-size: 1.6rem;
         }
       }
-      .close {
-        button {
-          background-color: transparent;
-          border: none;
-          padding: 0;
-          position: relative;
-          right: -4px;
-          svg path {
-            stroke: #fff;
-          }
+    }
+    .close {
+      &.close--fixed {
+        position: absolute;
+        right: 0;
+        padding: 5px 10px;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        position: relative;
+        right: -4px;
+        svg path {
+          stroke: #fff;
         }
       }
     }
@@ -98,6 +103,14 @@ const ModalStyles = styled.div`
     .wrapper {
       max-width: 90vw;
       ${media.large`max-width: 1000px;`}
+    }
+  }
+  &.modal--position-bottom-left {
+    .wrapper {
+      margin-top: auto;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      margin-right: 10px;
     }
   }
   &.modal--no-title {
@@ -145,30 +158,41 @@ const ModalStyles = styled.div`
 interface ModalProps extends PropsWithChildren {
   title: string | boolean;
   onClose: () => void;
+  onCloseIcon?: () => void;
   className?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, onClose, children, className }) => {
+const Modal: React.FC<ModalProps> = ({ title, onClose, children, className, onCloseIcon }) => {
+  const isHeaderDisabled = title === false;
+
   return (
     <ModalStyles
       className={clsx(className, {
-        'modal--no-title': title === false,
+        'modal--no-title': isHeaderDisabled,
       })}
     >
       <FreezeBody />
       <button className="close" onClick={onClose}></button>
       <div className="wrapper">
         <div className="inner">
-          <div className="header">
-            <div className="title">
-              <h4>{title}</h4>
-            </div>
-            <div className="close">
-              <button onClick={onClose}>
+          {isHeaderDisabled ? (
+            <div className="close close--fixed">
+              <button onClick={onCloseIcon ? onCloseIcon : onClose}>
                 <XIcon />
               </button>
             </div>
-          </div>
+          ) : (
+            <div className="header">
+              <div className="title">
+                <h4>{title}</h4>
+              </div>
+              <div className="close">
+                <button onClick={onCloseIcon ? onCloseIcon : onClose}>
+                  <XIcon />
+                </button>
+              </div>
+            </div>
+          )}
           <div className="body">{children}</div>
         </div>
       </div>

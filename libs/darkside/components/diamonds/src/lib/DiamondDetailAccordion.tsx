@@ -214,7 +214,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
         </div>
         <div className="sub">
           <Heading type="h3">
-            {color} - {colorMapAbridged[index].value}
+            {color} - {colorMapAbridged[index]?.value}
           </Heading>
           <Markdown>{sub}</Markdown>
         </div>
@@ -283,7 +283,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
         </div>
         <div className="sub">
           <Heading type="h3">
-            {clarity} - {clarityMapAbridged[index].value}
+            {clarity} - {clarityMapAbridged[index]?.value}
           </Heading>
           <Markdown>{sub}</Markdown>
         </div>

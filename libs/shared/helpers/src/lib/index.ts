@@ -18,4 +18,6 @@ export * from './products';
 export * from './replacePlaceholders';
 export * from './routes';
 export * from './sortBandWidth';
+export * from './getIsUserInEu';
+export * from './getUserCountry';
 export * from './sortRingSize';

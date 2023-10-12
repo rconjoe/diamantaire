@@ -14,7 +14,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     text-align: center;
     line-height: 1.1;
     font-size: var(--font-size-xxxsmall);
-    margin: 2rem auto 0.5rem;
+    margin: 2rem auto 1rem;
 
     ${tabletAndUp(`
       font-size: var(--font-size-xsmall);
