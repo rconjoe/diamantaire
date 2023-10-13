@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-. prelude.sh
+. prelude
 
 alert "Let's walk through some tests."
 alert "This is the alert() fn working."
