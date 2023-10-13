@@ -29,7 +29,7 @@ const StyledAccordion = styled.div`
     .text {
       gap: 10px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       font-size: var(--font-size-xxsmall);
       font-weight: var(--font-weight-normal);
 
@@ -39,7 +39,7 @@ const StyledAccordion = styled.div`
 
       .value {
         padding: 0 1rem 0 0;
-        line-height: 1.2;
+        // line-height: 1.2;
       }
     }
 

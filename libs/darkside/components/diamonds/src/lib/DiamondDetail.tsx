@@ -113,7 +113,11 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               <UIString>Email this diamond to yourself or drop a hint.</UIString>
             </p>
 
-            <Form onSubmit={(e) => e.preventDefault()} />
+            <Form
+              ctaCopy={_t('Submit')}
+              onSubmit={(e) => e.preventDefault()}
+              emailPlaceholderText={_t('Enter your email')}
+            />
           </div>
 
           <DiamondDetailSpecs lotId={lotId} locale={locale} />
