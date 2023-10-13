@@ -212,7 +212,6 @@
     "jest-environment-jsdom": "29.4.3",
     "jest-environment-node": "^29.4.1",
     "jsonc-eslint-parser": "^2.1.0",
-    "lint-staged": "^13.1.0",
     "nx": "16.8.1",
     "prettier": "^2.6.2",
     "react-refresh": "^0.14.0",
