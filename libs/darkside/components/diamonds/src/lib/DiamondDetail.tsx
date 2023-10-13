@@ -72,7 +72,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             <div className="price">
               <span>{price}</span>
 
-              {getIsUserInEu() && (
+              {getIsUserInEu(locale) && (
                 <div className="price-text">
                   <UIString>incl. VAT</UIString>
                 </div>
