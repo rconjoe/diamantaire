@@ -101,7 +101,13 @@ const SettingBuildStep = ({
       <div className="product-container">
         <div className="media-container">
           <ShowDesktopAndUpOnly>
-            <MediaGallery assets={assetStack} options={selectedConfiguration} disableVideos={true} />
+            <MediaGallery
+              assets={assetStack}
+              options={selectedConfiguration}
+              disableVideos={true}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
+            />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
             <MediaSlider assets={assetStack} />

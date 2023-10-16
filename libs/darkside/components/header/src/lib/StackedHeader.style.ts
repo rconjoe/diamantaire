@@ -115,10 +115,12 @@ export const StackedHeaderStylesContainer = styled.div`
 
         &.calendar {
           display: flex;
-          top: 4px;
+          top: 3px;
 
           svg {
             height: 18px;
+            position: relative;
+            top: 1px;
           }
         }
 

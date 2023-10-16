@@ -205,7 +205,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
+            <MediaGallery
+              assets={assetStack}
+              options={configuration}
+              title={productTitle}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
+            />
             <MediaSlider assets={assetStack} />
           </div>
           <div className="info-container">

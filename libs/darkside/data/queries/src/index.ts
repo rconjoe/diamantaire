@@ -4,18 +4,16 @@ import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
 import { emailPopup } from './email-popup';
-import { footer } from './footer';
-import { header } from './header';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
 import { plpListPage, productPage, productBlocks } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
 import { template } from './template';
+import { topBar } from './top-bar';
 
 export const queries = mergeQueryKeys(
-  header,
-  footer,
+  topBar,
   standardPage,
   journal,
   productPage,
@@ -42,8 +40,7 @@ export type DiamondsKeys = inferQueryKeys<typeof diamonds>;
 export type DiamondPdpKeys = inferQueryKeys<typeof diamondPdp>;
 export type DiamondInfoKeys = inferQueryKeys<typeof diamondInfo>;
 export type DiamondTableKeys = inferQueryKeys<typeof diamondTable>;
-export type HeaderKeys = inferQueryKeys<typeof header>;
-export type FooterKeys = inferQueryKeys<typeof footer>;
+export type TopBarKeys = inferQueryKeys<typeof topBar>;
 export type JournalKeys = inferQueryKeys<typeof journal>;
 export type CartKeys = inferQueryKeys<typeof cart>;
 export type StandardPageKeys = inferQueryKeys<typeof standardPage>;

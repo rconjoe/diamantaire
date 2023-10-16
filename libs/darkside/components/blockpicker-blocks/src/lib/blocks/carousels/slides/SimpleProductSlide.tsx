@@ -4,19 +4,24 @@ import styled from 'styled-components';
 
 const SimpleProductSlideStyles = styled.div`
   .slide__content {
-    padding-top: 2rem;
+    padding-top: 1rem;
+
+    .simple-product-slide__title {
+      font-weight: bold;
+      line-height: 1.3;
+    }
   }
 `;
 
 const SimpleProductSlide = (props) => {
-  const { configuration, title } = props;
+  const { configuration, title, productData } = props;
 
   return (
     <SimpleProductSlideStyles>
       <ProductLink
         productType={configuration?.collection?.productType}
-        collectionSlug={configuration?.collection?.slug}
-        productSlug={configuration?.shopifyProductHandle}
+        collectionSlug={productData?.collectionSlug}
+        productSlug={productData?.productSlug}
       >
         <div className="slide__inner">
           <div className="slide__image">
