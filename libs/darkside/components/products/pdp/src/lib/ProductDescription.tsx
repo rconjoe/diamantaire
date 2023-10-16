@@ -108,8 +108,6 @@ const ProductDescription = ({
     paveCaratWeightOverride,
   } = variantAttributes || {};
 
-  console.log('variantAttributes', variantAttributes);
-
   // Product Spec - These are the locale-based labels for the product
   const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
   const labels = data?.productSpecLabelCollection?.labels;
@@ -119,8 +117,6 @@ const ProductDescription = ({
   labels?.forEach((label) => {
     return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
   });
-
-  console.log('selectedConfiguration', selectedConfiguration);
 
   const diamondLabels = useMemo(
     () => [

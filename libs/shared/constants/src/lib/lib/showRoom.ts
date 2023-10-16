@@ -48,6 +48,6 @@ export const SHOWROOM_LOCATIONS = [
     title: 'Visit our Toronto Showroom',
     handle: 'toronto',
     location: 'Toronto',
-    coords: [40.43085693849281, -3.6866210304951386],
+    coords: [43.670924061473684, -79.39274562053262],
   },
 ];

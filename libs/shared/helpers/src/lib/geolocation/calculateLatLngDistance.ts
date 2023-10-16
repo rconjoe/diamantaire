@@ -23,22 +23,33 @@ export function calculateProximityToShowrooms(lat, lng) {
   return SHOWROOM_LOCATIONS.map((location) => {
     const distance = calculateDistance(lat, lng, location.coords[0], location.coords[1]);
 
+    // Confirm that the user is within 70 miles of a showroom
     if (distance <= 70) {
       return {
         location,
       };
     }
-
-    return null;
   });
 }
 
+// This will return a showroom if the user is within 70 miles of one
 export function isUserCloseToShowroom() {
   const geo = Cookies.get('geo') || {};
 
-  const { latitude, longitude } = geo;
+  let { latitude, longitude } = geo;
 
-  console.log('geoxxx', geo);
+  // Dev fallback
+  if (!latitude || !longitude) {
+    // Brooklyn
+    // latitude = 40.6505;
+    // longitude = -73.94958;
 
-  return calculateProximityToShowrooms(latitude, longitude);
+    // Madrid
+    latitude = 40.4607623;
+    longitude = -3.6966508;
+  }
+
+  const results = calculateProximityToShowrooms(latitude, longitude);
+
+  return results.filter((result) => result !== undefined)?.[0]?.location;
 }

@@ -36,8 +36,9 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       padding: 0 2rem;
       list-style: none;
 
-      li {
-        button.top-level-link {
+      > li {
+        button.top-level-link,
+        > a {
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
@@ -161,9 +162,10 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 type MobileMenuProps = {
   navItems: NavItemsProps;
   headerHeight: number | undefined;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
 };
 
-const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Element => {
+const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMenuOpen }): JSX.Element => {
   return (
     <MobileMenuContainer
       $headerHeight={headerHeight ? headerHeight : 0}
@@ -181,14 +183,26 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
         <ul className="mobile-top-level-links-container">
           {Array.isArray(navItems) &&
             navItems?.map((item, index) => {
-              return <MobileTopLevelLink item={item} key={`mobile-menu-parent-link-${index}`} />;
+              return (
+                <MobileTopLevelLink
+                  item={item}
+                  key={`mobile-menu-parent-link-${index}`}
+                  setIsMobileMenuOpen={setIsMobileMenuOpen}
+                />
+              );
             })}
           <li>
+<<<<<<< HEAD
             <button className="bold top-level-link">
               <Link href="/account/login">
                 <UIString>Account</UIString>
               </Link>
             </button>
+=======
+            <Link href="/account/login" onClick={() => setIsMobileMenuOpen(false)}>
+              <UIString>Account</UIString>
+            </Link>
+>>>>>>> f3416574 (update announcement bar)
           </li>
         </ul>
       </nav>
@@ -196,7 +210,13 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
   );
 };
 
-const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
+const MobileTopLevelLink = ({
+  item,
+  setIsMobileMenuOpen,
+}: {
+  item: MenuLink;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -214,14 +234,29 @@ const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
       <AnimatePresence>
         {isMenuOpen &&
           item?.columns?.map((col, colIndex) => {
-            return <MobileSubMenu key={`mobile-menu-${colIndex}`} col={col} colIndex={colIndex} />;
+            return (
+              <MobileSubMenu
+                key={`mobile-menu-${colIndex}`}
+                col={col}
+                colIndex={colIndex}
+                setIsMobileMenuOpen={setIsMobileMenuOpen}
+              />
+            );
           })}
       </AnimatePresence>
     </li>
   );
 };
 
-const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) => {
+const MobileSubMenu = ({
+  col,
+  colIndex,
+  setIsMobileMenuOpen,
+}: {
+  col: NavColumn;
+  colIndex: number;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}) => {
   const { columnTitle, links }: NavColumn = col;
 
   const diamondShapesContext = useContext(DiamondShapesContext);
@@ -250,7 +285,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
             return (
               <li key={index}>
                 {route && (
-                  <Link href={route} className={iconType ? 'has-icon' : ''}>
+                  <Link href={route} className={iconType ? 'has-icon' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                     <>
                       {linkKey && (
                         <span className={iconType}>
@@ -277,7 +312,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
                       ) => {
                         return (
                           <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                            <Link href={link.route}>
+                            <Link href={link.route} onClick={() => setIsMobileMenuOpen(false)}>
                               <span className="link-text">{link.copy}</span>
                             </Link>
                           </li>
