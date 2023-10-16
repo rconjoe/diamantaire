@@ -2,7 +2,13 @@
 
 set -euo pipefail
 
-export NX_LIST="../node_modules/.bin/nx"
+set_kv() {
+    local key="$1"
+    local value="$2"
+    # local token="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
+    printf "setting value %s at key %s.\n" "$value" "$key"
+    # curl "https://nearby-sailfish-42970.kv.vercel-storage.com/set/$key/$value" -H "Authorization: Bearer $token"
+}
 
 fail() {
     whiptail --title "Error" --msgbox "$1" 8 78
