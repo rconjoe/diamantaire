@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 type TopBarTypes = {
@@ -122,13 +122,19 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
 
+  const onSelect = useCallback((emblaApi, eventName) => {
+    console.log(`Embla just triggered ${eventName}!`);
+
+    const isLastSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
+    const isFirstSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === 0;
+
+    setIsFirstSlide(isFirstSlideTemp);
+    setIsLastSlide(isLastSlideTemp);
+  }, []);
+
   useEffect(() => {
     if (emblaApi) {
-      const isLastSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
-      const isFirstSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === 0;
-
-      setIsFirstSlide(isFirstSlideTemp);
-      setIsLastSlide(isLastSlideTemp);
+      emblaApi.on('select', onSelect);
     }
   }, [emblaApi]);
 

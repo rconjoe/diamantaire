@@ -3,11 +3,8 @@ import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales
 import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
-<<<<<<< HEAD
 import { emailPopup } from './email-popup';
-=======
 import { footer } from './footer';
->>>>>>> a7c2f5bc (test geo func)
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
 import { plpListPage, productPage, productBlocks } from './products';

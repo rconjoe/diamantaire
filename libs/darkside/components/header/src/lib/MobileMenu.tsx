@@ -192,17 +192,9 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
               );
             })}
           <li>
-<<<<<<< HEAD
-            <button className="bold top-level-link">
-              <Link href="/account/login">
-                <UIString>Account</UIString>
-              </Link>
-            </button>
-=======
             <Link href="/account/login" onClick={() => setIsMobileMenuOpen(false)}>
               <UIString>Account</UIString>
             </Link>
->>>>>>> f3416574 (update announcement bar)
           </li>
         </ul>
       </nav>
