@@ -109,7 +109,7 @@ const ModularCarouselBlock = (props) => {
       blocks?.map((block) => block?.configuration?.shopifyProductHandle)) ||
     [];
 
-  const { data } = useBlockProducts(props.id, slugsIfProducts);
+  const { data } = useBlockProducts(slugsIfProducts);
 
   return (
     <ModularCarouselBlockContainer className={_modelApiKey}>

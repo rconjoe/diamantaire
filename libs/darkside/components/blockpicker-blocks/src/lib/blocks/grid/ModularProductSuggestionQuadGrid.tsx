@@ -77,7 +77,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
 // Need image and lowest price added to API
 
 const ModularProductSuggestionQuadGrid = (props) => {
-  const { aboveCopy, id, halfWidthDesktopImage } = props;
+  const { aboveCopy, halfWidthDesktopImage } = props;
 
   const refinedConfigurations = normalizeDatoNumberedContent(props, ['configuration']);
   const refinedTitles = normalizeDatoNumberedContent(props, ['title']);
@@ -86,7 +86,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
     (configurationNode) => configurationNode?.configuration?.shopifyProductHandle,
   );
 
-  const { data } = useBlockProducts(id, productHandles);
+  const { data } = useBlockProducts(productHandles);
 
   return (
     <ModularProductSuggestionQuadGridStyles>

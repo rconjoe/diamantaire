@@ -1,5 +1,4 @@
 import { DarksideButton, Heading, Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
-import { ProductAppointmentCTA } from '@diamantaire/darkside/components/products/pdp';
 import { useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
@@ -106,7 +105,8 @@ const DiamondCfyFilterShape = (props) => {
         </div>
       </div>
       <div ref={appointmentEl} className="appointment">
-        <ProductAppointmentCTA />
+        {/* <ProductAppointmentCTA /> */}
+        ProductAppointmentCTA PLACEHOLDER - Sam D is on it
       </div>
     </StyledDiamondCfyFilterShape>
   );

@@ -122,9 +122,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
 
-  const onSelect = useCallback((emblaApi, eventName) => {
-    console.log(`Embla just triggered ${eventName}!`);
-
+  const onSelect = useCallback((emblaApi) => {
     const isLastSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
     const isFirstSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === 0;
 
@@ -136,6 +134,12 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
     if (emblaApi) {
       emblaApi.on('select', onSelect);
     }
+
+    return () => {
+      if (emblaApi) {
+        emblaApi.off('select', onSelect);
+      }
+    };
   }, [emblaApi]);
 
   return (

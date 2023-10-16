@@ -36,6 +36,8 @@ export function calculateProximityToShowrooms(lat, lng) {
 export function isUserCloseToShowroom() {
   const geo = Cookies.get('geo') || {};
 
+  console.log('geo', geo);
+
   let { latitude, longitude } = geo;
 
   // Dev fallback
@@ -51,5 +53,11 @@ export function isUserCloseToShowroom() {
 
   const results = calculateProximityToShowrooms(latitude, longitude);
 
-  return results.filter((result) => result !== undefined)?.[0]?.location;
+  const filteredResults = results.filter((result) => result !== undefined)?.[0]?.location;
+
+  if (!filteredResults) {
+    return null;
+  }
+
+  return filteredResults;
 }

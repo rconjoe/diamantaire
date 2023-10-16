@@ -40,7 +40,7 @@ const DiamondHand = ({
 
   const [sliderValue, setSliderValue] = useState(Number(initValue || diamond?.carat || 0));
 
-  if ((!ranges && !initRange) || !diamond) return;
+  if ((!ranges && !initRange) || !diamond) return null;
 
   const range = initRange || [ranges?.carat?.[0], ranges?.carat?.[1]];
 
