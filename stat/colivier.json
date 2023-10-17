@@ -1,0 +1,1878 @@
+[
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 5807,
+    "tid": 0,
+    "ts": 0,
+    "args": {
+      "name": "Group #1"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 5807,
+    "tid": 1,
+    "ts": 0,
+    "args": {
+      "name": "Group #2"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 5807,
+    "tid": 2,
+    "ts": 0,
+    "args": {
+      "name": "Group #3"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 5807,
+    "tid": 3,
+    "ts": 0,
+    "args": {
+      "name": "Group #4"
+    }
+  },
+  {
+    "name": "thread_name",
+    "ph": "M",
+    "pid": 5807,
+    "tid": 4,
+    "ts": 0,
+    "args": {
+      "name": "Group #5"
+    }
+  },
+  {
+    "name": "shared-diamond:build",
+    "cat": "shared-diamond,build,",
+    "ph": "X",
+    "ts": 1697567299748000,
+    "dur": 820000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "shared-diamond",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-types:build",
+    "cat": "shared-types,build,",
+    "ph": "X",
+    "ts": 1697567299748000,
+    "dur": 947000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "shared-types",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-cart-context:build",
+    "cat": "darkside-context-cart-context,build,",
+    "ph": "X",
+    "ts": 1697567299748000,
+    "dur": 1148000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-context-cart-context",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "styles-darkside-styles:build",
+    "cat": "styles-darkside-styles,build,",
+    "ph": "X",
+    "ts": 1697567299748000,
+    "dur": 1162000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "styles-darkside-styles",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-seo:build",
+    "cat": "darkside-components-seo,build,",
+    "ph": "X",
+    "ts": 1697567299748000,
+    "dur": 1428000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-components-seo",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-global-context:build",
+    "cat": "darkside-context-global-context,build,",
+    "ph": "X",
+    "ts": 1697567300571000,
+    "dur": 715000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-context-global-context",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-utils:build",
+    "cat": "server-common-utils,build,",
+    "ph": "X",
+    "ts": 1697567300897000,
+    "dur": 630000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "server-common-utils",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-routes:build",
+    "cat": "shared-routes,build,",
+    "ph": "X",
+    "ts": 1697567301177000,
+    "dur": 534000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "shared-routes",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-utils:build",
+    "cat": "shared-utils,build,",
+    "ph": "X",
+    "ts": 1697567301288000,
+    "dur": 509000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "shared-utils",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-icons:build",
+    "cat": "shared-icons,build,",
+    "ph": "X",
+    "ts": 1697567300912000,
+    "dur": 931000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "shared-icons",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-provider-database:build",
+    "cat": "server-common-provider-database,build,",
+    "ph": "X",
+    "ts": 1697567300696000,
+    "dur": 1198000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "server-common-provider-database",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-auth:build",
+    "cat": "server-common-auth,build,",
+    "ph": "X",
+    "ts": 1697567301528000,
+    "dur": 454000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "server-common-auth",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "styles-darkside-styles:lint",
+    "cat": "styles-darkside-styles,lint,",
+    "ph": "X",
+    "ts": 1697567301799000,
+    "dur": 520000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "styles-darkside-styles",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-price:build",
+    "cat": "server-price,build,",
+    "ph": "X",
+    "ts": 1697567301983000,
+    "dur": 351000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "server-price",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-constants:build",
+    "cat": "shared-constants,build,",
+    "ph": "X",
+    "ts": 1697567301845000,
+    "dur": 560000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "shared-constants",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-health:build",
+    "cat": "server-health,build,",
+    "ph": "X",
+    "ts": 1697567301712000,
+    "dur": 850000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-health",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-diamond-icon-context:build",
+    "cat": "darkside-context-diamond-icon-context,build,",
+    "ph": "X",
+    "ts": 1697567301896000,
+    "dur": 672000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-context-diamond-icon-context",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-constants:lint",
+    "cat": "shared-constants,lint,",
+    "ph": "X",
+    "ts": 1697567302336000,
+    "dur": 663000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "shared-constants",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-helpers:build",
+    "cat": "shared-helpers,build,",
+    "ph": "X",
+    "ts": 1697567302407000,
+    "dur": 623000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "shared-helpers",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-icons:lint",
+    "cat": "shared-icons,lint,",
+    "ph": "X",
+    "ts": 1697567302321000,
+    "dur": 747000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "shared-icons",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-product:build",
+    "cat": "shared-product,build,",
+    "ph": "X",
+    "ts": 1697567302563000,
+    "dur": 688000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "shared-product",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-routes:lint",
+    "cat": "shared-routes,lint,",
+    "ph": "X",
+    "ts": 1697567303000000,
+    "dur": 508000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "shared-routes",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-core:build",
+    "cat": "server-core,build,",
+    "ph": "X",
+    "ts": 1697567302570000,
+    "dur": 1073000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "server-core",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-api:build",
+    "cat": "darkside-data-api,build,",
+    "ph": "X",
+    "ts": 1697567303034000,
+    "dur": 681000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-data-api",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-analytics:build",
+    "cat": "darkside-context-analytics,build,",
+    "ph": "X",
+    "ts": 1697567303253000,
+    "dur": 519000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-context-analytics",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-product-builder:build",
+    "cat": "darkside-context-product-builder,build,",
+    "ph": "X",
+    "ts": 1697567303070000,
+    "dur": 764000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-context-product-builder",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-types:lint",
+    "cat": "shared-types,lint,",
+    "ph": "X",
+    "ts": 1697567303644000,
+    "dur": 719000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "shared-types",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-helpers:lint",
+    "cat": "shared-helpers,lint,",
+    "ph": "X",
+    "ts": 1697567303511000,
+    "dur": 900000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "shared-helpers",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-products:build",
+    "cat": "server-products,build,",
+    "ph": "X",
+    "ts": 1697567303773000,
+    "dur": 689000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-products",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-queries:build",
+    "cat": "darkside-data-queries,build,",
+    "ph": "X",
+    "ts": 1697567303717000,
+    "dur": 764000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-data-queries",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-diamonds:build",
+    "cat": "server-diamonds,build,",
+    "ph": "X",
+    "ts": 1697567303835000,
+    "dur": 749000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "server-diamonds",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-api:lint",
+    "cat": "darkside-data-api,lint,",
+    "ph": "X",
+    "ts": 1697567304365000,
+    "dur": 523000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-data-api",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-diamond:lint",
+    "cat": "shared-diamond,lint,",
+    "ph": "X",
+    "ts": 1697567304412000,
+    "dur": 642000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "shared-diamond",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-global-context:lint",
+    "cat": "darkside-context-global-context,lint,",
+    "ph": "X",
+    "ts": 1697567304585000,
+    "dur": 508000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-context-global-context",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-hooks:build",
+    "cat": "darkside-data-hooks,build,",
+    "ph": "X",
+    "ts": 1697567304484000,
+    "dur": 633000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-data-hooks",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-diamond-icon-context:lint",
+    "cat": "darkside-context-diamond-icon-context,lint,",
+    "ph": "X",
+    "ts": 1697567304463000,
+    "dur": 720000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-context-diamond-icon-context",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-queries:lint",
+    "cat": "darkside-data-queries,lint,",
+    "ph": "X",
+    "ts": 1697567304890000,
+    "dur": 637000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-data-queries",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-common-ui:lint",
+    "cat": "darkside-components-common-ui,lint,",
+    "ph": "X",
+    "ts": 1697567305184000,
+    "dur": 345000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-components-common-ui",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-data-hooks:lint",
+    "cat": "darkside-data-hooks,lint,",
+    "ph": "X",
+    "ts": 1697567305055000,
+    "dur": 912000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-data-hooks",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-product:lint",
+    "cat": "shared-product,lint,",
+    "ph": "X",
+    "ts": 1697567305094000,
+    "dur": 898000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "shared-product",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-cart-context:lint",
+    "cat": "darkside-context-cart-context,lint,",
+    "ph": "X",
+    "ts": 1697567305531000,
+    "dur": 665000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-context-cart-context",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-analytics:lint",
+    "cat": "darkside-context-analytics,lint,",
+    "ph": "X",
+    "ts": 1697567305529000,
+    "dur": 838000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-context-analytics",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-blockpicker-blocks:lint",
+    "cat": "darkside-components-blockpicker-blocks,lint,",
+    "ph": "X",
+    "ts": 1697567305969000,
+    "dur": 496000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-components-blockpicker-blocks",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-common-ui:build",
+    "cat": "darkside-components-common-ui,build,",
+    "ph": "X",
+    "ts": 1697567305118000,
+    "dur": 1389000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-components-common-ui",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-footer:lint",
+    "cat": "darkside-components-footer,lint,",
+    "ph": "X",
+    "ts": 1697567306197000,
+    "dur": 509000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-components-footer",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-cart:lint",
+    "cat": "darkside-components-cart,lint,",
+    "ph": "X",
+    "ts": 1697567305997000,
+    "dur": 749000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-components-cart",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-header:lint",
+    "cat": "darkside-components-header,lint,",
+    "ph": "X",
+    "ts": 1697567306369000,
+    "dur": 526000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-components-header",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-global:lint",
+    "cat": "darkside-template-global,lint,",
+    "ph": "X",
+    "ts": 1697567306467000,
+    "dur": 525000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-template-global",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-blockpicker-blocks:build",
+    "cat": "darkside-components-blockpicker-blocks,build,",
+    "ph": "X",
+    "ts": 1697567306515000,
+    "dur": 987000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-components-blockpicker-blocks",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-context-product-builder:lint",
+    "cat": "darkside-context-product-builder,lint,",
+    "ph": "X",
+    "ts": 1697567306994000,
+    "dur": 676000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-context-product-builder",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-cart:build",
+    "cat": "darkside-components-cart,build,",
+    "ph": "X",
+    "ts": 1697567306748000,
+    "dur": 933000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-components-cart",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-footer:build",
+    "cat": "darkside-components-footer,build,",
+    "ph": "X",
+    "ts": 1697567306897000,
+    "dur": 1005000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-components-footer",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-core:build",
+    "cat": "darkside-core,build,",
+    "ph": "X",
+    "ts": 1697567306708000,
+    "dur": 1228000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-core",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-diamonds:build",
+    "cat": "darkside-components-diamonds,build,",
+    "ph": "X",
+    "ts": 1697567307504000,
+    "dur": 902000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-components-diamonds",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-products-plp:build",
+    "cat": "darkside-components-products-plp,build,",
+    "ph": "X",
+    "ts": 1697567307672000,
+    "dur": 827000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-components-products-plp",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-header:build",
+    "cat": "darkside-components-header,build,",
+    "ph": "X",
+    "ts": 1697567307682000,
+    "dur": 1107000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-components-header",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "catalog:build",
+    "cat": "catalog,build,",
+    "ph": "X",
+    "ts": 1697567307938000,
+    "dur": 942000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "catalog",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-standard:lint",
+    "cat": "darkside-template-standard,lint,",
+    "ph": "X",
+    "ts": 1697567307903000,
+    "dur": 1203000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-template-standard",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-diamonds:lint",
+    "cat": "darkside-components-diamonds,lint,",
+    "ph": "X",
+    "ts": 1697567308881000,
+    "dur": 303000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-components-diamonds",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-seo:lint",
+    "cat": "darkside-components-seo,lint,",
+    "ph": "X",
+    "ts": 1697567308500000,
+    "dur": 688000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-components-seo",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-products-pdp:build",
+    "cat": "darkside-components-products-pdp,build,",
+    "ph": "X",
+    "ts": 1697567308410000,
+    "dur": 1120000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-components-products-pdp",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-provider-database:lint",
+    "cat": "server-common-provider-database,lint,",
+    "ph": "X",
+    "ts": 1697567309108000,
+    "dur": 466000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "server-common-provider-database",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-global:build",
+    "cat": "darkside-template-global,build,",
+    "ph": "X",
+    "ts": 1697567308790000,
+    "dur": 798000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-template-global",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-products-pdp:lint",
+    "cat": "darkside-components-products-pdp,lint,",
+    "ph": "X",
+    "ts": 1697567309188000,
+    "dur": 520000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-components-products-pdp",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-products-plp:lint",
+    "cat": "darkside-components-products-plp,lint,",
+    "ph": "X",
+    "ts": 1697567309186000,
+    "dur": 801000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-components-products-plp",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-accounts:build",
+    "cat": "darkside-template-accounts,build,",
+    "ph": "X",
+    "ts": 1697567309711000,
+    "dur": 451000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-template-accounts",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-standard:build",
+    "cat": "darkside-template-standard,build,",
+    "ph": "X",
+    "ts": 1697567309589000,
+    "dur": 583000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-template-standard",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-standard-pages:lint",
+    "cat": "darkside-page-standard-pages,lint,",
+    "ph": "X",
+    "ts": 1697567309576000,
+    "dur": 633000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-page-standard-pages",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-builder-flows:build",
+    "cat": "darkside-components-builder-flows,build,",
+    "ph": "X",
+    "ts": 1697567309532000,
+    "dur": 947000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-components-builder-flows",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-utils:lint",
+    "cat": "server-common-utils,lint,",
+    "ph": "X",
+    "ts": 1697567309990000,
+    "dur": 505000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-common-utils",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-diamonds:build",
+    "cat": "darkside-page-diamonds,build,",
+    "ph": "X",
+    "ts": 1697567310209000,
+    "dur": 665000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-page-diamonds",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-journal:build",
+    "cat": "darkside-page-journal,build,",
+    "ph": "X",
+    "ts": 1697567310480000,
+    "dur": 563000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-page-journal",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-accounts:build",
+    "cat": "darkside-page-accounts,build,",
+    "ph": "X",
+    "ts": 1697567310163000,
+    "dur": 893000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-page-accounts",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-standard-pages:build",
+    "cat": "darkside-page-standard-pages,build,",
+    "ph": "X",
+    "ts": 1697567310173000,
+    "dur": 955000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-page-standard-pages",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-plp:build",
+    "cat": "darkside-page-plp,build,",
+    "ph": "X",
+    "ts": 1697567310497000,
+    "dur": 812000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-page-plp",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-core:lint",
+    "cat": "darkside-core,lint,",
+    "ph": "X",
+    "ts": 1697567311044000,
+    "dur": 802000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-core",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-showrooms:build",
+    "cat": "darkside-page-showrooms,build,",
+    "ph": "X",
+    "ts": 1697567311130000,
+    "dur": 766000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-page-showrooms",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-template-accounts:lint",
+    "cat": "darkside-template-accounts,lint,",
+    "ph": "X",
+    "ts": 1697567311057000,
+    "dur": 865000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-template-accounts",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-pdp:build",
+    "cat": "darkside-page-pdp,build,",
+    "ph": "X",
+    "ts": 1697567310876000,
+    "dur": 1120000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-page-pdp",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-home:build",
+    "cat": "darkside-page-home,build,",
+    "ph": "X",
+    "ts": 1697567311310000,
+    "dur": 946000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-page-home",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-price:lint",
+    "cat": "server-price,lint,",
+    "ph": "X",
+    "ts": 1697567311849000,
+    "dur": 537000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "server-price",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-showrooms:lint",
+    "cat": "darkside-page-showrooms,lint,",
+    "ph": "X",
+    "ts": 1697567311998000,
+    "dur": 445000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-page-showrooms",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "shared-utils:lint",
+    "cat": "shared-utils,lint,",
+    "ph": "X",
+    "ts": 1697567311897000,
+    "dur": 670000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "shared-utils",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-components-builder-flows:lint",
+    "cat": "darkside-components-builder-flows,lint,",
+    "ph": "X",
+    "ts": 1697567311923000,
+    "dur": 781000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-components-builder-flows",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-accounts:lint",
+    "cat": "darkside-page-accounts,lint,",
+    "ph": "X",
+    "ts": 1697567312388000,
+    "dur": 327000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-page-accounts",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-diamonds:lint",
+    "cat": "darkside-page-diamonds,lint,",
+    "ph": "X",
+    "ts": 1697567312257000,
+    "dur": 508000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "darkside-page-diamonds",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "catalog:lint",
+    "cat": "catalog,lint,",
+    "ph": "X",
+    "ts": 1697567312445000,
+    "dur": 349000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "catalog",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-journal:lint",
+    "cat": "darkside-page-journal,lint,",
+    "ph": "X",
+    "ts": 1697567312706000,
+    "dur": 342000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-page-journal",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-configs:lint",
+    "cat": "server-common-configs,lint,",
+    "ph": "X",
+    "ts": 1697567312569000,
+    "dur": 483000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "server-common-configs",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-common-auth:lint",
+    "cat": "server-common-auth,lint,",
+    "ph": "X",
+    "ts": 1697567312766000,
+    "dur": 333000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-common-auth",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-home:lint",
+    "cat": "darkside-page-home,lint,",
+    "ph": "X",
+    "ts": 1697567312795000,
+    "dur": 582000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-page-home",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-products:lint",
+    "cat": "server-products,lint,",
+    "ph": "X",
+    "ts": 1697567313100000,
+    "dur": 359000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-products",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-error:lint",
+    "cat": "darkside-page-error,lint,",
+    "ph": "X",
+    "ts": 1697567312716000,
+    "dur": 747000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-page-error",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-plp:lint",
+    "cat": "darkside-page-plp,lint,",
+    "ph": "X",
+    "ts": 1697567313050000,
+    "dur": 520000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-page-plp",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-page-pdp:lint",
+    "cat": "darkside-page-pdp,lint,",
+    "ph": "X",
+    "ts": 1697567313053000,
+    "dur": 555000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-page-pdp",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-diamonds:lint",
+    "cat": "server-diamonds,lint,",
+    "ph": "X",
+    "ts": 1697567313379000,
+    "dur": 484000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "server-diamonds",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-core:lint",
+    "cat": "server-core,lint,",
+    "ph": "X",
+    "ts": 1697567313464000,
+    "dur": 457000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "server-core",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server-health:lint",
+    "cat": "server-health,lint,",
+    "ph": "X",
+    "ts": 1697567313461000,
+    "dur": 668000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server-health",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-journal:lint",
+    "cat": "darkside-journal,lint,",
+    "ph": "X",
+    "ts": 1697567313610000,
+    "dur": 551000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "darkside-journal",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "storybook-host:lint",
+    "cat": "storybook-host,lint,",
+    "ph": "X",
+    "ts": 1697567313865000,
+    "dur": 358000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "storybook-host",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-vraicel:lint",
+    "cat": "nx-vraicel,lint,",
+    "ph": "X",
+    "ts": 1697567314224000,
+    "dur": 325000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "nx-vraicel",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-datocms:build",
+    "cat": "nx-datocms,build,",
+    "ph": "X",
+    "ts": 1697567314164000,
+    "dur": 392000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "nx-datocms",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "_generated-datocms:build",
+    "cat": "_generated-datocms,build,",
+    "ph": "X",
+    "ts": 1697567313572000,
+    "dur": 1020000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "_generated-datocms",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-main:lint",
+    "cat": "darkside-main,lint,",
+    "ph": "X",
+    "ts": 1697567313922000,
+    "dur": 691000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "darkside-main",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-datocms:lint",
+    "cat": "nx-datocms,lint,",
+    "ph": "X",
+    "ts": 1697567314131000,
+    "dur": 530000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "nx-datocms",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-core:lint",
+    "cat": "nx-core,lint,",
+    "ph": "X",
+    "ts": 1697567314557000,
+    "dur": 361000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "nx-core",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "scripts:lint",
+    "cat": "scripts,lint,",
+    "ph": "X",
+    "ts": 1697567314614000,
+    "dur": 365000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "scripts",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-vraicel:build",
+    "cat": "nx-vraicel,build,",
+    "ph": "X",
+    "ts": 1697567314551000,
+    "dur": 450000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "nx-vraicel",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "nx-core:build",
+    "cat": "nx-core,build,",
+    "ph": "X",
+    "ts": 1697567314593000,
+    "dur": 501000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "nx-core",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server:lint",
+    "cat": "server,lint,",
+    "ph": "X",
+    "ts": 1697567314662000,
+    "dur": 533000,
+    "pid": 5807,
+    "tid": 4,
+    "args": {
+      "target": {
+        "project": "server",
+        "target": "lint"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "storybook-host:build",
+    "cat": "storybook-host,build,",
+    "ph": "X",
+    "ts": 1697567314980000,
+    "dur": 504000,
+    "pid": 5807,
+    "tid": 0,
+    "args": {
+      "target": {
+        "project": "storybook-host",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "server:build",
+    "cat": "server,build,",
+    "ph": "X",
+    "ts": 1697567314920000,
+    "dur": 633000,
+    "pid": 5807,
+    "tid": 2,
+    "args": {
+      "target": {
+        "project": "server",
+        "target": "build"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-journal:build:production",
+    "cat": "darkside-journal,build,production",
+    "ph": "X",
+    "ts": 1697567315002000,
+    "dur": 8961000,
+    "pid": 5807,
+    "tid": 1,
+    "args": {
+      "target": {
+        "project": "darkside-journal",
+        "target": "build",
+        "configuration": "production"
+      },
+      "status": "remote-cache"
+    }
+  },
+  {
+    "name": "darkside-main:build:production",
+    "cat": "darkside-main,build,production",
+    "ph": "X",
+    "ts": 1697567315096000,
+    "dur": 18558000,
+    "pid": 5807,
+    "tid": 3,
+    "args": {
+      "target": {
+        "project": "darkside-main",
+        "target": "build",
+        "configuration": "production"
+      },
+      "status": "remote-cache"
+    }
+  }
+]
