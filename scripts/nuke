@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. prelude
+
+bimbom() {
+  echo -e "weee"
+  # rm -rf "node_modules/" "yarn.lock" "tmp/" "dist/"
+}
+
+nuke() {
+  gum spin -s points --title "Nuking..." -- bimbom
+}
+
+export -f nuke

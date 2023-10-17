@@ -6,9 +6,13 @@ set -euo pipefail
 . scripts/bootstrap
 . scripts/node_upgrader
 . scripts/pnpm_migrator
+. scripts/nuke
 
 main() {
   bootstrap
+  nuke
   upgrade_node
   install_pnpm
 }
+
+main
