@@ -21,6 +21,8 @@ export default async function middleware(
   // const city = geo.city || 'San Francisco';
   // const region = geo.region || 'CA';
 
+  console.log('middleware response', response);
+
   // store user's geo data in a cookie
   if (response.cookies) {
     response.cookies?.set('geoCountry', country);
