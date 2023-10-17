@@ -8,7 +8,7 @@ export async function fetchProductByVariantSlugs(slugs: string[]) {
 
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
 
-  const apiUrl = `/v1/products/contentids?ids=${productSlugs}`;
+  const apiUrl = `/v1/products/contentids?slugs=${productSlugs}`;
 
   const reqUrl = `${baseUrl}/api/blocks/getBlockProducts?apiUrl=${apiUrl}`;
 

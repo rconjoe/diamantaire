@@ -50,6 +50,11 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
+  console.log('init valss', {
+    filterValue: { ...filterValue },
+    activeSortOptions: { ...activeSortOptions },
+  });
+
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
     plpData || {};
   const { seoTitle, seoDescription } = seo || {};

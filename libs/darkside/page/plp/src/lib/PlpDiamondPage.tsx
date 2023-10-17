@@ -62,11 +62,16 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(plpSlug, 1, activeSortOptions);
+  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(plpSlug, 1, { ...activeSortOptions });
 
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
+    console.log('param being set', {
+      sortBy,
+      sortOrder,
+    });
+
     setActiveSortOptions({
       sortBy,
       sortOrder,
