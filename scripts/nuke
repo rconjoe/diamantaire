@@ -5,7 +5,6 @@ set -euo pipefail
 . prelude
 
 bimbom() {
-  rm yarn.lock
   for i in "node_modules/" "tmp/" "dist/"
   do
     rm -rf $i
