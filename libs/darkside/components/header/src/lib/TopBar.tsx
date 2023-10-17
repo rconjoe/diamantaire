@@ -110,33 +110,33 @@ const TopBarContainer = styled.div`
 
 const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { locale } = useRouter();
-  const [isFirstSlide, setIsFirstSlide] = useState(true);
+  const { data } = useTopBar(locale);
+  const canSliderLoop = data?.announcementBar?.loop || true;
+  const [isFirstSlide, setIsFirstSlide] = useState(false);
   const [isLastSlide, setIsLastSlide] = useState(false);
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const { data } = useTopBar(locale);
-  const canSliderLoop = data?.announcementBar?.loop || false;
   const options: EmblaOptionsType = { loop: canSliderLoop };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
 
   const onSelect = useCallback((emblaApi) => {
-    const isLastSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
-    const isFirstSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === 0;
+    const isLastSlideTemp = emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
+    const isFirstSlideTemp = emblaApi?.selectedScrollSnap() === 0;
 
     setIsFirstSlide(isFirstSlideTemp);
     setIsLastSlide(isLastSlideTemp);
   }, []);
 
   useEffect(() => {
-    if (emblaApi) {
+    if (emblaApi && !canSliderLoop) {
       emblaApi.on('select', onSelect);
     }
 
     return () => {
-      if (emblaApi) {
+      if (emblaApi && !canSliderLoop) {
         emblaApi.off('select', onSelect);
       }
     };
