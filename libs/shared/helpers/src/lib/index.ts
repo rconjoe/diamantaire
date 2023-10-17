@@ -5,7 +5,7 @@ export * from './extractMetalTypeFromShopifyHandle';
 export * from './formatCurrency';
 export * from './formatRingSize';
 export * from './getCountry';
-export * from './getIsUserInEu';
+export * from './geolocation';
 export * from './getRelativeUrl';
 export * from './images';
 export * from './isCountrySupported';

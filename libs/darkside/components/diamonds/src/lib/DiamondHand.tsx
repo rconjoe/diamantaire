@@ -15,6 +15,9 @@ const DiamondHand = ({
   isCto = false,
   isThumb = false,
   product,
+  // Init value overrides
+  initRange,
+  initValue,
 }: {
   className?: string;
   lotId?: string;
@@ -23,6 +26,9 @@ const DiamondHand = ({
   product?: { [key: string]: any };
   isCto?: boolean;
   isThumb?: boolean;
+
+  initRange?: number[];
+  initValue?: number;
 }) => {
   const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
@@ -32,11 +38,11 @@ const DiamondHand = ({
 
   const { data: { ranges } = {} } = useDiamondsData({ diamondType });
 
-  const [sliderValue, setSliderValue] = useState(Number(diamond?.carat || 0));
+  const [sliderValue, setSliderValue] = useState(Number(initValue || diamond?.carat || 0));
 
-  if (!ranges || !diamond) return;
+  if ((!ranges && !initRange) || !diamond) return null;
 
-  const range = [ranges?.carat?.[0], ranges?.carat?.[1]];
+  const range = initRange || [ranges?.carat?.[0], ranges?.carat?.[1]];
 
   const extraClass = className ? ` ${className}` : '';
 

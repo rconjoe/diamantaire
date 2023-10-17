@@ -75,6 +75,7 @@
     "crypto-js": "^4.1.1",
     "date-fns": "^2.29.3",
     "effect": "^2.0.0-next.19",
+    "embla-carousel-react": "^8.0.0-rc14",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",
     "express-mongo-sanitize": "^2.2.0",

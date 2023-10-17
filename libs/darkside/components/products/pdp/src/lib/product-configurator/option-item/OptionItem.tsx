@@ -136,6 +136,9 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
 }
 
 const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
+  .inner {
+    border: none;
+  }
   &.yellow-gold {
     .inner {
       background-color: rgb(200, 171, 110);
@@ -149,6 +152,7 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
   &.white-gold {
     .inner {
       background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
+      border-color: var(--color-white);
     }
   }
   &.platinum {
