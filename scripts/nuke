@@ -12,7 +12,7 @@ bimbom() {
 }
 
 nuke() {
-  gum spin -s points --title "Nuking..." --  bimbom
+  gum spin -s points --title "Nuking..." --  "$(bimbom)"
 }
 
 export -f nuke
