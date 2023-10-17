@@ -186,4 +186,4 @@ menu() {
 }
 
 export CLI_VER LOG_FILE KV_TOKEN KV_URL M
-export -f fail alert os_detection yn_prompt input_prompt password_prompt menu
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall
