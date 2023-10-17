@@ -88,6 +88,8 @@ const ModularProductSuggestionQuadGrid = (props) => {
 
   const { data } = useBlockProducts(productHandles);
 
+  console.log('data', data);
+
   return (
     <ModularProductSuggestionQuadGridStyles>
       {aboveCopy && (
