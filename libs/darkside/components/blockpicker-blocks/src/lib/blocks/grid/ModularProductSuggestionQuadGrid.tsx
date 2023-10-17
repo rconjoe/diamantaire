@@ -88,7 +88,9 @@ const ModularProductSuggestionQuadGrid = (props) => {
 
   const { data } = useBlockProducts(productHandles);
 
-  console.log('data', data);
+  // console.log('ModularProductSuggestionQuadGrid props', props);
+  // console.log('refinedConfigurations', refinedConfigurations);
+  // console.log('block data', data);
 
   return (
     <ModularProductSuggestionQuadGridStyles>
@@ -116,7 +118,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
               <div className="product-container" key={product?.id}>
                 <div className="product-container__inner">
                   <div className="product-image">
-                    <div className="temp-image"></div>
+                    <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
                   </div>
                   <div className="product-title__container">
                     <Heading type="h3" className="secondary product-title__title">

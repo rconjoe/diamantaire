@@ -67,11 +67,6 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
-    console.log('param being set', {
-      sortBy,
-      sortOrder,
-    });
-
     setActiveSortOptions({
       sortBy,
       sortOrder,
