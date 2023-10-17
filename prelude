@@ -10,6 +10,7 @@ M="mods"
 
 run_freshies() {
     log_info "Running freshies."
+    pnpm install
     NX_PROFILE="$(whoami)".json ./node_modules/.bin/nx run-many -t lint,build --all --parallel=4 --verbose
 }
 
