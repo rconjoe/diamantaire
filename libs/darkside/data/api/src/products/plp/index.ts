@@ -110,7 +110,8 @@ export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
 export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${slug}`, ...Object.values(options || {})],
-    ({ pageParam = pageParamInit }) => getVRAIServerDiamondPlpData(slug, { page: pageParam, ...options }),
+    ({ pageParam = pageParamInit }) =>
+      getVRAIServerDiamondPlpData(slug, { page: pageParam === null ? 1 : pageParam, ...options }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
