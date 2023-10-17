@@ -2,12 +2,28 @@
 
 set -euo pipefail
 
-set_kv() {
-    local key="$1"
-    local value="$2"
-    # local token="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
-    printf "setting value %s at key %s.\n" "$value" "$key"
-    # curl "https://nearby-sailfish-42970.kv.vercel-storage.com/set/$key/$value" -H "Authorization: Bearer $token"
+CLI_VER="0.0.1"
+LOG_FILE="scripts/.cli-$CLI_VER.log"
+KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
+KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
+
+
+log_info() {
+    local logline
+    logline="[INFO] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    echo "$logline" >> $LOG_FILE
+}
+
+log_error() {
+    local logline
+    logline="[ERROR] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    echo "$logline" >> $LOG_FILE
+}
+
+log_debug() {
+    local logline
+    logline="[DEBUG] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    echo "$logline" >> $LOG_FILE
 }
 
 fail() {
@@ -15,8 +31,77 @@ fail() {
     exit 1
 }
 
+kv_curl() {
+    local body="$1"
+    local response
+    log_debug "Calling $KV_URL with $body"
+    response=$(curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
+
+    if [ $? -ne 0 ]; then
+        fail "Curl with body $body failed with exit code $?"
+    fi
+
+    log_debug "Response: $response"
+}
+
+kv_set() {
+    local key="$1"
+    local value="$2"
+    log_info "setting value $value at key $key."
+    curl "$KV_URL/set/$key/$value" -H "Authorization: Bearer $KV_TOKEN"
+}
+
+kv_hset() {
+    local key="$1"
+    shift
+    local body="[\"hset\", \"$key\""
+
+    # trying to enable kv_hset "key" "field" "value" [ "field" "value" ... ]
+    while (( "$#" )); do
+      local field="$1"
+      local value="$2"
+      body+=", \"$field\", \"$value\""
+      shift 2
+    done
+
+    body+="]"
+
+    kv_curl "$body"
+}
+
+kv_hgetall() {
+    local key="$1"
+    local body="[\"hgetall\", \"$key\"]"
+
+    log_info "Executing kv_hgetall for hash $key"
+
+    curl -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body"
+
+}
+
+get_dialog() {
+  if ! command -v dialog &> /dev/null; then
+      printf "Dialog is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need dialog. Can I use Homebrew to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+            log_info "Installing dialog with Homebrew."
+            brew install dialog
+        ;;
+        * )
+            log_info "Dialog will not be installed."
+            printf "Dialog will not be installed.\n"
+        ;;
+      esac
+  else
+    log_info "Dialog is already installed."
+    printf "Dialog is already installed.\n"
+  fi
+}
+
 alert() {
-  dialog --title "Alert" --msgbox "$1" 8 78
+  dialog --title "$1" --msgbox "$2" 8 78
 }
 
 os_detection() {
@@ -31,7 +116,8 @@ os_detection() {
 }
 
 yn_prompt() {
-  if (dialog --title "Yes/No Prompt" --yesno "Are you sure?" 8 78); then
+  local prompt="$1"
+  if (dialog --title "Confirm" --yesno "$prompt" 8 78); then
     echo "User selected Yes."
   else
     echo "User selected No."
@@ -72,4 +158,5 @@ menu() {
     fi
 }
 
+export CLI_VER
 export -f fail alert os_detection yn_prompt input_prompt password_prompt menu

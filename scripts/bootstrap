@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. prelude
+
+GITEMAIL=$(git config user.email)
+
+TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+NODEPATH=$(which node)
+NODEVERSION=$(node --version)
+
+if [ ! -f $LOG_FILE ]; then
+  log_info "Creating log file $LOG_FILE"
+fi
+
+get_dialog
+
+alert "HELP HAS ARRIVED" "Welcome to goldsmith, a developer toolkit for diamantaire.\nPress OK to bootstrap."
+
+kv_hset "$GITEMAIL" \
+  "node_path" "$NODEPATH" \
+  "node_version" "$NODEVERSION" \
+  "last_seen" "$TS" \
+  "cli_version" "$CLI_VER"
