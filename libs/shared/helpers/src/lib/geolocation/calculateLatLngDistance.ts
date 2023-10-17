@@ -34,13 +34,7 @@ export function calculateProximityToShowrooms(lat, lng) {
 
 // This will return a showroom if the user is within 70 miles of one
 export function isUserCloseToShowroom() {
-  const geo = Cookies.get('geo') || {};
-
-  console.log('cookie geo', geo);
-
-  const parsedGeo = JSON.parse(geo);
-
-  console.log('parsedGeo cookie geo', parsedGeo);
+  const geo = JSON.parse(Cookies.get('geo')) || {};
 
   let { latitude, longitude } = geo;
 
