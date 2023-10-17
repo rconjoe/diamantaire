@@ -9,9 +9,6 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   const { nextUrl: url, geo } = request;
 
   // store user's geo data in a cookie
-  const country = geo.country || 'US';
-
-  res.cookies?.set('geoCountry', country);
   res.cookies?.set('geo', JSON.stringify(geo));
 
   // exclude API and Next.js internal routes

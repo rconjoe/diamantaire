@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const getUserCountry = () => {
-  const countryCode = Cookies.get('geoCountry') || 'US';
+  const { country: countryCode } = JSON.parse(Cookies.get('geo')) || 'US';
 
   return countryCode;
 };
