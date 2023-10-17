@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. prelude
+. scripts/bootstrap
+. scripts/node_upgrader
+. scripts/pnpm_migrator
+
+main() {
+  bootstrap
+  upgrade_node
+  install_pnpm
+}
