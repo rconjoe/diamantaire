@@ -1,6 +1,6 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
-import { getIsUserInEu } from '@diamantaire/shared/helpers';
-import { BLACK, GREY_DARK, HEADER_BACKGROUND, NAV_Z_INDEX, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { BLACK, GREY_DARK, NAV_Z_INDEX, TEAL, tabletAndUp, HEADER_BACKGROUND } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';

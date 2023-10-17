@@ -1,5 +1,6 @@
 import { useTopBar } from '@diamantaire/darkside/data/hooks';
-import { isUserCloseToShowroom, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';

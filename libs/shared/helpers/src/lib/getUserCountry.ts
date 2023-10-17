@@ -1,7 +1,8 @@
-import Cookies from 'js-cookie';
+import { getUserGeo } from '@diamantaire/shared/geolocation';
 
 export const getUserCountry = () => {
-  const { country: countryCode } = JSON.parse(Cookies.get('geo')) || 'US';
+  const geo = getUserGeo();
+  const countryCode = geo ? geo.country : 'US';
 
   return countryCode;
 };

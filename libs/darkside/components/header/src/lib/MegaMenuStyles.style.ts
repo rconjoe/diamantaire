@@ -1,4 +1,3 @@
-import { MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 interface Props {
@@ -70,9 +69,8 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
             a,
             span {
-              font-size: 1.5rem;
-              font-family: ${MAIN_FONT};
-              letter-spacing: 0.3px;
+              font-size: 1.7rem;
+              font-family: var(--font-family-main);
               text-decoration: none;
               position: relative;
               transition: 0.25s;

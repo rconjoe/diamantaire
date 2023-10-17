@@ -1,5 +1,6 @@
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
-import Cookies from 'js-cookie';
+
+import { getUserGeo } from './getUserGeo';
 
 // Returns the distance between two lat/lng coordinates in miles
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -34,7 +35,7 @@ export function calculateProximityToShowrooms(lat, lng) {
 
 // This will return a showroom if the user is within 70 miles of one
 export function isUserCloseToShowroom() {
-  const geo = JSON.parse(Cookies.get('geo')) || {};
+  const geo = getUserGeo() || {};
 
   let { latitude, longitude } = geo;
 

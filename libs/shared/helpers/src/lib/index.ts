@@ -4,7 +4,6 @@ export * from './diamonds';
 export * from './extractMetalTypeFromShopifyHandle';
 export * from './formatCurrency';
 export * from './formatRingSize';
-export * from './geolocation';
 export * from './getCountry';
 export * from './getRelativeUrl';
 export * from './getUserCountry';
