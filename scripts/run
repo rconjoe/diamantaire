@@ -4,15 +4,12 @@ set -euo pipefail
 
 . prelude
 . scripts/bootstrap
+. scripts/nuke
 . scripts/node_upgrader
 . scripts/pnpm_migrator
-. scripts/nuke
 
-main() {
-  bootstrap
-  nuke
-  upgrade_node
-  install_pnpm
-}
-
-main
+bootstrap
+nuke
+upgrade_node
+install_pnpm
+run_freshies

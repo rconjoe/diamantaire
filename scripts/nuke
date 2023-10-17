@@ -5,7 +5,8 @@ set -euo pipefail
 . prelude
 
 bimbom() {
-  for i in "node_modules/" "yarn.lock" "tmp/" "dist/"
+  rm yarn.lock
+  for i in "node_modules/" "tmp/" "dist/"
   do
     rm -rf $i
   done
@@ -15,4 +16,4 @@ nuke() {
   gum spin -s points --title "Nuking..." --  "$(bimbom)"
 }
 
-export -f nuke
+export -f nuke bimbom

@@ -6,7 +6,7 @@ set -euo pipefail
 
 install_pnpm() {
   log_debug "Attempting pnpm install"
-  gum confirm "Ready to install pnpm?" && gum spin -s points --title "installing pnpm..." -- "$(npm i -g pnpm)"
+  gum confirm "Ready to install pnpm?" && npm i -g pnpm
 }
 
 export -f install_pnpm
