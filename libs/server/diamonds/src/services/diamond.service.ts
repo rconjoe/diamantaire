@@ -111,8 +111,6 @@ export class DiamondsService {
 
       const [diamondTypeValues, caratValues, priceValues] = await Promise.all(rangeQueries);
 
-      console.log(caratValues);
-
       dataRanges = {
         diamondType: diamondTypeValues.filter(Boolean),
         carat: [Math.min(...caratValues.filter((c) => !isNaN(c))), Math.max(...caratValues.filter((c) => !isNaN(c)))],
