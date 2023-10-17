@@ -5,12 +5,14 @@ on:
     branches:
       - rconjoe/node20-pnpm
 
+  workflow-dispatch:
+
 jobs:
   test:
-    runs-on: [self-hosted]
+    runs-on: [ubuntu-latest]
     strategy:
       matrix:
-        node-version: ['20.8.0']
+        node-version: ['20.8.1']
     steps:
       - uses: actions/checkout@v4
         with:
