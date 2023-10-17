@@ -65,39 +65,14 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps(context) {
-  // locale
-  const locale = 'en_US';
-  const refinedLocale = 'en_US';
-
-  // device:
-
-  const isMobile = false;
-
-  // geo -dev
-  const devCountryCode = 'US';
-
-  const devCurrencyCode = 'USD';
-
-  // dato
+async function getStaticProps({ params, locale }) {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    ...queries.header.content(locale),
-    meta: { refinedLocale },
-  });
-
-  await queryClient.prefetchQuery({
-    ...queries.footer.content(locale),
-    meta: { refinedLocale },
-  });
+  await queryClient.prefetchQuery({ ...queries.template.global(locale) });
 
   return {
     props: {
-      path: context.params.accountPageSlug,
-      isMobile,
-      currencyCode: devCurrencyCode,
-      countryCode: devCountryCode,
+      path: params.accountPageSlug,
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },

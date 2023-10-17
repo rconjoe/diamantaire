@@ -1,6 +1,5 @@
 export * from './diamonds';
-export * from './header';
-export * from './footer';
+export * from './top-bar';
 export * from './standard-page';
 export * from './clients';
 export * from './journal';

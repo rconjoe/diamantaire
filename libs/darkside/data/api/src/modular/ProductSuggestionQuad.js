@@ -9,6 +9,19 @@ const ProductSuggestionQuad = `
     halfWidthDesktopImage {
       url
       alt
+      responsiveImage(imgixParams: {w: 720, h: 825, q: 40, auto: format }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+        src
+        alt
+        aspectRatio
+        base64
+        bgColor
+        height
+        sizes
+        srcSet
+        title
+        webpSrcSet
+        width
+      }
     }
     halfWidthMobileImage {
       url

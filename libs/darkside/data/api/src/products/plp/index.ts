@@ -114,7 +114,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
-        if (lastPage && lastPage.paginator.nextPage) {
+        if (lastPage && lastPage?.paginator?.nextPage) {
           // Return next page number
           return lastPage.paginator.nextPage;
         } else {

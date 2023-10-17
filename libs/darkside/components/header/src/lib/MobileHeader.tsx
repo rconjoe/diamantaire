@@ -163,7 +163,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight, toggleCar
       <AnimatePresence>
         {isMobileMenuOpen && (
           <DiamondShapesProvider>
-            <MobileMenu navItems={navItems} headerHeight={headerHeight} />
+            <MobileMenu navItems={navItems} headerHeight={headerHeight} setIsMobileMenuOpen={setIsMobileMenuOpen} />
           </DiamondShapesProvider>
         )}
       </AnimatePresence>
