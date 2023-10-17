@@ -5,8 +5,6 @@ on:
     branches:
       - rconjoe/node20-pnpm
 
-  workflow-dispatch:
-
 jobs:
   test:
     runs-on: [ubuntu-latest]
