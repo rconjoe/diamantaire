@@ -8,8 +8,8 @@ set -euo pipefail
 . scripts/node_upgrader
 . scripts/pnpm_migrator
 
-bootstrap
-nuke
+# bootstrap
+bimbom
 upgrade_node
 install_pnpm
 run_freshies
