@@ -8,6 +8,11 @@ KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYj
 KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
 M="mods"
 
+run_freshies() {
+    log_info "Running freshies."
+    NX_PROFILE="$(whoami)".json ./node_modules/.bin/nx run-many -t lint,build --all --parallel=4 --verbose
+}
+
 log_info() {
     local logline
     logline="[INFO]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
