@@ -336,33 +336,33 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
   ${ResponsiveImageFragment}
 `;
 
-const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = `
+const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = gql`
   query datoInstagramReel($locale: SiteLocale, $id: ItemId) {
-    instagramReelBlock(filter: {id: {eq: $id}}, locale: $locale) {
+    instagramReelBlock(filter: { id: { eq: $id } }, locale: $locale) {
       id
       _modelApiKey
-      content { 
-      title
-      subtitle
-      headingType
-      headingAdditionalClass
-      blocks {
-        id
-        image {
-          url
-          alt
-          responsiveImage (imgixParams: {w: 240, h:240, q: 45, auto: format, fit: clamp, crop: focalpoint },sizes: "240px"){
-            ...responsiveImageFragment
+      content {
+        title
+        subtitle
+        headingType
+        headingAdditionalClass
+        blocks {
+          id
+          image {
+            url
+            alt
+            responsiveImage(imgixParams: { w: 280, h: 280, q: 45, auto: format, fit: clamp, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
           }
+          postLink
+          productLink
+          shouldLinkToVraiInstagram
         }
-        postLink
-        productLink
-        shouldLinkToVraiInstagram
-      }
       }
     }
-    }
-    ${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
