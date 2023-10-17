@@ -2,27 +2,27 @@
 
 set -euo pipefail
 
-CLI_VER="0.0.1"
+CLI_VER="0.1.1"
 LOG_FILE="scripts/.cli-$CLI_VER.log"
 KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
 KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
-
+M="mods"
 
 log_info() {
     local logline
-    logline="[INFO] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    logline="[INFO]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
     echo "$logline" >> $LOG_FILE
 }
 
 log_error() {
     local logline
-    logline="[ERROR] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    logline="[ERROR]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
     echo "$logline" >> $LOG_FILE
 }
 
 log_debug() {
     local logline
-    logline="[DEBUG] $(date '+%Y-%m-%d %H:%M:%S') $1"
+    logline="[DEBUG]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
     echo "$logline" >> $LOG_FILE
 }
 
@@ -35,7 +35,8 @@ kv_curl() {
     local body="$1"
     local response
     log_debug "Calling $KV_URL with $body"
-    response=$(curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
+
+    response=$(gum spin -s line --title "cURL'ing the kv..." -- curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
 
     if [ $? -ne 0 ]; then
         fail "Curl with body $body failed with exit code $?"
@@ -76,7 +77,28 @@ kv_hgetall() {
     log_info "Executing kv_hgetall for hash $key"
 
     curl -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body"
+}
 
+
+get_gum() {
+  if ! command -v gum &> /dev/null; then
+      printf "Gum is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need gum. Can I use Homebrew to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+            log_info "Installing gum with Homebrew."
+            brew install gum
+        ;;
+        * )
+            log_info "Gum will not be installed."
+            printf "Gum will not be installed.\n"
+        ;;
+      esac
+  else
+    log_info "Gum is already installed."
+    printf "Gum is already installed.\n"
+  fi
 }
 
 get_dialog() {
@@ -158,5 +180,5 @@ menu() {
     fi
 }
 
-export CLI_VER
+export CLI_VER LOG_FILE KV_TOKEN KV_URL M
 export -f fail alert os_detection yn_prompt input_prompt password_prompt menu
