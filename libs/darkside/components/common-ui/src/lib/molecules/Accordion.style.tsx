@@ -1,4 +1,4 @@
-import { BLACK, GREY_LIGHTER, WHITE } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY_LIGHTER, WHITE, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledAccordion = styled.div`
@@ -27,11 +27,20 @@ const StyledAccordion = styled.div`
     cursor: pointer;
 
     .text {
-      gap: 5px;
+      gap: 10px;
       display: flex;
-      align-items: center;
-      font-size: var(--font-size-xsmall);
+      align-items: flex-start;
+      font-size: var(--font-size-xxsmall);
       font-weight: var(--font-weight-normal);
+
+      ${desktopAndUp(`
+        font-size: var(--font-size-xsmall);
+      `)}
+
+      .value {
+        padding: 0 1rem 0 0;
+        // line-height: 1.2;
+      }
     }
 
     .icon {

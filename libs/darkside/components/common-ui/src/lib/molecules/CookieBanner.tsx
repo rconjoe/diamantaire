@@ -1,13 +1,13 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { getIsUserInEu } from '@diamantaire/shared/helpers';
-import { HEADER_BACKGROUND, GREY_DARK, NAV_Z_INDEX, BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { BLACK, GREY_DARK, HEADER_BACKGROUND, NAV_Z_INDEX, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Markdown, Heading, DarksideButton, CheckSquare } from './';
+import { CheckSquare, DarksideButton, Heading, Markdown } from './';
 
 const CookieBannerStyles = styled.div`
   position: fixed;
@@ -122,7 +122,7 @@ const CookieBanner = () => {
   };
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu();
+    const isUserInEu = getIsUserInEu(selectedLocale);
     const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
     const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
 

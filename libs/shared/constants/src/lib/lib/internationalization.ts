@@ -507,6 +507,7 @@ export function getFormattedPrice(
 ): string {
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
+
   const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
   const convertedPrice = applyExchangeRate(priceInDollars, currency);
 
@@ -514,7 +515,11 @@ export function getFormattedPrice(
     return Number(convertedPrice).toFixed(2);
   }
 
-  const numberFormat = new Intl.NumberFormat(locale, {
+  // this is a hack to see proper CAD formatting
+  // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
+  const customLocale = locale === 'en-CA' ? 'en-US' : locale;
+
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
     minimumFractionDigits: hideZeroCents ? 0 : 2,

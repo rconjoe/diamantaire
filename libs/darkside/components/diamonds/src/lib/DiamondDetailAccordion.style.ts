@@ -2,12 +2,6 @@ import { BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailAccordion = styled.div`
-  .accordion-header {
-    .ellipsis {
-      max-width: 17rem;
-    }
-  }
-
   .accordion-row {
     .row {
       display: flex;

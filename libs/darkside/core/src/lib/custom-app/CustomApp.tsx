@@ -11,8 +11,8 @@ import { CookieConsentProvider } from '@use-cookie-consent/react';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
-import './styles.css';
 import { ToastContainer } from 'react-toastify';
+import './styles.css';
 
 import 'node_modules/react-toastify/dist/ReactToastify.css';
 import PageLoadProgressBar from '../progressbar/PageLoadProgressBar';

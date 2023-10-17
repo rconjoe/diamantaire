@@ -5,11 +5,11 @@ import { getIsUserInEu, getUserCountry, makeCurrency } from '@diamantaire/shared
 import { media } from '@diamantaire/styles/darkside-styles';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
-import { DatoImage, Heading, Modal, Form, Markdown, UIString, DarksideButton, FormSchemaType } from './';
+import { DarksideButton, DatoImage, Form, FormSchemaType, Heading, Markdown, Modal, UIString } from './';
 
 const EmailPopUpStyles = styled.div`
   .wrapper {
@@ -78,7 +78,7 @@ const EmailPopUp = () => {
   const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu();
+    const isUserInEu = getIsUserInEu(locale);
     const countryCode = getUserCountry();
     const isUserInUs = countryCode === 'US';
 

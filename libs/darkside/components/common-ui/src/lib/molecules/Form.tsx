@@ -57,17 +57,18 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
   }
   .form {
     display: flex;
-    /* flex-wrap: wrap; */
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
+
     .input-container {
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
       margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
-      flex: 1;
+      flex: 1.25;
 
       &.submit {
         margin-bottom: 0px;
+        flex: 0.75;
         // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
@@ -145,6 +146,7 @@ const Form = ({
   extraClass,
   isValid,
   setIsValid,
+  emailPlaceholderText = 'Enter your email',
 }: FormProps) => {
   const initialFormState = {};
 
@@ -184,7 +186,7 @@ const Form = ({
                 type="email"
                 name="email"
                 id="email"
-                placeholder="Enter your email"
+                placeholder={emailPlaceholderText}
                 pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                 required
                 onChange={(e) => {

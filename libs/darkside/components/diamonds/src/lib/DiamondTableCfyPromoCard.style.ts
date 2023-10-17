@@ -36,7 +36,7 @@ const StyledDiamondTableCfyPromoCard = styled.div`
 
   .cta {
     display: block;
-    width: 250px;
+    width: 260px;
     margin: 0 auto;
   }
 
