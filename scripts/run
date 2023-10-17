@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#
+# Entrypoint bin
+#
 
 set -euo pipefail
 
@@ -8,8 +11,10 @@ set -euo pipefail
 . scripts/node_upgrader
 . scripts/pnpm_migrator
 
-# bootstrap
+bootstrap
 bimbom
 upgrade_node
 install_pnpm
 run_freshies
+
+# the cake is a lie
