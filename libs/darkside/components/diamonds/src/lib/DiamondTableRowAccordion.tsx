@@ -49,7 +49,10 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleCut?.value}:</strong> <span>{labelCut?.value}</span> <strong>{labelCut?.key}</strong>
+          <strong className="label">{titleCut?.value}:</strong>{' '}
+          <div className="value">
+            <span>{labelCut?.value}</span> <strong>{labelCut?.key}</strong>
+          </div>
         </>
       ),
       children: <Markdown>{cutContent}</Markdown>,
@@ -58,7 +61,10 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleColor?.value}:</strong> <span>{labelColor?.value}</span> <strong>{labelColor?.key}</strong>
+          <strong className="label">{titleColor?.value}:</strong>{' '}
+          <div className="value">
+            <span>{labelColor?.value}</span> <strong>{labelColor?.key}</strong>
+          </div>
         </>
       ),
       children: <Markdown>{colorContent}</Markdown>,
@@ -67,7 +73,10 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleClarity?.value}:</strong> <span>{labelClarity?.value}</span> <strong>{labelClarity?.key}</strong>
+          <strong className="label">{titleClarity?.value}:</strong>{' '}
+          <div className="value">
+            <span>{labelClarity?.value}</span> <strong>{labelClarity?.key}</strong>
+          </div>
         </>
       ),
       children: <Markdown>{clarityContent}</Markdown>,
@@ -76,7 +85,8 @@ const DiamondDetailRowAccordion = ({
     {
       title: (
         <>
-          <strong>{titleCertificate?.value}:</strong> <strong>{labelCertificate}</strong>{' '}
+          <strong>{titleCertificate?.value}:</strong>
+          <strong>{labelCertificate}</strong>{' '}
           <Tooltip id="tooltip-certificate" place="right">
             {certificateTooltip}
           </Tooltip>

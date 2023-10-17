@@ -1,8 +1,9 @@
-import { countries } from '@diamantaire/shared/constants';
-import Cookies from 'js-cookie';
+import { DEFAULT_LOCALE, countries } from '@diamantaire/shared/constants';
 
-export const getIsUserInEu = () => {
-  const countryCode = Cookies.get('geoCountry') || 'US';
+import { getCountry } from '../getCountry';
+
+export const getIsUserInEu = (locale: string = DEFAULT_LOCALE) => {
+  const countryCode = getCountry(locale);
   const selectedRegion = countries[countryCode].region;
   const isUserInEu = selectedRegion === 'Europe';
 

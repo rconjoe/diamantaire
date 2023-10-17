@@ -203,7 +203,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               <div className="primary-price">
                 <p>{formattedPrice}</p>
 
-                {getIsUserInEu() && (
+                {getIsUserInEu(locale) && (
                   <small>
                     <UIString>incl. VAT</UIString>
                   </small>

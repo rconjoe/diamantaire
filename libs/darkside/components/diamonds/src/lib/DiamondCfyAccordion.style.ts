@@ -10,20 +10,6 @@ const StyledDiamondCfyAccordion = styled.div`
     margin: 0;
   `)}
 
-  .accordion-header {
-    .ellipsis {
-      max-width: 25rem;
-    }
-
-    .text {
-      font-size: var(--font-size-xxsmall);
-
-      ${desktopAndUp(`
-        font-size: var(--font-size-xsmall);
-      `)}
-    }
-  }
-
   .accordion-row {
     .row {
       display: flex;
