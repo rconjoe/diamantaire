@@ -152,6 +152,9 @@ dependencies:
   effect:
     specifier: ^2.0.0-next.19
     version: 2.0.0-next.48
+  embla-carousel-react:
+    specifier: ^8.0.0-rc14
+    version: 8.0.0-rc14(react@18.2.0)
   express:
     specifier: ^4.18.2
     version: 4.18.2
@@ -14352,6 +14355,28 @@ packages:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: true
+
+  /embla-carousel-react@8.0.0-rc14(react@18.2.0):
+    resolution: {integrity: sha512-2b9vXACEcn0qja4QyaFMfCgFbFhumV3krOCGr9+jlQiuXt5z/EyfiYYziDsm70DhTtxtg/uKEGflIqZSfWRYKg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      embla-carousel: 8.0.0-rc14
+      embla-carousel-reactive-utils: 8.0.0-rc14(embla-carousel@8.0.0-rc14)
+      react: 18.2.0
+    dev: false
+
+  /embla-carousel-reactive-utils@8.0.0-rc14(embla-carousel@8.0.0-rc14):
+    resolution: {integrity: sha512-r153bynAo9eTBuWWggPWLYnE9xqVOYmkkeMbAuGX8pkUisJN8aTLMW9b7CYOzjURRB7z85EmYRbeBg+axQzc9g==}
+    peerDependencies:
+      embla-carousel: 8.0.0-rc14
+    dependencies:
+      embla-carousel: 8.0.0-rc14
+    dev: false
+
+  /embla-carousel@8.0.0-rc14:
+    resolution: {integrity: sha512-/NLkMFZ7xKryRVYeUjmhbfV63Vr07saPBDwAX2TPMbcaiWwfQfU5Xsc2AiCMZANtwmzsjRK6gSBa7hOy/VXu6g==}
+    dev: false
 
   /emitter-listener@1.1.2:
     resolution: {integrity: sha512-Bt1sBAGFHY9DKY+4/2cV6izcKJUf5T7/gkdmkxzX/qv9CcGH8xSwVRW5mtX03SWJtRTWSOpzCuWN9rBFYZepZQ==}
