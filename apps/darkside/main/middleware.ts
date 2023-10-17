@@ -14,14 +14,16 @@ export default async function middleware(
 
   const { nextUrl: url, geo } = request;
 
-  // console.log('geo', geo);
+  console.log('middleware geo', geo);
 
   // WIP
   const country = geo.country || 'US';
   // const city = geo.city || 'San Francisco';
   // const region = geo.region || 'CA';
 
-  console.log('middleware response', response);
+  console.log('middleware response', response.cookies);
+
+  request.cookies?.set('geoCountryxxxx', 'weeee');
 
   // store user's geo data in a cookie
   if (response.cookies) {
