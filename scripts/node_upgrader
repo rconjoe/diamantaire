@@ -6,7 +6,8 @@ set -euo pipefail
 
 upgrade_node() {
   log_debug "Attempting node upgrade"
-  gum confirm "can i use nvm to upgrade node?" && nvm install 20.8.1 && nvm use 20.8.1
+  # gum confirm "can i use nvm to upgrade node?" && nvm install 20.8.1 && nvm use 20.8.1
+  gum confirm "can i use nvm to upgrade node?" && sleep 5
 }
 
 export -f upgrade_node
