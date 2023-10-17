@@ -12,6 +12,7 @@ LOG_FILE="scripts/.cli-$CLI_VER.log"
 KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
 KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
 M="mods"
+NVMBIN="$HOME/.nvm/nvm.sh"
 
 run_freshies() {
     log_info "Running freshies."
@@ -191,5 +192,5 @@ menu() {
     fi
 }
 
-export CLI_VER LOG_FILE KV_TOKEN KV_URL M
-export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall
+export CLI_VER LOG_FILE KV_TOKEN KV_URL M NVMBIN
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog
