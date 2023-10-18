@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "license": "MIT",
   "engines": {
-    "node": "20.8.1"
+    "node": "18.x"
   },
   "scripts": {
     "deploy": "pm2 start ecosystem.config.js --no-daemon",
