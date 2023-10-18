@@ -13,11 +13,19 @@ import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
 import { SortProperties } from './PlpSortOption';
+import { PlpSortOptions } from './PlpSortOptions';
 
 const PlpProductGridStyles = styled.div`
   padding: 0 0 calc(var(--gutter) / 2);
   position: relative;
   height: 100%;
+
+  .grid-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .product-grid__row {
     display: grid;
     flex-wrap: wrap;
@@ -119,16 +127,21 @@ const PlpProductGrid = ({
 
   return (
     <PlpProductGridStyles ref={gridRef}>
-      <PlpProductFilter
-        availableFilters={availableFilters}
-        gridRef={gridRef}
-        filterValue={filterValue}
-        setFilterValues={setFilterValues}
-        urlFilterMethod={urlFilterMethod}
-        plpSlug={plpSlug}
-        sortOptions={sortOptions}
-        handleSortChange={handleSortChange}
-      />
+      <div className="grid-controls container-wrapper">
+        <div className="filter">
+          <PlpProductFilter
+            availableFilters={availableFilters}
+            gridRef={gridRef}
+            filterValue={filterValue}
+            setFilterValues={setFilterValues}
+            urlFilterMethod={urlFilterMethod}
+            plpSlug={plpSlug}
+          />
+        </div>
+        <div className="sort">
+          {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+        </div>
+      </div>
 
       <div className="container-wrapper">
         <div className="product-grid__row ">

@@ -10,15 +10,12 @@ import {
 } from '@diamantaire/shared/constants';
 import { makeCurrency, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
-import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { Dispatch, MutableRefObject, SetStateAction, useState } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction, useMemo, useState } from 'react';
 
 import { PlpProductFilterStyles } from './PlpProductFilter.style';
-import { SortProperties } from './PlpSortOption';
-import { PlpSortOptions } from './PlpSortOptions';
 
 const PlpProductFilter = ({
   availableFilters,
@@ -26,8 +23,6 @@ const PlpProductFilter = ({
   setFilterValues,
   urlFilterMethod,
   plpSlug,
-  sortOptions,
-  handleSortChange,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
@@ -35,8 +30,6 @@ const PlpProductFilter = ({
   setFilterValues: Dispatch<SetStateAction<FilterValueProps>>;
   plpSlug: string;
   urlFilterMethod: 'facet' | 'param' | 'none';
-  sortOptions?: PlpBasicFieldSortOption[];
-  handleSortChange: ({ id, sortBy, sortOrder }: SortProperties) => void;
 }) => {
   const router = useRouter();
   const filterTypes = availableFilters;
@@ -82,7 +75,6 @@ const PlpProductFilter = ({
   }
 
   function updateFilter(filterType: string, value) {
-    console.log('urlFilterMethodxxxx', urlFilterMethod);
     const newFilters = { ...filterValue, [filterType]: value };
 
     // Remove attributes with undefined values
@@ -200,6 +192,10 @@ const PlpProductFilter = ({
     );
   };
 
+  const isAnyFilterActive = useMemo(() => {
+    return Object.values(filterValue).some((value) => value !== null);
+  }, [filterValue]);
+
   return (
     availableFilters && (
       <PlpProductFilterStyles headerHeight={headerHeight}>
@@ -214,6 +210,9 @@ const PlpProductFilter = ({
                 <ul className="list-unstyled flex filter__options">
                   {filterTypes &&
                     Object.keys(filterTypes)?.map((optionSet, index) => {
+                      // Hide filters with no options
+                      if (filterTypes[optionSet]?.length === 0) return null;
+
                       return (
                         <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>
                           <button
@@ -222,7 +221,8 @@ const PlpProductFilter = ({
                             })}
                             onClick={() => toggleFilterOptionSet(optionSet as FilterTypeProps)}
                           >
-                            <UIString>{optionSet}</UIString> <span className="arrow-up"></span>
+                            <UIString>{optionSet.replace('subStyles', 'Styles')}</UIString>{' '}
+                            <span className="arrow-up"></span>
                           </button>
                         </li>
                       );
@@ -241,11 +241,17 @@ const PlpProductFilter = ({
 
                         return (
                           <li key={`filter-${diamondType}`}>
-                            <button className="flex align-center" onClick={() => updateFilter('diamondType', diamondType)}>
+                            <button
+                              className={clsx('flex align-center', {
+                                active: filterValue['diamondType'] === diamondType,
+                              })}
+                              onClick={() => updateFilter('diamondType', diamondType)}
+                            >
                               <span className="diamond-icon">
                                 <Icon />
                               </span>
-                              <span className="diamond-text">{DIAMOND_TYPE_HUMAN_NAMES[diamondType]}</span>
+                              {/* We might want this later ;) - @div */}
+                              {/* <span className="diamond-text">{DIAMOND_TYPE_HUMAN_NAMES[diamondType]}</span> */}
                             </button>
                           </li>
                         );
@@ -260,7 +266,12 @@ const PlpProductFilter = ({
                       {filterTypes['metal']?.map((metal) => {
                         return (
                           <li key={`filter-${metal}`}>
-                            <button className="flex align-center" onClick={() => updateFilter('metal', metal)}>
+                            <button
+                              className={clsx('flex align-center', {
+                                active: filterValue['metal'] === metal,
+                              })}
+                              onClick={() => updateFilter('metal', metal)}
+                            >
                               <span className={clsx('metal-swatch', metal)}></span>
                               <span className="metal-text">{METAL_HUMAN_NAMES[metal]}</span>
                             </button>
@@ -352,7 +363,7 @@ const PlpProductFilter = ({
                         return (
                           <li key={`filter-${style}`}>
                             <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
-                              <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style]} </span>
+                              <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
                             </button>
                           </li>
                         );
@@ -361,64 +372,66 @@ const PlpProductFilter = ({
                   </div>
                 )}
 
-                <div className="active-filters">
-                  <ul className="list-unstyled flex">
-                    {filterValue &&
-                      Object.keys(filterValue).map((filterType) => {
-                        // This could be better.....
-                        const isMetal = filterType === 'metal';
-                        const isDiamondType = filterType === 'diamondType';
-                        const isPrice = filterType === 'price';
-                        const isStyle = filterType === 'style';
-                        const isSubStyle = filterType === 'subStyle';
+                {isAnyFilterActive && (
+                  <div className="active-filters">
+                    <ul className="list-unstyled flex">
+                      {filterValue &&
+                        Object.keys(filterValue).map((filterType) => {
+                          // This could be better.....
+                          const isMetal = filterType === 'metal';
+                          const isDiamondType = filterType === 'diamondType';
+                          const isPrice = filterType === 'price';
+                          const isStyle = filterType === 'style';
+                          const isSubStyle = filterType === 'subStyle';
 
-                        const text = isMetal
-                          ? METAL_HUMAN_NAMES[filterValue[filterType]]
-                          : isDiamondType
-                          ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
-                          : isStyle
-                          ? RING_STYLES_MAP[filterValue[filterType]]
-                          : isSubStyle
-                          ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
-                          : filterType;
+                          const text = isMetal
+                            ? METAL_HUMAN_NAMES[filterValue[filterType]]
+                            : isDiamondType
+                            ? DIAMOND_TYPE_HUMAN_NAMES[filterValue[filterType]]
+                            : isStyle
+                            ? RING_STYLES_MAP[filterValue[filterType]]
+                            : isSubStyle
+                            ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
+                            : filterType;
 
-                        if (filterValue[filterType] === null) return null;
+                          if (filterValue[filterType] === null) return null;
 
-                        if (isPrice) {
-                          const price = filterValue[filterType];
+                          if (isPrice) {
+                            const price = filterValue[filterType];
 
-                          const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
+                            const priceRangeMatchesInitialState =
+                              price?.min === priceRange[0] && price?.max === priceRange[1];
 
-                          if (priceRangeMatchesInitialState) return null;
+                            if (priceRangeMatchesInitialState) return null;
 
-                          // generate slug to match predefined filters
-                          const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
-                          const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
+                            // generate slug to match predefined filters
+                            const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${
+                              price?.max ? price.max : 'plus'
+                            }`;
+                            const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
 
-                          return (
-                            <li key={`${filterValue}-${text}`}>
-                              <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
-                                <span className="close">x</span>
-                                {priceLabel ? priceLabel : renderCustomPriceRange(price)}
-                              </button>
-                            </li>
-                          );
-                        } else {
-                          return (
-                            <li key={`${filterValue}-${text}`}>
-                              <button onClick={() => updateFilter(filterType, undefined)}>
-                                <span className="close">x</span> {text}
-                              </button>
-                            </li>
-                          );
-                        }
-                      })}
-                  </ul>
-                </div>
+                            return (
+                              <li key={`${filterValue}-${text}`}>
+                                <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
+                                  <span className="close">x</span>
+                                  {priceLabel ? priceLabel : renderCustomPriceRange(price)}
+                                </button>
+                              </li>
+                            );
+                          } else {
+                            return (
+                              <li key={`${filterValue}-${text}`}>
+                                <button onClick={() => updateFilter(filterType, undefined)}>
+                                  <span className="close">x</span> {text}
+                                </button>
+                              </li>
+                            );
+                          }
+                        })}
+                    </ul>
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="sort-container">
-              {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
             </div>
           </div>
         </div>

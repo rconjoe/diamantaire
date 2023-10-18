@@ -46,8 +46,12 @@ export function isUserCloseToShowroom() {
     // longitude = -73.94958;
 
     // Madrid
-    latitude = 40.4607623;
-    longitude = -3.6966508;
+    // latitude = 40.4607623;
+    // longitude = -3.6966508;
+
+    // SF
+    latitude = 37.7953449;
+    longitude = -122.3998769;
   }
 
   const results = calculateProximityToShowrooms(latitude, longitude);

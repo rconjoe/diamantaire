@@ -122,7 +122,7 @@ const CookieBanner = () => {
   };
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu(selectedLocale);
+    const isUserInEu = getIsUserInEu();
     const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
     const shouldShowBanner = isUserInEu && !didAcceptPrivacy;
 

@@ -21,6 +21,15 @@ export const PlpProductFilterStyles = styled.div`
         margin: 0;
         font-size: var(--font-size-xxxsmall);
       }
+
+      .filter__option-selector {
+        button {
+          transition: 0.25s;
+          &.active {
+            font-weight: bold;
+          }
+        }
+      }
     }
 
     .filter__options {
@@ -81,29 +90,12 @@ export const PlpProductFilterStyles = styled.div`
 
     &.diamondType {
       button {
-        padding: 5px 15px;
-        border-radius: 10px;
+        border-bottom: 2px solid transparent;
         transition: 0.25s;
-        border: 1px solid #ccc;
-        &:hover {
-          background-color: var(--color-teal);
-          border-color: var(--color-teal);
-          .diamond-text {
-            color: #fff;
-          }
 
-          svg {
-            path,
-            polygon,
-            rect {
-              stroke: #fff;
-            }
-          }
-        }
-        .diamond-icon {
-          margin-right: 10px;
-          position: relative;
-          top: 1px;
+        &:hover,
+        &.active {
+          border-color: var(--color-teal);
         }
       }
     }
@@ -127,16 +119,13 @@ export const PlpProductFilterStyles = styled.div`
       button {
         width: 100%;
         background-color: transparent;
-        padding: 0;
-        border: 1px solid #ccc;
-        padding: 5px 15px;
-        border-radius: 10px;
         transition: 0.25s;
-        &:hover {
-          background-color: var(--color-teal);
-          border-color: var(--color-teal);
-          .metal-text {
-            color: #fff;
+
+        &.active {
+          .metal-swatch {
+            &::before {
+              border-color: var(--color-teal);
+            }
           }
         }
       }
@@ -149,6 +138,18 @@ export const PlpProductFilterStyles = styled.div`
         border: 1px solid transparent;
         border-radius: 50%;
         margin-right: 7px;
+        position: relative;
+
+        &::before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          position: absolute;
+          border: 1px solid transparent;
+          transform: scale(1.35);
+        }
 
         /* TODO - refine to css variables */
         &.yellow-gold {
@@ -156,7 +157,7 @@ export const PlpProductFilterStyles = styled.div`
         }
 
         &.white-gold {
-          background-image: ${colorMap['white-gold']};
+          background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
         }
 
         &.rose-gold {
@@ -177,29 +178,18 @@ export const PlpProductFilterStyles = styled.div`
   }
 
   .active-filters {
-    padding: 10px 0 0;
+    padding: 12px 0 0;
     li {
       margin-right: 10px;
       button {
         background-color: transparent;
-        border: 1px solid #ccc;
-        padding: 5px 15px;
-        border-radius: 30px;
+        border: none;
         transition: 0.25s;
-
-        &:hover {
-          background-color: var(--color-teal);
-          border-color: var(--color-teal);
-          color: #fff;
-          span,
-          span.close {
-            color: #fff;
-          }
-        }
 
         span {
           color: #777;
           transition: 0.25s;
+          margin-right: 2px;
         }
 
         &.price-filter-tab {

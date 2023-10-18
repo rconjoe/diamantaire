@@ -251,7 +251,16 @@ function getValidFiltersFromFacetedNav(
   const subStyle = query.subStyle?.toString();
 
   const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
+
+  const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
+
+  // const metalParam = ;
+
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
+
+  console.log('metalParamIndex params', params);
+  console.log('metalParamIndex query', query);
+  console.log('metalParamIndex', metalParamIndex);
 
   const facetOrder = [];
 
@@ -297,6 +306,8 @@ function getValidFiltersFromFacetedNav(
 
   if (metalParamIndex !== -1) {
     filterOptions['metal'] = params[metalParamIndex];
+  } else if (metalFromQuery && metalParamIndex === -1) {
+    filterOptions['metal'] = metalFromQuery;
   }
 
   if (diamondTypeParamIndex !== -1) {

@@ -44,110 +44,122 @@ export const StackedHeaderStylesContainer = styled.div`
       }
     }
 
-    .nav__col--left .country-locale-selector {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: baseline;
+    .nav__col--center {
+      flex: 0 0 20%;
+    }
 
-      > li {
-        font-size: 1.4rem;
-        display: inline-block;
-        margin-right: 20px;
-        position: relative;
+    .nav__col--left {
+      flex: 0 0 40%;
 
-        &.divider {
-          margin: 0 10px;
-        }
+      .country-locale-selector {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: baseline;
 
-        button {
-          background-color: transparent;
-          border: none;
-          padding: 0;
-          line-height: 1;
-        }
-
-        .language-icon {
+        > li {
+          font-size: 1.4rem;
           display: inline-block;
-          transform: translateY(-2px) rotate(180deg);
-          padding: 0 0.7rem;
+          margin-right: 20px;
+          position: relative;
 
-          &.active {
-            transform: translateY(1px) rotate(0deg);
+          &.divider {
+            margin: 0 10px;
           }
-        }
 
-        &.country-selector {
-          /* flex: 0 0 100px; */
           button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            line-height: 1;
+          }
+
+          .language-icon {
+            display: inline-block;
+            transform: translateY(-2px) rotate(180deg);
+            padding: 0 0.7rem;
+
+            &.active {
+              transform: translateY(1px) rotate(0deg);
+            }
+          }
+
+          &.country-selector {
+            /* flex: 0 0 100px; */
+            button {
+              display: flex;
+              align-items: baseline;
+              width: 100%;
+              margin-right: 10px;
+
+              svg {
+                flex: 0 0 30px;
+                position: relative;
+                top: 6px;
+              }
+
+              span {
+                flex: 1;
+                white-space: nowrap;
+                font-size: 1.4rem;
+                color: var(--color-black);
+              }
+            }
+          }
+
+          &.country-selector__chat {
+            svg {
+              width: 17px;
+              position: relative;
+              top: 3px;
+            }
+
+            &.with-lang {
+              margin-left: 20px;
+            }
+          }
+
+          &.calendar {
             display: flex;
-            align-items: baseline;
-            width: 100%;
-            margin-right: 10px;
+            top: 3px;
 
             svg {
-              flex: 0 0 30px;
+              height: 18px;
               position: relative;
-              top: 6px;
-            }
-
-            span {
-              flex: 1;
-              white-space: nowrap;
-              font-size: 1.4rem;
-              color: var(--color-black);
+              top: 1px;
             }
           }
-        }
 
-        &.country-selector__chat {
-          svg {
-            width: 17px;
-            position: relative;
-            top: 3px;
+          &.language {
+            min-width: 80px;
+            margin-right: 0;
           }
 
-          &.with-lang {
-            margin-left: 20px;
+          &:last-child {
+            margin-right: 0;
           }
-        }
-
-        &.calendar {
-          display: flex;
-          top: 3px;
-
-          svg {
-            height: 18px;
-            position: relative;
-            top: 1px;
-          }
-        }
-
-        &.language {
-          min-width: 80px;
-          margin-right: 0;
-        }
-
-        &:last-child {
-          margin-right: 0;
         }
       }
     }
 
-    .nav__col--right ul {
-      justify-content: flex-end;
+    .nav__col--right {
+      flex: 0 0 40%;
 
-      .cart svg {
-        height: 21px;
-      }
+      ul {
+        justify-content: flex-end;
 
-      .wishlist svg {
-        transform: scale(0.8) translate(0, 1px);
-      }
+        .cart svg {
+          height: 21px;
+        }
 
-      .accounts svg {
-        transform: translate(0, 1px);
+        .wishlist svg {
+          transform: scale(0.8) translate(0, 1px);
+        }
+
+        .accounts svg {
+          transform: translate(0, 1px);
+        }
       }
     }
   }
