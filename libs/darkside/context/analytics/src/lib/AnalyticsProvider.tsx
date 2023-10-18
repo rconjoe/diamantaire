@@ -2,7 +2,6 @@
 import { isProdEnv } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
-import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import TagManager from 'react-gtm-module';
 
@@ -76,10 +75,6 @@ const createTrackEvent = (isEnabled) => {
 };
 
 export const AnalyticsProvider = ({ children }) => {
-  const router = useRouter();
-
-  const locale = router.locale;
-
   const [isEnabled, setIsEnabled] = useState(false);
 
   const { consent } = useCookieConsentContext();
@@ -87,7 +82,7 @@ export const AnalyticsProvider = ({ children }) => {
   const trackEvent = createTrackEvent(isEnabled);
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu(locale);
+    const isUserInEu = getIsUserInEu();
 
     if (shouldEnableTracking({ consent, isUserInEu })) {
       setIsEnabled(true);

@@ -167,6 +167,10 @@ export const PlpProductFilterStyles = styled.div`
         &.sterling-silver {
           background: linear-gradient(138deg, #d2d2d0 0%, #f7f7f7 50%, #c9cac8 100%);
         }
+
+        &.platinum {
+          background: #c8c8c8;
+        }
       }
     }
     &.priceRange {
