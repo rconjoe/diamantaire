@@ -133,7 +133,6 @@
     "typedoc": "^0.23.24",
     "uuid": "^9.0.1",
     "viewport-dimensions": "^0.2.0",
-    "xss-clean": "^0.1.1",
     "zod": "3.21.4"
   },
   "devDependencies": {
