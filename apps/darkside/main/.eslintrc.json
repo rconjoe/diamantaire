@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:@nx/react-typescript", "next", "../../../.eslintrc.json"],
+  "extends": ["plugin:playwright/recommended", "plugin:@nx/react-typescript", "next", "../../../.eslintrc.json"],
   "ignorePatterns": ["!**/*", ".next/**/*"],
   "overrides": [
     {
@@ -14,6 +14,10 @@
     },
     {
       "files": ["*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["e2e/**/*.{ts,js,tsx,jsx}"],
       "rules": {}
     }
   ],
