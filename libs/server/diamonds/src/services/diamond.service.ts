@@ -113,8 +113,8 @@ export class DiamondsService {
 
       dataRanges = {
         diamondType: diamondTypeValues.filter(Boolean),
-        carat: [Math.min(...caratValues), Math.max(...caratValues)],
-        price: [Math.min(...priceValues), Math.max(...priceValues)],
+        carat: [Math.min(...caratValues.filter((c) => !isNaN(c))), Math.max(...caratValues.filter((c) => !isNaN(c)))],
+        price: [Math.min(...priceValues.filter((c) => !isNaN(c))), Math.max(...priceValues.filter((c) => !isNaN(c)))],
       };
       this.utils.memSet(dataRangeCacheKey, dataRanges, 3600); // set the cache data for 1hr
     }
