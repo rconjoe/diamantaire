@@ -7,7 +7,7 @@ import config from './app.config';
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
   createGqlOptions(): ApolloDriverConfig {
     const graphqlConfig = config().graphql;
 
@@ -20,7 +20,6 @@ export class GqlConfigService implements GqlOptionsFactory {
       },
       // subscription
       installSubscriptionHandlers: true,
-      debug: graphqlConfig.debug,
       playground: graphqlConfig.playgroundEnabled,
       context: ({ req }) => ({ req }),
     };

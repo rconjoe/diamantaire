@@ -1,7 +1,7 @@
 //@ts-check
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { withNx } = require('@nrwl/next/plugins/with-nx');
+const { withNx } = require('@nx/next/plugins/with-nx');
 
 const DEFAULT_LOCALE = 'en-US';
 const AVAILABLE_LOCALES = [
@@ -55,7 +55,7 @@ const AVAILABLE_LOCALES = [
 ];
 
 /**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
+ * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
   compiler: {
