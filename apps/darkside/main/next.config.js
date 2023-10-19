@@ -3,7 +3,7 @@
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-const { withNx } = require('@nrwl/next/plugins/with-nx');
+const { withNx } = require('@nx/next/plugins/with-nx');
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const DEFAULT_LOCALE = 'en-US';
@@ -59,7 +59,7 @@ const AVAILABLE_LOCALES = [
 ];
 
 /**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
+ * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
   nx: {

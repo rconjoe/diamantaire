@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. prelude
+
+install_pnpm() {
+  log_debug "Attempting pnpm install"
+  gum confirm "Ready to install pnpm?" && npm i -g pnpm
+}
+
+export -f install_pnpm

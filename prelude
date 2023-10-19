@@ -1,0 +1,196 @@
+#!/usr/bin/env bash
+
+# ----
+# Diamantaire environments manager v0.*
+# Joe Carlton <jcarlton@vrai.com> https://github.com/rconjoe
+# ----
+
+set -euo pipefail
+
+CLI_VER="0.2.0"
+LOG_FILE="scripts/.cli-$CLI_VER.log"
+KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
+KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
+M="mods"
+[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+
+run_freshies() {
+    log_info "Running freshies."
+    pnpm install
+    NX_PROFILE="./stat/$(whoami).json" ./node_modules/.bin/nx run-many -t lint,build --all --parallel=5 --verbose
+}
+
+log_info() {
+    local logline
+    logline="[INFO]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
+    echo "$logline" >> $LOG_FILE
+}
+
+log_error() {
+    local logline
+    logline="[ERROR]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
+    echo "$logline" >> $LOG_FILE
+}
+
+log_debug() {
+    local logline
+    logline="[DEBUG]::$(date '+%Y-%m-%d %H:%M:%S')::$1"
+    echo "$logline" >> $LOG_FILE
+}
+
+fail() {
+    dialog --title "Error" --msgbox "$1" 8 78
+    exit 1
+}
+
+kv_curl() {
+    local body="$1"
+    local response
+    log_debug "Calling $KV_URL with $body"
+
+    response=$(gum spin -s line --title "cURL'ing the kv..." -- curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
+
+    if [ $? -ne 0 ]; then
+        fail "Curl with body $body failed with exit code $?"
+    fi
+
+    log_debug "Response: $response"
+}
+
+kv_set() {
+    local key="$1"
+    local value="$2"
+    log_info "setting value $value at key $key."
+    curl "$KV_URL/set/$key/$value" -H "Authorization: Bearer $KV_TOKEN"
+}
+
+kv_hset() {
+    local key="$1"
+    shift
+    local body="[\"hset\", \"$key\""
+
+    # trying to enable kv_hset "key" "field" "value" [ "field" "value" ... ]
+    while (( "$#" )); do
+      local field="$1"
+      local value="$2"
+      body+=", \"$field\", \"$value\""
+      shift 2
+    done
+
+    body+="]"
+
+    kv_curl "$body"
+}
+
+kv_hgetall() {
+    local key="$1"
+    local body="[\"hgetall\", \"$key\"]"
+
+    log_info "Executing kv_hgetall for hash $key"
+
+    curl -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body"
+}
+
+
+get_gum() {
+  if ! command -v gum &> /dev/null; then
+      printf "Gum is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need gum. Can I use Homebrew to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+            log_info "Installing gum with Homebrew."
+            brew install gum
+        ;;
+        * )
+            log_info "Gum will not be installed."
+            printf "Gum will not be installed.\n"
+        ;;
+      esac
+  else
+    log_info "Gum is already installed."
+    printf "Gum is already installed.\n"
+  fi
+}
+
+get_dialog() {
+  if ! command -v dialog &> /dev/null; then
+      printf "Dialog is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need dialog. Can I use Homebrew to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+            log_info "Installing dialog with Homebrew."
+            brew install dialog
+        ;;
+        * )
+            log_info "Dialog will not be installed."
+            printf "Dialog will not be installed.\n"
+        ;;
+      esac
+  else
+    log_info "Dialog is already installed."
+    printf "Dialog is already installed.\n"
+  fi
+}
+
+alert() {
+  dialog --title "$1" --msgbox "$2" 8 78
+}
+
+os_detection() {
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        dialog --title "OS Detection" --msgbox "You are using Linux." 8 78
+    elif [ "$OS" = "Darwin" ]; then
+        dialog --title "OS Detection" --msgbox "You are using macOS." 8 78
+    else
+        dialog --title "OS Detection" --msgbox "Your OS is not recognized." 8 78
+    fi
+}
+
+yn_prompt() {
+  local prompt="$1"
+  if (dialog --title "Confirm" --yesno "$prompt" 8 78); then
+    echo "User selected Yes."
+  else
+    echo "User selected No."
+  fi
+}
+
+input_prompt() {
+    USER_INPUT=$(dialog --title "Input Prompt" --inputbox "What is your name?" 8 78 3>&1 1>&2 2>&3)
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        echo "User entered: $USER_INPUT"
+    else
+        echo "User chose Cancel."
+    fi
+}
+
+password_prompt() {
+    PASSWORD=$(dialog --title "Password Prompt" --passwordbox "Enter your password" 8 78 3>&1 1>&2 2>&3)
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        echo "User entered: $PASSWORD"
+    else
+        echo "User chose Cancel."
+    fi
+}
+
+menu() {
+    OPTION=$(dialog --title "Menu" --menu "Choose an option" 15 60 4 \
+    "1" "Option 1" \
+    "2" "Option 2" \
+    "3" "Option 3" 3>&1 1>&2 2>&3)
+
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        echo "User chose: $OPTION"
+    else
+        echo "User chose Cancel."
+    fi
+}
+
+export CLI_VER LOG_FILE KV_TOKEN KV_URL M
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog
