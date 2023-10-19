@@ -23,7 +23,7 @@ const SliderFilter = (props) => {
 
   const range: number[] = (ranges[type] && Object.values(ranges[type])) || [];
 
-  if (range.length !== 2 || !range[0] || !range[1]) return null;
+  if (range.length !== 2 || range[0] === null || range[1] === null) return null;
 
   const handleChange = (value: number[]) => {
     handleSliderFilterChange(type, value);
