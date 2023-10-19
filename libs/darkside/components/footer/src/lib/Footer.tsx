@@ -269,9 +269,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
                         return (
                           <li key={`footer-col-${index}-link-${linkIndex}`}>
-                            <Link href={newRoute || route} legacyBehavior>
-                              {copy.includes('hello') ? <strong>{copy}</strong> : copy}
-                            </Link>
+                            <Link href={newRoute || route}>{copy.includes('hello') ? <strong>{copy}</strong> : copy}</Link>
                           </li>
                         );
                       })}

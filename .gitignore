@@ -143,4 +143,6 @@ docs/apps/darkside/main
 
 .github/dependabot.yml
 
+.nvrc
+.nvmrc
 .vercel

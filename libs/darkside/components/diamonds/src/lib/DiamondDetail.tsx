@@ -3,7 +3,8 @@ import { DarksideButton, Form, Heading, SwiperStyles, UIString, UniLink } from '
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
-import { getDiamondType, getIsUserInEu } from '@diamantaire/shared/helpers';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -72,7 +73,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             <div className="price">
               <span>{price}</span>
 
-              {getIsUserInEu(locale) && (
+              {getIsUserInEu() && (
                 <div className="price-text">
                   <UIString>incl. VAT</UIString>
                 </div>

@@ -9,6 +9,9 @@ type PlpHeroBannerProps = {
     desktopImage: DatoImageType;
     title: string;
     copy: string;
+    textColor?: {
+      hex: string;
+    };
   };
   showHeroWithBanner: boolean;
 };
@@ -33,12 +36,14 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
+          color: ${({ textColor }) => textColor || 'var(--color-black)'};
         }
         p {
           max-width: 320px;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
           margin: 0 auto;
+          color: ${({ textColor }) => textColor || 'var(--color-black)'};
           ${media.small`max-width: 550px;`}
         }
       }
@@ -61,10 +66,13 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-  const { desktopImage, title, copy } = data || {};
+  const { desktopImage, title, copy, textColor } = data || {};
+
+  console.log('PLP Hero', data);
 
   return (
     <PlpHeroBannerStyles
+      textColor={textColor?.hex}
       className={clsx('container-wrapper', {
         'hero-with-banner': showHeroWithBanner,
       })}

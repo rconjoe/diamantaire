@@ -1,4 +1,6 @@
-const ProductSuggestionQuad = `
+import { gql } from 'graphql-request';
+
+const ProductSuggestionQuad = gql`
   ... on ModularProductSuggestionQuadBlockRecord {
     id
     _modelApiKey
@@ -62,6 +64,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -85,6 +92,12 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
+
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -108,6 +121,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -131,6 +149,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {

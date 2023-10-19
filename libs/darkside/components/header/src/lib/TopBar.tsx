@@ -1,5 +1,6 @@
 import { useTopBar } from '@diamantaire/darkside/data/hooks';
-import { isUserCloseToShowroom, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -110,33 +111,33 @@ const TopBarContainer = styled.div`
 
 const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { locale } = useRouter();
-  const [isFirstSlide, setIsFirstSlide] = useState(true);
+  const { data } = useTopBar(locale);
+  const canSliderLoop = data?.announcementBar?.loop || true;
+  const [isFirstSlide, setIsFirstSlide] = useState(false);
   const [isLastSlide, setIsLastSlide] = useState(false);
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const { data } = useTopBar(locale);
-  const canSliderLoop = data?.announcementBar?.loop || false;
   const options: EmblaOptionsType = { loop: canSliderLoop };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
 
   const onSelect = useCallback((emblaApi) => {
-    const isLastSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
-    const isFirstSlideTemp = !canSliderLoop && emblaApi?.selectedScrollSnap() === 0;
+    const isLastSlideTemp = emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
+    const isFirstSlideTemp = emblaApi?.selectedScrollSnap() === 0;
 
     setIsFirstSlide(isFirstSlideTemp);
     setIsLastSlide(isLastSlideTemp);
   }, []);
 
   useEffect(() => {
-    if (emblaApi) {
+    if (emblaApi && !canSliderLoop) {
       emblaApi.on('select', onSelect);
     }
 
     return () => {
-      if (emblaApi) {
+      if (emblaApi && !canSliderLoop) {
         emblaApi.off('select', onSelect);
       }
     };

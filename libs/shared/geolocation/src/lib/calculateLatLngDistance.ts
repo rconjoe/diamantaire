@@ -1,5 +1,6 @@
 import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
-import Cookies from 'js-cookie';
+
+import { getUserGeo } from './getUserGeo';
 
 // Returns the distance between two lat/lng coordinates in miles
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -34,7 +35,7 @@ export function calculateProximityToShowrooms(lat, lng) {
 
 // This will return a showroom if the user is within 70 miles of one
 export function isUserCloseToShowroom() {
-  const geo = Cookies.get('geo') || {};
+  const geo = getUserGeo() || {};
 
   let { latitude, longitude } = geo;
 
@@ -45,8 +46,12 @@ export function isUserCloseToShowroom() {
     // longitude = -73.94958;
 
     // Madrid
-    latitude = 40.4607623;
-    longitude = -3.6966508;
+    // latitude = 40.4607623;
+    // longitude = -3.6966508;
+
+    // SF
+    latitude = 37.7953449;
+    longitude = -122.3998769;
   }
 
   const results = calculateProximityToShowrooms(latitude, longitude);
