@@ -489,8 +489,6 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
   return Math.ceil(result);
 }
 
-// function formatCurrencySymbolPosition(value) {}
-
 /**
  * Function to get the formatted price based on the locale
  * @param {number} priceInCents - USD price in cents

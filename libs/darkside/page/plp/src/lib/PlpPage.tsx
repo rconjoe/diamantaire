@@ -50,11 +50,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
-  console.log('init valss', {
-    filterValue: { ...filterValue },
-    activeSortOptions: { ...activeSortOptions },
-  });
-
   const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
     plpData || {};
   const { seoTitle, seoDescription } = seo || {};
@@ -123,8 +118,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       path: '/' + crumb.link.slug,
     };
   });
-
-  console.log('sortOptions', sortOptions);
 
   return (
     <div>
@@ -252,15 +245,10 @@ function getValidFiltersFromFacetedNav(
 
   const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
 
+  // For when metal is a param (not faceted)
   const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
 
-  // const metalParam = ;
-
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
-
-  console.log('metalParamIndex params', params);
-  console.log('metalParamIndex query', query);
-  console.log('metalParamIndex', metalParamIndex);
 
   const facetOrder = [];
 
