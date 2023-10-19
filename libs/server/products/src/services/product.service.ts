@@ -100,7 +100,25 @@ export class ProductsService {
         contentId: { $in: contentIds },
       });
 
-      return products;
+      const collectionSet = products.reduce((acc, product) => {
+        acc.add(product.collectionSlug);
+
+        return acc;
+      }, new Set());
+
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
+      const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
+        if (collectionSet.has(collectionSlug)) {
+          map[collectionSlug] = price;
+        }
+
+        return map;
+      }, {});
+
+      return {
+        products,
+        lowestPricesByCollection: reducedLowerPrices,
+      };
     } catch (error: any) {
       this.logger.debug('Error fetching products by contentId');
       throw new InternalServerErrorException({
@@ -117,7 +135,25 @@ export class ProductsService {
         productSlug: { $in: productSlugs },
       });
 
-      return products;
+      const collectionSet = products.reduce((acc, product) => {
+        acc.add(product.collectionSlug);
+
+        return acc;
+      }, new Set());
+
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
+      const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
+        if (collectionSet.has(collectionSlug)) {
+          map[collectionSlug] = price;
+        }
+
+        return map;
+      }, {});
+
+      return {
+        products,
+        lowestPricesByCollection: reducedLowerPrices,
+      };
     } catch (error: any) {
       this.logger.debug('Error fetching products by product slugs');
       throw new InternalServerErrorException({

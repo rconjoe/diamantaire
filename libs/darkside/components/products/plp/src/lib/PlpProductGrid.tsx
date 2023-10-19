@@ -22,8 +22,12 @@ const PlpProductGridStyles = styled.div`
 
   .grid-controls {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
+
+    .sort {
+      padding-top: 8px;
+    }
   }
 
   .product-grid__row {

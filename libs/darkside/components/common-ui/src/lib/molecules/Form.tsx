@@ -4,6 +4,7 @@ This is the master form component, we should never need to manually create a cus
 
 */
 
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
@@ -17,7 +18,6 @@ import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
 
 const Select = dynamic(() => import('react-select'));
 
