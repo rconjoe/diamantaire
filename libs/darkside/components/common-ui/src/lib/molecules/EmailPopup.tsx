@@ -79,7 +79,7 @@ const EmailPopUp = () => {
   const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu(locale);
+    const isUserInEu = getIsUserInEu();
     const countryCode = getUserCountry();
     const isUserInUs = countryCode === 'US';
 

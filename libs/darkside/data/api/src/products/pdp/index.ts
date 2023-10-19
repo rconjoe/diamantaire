@@ -351,7 +351,7 @@ const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = gql`
           image {
             url
             alt
-            responsiveImage(imgixParams: { w: 280, h: 280, q: 45, auto: format, fit: clamp, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 280, h: 280, q: 45, auto: format, fit: clamp, crop: focalpoint, dpr: 2 }) {
               ...responsiveImageFragment
             }
           }
