@@ -6,8 +6,9 @@ const StyledDiamondHand = styled.div`
   }
 
   .slider {
-    margin: 3rem 0 0;
+    margin: 3rem auto 2rem;
     padding: 0 5rem;
+    max-width: 450px;
 
     .slider-hand {
       padding: 0;
@@ -20,6 +21,11 @@ const StyledDiamondHand = styled.div`
 
     .vo-slider-values {
       margin: 0 -5rem;
+    }
+    .vo-slider-tooltip,
+    .vo-slider-value-start,
+    .vo-slider-value-end {
+      font-size: var(--font-size-xxxsmall);
     }
   }
 

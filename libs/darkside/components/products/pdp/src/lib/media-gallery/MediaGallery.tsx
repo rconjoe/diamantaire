@@ -16,6 +16,7 @@ interface MediaGalleryProps {
   disableVideos?: boolean;
   productType: string;
   shownWithCtw?: string;
+  diamondType?: string;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -27,7 +28,15 @@ const MediaGalleryStyles = styled.div`
   ${media.medium`display: grid;`}
 `;
 
-function MediaGallery({ assets, options, title, disableVideos = false, productType, shownWithCtw }: MediaGalleryProps) {
+function MediaGallery({
+  assets,
+  options,
+  title,
+  disableVideos = false,
+  productType,
+  shownWithCtw,
+  diamondType,
+}: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
@@ -47,8 +56,8 @@ function MediaGallery({ assets, options, title, disableVideos = false, productTy
         {productType === 'Engagement Ring' && (
           <DiamondHand
             withSlider={true}
-            diamondType="round-brilliant"
-            lotId={`cfy-round-brilliant`}
+            diamondType={diamondType}
+            lotId={`cfy-${diamondType}`}
             initRange={[0.5, 8]}
             initValue={2}
           />

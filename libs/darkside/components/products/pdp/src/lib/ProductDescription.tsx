@@ -12,8 +12,11 @@ const ProductDescriptionContainer = styled.div`
     margin: calc(var(--gutter) / 4) 0 calc(var(--gutter) / 3) 0;
   }
 
-  h4 {
+  .details-title {
     margin: calc(var(--gutter) / 2) 0 calc(var(--gutter) / 6) 0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xsmall);
+    line-height: 1.5;
   }
 
   p {
@@ -249,7 +252,7 @@ const ProductDescription = ({
   return (
     description && (
       <ProductDescriptionContainer>
-        <Heading type="h4" className="primary">
+        <Heading type="h2" className="details-title">
           {title ? title + ' Design' : 'Details'}
         </Heading>
 

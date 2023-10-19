@@ -211,6 +211,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               title={productTitle}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
+              diamondType={configuration.diamondType}
             />
             <MediaSlider assets={assetStack} />
           </div>
@@ -257,6 +258,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 caption="Email this customized ring to yourself or drop a hint."
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
+                headingType={'h2'}
               />
               <ProductDescription
                 description={productDescription}

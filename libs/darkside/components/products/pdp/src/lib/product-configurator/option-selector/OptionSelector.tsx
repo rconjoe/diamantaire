@@ -32,7 +32,7 @@ const StyledOptionSelector = styled.div`
     align-items: center;
     gap: 5px;
 
-    h4 {
+    .selector-title {
       font-size: 1.7rem;
       font-weight: 500;
     }
@@ -217,7 +217,7 @@ function OptionSelector({
     <StyledOptionSelector>
       {label && (
         <div className="selector-label">
-          <Heading type="h4">
+          <Heading type="h2" className="selector-title">
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
           </Heading>
           <span>

@@ -85,8 +85,6 @@ function ProductConfigurator({
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
 
-  console.log('init id', sizeOptions.find((option) => option.value === defaultRingSize)?.id);
-
   const [selectedVariantId, setSelectVariantId] = useState<string>(
     sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
   );

@@ -7,6 +7,7 @@ This is the master form component, we should never need to manually create a cus
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import styled from 'styled-components';
@@ -16,10 +17,12 @@ import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 
 const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
+  headingType?: 'h1' | 'h2' | 'h3' | 'h4';
   onSubmit?: (e: React.SyntheticEvent, formState: object) => void;
   caption?: string;
   id?: string;
@@ -147,8 +150,10 @@ const Form = ({
   isValid,
   setIsValid,
   emailPlaceholderText = 'Enter your email',
+  headingType = 'h4',
 }: FormProps) => {
   const initialFormState = {};
+  const { locale } = useRouter();
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -170,10 +175,12 @@ const Form = ({
 
   const showGdprError = showOptIn && !isValid;
 
+  const { _t } = useTranslations(locale);
+
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
       {title && (
-        <Heading type="h4" className="primary">
+        <Heading type={headingType} className="primary">
           {title}
         </Heading>
       )}
@@ -186,7 +193,7 @@ const Form = ({
                 type="email"
                 name="email"
                 id="email"
-                placeholder={emailPlaceholderText}
+                placeholder={_t(emailPlaceholderText)}
                 pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                 required
                 onChange={(e) => {

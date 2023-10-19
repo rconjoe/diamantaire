@@ -193,7 +193,7 @@ const PlpProductFilter = ({
   };
 
   const isAnyFilterActive = useMemo(() => {
-    return Object.values(filterValue).some((value) => value !== null);
+    return filterValue && Object.values(filterValue).some((value) => value !== null);
   }, [filterValue]);
 
   return (
@@ -221,7 +221,7 @@ const PlpProductFilter = ({
                             })}
                             onClick={() => toggleFilterOptionSet(optionSet as FilterTypeProps)}
                           >
-                            <UIString>{optionSet.replace('subStyles', 'Styles')}</UIString>{' '}
+                            <UIString>{optionSet.replace('subStyles', 'Styles').replace('styles', 'Styles')}</UIString>{' '}
                             <span className="arrow-up"></span>
                           </button>
                         </li>
