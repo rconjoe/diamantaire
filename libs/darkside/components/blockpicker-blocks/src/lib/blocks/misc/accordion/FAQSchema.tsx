@@ -12,7 +12,7 @@ type FAQSchemaProps = {
 
 const convertMarkdownToHtmlString = (markdownCopy) => ReactDOMServer.renderToString(<Markdown>{markdownCopy}</Markdown>);
 
-const FAQSchema = ({ questionAnswerData }: FAQSchemaProps) => {
+const FAQSchema = ({ questionAnswerData }): FAQSchemaProps => {
   const mainEntity = questionAnswerData.map((data) => {
     return {
       '@type': 'Question',
