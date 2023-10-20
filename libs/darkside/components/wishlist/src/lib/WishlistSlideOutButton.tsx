@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react';
 const WishlistSlideOutButton: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    setIsActive(getLocalStorageWishlist().length > 0);
-  }, []);
-
   const handleClick = () => {
     window.dispatchEvent(new CustomEvent('WISHLIST_SLIDEOUT'));
   };
+
+  useEffect(() => {
+    setIsActive(getLocalStorageWishlist().length > 0);
+  }, []);
 
   return (
     <div className="wishlist-slideout-button" onClick={handleClick}>

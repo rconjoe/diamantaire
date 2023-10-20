@@ -1,4 +1,5 @@
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
+import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -73,6 +74,8 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
 
+  console.log(product);
+
   return (
     <PlpProductItemStyles>
       <PlpProductVariant
@@ -97,6 +100,7 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
           ))}
         </ul>
       </div>
+      <WishlistLikeButton productId={selectedId} />
     </PlpProductItemStyles>
   );
 };

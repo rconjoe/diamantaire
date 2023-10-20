@@ -11,10 +11,6 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   const [active, setActive] = useState(false);
 
-  useEffect(() => {
-    setActive(getLocalStorageWishlist().includes(productId));
-  }, [productId]);
-
   const handleStorage = (active) => {
     const list = active
       ? [...getLocalStorageWishlist(), productId]
@@ -30,6 +26,10 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
     setActive(!active);
   }, [active]);
+
+  useEffect(() => {
+    setActive(getLocalStorageWishlist().includes(productId));
+  }, [productId]);
 
   return (
     <div className="wishlist-like-button" onClick={handleClick}>
