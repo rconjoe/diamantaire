@@ -8,8 +8,10 @@
 
 import { DIAMOND_PLP_DATA_CONFIG_QUERY, INVENTORY_LEVEL_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
-import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
+// eslint-disable-next-line
 import { CFY_DIAMOND_LIMIT, DIAMOND_PAGINATED_LABELS, MIN_CARAT_EMPTY_RESULT } from '@diamantaire/shared/constants';
+
+import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
