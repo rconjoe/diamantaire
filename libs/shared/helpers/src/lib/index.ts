@@ -6,6 +6,7 @@ export * from './formatCurrency';
 export * from './formatRingSize';
 export * from './geolocation';
 export * from './getCountry';
+export * from './getLocalStorageWishlist';
 export * from './getRelativeUrl';
 export * from './getUserCountry';
 export * from './images';
@@ -20,3 +21,4 @@ export * from './replacePlaceholders';
 export * from './routes';
 export * from './sortBandWidth';
 export * from './sortRingSize';
+

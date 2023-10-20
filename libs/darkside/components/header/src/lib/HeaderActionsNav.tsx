@@ -1,6 +1,7 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
+import { WishlistSlideOutButton } from '@diamantaire/wishlist';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -134,9 +135,11 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
           } else {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
-                <button onClick={onClick} aria-label={alt}>
-                  {icon}
-                </button>
+                {(title === 'Wishlist' && <WishlistSlideOutButton />) || (
+                  <button onClick={onClick} aria-label={alt}>
+                    {icon}
+                  </button>
+                )}
               </li>
             );
           }

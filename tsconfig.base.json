@@ -92,7 +92,9 @@
       "@diamantaire/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@diamantaire/storybook-host": ["libs/storybook-host/src/index.ts"],
       "@diamantaire/styles/darkside-styles": ["libs/styles/darkside-styles/src/index.ts"],
-      "@diamantaire/vraicel": ["libs/nx/vraicel/src/index.ts"]
+      "@diamantaire/vraicel": ["libs/nx/vraicel/src/index.ts"],
+      "@diamantaire/wishlist": ["libs/darkside/components/wishlist/src/index.ts"],
+      "@diamantaire/wishlist/server": ["libs/darkside/components/wishlist/src/server.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "build", "dist", "./dist/**/*"],

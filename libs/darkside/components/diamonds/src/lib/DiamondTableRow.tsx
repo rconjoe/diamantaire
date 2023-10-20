@@ -10,6 +10,7 @@ import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
+import { WishlistLikeButton } from '@diamantaire/wishlist';
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
@@ -101,6 +102,7 @@ const DiamondTableRow = ({
       <div className="row-container">
         <div className="row-media">
           <div className="row-media-content">
+            <WishlistLikeButton productId={lotId} />
             <Diamond360 lotId={lotId} diamondType={diamondType} />
           </div>
         </div>
