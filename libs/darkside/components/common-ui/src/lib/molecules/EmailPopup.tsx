@@ -1,7 +1,8 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, HUBSPOT_EMAIL_POPUP_LISTDATA } from '@diamantaire/shared/constants';
-import { getIsUserInEu, getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -78,7 +79,7 @@ const EmailPopUp = () => {
   const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu(locale);
+    const isUserInEu = getIsUserInEu();
     const countryCode = getUserCountry();
     const isUserInUs = countryCode === 'US';
 

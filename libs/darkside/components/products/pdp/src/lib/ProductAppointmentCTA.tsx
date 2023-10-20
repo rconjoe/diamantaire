@@ -1,6 +1,7 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { isUserCloseToShowroom, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

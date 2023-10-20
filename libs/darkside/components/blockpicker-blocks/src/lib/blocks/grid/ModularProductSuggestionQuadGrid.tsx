@@ -1,9 +1,9 @@
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
-import React from 'react';
 import styled from 'styled-components';
 
 const ModularProductSuggestionQuadGridStyles = styled.div`
@@ -61,20 +61,23 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
           }
         }
 
-        .product-title__container {
+        .product-content__container {
           padding-top: 0.5rem;
 
-          .product-title__title {
+          .product-content__title {
             font-weight: bold;
             line-height: 1.3;
+            margin: 0.5rem 0;
+          }
+
+          p {
+            font-size: var(--font-size-xxsmall);
           }
         }
       }
     }
   }
 `;
-
-// Need image and lowest price added to API
 
 const ModularProductSuggestionQuadGrid = (props) => {
   const { aboveCopy, halfWidthDesktopImage } = props;
@@ -87,6 +90,8 @@ const ModularProductSuggestionQuadGrid = (props) => {
   );
 
   const { data } = useBlockProducts(productHandles);
+
+  const { products, lowestPricesByCollection } = data || {};
 
   return (
     <ModularProductSuggestionQuadGridStyles>
@@ -109,17 +114,18 @@ const ModularProductSuggestionQuadGrid = (props) => {
         )}
 
         <div className="products">
-          {data?.map((product, index) => {
+          {products?.map((product, index) => {
             return (
               <div className="product-container" key={product?.id}>
                 <div className="product-container__inner">
                   <div className="product-image">
-                    <div className="temp-image"></div>
+                    <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
                   </div>
-                  <div className="product-title__container">
-                    <Heading type="h3" className="secondary product-title__title">
+                  <div className="product-content__container">
+                    <Heading type="h3" className="secondary product-content__title">
                       {refinedTitles?.[index]?.title}
                     </Heading>
+                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug])}+</p>
                   </div>
                 </div>
               </div>

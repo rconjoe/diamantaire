@@ -96,16 +96,14 @@ const ImageTile = ({
             </div>
           )}
           {ctaCopy && ctaRoute && (
-            <UniLink route={ctaRoute} className={isSvg ? 'image-tile__anchor' : ''}>
-              <DarksideButton
-                type="underline"
-                colorTheme="teal"
-                className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
-                href={ctaRoute}
-              >
-                {ctaCopy}
-              </DarksideButton>
-            </UniLink>
+            <DarksideButton
+              type="underline"
+              colorTheme="teal"
+              className={clsx(hasCopy ? '' : 'image-tile__button', 'secondary')}
+              href={ctaRoute}
+            >
+              {ctaCopy}
+            </DarksideButton>
           )}
         </div>
       )}

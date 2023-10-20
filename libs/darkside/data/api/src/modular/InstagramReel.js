@@ -10,7 +10,7 @@ const InstagramReel = `
       image {
         url
         alt
-        responsiveImage (imgixParams: {w: 300, h:300, q: 45, auto: format, fit: clamp, crop: focalpoint },sizes: "240px"){
+        responsiveImage (imgixParams: {w: 300, h:300, q: 45, auto: format, fit: clamp, crop: focalpoint, dpr: 2 }){
             src
             alt
             aspectRatio

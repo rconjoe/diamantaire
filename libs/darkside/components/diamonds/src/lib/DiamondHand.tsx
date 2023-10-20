@@ -192,7 +192,7 @@ const DiamondHand = ({
   };
 
   const handleFormat = (value: number) => {
-    return Number(value).toFixed(1) + 'ct';
+    return (Number(value).toFixed(2) + 'ct').replace('.00', '').replace('0ct', 'ct');
   };
 
   return (
@@ -225,7 +225,7 @@ const DiamondHand = ({
       {withSlider && (
         <div className="slider swiper-no-swiping">
           <Slider
-            step={0.01}
+            step={0.1}
             type="slider-hand"
             range={{
               min: range[0],

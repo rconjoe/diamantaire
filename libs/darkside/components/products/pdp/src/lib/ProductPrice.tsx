@@ -1,4 +1,4 @@
-import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -29,10 +29,11 @@ const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant,
 
   return (
     <ProductPriceStyles className="price">
-      <Heading type="h2" className="price-text">
-        {hasMoreThanOneVariant && isBuilderProduct && <UIString>Starting at</UIString>}{' '}
+      <p className="price-text">
+        {hasMoreThanOneVariant && isBuilderProduct && <UIString>Starting at</UIString>}
         {getFormattedPrice(shouldDoublePrice ? price * 2 : price, locale)}
-      </Heading>
+      </p>
+
       {/* Is this right?? */}
       {!isInUS && (
         <p className="small">

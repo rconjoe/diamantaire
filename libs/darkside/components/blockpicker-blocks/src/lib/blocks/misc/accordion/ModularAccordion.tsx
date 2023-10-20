@@ -4,7 +4,6 @@ import { Accordion } from '@reach/accordion';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import FAQSchema from './FAQSchema';
 import { ModularAccordionContainer } from './ModularAccordion.style';
 import { ModularAccordionItem, ModularAccordionItemProps } from './ModularAccordionItem';
 
@@ -29,7 +28,7 @@ const ModularAccordion = ({
   image,
   accordionItems,
   firstItemOpen,
-  shouldUseFaqSchema,
+  // shouldUseFaqSchema,
   bottomCopy,
   countryCode,
   shouldLazyLoad,
@@ -43,14 +42,14 @@ const ModularAccordion = ({
 
   const hasImage = Boolean(image);
 
-  const getFAQSchemaData = () => {
-    return accordionItems.map((item) => {
-      return {
-        question: item.title,
-        answer: item.copy,
-      };
-    });
-  };
+  // const getFAQSchemaData = () => {
+  //   return accordionItems.map((item) => {
+  //     return {
+  //       question: item.title,
+  //       answer: item.copy,
+  //     };
+  //   });
+  // };
 
   const handleChange = (value) => {
     if (indice !== value) {
@@ -70,7 +69,6 @@ const ModularAccordion = ({
 
   return (
     <ModularAccordionContainer>
-      {shouldUseFaqSchema && <FAQSchema questionAnswerData={getFAQSchemaData()} />}
       <div
         className={clsx('acc__container container-wrapper', {
           '-with-image': hasImage,

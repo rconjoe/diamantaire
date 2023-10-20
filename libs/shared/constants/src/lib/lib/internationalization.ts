@@ -522,11 +522,19 @@ export function getFormattedPrice(
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
+    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
-  const formattedPrice = numberFormat.format(convertedPrice);
+  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
+  let formattedPrice = numberFormat.format(convertedPrice);
+
+  const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  formattedPrice = currencySymbol + formattedPrice;
 
   return formattedPrice;
 }

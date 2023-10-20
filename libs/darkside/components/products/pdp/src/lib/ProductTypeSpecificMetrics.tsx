@@ -1,9 +1,14 @@
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import styled from 'styled-components';
 
 const ProductTypeSpecificMetricsStyles = styled.div`
-  p {
+  .metric-title {
     margin-bottom: 10px;
     font-size: var(--font-size-xxsmall);
+
+    span {
+      font-weight: 400;
+    }
   }
 `;
 
@@ -15,9 +20,9 @@ const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
   return (
     <ProductTypeSpecificMetricsStyles>
       {acceptableProductTypes.includes(productType) && caratWeight ? (
-        <p>
-          <strong>Carat weight</strong>: {caratWeight}
-        </p>
+        <Heading type="h2" className="metric-title">
+          <UIString>Carat weight</UIString>: <span>{caratWeight}</span>
+        </Heading>
       ) : (
         ''
       )}
