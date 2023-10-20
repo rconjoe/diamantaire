@@ -27,6 +27,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   const handleClick = useCallback(() => {
     handleStorage(!active);
+
     setActive(!active);
   }, [active]);
 

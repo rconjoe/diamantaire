@@ -1,8 +1,9 @@
 export function getLocalStorageWishlist() {
-  const localStorageList = localStorage.getItem('diamantaireWishlist')?.split('|') || [];
-  const list = localStorageList.filter((item) => item.trim() !== '');
+  if (typeof window === 'undefined') return [];
 
-  console.log(`localStorageList`, list);
+  const localStorageList = window.localStorage.getItem('diamantaireWishlist')?.split('|') || [];
+
+  const list = localStorageList.filter((item) => item.trim() !== '');
 
   return list;
 }
