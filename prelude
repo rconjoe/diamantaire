@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-CLI_VER="0.2.0"
+CLI_VER="0.3.0"
 LOG_FILE="scripts/.cli-$CLI_VER.log"
 KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
 KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
@@ -46,7 +46,7 @@ fail() {
 kv_curl() {
     local body="$1"
     local response
-    log_debug "Calling $KV_URL with $body"
+    log_info "Calling $KV_URL with $body"
 
     response=$(gum spin -s line --title "cURL'ing the kv..." -- curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
 
@@ -54,7 +54,7 @@ kv_curl() {
         fail "Curl with body $body failed with exit code $?"
     fi
 
-    log_debug "Response: $response"
+    log_info "Response: $response"
 }
 
 kv_set() {
@@ -193,9 +193,10 @@ menu() {
 }
 
 upgrade_gum() {
+    log_info "Attempting gum upgrade"
     OS=$(uname -s)
     if [ "$OS" = "Linux" ]; then
-        asdf install gum latest && asdf global gum latest;
+        gum confirm "can i use asdf to upgrade gum?" && asdf install gum latest && asdf global gum latest;
     elif [ "$OS" = "Darwin" ]; then
         brew upgrade gum;
     else
@@ -204,7 +205,8 @@ upgrade_gum() {
 }
 
 install_deno() {
-  # if ! command -v dialog &> /dev/null; then
+  # if ! command -v deno &> /dev/null; then
+    log_info "Attempting deno install"
     OS=$(uname -s)
     if [ "$OS" = "Linux" ]; then
         gum confirm "can i use asdf to install deno?" && asdf install deno latest && asdf global deno latest;
