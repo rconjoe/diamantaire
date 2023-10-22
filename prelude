@@ -203,5 +203,18 @@ upgrade_gum() {
     fi
 }
 
+install_deno() {
+  # if ! command -v dialog &> /dev/null; then
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        gum confirm "can i use asdf to install deno?" && asdf install deno latest && asdf global deno latest;
+    elif [ "$OS" = "Darwin" ]; then
+        gum confirm "can i use brew to install deno?" && brew install deno;
+    else
+        fail "Your OS is not recognized."
+    fi
+  # fi
+}
+
 export CLI_VER LOG_FILE KV_TOKEN KV_URL M
-export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog upgrade_gum
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog upgrade_gum install_deno
