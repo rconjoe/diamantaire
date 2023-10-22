@@ -3,5 +3,7 @@
 set -euo pipefail
 
 . prelude
+. scripts/bootstrap
 
+bootstrap
 install_deno
