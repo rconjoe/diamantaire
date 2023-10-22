@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+. prelude
 <% for(let x=0; x<source.length; x++) { %>
   . scripts/<%= source[x] %>
 <% } %>
