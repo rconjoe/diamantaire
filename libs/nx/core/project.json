@@ -40,7 +40,12 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/nx/core/**/*.ts", "libs/nx/core/package.json", "libs/nx/core/executors.json"]
+        "lintFilePatterns": [
+          "libs/nx/core/**/*.ts",
+          "libs/nx/core/package.json",
+          "libs/nx/core/executors.json",
+          "libs/nx/core/generators.json"
+        ]
       }
     },
     "reboot": {
