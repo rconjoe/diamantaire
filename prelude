@@ -39,7 +39,8 @@ log_debug() {
 }
 
 fail() {
-    dialog --title "Error" --msgbox "$1" 8 78
+    log_error "$1"
+    gum confirm "something broke. check $LOG_FILE." --affirmative="damn." --negative="sucks man"
     exit 1
 }
 
