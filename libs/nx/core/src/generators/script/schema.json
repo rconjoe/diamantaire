@@ -29,6 +29,10 @@
             "label": "clean"
           },
           {
+            "value": "discussionaire",
+            "label": "discussionaire"
+          },
+          {
             "value": "node_upgrader",
             "label": "node_upgrader"
           },
@@ -45,7 +49,5 @@
       }
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }
