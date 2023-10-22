@@ -4,4 +4,4 @@ set -euo pipefail
 
 . prelude
 
-upstall_deno
+upstall_wmill

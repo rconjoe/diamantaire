@@ -204,19 +204,29 @@ upgrade_gum() {
     fi
 }
 
-install_deno() {
+upstall_deno() {
   # if ! command -v deno &> /dev/null; then
-    log_info "Attempting deno install"
+    log_info "Attempting deno upstall"
     OS=$(uname -s)
     if [ "$OS" = "Linux" ]; then
-        gum confirm "can i use asdf to install deno?" && asdf install deno latest && asdf global deno latest;
+        gum confirm "can i use asdf to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- asdf install deno latest | tee
+        asdf global deno latest
     elif [ "$OS" = "Darwin" ]; then
-        gum confirm "can i use brew to install deno?" && brew install deno;
+        gum confirm "can i use brew to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- brew install deno | tee
     else
         fail "Your OS is not recognized."
     fi
   # fi
 }
 
+upstall_wmill() {
+    log_info "Attempting wmill upstall"
+    if ! command -v deno &> /dev/null; then
+        gum confirm "wmill CLI will be installed." && gum spin -s meter --title="Installing wmill..." --show-output -- deno install --unstable -A https://deno.land/x/wmill/main.ts | tee
+    else
+        gum confirm "wmill CLI will be upgraded." && gum spin -s meter --title="Upgrading wmill..." --show-output -- wmill upgrade | tee
+    fi
+}
+
 export CLI_VER LOG_FILE KV_TOKEN KV_URL M
-export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog upgrade_gum install_deno
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog upgrade_gum upstall_deno upstall_wmill()
