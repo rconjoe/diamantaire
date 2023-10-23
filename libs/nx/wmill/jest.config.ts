@@ -1,10 +1,10 @@
 /* eslint-disable */
 export default {
-  displayName: 'nx-windmill',
+  displayName: 'nx-wmill',
   preset: '../../../jest.preset.js',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/libs/nx/windmill',
+  coverageDirectory: '../../../coverage/libs/nx/wmill',
 };
