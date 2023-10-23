@@ -10,7 +10,6 @@
     "start": "nx run-many -t serve -p server darkside-main",
     "start:darkside": "nx run darkside-main:serve:development",
     "start:journal": "nx run darkside-journal:serve:development",
-    "start:server": "node dist/apps/server/main",
     "start:prod:pm2": "yarn deploy",
     "start:dev:server": "nx serve server --watch",
     "build:server": "nx build server --prod",
