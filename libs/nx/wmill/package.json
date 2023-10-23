@@ -1,5 +1,5 @@
 {
-  "name": "@diamantaire/nx/wmill",
+  "name": "@diamantaire/nx-wmill",
   "version": "0.0.1",
   "dependencies": {
     "@nx/devkit": "16.8.1",
