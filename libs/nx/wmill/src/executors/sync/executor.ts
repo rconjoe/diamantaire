@@ -1,8 +1,9 @@
 // import { spinner } from 'zx/experimental';
 // import { Effect, Context } from 'effect';
 import { exec } from 'teen_process';
+
+import { SyncExecutorSchema } from './schema';
 //
-// import { syncexecutorschema } from './schema';
 //
 // const synccontext = context.tag<syncexecutorschema>();
 //
@@ -30,6 +31,7 @@ import { exec } from 'teen_process';
 // });
 
 export default async function runExecutor(options: SyncExecutorSchema) {
+  console.log(options);
   try {
     const { stdout, stderr, code } = await exec('ls');
 
