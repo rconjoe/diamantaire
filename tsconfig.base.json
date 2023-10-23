@@ -72,7 +72,7 @@
       "@diamantaire/feedutils": ["libs/feedutils/src/index.ts"],
       "@diamantaire/nx-core": ["libs/nx/core/src/index.ts"],
       "@diamantaire/nx-datocms": ["libs/nx/datocms/src/index.ts"],
-      "@diamantaire/nx/windmill": ["libs/nx/windmill/src/index.ts"],
+      "@diamantaire/nx-wmill": ["libs/nx/wmill/src/index.ts"],
       "@diamantaire/scripts": ["libs/scripts/src/index.ts"],
       "@diamantaire/server/common/auth": ["libs/server/common/auth/src/index.ts"],
       "@diamantaire/server/common/configs": ["libs/server/common/configs/src/index.ts"],

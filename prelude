@@ -221,6 +221,7 @@ upstall_deno() {
 }
 
 upstall_wmill() {
+    # TODO: add completions support
     log_info "Attempting wmill upstall"
     if ! command -v deno &> /dev/null; then
         gum confirm "wmill CLI will be installed." && gum spin -s meter --title="Installing wmill..." --show-output -- deno install --unstable -A https://deno.land/x/wmill/main.ts | tee
