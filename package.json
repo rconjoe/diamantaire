@@ -29,7 +29,7 @@
     "@clerk/nextjs": "^4.25.5",
     "@datocms/cli": "^1.1.10",
     "@datocms/cma-client-node": "2.2.6",
-    "@effect/schema": "^0.44.0",
+    "@effect/schema": "^0.45.5",
     "@genql/cli": "^6.2.1",
     "@lukemorales/query-key-factory": "^1.0.3",
     "@nestjs/apollo": "^12.0.9",
@@ -74,7 +74,7 @@
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.29.3",
-    "effect": "^2.0.0-next.19",
+    "effect": "2.0.0-next.50",
     "embla-carousel-react": "^8.0.0-rc14",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",
@@ -218,6 +218,7 @@
     "stylus": "0.59.0",
     "stylus-loader": "^7.1.0",
     "swc-loader": "0.2.3",
+    "teen_process": "^2.0.66",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "typedoc-plugin-rename-defaults": "^0.6.4",
@@ -227,6 +228,7 @@
     "vercel": "^32.1.0",
     "vite": "^4.3.4",
     "webpack": "5.88.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "zx": "^7.2.3"
   }
 }
