@@ -6,3 +6,6 @@ dist
 build
 .next
 tmp
+nx.json
+tsconfig.base.json
+

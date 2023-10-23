@@ -2,5 +2,9 @@
   "name": "@diamantaire/nx-core",
   "version": "0.0.1",
   "type": "commonjs",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/devkit": "16.8.1"
+  }
 }

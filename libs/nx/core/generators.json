@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "script": {
+      "factory": "./src/generators/script/generator",
+      "schema": "./src/generators/script/schema.json",
+      "description": "script generator"
+    }
+  }
+}
