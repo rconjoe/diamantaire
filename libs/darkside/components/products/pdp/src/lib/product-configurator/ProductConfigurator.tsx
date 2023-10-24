@@ -1,29 +1,29 @@
 /* eslint-disable camelcase */
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
+import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
   getFormattedPrice,
   metalTypeAsConst,
   parseValidLocale,
-  getCurrency,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
-import OptionSelector from './option-selector/OptionSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 import RingSizeGuide from '../RingSizeGuide';
+import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
+import OptionSelector from './option-selector/OptionSelector';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
@@ -125,6 +125,7 @@ function ProductConfigurator({
 
   useEffect(() => {
     setSelectVariantId(variantId);
+    console.log(variantId);
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
@@ -316,7 +317,7 @@ function AddToCartButton({
   const { addItemToCart, setIsCartOpen, addCustomizedItem } = useContext(CartContext);
   const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
 
-  console.log('additionalVariantData', additionalVariantData);
+  //console.log('additionalVariantData', additionalVariantData);
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const router = useRouter();

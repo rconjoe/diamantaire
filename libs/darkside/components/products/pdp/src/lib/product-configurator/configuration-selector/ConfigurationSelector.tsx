@@ -1,6 +1,6 @@
-import { filterConfigurationTypes, configTypesComparitor } from '@diamantaire/shared/helpers';
+import { configTypesComparitor, filterConfigurationTypes } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { useEffect, useReducer, useMemo } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import styled from 'styled-components';
 
 import OptionSelector from '../option-selector/OptionSelector';

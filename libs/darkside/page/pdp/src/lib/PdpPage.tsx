@@ -4,13 +4,13 @@ import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
+  ProductAppointmentCTA,
   ProductConfigurator,
   ProductDescription,
-  ProductPrice,
-  ProductTitle,
   ProductIconList,
   ProductKlarna,
-  ProductAppointmentCTA,
+  ProductPrice,
+  ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
@@ -23,8 +23,9 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { WishlistLikeButton } from '@diamantaire/wishlist';
+import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
+import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useMemo, useState } from 'react';
@@ -189,7 +190,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -217,6 +218,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <div className="info__inner">
+              <WishlistLikeButton productId={shopifyProductData.productSlug} />
               <ProductTitle
                 title={productTitle}
                 diamondType={configuration.diamondType}

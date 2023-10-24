@@ -2,6 +2,8 @@ import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { LoveIcon, LoveIconActive } from '@diamantaire/shared/icons';
 import { useCallback, useEffect, useState } from 'react';
 
+import { StyledWishlistLikeButton } from './WishlistLikeButton.style';
+
 interface WishlistLikeButtonProps {
   productId?: string;
 }
@@ -27,14 +29,32 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
     setActive(!active);
   }, [active]);
 
-  useEffect(() => {
-    setActive(getLocalStorageWishlist().includes(productId));
+  const handleUpdate = useCallback(() => {
+    if (productId) {
+      setActive(getLocalStorageWishlist().includes(productId));
+    }
   }, [productId]);
 
+  useEffect(() => {
+    if (productId) {
+      setActive(getLocalStorageWishlist().includes(productId));
+    }
+
+    window.addEventListener('WISHLIST_UPDATE', handleUpdate);
+
+    return () => {
+      window.removeEventListener('WISHLIST_UPDATE', handleUpdate);
+    };
+  }, [productId, handleUpdate]);
+
+  if (!productId) return;
+
   return (
-    <div className="wishlist-like-button" onClick={handleClick}>
-      {active ? <LoveIconActive /> : <LoveIcon />}
-    </div>
+    <StyledWishlistLikeButton>
+      <div className="wishlist-like-button" onClick={handleClick}>
+        {active ? <LoveIconActive /> : <LoveIcon />}
+      </div>
+    </StyledWishlistLikeButton>
   );
 };
 

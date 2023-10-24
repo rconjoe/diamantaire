@@ -16,6 +16,7 @@ export * from './lib/use-standard-page';
 export * from './lib/use-translations';
 export * from './lib/use-cookie-banner';
 export * from './lib/use-email-popup';
+export * from './lib/use-wishlist';
 
 // products
 export * from './lib/products/use-product';

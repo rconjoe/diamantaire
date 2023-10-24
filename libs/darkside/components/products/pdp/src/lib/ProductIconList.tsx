@@ -119,7 +119,7 @@ const ShippingListItem = ({ item }) => {
 const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
   const { copy, ctaRoute, ctaCopy, icon, additionalInfo } = item || {};
 
-  console.log('additionalInfo', additionalInfo);
+  // console.log('additionalInfo', additionalInfo);
 
   return (
     <li>

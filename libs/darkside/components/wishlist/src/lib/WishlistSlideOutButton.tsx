@@ -11,8 +11,17 @@ const WishlistSlideOutButton: React.FC = () => {
     window.dispatchEvent(new CustomEvent('WISHLIST_SLIDEOUT'));
   };
 
+  const handleUpdate = () => {
+    setIsActive(getLocalStorageWishlist().length > 0);
+  };
+
   useEffect(() => {
     setIsActive(getLocalStorageWishlist().length > 0);
+    window.addEventListener('WISHLIST_UPDATE', handleUpdate);
+
+    return () => {
+      window.removeEventListener('WISHLIST_UPDATE', handleUpdate);
+    };
   }, []);
 
   return (

@@ -5,19 +5,20 @@ import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato } from '@diamantaire/darkside/data/hooks';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
   PdpTypePlural,
-  metalTypeAsConst,
-  pdpTypeSingleToPluralAsConst,
   getCurrency,
-  parseValidLocale,
   getFormattedPrice,
+  metalTypeAsConst,
+  parseValidLocale,
+  pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { getNumericalLotId } from '@diamantaire/shared-diamond';
+import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -220,6 +221,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     valueLabel?: string;
     isSelected?: boolean;
   }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations[sizeOptionKey];
@@ -227,6 +229,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   const { collectionSlug } = settingSlugs;
 
   const { product, diamond } = builderProduct;
+
+  console.log(product, diamond);
 
   const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
@@ -294,7 +298,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const diamondId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
-    const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondId);
+    const isDiamondInCart = checkout?.lines.find((item) => item.merchandise.id === diamondId);
 
     if (isDiamondInCart) {
       return toast.error(ToastError, {
@@ -504,6 +508,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     setIsCartOpen(true);
   }
 
+  console.log(`settingSlugs`, settingSlugs);
+  console.log(`diamond`, diamond);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -525,9 +532,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
+            <WishlistLikeButton productId={`${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}
             </Heading>
+
             <p className="total-price">
               <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
             </p>

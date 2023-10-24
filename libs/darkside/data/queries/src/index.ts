@@ -6,11 +6,12 @@ import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds
 import { emailPopup } from './email-popup';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
-import { plpListPage, productPage, productBlocks } from './products';
+import { plpListPage, productBlocks, productPage } from './products';
 import { showrooms } from './showrooms';
 import { standardPage } from './standard-page';
 import { template } from './template';
 import { topBar } from './top-bar';
+import { wishlist } from './wishlist';
 
 export const queries = mergeQueryKeys(
   topBar,
@@ -32,6 +33,7 @@ export const queries = mergeQueryKeys(
   template,
   cookieBanner,
   emailPopup,
+  wishlist,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -53,3 +55,4 @@ export type QueryKeys = inferQueryKeyStore<typeof queries>;
 export type TemplateKeys = inferQueryKeys<typeof template>;
 export type CookieBannerKeys = inferQueryKeys<typeof cookieBanner>;
 export type EmailPopupKeys = inferQueryKeys<typeof emailPopup>;
+export type wishlistKeys = inferQueryKeys<typeof wishlist>;
