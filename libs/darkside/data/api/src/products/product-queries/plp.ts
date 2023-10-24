@@ -48,6 +48,43 @@ export const CONFIGURATIONS_LIST = `
   }
 `;
 
+export const PRODUCT_BRIEF_CONTENT = `
+  query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
+    allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){
+      plpTitle
+      variantId
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+        }
+        alt
+      }
+    }
+    allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+      shopifyProductHandle
+      plpTitle
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
+        alt
+      }
+    }
+  }
+  fragment responsiveImageFragment on ResponsiveImage {
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    bgColor
+    base64
+  }
+`;
+
 export const PLP_QUERY = gql`
   query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
     listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {

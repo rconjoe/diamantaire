@@ -61,6 +61,17 @@ export class ProductController {
     return await this.productService.getProductOptionConfigs(collectionSlug, productSlug);
   }
 
+  @Get('list')
+  @ApiOperation({ summary: 'Get all products by slug and their content' })
+  @ApiQuery({ name: 'slugs', required: true, description: 'Find specific product and content by slugs' })
+  @ApiQuery({ name: 'locale', required: true, description: 'Locale in which content should be returned as' })
+  async getProducts(@Query() { slugs, locale }: { slugs: string, locale: string }) {
+    const slugsArray = slugs.split(',').map(s => s.trim());
+    const products = await this.productService.findProductsByProductSlugs(slugsArray);
+
+    return await this.productService.findProductContent(products, locale);
+  }
+
   @Get('catalog')
   @ApiOperation({ summary: 'Get all products' })
   @ApiQuery({ name: 'slug', required: true, description: 'Filter products by option types and values' })
