@@ -3,7 +3,7 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP } from '@diamantaire/darkside/data/api';
+import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP, PRODUCT_BRIEF_CONTENT } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
@@ -28,6 +28,7 @@ import {
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
+import  { Variables } from 'graphql-request'
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
@@ -162,6 +163,50 @@ export class ProductsService {
         error: error.message,
       });
     }
+  }
+
+  async findProductContent(products: VraiProduct[], locale: string) {
+    const productTypeMap = products.reduce((map: Record<string, VraiProduct[]>, product) => {
+      if (!map[product.productType]){
+        map[product.productType] = [product];
+      } else {
+        map[product.productType].push(product);
+      }
+
+      return map;
+    }, {});
+
+    const nonJewelryProducts = [...(productTypeMap[ProductType.EngagementRing] || []), ...(productTypeMap[ProductType.WeddingBand] || [])];
+    const jewelryProducts = [
+      ...(productTypeMap[ProductType.Ring] || []), 
+      ...(productTypeMap[ProductType.Bracelet] || []),
+      ...(productTypeMap[ProductType.Necklace] || []),
+      ...(productTypeMap[ProductType.Earrings] || []),
+    ];
+
+    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<{ allConfigurations: object[]; allOmegaProducts: object[]; }, { productHandles: string[]; variantIds: string[]; locale: string}>({
+      query: PRODUCT_BRIEF_CONTENT,
+      variables: {
+      productHandles: nonJewelryProducts.map(p => p.contentId),
+      variantIds: jewelryProducts.map(p => p.contentId),
+      locale
+    }});
+
+    const productContent = [...allConfigurations, ...allOmegaProducts];
+
+    const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
+      console.log(product);
+      
+      map[product.productSlug] = {
+        product,
+        content: productContent.find(pc => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId)
+      }
+
+      return map;
+    }, {});
+
+    return productContentMap
+
   }
 
   /**
@@ -1407,6 +1452,57 @@ export class ProductsService {
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+    }
+  }
+
+  async getDatoContent<TData, TVars extends Variables>({ query, variables }: { query: string; variables: TVars }): Promise<TData> {
+    try {
+      const response = await this.utils.createDataGateway().request<TData, any>(query, variables);
+
+      return response;
+    } catch (error) {
+      this.logger.error(`Error retrieving Dato content`, error);
+      throw error;
+    }
+  }
+
+  async datoConfigurationsAndProductContent({
+    jewelryIds = [],
+    nonJewelryIds = [],
+    locale = "en_US",
+    first = 100,
+    skip = 0,
+  }: {
+    jewelryIds?: string[];
+    nonJewelryIds?: string[];
+    locale
+    first?: number;
+    skip?: number;
+  }): Promise<any> {
+
+    this.logger.verbose(`Getting Dato configurations & products for a list of products`);
+    // const cachedKey = `configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
+    let response; // = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      productHandles: nonJewelryIds,
+      variantIds: jewelryIds,
+      locale,
+      first,
+      skip,
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
+        // this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        // this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
+      }
+
+      return [...response.allConfigurations, ...response.allOmegaProducts];
+    } catch (err) {
+      // this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
+      // throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
   }
 
