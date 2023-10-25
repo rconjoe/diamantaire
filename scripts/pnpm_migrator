@@ -5,7 +5,7 @@ set -euo pipefail
 . prelude
 
 install_pnpm() {
-  log_debug "Attempting pnpm install"
+  log_info "Attempting pnpm install"
   gum confirm "Ready to install pnpm?" && npm i -g pnpm
 }
 

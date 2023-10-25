@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "Script",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the new script",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "source": {
+      "type": "array",
+      "description": "Scripts to source in this one",
+      "x-prompt": {
+        "message": "Other than prelude, should I source any more scripts?",
+        "type": "list",
+        "items": [
+          {
+            "value": "bootstrap",
+            "label": "bootstrap"
+          },
+          {
+            "value": "clean",
+            "label": "clean"
+          },
+          {
+            "value": "discussionaire",
+            "label": "discussionaire"
+          },
+          {
+            "value": "node_upgrader",
+            "label": "node_upgrader"
+          },
+          {
+            "value": "nuke",
+            "label": "nuke"
+          },
+          {
+            "value": "pnpm_migrator",
+            "label": "pnpm_migrator"
+          }
+        ],
+        "multiselect": true
+      }
+    }
+  },
+  "required": ["name"]
+}

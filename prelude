@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-CLI_VER="0.2.0"
+CLI_VER="0.3.0"
 LOG_FILE="scripts/.cli-$CLI_VER.log"
 KV_TOKEN="AafaASQgMmMwYzM2MTUtMGE1Yi00NzQ0LTg4YmMtMWFmODM5OWQ1ODQwY2E1YjkxOWRmYjY0NDRmYjk1ZTM1YzA1MWE5NDk2ZWY="
 KV_URL="https://nearby-sailfish-42970.kv.vercel-storage.com"
@@ -39,14 +39,15 @@ log_debug() {
 }
 
 fail() {
-    dialog --title "Error" --msgbox "$1" 8 78
+    log_error "$1"
+    gum confirm "something broke. check $LOG_FILE." --affirmative="damn." --negative="sucks man"
     exit 1
 }
 
 kv_curl() {
     local body="$1"
     local response
-    log_debug "Calling $KV_URL with $body"
+    log_info "Calling $KV_URL with $body"
 
     response=$(gum spin -s line --title "cURL'ing the kv..." -- curl -f -s -X POST "$KV_URL/" -H "Authorization: Bearer $KV_TOKEN" -d "$body")
 
@@ -54,7 +55,7 @@ kv_curl() {
         fail "Curl with body $body failed with exit code $?"
     fi
 
-    log_debug "Response: $response"
+    log_info "Response: $response"
 }
 
 kv_set() {
@@ -192,5 +193,42 @@ menu() {
     fi
 }
 
+upgrade_gum() {
+    log_info "Attempting gum upgrade"
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        gum confirm "can i use asdf to upgrade gum?" && asdf install gum latest && asdf global gum latest;
+    elif [ "$OS" = "Darwin" ]; then
+        brew upgrade gum;
+    else
+        fail "Your OS is not recognized."
+    fi
+}
+
+upstall_deno() {
+  # if ! command -v deno &> /dev/null; then
+    log_info "Attempting deno upstall"
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        gum confirm "can i use asdf to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- asdf install deno latest | tee
+        asdf global deno latest
+    elif [ "$OS" = "Darwin" ]; then
+        gum confirm "can i use brew to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- brew install deno | tee
+    else
+        fail "Your OS is not recognized."
+    fi
+  # fi
+}
+
+upstall_wmill() {
+    # TODO: add completions support
+    log_info "Attempting wmill upstall"
+    if ! command -v deno &> /dev/null; then
+        gum confirm "wmill CLI will be installed." && gum spin -s meter --title="Installing wmill..." --show-output -- deno install --unstable -A https://deno.land/x/wmill/main.ts | tee
+    else
+        gum confirm "wmill CLI will be upgraded." && gum spin -s meter --title="Upgrading wmill..." --show-output -- wmill upgrade | tee
+    fi
+}
+
 export CLI_VER LOG_FILE KV_TOKEN KV_URL M
-export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog
+export -f fail alert os_detection yn_prompt input_prompt password_prompt menu run_freshies log_info log_error log_debug kv_curl kv_set kv_hset kv_hgetall get_gum get_dialog upgrade_gum upstall_deno upstall_wmill
