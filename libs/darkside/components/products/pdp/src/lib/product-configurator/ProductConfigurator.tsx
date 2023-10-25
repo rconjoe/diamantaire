@@ -18,12 +18,12 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
+import OptionSelector from './option-selector/OptionSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 import RingSizeGuide from '../RingSizeGuide';
-import ConfigurationSelector from './configuration-selector/ConfigurationSelector';
-import OptionSelector from './option-selector/OptionSelector';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
