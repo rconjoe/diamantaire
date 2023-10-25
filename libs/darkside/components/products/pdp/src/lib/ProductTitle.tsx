@@ -18,8 +18,9 @@ export function ProductTitle({ title, productType, diamondType }) {
   const refinedTitle = createLongProductTitle(title, diamondType);
 
   function createLongProductTitle(title, diamondType) {
-    const longTitle =
-      title + ' ' + _t(diamondType) + ' ' + (selectedLanguageCode && selectedLanguageCode === 'en' ? _t(productType) : '');
+    const longTitle = `${title} ${productType === 'Engagement Ring' && diamondType ? _t(diamondType) : ''} ${
+      selectedLanguageCode && selectedLanguageCode === 'en' ? _t(productType) : ''
+    }`;
 
     return longTitle;
   }

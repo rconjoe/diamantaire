@@ -104,11 +104,11 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                                   {nestedLinks?.length > 0 && (
                                     <ul className="grandchildren-links">
                                       {nestedLinks?.map((nestedLink, nestedLinkIndex: number) => {
-                                        const { newRoute, route, copy } = nestedLink;
+                                        const { newRoute, copy } = nestedLink;
 
                                         return (
                                           <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                                            <Link href={getRelativeUrl(newRoute || route)}>
+                                            <Link href={getRelativeUrl(newRoute)}>
                                               <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
                                             </Link>
                                           </li>

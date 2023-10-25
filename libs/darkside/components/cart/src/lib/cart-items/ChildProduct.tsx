@@ -2,6 +2,7 @@ import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -140,9 +141,11 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
   const [showCert, setShowCert] = useState(false);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.find((item) => item.key === '_image')?.value;
+    return attributes?.find((item) => item.key === 'productAsset')?.value;
+  }, [lineItem]);
 
-    return matchingAttribute;
+  const productType = useMemo(() => {
+    return attributes?.find((item) => item.key === '_productType')?.value;
   }, [lineItem]);
 
   const itemAttributes = useMemo(
@@ -170,11 +173,16 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
-        {image && (
+        {/* {image && (
           <div className="child-product__image">
             <img src={image} alt="" />
           </div>
-        )}
+        )} */}
+
+        <div className="child-product__image">
+          <Image {...image} />
+        </div>
+
         <div className="cart-item__content">
           <p>
             <strong>Diamond</strong>

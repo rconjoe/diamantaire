@@ -104,7 +104,6 @@ const MultiVariantCartItem = ({
   updateItemQuantity,
   cartItemDetails,
   hasChildProduct,
-  childProduct,
   shouldShowChildProduct,
 }: {
   item: CartItem;
@@ -124,7 +123,6 @@ const MultiVariantCartItem = ({
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
   hasChildProduct: boolean;
-  childProduct: CartItem | null;
 }) => {
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { productRemoved } = useAnalytics();
@@ -133,19 +131,26 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-
   const { updateMultipleItemsQuantity, checkout, removeFromCart } = useContext(CartContext);
+
+  const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
+
+  const childProduct = useMemo(() => {
+    return checkout.lines?.find((item) =>
+      item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
+    );
+  }, [item]);
 
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.find((attr) => attr.key === 'productAsset');
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
   const productType = useMemo(() => {
-    let matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 
     console.log('double matchingAttribute', matchingAttribute);
 
@@ -156,7 +161,7 @@ const MultiVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
   const productTitle = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productTitle')?.[0]?.value;
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
@@ -202,92 +207,86 @@ const MultiVariantCartItem = ({
     setRefinedCartItemDetails(tempRefinedCartItemDetails);
   }, [cartItemDetails]);
 
-  function handleRemoveProduct() {
+  async function handleRemoveProduct() {
     if (hasChildProduct && childProduct && checkout.lines.length > 1) {
       const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 
       console.log('case 1', { checkout, hasChildProduct, childProduct });
-      productRemoved({
-        name: productTitle,
-        id,
-        price,
-        quantity,
-        variant: productTitle,
-        brand: 'VRAI',
-        category: productType,
-        product: productTitle,
-        ...(diamondShape && { diamond_type: diamondShape }),
-        ecommerce: {
-          value: formattedTotal,
-          currency,
-          remove: {
-            products: [
-              {
-                brand: 'VRAI',
-                category: productType,
-                variant: productTitle,
-                id,
-                name: productTitle,
-                price,
-                quantity,
-              },
-              {
-                brand: 'VRAI',
-                category: childProduct?.merchandise?.product?.productType,
-                variant: childProduct?.merchandise?.product?.title,
-                id: childProduct?.merchandise.id.split('/').pop(),
-                name: childProduct?.merchandise?.product?.title,
-                price: childProduct?.cost?.totalAmount?.amount,
-                quantity: childProduct?.quantity,
-              },
-            ],
+      // productRemoved({
+      //   name: productTitle,
+      //   id,
+      //   price,
+      //   quantity,
+      //   variant: productTitle,
+      //   brand: 'VRAI',
+      //   category: productType,
+      //   product: productTitle,
+      //   ...(diamondShape && { diamond_type: diamondShape }),
+      //   ecommerce: {
+      //     value: formattedTotal,
+      //     currency,
+      //     remove: {
+      //       products: [
+      //         {
+      //           brand: 'VRAI',
+      //           category: productType,
+      //           variant: productTitle,
+      //           id,
+      //           name: productTitle,
+      //           price,
+      //           quantity,
+      //         },
+      //         {
+      //           brand: 'VRAI',
+      //           category: childProduct?.merchandise?.product?.productType,
+      //           variant: childProduct?.merchandise?.product?.title,
+      //           id: childProduct?.merchandise.id.split('/').pop(),
+      //           name: childProduct?.merchandise?.product?.title,
+      //           price: childProduct?.cost?.totalAmount?.amount,
+      //           quantity: childProduct?.quantity,
+      //         },
+      //       ],
+      //     },
+      //     items: [
+      //       {
+      //         item_id: id,
+      //         item_name: productTitle,
+      //         item_brand: 'VRAI',
+      //         currency,
+      //         item_category: productType,
+      //         price,
+      //         quantity,
+      //       },
+      //       {
+      //         item_id: childProduct?.merchandise.id.split('/').pop(),
+      //         item_name: childProduct?.merchandise?.product?.title,
+      //         item_brand: 'VRAI',
+      //         currency,
+      //         item_category: childProduct?.merchandise?.product?.productType,
+      //         price: childProduct?.cost?.totalAmount?.amount,
+      //         quantity: childProduct?.quantity,
+      //       },
+      //     ],
+      //   },
+      // });
+
+      await updateMultipleItemsQuantity({
+        items: [
+          {
+            lineId: item.id,
+            variantId: merchandise.id,
+            quantity: item.quantity - 1,
+            attributes: item.attributes,
           },
-          items: [
-            {
-              item_id: id,
-              item_name: productTitle,
-              item_brand: 'VRAI',
-              currency,
-              item_category: productType,
-              price,
-              quantity,
-            },
-            {
-              item_id: childProduct?.merchandise.id.split('/').pop(),
-              item_name: childProduct?.merchandise?.product?.title,
-              item_brand: 'VRAI',
-              currency,
-              item_category: childProduct?.merchandise?.product?.productType,
-              price: childProduct?.cost?.totalAmount?.amount,
-              quantity: childProduct?.quantity,
-            },
-          ],
-        },
+          {
+            lineId: childProduct.id,
+            variantId: childProduct.merchandise.id,
+            quantity: childProduct.quantity - 1,
+            attributes: childProduct.attributes,
+          },
+        ],
       });
-
-      const isProductPairedEarrings = item.attributes?.find((attr) => attr.key === 'childProductType')?.value === 'self';
-
-      if (isProductPairedEarrings) {
-        removeFromCart([item.id, childProduct.id]);
-      } else {
-        updateMultipleItemsQuantity({
-          items: [
-            {
-              lineId: item.id,
-              variantId: merchandise.id,
-              quantity: item.quantity - (isProductPairedEarrings ? 2 : 1),
-              attributes: item.attributes,
-            },
-            {
-              lineId: childProduct.id,
-              variantId: childProduct.merchandise.id,
-              quantity: childProduct.quantity - 1,
-              attributes: childProduct.attributes,
-            },
-          ],
-        });
-      }
     } else {
       console.log('case 2');
       productRemoved({
@@ -352,7 +351,7 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            double {info?.productTitle}
+            double {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
@@ -388,7 +387,7 @@ const MultiVariantCartItem = ({
           })}
         </div>
       </div>
-      {hasChildProduct && childProduct && shouldShowChildProduct && (
+      {hasChildProduct && childProduct && (
         <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} certificate={certificate} />
       )}
     </MultiVariantCartItemStyles>

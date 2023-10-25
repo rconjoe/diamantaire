@@ -20,9 +20,16 @@ type ProductPriceProps = {
   shouldDoublePrice?: boolean;
   hasMoreThanOneVariant: boolean;
   isBuilderProduct: boolean;
+  productType: string;
 };
 
-const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant, isBuilderProduct }: ProductPriceProps) => {
+const ProductPrice = ({
+  shouldDoublePrice = false,
+  price,
+  hasMoreThanOneVariant,
+  isBuilderProduct,
+  productType,
+}: ProductPriceProps) => {
   const { locale } = useRouter();
 
   const isInUS = locale === DEFAULT_LOCALE;
@@ -30,11 +37,14 @@ const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant,
   return (
     <ProductPriceStyles className="price">
       <p className="price-text">
-        {hasMoreThanOneVariant && isBuilderProduct && <UIString>Starting at</UIString>}
-        {getFormattedPrice(shouldDoublePrice ? price * 2 : price, locale)}
+        {hasMoreThanOneVariant && isBuilderProduct && (
+          <>
+            <UIString>Starting at</UIString>{' '}
+          </>
+        )}
+        {getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale)}
       </p>
 
-      {/* Is this right?? */}
       {!isInUS && (
         <p className="small">
           <UIString>incl. VAT</UIString>

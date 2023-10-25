@@ -77,6 +77,16 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.soldAsLeftRight {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      button {
+        flex: 1 1 33.33%;
+        height: 48px;
+      }
+    }
+
     &.bandAccent {
       button {
         max-width: 38px;

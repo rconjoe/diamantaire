@@ -28,8 +28,6 @@ const Cart = ({ closeCart }) => {
   const {
     cartHeader,
     subtotalCopy,
-    // TODO: Create logic for EU subtotal- https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-176
-    // euSubtotalCopy,
     cartCtaCopy,
     termsAndConditionsCtaCopy,
     termsAndConditionsCtaLink,
@@ -83,49 +81,28 @@ const Cart = ({ closeCart }) => {
             <div className="cart__items-inner">
               {checkout?.lines?.map((item) => {
                 const cartItemInfo = {
-                  productType: null,
-                  _childProduct: null,
+                  _productType: null,
+                  childProduct: null,
                 };
-                const childProductId = item.attributes.find((attr) => attr.key === '_childProduct')?.value;
 
-                console.log('childProductId', childProductId);
-                let childProduct = null;
+                const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
 
-                let hasChildProduct = false;
-
-                const shouldShowChildProduct =
-                  item.attributes?.find((attr) => attr.key === 'showChildProduct')?.value === 'true';
+                const hasChildProduct =
+                  childProductAttribute &&
+                  childProductAttribute?.value !== null &&
+                  JSON.parse(childProductAttribute?.value).behavior !== 'duplicate';
 
                 item.attributes?.map((attr) => {
-                  if (attr.key === 'hasChildProduct') {
-                    hasChildProduct = true;
-                  }
                   cartItemInfo[attr.key] = attr.value;
                 });
 
                 console.log('checkout lines', checkout.lines);
 
-                if (hasChildProduct) {
-                  childProduct =
-                    checkout.lines.find((line) => line.merchandise.id === cartItemInfo._childProduct) ||
-                    checkout.lines.find((line) =>
-                      line.attributes.find((attr) => attr.key === '_childProduct' && attr.value === childProductId),
-                    );
-                }
-
-                console.log('childProduct', childProduct);
-
                 if (item.attributes.find((item) => item.key === 'isChildProduct')) {
                   return null;
                 }
 
-                const isProductPairedEarring = item.attributes
-                  .find((item) => item.key === 'productType')
-                  ?.value?.includes('Earrings');
-
-                console.log('isProductPairedEarring', isProductPairedEarring);
-                // Core: Adding a pair of earrings to cart is still adding the same variant
-                if (hasChildProduct && childProduct) {
+                if (hasChildProduct) {
                   // Builder Products
                   return (
                     <MultiVariantCartItem
@@ -136,11 +113,10 @@ const Cart = ({ closeCart }) => {
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}
-                      childProduct={childProduct}
-                      shouldShowChildProduct={shouldShowChildProduct}
+                      cartItems={checkout?.lines}
                     />
                   );
-                } else if (singleVariantProductTypes.includes(cartItemInfo.productType)) {
+                } else if (singleVariantProductTypes.includes(cartItemInfo._productType)) {
                   // Non-Builder Products + Paired Earing Products
 
                   return (
@@ -157,7 +133,7 @@ const Cart = ({ closeCart }) => {
                 // Temp fallback while we QA
                 return (
                   <>
-                    <p>{cartItemInfo.productType}</p>
+                    <p>{cartItemInfo._productType}</p>
                     <h1>{item.merchandise.product.title}</h1>
                     <button
                       onClick={() =>
