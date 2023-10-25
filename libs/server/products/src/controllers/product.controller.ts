@@ -50,7 +50,25 @@ export class ProductController {
   async getProductsBySlugs(@Query() { ids }: ProductByProductSlugsInput) {
     const productSlugs = ids.split(',').map((s) => s.trim());
 
-    return await this.productService.findProductsByProductSlugs(productSlugs);
+    const products = await this.productService.findProductsByProductSlugs(productSlugs);
+    const lowestPricesByCollection = await this.productService.getLowestPricesByCollection();
+    const collectionSet = products.reduce((acc, product) => {
+      acc.add(product.collectionSlug);
+
+      return acc;
+    }, new Set());
+    const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
+      if (collectionSet.has(collectionSlug)) {
+        map[collectionSlug] = price;
+      }
+
+      return map;
+    }, {});
+
+    return {
+      products,
+      lowestPricesByCollection: reducedLowerPrices,
+    };
   }
 
   @Get('options')
