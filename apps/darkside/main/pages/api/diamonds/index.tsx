@@ -14,6 +14,9 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   const array = Object.keys(query || {});
 
   const id = query?.lotId || null;
+
+  const isListIds = (id && id.split(',').length > 1) || false;
+
   const view = query?.view;
 
   const qParams = new URLSearchParams(query);
@@ -21,7 +24,11 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   qParams.delete('view');
 
   if (id) {
-    vraiApiClientURL += `/` + id;
+    if (isListIds) {
+      vraiApiClientURL += `/list/` + id;
+    } else {
+      vraiApiClientURL += `/` + id;
+    }
 
     dfApiClientURL += '/' + id.replace(/\D/g, '');
   } else {
@@ -32,6 +39,8 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   let vraiApiClientPayload: any = {};
 
   try {
+    console.log(`vraiApiClientURL`, vraiApiClientURL);
+
     const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
     vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
@@ -42,12 +51,14 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   if (id) {
     let dfApiClientPayload: any = {};
 
-    try {
-      const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
+    if (!isListIds) {
+      try {
+        const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
 
-      dfApiClientPayload = dfApiClientResponse?.data || {};
-    } catch (err) {
-      dfApiClientPayload = {};
+        dfApiClientPayload = dfApiClientResponse?.data || {};
+      } catch (err) {
+        dfApiClientPayload = {};
+      }
     }
 
     return res.status(200).json({ ...dfApiClientPayload, ...vraiApiClientPayload });

@@ -1,7 +1,8 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-export interface WishlistContentDataTypes {
+interface WishlistContentDataTypes {
   pageTitle: string;
   pageSubtitle: string;
   pageSeoTitle: string;
@@ -22,6 +23,14 @@ export interface WishlistContentDataTypes {
   sharedWishlistPageSeoTitle: string;
   sharedWishlistPageSeoDescription: string;
   noResult: string;
+  noResultBlocks: {
+    itemTitle: string;
+    itemCaption: string;
+    itemUrl: string;
+    itemImage: {
+      url: string;
+    };
+  }[];
 }
 
 interface WishlistContentDataProps {
@@ -34,8 +43,25 @@ export function useWishlistContent(locale: string): UseQueryResult<WishlistConte
     meta: {
       locale,
     },
-    staleTime: 300000, // Set the stale time to 5 minutes
+    staleTime: 300000,
   });
 }
 
-export default useWishlistContent;
+interface WishlistProductDataTypes {
+  diamonds: DiamondDataTypes[];
+  products: any[];
+}
+
+interface WishlistProductDataProps {
+  wishlist: WishlistProductDataTypes;
+}
+
+export function useWishlistProduct(ids: string, locale: string): UseQueryResult<WishlistProductDataProps, unknown> {
+  return useQuery({
+    ...queries.wishlist.product(ids, locale),
+    meta: {
+      locale,
+    },
+    staleTime: 300000,
+  });
+}

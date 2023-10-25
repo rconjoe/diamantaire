@@ -18,7 +18,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
       ? [...getLocalStorageWishlist(), productId]
       : [...getLocalStorageWishlist().filter((v) => v !== productId)];
 
-    localStorage.setItem('diamantaireWishlist', list.join('|'));
+    localStorage.setItem('diamantaireWishlist', list.join(','));
 
     window.dispatchEvent(new CustomEvent('WISHLIST_UPDATE'));
   };

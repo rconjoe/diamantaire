@@ -21,6 +21,14 @@ query wishlistQuery($locale: SiteLocale) {
     sharedWishlistPageSeoTitle
     sharedWishlistPageSeoDescription
     noResult
+    noResultBlocks {
+      itemTitle
+      itemCaption
+      itemUrl
+      itemImage {
+        url
+      }
+    }
   }
 }
 `;

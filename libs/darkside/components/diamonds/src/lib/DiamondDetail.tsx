@@ -5,11 +5,11 @@ import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslation
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType } from '@diamantaire/shared/helpers';
+import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import Diamond360 from './Diamond360';
 import StyledDiamondDetail from './DiamondDetail.style';
 import DiamondDetailAccordion from './DiamondDetailAccordion';
@@ -66,7 +66,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         </div>
 
         <div className="aside">
-          <WishlistLikeButton productId={lotId} />
+          <WishlistLikeButton productId={`diamond-${lotId}`} />
           <Heading className="title" type="h2">
             {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
           </Heading>

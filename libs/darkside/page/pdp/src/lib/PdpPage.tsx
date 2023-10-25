@@ -218,7 +218,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           </div>
           <div className="info-container">
             <div className="info__inner">
-              <WishlistLikeButton productId={shopifyProductData.productSlug} />
+              <WishlistLikeButton productId={`product-${shopifyProductData.productSlug}`} />
               <ProductTitle
                 title={productTitle}
                 diamondType={configuration.diamondType}

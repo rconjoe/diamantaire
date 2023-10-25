@@ -98,7 +98,7 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
           ))}
         </ul>
       </div>
-      <WishlistLikeButton productId={selectedVariant?.productSlug} />
+      <WishlistLikeButton productId={`product-${selectedVariant?.productSlug}`} />
     </PlpProductItemStyles>
   );
 };

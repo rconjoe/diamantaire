@@ -5,7 +5,6 @@ import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato } from '@diamantaire/darkside/data/hooks';
-import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -18,6 +17,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -532,7 +532,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
-            <WishlistLikeButton productId={`${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+            <WishlistLikeButton productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
 
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}

@@ -7,10 +7,10 @@ import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/s
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
 import DiamondtableRowAccordion from './DiamondTableRowAccordion';
@@ -102,7 +102,7 @@ const DiamondTableRow = ({
       <div className="row-container">
         <div className="row-media">
           <div className="row-media-content">
-            <WishlistLikeButton productId={lotId} />
+            <WishlistLikeButton productId={`diamond-${lotId}`} />
             <Diamond360 lotId={lotId} diamondType={diamondType} />
           </div>
         </div>

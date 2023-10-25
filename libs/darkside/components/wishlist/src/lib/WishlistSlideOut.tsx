@@ -1,4 +1,4 @@
-import { DarksideButton, SlideOut } from '@diamantaire/darkside/components/common-ui';
+import { SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -16,7 +16,7 @@ const WishlistSlideOut: React.FC = () => {
 
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
-  console.log(`wishlistContent`, content);
+  // console.log(`wishlistContent`, content);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -53,7 +53,6 @@ const WishlistSlideOut: React.FC = () => {
           scrollPosition={scrollPosition}
         >
           <div className="wishlist-slide-out">
-            <DarksideButton type="outline">{content.shareWishlistModalTitle}</DarksideButton>
             <WishlistProductList />
           </div>
         </SlideOut>
