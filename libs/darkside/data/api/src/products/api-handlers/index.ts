@@ -11,6 +11,11 @@ export const productsHandler = async (req: NextApiRequest, res: NextApiResponse)
   console.log(endpoint, req.query);
 
   switch (endpoint) {
+    case 'list': {
+      productsByListHandler(req, res);
+
+      return;
+    }
     case 'slugs': {
       productsBySlugsHandler(req, res);
 
@@ -43,6 +48,13 @@ export const productsBySlugsHandler = async (req: NextApiRequest, res: NextApiRe
   const { endpoint, ...query } = req.query;
 
   await fetchVraiServerData('/v1/products/slugs', query as any, res);
+};
+
+export const productsByListHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { endpoint, ...query } = req.query;
+
+  await fetchVraiServerData('/v1/products/list', query as any, res);
 };
 
 async function fetchVraiServerData(

@@ -1,5 +1,5 @@
 import { WISHLIST_QUERY } from './query';
-import { queryDatoGQL } from '../clients';
+import { queryClientApi, queryDatoGQL } from '../clients';
 import { fetchDiamondData } from '../diamonds';
 
 // Get wishlist content from Dato
@@ -16,28 +16,54 @@ export const fetchWishlistContent = async (locale: string) => {
 export const fetchWishlistProduct = async (ids: string, locale: string) => {
   const arr = ids?.split(',') || [];
 
-  const obj = {
-    cfy: arr.filter((v) => v.includes('cfy-')).map((v) => v.replace('cfy-', '')),
-    diamond: arr.filter((v) => v.includes('diamond-')).map((v) => v.replace('diamond-', '')),
-    product: arr.filter((v) => v.includes('product-')).map((v) => v.replace('product-', '')),
+  const sanitize = (type: string) => {
+    return arr.filter((v) => v.includes(type)).map((v) => v.replace(type, ''));
   };
 
-  const idsDiamond = obj.diamond.join(',');
-  const idsCfy = obj.cfy.join(',');
+  const list = {
+    cfy: sanitize('cfy-').join(','),
+    bundle: sanitize('bundle-').join(','),
+    diamond: sanitize('diamond-').join(','),
+    product: sanitize('product-').join(','),
+  };
 
-  const payloadDiamond = await fetchDiamondData({ lotId: idsDiamond, locale });
-  const payloadCfy = await fetchDiamondData({ lotId: idsCfy, locale });
+  const fetchProductData = async (productIds: string) => {
+    const url = `/products/list?slugs=${productIds}`;
 
-  console.log(`payloadDiamond`, payloadDiamond);
-  console.log(`payloadCfy`, payloadCfy);
+    return await queryClientApi().request({ method: 'GET', url });
+  };
 
-  const diamonds = payloadDiamond.diamond ? [payloadDiamond.diamond] : Object.values(payloadDiamond.diamonds || {});
+  const payload = {
+    cfy: (list.cfy && (await fetchDiamondData({ lotId: list.cfy, locale }))) || null,
+    diamond: (list.diamond && (await fetchDiamondData({ lotId: list.diamond, locale }))) || null,
+    product: list.product && (await fetchProductData(list.product)),
+  };
 
-  // const payloadCfy = await
+  const getDiamondArray = (type) => {
+    if (type && payload[type]) {
+      if (payload[type].diamond) {
+        return [payload[type].diamond];
+      } else {
+        return Object.values(payload[type].diamonds);
+      }
+    }
 
-  // const payloadProduct = await
+    return [];
+  };
+
+  const getProductArray = () => {
+    const data = payload.product.data;
+
+    if (!data) return [];
+
+    return Object.keys(data).reduce((a, v) => {
+      return [...a, { id: v, ...data[v] }];
+    }, []);
+  };
 
   return {
-    diamonds,
+    diamonds: getDiamondArray('diamond'),
+    cfy: getDiamondArray('cfy'),
+    products: getProductArray(),
   };
 };
