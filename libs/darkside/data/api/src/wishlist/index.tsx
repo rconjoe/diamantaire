@@ -66,12 +66,17 @@ export const fetchWishlistProduct = async (ids: string, locale: string) => {
   result.product = payload.product?.data || [];
 
   return {
-    cfy: list.cfy.map((v) => result.diamond[v]),
-    diamonds: list.diamond.map((v) => result.diamond[v]),
-    products: list.product.map((v) => result.product[v]),
-    bundle: list.bundle.map((v) => ({
-      product: result.product[v.split('::')[0]],
-      diamond: result.diamond[v.split('::')[1]],
-    })),
+    wishlist: {
+      cfy: list.cfy.reduce((a, v) => ({ ...a, [v]: result.diamond[v] }), {}),
+      diamond: list.diamond.reduce((a, v) => ({ ...a, [v]: result.diamond[v] }), {}),
+      product: list.product.reduce((a, v) => ({ ...a, [v]: result.product[v] }), {}),
+      bundle: list.bundle.reduce(
+        (a, v) => ({
+          ...a,
+          [v]: [result.product[v.split('::')[0]], result.diamond[v.split('::')[1]]],
+        }),
+        {},
+      ),
+    },
   };
 };

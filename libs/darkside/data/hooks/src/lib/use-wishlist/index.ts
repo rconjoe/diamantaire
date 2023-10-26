@@ -48,8 +48,10 @@ export function useWishlistContent(locale: string): UseQueryResult<WishlistConte
 }
 
 interface WishlistProductDataTypes {
-  diamonds: DiamondDataTypes[];
-  products: any[];
+  diamond: { [key: string]: DiamondDataTypes }[];
+  cfy: { [key: string]: DiamondDataTypes }[];
+  product: { [key: string]: any }[];
+  bundle: { [key: string]: [any, DiamondDataTypes] }[];
 }
 
 interface WishlistProductDataProps {

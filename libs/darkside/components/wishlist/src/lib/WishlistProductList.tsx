@@ -16,7 +16,12 @@ const WishlistProductList: React.FC = () => {
 
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
-  console.log(`useWishlistProduct`, useWishlistProduct(wishlist.join(','), locale));
+  const { data: { wishlist: { cfy = {}, diamond = {}, product = {}, bundle = {} } = {} } = {} } = useWishlistProduct(
+    wishlist.join(','),
+    locale,
+  );
+
+  console.log(`data`, { cfy, diamond, product, bundle });
 
   const handleUpdate = () => {
     setWishlist(getLocalStorageWishlist());
@@ -32,11 +37,27 @@ const WishlistProductList: React.FC = () => {
     };
   }, []);
 
+  const getProductData = (id: string): any | undefined => {
+    switch (true) {
+      case id.includes('cfy-'):
+        return cfy[id.replace('cfy-', '')] as any;
+      case id.includes('diamond-'):
+        return diamond[id.replace('diamond-', '')] as any;
+      case id.includes('bundle-'):
+        return bundle[id.replace('bundle-', '')] as any;
+      case id.includes('product-'):
+        return product[id.replace('product-', '')] as any;
+      default:
+        return null;
+    }
+  };
+
   const wishlistResult = (
     <>
       <DarksideButton type="outline">{content.shareWishlistModalTitle}</DarksideButton>
+
       {wishlist.map((productId, i) => (
-        <WishListProductItem key={i} content={content} productId={productId} />
+        <WishListProductItem key={i} content={content} productId={productId} productData={getProductData(productId)} />
       ))}
     </>
   );
