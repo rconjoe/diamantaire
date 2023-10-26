@@ -20,50 +20,58 @@ export const fetchWishlistProduct = async (ids: string, locale: string) => {
     return arr.filter((v) => v.includes(type)).map((v) => v.replace(type, ''));
   };
 
-  const list = {
-    cfy: sanitize('cfy-').join(','),
-    bundle: sanitize('bundle-').join(','),
-    diamond: sanitize('diamond-').join(','),
-    product: sanitize('product-').join(','),
+  const unbundle = (productIds: string[]) => {
+    return productIds.reduce(
+      (a, v) => ({
+        product: [...a.product, v.split('::')[0]],
+        diamond: [...a.diamond, v.split('::')[1]],
+      }),
+      { product: [], diamond: [] },
+    );
   };
 
-  const fetchProductData = async (productIds: string) => {
-    const url = `/products/list?slugs=${productIds}`;
+  const list = {
+    cfy: sanitize('cfy-'),
+    bundle: sanitize('bundle-'),
+    diamond: sanitize('diamond-'),
+    product: sanitize('product-'),
+  };
 
-    return await queryClientApi().request({ method: 'GET', url });
+  const queryList = {
+    diamond: [...new Set([...list.cfy, ...list.diamond, ...unbundle(list.bundle).diamond])].join(','),
+    product: [...new Set([...list.product, ...unbundle(list.bundle).product])].join(','),
   };
 
   const payload = {
-    cfy: (list.cfy && (await fetchDiamondData({ lotId: list.cfy, locale }))) || null,
-    diamond: (list.diamond && (await fetchDiamondData({ lotId: list.diamond, locale }))) || null,
-    product: list.product && (await fetchProductData(list.product)),
+    diamond: queryList.diamond.length > 0 && (await fetchDiamondData({ lotId: queryList.diamond, locale })),
+    product:
+      queryList.product.length > 0 &&
+      (await queryClientApi().request({ method: 'get', url: `/products/list?slugs=${queryList.product}` })),
   };
 
-  const getDiamondArray = (type) => {
-    if (type && payload[type]) {
-      if (payload[type].diamond) {
-        return [payload[type].diamond];
-      } else {
-        return Object.values(payload[type].diamonds);
-      }
-    }
-
-    return [];
+  const result = {
+    diamond: {},
+    product: [],
   };
 
-  const getProductArray = () => {
-    const data = payload.product.data;
+  if (payload.diamond?.diamond) {
+    result.diamond = { [payload.diamond.diamond.lotId]: payload.diamond.diamond };
+  } else if (payload.diamond?.diamonds) {
+    result.diamond = Object.keys(payload.diamond.diamonds).reduce(
+      (a, v) => ({ ...a, [payload.diamond.diamonds[v].lotId]: payload.diamond.diamonds[v] }),
+      {},
+    );
+  }
 
-    if (!data) return [];
-
-    return Object.keys(data).reduce((a, v) => {
-      return [...a, { id: v, ...data[v] }];
-    }, []);
-  };
+  result.product = payload.product?.data || [];
 
   return {
-    diamonds: getDiamondArray('diamond'),
-    cfy: getDiamondArray('cfy'),
-    products: getProductArray(),
+    cfy: list.cfy.map((v) => result.diamond[v]),
+    diamonds: list.diamond.map((v) => result.diamond[v]),
+    products: list.product.map((v) => result.product[v]),
+    bundle: list.bundle.map((v) => ({
+      product: result.product[v.split('::')[0]],
+      diamond: result.diamond[v.split('::')[1]],
+    })),
   };
 };
