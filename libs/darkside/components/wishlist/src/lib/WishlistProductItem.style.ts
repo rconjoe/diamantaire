@@ -1,4 +1,4 @@
-import { GREY_LIGHTER } from '@diamantaire/styles/darkside-styles';
+import { GREY_LIGHTER, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistProductItem = styled.div`
@@ -13,18 +13,20 @@ export const StyledWishlistProductItem = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 2rem 0 0;
+    padding: 0 4rem 0 0;
+    line-height: 1.2;
   }
   .poster {
     width: 160px;
   }
   .title {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xsmall);
   }
   .price {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-medium);
+    margin-top: 0.25rem;
   }
   button {
     margin-top: 1rem;
@@ -40,5 +42,9 @@ export const StyledWishlistProductItem = styled.div`
     width: 4.5rem;
     border: 1px solid transparent;
     cursor: pointer;
+
+    &.active {
+      border-color: ${TEAL};
+    }
   }
 `;

@@ -25,7 +25,7 @@ const WishlistSlideOutButton: React.FC = () => {
   }, []);
 
   return (
-    <div className="wishlist-slideout-button" onClick={handleClick}>
+    <div className={`wishlist-slideout-button ${isActive ? 'active' : ''}`} onClick={handleClick}>
       {isActive ? <LoveIconActive /> : <LoveIcon />}
     </div>
   );

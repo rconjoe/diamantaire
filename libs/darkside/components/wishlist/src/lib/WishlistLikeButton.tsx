@@ -52,7 +52,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   return (
     <StyledWishlistLikeButton className={extraClass}>
-      <div className="wishlist-like-button" onClick={handleClick}>
+      <div className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={handleClick}>
         {active ? <LoveIconActive /> : <LoveIcon />}
       </div>
     </StyledWishlistLikeButton>
