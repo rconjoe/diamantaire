@@ -140,6 +140,7 @@
     "@enio.ai/typedoc": "^1.0.6",
     "@nestjs/schematics": "10.0.1",
     "@nestjs/testing": "10.2.7",
+    "@next/bundle-analyzer": "13.5.5-canary.8",
     "@nx/cypress": "16.8.1",
     "@nx/devkit": "16.8.1",
     "@nx/esbuild": "16.8.1",
