@@ -62,6 +62,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               )) ||
                 media.map((v) => v)}
             </div>
+            {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
           </div>
         </div>
 
@@ -69,7 +70,6 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
           <Heading className="title" type="h2">
             {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
           </Heading>
-
           {price && (
             <div className="price">
               <span>{price}</span>
@@ -81,9 +81,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               )}
             </div>
           )}
-
           <DiamondDetailAccordion lotId={lotId} locale={locale} />
-
           <div className="cta">
             {(product?.available_inventory && (
               <>
@@ -103,9 +101,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               </UniLink>
             )}
           </div>
-
           <DiamondDetailIconList locale={locale} />
-
           <div className="mail">
             <strong className="title">
               <UIString>Need more time to think?</UIString>
@@ -124,7 +120,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
 
           <DiamondDetailSpecs lotId={lotId} locale={locale} />
 
-          <WishlistLikeButton productId={`diamond-${lotId}`} />
+          {!isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
         </div>
       </div>
 

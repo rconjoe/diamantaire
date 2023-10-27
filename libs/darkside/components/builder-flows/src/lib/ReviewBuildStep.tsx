@@ -64,6 +64,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
       flex: 1;
 
       .product-summary__inner {
+        position: relative;
         padding: 20px 40px;
         max-width: 550px;
         margin: 0 auto;
@@ -532,7 +533,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
-            <WishlistLikeButton productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+            <WishlistLikeButton extraClass="bundle" productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
 
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}

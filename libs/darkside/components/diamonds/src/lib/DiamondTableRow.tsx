@@ -102,7 +102,7 @@ const DiamondTableRow = ({
       <div className="row-container">
         <div className="row-media">
           <div className="row-media-content">
-            <WishlistLikeButton productId={`diamond-${lotId}`} />
+            <WishlistLikeButton extraClass="diamond-table" productId={`diamond-${lotId}`} />
             <Diamond360 lotId={lotId} diamondType={diamondType} />
           </div>
         </div>

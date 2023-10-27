@@ -6,3 +6,4 @@ export * from './PinterestCircleIcon';
 export * from './InstagramCircleIcon';
 export * from './FacebookCircleIcon';
 export * from './TiktokCircleIcon';
+export * from './DropHintIcon';

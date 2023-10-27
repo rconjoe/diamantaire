@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { PlpProductVariant } from './PlpProductVariant';
 
 const PlpProductItemStyles = styled.div`
+  position: relative;
   .metal-selector {
     ul {
       li {
@@ -98,7 +99,7 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
           ))}
         </ul>
       </div>
-      <WishlistLikeButton productId={`product-${selectedVariant?.productSlug}`} />
+      <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
     </PlpProductItemStyles>
   );
 };

@@ -1,7 +1,14 @@
-import { DarksideButton, DatoImage, SwiperStyles, SwiperCustomPagination } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  DatoImage,
+  SwiperStyles,
+  SwiperCustomPagination,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
+import { DropHintIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
@@ -10,12 +17,44 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { WishlistLikeButton } from './WishlistLikeButton';
 import { StyledWishlistProductItem } from './WishlistProductItem.style';
 
-const CardDiamond: React.FC<{
+interface CardBundleProps {
+  id: string;
+  locale: string;
+  button: string;
+  diamond: any;
+  setting: {
+    content: any;
+    product: any;
+  };
+}
+
+interface CardDiamondProps {
   diamond: any;
   id: string;
   button: string;
   locale: string;
-}> = ({ id, diamond, button, locale }) => {
+}
+
+interface CardProductProps {
+  id: string;
+  content: any;
+  product: any;
+  button: string;
+  locale: string;
+}
+
+interface WishlistProductItemProps {
+  locale: string;
+  content: {
+    buttonShop: string;
+  };
+  productId?: string;
+  productData?: {
+    [key: string]: any;
+  };
+}
+
+const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale }) => {
   const { _t } = useTranslations(locale);
 
   if (!diamond) return;
@@ -43,19 +82,17 @@ const CardDiamond: React.FC<{
         <div className="title">{title}</div>
         <div className="price">{_f.price}</div>
         <DarksideButton type="solid">{button}</DarksideButton>
+        <div className="share">
+          <DropHintIcon />
+          <UIString>Drop a Hint</UIString>
+        </div>
       </div>
       <WishlistLikeButton extraClass="wishlist" productId={id} />
     </div>
   );
 };
 
-const CardProduct: React.FC<{ id: string; content: any; product: any; button: string; locale: string }> = ({
-  id,
-  product,
-  content,
-  button,
-  locale,
-}) => {
+const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button, locale }) => {
   if (!content || !product) {
     return;
   }
@@ -77,26 +114,19 @@ const CardProduct: React.FC<{ id: string; content: any; product: any; button: st
       </div>
       <div className="text">
         <div className="title">{title}</div>
-        <div className="price">{price}</div>
+        <div className="price">{price}+</div>
         <DarksideButton type="solid">{button}</DarksideButton>
+        <div className="share">
+          <DropHintIcon />
+          <UIString>Drop a Hint</UIString>
+        </div>
       </div>
       <WishlistLikeButton extraClass="wishlist" productId={id} />
     </div>
   );
 };
 
-const CardBundle: React.FC<{
-  id: string;
-  locale: string;
-  button: string;
-  diamond: any;
-  setting: {
-    content: any;
-    product: any;
-  };
-}> = ({ id, locale, button, diamond, setting }) => {
-  console.log(`card bundle`, { id, locale, button, diamond, setting });
-
+const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, setting }) => {
   const swiperRef = useRef(null);
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -111,19 +141,17 @@ const CardBundle: React.FC<{
 
   if (!diamond || !setting?.content || !setting?.product) return;
 
-  const { content } = setting;
+  const { content, product } = setting;
 
-  const { diamondType, carat, price, color, clarity, cut, lotId } = diamond;
+  const { diamondType, carat, price: diamondPrice } = diamond;
 
-  const _f = {
-    carat: `${getFormattedCarat(carat, locale)}ct`,
-    price: getFormattedPrice(price, locale, true),
-    type: _t(getDiamondType(diamondType)?.slug),
-    cut: _t(cut),
-    clarity: _t(clarity),
-    color: _t(color),
-    image: generateDiamondImageUrl(diamondType),
-  };
+  const { productTitle, price: productPrice } = product;
+
+  const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}ct ${_t(
+    getDiamondType(diamondType)?.title,
+  )}`;
+
+  const bundlePrice = getFormattedPrice(productPrice + diamondPrice, locale, true);
 
   const media = [
     <DatoImage
@@ -171,25 +199,25 @@ const CardBundle: React.FC<{
         </SwiperStyles>
       </div>
       <div className="text">
-        <div className="title">bundle title</div>
-        <div className="price">bundle price</div>
+        <div className="title">{bundleTitle}</div>
+        <div className="price">{bundlePrice}+</div>
         <DarksideButton type="solid">{button}</DarksideButton>
+        <div className="share">
+          <DropHintIcon />
+          <UIString>Drop a Hint</UIString>
+        </div>
       </div>
       <WishlistLikeButton extraClass="wishlist" productId={id} />
     </div>
   );
 };
 
-const WishlistProductItem: React.FC<{
-  locale: string;
-  content: {
-    buttonShop: string;
-  };
-  productId?: string;
-  productData?: {
-    [key: string]: any;
-  };
-}> = ({ productId, content: { buttonShop }, productData, locale }) => {
+const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
+  productId,
+  content: { buttonShop },
+  productData,
+  locale,
+}) => {
   if (!productData) return;
   let card;
 

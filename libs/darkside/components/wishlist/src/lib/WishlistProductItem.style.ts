@@ -47,4 +47,18 @@ export const StyledWishlistProductItem = styled.div`
       border-color: ${TEAL};
     }
   }
+  .share {
+    color: ${TEAL};
+    text-decoration: underline;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: var(--font-size-xsmall);
+
+    svg {
+      width: 25px;
+      height: auto;
+    }
+  }
 `;

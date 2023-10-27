@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const PageContainerStyles = styled.div`
   .product-container {
+    position: relative;
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
       flex: 1 1 100%;

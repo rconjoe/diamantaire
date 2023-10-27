@@ -188,6 +188,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </SwiperStyles>
               )}
             </div>
+            {isMobile && <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />}
           </div>
 
           <div className="page-aside">
@@ -195,6 +196,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               {!isMobile && (
                 <div className="title">
                   <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                  <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
                 </div>
               )}
 
@@ -260,8 +262,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
             </div>
           </div>
-
-          <WishlistLikeButton productId={`cfy-${product.lotId}`} />
         </div>
 
         <div className="page-row">

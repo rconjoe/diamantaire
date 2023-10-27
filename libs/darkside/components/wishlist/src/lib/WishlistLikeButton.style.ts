@@ -1,4 +1,4 @@
-import { TEAL } from '@diamantaire/styles/darkside-styles';
+import { TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistLikeButton = styled.div`
@@ -7,10 +7,11 @@ export const StyledWishlistLikeButton = styled.div`
   width: 20px;
   right: 0;
   top: 0;
+  z-index: 1;
 
   .active {
     svg {
-      fill: ${TEAL}
+      fill: ${TEAL};
     }
   }
 
@@ -18,7 +19,47 @@ export const StyledWishlistLikeButton = styled.div`
     width: 100%;
   }
 
-  &.wishlist {
-    
+  &.bundle {
+    top: 3rem;
+    right: 4rem;
+  }
+
+  &.diamond-detail {
+    top: 2rem;
+    right: -0.5rem;
+
+    ${tabletAndUp(`
+      top: 2.25rem;
+    `)}
+  }
+
+  &.diamond-table {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  &.cfy {
+    top: 1.5rem;
+    right: 1.5rem;
+    position: absolute !important;
+
+    ${tabletAndUp(`
+      top: 0.5rem;
+      right: -0.5rem;
+    `)}
+  }
+
+  &.plp {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  &.pdp {
+    top: 1rem;
+    right: 1.25rem;
+
+    ${tabletAndUp(`
+      top: 0.25rem;
+    `)}
   }
 `;

@@ -13,6 +13,7 @@ import {
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -28,7 +29,7 @@ import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -49,6 +50,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const {
     params: { collectionSlug, productSlug },
   } = props;
+
+  const { isMobile } = useContext(GlobalContext);
 
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
@@ -215,10 +218,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               diamondType={configuration.diamondType}
             />
             <MediaSlider assets={assetStack} />
+            {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">
             <div className="info__inner">
-              <WishlistLikeButton productId={`product-${shopifyProductData.productSlug}`} />
+              {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
               <ProductTitle
                 title={productTitle}
                 diamondType={configuration.diamondType}
