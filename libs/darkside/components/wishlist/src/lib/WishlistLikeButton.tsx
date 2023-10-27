@@ -5,11 +5,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { StyledWishlistLikeButton } from './WishlistLikeButton.style';
 
 interface WishlistLikeButtonProps {
+  extraClass?: string;
   productId?: string;
 }
 
 const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
-  const { productId } = props;
+  const { productId, extraClass } = props;
 
   const [active, setActive] = useState(false);
 
@@ -50,7 +51,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
   if (!productId) return;
 
   return (
-    <StyledWishlistLikeButton>
+    <StyledWishlistLikeButton className={extraClass}>
       <div className="wishlist-like-button" onClick={handleClick}>
         {active ? <LoveIconActive /> : <LoveIcon />}
       </div>

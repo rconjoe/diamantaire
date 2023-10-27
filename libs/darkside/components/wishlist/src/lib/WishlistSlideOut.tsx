@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
 import { WishlistProductList } from './WishlistProductList';
+import { StyledWishlistSlideOut } from './WishlistSlideOut.style';
 
 const WishlistSlideOut: React.FC = () => {
   const router = useRouter();
@@ -43,21 +44,23 @@ const WishlistSlideOut: React.FC = () => {
   });
 
   return (
-    <AnimatePresence>
-      {active && (
-        <SlideOut
-          title={content.modalTitle}
-          onClose={handleClose}
-          width={isMobile ? '100%' : '560px'}
-          className="slideout"
-          scrollPosition={scrollPosition}
-        >
-          <div className="wishlist-slide-out">
-            <WishlistProductList />
-          </div>
-        </SlideOut>
-      )}
-    </AnimatePresence>
+    <StyledWishlistSlideOut>
+      <AnimatePresence>
+        {active && (
+          <SlideOut
+            title={content.modalTitle}
+            onClose={handleClose}
+            width={isMobile ? '100%' : '560px'}
+            className="slideout"
+            scrollPosition={scrollPosition}
+          >
+            <div className="wishlist-slide-out">
+              <WishlistProductList />
+            </div>
+          </SlideOut>
+        )}
+      </AnimatePresence>
+    </StyledWishlistSlideOut>
   );
 };
 

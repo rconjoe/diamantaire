@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { WishListNoResultItem } from './WishlistNoResultItem';
-import { WishListProductItem } from './WishlistProductItem';
+import { WishlistProductItem } from './WishlistProductItem';
+import { StyledWishlistProductList } from './WishlistProductList.style';
 
 const WishlistProductList: React.FC = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -20,8 +21,6 @@ const WishlistProductList: React.FC = () => {
     wishlist.join(','),
     locale,
   );
-
-  console.log(`data`, { cfy, diamond, product, bundle });
 
   const handleUpdate = () => {
     setWishlist(getLocalStorageWishlist());
@@ -52,12 +51,20 @@ const WishlistProductList: React.FC = () => {
     }
   };
 
+  console.log(`wishlist`, wishlist);
+
   const wishlistResult = (
     <>
       <DarksideButton type="outline">{content.shareWishlistModalTitle}</DarksideButton>
 
       {wishlist.map((productId, i) => (
-        <WishListProductItem key={i} content={content} productId={productId} productData={getProductData(productId)} />
+        <WishlistProductItem
+          key={i}
+          content={content}
+          productId={productId}
+          productData={getProductData(productId)}
+          locale={locale}
+        />
       ))}
     </>
   );
@@ -71,7 +78,13 @@ const WishlistProductList: React.FC = () => {
     </>
   );
 
-  return <div className="wishlist-product-list">{wishlist.length > 0 ? wishlistResult : wishlistNoResult}</div>;
+  return (
+    <StyledWishlistProductList>
+      <div className={wishlist.length > 0 ? 'wishlist-product-list' : 'wishlist-no-result'}>
+        {wishlist.length > 0 ? wishlistResult : wishlistNoResult}
+      </div>
+    </StyledWishlistProductList>
+  );
 };
 
 export { WishlistProductList };

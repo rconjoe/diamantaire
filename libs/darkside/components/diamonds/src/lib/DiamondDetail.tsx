@@ -66,7 +66,6 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         </div>
 
         <div className="aside">
-          <WishlistLikeButton productId={`diamond-${lotId}`} />
           <Heading className="title" type="h2">
             {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
           </Heading>
@@ -124,6 +123,8 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
           </div>
 
           <DiamondDetailSpecs lotId={lotId} locale={locale} />
+
+          <WishlistLikeButton productId={`diamond-${lotId}`} />
         </div>
       </div>
 
