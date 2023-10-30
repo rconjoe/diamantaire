@@ -33,10 +33,6 @@ export const StyledWishlistSlideoutProductList = styled.div`
       width: calc((100% - 2rem) / 2);
     }
 
-    .item {
-      width: calc(50% - 1rem);
-    }
-
     .media {
       display: block;
     }
@@ -105,11 +101,16 @@ export const StyledWishlistPageProductList = styled.div`
     }
 
     .item {
-      width: calc((100% - 2rem) / 2);
+      width: calc((100% - 6rem) / 4);
     }
 
     .media {
       display: block;
+
+      img {
+        display: block;
+        width: 100%;
+      }
     }
 
     .text {
@@ -120,8 +121,8 @@ export const StyledWishlistPageProductList = styled.div`
     .title {
       transition: all 0.25s ease;
       border: 2px solid ${BLACK};
-      font-size: var(--font-size-medium);
-      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-bold);
       padding: 1rem;
       display: block;
       text-align: center;
