@@ -14,7 +14,7 @@ const replacementRegExp = new RegExp('%%(.*?)%%', 'g');
 export function useTranslations(locale = DEFAULT_LOCALE, category?: string) {
   const { data } = useQuery({ ...queries.template.global(locale) });
 
-  const { allHumanNamesMappers } = data || {};
+  const { allHumanNamesMappers = [] } = data || {};
 
   const translations = category
     ? allHumanNamesMappers?.reduce((acc, v) => {
