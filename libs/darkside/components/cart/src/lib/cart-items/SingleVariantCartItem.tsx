@@ -111,7 +111,7 @@ const SingleVariantCartItem = ({
   const price = cost?.totalAmount?.amount;
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
-  const { selectedOptions } = merchandise;
+
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
@@ -129,8 +129,15 @@ const SingleVariantCartItem = ({
     if (matchingAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair
       const childProduct = attributes?.find((attr) => attr.key === 'childProduct')?.value;
+      const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
 
-      if (childProduct) {
+      console.log('isLeftOrRight', isLeftOrRight, attributes, merchandise.title);
+
+      if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
+        const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
+
+        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+      } else if (childProduct) {
         matchingAttribute += ' (' + _t('Pair') + ')';
       } else {
         matchingAttribute += ' (' + _t('Single') + ')';
@@ -180,13 +187,12 @@ const SingleVariantCartItem = ({
         value: info?.centerStone,
       },
       {
-        label: refinedCartItemDetails?.['ringSize'],
-        value: info?.ringSize,
-      },
-
-      {
         label: '',
         value: info?.bandAccent,
+      },
+      {
+        label: refinedCartItemDetails?.['ringSize'],
+        value: info?.ringSize,
       },
 
       // REPLACE UISTRING

@@ -40,6 +40,7 @@ const LeftRightSelector = ({ selectedEarringOrientation, setSelectedEarringOrien
       options={pairSelector}
       selectedOptionValue={selectedEarringOrientation}
       onChange={handleOrientationChange}
+      hideSelectorLabel={true}
     />
   );
 };

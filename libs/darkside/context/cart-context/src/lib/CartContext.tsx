@@ -47,6 +47,8 @@ interface CartContextValues {
       attributes: AttributeInput[];
     }[];
   }) => Promise<string | undefined>;
+  addERProductToCart: (data: ERProductCartItemProps) => void;
+  addJewelryProductToCart: (data: JewelryCartItemProps) => void;
   isCartOpen: boolean;
   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   checkout: Cart;
@@ -141,18 +143,12 @@ export const CartProvider = ({ children }) => {
 
     array.edges.forEach((edge) => {
       const node = edge?.node;
-      // const quantity = node?.quantity;
+      const quantity = node?.quantity;
 
-      // if (quantity === 0) {
-      //   removeFromCart([node.id]);
-      // }
+      if (quantity === 0) {
+        removeFromCart([node.id]);
+      }
 
-      // if (quantity > 1) {
-      //   for (let i = 0; i < quantity; i++) {
-      //     nodes.push(node);
-      //   }
-      // } else {
-      // }
       nodes.push(node);
     });
 
@@ -448,18 +444,43 @@ export const CartProvider = ({ children }) => {
     diamondVariantId,
     diamondAttributes,
   }: ERProductCartItemProps) {
-    const refinedSettingAttributes = Object.keys(settingAttributes).map((key) => {
-      return {
-        key,
-        value: settingAttributes[key],
-      };
-    });
+    console.log('getting attr', settingAttributes);
 
-    console.log('refinedSettingAttributes', refinedSettingAttributes);
+    const refinedSettingAttributes = Object.keys(settingAttributes)
+      .map((key) => {
+        return {
+          key,
+          value: settingAttributes[key],
+        };
+      })
+      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
     // If no custom diamond, add the setting
     if (!diamondVariantId) {
       addItemToCart(settingVariantId, refinedSettingAttributes);
+    } else {
+      // If there is a custom diamond, add the setting and the diamond
+      const refinedDiamondAttributes = Object.keys(diamondAttributes)
+        .map((key) => {
+          return {
+            key,
+            value: diamondAttributes[key],
+          };
+        })
+        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+      console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+
+      addCustomizedItem([
+        {
+          variantId: settingVariantId,
+          customAttributes: refinedSettingAttributes,
+        },
+        {
+          variantId: diamondVariantId,
+          customAttributes: refinedDiamondAttributes,
+        },
+      ]);
     }
   }
 
@@ -469,7 +490,6 @@ export const CartProvider = ({ children }) => {
    */
 
   function addJewelryProductToCart({ variantId, attributes }: JewelryCartItemProps) {
-    console.log('getting attr', attributes);
     // shopify api won't ever take a product with an empty or null attribute value
     let refinedAttributes = Object.keys(attributes)
       .map((key) => {
@@ -493,19 +513,10 @@ export const CartProvider = ({ children }) => {
       const childProductType = childProduct && childProductParsed?.behavior;
       const isMixedPair = refinedAttributes?.find((attr) => attr.key === 'leftOrRight')?.value === 'pair';
 
-      console.log('param preview', {
-        isMixedPair,
-        childProduct,
-        childProductType,
-      });
-
       // Adds a duplicate of the product to the cart for pairs of that don't come in left/right
       if (!isMixedPair && childProduct && childProductType === 'duplicate') {
-        console.log('single earring being added');
-
         return addItemToCart(variantId, refinedAttributes, 2);
       } else if (isMixedPair && childProduct && childProductType === 'linked') {
-        console.log('mixed pair being added');
         // This is for earrings that come in left/right, as they are multi-variant
         const additionalVariantId = childProductParsed?.additionalVariantIds?.[0];
 
@@ -523,14 +534,24 @@ export const CartProvider = ({ children }) => {
         const items = [
           {
             variantId,
-            customAttributes: refinedAttributes,
+            customAttributes: [
+              ...refinedAttributes,
+              {
+                key: 'leftOrRight',
+                value: 'Left',
+              },
+            ],
             quantity: 1,
           },
           {
             variantId: additionalVariantId,
             customAttributes: [
               ...refinedAttributes,
-              // This is how we know it's a child product (and to hide it in the cart)
+              {
+                key: 'leftOrRight',
+                value: 'Right',
+              },
+              // This is how we know it's a child product (and to hide it in the cart on the checkout.lines loop)
               {
                 key: 'isChildProduct',
                 value: 'true',
@@ -540,12 +561,13 @@ export const CartProvider = ({ children }) => {
           },
         ];
 
-        addCustomizedItem(items);
+        return addCustomizedItem(items);
       }
     }
 
     console.log('jewelry refinedAttributes', refinedAttributes);
-    addItemToCart(variantId, refinedAttributes);
+
+    return addItemToCart(variantId, refinedAttributes);
   }
 
   return (

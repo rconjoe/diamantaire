@@ -3,7 +3,7 @@ import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -104,13 +104,12 @@ const MultiVariantCartItem = ({
   updateItemQuantity,
   cartItemDetails,
   hasChildProduct,
-  shouldShowChildProduct,
 }: {
   item: CartItem;
   certificate: CartCertProps;
   info: any;
   cartItemDetails: { [key: string]: string }[];
-  shouldShowChildProduct: boolean;
+
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -131,7 +130,7 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-  const { updateMultipleItemsQuantity, checkout, removeFromCart } = useContext(CartContext);
+  const { updateMultipleItemsQuantity, checkout } = useContext(CartContext);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
@@ -149,17 +148,28 @@ const MultiVariantCartItem = ({
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
+
   const productType = useMemo(() => {
     let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 
-    console.log('double matchingAttribute', matchingAttribute);
-
     if (matchingAttribute === 'Earrings') {
-      matchingAttribute += ' (' + _t('Pair') + ')';
+      // Check if Earrings product has child. If so, it's a pair
+      const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
+
+      if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
+        const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
+
+        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+      } else if (childProduct) {
+        matchingAttribute += ' (' + _t('Pair') + ')';
+      } else {
+        matchingAttribute += ' (' + _t('Single') + ')';
+      }
     }
 
     return matchingAttribute;
   }, [attributes]);
+
   const productTitle = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
 
@@ -183,7 +193,7 @@ const MultiVariantCartItem = ({
       },
       {
         label: refinedCartItemDetails?.['metal'],
-        value: info?.metal,
+        value: info?.metalType,
       },
       {
         label: '',
@@ -212,64 +222,63 @@ const MultiVariantCartItem = ({
       const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 
-      console.log('case 1', { checkout, hasChildProduct, childProduct });
-      // productRemoved({
-      //   name: productTitle,
-      //   id,
-      //   price,
-      //   quantity,
-      //   variant: productTitle,
-      //   brand: 'VRAI',
-      //   category: productType,
-      //   product: productTitle,
-      //   ...(diamondShape && { diamond_type: diamondShape }),
-      //   ecommerce: {
-      //     value: formattedTotal,
-      //     currency,
-      //     remove: {
-      //       products: [
-      //         {
-      //           brand: 'VRAI',
-      //           category: productType,
-      //           variant: productTitle,
-      //           id,
-      //           name: productTitle,
-      //           price,
-      //           quantity,
-      //         },
-      //         {
-      //           brand: 'VRAI',
-      //           category: childProduct?.merchandise?.product?.productType,
-      //           variant: childProduct?.merchandise?.product?.title,
-      //           id: childProduct?.merchandise.id.split('/').pop(),
-      //           name: childProduct?.merchandise?.product?.title,
-      //           price: childProduct?.cost?.totalAmount?.amount,
-      //           quantity: childProduct?.quantity,
-      //         },
-      //       ],
-      //     },
-      //     items: [
-      //       {
-      //         item_id: id,
-      //         item_name: productTitle,
-      //         item_brand: 'VRAI',
-      //         currency,
-      //         item_category: productType,
-      //         price,
-      //         quantity,
-      //       },
-      //       {
-      //         item_id: childProduct?.merchandise.id.split('/').pop(),
-      //         item_name: childProduct?.merchandise?.product?.title,
-      //         item_brand: 'VRAI',
-      //         currency,
-      //         item_category: childProduct?.merchandise?.product?.productType,
-      //         price: childProduct?.cost?.totalAmount?.amount,
-      //         quantity: childProduct?.quantity,
-      //       },
-      //     ],
-      //   },
-      // });
+      productRemoved({
+        name: productTitle,
+        id,
+        price,
+        quantity,
+        variant: productTitle,
+        brand: 'VRAI',
+        category: productType,
+        product: productTitle,
+        ...(diamondShape && { diamond_type: diamondShape }),
+        ecommerce: {
+          value: formattedTotal,
+          currency,
+          remove: {
+            products: [
+              {
+                brand: 'VRAI',
+                category: productType,
+                variant: productTitle,
+                id,
+                name: productTitle,
+                price,
+                quantity,
+              },
+              {
+                brand: 'VRAI',
+                category: childProduct?.merchandise?.product?.productType,
+                variant: childProduct?.merchandise?.product?.title,
+                id: childProduct?.merchandise.id.split('/').pop(),
+                name: childProduct?.merchandise?.product?.title,
+                price: childProduct?.cost?.totalAmount?.amount,
+                quantity: childProduct?.quantity,
+              },
+            ],
+          },
+          items: [
+            {
+              item_id: id,
+              item_name: productTitle,
+              item_brand: 'VRAI',
+              currency,
+              item_category: productType,
+              price,
+              quantity,
+            },
+            {
+              item_id: childProduct?.merchandise.id.split('/').pop(),
+              item_name: childProduct?.merchandise?.product?.title,
+              item_brand: 'VRAI',
+              currency,
+              item_category: childProduct?.merchandise?.product?.productType,
+              price: childProduct?.cost?.totalAmount?.amount,
+              quantity: childProduct?.quantity,
+            },
+          ],
+        },
+      });
 
       await updateMultipleItemsQuantity({
         items: [
@@ -351,18 +360,19 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            double {productTitle}
+            multi -- {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
           {hasChildProduct ? (
             <p>
-              {makeCurrencyFromShopifyPrice(
-                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount),
+              {getFormattedPrice(
+                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount) * 100,
+                locale,
               )}
             </p>
           ) : (
-            <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
+            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</p>
           )}
         </div>
       </div>
@@ -372,8 +382,8 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
-            {shouldShowChildProduct && (
-              <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</span>
+            {productType === 'Engagement Ring' && (
+              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</span>
             )}
           </p>
           {itemAttributes?.map((specItem, index) => {

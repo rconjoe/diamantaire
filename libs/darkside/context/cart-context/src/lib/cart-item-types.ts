@@ -2,7 +2,7 @@ export type ERProductCartItemProps = {
   settingVariantId: string;
   settingAttributes: {
     // Fulfillment
-    productType: 'Engagement Ring';
+    _productType: string;
     metalType: string;
     productAsset: string;
     _productTitle: string;
@@ -22,11 +22,19 @@ export type ERProductCartItemProps = {
     diamondShape: string;
     centerStone: string;
     bandAccent: string;
+    _dateAdded: string;
+    ringSize: string;
+
+    totalPrice?: string;
+    productCategory?: string;
+
+    childProduct: string;
   };
   diamondVariantId?: string;
   diamondAttributes?: {
     productAsset: string;
     _productTitle: string;
+    _productType: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id
@@ -36,6 +44,13 @@ export type ERProductCartItemProps = {
     // This refers to the setting url
     pdpUrl: string;
     shippingText: string;
+    caratWeight: string;
+    clarity: string;
+    cut: string;
+    color: string;
+    lotId: string;
+    isChildProduct: string;
+    _dateAdded: string;
   };
 };
 
@@ -54,6 +69,7 @@ export type JewelryCartItemProps = {
     _specs: string;
     feedId: string;
     shippingText: string;
+
     childProduct: {
       behavior: 'linked' | 'duplicate';
     } | null;

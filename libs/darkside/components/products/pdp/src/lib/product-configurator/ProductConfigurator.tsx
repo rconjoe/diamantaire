@@ -10,6 +10,7 @@ import {
   parseValidLocale,
   getCurrency,
 } from '@diamantaire/shared/constants';
+import { VraiProduct } from '@diamantaire/shared/product';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -55,6 +56,7 @@ type ProductConfiguratorProps = {
   hasSingleInitialEngraving?: boolean;
   isSoldAsPairOnly?: boolean;
   isSoldAsLeftRight?: boolean;
+  variants: VraiProduct[];
 };
 
 function ProductConfigurator({
@@ -96,11 +98,11 @@ function ProductConfigurator({
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
-  // Pair or single
+  // Pair or single - always start on pair
   const [selectedPair, setSelectedPair] = useState<'pair' | 'single'>('pair');
 
-  // Left or right
-  const [selectedEarringOrientation, setSelectedEarringOrientation] = useState<'left' | 'right' | 'pair'>('left');
+  // Left or right - always start on pair
+  const [selectedEarringOrientation, setSelectedEarringOrientation] = useState<'left' | 'right' | 'pair'>('pair');
 
   // Wedding Band Size Guide
   const [isWeddingBandSizeGuideOpen, setIsWeddingBandSizeGuideOpen] = useState<boolean>(false);
@@ -204,11 +206,13 @@ function ProductConfigurator({
       )}
 
       {/* Left/Right Products */}
-      <LeftRightSelector
-        selectedEarringOrientation={selectedEarringOrientation}
-        setSelectedEarringOrientation={setSelectedEarringOrientation}
-        setShouldDoublePrice={setShouldDoublePrice}
-      />
+      {isSoldAsLeftRight && (
+        <LeftRightSelector
+          selectedEarringOrientation={selectedEarringOrientation}
+          setSelectedEarringOrientation={setSelectedEarringOrientation}
+          setShouldDoublePrice={setShouldDoublePrice}
+        />
+      )}
 
       {extraOptions && extraOptions.length > 0 && <ProductExtraInfo extraOptions={extraOptions} />}
       {(isEngraveable || hasSingleInitialEngraving) && isConfigurationComplete && !isBuilderFlowOpen && (
@@ -270,6 +274,10 @@ type CtaButtonProps = {
   price?: number;
   shouldDoublePrice?: boolean;
   isSoldAsLeftRight?: boolean;
+  selectedSize?: string;
+  selectedEarringOrientation?: string;
+  isSoldAsDouble?: boolean;
+  additionalVariantIds?: string[];
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -309,8 +317,6 @@ function AddToCartButton({
   const currencyCode = getCurrency(countryCode);
   const formattedPrice = getFormattedPrice(price, locale, true, true);
   const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings', 'Wedding Band'];
-
-  console.log('additionalVariantIds', additionalVariantIds);
 
   async function addProductToCart() {
     const productGroupKey = uuidv4();
@@ -394,6 +400,7 @@ function AddToCartButton({
         };Metal: ${metal};Band: ${refinedBandAccent};Ring size: ${selectedConfiguration?.ringSize}`,
         productIconListShippingCopy: 'temp',
         productGroupKey,
+        ringSize: selectedSize,
 
         // Cart specific info
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
@@ -417,9 +424,9 @@ function AddToCartButton({
         bandWidth: _t(selectedConfiguration?.bandWidth),
         // selectedSize comes from the ringSize selector
         ringSize: selectedSize,
-        leftOrRight: selectedEarringOrientation,
+        leftOrRight: isSoldAsLeftRight ? selectedEarringOrientation : null,
         bandAccent: refinedBandAccent,
-        // The price should be double, and one of the toggles should be set to trigger a child product
+        // The price should be doubled, and one of the toggles should be set to trigger a child product
         childProduct:
           (shouldDoublePrice && isSoldAsDouble) || (shouldDoublePrice && isSoldAsLeftRight)
             ? JSON.stringify({
@@ -430,7 +437,16 @@ function AddToCartButton({
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
       };
 
-      addJewelryProductToCart({ variantId, attributes: jewelryAttributes });
+      let refinedVariantId = variantId;
+
+      // Default should always be left
+      if (productType === 'Earrings') {
+        if (selectedEarringOrientation === 'right') {
+          refinedVariantId = additionalVariantIds[0];
+        }
+      }
+
+      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes });
     }
 
     setIsCartOpen(true);

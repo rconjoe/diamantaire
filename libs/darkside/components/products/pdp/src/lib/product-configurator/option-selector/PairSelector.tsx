@@ -72,6 +72,7 @@ const PairSelector = ({
         options={pairSelector}
         selectedOptionValue={selectedPair}
         onChange={handlePairChange}
+        hideSelectorLabel={true}
       />
     </PairSelectorStyles>
   );

@@ -98,6 +98,7 @@ const Cart = ({ closeCart }) => {
 
                 console.log('checkout lines', checkout.lines);
 
+                // We don't show any child products in this loop, only in the multi-variant cart item
                 if (item.attributes.find((item) => item.key === 'isChildProduct')) {
                   return null;
                 }
@@ -113,12 +114,10 @@ const Cart = ({ closeCart }) => {
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}
-                      cartItems={checkout?.lines}
                     />
                   );
                 } else if (singleVariantProductTypes.includes(cartItemInfo._productType)) {
                   // Non-Builder Products + Paired Earing Products
-
                   return (
                     <SingleVariantCartItem
                       item={item}

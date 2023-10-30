@@ -23,6 +23,7 @@ interface OptionSelectorProps {
   isBuilderFlowOpen?: boolean;
   isWeddingBandProduct?: boolean;
   setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
+  hideSelectorLabel?: boolean;
 }
 
 const StyledOptionSelector = styled.div`
@@ -175,6 +176,7 @@ function OptionSelector({
   isBuilderFlowOpen,
   isWeddingBandProduct = false,
   setIsWeddingBandSizeGuideOpen,
+  hideSelectorLabel = false,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -225,7 +227,7 @@ function OptionSelector({
 
   return (
     <StyledOptionSelector>
-      {label && (
+      {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
