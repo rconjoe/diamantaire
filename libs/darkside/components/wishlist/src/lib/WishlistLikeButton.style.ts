@@ -24,6 +24,14 @@ export const StyledWishlistLikeButton = styled.div`
     right: 4rem;
   }
 
+  &.wishlist-page {
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  &.wishlist-slideout {
+  }
+
   &.diamond-detail {
     top: 2rem;
     right: -0.5rem;

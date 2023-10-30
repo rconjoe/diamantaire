@@ -1,4 +1,5 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -7,7 +8,6 @@ import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/s
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 

@@ -2,7 +2,7 @@ import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { WishlistSlideOut } from '@diamantaire/wishlist';
+import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';

@@ -12,6 +12,7 @@ import {
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
@@ -24,7 +25,6 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';

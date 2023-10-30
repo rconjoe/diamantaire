@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -18,7 +19,6 @@ import {
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';

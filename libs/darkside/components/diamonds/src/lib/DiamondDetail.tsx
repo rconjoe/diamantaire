@@ -1,11 +1,11 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { DarksideButton, Form, Heading, SwiperStyles, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType } from '@diamantaire/shared/helpers';
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';

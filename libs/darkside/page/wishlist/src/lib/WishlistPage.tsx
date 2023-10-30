@@ -1,8 +1,15 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { Heading } from '@diamantaire/darkside/components/common-ui';
+import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { WishlistProductList } from '@diamantaire/darkside/components/wishlist';
+import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
+import { getTemplate } from '@diamantaire/darkside/template/global';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+
+import StyledWishlistPage from './WishlistPage.style';
 
 interface WishlistPageQueryParams extends ParsedUrlQuery {
   wishlist?: string;
@@ -14,14 +21,32 @@ interface WishlistPageProps {
 }
 
 const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log(props);
+  const { locale } = props;
+
+  const { data: { wishlist: content } = {} } = useWishlistContent(locale);
+
+  const { pageTitle, pageSeoTitle, pageSeoDescription } = content;
 
   return (
-    <div>
-      <h1>Welcome to DarksidePageWishlist!</h1>
-    </div>
+    <>
+      <StandardPageSeo title={pageSeoTitle} description={pageSeoDescription} />
+
+      <StyledWishlistPage className="container-wrapper">
+        <div className="page-row">
+          <div className="page-title">
+            <Heading>{pageTitle}</Heading>
+          </div>
+        </div>
+
+        <div className="page-row">
+          <WishlistProductList isWishlistPage={true} />
+        </div>
+      </StyledWishlistPage>
+    </>
   );
 };
+
+WishlistPage.getTemplate = getTemplate;
 
 async function getServerSideProps(
   context: GetServerSidePropsContext<WishlistPageQueryParams>,
@@ -30,7 +55,7 @@ async function getServerSideProps(
 
   const { locale, query } = context;
 
-  const { wishlist: wishlistString } = query;
+  const { wishlist: wishlistString = '' } = query;
 
   const wishlistArray = (wishlistString as string).split(',');
 

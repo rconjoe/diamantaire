@@ -1,5 +1,5 @@
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
-import { WishlistLikeButton } from '@diamantaire/wishlist';
 import { useState } from 'react';
 import styled from 'styled-components';
 

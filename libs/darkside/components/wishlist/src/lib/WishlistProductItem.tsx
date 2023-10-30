@@ -16,7 +16,7 @@ import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { WishlistLikeButton } from './WishlistLikeButton';
-import { StyledWishlistProductItem } from './WishlistProductItem.style';
+import { StyledWishlistSlideoutProductItem, StyledWishlistPageProductItem } from './WishlistProductItem.style';
 
 const productTypeMap = {
   Necklace: 'necklaces',
@@ -28,6 +28,7 @@ const productTypeMap = {
 };
 
 interface CardBundleProps {
+  isWishlistPage?: boolean;
   id: string;
   locale: string;
   button: string;
@@ -39,6 +40,7 @@ interface CardBundleProps {
 }
 
 interface CardDiamondProps {
+  isWishlistPage?: boolean;
   diamond: any;
   id: string;
   button: string;
@@ -46,6 +48,7 @@ interface CardDiamondProps {
 }
 
 interface CardProductProps {
+  isWishlistPage?: boolean;
   id: string;
   content: any;
   product: any;
@@ -54,6 +57,7 @@ interface CardProductProps {
 }
 
 interface WishlistProductItemProps {
+  isWishlistPage?: boolean;
   locale: string;
   content: {
     buttonShop: string;
@@ -64,7 +68,7 @@ interface WishlistProductItemProps {
   };
 }
 
-const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale }) => {
+const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale, isWishlistPage }) => {
   const { _t } = useTranslations(locale);
 
   if (!diamond) return;
@@ -110,12 +114,12 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale }
         </div>
       </div>
 
-      <WishlistLikeButton extraClass="wishlist" productId={id} />
+      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
     </div>
   );
 };
 
-const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button, locale }) => {
+const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button, locale, isWishlistPage }) => {
   if (!content || !product) {
     return;
   }
@@ -152,12 +156,12 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
         </div>
       </div>
 
-      <WishlistLikeButton extraClass="wishlist" productId={id} />
+      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
     </div>
   );
 };
 
-const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, setting }) => {
+const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, setting, isWishlistPage }) => {
   const swiperRef = useRef(null);
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -242,37 +246,67 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
           <UIString>Drop a Hint</UIString>
         </div>
       </div>
-      <WishlistLikeButton extraClass="wishlist" productId={id} />
+      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
     </div>
   );
 };
 
 const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
   productId,
+  isWishlistPage,
   content: { buttonShop },
   productData,
   locale,
 }) => {
   if (!productData) return;
+
   let card;
 
   if (productId.includes('diamond-') || productId.includes('cfy-')) {
-    card = <CardDiamond id={productId} diamond={productData} button={buttonShop} locale={locale} />;
+    card = (
+      <CardDiamond
+        isWishlistPage={isWishlistPage}
+        diamond={productData}
+        button={buttonShop}
+        locale={locale}
+        id={productId}
+      />
+    );
   }
 
   if (productId.includes('product-')) {
     const { product, content } = productData;
 
-    card = <CardProduct locale={locale} product={product} content={content} button={buttonShop} id={productId} />;
+    card = (
+      <CardProduct
+        isWishlistPage={isWishlistPage}
+        locale={locale}
+        product={product}
+        content={content}
+        button={buttonShop}
+        id={productId}
+      />
+    );
   }
 
   if (productId.includes('bundle-')) {
     card = (
-      <CardBundle setting={productData[0]} diamond={productData[1]} button={buttonShop} id={productId} locale={locale} />
+      <CardBundle
+        isWishlistPage={isWishlistPage}
+        setting={productData[0]}
+        diamond={productData[1]}
+        button={buttonShop}
+        id={productId}
+        locale={locale}
+      />
     );
   }
 
-  return <StyledWishlistProductItem>{card}</StyledWishlistProductItem>;
+  return isWishlistPage ? (
+    <StyledWishlistPageProductItem>{card}</StyledWishlistPageProductItem>
+  ) : (
+    <StyledWishlistSlideoutProductItem>{card}</StyledWishlistSlideoutProductItem>
+  );
 };
 
 export { WishlistProductItem };

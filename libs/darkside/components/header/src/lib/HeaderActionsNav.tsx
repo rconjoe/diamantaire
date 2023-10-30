@@ -1,7 +1,7 @@
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { WishlistSlideOutButton } from '@diamantaire/wishlist';
+import { WishlistSlideOutButton } from '@diamantaire/darkside/components/wishlist';
 import Link from 'next/link';
 import styled from 'styled-components';
 
