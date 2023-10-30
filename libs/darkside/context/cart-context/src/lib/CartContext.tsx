@@ -520,17 +520,6 @@ export const CartProvider = ({ children }) => {
         // This is for earrings that come in left/right, as they are multi-variant
         const additionalVariantId = childProductParsed?.additionalVariantIds?.[0];
 
-        const addedInfo = [
-          ...refinedAttributes,
-          // This is how we know it's a child product (and to hide it in the cart)
-          {
-            key: 'isChildProduct',
-            value: 'true',
-          },
-        ];
-
-        console.log('addedInfo', addedInfo);
-
         const items = [
           {
             variantId,
@@ -564,8 +553,6 @@ export const CartProvider = ({ children }) => {
         return addCustomizedItem(items);
       }
     }
-
-    console.log('jewelry refinedAttributes', refinedAttributes);
 
     return addItemToCart(variantId, refinedAttributes);
   }

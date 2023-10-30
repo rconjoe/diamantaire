@@ -55,7 +55,7 @@ type ProductConfiguratorProps = {
   hasSingleInitialEngraving?: boolean;
   isSoldAsPairOnly?: boolean;
   isSoldAsLeftRight?: boolean;
-  variants: {
+  variants?: {
     shopifyVariantId: string;
     variantTitle: string;
   }[];
