@@ -9,7 +9,7 @@ import { WishlistProductItem } from './WishlistProductItem';
 import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from './WishlistProductList.style';
 
 interface WishlistProductListProps {
-  isWishlistPage: boolean;
+  isWishlistPage?: boolean;
 }
 
 const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage }) => {
