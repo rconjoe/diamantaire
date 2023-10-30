@@ -82,9 +82,6 @@ const WishlistProductList: React.FC = () => {
     </>
   );
 
-  console.log(`wishlist`, wishlist);
-  console.log(`wishlist - content`, content);
-
   return (
     <StyledWishlistProductList>
       <div className={wishlist.length > 0 ? 'wishlist-product-list' : 'wishlist-no-result'}>
