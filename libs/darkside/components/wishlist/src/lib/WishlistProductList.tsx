@@ -1,4 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -51,13 +51,11 @@ const WishlistProductList: React.FC = () => {
     }
   };
 
-  console.log(`wishlist`, wishlist);
-
   const wishlistResult = (
     <>
       <DarksideButton type="outline">{content.shareWishlistModalTitle}</DarksideButton>
 
-      {wishlist.map((productId, i) => (
+      {wishlist.reverse().map((productId, i) => (
         <WishlistProductItem
           key={i}
           content={content}
@@ -66,6 +64,12 @@ const WishlistProductList: React.FC = () => {
           locale={locale}
         />
       ))}
+
+      <UniLink route="/wishlist">
+        <DarksideButton colorTheme="teal" type="text-underline">
+          {content.buttonView}
+        </DarksideButton>
+      </UniLink>
     </>
   );
 
@@ -77,6 +81,9 @@ const WishlistProductList: React.FC = () => {
       ))}
     </>
   );
+
+  console.log(`wishlist`, wishlist);
+  console.log(`wishlist - content`, content);
 
   return (
     <StyledWishlistProductList>
