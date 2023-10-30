@@ -4,6 +4,7 @@ import {
   SwiperStyles,
   SwiperCustomPagination,
   UIString,
+  UniLink,
 } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
@@ -16,6 +17,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { WishlistLikeButton } from './WishlistLikeButton';
 import { StyledWishlistProductItem } from './WishlistProductItem.style';
+
+const productTypeMap = {
+  Necklace: 'necklaces',
+  Earrings: 'earrings',
+  Bracelet: 'bracelets',
+  Ring: 'rings',
+  'Wedding Band': 'wedding-bands',
+  'Engagement Ring': 'engagement-ring',
+};
 
 interface CardBundleProps {
   id: string;
@@ -59,12 +69,12 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale }
 
   if (!diamond) return;
 
-  const { diamondType, carat, price, color, clarity, cut } = diamond;
+  const { slug, handle, diamondType, carat, price, color, clarity, cut } = diamond;
 
   const _f = {
     carat: `${getFormattedCarat(carat, locale)}ct`,
     price: getFormattedPrice(price, locale, true),
-    type: _t(getDiamondType(diamondType)?.slug),
+    type: _t(getDiamondType(diamondType)?.title),
     cut: _t(cut),
     clarity: _t(clarity),
     color: _t(color),
@@ -73,20 +83,33 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale }
 
   const title = `${_f.type}, ${_f.carat}, ${_f.cut}, ${_f.color}, ${_f.clarity}`;
 
+  const cto = slug && slug === 'cto-diamonds';
+
+  const baseLink = '/diamonds' + (cto ? '/results/' : '/d/');
+
+  const link = baseLink + (cto ? diamondType + '?carat=' + carat : handle);
+
   return (
     <div className="card item-diamond">
       <div className="poster">
         <Image alt={diamondType} src={generateCfyDiamondSpriteThumbUrl(diamondType)} sizes="100vw" height={0} width={0} />
       </div>
+
       <div className="text">
         <div className="title">{title}</div>
+
         <div className="price">{_f.price}</div>
-        <DarksideButton type="solid">{button}</DarksideButton>
+
+        <UniLink route={link}>
+          <DarksideButton type="solid">{button}</DarksideButton>
+        </UniLink>
+
         <div className="share">
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
         </div>
       </div>
+
       <WishlistLikeButton extraClass="wishlist" productId={id} />
     </div>
   );
@@ -97,9 +120,11 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
     return;
   }
 
-  const { productTitle: title, price: productPrice } = product;
+  const { productTitle: title, price: productPrice, productType, productSlug, collectionSlug } = product;
 
   const price = getFormattedPrice(productPrice, locale, true);
+
+  const link = `/jewelry/${productTypeMap[productType]}/${collectionSlug}/${productSlug}`;
 
   return (
     <div className="card item-product">
@@ -114,13 +139,19 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
       </div>
       <div className="text">
         <div className="title">{title}</div>
+
         <div className="price">{price}+</div>
-        <DarksideButton type="solid">{button}</DarksideButton>
+
+        <UniLink route={link}>
+          <DarksideButton type="solid">{button}</DarksideButton>
+        </UniLink>
+
         <div className="share">
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
         </div>
       </div>
+
       <WishlistLikeButton extraClass="wishlist" productId={id} />
     </div>
   );
@@ -143,9 +174,9 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
 
   const { content, product } = setting;
 
-  const { diamondType, carat, price: diamondPrice } = diamond;
+  const { diamondType, carat, price: diamondPrice, lotId } = diamond;
 
-  const { productTitle, price: productPrice } = product;
+  const { productTitle, price: productPrice, collectionSlug, productSlug } = product;
 
   const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}ct ${_t(
     getDiamondType(diamondType)?.title,
@@ -171,6 +202,8 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
       width={0}
     />,
   ];
+
+  const link = `/customize?step=2&type=setting-to-diamond&collectionSlug=${collectionSlug}&productSlug=${productSlug}&lotId=${lotId}`;
 
   return (
     <div className="card item-bundle">
@@ -201,7 +234,9 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
       <div className="text">
         <div className="title">{bundleTitle}</div>
         <div className="price">{bundlePrice}+</div>
-        <DarksideButton type="solid">{button}</DarksideButton>
+        <UniLink route={link}>
+          <DarksideButton type="solid">{button}</DarksideButton>
+        </UniLink>
         <div className="share">
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
