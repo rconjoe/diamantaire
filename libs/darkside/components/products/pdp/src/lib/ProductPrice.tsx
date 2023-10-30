@@ -20,7 +20,7 @@ type ProductPriceProps = {
   shouldDoublePrice?: boolean;
   hasMoreThanOneVariant: boolean;
   isBuilderProduct: boolean;
-  productType: string;
+  productType?: string;
 };
 
 const ProductPrice = ({
