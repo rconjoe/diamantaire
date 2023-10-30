@@ -1,4 +1,4 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -166,6 +166,10 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
     return matchingAttribute;
   }, [attributes]);
 
+  const isProductDiamond = useMemo(() => {
+    return productType === 'Diamond';
+  }, [productType]);
+
   const itemAttributes = useMemo(
     () => [
       {
@@ -200,14 +204,12 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
-        <div className="child-product__image">{productType ? <img src={image} alt="" /> : <Image {...image} />}</div>
+        <div className="child-product__image">{isProductDiamond ? <img src={image} alt="" /> : <Image {...image} />}</div>
 
         <div className="cart-item__content">
           <p>
             <strong>{productType}</strong>
-            {productType === 'Diamond' && (
-              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>
-            )}
+            {isProductDiamond && <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>}
           </p>
           {itemAttributes?.map((specItem, index) => {
             if (!specItem?.value || specItem.value === '') return null;
@@ -218,9 +220,9 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
               </p>
             );
           })}
-          {productType === 'Diamond' && (
+          {isProductDiamond && (
             <DarksideButton type="underline" colorTheme="teal" onClick={() => setShowCert(true)}>
-              Diamond Certificate
+              <UIString>Diamond Certificate</UIString>
             </DarksideButton>
           )}
         </div>

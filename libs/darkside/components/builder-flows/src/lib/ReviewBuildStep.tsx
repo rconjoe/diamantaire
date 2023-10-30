@@ -232,9 +232,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
     product;
 
-  console.log('productproductproduct', product);
-  console.log('diamond', diamond);
-
   // Need the ring size
   function addCustomProductToCart() {
     const productGroupKey = uuidv4();

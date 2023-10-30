@@ -297,7 +297,6 @@ const MultiVariantCartItem = ({
         ],
       });
     } else {
-      console.log('case 2');
       productRemoved({
         name: productTitle,
         id,
