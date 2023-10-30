@@ -58,7 +58,7 @@ export type JewelryCartItemProps = {
   variantId: string;
   attributes: {
     // Fulfillment
-    productType: 'Necklace' | 'Bracelet' | 'Earring';
+    _productType: 'Necklace' | 'Bracelet' | 'Earring';
     metalType: string;
     productAsset: string;
     _productTitle: string;
@@ -66,12 +66,17 @@ export type JewelryCartItemProps = {
     productIconListShippingCopy: string;
     productGroupKey: string;
     pdpUrl: string;
-    _specs: string;
     feedId: string;
     shippingText: string;
-
-    childProduct: {
-      behavior: 'linked' | 'duplicate';
-    } | null;
+    // Double earrings
+    childProduct: string;
+    // Item specific stuff
+    diamondShape?: string;
+    caratWeight?: string;
+    chainLength?: string;
+    bandWidth?: string;
+    ringSize?: string;
+    bandAccent?: string;
+    totalPriceOverride?: string | null;
   };
 };

@@ -402,8 +402,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         },
       ],
     });
-
-    // addCustomizedItem(items);
   }
 
   return (

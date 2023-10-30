@@ -10,7 +10,6 @@ import {
   parseValidLocale,
   getCurrency,
 } from '@diamantaire/shared/constants';
-import { VraiProduct } from '@diamantaire/shared/product';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -56,7 +55,10 @@ type ProductConfiguratorProps = {
   hasSingleInitialEngraving?: boolean;
   isSoldAsPairOnly?: boolean;
   isSoldAsLeftRight?: boolean;
-  variants: VraiProduct[];
+  variants: {
+    shopifyVariantId: string;
+    variantTitle: string;
+  }[];
 };
 
 function ProductConfigurator({
@@ -406,6 +408,7 @@ function AddToCartButton({
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
         centerStone: diamondSpec,
         bandAccent: refinedBandAccent,
+        childProduct: null,
       };
 
       addERProductToCart({
@@ -417,6 +420,7 @@ function AddToCartButton({
 
       const jewelryAttributes = {
         ...defaultAttributes,
+        feedId: variantId,
         diamondShape: selectedConfiguration.diamondShape || DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
         caratWeight: selectedConfiguration.caratWeight ? _t(selectedConfiguration.caratWeight) + 'ct' : '',
         metalType: metal,
@@ -435,6 +439,9 @@ function AddToCartButton({
               })
             : null,
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
+        pdpUrl: window.location.href,
+        shippingBusinessDays: 'temp',
+        productIconListShippingCopy: 'temp',
       };
 
       let refinedVariantId = variantId;

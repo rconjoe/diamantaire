@@ -186,6 +186,7 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['centerStone'],
         value: info?.centerStone,
       },
+      // no label for band accent
       {
         label: '',
         value: info?.bandAccent,
@@ -194,19 +195,6 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['ringSize'],
         value: info?.ringSize,
       },
-
-      // REPLACE UISTRING
-      // {
-      //   label:
-      //     productType === 'Bracelet'
-      //       ? 'Size'
-      //       : productType === 'Necklace'
-      //       ? 'Chain Length'
-      //       : info.productType === 'Earrings'
-      //       ? 'Carat Weight'
-      //       : refinedCartItemDetails?.['ringSize'],
-      //   value: `${selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value}`,
-      // },
     ],
     [refinedCartItemDetails, info],
   );
@@ -270,7 +258,7 @@ const SingleVariantCartItem = ({
     });
   }
 
-  //
+  // The price needs to be combined in the case of two identical earrings
   const totalPrice = useMemo(() => {
     return info?.totalPriceOverride || parseFloat(price) * 100;
   }, [info]);
