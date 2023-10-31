@@ -6,29 +6,37 @@ import { WishlistProductList } from '@diamantaire/darkside/components/wishlist';
 import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
-import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
+import { getLocalStorageWishlist, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
 import StyledWishlistPage from './WishlistPage.style';
 
 interface WishlistPageQueryParams extends ParsedUrlQuery {
-  wishlist?: string;
+  products?: string;
+  username?: string;
 }
 
 interface WishlistPageProps {
   locale: string;
+  username?: string;
+  products?: string[];
   dehydratedState: DehydratedState;
 }
 
 const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale } = props;
+  const { locale, username, products: productListFromUrl } = props;
+
+  const isSharedWishlist = !!username && !!productListFromUrl;
 
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
-  const { data: { wishlist: products } = {} } = useWishlistProduct(getLocalStorageWishlist(), locale);
+  const { data: { wishlist: products } = {} } = useWishlistProduct(
+    isSharedWishlist ? productListFromUrl : getLocalStorageWishlist(),
+    locale,
+  );
 
-  const { pageTitle, pageSeoTitle, pageSeoDescription } = content;
+  const { pageTitle, pageSeoTitle, pageSeoDescription, sharedWishlistPageTitle } = content;
 
   return (
     <>
@@ -37,7 +45,11 @@ const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
       <StyledWishlistPage className="container-wrapper">
         <div className="page-row">
           <div className="page-title">
-            <Heading>{pageTitle}</Heading>
+            <Heading>
+              {isSharedWishlist
+                ? (replacePlaceholders(sharedWishlistPageTitle, ['%%user%%'], [username]) as string)
+                : pageTitle}
+            </Heading>
           </div>
         </div>
 
@@ -58,13 +70,13 @@ async function getServerSideProps(
 
   const { locale, query } = context;
 
-  const { wishlist: wishlistString = '' } = query;
+  const { products = '', username = '' } = query;
 
-  const wishlistArray = (wishlistString as string).split(',');
+  const productArray = (products as string).split(',');
 
   const wishlistContentQuery = queries.wishlist.content(locale);
 
-  const wishlistProductsQuery = queries.wishlist.product(wishlistArray, locale);
+  const wishlistProductsQuery = queries.wishlist.product(productArray, locale);
 
   const queryClient = new QueryClient();
 
@@ -77,6 +89,8 @@ async function getServerSideProps(
   const props: WishlistPageProps = {
     locale,
     dehydratedState,
+    username,
+    products,
   };
 
   return {
