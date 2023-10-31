@@ -69,7 +69,7 @@ const createTrackEvent = (isEnabled) => {
     if (isEnabled) {
       TagManager.dataLayer({ dataLayer: { event, ...data } });
     } else {
-      console.log('no analytics', { event, data });
+      // console.log('no analytics', { event, data });
     }
   };
 };

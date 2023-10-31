@@ -245,7 +245,7 @@ export const CartProvider = ({ children }) => {
       return undefined;
     }
 
-    console.log('get cart res', res);
+    // console.log('get cart res', res);
 
     return reshapeCart(res.body.data.cart);
   }
