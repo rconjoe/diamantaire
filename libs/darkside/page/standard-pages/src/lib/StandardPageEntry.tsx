@@ -2,9 +2,8 @@
   This component implements the BlockPicker loop for the Home Page, and Standard Pages
 * */
 
-import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import clsx from 'clsx';
-import React, { Suspense } from 'react';
+// import clsx from 'clsx';
+// import React, { Suspense } from 'react';
 
 type StandardPageEntryProps = {
   page?: {
@@ -18,12 +17,13 @@ type StandardPageEntryProps = {
 
 const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
-  // console.log(page);
+  console.log(page, countryCode, currencyCode);
 
   return (
     <div className={clsx('content-one-container', gtmClass)}>
-      <Suspense fallback={'Loading'}>
-        {page?.content1?.slice(0, page.content1.length).map((contentBlockData, idx) => {
+      <h1>Are there savings</h1>
+      {/* <Suspense fallback={'Loading'}>
+        {page?.content1?.slice(0, page.content1.length).  map((contentBlockData, idx) => {
           const { _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded
@@ -42,7 +42,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
             </React.Fragment>
           );
         })}
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 };
