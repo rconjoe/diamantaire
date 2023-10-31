@@ -2,7 +2,6 @@ import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -211,14 +210,12 @@ const Header: FC<HeaderProps> = ({
           )}
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
           {isLoaded && (
-            <DiamondShapesProvider>
-              <MegaMenu
-                navItems={section}
-                megaMenuIndex={megaMenuIndex}
-                headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                isCompactMenuVisible={isCompactMenuVisible}
-              />
-            </DiamondShapesProvider>
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
           )}
         </div>
       </FullHeaderStyles>

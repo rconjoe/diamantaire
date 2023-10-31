@@ -1,12 +1,12 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
-import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { BLACK, desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { FC, useContext, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
+import { diamondShapesWithIcon, ringStylesWithIcon } from './header-helpers';
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';
 
 type MobileMenuContainerProps = {
@@ -250,15 +250,6 @@ const MobileSubMenu = ({
   setIsMobileMenuOpen: (isOpen: boolean) => void;
 }) => {
   const { columnTitle, links }: NavColumn = col;
-
-  const diamondShapesContext = useContext(DiamondShapesContext);
-
-  if (!diamondShapesContext) {
-    return null;
-  }
-
-  const { diamondShapesWithIcon, ringStylesWithIcon }: { diamondShapesWithIcon: object; ringStylesWithIcon: object } =
-    diamondShapesContext;
 
   return (
     <div className="mobile-submenu__container">
