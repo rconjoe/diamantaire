@@ -62,14 +62,14 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
       </div>
 
       <div className="list">
-        {wishlist.reverse().map((productId, i) => (
+        {wishlist.map((productId, i) => (
           <WishlistProductItem
             key={i}
+            locale={locale}
             content={content}
             productId={productId}
-            productData={getProductData(productId)}
-            locale={locale}
             isWishlistPage={isWishlistPage}
+            productData={getProductData(productId)}
           />
         ))}
       </div>

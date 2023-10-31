@@ -6,7 +6,7 @@ export const wishlist = createQueryKeys('wishlist', {
     queryKey: [locale],
     queryFn: () => fetchWishlistContent(locale),
   }),
-  product: (ids, locale: string) => ({
+  product: (ids: string[], locale: string) => ({
     queryKey: [ids, locale],
     queryFn: () => fetchWishlistProduct(ids, locale),
   }),
