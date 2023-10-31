@@ -1,6 +1,7 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
+import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
+import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -17,7 +18,7 @@ const WishlistSlideOut: React.FC = () => {
 
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
-  // console.log(`wishlistContent`, content);
+  const { data: { wishlist: products = {} } = {} } = useWishlistProduct(getLocalStorageWishlist(), locale);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -43,6 +44,8 @@ const WishlistSlideOut: React.FC = () => {
     };
   });
 
+  router?.events?.on('routeChangeComplete', handleClose);
+
   return (
     <StyledWishlistSlideOut>
       <AnimatePresence>
@@ -55,7 +58,7 @@ const WishlistSlideOut: React.FC = () => {
             scrollPosition={scrollPosition}
           >
             <div className="wishlist-slide-out">
-              <WishlistProductList />
+              <WishlistProductList products={products} content={content} />
             </div>
           </SlideOut>
         )}

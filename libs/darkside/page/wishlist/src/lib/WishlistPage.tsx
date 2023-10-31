@@ -3,9 +3,10 @@ import { ParsedUrlQuery } from 'querystring';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistProductList } from '@diamantaire/darkside/components/wishlist';
-import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
+import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
+import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
@@ -25,6 +26,8 @@ const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
 
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
+  const { data: { wishlist: products } = {} } = useWishlistProduct(getLocalStorageWishlist(), locale);
+
   const { pageTitle, pageSeoTitle, pageSeoDescription } = content;
 
   return (
@@ -39,7 +42,7 @@ const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
         </div>
 
         <div className="page-row">
-          <WishlistProductList isWishlistPage={true} />
+          <WishlistProductList isWishlistPage={true} content={content} products={products} />
         </div>
       </StyledWishlistPage>
     </>

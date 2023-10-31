@@ -1,5 +1,4 @@
 import { DarksideButton, UniLink } from '@diamantaire/darkside/components/common-ui';
-import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -10,21 +9,31 @@ import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from
 
 interface WishlistProductListProps {
   isWishlistPage?: boolean;
+  content?: any;
+  products?: {
+    cfy?: {
+      [key: string]: any;
+    };
+    diamond?: {
+      [key: string]: any;
+    };
+    product?: {
+      [key: string]: any;
+    };
+    bundle?: {
+      [key: string]: any;
+    };
+  };
 }
 
-const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage }) => {
-  const [wishlist, setWishlist] = useState([]);
+const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage = false, products, content }) => {
+  const [wishlist, setWishlist] = useState(getLocalStorageWishlist());
+
+  const { cfy = {}, diamond = {}, product = {}, bundle = {} } = products || {};
 
   const router = useRouter();
 
   const { locale } = router;
-
-  const { data: { wishlist: content } = {} } = useWishlistContent(locale);
-
-  const { data: { wishlist: { cfy = {}, diamond = {}, product = {}, bundle = {} } = {} } = {} } = useWishlistProduct(
-    wishlist,
-    locale,
-  );
 
   const handleUpdate = () => {
     setWishlist(getLocalStorageWishlist());
