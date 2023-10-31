@@ -23,7 +23,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
   return (
     <div className={clsx('content-one-container', gtmClass)}>
       <Suspense fallback={'Loading'}>
-        {page?.content1?.slice(0, page.content1.length).map((contentBlockData, idx) => {
+        {page?.content1?.map((contentBlockData, idx) => {
           const { _modelApiKey } = contentBlockData;
 
           // Desktop + Mobile, anything after the first two blocks should be lazy loaded

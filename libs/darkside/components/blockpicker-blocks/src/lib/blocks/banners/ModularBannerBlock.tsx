@@ -123,6 +123,7 @@ const ModularBannerBlock = (props) => {
         })}
       >
         <FullWidthImageContainer>
+          <h1>shouldLazyLoad {shouldLazyLoad ? 'lazy' : 'eagerrrr'}</h1>
           <MobileDesktopImage
             desktopImage={desktopImage}
             mobileImage={mobileImage}

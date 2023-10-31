@@ -24,6 +24,7 @@ const MobileDesktopImage = ({
   return (
     <>
       <ShowTabletAndUpOnly>
+        <h2>Mobile desktop {shouldLazyLoad ? 'Lazy' : 'eager'}</h2>
         <DatoImage
           image={desktopImage}
           className={className}

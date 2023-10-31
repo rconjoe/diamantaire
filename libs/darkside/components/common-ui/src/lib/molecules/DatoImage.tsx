@@ -28,8 +28,16 @@ const DatoImageContainer = styled.div`
   }
 `;
 
-const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false, quality }: DatoImageProps) => {
+const DatoImage = (props: DatoImageProps) => {
+  const { image, className, overrideAlt, isSVG = false, quality = 50 } = props;
+  let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
+
+  console.log('coming thru as ', props);
+
+  if (shouldLazyLoad) {
+    shouldLazyLoad = true;
+  }
 
   if (!image) return null;
 
@@ -61,6 +69,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
     <img src={image.url} alt={overrideAlt || alt} />
   ) : (
     <DatoImageContainer>
+      <h1>shouldLazyLoad {shouldLazyLoad ? 'lazy' : 'eager'}</h1>
       {responsiveImage && responsiveImageSrc && (
         <Image
           alt={overrideAlt ? overrideAlt : alt ? alt : ''}
