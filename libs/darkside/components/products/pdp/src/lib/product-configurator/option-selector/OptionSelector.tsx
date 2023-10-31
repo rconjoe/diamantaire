@@ -23,6 +23,7 @@ interface OptionSelectorProps {
   isBuilderFlowOpen?: boolean;
   isWeddingBandProduct?: boolean;
   setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
+  hideSelectorLabel?: boolean;
 }
 
 const StyledOptionSelector = styled.div`
@@ -73,6 +74,16 @@ const StyledOptionSelector = styled.div`
       flex-wrap: nowrap;
       button {
         flex: 1 1 50%;
+        height: 48px;
+      }
+    }
+
+    &.soldAsLeftRight {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      button {
+        flex: 1 1 33.33%;
         height: 48px;
       }
     }
@@ -165,6 +176,7 @@ function OptionSelector({
   isBuilderFlowOpen,
   isWeddingBandProduct = false,
   setIsWeddingBandSizeGuideOpen,
+  hideSelectorLabel = false,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -215,7 +227,7 @@ function OptionSelector({
 
   return (
     <StyledOptionSelector>
-      {label && (
+      {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:

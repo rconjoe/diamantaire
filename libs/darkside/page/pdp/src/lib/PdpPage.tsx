@@ -183,13 +183,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  // Doubles price if product is earrings and
+  // Doubles price if product is earrings pair
+
+  console.log('shopifyProductData', shopifyProductData);
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
-
-  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -227,6 +227,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 price={price}
                 hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
+                productType={shopifyProductData?.productType}
               />
               <ProductConfigurator
                 configurations={configurations}
@@ -245,11 +246,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
                 setShouldDoublePrice={setShouldDoublePrice}
                 shouldDoublePrice={shouldDoublePrice}
+                // isSoldAsDouble is only true for earrings that come as a pair
                 isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
+                isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
+                variants={shopifyProductData?.variants}
               />
 
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}

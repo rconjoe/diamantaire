@@ -1,8 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 
-import { addToCartMutation, createCartMutation, editCartItemsMutation, removeFromCartMutation } from './mutations/cart';
-import { getCartQuery } from './queries/cart';
+import { ERProductCartItemProps, JewelryCartItemProps } from './cart-item-types';
 import {
   Cart,
   Connection,
@@ -13,7 +12,9 @@ import {
   ShopifyCreateCartOperation,
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
-} from './types';
+} from './cart-types';
+import { addToCartMutation, createCartMutation, editCartItemsMutation, removeFromCartMutation } from './mutations/cart';
+import { getCartQuery } from './queries/cart';
 
 interface CartContextValues {
   getCart: (cartId: string) => Promise<Cart | undefined>;
@@ -46,6 +47,8 @@ interface CartContextValues {
       attributes: AttributeInput[];
     }[];
   }) => Promise<string | undefined>;
+  addERProductToCart: (data: ERProductCartItemProps) => void;
+  addJewelryProductToCart: (data: JewelryCartItemProps) => void;
   isCartOpen: boolean;
   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   checkout: Cart;
@@ -134,8 +137,9 @@ export const CartProvider = ({ children }) => {
   }
 
   const removeEdgesAndNodes = (array: Connection<any>) => {
-    // This also adds duplicate nodes for products that are the same variant, and sorts by _datedAdded
     let nodes = [];
+
+    console.log('array.edges', array.edges);
 
     array.edges.forEach((edge) => {
       const node = edge?.node;
@@ -145,13 +149,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart([node.id]);
       }
 
-      if (quantity > 1) {
-        for (let i = 0; i < quantity; i++) {
-          nodes.push(node);
-        }
-      } else {
-        nodes.push(node);
-      }
+      nodes.push(node);
     });
 
     nodes = nodes.sort((a, b) => {
@@ -253,7 +251,9 @@ export const CartProvider = ({ children }) => {
   const addItemToCart = async (
     variantId: string | undefined,
     customAttributes?: AttributeInput[],
+    quantity?: number,
   ): Promise<string | undefined> => {
+    console.log('addItemToCart running');
     let cartId = localStorage.getItem('cartId');
     let cart;
 
@@ -272,7 +272,7 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      await addToCart(cartId, [{ merchandiseId: variantId, quantity: 1, attributes: customAttributes }]);
+      await addToCart(cartId, [{ merchandiseId: variantId, quantity: quantity || 1, attributes: customAttributes }]);
     } catch (e) {
       return 'Error adding item to cart';
     }
@@ -288,6 +288,7 @@ export const CartProvider = ({ children }) => {
         }[]
       | undefined,
   ): Promise<string | undefined> => {
+    console.log('customized item getting', items);
     let cartId = localStorage.getItem('cartId');
     let cart;
 
@@ -348,6 +349,8 @@ export const CartProvider = ({ children }) => {
 
       return refinedItems.push(newItem);
     });
+
+    console.log('updateMultipleItemsQuantity refinedItems', refinedItems);
 
     if (!cartId) {
       return 'Missing cart ID';
@@ -427,9 +430,138 @@ export const CartProvider = ({ children }) => {
     initializeCheckout();
   }, []);
 
+  // ===== ADD TO CART =====
+
+  /**
+   * This function works for both ER with a preset diamond, and ER with a custom diamond
+   * There are duplicate attributes on the setting/diamond
+   * Example order - https://admin.shopify.com/store/vo-live/orders/5341083074653
+   */
+
+  function addERProductToCart({
+    settingVariantId,
+    settingAttributes,
+    diamondVariantId,
+    diamondAttributes,
+  }: ERProductCartItemProps) {
+    console.log('getting attr', settingAttributes);
+
+    const refinedSettingAttributes = Object.keys(settingAttributes)
+      .map((key) => {
+        return {
+          key,
+          value: settingAttributes[key],
+        };
+      })
+      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+    // If no custom diamond, add the setting
+    if (!diamondVariantId) {
+      addItemToCart(settingVariantId, refinedSettingAttributes);
+    } else {
+      // If there is a custom diamond, add the setting and the diamond
+      const refinedDiamondAttributes = Object.keys(diamondAttributes)
+        .map((key) => {
+          return {
+            key,
+            value: diamondAttributes[key],
+          };
+        })
+        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+      console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+
+      addCustomizedItem([
+        {
+          variantId: settingVariantId,
+          customAttributes: refinedSettingAttributes,
+        },
+        {
+          variantId: diamondVariantId,
+          customAttributes: refinedDiamondAttributes,
+        },
+      ]);
+    }
+  }
+
+  /**
+   * This function works for necklaces, bracelets, and earrings
+   * Example order - https://admin.shopify.com/store/vo-live/orders/5340920119389
+   */
+
+  function addJewelryProductToCart({ variantId, attributes }: JewelryCartItemProps) {
+    // shopify api won't ever take a product with an empty or null attribute value
+    let refinedAttributes = Object.keys(attributes)
+      .map((key) => {
+        return {
+          key,
+          value: attributes[key],
+        };
+      })
+      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+    const productType = refinedAttributes.find((attr) => attr.key === '_productType')?.value;
+
+    // This is where we apply productType specific logic
+    if (productType !== 'Wedding Band') {
+      refinedAttributes = refinedAttributes.filter((attr) => attr.key !== 'ringSize');
+    }
+
+    if (productType === 'Earrings') {
+      const childProduct = refinedAttributes?.find((attr) => attr.key === 'childProduct')?.value;
+      const childProductParsed = childProduct && JSON.parse(childProduct);
+      const childProductType = childProduct && childProductParsed?.behavior;
+      const isMixedPair = refinedAttributes?.find((attr) => attr.key === 'leftOrRight')?.value === 'pair';
+
+      // Adds a duplicate of the product to the cart for pairs of that don't come in left/right
+      if (!isMixedPair && childProduct && childProductType === 'duplicate') {
+        return addItemToCart(variantId, refinedAttributes, 2);
+      } else if (isMixedPair && childProduct && childProductType === 'linked') {
+        // This is for earrings that come in left/right, as they are multi-variant
+        const additionalVariantId = childProductParsed?.additionalVariantIds?.[0];
+
+        const items = [
+          {
+            variantId,
+            customAttributes: [
+              ...refinedAttributes,
+              {
+                key: 'leftOrRight',
+                value: 'Left',
+              },
+            ],
+            quantity: 1,
+          },
+          {
+            variantId: additionalVariantId,
+            customAttributes: [
+              ...refinedAttributes,
+              {
+                key: 'leftOrRight',
+                value: 'Right',
+              },
+              // This is how we know it's a child product (and to hide it in the cart on the checkout.lines loop)
+              {
+                key: 'isChildProduct',
+                value: 'true',
+              },
+            ],
+            quantity: 1,
+          },
+        ];
+
+        return addCustomizedItem(items);
+      }
+    }
+
+    return addItemToCart(variantId, refinedAttributes);
+  }
+
   return (
     <CartContext.Provider
       value={{
+        addERProductToCart,
+        addJewelryProductToCart,
         addItemToCart,
         addCustomizedItem,
         removeFromCart,

@@ -2,9 +2,9 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { CartContext, ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useProductDato } from '@diamantaire/darkside/data/hooks';
+import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -22,15 +22,10 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import SummaryItem from './SummaryItem';
-
-type ItemType = {
-  variantId: string;
-  customAttributes?: AttributeInput[];
-}[];
 
 const ReviewBuildStepStyles = styled(motion.div)`
   height: 100vh;
@@ -154,43 +149,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
 `;
 
-// Might wanna show G-Money this
-// const ToastListStyles = styled.div`
-//   p {
-//     text-align: center;
-//     margin-bottom: 20px;
-//   }
-//   ul {
-//     display: flex;
-//     margin: 0;
-//     padding: 0;
-//     list-style: none;
-
-//     li {
-//       flex: 1;
-//       &:first-child {
-//         margin-right: 10px;
-//       }
-//     }
-//   }
-// `;
-
-// const ToastList = () => {
-//   return (
-//     <ToastListStyles>
-//       <p>Added to cart!</p>
-//       <ul>
-//         <li>
-//           <DarksideButton>Checkout</DarksideButton>
-//         </li>
-//         <li>
-//           <DarksideButton type="outline">Keep Shopping</DarksideButton>
-//         </li>
-//       </ul>
-//     </ToastListStyles>
-//   );
-// };
-
 const ToastErrorStyles = styled.div`
   p {
     font-size: 1.6rem;
@@ -210,7 +168,7 @@ const MAX_CHAR_LIMIT = 16;
 const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
-  const { addCustomizedItem, setIsCartOpen, checkout } = useContext(CartContext);
+  const { addERProductToCart, setIsCartOpen, checkout } = useContext(CartContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
@@ -231,6 +189,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
   const currencyCode = getCurrency(countryCode);
+
+  const { _t } = useTranslations(router?.locale);
 
   const mutatedLotId = getNumericalLotId(diamond?.lotId);
 
@@ -254,10 +214,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     setIsEngravingInputVisible(false);
   }
 
-  function removeEmptyCartLineItemAttributes(array) {
-    return array.filter((attr) => attr.value !== '' && attr.value !== 'other');
-  }
-
   const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
   const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
 
@@ -273,28 +229,21 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     setSelectedSize(option);
   }, []);
 
-  const {
-    productTitle,
-    productType,
-    goldPurity,
-    bandAccent,
-    shopifyProductHandle,
-    image,
-    configuredProductOptionsInOrder,
-    // caratWeightOverride,
-  } = product;
+  const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
+    product;
 
   // Need the ring size
   function addCustomProductToCart() {
+    const productGroupKey = uuidv4();
     // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
-    const settingProductId = selectedSize?.id || product?.variantId;
+    const settingVariantId = selectedSize?.id || product?.variantId;
 
     // 2. Get the product variant ID for the diamond
-    const diamondId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
+    const diamondVariantId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
-    const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondId);
+    const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondVariantId);
 
     if (isDiamondInCart) {
       return toast.error(ToastError, {
@@ -312,120 +261,72 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const refinedBandAccent =
       settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
-    let settingItemAttributes = [
-      {
-        key: 'productTitle',
-        value: productTitle,
-      },
-      {
-        key: '_image',
-        value: JSON.stringify(image),
-      },
-      {
-        key: '_dateAdded',
-        value: Date.now().toString(),
-      },
-      {
-        key: 'productType',
-        value: productType,
-      },
-      // get it from the diamond
-      {
-        key: 'diamondShape',
-        value: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
-      },
-      {
-        key: 'metal',
-        value: erMetal,
-      },
-      {
-        key: 'bandAccent',
-        value: refinedBandAccent,
-      },
-      {
-        key: 'totalPrice',
-        value: (product.price + diamond.price).toString(),
-      },
-      {
-        key: 'productCategory',
-        value: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
-      },
-      // Diamond Sync
-      {
-        key: 'showChildProduct',
-        value: 'true',
-      },
-      {
-        key: 'hasChildProduct',
-        value: 'true',
-      },
-      {
-        key: '_childProduct',
-        value: diamondId,
-      },
-    ] as AttributeInput[];
+    const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
+      _productType: productType,
+      metalType: erMetal,
+      productAsset: JSON.stringify(image),
+      _productTitle: productTitle,
+      productIconListShippingCopy: 'temp',
+      pdpUrl: window.location.href,
+      shippingText: _t('Made-to-order. Ships by'),
+      feedId: settingVariantId,
+      // engraving
+      _EngravingBack: engravingText,
+      _specs: `Shape: ${
+        DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]
+      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedConfiguration?.ringSize}`,
+      productGroupKey,
+      diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
+      centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
+      ringSize: selectedConfiguration?.ringSize,
+      bandAccent: refinedBandAccent,
+      totalPrice: (product.price + diamond.price).toString(),
+      productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
+      _dateAdded: Date.now().toString(),
 
-    // Submitting an empty string or null as value will cause an error
-    // other is returned when no ringSize has been selected
-    settingItemAttributes = removeEmptyCartLineItemAttributes(settingItemAttributes);
+      // Diamond Sync
+      childProduct: JSON.stringify({
+        behavior: 'linked',
+        additionalVariantIds: [diamondVariantId],
+      }),
+    };
 
     // 4. Create custom attributes for the diamond
 
-    const diamondItemAttributes = [
-      {
-        key: '_image',
-        value: diamondImage,
-      },
-      {
-        key: '_dateAdded',
-        value: Date.now().toString(),
-      },
-      {
-        key: 'caratWeight',
-        value: diamond.carat.toString(),
-      },
-      {
-        key: 'clarity',
-        value: diamond.clarity,
-      },
-      {
-        key: 'cut',
-        value: diamond.cut,
-      },
-      {
-        key: 'color',
-        value: diamond.color,
-      },
-      {
-        key: 'lotId',
-        value: diamond.lotId,
-      },
-      {
-        key: 'isChildProduct',
-        value: 'true',
-      },
-    ];
+    const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
+      _productTitle: diamond?.productTitle,
+      productAsset: diamondImage,
+      _dateAdded: Date.now().toString(),
+      caratWeight: diamond.carat.toString(),
+      clarity: diamond.clarity,
+      cut: diamond.cut,
+      color: diamond.color,
+      feedId: settingVariantId,
+      lotId: diamond.lotId,
+      isChildProduct: 'true',
+      productGroupKey,
+      _productType: 'Diamond',
+      shippingText: _t('Made-to-order. Ships by'),
+      productIconListShippingCopy: 'temp',
+      shippingBusinessDays: 'temp',
+      pdpUrl: window.location.href,
+    };
 
-    // 3. Add both items to cart with attributes
-    const items: ItemType = [
-      // Setting
-      {
-        variantId: settingProductId,
-        customAttributes: settingItemAttributes,
-      },
-      // Diamond
-      {
-        variantId: diamondId,
-        customAttributes: diamondItemAttributes,
-      },
-    ];
+    addERProductToCart({
+      settingVariantId,
+      settingAttributes,
+      diamondVariantId,
+      diamondAttributes,
+    });
+
+    setIsCartOpen(true);
 
     // TODO: Add Sentry Loggin
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
     const formattedSettingPrice = getFormattedPrice(settingPrice, router?.locale, true, true);
     const formattedDiamondPrice = getFormattedPrice(diamond?.price, router?.locale, true, true);
-    const id = settingProductId.split('/').pop();
+    const id = settingVariantId.split('/').pop();
     const totalAmount = getFormattedPrice(settingPrice + diamond?.price, router?.locale, true, true);
 
     productAdded({
@@ -498,10 +399,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         },
       ],
     });
-
-    addCustomizedItem(items);
-
-    setIsCartOpen(true);
   }
 
   return (

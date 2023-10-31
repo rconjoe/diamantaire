@@ -68,8 +68,6 @@ const PlpHeroBannerStyles = styled.div`
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
   const { desktopImage, title, copy, textColor } = data || {};
 
-  console.log('PLP Hero', data);
-
   return (
     <PlpHeroBannerStyles
       textColor={textColor?.hex}
