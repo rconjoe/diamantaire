@@ -2,7 +2,7 @@
   This component implements the BlockPicker loop for the Home Page, and Standard Pages
 * */
 
-// import clsx from 'clsx';
+import clsx from 'clsx';
 // import React, { Suspense } from 'react';
 
 type StandardPageEntryProps = {
