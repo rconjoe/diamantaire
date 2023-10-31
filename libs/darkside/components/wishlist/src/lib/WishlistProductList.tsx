@@ -22,7 +22,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
   const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
   const { data: { wishlist: { cfy = {}, diamond = {}, product = {}, bundle = {} } = {} } = {} } = useWishlistProduct(
-    wishlist.join(','),
+    wishlist,
     locale,
   );
 
