@@ -13,11 +13,9 @@ export const fetchWishlistContent = async (locale: string) => {
 };
 
 // Get wishlist products
-export const fetchWishlistProduct = async (ids: string, locale: string) => {
-  const arr = ids?.split(',') || [];
-
+export const fetchWishlistProduct = async (ids: string[], locale: string) => {
   const sanitize = (type: string) => {
-    return arr.filter((v) => v.includes(type)).map((v) => v.replace(type, ''));
+    return ids.filter((v) => v.includes(type)).map((v) => v.replace(type, ''));
   };
 
   const unbundle = (productIds: string[]) => {

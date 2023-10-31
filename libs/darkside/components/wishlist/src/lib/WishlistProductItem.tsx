@@ -18,15 +18,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { WishlistLikeButton } from './WishlistLikeButton';
 import { StyledWishlistSlideoutProductItem, StyledWishlistPageProductItem } from './WishlistProductItem.style';
 
-const productTypeMap = {
-  Necklace: 'necklaces',
-  Earrings: 'earrings',
-  Bracelet: 'bracelets',
-  Ring: 'rings',
-  'Wedding Band': 'wedding-bands',
-  'Engagement Ring': 'engagement-ring',
-};
-
 interface CardBundleProps {
   isWishlistPage?: boolean;
   id: string;
@@ -128,7 +119,16 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
 
   const price = getFormattedPrice(productPrice, locale, true);
 
-  const link = `/jewelry/${productTypeMap[productType]}/${collectionSlug}/${productSlug}`;
+  const productTypeMap = {
+    Necklace: 'jewelry/necklaces',
+    Earrings: 'jewelry/earrings',
+    Bracelet: 'jewelry/bracelets',
+    Ring: 'jewelry/rings',
+    'Wedding Band': 'wedding-bands',
+    'Engagement Ring': 'engagement-ring',
+  };
+
+  const link = `/${productTypeMap[productType]}/${collectionSlug}/${productSlug}`;
 
   return (
     <div className="card item-product">
@@ -280,10 +280,10 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
     card = (
       <CardProduct
         isWishlistPage={isWishlistPage}
-        locale={locale}
+        button={buttonShop}
         product={product}
         content={content}
-        button={buttonShop}
+        locale={locale}
         id={productId}
       />
     );
