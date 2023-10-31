@@ -19,11 +19,11 @@ const StyledWishlistPage = styled.div`
     display: block;
     width: 100%;
     text-align: center;
-    margin-bottom: 2rem;
+    margin: 2rem 0;
 
     * {
       font-size: var(--font-size-medium);
-      font-weight: var(--font-weight-normal);
+      font-weight: var(--font-weight-medium);
 
       ${tabletAndUp(`
         font-size: var(--font-size-large);
