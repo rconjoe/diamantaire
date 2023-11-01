@@ -3,7 +3,7 @@ import { Header } from '@diamantaire/darkside/components/header';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useRef } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
@@ -27,43 +27,43 @@ export const GlobalTemplate = ({ children }) => {
 
   const headerRef = useRef<HTMLDivElement | null>(null);
 
-  const [isTopbarShowing, setIsTopbarShowing] = useState(true);
-  const [headerHeight, setHeaderHeight] = useState(0);
+  // const [headerHeight, setHeaderHeight] = useState(0);
+  const headerHeight = 100;
 
   const { pathname } = useRouter();
   const isHome = pathname === '/';
 
-  useEffect(() => {
-    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
-    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
+  // useEffect(() => {
+  //   // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+  //   const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
-    setHeaderHeight(fullHeaderHeight);
-  }, [isTopbarShowing]);
+  //   setHeaderHeight(fullHeaderHeight);
+  // }, [isTopbarShowing]);
 
-  useEffect(() => {
-    if (!headerRef.current) return;
+  // useEffect(() => {
+  //   if (!headerRef.current) return;
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      // Use entries to get the new height
-      if (entries[0].target instanceof HTMLElement) {
-        const newHeight = entries[0].target.offsetHeight;
+  //   const resizeObserver = new ResizeObserver((entries) => {
+  //     // Use entries to get the new height
+  //     if (entries[0].target instanceof HTMLElement) {
+  //       const newHeight = entries[0].target.offsetHeight;
 
-        setHeaderHeight(newHeight);
+  //       setHeaderHeight(newHeight);
 
-        window.dispatchEvent(
-          new CustomEvent('RESET_HEADER_HEIGHT', {
-            detail: {
-              headerHeight: newHeight,
-            },
-          }),
-        );
-      }
-    });
+  //       window.dispatchEvent(
+  //         new CustomEvent('RESET_HEADER_HEIGHT', {
+  //           detail: {
+  //             headerHeight: newHeight,
+  //           },
+  //         }),
+  //       );
+  //     }
+  //   });
 
-    resizeObserver.observe(headerRef.current);
+  //   resizeObserver.observe(headerRef.current);
 
-    return () => resizeObserver.disconnect();
-  }, [headerData, isTopbarShowing]);
+  //   return () => resizeObserver.disconnect();
+  // }, [headerData, isTopbarShowing]);
 
   return (
     <>
@@ -72,8 +72,8 @@ export const GlobalTemplate = ({ children }) => {
           headerData={headerData}
           isHome={isHome}
           headerRef={headerRef as React.MutableRefObject<HTMLDivElement>}
-          isTopbarShowing={isTopbarShowing}
-          setIsTopbarShowing={setIsTopbarShowing}
+          // isTopbarShowing={isTopbarShowing}
+          // setIsTopbarShowing={setIsTopbarShowing}
           headerHeight={headerHeight}
         />
       )}

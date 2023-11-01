@@ -22,8 +22,8 @@ type HeaderProps = {
   headerData?: any;
   isHome: boolean;
   headerHeight: number;
-  isTopbarShowing: boolean;
-  setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
+  // isTopbarShowing: boolean;
+  // setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
   headerRef: React.RefObject<HTMLDivElement>;
 };
 
@@ -53,13 +53,14 @@ const Header: FC<HeaderProps> = ({
   isHome = false,
   headerRef,
   headerHeight,
-  isTopbarShowing,
-  setIsTopbarShowing,
+  // isTopbarShowing,
+  // setIsTopbarShowing,
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const { cartViewed } = useAnalytics();
   const router = useRouter();
 
