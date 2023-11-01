@@ -1,9 +1,8 @@
-import { BLACK, GREY_LIGHT, WHITE, RED_ERROR } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledCheckSquare = styled.div`
   line-height: 16px;
-  color: ${BLACK};
+  color: var(--color-black);
 
   input[type='checkbox'] {
     /* Hide but keep original checkbox around */
@@ -29,7 +28,7 @@ const StyledCheckSquare = styled.div`
         /* Show check */
         content: '';
         border: none;
-        background-color: ${GREY_LIGHT};
+        background-color: var(--color-light-grey);
       }
 
       &::after {
@@ -58,8 +57,8 @@ const StyledCheckSquare = styled.div`
       content: '';
       width: 16px;
       height: 16px;
-      border: 1px solid ${BLACK};
-      background: ${WHITE};
+      border: 1px solid var(--color-black);
+      background: var(--color-white);
 
       /* Placement of box */
       top: -2px;
@@ -76,7 +75,7 @@ const StyledCheckSquare = styled.div`
       border-left: 2px solid;
       border-bottom: 2px solid;
       transform: rotate(-45deg);
-      border-color: ${BLACK};
+      border-color: var(--color-black);
 
       /* Placement of check */
       left: 2px;
@@ -98,13 +97,13 @@ const StyledCheckSquare = styled.div`
   &.-error {
     *,
     a {
-      color: ${RED_ERROR};
+      color: var(--color-error-red);
     }
 
     // add error border to LightRingPseudoStyle
     label {
       &::before {
-        border: 1px solid ${RED_ERROR};
+        border: 1px solid var(--color-error-red);
       }
     }
   }

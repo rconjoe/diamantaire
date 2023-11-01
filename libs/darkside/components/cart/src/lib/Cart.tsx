@@ -1,5 +1,5 @@
 import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -13,7 +13,8 @@ import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
 
 const Cart = ({ closeCart }) => {
-  const { checkout, setIsCartOpen, updateItemQuantity } = useContext(CartContext);
+  const { checkout } = useContext(CartContext);
+  const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;

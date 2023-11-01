@@ -54,6 +54,7 @@ interface CartContextValues {
   checkout: Cart;
 }
 
+export const ActionsContext = createContext(null);
 export const CartContext = createContext<CartContextValues | null>(null);
 // const isBrowser = typeof window !== 'undefined';
 
@@ -313,8 +314,6 @@ export const CartProvider = ({ children }) => {
 
       return refinedItems.push(newItem);
     });
-    console.log('addCustomizedItem refinedItems', Array.from(refinedItems));
-    console.log('addCustomizedItem cartId', cartId);
 
     try {
       await addToCart(cartId, Array.from(refinedItems));
@@ -558,7 +557,7 @@ export const CartProvider = ({ children }) => {
   }
 
   return (
-    <CartContext.Provider
+    <ActionsContext.Provider
       value={{
         addERProductToCart,
         addJewelryProductToCart,
@@ -570,10 +569,16 @@ export const CartProvider = ({ children }) => {
         isCartOpen,
         setIsCartOpen,
         getCart,
-        checkout,
       }}
     >
-      {children}
-    </CartContext.Provider>
+      <CartContext.Provider
+        // @ts-expect-error  testing
+        value={{
+          checkout,
+        }}
+      >
+        {children}
+      </CartContext.Provider>
+    </ActionsContext.Provider>
   );
 };

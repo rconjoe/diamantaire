@@ -1,17 +1,16 @@
-import { BLACK, GREY_LIGHTER, WHITE, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledAccordion = styled.div`
   display: block;
-  background: ${WHITE};
-  border-bottom: 1px solid ${GREY_LIGHTER};
-  color: ${BLACK};
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-lighter-grey);
+  color: var(--color-black);
 
   .accordion-row {
     width: 100%;
     display: flex;
     flex-direction: column;
-    border-top: 1px solid ${GREY_LIGHTER};
+    border-top: 1px solid var(--color-lighter-grey);
   }
 
   .accordion-row:first-child {
@@ -33,9 +32,9 @@ const StyledAccordion = styled.div`
       font-size: var(--font-size-xxsmall);
       font-weight: var(--font-weight-normal);
 
-      ${desktopAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         font-size: var(--font-size-xsmall);
-      `)}
+      }
 
       .value {
         padding: 0 1rem 0 0;

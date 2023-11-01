@@ -1,10 +1,10 @@
-import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { getRelativeUrl, isCountrySupported } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 
+import { diamondShapesWithIcon, ringStylesWithIcon } from './header-helpers';
 import { MenuLink, NavItemsProps, SubMenuChildLink } from './header-types';
 import { MegaMenuStylesContainer } from './MegaMenuStyles.style';
 
@@ -17,8 +17,6 @@ type MegaMenuProps = {
 
 const MegaMenu: FC<MegaMenuProps> = (props) => {
   const { navItems, headerHeight, isCompactMenuVisible, megaMenuIndex } = props;
-  const data: any = useContext(DiamondShapesContext);
-  const { diamondShapesWithIcon, ringStylesWithIcon } = data || {};
   const router = useRouter();
   const locale = router.locale;
   const { countryCode } = parseValidLocale(locale);

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -301,7 +301,7 @@ function AddToCartButton({
   additionalVariantIds,
   isSoldAsDouble,
 }: CtaButtonProps) {
-  const { setIsCartOpen, addERProductToCart, addJewelryProductToCart } = useContext(CartContext);
+  const { setIsCartOpen, addERProductToCart, addJewelryProductToCart } = useContext(ActionsContext);
 
   const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
 

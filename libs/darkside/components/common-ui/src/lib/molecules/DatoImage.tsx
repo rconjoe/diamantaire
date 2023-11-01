@@ -28,8 +28,14 @@ const DatoImageContainer = styled.div`
   }
 `;
 
-const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG = false, quality }: DatoImageProps) => {
+const DatoImage = (props: DatoImageProps) => {
+  const { image, className, overrideAlt, isSVG = false, quality = 50 } = props;
+  let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
+
+  if (shouldLazyLoad) {
+    shouldLazyLoad = true;
+  }
 
   if (!image) return null;
 
@@ -70,6 +76,7 @@ const DatoImage = ({ image, className, overrideAlt, shouldLazyLoad = true, isSVG
           loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
           className={clsx('image', className)}
           sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
+          priority={!shouldLazyLoad}
           loading={shouldLazyLoad ? 'lazy' : 'eager'}
           fill={true}
           style={{

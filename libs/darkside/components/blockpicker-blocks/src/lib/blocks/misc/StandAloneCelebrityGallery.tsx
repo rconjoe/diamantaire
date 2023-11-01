@@ -1,10 +1,7 @@
-import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoImage, Heading, Modal } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
-import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import styled from 'styled-components';
-
-const Modal = dynamic(() => import('@diamantaire/darkside/components/common-ui').then((m) => m.Modal));
 
 const StandAloneCelebrityGalleryStyles = styled.div`
   padding-top: 40px;
@@ -93,7 +90,9 @@ const StandAloneCelebrityGalleryStyles = styled.div`
               transition: 0.25s;
 
               &:hover {
-                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+                box-shadow:
+                  0 14px 28px rgba(0, 0, 0, 0.25),
+                  0 10px 10px rgba(0, 0, 0, 0.22);
               }
 
               > .image {
