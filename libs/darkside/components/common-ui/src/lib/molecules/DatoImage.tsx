@@ -33,8 +33,6 @@ const DatoImage = (props: DatoImageProps) => {
   let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
 
-  console.log('coming thru as ', props);
-
   if (shouldLazyLoad) {
     shouldLazyLoad = true;
   }
@@ -69,7 +67,6 @@ const DatoImage = (props: DatoImageProps) => {
     <img src={image.url} alt={overrideAlt || alt} />
   ) : (
     <DatoImageContainer>
-      <h1>shouldLazyLoad {shouldLazyLoad ? 'lazy' : 'eager'}</h1>
       {responsiveImage && responsiveImageSrc && (
         <Image
           alt={overrideAlt ? overrideAlt : alt ? alt : ''}

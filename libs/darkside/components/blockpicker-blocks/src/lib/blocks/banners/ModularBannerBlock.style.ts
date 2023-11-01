@@ -15,6 +15,10 @@ export const FullWidthImageContainer = styled.div`
   min-height: calc(100vw / 3 * 2);
   margin: auto;
 
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+    color: red;
+  }
+
   ${tabletAndUp(`
     min-height: calc(100vw / 3 * 1);
   `)};

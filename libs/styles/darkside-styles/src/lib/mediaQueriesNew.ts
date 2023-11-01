@@ -40,3 +40,12 @@ export const media: SizeProps = (Object.keys(sizes) as Array<keyof typeof sizes>
 
   return accumulator;
 }, {});
+
+export const theme = {
+  sizes: {
+    xxl: '1441px',
+    xl: '1200px',
+    desktop: '992px',
+    tablet: '768px',
+  },
+};
