@@ -12,14 +12,14 @@ import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSide
 
 import StyledWishlistPage from './WishlistPage.style';
 
-interface WishlistPageQueryParams extends ParsedUrlQuery {
-  products?: string;
+interface WishlistPageParams extends ParsedUrlQuery {
   username?: string;
+  products?: string;
 }
 
 interface WishlistPageProps {
-  locale: string;
   username?: string;
+  locale: string;
   products?: string[];
   dehydratedState: DehydratedState;
 }
@@ -64,7 +64,7 @@ const WishlistPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
 WishlistPage.getTemplate = getTemplate;
 
 async function getServerSideProps(
-  context: GetServerSidePropsContext<WishlistPageQueryParams>,
+  context: GetServerSidePropsContext<WishlistPageParams>,
 ): Promise<GetServerSidePropsResult<WishlistPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
@@ -90,7 +90,7 @@ async function getServerSideProps(
     locale,
     dehydratedState,
     username,
-    products,
+    products: productArray,
   };
 
   return {

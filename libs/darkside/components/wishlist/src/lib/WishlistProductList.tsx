@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { WishListNoResultItem } from './WishlistNoResultItem';
 import { WishlistProductItem } from './WishlistProductItem';
 import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from './WishlistProductList.style';
+import WishlistShareModal from './WishlistShareModal';
 
 interface WishlistProductListProps {
   isWishlistPage?: boolean;
@@ -64,10 +65,22 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
     }
   };
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
+
   const wishlistResult = (
     <>
       <div className="cta">
-        <DarksideButton type="outline">{content.shareWishlistModalTitle}</DarksideButton>
+        <DarksideButton type="outline" onClick={handleModalOpen}>
+          {content.shareWishlistModalTitle}
+        </DarksideButton>
       </div>
 
       <div className="list">
@@ -90,6 +103,8 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
           </DarksideButton>
         </UniLink>
       )}
+
+      {openModal && <WishlistShareModal onClose={handleModalClose} locale={locale} content={content} />}
     </>
   );
 
