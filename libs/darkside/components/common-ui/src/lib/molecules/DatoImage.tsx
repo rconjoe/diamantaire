@@ -76,6 +76,7 @@ const DatoImage = (props: DatoImageProps) => {
           loader={() => loader({ src: responsiveImageSrc, width: responsiveImage?.width, quality })}
           className={clsx('image', className)}
           sizes={responsiveImage ? responsiveImage?.width + 'px' : image?.width + 'px'}
+          priority={!shouldLazyLoad}
           loading={shouldLazyLoad ? 'lazy' : 'eager'}
           fill={true}
           style={{
