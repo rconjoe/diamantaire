@@ -25,6 +25,7 @@ const ModularRandomBannerBlock = ({ blocks }) => {
         transitionDelay: '.75s',
       }}
     >
+      {/* Temp */}
       {/* {randomIndex === -1 ? <ModularBannerBlock {...blocks[0]} /> : <ModularBannerBlock {...block} />}; */}
       <ModularBannerBlock {...blocks[0]} />
     </div>
