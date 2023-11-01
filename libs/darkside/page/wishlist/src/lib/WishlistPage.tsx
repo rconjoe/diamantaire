@@ -72,6 +72,8 @@ async function getServerSideProps(
 
   const { products = '', username = '' } = query;
 
+  const usernameString = username as string;
+
   const productArray = (products as string).split(',');
 
   const wishlistContentQuery = queries.wishlist.content(locale);
@@ -89,7 +91,7 @@ async function getServerSideProps(
   const props: WishlistPageProps = {
     locale,
     dehydratedState,
-    username,
+    username: usernameString,
     products: productArray,
   };
 
