@@ -1,6 +1,5 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -62,9 +61,9 @@ const CookieBannerStyles = styled.div`
     font-size: var(--font-size-xxxsmall);
     position: relative;
     gap: 10px;
-    ${tabletAndUp(`
-        flex-direction: row;
-    `)}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      flex-direction: row;
+    }
   }
   .copy {
     margin: 20px 0 25px !important;
