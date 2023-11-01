@@ -15,8 +15,12 @@ const CssVariables = styled.createGlobalStyle`
     --color-black: #000;
     --color-white: #fff;
     --color-lightest-grey: #f7f7f7;
+    --color-lighter-grey: #eaeaea;
     --color-light-grey: #dcdbd5;
-    --color-grey: #ccc;
+    --color-dark-grey: #737368;
+    --color-grey: #979797;
+    --color-header-bg: #faf9f7;
+    --color-error-red: #d0021b;
 
     /* Font Weights */
     --font-weight-normal: 400;
@@ -41,6 +45,9 @@ const CssVariables = styled.createGlobalStyle`
     /* Metals - Finish */
     --metal-yellow-gold: #f9d857;
     --metal-rose-gold: #f9d857;
+
+    /* Z Index */
+    --z-index-nav: 40;
   }
 `;
 

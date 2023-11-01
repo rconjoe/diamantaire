@@ -1,4 +1,3 @@
-import { BLACK, GREY, GREY_LIGHTER } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledSlider = styled.div`
@@ -134,7 +133,7 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-target {
-    background: ${GREY_LIGHTER};
+    background: var(--color-lighter-grey);
     border-radius: 2px;
     border: 0;
   }
@@ -176,7 +175,7 @@ const StyledSlider = styled.div`
   /* Disabled state; */
 
   [disabled] .vo-slider-connect {
-    background: ${GREY_LIGHTER};
+    background: var(--color-lighter-grey);
   }
 
   [disabled].vo-slider-target,
@@ -195,7 +194,7 @@ const StyledSlider = styled.div`
 
   .vo-slider-pips {
     position: absolute;
-    color: ${GREY};
+    color: var(--color-grey);
   }
 
   /* Values; */
@@ -207,7 +206,7 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-value-sub {
-    color: ${GREY};
+    color: var(--color-grey);
     font-size: 10px;
   }
 
@@ -215,15 +214,15 @@ const StyledSlider = styled.div`
 
   .vo-slider-marker {
     position: absolute;
-    background: ${GREY};
+    background: var(--color-grey);
   }
 
   .vo-slider-marker-sub {
-    background: ${GREY};
+    background: var(--color-grey);
   }
 
   .vo-slider-marker-large {
-    background: ${GREY};
+    background: var(--color-grey);
   }
 
   /* Horizontal layout; */
@@ -251,7 +250,7 @@ const StyledSlider = styled.div`
     margin-left: -1px;
     width: 1px;
     height: 5px;
-    background: ${GREY_LIGHTER};
+    background: var(--color-lighter-grey);
   }
 
   .vo-slider-marker-horizontal.vo-slider-marker-sub {
@@ -301,7 +300,7 @@ const StyledSlider = styled.div`
     display: block;
     position: absolute;
     background: transparent;
-    color: ${BLACK};
+    color: var(--color-black);
     padding: 0;
     text-align: center;
     white-space: nowrap;

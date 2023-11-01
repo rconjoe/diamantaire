@@ -1,6 +1,6 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
-import { BLACK, desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useState } from 'react';
@@ -38,7 +38,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
       li {
         button.top-level-link {
-          color: ${BLACK};
+          color: var(--color-black);
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
@@ -46,7 +46,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           display: flex;
           width: 100%;
           align-items: center;
-          font-family: ${MAIN_FONT};
+          font-family: var(--font-family-main);
           text-transform: uppercase;
           font-weight: var(--font-weight-bold);
           font-size: var(--font-size-xxxsmall);

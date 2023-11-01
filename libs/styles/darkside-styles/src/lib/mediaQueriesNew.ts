@@ -48,4 +48,4 @@ export const theme = {
     desktop: '992px',
     tablet: '768px',
   },
-};
+} as const;

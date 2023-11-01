@@ -1,6 +1,6 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { BLACK, GREY_DARK, NAV_Z_INDEX, TEAL, tabletAndUp, HEADER_BACKGROUND } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -14,11 +14,11 @@ const CookieBannerStyles = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${HEADER_BACKGROUND};
-  color: ${BLACK};
+  background: var(--color-header-bg);
+  color: var(--color-black);
   width: 100%;
-  border-top: 1px solid ${GREY_DARK};
-  z-index: ${NAV_Z_INDEX};
+  border-top: 1px solid var(--color-dark-grey);
+  z-index: var(--z-index-nav);
   .container {
     display: flex;
     flex-direction: column;
@@ -27,12 +27,13 @@ const CookieBannerStyles = styled.div`
     padding: 20px 0;
     margin: 0 auto;
     max-width: 1440px;
-    ${tabletAndUp(`
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       flex-direction: row;
       padding: 50px 0;
-    `)}
+    }
     a {
-      color: ${TEAL};
+      color: var(--color-teal);
     }
   }
   .title {
