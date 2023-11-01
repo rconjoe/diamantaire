@@ -1,5 +1,5 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -160,7 +160,7 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const { updateStep, builderProduct } = useContext(BuilderProductContext);
-  const { setIsCartOpen, isCartOpen } = useContext(CartContext);
+  const { setIsCartOpen, isCartOpen } = useContext(ActionsContext);
 
   const allowedKeys = ['product', 'diamond'];
 

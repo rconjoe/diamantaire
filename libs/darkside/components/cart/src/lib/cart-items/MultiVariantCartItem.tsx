@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
 import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -130,13 +130,14 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-  const { updateMultipleItemsQuantity, checkout } = useContext(CartContext);
+  const { checkout } = useContext(CartContext);
+  const { updateMultipleItemsQuantity } = useContext(ActionsContext);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
   const childProduct = useMemo(() => {
-    return checkout.lines?.find((item) =>
-      item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
+    return checkout.lines?.find(
+      (item) => item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
     );
   }, [item]);
 

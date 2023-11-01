@@ -1,7 +1,7 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -22,8 +22,8 @@ type HeaderProps = {
   headerData?: any;
   isHome: boolean;
   headerHeight: number;
-  // isTopbarShowing: boolean;
-  // setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
+  isTopbarShowing: boolean;
+  setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
   headerRef: React.RefObject<HTMLDivElement>;
 };
 
@@ -53,19 +53,20 @@ const Header: FC<HeaderProps> = ({
   isHome = false,
   headerRef,
   headerHeight,
-  // isTopbarShowing,
-  // setIsTopbarShowing,
+  isTopbarShowing,
+  setIsTopbarShowing,
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
-  const [isTopbarShowing, setIsTopbarShowing] = useState(true);
+
   const { cartViewed } = useAnalytics();
   const router = useRouter();
 
   const selectedLocale = router.locale;
-  const { isCartOpen, setIsCartOpen, checkout } = useContext(CartContext);
+  const { checkout } = useContext(CartContext);
+  const { isCartOpen, setIsCartOpen } = useContext(ActionsContext);
 
   const { section } = headerData;
   const { scrollY } = useScroll();
@@ -90,8 +91,6 @@ const Header: FC<HeaderProps> = ({
 
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);

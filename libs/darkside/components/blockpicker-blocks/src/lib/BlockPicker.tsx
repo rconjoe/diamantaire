@@ -1,4 +1,3 @@
-import { LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import {
   MODULAR_ACCORDION_BLOCK,
   MODULAR_BLOG_LIST_TRIO_BLOCK,
@@ -165,14 +164,12 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
 
       {BlockComponent && shouldLazyLoad ? (
-        <LazyLoadWrapper>
-          <BlockComponent
-            countryCode={countryCode}
-            currencyCode={currencyCode}
-            shouldLazyLoad={shouldLazyLoad}
-            {...modularBlockData}
-          />
-        </LazyLoadWrapper>
+        <BlockComponent
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+          shouldLazyLoad={shouldLazyLoad}
+          {...modularBlockData}
+        />
       ) : BlockComponent ? (
         <BlockComponent
           countryCode={countryCode}
