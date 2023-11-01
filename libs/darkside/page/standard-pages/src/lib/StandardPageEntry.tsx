@@ -34,7 +34,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
             <Suspense fallback={'Loading'} key={`${_modelApiKey}_${idx}`}>
               <BlockPicker
                 _modelApiKey={_modelApiKey}
-                modularBlockData={{ ...contentBlockData }}
+                modularBlockData={contentBlockData}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={shouldLazyLoad}
@@ -45,7 +45,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
           return (
             <BlockPicker
               _modelApiKey={_modelApiKey}
-              modularBlockData={{ ...contentBlockData }}
+              modularBlockData={contentBlockData}
               countryCode={countryCode}
               currencyCode={currencyCode}
               shouldLazyLoad={shouldLazyLoad}
