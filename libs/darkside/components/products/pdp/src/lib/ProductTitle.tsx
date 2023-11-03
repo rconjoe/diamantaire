@@ -18,13 +18,29 @@ export function ProductTitle({ title, productType, diamondType }) {
   const refinedTitle = createLongProductTitle(title, diamondType);
 
   function createLongProductTitle(title, diamondType) {
-    const longTitle = `${title} ${productType === 'Engagement Ring' && diamondType ? _t(diamondType) : ''} ${
-      selectedLanguageCode && selectedLanguageCode === 'en' ? _t(productType) : ''
-    }`;
+    let longTitle = title;
+
+    // English
+    if (selectedLanguageCode === 'en' && productType === 'Engagement Ring' && diamondType) {
+      longTitle += ` ${_t(diamondType)} ${_t(productType)}`;
+    }
+
+    // German
+    if (selectedLanguageCode === 'de' && productType === 'Engagement Ring' && diamondType) {
+      longTitle += ` ${_t(productType)} ${_t(diamondType)}`;
+    }
+
+    // French/Spanish
+    if (
+      (selectedLanguageCode === 'es' || selectedLanguageCode === 'fr') &&
+      productType === 'Engagement Ring' &&
+      diamondType
+    ) {
+      longTitle += `  ${_t(diamondType)}`;
+    }
 
     return longTitle;
   }
 
-  // use product title composition logic;
   return <ProductTitleStyles>{refinedTitle}</ProductTitleStyles>;
 }

@@ -66,6 +66,7 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
+  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -111,7 +112,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${slug}`, ...Object.values(options || {})],
     ({ pageParam = pageParamInit }) =>
-      getVRAIServerDiamondPlpData(slug, { page: pageParam === null ? 1 : pageParam, ...options }),
+      getVRAIServerDiamondPlpData(slug, { ...options, page: pageParam === null ? 1 : pageParam }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {

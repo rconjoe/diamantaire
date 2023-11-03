@@ -107,6 +107,12 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.stoneSetting {
+      button {
+        text-transform: capitalize;
+      }
+    }
+
     &.diamondType {
       margin-top: 10px;
       position: relative;
@@ -150,6 +156,7 @@ const StyledOptionSelector = styled.div`
     /* For selectors with medium sized buttons */
     &.prongStyle,
     &.bandWidth,
+    &.stoneSetting,
     &.bandVersion,
     &.bandStyle {
       button {
