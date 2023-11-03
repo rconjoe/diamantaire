@@ -1,6 +1,6 @@
 import { AttributeInput } from 'shopify-buy';
 
-import { JewelryCartItemProps } from './cart-item-types';
+import { ERProductCartItemProps, JewelryCartItemProps } from './cart-item-types';
 import {
   Cart,
   Connection,
@@ -9,8 +9,9 @@ import {
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCreateCartOperation,
+  ShopifyUpdateCartOperation,
 } from './cart-types';
-import { addToCartMutation, createCartMutation } from './mutations/cart';
+import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 
 // NEW
@@ -261,3 +262,189 @@ export function addJewelryProductToCart({ variantId, attributes }: JewelryCartIt
 
   return addItemToCart(variantId, refinedAttributes);
 }
+
+async function updateCart(
+  cartId: string,
+  lines: { id: string; merchandiseId: string; quantity: number; attributes: AttributeInput[] }[],
+): Promise<Cart> {
+  const res = await shopifyFetch<ShopifyUpdateCartOperation>({
+    query: editCartItemsMutation,
+    variables: {
+      cartId,
+      lines,
+    },
+    cache: 'no-store',
+  });
+
+  return reshapeCart(res.body.data.cartLinesUpdate.cart);
+}
+
+export const updateItemQuantity = async ({
+  lineId,
+  variantId,
+  quantity,
+  attributes,
+}: {
+  lineId: string;
+  variantId: string;
+  quantity: number;
+  attributes: AttributeInput[];
+}): Promise<string | undefined> => {
+  const cartId = localStorage.getItem('cartId');
+
+  console.log('update preview', {
+    lineId,
+    variantId,
+    quantity,
+  });
+
+  if (!cartId) {
+    return 'Missing cart ID';
+  }
+  try {
+    await updateCart(cartId, [
+      {
+        id: lineId,
+        merchandiseId: variantId,
+        quantity,
+        attributes,
+      },
+    ]);
+  } catch (e) {
+    return 'Error updating item quantity';
+  }
+};
+
+export const updateMultipleItemsQuantity = async ({
+  items,
+}: {
+  items: {
+    lineId: string;
+    variantId: string;
+    quantity: number;
+    attributes: AttributeInput[];
+  }[];
+}): Promise<string | undefined> => {
+  const cartId = localStorage.getItem('cartId');
+
+  const refinedItems = [];
+
+  items.map((item) => {
+    const newItem = {
+      id: item.lineId,
+      merchandiseId: item.variantId,
+      quantity: item.quantity,
+      attributes: item.attributes,
+    };
+
+    return refinedItems.push(newItem);
+  });
+
+  console.log('updateMultipleItemsQuantity refinedItems', refinedItems);
+
+  if (!cartId) {
+    return 'Missing cart ID';
+  }
+  try {
+    await updateCart(cartId, refinedItems);
+  } catch (e) {
+    return 'Error updating item quantity';
+  }
+};
+
+// ===== ADD TO CART =====
+
+/**
+ * This function works for both ER with a preset diamond, and ER with a custom diamond
+ * There are duplicate attributes on the setting/diamond
+ * Example order - https://admin.shopify.com/store/vo-live/orders/5341083074653
+ */
+
+export async function addERProductToCart({
+  settingVariantId,
+  settingAttributes,
+  diamondVariantId,
+  diamondAttributes,
+}: ERProductCartItemProps) {
+  console.log('getting attr', settingAttributes);
+
+  const refinedSettingAttributes = Object.keys(settingAttributes)
+    .map((key) => {
+      return {
+        key,
+        value: settingAttributes[key],
+      };
+    })
+    .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+  // If no custom diamond, add the setting
+  if (!diamondVariantId) {
+    await addItemToCart(settingVariantId, refinedSettingAttributes);
+  } else {
+    // If there is a custom diamond, add the setting and the diamond
+    const refinedDiamondAttributes = Object.keys(diamondAttributes)
+      .map((key) => {
+        return {
+          key,
+          value: diamondAttributes[key],
+        };
+      })
+      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+    console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+
+    addCustomizedItem([
+      {
+        variantId: settingVariantId,
+        customAttributes: refinedSettingAttributes,
+      },
+      {
+        variantId: diamondVariantId,
+        customAttributes: refinedDiamondAttributes,
+      },
+    ]);
+  }
+}
+
+// Customized ER
+const addCustomizedItem = async (
+  items:
+    | {
+        variantId: string | undefined;
+        customAttributes?: AttributeInput[];
+        quantity?: number;
+      }[]
+    | undefined,
+): Promise<string | undefined> => {
+  console.log('customized item getting', items);
+  let cartId = localStorage.getItem('cartId');
+  let cart;
+
+  if (cartId) {
+    cart = await getCart(cartId);
+  }
+
+  if (!cartId || !cart) {
+    cart = await createCart();
+    cartId = cart.id;
+    localStorage.setItem('cartId', cartId);
+  }
+
+  if (items.length === 0) {
+    return 'Missing product or diamond';
+  }
+
+  const refinedItems = [];
+
+  items?.map((item) => {
+    const newItem = { merchandiseId: item.variantId, quantity: item?.quantity || 1, attributes: item.customAttributes };
+
+    return refinedItems.push(newItem);
+  });
+
+  try {
+    await addToCart(cartId, Array.from(refinedItems));
+  } catch (e) {
+    console.log('Error adding customized item to cart', e);
+  }
+};

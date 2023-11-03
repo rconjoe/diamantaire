@@ -2,9 +2,11 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext, CartContext, ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
+import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { addERProductToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -167,9 +169,11 @@ const MAX_CHAR_LIMIT = 16;
 
 const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
+  const router = useRouter();
+  const { data: checkout } = useCartData(router?.locale);
   const { builderProduct } = useContext(BuilderProductContext);
-  const { checkout } = useContext(CartContext);
-  const { addERProductToCart, setIsCartOpen } = useContext(ActionsContext);
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
@@ -187,7 +191,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { product, diamond } = builderProduct;
 
-  const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
   const currencyCode = getCurrency(countryCode);
 
@@ -320,7 +323,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       diamondAttributes,
     });
 
-    setIsCartOpen(true);
+    updateGlobalContext({
+      isCartOpen: true,
+    });
 
     // TODO: Add Sentry Loggin
 

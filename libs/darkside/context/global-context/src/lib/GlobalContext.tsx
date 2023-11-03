@@ -4,11 +4,12 @@ import { isMobile } from 'react-device-detect';
 export interface GlobalContextInterface {
   headerHeight?: number;
   isMobile?: boolean;
+  isCartOpen?: boolean;
 }
 
 export const GlobalContext = createContext<GlobalContextInterface | null>(null);
 
-const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInterface>) => void>(() => {
+export const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInterface>) => void>(() => {
   throw new Error('updateGlobalContext function not implemented');
 });
 
@@ -16,6 +17,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [globalContext, setGlobalContext] = useState({
     headerHeight: 0,
     isMobile,
+    isCartOpen: false,
   });
 
   const updateGlobalContext = (data: Partial<GlobalContextInterface>) => {

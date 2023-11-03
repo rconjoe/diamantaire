@@ -1,5 +1,6 @@
 import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
-import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -16,8 +17,7 @@ const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
   const { data: checkout, refetch } = useCartData(locale);
 
-  // const { checkout } = useContext(CartContext);
-  const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
+  const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;
@@ -80,7 +80,13 @@ const Cart = ({ closeCart }) => {
           <div className="cart__header">
             <h2>{cartHeader}</h2>
             <div className="close">
-              <button onClick={() => setIsCartOpen(false)}>
+              <button
+                onClick={() =>
+                  updateGlobalContext({
+                    isCartOpen: false,
+                  })
+                }
+              >
                 <XIcon />
               </button>
             </div>

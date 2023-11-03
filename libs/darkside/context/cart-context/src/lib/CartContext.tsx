@@ -345,8 +345,6 @@ export const CartProvider = ({ children }) => {
       attributes: AttributeInput[];
     }[];
   }): Promise<string | undefined> => {
-    console.log('itemsss', items);
-
     const cartId = localStorage.getItem('cartId');
 
     const refinedItems = [];
