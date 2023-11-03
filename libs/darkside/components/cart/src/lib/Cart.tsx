@@ -1,11 +1,13 @@
 import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
 import { useCartInfo } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
@@ -13,7 +15,12 @@ import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
 
 const Cart = ({ closeCart }) => {
-  const { checkout } = useContext(CartContext);
+  const { locale } = useRouter();
+  const { data: checkout, refetch } = useQuery({
+    ...queries.cart.checkout(locale),
+  });
+
+  // const { checkout } = useContext(CartContext);
   const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
@@ -37,6 +44,10 @@ const Cart = ({ closeCart }) => {
     emptyCartMainCtaCopy,
     emptyCartMainCtaLink,
   } = cartCopy?.[0] || {};
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>

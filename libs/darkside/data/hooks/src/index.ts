@@ -1,6 +1,7 @@
 export * from './lib/use-global-data';
 export * from './lib/journal';
 export * from './lib/use-cart-info';
+export * from './lib/use-cart-data';
 export * from './lib/use-diamond-cfy';
 export * from './lib/use-diamond-cto';
 export * from './lib/use-diamond-info';

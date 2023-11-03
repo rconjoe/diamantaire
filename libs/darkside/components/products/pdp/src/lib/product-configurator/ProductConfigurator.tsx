@@ -2,7 +2,8 @@
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { addJewelryProductToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   getFormattedPrice,
@@ -301,14 +302,15 @@ function AddToCartButton({
   additionalVariantIds,
   isSoldAsDouble,
 }: CtaButtonProps) {
-  const { setIsCartOpen, addERProductToCart, addJewelryProductToCart } = useContext(ActionsContext);
+  const router = useRouter();
+  const { locale } = router;
+  const { setIsCartOpen, addERProductToCart } = useContext(ActionsContext);
+  const { refetch } = useCartData(locale);
 
   const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
 
   console.log('additionalVariantData', additionalVariantData);
 
-  const router = useRouter();
-  const { locale } = router;
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
 
@@ -453,7 +455,7 @@ function AddToCartButton({
         }
       }
 
-      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes });
+      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes }).then(() => refetch());
     }
 
     setIsCartOpen(true);

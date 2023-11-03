@@ -1,3 +1,6 @@
+import { queries } from '@diamantaire/darkside/data/queries';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { createContext, useEffect, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 
@@ -64,6 +67,12 @@ const key = process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN'];
 export const CartProvider = ({ children }) => {
   const [checkout, setCheckout] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { locale } = useRouter();
+
+  const { refetch } = useQuery({
+    ...queries.cart.checkout(locale),
+  });
 
   async function shopifyFetch<T>({
     cache = 'force-cache',
@@ -273,7 +282,11 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      await addToCart(cartId, [{ merchandiseId: variantId, quantity: quantity || 1, attributes: customAttributes }]);
+      await addToCart(cartId, [{ merchandiseId: variantId, quantity: quantity || 1, attributes: customAttributes }]).then(
+        () => {
+          refetch();
+        },
+      );
     } catch (e) {
       return 'Error adding item to cart';
     }
@@ -355,7 +368,7 @@ export const CartProvider = ({ children }) => {
       return 'Missing cart ID';
     }
     try {
-      await updateCart(cartId, refinedItems);
+      await updateCart(cartId, refinedItems).then(() => refetch());
     } catch (e) {
       return 'Error updating item quantity';
     }
@@ -391,7 +404,7 @@ export const CartProvider = ({ children }) => {
           quantity,
           attributes,
         },
-      ]);
+      ]).then(() => refetch());
     } catch (e) {
       return 'Error updating item quantity';
     }
