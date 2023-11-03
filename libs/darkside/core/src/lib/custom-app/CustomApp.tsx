@@ -1,7 +1,6 @@
 import { CookieBanner, EmailPopUp } from '@diamantaire/darkside/components/common-ui';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { AnalyticsProvider } from '@diamantaire/darkside/context/analytics';
-import { CartProvider } from '@diamantaire/darkside/context/cart-context';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
 import { GlobalStyles, theme } from '@diamantaire/styles/darkside-styles';
@@ -43,17 +42,15 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
           <GlobalProvider>
             <PageLoadProgressBar />
             <BuilderProductContextProvider>
-              <CartProvider>
-                <ThemeProvider theme={theme}>
-                  <DefaultSeo />
-                  <GlobalStyles />
-                  <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-                  <ReactQueryDevtools initialIsOpen={false} />
-                  <ToastContainer position="bottom-center" autoClose={10000} />
-                  <CookieBanner />
-                  <EmailPopUp />
-                </ThemeProvider>
-              </CartProvider>
+              <ThemeProvider theme={theme}>
+                <DefaultSeo />
+                <GlobalStyles />
+                <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <ToastContainer position="bottom-center" autoClose={10000} />
+                <CookieBanner />
+                <EmailPopUp />
+              </ThemeProvider>
             </BuilderProductContextProvider>
           </GlobalProvider>
         </AnalyticsProvider>
