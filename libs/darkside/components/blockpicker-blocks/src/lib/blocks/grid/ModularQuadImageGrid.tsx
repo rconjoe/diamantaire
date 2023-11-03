@@ -19,7 +19,7 @@ type ModularGridCarouselBlockProps = {
   headingType?: string;
   countryCode: string;
   shouldLazyLoad?: boolean;
-  _modelApiKey: string;
+  _modelApiKey?: string;
 };
 
 const ModularQuadImageGrid = ({
@@ -29,7 +29,7 @@ const ModularQuadImageGrid = ({
   subtitle,
   blocks,
   countryCode,
-  _modelApiKey,
+  // _modelApiKey,
   shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
   return (

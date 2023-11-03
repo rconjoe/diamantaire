@@ -1,10 +1,8 @@
 import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
 import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
-import { useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { queries } from '@diamantaire/darkside/data/queries';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -16,9 +14,7 @@ import { CartOverlay, CartStyles } from './Cart.style';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
-  const { data: checkout, refetch } = useQuery({
-    ...queries.cart.checkout(locale),
-  });
+  const { data: checkout, refetch } = useCartData(locale);
 
   // const { checkout } = useContext(CartContext);
   const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
