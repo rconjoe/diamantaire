@@ -24,9 +24,39 @@ interface ConfigurationSelectorAction {
 
 const StyledConfigurationSelector = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
+
+  > * {
+    flex: 1 1 100%;
+
+    &.metal {
+      flex: 0 0 50%;
+    }
+
+    &.bandAccent {
+      flex: 1;
+      margin-left: 20px;
+    }
+  }
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    flex-direction: column;
+
+    > * {
+      flex: 1 1 100%;
+      &.metal,
+      &.bandAccent {
+        flex: 1 1 100%;
+      }
+
+      &.bandAccent {
+        margin-left: 0px;
+      }
+    }
+  }
 `;
 
 function configOptionsReducer(state, action: ConfigurationSelectorAction) {

@@ -3,6 +3,7 @@ import {
   fetchDatoProductInfo,
   fetchDatoProductInstagramReel,
   fetchDatoProductSpec,
+  fetchDatoProductSuggestionBlock,
   fetchDatoProductTrioBlock,
   fetchDatoProductVideoBlock,
   fetchDatoVariant,
@@ -45,6 +46,10 @@ export const productPage = createQueryKeys('products', {
   productVideoBlock: (id: string, locale: string) => ({
     queryKey: [id, locale],
     queryFn: () => fetchDatoProductVideoBlock(id, locale),
+  }),
+  productSuggestions: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductSuggestionBlock(id, locale),
   }),
   datoVariant: (variantSlug: string, locale: string) => ({
     queryKey: [variantSlug, locale],

@@ -18,3 +18,4 @@ export * from './replacePlaceholders';
 export * from './routes';
 export * from './sortBandWidth';
 export * from './sortRingSize';
+export * from './swapProductTypeWithHandle';

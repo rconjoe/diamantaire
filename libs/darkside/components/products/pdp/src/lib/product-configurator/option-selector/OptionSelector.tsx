@@ -233,7 +233,7 @@ function OptionSelector({
   }
 
   return (
-    <StyledOptionSelector>
+    <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">

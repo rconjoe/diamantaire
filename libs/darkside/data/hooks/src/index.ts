@@ -28,6 +28,7 @@ export * from './lib/products/use-product-trio-block';
 export * from './lib/products/use-product-variant';
 export * from './lib/products/use-product-video';
 export * from './lib/products/use-block-products';
+export * from './lib/products/use-product-suggestions';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';
