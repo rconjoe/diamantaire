@@ -1,0 +1,4 @@
+description: ''
+value:
+  token: '$var:u/jcarlton/github_token_resource'
+resource_type: github
