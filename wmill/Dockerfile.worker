@@ -4,8 +4,6 @@ ARG WORKER_RAILWAY_TOKEN
 ARG WORKER_VERCEL_TOKEN
 ARG WORKER_DATOCMS_TOKEN
 ARG WORKER_GITHUB_TOKEN
-ARG WORKER_GITHUB_USERNAME
-ARG WORKER_GITHUB_EMAIL
 ARG WORKER_SHOPIFY_TOKEN
 ARG WORKER_OPENAI_TOKEN
 
@@ -27,5 +25,14 @@ RUN curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/key
 RUN echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
 RUN apt update -y
 RUN apt install mods -y
+
+# RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+# RUN chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+# RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" |  tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+# RUN apt update
+# RUN apt install gh -y
+
+RUN git config --global user.name "wmill"
+RUN git config --global user.email "jcarlton@vrai.com"
 
 CMD ["windmill"]
