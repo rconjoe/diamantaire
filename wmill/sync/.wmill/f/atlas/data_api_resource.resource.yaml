@@ -1,0 +1,5 @@
+description: ''
+value:
+  api_key: '$var:f/atlas/data_api_resource'
+  endpoint: '$var:f/atlas/data_api_url'
+resource_type: mongodb_rest
