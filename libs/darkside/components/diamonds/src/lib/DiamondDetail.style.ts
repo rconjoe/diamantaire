@@ -16,10 +16,10 @@ const StyledDiamondDetail = styled.div`
     justify-content: flex-start;
     gap: ${gap};
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       flex-direction: row;
       padding: ${gap} 0;
-    `)}
+    }
   }
 
   > .foot {

@@ -2,7 +2,7 @@
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext, ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext, CartContext, ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
@@ -168,7 +168,8 @@ const MAX_CHAR_LIMIT = 16;
 const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
   const { builderProduct } = useContext(BuilderProductContext);
-  const { addERProductToCart, setIsCartOpen, checkout } = useContext(CartContext);
+  const { checkout } = useContext(CartContext);
+  const { addERProductToCart, setIsCartOpen } = useContext(ActionsContext);
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);

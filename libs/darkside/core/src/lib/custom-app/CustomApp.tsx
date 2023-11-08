@@ -4,7 +4,7 @@ import { AnalyticsProvider } from '@diamantaire/darkside/context/analytics';
 import { CartProvider } from '@diamantaire/darkside/context/cart-context';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
-import { GlobalStyles } from '@diamantaire/styles/darkside-styles';
+import { GlobalStyles, theme } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CookieConsentProvider } from '@use-cookie-consent/react';
@@ -12,6 +12,7 @@ import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { ThemeProvider } from 'styled-components';
 import './styles.css';
 
 import 'node_modules/react-toastify/dist/ReactToastify.css';
@@ -43,13 +44,15 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
             <PageLoadProgressBar />
             <BuilderProductContextProvider>
               <CartProvider>
-                <DefaultSeo />
-                <GlobalStyles />
-                <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-                <ReactQueryDevtools initialIsOpen={false} />
-                <ToastContainer position="bottom-center" autoClose={10000} />
-                <CookieBanner />
-                <EmailPopUp />
+                <ThemeProvider theme={theme}>
+                  <DefaultSeo />
+                  <GlobalStyles />
+                  <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+                  <ReactQueryDevtools initialIsOpen={false} />
+                  <ToastContainer position="bottom-center" autoClose={10000} />
+                  <CookieBanner />
+                  <EmailPopUp />
+                </ThemeProvider>
               </CartProvider>
             </BuilderProductContextProvider>
           </GlobalProvider>

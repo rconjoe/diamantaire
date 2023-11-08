@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
@@ -28,7 +28,7 @@ const DiamondTableRow = ({
   const { handle, lotId, diamondType } = product;
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
-  const { addItemToCart, setIsCartOpen } = useContext(CartContext);
+  const { addItemToCart, setIsCartOpen } = useContext(ActionsContext);
   const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;

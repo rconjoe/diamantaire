@@ -1,8 +1,7 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
+import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -61,11 +60,13 @@ const Header: FC<HeaderProps> = ({
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+
   const { cartViewed } = useAnalytics();
   const router = useRouter();
 
   const selectedLocale = router.locale;
-  const { isCartOpen, setIsCartOpen, checkout } = useContext(CartContext);
+  const { checkout } = useContext(CartContext);
+  const { isCartOpen, setIsCartOpen } = useContext(ActionsContext);
 
   const { section } = headerData;
   const { scrollY } = useScroll();
@@ -90,8 +91,6 @@ const Header: FC<HeaderProps> = ({
 
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -211,14 +210,12 @@ const Header: FC<HeaderProps> = ({
           )}
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
           {isLoaded && (
-            <DiamondShapesProvider>
-              <MegaMenu
-                navItems={section}
-                megaMenuIndex={megaMenuIndex}
-                headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                isCompactMenuVisible={isCompactMenuVisible}
-              />
-            </DiamondShapesProvider>
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
           )}
         </div>
       </FullHeaderStyles>
