@@ -183,13 +183,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  // Doubles price if product is earrings and
+  // Doubles price if product is earrings pair
+
+  console.log('shopifyProductData', shopifyProductData);
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
-
-  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -205,7 +205,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
           <div className="media-container">
-            <MediaGallery assets={assetStack} options={configuration} title={productTitle} />
+            <MediaGallery
+              assets={assetStack}
+              options={configuration}
+              title={productTitle}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
+              diamondType={configuration.diamondType}
+            />
             <MediaSlider assets={assetStack} />
           </div>
           <div className="info-container">
@@ -220,6 +227,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 price={price}
                 hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
+                productType={shopifyProductData?.productType}
               />
               <ProductConfigurator
                 configurations={configurations}
@@ -238,11 +246,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
                 setShouldDoublePrice={setShouldDoublePrice}
                 shouldDoublePrice={shouldDoublePrice}
+                // isSoldAsDouble is only true for earrings that come as a pair
                 isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
+                isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
+                variants={shopifyProductData?.variants}
               />
 
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
@@ -251,6 +262,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 caption="Email this customized ring to yourself or drop a hint."
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
+                headingType={'h2'}
               />
               <ProductDescription
                 description={productDescription}

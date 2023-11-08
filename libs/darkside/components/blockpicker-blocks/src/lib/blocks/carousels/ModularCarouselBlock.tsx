@@ -9,7 +9,7 @@
  */
 
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import clsx from 'clsx';
+import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -103,21 +103,16 @@ const ModularCarouselBlock = (props) => {
   const sliderType = sliderTypes.filter((slider) => slider.type === _modelApiKey)?.[0];
   const SelectedSliderSlide = sliderType?.slide;
 
-  console.log('simpleeeee', props);
-  // Use the product hook
+  // Use pulls in product data
+  const slugsIfProducts =
+    (_modelApiKey === 'modular_product_slider_block' &&
+      blocks?.map((block) => block?.configuration?.shopifyProductHandle)) ||
+    [];
+
+  const { data } = useBlockProducts(slugsIfProducts);
 
   return (
-    <ModularCarouselBlockContainer
-      className={clsx({
-        'modular-grid-carousel-block': _modelApiKey === 'modular_grid_carousel_block',
-        'modular-product-slider-block': _modelApiKey === 'modular_product_slider_block',
-        'modular-slick-carousel-block': _modelApiKey === 'modular_slick_carousel_block',
-        'modular-carousel-hover-block': _modelApiKey === 'modular_carousel_hover_block',
-        'modular-instagram-reel-block': _modelApiKey === 'modular_instagram_reel_block',
-        'modular-celebrity-carousel-block': _modelApiKey === 'modular_celebrity_carousel_block',
-        'modular-carousel-block': _modelApiKey === 'modular_carousel_block',
-      })}
-    >
+    <ModularCarouselBlockContainer className={_modelApiKey}>
       {_modelApiKey === 'modular_product_slider_block' && props.title && (
         <Heading type="h2" className="h1 primary carousel__title">
           {props.title}
@@ -130,9 +125,14 @@ const ModularCarouselBlock = (props) => {
           darksideButtons={darksideButtons}
         >
           {blocks?.map((slide) => {
+            const productData =
+              slugsIfProducts &&
+              data &&
+              data?.products?.find((product) => product?.collectionSlug === slide?.configuration?.collection?.slug);
+
             return (
               <SwiperSlide className={_modelApiKey} key={`slide-${slide.id ? slide.id : uuidv4()}`}>
-                <SelectedSliderSlide {...slide} />
+                <SelectedSliderSlide {...slide} productData={productData} />
               </SwiperSlide>
             );
           })}

@@ -1,4 +1,3 @@
-import { LazyLoadWrapper } from '@diamantaire/darkside/components/common-ui';
 import {
   MODULAR_ACCORDION_BLOCK,
   MODULAR_BLOG_LIST_TRIO_BLOCK,
@@ -20,6 +19,7 @@ import {
   MODULAR_LOGO_BANNER_BLOCK,
   MODULAR_MINI_BANNER_BLOCK,
   MODULAR_PRODUCT_SLIDER_BLOCK,
+  MODULAR_PRODUCT_SUGGESTION_QUAD_BLOCK,
   MODULAR_QUAD_BLOCK,
   MODULAR_QUAD_GRID,
   MODULAR_QUAD_LOGO_BLOCK,
@@ -62,6 +62,7 @@ import {
   DynamicModularLogoBannerBlock,
   DynamicModularLogoGrid,
   DynamicModularMiniBannerBlock,
+  DynamicModularProductSuggestionQuadGrid,
   DynamicModularQuadGrid,
   DynamicModularQuadImageGrid,
   DynamicModularQuadStatisticsBlock,
@@ -133,6 +134,7 @@ const config: configProps = {
   [MODULAR_QUAD_GRID]: DynamicModularQuadGrid,
   [MODULAR_TRI_GRID_WITH_ORDER_TRACKING]: DynamicModularTriGridWithOrderTracking,
   [MODULAR_CELEBRITY_REEL_BLOCK]: DynamicModularCelebrityReelRow,
+  [MODULAR_PRODUCT_SUGGESTION_QUAD_BLOCK]: DynamicModularProductSuggestionQuadGrid,
 
   // MISC
   [MODULAR_EMAIL_SIGNUP_BLOCK]: DynamicEmailSignup,
@@ -162,14 +164,12 @@ const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode
       {!BlockComponent && <p>No block found for: {_modelApiKey}</p>}
 
       {BlockComponent && shouldLazyLoad ? (
-        <LazyLoadWrapper>
-          <BlockComponent
-            countryCode={countryCode}
-            currencyCode={currencyCode}
-            shouldLazyLoad={shouldLazyLoad}
-            {...modularBlockData}
-          />
-        </LazyLoadWrapper>
+        <BlockComponent
+          countryCode={countryCode}
+          currencyCode={currencyCode}
+          shouldLazyLoad={shouldLazyLoad}
+          {...modularBlockData}
+        />
       ) : BlockComponent ? (
         <BlockComponent
           countryCode={countryCode}

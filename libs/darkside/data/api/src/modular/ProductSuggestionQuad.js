@@ -1,4 +1,6 @@
-const ProductSuggestionQuad = `
+import { gql } from 'graphql-request';
+
+const ProductSuggestionQuad = gql`
   ... on ModularProductSuggestionQuadBlockRecord {
     id
     _modelApiKey
@@ -9,6 +11,19 @@ const ProductSuggestionQuad = `
     halfWidthDesktopImage {
       url
       alt
+      responsiveImage(imgixParams: {w: 720, h: 825, q: 40, auto: format }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+        src
+        alt
+        aspectRatio
+        base64
+        bgColor
+        height
+        sizes
+        srcSet
+        title
+        webpSrcSet
+        width
+      }
     }
     halfWidthMobileImage {
       url
@@ -49,6 +64,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -72,6 +92,12 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
+
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -95,6 +121,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {
@@ -118,6 +149,11 @@ const ProductSuggestionQuad = `
         }
         _modelApiKey
         shopifyProductHandle
+        plpImage {
+          responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+          }
+        }
       }
       ... on ConfigurationRecord {
         jewelryProduct {

@@ -1,0 +1,62 @@
+{
+  "name": "nx-wmill",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nx/wmill/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/nx/wmill",
+        "main": "libs/nx/wmill/src/index.ts",
+        "tsConfig": "libs/nx/wmill/tsconfig.lib.json",
+        "assets": [
+          "libs/nx/wmill/*.md",
+          {
+            "input": "./libs/nx/wmill/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/wmill/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/nx/wmill",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/nx/wmill",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nx/wmill/**/*.ts", "libs/nx/wmill/package.json", "libs/nx/wmill/executors.json"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/nx/wmill/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

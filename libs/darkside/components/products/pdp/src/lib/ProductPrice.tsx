@@ -1,4 +1,4 @@
-import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -20,20 +20,31 @@ type ProductPriceProps = {
   shouldDoublePrice?: boolean;
   hasMoreThanOneVariant: boolean;
   isBuilderProduct: boolean;
+  productType?: string;
 };
 
-const ProductPrice = ({ shouldDoublePrice = false, price, hasMoreThanOneVariant, isBuilderProduct }: ProductPriceProps) => {
+const ProductPrice = ({
+  shouldDoublePrice = false,
+  price,
+  hasMoreThanOneVariant,
+  isBuilderProduct,
+  productType,
+}: ProductPriceProps) => {
   const { locale } = useRouter();
 
   const isInUS = locale === DEFAULT_LOCALE;
 
   return (
     <ProductPriceStyles className="price">
-      <Heading type="h2" className="price-text">
-        {hasMoreThanOneVariant && isBuilderProduct && <UIString>Starting at</UIString>}{' '}
-        {getFormattedPrice(shouldDoublePrice ? price * 2 : price, locale)}
-      </Heading>
-      {/* Is this right?? */}
+      <p className="price-text">
+        {hasMoreThanOneVariant && isBuilderProduct && (
+          <>
+            <UIString>Starting at</UIString>{' '}
+          </>
+        )}
+        {getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale)}
+      </p>
+
       {!isInUS && (
         <p className="small">
           <UIString>incl. VAT</UIString>

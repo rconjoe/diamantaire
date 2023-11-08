@@ -1,5 +1,9 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -35,6 +39,11 @@ const ProductAppointmentCTAStyles = styled.div`
 
 const ProductAppointmentCTA = () => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
+  const showroomLocation = isUserCloseToShowroom();
 
   return (
     <ProductAppointmentCTAStyles>
@@ -43,7 +52,11 @@ const ProductAppointmentCTA = () => {
         <span>
           <BookCalendarIcon />
         </span>
-        Visit our New York location
+        {replacePlaceholders(
+          _t('Visit our %%location%% location'),
+          ['%%location%%'],
+          [showroomLocation?.location],
+        ).toString()}
       </button>
 
       {isAppointmentSlideoutShowing && (

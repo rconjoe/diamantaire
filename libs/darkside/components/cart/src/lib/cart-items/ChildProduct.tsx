@@ -1,7 +1,10 @@
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,9 +22,6 @@ const ChildProductStyles = styled.div`
     .child-product__image {
       flex: 0 0 168px;
       padding-right: 20px;
-      img {
-        min-height: 150px;
-      }
     }
 
     .cart-item__content {
@@ -138,15 +138,48 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
   const { attributes, cost } = lineItem || {};
   const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
   const [showCert, setShowCert] = useState(false);
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.find((item) => item.key === '_image')?.value;
+    const imageSrc = attributes?.find((item) => item.key === 'productAsset')?.value;
+
+    return imageSrc.includes('https')
+      ? imageSrc
+      : JSON.parse(attributes?.find((item) => item.key === 'productAsset')?.value);
+  }, [lineItem]);
+
+  const productType = useMemo(() => {
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
+
+    if (matchingAttribute === 'Earrings') {
+      // Check if Earrings product has child. If so, it's a pair
+      const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
+
+      if (isLeftOrRight === 'Left' || isLeftOrRight === 'Right') {
+        const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
+
+        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+      }
+    }
 
     return matchingAttribute;
-  }, [lineItem]);
+  }, [attributes]);
+
+  const isProductDiamond = useMemo(() => {
+    return productType === 'Diamond';
+  }, [productType]);
 
   const itemAttributes = useMemo(
     () => [
+      {
+        label: refinedCartItemDetails?.['diamondType'],
+        value: attributes?.find((item) => item.key === 'diamondShape')?.value,
+      },
+      {
+        label: refinedCartItemDetails?.['metal'],
+        value: attributes?.find((item) => item.key === 'metalType')?.value,
+      },
       {
         label: refinedCartItemDetails?.['caratWeight'],
         value: attributes?.find((item) => item.key === 'caratWeight')?.value,
@@ -159,6 +192,7 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
         label: 'Clarity',
         value: attributes?.find((item) => item.key === 'clarity')?.value,
       },
+
       {
         label: '',
         value: attributes?.bandAccent,
@@ -170,15 +204,12 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
   return (
     <ChildProductStyles>
       <div className="child-product__inner">
-        {image && (
-          <div className="child-product__image">
-            <img src={image} alt="" />
-          </div>
-        )}
+        <div className="child-product__image">{isProductDiamond ? <img src={image} alt="" /> : <Image {...image} />}</div>
+
         <div className="cart-item__content">
           <p>
-            <strong>Diamond</strong>
-            <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount))}</span>
+            <strong>{productType}</strong>
+            {isProductDiamond && <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>}
           </p>
           {itemAttributes?.map((specItem, index) => {
             if (!specItem?.value || specItem.value === '') return null;
@@ -189,9 +220,11 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
               </p>
             );
           })}
-          <DarksideButton type="underline" colorTheme="teal" onClick={() => setShowCert(true)}>
-            Diamond Certificate
-          </DarksideButton>
+          {isProductDiamond && (
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => setShowCert(true)}>
+              <UIString>Diamond Certificate</UIString>
+            </DarksideButton>
+          )}
         </div>
       </div>
       <AnimatePresence>

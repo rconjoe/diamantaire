@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/nx/core",
         "main": "libs/nx/core/src/index.ts",
@@ -38,10 +40,23 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/nx/core/**/*.ts", "libs/nx/core/package.json", "libs/nx/core/executors.json"]
+        "lintFilePatterns": [
+          "libs/nx/core/**/*.ts",
+          "libs/nx/core/package.json",
+          "libs/nx/core/executors.json",
+          "libs/nx/core/generators.json"
+        ]
       }
+    },
+    "wmsync": {
+      "executor": "@diamantaire/nx-wmill:sync",
+      "outputs": [
+        "{options.outputPath}"
+      ]
     },
     "reboot": {
       "executor": "nx:run-commands",

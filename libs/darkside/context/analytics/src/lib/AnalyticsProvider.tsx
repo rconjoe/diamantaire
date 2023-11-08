@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { isProdEnv } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/helpers';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
-import { useEffect, createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import TagManager from 'react-gtm-module';
 
 type AnalyticsContextType = {

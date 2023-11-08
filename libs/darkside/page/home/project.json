@@ -23,7 +23,6 @@
             "output": "."
           }
         ],
-        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

@@ -119,8 +119,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     };
   });
 
-  console.log('sortOptions', sortOptions);
-
   return (
     <div>
       <NextSeo title={seoTitle} description={seoDescription} />
@@ -246,6 +244,10 @@ function getValidFiltersFromFacetedNav(
   const subStyle = query.subStyle?.toString();
 
   const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
+
+  // For when metal is a param (not faceted)
+  const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
+
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
 
   const facetOrder = [];
@@ -292,6 +294,8 @@ function getValidFiltersFromFacetedNav(
 
   if (metalParamIndex !== -1) {
     filterOptions['metal'] = params[metalParamIndex];
+  } else if (metalFromQuery && metalParamIndex === -1) {
+    filterOptions['metal'] = metalFromQuery;
   }
 
   if (diamondTypeParamIndex !== -1) {

@@ -1,24 +1,23 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
-import { getIsUserInEu } from '@diamantaire/shared/helpers';
-import { HEADER_BACKGROUND, GREY_DARK, NAV_Z_INDEX, BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Markdown, Heading, DarksideButton, CheckSquare } from './';
+import { CheckSquare, DarksideButton, Heading, Markdown } from './';
 
 const CookieBannerStyles = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${HEADER_BACKGROUND};
-  color: ${BLACK};
+  background: var(--color-header-bg);
+  color: var(--color-black);
   width: 100%;
-  border-top: 1px solid ${GREY_DARK};
-  z-index: ${NAV_Z_INDEX};
+  border-top: 1px solid var(--color-dark-grey);
+  z-index: var(--z-index-nav);
   .container {
     display: flex;
     flex-direction: column;
@@ -27,12 +26,13 @@ const CookieBannerStyles = styled.div`
     padding: 20px 0;
     margin: 0 auto;
     max-width: 1440px;
-    ${tabletAndUp(`
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       flex-direction: row;
       padding: 50px 0;
-    `)}
+    }
     a {
-      color: ${TEAL};
+      color: var(--color-teal);
     }
   }
   .title {
@@ -61,9 +61,9 @@ const CookieBannerStyles = styled.div`
     font-size: var(--font-size-xxxsmall);
     position: relative;
     gap: 10px;
-    ${tabletAndUp(`
-        flex-direction: row;
-    `)}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      flex-direction: row;
+    }
   }
   .copy {
     margin: 20px 0 25px !important;

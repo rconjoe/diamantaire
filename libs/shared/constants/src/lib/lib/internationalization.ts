@@ -507,6 +507,7 @@ export function getFormattedPrice(
 ): string {
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
+
   const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
   const convertedPrice = applyExchangeRate(priceInDollars, currency);
 
@@ -514,14 +515,26 @@ export function getFormattedPrice(
     return Number(convertedPrice).toFixed(2);
   }
 
-  const numberFormat = new Intl.NumberFormat(locale, {
+  // this is a hack to see proper CAD formatting
+  // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
+  const customLocale = locale === 'en-CA' ? 'en-US' : locale;
+
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
+    currencyDisplay: 'narrowSymbol',
     minimumFractionDigits: hideZeroCents ? 0 : 2,
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
-  const formattedPrice = numberFormat.format(convertedPrice);
+  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
+  let formattedPrice = numberFormat.format(convertedPrice);
+
+  const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  formattedPrice = currencySymbol + formattedPrice;
 
   return formattedPrice;
 }

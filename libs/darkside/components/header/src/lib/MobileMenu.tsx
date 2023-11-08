@@ -1,12 +1,12 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
-import { DiamondShapesContext } from '@diamantaire/darkside/context/diamond-icon-context';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
-import { desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { FC, useContext, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
+import { diamondShapesWithIcon, ringStylesWithIcon } from './header-helpers';
 import { MenuLink, NavColumn, NavItemsProps, SubMenuChildLink } from './header-types';
 
 type MobileMenuContainerProps = {
@@ -38,14 +38,15 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
       li {
         button.top-level-link {
+          color: var(--color-black);
           background-color: #fff;
           border: none;
           border-bottom: 1px solid #000;
-          padding: 1rem 0;
+          padding: 1.5rem 0;
           display: flex;
           width: 100%;
           align-items: center;
-          font-family: ${MAIN_FONT};
+          font-family: var(--font-family-main);
           text-transform: uppercase;
           font-weight: var(--font-weight-bold);
           font-size: var(--font-size-xxxsmall);
@@ -161,9 +162,10 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 type MobileMenuProps = {
   navItems: NavItemsProps;
   headerHeight: number | undefined;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
 };
 
-const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Element => {
+const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMenuOpen }): JSX.Element => {
   return (
     <MobileMenuContainer
       $headerHeight={headerHeight ? headerHeight : 0}
@@ -181,14 +183,18 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
         <ul className="mobile-top-level-links-container">
           {Array.isArray(navItems) &&
             navItems?.map((item, index) => {
-              return <MobileTopLevelLink item={item} key={`mobile-menu-parent-link-${index}`} />;
+              return (
+                <MobileTopLevelLink
+                  item={item}
+                  key={`mobile-menu-parent-link-${index}`}
+                  setIsMobileMenuOpen={setIsMobileMenuOpen}
+                />
+              );
             })}
           <li>
-            <button className="bold top-level-link">
-              <Link href="/account/login">
-                <UIString>Account</UIString>
-              </Link>
-            </button>
+            <Link href="/account/login" onClick={() => setIsMobileMenuOpen(false)}>
+              <UIString>Account</UIString>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -196,7 +202,13 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight }): JSX.Elemen
   );
 };
 
-const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
+const MobileTopLevelLink = ({
+  item,
+  setIsMobileMenuOpen,
+}: {
+  item: MenuLink;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -214,24 +226,30 @@ const MobileTopLevelLink = ({ item }: { item: MenuLink }) => {
       <AnimatePresence>
         {isMenuOpen &&
           item?.columns?.map((col, colIndex) => {
-            return <MobileSubMenu key={`mobile-menu-${colIndex}`} col={col} colIndex={colIndex} />;
+            return (
+              <MobileSubMenu
+                key={`mobile-menu-${colIndex}`}
+                col={col}
+                colIndex={colIndex}
+                setIsMobileMenuOpen={setIsMobileMenuOpen}
+              />
+            );
           })}
       </AnimatePresence>
     </li>
   );
 };
 
-const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) => {
+const MobileSubMenu = ({
+  col,
+  colIndex,
+  setIsMobileMenuOpen,
+}: {
+  col: NavColumn;
+  colIndex: number;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+}) => {
   const { columnTitle, links }: NavColumn = col;
-
-  const diamondShapesContext = useContext(DiamondShapesContext);
-
-  if (!diamondShapesContext) {
-    return null;
-  }
-
-  const { diamondShapesWithIcon, ringStylesWithIcon }: { diamondShapesWithIcon: object; ringStylesWithIcon: object } =
-    diamondShapesContext;
 
   return (
     <div className="mobile-submenu__container">
@@ -250,7 +268,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
             return (
               <li key={index}>
                 {route && (
-                  <Link href={route} className={iconType ? 'has-icon' : ''}>
+                  <Link href={route} className={iconType ? 'has-icon' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                     <>
                       {linkKey && (
                         <span className={iconType}>
@@ -277,7 +295,7 @@ const MobileSubMenu = ({ col, colIndex }: { col: NavColumn; colIndex: number }) 
                       ) => {
                         return (
                           <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                            <Link href={link.route}>
+                            <Link href={link.route} onClick={() => setIsMobileMenuOpen(false)}>
                               <span className="link-text">{link.copy}</span>
                             </Link>
                           </li>

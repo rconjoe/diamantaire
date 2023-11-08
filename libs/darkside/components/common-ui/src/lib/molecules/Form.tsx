@@ -4,9 +4,11 @@ This is the master form component, we should never need to manually create a cus
 
 */
 
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import styled from 'styled-components';
@@ -20,6 +22,7 @@ import 'react-international-phone/style.css';
 const Select = dynamic(() => import('react-select'));
 
 type FormProps = {
+  headingType?: 'h1' | 'h2' | 'h3' | 'h4';
   onSubmit?: (e: React.SyntheticEvent, formState: object) => void;
   caption?: string;
   id?: string;
@@ -57,17 +60,18 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
   }
   .form {
     display: flex;
-    /* flex-wrap: wrap; */
     align-items: flex-end;
     margin-top: calc(var(--gutter) / 5);
+
     .input-container {
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
       margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
-      flex: 1;
+      flex: 1.25;
 
       &.submit {
         margin-bottom: 0px;
+        flex: 0.75;
         // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
       }
 
@@ -145,8 +149,11 @@ const Form = ({
   extraClass,
   isValid,
   setIsValid,
+  emailPlaceholderText = 'Enter your email',
+  headingType = 'h4',
 }: FormProps) => {
   const initialFormState = {};
+  const { locale } = useRouter();
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -168,10 +175,12 @@ const Form = ({
 
   const showGdprError = showOptIn && !isValid;
 
+  const { _t } = useTranslations(locale);
+
   return (
     <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
       {title && (
-        <Heading type="h4" className="primary">
+        <Heading type={headingType} className="primary">
           {title}
         </Heading>
       )}
@@ -184,7 +193,7 @@ const Form = ({
                 type="email"
                 name="email"
                 id="email"
-                placeholder="Enter your email"
+                placeholder={_t(emailPlaceholderText)}
                 pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                 required
                 onChange={(e) => {

@@ -1,0 +1,19 @@
+description: ''
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - access_token
+    - url
+  properties:
+    access_token:
+      type: string
+      description: ''
+      default: ''
+    url:
+      type: string
+      description: ''
+      default: ''
+  required:
+    - access_token
+    - url

@@ -12,8 +12,11 @@ const ProductDescriptionContainer = styled.div`
     margin: calc(var(--gutter) / 4) 0 calc(var(--gutter) / 3) 0;
   }
 
-  h4 {
+  .details-title {
     margin: calc(var(--gutter) / 2) 0 calc(var(--gutter) / 6) 0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xsmall);
+    line-height: 1.5;
   }
 
   p {
@@ -108,8 +111,6 @@ const ProductDescription = ({
     paveCaratWeightOverride,
   } = variantAttributes || {};
 
-  console.log('variantAttributes', variantAttributes);
-
   // Product Spec - These are the locale-based labels for the product
   const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
   const labels = data?.productSpecLabelCollection?.labels;
@@ -119,8 +120,6 @@ const ProductDescription = ({
   labels?.forEach((label) => {
     return (refinedLabels = { ...refinedLabels, [label.specName]: label.copy });
   });
-
-  console.log('selectedConfiguration', selectedConfiguration);
 
   const diamondLabels = useMemo(
     () => [
@@ -238,10 +237,10 @@ const ProductDescription = ({
     ' ring in ' +
     selectedConfiguration?.goldPurity +
     ' ' +
-    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal].toLowerCase() +
+    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal]?.toLowerCase() +
     ' ' +
     ' with a ' +
-    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType].toLowerCase() +
+    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]?.toLowerCase() +
     ' diamond';
 
   const { locale } = useRouter();
@@ -253,7 +252,7 @@ const ProductDescription = ({
   return (
     description && (
       <ProductDescriptionContainer>
-        <Heading type="h4" className="primary">
+        <Heading type="h2" className="details-title">
           {title ? title + ' Design' : 'Details'}
         </Heading>
 

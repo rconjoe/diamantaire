@@ -7,6 +7,7 @@ import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE
 
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
+  if (!options) return;
   try {
     const getFormatedDataForApi = () => {
       const diamondType =

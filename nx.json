@@ -33,9 +33,9 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@rconjoe/nx-vercel-remote",
+      "runner": "@vercel/remote-nx",
       "options": {
-        "cacheableOperations": ["build", "lint"],
+        "cacheableOperations": ["build", "test", "lint"],
         "cacheDirectory": "/tmp/nx-cache",
         "token": "VKhqGUI5io7Dh2RVkFADberE",
         "teamId": "team_AHhj2mpChoiZMkRRP2fr4ol4",
@@ -44,7 +44,7 @@
     }
   },
   "generators": {
-    "@nrwl/next": {
+    "@nx/next": {
       "application": {
         "style": "css",
         "linter": "eslint",
@@ -65,19 +65,13 @@
         "swc": true,
         "babel": true
       }
-    },
-    "@nx/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
     }
   },
   "defaultProject": "darkside-main",
-  "plugins": ["@diamantaire/nx-core", "@diamantaire/vraicel", "@diamantaire/nx-datocms"],
+  "plugins": ["@diamantaire/nx-core", "@diamantaire/vraicel", "@diamantaire/nx-datocms", "@diamantaire/nx-wmill"],
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "pluginsConfig": {
-    "@nrwl/js": {
+    "@nx/js": {
       "analyzeSourceFiles": true
     }
   }

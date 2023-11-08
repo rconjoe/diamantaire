@@ -3,7 +3,8 @@ import { DarksideButton, Form, Heading, SwiperStyles, UIString, UniLink } from '
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
-import { getDiamondType, getIsUserInEu } from '@diamantaire/shared/helpers';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -113,7 +114,11 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               <UIString>Email this diamond to yourself or drop a hint.</UIString>
             </p>
 
-            <Form onSubmit={(e) => e.preventDefault()} />
+            <Form
+              ctaCopy={_t('Submit')}
+              onSubmit={(e) => e.preventDefault()}
+              emailPlaceholderText={_t('Enter your email')}
+            />
           </div>
 
           <DiamondDetailSpecs lotId={lotId} locale={locale} />
@@ -126,7 +131,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             <Fragment key={`${v._modelApiKey}_${i}`}>
               <BlockPicker
                 _modelApiKey={v._modelApiKey}
-                modularBlockData={{ ...v }}
+                modularBlockData={{ ...v, additionalClass: 'container-wrapper' }}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={true}

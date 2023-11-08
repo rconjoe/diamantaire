@@ -147,7 +147,7 @@ const ModularSplitVideoBlock = (props) => {
         </div>
         <div className="split-video__content">
           <div className="split-video__content-inner">
-            <Heading type="h3" className="h1 secondary split-video__title">
+            <Heading type="h2" className="h1 secondary split-video__title">
               {title}
             </Heading>
             <p>{copy}</p>

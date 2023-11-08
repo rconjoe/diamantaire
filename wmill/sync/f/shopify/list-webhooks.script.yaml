@@ -1,0 +1,16 @@
+summary: List Webhooks (shopify)
+description: ''
+lock: []
+is_template: false
+kind: script
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties:
+    rs:
+      type: object
+      description: ''
+      default: null
+      format: resource-c_shopify_admin
+  required:
+    - rs

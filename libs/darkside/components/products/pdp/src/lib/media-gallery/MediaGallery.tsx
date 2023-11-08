@@ -1,4 +1,5 @@
-import { SpriteSpinner } from '@diamantaire/darkside/components/common-ui';
+import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
@@ -13,6 +14,9 @@ interface MediaGalleryProps {
   options?: unknown;
   title?: string;
   disableVideos?: boolean;
+  productType: string;
+  shownWithCtw?: string;
+  diamondType?: string;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -24,11 +28,19 @@ const MediaGalleryStyles = styled.div`
   ${media.medium`display: grid;`}
 `;
 
-function MediaGallery({ assets, options, title, disableVideos = false }: MediaGalleryProps) {
+function MediaGallery({
+  assets,
+  options,
+  title,
+  disableVideos = false,
+  productType,
+  shownWithCtw,
+  diamondType,
+}: MediaGalleryProps) {
   return (
     assets && (
       <MediaGalleryStyles>
-        {assets.map((asset) => (
+        {assets.map((asset, index) => (
           <MediaAsset
             key={asset.id}
             type={asset.mimeType}
@@ -36,8 +48,20 @@ function MediaGallery({ assets, options, title, disableVideos = false }: MediaGa
             options={options}
             defaultAlt={title}
             disableVideos={disableVideos}
+            productType={productType}
+            index={index}
+            shownWithCtw={shownWithCtw}
           />
         ))}
+        {productType === 'Engagement Ring' && (
+          <DiamondHand
+            withSlider={true}
+            diamondType={diamondType}
+            lotId={`cfy-${diamondType}`}
+            initRange={[0.5, 8]}
+            initValue={2}
+          />
+        )}
       </MediaGalleryStyles>
     )
   );
@@ -51,9 +75,12 @@ interface MediaAssetProps {
   options?: unknown;
   defaultAlt?: string;
   disableVideos?: boolean;
+  productType: string;
+  index: number;
+  shownWithCtw?: string;
 }
 
-function MediaAsset({ type, asset, options, defaultAlt, disableVideos }: MediaAssetProps) {
+function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productType, index, shownWithCtw }: MediaAssetProps) {
   switch (type) {
     case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
@@ -61,7 +88,15 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos }: MediaAs
         return <SpriteSpinnerBlock sprite={asset} options={options} />;
       }
 
-      return <ImageAsset image={asset} defaultAlt={defaultAlt} />;
+      return (
+        <ImageAsset
+          image={asset}
+          defaultAlt={defaultAlt}
+          productType={productType}
+          index={index}
+          shownWithCtw={shownWithCtw}
+        />
+      );
     }
     case MimeTypes.VideoMP4:
     case MimeTypes.VideoMov:
@@ -80,9 +115,26 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos }: MediaAs
 const ImageAssetStyles = styled.div`
   aspect-ratio: 1/1;
   position: relative;
+
+  p {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: var(--font-size-xxxsmall);
+  }
 `;
 
-function ImageAsset({ image, defaultAlt }: { image: DatoImageType; defaultAlt: string }) {
+type ImageAssetProps = {
+  image: DatoImageType;
+  defaultAlt: string;
+  productType: string;
+  index: number;
+  shownWithCtw?: string;
+};
+
+function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: ImageAssetProps) {
   const { alt, url } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
@@ -110,6 +162,12 @@ function ImageAsset({ image, defaultAlt }: { image: DatoImageType; defaultAlt: s
         style={{ objectFit: 'cover' }}
         loader={loader}
       />
+      {index === 0 && productType === 'Engagement Ring' && (
+        <p>
+          <UIString>Shown with</UIString>
+          {shownWithCtw ? shownWithCtw : '1.5ct'}
+        </p>
+      )}
     </ImageAssetStyles>
   );
 }

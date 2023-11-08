@@ -45,8 +45,11 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const router = useRouter();
 
   const { isMobile } = useContext(GlobalContext);
+
   const { locale, currencyCode } = props;
+
   const [options, setOptions] = useState(props.options);
+
   const [loading, setLoading] = useState(true);
 
   const { _t } = useTranslations(locale);
@@ -60,10 +63,13 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const { title: pageTitle, dynamicTitle } = DiamondTableContent.data.diamondTable || {};
 
   const seo = DiamondTableContent.data.diamondTable.seo;
+
   const { seoTitle, seoDescription } = seo || {};
+
   const diamondTypeTitle = options?.diamondType ? _t(getDiamondType(options?.diamondType).slug) : '';
 
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
+
   const pageDynamicTitle = dynamicTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
   const updateLoading = (newState) => {

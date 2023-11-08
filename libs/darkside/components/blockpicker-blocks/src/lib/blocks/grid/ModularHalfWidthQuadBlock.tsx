@@ -1,21 +1,21 @@
 import { MobileDesktopImage, ImageTile, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 
 import { ModularHalfWidthQuadBlockContainer } from './ModularHalfWidthQuadBlock.style';
 
-const propTypes = {
-  id: PropTypes.string,
-  desktopImage: PropTypes.string.isRequired,
-  mobileImage: PropTypes.string.isRequired,
-  imageAlignment: PropTypes.string.isRequired,
-  ctaRoute: PropTypes.string,
-  blocks: PropTypes.array.isRequired,
-  shouldLazyLoad: PropTypes.bool,
+type ModularHalfWidthQuadBlockProps = {
+  id: string;
+  desktopImage: DatoImageType;
+  mobileImage: DatoImageType;
+  imageAlignment: string;
+  ctaRoute?: string;
+  blocks: unknown[];
+  shouldLazyLoad?: boolean;
 };
 
-const ModularHalfWidthQuadBlock = (props) => {
+const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
   const { id, desktopImage, mobileImage, imageAlignment, ctaRoute } = props;
 
   const arrayOfAttributes = ['copy', 'image', 'title'];
@@ -53,7 +53,5 @@ const ModularHalfWidthQuadBlock = (props) => {
     </ModularHalfWidthQuadBlockContainer>
   );
 };
-
-ModularHalfWidthQuadBlock.propTypes = propTypes;
 
 export default ModularHalfWidthQuadBlock;

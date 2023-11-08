@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+. prelude
+
+upgrade_node() {
+  log_info "Attempting node upgrade"
+  # gum confirm "can i use nvm to upgrade node?" && sleep 5
+  gum confirm "can i use nvm to upgrade node?" && nvm install 20.8.1 && nvm use 20.8.1
+}
+
+export -f upgrade_node

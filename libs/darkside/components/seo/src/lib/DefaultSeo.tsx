@@ -1,6 +1,6 @@
 /*
 This is the default SEO meta tag settings.
-We can add attributes we want in all meta tag configs here, and it also 
+We can add attributes we want in all meta tag configs here, and it also
 acts as a fallback if no other next-seo component is being loaded in the component tree 🌲
 
 https://github.com/garmeeh/next-seo

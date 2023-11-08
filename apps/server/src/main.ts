@@ -13,7 +13,6 @@ import mongoSanitize from 'express-mongo-sanitize';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import mongoose from 'mongoose';
-import xss from 'xss-clean';
 
 import { AppModule } from './app/app.module';
 
@@ -39,7 +38,7 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
-  app.use([compression(), xss(), hpp(), mongoSanitize()]);
+  app.use([compression(), hpp(), mongoSanitize()]);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new LoggingInterceptor(), new SentryInterceptor());
   app.useGlobalPipes(

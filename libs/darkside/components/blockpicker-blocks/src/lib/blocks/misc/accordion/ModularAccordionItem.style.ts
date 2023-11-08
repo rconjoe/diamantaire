@@ -1,26 +1,25 @@
-import { setSpace, GREY_LIGHT, BLACK } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularAccordionItemContainer = styled.div`
   .acc-item__container {
     flex: 0;
-    border-bottom: 1px solid ${GREY_LIGHT};
+    border-bottom: 1px solid var(--color-light-grey);
     text-align: left;
   }
 
   .acc-item__header {
-    margin: ${setSpace(2)} 0;
+    margin: calc(var(--space-gutter) * 2) 0;
     cursor: pointer;
     text-align: left;
     font-size: var(--font-size-xsmall);
-    color: ${BLACK};
+    color: var(--color-black);
     line-height: 1.2;
     width: 100%;
     position: relative;
     background-color: transparent;
     border: none;
     padding-left: 0;
-    padding-right: ${setSpace(4)};
+    padding-right: calc(var(--space-gutter * 4));
     &[data-state='open'] .plus {
       display: none;
     }
@@ -49,15 +48,15 @@ export const ModularAccordionItemContainer = styled.div`
   }
 
   .acc-item__copy {
-    margin-right: ${setSpace(2)};
+    margin-right: calc(var(--space-gutter * 2));
     font-size: var(--font-size-xsmall);
-    padding-bottom: ${setSpace(4)};
+    padding-bottom: calc(var(--space-gutter * 4));
 
     p,
     span {
       font-size: var(--font-size-xsmall);
       line-height: 1.5;
-      margin: ${setSpace(2)} 0;
+      margin: calc(var(--space-gutter * 2)) 0;
     }
 
     a {
@@ -71,11 +70,11 @@ export const ModularAccordionItemContainer = styled.div`
     ul.links,
     ul {
       list-style: none;
-      padding-left: ${setSpace(1)};
+      padding-left: var(--space-gutter);
     }
 
     ul li {
-      margin-bottom: ${setSpace(1)};
+      margin-bottom: var(--space-gutter);
     }
   }
 

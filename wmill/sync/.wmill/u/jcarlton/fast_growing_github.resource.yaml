@@ -1,0 +1,4 @@
+description: ''
+value:
+  token: '$var:u/jcarlton/fast_growing_github'
+resource_type: github

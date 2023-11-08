@@ -1,4 +1,3 @@
-import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
 import { EmptyCalendarIcon, Logo } from '@diamantaire/shared/icons';
 import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
@@ -162,9 +161,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, headerHeight, toggleCar
 
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <DiamondShapesProvider>
-            <MobileMenu navItems={navItems} headerHeight={headerHeight} />
-          </DiamondShapesProvider>
+          <MobileMenu navItems={navItems} headerHeight={headerHeight} setIsMobileMenuOpen={setIsMobileMenuOpen} />
         )}
       </AnimatePresence>
     </>

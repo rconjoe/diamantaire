@@ -1,5 +1,8 @@
 import { LanguageSelector, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -34,11 +37,13 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   selectedLanguage,
   isLanguageSelectorOpen,
 }): JSX.Element => {
-  const router = useRouter();
+  const { locale } = useRouter();
 
-  const selectedLocale = router.locale;
+  const { _t } = useTranslations(locale);
 
-  const { countryCode: selectedCountryCode } = parseValidLocale(selectedLocale);
+  const showroomLocation = isUserCloseToShowroom();
+
+  const { countryCode: selectedCountryCode } = parseValidLocale(locale);
 
   const availableLanguages = countries[selectedCountryCode].languages;
 
@@ -106,7 +111,19 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
               </li>
               <li className="calendar">
                 <EmptyCalendarIcon />
-                <UIString>Book an appointment</UIString>
+                {showroomLocation ? (
+                  <Link href={`/diamond-appointments?location=${showroomLocation.handle}`}>
+                    {replacePlaceholders(
+                      _t('Visit our %%location%% location'),
+                      ['%%location%%'],
+                      [showroomLocation?.location],
+                    ).toString()}
+                  </Link>
+                ) : (
+                  <Link href="/diamond-appointments">
+                    <UIString>Book an appointment</UIString>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

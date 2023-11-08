@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "sync": {
+      "implementation": "./src/executors/sync/executor",
+      "schema": "./src/executors/sync/schema.json",
+      "description": "sync executor"
+    },
+    "wmill": {
+      "implementation": "./src/executors/wmill/executor",
+      "schema": "./src/executors/wmill/schema.json",
+      "description": "wmill executor"
+    }
+  }
+}
