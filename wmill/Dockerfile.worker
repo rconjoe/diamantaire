@@ -1,0 +1,16 @@
+FROM ghcr.io/windmill-labs/windmill:main
+
+RUN apt update -y
+RUN apt install npm -y
+
+RUN npm i -g pnpm
+
+RUN npm i -g @genql/cli
+
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
+RUN apt update -y
+RUN apt install mods -y
+
+CMD ["windmill"]
