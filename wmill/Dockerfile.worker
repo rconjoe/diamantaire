@@ -7,6 +7,12 @@ RUN npm i -g pnpm
 
 RUN npm i -g @genql/cli
 
+RUN npm i -g vercel
+
+RUN npm i -g @railway/cli
+
+RUN npm i -g @datocms/cli
+
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
