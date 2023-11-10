@@ -16,6 +16,7 @@ export * from './lib/use-standard-page';
 export * from './lib/use-translations';
 export * from './lib/use-cookie-banner';
 export * from './lib/use-email-popup';
+export * from './lib/use-cart-gwp';
 
 // products
 export * from './lib/products/use-product';
@@ -29,6 +30,7 @@ export * from './lib/products/use-product-variant';
 export * from './lib/products/use-product-video';
 export * from './lib/products/use-block-products';
 export * from './lib/products/use-product-suggestions';
+export * from './lib/products/use-pdp-gwp';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';

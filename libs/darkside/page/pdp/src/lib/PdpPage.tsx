@@ -12,6 +12,7 @@ import {
   ProductKlarna,
   ProductAppointmentCTA,
   ProductSuggestionBlock,
+  ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
@@ -258,6 +259,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
+
+              <ProductGWP />
+
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
                 title="Need more time to think?"

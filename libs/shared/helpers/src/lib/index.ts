@@ -9,6 +9,7 @@ export * from './getRelativeUrl';
 export * from './getUserCountry';
 export * from './images';
 export * from './isCountrySupported';
+export * from './isCurrentTimeWithinInterval';
 export * from './isEmptyObject';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
