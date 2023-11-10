@@ -232,7 +232,7 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 }
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`
-  border: 1px solid #ccc;
+  border: 1px solid #d8d6d1;
   padding: 5px;
   min-width: 35px;
   min-height: 35px;

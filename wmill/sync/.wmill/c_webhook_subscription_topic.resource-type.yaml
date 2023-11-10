@@ -1,0 +1,29 @@
+description: ''
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - Topic
+  properties:
+    Topic:
+      type: string
+      description: ''
+      default: ''
+      enum:
+        - app/uninstalled
+        - app_subscriptions/update
+        - bulk_operations/finish
+        - carts/create
+        - carts/update
+        - checkouts/create
+        - checkouts/delete
+        - checkouts/update
+        - collection_listings/add
+        - collection_listings/add
+        - collection_listings/remove
+        - collection_listings/update
+        - collections/create
+        - collections/delete
+        - collections/update
+  required:
+    - Topic

@@ -11,7 +11,6 @@ export * from './getUserCountry';
 export * from './images';
 export * from './isCountrySupported';
 export * from './isEmptyObject';
-export * from './journalHelpers';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
 export * from './object-transformations';

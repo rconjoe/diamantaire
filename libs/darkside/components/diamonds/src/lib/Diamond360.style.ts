@@ -1,4 +1,3 @@
-import { BLACK, desktopAndUp, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamond360 = styled.div`
@@ -19,10 +18,11 @@ const StyledDiamond360 = styled.div`
     max-height: 100%;
     transform: scale(0.9);
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       transform: scale(0.75);
       width: auto;
-    `)}
+      max-width: 170px;
+    }
   }
 
   .spritespin-progress-label {
@@ -43,15 +43,15 @@ const StyledDiamond360 = styled.div`
   .caption {
     font-size: var(--font-size-xxxsmall);
     position: absolute;
-    color: ${BLACK};
+    color: var(--color-black);
     display: block;
     bottom: 1rem;
     left: 2rem;
 
-    ${mobileOnly(`
+    @media (max-width: ${({ theme }) => theme.sizes.tabel}) {
       padding: 0 8rem 0 2.4rem;
       left: 1rem;
-    `)}
+    }
   }
 `;
 

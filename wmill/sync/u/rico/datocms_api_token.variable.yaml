@@ -1,0 +1,6 @@
+account: null
+description: Used for Bearer auth token when accessing data in DatoCMS
+value: s4ZN/ThKEQXNLsh1cFD8HOo+Ukwo/H41M/vJ8i2RNsk=
+is_expired: false
+is_oauth: false
+is_secret: true

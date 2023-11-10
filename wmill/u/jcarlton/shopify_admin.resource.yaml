@@ -1,4 +1,0 @@
-description: ''
-value:
-  access_token: '$var:u/jcarlton/shopify_admin'
-resource_type: c_shopify_admin

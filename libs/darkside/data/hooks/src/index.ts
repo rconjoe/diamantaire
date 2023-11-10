@@ -3,7 +3,6 @@ export * from './lib/journal';
 export * from './lib/use-cart-info';
 export * from './lib/use-diamond-cfy';
 export * from './lib/use-diamond-cto';
-export * from './lib/use-diamond-icons';
 export * from './lib/use-diamond-info';
 export * from './lib/use-diamond-pdp';
 export * from './lib/use-diamond-table';

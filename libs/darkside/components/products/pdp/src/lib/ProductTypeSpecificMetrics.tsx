@@ -12,7 +12,7 @@ const ProductTypeSpecificMetricsStyles = styled.div`
   }
 `;
 
-const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
+const ProductTypeSpecificMetrics = ({ additionalVariantData, productType, shouldDoublePrice }) => {
   const caratWeight = additionalVariantData?.carat;
 
   const acceptableProductTypes = ['Necklace', 'Bracelet', 'Wedding Band', 'Earrings', 'Ring'];
@@ -21,7 +21,7 @@ const ProductTypeSpecificMetrics = ({ additionalVariantData, productType }) => {
     <ProductTypeSpecificMetricsStyles>
       {acceptableProductTypes.includes(productType) && caratWeight ? (
         <Heading type="h2" className="metric-title">
-          <UIString>Carat weight</UIString>: <span>{caratWeight}</span>
+          <UIString>Carat weight</UIString>: <span>{shouldDoublePrice ? caratWeight * 2 : caratWeight}</span>
         </Heading>
       ) : (
         ''
