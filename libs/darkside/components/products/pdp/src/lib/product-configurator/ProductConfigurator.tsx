@@ -116,8 +116,7 @@ function ProductConfigurator({
       console.log('selectedConfiguration', selectedConfiguration);
       const { diamondType, caratWeight } = configState;
 
-      const usesCustomDiamond =
-        diamondType && configurations.diamondType.length > 1 && caratWeight && caratWeight === 'other';
+      const usesCustomDiamond = diamondType && configurations.diamondType.length > 1 && !caratWeight;
 
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
