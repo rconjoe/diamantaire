@@ -283,7 +283,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
-        <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        {additionalVariantData?.productSuggestionQuadBlock?.id && (
+          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        )}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>
