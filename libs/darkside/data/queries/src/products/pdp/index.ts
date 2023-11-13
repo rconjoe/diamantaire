@@ -3,9 +3,11 @@ import {
   fetchDatoProductInfo,
   fetchDatoProductInstagramReel,
   fetchDatoProductSpec,
+  fetchDatoProductSuggestionBlock,
   fetchDatoProductTrioBlock,
   fetchDatoProductVideoBlock,
   fetchDatoVariant,
+  fetchPDPGwpData,
   getProductDiamondTypes,
   getProductPage,
 } from '@diamantaire/darkside/data/api';
@@ -46,6 +48,10 @@ export const productPage = createQueryKeys('products', {
     queryKey: [id, locale],
     queryFn: () => fetchDatoProductVideoBlock(id, locale),
   }),
+  productSuggestions: (id: string, locale: string) => ({
+    queryKey: [id, locale],
+    queryFn: () => fetchDatoProductSuggestionBlock(id, locale),
+  }),
   datoVariant: (variantSlug: string, locale: string) => ({
     queryKey: [variantSlug, locale],
     queryFn: () => fetchDatoVariant(variantSlug, locale),
@@ -53,5 +59,9 @@ export const productPage = createQueryKeys('products', {
   productDiamondTypes: (productSlug: string) => ({
     queryKey: [productSlug],
     queryFn: () => getProductDiamondTypes(productSlug),
+  }),
+  gwp: (locale: string) => ({
+    queryKey: [locale],
+    queryFn: () => fetchPDPGwpData(locale),
   }),
 });

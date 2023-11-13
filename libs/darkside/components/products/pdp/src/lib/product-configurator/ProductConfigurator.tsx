@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   getFormattedPrice,
@@ -115,8 +116,7 @@ function ProductConfigurator({
       console.log('selectedConfiguration', selectedConfiguration);
       const { diamondType, caratWeight } = configState;
 
-      const usesCustomDiamond =
-        diamondType && configurations.diamondType.length > 1 && caratWeight && caratWeight === 'other';
+      const usesCustomDiamond = diamondType && configurations.diamondType.length > 1 && !caratWeight;
 
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
@@ -301,14 +301,15 @@ function AddToCartButton({
   additionalVariantIds,
   isSoldAsDouble,
 }: CtaButtonProps) {
-  const { setIsCartOpen, addERProductToCart, addJewelryProductToCart } = useContext(ActionsContext);
+  const router = useRouter();
+  const { locale } = router;
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+  const { refetch } = useCartData(locale);
 
   const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
 
   console.log('additionalVariantData', additionalVariantData);
 
-  const router = useRouter();
-  const { locale } = router;
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
 
@@ -414,7 +415,7 @@ function AddToCartButton({
       addERProductToCart({
         settingVariantId: variantId,
         settingAttributes: erItemAttributes,
-      });
+      }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx
 
@@ -453,10 +454,12 @@ function AddToCartButton({
         }
       }
 
-      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes });
+      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes }).then(() => refetch());
     }
 
-    setIsCartOpen(true);
+    updateGlobalContext({
+      isCartOpen: true,
+    });
   }
 
   return (

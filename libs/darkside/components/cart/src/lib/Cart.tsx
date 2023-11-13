@@ -1,20 +1,24 @@
 import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
-import { useCartInfo } from '@diamantaire/darkside/data/hooks';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { updateItemQuantity } from '@diamantaire/darkside/data/api';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
+import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
-  const { checkout } = useContext(CartContext);
-  const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
+  const { locale } = useRouter();
+  const { data: checkout, refetch } = useCartData(locale);
+
+  const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;
@@ -37,6 +41,10 @@ const Cart = ({ closeCart }) => {
     emptyCartMainCtaCopy,
     emptyCartMainCtaLink,
   } = cartCopy?.[0] || {};
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>
@@ -73,11 +81,18 @@ const Cart = ({ closeCart }) => {
           <div className="cart__header">
             <h2>{cartHeader}</h2>
             <div className="close">
-              <button onClick={() => setIsCartOpen(false)}>
+              <button
+                onClick={() =>
+                  updateGlobalContext({
+                    isCartOpen: false,
+                  })
+                }
+              >
                 <XIcon />
               </button>
             </div>
           </div>
+          <CartGWP />
           <div className="cart__items">
             <div className="cart__items-inner">
               {checkout?.lines?.map((item) => {

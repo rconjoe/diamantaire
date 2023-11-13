@@ -1,11 +1,11 @@
 import { ImageTile, Heading, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import { generateSubheading } from '@diamantaire/shared/helpers';
 import { NextSeo } from 'next-seo';
 
 import { JournalCategoryGridGroup } from './JournalCategoryGridGroup';
 import { JournalHomeEntryStyles } from './JournalHomeEntry.style';
 import JournalFeaturedArticle from '../general/JournalFeaturedArticle';
 import { JournalHeader } from '../general/JournalHeader';
+import { generateSubheading } from '../journal-helpers';
 
 const JournalHomeEntry = ({
   blogConfiguration,

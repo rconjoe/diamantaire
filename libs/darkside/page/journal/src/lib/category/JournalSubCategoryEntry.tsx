@@ -1,7 +1,7 @@
 import { DarksideButton, Heading, ImageTile, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useJournalConfig, useJournalSubcategory } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { generateSubheading, getRelativeUrl } from '@diamantaire/shared/helpers';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -9,6 +9,7 @@ import { useState, ReactNode, ReactElement, useEffect } from 'react';
 
 import { JournalCategoryEntryContainer } from './JournalCategoryEntry.style';
 import { JournalHeader } from '../general/JournalHeader';
+import { generateSubheading } from '../journal-helpers';
 
 type JournalSubCategoryEntryProps = {
   slug: string;

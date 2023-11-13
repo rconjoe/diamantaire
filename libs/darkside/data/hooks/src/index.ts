@@ -1,6 +1,7 @@
 export * from './lib/use-global-data';
 export * from './lib/journal';
 export * from './lib/use-cart-info';
+export * from './lib/use-cart-data';
 export * from './lib/use-diamond-cfy';
 export * from './lib/use-diamond-cto';
 export * from './lib/use-diamond-info';
@@ -15,6 +16,9 @@ export * from './lib/use-standard-page';
 export * from './lib/use-translations';
 export * from './lib/use-cookie-banner';
 export * from './lib/use-email-popup';
+export * from './lib/use-cart-gwp';
+export * from './lib/use-top-bar-gwp';
+export * from './lib/use-plp-gwp';
 
 // products
 export * from './lib/products/use-product';
@@ -27,6 +31,8 @@ export * from './lib/products/use-product-trio-block';
 export * from './lib/products/use-product-variant';
 export * from './lib/products/use-product-video';
 export * from './lib/products/use-block-products';
+export * from './lib/products/use-product-suggestions';
+export * from './lib/products/use-pdp-gwp';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';

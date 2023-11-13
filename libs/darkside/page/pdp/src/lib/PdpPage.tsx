@@ -11,6 +11,8 @@ import {
   ProductIconList,
   ProductKlarna,
   ProductAppointmentCTA,
+  ProductSuggestionBlock,
+  ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
@@ -186,6 +188,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Doubles price if product is earrings pair
 
   console.log('shopifyProductData', shopifyProductData);
+  console.log('additionalVariantData', additionalVariantData);
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
@@ -256,6 +259,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
+
+              <ProductGWP />
+
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
                 title="Need more time to think?"
@@ -277,6 +283,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+        {additionalVariantData?.productSuggestionQuadBlock?.id && (
+          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        )}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>

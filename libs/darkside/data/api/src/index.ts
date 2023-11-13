@@ -2,6 +2,7 @@ export * from './diamonds';
 export * from './top-bar';
 export * from './standard-page';
 export * from './clients';
+export * from './gwp';
 export * from './journal';
 export * from './products';
 export * from './showrooms';
