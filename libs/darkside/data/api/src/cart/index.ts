@@ -170,7 +170,5 @@ export async function fetchCartShopifyData() {
   const cartId = localStorage.getItem('cartId');
   const cartData = await getCart(cartId);
 
-  console.log('cartData', cartData);
-
   return cartData;
 }

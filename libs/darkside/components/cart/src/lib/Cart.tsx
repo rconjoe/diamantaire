@@ -12,6 +12,7 @@ import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
+import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
@@ -91,6 +92,7 @@ const Cart = ({ closeCart }) => {
               </button>
             </div>
           </div>
+          <CartGWP />
           <div className="cart__items">
             <div className="cart__items-inner">
               {checkout?.lines?.map((item) => {

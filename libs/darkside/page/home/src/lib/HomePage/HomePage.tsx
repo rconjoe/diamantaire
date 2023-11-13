@@ -4,7 +4,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
-import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 
@@ -23,12 +23,6 @@ const HomePage = (props: HomePageProps) => {
   const page = data?.standardPage;
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
-
-  const cartData = useQuery({
-    ...queries.cart.checkout(router.locale),
-  });
-
-  console.log('cartData', cartData);
 
   return (
     <>

@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
 
 import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
@@ -216,34 +217,35 @@ export async function fetchPlpDatoServerData(locale: string, slug: string, categ
   }
 }
 
-const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `
-query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
-  plpPromoCardCollection(locale: $locale, filter: {id: {eq: $id}}) {
-    id
-    ... on PlpPromoCardCollectionRecord {
-      data {
-        title
-        link
-        textColor {
-          hex
-        }
-        image {
-          responsiveImage (imgixParams: {q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
+  query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
+    plpPromoCardCollection(locale: $locale, filter: { id: { eq: $id } }) {
+      id
+      ... on PlpPromoCardCollectionRecord {
+        data {
+          title
+          link
+          textColor {
+            hex
           }
-        }
-        imageMobile {
-          responsiveImage (imgixParams: {w: 344, h: 500, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+          image {
+            responsiveImage(imgixParams: { q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
           }
+          imageMobile {
+            responsiveImage(imgixParams: { w: 344, h: 500, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpPosition
+          plpPositionMobile
+          enableGwp
         }
-        plpPosition
-        plpPositionMobile
       }
     }
-    }
-}
-${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
@@ -256,10 +258,11 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const LIST_PAGE_CREATIVE_BLOCK_QUERY = `
+const LIST_PAGE_CREATIVE_BLOCK_QUERY = gql`
 query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
   allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
     id
+    enableGwp
     desktopImage {
       responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment

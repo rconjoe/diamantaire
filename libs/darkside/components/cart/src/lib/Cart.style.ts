@@ -35,10 +35,10 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      padding: 0 25px 50px;
       max-height: calc(100vh - 20vh - 61px);
       overflow-y: auto;
       margin: 0;
+      padding: 0 25px 50px;
       ${media.medium`margin: 0 30px 0 50px;`}
 
       &::-webkit-scrollbar {

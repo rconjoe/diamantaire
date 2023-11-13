@@ -17,6 +17,8 @@ export * from './lib/use-translations';
 export * from './lib/use-cookie-banner';
 export * from './lib/use-email-popup';
 export * from './lib/use-cart-gwp';
+export * from './lib/use-top-bar-gwp';
+export * from './lib/use-plp-gwp';
 
 // products
 export * from './lib/products/use-product';
