@@ -52,6 +52,8 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const { data } = useBlockProducts(productHandles);
 
+  console.log('useBlockProducts', data);
+
   const { products, lowestPricesByCollection } = data || {};
 
   return (
