@@ -41,8 +41,6 @@ async function getDataObj() {
 async function generateRedirects() {
   const dataObj = await getDataObj();
 
-  console.log({ dataObj });
-
   // Export to CSV
   if (exportType === '-csv') {
     const headers = ['from', 'to'];

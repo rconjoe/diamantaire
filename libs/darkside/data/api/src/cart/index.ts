@@ -105,11 +105,6 @@ const reshapeCart = (cart: ShopifyCart): Cart => {
 
   const refinedItems = removeEdgesAndNodes(cart.lines);
 
-  // setCheckout({
-  //   ...cart,
-  //   lines: removeEdgesAndNodes(cart.lines),
-  // });
-
   return {
     ...cart,
     lines: refinedItems,
@@ -119,15 +114,8 @@ const reshapeCart = (cart: ShopifyCart): Cart => {
 const removeEdgesAndNodes = (array: Connection<any>) => {
   let nodes = [];
 
-  console.log('array.edges', array.edges);
-
   array.edges.forEach((edge) => {
     const node = edge?.node;
-    // const quantity = node?.quantity;
-
-    // if (quantity === 0) {
-    //   removeFromCart([node.id]);
-    // }
 
     nodes.push(node);
   });
@@ -160,8 +148,6 @@ async function getCart(_cartId: string): Promise<Cart | undefined> {
   if (!res.body.data.cart) {
     return undefined;
   }
-
-  console.log('get cart res', res);
 
   return reshapeCart(res.body.data.cart);
 }

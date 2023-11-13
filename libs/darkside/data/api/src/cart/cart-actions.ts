@@ -149,7 +149,6 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
-  console.log('atc is getting ', cartId, lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -159,8 +158,6 @@ async function addToCart(
     cache: 'no-store',
   });
 
-  console.log('add to cart res', res);
-
   return reshapeCart(res.body.data.cartLinesAdd.cart);
 }
 
@@ -169,7 +166,6 @@ const addItemToCart = async (
   customAttributes?: AttributeInput[],
   quantity?: number,
 ): Promise<string | undefined> => {
-  console.log('addItemToCart running');
   let cartId = localStorage.getItem('cartId');
   let cart;
 

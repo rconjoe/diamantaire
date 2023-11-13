@@ -150,8 +150,6 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
-  console.log('annoucement bar data', gwpData);
-
   const {
     activeCountries,
     minSpendByCurrencyCode,

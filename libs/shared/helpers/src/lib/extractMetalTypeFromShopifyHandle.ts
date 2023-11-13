@@ -6,8 +6,6 @@ export function extractMetalTypeFromShopifyHandle(string) {
   if (match) {
     const extracted = match[0];
 
-    console.log(extracted);
-
     return extracted;
   } else {
     console.log('Metal type not found in the string.');

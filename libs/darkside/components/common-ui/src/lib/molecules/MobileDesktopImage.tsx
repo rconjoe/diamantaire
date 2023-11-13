@@ -27,7 +27,7 @@ const MobileDesktopImage = ({
         <DatoImage
           image={desktopImage}
           className={className}
-          overrideAlt={alt}
+          overrideAlt={alt || ''}
           shouldLazyLoad={shouldLazyLoad}
           quality={quality}
         />
@@ -36,7 +36,7 @@ const MobileDesktopImage = ({
         <DatoImage
           image={mobileImage}
           className={className}
-          overrideAlt={alt}
+          overrideAlt={alt || ''}
           shouldLazyLoad={shouldLazyLoad}
           quality={quality}
         />

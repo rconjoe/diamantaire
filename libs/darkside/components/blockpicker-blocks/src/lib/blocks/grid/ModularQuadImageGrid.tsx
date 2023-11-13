@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import { ModularQuadImageGridContainer } from './ModularQuadImageGrid.style';
+import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
 // import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
 
 type ModularGridCarouselBlockProps = {
@@ -29,9 +30,12 @@ const ModularQuadImageGrid = ({
   subtitle,
   blocks,
   countryCode,
-  // _modelApiKey,
+  _modelApiKey,
   shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
+  console.log('blocks', blocks);
+  console.log('_modelApiKey_modelApiKey_modelApiKey', _modelApiKey);
+
   return (
     <ModularQuadImageGridContainer>
       <div className="title__container text-center">
@@ -69,10 +73,13 @@ const ModularQuadImageGrid = ({
 
       <div className="mobile-slider">
         {/* Hydration error */}
-        {/* <ModularCarouselBlock
-          _modelApiKey={_modelApiKey}
-          blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
-        /> */}
+        {blocks && (
+          <ModularCarouselBlock
+            _modelApiKey={_modelApiKey}
+            // blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
+            blocks={blocks}
+          />
+        )}
       </div>
     </ModularQuadImageGridContainer>
   );
