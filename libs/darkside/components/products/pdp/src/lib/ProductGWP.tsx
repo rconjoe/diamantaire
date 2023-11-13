@@ -59,7 +59,9 @@ const ProductGWP = () => {
 
   const minSpendValue = getFormattedPrice(minSpendByCurrencyCode?.[currencyCode], locale);
 
-  const refinedCopy = replacePlaceholders(pdpBannerBody, ['%%GWP_minimum_spend%%'], [minSpendValue?.toString()]).toString();
+  let refinedCopy = replacePlaceholders(pdpBannerBody, ['%%GWP_minimum_spend%%'], [minSpendValue?.toString()]).toString();
+
+  refinedCopy = replacePlaceholders(refinedCopy, ['%%GWP_remaining_spend%%'], [minSpendValue?.toString()]).toString();
 
   console.log('GWP', gwpData);
   console.log('currencyCode', currencyCode);
