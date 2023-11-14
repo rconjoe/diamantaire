@@ -1,4 +1,4 @@
-import { DarksideButton, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Markdown, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import {
   FORM_SUBSCRIPTION_SOURCE_NAME,
@@ -142,7 +142,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
 
         {response && (
           <div className="form-response">
-            <p>{response}</p>
+            <Markdown withStyles={false}>{response}</Markdown>
           </div>
         )}
       </Modal>
@@ -267,7 +267,7 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
 
         {response && (
           <div className="form-response">
-            <p>{response}</p>
+            <Markdown withStyles={false}>{response}</Markdown>
           </div>
         )}
       </Modal>
