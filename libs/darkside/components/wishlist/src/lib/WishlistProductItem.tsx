@@ -18,7 +18,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { WishlistLikeButton } from './WishlistLikeButton';
 import { StyledWishlistSlideoutProductItem, StyledWishlistPageProductItem } from './WishlistProductItem.style';
 
+type HandleOpenDropHintModalProps = (data: { link: string; image: string }) => void;
+
 interface CardBundleProps {
+  handleOpenDropHintModal: HandleOpenDropHintModalProps;
   isWishlistPage?: boolean;
   id: string;
   locale: string;
@@ -31,23 +34,26 @@ interface CardBundleProps {
 }
 
 interface CardDiamondProps {
+  handleOpenDropHintModal: HandleOpenDropHintModalProps;
   isWishlistPage?: boolean;
-  diamond: any;
-  id: string;
   button: string;
   locale: string;
+  diamond: any;
+  id: string;
 }
 
 interface CardProductProps {
+  handleOpenDropHintModal: HandleOpenDropHintModalProps;
   isWishlistPage?: boolean;
+  button: string;
+  locale: string;
   id: string;
   content: any;
   product: any;
-  button: string;
-  locale: string;
 }
 
 interface WishlistProductItemProps {
+  handleOpenDropHintModal: HandleOpenDropHintModalProps;
   isWishlistPage?: boolean;
   locale: string;
   content: {
@@ -59,7 +65,14 @@ interface WishlistProductItemProps {
   };
 }
 
-const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale, isWishlistPage }) => {
+const CardDiamond: React.FC<CardDiamondProps> = ({
+  id,
+  diamond,
+  button,
+  locale,
+  isWishlistPage,
+  handleOpenDropHintModal,
+}) => {
   const { _t } = useTranslations(locale);
 
   if (!diamond) return;
@@ -84,10 +97,12 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale, 
 
   const link = baseLink + (cto ? diamondType + '?carat=' + carat : handle);
 
+  const image = generateCfyDiamondSpriteThumbUrl(diamondType);
+
   return (
     <div className="card item-diamond">
       <div className="poster">
-        <Image alt={diamondType} src={generateCfyDiamondSpriteThumbUrl(diamondType)} sizes="100vw" height={0} width={0} />
+        <Image alt={diamondType} src={image} sizes="100vw" height={0} width={0} />
       </div>
 
       <div className="text">
@@ -99,8 +114,9 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale, 
           <DarksideButton type="solid">{button}</DarksideButton>
         </UniLink>
 
-        <div className="share">
+        <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
           <DropHintIcon />
+
           <UIString>Drop a Hint</UIString>
         </div>
       </div>
@@ -110,7 +126,15 @@ const CardDiamond: React.FC<CardDiamondProps> = ({ id, diamond, button, locale, 
   );
 };
 
-const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button, locale, isWishlistPage }) => {
+const CardProduct: React.FC<CardProductProps> = ({
+  id,
+  product,
+  content,
+  button,
+  locale,
+  isWishlistPage,
+  handleOpenDropHintModal,
+}) => {
   if (!content || !product) {
     return;
   }
@@ -130,16 +154,19 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
 
   const link = `/${productTypeMap[productType]}/${collectionSlug}/${productSlug}`;
 
+  const imageData = {
+    url: content?.plpImage?.responsiveImage?.url,
+    ...(content?.plpImage?.responsiveImage ? { responsiveImage: content.plpImage.responsiveImage } : {}),
+  };
+
+  const { responsiveImage } = imageData || {};
+
+  const { src: imageUrl } = responsiveImage || {};
+
   return (
     <div className="card item-product">
       <div className="poster">
-        <DatoImage
-          quality={100}
-          image={{
-            url: content?.plpImage?.responsiveImage?.url,
-            ...(content?.plpImage?.responsiveImage ? { responsiveImage: content.plpImage.responsiveImage } : {}),
-          }}
-        />
+        <DatoImage quality={100} image={imageData} />
       </div>
       <div className="text">
         <div className="title">{title}</div>
@@ -150,7 +177,7 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
           <DarksideButton type="solid">{button}</DarksideButton>
         </UniLink>
 
-        <div className="share">
+        <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
         </div>
@@ -161,7 +188,15 @@ const CardProduct: React.FC<CardProductProps> = ({ id, product, content, button,
   );
 };
 
-const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, setting, isWishlistPage }) => {
+const CardBundle: React.FC<CardBundleProps> = ({
+  id,
+  locale,
+  button,
+  diamond,
+  setting,
+  isWishlistPage,
+  handleOpenDropHintModal,
+}) => {
   const swiperRef = useRef(null);
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -188,15 +223,17 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
 
   const bundlePrice = getFormattedPrice(productPrice + diamondPrice, locale, true);
 
+  const imageData = {
+    url: content?.plpImage?.responsiveImage?.url,
+    ...(content?.plpImage?.responsiveImage ? { responsiveImage: content.plpImage.responsiveImage } : {}),
+  };
+
+  const { responsiveImage } = imageData || {};
+
+  const { src: imageUrl } = responsiveImage || {};
+
   const media = [
-    <DatoImage
-      key={0}
-      quality={100}
-      image={{
-        url: content?.plpImage?.responsiveImage?.url,
-        ...(content?.plpImage?.responsiveImage ? { responsiveImage: content.plpImage.responsiveImage } : {}),
-      }}
-    />,
+    <DatoImage key={0} quality={100} image={imageData} />,
     <Image
       key={1}
       alt={diamondType}
@@ -241,7 +278,7 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
         <UniLink route={link}>
           <DarksideButton type="solid">{button}</DarksideButton>
         </UniLink>
-        <div className="share">
+        <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
         </div>
@@ -252,6 +289,7 @@ const CardBundle: React.FC<CardBundleProps> = ({ id, locale, button, diamond, se
 };
 
 const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
+  handleOpenDropHintModal,
   productId,
   isWishlistPage,
   content: { buttonShop },
@@ -265,6 +303,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
   if (productId.includes('diamond-') || productId.includes('cfy-')) {
     card = (
       <CardDiamond
+        handleOpenDropHintModal={handleOpenDropHintModal}
         isWishlistPage={isWishlistPage}
         diamond={productData}
         button={buttonShop}
@@ -279,6 +318,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
 
     card = (
       <CardProduct
+        handleOpenDropHintModal={handleOpenDropHintModal}
         isWishlistPage={isWishlistPage}
         button={buttonShop}
         product={product}

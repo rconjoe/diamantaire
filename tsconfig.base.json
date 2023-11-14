@@ -102,6 +102,9 @@
       "@diamantaire/darkside/page/error": [
         "libs/darkside/page/error/src/index.ts"
       ],
+      "@diamantaire/darkside/page/wishlist":[
+        "libs/darkside/page/wishlist/src/index.ts"
+      ],
       "@diamantaire/darkside/page/error/server": [
         "libs/darkside/page/error/src/server.ts"
       ],

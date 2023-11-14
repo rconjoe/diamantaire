@@ -61,6 +61,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 
   .share {
     color: ${TEAL};
+    cursor: pointer;
     text-decoration: underline;
     margin-top: 1.5rem;
     display: flex;
@@ -140,6 +141,7 @@ export const StyledWishlistPageProductItem = styled.div`
 
   .share {
     color: ${TEAL};
+    cursor: pointer;
     text-decoration: underline;
     margin-top: 1.5rem;
     display: flex;

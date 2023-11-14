@@ -43,6 +43,7 @@ const sendHubspotForm = async ({
   erUrl,
 }: any) => {
   const hubspotCookieToken = getHubspotCookieToken();
+
   const data = {
     fields: [
       {

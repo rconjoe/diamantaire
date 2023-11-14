@@ -1,4 +1,5 @@
 import { DarksideButton, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -6,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { WishListNoResultItem } from './WishlistNoResultItem';
 import { WishlistProductItem } from './WishlistProductItem';
 import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from './WishlistProductList.style';
-import WishlistShareModal from './WishlistShareModal';
+import { WishlistShareModal, WishlistDropHintModal } from './WishlistShareModal';
 
 interface WishlistProductListProps {
   isWishlistPage?: boolean;
@@ -28,13 +29,17 @@ interface WishlistProductListProps {
 }
 
 const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage = false, products, content }) => {
-  const [wishlist, setWishlist] = useState(getLocalStorageWishlist());
-
-  const { cfy = {}, diamond = {}, product = {}, bundle = {} } = products || {};
-
   const router = useRouter();
 
   const { locale } = router;
+
+  const { _t } = useTranslations(locale);
+
+  const [wishlist, setWishlist] = useState(getLocalStorageWishlist());
+
+  const [dropHintData, setDropHintData] = useState(null);
+
+  const { cfy = {}, diamond = {}, product = {}, bundle = {} } = products || {};
 
   const handleUpdate = () => {
     setWishlist(getLocalStorageWishlist());
@@ -65,20 +70,29 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
     }
   };
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openShareWishlistModal, setOpenShareWishlistModal] = useState(false);
 
-  const handleModalOpen = () => {
-    setOpenModal(true);
+  const [openDropHintModal, setOpenDropHintModal] = useState(false);
+
+  const handleOpenShareWishlistModal = () => {
+    setOpenShareWishlistModal(true);
+  };
+
+  const handleOpenDropHintModal = (data: { link: string; image: string }) => {
+    setOpenDropHintModal(true);
+    setDropHintData(data);
   };
 
   const handleModalClose = () => {
-    setOpenModal(false);
+    setOpenShareWishlistModal(false);
+    setOpenDropHintModal(false);
+    setDropHintData(null);
   };
 
   const wishlistResult = (
     <>
       <div className="cta">
-        <DarksideButton type="outline" onClick={handleModalOpen}>
+        <DarksideButton type="outline" onClick={handleOpenShareWishlistModal}>
           {content.shareWishlistModalTitle}
         </DarksideButton>
       </div>
@@ -92,6 +106,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
             productId={productId}
             isWishlistPage={isWishlistPage}
             productData={getProductData(productId)}
+            handleOpenDropHintModal={handleOpenDropHintModal}
           />
         ))}
       </div>
@@ -104,7 +119,19 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
         </UniLink>
       )}
 
-      {openModal && <WishlistShareModal onClose={handleModalClose} locale={locale} content={content} />}
+      {openShareWishlistModal && (
+        <WishlistShareModal title={content?.shareWishlistModalTitle} onClose={handleModalClose} locale={locale} />
+      )}
+
+      {openDropHintModal && (
+        <WishlistDropHintModal
+          title={_t('Drop a hint')}
+          onClose={handleModalClose}
+          locale={locale}
+          productImage={dropHintData?.image || ''}
+          productLink={dropHintData?.link || ''}
+        />
+      )}
     </>
   );
 
