@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
-import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
+import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
@@ -123,6 +123,7 @@ const MultiVariantCartItem = ({
   }) => Promise<string | undefined>;
   hasChildProduct: boolean;
 }) => {
+  const { locale } = useRouter();
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { productRemoved } = useAnalytics();
   const { attributes, cost, merchandise, quantity } = item;
@@ -130,18 +131,16 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-  const { checkout } = useContext(CartContext);
-  const { updateMultipleItemsQuantity } = useContext(ActionsContext);
+  const { data: checkout } = useCartData(locale);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
   const childProduct = useMemo(() => {
-    return checkout.lines?.find(
+    return checkout?.lines?.find(
       (item) => item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
     );
   }, [item]);
 
-  const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
@@ -219,7 +218,7 @@ const MultiVariantCartItem = ({
   }, [cartItemDetails]);
 
   async function handleRemoveProduct() {
-    if (hasChildProduct && childProduct && checkout.lines.length > 1) {
+    if (hasChildProduct && childProduct && checkout?.lines?.length > 1) {
       const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 

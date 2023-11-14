@@ -33,12 +33,14 @@ const StyledDiamondHand = styled.div`
     display: block;
     aspect-ratio: 1/1;
     position: relative;
+    max-height: 582px;
+    margin: 0 auto;
   }
 
   .image-diamond {
     position: absolute;
-    top: 60%;
-    left: 20.5%;
+    top: 58%;
+    left: 22.5%;
     display: flex;
     align-items: center;
     justify-content: center;

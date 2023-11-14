@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
 
 import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
@@ -66,6 +67,7 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
+  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -111,7 +113,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${slug}`, ...Object.values(options || {})],
     ({ pageParam = pageParamInit }) =>
-      getVRAIServerDiamondPlpData(slug, { page: pageParam === null ? 1 : pageParam, ...options }),
+      getVRAIServerDiamondPlpData(slug, { ...options, page: pageParam === null ? 1 : pageParam }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
@@ -215,34 +217,35 @@ export async function fetchPlpDatoServerData(locale: string, slug: string, categ
   }
 }
 
-const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `
-query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
-  plpPromoCardCollection(locale: $locale, filter: {id: {eq: $id}}) {
-    id
-    ... on PlpPromoCardCollectionRecord {
-      data {
-        title
-        link
-        textColor {
-          hex
-        }
-        image {
-          responsiveImage (imgixParams: {q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
+  query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
+    plpPromoCardCollection(locale: $locale, filter: { id: { eq: $id } }) {
+      id
+      ... on PlpPromoCardCollectionRecord {
+        data {
+          title
+          link
+          textColor {
+            hex
           }
-        }
-        imageMobile {
-          responsiveImage (imgixParams: {w: 344, h: 500, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+          image {
+            responsiveImage(imgixParams: { q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
           }
+          imageMobile {
+            responsiveImage(imgixParams: { w: 344, h: 500, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpPosition
+          plpPositionMobile
+          enableGwp
         }
-        plpPosition
-        plpPositionMobile
       }
     }
-    }
-}
-${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
@@ -255,10 +258,11 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const LIST_PAGE_CREATIVE_BLOCK_QUERY = `
+const LIST_PAGE_CREATIVE_BLOCK_QUERY = gql`
 query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
   allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
     id
+    enableGwp
     desktopImage {
       responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment

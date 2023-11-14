@@ -10,6 +10,7 @@ export * from './getRelativeUrl';
 export * from './getUserCountry';
 export * from './images';
 export * from './isCountrySupported';
+export * from './isCurrentTimeWithinInterval';
 export * from './isEmptyObject';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
@@ -19,4 +20,4 @@ export * from './replacePlaceholders';
 export * from './routes';
 export * from './sortBandWidth';
 export * from './sortRingSize';
-
+export * from './swapProductTypeWithHandle';

@@ -4,6 +4,7 @@ import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ModularProductSuggestionQuadGridStyles = styled.div`
@@ -81,6 +82,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
 
 const ModularProductSuggestionQuadGrid = (props) => {
   const { aboveCopy, halfWidthDesktopImage } = props;
+  const { locale } = useRouter();
 
   const refinedConfigurations = normalizeDatoNumberedContent(props, ['configuration']);
   const refinedTitles = normalizeDatoNumberedContent(props, ['title']);
@@ -125,7 +127,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
                     <Heading type="h3" className="secondary product-content__title">
                       {refinedTitles?.[index]?.title}
                     </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug])}+</p>
+                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
                   </div>
                 </div>
               </div>

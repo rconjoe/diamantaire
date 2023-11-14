@@ -4,13 +4,15 @@ import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
-  ProductAppointmentCTA,
   ProductConfigurator,
   ProductDescription,
   ProductIconList,
   ProductKlarna,
   ProductPrice,
   ProductTitle,
+  ProductAppointmentCTA,
+  ProductSuggestionBlock,
+  ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
@@ -190,6 +192,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Doubles price if product is earrings pair
 
   console.log('shopifyProductData', shopifyProductData);
+  console.log('additionalVariantData', additionalVariantData);
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
@@ -262,6 +265,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
+
+              <ProductGWP />
+
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
                 title="Need more time to think?"
@@ -283,6 +289,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+        {additionalVariantData?.productSuggestionQuadBlock?.id && (
+          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        )}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>

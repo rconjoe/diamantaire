@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import { ModularQuadImageGridContainer } from './ModularQuadImageGrid.style';
 import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
+// import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
 
 type ModularGridCarouselBlockProps = {
   title?: string;
@@ -19,7 +20,7 @@ type ModularGridCarouselBlockProps = {
   headingType?: string;
   countryCode: string;
   shouldLazyLoad?: boolean;
-  _modelApiKey: string;
+  _modelApiKey?: string;
 };
 
 const ModularQuadImageGrid = ({
@@ -32,6 +33,9 @@ const ModularQuadImageGrid = ({
   _modelApiKey,
   shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
+  console.log('blocks', blocks);
+  console.log('_modelApiKey_modelApiKey_modelApiKey', _modelApiKey);
+
   return (
     <ModularQuadImageGridContainer>
       <div className="title__container text-center">
@@ -54,7 +58,7 @@ const ModularQuadImageGrid = ({
             <div className="item__container" key={id}>
               <div className="item__image">
                 <Link href={link}>
-                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} overrideAlt={title} />
+                  <DatoImage image={desktopImage} shouldLazyLoad={shouldLazyLoad} overrideAlt={title || ''} />
                 </Link>
               </div>
               <div className="item__title text-center">
@@ -68,10 +72,14 @@ const ModularQuadImageGrid = ({
       </div>
 
       <div className="mobile-slider">
-        <ModularCarouselBlock
-          _modelApiKey={_modelApiKey}
-          blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
-        />
+        {/* Hydration error */}
+        {blocks && (
+          <ModularCarouselBlock
+            _modelApiKey={_modelApiKey}
+            // blocks={blocks.filter((block) => countryCode === 'US' && block.supportedCountries.length === 0)}
+            blocks={blocks}
+          />
+        )}
       </div>
     </ModularQuadImageGridContainer>
   );

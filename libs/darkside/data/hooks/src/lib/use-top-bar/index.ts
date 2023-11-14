@@ -6,11 +6,12 @@ type TopBarData = {
     loop: boolean;
     data: {
       copy: string;
-      link: string;
-      shouldShowDynamicBookAnAppointment: boolean;
-      enableGeoCopy: string;
       nonGeoCopy: string;
       geoCopy: string;
+      enableGeoCopy: boolean;
+      link: string;
+      shouldShowDynamicBookAnAppointment: boolean;
+      enableGwp: boolean;
     }[];
   };
 };

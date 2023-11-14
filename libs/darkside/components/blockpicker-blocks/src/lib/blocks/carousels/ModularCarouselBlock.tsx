@@ -111,6 +111,8 @@ const ModularCarouselBlock = (props) => {
 
   const { data } = useBlockProducts(slugsIfProducts);
 
+  console.log('carrrrrr', _modelApiKey);
+
   return (
     <ModularCarouselBlockContainer className={_modelApiKey}>
       {_modelApiKey === 'modular_product_slider_block' && props.title && (
@@ -131,7 +133,7 @@ const ModularCarouselBlock = (props) => {
               data?.products?.find((product) => product?.collectionSlug === slide?.configuration?.collection?.slug);
 
             return (
-              <SwiperSlide className={_modelApiKey} key={`slide-${slide.id ? slide.id : uuidv4()}`}>
+              <SwiperSlide className={_modelApiKey} key={`slide-${uuidv4()}`}>
                 <SelectedSliderSlide {...slide} productData={productData} />
               </SwiperSlide>
             );

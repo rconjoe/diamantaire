@@ -1,8 +1,10 @@
 /** This is the default slide component. Useful for basic slides on mobile */
 
 import { Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
+import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { StandardSlideContainer } from './StandardSlide.style';
 
@@ -11,9 +13,19 @@ type StandardSlideProps = {
   link: string;
   desktopImage: DatoImageType;
   mobileImage: DatoImageType;
+  supportedCountries: {
+    code: string;
+  }[];
 };
 
-const StandardSlide = ({ desktopImage, mobileImage, title, link }: StandardSlideProps) => {
+const StandardSlide = ({ desktopImage, mobileImage, title, link, supportedCountries }: StandardSlideProps) => {
+  const { locale } = useRouter();
+  const countryCode = getCountry(locale);
+
+  if (supportedCountries.length > 0 && !isCountrySupported(supportedCountries, countryCode)) {
+    return null;
+  }
+
   return (
     <StandardSlideContainer>
       <div className="slide__image">
@@ -22,11 +34,9 @@ const StandardSlide = ({ desktopImage, mobileImage, title, link }: StandardSlide
         </Link>
       </div>
       <div className="slide__title">
-        <Link href={link}>
-          <Heading type="h3" className="secondary">
-            {title}
-          </Heading>
-        </Link>
+        <Heading type="h3" className="secondary">
+          <Link href={link}>{title}</Link>
+        </Heading>
       </div>
     </StandardSlideContainer>
   );

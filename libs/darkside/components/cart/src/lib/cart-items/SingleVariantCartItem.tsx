@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
@@ -114,6 +114,8 @@ const SingleVariantCartItem = ({
 
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
+
+  const { refetch } = useCartData(locale);
 
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
@@ -255,7 +257,7 @@ const SingleVariantCartItem = ({
       variantId: merchandise.id,
       quantity: 0,
       attributes: item.attributes,
-    });
+    }).then(() => refetch());
   }
 
   // The price needs to be combined in the case of two identical earrings

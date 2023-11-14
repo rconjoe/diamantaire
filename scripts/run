@@ -13,7 +13,7 @@ set -euo pipefail
 
 bootstrap
 bimbom
-upgrade_node
+# upgrade_node
 install_pnpm
 run_freshies
 
