@@ -1,6 +1,7 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useContext, useState } from 'react';
@@ -160,7 +161,8 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const { updateStep, builderProduct } = useContext(BuilderProductContext);
-  const { setIsCartOpen, isCartOpen } = useContext(CartContext);
+  const { isCartOpen } = useGlobalContext();
+  const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const allowedKeys = ['product', 'diamond'];
 
@@ -196,7 +198,15 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
           </div>
           <div className="summary-container">
             {currentStep === steps?.length - 1 ? (
-              <DarksideButton onClick={() => setIsCartOpen(!isCartOpen)}>View Cart</DarksideButton>
+              <DarksideButton
+                onClick={() =>
+                  updateGlobalContext({
+                    isCartOpen: !isCartOpen,
+                  })
+                }
+              >
+                View Cart
+              </DarksideButton>
             ) : (
               <DarksideButton
                 className={clsx({

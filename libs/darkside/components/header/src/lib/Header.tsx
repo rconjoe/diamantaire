@@ -1,8 +1,8 @@
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { DiamondShapesProvider } from '@diamantaire/darkside/context/diamond-icon-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
 import { WHITE, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -61,15 +61,17 @@ const Header: FC<HeaderProps> = ({
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+
   const { cartViewed } = useAnalytics();
   const router = useRouter();
 
-  const selectedLocale = router.locale;
-  const { isCartOpen, setIsCartOpen, checkout } = useContext(CartContext);
+  const { data: checkout } = useCartData(router?.locale);
+  const { isCartOpen } = useGlobalContext();
+  const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const { section } = headerData;
   const { scrollY } = useScroll();
-  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
+  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
   const compactHeaderRef = useRef(null);
 
@@ -90,8 +92,6 @@ const Header: FC<HeaderProps> = ({
 
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -127,7 +127,10 @@ const Header: FC<HeaderProps> = ({
       products: cartProducts,
     });
 
-    return setIsCartOpen(!isCartOpen);
+    // return setIsCartOpen(!isCartOpen);
+    return updateGlobalContext({
+      isCartOpen: !isCartOpen,
+    });
   }
 
   function toggleCountrySelector() {
@@ -211,14 +214,12 @@ const Header: FC<HeaderProps> = ({
           )}
           <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
           {isLoaded && (
-            <DiamondShapesProvider>
-              <MegaMenu
-                navItems={section}
-                megaMenuIndex={megaMenuIndex}
-                headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                isCompactMenuVisible={isCompactMenuVisible}
-              />
-            </DiamondShapesProvider>
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
           )}
         </div>
       </FullHeaderStyles>
@@ -227,7 +228,17 @@ const Header: FC<HeaderProps> = ({
           <CountrySelector toggleCountrySelector={toggleCountrySelector} />
         </Modal>
       )}
-      <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
+      <AnimatePresence>
+        {isCartOpen && (
+          <Cart
+            closeCart={() =>
+              updateGlobalContext({
+                isCartOpen: false,
+              })
+            }
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };

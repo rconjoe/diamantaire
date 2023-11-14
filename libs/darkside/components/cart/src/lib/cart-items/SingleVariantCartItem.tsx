@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -111,26 +111,35 @@ const SingleVariantCartItem = ({
   const price = cost?.totalAmount?.amount;
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
-  const { selectedOptions } = merchandise;
+
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
+
+  const { refetch } = useCartData(locale);
 
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productAsset')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
 
   const productType = useMemo(() => {
-    let matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 
     if (matchingAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair
-      const hasChildProduct = attributes?.find((attr) => attr.key === 'hasChildProduct').value === 'true';
+      const childProduct = attributes?.find((attr) => attr.key === 'childProduct')?.value;
+      const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
 
-      if (hasChildProduct) {
+      console.log('isLeftOrRight', isLeftOrRight, attributes, merchandise.title);
+
+      if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
+        const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
+
+        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+      } else if (childProduct) {
         matchingAttribute += ' (' + _t('Pair') + ')';
       } else {
         matchingAttribute += ' (' + _t('Single') + ')';
@@ -141,7 +150,7 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productTitle = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productTitle')?.[0]?.value;
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
@@ -160,7 +169,7 @@ const SingleVariantCartItem = ({
       },
       {
         label: refinedCartItemDetails?.['metal'],
-        value: info?.metal,
+        value: info?.metalType,
       },
       // Bracelet Specific
       {
@@ -175,17 +184,18 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['caratWeight'],
         value: info?.caratWeight,
       },
-      // REPLACE UISTRING
       {
-        label:
-          productType === 'Bracelet'
-            ? 'Size'
-            : productType === 'Necklace'
-            ? 'Chain Length'
-            : info.productType === 'Earrings'
-            ? 'Carat Weight'
-            : refinedCartItemDetails?.['ringSize'],
-        value: `${selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value}`,
+        label: refinedCartItemDetails?.['centerStone'],
+        value: info?.centerStone,
+      },
+      // no label for band accent
+      {
+        label: '',
+        value: info?.bandAccent,
+      },
+      {
+        label: refinedCartItemDetails?.['ringSize'],
+        value: info?.ringSize,
       },
     ],
     [refinedCartItemDetails, info],
@@ -247,8 +257,13 @@ const SingleVariantCartItem = ({
       variantId: merchandise.id,
       quantity: 0,
       attributes: item.attributes,
-    });
+    }).then(() => refetch());
   }
+
+  // The price needs to be combined in the case of two identical earrings
+  const totalPrice = useMemo(() => {
+    return info?.totalPriceOverride || parseFloat(price) * 100;
+  }, [info]);
 
   return (
     <SingleVariantCartItemStyles>
@@ -267,9 +282,7 @@ const SingleVariantCartItem = ({
             single --- {productTitle}
           </Heading>
         </div>
-        <div className="cart-item__price">
-          <p>{makeCurrencyFromShopifyPrice(parseFloat(price) / quantity)}</p>
-        </div>
+        <div className="cart-item__price">{totalPrice && <p>{getFormattedPrice(totalPrice, locale)}</p>}</div>
       </div>
       <div className="cart-item__body">
         <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>

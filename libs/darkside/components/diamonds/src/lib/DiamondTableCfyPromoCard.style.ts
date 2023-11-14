@@ -1,4 +1,4 @@
-import { BLACK, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTableCfyPromoCard = styled.div`
@@ -41,8 +41,8 @@ const StyledDiamondTableCfyPromoCard = styled.div`
   }
 
   button {
-    background: ${BLACK} !important;
-    color: ${WHITE} !important;
+    background: var(--color-black) !important;
+    color: var(--color-white) !important;
   }
 `;
 

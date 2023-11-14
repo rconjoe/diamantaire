@@ -9,8 +9,9 @@ import {
   ProductDescription,
   ProductIconList,
   ProductKlarna,
-  ProductPrice,
-  ProductTitle,
+  ProductAppointmentCTA,
+  ProductSuggestionBlock,
+  ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
@@ -187,13 +188,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  // Doubles price if product is earrings and
+  // Doubles price if product is earrings pair
+
+  console.log('shopifyProductData', shopifyProductData);
+  console.log('additionalVariantData', additionalVariantData);
 
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
-
-  // console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -233,6 +235,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 price={price}
                 hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
+                productType={shopifyProductData?.productType}
               />
               <ProductConfigurator
                 configurations={configurations}
@@ -251,13 +254,19 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 hasSingleInitialEngraving={shopifyProductData?.hasSingleInitialEngraving}
                 setShouldDoublePrice={setShouldDoublePrice}
                 shouldDoublePrice={shouldDoublePrice}
+                // isSoldAsDouble is only true for earrings that come as a pair
                 isSoldAsDouble={shopifyProductData?.isSoldAsDouble}
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
+                isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
+                variants={shopifyProductData?.variants}
               />
 
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
               <ProductAppointmentCTA />
+
+              <ProductGWP />
+
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
                 title="Need more time to think?"
@@ -279,6 +288,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+        {additionalVariantData?.productSuggestionQuadBlock?.id && (
+          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        )}
         <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>

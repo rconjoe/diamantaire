@@ -1,0 +1,31 @@
+summary: Get list of DatoCMS environment ids
+description: Fetched list of DatoCMS environments and returns an array of their ids
+value:
+  modules:
+    - id: a
+      value:
+        type: script
+        input_transforms: {}
+        path: f/datocms/list_environments
+    - id: b
+      summary: Return a list of environment name strings
+      value:
+        type: rawscript
+        content: '!inline return_a_list_of_environment_name_strings.inline_script.ts'
+        input_transforms:
+          evironments:
+            type: javascript
+            expr: results.a
+        lock: |
+          {
+            "version": "2",
+            "remote": {}
+          }
+        language: deno
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties: {}
+  required: []
+tag: null
+ws_error_handler_muted: false

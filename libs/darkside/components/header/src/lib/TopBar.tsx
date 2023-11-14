@@ -1,6 +1,7 @@
-import { useTopBar } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useTopBar, useTopBarGWP } from '@diamantaire/darkside/data/hooks';
+import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
-import { replacePlaceholders } from '@diamantaire/shared/helpers';
+import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -112,6 +113,10 @@ const TopBarContainer = styled.div`
 const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { locale } = useRouter();
   const { data } = useTopBar(locale);
+  const { data: gwp } = useTopBarGWP(locale);
+  const { data: checkout } = useCartData(locale);
+
+  console.log('topbar data', data);
   const canSliderLoop = data?.announcementBar?.loop || true;
   const [isFirstSlide, setIsFirstSlide] = useState(false);
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -143,6 +148,25 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
     };
   }, [emblaApi]);
 
+  const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
+
+  const {
+    activeCountries,
+    minSpendByCurrencyCode,
+    promotionDateRangeStart,
+    promotionDateRangeEnd,
+    announcementBarQualifiedCopy,
+    announcementBarNonQualifiedCopy,
+    announcementBarNothingInCartCopy,
+  } = gwpData || {};
+
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
+
+  const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+  const isThereOneProduct = checkout?.lines?.length > 0;
+  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+
   return (
     <TopBarContainer id="top-bar">
       <div className="top-bar__wrapper">
@@ -161,13 +185,45 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
           <div className="embla slides" ref={isThereMoreThanOneSlide ? emblaRef : null}>
             <div className="embla__container">
               {data?.announcementBar?.data?.map((slide, index) => {
-                const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy } = slide || {};
+                const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy, enableGwp } = slide || {};
+
+                // Skips GWP slide if conditions are not met
+                const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+                const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
+                const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+
+                const textVal = !isThereOneProduct
+                  ? announcementBarNothingInCartCopy
+                  : hasUserQualified
+                  ? announcementBarQualifiedCopy
+                  : announcementBarNonQualifiedCopy;
+
+                let replacedText = replacePlaceholders(
+                  textVal,
+                  ['%%GWP_minimum_spend%%'],
+                  [getFormattedPrice(parseFloat(minSpendValue), locale)],
+                ).toString();
+
+                replacedText = replacePlaceholders(
+                  replacedText,
+                  ['%%GWP_remaining_spend%%'],
+                  [
+                    getFormattedPrice(
+                      parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
+                      locale,
+                    ),
+                  ],
+                ).toString();
+
+                if (enableGwp && (!isCountrySupported || !isWithinTimeframe)) return null;
 
                 return (
                   <div className="embla__slide" key={`top-bar-slide-${index}`}>
-                    {/* If there is a location, and the slide has geo on it 🪄 */}
-                    {enableGeoCopy && showroomLocation ? (
+                    {enableGwp ? (
+                      <p>{replacedText}</p>
+                    ) : enableGeoCopy && showroomLocation ? (
                       <p>
+                        {/* If there is a location, and the slide has geo on it 🪄 */}
                         <Link href={link}>
                           {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location]) as string}{' '}
                           <span className="arrow-right"></span>

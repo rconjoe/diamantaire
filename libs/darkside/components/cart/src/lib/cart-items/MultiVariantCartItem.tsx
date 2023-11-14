@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { CartContext } from '@diamantaire/darkside/context/cart-context';
-import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
+import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
@@ -104,14 +104,12 @@ const MultiVariantCartItem = ({
   updateItemQuantity,
   cartItemDetails,
   hasChildProduct,
-  childProduct,
-  shouldShowChildProduct,
 }: {
   item: CartItem;
   certificate: CartCertProps;
   info: any;
   cartItemDetails: { [key: string]: string }[];
-  shouldShowChildProduct: boolean;
+
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -124,8 +122,8 @@ const MultiVariantCartItem = ({
     attributes: AttributeInput[];
   }) => Promise<string | undefined>;
   hasChildProduct: boolean;
-  childProduct: CartItem | null;
 }) => {
+  const { locale } = useRouter();
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { productRemoved } = useAnalytics();
   const { attributes, cost, merchandise, quantity } = item;
@@ -133,30 +131,47 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
+  const { data: checkout } = useCartData(locale);
 
-  const { updateMultipleItemsQuantity, checkout, removeFromCart } = useContext(CartContext);
+  const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
-  const { locale } = useRouter();
+  const childProduct = useMemo(() => {
+    return checkout?.lines?.find(
+      (item) => item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
+    );
+  }, [item]);
+
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === '_image')?.[0];
+    const matchingAttribute = attributes?.find((attr) => attr.key === 'productAsset');
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
-  const productType = useMemo(() => {
-    let matchingAttribute = attributes?.filter((attr) => attr.key === 'productType')?.[0]?.value;
 
-    console.log('double matchingAttribute', matchingAttribute);
+  const productType = useMemo(() => {
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
 
     if (matchingAttribute === 'Earrings') {
-      matchingAttribute += ' (' + _t('Pair') + ')';
+      // Check if Earrings product has child. If so, it's a pair
+      const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
+
+      if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
+        const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
+
+        matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
+      } else if (childProduct) {
+        matchingAttribute += ' (' + _t('Pair') + ')';
+      } else {
+        matchingAttribute += ' (' + _t('Single') + ')';
+      }
     }
 
     return matchingAttribute;
   }, [attributes]);
+
   const productTitle = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productTitle')?.[0]?.value;
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
@@ -178,7 +193,7 @@ const MultiVariantCartItem = ({
       },
       {
         label: refinedCartItemDetails?.['metal'],
-        value: info?.metal,
+        value: info?.metalType,
       },
       {
         label: '',
@@ -202,12 +217,11 @@ const MultiVariantCartItem = ({
     setRefinedCartItemDetails(tempRefinedCartItemDetails);
   }, [cartItemDetails]);
 
-  function handleRemoveProduct() {
-    if (hasChildProduct && childProduct && checkout.lines.length > 1) {
+  async function handleRemoveProduct() {
+    if (hasChildProduct && childProduct && checkout?.lines?.length > 1) {
       const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 
-      console.log('case 1', { checkout, hasChildProduct, childProduct });
       productRemoved({
         name: productTitle,
         id,
@@ -266,30 +280,23 @@ const MultiVariantCartItem = ({
         },
       });
 
-      const isProductPairedEarrings = item.attributes?.find((attr) => attr.key === 'childProductType')?.value === 'self';
-
-      if (isProductPairedEarrings) {
-        removeFromCart([item.id, childProduct.id]);
-      } else {
-        updateMultipleItemsQuantity({
-          items: [
-            {
-              lineId: item.id,
-              variantId: merchandise.id,
-              quantity: item.quantity - (isProductPairedEarrings ? 2 : 1),
-              attributes: item.attributes,
-            },
-            {
-              lineId: childProduct.id,
-              variantId: childProduct.merchandise.id,
-              quantity: childProduct.quantity - 1,
-              attributes: childProduct.attributes,
-            },
-          ],
-        });
-      }
+      await updateMultipleItemsQuantity({
+        items: [
+          {
+            lineId: item.id,
+            variantId: merchandise.id,
+            quantity: item.quantity - 1,
+            attributes: item.attributes,
+          },
+          {
+            lineId: childProduct.id,
+            variantId: childProduct.merchandise.id,
+            quantity: childProduct.quantity - 1,
+            attributes: childProduct.attributes,
+          },
+        ],
+      });
     } else {
-      console.log('case 2');
       productRemoved({
         name: productTitle,
         id,
@@ -352,18 +359,19 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            double {info?.productTitle}
+            multi -- {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
           {hasChildProduct ? (
             <p>
-              {makeCurrencyFromShopifyPrice(
-                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount),
+              {getFormattedPrice(
+                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount) * 100,
+                locale,
               )}
             </p>
           ) : (
-            <p>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</p>
+            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</p>
           )}
         </div>
       </div>
@@ -373,8 +381,8 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
-            {shouldShowChildProduct && (
-              <span>{makeCurrencyFromShopifyPrice(parseFloat(cost?.totalAmount?.amount) / item.quantity)}</span>
+            {productType === 'Engagement Ring' && (
+              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</span>
             )}
           </p>
           {itemAttributes?.map((specItem, index) => {
@@ -388,7 +396,7 @@ const MultiVariantCartItem = ({
           })}
         </div>
       </div>
-      {hasChildProduct && childProduct && shouldShowChildProduct && (
+      {hasChildProduct && childProduct && (
         <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} certificate={certificate} />
       )}
     </MultiVariantCartItemStyles>

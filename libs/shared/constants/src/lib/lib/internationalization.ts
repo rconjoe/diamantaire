@@ -534,7 +534,12 @@ export function getFormattedPrice(
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');
 
-  formattedPrice = currencySymbol + formattedPrice;
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
 
   return formattedPrice;
 }

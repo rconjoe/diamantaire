@@ -22,27 +22,38 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
 
   return (
     <div className={clsx('content-one-container', gtmClass)}>
-      <Suspense fallback={'Loading'}>
-        {page?.content1?.slice(0, page.content1.length).map((contentBlockData, idx) => {
-          const { _modelApiKey } = contentBlockData;
+      {page?.content1?.map((contentBlockData, idx) => {
+        const { _modelApiKey } = contentBlockData;
 
-          // Desktop + Mobile, anything after the first two blocks should be lazy loaded
-          const contentIsAboveFold = idx < 2;
-          const shouldLazyLoad = contentIsAboveFold ? false : true;
+        // Desktop + Mobile, anything after the first two blocks should be lazy loaded
+        const contentIsAboveFold = idx < 2;
+        const shouldLazyLoad = contentIsAboveFold ? false : true;
 
+        if (shouldLazyLoad) {
           return (
-            <React.Fragment key={`${_modelApiKey}_${idx}`}>
+            <Suspense fallback={'Loading'} key={`${_modelApiKey}_${idx}`}>
               <BlockPicker
                 _modelApiKey={_modelApiKey}
-                modularBlockData={{ ...contentBlockData }}
+                modularBlockData={contentBlockData}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={shouldLazyLoad}
               />
-            </React.Fragment>
+            </Suspense>
           );
-        })}
-      </Suspense>
+        } else {
+          return (
+            <BlockPicker
+              _modelApiKey={_modelApiKey}
+              modularBlockData={contentBlockData}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+              shouldLazyLoad={shouldLazyLoad}
+              key={`${_modelApiKey}_${idx}`}
+            />
+          );
+        }
+      })}
     </div>
   );
 };

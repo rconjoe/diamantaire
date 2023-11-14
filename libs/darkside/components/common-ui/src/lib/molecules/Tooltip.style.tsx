@@ -1,29 +1,28 @@
-import { BLACK, GREY, MAIN_FONT, WHITE, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledTooltip = styled.div`
   .tooltip-window {
     opacity: 1;
     z-index: 9999;
-    background: ${WHITE};
-    border: 1px solid ${GREY};
+    background: var(--color-white);
+    border: 1px solid var(--color-grey);
     padding: 2rem;
-    color: ${BLACK};
+    color: var(--color-black);
     text-wrap: wrap;
     max-width: 97vw;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       max-width: 360px;
-    `)}
+    }
 
     * {
       font-size: var(--font-size-xxxsmall);
-      color: ${BLACK};
+      color: var(--color-black);
     }
   }
 
   .tooltip-arrow {
-    border: 1px solid ${GREY};
+    border: 1px solid var(--color-grey);
   }
 
   .react-tooltip__place-top .tooltip-arrow {
@@ -54,7 +53,7 @@ const StyledTooltip = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid ${GREY};
+    border: 1px solid var(--color-grey);
     height: 12px;
     width: 12px;
     position: relative;
@@ -69,9 +68,9 @@ const StyledTooltip = styled.div`
 
     * {
       font-size: var(--font-size-xxxxxsmall);
-      font-family: ${MAIN_FONT};
+      font-family: var(--font-family-main);
       text-transform: none;
-      color: ${GREY};
+      color: var(--color-grey);
     }
   }
 
@@ -84,9 +83,10 @@ const StyledTooltip = styled.div`
 
   #tooltip-certificate {
     max-width: 220px;
-    ${tabletAndUp(`
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       max-width: 170px;
-    `)}
+    }
   }
 `;
 

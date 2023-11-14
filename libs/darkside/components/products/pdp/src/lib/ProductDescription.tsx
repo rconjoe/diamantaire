@@ -237,10 +237,10 @@ const ProductDescription = ({
     ' ring in ' +
     selectedConfiguration?.goldPurity +
     ' ' +
-    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal].toLowerCase() +
+    METALS_IN_HUMAN_NAMES[selectedConfiguration?.metal]?.toLowerCase() +
     ' ' +
     ' with a ' +
-    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType].toLowerCase() +
+    DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]?.toLowerCase() +
     ' diamond';
 
   const { locale } = useRouter();

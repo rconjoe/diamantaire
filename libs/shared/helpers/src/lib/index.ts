@@ -10,8 +10,8 @@ export * from './getRelativeUrl';
 export * from './getUserCountry';
 export * from './images';
 export * from './isCountrySupported';
+export * from './isCurrentTimeWithinInterval';
 export * from './isEmptyObject';
-export * from './journalHelpers';
 export * from './mapShapeToSeoTitle';
 export * from './normalizeDatoNumberedContent';
 export * from './object-transformations';
@@ -20,4 +20,4 @@ export * from './replacePlaceholders';
 export * from './routes';
 export * from './sortBandWidth';
 export * from './sortRingSize';
-
+export * from './swapProductTypeWithHandle';
