@@ -530,6 +530,9 @@ export function getFormattedPrice(
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(convertedPrice);
 
+  console.log('init formattedPrice', formattedPrice);
+  console.log('init currency', currency);
+
   const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');

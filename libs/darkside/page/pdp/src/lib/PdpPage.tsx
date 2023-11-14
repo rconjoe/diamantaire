@@ -135,7 +135,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  const isBuilderProduct = configuration.caratWeight === 'other';
+  const isBuilderProduct = configuration.caratWeight === 'other' || !configuration.caratWeight;
 
   const parentProductAttributes = {
     bandWidth,
@@ -228,7 +228,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={price}
-                hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
               />

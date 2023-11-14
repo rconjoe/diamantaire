@@ -200,6 +200,10 @@ const createPlpServerSideProps = (category: string) => {
       ...queries.template.global(locale),
     });
 
+    await queryClient.prefetchQuery({
+      ...queries.plp.plpBlockPickerBlocks(locale, slug),
+    });
+
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
       return {
         notFound: true,

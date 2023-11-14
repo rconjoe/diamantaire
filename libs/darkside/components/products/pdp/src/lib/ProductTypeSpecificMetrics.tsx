@@ -21,7 +21,8 @@ const ProductTypeSpecificMetrics = ({ additionalVariantData, productType, should
     <ProductTypeSpecificMetricsStyles>
       {acceptableProductTypes.includes(productType) && caratWeight ? (
         <Heading type="h2" className="metric-title">
-          <UIString>Carat weight</UIString>: <span>{shouldDoublePrice ? caratWeight * 2 : caratWeight}</span>
+          {/* keep carat weight lowercase for translation */}
+          <UIString>carat weight</UIString>: <span>{shouldDoublePrice ? caratWeight * 2 : caratWeight}</span>
         </Heading>
       ) : (
         ''

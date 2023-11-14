@@ -165,6 +165,7 @@ function ProductConfigurator({
             updateSettingSlugs={updateSettingSlugs}
             disableVariantType={disableVariantType}
             hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
+            productType={additionalVariantData?.productType}
           />
 
           {/* Ring Size */}
@@ -182,6 +183,7 @@ function ProductConfigurator({
                 onChange={handleSizeChange}
                 isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
+                productType={additionalVariantData?.productType}
               />
             )}
         </>
