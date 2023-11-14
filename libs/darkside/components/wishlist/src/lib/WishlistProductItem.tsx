@@ -332,6 +332,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
   if (productId.includes('bundle-')) {
     card = (
       <CardBundle
+        handleOpenDropHintModal={handleOpenDropHintModal}
         isWishlistPage={isWishlistPage}
         setting={productData[0]}
         diamond={productData[1]}
