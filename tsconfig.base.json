@@ -67,6 +67,9 @@
       "@diamantaire/darkside/components/seo": [
         "libs/darkside/components/seo/src/index.ts"
       ],
+      "@diamantaire/darkside/components/wishlist": [
+        "libs/darkside/components/wishlist/src/index.ts"
+      ],
       "@diamantaire/darkside/context/analytics": [
         "libs/darkside/context/analytics/src/index.ts"
       ],
