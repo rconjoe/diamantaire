@@ -39,8 +39,6 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   let vraiApiClientPayload: any = {};
 
   try {
-    console.log(`vraiApiClientURL`, vraiApiClientURL);
-
     const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
     vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};

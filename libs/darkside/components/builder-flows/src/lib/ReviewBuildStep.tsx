@@ -411,9 +411,6 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     });
   }
 
-  console.log(`settingSlugs`, settingSlugs);
-  console.log(`diamond`, diamond);
-
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"

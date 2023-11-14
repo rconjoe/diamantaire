@@ -136,7 +136,6 @@ function ProductConfigurator({
 
   useEffect(() => {
     setSelectVariantId(variantId);
-    console.log(variantId);
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
@@ -308,8 +307,6 @@ function AddToCartButton({
   const { refetch } = useCartData(locale);
 
   const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
-
-  //console.log('additionalVariantData', additionalVariantData);
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
