@@ -9,9 +9,6 @@ const PlpBlockPicker = ({ plpSlug }) => {
   const { locale } = useRouter();
   const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug);
 
-  console.log('plpSlug', plpSlug);
-  console.log('listPage', listPage);
-
   return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
     const { _modelApiKey } = contentBlockData;
 

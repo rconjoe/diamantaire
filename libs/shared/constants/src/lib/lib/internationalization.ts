@@ -517,7 +517,9 @@ export function getFormattedPrice(
 
   // this is a hack to see proper CAD formatting
   // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
-  const customLocale = locale === 'en-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+
+  console.log('customLocale', customLocale);
 
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
@@ -532,6 +534,7 @@ export function getFormattedPrice(
 
   console.log('init formattedPrice', formattedPrice);
   console.log('init currency', currency);
+  console.log('countryCode', countryCode);
 
   const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 

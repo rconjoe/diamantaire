@@ -35,6 +35,7 @@ export const sideStoneShapeValues = [
 export const goldPurityValues = ['14k', '18k'] as const;
 export const bandAccentValues = ['plain', 'pave', 'double-pave', 'double-pave-twisted', 'pave-twisted'] as const;
 export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
+export const plpMetalValues = ['yellow-gold', 'rose-gold', 'white-gold', 'platinum', 'sterling-silver'] as const;
 export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
 export const eternityStyleValues = ['half', 'full'] as const;
 export const bandStyleValues = ['full', 'half'] as const;
