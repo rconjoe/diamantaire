@@ -321,7 +321,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       settingAttributes,
       diamondVariantId,
       diamondAttributes,
-    });
+    }).then(() => refetch());
 
     updateGlobalContext({
       isCartOpen: true,
@@ -405,6 +405,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         },
       ],
     });
+
+    return;
   }
 
   return (
@@ -538,9 +540,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart().then(() => refetch())}>
-                      Add to bag
-                    </DarksideButton>
+                    <DarksideButton onClick={() => addCustomProductToCart()}>Add to bag</DarksideButton>
                   </li>
                   <li>
                     <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
