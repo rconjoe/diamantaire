@@ -5,5 +5,7 @@ export function isCurrentTimeWithinInterval(startTime: string, endTime: string):
   const startDateTime = new Date(startTime);
   const endDateTime = new Date(endTime);
 
+  if (!currentTime || !startDateTime || !endDateTime) return false;
+
   return isWithinInterval(currentTime, { start: startDateTime, end: endDateTime });
 }

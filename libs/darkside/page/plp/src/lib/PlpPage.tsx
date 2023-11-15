@@ -2,6 +2,7 @@ import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import {
   PlpBlockPicker,
   PlpHeroBanner,
+  PlpPreviouslyViewed,
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
@@ -147,6 +148,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         handleSortChange={handleSortChange}
       />
       <div ref={pageEndRef} />
+      <PlpPreviouslyViewed />
       <PlpBlockPicker plpSlug={plpSlug} />
     </div>
   );
@@ -198,6 +200,10 @@ const createPlpServerSideProps = (category: string) => {
 
     await queryClient.prefetchQuery({
       ...queries.template.global(locale),
+    });
+
+    await queryClient.prefetchQuery({
+      ...queries.plp.plpBlockPickerBlocks(locale, slug),
     });
 
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {

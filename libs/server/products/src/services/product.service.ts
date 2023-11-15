@@ -17,6 +17,7 @@ import {
   generateProductTree,
   getProductConfigMatrix,
   ProductNode,
+  sortMetalTypes,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -50,7 +51,10 @@ const PRODUCT_DATA_TTL = 3600;
 export class ProductsService {
   private logger = new Logger(ProductsService.name);
   private limiter: Bottleneck;
-  constructor(private readonly productRepository: ProductRepository, private readonly utils: UtilService) {
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly utils: UtilService,
+  ) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
       maxConcurrent: 1,
@@ -871,12 +875,11 @@ export class ProductsService {
           }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
-          filterValueQueries,
-        );
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
+          await Promise.all(filterValueQueries);
 
         availableFilters = {
-          metal: availableMetals,
+          metal: availableMetals.sort(sortMetalTypes),
           diamondType: availableDiamondTypes,
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
@@ -1243,12 +1246,11 @@ export class ProductsService {
           }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
-          filterValueQueries,
-        );
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
+          await Promise.all(filterValueQueries);
 
         availableFilters = {
-          metal: availableMetals,
+          metal: availableMetals.sort(sortMetalTypes),
           diamondType: availableDiamondTypes,
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
