@@ -8,6 +8,16 @@ const ProductKlarnaStyles = styled.div`
   left: -10px;
 `;
 
+declare global {
+  interface Window {
+    Klarna?: {
+      OnsiteMessaging?: {
+        refresh: () => void;
+      };
+    };
+  }
+}
+
 const ProductKlarna = ({ title, currentPrice }) => {
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
