@@ -23,10 +23,15 @@ const shouldEnableTracking = (consent) => {
   const isUserInEu = getIsUserInEu();
   const hasAcceptedStatistics = consent?.statistics || false;
   const hasAcceptedMarketing = consent?.marketing || false;
-  const enableTracking =
-    (isProdEnv && Boolean(process.env.NEXT_PUBLIC_GTM_CONTAINER_ID)) || process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
 
-  return !isUserInEu || (enableTracking && hasAcceptedStatistics && hasAcceptedMarketing);
+  const isGTMEnabled = Boolean(process.env.NEXT_PUBLIC_GTM_CONTAINER_ID);
+  const isDevEnabled = process.env.NEXT_PUBLIC_LOCAL_GTM === 'true';
+
+  // Check if GTM should be enabled based on environment and configuration
+  const enableTracking = isGTMEnabled && (isProdEnv || isDevEnabled);
+
+  // For EU users, require additional cookie consent
+  return isUserInEu ? enableTracking && hasAcceptedStatistics && hasAcceptedMarketing : enableTracking;
 };
 
 const createTrackEvent = (isTrackingEnabled) => async (eventName, data) => {
