@@ -24,7 +24,6 @@ const ProductKlarna = ({ title, currentPrice }) => {
   };
 
   useEffect(() => {
-    /* @ts-expect-error one-time only for this */
     window && window?.Klarna?.OnsiteMessaging?.refresh();
   }, [currentPrice]);
 
