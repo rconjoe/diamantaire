@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const StyledWishlistLikeButton = styled.div`
   position: absolute;
   cursor: pointer;
-  width: 20px;
+  width: 18px;
   right: 0;
   top: 0;
   z-index: 1;
