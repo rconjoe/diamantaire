@@ -19,7 +19,6 @@ export const GTM_EVENTS = {
   beginCheckout: 'begin_checkout',
 };
 
-// Function to check if tracking should be enabled
 const shouldEnableTracking = (consent) => {
   const isUserInEu = getIsUserInEu();
   const hasAcceptedStatistics = consent?.statistics || false;
@@ -30,18 +29,16 @@ const shouldEnableTracking = (consent) => {
   return !isUserInEu || (enableTracking && hasAcceptedStatistics && hasAcceptedMarketing);
 };
 
-const createTrackEvent = (isTrackingEnabled) => {
-  return async (eventName, data) => {
-    if (isTrackingEnabled()) {
-      try {
-        await sendGTMEvent({ event: eventName, ...data });
-      } catch (error) {
-        console.error('Error sending analytics event:', error);
-      }
-    } else {
-      console.log('Analytics disabled or consent not given', { event: eventName, data });
+const createTrackEvent = (isTrackingEnabled) => async (eventName, data) => {
+  if (isTrackingEnabled()) {
+    try {
+      await sendGTMEvent({ event: eventName, ...data });
+    } catch (error) {
+      console.error('Error sending analytics event:', error);
     }
-  };
+  } else {
+    logInDev('Analytics disabled or consent not given', { event: eventName, data });
+  }
 };
 
 export const useAnalytics = () => {
@@ -54,31 +51,14 @@ export const useAnalytics = () => {
     await trackEvent(GTM_EVENTS.viewPage, { pageName });
   };
 
-  const productAdded = async (eventData) => {
-    const { name } = eventData;
-    const ga360Data = {
-      event: GTM_EVENTS.addToCart,
-      eventCategory: 'Ecommerce',
-      eventAction: GTM_EVENTS.addToCart,
-      eventLabel: name,
-    };
-    const mergedData = { ...eventData, ...ga360Data };
+  const productAdded = async (eventData) =>
+    await trackEvent(GTM_EVENTS.addToCart, { ...eventData, ...createGA360Data(GTM_EVENTS.addToCart, eventData.name) });
 
-    await trackEvent(GTM_EVENTS.addToCart, mergedData);
-  };
-
-  const productRemoved = async (eventData) => {
-    const { name } = eventData;
-    const ga360Data = {
-      event: GTM_EVENTS.removeFromCart,
-      eventCategory: 'Ecommerce',
-      eventAction: GTM_EVENTS.removeFromCart,
-      eventLabel: name,
-    };
-    const mergedData = { ...eventData, ...ga360Data };
-
-    await trackEvent(GTM_EVENTS.removeFromCart, mergedData);
-  };
+  const productRemoved = async (eventData) =>
+    await trackEvent(GTM_EVENTS.removeFromCart, {
+      ...eventData,
+      ...createGA360Data(GTM_EVENTS.removeFromCart, eventData.name),
+    });
 
   const productViewed = async (eventData) => {
     await trackEvent(GTM_EVENTS.viewItem, eventData);
@@ -96,17 +76,8 @@ export const useAnalytics = () => {
     await trackEvent(GTM_EVENTS.cartViewed, eventData);
   };
 
-  const checkoutStarted = async (eventData) => {
-    const ga360Data = {
-      event: GTM_EVENTS.beginCheckout,
-      eventCategory: 'Ecommerce',
-      eventAction: GTM_EVENTS.beginCheckout,
-      eventLabel: '1',
-    };
-    const mergedData = { ...eventData, ...ga360Data };
-
-    await trackEvent(GTM_EVENTS.beginCheckout, mergedData);
-  };
+  const checkoutStarted = async (eventData) =>
+    await trackEvent(GTM_EVENTS.beginCheckout, { ...eventData, ...createGA360Data(GTM_EVENTS.beginCheckout, '1') });
 
   const emitDataLayer = async (data) => {
     if (shouldEnableTracking(consent)) {
@@ -116,7 +87,7 @@ export const useAnalytics = () => {
         console.error('Error sending analytics event:', error);
       }
     } else {
-      console.log('Analytics disabled or consent not given', { data });
+      logInDev('Analytics disabled or consent not given', { data });
     }
   };
 
@@ -163,5 +134,20 @@ export const normalizeVariantConfigurationForGTM = (configuration: Record<string
     }
 
     return normalizedConfiguration;
+  }
+};
+
+// Utility function to create GA360 data
+const createGA360Data = (eventName, name) => ({
+  event: eventName,
+  eventCategory: 'Ecommerce',
+  eventAction: eventName,
+  eventLabel: name,
+});
+
+// Utility function for console logging in dev environment
+const logInDev = (message, data) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(message, data);
   }
 };
