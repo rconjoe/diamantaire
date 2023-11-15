@@ -44,9 +44,6 @@
       "@diamantaire/analytics": [
         "libs/shared/analytics/src/index.ts"
       ],
-      "@diamantaire/analytics/server": [
-        "libs/shared/analytics/src/server.ts"
-      ],
       "@diamantaire/darkside/components/blockpicker-blocks": [
         "libs/darkside/components/blockpicker-blocks/src/index.ts"
       ],
@@ -76,9 +73,6 @@
       ],
       "@diamantaire/darkside/components/seo": [
         "libs/darkside/components/seo/src/index.ts"
-      ],
-      "@diamantaire/darkside/context/analytics": [
-        "libs/darkside/context/analytics/src/index.ts"
       ],
       "@diamantaire/darkside/context/cart-context": [
         "libs/darkside/context/cart-context/src/index.ts"
