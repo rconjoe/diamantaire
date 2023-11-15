@@ -72,7 +72,7 @@ const CartGWP = () => {
 
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
 
-  const hasUserQualified = parseFloat(checkout.cost.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
   if (!isCountrySupported || !isWithinTimeframe) return null;
 
@@ -98,7 +98,7 @@ const CartGWP = () => {
                     ['%%GWP_remaining_spend%%'],
                     [
                       getFormattedPrice(
-                        parseFloat(minSpendValue) - parseFloat(checkout.cost.subtotalAmount?.amount) * 100,
+                        parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
                         locale,
                       ),
                     ],
