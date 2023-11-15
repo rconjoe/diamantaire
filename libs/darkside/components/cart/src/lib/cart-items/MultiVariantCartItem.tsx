@@ -131,7 +131,7 @@ const MultiVariantCartItem = ({
   const currency = cost?.totalAmount?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-  const { data: checkout } = useCartData(locale);
+  const { data: checkout, refetch } = useCartData(locale);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
