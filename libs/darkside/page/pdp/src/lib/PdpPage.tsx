@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { PageViewTracker } from '@diamantaire/analytics';
 import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -14,7 +15,6 @@ import {
   ProductSuggestionBlock,
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';

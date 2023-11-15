@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
+import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';

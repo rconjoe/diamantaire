@@ -1,5 +1,5 @@
+import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';

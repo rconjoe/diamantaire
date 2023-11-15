@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
+import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';

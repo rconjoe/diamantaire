@@ -188,7 +188,10 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                 const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy, enableGwp } = slide || {};
 
                 // Skips GWP slide if conditions are not met
-                const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+                const isWithinTimeframe =
+                  promotionDateRangeStart && promotionDateRangeEnd
+                    ? isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd)
+                    : false;
                 const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
                 const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
 

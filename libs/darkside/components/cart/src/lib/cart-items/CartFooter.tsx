@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
+import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useState } from 'react';

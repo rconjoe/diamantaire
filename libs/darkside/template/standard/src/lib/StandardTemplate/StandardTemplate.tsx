@@ -1,3 +1,4 @@
+import { GoogleTagManagerContainer } from '@diamantaire/analytics';
 import { CookieBanner, EmailPopUp } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
 import { PageLoadProgressBar } from '@diamantaire/darkside/core';
@@ -20,6 +21,7 @@ export const getTemplate = (page: ReactElement) =>
   getGlobalTemplate(
     <StandardTemplate>
       <BuilderProductContextProvider>
+        <GoogleTagManagerContainer />
         <PageLoadProgressBar />
         {page}
         <CookieBanner />
