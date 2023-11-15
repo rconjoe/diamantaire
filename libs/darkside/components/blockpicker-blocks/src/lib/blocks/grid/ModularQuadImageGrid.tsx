@@ -29,7 +29,7 @@ const ModularQuadImageGrid = ({
   subtitle,
   blocks,
   countryCode,
-  _modelApiKey,
+  // _modelApiKey,
   shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
   return (
