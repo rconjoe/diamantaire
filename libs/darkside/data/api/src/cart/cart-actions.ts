@@ -161,7 +161,7 @@ async function addToCart(
   return reshapeCart(res.body.data.cartLinesAdd.cart);
 }
 
-const addItemToCart = async (
+export const addItemToCart = async (
   variantId: string | undefined,
   customAttributes?: AttributeInput[],
   quantity?: number,

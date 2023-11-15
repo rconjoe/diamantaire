@@ -532,17 +532,18 @@ export function getFormattedPrice(
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(convertedPrice);
 
-  console.log('init formattedPrice', formattedPrice);
-  console.log('init currency', currency);
-  console.log('countryCode', countryCode);
-
-  const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');
 
   // Manually adding period to first gap in price if currency is EUR
   if (currency === 'EUR') {
     formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
   }
 
   formattedPrice = `${currencySymbol}${formattedPrice}`;

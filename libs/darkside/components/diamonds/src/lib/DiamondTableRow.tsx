@@ -1,8 +1,9 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { addItemToCart } from '@diamantaire/darkside/data/api';
+import { useCartData } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
@@ -28,7 +29,10 @@ const DiamondTableRow = ({
   const { handle, lotId, diamondType } = product;
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
-  const { addItemToCart, setIsCartOpen } = useContext(ActionsContext);
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  const { refetch } = useCartData(locale);
+
   const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
@@ -92,8 +96,10 @@ const DiamondTableRow = ({
     //   },
     // ];
 
-    addItemToCart(product?.variantId);
-    setIsCartOpen(true);
+    addItemToCart(product?.variantId).then(() => refetch());
+    updateGlobalContext({
+      isCartOpen: true,
+    });
   };
 
   return (
