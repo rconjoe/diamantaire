@@ -316,7 +316,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       pdpUrl: window.location.href,
     };
 
-    addERProductToCart({
+    await addERProductToCart({
       settingVariantId,
       settingAttributes,
       diamondVariantId,
