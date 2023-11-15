@@ -247,7 +247,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const diamondVariantId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
-    const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondVariantId);
+    const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
 
     if (isDiamondInCart) {
       return toast.error(ToastError, {
