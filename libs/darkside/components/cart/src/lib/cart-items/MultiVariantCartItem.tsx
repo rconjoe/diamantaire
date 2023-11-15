@@ -351,7 +351,7 @@ const MultiVariantCartItem = ({
         <div className="cart-item__remove-product">
           <button
             onClick={() => {
-              handleRemoveProduct();
+              handleRemoveProduct().then(() => refetch());
             }}
           >
             <XIcon />
