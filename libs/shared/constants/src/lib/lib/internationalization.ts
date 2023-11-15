@@ -519,8 +519,6 @@ export function getFormattedPrice(
   // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
   const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
 
-  console.log('customLocale', customLocale);
-
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',

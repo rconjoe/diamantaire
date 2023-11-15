@@ -1,6 +1,6 @@
 import { DarksideButton, DatoImage, UIString } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES, bandAccentTypeAsConst } from '@diamantaire/shared/constants';
+import { DIAMOND_TYPE_HUMAN_NAMES, bandAccentTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import React, { useContext } from 'react';
@@ -69,7 +69,7 @@ type SummaryItemProps = {
 };
 
 const SummaryItem = ({ item, itemType = 'product', showPrice = false, modifyIndex }: SummaryItemProps) => {
-  const { productTitle, image, metal, price, bandAccent, goldPurity, diamondType, clarity, carat, cut, color } = item || {};
+  const { productTitle, image, metal, price, bandAccent, diamondType, clarity, carat, cut, color } = item || {};
   const { updateStep } = useContext(BuilderProductContext);
 
   let src = null;
@@ -89,7 +89,7 @@ const SummaryItem = ({ item, itemType = 'product', showPrice = false, modifyInde
             <h4>{DIAMOND_TYPE_HUMAN_NAMES[diamondType]}</h4>
             <ul>
               <li>
-                <UIString>{carat}ct</UIString>
+                <UIString>{carat.toString()}</UIString>ct
               </li>
               <li>
                 <UIString>{clarity}</UIString>
@@ -119,9 +119,7 @@ const SummaryItem = ({ item, itemType = 'product', showPrice = false, modifyInde
           <div className="item__content">
             <h4>{productTitle}</h4>
             <p>
-              <UIString>
-                {goldPurity} {METALS_IN_HUMAN_NAMES[metal]}
-              </UIString>
+              <UIString>{metal}</UIString>
             </p>
             <p>
               <UIString>{bandAccentTypeAsConst[bandAccent]}</UIString>
