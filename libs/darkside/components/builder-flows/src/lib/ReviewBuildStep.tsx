@@ -170,7 +170,7 @@ const MAX_CHAR_LIMIT = 16;
 const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
-  const { data: checkout } = useCartData(router?.locale);
+  const { data: checkout, refetch } = useCartData(router?.locale);
   const { builderProduct } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
@@ -237,7 +237,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     product;
 
   // Need the ring size
-  function addCustomProductToCart() {
+  async function addCustomProductToCart() {
     const productGroupKey = uuidv4();
     // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
@@ -538,7 +538,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart()}>Add to bag</DarksideButton>
+                    <DarksideButton onClick={() => addCustomProductToCart().then(() => refetch())}>
+                      Add to bag
+                    </DarksideButton>
                   </li>
                   <li>
                     <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
