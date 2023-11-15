@@ -6,36 +6,38 @@
  * @copyright DiamondFoundry
  */
 
-import { INVENTORY_LEVEL_QUERY, DIAMOND_PLP_DATA_CONFIG_QUERY } from '@diamantaire/darkside/data/api';
+import { DIAMOND_PLP_DATA_CONFIG_QUERY, INVENTORY_LEVEL_QUERY } from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
-import { CFY_DIAMOND_LIMIT, MIN_CARAT_EMPTY_RESULT, DIAMOND_PAGINATED_LABELS } from '@diamantaire/shared/constants';
+// eslint-disable-next-line
+import { CFY_DIAMOND_LIMIT, DIAMOND_PAGINATED_LABELS, MIN_CARAT_EMPTY_RESULT } from '@diamantaire/shared/constants';
+
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PaginateOptions } from 'mongoose';
 
-import { GetDiamondCheckoutDto, ProductInventoryDto, LowestPricedDto, DiamondPlp } from '../dto/diamond-checkout.dto';
+import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
-  removeIdenticalDiamond4Cs,
+  DiamondClarities,
+  DiamondColors,
+  DiamondCuts,
+  DiamondProperty,
+  DiamondTypes,
+  caratFirstSortOrder,
   colorFirstSortOrder,
-  sortDiamonds,
-  isDEF,
-  isVSPlus,
-  isVVSPlus,
-  isColorGte,
-  isClarityGte,
   createSortCaratFromTargetWithWeightComparator,
   descendingCaratComparator,
   diamondPropertyAscendingComparitors,
-  DiamondProperty,
-  DiamondClarities,
-  DiamondCuts,
-  caratFirstSortOrder,
-  DiamondColors,
-  DiamondTypes,
+  isClarityGte,
+  isColorGte,
+  isDEF,
+  isVSPlus,
+  isVVSPlus,
+  removeIdenticalDiamond4Cs,
+  sortDiamonds,
 } from '../helper/diamond.helper';
-import { IDiamondCollection, IShopifyInventory, IDiamondRecommendation } from '../interface/diamond.interface';
+import { IDiamondCollection, IDiamondRecommendation, IShopifyInventory } from '../interface/diamond.interface';
 import { DiamondPairsRepository } from '../repository/diamond-pairs.repository';
 import { DiamondRepository } from '../repository/diamond.repository';
 import { ToiMoiDiamondsRepository } from '../repository/toimoi-diamonds.repository';
@@ -142,6 +144,23 @@ export class DiamondsService {
       throw new NotFoundException(`Diamond with lotId: ${input.lotId} not found`);
     } catch (error) {
       this.Logger.error(`Error fetching diamond by lotId: ${input.lotId}`);
+      throw error;
+    }
+  }
+
+  async diamondsByLotIdArray(lotIds: string[]): Promise<DiamondEntity[]> {
+    this.Logger.verbose(`Fetching diamond list by lotIds array: ${lotIds}`);
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const result = await this.diamondRepository.find({ lotId: { $in: lotIds } });
+
+      if (result) {
+        return result;
+      }
+
+      return [];
+    } catch (error) {
+      this.Logger.error(`Error fetching diamond list by lotIds: ${lotIds}`);
       throw error;
     }
   }
