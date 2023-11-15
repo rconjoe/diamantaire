@@ -29,7 +29,7 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -96,6 +96,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
+  console.log('init additionalVariantData', additionalVariantData);
+
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
@@ -109,6 +111,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
+
+  console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
   if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
@@ -185,14 +189,37 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  // Doubles price if product is earrings pair
-
   console.log('shopifyProductData', shopifyProductData);
   console.log('additionalVariantData', additionalVariantData);
 
+  // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
+
+  function fetchAndTrackPreviouslyViewed() {
+    const previouslyViewed = localStorage.getItem('previouslyViewed');
+
+    if (previouslyViewed) {
+      const previouslyViewedJson = JSON.parse(previouslyViewed);
+
+      previouslyViewedJson[collectionSlug] = productSlug;
+      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedJson));
+    } else {
+      localStorage.setItem(
+        'previouslyViewed',
+        JSON.stringify({
+          [collectionSlug]: productSlug,
+        }),
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (!collectionSlug || !productSlug) return;
+
+    fetchAndTrackPreviouslyViewed();
+  }, [collectionSlug, productSlug]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
