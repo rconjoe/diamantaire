@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-export const CONFIGURATIONS_LIST = `
+export const CONFIGURATIONS_LIST = gql`
   query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip){
       plpTitle
@@ -48,7 +48,7 @@ export const CONFIGURATIONS_LIST = `
   }
 `;
 
-export const PRODUCT_BRIEF_CONTENT = `
+export const PRODUCT_BRIEF_CONTENT = gql`
   query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){
       plpTitle
