@@ -68,6 +68,7 @@ export const StyledWishlistLikeButton = styled.div`
 
     ${tabletAndUp(`
       top: 0.25rem;
+      right: 4rem;
     `)}
   }
 `;
