@@ -1,13 +1,19 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { useProductInstagramReel, useProductVideo } from '@diamantaire/darkside/data/hooks';
-import { MODULAR_INSTAGRAM_REEL_BLOCK, MODULAR_SPLIT_VIDEO_BLOCK } from '@diamantaire/shared/constants';
+import { MODULAR_INSTAGRAM_REEL_BLOCK, MODULAR_SPLIT_VIDEO_BLOCK, getCurrency } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const ProductContentBlocks = ({ instagramReelId, videoBlockId }) => {
   const [pageBlocks, setPageBlocks] = useState([]);
+  const { locale } = useRouter();
 
-  const { data: { instagramReelBlock } = {} } = useProductInstagramReel(instagramReelId, 'en_US');
-  const { data: { diamondContentBlock: videoBlock } = {} } = useProductVideo(videoBlockId, 'en_US');
+  const { data: { instagramReelBlock } = {} } = useProductInstagramReel(instagramReelId, locale);
+  const { data: { diamondContentBlock: videoBlock } = {} } = useProductVideo(videoBlockId, locale);
+
+  const countryCode = getCountry(locale);
+  const currency = getCurrency(countryCode);
 
   useEffect(() => {
     const pageBlocksTemp = [];
@@ -52,8 +58,8 @@ const ProductContentBlocks = ({ instagramReelId, videoBlockId }) => {
           <BlockPicker
             _modelApiKey={_modelApiKey}
             modularBlockData={{ ...contentBlockData }}
-            countryCode={'US'}
-            currencyCode={'USD'}
+            countryCode={locale}
+            currencyCode={currency}
             shouldLazyLoad={shouldLazyLoad}
             key={id}
           />

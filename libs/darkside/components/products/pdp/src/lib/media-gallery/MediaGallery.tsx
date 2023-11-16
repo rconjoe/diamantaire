@@ -164,7 +164,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
       />
       {index === 0 && productType === 'Engagement Ring' && (
         <p>
-          <UIString>Shown with</UIString>
+          <UIString>Shown with </UIString>
           {shownWithCtw ? shownWithCtw : '1.5ct'}
         </p>
       )}

@@ -37,7 +37,8 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       list-style: none;
 
       li {
-        button.top-level-link {
+        button.top-level-link,
+        a.top-level-link {
           color: var(--color-black);
           background-color: #fff;
           border: none;
@@ -124,15 +125,17 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
             span {
               position: relative;
-              margin-right: 5px;
+              margin-right: 10px;
               font-size: 1.7rem;
 
               &.diamond {
                 top: 4px;
                 flex: 0 0 3rem;
+                text-align: center;
                 svg {
                   max-width: 2.8rem;
-                  height: 2.8rem;
+                  max-height: 2.8rem;
+                  width: 100%;
                 }
               }
               &.ring-style {

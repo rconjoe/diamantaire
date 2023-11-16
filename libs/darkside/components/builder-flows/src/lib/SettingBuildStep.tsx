@@ -121,7 +121,7 @@ const SettingBuildStep = ({
               diamondType={selectedConfiguration?.diamondType}
               productType={shopifyProductData?.productType}
             />
-            <ProductPrice isBuilderProduct={true} hasMoreThanOneVariant={true} price={parseFloat(product.price)} />
+            <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} />
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={selectedConfiguration}

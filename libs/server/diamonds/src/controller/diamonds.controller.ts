@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondByLotIdsDto, GetDiamondDto } from '../dto/get-diamond.input';
 import { DiamondsService } from '../services/diamond.service';
 
 @Controller('diamonds')
@@ -87,6 +87,15 @@ export class DiamondsController {
   @ApiParam({ name: 'lotId', required: true })
   async getDiamondByLotId(@Param() lotId: GetDiamondByLotIdDto) {
     return await this.diamondsService.diamondByLotId(lotId);
+  }
+
+  @Get('list/:lotIds')
+  @ApiOperation({ summary: 'Get a list of diamonds by lotIds' })
+  @ApiParam({ name: 'lotIds', required: true })
+  async getDiamondByLotIds(@Param() { lotIds }: GetDiamondByLotIdsDto) {
+    const array = lotIds.split(',').map((v) => v.trim()) || [];
+
+    return await this.diamondsService.diamondsByLotIdArray(array);
   }
 
   @Get('available/:lotId')

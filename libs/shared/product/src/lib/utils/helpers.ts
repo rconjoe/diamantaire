@@ -1,4 +1,4 @@
-import { configurationOptionValues, configurationTypes, optionTypeOrder } from '../constants';
+import { configurationOptionValues, configurationTypes, optionTypeOrder, plpMetalValues } from '../constants';
 import { ProductType, productTypeToCategoryMap } from '../constants/product-properties';
 
 export function isJewelry(productType: string) {
@@ -45,4 +45,10 @@ export function sortOptionTypes(
   typeB: (typeof configurationTypes)[keyof typeof configurationTypes],
 ) {
   return optionTypeOrder.indexOf(typeA as any) > optionTypeOrder.indexOf(typeB as any) ? 1 : -1;
+}
+
+export function sortMetalTypes(a: string, b: string) {
+  if (!a || !b) return -1;
+
+  return plpMetalValues.findIndex((metal) => metal === a) > plpMetalValues.findIndex((metal) => metal === b) ? 1 : -1;
 }

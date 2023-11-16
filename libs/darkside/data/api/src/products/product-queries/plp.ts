@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-export const CONFIGURATIONS_LIST = `
+export const CONFIGURATIONS_LIST = gql`
   query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip){
       plpTitle
@@ -28,6 +28,43 @@ export const CONFIGURATIONS_LIST = `
       }
       plpImageHover {
         responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
+        alt
+      }
+    }
+  }
+  fragment responsiveImageFragment on ResponsiveImage {
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    bgColor
+    base64
+  }
+`;
+
+export const PRODUCT_BRIEF_CONTENT = gql`
+  query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
+    allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){
+      plpTitle
+      variantId
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+        }
+        alt
+      }
+    }
+    allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+      shopifyProductHandle
+      plpTitle
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
         alt

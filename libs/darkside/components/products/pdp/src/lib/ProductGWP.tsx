@@ -63,9 +63,6 @@ const ProductGWP = () => {
 
   refinedCopy = replacePlaceholders(refinedCopy, ['%%GWP_remaining_spend%%'], [minSpendValue?.toString()]).toString();
 
-  console.log('GWP', gwpData);
-  console.log('currencyCode', currencyCode);
-
   if (!isCountrySupported || !isWithinTimeframe) return null;
 
   return (

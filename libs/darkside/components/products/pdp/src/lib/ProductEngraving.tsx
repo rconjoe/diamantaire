@@ -100,8 +100,6 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
     }
   }, [isEngravingInputVisible]);
 
-  console.log('hasSingleInitialEngraving', hasSingleInitialEngraving);
-
   return (
     <ProductEngravingStyles>
       <div className="engraving-container">

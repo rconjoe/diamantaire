@@ -12,6 +12,7 @@ interface ConfigurationSelectorProps {
   updateSettingSlugs?: (item: object) => void;
   disableVariantType?: string[];
   hasMultipleDiamondOrientations?: boolean;
+  productType?: string;
 }
 
 interface ConfigurationSelectorAction {
@@ -33,7 +34,7 @@ const StyledConfigurationSelector = styled.div`
     flex: 1 1 100%;
 
     &.metal {
-      flex: 0 0 50%;
+      flex: 0 0 60%;
     }
 
     &.bandAccent {
@@ -79,6 +80,7 @@ function ConfigurationSelector({
   updateSettingSlugs,
   disableVariantType,
   hasMultipleDiamondOrientations,
+  productType,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -133,6 +135,7 @@ function ConfigurationSelector({
           <OptionSelector
             key={configurationType}
             optionType={configurationType}
+            productType={productType}
             label={configurationType}
             options={options}
             selectedOptionValue={selectedOption}

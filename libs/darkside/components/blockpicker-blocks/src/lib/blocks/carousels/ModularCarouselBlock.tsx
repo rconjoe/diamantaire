@@ -111,8 +111,6 @@ const ModularCarouselBlock = (props) => {
 
   const { data } = useBlockProducts(slugsIfProducts);
 
-  console.log('carrrrrr', _modelApiKey);
-
   return (
     <ModularCarouselBlockContainer className={_modelApiKey}>
       {_modelApiKey === 'modular_product_slider_block' && props.title && (

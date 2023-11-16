@@ -114,9 +114,9 @@ function ProductConfigurator({
   const handleConfigChange = useCallback(
     (configState) => {
       console.log('selectedConfiguration', selectedConfiguration);
-      const { diamondType, caratWeight } = configState;
+      const { caratWeight } = configState;
 
-      const usesCustomDiamond = diamondType && configurations.diamondType.length > 1 && !caratWeight;
+      const usesCustomDiamond = !caratWeight || caratWeight === 'other';
 
       if (usesCustomDiamond) {
         setIsConfigurationComplete(false);
@@ -165,6 +165,7 @@ function ProductConfigurator({
             updateSettingSlugs={updateSettingSlugs}
             disableVariantType={disableVariantType}
             hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
+            productType={additionalVariantData?.productType}
           />
 
           {/* Ring Size */}
@@ -182,6 +183,7 @@ function ProductConfigurator({
                 onChange={handleSizeChange}
                 isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
+                productType={additionalVariantData?.productType}
               />
             )}
         </>

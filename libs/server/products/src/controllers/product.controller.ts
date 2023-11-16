@@ -50,7 +50,25 @@ export class ProductController {
   async getProductsBySlugs(@Query() { ids }: ProductByProductSlugsInput) {
     const productSlugs = ids.split(',').map((s) => s.trim());
 
-    return await this.productService.findProductsByProductSlugs(productSlugs);
+    const products = await this.productService.findProductsByProductSlugs(productSlugs);
+    const lowestPricesByCollection = await this.productService.getLowestPricesByCollection();
+    const collectionSet = products.reduce((acc, product) => {
+      acc.add(product.collectionSlug);
+
+      return acc;
+    }, new Set());
+    const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
+      if (collectionSet.has(collectionSlug)) {
+        map[collectionSlug] = price;
+      }
+
+      return map;
+    }, {});
+
+    return {
+      products,
+      lowestPricesByCollection: reducedLowerPrices,
+    };
   }
 
   @Get('options')
@@ -59,6 +77,17 @@ export class ProductController {
   @ApiQuery({ name: 'productSlug', required: true, description: 'Product slug' })
   async getProductOptionConfigs(@Query() { collectionSlug, productSlug }: ProductInput) {
     return await this.productService.getProductOptionConfigs(collectionSlug, productSlug);
+  }
+
+  @Get('list')
+  @ApiOperation({ summary: 'Get all products by slug and their content' })
+  @ApiQuery({ name: 'slugs', required: true, description: 'Find specific product and content by slugs' })
+  @ApiQuery({ name: 'locale', required: true, description: 'Locale in which content should be returned as' })
+  async getProducts(@Query() { slugs, locale }: { slugs: string, locale: string }) {
+    const slugsArray = slugs.split(',').map(s => s.trim());
+    const products = await this.productService.findProductsByProductSlugs(slugsArray);
+
+    return await this.productService.findProductContent(products, locale);
   }
 
   @Get('catalog')
