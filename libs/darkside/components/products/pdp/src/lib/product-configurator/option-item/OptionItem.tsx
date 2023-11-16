@@ -1,4 +1,4 @@
-import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -25,10 +25,16 @@ export function OptionItemContainer({
 
   return isLink ? (
     <OptionItemLink {...option}>
-      <OptionItemComponent valueLabel={valueLabel} isSelected={isSelected} {...option} onClick={onClick} />
+      <OptionItemComponent
+        valueLabel={valueLabel}
+        isSelected={isSelected}
+        {...option}
+        optionType={optionType}
+        onClick={onClick}
+      />
     </OptionItemLink>
   ) : (
-    <OptionItemComponent isSelected={isSelected} {...option} onClick={onClick} />
+    <OptionItemComponent isSelected={isSelected} {...option} optionType={optionType} onClick={onClick} />
   );
 }
 
@@ -102,6 +108,7 @@ const StyledRoundOptionItem = styled(StyledOptionItem)`
 
 interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
+  optionType: string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -234,8 +241,8 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 1px solid #d8d6d1;
   padding: 5px;
-  min-width: 35px;
-  min-height: 35px;
+  min-width: 36px;
+  min-height: 36px;
   text-align: center;
   font-size: 1.3rem;
   color: var(--color-black);
@@ -245,24 +252,23 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
   const { locale } = useRouter();
 
-  // Band Width
+  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
+  const { _t } = useTranslations(locale);
 
-  const {
-    data: {
-      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
-      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
-      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAPS,
-    } = {},
-  } = useHumanNameMapper(locale);
+  let valueLabel;
 
-  const valueLabel =
-    BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value ||
-    BAND_STYLE_HUMAN_NAMES_MAP?.[value]?.value ||
-    CARAT_WEIGHT_HUMAN_NAMES_MAPS?.[value]?.value ||
-    value;
+  if (optionType === 'eternityStyle') {
+    valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+  } else if (optionType === 'earringSize') {
+    valueLabel = value.replace('mm', '');
+  } else if (optionType === 'chainLength') {
+    valueLabel = value + '"';
+  } else {
+    valueLabel = _t(value.toLowerCase());
+  }
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>

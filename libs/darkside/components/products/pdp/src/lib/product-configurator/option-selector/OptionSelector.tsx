@@ -1,5 +1,5 @@
 import { DarksideButton, SwiperStyles, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useHumanNameMapper, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -24,6 +24,7 @@ interface OptionSelectorProps {
   isWeddingBandProduct?: boolean;
   setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
   hideSelectorLabel?: boolean;
+  productType?: string;
 }
 
 const StyledOptionSelector = styled.div`
@@ -113,6 +114,12 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.diamondSize {
+      button {
+        min-width: 64px;
+      }
+    }
+
     &.diamondType {
       margin-top: 10px;
       position: relative;
@@ -184,10 +191,12 @@ function OptionSelector({
   isWeddingBandProduct = false,
   setIsWeddingBandSizeGuideOpen,
   hideSelectorLabel = false,
+  productType,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
+  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
   const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -232,6 +241,8 @@ function OptionSelector({
     }
   }
 
+  console.log('productTypexxx', productType);
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
@@ -240,7 +251,16 @@ function OptionSelector({
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
           </Heading>
           <span>
-            <UIString>{selectedOptionValue}</UIString>
+            {optionType === 'eternityStyle' ? (
+              ETERNITY_STYLE_HUMAN_NAMES?.[selectedOptionValue]?.value
+            ) : optionType === 'chainLength' ? (
+              <>
+                <UIString>{selectedOptionValue}</UIString>
+                {'"'}
+              </>
+            ) : (
+              <UIString>{selectedOptionValue}</UIString>
+            )}
             {label === 'caratWeight' && !isNaN(parseFloat(_t(selectedOptionValue))) ? 'ct' : ''}{' '}
           </span>
         </div>
@@ -394,7 +414,8 @@ function OptionSelector({
                 );
               })
             )}
-            {isWeddingBandProduct && (
+
+            {(isWeddingBandProduct || productType === 'Ring') && (
               <div className="size-guide-button">
                 <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
                   <UIString>Size Guide</UIString>

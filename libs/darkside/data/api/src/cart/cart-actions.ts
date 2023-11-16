@@ -161,7 +161,7 @@ async function addToCart(
   return reshapeCart(res.body.data.cartLinesAdd.cart);
 }
 
-const addItemToCart = async (
+export const addItemToCart = async (
   variantId: string | undefined,
   customAttributes?: AttributeInput[],
   quantity?: number,
@@ -375,7 +375,7 @@ export async function addERProductToCart({
 
   // If no custom diamond, add the setting
   if (!diamondVariantId) {
-    await addItemToCart(settingVariantId, refinedSettingAttributes);
+    return await addItemToCart(settingVariantId, refinedSettingAttributes);
   } else {
     // If there is a custom diamond, add the setting and the diamond
     const refinedDiamondAttributes = Object.keys(diamondAttributes)
@@ -389,7 +389,7 @@ export async function addERProductToCart({
 
     console.log('refinedDiamondAttributes', refinedDiamondAttributes);
 
-    addCustomizedItem([
+    return addCustomizedItem([
       {
         variantId: settingVariantId,
         customAttributes: refinedSettingAttributes,
@@ -401,6 +401,8 @@ export async function addERProductToCart({
     ]);
   }
 }
+
+// temp
 
 // Customized ER
 const addCustomizedItem = async (

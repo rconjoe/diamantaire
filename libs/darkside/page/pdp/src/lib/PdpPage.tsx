@@ -31,7 +31,7 @@ import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -94,11 +94,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
+
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
   const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+
+  // console.log('init additionalVariantData', additionalVariantData);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -113,6 +116,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
+
+  // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
   if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
@@ -139,7 +144,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  const isBuilderProduct = configuration.caratWeight === 'other';
+  const isBuilderProduct = configuration.caratWeight === 'other' || !configuration.caratWeight;
 
   const parentProductAttributes = {
     bandWidth,
@@ -189,14 +194,37 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  // Doubles price if product is earrings pair
-
   console.log('shopifyProductData', shopifyProductData);
   console.log('additionalVariantData', additionalVariantData);
 
+  // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
+
+  function fetchAndTrackPreviouslyViewed() {
+    const previouslyViewed = localStorage.getItem('previouslyViewed');
+
+    if (previouslyViewed) {
+      const previouslyViewedJson = JSON.parse(previouslyViewed);
+
+      previouslyViewedJson[collectionSlug] = productSlug;
+      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedJson));
+    } else {
+      localStorage.setItem(
+        'previouslyViewed',
+        JSON.stringify({
+          [collectionSlug]: productSlug,
+        }),
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (!collectionSlug || !productSlug) return;
+
+    fetchAndTrackPreviouslyViewed();
+  }, [collectionSlug, productSlug]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -234,7 +262,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={price}
-                hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
               />

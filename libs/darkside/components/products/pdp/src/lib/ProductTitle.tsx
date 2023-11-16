@@ -8,7 +8,6 @@ const ProductTitleStyles = styled.h1`
   font-size: 2.8rem;
   line-height: 1.1;
   margin: 0 0 1rem;
-  text-transform: capitalize;
 `;
 
 export function ProductTitle({ title, productType, diamondType }) {

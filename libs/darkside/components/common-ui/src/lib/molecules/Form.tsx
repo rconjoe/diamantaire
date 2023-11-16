@@ -19,7 +19,9 @@ import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
 
-const Select = dynamic(() => import('react-select'));
+const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+});
 
 type FormProps = {
   headingType?: 'h1' | 'h2' | 'h3' | 'h4';

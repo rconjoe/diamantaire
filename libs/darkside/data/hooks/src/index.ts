@@ -11,6 +11,7 @@ export * from './lib/use-diamonds';
 export * from './lib/use-top-bar';
 export * from './lib/use-global-context';
 export * from './lib/use-human-name-mapper';
+export * from './lib/use-single-human-name-mapper';
 export * from './lib/use-showroom-nav';
 export * from './lib/use-standard-page';
 export * from './lib/use-translations';

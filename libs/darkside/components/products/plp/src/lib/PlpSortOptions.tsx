@@ -7,7 +7,9 @@ import styled from 'styled-components';
 
 import { SortProperties } from './PlpSortOption';
 
-const Select = dynamic(() => import('react-select'));
+const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+});
 
 type PlpSortOptionsProps = {
   sortOptions: PlpBasicFieldSortOption[];

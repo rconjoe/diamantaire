@@ -1,5 +1,7 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -18,31 +20,29 @@ const ProductPriceStyles = styled.div`
 type ProductPriceProps = {
   price: number;
   shouldDoublePrice?: boolean;
-  hasMoreThanOneVariant: boolean;
   isBuilderProduct: boolean;
   productType?: string;
 };
 
-const ProductPrice = ({
-  shouldDoublePrice = false,
-  price,
-  hasMoreThanOneVariant,
-  isBuilderProduct,
-  productType,
-}: ProductPriceProps) => {
+const ProductPrice = ({ shouldDoublePrice = false, price, isBuilderProduct, productType }: ProductPriceProps) => {
   const { locale } = useRouter();
 
+  const { _t } = useTranslations(locale);
+
   const isInUS = locale === DEFAULT_LOCALE;
+
+  const refinedPrice = getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale);
+
+  const translatedText = _t('Starting at %%price%%');
+
+  console.log('INIT PRICE', price);
+  console.log('refinedPrice', refinedPrice);
+  console.log('translatedText', translatedText);
 
   return (
     <ProductPriceStyles className="price">
       <p className="price-text">
-        {hasMoreThanOneVariant && isBuilderProduct && (
-          <>
-            <UIString>Starting at</UIString>{' '}
-          </>
-        )}
-        {getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale)}
+        {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
       </p>
 
       {!isInUS && (

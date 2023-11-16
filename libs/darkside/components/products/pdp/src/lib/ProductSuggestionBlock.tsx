@@ -54,6 +54,8 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const { products, lowestPricesByCollection } = data || {};
 
+  console.log('ProductSuggestionBlock', id, data);
+
   return (
     <ProductSuggestionBlockStyles className="container-wrapper">
       <div className="title-container text-center">

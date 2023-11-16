@@ -117,7 +117,6 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { data: gwp } = useTopBarGWP(locale);
   const { data: checkout } = useCartData(locale);
 
-  console.log('topbar data', data);
   const canSliderLoop = data?.announcementBar?.loop || true;
   const [isFirstSlide, setIsFirstSlide] = useState(false);
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -164,7 +163,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
 
-  const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+  const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
   const isThereOneProduct = checkout?.lines?.length > 0;
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
@@ -191,7 +190,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                 // Skips GWP slide if conditions are not met
                 const isWithinTimeframe = true; //isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
                 const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
-                const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+                const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
 
                 const textVal = !isThereOneProduct
                   ? announcementBarNothingInCartCopy

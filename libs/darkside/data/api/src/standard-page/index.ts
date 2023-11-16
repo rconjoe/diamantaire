@@ -1,3 +1,5 @@
+import { gql } from 'graphql-request';
+
 import { queryDatoGQL } from '../clients';
 import { ResponsiveImageFragment } from '../fragments';
 import {
@@ -47,15 +49,15 @@ import {
 } from '../modular';
 import { CelebrityGallery } from '../nonModular';
 
-export const ALL_STANDARD_PAGE_SLUGS_QUERY = `
-query AllStandardPages($first: IntType!, $skip: IntType!) {
+export const ALL_STANDARD_PAGE_SLUGS_QUERY = gql`
+  query AllStandardPages($first: IntType!, $skip: IntType!) {
     allStandardPages(skip: $skip, first: $first) {
       slug
     }
   }
 `;
 
-export const STANDARD_PAGE_BY_SLUG = `
+export const STANDARD_PAGE_BY_SLUG = gql`
   query StandardPageBySlug($slug: String, $locale: SiteLocale) {
     standardPage(filter: {slug: {eq: $slug}}, locale: $locale) {
       slug
@@ -193,9 +195,9 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
   }
 }
 
-export const LIST_PAGE_BY_SLUG = `
+export const LIST_PAGE_BY_SLUG = gql`
 query listPageDatoQuery($locale: SiteLocale, $slug: String!) {
-  listPage(locale: $locale, filter: {slug: {eq: $slug}}) {
+  listPage(locale: $locale, filter: {slugNew: {eq: $slug}}) {
     slug
     belowBannerBlocks {
       ${Accordion}
