@@ -1,5 +1,11 @@
 /* eslint-disable camelcase */
-import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  DatoImage,
+  Heading,
+  ProductAppointmentCTA,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
@@ -493,7 +499,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                   >
                     Add engraving
                   </DarksideButton>
-                  <p>(optional)</p>
+                  <p>
+                    (<UIString>optional</UIString>)
+                  </p>
                 </div>
               ) : (
                 <div className="engraving-result-text">
@@ -543,7 +551,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     <DarksideButton onClick={() => addCustomProductToCart()}>Add to bag</DarksideButton>
                   </li>
                   <li>
-                    <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
+                    <ProductAppointmentCTA />
                   </li>
                 </ul>
               </div>

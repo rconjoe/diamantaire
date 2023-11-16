@@ -148,8 +148,8 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         handleSortChange={handleSortChange}
       />
       <div ref={pageEndRef} />
-      <PlpPreviouslyViewed />
       <PlpBlockPicker plpSlug={plpSlug} />
+      <PlpPreviouslyViewed />
     </div>
   );
 }

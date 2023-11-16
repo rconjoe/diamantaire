@@ -1,4 +1,4 @@
-import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
@@ -112,7 +112,7 @@ const Cart = ({ closeCart }) => {
                   cartItemInfo[attr.key] = attr.value;
                 });
 
-                console.log('checkout lines', checkout.lines);
+                console.log('checkout', checkout);
 
                 // We don't show any child products in this loop, only in the multi-variant cart item
                 if (item.attributes.find((item) => item.key === 'isChildProduct')) {
@@ -183,7 +183,9 @@ const Cart = ({ closeCart }) => {
                       {subtotalCopy} <br />{' '}
                       <span className="gift-note">
                         <button onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>{addNoteOptionCta}</button>{' '}
-                        <span>(optional)</span>
+                        <span>
+                          (<UIString>optional</UIString>)
+                        </span>
                       </span>
                     </p>
                     <p>{makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}</p>

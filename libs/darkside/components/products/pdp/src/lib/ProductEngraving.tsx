@@ -1,7 +1,7 @@
 // Controlled component for adding custom engraving to a product
 // Keep state regarding actual engraving text outside of this component
 
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import {
   ENGRAVING_CHARACTER_LIMITS,
   ENGRAVING_INITIALS_OPTIONS,
@@ -100,6 +100,10 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
     }
   }, [isEngravingInputVisible]);
 
+  const engravingCtaText = useMemo(() => {
+    return `Add ${hasSingleInitialEngraving ? 'initial' : 'engraving'}`;
+  }, [hasSingleInitialEngraving]);
+
   return (
     <ProductEngravingStyles>
       <div className="engraving-container">
@@ -110,9 +114,11 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               type="underline"
               colorTheme="teal"
             >
-              Add {hasSingleInitialEngraving ? 'initial' : 'engraving'}
+              <UIString>{engravingCtaText}</UIString>
             </DarksideButton>
-            <p>(optional)</p>
+            <p>
+              (<UIString>optional</UIString>)
+            </p>
           </div>
         ) : (
           <div className="engraving-result-text">

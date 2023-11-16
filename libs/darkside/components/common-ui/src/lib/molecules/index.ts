@@ -16,6 +16,7 @@ export * from './Loader';
 export * from './Markdown';
 export * from './MobileDesktopImage';
 export * from './Modal';
+export * from './ProductAppointmentCTA';
 export * from './ShopifyImage';
 export * from './SlideOut';
 export * from './Slider';
