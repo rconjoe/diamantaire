@@ -1,4 +1,4 @@
-import { GREY_LIGHTER, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistSlideoutProductItem = styled.div`
@@ -6,7 +6,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     position: relative;
     display: flex;
     gap: 2rem;
-    border-bottom: 1px solid ${GREY_LIGHTER};
+    border-bottom: 1px solid var(--color-lighter-grey);
     padding: 0 0 2rem;
   }
 
@@ -39,7 +39,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 
   button {
     margin-top: 1rem;
-    max-width: 200px;
+    max-width: 20rem;
   }
 
   .custom-pagination {
@@ -55,12 +55,12 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     cursor: pointer;
 
     &.active {
-      border-color: ${TEAL};
+      border-color: var(--color-teal);
     }
   }
 
   .share {
-    color: ${TEAL};
+    color: var(--color-teal);
     cursor: pointer;
     text-decoration: underline;
     margin-top: 1.5rem;
@@ -70,7 +70,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     font-size: var(--font-size-xsmall);
 
     svg {
-      width: 25px;
+      width: 2.5rem;
       height: auto;
     }
   }
@@ -135,12 +135,12 @@ export const StyledWishlistPageProductItem = styled.div`
     border: 1px solid transparent;
 
     &.active {
-      border-color: ${TEAL};
+      border-color: var(--color-teal);
     }
   }
 
   .share {
-    color: ${TEAL};
+    color: var(--color-teal);
     cursor: pointer;
     text-decoration: underline;
     margin-top: 1.5rem;
@@ -150,7 +150,7 @@ export const StyledWishlistPageProductItem = styled.div`
     font-size: var(--font-size-xsmall);
 
     svg {
-      width: 25px;
+      width: 2.5rem;
       height: auto;
     }
   }

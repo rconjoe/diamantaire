@@ -79,8 +79,6 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
       wishlistingLinkProperty: `${baseUrl}/wishlist?username=${userName}&products=${products}`,
     };
 
-    console.log('sendHubspotForm', data);
-
     return sendHubspotForm(data);
   };
 

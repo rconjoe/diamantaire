@@ -119,8 +119,6 @@ const ShippingListItem = ({ item }) => {
 const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
   const { copy, ctaRoute, ctaCopy, icon, additionalInfo } = item || {};
 
-  // console.log('additionalInfo', additionalInfo);
-
   return (
     <li>
       <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy || copy} />}</span> {copy}{' '}

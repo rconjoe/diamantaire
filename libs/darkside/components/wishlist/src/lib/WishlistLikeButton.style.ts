@@ -1,17 +1,17 @@
-import { TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistLikeButton = styled.div`
   position: absolute;
   cursor: pointer;
-  width: 18px;
+  width: 1.8rem;
   right: 0;
   top: 0;
   z-index: 1;
 
   .active {
     svg {
-      fill: ${TEAL};
+      fill: var(--color-teal);
     }
   }
 
