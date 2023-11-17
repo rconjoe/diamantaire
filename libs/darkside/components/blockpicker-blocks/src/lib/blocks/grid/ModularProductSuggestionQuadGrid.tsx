@@ -2,6 +2,7 @@ import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { ProductLink } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -117,18 +118,26 @@ const ModularProductSuggestionQuadGrid = (props) => {
 
         <div className="products">
           {products?.map((product, index) => {
+            if (index >= refinedConfigurations.length) return null;
+
             return (
               <div className="product-container" key={product?.id}>
                 <div className="product-container__inner">
-                  <div className="product-image">
-                    <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
-                  </div>
-                  <div className="product-content__container">
-                    <Heading type="h3" className="secondary product-content__title">
-                      {refinedTitles?.[index]?.title}
-                    </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
-                  </div>
+                  <ProductLink
+                    productType={product?.productType}
+                    collectionSlug={product?.collectionSlug}
+                    productSlug={product?.productSlug}
+                  >
+                    <div className="product-image">
+                      <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
+                    </div>
+                    <div className="product-content__container">
+                      <Heading type="h3" className="secondary product-content__title">
+                        {refinedTitles?.[index]?.title}
+                      </Heading>
+                      <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                    </div>
+                  </ProductLink>
                 </div>
               </div>
             );

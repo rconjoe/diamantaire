@@ -38,10 +38,10 @@ export class ProductController {
   @Get('/contentids')
   @ApiOperation({ summary: 'Get products by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
-  async getProductsByids(@Query() { ids }: ProductByContentIdsInput) {
+  async getProductsByids(@Query() { ids, locale }: ProductByContentIdsInput) {
     const contentIds = ids.split(',').map((s) => s.trim());
 
-    return await this.productService.findProductsByContentIds(contentIds);
+    return await this.productService.findProductsByContentIds(contentIds, locale);
   }
 
   @Get('/slugs')

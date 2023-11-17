@@ -308,7 +308,7 @@ function AddToCartButton({
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
 
-  const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
+  const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);

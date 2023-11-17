@@ -2,10 +2,7 @@ import { colorMap } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
-  position: sticky;
-  top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
   background-color: #fff;
-  z-index: 100;
   padding: calc(var(--gutter) / 3) 0;
 
   .filter__wrapper {

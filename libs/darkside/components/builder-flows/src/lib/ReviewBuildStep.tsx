@@ -1,5 +1,11 @@
 /* eslint-disable camelcase */
-import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import {
+  DarksideButton,
+  DatoImage,
+  Heading,
+  ProductAppointmentCTA,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { useAnalytics } from '@diamantaire/darkside/context/analytics';
@@ -498,14 +504,18 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     type="underline"
                     colorTheme="teal"
                   >
-                    Add engraving
+                    <UIString>Add engraving</UIString>
                   </DarksideButton>
-                  <p>(optional)</p>
+                  <p>
+                    (<UIString>optional</UIString>)
+                  </p>
                 </div>
               ) : (
                 <div className="engraving-result-text">
                   <p className="result-text">
-                    <span>Your Engraving:</span>
+                    <span>
+                      <UIString>Your Engraving</UIString>:
+                    </span>
                     {engravingText}
                   </p>
                   <DarksideButton
@@ -513,7 +523,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     type="underline"
                     colorTheme="teal"
                   >
-                    Modify
+                    <UIString>Modify</UIString>
                   </DarksideButton>
                 </div>
               )}
@@ -529,17 +539,19 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     }}
                   />
                   <p className="limit-text">
-                    Character Limit ({engravingInputText.length}/{MAX_CHAR_LIMIT})
+                    <UIString>Character Limit</UIString> ({engravingInputText.length}/{MAX_CHAR_LIMIT})
                   </p>
                   <DarksideButton
                     onClick={isEngravingInputEmpty ? () => removeEngraving() : () => confirmEngraving()}
                     type="outline"
                   >
-                    {isEngravingInputEmpty && engravingText && isEngravingInputVisible
-                      ? 'Delete engraving'
-                      : !engravingText
-                      ? 'Add engraving'
-                      : 'Update engraving'}
+                    <UIString>
+                      {isEngravingInputEmpty && engravingText && isEngravingInputVisible
+                        ? 'Delete engraving'
+                        : !engravingText
+                        ? 'Add engraving'
+                        : 'Update engraving'}
+                    </UIString>
                   </DarksideButton>
                 </div>
               )}
@@ -547,10 +559,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart()}>Add to bag</DarksideButton>
+                    <DarksideButton onClick={() => addCustomProductToCart()}>
+                      <UIString>Add To Bag</UIString>
+                    </DarksideButton>
                   </li>
                   <li>
-                    <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
+                    <ProductAppointmentCTA />
                   </li>
                 </ul>
               </div>

@@ -1,5 +1,5 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
-import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -20,10 +20,16 @@ const PlpProductGridStyles = styled.div`
   position: relative;
   height: 100%;
 
-  .grid-controls {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
+  .grid-controls-container {
+    position: sticky;
+    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
+    z-index: 100;
+
+    .grid-controls {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+    }
 
     .sort {
       padding-top: 8px;
@@ -87,6 +93,7 @@ const PlpProductGrid = ({
   handleSortChange,
 }: PlpProductGridProps) => {
   const router = useRouter();
+  const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
     router.locale,
@@ -130,20 +137,22 @@ const PlpProductGrid = ({
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
   return (
-    <PlpProductGridStyles ref={gridRef}>
-      <div className="grid-controls container-wrapper">
-        <div className="filter">
-          <PlpProductFilter
-            availableFilters={availableFilters}
-            gridRef={gridRef}
-            filterValue={filterValue}
-            setFilterValues={setFilterValues}
-            urlFilterMethod={urlFilterMethod}
-            plpSlug={plpSlug}
-          />
-        </div>
-        <div className="sort">
-          {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+    <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
+      <div className="grid-controls-container">
+        <div className="grid-controls container-wrapper">
+          <div className="filter">
+            <PlpProductFilter
+              availableFilters={availableFilters}
+              gridRef={gridRef}
+              filterValue={filterValue}
+              setFilterValues={setFilterValues}
+              urlFilterMethod={urlFilterMethod}
+              plpSlug={plpSlug}
+            />
+          </div>
+          <div className="sort">
+            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+          </div>
         </div>
       </div>
 

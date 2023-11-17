@@ -107,9 +107,9 @@ const SingleVariantCartItem = ({
   }) => Promise<string | undefined>;
 }) => {
   const { productRemoved } = useAnalytics();
-  const { attributes, cost, merchandise, quantity } = item;
-  const price = cost?.totalAmount?.amount;
-  const currency = cost?.totalAmount?.currencyCode;
+  const { attributes, merchandise, quantity } = item;
+  const price = merchandise?.price?.amount;
+  const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
 
   const { locale } = useRouter();

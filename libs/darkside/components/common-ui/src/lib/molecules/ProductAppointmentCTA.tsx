@@ -1,4 +1,3 @@
-import { SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
@@ -6,6 +5,8 @@ import { BookCalendarIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
+
+import { SlideOut } from './SlideOut';
 
 const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;

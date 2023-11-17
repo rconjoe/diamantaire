@@ -1,8 +1,8 @@
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts, useProductSuggestions } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
-import { normalizeDatoNumberedContent, swapProductTypeWithHandle } from '@diamantaire/shared/helpers';
-import Link from 'next/link';
+import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { ProductLink } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -54,8 +54,6 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const { products, lowestPricesByCollection } = data || {};
 
-  console.log('ProductSuggestionBlock', id, data);
-
   return (
     <ProductSuggestionBlockStyles className="container-wrapper">
       <div className="title-container text-center">
@@ -68,10 +66,10 @@ const ProductSuggestionBlock = ({ id }) => {
           return (
             <div className="product-suggestion__container" key={product?.id}>
               <div className="product-suggestion__inner">
-                <Link
-                  href={`/${swapProductTypeWithHandle(
-                    product?.productType,
-                  )}/${product?.collectionSlug}/${product?.productSlug}`}
+                <ProductLink
+                  productType={product?.productType}
+                  productSlug={product?.productSlug}
+                  collectionSlug={product?.collectionSlug}
                 >
                   <div className="product-suggestion__image">
                     <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
@@ -82,7 +80,7 @@ const ProductSuggestionBlock = ({ id }) => {
                     </Heading>
                     <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
                   </div>
-                </Link>
+                </ProductLink>
               </div>
             </div>
           );

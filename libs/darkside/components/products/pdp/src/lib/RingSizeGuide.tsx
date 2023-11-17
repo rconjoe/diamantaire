@@ -4,7 +4,7 @@ import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-const LINK_TO_PDF = `https://images.vraiandoro.com/content-images/VRAI_Ring_Sizer_PDF_es_US.pdf`;
+const LINK_TO_PDF = `https://images.vraiandoro.com/content-images/VRAI_Ring_Sizer_PDF_en_US.pdf`;
 
 const RING_SIZE_GUIDE_COLUMN_TITLES = ['USA & Canada', 'Diameter (mm)', 'Europe', 'UK & Australia'];
 
