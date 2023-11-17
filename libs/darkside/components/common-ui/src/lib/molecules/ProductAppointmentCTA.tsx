@@ -53,11 +53,13 @@ const ProductAppointmentCTA = () => {
         <span>
           <BookCalendarIcon />
         </span>
-        {replacePlaceholders(
-          _t('Visit our %%location%% location'),
-          ['%%location%%'],
-          [showroomLocation?.location],
-        ).toString()}
+        {showroomLocation
+          ? replacePlaceholders(
+              _t('Visit our %%location%% location'),
+              ['%%location%%'],
+              [showroomLocation?.location],
+            ).toString()
+          : _t('Book an appointment')}
       </button>
 
       {isAppointmentSlideoutShowing && (
