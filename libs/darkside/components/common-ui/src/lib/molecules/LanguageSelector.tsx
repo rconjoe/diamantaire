@@ -1,5 +1,4 @@
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,7 +16,7 @@ const StyledLanguageSelector = styled.ul`
   border: 1px solid #ddd;
   text-align: left;
   padding: 1.5rem;
-  background-color: ${WHITE};
+  background-color: var(--color-white);
 
   &:before {
     content: '';
@@ -28,7 +27,7 @@ const StyledLanguageSelector = styled.ul`
     top: -0.5rem;
     left: 1.8rem;
     transform: rotate(45deg);
-    background: ${WHITE};
+    background: var(--color-white);
   }
 
   &:after {
@@ -38,7 +37,7 @@ const StyledLanguageSelector = styled.ul`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${WHITE};
+    background: var(--color-white);
   }
 
   li {

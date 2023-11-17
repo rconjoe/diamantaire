@@ -4,7 +4,7 @@ import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
-import { WHITE, media } from '@diamantaire/styles/darkside-styles';
+import { media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
@@ -34,8 +34,8 @@ const FullHeaderStyles = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: ${WHITE};
-  box-shadow: 0 1px 0 ${WHITE};
+  background-color: var(--color-white);
+  box-shadow: 0 1px 0 var(--color-white);
 
   ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
 

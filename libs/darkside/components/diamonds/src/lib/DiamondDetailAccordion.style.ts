@@ -16,7 +16,7 @@ const StyledDiamondDetailAccordion = styled.div`
     }
 
     .sub {
-      border: 1px solid ${TEAL};
+      border: 1px solid var(--color-teal);
       padding: 1rem;
       display: block;
     }
@@ -43,7 +43,7 @@ const StyledDiamondDetailAccordion = styled.div`
     }
 
     .vo-slider-value {
-      color: ${BLACK};
+      color: var(--color-black);
     }
 
     .vo-slider-tooltip {

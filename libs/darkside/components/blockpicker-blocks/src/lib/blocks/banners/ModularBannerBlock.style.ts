@@ -1,11 +1,4 @@
-import {
-  WHITE,
-  setSpace,
-  tabletAndUp,
-  desktopAndUp,
-  XLDesktopAndUp,
-  XXLDesktopAndUp,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, desktopAndUp, XLDesktopAndUp, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const FullWidthImageContainer = styled.div`
@@ -161,14 +154,14 @@ export const BannerTextContainer = styled.div`
     .primary,
     .secondary {
       ${tabletAndUp(`
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       `)};
 
       &:hover {
         ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)}
       }
     }
@@ -305,8 +298,8 @@ export const Title = styled.div`
 
   ${tabletAndUp(`
       &.-white {
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       }
     `)};
   ${desktopAndUp(`
@@ -323,7 +316,7 @@ export const SubTitle = styled.div`
 
   ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
   ${tabletAndUp(`
@@ -357,8 +350,8 @@ export const Copy = styled.div`
 
   ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
-      border-color: ${WHITE};
+      color: var(--color-white);
+      border-color: var(--color-white);
       a {
         color: inherit;
       }

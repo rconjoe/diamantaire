@@ -1,9 +1,8 @@
-import { GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const SocialMediaContainer = styled.div`
   padding: 50px 25px;
-  background-color: ${GREY_LIGHTEST};
+  background-color: var(--color-lightest-grey);
 
   @media (min-width: 1200px) {
     padding: 80px 25px;

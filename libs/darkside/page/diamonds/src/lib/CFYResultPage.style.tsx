@@ -183,7 +183,7 @@ const StyledCFYResultPage = styled.div`
       font-size: var(--font-size-xxxsmall);
 
       a {
-        color: ${TEAL};
+        color: var(--color-teal);
       }
     }
 
@@ -192,7 +192,7 @@ const StyledCFYResultPage = styled.div`
     }
 
     .links a {
-      color: ${TEAL};
+      color: var(--color-teal);
     }
 
     .cta {

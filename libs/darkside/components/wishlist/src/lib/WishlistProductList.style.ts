@@ -1,4 +1,4 @@
-import { BLACK, WHITE } from '@diamantaire/styles/darkside-styles';
+import { BLACK } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistSlideoutProductList = styled.div`
@@ -44,7 +44,7 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
     .title {
       transition: all 0.25s ease;
-      border: 2px solid ${BLACK};
+      border: 2px solid var(--color-black);
       font-size: var(--font-size-xsmall);
       font-weight: var(--font-weight-bold);
       padding: 1rem;
@@ -53,8 +53,8 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
       &:hover,
       &.active {
-        background: ${BLACK};
-        color: ${WHITE};
+        background: var(--color-black);
+        color: var(--color-white);
       }
     }
   }
@@ -120,7 +120,7 @@ export const StyledWishlistPageProductList = styled.div`
 
     .title {
       transition: all 0.25s ease;
-      border: 2px solid ${BLACK};
+      border: 2px solid var(--color-black);
       font-size: var(--font-size-xsmall);
       font-weight: var(--font-weight-bold);
       padding: 1rem;
@@ -129,8 +129,8 @@ export const StyledWishlistPageProductList = styled.div`
 
       &:hover,
       &.active {
-        background: ${BLACK};
-        color: ${WHITE};
+        background: var(--color-black);
+        color: var(--color-white);
       }
     }
   }

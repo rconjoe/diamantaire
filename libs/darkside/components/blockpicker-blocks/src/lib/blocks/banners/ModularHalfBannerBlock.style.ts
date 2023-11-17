@@ -1,5 +1,4 @@
 import {
-  WHITE,
   XLDesktopAndUp,
   XXLDesktopAndUp,
   customBPAndUp,
@@ -168,14 +167,14 @@ export const ModularHalfBannerBlockContainer = styled.div`
       .primary,
       .secondary {
         ${tabletAndUp(`
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       `)};
 
         &:hover {
           ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)}
         }
       }
@@ -327,7 +326,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
     ${tabletAndUp(`
@@ -353,7 +352,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
     ${tabletAndUp(`
@@ -387,8 +386,8 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
-      border-color: ${WHITE};
+      color: var(--color-white);
+      border-color: var(--color-white);
       a {
         color: inherit;
       }

@@ -4,7 +4,6 @@ import {
   XXLDesktopAndUp,
   desktopAndUp,
   makeTealLink,
-  WHITE,
   media,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
@@ -88,7 +87,7 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
     margin: ${setSpace(2.5)} 0;
 
     ${tabletAndUp(`
-      color: ${WHITE};
+      color: var(--color-white);
       margin-top ${setSpace(0.5)}
   `)};
   }

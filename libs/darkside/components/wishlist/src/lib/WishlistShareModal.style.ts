@@ -1,4 +1,3 @@
-import { GREY_LIGHTER } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistShareModal = styled.div`
@@ -21,7 +20,7 @@ export const StyledWishlistShareModal = styled.div`
     }
 
     [type='text'] {
-      border: 1px solid ${GREY_LIGHTER};
+      border: 1px solid var(--color-lighter-grey);
       width: 100%;
       padding: 0 10px;
       height: 3rem;
@@ -30,7 +29,7 @@ export const StyledWishlistShareModal = styled.div`
     }
 
     textarea {
-      border: 1px solid ${GREY_LIGHTER};
+      border: 1px solid var(--color-lighter-grey);
       line-height: 1.5rem;
       outline: none;
       padding: 10px;

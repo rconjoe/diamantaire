@@ -1,8 +1,8 @@
-import { GREY_LIGHTER, GREY_LIGHTEST, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyAccordion = styled.div`
-  border-top: 1px solid ${GREY_LIGHTER};
+  border-top: 1px solid var(--color-lighter-grey);
   margin: 2rem 0 0;
 
   ${desktopAndUp(`
@@ -45,7 +45,7 @@ const StyledDiamondCfyAccordion = styled.div`
   }
 
   .upgrade {
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
