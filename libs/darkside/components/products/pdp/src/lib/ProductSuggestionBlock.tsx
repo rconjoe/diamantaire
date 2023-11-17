@@ -62,7 +62,9 @@ const ProductSuggestionBlock = ({ id }) => {
         </Heading>
       </div>
       <div className="products">
-        {products?.map((product, index) => {
+        {products?.map((productNode, index) => {
+          const product = productNode?.product;
+
           return (
             <div className="product-suggestion__container" key={product?.id}>
               <div className="product-suggestion__inner">

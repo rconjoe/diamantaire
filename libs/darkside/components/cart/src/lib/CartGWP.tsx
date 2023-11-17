@@ -15,6 +15,16 @@ const CartGWPStyles = styled.div`
 
     .image {
       flex: 0 0 100px;
+      display: flex;
+
+      > * {
+        flex: 1;
+        display: flex;
+
+        > * {
+          flex: 1;
+        }
+      }
     }
 
     .content {
@@ -22,7 +32,7 @@ const CartGWPStyles = styled.div`
       align-items: center;
       background-color: ${({ bgColor }) => bgColor};
       .content__inner {
-        padding: 0 20px;
+        padding: 20px;
 
         p {
           font-size: var(--font-size-xxxsmall);
