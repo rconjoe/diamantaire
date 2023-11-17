@@ -117,6 +117,7 @@ const ModularSplitVideoBlock = (props) => {
     <ModularSplitVideoBlockContainer className="container-wrapper">
       <div className="split-video__wrapper">
         <div className="split-video__video">
+          string
           <ReactPlayer
             url={videoUrls}
             playsinline

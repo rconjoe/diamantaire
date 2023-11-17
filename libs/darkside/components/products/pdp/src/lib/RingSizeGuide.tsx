@@ -62,12 +62,17 @@ const RingSizeGuide = () => {
       <div className="size-guide__actions">
         <ul>
           <li>
-            <DarksideButton colorTheme="teal" type="underline">
+            <DarksideButton
+              openUrlInNewWindow={true}
+              href="/ring-sizer/ring-sizer/ring-sizer-32905666134109"
+              colorTheme="teal"
+              type="underline"
+            >
               <UIString>Order a ring sizer</UIString>
             </DarksideButton>
           </li>
           <li>
-            <DarksideButton href={LINK_TO_PDF} colorTheme="teal" type="underline">
+            <DarksideButton openUrlInNewWindow={true} href={LINK_TO_PDF} colorTheme="teal" type="underline">
               <UIString>Print a ring sizer</UIString>
             </DarksideButton>
           </li>

@@ -222,6 +222,8 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { title, links } = col;
 
+  const countryCode = parseValidLocale(useRouter().locale).countryCode;
+
   return (
     <FooterAccordionContainer>
       <button onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
@@ -236,11 +238,15 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
           <div className="links-container">
             <ul>
               {links?.map((link, index) => {
-                const { route, copy } = link;
+                const { newRoute, supportedCountries, copy } = link;
+
+                if (supportedCountries.length > 0) {
+                  if (supportedCountries.filter((item) => item.code === countryCode).length === 0) return null;
+                }
 
                 return (
                   <li key={`mobile-accordion-${colKey}-link-${index}`}>
-                    <Link href={route}>{copy}</Link>
+                    <Link href={newRoute}>{copy}</Link>
                   </li>
                 );
               })}

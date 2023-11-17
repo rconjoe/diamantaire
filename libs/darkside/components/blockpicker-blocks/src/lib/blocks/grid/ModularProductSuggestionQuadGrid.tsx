@@ -117,7 +117,10 @@ const ModularProductSuggestionQuadGrid = (props) => {
         )}
 
         <div className="products">
-          {products?.map((product, index) => {
+          {products?.map((productNode, index) => {
+            const product = productNode?.product;
+            const content = productNode?.content;
+
             if (index >= refinedConfigurations.length) return null;
 
             return (
@@ -129,7 +132,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
                     productSlug={product?.productSlug}
                   >
                     <div className="product-image">
-                      <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
+                      <DatoImage image={content.plpImage} />
                     </div>
                     <div className="product-content__container">
                       <Heading type="h3" className="secondary product-content__title">

@@ -215,7 +215,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     });
 
     // Convert the map values back to an array
-    const uniqueArray = Array.from(uniqueMap.values());
+    let uniqueArray = Array.from(uniqueMap.values());
+
+    // If there are more than 10 items, sort by dateAdded and remove the oldest ones
+    if (uniqueArray.length > 10) {
+      uniqueArray = uniqueArray.sort((a, b) => a.dateAdded - b.dateAdded).slice(0, 10);
+    }
 
     return uniqueArray;
   }
