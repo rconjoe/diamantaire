@@ -99,12 +99,19 @@ export class ProductsService {
     }
   }
 
-  async findProductsByContentIds(contentIds: string[]) {
+  async findProductsByContentIds(contentIds: string[], locale = 'en_US') {
     try {
       const products = await this.productRepository.find({
         contentId: { $in: contentIds },
       });
 
+      const productContentMap = await this.findProductContent(products, locale);
+      
+      console.log(Object.values(productContentMap))
+
+      // Request Dato content for each product type
+
+      /* Get lowest prices for unique set of collections */
       const collectionSet = products.reduce((acc, product) => {
         acc.add(product.collectionSlug);
 
@@ -121,7 +128,7 @@ export class ProductsService {
       }, {});
 
       return {
-        products,
+        products: Object.values(productContentMap),
         lowestPricesByCollection: reducedLowerPrices,
       };
     } catch (error: any) {
@@ -181,7 +188,6 @@ export class ProductsService {
     const productContent = [...allConfigurations, ...allOmegaProducts];
 
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
-      console.log(product);
       
       map[product.productSlug] = {
         product,
