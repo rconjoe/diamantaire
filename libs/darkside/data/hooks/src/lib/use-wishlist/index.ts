@@ -38,13 +38,7 @@ interface WishlistContentDataProps {
 }
 
 export function useWishlistContent(locale: string): UseQueryResult<WishlistContentDataProps, unknown> {
-  return useQuery({
-    ...queries.wishlist.content(locale),
-    meta: {
-      locale,
-    },
-    staleTime: 300000,
-  });
+  return useQuery({ ...queries.wishlist.content(locale) });
 }
 
 interface WishlistProductDataTypes {

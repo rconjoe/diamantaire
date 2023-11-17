@@ -70,9 +70,6 @@
       "@diamantaire/darkside/components/wishlist": [
         "libs/darkside/components/wishlist/src/index.ts"
       ],
-      "@diamantaire/darkside/components/wishlist/WishlistSlideOut": [
-        "libs/darkside/components/wishlist/src/lib/WishlistSlideOut.tsx"
-      ],
       "@diamantaire/darkside/context/analytics": [
         "libs/darkside/context/analytics/src/index.ts"
       ],

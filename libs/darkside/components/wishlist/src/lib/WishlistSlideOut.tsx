@@ -63,6 +63,4 @@ const WishlistSlideOut: React.FC = () => {
   );
 };
 
-export default WishlistSlideOut;
-
 export { WishlistSlideOut };
