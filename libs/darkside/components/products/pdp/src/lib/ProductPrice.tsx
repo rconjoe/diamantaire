@@ -33,7 +33,7 @@ const ProductPrice = ({ shouldDoublePrice = false, price, isBuilderProduct, prod
 
   const refinedPrice = getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale);
 
-  const translatedText = _t('Starting at %%price%%');
+  const translatedText = _t('Starting at %%price%%') + ' ';
 
   console.log('INIT PRICE', price);
   console.log('refinedPrice', refinedPrice);
