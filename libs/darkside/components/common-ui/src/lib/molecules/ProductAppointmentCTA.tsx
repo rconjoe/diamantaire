@@ -46,9 +46,10 @@ const ProductAppointmentCTA = () => {
 
   const showroomLocation = isUserCloseToShowroom();
 
+  console.log('showroomLocation', showroomLocation);
+
   return (
     <ProductAppointmentCTAStyles>
-      {/* Lets refine later */}
       <button className="appointment-button" onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}>
         <span>
           <BookCalendarIcon />
