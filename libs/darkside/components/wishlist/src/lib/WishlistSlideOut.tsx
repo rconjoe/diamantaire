@@ -1,5 +1,5 @@
 import { SlideOut } from '@diamantaire/darkside/components/common-ui';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
@@ -12,6 +12,10 @@ import { StyledWishlistSlideOut } from './WishlistSlideOut.style';
 const WishlistSlideOut: React.FC = () => {
   const router = useRouter();
 
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  const { isWishlistOpen } = useContext(GlobalContext);
+
   const { locale } = router;
 
   const { isMobile } = useContext(GlobalContext);
@@ -22,34 +26,26 @@ const WishlistSlideOut: React.FC = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const [active, setActive] = useState(false);
+  useEffect(() => {
+    if (isWishlistOpen) {
+      const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
 
-  const handleOpen = () => {
-    const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
-
-    setScrollPosition(currentScrollPosition);
-
-    setActive(true);
-  };
+      setScrollPosition(currentScrollPosition);
+    }
+  }, [isWishlistOpen]);
 
   const handleClose = () => {
-    setActive(false);
+    updateGlobalContext({
+      isWishlistOpen: false,
+    });
   };
-
-  useEffect(() => {
-    window.addEventListener('WISHLIST_SLIDEOUT', handleOpen);
-
-    return () => {
-      window.removeEventListener('WISHLIST_SLIDEOUT', handleOpen);
-    };
-  });
 
   router?.events?.on('routeChangeComplete', handleClose);
 
   return (
     <StyledWishlistSlideOut>
       <AnimatePresence>
-        {active && (
+        {isWishlistOpen && (
           <SlideOut
             title={content.modalTitle}
             onClose={handleClose}

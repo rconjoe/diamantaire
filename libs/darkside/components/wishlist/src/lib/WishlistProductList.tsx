@@ -1,8 +1,9 @@
 import { DarksideButton, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import { WishListNoResultItem } from './WishlistNoResultItem';
 import { WishlistProductItem } from './WishlistProductItem';
@@ -31,6 +32,8 @@ interface WishlistProductListProps {
 const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage = false, products, content }) => {
   const router = useRouter();
 
+  const { isWishlistUpdated } = useContext(GlobalContext);
+
   const { locale } = router;
 
   const { _t } = useTranslations(locale);
@@ -41,19 +44,9 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
 
   const { cfy = {}, diamond = {}, product = {}, bundle = {} } = products || {};
 
-  const handleUpdate = () => {
-    setWishlist(getLocalStorageWishlist());
-  };
-
   useEffect(() => {
     setWishlist(getLocalStorageWishlist());
-
-    window.addEventListener('WISHLIST_UPDATE', handleUpdate);
-
-    return () => {
-      window.removeEventListener('WISHLIST_UPDATE', handleUpdate);
-    };
-  }, []);
+  }, [isWishlistUpdated]);
 
   const getProductData = (id: string): any | undefined => {
     switch (true) {

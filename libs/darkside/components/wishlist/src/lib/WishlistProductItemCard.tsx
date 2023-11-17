@@ -251,17 +251,22 @@ const CardBundle: React.FC<CardBundleProps> = ({
           </Swiper>
         </SwiperStyles>
       </div>
+
       <div className="text">
         <div className="title">{bundleTitle}</div>
+
         <div className="price">{bundlePrice}+</div>
+
         <UniLink route={link}>
           <DarksideButton type="solid">{button}</DarksideButton>
         </UniLink>
+
         <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
           <DropHintIcon />
           <UIString>Drop a Hint</UIString>
         </div>
       </div>
+
       <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
     </div>
   );

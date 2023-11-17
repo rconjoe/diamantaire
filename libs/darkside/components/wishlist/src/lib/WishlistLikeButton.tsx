@@ -1,6 +1,7 @@
+import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { LoveIcon, LoveIconActive } from '@diamantaire/shared/icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledWishlistLikeButton } from './WishlistLikeButton.style';
 
@@ -14,6 +15,10 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   const [active, setActive] = useState(false);
 
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  const { isWishlistUpdated } = useContext(GlobalContext);
+
   const handleStorage = (active) => {
     const list = active
       ? [...getLocalStorageWishlist(), productId]
@@ -21,7 +26,9 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
     localStorage.setItem('diamantaireWishlist', list.join(','));
 
-    window.dispatchEvent(new CustomEvent('WISHLIST_UPDATE'));
+    updateGlobalContext({
+      isWishlistUpdated: isWishlistUpdated + 1,
+    });
   };
 
   const handleClick = useCallback(() => {
@@ -34,18 +41,12 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
     if (productId) {
       setActive(getLocalStorageWishlist().includes(productId));
     }
-  }, [productId]);
+  }, [productId, isWishlistUpdated]);
 
   useEffect(() => {
     if (productId) {
       setActive(getLocalStorageWishlist().includes(productId));
     }
-
-    window.addEventListener('WISHLIST_UPDATE', handleUpdate);
-
-    return () => {
-      window.removeEventListener('WISHLIST_UPDATE', handleUpdate);
-    };
   }, [productId, handleUpdate]);
 
   if (!productId) return;

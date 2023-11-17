@@ -1,28 +1,24 @@
+import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
 import { LoveIcon, LoveIconActive } from '@diamantaire/shared/icons';
-import { useEffect, useState } from 'react';
-
-// interface WishlistSlideOutButtonProps {}
+import { useContext, useEffect, useState } from 'react';
 
 const WishlistSlideOutButton: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
 
-  const handleClick = () => {
-    window.dispatchEvent(new CustomEvent('WISHLIST_SLIDEOUT'));
-  };
+  const updateGlobalContext = useContext(GlobalUpdateContext);
 
-  const handleUpdate = () => {
-    setIsActive(getLocalStorageWishlist().length > 0);
+  const { isWishlistUpdated } = useContext(GlobalContext);
+
+  const handleClick = () => {
+    updateGlobalContext({
+      isWishlistOpen: true,
+    });
   };
 
   useEffect(() => {
     setIsActive(getLocalStorageWishlist().length > 0);
-    window.addEventListener('WISHLIST_UPDATE', handleUpdate);
-
-    return () => {
-      window.removeEventListener('WISHLIST_UPDATE', handleUpdate);
-    };
-  }, []);
+  }, [isWishlistUpdated]);
 
   return (
     <div className={`wishlist-slideout-button ${isActive ? 'active' : ''}`} onClick={handleClick}>
