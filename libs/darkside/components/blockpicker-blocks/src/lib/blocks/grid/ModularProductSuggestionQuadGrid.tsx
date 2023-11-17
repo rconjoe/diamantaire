@@ -96,8 +96,6 @@ const ModularProductSuggestionQuadGrid = (props) => {
 
   const { products, lowestPricesByCollection } = data || {};
 
-  console.log('ModularProductSuggestionQuadGrid', props, products);
-
   return (
     <ModularProductSuggestionQuadGridStyles>
       {aboveCopy && (

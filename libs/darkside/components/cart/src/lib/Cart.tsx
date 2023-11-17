@@ -2,7 +2,8 @@ import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/comp
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -188,7 +189,7 @@ const Cart = ({ closeCart }) => {
                         </span>
                       </span>
                     </p>
-                    <p>{makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}</p>
+                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount), locale)}</p>
                   </div>
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">
