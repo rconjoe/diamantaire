@@ -12,12 +12,6 @@ export function isCurrentTimeWithinInterval(startTime: string, endTime: string):
   let startDateTime = new Date(startTime);
   let endDateTime = new Date(endTime);
 
-  console.log({
-    currentTime,
-    startDateTime,
-    endDateTime,
-  });
-
   // Ensure startDateTime is before endDateTime
   if (startDateTime > endDateTime) {
     const temp = startDateTime;

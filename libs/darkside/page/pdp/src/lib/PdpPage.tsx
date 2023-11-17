@@ -24,10 +24,12 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
@@ -62,7 +64,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
+  console.log('datoParentProductData', datoParentProductData);
+
   const {
+    seoTitle,
+    seoDescription,
     productDescription,
     bandWidth,
     bandDepth,
@@ -255,6 +261,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     return (
       <PageContainerStyles>
+        <NextSeo
+          title={seoTitle}
+          description={replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString()}
+        />
         <Script
           id="klara-script"
           src="https://na-library.klarnaservices.com/lib.js"

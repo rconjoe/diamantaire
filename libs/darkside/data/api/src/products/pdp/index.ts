@@ -30,6 +30,8 @@ const ENGAGEMENT_RING_QUERY = gql`
   query engagementRingQuery($locale: SiteLocale, $slug: String!) {
     engagementRingProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoTitle
+      seoDescription
       productDescription
       productTitle
       bandDepth(locale: $locale)
