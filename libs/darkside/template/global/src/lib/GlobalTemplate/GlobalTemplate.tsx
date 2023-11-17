@@ -17,7 +17,7 @@ export type GlobalTemplateProps = {
   children: ReactNode;
 };
 
-const WishlistSlideOut = lazy(() => import('@diamantaire/darkside/components/WishlistSlideOut'));
+const WishlistSlideOut = lazy(() => import('@diamantaire/darkside/components/wishlist/WishlistSlideOut'));
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
