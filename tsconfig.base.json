@@ -70,6 +70,9 @@
       "@diamantaire/darkside/components/wishlist": [
         "libs/darkside/components/wishlist/src/index.ts"
       ],
+      "@diamantaire/darkside/components/WishlistSlideOut": [
+        "libs/darkside/components/wishlist/src/lib/WishlistSlideOut.tsx"
+      ],
       "@diamantaire/darkside/context/analytics": [
         "libs/darkside/context/analytics/src/index.ts"
       ],
@@ -104,9 +107,6 @@
       ],
       "@diamantaire/darkside/page/wishlist":[
         "libs/darkside/page/wishlist/src/index.ts"
-      ],
-      "@diamantaire/darkside/page/error/server": [
-        "libs/darkside/page/error/src/server.ts"
       ],
       "@diamantaire/darkside/page/home": [
         "libs/darkside/page/home/src/index.ts"

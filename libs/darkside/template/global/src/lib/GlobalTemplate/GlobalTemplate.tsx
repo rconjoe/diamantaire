@@ -2,9 +2,8 @@ import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
@@ -18,20 +17,25 @@ export type GlobalTemplateProps = {
   children: ReactNode;
 };
 
+const WishlistSlideOut = lazy(() => import('@diamantaire/darkside/components/WishlistSlideOut'));
+
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
 
   const globalTemplateData = useGlobalData(router.locale);
 
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
+
   const footerData = globalTemplateData.data?.footerNavigation;
 
   const headerRef = useRef<HTMLDivElement | null>(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
+
   const [headerHeight, setHeaderHeight] = useState(0);
 
   const { pathname } = useRouter();
+
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -78,11 +82,16 @@ export const GlobalTemplate = ({ children }) => {
           headerHeight={headerHeight}
         />
       )}
+
       <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
+
       {footerData && <Footer footerData={footerData} />}
-      <WishlistSlideOut />
+
+      <Suspense>
+        <WishlistSlideOut />
+      </Suspense>
     </>
   );
 };

@@ -13,7 +13,7 @@ export const fetchWishlistContent = async (locale: string) => {
 };
 
 // Get wishlist products
-export const fetchWishlistProduct = async (ids: string[], locale: string) => {
+export const fetchWishlistProducts = async (ids: string[], locale: string) => {
   const sanitize = (type: string) => {
     return ids.filter((v) => v.includes(type)).map((v) => v.replace(type, ''));
   };

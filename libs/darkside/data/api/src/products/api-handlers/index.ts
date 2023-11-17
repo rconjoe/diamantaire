@@ -3,8 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { vraiApiClient } from '../../clients';
 
-// const logger = createLogger('api:products');
-
 export const productsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
 
@@ -30,8 +28,6 @@ export const productsHandler = async (req: NextApiRequest, res: NextApiResponse)
       const errorMsg = `No handler available for API endpoint: ${endpoint}`;
 
       console.warn(errorMsg);
-      // logger.warn(errorMsg);
-      // logger.exception(errorMsg);
     }
   }
 };

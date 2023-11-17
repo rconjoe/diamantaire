@@ -59,8 +59,5 @@ interface WishlistProductDataProps {
 }
 
 export function useWishlistProduct(ids: string[], locale: string): UseQueryResult<WishlistProductDataProps, unknown> {
-  return useQuery({
-    ...queries.wishlist.product(ids, locale),
-    staleTime: 300000,
-  });
+  return useQuery({ ...queries.wishlist.product(ids, locale) });
 }
