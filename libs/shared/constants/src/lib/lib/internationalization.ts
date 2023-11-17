@@ -549,6 +549,43 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
+export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+  const { countryCode } = parseValidLocale(locale);
+  const currency = getCurrency(countryCode);
+
+  const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
+  const convertedPrice = priceInDollars;
+
+  const numberFormat = new Intl.NumberFormat(locale, {
+    currency,
+    style: 'currency',
+    currencyDisplay: 'narrowSymbol',
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
+  });
+
+  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
+  let formattedPrice = numberFormat.format(convertedPrice);
+
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
+
+  return formattedPrice;
+}
+
 export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE, digits?: number) {
   return Intl.NumberFormat(locale, {
     minimumFractionDigits: digits ? digits : 2,

@@ -1,5 +1,4 @@
 import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   FACETED_NAV_ORDER,
@@ -64,7 +63,6 @@ const PlpProductFilter = ({
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
-  const { headerHeight } = useGlobalContext();
 
   function toggleFilterOptionSet(filterSlug: FilterTypeProps) {
     if (filterOptionSetOpen === filterSlug) {
@@ -198,7 +196,7 @@ const PlpProductFilter = ({
 
   return (
     availableFilters && (
-      <PlpProductFilterStyles headerHeight={headerHeight}>
+      <PlpProductFilterStyles>
         <div className="filter__sticky-container">
           <div className="filter__wrapper container-wrapper">
             <div className="filter">

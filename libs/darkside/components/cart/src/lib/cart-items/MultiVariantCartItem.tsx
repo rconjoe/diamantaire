@@ -126,9 +126,9 @@ const MultiVariantCartItem = ({
   const { locale } = useRouter();
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { productRemoved } = useAnalytics();
-  const { attributes, cost, merchandise, quantity } = item;
-  const price = cost?.totalAmount?.amount;
-  const currency = cost?.totalAmount?.currencyCode;
+  const { attributes, merchandise, quantity } = item;
+  const price = merchandise?.price?.amount;
+  const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
   const { data: checkout, refetch } = useCartData(locale);
@@ -219,7 +219,7 @@ const MultiVariantCartItem = ({
 
   async function handleRemoveProduct() {
     if (hasChildProduct && childProduct && checkout?.lines?.length > 1) {
-      const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
+      const total = parseFloat(price) + parseFloat(childProduct?.merchandise?.price?.amount);
       const formattedTotal = total.toFixed(2);
 
       productRemoved({
@@ -252,7 +252,7 @@ const MultiVariantCartItem = ({
                 variant: childProduct?.merchandise?.product?.title,
                 id: childProduct?.merchandise.id.split('/').pop(),
                 name: childProduct?.merchandise?.product?.title,
-                price: childProduct?.cost?.totalAmount?.amount,
+                price: childProduct?.merchandise?.price?.amount,
                 quantity: childProduct?.quantity,
               },
             ],
@@ -273,7 +273,7 @@ const MultiVariantCartItem = ({
               item_brand: 'VRAI',
               currency,
               item_category: childProduct?.merchandise?.product?.productType,
-              price: childProduct?.cost?.totalAmount?.amount,
+              price: childProduct?.merchandise?.price?.amount,
               quantity: childProduct?.quantity,
             },
           ],
@@ -366,12 +366,12 @@ const MultiVariantCartItem = ({
           {hasChildProduct ? (
             <p>
               {getFormattedPrice(
-                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount) * 100,
+                (parseFloat(merchandise?.price?.amount) + parseFloat(childProduct?.merchandise?.price?.amount)) * 100,
                 locale,
               )}
             </p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</p>
+            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</p>
           )}
         </div>
       </div>
@@ -382,7 +382,7 @@ const MultiVariantCartItem = ({
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
             {productType === 'Engagement Ring' && (
-              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</span>
+              <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</span>
             )}
           </p>
           {itemAttributes?.map((specItem, index) => {

@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
-import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, Form, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -11,7 +11,6 @@ import {
   ProductTitle,
   ProductIconList,
   ProductKlarna,
-  ProductAppointmentCTA,
   ProductSuggestionBlock,
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
@@ -197,29 +196,59 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
+  function filterDuplicates(array) {
+    const uniqueMap = new Map();
+
+    // Iterate through the array and update the map with the oldest dateAdded for each unique item
+    array.forEach((item) => {
+      const existingItem = uniqueMap.get(item.title);
+
+      if (!existingItem || item.dateAdded > existingItem.dateAdded) {
+        uniqueMap.set(item.title, item);
+      }
+    });
+
+    // Convert the map values back to an array
+    const uniqueArray = Array.from(uniqueMap.values());
+
+    return uniqueArray;
+  }
+
   function fetchAndTrackPreviouslyViewed() {
     const previouslyViewed = localStorage.getItem('previouslyViewed');
+    const date = new Date();
 
     if (previouslyViewed) {
-      const previouslyViewedJson = JSON.parse(previouslyViewed);
+      let previouslyViewedArray = JSON.parse(previouslyViewed);
 
-      previouslyViewedJson[collectionSlug] = productSlug;
-      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedJson));
+      previouslyViewedArray.push({
+        title: productTitle,
+        slug: variantHandle,
+        dateAdded: date.getTime(),
+      });
+
+      previouslyViewedArray = filterDuplicates(previouslyViewedArray);
+
+      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedArray));
     } else {
       localStorage.setItem(
         'previouslyViewed',
-        JSON.stringify({
-          [collectionSlug]: productSlug,
-        }),
+        JSON.stringify([
+          {
+            title: productTitle,
+            slug: variantHandle,
+            dateAdded: date.getTime(),
+          },
+        ]),
       );
     }
   }
 
   useEffect(() => {
-    if (!collectionSlug || !productSlug) return;
+    if (!productTitle || !variantHandle) return;
 
     fetchAndTrackPreviouslyViewed();
-  }, [collectionSlug, productSlug]);
+  }, [productTitle, variantHandle]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

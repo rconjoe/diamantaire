@@ -135,7 +135,7 @@ const ChildProductStyles = styled.div`
 `;
 
 const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
-  const { attributes, cost } = lineItem || {};
+  const { attributes, merchandise } = lineItem || {};
   const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
   const [showCert, setShowCert] = useState(false);
   const { locale } = useRouter();
@@ -209,7 +209,7 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
         <div className="cart-item__content">
           <p>
             <strong>{productType}</strong>
-            {isProductDiamond && <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>}
+            {isProductDiamond && <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</span>}
           </p>
           {itemAttributes?.map((specItem, index) => {
             if (!specItem?.value || specItem.value === '') return null;
