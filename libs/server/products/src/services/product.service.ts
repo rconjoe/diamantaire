@@ -105,13 +105,10 @@ export class ProductsService {
         contentId: { $in: contentIds },
       });
 
+      // get product content from Dato
       const productContentMap = await this.findProductContent(products, locale);
-      
-      console.log(Object.values(productContentMap))
 
-      // Request Dato content for each product type
-
-      /* Get lowest prices for unique set of collections */
+      // Get lowest prices for unique set of collections 
       const collectionSet = products.reduce((acc, product) => {
         acc.add(product.collectionSlug);
 
