@@ -1,4 +1,8 @@
 import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { ProductLink } from '@diamantaire/shared-product';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -6,8 +10,7 @@ const PlpPreviouslyViewedStyles = styled.section``;
 
 const PlpPreviouslyViewed = () => {
   const [handles, setHandles] = useState([]);
-
-  console.log('handles', handles);
+  const { locale } = useRouter();
 
   // fetch previously viewed products
   function fetchPreviouslyViewed() {
@@ -15,31 +18,58 @@ const PlpPreviouslyViewed = () => {
 
     if (!previouslyViewed) return;
 
-    const previouslyViewedObject = JSON.parse(previouslyViewed);
-    const previouslyViewedArray = [];
+    const previouslyViewedArray = JSON.parse(previouslyViewed);
 
-    Object.keys(previouslyViewedObject).forEach(([key, _value]) => {
-      previouslyViewedArray.push(previouslyViewedObject[key]);
-    });
+    const handlesArray = [];
 
-    console.log('previouslyViewedArray', previouslyViewedArray);
-    setHandles(previouslyViewedArray);
+    previouslyViewedArray.map((item) => handlesArray.push(item.slug));
+
+    // console.log('previouslyViewedArray', previouslyViewedArray);
+    setHandles(handlesArray);
   }
 
-  //   useBlockProducts();
+  const { data } = useBlockProducts(handles);
+
+  const { products, lowestPricesByCollection } = data || {};
 
   useEffect(() => {
     fetchPreviouslyViewed();
   }, []);
 
-  //   hand off, gonna finish next pr
+  // Still need the image
 
   return (
-    <PlpPreviouslyViewedStyles>
-      <div className="title-container">
+    <PlpPreviouslyViewedStyles className="container-wrapper">
+      <div className="title-container text-center">
         <Heading type="h2" className="primary h1">
           <UIString>Previously viewed</UIString>
         </Heading>
+      </div>
+      <div className="product-container">
+        {products?.map((product) => {
+          return (
+            <div className="product-suggestion__container" key={product?.id}>
+              <div className="product-suggestion__inner">
+                <ProductLink
+                  productType={product?.productType}
+                  productSlug={product?.productSlug}
+                  collectionSlug={product?.collectionSlug}
+                >
+                  <div className="product-suggestion__image">
+                    image
+                    {/* <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} /> */}
+                  </div>
+                  <div className="product-suggestion__content">
+                    <Heading type="h3" className="secondary product-suggestion__title">
+                      {product?.collectionTitle}
+                    </Heading>
+                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                  </div>
+                </ProductLink>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </PlpPreviouslyViewedStyles>
   );
