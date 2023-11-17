@@ -1,6 +1,13 @@
 import { isWithinInterval } from 'date-fns';
 
 export function isCurrentTimeWithinInterval(startTime: string, endTime: string): boolean {
+  if (!startTime || !endTime) return false;
+
+  console.log({
+    startTime,
+    endTime,
+  });
+
   const currentTime = new Date();
   let startDateTime = new Date(startTime);
   let endDateTime = new Date(endTime);
@@ -10,8 +17,6 @@ export function isCurrentTimeWithinInterval(startTime: string, endTime: string):
     startDateTime,
     endDateTime,
   });
-
-  if (!currentTime || !startDateTime || !endDateTime) return false;
 
   // Ensure startDateTime is before endDateTime
   if (startDateTime > endDateTime) {
