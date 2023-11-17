@@ -2,8 +2,9 @@ import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useEffect, useRef, useState, lazy, Suspense } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState, Suspense } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
@@ -17,7 +18,7 @@ export type GlobalTemplateProps = {
   children: ReactNode;
 };
 
-const WishlistSlideOut = lazy(() => import('@diamantaire/darkside/components/wishlist/WishlistSlideOut'));
+const WishlistSlideOut = dynamic(() => import('@diamantaire/darkside/components/wishlist/WishlistSlideOut'), { ssr: false });
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
