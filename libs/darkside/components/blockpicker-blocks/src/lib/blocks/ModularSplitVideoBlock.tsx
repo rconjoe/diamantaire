@@ -57,14 +57,23 @@ const ModularSplitVideoBlockContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+<<<<<<< HEAD
         height: 10rem;
         width: 10rem;
+=======
+        height: 100px;
+        width: 100px;
+>>>>>>> adb9d013 (eod fix)
         background-color: rgb(158 158 158 / 56%);
         border-radius: 50%;
 
         svg {
           position: relative;
+<<<<<<< HEAD
           left: 0.5rem;
+=======
+          left: 5px;
+>>>>>>> adb9d013 (eod fix)
         }
       }
     }
@@ -120,6 +129,10 @@ const ModularSplitVideoBlock = (props) => {
               },
             }}
             onPlay={() => setHasVideoInitialized(true)}
+<<<<<<< HEAD
+=======
+            // onPause={() => setIsVideoPlaying(false)}
+>>>>>>> adb9d013 (eod fix)
           />
 
           {hasVideoInitialized && (

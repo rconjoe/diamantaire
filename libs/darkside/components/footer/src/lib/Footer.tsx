@@ -24,11 +24,15 @@ type FooterLink = {
   copy: string;
   flags: string;
   route: string;
+<<<<<<< HEAD
   newRoute: string;
   supportedCountries: {
     code: string;
     name: string;
   }[];
+=======
+  supportedCountries: Array<string>;
+>>>>>>> adb9d013 (eod fix)
 };
 
 const FooterStyles = styled.footer`

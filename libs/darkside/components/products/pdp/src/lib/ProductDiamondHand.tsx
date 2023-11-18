@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { UIString } from '@diamantaire/darkside/components/common-ui';
+=======
+>>>>>>> adb9d013 (eod fix)
 import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import Image from 'next/image';
@@ -21,6 +24,7 @@ const ProductDiamondHandStyles = styled.div`
       display: block;
       aspect-ratio: 1/1;
       position: relative;
+<<<<<<< HEAD
       max-height: 520px;
 
       margin: 0 auto;
@@ -29,17 +33,27 @@ const ProductDiamondHandStyles = styled.div`
         font-size: var(--font-size-xxxsmall);
         margin: 20px 0 0;
       }
+=======
+      max-height: 582px;
+      margin: 0 auto;
+>>>>>>> adb9d013 (eod fix)
     }
 
     .image-diamond {
       position: absolute;
+<<<<<<< HEAD
       top: 53%;
       left: 20.5%;
+=======
+      top: 58%;
+      left: 22.5%;
+>>>>>>> adb9d013 (eod fix)
       display: flex;
       align-items: center;
       justify-content: center;
       width: 25%;
       height: 25%;
+<<<<<<< HEAD
 
       @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
         left: 23%;
@@ -48,6 +62,8 @@ const ProductDiamondHandStyles = styled.div`
       @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
         left: 21%;
       }
+=======
+>>>>>>> adb9d013 (eod fix)
     }
   }
 
@@ -88,7 +104,11 @@ const ProductDiamondHandStyles = styled.div`
         background-color: var(--color-teal);
         border-radius: 50%;
         cursor: pointer;
+<<<<<<< HEAD
         button {
+=======
+        span {
+>>>>>>> adb9d013 (eod fix)
           position: absolute;
           top: -${offset};
           font-size: var(--font-size-xxxsmall);
@@ -101,7 +121,10 @@ const ProductDiamondHandStyles = styled.div`
           width: 100%;
           text-align: center;
           min-width: 70px;
+<<<<<<< HEAD
           background-color: transparent;
+=======
+>>>>>>> adb9d013 (eod fix)
         }
       }
     }
@@ -264,9 +287,12 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
       <div className="hand-image-container">
         <div className="image-hand">
           <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
+<<<<<<< HEAD
           <p className="shown-on-text text-center">
             <UIString>Shown on ring size 6</UIString>
           </p>
+=======
+>>>>>>> adb9d013 (eod fix)
         </div>
 
         <div className="image-diamond">
@@ -294,7 +320,11 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
                   onChange={(v) => setSliderValue(v)}
                   renderThumb={(props, state) => (
                     <div {...props}>
+<<<<<<< HEAD
                       <button>{state.valueNow} carat</button>
+=======
+                      <span>{state.valueNow} carat</span>
+>>>>>>> adb9d013 (eod fix)
                     </div>
                   )}
                 />
