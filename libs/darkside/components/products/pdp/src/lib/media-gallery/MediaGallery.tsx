@@ -193,11 +193,14 @@ function SpriteSpinnerBlock({ sprite, options }) {
   const { diamondType, bandAccent, metal } = options;
   const spriteImage = sprite;
   const { query } = useRouter();
-  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.productSlug}/${diamondType}/${
+  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.collectionSlug}/${diamondType}/${
     bandAccent ? bandAccent + '/' : ''
   }${metal}`;
 
-  return null;
+  // return null;
+
+  console.log('bunny360BaseURL', bunny360BaseURL);
+  console.log('spriteImage', spriteImage);
 
   return (
     <SpriteSpinner

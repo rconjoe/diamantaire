@@ -247,6 +247,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           src="https://na-library.klarnaservices.com/lib.js"
           data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
         ></Script>
+        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+
+        <Script
+          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+          strategy={'beforeInteractive'}
+        />
         <PageViewTracker productData={productData} />
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">

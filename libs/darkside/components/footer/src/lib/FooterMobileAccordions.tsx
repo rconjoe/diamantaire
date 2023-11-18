@@ -1,5 +1,6 @@
 import { CountrySelector, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { parseValidLocale, countries, languagesByCode } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -239,8 +240,8 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
               {links?.map((link, index) => {
                 const { newRoute, supportedCountries, copy } = link;
 
-                if (supportedCountries.length > 0) {
-                  if (supportedCountries.filter((item) => item.code === countryCode).length === 0) return null;
+                if (!isCountrySupported(supportedCountries, countryCode)) {
+                  return null;
                 }
 
                 return (

@@ -24,7 +24,11 @@ type FooterLink = {
   copy: string;
   flags: string;
   route: string;
-  supportedCountries: Array<string>;
+  newRoute: string;
+  supportedCountries: {
+    code: string;
+    name: string;
+  }[];
 };
 
 const FooterStyles = styled.footer`
