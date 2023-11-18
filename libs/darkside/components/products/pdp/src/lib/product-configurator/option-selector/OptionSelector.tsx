@@ -32,7 +32,8 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 
     .selector-title {
       font-size: 1.7rem;

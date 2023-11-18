@@ -11,7 +11,6 @@ import { FooterColumn } from './Footer';
 
 type FooterMobileAccordionProps = {
   columns: Array<FooterColumn>;
-  countryLabel: string;
 };
 
 const FooterMobileAccordionsContainer = styled.div`
@@ -97,7 +96,7 @@ const LanguageLabelListItem = styled.div`
   }
 `;
 
-const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, countryLabel }): JSX.Element => {
+const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JSX.Element => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
 
@@ -146,7 +145,7 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, count
       <CountryLabelListItem>
         <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
           <span className="label">
-            <UIString>{countryLabel}</UIString>:
+            <UIString>Location</UIString>:
           </span>
           {selectedCountry}
           <span className="icon">

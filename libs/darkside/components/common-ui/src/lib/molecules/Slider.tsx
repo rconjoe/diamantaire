@@ -49,6 +49,7 @@ const Slider = (props: SliderProps) => {
       const slider = noUiSlider.create(sliderRef.current, {
         cssPrefix: 'vo-slider-',
         connect: true,
+        behaviour: 'drag',
         start: value,
         tooltips,
         range,

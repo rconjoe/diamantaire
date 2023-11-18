@@ -14,6 +14,10 @@ export const TOP_BAR_QUERY = gql`
         link
         shouldShowDynamicBookAnAppointment
         enableGwp
+        supportedCountries {
+          code
+          name
+        }
       }
     }
   }

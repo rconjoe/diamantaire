@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { PdpPage } from '@diamantaire/darkside/page/pdp';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
+import { PdpTypePlural } from '@diamantaire/shared/constants';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
@@ -15,7 +15,10 @@ interface PdpPageParams extends ParsedUrlQuery {
 }
 export interface PdpPageProps {
   key: string;
-  params: PdpPageParams;
+  params: {
+    collectionSlug: string;
+    productSlug: string;
+  };
   dehydratedState: DehydratedState;
 }
 
@@ -24,17 +27,16 @@ export async function getServerSideProps(
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
-  const { params, locale } = context;
+  const { locale } = context;
 
-  const { collectionSlug, productSlug } = context.params;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant('ring-sizer', 'ring-sizer-32905666134109');
 
-  const productType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[context.req.url.split('/')[1]] || null;
+  const productType: PdpTypePlural = PdpTypePlural['RingSizer'];
 
   await queryClient.prefetchQuery({ ...queries.template.global(locale) });
   await queryClient.prefetchQuery(dataQuery);
-  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo(collectionSlug, locale, productType) });
+  await queryClient.prefetchQuery({ ...queries.products.serverSideDatoProductInfo('ring-sizer', locale, productType) });
 
   if (!queryClient.getQueryData(dataQuery.queryKey)) {
     return {
@@ -44,8 +46,11 @@ export async function getServerSideProps(
 
   return {
     props: {
-      key: productSlug,
-      params,
+      key: 'ring-sizer-32905666134109',
+      params: {
+        collectionSlug: 'ring-sizer',
+        productSlug: 'ring-sizer-32905666134109',
+      },
       dehydratedState: dehydrate(queryClient),
     },
   };

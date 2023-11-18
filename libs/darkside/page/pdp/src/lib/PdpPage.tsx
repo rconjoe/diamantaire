@@ -14,17 +14,18 @@ import {
   ProductSuggestionBlock,
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
-import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
+import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   jewelryTypes,
+  parseValidLocale,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { replacePlaceholders } from '@diamantaire/shared/helpers';
+import { createLongProductTitle, fetchAndTrackPreviouslyViewed, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -56,6 +57,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const query = useProduct({ collectionSlug, productSlug });
   const { data: shopifyProductData = {} } = query;
   const router = useRouter();
+  const { _t } = useTranslations(router.locale);
 
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
@@ -67,8 +69,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   console.log('datoParentProductData', datoParentProductData);
 
   const {
+    // ER + WB SEO
     seoTitle,
     seoDescription,
+    // Jewelry SEO
+    seoFields,
     productDescription,
     bandWidth,
     bandDepth,
@@ -202,63 +207,33 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
-  function filterDuplicates(array) {
-    const uniqueMap = new Map();
+  // Setups seo title and description for all pdps
+  const { languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
-    // Iterate through the array and update the map with the oldest dateAdded for each unique item
-    array.forEach((item) => {
-      const existingItem = uniqueMap.get(item.title);
+  const metaTitle =
+    shopifyProductData?.productType === 'Engagement Ring'
+      ? `${createLongProductTitle({
+          title: productTitle,
+          diamondType: configuration.diamondType,
+          productType: shopifyProductData?.productType,
+          selectedLanguageCode,
+          _t,
+          enableMetal: true,
+          metal: configuration.metal,
+        })} | VRAI`
+      : seoFields
+      ? seoFields.seoTitle
+      : seoTitle;
 
-      if (!existingItem || item.dateAdded > existingItem.dateAdded) {
-        uniqueMap.set(item.title, item);
-      }
-    });
+  const metaDescription = seoFields
+    ? replacePlaceholders(seoFields?.seoDescription, ['%%product_name%%'], [productTitle]).toString()
+    : replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString();
 
-    // Convert the map values back to an array
-    let uniqueArray = Array.from(uniqueMap.values());
-
-    // If there are more than 10 items, sort by dateAdded and remove the oldest ones
-    if (uniqueArray.length > 10) {
-      uniqueArray = uniqueArray.sort((a, b) => a.dateAdded - b.dateAdded).slice(0, 10);
-    }
-
-    return uniqueArray;
-  }
-
-  function fetchAndTrackPreviouslyViewed() {
-    const previouslyViewed = localStorage.getItem('previouslyViewed');
-    const date = new Date();
-
-    if (previouslyViewed) {
-      let previouslyViewedArray = JSON.parse(previouslyViewed);
-
-      previouslyViewedArray.push({
-        title: productTitle,
-        slug: variantHandle,
-        dateAdded: date.getTime(),
-      });
-
-      previouslyViewedArray = filterDuplicates(previouslyViewedArray);
-
-      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedArray));
-    } else {
-      localStorage.setItem(
-        'previouslyViewed',
-        JSON.stringify([
-          {
-            title: productTitle,
-            slug: variantHandle,
-            dateAdded: date.getTime(),
-          },
-        ]),
-      );
-    }
-  }
-
+  // Tracks previously viewed products in local storage
   useEffect(() => {
     if (!productTitle || !variantHandle) return;
 
-    fetchAndTrackPreviouslyViewed();
+    fetchAndTrackPreviouslyViewed(productTitle, variantHandle);
   }, [productTitle, variantHandle]);
 
   if (shopifyProductData) {
@@ -266,10 +241,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     return (
       <PageContainerStyles>
-        <NextSeo
-          title={seoTitle}
-          description={replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString()}
-        />
+        <NextSeo title={metaTitle} description={metaDescription} />
         <Script
           id="klara-script"
           src="https://na-library.klarnaservices.com/lib.js"

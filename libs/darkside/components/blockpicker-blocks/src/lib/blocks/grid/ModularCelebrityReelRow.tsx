@@ -1,5 +1,5 @@
-import { DarksideButton, DatoDarksideButtonProps, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DarksideButton, Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
+import { DatoDarksideButtonProps, DatoImageType } from '@diamantaire/shared/types';
 
 import { ModularCelebrityReelRowStyles } from './ModularCelebrityReelRow.style';
 

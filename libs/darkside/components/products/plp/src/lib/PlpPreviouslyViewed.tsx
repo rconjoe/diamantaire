@@ -156,7 +156,7 @@ const PlpPreviouslyViewed = () => {
                       collectionSlug={product?.collectionSlug}
                     >
                       <div className="product__image">
-                        <DatoImage image={content.plpImage} />
+                        <DatoImage image={content.plpImage} enableDpr />
                       </div>
                       <div className="product__content">
                         <Heading type="h3" className="secondary product-suggestion__title">

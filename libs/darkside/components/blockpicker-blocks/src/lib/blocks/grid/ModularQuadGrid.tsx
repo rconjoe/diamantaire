@@ -1,13 +1,8 @@
 /** This section is a 4 item image grid on desktop,
  * and a stacked 2x2 image grid on mobile */
 
-import {
-  DarksideButton,
-  DatoDarksideButtonProps,
-  Heading,
-  ImageTile,
-  UniLink,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, ImageTile, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ModularQuadGridContainer } from './ModularQuadGrid.style';

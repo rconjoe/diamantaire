@@ -1,11 +1,12 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
-import { DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
+import { ProductDiamondHand } from '../ProductDiamondHand';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
@@ -54,13 +55,7 @@ function MediaGallery({
           />
         ))}
         {productType === 'Engagement Ring' && (
-          <DiamondHand
-            withSlider={true}
-            diamondType={diamondType}
-            lotId={`cfy-${diamondType}`}
-            initRange={[0.5, 8]}
-            initValue={2}
-          />
+          <ProductDiamondHand diamondType={diamondType} range={[0.5, 8]} initValue={2} />
         )}
       </MediaGalleryStyles>
     )

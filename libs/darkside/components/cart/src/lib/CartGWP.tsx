@@ -1,6 +1,6 @@
-import { DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
+import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
 import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -14,7 +14,7 @@ const CartGWPStyles = styled.div`
     display: flex;
 
     .image {
-      flex: 0 0 100px;
+      flex: 0 0 140px;
       display: flex;
 
       > * {
@@ -35,12 +35,16 @@ const CartGWPStyles = styled.div`
         padding: 20px;
 
         p {
-          font-size: var(--font-size-xxxsmall);
+          font-size: var(--font-size-xxsmall);
 
           &.title {
-            font-size: var(--font-size-xsmall);
+            font-size: var(--font-size-small);
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+          }
+
+          &.non-qualified-copy {
+            margin-bottom: 0.5rem;
           }
         }
       }
@@ -69,10 +73,13 @@ const CartGWP = () => {
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
+    cartNonQualifiedCta,
   } = gwpData || {};
 
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
+
+  console.log('cartNonQualifiedCta', gwpData);
 
   if (!gwpData) return null;
 
@@ -102,18 +109,31 @@ const CartGWP = () => {
             ) : (
               <>
                 {cartNonQualifiedTitle !== '' && <p className="title">{cartNonQualifiedTitle}</p>}
-                <p>
+                <p className="non-qualified-copy">
                   {replacePlaceholders(
                     cartNonQualifiedBody,
                     ['%%GWP_remaining_spend%%'],
                     [
-                      getFormattedPrice(
+                      formatPrice(
                         parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
                         locale,
-                      ),
+                      ).trim(),
                     ],
                   ).toString()}
                 </p>
+                {cartNonQualifiedCta?.map((button) => {
+                  return (
+                    <DarksideButton
+                      colorTheme={button.ctaButtonColorTheme}
+                      mobileColorTheme={button.ctaButtonMobileColorTheme}
+                      href={button.ctaLinkUrl}
+                      key={button.id}
+                      type={button.ctaButtonType}
+                    >
+                      {button.ctaCopy}
+                    </DarksideButton>
+                  );
+                })}
               </>
             )}
           </div>
