@@ -30,6 +30,7 @@ const MobileDesktopImage = ({
           overrideAlt={alt || ''}
           shouldLazyLoad={shouldLazyLoad}
           quality={quality}
+          enableDpr={true}
         />
       </ShowTabletAndUpOnly>
       <ShowMobileOnly>
@@ -39,6 +40,7 @@ const MobileDesktopImage = ({
           overrideAlt={alt || ''}
           shouldLazyLoad={shouldLazyLoad}
           quality={quality}
+          enableDpr={true}
         />
       </ShowMobileOnly>
     </>
