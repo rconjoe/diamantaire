@@ -1,7 +1,12 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
 import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
-import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
+import {
+  getCountry,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -61,6 +66,8 @@ const CartGWP = () => {
 
   const gwpData = data?.allGwpDarksides?.[0]?.tiers?.[0];
 
+  console.log('gwpData', gwpData);
+
   const {
     cartQualifiedTitle,
     cartQualifiedBody,
@@ -69,7 +76,7 @@ const CartGWP = () => {
     cartNonQualifiedBody,
     cartNonQualifiedBackgroundColor,
     giftProduct,
-    activeCountries,
+    supportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -83,15 +90,13 @@ const CartGWP = () => {
 
   if (!gwpData) return null;
 
-  const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
-
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
 
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
-  if (!isCountrySupported || !isWithinTimeframe) return null;
+  if (!isCountrySupported(supportedCountries, countryCode) || !isWithinTimeframe) return null;
 
   return (
     <CartGWPStyles bgColor={hasUserQualified ? cartQualifiedBackgroundColor?.hex : cartNonQualifiedBackgroundColor?.hex}>

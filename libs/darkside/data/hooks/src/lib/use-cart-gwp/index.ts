@@ -9,7 +9,10 @@ export type CartGwpDataType = {
       promotionDateRangeEnd: string;
       promotionDateRangeStart: string;
       minSpendByCurrencyCode: Record<string, number>;
-      activeCountries: string;
+      supportedCountries: {
+        code: string;
+        name: string;
+      }[];
       giftProduct: {
         plpImage: DatoImageType;
       };
