@@ -81,6 +81,7 @@ function ConfigurationSelector({
   disableVariantType,
   hasMultipleDiamondOrientations,
   productType,
+  diamondSpecs,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -148,6 +149,7 @@ function ConfigurationSelector({
                 : (option) => handleOptionChange(configurationType, option)
             }
             renderItemAsLink={isBuilderFlowOpen ? false : true}
+            diamondSpecs={diamondSpecs}
           />
         );
       })}

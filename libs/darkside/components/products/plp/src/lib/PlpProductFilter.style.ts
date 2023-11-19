@@ -9,6 +9,11 @@ export const PlpProductFilterStyles = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0 2.4rem;
+    }
   }
 
   .filter__header {
@@ -17,14 +22,26 @@ export const PlpProductFilterStyles = styled.div`
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
+        display: none;
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          display: block;
+        }
       }
+    }
+    .filter-icon {
+      position: relative;
+      top: 2px;
+      margin-right: 5px;
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: none;
+      }
+    }
 
-      .filter__option-selector {
-        button {
-          transition: 0.25s;
-          &.active {
-            font-weight: bold;
-          }
+    .filter__option-selector {
+      button {
+        transition: 0.25s;
+        &.active {
+          font-weight: bold;
         }
       }
     }
@@ -32,8 +49,20 @@ export const PlpProductFilterStyles = styled.div`
     .filter__options {
       li {
         margin-right: calc(var(--gutter) / 3);
+
+        &:nth-child(n + 3) {
+          display: none;
+        }
+
         &:last-child {
           margin-right: 0px;
+        }
+
+        &.mobile-filter-toggle {
+          display: block;
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            display: none;
+          }
         }
 
         button {
@@ -67,6 +96,12 @@ export const PlpProductFilterStyles = styled.div`
   .filter-option-set {
     padding-top: 10px;
     ul {
+      overflow-x: auto;
+      overflow-y: visible;
+      padding: 10px 0;
+      max-width: 90vw;
+      margin: 0 auto;
+      padding-left: 4px;
       li {
         margin-right: calc(var(--gutter) / 3);
         &:last-child {
@@ -81,6 +116,7 @@ export const PlpProductFilterStyles = styled.div`
           height: 30px;
           width: auto;
           display: inline-block;
+          overflow: visible;
         }
       }
     }
@@ -125,6 +161,10 @@ export const PlpProductFilterStyles = styled.div`
             }
           }
         }
+      }
+
+      .metal-text {
+        white-space: nowrap;
       }
 
       .metal-swatch {
@@ -201,6 +241,16 @@ export const PlpProductFilterStyles = styled.div`
             margin: 0 3px 0 3px;
           }
         }
+      }
+    }
+  }
+
+  .specific-filter-options {
+    .filter-option-set {
+      padding-right: 5rem;
+
+      &:last-child {
+        padding-right: 0;
       }
     }
   }

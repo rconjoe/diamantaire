@@ -6,9 +6,13 @@ import styled from 'styled-components';
 
 const ProductTitleStyles = styled.h1`
   font-weight: 500;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   line-height: 1.1;
   margin: 0 0 1rem;
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    font-size: 2.8rem;
+  }
 `;
 
 export function ProductTitle({ title, productType, diamondType }) {

@@ -14,8 +14,6 @@ export function createLongProductTitle(props: ProductTitleProps) {
   const { title, diamondType, productType, metal, enableMetal = false, selectedLanguageCode, _t } = props;
   let longTitle = title;
 
-  console.log('createLongProductTitle', title, diamondType, productType, selectedLanguageCode, enableMetal, _t);
-
   // English
   if (selectedLanguageCode === 'en' && productType === 'Engagement Ring' && diamondType) {
     longTitle += ` ${_t(diamondType)} ${_t(productType)} ${enableMetal ? 'in ' + _t(metalTypeAsConst[metal]) : ''}`;

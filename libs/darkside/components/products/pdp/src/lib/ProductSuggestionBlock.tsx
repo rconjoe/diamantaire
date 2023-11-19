@@ -80,7 +80,7 @@ const ProductSuggestionBlock = ({ id }) => {
                     <Heading type="h3" className="secondary product-suggestion__title">
                       {refinedTitles?.[index]?.title}
                     </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
                   </div>
                 </ProductLink>
               </div>

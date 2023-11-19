@@ -143,7 +143,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
     };
     const searchParams = new URLSearchParams(params);
 
-    return `${src}?${searchParams.toString()}`;
+    return `${src}?${searchParams.toString()}&dpr=2`;
   };
 
   return (
@@ -159,8 +159,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
       />
       {index === 0 && productType === 'Engagement Ring' && (
         <p>
-          <UIString>Shown with </UIString>
-          {shownWithCtw ? shownWithCtw : '1.5ct'}
+          <UIString>Shown with</UIString> {shownWithCtw ? shownWithCtw : '1.5ct'}
         </p>
       )}
     </ImageAssetStyles>
@@ -199,8 +198,8 @@ function SpriteSpinnerBlock({ sprite, options }) {
 
   // return null;
 
-  console.log('bunny360BaseURL', bunny360BaseURL);
-  console.log('spriteImage', spriteImage);
+  // console.log('bunny360BaseURL', bunny360BaseURL);
+  // console.log('spriteImage', spriteImage);
 
   return (
     <SpriteSpinner

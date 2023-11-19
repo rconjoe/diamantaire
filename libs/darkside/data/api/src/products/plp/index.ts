@@ -190,6 +190,10 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         id
         isDescendingOrder
       }
+      filterOptions {
+        filterLabel
+        filterValue
+      }
       creativeBlocks {
         id
       }

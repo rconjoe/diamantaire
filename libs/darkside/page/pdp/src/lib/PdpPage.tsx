@@ -312,8 +312,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
-                title="Need more time to think?"
-                caption="Email this customized ring to yourself or drop a hint."
+                title={_t('Need more time to think?')}
+                caption={_t('Email this customized ring to yourself or drop a hint.')}
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
                 headingType={'h2'}

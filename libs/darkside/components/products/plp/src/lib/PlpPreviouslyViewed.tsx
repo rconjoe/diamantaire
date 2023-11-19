@@ -64,19 +64,19 @@ const PlpPreviouslyViewedStyles = styled.section`
       .product__content {
         display: flex;
         align-items: baseline;
-        padding-top: 0.5rem;
+        padding-top: 0.8rem;
         > * {
           margin-right: 5px;
         }
 
         h3 {
           font-weight: 400;
-          font-size: var(--font-size-xxsmall);
+          font-size: var(--font-size-xxxsmall);
           line-height: 1.2;
         }
 
         p {
-          font-size: var(--font-size-xxsmall);
+          font-size: var(--font-size-xxxsmall);
           line-height: 1.2;
         }
       }
@@ -162,6 +162,7 @@ const PlpPreviouslyViewed = () => {
                         <Heading type="h3" className="secondary product-suggestion__title">
                           {product?.collectionTitle}
                         </Heading>
+                        <p>|</p>
                         <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
                       </div>
                     </ProductLink>

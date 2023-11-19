@@ -10,7 +10,6 @@ import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
-    min-height: 300px;
     position: relative;
     button {
       padding: 0;

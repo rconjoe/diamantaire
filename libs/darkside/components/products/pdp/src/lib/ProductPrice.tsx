@@ -8,8 +8,12 @@ import styled from 'styled-components';
 const ProductPriceStyles = styled.div`
   margin-bottom: calc(var(--gutter) / 4);
   .price-text {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 500;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      font-size: 2rem;
+    }
   }
 
   .small {

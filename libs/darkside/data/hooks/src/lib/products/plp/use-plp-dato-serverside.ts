@@ -24,6 +24,7 @@ type PlpDatoServersideProps = {
         content: string;
       };
     };
+
     breadcrumb: {
       id: string;
       name: string;
@@ -50,6 +51,10 @@ type PlpDatoServersideProps = {
       };
     };
     sortOptions?: PlpBasicFieldSortOption[];
+    filterOptions: {
+      filterLabel: string;
+      filterValue: string;
+    }[];
     creativeBlocks: {
       id: string;
     }[];

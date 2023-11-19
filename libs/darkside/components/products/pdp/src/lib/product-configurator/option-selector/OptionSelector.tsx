@@ -41,8 +41,12 @@ const StyledOptionSelector = styled.div`
     }
 
     span {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: 400;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: 1.6rem;
+      }
     }
   }
   .option-list {
@@ -193,6 +197,7 @@ function OptionSelector({
   setIsWeddingBandSizeGuideOpen,
   hideSelectorLabel = false,
   productType,
+  diamondSpecs,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -242,7 +247,7 @@ function OptionSelector({
     }
   }
 
-  console.log('productTypexxx', productType);
+  console.log('diamondSpecs', diamondSpecs);
 
   return (
     <StyledOptionSelector className={optionType}>
@@ -259,10 +264,28 @@ function OptionSelector({
                 <UIString>{selectedOptionValue}</UIString>
                 {'"'}
               </>
+            ) : optionType === 'caratWeight' && selectedOptionValue !== 'other' ? (
+              <>
+                <UIString>
+                  {selectedOptionValue}
+                  {isNaN(parseFloat(selectedOptionValue)) ? 'ct' : ''}
+                </UIString>{' '}
+                {/* Using both translation items because some elements need to be lowercase */}
+                {diamondSpecs.color && (
+                  <>
+                    <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
+                    {', '}
+                  </>
+                )}
+                {diamondSpecs.clarity && (
+                  <>
+                    <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+                  </>
+                )}
+              </>
             ) : (
               <UIString>{selectedOptionValue}</UIString>
             )}
-            {label === 'caratWeight' && !isNaN(parseFloat(_t(selectedOptionValue))) ? 'ct' : ''}{' '}
           </span>
         </div>
       )}

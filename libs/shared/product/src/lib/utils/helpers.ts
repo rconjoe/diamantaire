@@ -1,4 +1,10 @@
-import { configurationOptionValues, configurationTypes, optionTypeOrder, plpMetalValues } from '../constants';
+import {
+  configurationOptionValues,
+  configurationTypes,
+  optionTypeOrder,
+  plpDiamondValues,
+  plpMetalValues,
+} from '../constants';
 import { ProductType, productTypeToCategoryMap } from '../constants/product-properties';
 
 export function isJewelry(productType: string) {
@@ -51,4 +57,10 @@ export function sortMetalTypes(a: string, b: string) {
   if (!a || !b) return -1;
 
   return plpMetalValues.findIndex((metal) => metal === a) > plpMetalValues.findIndex((metal) => metal === b) ? 1 : -1;
+}
+
+export function sortDiamondTypes(a: string, b: string) {
+  if (!a || !b) return -1;
+
+  return plpDiamondValues.findIndex((metal) => metal === a) > plpDiamondValues.findIndex((metal) => metal === b) ? 1 : -1;
 }
