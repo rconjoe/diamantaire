@@ -11,9 +11,9 @@ export const PlpProductFilterStyles = styled.div`
     align-items: center;
     padding: 0;
 
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    /* @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 0 2.4rem;
-    }
+    } */
   }
 
   .filter__header {
