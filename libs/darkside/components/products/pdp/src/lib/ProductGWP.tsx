@@ -1,7 +1,12 @@
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { usePDPGwp } from '@diamantaire/darkside/data/hooks';
 import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
-import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
+import {
+  getCountry,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -41,7 +46,7 @@ const ProductGWP = () => {
     pdpBannerBody,
     pdpBannerColor,
     giftProduct,
-    activeCountries,
+    supportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -53,8 +58,6 @@ const ProductGWP = () => {
   // Confirm data exists
   if (!gwpData) return null;
 
-  const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
-
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
   const minSpendValue = formatPrice(minSpendByCurrencyCode?.[currencyCode], locale);
@@ -63,7 +66,7 @@ const ProductGWP = () => {
 
   refinedCopy = replacePlaceholders(refinedCopy, ['%%GWP_remaining_spend%%'], [minSpendValue?.toString()]).toString();
 
-  if (!isCountrySupported || !isWithinTimeframe) return null;
+  if (!isCountrySupported(supportedCountries, countryCode) || !isWithinTimeframe) return null;
 
   return (
     <ProductGWPStyles bgColor={pdpBannerColor?.hex}>

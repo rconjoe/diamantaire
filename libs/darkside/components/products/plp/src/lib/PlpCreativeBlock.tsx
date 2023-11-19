@@ -1,7 +1,12 @@
 import { DarksideButton, Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { useCartData, usePlpGWP } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
-import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
+import {
+  getCountry,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -46,7 +51,7 @@ const PlpCreativeBlock = ({ block }) => {
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
   const {
-    activeCountries,
+    supportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -62,13 +67,12 @@ const PlpCreativeBlock = ({ block }) => {
     promotionDateRangeStart &&
     isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
-  const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
 
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
   const gwpText = hasUserQualified ? creativeBlockQualifiedCopy : creativeBlockNonQualifiedCopy;
-  const areSettingsValid = isWithinTimeframe && isCountrySupported && minSpendValue;
+  const areSettingsValid = isWithinTimeframe && isCountrySupported(supportedCountries, countryCode) && minSpendValue;
 
   let replacedGwpText = replacePlaceholders(
     gwpText,
