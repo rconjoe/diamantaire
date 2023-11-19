@@ -13,6 +13,11 @@ interface ConfigurationSelectorProps {
   disableVariantType?: string[];
   hasMultipleDiamondOrientations?: boolean;
   productType?: string;
+
+  diamondSpecs?: {
+    color: string;
+    clarity: string;
+  };
 }
 
 interface ConfigurationSelectorAction {

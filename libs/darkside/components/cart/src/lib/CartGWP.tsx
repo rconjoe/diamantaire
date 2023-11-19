@@ -86,8 +86,6 @@ const CartGWP = () => {
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
 
-  console.log('cartNonQualifiedCta', gwpData);
-
   if (!gwpData) return null;
 
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);

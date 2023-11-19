@@ -143,12 +143,9 @@ const PlpProductFilter = ({
             {filterOptionsOverride.length > 0 ? (
               <PlpSpecificFilterOptions
                 filterTypes={filterTypes}
-                filterOptionSetOpen={filterOptionSetOpen}
-                toggleFilterOptionSet={toggleFilterOptionSet}
                 filterValue={filterValue}
                 updateFilter={updateFilter}
-                setFilterValues={setFilterValues}
-                handleSliderURLUpdate={handleSliderURLUpdate}
+                // handleSliderURLUpdate={handleSliderURLUpdate}
                 filterOptionsOverride={filterOptionsOverride}
               />
             ) : (

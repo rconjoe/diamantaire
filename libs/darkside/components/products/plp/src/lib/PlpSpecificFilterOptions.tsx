@@ -36,11 +36,11 @@ const PlpSpecificFilterOptionsStyles = styled.div`
 const PlpSpecificFilterOptions = ({
   filterOptionsOverride,
   filterTypes,
-  filterOptionSetOpen,
-  toggleFilterOptionSet,
   updateFilter,
-  handleSliderURLUpdate,
-  setFilterValues,
+  // filterOptionSetOpen,
+  // toggleFilterOptionSet,
+  // handleSliderURLUpdate,
+  // setFilterValues,
   filterValue,
 }) => {
   console.log('filterOptionsOverride', filterOptionsOverride);
@@ -97,8 +97,7 @@ const PlpSpecificFilterOptions = ({
               filterValueValue={filterValueValue}
               updateFilter={updateFilter}
               currentFilters={filterValue}
-              handleSliderURLUpdate={handleSliderURLUpdate}
-              setFilterValues={setFilterValues}
+              // handleSliderURLUpdate={handleSliderURLUpdate}
             />
           );
         })}

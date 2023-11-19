@@ -111,8 +111,6 @@ const renderMetal = (metal, _filterValue, updateFilter, filterType, currentFilte
 // };
 
 const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValueValue, currentFilters }) => {
-  //   return <>{renderFilterOptionSet({ filterType, filterType, renderDiamondType, filterTypes, updateFilter, filterValue })}</>;
-
   return (
     <>
       {renderFilterOptionSet({

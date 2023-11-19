@@ -25,6 +25,10 @@ interface OptionSelectorProps {
   setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
   hideSelectorLabel?: boolean;
   productType?: string;
+  diamondSpecs?: {
+    color: string;
+    clarity: string;
+  };
 }
 
 const StyledOptionSelector = styled.div`
