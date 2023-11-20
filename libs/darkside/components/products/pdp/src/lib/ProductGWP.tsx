@@ -16,20 +16,22 @@ const ProductGWPStyles = styled.div`
   .inner {
     display: flex;
 
-    .image {
+    .image-container {
       flex: 0 0 65px;
       margin-right: 5px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     }
 
-    .content {
+    .content-container {
       flex: 1;
       background-color: ${({ bgColor }) => bgColor};
       display: flex;
       align-items: center;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
       p {
-        font-size: var(--font-size-xxxsmall);
-        padding: 0 20px;
+        font-size: var(--font-size-xxsmall);
+        padding: 10px 15px;
       }
     }
   }
@@ -46,7 +48,7 @@ const ProductGWP = () => {
     pdpBannerBody,
     pdpBannerColor,
     giftProduct,
-    supportedCountries,
+    gwpSupportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -66,15 +68,15 @@ const ProductGWP = () => {
 
   refinedCopy = replacePlaceholders(refinedCopy, ['%%GWP_remaining_spend%%'], [minSpendValue?.toString()]).toString();
 
-  if (!isCountrySupported(supportedCountries, countryCode) || !isWithinTimeframe) return null;
+  if (!isCountrySupported(gwpSupportedCountries, countryCode) || !isWithinTimeframe) return null;
 
   return (
     <ProductGWPStyles bgColor={pdpBannerColor?.hex}>
       <div className="inner">
-        <div className="image">
+        <div className="image-container">
           <DatoImage image={giftProduct?.plpImage} />
         </div>
-        <div className="content">
+        <div className="content-container">
           <p>{refinedCopy}</p>
         </div>
       </div>

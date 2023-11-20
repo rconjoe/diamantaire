@@ -76,7 +76,7 @@ const CartGWP = () => {
     cartNonQualifiedBody,
     cartNonQualifiedBackgroundColor,
     giftProduct,
-    supportedCountries,
+    gwpSupportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -94,7 +94,7 @@ const CartGWP = () => {
 
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
-  if (!isCountrySupported(supportedCountries, countryCode) || !isWithinTimeframe) return null;
+  if (!isCountrySupported(gwpSupportedCountries, countryCode) || !isWithinTimeframe) return null;
 
   return (
     <CartGWPStyles bgColor={hasUserQualified ? cartQualifiedBackgroundColor?.hex : cartNonQualifiedBackgroundColor?.hex}>

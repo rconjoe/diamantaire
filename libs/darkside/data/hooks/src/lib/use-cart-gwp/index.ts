@@ -9,7 +9,7 @@ export type CartGwpDataType = {
       promotionDateRangeEnd: string;
       promotionDateRangeStart: string;
       minSpendByCurrencyCode: Record<string, number>;
-      supportedCountries: {
+      gwpSupportedCountries: {
         code: string;
         name: string;
       }[];
