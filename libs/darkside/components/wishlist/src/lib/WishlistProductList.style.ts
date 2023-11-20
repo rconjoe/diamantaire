@@ -5,10 +5,10 @@ export const StyledWishlistSlideoutProductList = styled.div`
   width: 100%;
 
   .wishlist-product-list {
-    display: flex;
     flex-direction: column;
-    gap: 2rem;
+    display: flex;
     width: 100%;
+    gap: 2rem;
 
     .list {
       display: flex;
@@ -33,13 +33,21 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
     .list {
       display: flex;
+      gap: 2rem 1rem;
       flex-wrap: wrap;
-      gap: 2rem;
       margin: 0 0 2rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        gap: 2rem;
+      }
     }
 
     .item {
-      width: calc((100% - 2rem) / 2);
+      width: calc((100% - 1rem) / 2);
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        width: calc((100% - 2rem) / 2);
+      }
     }
 
     .media {
@@ -53,12 +61,17 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
     .title {
       transition: all 0.25s ease;
+      font-size: var(--font-size-xxsmall);
       border: 2px solid var(--color-black);
-      font-size: var(--font-size-xsmall);
       font-weight: var(--font-weight-bold);
-      padding: 1rem;
-      display: block;
       text-align: center;
+      padding: 1rem 0;
+      display: block;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: var(--font-size-xsmall);
+        padding: 1rem;
+      }
 
       &:hover,
       &.active {
@@ -74,8 +87,8 @@ export const StyledWishlistPageProductList = styled.div`
   width: 100%;
 
   .wishlist-product-list {
-    display: flex;
     flex-direction: column;
+    display: flex;
     width: 100%;
 
     .list {
@@ -97,6 +110,7 @@ export const StyledWishlistPageProductList = styled.div`
     gap: 2rem;
 
     .subtitle {
+      margin: -2rem 0 0;
       text-align: center;
       display: block;
       width: 100%;
@@ -104,13 +118,21 @@ export const StyledWishlistPageProductList = styled.div`
 
     .list {
       display: flex;
+      gap: 2rem 1rem;
       flex-wrap: wrap;
-      gap: 2rem;
-      margin: 4rem 0;
+      margin: 2rem 0 6rem 0;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        gap: 2rem;
+      }
     }
 
     .item {
-      width: calc((100% - 6rem) / 4);
+      width: calc((100% - 1rem) / 2);
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        width: calc((100% - 6rem) / 4);
+      }
     }
 
     .media {
@@ -124,17 +146,22 @@ export const StyledWishlistPageProductList = styled.div`
 
     .text {
       display: block;
-      margin: 2rem 0 0;
+      margin: 1rem 0 0;
     }
 
     .title {
       transition: all 0.25s ease;
+      font-size: var(--font-size-xxsmall);
       border: 2px solid var(--color-black);
-      font-size: var(--font-size-xsmall);
       font-weight: var(--font-weight-bold);
-      padding: 1rem;
-      display: block;
       text-align: center;
+      padding: 1rem 0;
+      display: block;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: var(--font-size-xsmall);
+        padding: 1rem;
+      }
 
       &:hover,
       &.active {
