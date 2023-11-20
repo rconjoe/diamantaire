@@ -8,6 +8,8 @@ import {
   ProductDescription,
   ProductIconList,
   ProductKlarna,
+  ProductPrice,
+  ProductTitle,
   ProductSuggestionBlock,
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
