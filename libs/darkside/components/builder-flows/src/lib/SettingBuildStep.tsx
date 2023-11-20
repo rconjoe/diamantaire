@@ -55,6 +55,7 @@ type SettingBuildStepProps = {
   productDescription: string;
   productSpecId: string;
   disableVariantType?: string[];
+  productTitleOverride;
 };
 
 const SettingBuildStep = ({
@@ -73,6 +74,7 @@ const SettingBuildStep = ({
   productDescription,
   productSpecId,
   disableVariantType,
+  productTitleOverride,
 }: SettingBuildStepProps) => {
   const product = useMemo(() => {
     return {
@@ -120,6 +122,7 @@ const SettingBuildStep = ({
               title={product.title}
               diamondType={selectedConfiguration?.diamondType}
               productType={shopifyProductData?.productType}
+              override={productTitleOverride}
             />
             <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} />
             <ProductConfigurator

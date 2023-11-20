@@ -141,7 +141,7 @@ const BuilderFlow = ({
     price,
     defaultRingSize,
   } = shopifyProductData || {};
-  const { productTitle } = collectionContent || {};
+  const { productTitle, productTitleOverride } = collectionContent || {};
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -386,6 +386,7 @@ const BuilderFlow = ({
                 productSpecId={productSpecId}
                 parentProductAttributes={parentProductAttributes}
                 disableVariantType={['caratWeight', 'ringSize']}
+                productTitleOverride={productTitleOverride}
               />
             )
           ) : currentStep === 1 ? (
@@ -432,6 +433,7 @@ const BuilderFlow = ({
               productSpecId={productSpecId}
               parentProductAttributes={parentProductAttributes}
               disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
+              productTitleOverride={productTitleOverride}
             />
           ) : (
             <div className="loader-container">
