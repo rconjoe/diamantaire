@@ -1,4 +1,4 @@
-import { BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailAccordion = styled.div`

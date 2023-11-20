@@ -22,10 +22,20 @@ export const StyledWishlistSlideoutProductList = styled.div`
     flex-wrap: wrap;
     gap: 2rem;
 
+    .subtitle {
+      width: 100%;
+      text-align: center;
+
+      p {
+        margin: -0.5rem 0 1.5rem;
+      }
+    }
+
     .list {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
+      margin: 0 0 2rem;
     }
 
     .item {
