@@ -1,4 +1,3 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistLikeButton = styled.div`
@@ -36,9 +35,9 @@ export const StyledWishlistLikeButton = styled.div`
     top: 2rem;
     right: -0.5rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       top: 2.25rem;
-    `)}
+    }
   }
 
   &.diamond-table {
@@ -51,24 +50,30 @@ export const StyledWishlistLikeButton = styled.div`
     right: 1.5rem;
     position: absolute !important;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       top: 0.5rem;
       right: -0.5rem;
-    `)}
+    }
   }
 
   &.plp {
-    top: 1rem;
+    bottom: 0;
     right: 1rem;
+    top: auto;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      bottom: 0.5rem;
+      right: 1.5rem;
+    }
   }
 
   &.pdp {
     top: 1rem;
     right: 1.25rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       top: 0.25rem;
       right: 4rem;
-    `)}
+    }
   }
 `;

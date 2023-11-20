@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/darkside/context/analytics';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
@@ -10,8 +11,12 @@ import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
-    min-height: 300px;
     position: relative;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      min-height: 300px;
+    }
+
     button {
       padding: 0;
       width: 100%;
@@ -157,6 +162,9 @@ const PlpProductVariant = ({
                     />
                   )}
             </button>
+
+            <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
+
             {label && <span className="plp-variant__label">{label}</span>}
           </div>
           <div className="plp-variant__content">

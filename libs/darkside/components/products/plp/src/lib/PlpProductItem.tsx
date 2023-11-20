@@ -1,4 +1,3 @@
-import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -99,7 +98,6 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
           ))}
         </ul>
       </div>
-      <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
     </PlpProductItemStyles>
   );
 };
