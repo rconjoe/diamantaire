@@ -122,12 +122,18 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
       )}
 
       {openShareWishlistModal && (
-        <WishlistShareModal title={content?.shareWishlistModalTitle} onClose={handleModalClose} locale={locale} />
+        <WishlistShareModal
+          title={content?.shareWishlistModalTitle}
+          subtitle={content?.shareWishlistModalSubtitle}
+          onClose={handleModalClose}
+          locale={locale}
+        />
       )}
 
       {openDropHintModal && (
         <WishlistDropHintModal
           title={_t('Drop a hint')}
+          subtitle={content?.shareWishlistModalSubtitle}
           onClose={handleModalClose}
           locale={locale}
           productImage={dropHintData?.image || ''}

@@ -16,19 +16,21 @@ interface HubspotResponse {
 
 interface WishlistShareModalProps {
   title: string;
+  subtitle: string;
   locale: string;
   onClose: () => void;
 }
 
 interface WishlistDropHintModalProps {
   title: string;
+  subtitle: string;
   locale: string;
   onClose: () => void;
   productLink: string;
   productImage: string;
 }
 
-const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale, title }) => {
+const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale, title, subtitle }) => {
   const defaultData = {
     recipientEmail: '',
     userEmail: '',
@@ -110,6 +112,10 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
   return (
     <StyledWishlistShareModal>
       <Modal className="wishlist-share-modal" onClose={onClose} title={title}>
+        <div className="subtitle">
+          <p>{subtitle}</p>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="form-container">
             <input
@@ -119,6 +125,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
               value={formData.recipientEmail}
               onChange={handleChange}
             />
+
             <input
               type="text"
               name="userEmail"
@@ -126,12 +133,16 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
               value={formData.userEmail}
               onChange={handleChange}
             />
+
             <input type="text" name="userName" placeholder="Your name" value={formData.userName} onChange={handleChange} />
+
             <textarea name="message" placeholder="Your message" value={formData.message} onChange={handleChange} />
+
             <div>
               <input type="checkbox" name="isConsent" checked={formData.isConsent} onChange={handleChange} />
               <UIString>Sign me up for VRAI updates</UIString>
             </div>
+
             <DarksideButton buttonType="submit" type="solid" colorTheme="black">
               send
             </DarksideButton>
@@ -150,6 +161,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
 
 const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
   title,
+  subtitle,
   onClose,
   locale,
   productImage,
@@ -235,6 +247,10 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
   return (
     <StyledWishlistShareModal>
       <Modal className="wishlist-share-modal" onClose={onClose} title={title}>
+        <div className="subtitle">
+          <p>{subtitle}</p>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="form-container">
             <input
@@ -244,6 +260,7 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
               value={formData.recipientEmail}
               onChange={handleChange}
             />
+
             <input
               type="text"
               name="userEmail"
@@ -251,12 +268,16 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
               value={formData.userEmail}
               onChange={handleChange}
             />
+
             <input type="text" name="userName" placeholder="Your name" value={formData.userName} onChange={handleChange} />
+
             <textarea name="message" placeholder="Your message" value={formData.message} onChange={handleChange} />
+
             <div>
               <input type="checkbox" name="isConsent" checked={formData.isConsent} onChange={handleChange} />
               <UIString>Sign me up for VRAI updates</UIString>
             </div>
+
             <DarksideButton buttonType="submit" type="solid" colorTheme="black">
               <UIString>Send</UIString>
             </DarksideButton>

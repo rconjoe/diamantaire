@@ -77,8 +77,12 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 `;
 
 export const StyledWishlistPageProductItem = styled.div`
-  width: calc((100% - 6rem) / 4);
-  align-self: stretch;
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    width: calc((100% - 6rem) / 4);
+    align-self: stretch;
+  }
 
   .card {
     position: relative;

@@ -2,13 +2,36 @@ import styled from 'styled-components';
 
 export const StyledWishlistShareModal = styled.div`
   .wishlist-share-modal {
+    .header {
+      text-align: center;
+    }
+
     .title {
+      width: 100%;
+      text-align: center;
+
       * {
         font-size: var(--font-size-medium);
       }
     }
 
+    .subtitle {
+      text-align: center;
+      margin: -1.5rem 0 3rem 0;
+
+      * {
+        font-size: var(--font-size-xxsmall);
+      }
+    }
+
+    .close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+    }
+
     .wrapper {
+      border-radius: 0;
       max-width: 50rem;
     }
 
@@ -23,9 +46,9 @@ export const StyledWishlistShareModal = styled.div`
       border: 1px solid var(--color-lighter-grey);
       width: 100%;
       padding: 0 10px;
-      height: 3rem;
-      line-height: 3rem;
       outline: none;
+      height: 4.6rem;
+      line-height: 4.6rem;
     }
 
     textarea {
