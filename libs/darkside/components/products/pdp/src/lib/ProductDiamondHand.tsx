@@ -1,3 +1,4 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
 import Image from 'next/image';
@@ -20,19 +21,33 @@ const ProductDiamondHandStyles = styled.div`
       display: block;
       aspect-ratio: 1/1;
       position: relative;
-      max-height: 582px;
+      max-height: 520px;
+
       margin: 0 auto;
+
+      .shown-on-text {
+        font-size: var(--font-size-xxxsmall);
+        margin: 20px 0 0;
+      }
     }
 
     .image-diamond {
       position: absolute;
-      top: 58%;
-      left: 22.5%;
+      top: 53%;
+      left: 20.5%;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 25%;
       height: 25%;
+
+      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+        left: 23%;
+      }
+
+      @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
+        left: 21%;
+      }
     }
   }
 
@@ -73,7 +88,7 @@ const ProductDiamondHandStyles = styled.div`
         background-color: var(--color-teal);
         border-radius: 50%;
         cursor: pointer;
-        span {
+        button {
           position: absolute;
           top: -${offset};
           font-size: var(--font-size-xxxsmall);
@@ -86,6 +101,7 @@ const ProductDiamondHandStyles = styled.div`
           width: 100%;
           text-align: center;
           min-width: 70px;
+          background-color: transparent;
         }
       }
     }
@@ -248,6 +264,9 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
       <div className="hand-image-container">
         <div className="image-hand">
           <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
+          <p className="shown-on-text text-center">
+            <UIString>Shown on ring size 6</UIString>
+          </p>
         </div>
 
         <div className="image-diamond">
@@ -275,7 +294,7 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
                   onChange={(v) => setSliderValue(v)}
                   renderThumb={(props, state) => (
                     <div {...props}>
-                      <span>{state.valueNow} carat</span>
+                      <button>{state.valueNow} carat</button>
                     </div>
                   )}
                 />

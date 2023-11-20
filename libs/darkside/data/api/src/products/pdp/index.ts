@@ -34,6 +34,7 @@ const ENGAGEMENT_RING_QUERY = gql`
       seoDescription
       productDescription
       productTitle
+      productTitleOverride
       bandDepth(locale: $locale)
       bandWidth(locale: $locale)
       paveCaratWeight(locale: $locale)

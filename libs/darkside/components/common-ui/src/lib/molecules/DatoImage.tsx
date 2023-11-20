@@ -30,7 +30,7 @@ const DatoImageContainer = styled.div`
 `;
 
 const DatoImage = (props: DatoImageProps) => {
-  const { image, className, overrideAlt, isSVG = false, quality = 50, enableDpr = false } = props;
+  const { image, className, overrideAlt, isSVG = false, quality = 50, enableDpr = true } = props;
   let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
 

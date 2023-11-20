@@ -33,10 +33,15 @@ const TopBarContainer = styled.div`
 
   .top-bar__wrapper {
     .slider__wrapper {
-      max-width: 550px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
+      padding: 0 20px;
+
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        max-width: 550px;
+        padding: 0;
+      }
 
       .slides {
         flex: 1;

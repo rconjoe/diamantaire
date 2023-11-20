@@ -8,6 +8,7 @@ declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
   position: relative;
+  max-width: 657px;
   .spritespin-canvas {
     width: 100%;
     height: 100%;

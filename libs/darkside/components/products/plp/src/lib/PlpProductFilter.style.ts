@@ -10,10 +10,6 @@ export const PlpProductFilterStyles = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0;
-
-    /* @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 0 2.4rem;
-    } */
   }
 
   .filter__header {
@@ -50,8 +46,10 @@ export const PlpProductFilterStyles = styled.div`
       li {
         margin-right: calc(var(--gutter) / 3);
 
-        &:nth-child(n + 3) {
-          display: none;
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+          &:nth-child(n + 3) {
+            display: none;
+          }
         }
 
         &:last-child {

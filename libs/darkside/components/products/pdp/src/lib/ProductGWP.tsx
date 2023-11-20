@@ -20,6 +20,16 @@ const ProductGWPStyles = styled.div`
       flex: 0 0 65px;
       margin-right: 5px;
       box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      display: flex;
+
+      /* Dato image img */
+      > * {
+        display: flex;
+        flex: 1;
+        > * {
+          flex: 1;
+        }
+      }
     }
 
     .content-container {

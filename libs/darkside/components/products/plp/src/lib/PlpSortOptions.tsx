@@ -117,6 +117,12 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-dropdown__option {
     font-size: var(--font-size-xxxsmall);
+
+    &:focus,
+    &:active {
+      background-color: var(--color-black);
+      color: var(--color-white);
+    }
   }
 
   .sort-dropdown__indicator svg {
@@ -132,7 +138,7 @@ const PlpSortOptionStyle = styled.div`
   .sort-dropdown__option--is-selected {
     font-weight: bold;
     background-color: transparent;
-    color: #000;
+    color: var(--color-black);
   }
 `;
 

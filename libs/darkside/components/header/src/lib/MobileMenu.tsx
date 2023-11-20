@@ -38,7 +38,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
       li {
         button.top-level-link,
-        a.top-level-link {
+        > a.top-level-link {
           color: var(--color-black);
           background-color: #fff;
           border: none;
@@ -195,7 +195,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
               );
             })}
           <li>
-            <Link href="/account/login" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/account/login" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
               <UIString>Account</UIString>
             </Link>
           </li>
@@ -260,7 +260,7 @@ const MobileSubMenu = ({
         <h4 className="submenu__title">{columnTitle}</h4>
         <ul className="submenu__list">
           {links?.map((link, index) => {
-            const { linkKey, nestedLinks, route, copy, isBold }: Partial<SubMenuChildLink> = link;
+            const { linkKey, nestedLinks, route, newRoute, copy, isBold }: Partial<SubMenuChildLink> = link;
 
             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
               ? 'diamond'
@@ -271,7 +271,11 @@ const MobileSubMenu = ({
             return (
               <li key={index}>
                 {route && (
-                  <Link href={route} className={iconType ? 'has-icon' : ''} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    href={newRoute || route}
+                    className={iconType ? 'has-icon' : ''}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <>
                       {linkKey && (
                         <span className={iconType}>
@@ -288,23 +292,17 @@ const MobileSubMenu = ({
                 )}
                 {nestedLinks && nestedLinks?.length > 0 && (
                   <ul className="grandchildren-links">
-                    {nestedLinks?.map(
-                      (
-                        link: {
-                          route: string;
-                          copy: string;
-                        },
-                        nestedLinkIndex: number,
-                      ) => {
-                        return (
-                          <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                            <Link href={link.route} onClick={() => setIsMobileMenuOpen(false)}>
-                              <span className="link-text">{link.copy}</span>
-                            </Link>
-                          </li>
-                        );
-                      },
-                    )}
+                    {nestedLinks?.map((link, nestedLinkIndex: number) => {
+                      const { route, newRoute, copy } = link;
+
+                      return (
+                        <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
+                          <Link href={newRoute || route} onClick={() => setIsMobileMenuOpen(false)}>
+                            <span className="link-text">{copy}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </li>

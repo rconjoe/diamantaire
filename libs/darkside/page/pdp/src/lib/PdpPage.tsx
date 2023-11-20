@@ -84,6 +84,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     extraOptions,
     diamondDescription,
     productTitle,
+    productTitleOverride,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -271,6 +272,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <div className="info__inner">
               <ProductTitle
                 title={productTitle}
+                override={productTitleOverride}
                 diamondType={configuration.diamondType}
                 productType={shopifyProductData?.productType}
               />
@@ -306,7 +308,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
-              <ProductAppointmentCTA />
+              <ProductAppointmentCTA productType={shopifyProductData?.productType} />
 
               <ProductGWP />
 

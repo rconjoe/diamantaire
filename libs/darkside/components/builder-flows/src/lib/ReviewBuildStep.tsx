@@ -555,7 +555,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     </DarksideButton>
                   </li>
                   <li>
-                    <ProductAppointmentCTA />
+                    <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
               </div>

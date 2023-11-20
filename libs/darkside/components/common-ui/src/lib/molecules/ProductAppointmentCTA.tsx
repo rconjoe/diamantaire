@@ -38,7 +38,7 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = () => {
+const ProductAppointmentCTA = ({ productType }) => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
   const { locale } = useRouter();
 
@@ -46,7 +46,33 @@ const ProductAppointmentCTA = () => {
 
   const showroomLocation = isUserCloseToShowroom();
 
-  console.log('showroomLocation', showroomLocation);
+  const getPdpTitle = ({ productType, location }) => {
+    if (location) {
+      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+        return _t(`Discover our rings at VRAI %%location%%`);
+      }
+
+      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
+        return _t(`Discover our designs at VRAI %%location%%`);
+      }
+
+      return _t(`Book an appointment`);
+    } else {
+      // Fallback if no location matched
+      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+        return _t(`Consult with a diamond expert online`);
+      }
+      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
+        _t(`Consult with a diamond expert online`);
+      }
+
+      return _t(`Book an appointment`);
+    }
+  };
+
+  let title = getPdpTitle({ productType, location: showroomLocation?.location });
+
+  title = replacePlaceholders(title, ['%%location%%'], [showroomLocation?.location]);
 
   return (
     <ProductAppointmentCTAStyles>
@@ -54,13 +80,7 @@ const ProductAppointmentCTA = () => {
         <span>
           <BookCalendarIcon />
         </span>
-        {showroomLocation
-          ? replacePlaceholders(
-              _t('Visit our %%location%% location'),
-              ['%%location%%'],
-              [showroomLocation?.location],
-            ).toString()
-          : _t('Book an appointment')}
+        {title}
       </button>
 
       {isAppointmentSlideoutShowing && (

@@ -1,6 +1,6 @@
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { parseValidLocale } from '@diamantaire/shared/constants';
-import { createLongProductTitle } from '@diamantaire/shared/helpers';
+import { capitalizeFirstLetter, createLongProductTitle, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -15,11 +15,18 @@ const ProductTitleStyles = styled.h1`
   }
 `;
 
-export function ProductTitle({ title, productType, diamondType }) {
+export function ProductTitle({ title, productType, diamondType, override }) {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const refinedTitle = createLongProductTitle({ title, diamondType, productType, selectedLanguageCode, _t });
+  let refinedOverride = replacePlaceholders(override, ['%%diamond_type%%'], [_t(diamondType)]).toString();
 
-  return <ProductTitleStyles>{refinedTitle}</ProductTitleStyles>;
+  refinedOverride = replacePlaceholders(
+    refinedOverride,
+    ['%%product_type%%'],
+    [capitalizeFirstLetter(_t(productType))],
+  ).toString();
+
+  return <ProductTitleStyles>{override && override !== '' ? refinedOverride : refinedTitle}</ProductTitleStyles>;
 }
