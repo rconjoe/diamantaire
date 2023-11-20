@@ -1,3 +1,4 @@
+import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import {
   PlpBlockPicker,
@@ -6,7 +7,6 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { PageViewTracker, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';

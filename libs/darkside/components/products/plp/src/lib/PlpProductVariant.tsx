@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
+import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/analytics';
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/darkside/context/analytics';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
+import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';

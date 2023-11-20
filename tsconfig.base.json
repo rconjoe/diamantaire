@@ -37,8 +37,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@next/third-parties/google": ["libs/shared/types/src/type-helpers/next-third-parties.d.ts"],
       "@diamantaire/_generated/datocms": [
         "libs/_generated/datocms/src/index.ts"
+      ],
+      "@diamantaire/analytics": [
+        "libs/shared/analytics/src/index.ts"
       ],
       "@diamantaire/darkside/components/blockpicker-blocks": [
         "libs/darkside/components/blockpicker-blocks/src/index.ts"
@@ -69,9 +73,6 @@
       ],
       "@diamantaire/darkside/components/seo": [
         "libs/darkside/components/seo/src/index.ts"
-      ],
-      "@diamantaire/darkside/context/analytics": [
-        "libs/darkside/context/analytics/src/index.ts"
       ],
       "@diamantaire/darkside/context/cart-context": [
         "libs/darkside/context/cart-context/src/index.ts"

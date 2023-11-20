@@ -8,6 +8,16 @@ const ProductKlarnaStyles = styled.div`
   left: -10px;
 `;
 
+declare global {
+  interface Window {
+    Klarna?: {
+      OnsiteMessaging?: {
+        refresh: () => void;
+      };
+    };
+  }
+}
+
 const ProductKlarna = ({ title, currentPrice }) => {
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
@@ -24,7 +34,6 @@ const ProductKlarna = ({ title, currentPrice }) => {
   };
 
   useEffect(() => {
-    /* @ts-expect-error one-time only for this */
     window && window?.Klarna?.OnsiteMessaging?.refresh();
   }, [currentPrice]);
 
