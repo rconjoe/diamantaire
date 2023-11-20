@@ -6,6 +6,7 @@ type HandleOpenDropHintModalProps = (data: { link: string; image: string }) => v
 interface WishlistProductItemProps {
   handleOpenDropHintModal: HandleOpenDropHintModalProps;
   isWishlistPage?: boolean;
+  isSharedWishlistPage?: boolean;
   locale: string;
   content: {
     buttonShop: string;
@@ -20,6 +21,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
   handleOpenDropHintModal,
   productId,
   isWishlistPage,
+  isSharedWishlistPage,
   content: { buttonShop },
   productData,
   locale,
@@ -33,6 +35,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
     card = (
       <CardDiamond
         handleOpenDropHintModal={handleOpenDropHintModal}
+        isSharedWishlistPage={isSharedWishlistPage}
         isWishlistPage={isWishlistPage}
         diamond={productData}
         button={buttonShop}
@@ -49,6 +52,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
     card = (
       <CardProduct
         handleOpenDropHintModal={handleOpenDropHintModal}
+        isSharedWishlistPage={isSharedWishlistPage}
         isWishlistPage={isWishlistPage}
         button={buttonShop}
         product={product}
@@ -64,6 +68,7 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
     card = (
       <CardBundle
         handleOpenDropHintModal={handleOpenDropHintModal}
+        isSharedWishlistPage={isSharedWishlistPage}
         isWishlistPage={isWishlistPage}
         setting={productData[0]}
         diamond={productData[1]}
@@ -74,10 +79,12 @@ const WishlistProductItem: React.FC<WishlistProductItemProps> = ({
     );
   }
 
-  return isWishlistPage ? (
-    <StyledWishlistPageProductItem>{card}</StyledWishlistPageProductItem>
-  ) : (
+  const isWishlistSlideOut = !isWishlistPage && !isSharedWishlistPage;
+
+  return isWishlistSlideOut ? (
     <StyledWishlistSlideoutProductItem>{card}</StyledWishlistSlideoutProductItem>
+  ) : (
+    <StyledWishlistPageProductItem>{card}</StyledWishlistPageProductItem>
   );
 };
 

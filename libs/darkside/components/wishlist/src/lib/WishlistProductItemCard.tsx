@@ -22,6 +22,7 @@ type HandleOpenDropHintModalProps = (data: { link: string; image: string }) => v
 
 interface CardBundleProps {
   handleOpenDropHintModal: HandleOpenDropHintModalProps;
+  isSharedWishlistPage?: boolean;
   isWishlistPage?: boolean;
   id: string;
   locale: string;
@@ -35,6 +36,7 @@ interface CardBundleProps {
 
 interface CardDiamondProps {
   handleOpenDropHintModal: HandleOpenDropHintModalProps;
+  isSharedWishlistPage?: boolean;
   isWishlistPage?: boolean;
   button: string;
   locale: string;
@@ -44,6 +46,7 @@ interface CardDiamondProps {
 
 interface CardProductProps {
   handleOpenDropHintModal: HandleOpenDropHintModalProps;
+  isSharedWishlistPage?: boolean;
   isWishlistPage?: boolean;
   button: string;
   locale: string;
@@ -58,6 +61,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
   button,
   locale,
   isWishlistPage,
+  isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
   const { _t } = useTranslations(locale);
@@ -101,14 +105,17 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
           {button}
         </DarksideButton>
 
-        <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
-          <DropHintIcon />
-
-          <UIString>Drop a Hint</UIString>
-        </div>
+        {!isSharedWishlistPage && (
+          <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
+            <DropHintIcon />
+            <UIString>Drop a Hint</UIString>
+          </div>
+        )}
       </div>
 
-      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      {!isSharedWishlistPage && (
+        <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      )}
     </div>
   );
 };
@@ -120,6 +127,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   button,
   locale,
   isWishlistPage,
+  isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
   if (!content || !product) {
@@ -155,13 +163,17 @@ const CardProduct: React.FC<CardProductProps> = ({
           {button}
         </DarksideButton>
 
-        <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-          <DropHintIcon />
-          <UIString>Drop a Hint</UIString>
-        </div>
+        {!isSharedWishlistPage && (
+          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+            <DropHintIcon />
+            <UIString>Drop a Hint</UIString>
+          </div>
+        )}
       </div>
 
-      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      {!isSharedWishlistPage && (
+        <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      )}
     </div>
   );
 };
@@ -173,6 +185,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
   diamond,
   setting,
   isWishlistPage,
+  isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
   const swiperRef = useRef(null);
@@ -261,13 +274,17 @@ const CardBundle: React.FC<CardBundleProps> = ({
           <DarksideButton type="solid">{button}</DarksideButton>
         </UniLink>
 
-        <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-          <DropHintIcon />
-          <UIString>Drop a Hint</UIString>
-        </div>
+        {!isSharedWishlistPage && (
+          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+            <DropHintIcon />
+            <UIString>Drop a Hint</UIString>
+          </div>
+        )}
       </div>
 
-      <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      {!isSharedWishlistPage && (
+        <WishlistLikeButton extraClass={isWishlistPage ? 'wishlist-page' : 'wishlist-slideout'} productId={id} />
+      )}
     </div>
   );
 };

@@ -11,6 +11,7 @@ import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from
 import { WishlistShareModal, WishlistDropHintModal } from './WishlistShareModal';
 
 interface WishlistProductListProps {
+  isSharedWishlistPage?: boolean;
   isWishlistPage?: boolean;
   content?: any;
   products?: {
@@ -29,7 +30,12 @@ interface WishlistProductListProps {
   };
 }
 
-const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPage = false, products, content }) => {
+const WishlistProductList: React.FC<WishlistProductListProps> = ({
+  isSharedWishlistPage = false,
+  isWishlistPage = false,
+  products,
+  content,
+}) => {
   const router = useRouter();
 
   const { isWishlistUpdated } = useContext(GlobalContext);
@@ -84,11 +90,13 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
 
   const wishlistResult = (
     <>
-      <div className="cta">
-        <DarksideButton type="outline" onClick={handleOpenShareWishlistModal}>
-          {content.shareWishlistModalTitle}
-        </DarksideButton>
-      </div>
+      {!isSharedWishlistPage && (
+        <div className="cta">
+          <DarksideButton type="outline" onClick={handleOpenShareWishlistModal}>
+            {content.shareWishlistModalTitle}
+          </DarksideButton>
+        </div>
+      )}
 
       <div className="list">
         {wishlist.map((productId, i) => (
@@ -98,13 +106,14 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
             content={content}
             productId={productId}
             isWishlistPage={isWishlistPage}
+            isSharedWishlistPage={isSharedWishlistPage}
             productData={getProductData(productId)}
             handleOpenDropHintModal={handleOpenDropHintModal}
           />
         ))}
       </div>
 
-      {!isWishlistPage && (
+      {!isWishlistPage && !isSharedWishlistPage && (
         <UniLink route="/wishlist">
           <DarksideButton colorTheme="teal" type="text-underline">
             {content.buttonView}
@@ -148,10 +157,12 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({ isWishlistPag
     </div>
   );
 
-  return isWishlistPage ? (
-    <StyledWishlistPageProductList>{result}</StyledWishlistPageProductList>
-  ) : (
+  const isWishlistSlideOut = !isWishlistPage && !isSharedWishlistPage;
+
+  return isWishlistSlideOut ? (
     <StyledWishlistSlideoutProductList>{result}</StyledWishlistSlideoutProductList>
+  ) : (
+    <StyledWishlistPageProductList>{result}</StyledWishlistPageProductList>
   );
 };
 

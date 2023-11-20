@@ -29,6 +29,15 @@ const StyledWishlistPage = styled.div`
         font-size: var(--font-size-large);
       `)};
     }
+
+    p {
+      font-size: var(--font-size-xxsmall);
+      font-weight: var(--font-weight-normal);
+
+      ${tabletAndUp(`
+        font-size: var(--font-size-xsmall);
+      `)}
+    }
   }
 `;
 
