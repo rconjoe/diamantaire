@@ -144,7 +144,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
             </div>
 
             <DarksideButton buttonType="submit" type="solid" colorTheme="black">
-              send
+              <UIString>Send</UIString>
             </DarksideButton>
           </div>
         </form>

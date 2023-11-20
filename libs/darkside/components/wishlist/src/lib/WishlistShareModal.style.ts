@@ -63,5 +63,13 @@ export const StyledWishlistShareModal = styled.div`
       margin: 0 10px 0 0;
       outline: none;
     }
+
+    .form-response {
+      font-size: var(font-size-xxsmall);
+    }
+
+    button {
+      text-transform: uppercase;
+    }
   }
 `;
