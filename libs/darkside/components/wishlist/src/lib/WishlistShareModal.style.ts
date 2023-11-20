@@ -33,6 +33,7 @@ export const StyledWishlistShareModal = styled.div`
     .wrapper {
       border-radius: 0;
       max-width: 50rem;
+      padding: 0;
     }
 
     .form-container {
