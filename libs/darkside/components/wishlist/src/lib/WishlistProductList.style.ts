@@ -1,4 +1,3 @@
-import { BLACK } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StyledWishlistSlideoutProductList = styled.div`
@@ -39,7 +38,7 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
     .text {
       display: block;
-      margin: 2rem 0 0;
+      margin: 1rem 0 0;
     }
 
     .title {
