@@ -1,5 +1,6 @@
 import { CountrySelector, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { parseValidLocale, countries, languagesByCode } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -11,7 +12,6 @@ import { FooterColumn } from './Footer';
 
 type FooterMobileAccordionProps = {
   columns: Array<FooterColumn>;
-  countryLabel: string;
 };
 
 const FooterMobileAccordionsContainer = styled.div`
@@ -97,7 +97,7 @@ const LanguageLabelListItem = styled.div`
   }
 `;
 
-const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, countryLabel }): JSX.Element => {
+const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JSX.Element => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
 
@@ -146,7 +146,7 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, count
       <CountryLabelListItem>
         <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
           <span className="label">
-            <UIString>{countryLabel}</UIString>:
+            <UIString>Location</UIString>:
           </span>
           {selectedCountry}
           <span className="icon">
@@ -222,6 +222,8 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { title, links } = col;
 
+  const countryCode = parseValidLocale(useRouter().locale).countryCode;
+
   return (
     <FooterAccordionContainer>
       <button onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
@@ -236,11 +238,15 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
           <div className="links-container">
             <ul>
               {links?.map((link, index) => {
-                const { route, copy } = link;
+                const { newRoute, supportedCountries, copy } = link;
+
+                if (!isCountrySupported(supportedCountries, countryCode)) {
+                  return null;
+                }
 
                 return (
                   <li key={`mobile-accordion-${colKey}-link-${index}`}>
-                    <Link href={route}>{copy}</Link>
+                    <Link href={newRoute}>{copy}</Link>
                   </li>
                 );
               })}

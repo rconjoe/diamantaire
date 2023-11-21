@@ -1,11 +1,11 @@
 import {
   DarksideButton,
-  DatoDarksideButtonProps,
   Heading,
   Markdown,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
+import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { ModularTextOnlyBlockContainer } from './ModularTextOnlyBlock.style';

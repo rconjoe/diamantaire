@@ -5,6 +5,19 @@ import { createGlobalStyle } from 'styled-components';
 const styled = { createGlobalStyle };
 
 const MiscStyles = styled.createGlobalStyle`
+  /* Mandatory slider styles */
+  .embla {
+    overflow: hidden;
+  }
+  .embla__container {
+    display: flex;
+  }
+
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
   #welcome {
     margin-top: 2.5rem;
   }
@@ -94,8 +107,18 @@ const MiscStyles = styled.createGlobalStyle`
     display: flex;
     margin-top: 1rem;
     padding: 1rem;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     width: 100%;
@@ -103,8 +126,18 @@ const MiscStyles = styled.createGlobalStyle`
   .list-item-link svg:first-child {
     margin-right: 1rem;
     height: 1.5rem;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     width: 1.5rem;
@@ -112,8 +145,18 @@ const MiscStyles = styled.createGlobalStyle`
   .list-item-link > span {
     flex-grow: 1;
     font-weight: 400;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -124,8 +167,18 @@ const MiscStyles = styled.createGlobalStyle`
     font-size: 0.75rem;
     font-weight: 300;
     line-height: 1rem;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -153,15 +206,35 @@ const MiscStyles = styled.createGlobalStyle`
   .button-pill {
     padding: 1.5rem 2rem;
     transition-duration: 300ms;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     align-items: center;
     display: flex;
   }
   .button-pill svg {
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     flex-shrink: 0;
@@ -282,8 +355,18 @@ const MiscStyles = styled.createGlobalStyle`
     font-weight: 400;
     padding: 0.5rem;
     cursor: pointer;
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter,
-      backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+      background-color,
+      border-color,
+      color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter,
+      -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }

@@ -12,6 +12,10 @@ type TopBarData = {
       link: string;
       shouldShowDynamicBookAnAppointment: boolean;
       enableGwp: boolean;
+      supportedCountries: {
+        code: string;
+        name: string;
+      }[];
     }[];
   };
 };

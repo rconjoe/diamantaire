@@ -1,14 +1,19 @@
 import { useCartData, useTopBar, useTopBarGWP } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
+import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
-import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
+import {
+  getCountry,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
-import clsx from 'clsx';
+import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 type TopBarTypes = {
@@ -28,10 +33,15 @@ const TopBarContainer = styled.div`
 
   .top-bar__wrapper {
     .slider__wrapper {
-      max-width: 550px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
+      padding: 0 20px;
+
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        max-width: 550px;
+        padding: 0;
+      }
 
       .slides {
         flex: 1;
@@ -116,41 +126,21 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { data: gwp } = useTopBarGWP(locale);
   const { data: checkout } = useCartData(locale);
 
-  const canSliderLoop = data?.announcementBar?.loop || true;
-  const [isFirstSlide, setIsFirstSlide] = useState(false);
-  const [isLastSlide, setIsLastSlide] = useState(false);
-
   const showroomLocation = isUserCloseToShowroom();
 
-  const options: EmblaOptionsType = { loop: canSliderLoop };
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const options: EmblaOptionsType = { loop: true };
+  const [emblaRef] = useEmblaCarousel(options, [
+    Autoplay({
+      delay: 7000,
+    }),
+  ]);
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
-
-  const onSelect = useCallback((emblaApi) => {
-    const isLastSlideTemp = emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
-    const isFirstSlideTemp = emblaApi?.selectedScrollSnap() === 0;
-
-    setIsFirstSlide(isFirstSlideTemp);
-    setIsLastSlide(isLastSlideTemp);
-  }, []);
-
-  useEffect(() => {
-    if (emblaApi && !canSliderLoop) {
-      emblaApi.on('select', onSelect);
-    }
-
-    return () => {
-      if (emblaApi && !canSliderLoop) {
-        emblaApi.off('select', onSelect);
-      }
-    };
-  }, [emblaApi]);
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
   const {
-    activeCountries,
+    gwpSupportedCountries,
     minSpendByCurrencyCode,
     promotionDateRangeStart,
     promotionDateRangeEnd,
@@ -170,28 +160,30 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
     <TopBarContainer id="top-bar">
       <div className="top-bar__wrapper">
         <div className="slider__wrapper">
-          {isThereMoreThanOneSlide && (
-            <div
-              className={clsx('slider-nav prev', {
-                disabled: isFirstSlide,
-              })}
-            >
-              <button onClick={() => emblaApi.scrollPrev()}>
-                <span className="arrow-left"></span>
-              </button>
-            </div>
-          )}
           <div className="embla slides" ref={isThereMoreThanOneSlide ? emblaRef : null}>
             <div className="embla__container">
               {data?.announcementBar?.data?.map((slide, index) => {
-                const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy, enableGwp } = slide || {};
+                const {
+                  link,
+                  copy: defaultCopy,
+                  enableGeoCopy,
+                  nonGeoCopy,
+                  geoCopy,
+                  enableGwp,
+                  supportedCountries,
+                } = slide || {};
+
+                // confirm if country is supported for slide
+                if (
+                  !isCountrySupported(supportedCountries, countryCode) ||
+                  !isCountrySupported(gwpSupportedCountries, countryCode)
+                ) {
+                  return null;
+                }
 
                 // Skips GWP slide if conditions are not met
-                const isWithinTimeframe =
-                  promotionDateRangeStart && promotionDateRangeEnd
-                    ? isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd)
-                    : false;
-                const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
+                const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+
                 const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
 
                 const textVal = !isThereOneProduct
@@ -203,21 +195,21 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                 let replacedText = replacePlaceholders(
                   textVal,
                   ['%%GWP_minimum_spend%%'],
-                  [getFormattedPrice(parseFloat(minSpendValue), locale)],
+                  [formatPrice(parseFloat(minSpendValue), locale).trim()],
                 ).toString();
 
                 replacedText = replacePlaceholders(
                   replacedText,
                   ['%%GWP_remaining_spend%%'],
                   [
-                    getFormattedPrice(
+                    formatPrice(
                       parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
                       locale,
-                    ),
+                    ).trim(),
                   ],
                 ).toString();
 
-                if (enableGwp && (!isCountrySupported || !isWithinTimeframe)) return null;
+                if (enableGwp && !isWithinTimeframe) return null;
 
                 return (
                   <div className="embla__slide" key={`top-bar-slide-${index}`}>
@@ -227,7 +219,9 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                       <p>
                         {/* If there is a location, and the slide has geo on it 🪄 */}
                         <Link href={link}>
-                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location]) as string}{' '}
+                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
+                            .toString()
+                            .trim()}{' '}
                           <span className="arrow-right"></span>
                         </Link>
                       </p>
@@ -241,17 +235,6 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
               })}
             </div>
           </div>
-          {isThereMoreThanOneSlide && (
-            <div
-              className={clsx('slider-nav next', {
-                disabled: isLastSlide,
-              })}
-            >
-              <button onClick={() => emblaApi.scrollNext()}>
-                <span className="arrow-right"></span>
-              </button>
-            </div>
-          )}
         </div>
 
         <div className="close__container">

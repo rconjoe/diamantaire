@@ -83,6 +83,7 @@ export enum PdpTypePlural {
   EngagementRings = 'Engagement Rings',
   WeddingBands = 'Wedding Bands',
   Jewelry = 'Jewelry',
+  RingSizer = 'Ring Sizer',
 }
 
 export const pdpTypePluralAsConst = {

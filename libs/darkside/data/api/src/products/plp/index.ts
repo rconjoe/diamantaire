@@ -131,9 +131,9 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-export const LIST_PAGE_DATO_SERVER_QUERY = `
-query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
-    listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
+export const LIST_PAGE_DATO_SERVER_QUERY = gql`
+  query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
+    listPage(locale: $locale, filter: { slugNew: { eq: $slug }, category: { eq: $category } }) {
       id
       seo {
         id
@@ -148,7 +148,7 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         id
         name
         link {
-          ...on ListPageRecord {
+          ... on ListPageRecord {
             slug
           }
           ... on StandardPageRecord {
@@ -162,9 +162,9 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         data {
           title
           image {
-            responsiveImage(imgixParams: {w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
-          }
+            }
           }
           slug
         }
@@ -179,8 +179,8 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
           url
           alt
           mimeType
-          responsiveImage(imgixParams: {w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-              ...responsiveImageFragment
+          responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
+            ...responsiveImageFragment
           }
         }
       }
@@ -189,6 +189,10 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         label
         id
         isDescendingOrder
+      }
+      filterOptions {
+        filterLabel
+        filterValue
       }
       creativeBlocks {
         id

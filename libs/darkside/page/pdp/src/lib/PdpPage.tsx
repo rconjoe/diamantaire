@@ -14,20 +14,23 @@ import {
   ProductSuggestionBlock,
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
-import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
+import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   jewelryTypes,
+  parseValidLocale,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
+import { createLongProductTitle, fetchAndTrackPreviouslyViewed, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
@@ -54,6 +57,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const query = useProduct({ collectionSlug, productSlug });
   const { data: shopifyProductData = {} } = query;
   const router = useRouter();
+  const { _t } = useTranslations(router.locale);
 
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
@@ -62,7 +66,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
+  console.log('datoParentProductData', datoParentProductData);
+
   const {
+    // ER + WB SEO
+    seoTitle,
+    seoDescription,
+    // Jewelry SEO
+    seoFields,
     productDescription,
     bandWidth,
     bandDepth,
@@ -73,6 +84,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     extraOptions,
     diamondDescription,
     productTitle,
+    productTitleOverride,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -196,58 +208,33 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
-  function filterDuplicates(array) {
-    const uniqueMap = new Map();
+  // Setups seo title and description for all pdps
+  const { languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
-    // Iterate through the array and update the map with the oldest dateAdded for each unique item
-    array.forEach((item) => {
-      const existingItem = uniqueMap.get(item.title);
+  const metaTitle =
+    shopifyProductData?.productType === 'Engagement Ring'
+      ? `${createLongProductTitle({
+          title: productTitle,
+          diamondType: configuration.diamondType,
+          productType: shopifyProductData?.productType,
+          selectedLanguageCode,
+          _t,
+          enableMetal: true,
+          metal: configuration.metal,
+        })} | VRAI`
+      : seoFields
+      ? seoFields.seoTitle
+      : seoTitle;
 
-      if (!existingItem || item.dateAdded > existingItem.dateAdded) {
-        uniqueMap.set(item.title, item);
-      }
-    });
+  const metaDescription = seoFields
+    ? replacePlaceholders(seoFields?.seoDescription, ['%%product_name%%'], [productTitle]).toString()
+    : replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString();
 
-    // Convert the map values back to an array
-    const uniqueArray = Array.from(uniqueMap.values());
-
-    return uniqueArray;
-  }
-
-  function fetchAndTrackPreviouslyViewed() {
-    const previouslyViewed = localStorage.getItem('previouslyViewed');
-    const date = new Date();
-
-    if (previouslyViewed) {
-      let previouslyViewedArray = JSON.parse(previouslyViewed);
-
-      previouslyViewedArray.push({
-        title: productTitle,
-        slug: variantHandle,
-        dateAdded: date.getTime(),
-      });
-
-      previouslyViewedArray = filterDuplicates(previouslyViewedArray);
-
-      localStorage.setItem('previouslyViewed', JSON.stringify(previouslyViewedArray));
-    } else {
-      localStorage.setItem(
-        'previouslyViewed',
-        JSON.stringify([
-          {
-            title: productTitle,
-            slug: variantHandle,
-            dateAdded: date.getTime(),
-          },
-        ]),
-      );
-    }
-  }
-
+  // Tracks previously viewed products in local storage
   useEffect(() => {
     if (!productTitle || !variantHandle) return;
 
-    fetchAndTrackPreviouslyViewed();
+    fetchAndTrackPreviouslyViewed(productTitle, variantHandle);
   }, [productTitle, variantHandle]);
 
   if (shopifyProductData) {
@@ -255,11 +242,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     return (
       <PageContainerStyles>
+        <NextSeo title={metaTitle} description={metaDescription} />
         <Script
           id="klara-script"
           src="https://na-library.klarnaservices.com/lib.js"
           data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
         ></Script>
+        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+
+        <Script
+          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+          strategy={'beforeInteractive'}
+        />
         <PageViewTracker productData={productData} />
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
@@ -278,6 +272,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <div className="info__inner">
               <ProductTitle
                 title={productTitle}
+                override={productTitleOverride}
                 diamondType={configuration.diamondType}
                 productType={shopifyProductData?.productType}
               />
@@ -313,14 +308,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
-              <ProductAppointmentCTA />
+              <ProductAppointmentCTA productType={shopifyProductData?.productType} />
 
               <ProductGWP />
 
               {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
               <Form
-                title="Need more time to think?"
-                caption="Email this customized ring to yourself or drop a hint."
+                title={_t('Need more time to think?')}
+                caption={_t('Email this customized ring to yourself or drop a hint.')}
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
                 headingType={'h2'}

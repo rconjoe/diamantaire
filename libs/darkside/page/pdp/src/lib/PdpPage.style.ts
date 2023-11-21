@@ -5,8 +5,9 @@ export const PageContainerStyles = styled.div`
   .product-container {
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
-      flex: 1 1 100%;
+      flex: 1;
       overflow: hidden;
+      max-width: 100%;
       ${media.medium`padding: 0 20px;`}
       ${media.xl`padding: 0 30px 0 20px;`}
     }

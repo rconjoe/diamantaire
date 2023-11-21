@@ -12,17 +12,17 @@ const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;
   .appointment-button {
     width: 100%;
-    height: 47px;
+    height: 4.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #f7f7f7;
 
     span {
-      flex: 0 0 25px;
+      flex: 0 0 2.5rem;
       position: relative;
-      top: 2px;
-      margin-right: 2px;
+      top: 0.2rem;
+      margin-right: 0.2rem;
     }
   }
 
@@ -38,7 +38,7 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = () => {
+const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
   const { locale } = useRouter();
 
@@ -46,18 +46,41 @@ const ProductAppointmentCTA = () => {
 
   const showroomLocation = isUserCloseToShowroom();
 
+  const getCtaTitle = ({ productType, location }) => {
+    if (location) {
+      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+        return _t(`Discover our rings at VRAI %%location%%`);
+      }
+
+      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
+        return _t(`Discover our designs at VRAI %%location%%`);
+      }
+
+      return _t(`Book an appointment`);
+    } else {
+      // Fallback if no location matched
+      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+        return _t(`Consult with a diamond expert online`);
+      }
+      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
+        _t(`Consult with a diamond expert online`);
+      }
+
+      return _t(`Book an appointment`);
+    }
+  };
+
+  let title = getCtaTitle({ productType, location: showroomLocation?.location });
+
+  title = replacePlaceholders(title, ['%%location%%'], [showroomLocation?.location]);
+
   return (
     <ProductAppointmentCTAStyles>
-      {/* Lets refine later */}
       <button className="appointment-button" onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}>
         <span>
           <BookCalendarIcon />
         </span>
-        {replacePlaceholders(
-          _t('Visit our %%location%% location'),
-          ['%%location%%'],
-          [showroomLocation?.location],
-        ).toString()}
+        {title}
       </button>
 
       {isAppointmentSlideoutShowing && (

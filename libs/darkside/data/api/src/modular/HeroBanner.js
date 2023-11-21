@@ -17,7 +17,7 @@ const HeroBanner = `
     desktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 1440, h: 480, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
+      responsiveImage(imgixParams: {w: 1440, h: 480, q: 40, auto: format, fit: crop, crop: focalpoint, dpr: 2 }, sizes:"(min-width: 1440px) 1440px, (min-width: 768px) 100vw") {
             src
             alt
             aspectRatio
@@ -34,7 +34,7 @@ const HeroBanner = `
     mobileImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 360, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
+      responsiveImage(imgixParams: {w: 360, q: 30, auto: format, fit: crop, crop: focalpoint, dpr: 2 }, sizes:"100vw") {
             src
             alt
             aspectRatio

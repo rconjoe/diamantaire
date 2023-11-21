@@ -12,3 +12,4 @@ export * from './SearchIcon';
 export * from './ShoppingBagIcon';
 export * from './XIcon';
 export * from './InfoIcon';
+export * from './FilterIcon';

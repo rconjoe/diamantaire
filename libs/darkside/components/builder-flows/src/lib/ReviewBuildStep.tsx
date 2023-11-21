@@ -52,9 +52,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
       > .image {
         padding: 0 10px;
         flex: 1;
-      }
-
-      .diamond-image {
         display: flex;
 
         img {
@@ -558,7 +555,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     </DarksideButton>
                   </li>
                   <li>
-                    <ProductAppointmentCTA />
+                    <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
               </div>

@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../clients';
+import { ButtonFragment } from '../fragments';
 
 const GWP_PDP_QUERY = gql`
   query gwpPDPQuery($locale: SiteLocale) {
@@ -9,7 +10,10 @@ const GWP_PDP_QUERY = gql`
         promotionDateRangeEnd
         promotionDateRangeStart
         minSpendByCurrencyCode
-        activeCountries
+        gwpSupportedCountries {
+          code
+          name
+        }
         giftProduct {
           plpImage {
             responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {
@@ -62,7 +66,10 @@ const GWP_CART_QUERY = gql`
         promotionDateRangeEnd
         promotionDateRangeStart
         minSpendByCurrencyCode
-        activeCountries
+        gwpSupportedCountries {
+          code
+          name
+        }
         giftProduct {
           plpImage {
             responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {
@@ -91,6 +98,9 @@ const GWP_CART_QUERY = gql`
         cartNonQualifiedBackgroundColor {
           hex
         }
+        cartNonQualifiedCta {
+          ${ButtonFragment}
+        }
       }
     }
   }
@@ -104,7 +114,10 @@ const GWP_TOP_BAR_QUERY = gql`
         promotionDateRangeEnd
         promotionDateRangeStart
         minSpendByCurrencyCode
-        activeCountries
+        gwpSupportedCountries {
+          code
+          name
+        }
         giftProduct {
           plpImage {
             responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {
@@ -139,7 +152,10 @@ const GWP_PLP_QUERY = gql`
         promotionDateRangeEnd
         promotionDateRangeStart
         minSpendByCurrencyCode
-        activeCountries
+        gwpSupportedCountries {
+          code
+          name
+        }
         giftProduct {
           plpImage {
             responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {

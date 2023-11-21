@@ -9,7 +9,10 @@ type TopBarGWPData = {
       promotionDateRangeEnd: string;
       promotionDateRangeStart: string;
       minSpendByCurrencyCode: Record<string, number>;
-      activeCountries: string;
+      gwpSupportedCountries: {
+        code: string;
+        name: string;
+      }[];
       giftProduct: {
         plpImage: DatoImageType;
       };

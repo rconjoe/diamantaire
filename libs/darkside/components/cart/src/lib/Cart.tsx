@@ -189,7 +189,7 @@ const Cart = ({ closeCart }) => {
                         </span>
                       </span>
                     </p>
-                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount), locale)}</p>
+                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">

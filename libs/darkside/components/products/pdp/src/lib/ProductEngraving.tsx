@@ -18,10 +18,18 @@ const ProductEngravingStyles = styled.div`
 
     .engraving-prompt-text {
       display: flex;
-      align-items: center;
+      align-items: baseline;
+
       p {
         margin-left: 5px;
         display: inline-block;
+      }
+
+      .engraving-cta {
+        button,
+        a {
+          font-size: 1.7rem;
+        }
       }
     }
 
@@ -113,6 +121,7 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
               type="underline"
               colorTheme="teal"
+              className="engraving-cta"
             >
               <UIString>{engravingCtaText}</UIString>
             </DarksideButton>

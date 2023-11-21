@@ -43,8 +43,8 @@ const CssVariables = styled.createGlobalStyle`
     --font-family-main: 'futura-pt', sans-serif;
 
     /* Metals - Finish */
-    --metal-yellow-gold: #f9d857;
-    --metal-rose-gold: #f9d857;
+    --metal-yellow-gold: #c8ab6e;
+    --metal-rose-gold: #ceac8b;
 
     /* Z Index */
     --z-index-nav: 40;

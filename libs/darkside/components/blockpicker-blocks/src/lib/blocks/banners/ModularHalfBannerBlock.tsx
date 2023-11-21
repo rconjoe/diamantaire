@@ -6,7 +6,6 @@ Handles: MODULAR_HALF_WIDTH_BANNER_BLOCK, MODULAR_HALF_WIDTH_BLOG_SUMMARY_BLOCK
 
 import {
   DarksideButton,
-  DatoDarksideButtonProps,
   DatoImage,
   Heading,
   MobileDesktopImage,
@@ -14,7 +13,7 @@ import {
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 

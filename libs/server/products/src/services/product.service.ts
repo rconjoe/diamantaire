@@ -3,7 +3,14 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP, PRODUCT_BRIEF_CONTENT } from '@diamantaire/darkside/data/api';
+import {
+  PLP_QUERY,
+  CONFIGURATIONS_LIST,
+  ERPDP,
+  JEWELRYPRODUCT,
+  WEDDING_BAND_PDP,
+  PRODUCT_BRIEF_CONTENT,
+} from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
@@ -18,6 +25,7 @@ import {
   getProductConfigMatrix,
   ProductNode,
   sortMetalTypes,
+  sortDiamondTypes,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -29,7 +37,7 @@ import {
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
-import  { Variables } from 'graphql-request'
+import { Variables } from 'graphql-request';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
@@ -108,7 +116,7 @@ export class ProductsService {
       // get product content from Dato
       const productContentMap = await this.findProductContent(products, locale);
 
-      // Get lowest prices for unique set of collections 
+      // Get lowest prices for unique set of collections
       const collectionSet = products.reduce((acc, product) => {
         acc.add(product.collectionSlug);
 
@@ -138,7 +146,7 @@ export class ProductsService {
     }
   }
 
-  async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]>{
+  async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]> {
     try {
       const products = await this.productRepository.find({
         productSlug: { $in: productSlugs },
@@ -157,7 +165,7 @@ export class ProductsService {
 
   async findProductContent(products: VraiProduct[], locale: string) {
     const productTypeMap = products.reduce((map: Record<string, VraiProduct[]>, product) => {
-      if (!map[product.productType]){
+      if (!map[product.productType]) {
         map[product.productType] = [product];
       } else {
         map[product.productType].push(product);
@@ -166,36 +174,43 @@ export class ProductsService {
       return map;
     }, {});
 
-    const nonJewelryProducts = [...(productTypeMap[ProductType.EngagementRing] || []), ...(productTypeMap[ProductType.WeddingBand] || [])];
+    const nonJewelryProducts = [
+      ...(productTypeMap[ProductType.EngagementRing] || []),
+      ...(productTypeMap[ProductType.WeddingBand] || []),
+    ];
     const jewelryProducts = [
-      ...(productTypeMap[ProductType.Ring] || []), 
+      ...(productTypeMap[ProductType.Ring] || []),
       ...(productTypeMap[ProductType.Bracelet] || []),
       ...(productTypeMap[ProductType.Necklace] || []),
       ...(productTypeMap[ProductType.Earrings] || []),
     ];
 
-    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<{ allConfigurations: object[]; allOmegaProducts: object[]; }, { productHandles: string[]; variantIds: string[]; locale: string}>({
+    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<
+      { allConfigurations: object[]; allOmegaProducts: object[] },
+      { productHandles: string[]; variantIds: string[]; locale: string }
+    >({
       query: PRODUCT_BRIEF_CONTENT,
       variables: {
-      productHandles: nonJewelryProducts.map(p => p.contentId),
-      variantIds: jewelryProducts.map(p => p.contentId),
-      locale
-    }});
+        productHandles: nonJewelryProducts.map((p) => p.contentId),
+        variantIds: jewelryProducts.map((p) => p.contentId),
+        locale,
+      },
+    });
 
     const productContent = [...allConfigurations, ...allOmegaProducts];
 
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
-      
       map[product.productSlug] = {
         product,
-        content: productContent.find(pc => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId)
-      }
+        content: productContent.find(
+          (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
+        ),
+      };
 
       return map;
     }, {});
 
-    return productContentMap
-
+    return productContentMap;
   }
 
   /**
@@ -883,7 +898,7 @@ export class ProductsService {
 
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes,
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1254,7 +1269,7 @@ export class ProductsService {
 
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes,
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1442,7 +1457,13 @@ export class ProductsService {
     }
   }
 
-  async getDatoContent<TData, TVars extends Variables>({ query, variables }: { query: string; variables: TVars }): Promise<TData> {
+  async getDatoContent<TData, TVars extends Variables>({
+    query,
+    variables,
+  }: {
+    query: string;
+    variables: TVars;
+  }): Promise<TData> {
     try {
       const response = await this.utils.createDataGateway().request<TData, any>(query, variables);
 
@@ -1456,17 +1477,16 @@ export class ProductsService {
   async datoConfigurationsAndProductContent({
     jewelryIds = [],
     nonJewelryIds = [],
-    locale = "en_US",
+    locale = 'en_US',
     first = 100,
     skip = 0,
   }: {
     jewelryIds?: string[];
     nonJewelryIds?: string[];
-    locale
+    locale;
     first?: number;
     skip?: number;
   }): Promise<any> {
-
     this.logger.verbose(`Getting Dato configurations & products for a list of products`);
     // const cachedKey = `configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
     let response; // = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key

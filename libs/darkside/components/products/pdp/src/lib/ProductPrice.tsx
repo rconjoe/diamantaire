@@ -8,8 +8,12 @@ import styled from 'styled-components';
 const ProductPriceStyles = styled.div`
   margin-bottom: calc(var(--gutter) / 4);
   .price-text {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 500;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      font-size: 2rem;
+    }
   }
 
   .small {
@@ -34,10 +38,6 @@ const ProductPrice = ({ shouldDoublePrice = false, price, isBuilderProduct, prod
   const refinedPrice = getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale);
 
   const translatedText = _t('Starting at %%price%%');
-
-  console.log('INIT PRICE', price);
-  console.log('refinedPrice', refinedPrice);
-  console.log('translatedText', translatedText);
 
   return (
     <ProductPriceStyles className="price">

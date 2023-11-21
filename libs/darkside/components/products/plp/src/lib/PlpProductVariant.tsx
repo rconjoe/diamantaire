@@ -10,7 +10,6 @@ import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
-    min-height: 300px;
     position: relative;
     button {
       padding: 0;
@@ -136,7 +135,8 @@ const PlpProductVariant = ({
               {isPrimaryImage
                 ? primaryImage && (
                     <DatoImage
-                      quality={100}
+                      quality={60}
+                      enableDpr
                       image={{
                         url: primaryImage?.src,
                         responsiveImage: {
@@ -147,7 +147,8 @@ const PlpProductVariant = ({
                   )
                 : hoverImage && (
                     <DatoImage
-                      quality={100}
+                      quality={60}
+                      enableDpr
                       image={{
                         url: hoverImage?.src,
                         responsiveImage: {
@@ -174,3 +175,9 @@ const PlpProductVariant = ({
 };
 
 export { PlpProductVariant };
+
+// old
+// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&dpr=2&fit=crop&h=344&q=60&w=344
+
+// new
+// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&fit=crop&h=344&q=100&w=344&dpr=2

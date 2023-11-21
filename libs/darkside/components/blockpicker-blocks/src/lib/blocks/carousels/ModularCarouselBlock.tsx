@@ -128,7 +128,9 @@ const ModularCarouselBlock = (props) => {
             const productData =
               slugsIfProducts &&
               data &&
-              data?.products?.find((product) => product?.collectionSlug === slide?.configuration?.collection?.slug);
+              data?.products?.find(
+                (productNode) => productNode?.product?.collectionSlug === slide?.configuration?.collection?.slug,
+              );
 
             return (
               <SwiperSlide className={_modelApiKey} key={`slide-${uuidv4()}`}>

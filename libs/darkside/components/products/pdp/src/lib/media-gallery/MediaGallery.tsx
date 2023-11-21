@@ -1,11 +1,11 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
-import { DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
-import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
+import { ProductDiamondHand } from '../ProductDiamondHand';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
@@ -21,11 +21,17 @@ interface MediaGalleryProps {
 
 const MediaGalleryStyles = styled.div`
   display: none;
-  grid-auto-flow: dense;
-  grid-template-columns: 1fr 1fr;
+
   gap: 6px;
   width: 100%;
-  ${media.medium`display: grid;`}
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 0 0 calc(50% - 3px);
+    }
+  }
 `;
 
 function MediaGallery({
@@ -54,13 +60,7 @@ function MediaGallery({
           />
         ))}
         {productType === 'Engagement Ring' && (
-          <DiamondHand
-            withSlider={true}
-            diamondType={diamondType}
-            lotId={`cfy-${diamondType}`}
-            initRange={[0.5, 8]}
-            initValue={2}
-          />
+          <ProductDiamondHand diamondType={diamondType} range={[0.5, 8]} initValue={2} />
         )}
       </MediaGalleryStyles>
     )
@@ -148,7 +148,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
     };
     const searchParams = new URLSearchParams(params);
 
-    return `${src}?${searchParams.toString()}`;
+    return `${src}?${searchParams.toString()}&dpr=2`;
   };
 
   return (
@@ -164,8 +164,7 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
       />
       {index === 0 && productType === 'Engagement Ring' && (
         <p>
-          <UIString>Shown with </UIString>
-          {shownWithCtw ? shownWithCtw : '1.5ct'}
+          <UIString>Shown with</UIString> {shownWithCtw ? shownWithCtw : '1.5ct'}
         </p>
       )}
     </ImageAssetStyles>
@@ -198,11 +197,14 @@ function SpriteSpinnerBlock({ sprite, options }) {
   const { diamondType, bandAccent, metal } = options;
   const spriteImage = sprite;
   const { query } = useRouter();
-  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.productSlug}/${diamondType}/${
+  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.collectionSlug}/${diamondType}/${
     bandAccent ? bandAccent + '/' : ''
   }${metal}`;
 
-  return null;
+  // return null;
+
+  // console.log('bunny360BaseURL', bunny360BaseURL);
+  // console.log('spriteImage', spriteImage);
 
   return (
     <SpriteSpinner

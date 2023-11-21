@@ -30,8 +30,11 @@ const ENGAGEMENT_RING_QUERY = gql`
   query engagementRingQuery($locale: SiteLocale, $slug: String!) {
     engagementRingProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoTitle
+      seoDescription
       productDescription
       productTitle
+      productTitleOverride
       bandDepth(locale: $locale)
       bandWidth(locale: $locale)
       paveCaratWeight(locale: $locale)
@@ -61,6 +64,10 @@ const JEWELRY_QUERY = gql`
   query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
     jewelryProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       productTitle
       productDescription
       productIconList {
@@ -83,6 +90,8 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoTitle
+      seoDescription
       productTitle
       productDescription
       productIconList {

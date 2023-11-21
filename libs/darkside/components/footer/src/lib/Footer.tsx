@@ -24,7 +24,11 @@ type FooterLink = {
   copy: string;
   flags: string;
   route: string;
-  supportedCountries: Array<string>;
+  newRoute: string;
+  supportedCountries: {
+    code: string;
+    name: string;
+  }[];
 };
 
 const FooterStyles = styled.footer`
@@ -239,8 +243,6 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
     return setIsCountrySelectorOpen(!isCountrySelectorOpen);
   }
 
-  const countryLabel = footerData?.countryPicker.find((item) => item?.key === 'desktop_footer_1')?.copy ?? 'Country';
-
   const { locale } = useRouter();
 
   const countryCode = getCountry(locale);
@@ -276,7 +278,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                       {index === 0 && (
                         <>
                           <li>
-                            {countryLabel}:
+                            <UIString>Location</UIString>:
                             <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
                               {selectedCountry}
                             </button>
@@ -328,7 +330,7 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
           </div>
         </div>
         <div className="footer-mobile">
-          <FooterMobileAccordions columns={columns} countryLabel={countryLabel} />
+          <FooterMobileAccordions columns={columns} />
         </div>
         <div className="footer__copyright-wrapper">
           <p>

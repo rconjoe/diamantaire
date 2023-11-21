@@ -293,7 +293,7 @@ const Form = ({
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-              {ctaCopy}
+              {_t(ctaCopy)}
             </DarksideButton>
           </div>
         </div>
