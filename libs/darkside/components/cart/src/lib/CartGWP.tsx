@@ -13,13 +13,13 @@ import styled from 'styled-components';
 
 const CartGWPStyles = styled.div`
   margin: 0;
-  padding: 0 25px 50px;
-  ${media.medium`margin: 0 30px 0 50px;`}
+  padding: 0 2.5rem 5rem;
+  ${media.medium`margin: 0 3rem 0 5rem;`}
   .inner {
     display: flex;
 
     .image {
-      flex: 0 0 140px;
+      flex: 0 0 14rem;
       display: flex;
 
       > * {
@@ -37,7 +37,7 @@ const CartGWPStyles = styled.div`
       align-items: center;
       background-color: ${({ bgColor }) => bgColor};
       .content__inner {
-        padding: 20px;
+        padding: 2rem;
 
         p {
           font-size: var(--font-size-xxsmall);
@@ -65,8 +65,6 @@ const CartGWP = () => {
   const { data: checkout } = useCartData(locale);
 
   const gwpData = data?.allGwpDarksides?.[0]?.tiers?.[0];
-
-  console.log('gwpData', gwpData);
 
   const {
     cartQualifiedTitle,

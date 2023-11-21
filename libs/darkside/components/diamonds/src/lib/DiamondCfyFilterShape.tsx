@@ -111,7 +111,7 @@ const DiamondCfyFilterShape = (props) => {
         </div>
       </div>
       <div ref={appointmentEl} className="appointment">
-        <ProductAppointmentCTA productType={'diamond'} />
+        <ProductAppointmentCTA />
       </div>
     </StyledDiamondCfyFilterShape>
   );

@@ -12,17 +12,17 @@ const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;
   .appointment-button {
     width: 100%;
-    height: 47px;
+    height: 4.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #f7f7f7;
 
     span {
-      flex: 0 0 25px;
+      flex: 0 0 2.5rem;
       position: relative;
-      top: 2px;
-      margin-right: 2px;
+      top: 0.2rem;
+      margin-right: 0.2rem;
     }
   }
 
@@ -38,7 +38,7 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = ({ productType }) => {
+const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
   const { locale } = useRouter();
 
@@ -46,7 +46,7 @@ const ProductAppointmentCTA = ({ productType }) => {
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const getPdpTitle = ({ productType, location }) => {
+  const getCtaTitle = ({ productType, location }) => {
     if (location) {
       if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
         return _t(`Discover our rings at VRAI %%location%%`);
@@ -70,7 +70,7 @@ const ProductAppointmentCTA = ({ productType }) => {
     }
   };
 
-  let title = getPdpTitle({ productType, location: showroomLocation?.location });
+  let title = getCtaTitle({ productType, location: showroomLocation?.location });
 
   title = replacePlaceholders(title, ['%%location%%'], [showroomLocation?.location]);
 

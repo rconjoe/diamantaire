@@ -57,14 +57,14 @@ const ModularSplitVideoBlockContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100px;
-        width: 100px;
+        height: 10rem;
+        width: 10rem;
         background-color: rgb(158 158 158 / 56%);
         border-radius: 50%;
 
         svg {
           position: relative;
-          left: 5px;
+          left: 0.5rem;
         }
       }
     }
@@ -120,7 +120,6 @@ const ModularSplitVideoBlock = (props) => {
               },
             }}
             onPlay={() => setHasVideoInitialized(true)}
-            // onPause={() => setIsVideoPlaying(false)}
           />
 
           {hasVideoInitialized && (
