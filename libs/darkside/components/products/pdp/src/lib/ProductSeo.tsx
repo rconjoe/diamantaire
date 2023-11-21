@@ -23,12 +23,8 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
     // Generate title as fallback for ERs
     seoFields ? seoFields.seoTitle : productType === 'Engagement Ring' ? `${longTitle} | VRAI` : seoTitle;
 
-  console.log('metaTitle 1', metaTitle);
-
   metaTitle = replacePlaceholders(metaTitle, ['%%product_type%%'], [productType]).toString();
-  console.log('metaTitle 2', metaTitle);
   metaTitle = replacePlaceholders(metaTitle, ['%%diamond_type%%'], [_t(diamondType)]).toString();
-  console.log('metaTitle 3', metaTitle);
 
   let metaDescription = seoFields
     ? replacePlaceholders(seoFields?.seoDescription, ['%%product_name%%'], [productTitle]).toString()

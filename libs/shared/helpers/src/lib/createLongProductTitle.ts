@@ -10,7 +10,6 @@ type ProductTitleProps = {
   _t: (string) => void;
 };
 
-<<<<<<< HEAD
 // takes a string, and capitalizes the first letter of each word
 export function capitalizeFirstLetter(string) {
   // split the string into an array of words
@@ -32,25 +31,15 @@ export function capitalizeFirstLetter(string) {
   return words.join(' ');
 }
 
-=======
->>>>>>> adb9d013 (eod fix)
 export function createLongProductTitle(props: ProductTitleProps) {
   const { title, diamondType, productType, metal, enableMetal = false, selectedLanguageCode, _t } = props;
   let longTitle = title;
 
-<<<<<<< HEAD
   // English
   if (selectedLanguageCode === 'en' && productType === 'Engagement Ring' && diamondType) {
     longTitle += ` ${_t(diamondType)} ${capitalizeFirstLetter(_t(productType))} ${
       enableMetal ? 'in ' + _t(metalTypeAsConst[metal]) : ''
     }`;
-=======
-  console.log('createLongProductTitle', title, diamondType, productType, selectedLanguageCode, enableMetal, _t);
-
-  // English
-  if (selectedLanguageCode === 'en' && productType === 'Engagement Ring' && diamondType) {
-    longTitle += ` ${_t(diamondType)} ${_t(productType)} ${enableMetal ? 'in ' + _t(metalTypeAsConst[metal]) : ''}`;
->>>>>>> adb9d013 (eod fix)
   }
 
   // German

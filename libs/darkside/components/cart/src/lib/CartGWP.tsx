@@ -1,16 +1,12 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
 import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
-<<<<<<< HEAD
 import {
   getCountry,
   isCountrySupported,
   isCurrentTimeWithinInterval,
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
-=======
-import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
->>>>>>> adb9d013 (eod fix)
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -23,11 +19,7 @@ const CartGWPStyles = styled.div`
     display: flex;
 
     .image {
-<<<<<<< HEAD
       flex: 0 0 14rem;
-=======
-      flex: 0 0 140px;
->>>>>>> adb9d013 (eod fix)
       display: flex;
 
       > * {
@@ -91,8 +83,6 @@ const CartGWP = () => {
 
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
-
-  console.log('cartNonQualifiedCta', gwpData);
 
   if (!gwpData) return null;
 
