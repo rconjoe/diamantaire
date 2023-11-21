@@ -1,13 +1,12 @@
-import { DarksideButton, FreezeBody, Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { DIAMOND_TYPE_HUMAN_NAMES, PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
+import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
 import { isEmptyObject, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
-import { Logo } from '@diamantaire/shared/icons';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import BuilderFlowNav from './BuilderFlowNav';
 import DiamondBuildStep from './DiamondBuildStep';
@@ -16,15 +15,6 @@ import SettingBuildStep from './SettingBuildStep';
 import SettingSelectStep from './SettingSelectStep';
 
 const BuilderFlowStyles = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 5000;
-  background-color: #fff;
-  padding: 0 0 100px;
-  min-height: 100vh;
-
   .loader-container {
     &.full-width {
       position: fixed;
@@ -81,6 +71,12 @@ const BuilderFlowStyles = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+`;
+
+const FooterSpacing = createGlobalStyle`
+  footer {
+    margin-bottom: 120px;
   }
 `;
 
@@ -265,27 +261,6 @@ const BuilderFlow = ({
     fetchProductAndDiamond();
   }, []);
 
-  const builderMessage = useMemo(() => {
-    if (type === 'setting-to-diamond' && productTitle) {
-      return productTitle;
-    } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
-      return ' a ' + DIAMOND_TYPE_HUMAN_NAMES[builderProduct?.diamond?.diamondType] + ' diamond';
-    } else {
-      return null;
-    }
-  }, [productTitle, builderProduct]);
-
-  const builderInitProductUrl = useMemo(() => {
-    if (type === 'setting-to-diamond') {
-      // return '/engagement-ring/' + initialCollectionSlug + '/' + initialProductSlug;
-      return builderProduct?.product?.productType + initialCollectionSlug + '/' + initialProductSlug;
-    } else if (type === 'diamond-to-setting' && builderProduct?.diamond?.diamondType) {
-      return '/diamonds/inventory';
-    } else {
-      return null;
-    }
-  }, [type, initialCollectionSlug, initialProductSlug]);
-
   const steps = useMemo(() => {
     return {
       'setting-to-diamond': [
@@ -327,40 +302,7 @@ const BuilderFlow = ({
 
   return (
     <BuilderFlowStyles>
-      <FreezeBody />
-
-      {builderMessage && (
-        <motion.div
-          className="custom-builder-message"
-          key="cart-container"
-          initial="collapsed"
-          animate="open"
-          exit="collapsed"
-          variants={{
-            open: { y: 0, opacity: 1 },
-            collapsed: { y: -300, opacity: 0 },
-          }}
-          transition={{
-            duration: 0.75,
-          }}
-        >
-          <div className="logo">
-            <Logo />
-          </div>
-          <p>
-            You are currently customizing {builderMessage.includes('The') || builderMessage.includes(' a ') ? '' : 'the'}{' '}
-            {builderMessage}
-          </p>
-          <ul>
-            <li>
-              <DarksideButton href={builderInitProductUrl} type="underline" colorTheme="white">
-                Back to {type === 'setting-to-diamond' ? 'product' : 'diamonds'}
-              </DarksideButton>
-            </li>
-          </ul>
-        </motion.div>
-      )}
-
+      <FooterSpacing />
       <AnimatePresence>
         {!shopifyProductData && !builderProduct.diamond && !builderProduct.product && (
           <div className="loader-container full-width">

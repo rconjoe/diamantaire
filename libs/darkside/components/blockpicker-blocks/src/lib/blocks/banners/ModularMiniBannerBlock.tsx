@@ -1,7 +1,7 @@
 import { Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
-import { desktopAndUp, setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,8 +14,6 @@ const ModularMiniBannerBlockStyles = styled.div`
   margin: 0 auto;
   position: relative;
   margin-bottom: 80px;
-  .image-container {
-  }
 
   .title-copy__wrapper {
     display: grid;
@@ -39,7 +37,8 @@ const ModularMiniBannerBlockStyles = styled.div`
       .title {
         font-size: 24px;
         font-weight: 400;
-        margin-bottom: ${setSpace(2)};
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
         ${tabletAndUp(`
             font-size: 20px;
             margin-bottom: 0px;

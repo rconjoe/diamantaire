@@ -229,6 +229,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             seoTitle,
             seoDescription,
           }}
+          productType={shopifyProductData?.productType}
+          diamondType={configuration.diamondType}
+          productTitle={productTitle}
+          metal={configuration.metal}
         />
         <Script
           id="klara-script"

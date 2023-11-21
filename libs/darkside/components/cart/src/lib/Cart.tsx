@@ -29,7 +29,7 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
-  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band', 'Earrings', 'Diamond'];
+  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band', 'Earrings', 'Diamonds'];
 
   const {
     cartHeader,
@@ -177,7 +177,9 @@ const Cart = ({ closeCart }) => {
                 </div>
               ) : (
                 <div className="cart-subtotal">
-                  <p className="cart-subtotal__sig-text">Orders over $500 require a signature upon delivery.</p>
+                  <p className="cart-subtotal__sig-text">
+                    <UIString>Orders over $500 require a signature upon delivery.</UIString>
+                  </p>
                   <hr />
                   <div className="cart-subtotal__summary">
                     <p>

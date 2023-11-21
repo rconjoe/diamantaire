@@ -9,25 +9,33 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
   const { languageCode: selectedLanguageCode } = parseValidLocale(useRouter().locale);
   const { _t } = useTranslations(useRouter().locale);
 
-  const metaTitle =
-    // Generate title as fallback for ERs
-    seoFields
-      ? seoFields.seoTitle
-      : productType === 'Engagement Ring'
-      ? `${createLongProductTitle({
-          title: productTitle,
-          diamondType: diamondType,
-          productType: productType,
-          selectedLanguageCode,
-          _t,
-          enableMetal: true,
-          metal,
-        })} | VRAI`
-      : seoTitle;
+  const longTitle = createLongProductTitle({
+    title: productTitle,
+    diamondType,
+    productType,
+    selectedLanguageCode,
+    _t,
+    enableMetal: true,
+    metal,
+  });
 
-  const metaDescription = seoFields
+  let metaTitle =
+    // Generate title as fallback for ERs
+    seoFields ? seoFields.seoTitle : productType === 'Engagement Ring' ? `${longTitle} | VRAI` : seoTitle;
+
+  console.log('metaTitle 1', metaTitle);
+
+  metaTitle = replacePlaceholders(metaTitle, ['%%product_type%%'], [productType]).toString();
+  console.log('metaTitle 2', metaTitle);
+  metaTitle = replacePlaceholders(metaTitle, ['%%diamond_type%%'], [_t(diamondType)]).toString();
+  console.log('metaTitle 3', metaTitle);
+
+  let metaDescription = seoFields
     ? replacePlaceholders(seoFields?.seoDescription, ['%%product_name%%'], [productTitle]).toString()
     : replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString();
+
+  metaDescription = replacePlaceholders(metaDescription, ['%%product_type%%'], [productType]).toString();
+  metaDescription = replacePlaceholders(metaDescription, ['%%diamond_type%%'], [diamondType]).toString();
 
   return <NextSeo title={metaTitle} description={metaDescription} />;
 };
