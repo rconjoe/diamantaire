@@ -14,7 +14,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 2rem 0 0;
+    padding: 0 3rem 0 0;
     line-height: 1.2;
 
     ${tabletAndUp(`
@@ -23,22 +23,23 @@ export const StyledWishlistSlideoutProductItem = styled.div`
   }
 
   .poster {
-    width: 120px;
+    width: 12rem;
   }
 
   .title {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-xsmall);
   }
 
   .price {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-medium);
-    margin-top: 0.25rem;
+    font-size: var(--font-size-xsmall);
+    margin-top: 0.75rem;
   }
 
   button {
     margin-top: 1rem;
+    padding: 0.5rem 1rem;
     max-width: 20rem;
   }
 

@@ -134,7 +134,16 @@ const CardProduct: React.FC<CardProductProps> = ({
     return;
   }
 
-  const { productTitle: title, price: productPrice, productType, productSlug, collectionSlug } = product;
+  console.log(`product`, id, product);
+
+  const {
+    collectionTitle,
+    configuration: { caratWeight = null } = {},
+    price: productPrice,
+    productType,
+    productSlug,
+    collectionSlug,
+  } = product;
 
   const price = getFormattedPrice(productPrice, locale, true);
 
@@ -149,6 +158,8 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);
 
+  const title = caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${caratWeight}` : collectionTitle;
+
   return (
     <div className="card item-product">
       <div className="poster">
@@ -157,7 +168,10 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div className="text">
         <div className="title">{title}</div>
 
-        <div className="price">{price}+</div>
+        <div className="price">
+          {price}
+          {caratWeight && caratWeight === 'other' && '+'}
+        </div>
 
         <DarksideButton href={link} type="solid">
           {button}
@@ -268,7 +282,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
       <div className="text">
         <div className="title">{bundleTitle}</div>
 
-        <div className="price">{bundlePrice}+</div>
+        <div className="price">{bundlePrice}</div>
 
         <UniLink route={link}>
           <DarksideButton type="solid">{button}</DarksideButton>
