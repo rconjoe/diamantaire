@@ -122,6 +122,9 @@ const PlpPreviouslyViewed = () => {
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
+  // if they haven't seen anything, hide the block
+  if (handles.length === 0) return null;
+
   return (
     <PlpPreviouslyViewedStyles className="container-wrapper">
       <div className="title-container text-center">
@@ -131,16 +134,20 @@ const PlpPreviouslyViewed = () => {
       </div>
 
       <div className="slider">
-        <button className="arrow prev" onClick={() => emblaApi.scrollPrev()}>
-          <span>
-            <ArrowRightIcon />
-          </span>
-        </button>
-        <button className="arrow next" onClick={() => emblaApi.scrollNext()}>
-          <span>
-            <ArrowRightIcon />
-          </span>
-        </button>
+        {products?.length > 4 && (
+          <>
+            <button className="arrow prev" onClick={() => emblaApi.scrollPrev()}>
+              <span>
+                <ArrowRightIcon />
+              </span>
+            </button>
+            <button className="arrow next" onClick={() => emblaApi.scrollNext()}>
+              <span>
+                <ArrowRightIcon />
+              </span>
+            </button>
+          </>
+        )}
         <div className="embla" ref={products?.length > 4 ? emblaRef : null}>
           <div className="products__container embla__container">
             {products?.map((productNode) => {

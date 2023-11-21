@@ -32,6 +32,10 @@ const ENGAGEMENT_RING_QUERY = gql`
       id
       seoTitle
       seoDescription
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       productDescription
       productTitle
       productTitleOverride

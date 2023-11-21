@@ -13,24 +13,23 @@ import {
   ProductKlarna,
   ProductSuggestionBlock,
   ProductGWP,
+  ProductSeo,
 } from '@diamantaire/darkside/components/products/pdp';
 import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   jewelryTypes,
-  parseValidLocale,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { createLongProductTitle, fetchAndTrackPreviouslyViewed, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
@@ -208,28 +207,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
-  // Setups seo title and description for all pdps
-  const { languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
-
-  const metaTitle =
-    shopifyProductData?.productType === 'Engagement Ring'
-      ? `${createLongProductTitle({
-          title: productTitle,
-          diamondType: configuration.diamondType,
-          productType: shopifyProductData?.productType,
-          selectedLanguageCode,
-          _t,
-          enableMetal: true,
-          metal: configuration.metal,
-        })} | VRAI`
-      : seoFields
-      ? seoFields.seoTitle
-      : seoTitle;
-
-  const metaDescription = seoFields
-    ? replacePlaceholders(seoFields?.seoDescription, ['%%product_name%%'], [productTitle]).toString()
-    : replacePlaceholders(seoDescription, ['%%product_name%%'], [productTitle]).toString();
-
   // Tracks previously viewed products in local storage
   useEffect(() => {
     if (!productTitle || !variantHandle) return;
@@ -242,7 +219,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     return (
       <PageContainerStyles>
-        <NextSeo title={metaTitle} description={metaDescription} />
+        <ProductSeo
+          seoFields={seoFields}
+          legacySeoFields={{
+            seoTitle,
+            seoDescription,
+          }}
+          productType={shopifyProductData?.productType}
+          diamondType={configuration.diamondType}
+          productTitle={productTitle}
+          metal={configuration.metal}
+        />
         <Script
           id="klara-script"
           src="https://na-library.klarnaservices.com/lib.js"

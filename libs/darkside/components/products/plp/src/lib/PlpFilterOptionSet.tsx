@@ -21,10 +21,8 @@ const renderFilterOptionSet = ({
   );
 };
 
-const renderDiamondType = (diamondType, filterValue, updateFilter, _filterType, currentFilters) => {
+const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType, currentFilters) => {
   const Icon = diamondIconsMap[diamondType]?.icon;
-
-  console.log('filterValue', filterValue);
 
   if (diamondType.includes('+')) return null;
 
@@ -44,10 +42,7 @@ const renderDiamondType = (diamondType, filterValue, updateFilter, _filterType, 
   );
 };
 
-const renderMetal = (metal, _filterValue, updateFilter, filterType, currentFilters) => {
-  //   console.log('what is this, ', metal);
-  console.log('what is that, ', filterType);
-
+const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilters) => {
   return (
     <li key={`filter-${metal}`}>
       <button
