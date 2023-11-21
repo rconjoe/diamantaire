@@ -1,10 +1,6 @@
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { parseValidLocale } from '@diamantaire/shared/constants';
-<<<<<<< HEAD
 import { capitalizeFirstLetter, createLongProductTitle, replacePlaceholders } from '@diamantaire/shared/helpers';
-=======
-import { createLongProductTitle } from '@diamantaire/shared/helpers';
->>>>>>> adb9d013 (eod fix)
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -24,7 +20,6 @@ export function ProductTitle({ title, productType, diamondType, override }) {
   const { _t } = useTranslations(locale);
   const { languageCode: selectedLanguageCode } = parseValidLocale(locale);
   const refinedTitle = createLongProductTitle({ title, diamondType, productType, selectedLanguageCode, _t });
-<<<<<<< HEAD
   let refinedOverride = replacePlaceholders(override, ['%%diamond_type%%'], [_t(diamondType)]).toString();
 
   refinedOverride = replacePlaceholders(
@@ -34,8 +29,4 @@ export function ProductTitle({ title, productType, diamondType, override }) {
   ).toString();
 
   return <ProductTitleStyles>{override && override !== '' ? refinedOverride : refinedTitle}</ProductTitleStyles>;
-=======
-
-  return <ProductTitleStyles>{refinedTitle}</ProductTitleStyles>;
->>>>>>> adb9d013 (eod fix)
 }
