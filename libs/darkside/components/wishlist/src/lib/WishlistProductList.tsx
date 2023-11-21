@@ -92,7 +92,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
     setWishlist(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
 
     if (!ready) setReady(true);
-  }, [isWishlistUpdated, isSharedWishlistPage, productListFromUrl, ready]);
+  }, [isWishlistUpdated, ready]);
 
   const wishlistResult = (
     <>
