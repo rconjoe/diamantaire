@@ -43,6 +43,7 @@ export const media: SizeProps = (Object.keys(sizes) as Array<keyof typeof sizes>
 
 type Theme = {
   sizes: {
+    xxxxl: string;
     xxxl: string;
     xxl: string;
     xl: string;
@@ -53,6 +54,7 @@ type Theme = {
 
 export const theme: Theme = {
   sizes: {
+    xxxxl: '1600px',
     xxxl: '1500px',
     xxl: '1441px',
     xl: '1200px',

@@ -260,8 +260,6 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
 
   let valueLabel;
 
-  console.log('optionType', optionType);
-
   if (optionType === 'eternityStyle') {
     valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
   } else if (optionType === 'earringSize') {
