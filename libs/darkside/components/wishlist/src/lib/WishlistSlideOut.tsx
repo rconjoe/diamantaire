@@ -49,7 +49,7 @@ const WishlistSlideOut: React.FC = () => {
           <SlideOut
             title={content.modalTitle}
             onClose={handleClose}
-            width={isMobile ? '100%' : '560px'}
+            width={isMobile ? '100%' : '40rem'}
             className="slideout"
             scrollPosition={scrollPosition}
           >

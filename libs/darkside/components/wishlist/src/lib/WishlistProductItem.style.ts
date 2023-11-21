@@ -23,7 +23,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
   }
 
   .poster {
-    width: 160px;
+    width: 120px;
   }
 
   .title {
