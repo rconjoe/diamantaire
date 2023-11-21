@@ -20,7 +20,11 @@ export const StyledWishlistSlideoutProductList = styled.div`
   .wishlist-no-result {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      gap: 2rem;
+    }
 
     .subtitle {
       width: 100%;
@@ -63,13 +67,14 @@ export const StyledWishlistSlideoutProductList = styled.div`
       transition: all 0.25s ease;
       font-size: var(--font-size-xxsmall);
       border: 2px solid var(--color-black);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-medium);
       text-align: center;
-      padding: 1rem 0;
+      padding: 0.5rem 0;
       display: block;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-xsmall);
+        font-weight: var(--font-weight-bold);
         padding: 1rem;
       }
 
@@ -120,9 +125,10 @@ export const StyledWishlistPageProductList = styled.div`
       display: flex;
       gap: 2rem 1rem;
       flex-wrap: wrap;
-      margin: 2rem 0 6rem 0;
+      margin: 0 0 6rem 0;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        margin: 2rem 0 6rem 0;
         gap: 2rem;
       }
     }
@@ -153,13 +159,14 @@ export const StyledWishlistPageProductList = styled.div`
       transition: all 0.25s ease;
       font-size: var(--font-size-xxsmall);
       border: 2px solid var(--color-black);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-medium);
       text-align: center;
-      padding: 1rem 0;
+      padding: 0.5rem 0;
       display: block;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         font-size: var(--font-size-xsmall);
+        font-weight: var(--font-weight-bold);
         padding: 1rem;
       }
 
