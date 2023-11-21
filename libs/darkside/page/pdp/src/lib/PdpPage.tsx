@@ -15,10 +15,6 @@ import {
   ProductGWP,
   ProductSeo,
 } from '@diamantaire/darkside/components/products/pdp';
-<<<<<<< HEAD
-=======
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
->>>>>>> adb9d013 (eod fix)
 import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
