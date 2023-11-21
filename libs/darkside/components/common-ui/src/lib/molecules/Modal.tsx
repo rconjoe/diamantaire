@@ -24,6 +24,11 @@ const ModalStyles = styled.div`
   align-items: center;
   z-index: 10000;
   font-size: 1.6rem;
+  padding: 0 2rem;
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    padding: 0;
+  }
 
   &.modal--lg {
     .wrapper {
@@ -57,15 +62,21 @@ const ModalStyles = styled.div`
     z-index: 100;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    box-shadow:
+      rgba(17, 17, 26, 0.1) 0px 4px 16px,
+      rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
     .header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
-      padding: 20px 40px 0;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      margin-bottom: 2rem;
+      padding: 2rem 2rem 0;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 2rem 4rem 0;
+      }
 
       .modal__title {
         border: 2px solid #ccc;
@@ -96,7 +107,11 @@ const ModalStyles = styled.div`
     }
 
     .body {
-      padding: 0 40px 40px;
+      padding: 0 2rem 4rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 0 4rem 4rem;
+      }
     }
   }
   &.modal--sm {

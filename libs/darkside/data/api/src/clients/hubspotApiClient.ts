@@ -162,9 +162,9 @@ const sendHubspotForm = async ({
 
     return response.data;
   } catch (error) {
-    console.error('Error submitting form data to HubSpot:', error);
+    return;
 
-    throw new Error('Error submitting form data to HubSpot');
+    // throw new Error('Error submitting form data to HubSpot');
   }
 };
 

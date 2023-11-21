@@ -19,6 +19,7 @@ interface WishlistShareModalProps {
   subtitle: string;
   locale: string;
   onClose: () => void;
+  errorMessage: string;
 }
 
 interface WishlistDropHintModalProps {
@@ -28,9 +29,10 @@ interface WishlistDropHintModalProps {
   onClose: () => void;
   productLink: string;
   productImage: string;
+  errorMessage: string;
 }
 
-const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale, title, subtitle }) => {
+const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale, title, subtitle, errorMessage }) => {
   const defaultData = {
     recipientEmail: '',
     userEmail: '',
@@ -89,11 +91,15 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale
 
     const payload = await handleShare(formData);
 
-    const { inlineMessage } = payload;
+    const { inlineMessage } = payload || {};
 
-    setResponse(inlineMessage);
+    if (inlineMessage) {
+      setResponse(inlineMessage);
 
-    setFormData(defaultData);
+      setFormData(defaultData);
+    } else {
+      setResponse(errorMessage);
+    }
 
     setTimeout(() => {
       setResponse(null);
@@ -166,6 +172,7 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
   locale,
   productImage,
   productLink,
+  errorMessage,
 }) => {
   const defaultData = {
     recipientEmail: '',
@@ -224,11 +231,15 @@ const WishlistDropHintModal: React.FC<WishlistDropHintModalProps> = ({
 
     const payload = await handleShare(formData);
 
-    const { inlineMessage } = payload;
+    const { inlineMessage } = payload || {};
 
-    setFormData(defaultData);
+    if (inlineMessage) {
+      setResponse(inlineMessage);
 
-    setResponse(inlineMessage);
+      setFormData(defaultData);
+    } else {
+      setResponse(errorMessage);
+    }
 
     setTimeout(() => {
       setResponse(null);

@@ -133,6 +133,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
           subtitle={content?.shareWishlistModalSubtitle}
           onClose={handleModalClose}
           locale={locale}
+          errorMessage={content?.modalErrorMessage}
         />
       )}
 
@@ -144,6 +145,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
           locale={locale}
           productImage={dropHintData?.image || ''}
           productLink={dropHintData?.link || ''}
+          errorMessage={content?.modalErrorMessage}
         />
       )}
     </>

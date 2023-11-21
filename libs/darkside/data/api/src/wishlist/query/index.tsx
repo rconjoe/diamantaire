@@ -14,6 +14,7 @@ query wishlistQuery($locale: SiteLocale) {
     buttonView
     buttonRemove
     buttonShop
+    modalErrorMessage
     shareWishlistModalTitle
     shareWishlistModalSubtitle
     sharedWishlistPageTitle

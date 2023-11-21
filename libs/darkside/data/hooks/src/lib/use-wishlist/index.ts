@@ -16,6 +16,7 @@ interface WishlistContentDataTypes {
   buttonView: string;
   buttonRemove: string;
   buttonShop: string;
+  modalErrorMessage: string;
   shareWishlistModalTitle: string;
   shareWishlistModalSubtitle: string;
   sharedWishlistPageTitle: string;
