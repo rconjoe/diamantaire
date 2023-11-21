@@ -41,7 +41,7 @@ import { Variables } from 'graphql-request';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
+import { ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import {
   findCanonivalVariant,
@@ -698,26 +698,26 @@ export class ProductsService {
     slug,
     category,
     locale = 'en_US',
-    metal,
-    diamondType,
+    metals,
+    diamondTypes,
     priceMin,
     priceMax,
-    style,
-    subStyle,
+    styles,
+    subStyles,
     page,
     limit,
     sortBy,
     sortOrder,
-  }: PlpInput) {
+  }: PlpQuery) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
-      metal,
-      diamondType,
+      metals,
+      diamondTypes,
       priceMin,
       priceMax,
       page,
       limit,
-      style,
-      subStyle,
+      styles,
+      subStyles,
       sortBy,
       sortOrder,
     })}`;
@@ -746,8 +746,8 @@ export class ProductsService {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
         plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
-          metal,
-          diamondType,
+          metals,
+          diamondTypes,
           page,
           limit,
         });
@@ -791,12 +791,12 @@ export class ProductsService {
       }
 
       const getFiltersQuery = ({
-        m,
-        dT,
+        ms,
+        dTs,
         pMin,
         pMax,
-        stylesFilter,
-        subStylesFilter,
+        stylesFilters,
+        subStylesFilters,
       }): FilterQuery<{
         'configuration.metal'?: string;
         'configuration.diamondType'?: string;
@@ -805,11 +805,11 @@ export class ProductsService {
       }>[] => {
         const query = [];
 
-        if (m) {
-          query.push({ 'configuration.metal': m });
+        if (ms && ms.length > 0) {
+          query.push({ 'configuration.metal': { $in: ms } });
         }
-        if (dT) {
-          query.push({ 'configuration.diamondType': dT });
+        if (dTs && dTs.length > 0) {
+          query.push({ 'configuration.diamondType': { $in: dTs } });
         }
 
         if (typeof pMin !== 'undefined') {
@@ -819,25 +819,27 @@ export class ProductsService {
           query.push({ price: { $lte: priceMax } });
         }
 
-        if (typeof stylesFilter !== 'undefined') {
-          query.push({ styles: stylesFilter });
+        if (typeof stylesFilters !== 'undefined' && stylesFilters.length > 0) {
+          query.push({ styles: { $in: stylesFilters } });
         }
 
-        if (typeof subStylesFilter !== 'undefined') {
-          query.push({ subStyles: subStylesFilter });
+        if (typeof subStylesFilters !== 'undefined' && subStylesFilters.length > 0) {
+          query.push({ subStyles: { $in: subStylesFilters } });
         }
 
         return query;
       };
 
       const filterQueries = getFiltersQuery({
-        m: metal,
-        dT: diamondType,
+        ms: metals,
+        dTs: diamondTypes,
         pMin: priceMin,
         pMax: priceMax,
-        stylesFilter: style,
-        subStylesFilter: subStyle,
+        stylesFilters: styles,
+        subStylesFilters: subStyles,
       });
+
+      console.log(filterQueries)
 
       // Build Query
       const pipeline: PipelineStage[] = [
@@ -1102,7 +1104,7 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
-    { metal, diamondType, page = 1, limit = 12 }: { metal: string; diamondType: string; page?: number; limit: number },
+    { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
@@ -1112,8 +1114,8 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
-              'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypes || ['round-brilliant'] }, // always has a filter applied
+              'configuration.metal': { $in: metals || ['yellow-gold'] }, // always has a filter applied
               ...getDraftQuery(),
             },
           },
@@ -1724,6 +1726,25 @@ export class ProductsService {
       throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
   }
+}
+
+type PlpQuery = {
+  slug: string,
+  category: string,
+  locale: string,
+  page,
+  limit,
+  sortBy,
+  sortOrder,
+} & PlpFilters;
+
+type PlpFilters = { 
+  metals: string[],
+  diamondTypes: string[],
+  priceMin: number,
+  priceMax: number,
+  styles: string[],
+  subStyles: string[],
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {
