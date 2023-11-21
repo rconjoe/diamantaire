@@ -52,7 +52,12 @@ const WishlistSharePage = (props: InferGetServerSidePropsType<typeof getServerSi
         </div>
 
         <div className="page-row">
-          <WishlistProductList isSharedWishlistPage={true} content={content} products={products} />
+          <WishlistProductList
+            isSharedWishlistPage={true}
+            productListFromUrl={productListFromUrl}
+            content={content}
+            products={products}
+          />
         </div>
       </StyledWishlistPage>
     </>
@@ -95,8 +100,8 @@ async function getServerSideProps(
   const props: WishlistSharePageProps = {
     locale,
     dehydratedState,
-    username: usernameString,
     products: productArray,
+    username: usernameString,
   };
 
   return {

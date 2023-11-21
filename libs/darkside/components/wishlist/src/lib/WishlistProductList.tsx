@@ -13,6 +13,7 @@ import { WishlistShareModal, WishlistDropHintModal } from './WishlistShareModal'
 interface WishlistProductListProps {
   isSharedWishlistPage?: boolean;
   isWishlistPage?: boolean;
+  productListFromUrl?: string[];
   content?: any;
   products?: {
     cfy?: {
@@ -33,26 +34,29 @@ interface WishlistProductListProps {
 const WishlistProductList: React.FC<WishlistProductListProps> = ({
   isSharedWishlistPage = false,
   isWishlistPage = false,
+  productListFromUrl = [],
   products,
   content,
 }) => {
   const router = useRouter();
 
-  const { isWishlistUpdated } = useContext(GlobalContext);
-
   const { locale } = router;
 
   const { _t } = useTranslations(locale);
 
-  const [wishlist, setWishlist] = useState(getLocalStorageWishlist());
+  const { isWishlistUpdated } = useContext(GlobalContext);
+
+  const [ready, setReady] = useState(false);
+
+  const [openShareWishlistModal, setOpenShareWishlistModal] = useState(false);
+
+  const [openDropHintModal, setOpenDropHintModal] = useState(false);
+
+  const [wishlist, setWishlist] = useState(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
 
   const [dropHintData, setDropHintData] = useState(null);
 
   const { cfy = {}, diamond = {}, product = {}, bundle = {} } = products || {};
-
-  useEffect(() => {
-    setWishlist(getLocalStorageWishlist());
-  }, [isWishlistUpdated]);
 
   const getProductData = (id: string): any | undefined => {
     switch (true) {
@@ -69,10 +73,6 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
     }
   };
 
-  const [openShareWishlistModal, setOpenShareWishlistModal] = useState(false);
-
-  const [openDropHintModal, setOpenDropHintModal] = useState(false);
-
   const handleOpenShareWishlistModal = () => {
     setOpenShareWishlistModal(true);
   };
@@ -87,6 +87,12 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
     setOpenDropHintModal(false);
     setDropHintData(null);
   };
+
+  useEffect(() => {
+    setWishlist(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
+
+    if (!ready) setReady(true);
+  }, [isWishlistUpdated, isSharedWishlistPage, productListFromUrl, ready]);
 
   const wishlistResult = (
     <>
@@ -165,10 +171,13 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
 
   const isWishlistSlideOut = !isWishlistPage && !isSharedWishlistPage;
 
-  return isWishlistSlideOut ? (
-    <StyledWishlistSlideoutProductList>{result}</StyledWishlistSlideoutProductList>
-  ) : (
-    <StyledWishlistPageProductList>{result}</StyledWishlistPageProductList>
+  return (
+    ready &&
+    (isWishlistSlideOut ? (
+      <StyledWishlistSlideoutProductList>{result}</StyledWishlistSlideoutProductList>
+    ) : (
+      <StyledWishlistPageProductList>{result}</StyledWishlistPageProductList>
+    ))
   );
 };
 
