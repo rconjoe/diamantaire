@@ -1,6 +1,6 @@
+import { useAnalytics } from '@diamantaire/analytics';
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';

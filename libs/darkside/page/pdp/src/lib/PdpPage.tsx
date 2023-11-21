@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { PageViewTracker } from '@diamantaire/analytics';
 import { Breadcrumb, Form, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -14,7 +15,6 @@ import {
   ProductGWP,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';

@@ -1,7 +1,7 @@
 import { useCartData, useTopBar, useTopBarGWP } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
-import { getCountry, /* isCurrentTimeWithinInterval ,*/ replacePlaceholders } from '@diamantaire/shared/helpers';
+import { getCountry, isCurrentTimeWithinInterval, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -154,8 +154,8 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const {
     activeCountries,
     minSpendByCurrencyCode,
-    // promotionDateRangeStart,
-    // promotionDateRangeEnd,
+    promotionDateRangeStart,
+    promotionDateRangeEnd,
     announcementBarQualifiedCopy,
     announcementBarNonQualifiedCopy,
     announcementBarNothingInCartCopy,
@@ -189,7 +189,11 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                 const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy, enableGwp } = slide || {};
 
                 // Skips GWP slide if conditions are not met
-                const isWithinTimeframe = true; // isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+                const isWithinTimeframe =
+                  promotionDateRangeStart && promotionDateRangeEnd
+                    ? isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd)
+                    : false;
+
                 const isCountrySupported = activeCountries?.split(',')?.includes(countryCode) || activeCountries === '';
                 const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
 

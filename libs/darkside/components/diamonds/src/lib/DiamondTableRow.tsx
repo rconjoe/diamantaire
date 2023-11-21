@@ -1,6 +1,6 @@
+import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { GTM_EVENTS, useAnalytics } from '@diamantaire/darkside/context/analytics';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addItemToCart } from '@diamantaire/darkside/data/api';
