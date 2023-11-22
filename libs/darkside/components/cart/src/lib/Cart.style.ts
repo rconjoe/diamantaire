@@ -10,7 +10,7 @@ export const CartStyles = styled(motion.aside)`
   height: 100vh;
   z-index: 10000;
   background-color: #fff;
-  ${media.medium`width: 30%;`}
+  ${media.medium`width: 35%;`}
 
   .cart__header {
     text-align: center;

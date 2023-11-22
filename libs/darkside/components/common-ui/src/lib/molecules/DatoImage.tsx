@@ -10,6 +10,7 @@ type DatoImageProps = {
   isSVG?: boolean;
   image: DatoImageType;
   quality?: number;
+  enableDpr?: boolean;
 };
 
 const DatoImageContainer = styled.div`
@@ -29,7 +30,7 @@ const DatoImageContainer = styled.div`
 `;
 
 const DatoImage = (props: DatoImageProps) => {
-  const { image, className, overrideAlt, isSVG = false, quality = 50 } = props;
+  const { image, className, overrideAlt, isSVG = false, quality = 50, enableDpr = true } = props;
   let { shouldLazyLoad } = props;
   const { alt, responsiveImage } = image || {};
 
@@ -52,6 +53,7 @@ const DatoImage = (props: DatoImageProps) => {
     const params = {
       w: width.toString(),
       q: quality.toString(),
+      ...(enableDpr && { dpr: '2' }),
     };
 
     for (const [key, value] of Object.entries(params)) {

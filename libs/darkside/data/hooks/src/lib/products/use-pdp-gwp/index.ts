@@ -8,7 +8,10 @@ export type PDPGwpDataType = {
       promotionDateRangeEnd: string;
       promotionDateRangeStart: string;
       minSpendByCurrencyCode: Record<string, number>;
-      activeCountries: string;
+      gwpSupportedCountries: {
+        name: string;
+        code: string;
+      }[];
       giftProduct: {
         plpImage: DatoImageType;
       };

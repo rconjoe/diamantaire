@@ -3,6 +3,7 @@
 import { ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { useProductTrioBlock } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductTrioBlocksContainer = styled.div`
@@ -14,7 +15,8 @@ const ProductTrioBlocksContainer = styled.div`
 `;
 
 const ProductTrioBlocks = ({ trioBlocksId }) => {
-  const { data: { trioBlock: { blocks } = {} } = {} } = useProductTrioBlock(trioBlocksId, 'en_US');
+  const { locale } = useRouter();
+  const { data: { trioBlock: { blocks } = {} } = {} } = useProductTrioBlock(trioBlocksId, locale);
 
   return (
     <ProductTrioBlocksContainer className="container-wrapper">

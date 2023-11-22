@@ -1,5 +1,5 @@
-import { Heading, Markdown } from '@diamantaire/darkside/components/common-ui';
-import { ProductSpecProps, useProductSpec } from '@diamantaire/darkside/data/hooks';
+import { Heading, Markdown, UIString } from '@diamantaire/darkside/components/common-ui';
+import { ProductSpecProps, useProductSpec, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE, DIAMOND_TYPE_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import Link from 'next/link';
@@ -74,6 +74,8 @@ const ProductDescription = ({
   title,
   selectedConfiguration,
 }) => {
+  const { locale } = useRouter();
+
   const {
     productType,
     bandWidth: parentProductBandWidth,
@@ -112,7 +114,8 @@ const ProductDescription = ({
   } = variantAttributes || {};
 
   // Product Spec - These are the locale-based labels for the product
-  const { data } = useProductSpec(productSpecId, 'en_US') as ProductSpecProps;
+
+  const { data } = useProductSpec(productSpecId, locale) as ProductSpecProps;
   const labels = data?.productSpecLabelCollection?.labels;
 
   let refinedLabels = {};
@@ -243,7 +246,7 @@ const ProductDescription = ({
     DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]?.toLowerCase() +
     ' diamond';
 
-  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
 
   const isInUS = locale === DEFAULT_LOCALE;
 
@@ -253,7 +256,7 @@ const ProductDescription = ({
     description && (
       <ProductDescriptionContainer>
         <Heading type="h2" className="details-title">
-          {title ? title + ' Design' : 'Details'}
+          {title && locale !== 'en-US' ? title + ' Details' : title ? title + ' Design' : 'Details'}
         </Heading>
 
         {pdpSubTitle !== '' ? (
@@ -277,13 +280,15 @@ const ProductDescription = ({
                 return (
                   <li key={`er-label-${index}`}>
                     {label.title === 'shownWithCtw'
-                      ? `${shownWithCtwLabel}: ${label.value}`
-                      : refinedLabels[label.title] + ': ' + label.value}
+                      ? `${_t(shownWithCtwLabel)}: ${_t(label.value)}`
+                      : refinedLabels[label.title] + ': ' + _t(label.value)}
 
                     {label.title === 'paveCaratWeight' &&
                       (variantAttributes?.shape === 'Shape' || variantAttributes?.shape === '') && (
                         <span className="small">
-                          <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                          <Link href="/diamond-tolerance">
+                            <UIString>For precise weight please see tolerance specs.</UIString>
+                          </Link>
                         </span>
                       )}
                   </li>

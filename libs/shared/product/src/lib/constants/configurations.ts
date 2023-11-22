@@ -43,6 +43,19 @@ export const diamondSizeValues = ['petite', 'original', 'medium', 'large'] as co
 export const paveClusterValues = ['round', 'cushion'] as const;
 export const sideValues = ['left', 'right'] as const;
 
+export const plpDiamondValues = [
+  'round-brilliant',
+  'oval',
+  'emerald',
+  'marquise',
+  'cushion',
+  'pear',
+  'trillion',
+  'asscher',
+  'princess',
+  'radiant',
+] as const;
+
 export const standardDiamondTypeValues = [
   'round-brilliant',
   'oval',

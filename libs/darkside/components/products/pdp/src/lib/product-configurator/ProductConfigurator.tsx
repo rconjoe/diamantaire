@@ -166,6 +166,10 @@ function ProductConfigurator({
             disableVariantType={disableVariantType}
             hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
             productType={additionalVariantData?.productType}
+            diamondSpecs={{
+              color: additionalVariantData?.color,
+              clarity: additionalVariantData?.clarity,
+            }}
           />
 
           {/* Ring Size */}

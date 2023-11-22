@@ -51,9 +51,9 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                       <div className="col__inner">
                         <h4>
                           {newRoute !== '' ? (
-                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                            <Link href={getRelativeUrl(newRoute)}>{columnTitle}</Link>
                           ) : route !== '' ? (
-                            <Link href={getRelativeUrl(route)}>{columnTitle}</Link>
+                            <Link href={getRelativeUrl(newRoute)}>{columnTitle}</Link>
                           ) : (
                             columnTitle
                           )}
@@ -63,7 +63,7 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                             const {
                               linkKey,
                               nestedLinks,
-                              route: subMenuRoute,
+                              newRoute: subMenuRoute,
                               copy: nestedLinkCopy,
                               supportedCountries,
                               isBold,
@@ -78,10 +78,7 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
                             return (
                               isCountrySupported(supportedCountries, countryCode) && (
                                 <li key={`mm-c-${menuIndex}-col-${colIndex}`}>
-                                  <Link
-                                    href={getRelativeUrl(newRoute || subMenuRoute)}
-                                    className={iconType ? 'has-icon' : ''}
-                                  >
+                                  <Link href={getRelativeUrl(subMenuRoute)} className={iconType ? 'has-icon' : ''}>
                                     <>
                                       {linkKey && (
                                         <span className={iconType}>

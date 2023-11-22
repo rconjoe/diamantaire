@@ -62,7 +62,9 @@ const ProductSuggestionBlock = ({ id }) => {
         </Heading>
       </div>
       <div className="products">
-        {products?.map((product, index) => {
+        {products?.map((productNode, index) => {
+          const product = productNode?.product;
+
           return (
             <div className="product-suggestion__container" key={product?.id}>
               <div className="product-suggestion__inner">
@@ -78,7 +80,7 @@ const ProductSuggestionBlock = ({ id }) => {
                     <Heading type="h3" className="secondary product-suggestion__title">
                       {refinedTitles?.[index]?.title}
                     </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
                   </div>
                 </ProductLink>
               </div>

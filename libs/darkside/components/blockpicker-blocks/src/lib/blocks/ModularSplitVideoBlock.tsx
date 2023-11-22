@@ -1,5 +1,6 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { media, setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { PlayVideoTriangleIcon } from '@diamantaire/shared/icons';
+import { media } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -8,6 +9,7 @@ const ReactPlayer = dynamic(() => import('react-player/lazy'));
 
 const ModularSplitVideoBlockContainer = styled.div`
   padding-bottom: calc(var(--gutter) * 2);
+
   .split-video__wrapper {
     ${media.medium`display: flex;align-items: flex-end;`}
     > * {
@@ -34,7 +36,8 @@ const ModularSplitVideoBlockContainer = styled.div`
         width: 100%;
       }
 
-      .toggle-video {
+      .stop-video,
+      .start-video {
         position: absolute;
         left: 0;
         top: 0;
@@ -44,46 +47,24 @@ const ModularSplitVideoBlockContainer = styled.div`
         border: none;
       }
 
-      .video-block__icon-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+      .start-video {
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
       }
 
-      .video-block__icon {
-        text-align: center;
+      .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(255, 255, 255, 0.5);
-        height: ${setSpace(6)};
-        width: ${setSpace(6)};
+        height: 10rem;
+        width: 10rem;
+        background-color: rgb(158 158 158 / 56%);
         border-radius: 50%;
-        ${tabletAndUp(`
-      height: ${setSpace(12)};
-      width: ${setSpace(12)};
-    `)};
-
-        transition: opacity 0.33s ease;
-
-        &.videoPlaying {
-          opacity: 0;
-        }
 
         svg {
-          height: ${setSpace(3)};
-          width: ${setSpace(3)};
-          padding-left: ${setSpace(0.5)};
-          ${tabletAndUp(`
-            height: ${setSpace(6)};
-            width: ${setSpace(6)};
-            padding-left: ${setSpace(1)};
-        `)};
+          position: relative;
+          left: 0.5rem;
         }
       }
     }
@@ -106,7 +87,8 @@ const ModularSplitVideoBlockContainer = styled.div`
 `;
 
 const ModularSplitVideoBlock = (props) => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [hasVideoInitialized, setHasVideoInitialized] = useState(false);
   const { copy, title, videoSources, thumbnail } = props;
 
   const videoUrls = videoSources?.map((video) => video?.url);
@@ -121,28 +103,37 @@ const ModularSplitVideoBlock = (props) => {
             url={videoUrls}
             playsinline
             ref={playerRef}
-            playing={true}
+            playing={isVideoPlaying}
             className="react-player"
             width="100%"
-            muted={true}
             loop={true}
             controls={false}
             light={thumbnail?.url}
+            playIcon={
+              <div className="icon-wrapper">
+                <PlayVideoTriangleIcon />
+              </div>
+            }
             config={{
               file: {
                 attributes: { title },
               },
             }}
-            onPlay={() => setIsVideoPlaying(true)}
-            onPause={() => setIsVideoPlaying(false)}
+            onPlay={() => setHasVideoInitialized(true)}
           />
-          {isVideoPlaying && (
-            <button
-              className="toggle-video"
-              onClick={() => {
-                setIsVideoPlaying(!isVideoPlaying);
-              }}
-            ></button>
+
+          {hasVideoInitialized && (
+            <>
+              {!isVideoPlaying ? (
+                <button className="start-video" onClick={() => setIsVideoPlaying(true)}>
+                  <div className="icon-wrapper">
+                    <PlayVideoTriangleIcon />
+                  </div>
+                </button>
+              ) : (
+                <button className="stop-video" onClick={() => setIsVideoPlaying(false)}></button>
+              )}
+            </>
           )}
         </div>
         <div className="split-video__content">

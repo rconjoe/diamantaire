@@ -544,6 +544,11 @@ export function getFormattedPrice(
     currencySymbol = 'CA' + currencySymbol;
   }
 
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
+  }
+
   formattedPrice = `${currencySymbol}${formattedPrice}`;
 
   return formattedPrice;
@@ -553,8 +558,7 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
 
-  const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
-  const convertedPrice = priceInDollars;
+  const convertedPrice = priceInCents / 100;
 
   const numberFormat = new Intl.NumberFormat(locale, {
     currency,
@@ -579,6 +583,10 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
   // Canada symbol
   if (countryCode === 'CA') {
     currencySymbol = 'CA' + currencySymbol;
+  }
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
   }
 
   formattedPrice = `${currencySymbol}${formattedPrice}`;

@@ -1,13 +1,19 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 type BlockProductProps = {
   products: {
-    id: string;
-    productType: string;
-    productSlug: string;
-    collectionSlug: string;
-    collectionTitle: string;
+    product: {
+      id: string;
+      productType: string;
+      productSlug: string;
+      collectionSlug: string;
+      collectionTitle: string;
+    };
+    content: {
+      plpImage: DatoImageType;
+    };
   }[];
   lowestPricesByCollection;
 };

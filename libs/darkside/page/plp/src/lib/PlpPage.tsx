@@ -29,6 +29,7 @@ type PlpPageProps = {
   initialFilterValues: FilterValueProps;
   dehydratedState: DehydratedState;
   urlFilterMethod: 'facet' | 'param' | 'none';
+  filterOptions?: Record<string, string[]>;
 };
 
 type FilterQueryValues = {
@@ -47,12 +48,23 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     rootMargin: '800px',
   });
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
+
+  console.log('initialFilterValues', initialFilterValues);
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
-  const { breadcrumb, hero, promoCardCollection, creativeBlocks, seo, showHeroWithBanner, subcategoryFilter, sortOptions } =
-    plpData || {};
+  const {
+    breadcrumb,
+    hero,
+    promoCardCollection,
+    creativeBlocks,
+    seo,
+    showHeroWithBanner,
+    subcategoryFilter,
+    sortOptions,
+    filterOptions: filterOptionsOverride,
+  } = plpData || {};
   const { seoTitle, seoDescription } = seo || {};
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(
     category,
@@ -145,11 +157,12 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         urlFilterMethod={urlFilterMethod}
         plpSlug={router.query.plpSlug as string}
         sortOptions={sortOptions}
+        filterOptionsOverride={filterOptionsOverride}
         handleSortChange={handleSortChange}
       />
       <div ref={pageEndRef} />
-      <PlpBlockPicker plpSlug={plpSlug} />
       <PlpPreviouslyViewed />
+      <PlpBlockPicker plpSlug={plpSlug} />
     </div>
   );
 }
@@ -255,6 +268,8 @@ function getValidFiltersFromFacetedNav(
   const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
 
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
+  // For when diamond is a param (not faceted)
+  const diamondFromQuery = Object.values(DiamondTypes).find((diamondType) => diamondType === query?.diamondType?.toString());
 
   const facetOrder = [];
 
@@ -306,6 +321,8 @@ function getValidFiltersFromFacetedNav(
 
   if (diamondTypeParamIndex !== -1) {
     filterOptions['diamondType'] = params[diamondTypeParamIndex];
+  } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
+    filterOptions['diamondType'] = diamondFromQuery;
   }
 
   return filterOptions;

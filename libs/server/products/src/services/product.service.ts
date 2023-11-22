@@ -3,7 +3,14 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP, PRODUCT_BRIEF_CONTENT } from '@diamantaire/darkside/data/api';
+import {
+  PLP_QUERY,
+  CONFIGURATIONS_LIST,
+  ERPDP,
+  JEWELRYPRODUCT,
+  WEDDING_BAND_PDP,
+  PRODUCT_BRIEF_CONTENT,
+} from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
@@ -18,6 +25,7 @@ import {
   getProductConfigMatrix,
   ProductNode,
   sortMetalTypes,
+  sortDiamondTypes,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -29,11 +37,11 @@ import {
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
-import  { Variables } from 'graphql-request'
+import { Variables } from 'graphql-request';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
+import { ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import {
   findCanonivalVariant,
@@ -108,7 +116,7 @@ export class ProductsService {
       // get product content from Dato
       const productContentMap = await this.findProductContent(products, locale);
 
-      // Get lowest prices for unique set of collections 
+      // Get lowest prices for unique set of collections
       const collectionSet = products.reduce((acc, product) => {
         acc.add(product.collectionSlug);
 
@@ -138,7 +146,7 @@ export class ProductsService {
     }
   }
 
-  async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]>{
+  async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]> {
     try {
       const products = await this.productRepository.find({
         productSlug: { $in: productSlugs },
@@ -157,7 +165,7 @@ export class ProductsService {
 
   async findProductContent(products: VraiProduct[], locale: string) {
     const productTypeMap = products.reduce((map: Record<string, VraiProduct[]>, product) => {
-      if (!map[product.productType]){
+      if (!map[product.productType]) {
         map[product.productType] = [product];
       } else {
         map[product.productType].push(product);
@@ -166,36 +174,43 @@ export class ProductsService {
       return map;
     }, {});
 
-    const nonJewelryProducts = [...(productTypeMap[ProductType.EngagementRing] || []), ...(productTypeMap[ProductType.WeddingBand] || [])];
+    const nonJewelryProducts = [
+      ...(productTypeMap[ProductType.EngagementRing] || []),
+      ...(productTypeMap[ProductType.WeddingBand] || []),
+    ];
     const jewelryProducts = [
-      ...(productTypeMap[ProductType.Ring] || []), 
+      ...(productTypeMap[ProductType.Ring] || []),
       ...(productTypeMap[ProductType.Bracelet] || []),
       ...(productTypeMap[ProductType.Necklace] || []),
       ...(productTypeMap[ProductType.Earrings] || []),
     ];
 
-    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<{ allConfigurations: object[]; allOmegaProducts: object[]; }, { productHandles: string[]; variantIds: string[]; locale: string}>({
+    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<
+      { allConfigurations: object[]; allOmegaProducts: object[] },
+      { productHandles: string[]; variantIds: string[]; locale: string }
+    >({
       query: PRODUCT_BRIEF_CONTENT,
       variables: {
-      productHandles: nonJewelryProducts.map(p => p.contentId),
-      variantIds: jewelryProducts.map(p => p.contentId),
-      locale
-    }});
+        productHandles: nonJewelryProducts.map((p) => p.contentId),
+        variantIds: jewelryProducts.map((p) => p.contentId),
+        locale,
+      },
+    });
 
     const productContent = [...allConfigurations, ...allOmegaProducts];
 
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
-      
       map[product.productSlug] = {
         product,
-        content: productContent.find(pc => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId)
-      }
+        content: productContent.find(
+          (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
+        ),
+      };
 
       return map;
     }, {});
 
-    return productContentMap
-
+    return productContentMap;
   }
 
   /**
@@ -683,26 +698,26 @@ export class ProductsService {
     slug,
     category,
     locale = 'en_US',
-    metal,
-    diamondType,
+    metals,
+    diamondTypes,
     priceMin,
     priceMax,
-    style,
-    subStyle,
+    styles,
+    subStyles,
     page,
     limit,
     sortBy,
     sortOrder,
-  }: PlpInput) {
+  }: PlpQuery) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
-      metal,
-      diamondType,
+      metals,
+      diamondTypes,
       priceMin,
       priceMax,
       page,
       limit,
-      style,
-      subStyle,
+      styles,
+      subStyles,
       sortBy,
       sortOrder,
     })}`;
@@ -731,8 +746,8 @@ export class ProductsService {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
         plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
-          metal,
-          diamondType,
+          metals,
+          diamondTypes,
           page,
           limit,
         });
@@ -776,12 +791,12 @@ export class ProductsService {
       }
 
       const getFiltersQuery = ({
-        m,
-        dT,
+        ms,
+        dTs,
         pMin,
         pMax,
-        stylesFilter,
-        subStylesFilter,
+        stylesFilters,
+        subStylesFilters,
       }): FilterQuery<{
         'configuration.metal'?: string;
         'configuration.diamondType'?: string;
@@ -790,11 +805,11 @@ export class ProductsService {
       }>[] => {
         const query = [];
 
-        if (m) {
-          query.push({ 'configuration.metal': m });
+        if (ms && ms.length > 0) {
+          query.push({ 'configuration.metal': { $in: ms } });
         }
-        if (dT) {
-          query.push({ 'configuration.diamondType': dT });
+        if (dTs && dTs.length > 0) {
+          query.push({ 'configuration.diamondType': { $in: dTs } });
         }
 
         if (typeof pMin !== 'undefined') {
@@ -804,25 +819,27 @@ export class ProductsService {
           query.push({ price: { $lte: priceMax } });
         }
 
-        if (typeof stylesFilter !== 'undefined') {
-          query.push({ styles: stylesFilter });
+        if (typeof stylesFilters !== 'undefined' && stylesFilters.length > 0) {
+          query.push({ styles: { $in: stylesFilters } });
         }
 
-        if (typeof subStylesFilter !== 'undefined') {
-          query.push({ subStyles: subStylesFilter });
+        if (typeof subStylesFilters !== 'undefined' && subStylesFilters.length > 0) {
+          query.push({ subStyles: { $in: subStylesFilters } });
         }
 
         return query;
       };
 
       const filterQueries = getFiltersQuery({
-        m: metal,
-        dT: diamondType,
+        ms: metals,
+        dTs: diamondTypes,
         pMin: priceMin,
         pMax: priceMax,
-        stylesFilter: style,
-        subStylesFilter: subStyle,
+        stylesFilters: styles,
+        subStylesFilters: subStyles,
       });
+
+      console.log(filterQueries)
 
       // Build Query
       const pipeline: PipelineStage[] = [
@@ -883,7 +900,7 @@ export class ProductsService {
 
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes,
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1087,7 +1104,7 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
-    { metal, diamondType, page = 1, limit = 12 }: { metal: string; diamondType: string; page?: number; limit: number },
+    { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
@@ -1097,8 +1114,8 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
-              'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypes || ['round-brilliant'] }, // always has a filter applied
+              'configuration.metal': { $in: metals || ['yellow-gold'] }, // always has a filter applied
               ...getDraftQuery(),
             },
           },
@@ -1254,7 +1271,7 @@ export class ProductsService {
 
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes,
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1442,7 +1459,13 @@ export class ProductsService {
     }
   }
 
-  async getDatoContent<TData, TVars extends Variables>({ query, variables }: { query: string; variables: TVars }): Promise<TData> {
+  async getDatoContent<TData, TVars extends Variables>({
+    query,
+    variables,
+  }: {
+    query: string;
+    variables: TVars;
+  }): Promise<TData> {
     try {
       const response = await this.utils.createDataGateway().request<TData, any>(query, variables);
 
@@ -1456,17 +1479,16 @@ export class ProductsService {
   async datoConfigurationsAndProductContent({
     jewelryIds = [],
     nonJewelryIds = [],
-    locale = "en_US",
+    locale = 'en_US',
     first = 100,
     skip = 0,
   }: {
     jewelryIds?: string[];
     nonJewelryIds?: string[];
-    locale
+    locale;
     first?: number;
     skip?: number;
   }): Promise<any> {
-
     this.logger.verbose(`Getting Dato configurations & products for a list of products`);
     // const cachedKey = `configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
     let response; // = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
@@ -1704,6 +1726,25 @@ export class ProductsService {
       throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
   }
+}
+
+type PlpQuery = {
+  slug: string,
+  category: string,
+  locale: string,
+  page,
+  limit,
+  sortBy,
+  sortOrder,
+} & PlpFilters;
+
+type PlpFilters = { 
+  metals: string[],
+  diamondTypes: string[],
+  priceMin: number,
+  priceMax: number,
+  styles: string[],
+  subStyles: string[],
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {

@@ -24,15 +24,29 @@ const PlpProductGridStyles = styled.div`
     position: sticky;
     top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
     z-index: 100;
+    background-color: var(--color-white);
 
     .grid-controls {
       display: flex;
       align-items: start;
       justify-content: space-between;
+      padding: 0 1rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 0;
+      }
     }
 
     .sort {
       padding-top: 8px;
+    }
+  }
+
+  .product-grid {
+    padding: 0 1rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0;
     }
   }
 
@@ -73,6 +87,10 @@ type PlpProductGridProps = {
   urlFilterMethod: 'facet' | 'param' | 'none';
   handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
   sortOptions: PlpBasicFieldSortOption[];
+  filterOptionsOverride?: {
+    filterLabel: string;
+    filterValue: string;
+  }[];
 };
 
 const PlpProductGrid = ({
@@ -91,6 +109,7 @@ const PlpProductGrid = ({
   urlFilterMethod,
   sortOptions,
   handleSortChange,
+  filterOptionsOverride,
 }: PlpProductGridProps) => {
   const router = useRouter();
   const { headerHeight } = useGlobalContext();
@@ -148,6 +167,7 @@ const PlpProductGrid = ({
               setFilterValues={setFilterValues}
               urlFilterMethod={urlFilterMethod}
               plpSlug={plpSlug}
+              filterOptionsOverride={filterOptionsOverride}
             />
           </div>
           <div className="sort">
@@ -156,7 +176,7 @@ const PlpProductGrid = ({
         </div>
       </div>
 
-      <div className="container-wrapper">
+      <div className="container-wrapper product-grid">
         <div className="product-grid__row ">
           {products?.length > 0 &&
             products?.map((product, gridItemIndex) => {

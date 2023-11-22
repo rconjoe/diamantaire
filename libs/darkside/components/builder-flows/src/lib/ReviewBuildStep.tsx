@@ -38,8 +38,6 @@ import { v4 as uuidv4 } from 'uuid';
 import SummaryItem from './SummaryItem';
 
 const ReviewBuildStepStyles = styled(motion.div)`
-  height: 100vh;
-  overflow-y: scroll;
   padding: 20px 20px 140px;
 
   .review-wrapper {
@@ -53,10 +51,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
       > .image {
         padding: 0 10px;
         flex: 1;
-      }
-
-      .diamond-image {
         display: flex;
+
+        > div {
+          display: flex;
+        }
 
         img {
           object-fit: cover;
@@ -565,7 +564,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     </DarksideButton>
                   </li>
                   <li>
-                    <ProductAppointmentCTA />
+                    <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
               </div>

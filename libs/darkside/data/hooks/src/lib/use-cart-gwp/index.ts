@@ -1,5 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoDarksideButtonProps, DatoImageType } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 export type CartGwpDataType = {
@@ -9,7 +9,10 @@ export type CartGwpDataType = {
       promotionDateRangeEnd: string;
       promotionDateRangeStart: string;
       minSpendByCurrencyCode: Record<string, number>;
-      activeCountries: string;
+      gwpSupportedCountries: {
+        code: string;
+        name: string;
+      }[];
       giftProduct: {
         plpImage: DatoImageType;
       };
@@ -24,6 +27,7 @@ export type CartGwpDataType = {
       cartNonQualifiedBackgroundColor: {
         hex: string;
       };
+      cartNonQualifiedCta: DatoDarksideButtonProps[];
     }>;
   }>;
 };
