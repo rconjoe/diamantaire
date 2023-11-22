@@ -47,7 +47,7 @@ const WishlistSlideOut: React.FC = () => {
       <AnimatePresence>
         {isWishlistOpen && (
           <SlideOut
-            title={content.modalTitle}
+            title={content?.modalTitle}
             onClose={handleClose}
             width={isMobile ? '100%' : '40rem'}
             className="slideout"
