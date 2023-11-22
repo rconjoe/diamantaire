@@ -15,6 +15,7 @@ import { DarksideButton, DatoImage, Form, FormSchemaType, Heading, Markdown, Mod
 const EmailPopUpStyles = styled.div`
   .wrapper {
     max-width: 860px !important;
+    border-radius: 0 !important;
   }
   .modal-emailpopup-wrapper {
     overflow-y: auto;
@@ -42,7 +43,7 @@ const EmailPopUpStyles = styled.div`
         padding: 2rem;
         flex: 1;
         margin: 0 auto;
-        ${media.medium`padding: 0;max-width: 450px;`}
+        ${media.medium`max-width: 450px;`}
         h2 {
           margin-bottom: 1rem;
         }
@@ -70,33 +71,54 @@ const EmailPopUpStyles = styled.div`
 const EmailPopUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showOptIn, setShowOptIn] = useState(false);
-  const [userCountryCode, setUserCountryCode] = useState(null);
+
   // showOptIn is true if isUserInEurope is true
   const router = useRouter();
 
   const { locale, pathname } = router || {};
 
-  const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
-
-  useEffect(() => {
+  const initializeUserState = () => {
     const isUserInEu = getIsUserInEu();
-    const countryCode = getUserCountry();
-    const isUserInUs = countryCode === 'US';
 
     if (isUserInEu) {
       setShowOptIn(true);
     }
-    if (countryCode) {
-      setUserCountryCode(countryCode);
-    }
-    const shouldOpenEmailPopup = shouldRenderOnThisPage && !Cookies.get('email-popup') && !isUserInUs;
+  };
 
-    if (shouldOpenEmailPopup) {
-      // Set a timeout to open the email popup after 20 seconds
-      setTimeout(openEmailPopup, 20000);
+  const shouldShowEmailPopup = () => {
+    // Check if the pop-up should render on this page
+    const shouldRenderOnThisPage = getShouldRenderOnThisPage(pathname);
+
+    // Check if the 'email-popup' cookie is set (pop-up was recently closed)
+    const isEmailPopupCookieSet = !!Cookies.get('email-popup');
+
+    // Check if the 'hbe' cookie is set (user has already subscribed)
+    const isHbeCookieSet = !!Cookies.get('hbe');
+
+    // Show the pop-up if it should render on this page,
+    // and neither the 'email-popup' nor 'hbe' cookies are set
+    return shouldRenderOnThisPage && !isEmailPopupCookieSet && !isHbeCookieSet;
+  };
+
+  const setupEmailPopup = () => {
+    initializeUserState();
+    if (shouldShowEmailPopup()) {
+      return setTimeout(openEmailPopup, 30000);
     }
+  };
+
+  useEffect(() => {
+    if (Cookies.get('hbe')) return; // Check for hubspot cookie
+    const timeoutId = setupEmailPopup();
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
+  const countryCode = getUserCountry();
   const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
   const {
     title,
@@ -115,16 +137,10 @@ const EmailPopUp = () => {
     optInCopy,
   } = emailPopUpContent || {};
 
-  function toggleModal() {
-    if (isModalOpen) {
-      setIsModalOpen(false);
-    } else {
-      setIsModalOpen(true);
-    }
-  }
-  const userTitle = getUserTitle({ title, countryCode: userCountryCode, dataPrices: copyPrices?.prices });
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
+  const userTitle = getUserTitle({ title, countryCode, dataPrices: copyPrices?.prices });
   const userCopy = selectCountrySpecificCopy({
-    userCountryCode,
+    countryCode,
     countrySpecificCopy,
     copy,
   });
@@ -152,18 +168,17 @@ const EmailPopUp = () => {
           phone,
           listData: HUBSPOT_EMAIL_POPUP_LISTDATA,
           isConsent,
-          countryCode: userCountryCode,
+          countryCode,
           locale,
           smsSubscription,
           smsConsentSource,
           sendSMS,
         });
-
+        Cookies.set('email-popup', 'true', { expires: 365 }); //fallback if hubspot not loaded via gtm
         toast.success(successCopy, {
           autoClose: 3000,
         });
         setIsModalOpen(false);
-        setEmailPopupCookies();
       }
     } catch (error) {
       toast.error(errorCopy, {
@@ -183,9 +198,9 @@ const EmailPopUp = () => {
   };
 
   const setEmailPopupCookies = () => {
-    Cookies.set('email-popup', 'true', { expires: 30 });
+    Cookies.set('email-popup', 'true', { expires: 7 });
   };
-  const lowercaseUserCountryCode = userCountryCode?.toLowerCase();
+  const lowercaseUserCountryCode = countryCode?.toLowerCase();
   const schema: FormSchemaType[] = [
     {
       inputType: 'email',
@@ -202,53 +217,51 @@ const EmailPopUp = () => {
     },
   ];
 
-  if (isModalOpen) {
-    return (
-      <EmailPopUpStyles>
-        <Modal title={false} onClose={() => toggleModal()} onCloseIcon={handleClose} className="modal--position-bottom-left">
-          <div className="modal-emailpopup-wrapper">
-            <div className="emailpopup-image">
-              <DatoImage image={image} />
-            </div>
-            <div className="emailpopup-content">
-              <div className="emailpopup-content__inner">
-                <Heading type="h2" className="h1 primary">
-                  {userTitle}
-                </Heading>
-                <Markdown>{userCopy}</Markdown>
-                {userCountryCode ? (
-                  <Form
-                    onSubmit={onSubmit}
-                    formGridStyle="single"
-                    stackedSubmit={true}
-                    showOptIn={showOptIn}
-                    ctaCopy={submitCopy}
-                    optInCopy={optInCopy}
-                    extraClass="-links-teal -opt-in"
-                    isValid={isValid}
-                    setIsValid={setIsValid}
-                    schema={schema}
-                  />
-                ) : null}
-                <DarksideButton type="text-underline" onClick={handleClose} colorTheme="teal" className="button--decline">
-                  <UIString>Decline Offer</UIString>
-                </DarksideButton>
-              </div>
+  if (!isModalOpen) return null;
+
+  return (
+    <EmailPopUpStyles>
+      <Modal title={false} onClose={() => toggleModal()} onCloseIcon={handleClose} className="modal--position-bottom-left">
+        <div className="modal-emailpopup-wrapper">
+          <div className="emailpopup-image">
+            <DatoImage image={image} />
+          </div>
+          <div className="emailpopup-content">
+            <div className="emailpopup-content__inner">
+              <Heading type="h2" className="h1 primary">
+                {userTitle}
+              </Heading>
+              <Markdown>{userCopy}</Markdown>
+
+              <Form
+                onSubmit={onSubmit}
+                formGridStyle="single"
+                stackedSubmit={true}
+                showOptIn={showOptIn}
+                ctaCopy={submitCopy}
+                optInCopy={optInCopy}
+                extraClass="-links-teal -opt-in"
+                isValid={isValid}
+                setIsValid={setIsValid}
+                schema={schema}
+              />
+
+              <DarksideButton type="text-underline" onClick={handleClose} colorTheme="teal" className="button--decline">
+                <UIString>Decline Offer</UIString>
+              </DarksideButton>
             </div>
           </div>
-        </Modal>
-      </EmailPopUpStyles>
-    );
-  }
-
-  return;
+        </div>
+      </Modal>
+    </EmailPopUpStyles>
+  );
 };
 
 export { EmailPopUp };
 
-export const selectCountrySpecificCopy = ({ userCountryCode, countrySpecificCopy, copy }) => {
+export const selectCountrySpecificCopy = ({ countryCode, countrySpecificCopy, copy }) => {
   if (countrySpecificCopy && Array.isArray(countrySpecificCopy)) {
-    const userCopyData = countrySpecificCopy.find((data) => data.countryCode === userCountryCode);
+    const userCopyData = countrySpecificCopy.find((data) => data.countryCode === countryCode);
 
     if (userCopyData) {
       return userCopyData.copy;
@@ -317,8 +330,8 @@ export function getUserTitle({ title = '', countryCode = 'US', dataPrices = [] }
  * from the next/router module. This is a blacklist for
  * which pages should not show the email popup.
  *
- * @param {String} pagePathname
- * @returns {Boolean}
+ * @param {string} pagePathname - The pathname of the current page.
+ * @returns {boolean} - Returns true if the popup should render, false otherwise.
  */
 export default function getShouldRenderOnThisPage(pagePathname) {
   const blockedPages = [
