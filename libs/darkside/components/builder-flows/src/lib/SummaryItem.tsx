@@ -10,22 +10,22 @@ const SummaryItemStyles = styled.div`
   .summary-item {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
 
     .item__image {
-      flex: 0 0 120px;
-      margin-right: 20px;
+      flex: 0 0 12rem;
+      margin-right: 2rem;
     }
 
     .item__content {
       h4 {
         font-size: 1.6rem;
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
       }
 
       p {
         font-size: 1.5rem;
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
         color: #777;
       }
 
@@ -37,7 +37,7 @@ const SummaryItemStyles = styled.div`
           font-size: 1.6rem;
           color: #777;
           span {
-            margin-right: 5px;
+            margin-right: 0.5rem;
             font-weight: bold;
             color: #000;
           }
@@ -46,11 +46,11 @@ const SummaryItemStyles = styled.div`
     }
     .item__edit-toggle {
       flex: 1;
-      margin-left: 10px;
+      margin-left: 1rem;
       text-align: right;
 
       .price {
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
       }
 
       a,

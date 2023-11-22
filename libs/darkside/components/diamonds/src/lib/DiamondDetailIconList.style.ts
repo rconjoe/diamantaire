@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledDiamondDetailIconList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.4rem;
 
   .icon-list-item {
     display: flex;
@@ -20,16 +20,16 @@ const StyledDiamondDetailIconList = styled.div`
     }
 
     .icon {
-      width: 15px;
-      transform: translate(0, 2px);
-      margin-right: 15px;
+      width: 1.5rem;
+      transform: translate(0, 0.2rem);
+      margin-right: 1.5rem;
     }
   }
 
   .waranty-link {
     .icon {
-      width: 13px;
-      margin-left: 1px;
+      width: 1.3rem;
+      margin-left: 0.1rem;
     }
 
     p {
@@ -44,10 +44,10 @@ const StyledDiamondDetailIconList = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid var(--color-teal);
-    height: 12px;
-    width: 12px;
-    margin-left: 6px;
+    border: 0.1rem solid var(--color-teal);
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-left: 0.6rem;
 
     * {
       font-size: var(--font-size-xxxxxsmall);

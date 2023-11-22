@@ -2,7 +2,7 @@ import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyAccordion = styled.div`
-  border-top: 1px solid var(--color-lighter-grey);
+  border-top: 0.1rem solid var(--color-lighter-grey);
   margin: 2rem 0 0;
 
   ${desktopAndUp(`

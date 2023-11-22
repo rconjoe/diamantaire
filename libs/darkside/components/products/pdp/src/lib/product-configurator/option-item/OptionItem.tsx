@@ -92,17 +92,17 @@ const StyledOptionItem = styled.button`
 
 const StyledRoundOptionItem = styled(StyledOptionItem)`
   border-radius: 50%;
-  padding: 3px;
-  height: 38px;
-  width: 38px;
+  padding: 0.3rem;
+  height: 3.8rem;
+  width: 3.8rem;
   .inner {
-    border: 1.5px solid transparent;
+    border: 1.5rem solid transparent;
     border-radius: 50%;
     width: 100%;
     height: 100%;
   }
   &.selected {
-    border: 1px solid var(--color-teal);
+    border: 0.1rem solid var(--color-teal);
   }
 `;
 
@@ -113,13 +113,13 @@ interface OptionItemComponent extends OptionItemProps {
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   &.selected {
-    border-bottom: 2px solid var(--color-teal);
-    padding-bottom: 5px;
+    border-bottom: 0.2rem solid var(--color-teal);
+    padding-bottom: 0.5rem;
   }
 
   .icon {
     svg {
-      height: 32px;
+      height: 3.2rem;
       width: auto;
       margin: 0 auto;
     }
@@ -184,7 +184,7 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
   }
   &.white {
     .inner {
-      border: 1px solid #000;
+      border: 0.1rem solid #000;
     }
   }
   &.turquoise {
@@ -208,8 +208,8 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 }
 
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
-  height: 45px;
-  width: 45px;
+  height: 4.5rem;
+  width: 4.5rem;
   img {
     border-radius: 50%;
   }
@@ -239,10 +239,10 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 }
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`
-  border: 1px solid #d8d6d1;
-  padding: 5px;
-  min-width: 36px;
-  min-height: 36px;
+  border: 0.1rem solid #d8d6d1;
+  padding: 0.5rem;
+  min-width: 3.6rem;
+  min-height: 3.6rem;
   text-align: center;
   font-size: 1.3rem;
   color: var(--color-black);

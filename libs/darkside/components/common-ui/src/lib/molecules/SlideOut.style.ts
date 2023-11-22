@@ -69,9 +69,9 @@ export const SlideOutWrapper = styled(motion.aside)`
     position: absolute;
     right: 0;
     top: 0;
-    line-height: 30px;
-    width: 40px;
-    height: 40px;
+    line-height: 3rem;
+    width: 4rem;
+    height: 4rem;
     cursor: pointer;
     background: transparent;
     display: flex;

@@ -14,28 +14,28 @@ const DiamondGridStyles = styled.div`
 
     > * {
       flex: 0 0 25%;
-      margin-bottom: 20px;
-      padding: 0 10px;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
 
       .diamond-content {
-        padding-top: 10px;
+        padding-top: 1rem;
         display: flex;
         ul {
           /* display: flex;
           flex-wrap: wrap; */
           li {
-            margin-right: 10px;
-            margin-bottom: 10px;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
             display: inline-block;
 
             span {
               font-size: 1.3rem;
               background-color: #fff;
-              border: 1px solid #ccc;
+              border: 0.1rem solid #ccc;
               color: #000;
               display: inline-block;
-              border-radius: 5px;
-              padding: 2px 5px;
+              border-radius: 0.5rem;
+              padding: 0.2rem 0.5rem;
             }
           }
         }
@@ -44,7 +44,7 @@ const DiamondGridStyles = styled.div`
         }
       }
       .diamond-content__details-toggle {
-        flex: 0 0 80px;
+        flex: 0 0 8rem;
         text-align: right;
         button {
           font-size: 1.4rem;
@@ -52,7 +52,7 @@ const DiamondGridStyles = styled.div`
       }
 
       .diamond-grid-item__cta {
-        margin-top: 10px;
+        margin-top: 1rem;
       }
     }
   }

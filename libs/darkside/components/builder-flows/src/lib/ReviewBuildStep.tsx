@@ -38,7 +38,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SummaryItem from './SummaryItem';
 
 const ReviewBuildStepStyles = styled(motion.div)`
-  padding: 20px 20px 140px;
+  padding: 2rem 2rem 14rem;
 
   .review-wrapper {
     display: flex;
@@ -46,10 +46,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
     .product-images {
       flex: 2;
       display: flex;
-      margin: 0 -10px;
+      margin: 0 -1rem;
 
       > .image {
-        padding: 0 10px;
+        padding: 0 1rem;
         flex: 1;
         display: flex;
 
@@ -68,28 +68,28 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .product-summary__inner {
         position: relative;
-        padding: 20px 40px;
-        max-width: 550px;
+        padding: 2rem 4rem;
+        max-width: 55rem;
         margin: 0 auto;
 
         h1 {
-          /* margin-bottom: 20px; */
+          /* margin-bottom: 2rem; */
         }
 
         .total-price {
-          margin-bottom: 20px;
+          margin-bottom: 2rem;
         }
       }
 
       .builder-summary__content {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 0.1rem solid #ccc;
       }
     }
 
     .ring-size-container {
-      margin: 20px 0 0;
+      margin: 2rem 0 0;
       .selector-label {
-        margin: 0 0 10px;
+        margin: 0 0 1rem;
       }
 
       h4 {
@@ -98,13 +98,13 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .engraving-container {
-      padding: 20px 0;
+      padding: 2rem 0;
 
       .engraving-prompt-text {
         display: flex;
         align-items: center;
         p {
-          margin-left: 5px;
+          margin-left: 0.5rem;
           display: inline-block;
         }
       }
@@ -115,7 +115,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
         p {
           span {
             font-weight: bold;
-            margin-right: 7px;
+            margin-right: 0.7rem;
           }
         }
 
@@ -126,26 +126,26 @@ const ReviewBuildStepStyles = styled(motion.div)`
       }
 
       .engraving-input-container {
-        margin: 20px 0;
+        margin: 2rem 0;
         input {
-          border: 1px solid #ccc;
-          height: 40px;
+          border: 0.1rem solid #ccc;
+          height: 4rem;
           width: 100%;
-          padding-left: 10px;
+          padding-left: 1rem;
         }
 
         p {
           font-size: 1.3rem;
-          margin: 5px 0 20px;
+          margin: 0.5rem 0 2rem;
         }
       }
     }
 
     .review-atc {
-      padding: 20px 0 0;
+      padding: 2rem 0 0;
       ul {
         li {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
           &:last-child {
             margin-bottom: 0px;
           }
@@ -155,7 +155,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
   .product-icon-list-container > ul {
     margin: 0;
-    padding-top: 20px;
+    padding-top: 2rem;
   }
 `;
 

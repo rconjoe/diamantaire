@@ -5,7 +5,7 @@ const StyledDiamondFilter = styled.aside`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2rem;
 
   .vo-filter {
     width: 100%;
@@ -17,8 +17,8 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-title {
     display: flex;
     align-items: center;
-    gap: 5px;
-    width: 90px;
+    gap: 0.5rem;
+    width: 9rem;
 
     .title {
       font-weight: 500;
@@ -29,10 +29,10 @@ const StyledDiamondFilter = styled.aside`
 
   .vo-filter-radio .vo-filter-list {
     justify-content: flex-start;
-    gap: 5px;
+    gap: 0.5rem;
 
     ${desktopAndUp(`
-      gap: 10px;
+      gap: 1rem;
     `)}
   }
 
@@ -70,7 +70,7 @@ const StyledDiamondFilter = styled.aside`
     padding: 0.4rem 0.2rem;
     display: flex;
     justify-content: center;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
   }
 
   .vo-filter-list-item a:hover,
@@ -81,7 +81,7 @@ const StyledDiamondFilter = styled.aside`
   .vo-filter-list-item.active a {
     cursor: pointer;
     color: var(--color-teal);
-    border: 1px solid var(--color-teal);
+    border: 0.1rem solid var(--color-teal);
   }
 
   .vo-filter-cut {
@@ -137,7 +137,7 @@ const StyledDiamondFilter = styled.aside`
     .vo-filter-list {
       list-style: none;
       white-space: nowrap;
-      padding: 10px 0;
+      padding: 1rem 0;
       display: block;
 
       ${tabletAndUp(`
@@ -160,7 +160,7 @@ const StyledDiamondFilter = styled.aside`
 
       &.active a,
       a {
-        padding: 0 8px;
+        padding: 0 0.8rem;
         border: 0;
 
         ${tabletAndUp(`
@@ -170,17 +170,17 @@ const StyledDiamondFilter = styled.aside`
 
       &.active:after {
         content: '';
-        border-bottom: 2px solid var(--color-teal);
+        border-bottom: 0.2rem solid var(--color-teal);
         position: absolute;
-        margin-left: -12px;
-        bottom: -8px;
-        width: 24px;
+        margin-left: -1.2rem;
+        bottom: -0.8rem;
+        width: 2.4rem;
         left: 50%;
       }
 
       svg {
         display: block;
-        height: 30px;
+        height: 3rem;
         width: auto;
       }
     }
@@ -191,8 +191,8 @@ const StyledDiamondFilter = styled.aside`
       position: absolute;
       bottom: 0;
       left: 0;
-      height: 50px;
-      width: 30px;
+      height: 5rem;
+      width: 3rem;
       background: rgba(255, 255, 255, 0.75);
       display: flex;
       justify-content: center;
@@ -236,7 +236,7 @@ const StyledDiamondFilter = styled.aside`
 
       img {
         height: auto;
-        width: 70px;
+        width: 7rem;
       }
     }
   }

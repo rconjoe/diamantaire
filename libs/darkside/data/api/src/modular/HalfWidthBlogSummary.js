@@ -14,7 +14,7 @@ const HalfWidthBlogSummary = `
     desktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 864, h: 540, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+      responsiveImage(imgixParams: {w: 864, h: 540, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 144rem) 864px, (min-width: 76.8rem) 60vw") {
             src
             alt
             aspectRatio

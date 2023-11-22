@@ -3,14 +3,14 @@ import styled from 'styled-components';
 const StyledAccordion = styled.div`
   display: block;
   background: var(--color-white);
-  border-bottom: 1px solid var(--color-lighter-grey);
+  border-bottom: 0.1rem solid var(--color-lighter-grey);
   color: var(--color-black);
 
   .accordion-row {
     width: 100%;
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--color-lighter-grey);
+    border-top: 0.1rem solid var(--color-lighter-grey);
   }
 
   .accordion-row:first-child {
@@ -22,11 +22,11 @@ const StyledAccordion = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 1rem 0;
     cursor: pointer;
 
     .text {
-      gap: 10px;
+      gap: 1rem;
       display: flex;
       align-items: flex-start;
       font-size: var(--font-size-xxsmall);
@@ -69,7 +69,7 @@ const StyledAccordion = styled.div`
   .accordion-content-wrapper {
     display: block;
     position: relative;
-    padding: 0 0 20px;
+    padding: 0 0 2rem;
   }
 
   .accordion-content-wrapper * {
@@ -77,7 +77,7 @@ const StyledAccordion = styled.div`
   }
 
   .accordion-content-wrapper p {
-    margin: 5px 0 0;
+    margin: 0.5rem 0 0;
 
     &:first-child {
       margin: 0;

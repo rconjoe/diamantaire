@@ -16,7 +16,7 @@ const CartFooterStyles = styled.div`
   width: 100%;
   background-color: #f6f6f6;
   text-align: center;
-  padding: 40px 0 0;
+  padding: 4rem 0 0;
 
   ul {
     margin: 0;
@@ -24,11 +24,11 @@ const CartFooterStyles = styled.div`
     list-style: none;
 
     li {
-      max-width: 400px;
+      max-width: 40rem;
       margin: 0 auto;
       &.checkout-button {
-        max-width: 400px;
-        margin: 0 auto 30px;
+        max-width: 40rem;
+        margin: 0 auto 3rem;
       }
       .consent-container {
         background-color: transparent;
@@ -42,9 +42,9 @@ const CartFooterStyles = styled.div`
         .checkbox {
           display: block;
           position: relative;
-          margin-right: 10px;
+          margin-right: 1rem;
           cursor: pointer;
-          font-size: 22px;
+          font-size: 2.2rem;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
@@ -62,11 +62,11 @@ const CartFooterStyles = styled.div`
           /* Create a custom checkbox */
           .checkmark {
             display: block;
-            height: 25px;
-            width: 25px;
+            height: 2.5rem;
+            width: 2.5rem;
             border-radius: 50%;
             background-color: transparent;
-            border: 1px solid #dcdbd5;
+            border: 0.1rem solid #dcdbd5;
             position: relative;
 
             &::before {
@@ -85,15 +85,15 @@ const CartFooterStyles = styled.div`
               content: '';
               display: inline-block;
               position: absolute;
-              height: 6px;
-              width: 11px;
-              border-left: 2px solid white;
-              border-bottom: 2px solid white;
+              height: 0.6rem;
+              width: 1.1rem;
+              border-left: 0.2rem solid white;
+              border-bottom: 0.2rem solid white;
               transform: rotate(-45deg);
               border-top-color: white;
               border-right-color: white;
-              left: 6px;
-              top: 7px;
+              left: 0.6rem;
+              top: 0.7rem;
               opacity: 0;
             }
           }

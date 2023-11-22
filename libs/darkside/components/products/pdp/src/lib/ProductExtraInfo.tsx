@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProductExtraInfoStyles = styled.div`
-  margin: 15px 0 0;
+  margin: 1.5rem 0 0;
   p {
     font-size: var(--font-size-xxsmall);
   }

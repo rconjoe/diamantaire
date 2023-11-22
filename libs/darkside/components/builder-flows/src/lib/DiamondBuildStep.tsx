@@ -8,11 +8,11 @@ import styled from 'styled-components';
 const DiamondBuildStepStyles = styled(motion.div)`
   height: 100vh;
   overflow-y: scroll;
-  padding-bottom: 140px;
+  padding-bottom: 14rem;
 
   .switch-container {
     text-align: right;
-    padding-right: 10px;
+    padding-right: 1rem;
 
     svg {
       stroke: #777;
@@ -21,12 +21,12 @@ const DiamondBuildStepStyles = styled(motion.div)`
 
   .table-container {
     display: flex;
-    padding: 40px 20px;
+    padding: 4rem 2rem;
 
     > aside {
       flex: 0 0 450px;
-      padding-right: 50px;
-      top: 20px;
+      padding-right: 5rem;
+      top: 2rem;
       height: 100vh;
       position: sticky;
     }

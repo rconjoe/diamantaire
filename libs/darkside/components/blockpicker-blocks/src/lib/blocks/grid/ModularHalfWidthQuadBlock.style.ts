@@ -70,7 +70,7 @@ export const ModularHalfWidthQuadBlockContainer = styled.div`
     // Ensure the last two ImageTiles align with the base of the image
     &:nth-last-child(-n + 2) {
       align-self: end;
-      margin-bottom: -4px; // This is to overcome the line-height spacing related to characters that go below the baseline.
+      margin-bottom: -0.4rem; // This is to overcome the line-height spacing related to characters that go below the baseline.
     }
 
     // This sets the horizontal spacing on mobile

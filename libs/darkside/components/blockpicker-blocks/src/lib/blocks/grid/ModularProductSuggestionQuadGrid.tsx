@@ -55,11 +55,11 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
         flex: 1;
         .product-image {
           .temp-image {
-            min-height: 300px;
+            min-height: 30rem;
             width: 100%;
             max-width: 100%;
-            max-height: 300px;
-            border: 1px solid black;
+            max-height: 30rem;
+            border: 0.1rem solid black;
           }
         }
 

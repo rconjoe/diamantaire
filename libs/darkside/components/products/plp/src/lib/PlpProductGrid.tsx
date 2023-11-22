@@ -38,7 +38,7 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
-      padding-top: 8px;
+      padding-top: 0.8rem;
     }
   }
 
@@ -54,7 +54,7 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 2rem;
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
@@ -202,7 +202,7 @@ const PlpProductGrid = ({
                       {isSettingSelect && (
                         <div
                           style={{
-                            marginTop: '20px',
+                            marginTop: '2rem',
                           }}
                         >
                           <DarksideButton

@@ -41,7 +41,7 @@ const PlpPreviouslyViewedStyles = styled.section`
     }
 
     &.prev {
-      left: -50px;
+      left: -5rem;
 
       svg {
         transform: rotate(180deg);
@@ -49,13 +49,13 @@ const PlpPreviouslyViewedStyles = styled.section`
     }
 
     &.next {
-      right: -50px;
+      right: -5rem;
     }
   }
 
   .products__container {
     .product__container {
-      padding: 0 20px;
+      padding: 0 2rem;
       flex: 0 0 80%;
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 0 0 25%;
@@ -66,7 +66,7 @@ const PlpPreviouslyViewedStyles = styled.section`
         align-items: baseline;
         padding-top: 0.8rem;
         > * {
-          margin-right: 5px;
+          margin-right: 0.5rem;
         }
 
         h3 {
@@ -117,7 +117,7 @@ const PlpPreviouslyViewed = () => {
     dragFree: false,
     align: 'center',
     breakpoints: {
-      '(min-width: 768px)': { align: 'start' },
+      '(min-width: 76.8rem)': { align: 'start' },
     },
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);

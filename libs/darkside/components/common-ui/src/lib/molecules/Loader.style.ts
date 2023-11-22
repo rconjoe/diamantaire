@@ -7,7 +7,7 @@ const LoaderStyles = styled.div`
   > div {
     width: 1rem;
     height: 1rem;
-    margin: 0 2px;
+    margin: 0 0.2rem;
     background-color: ${({ color }) => color || `var(--color-white)`};
     border-radius: 100%;
     display: inline-block;

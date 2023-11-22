@@ -85,10 +85,10 @@ export const CssHelpers = styled.createGlobalStyle`
   }
 
   .okeReviews-widget-holder {
-    padding: 0 30px 40px !important;
+    padding: 0 3rem 4rem !important;
 
     ${mediaQueries.desktopAndUp(`
-        padding: 0 50px 50px !important;
+        padding: 0 5rem 5rem !important;
     `)}
   }
 
@@ -116,7 +116,7 @@ export const CssHelpers = styled.createGlobalStyle`
     left: 0;
 
     width: 100%;
-    height: 2px;
+    height: 0.2rem;
   }
 
   /* Fancy blur effect */
@@ -124,13 +124,15 @@ export const CssHelpers = styled.createGlobalStyle`
     display: block;
     position: absolute;
     right: 0px;
-    width: 100px;
+    width: 10rem;
     height: 100%;
-    box-shadow: 0 0 10px var(--color-teal), 0 0 5px var(--color-teal);
+    box-shadow:
+      0 0 1rem var(--color-teal),
+      0 0 0.5rem var(--color-teal);
     opacity: 1;
 
-    -webkit-transform: rotate(3deg) translate(0px, -4px);
-    -ms-transform: rotate(3deg) translate(0px, -4px);
-    transform: rotate(3deg) translate(0px, -4px);
+    -webkit-transform: rotate(3deg) translate(0px, -0.4rem);
+    -ms-transform: rotate(3deg) translate(0px, -0.4rem);
+    transform: rotate(3deg) translate(0px, -0.4rem);
   }
 `;

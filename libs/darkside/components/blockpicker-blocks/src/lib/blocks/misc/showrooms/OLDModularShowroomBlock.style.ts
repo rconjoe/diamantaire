@@ -43,7 +43,7 @@ export const ModularShowroomBlockContainer = styled.div`
 
   .showroom__inner-text-container {
     ${desktopAndUp(`
-      width: 400px;
+      width: 40rem;
       overflow: visible;
       display: flex;
       align-items: left;
@@ -59,7 +59,7 @@ export const ModularShowroomBlockContainer = styled.div`
   .showroom__title {
     margin: 0 0 ${setSpace(2.5)};
     font-weight: var(--font-weight-medium);
-    font-size: 22px;
+    font-size: 2.2rem;
     font-family: ${MAIN_FONT};
     text-align: left;
 
@@ -78,7 +78,7 @@ export const ModularShowroomBlockContainer = styled.div`
   .showroom__appointment-markdown {
     a {
       color: var(--color-teal);
-      border-bottom: 1px solid var(--color-teal);
+      border-bottom: 0.1rem solid var(--color-teal);
       font-weight: 500;
       text-decoration: underline;
       border: none;

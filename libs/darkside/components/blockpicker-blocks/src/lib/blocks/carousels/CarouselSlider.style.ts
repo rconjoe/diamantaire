@@ -1,9 +1,9 @@
 import { desktopAndUp, tabletAndUp, XXLDesktopAndUp, setSpace, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const chevronWidth = '50px';
-const containerWidth = '1480px';
-const carouselWidth = '1280px';
+const chevronWidth = '5rem';
+const containerWidth = '148rem';
+const carouselWidth = '128rem';
 
 export const CarouselSliderContainer = styled.div`
   position: relative;
@@ -48,8 +48,8 @@ export const CarouselSliderContainer = styled.div`
   }
 
   .content-block__subtitle {
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 1.6rem;
+    margin-top: 1rem;
   }
 
   .carousel-nav {
@@ -68,10 +68,10 @@ export const CarouselSliderContainer = styled.div`
   `)}
 
     ${XXLDesktopAndUp(`
-    max-width: calc(${containerWidth} - 50px);
+    max-width: calc(${containerWidth} - 5rem);
     `)}
     /* ${XXLDesktopAndUp(`
-    max-width: calc(${carouselWidth} + 100px);
+    max-width: calc(${carouselWidth} + 10rem);
     `)} */
 
   &.xl-width {
@@ -132,7 +132,7 @@ export const CarouselSliderContainer = styled.div`
     }
     svg {
       width: auto;
-      height: 15px;
+      height: 1.5rem;
     }
 
     &.arrow-left {
@@ -154,7 +154,7 @@ export const CarouselSliderContainer = styled.div`
     overflow: hidden;
 
     ${tabletAndUp(`
-    width: calc(100vw  - 125px);
+    width: calc(100vw  - 12.5rem);
   `)}
 
     ${XXLDesktopAndUp(`
@@ -170,7 +170,7 @@ export const CarouselSliderContainer = styled.div`
     &:before {
       content: '';
       width: 100%;
-      height: 20px;
+      height: 2rem;
       background: #fff;
       position: absolute;
       bottom: 0;
@@ -200,7 +200,7 @@ export const CarouselSliderContainer = styled.div`
   }
 
   .carousel-footer {
-    margin-top: 40px;
+    margin-top: 4rem;
   }
 
   .swiper-slide.modular_slick_carousel_block {

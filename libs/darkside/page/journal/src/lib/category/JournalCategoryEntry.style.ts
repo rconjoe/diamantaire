@@ -10,14 +10,14 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
     margin: 0 auto;
     ul {
       li {
-        margin-right: 10px;
+        margin-right: 1rem;
 
         a {
           font-size: var(--font-size-xxxsmall);
         }
 
         span {
-          margin-left: 10px;
+          margin-left: 1rem;
           font-size: var(--font-size-xxxsmall);
         }
       }
@@ -38,8 +38,8 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
 
         h2 {
           display: block;
-          font-size: 30px;
-          line-height: 32px;
+          font-size: 3rem;
+          line-height: 3.2rem;
           padding: ${setSpace(4)} ${setSpace(2)} ${setSpace(2)};
           &:last-child {
             padding-right: 0;
@@ -53,17 +53,17 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       text-transform: uppercase;
       justify-content: center;
       display: flex;
-      margin: 26px auto 30px;
+      margin: 2.6rem auto 3rem;
 
       ${tabletAndUp(
         `
-          margin: 30px auto;
+          margin: 3rem auto;
         `,
       )}
     }
 
     .journal-category__page-heading {
-      font-size: 30px;
+      font-size: 3rem;
       line-height: 1;
       text-align: center;
       font-weight: 500;
@@ -73,18 +73,18 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       display: flex;
       flex-direction: row;
       overflow-x: scroll;
-      gap: 20px;
-      padding: 15px 24px;
-      margin: 10px 0 20px;
-      border-top: 0.5px solid ${BORDER_GRAY};
-      border-bottom: 0.5px solid ${BORDER_GRAY};
+      gap: 2rem;
+      padding: 1.5rem 2.4rem;
+      margin: 1rem 0 2rem;
+      border-top: 0.5rem solid ${BORDER_GRAY};
+      border-bottom: 0.5rem solid ${BORDER_GRAY};
       ${tabletAndUp(`
         overflow-x: unset;
         align-items: center;
         justify-content: center;
         border-top: none;
         border-bottom: none;
-        margin: 10px 0 30px;
+        margin: 1rem 0 3rem;
         padding: 0;
       `)};
     }
@@ -93,11 +93,11 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       text-transform: uppercase;
       cursor: pointer;
       white-space: nowrap;
-      font-size: 14px;
+      font-size: 1.4rem;
 
       &:after {
-        border-bottom: 2px solid transparent;
-        padding: 2px 0 0;
+        border-bottom: 0.2rem solid transparent;
+        padding: 0.2rem 0 0;
         display: block;
         content: '';
       }
@@ -106,7 +106,7 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
         font-weight: 600;
 
         &:after {
-          border-bottom: 2px solid #000;
+          border-bottom: 0.2rem solid #000;
         }
       }
     }

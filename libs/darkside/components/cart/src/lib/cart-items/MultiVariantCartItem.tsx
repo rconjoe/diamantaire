@@ -15,25 +15,25 @@ import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
 
 const MultiVariantCartItemStyles = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 4rem;
 
   .cart-item__header {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid #ccc;
 
     .cart-item__remove-product {
       position: relative;
-      top: 4px;
-      padding-right: 10px;
+      top: 0.4rem;
+      padding-right: 1rem;
 
       button {
         padding: 0;
         background-color: transparent;
 
         svg {
-          stroke-width: 1px;
+          stroke-width: 0.1rem;
           transform: scale(0.75);
         }
       }
@@ -47,32 +47,32 @@ const MultiVariantCartItemStyles = styled.div`
 
       p {
         position: relative;
-        top: 2px;
+        top: 0.2rem;
       }
     }
   }
   .cart-item__body {
     display: flex;
     align-items: center;
-    margin-top: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    margin-top: 1.5rem;
+    border: 0.1rem solid #e0e0e0;
+    border-radius: 0.8rem;
 
     .cart-item__image {
-      flex: 0 0 168px;
-      padding-right: 20px;
+      flex: 0 0 16.8rem;
+      padding-right: 2rem;
     }
 
     .cart-item__content {
       color: #737368;
       flex: 1;
-      padding-right: 15px;
+      padding-right: 1.5rem;
 
       button {
         font-size: 1.4rem;
       }
       p {
-        margin: 0 0 5px;
+        margin: 0 0 0.5rem;
         font-size: 1.5rem;
         display: flex;
 

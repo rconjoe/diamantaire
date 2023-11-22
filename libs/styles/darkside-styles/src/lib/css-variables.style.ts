@@ -7,7 +7,7 @@ const CssVariables = styled.createGlobalStyle`
   :root {
     --gutter: 5rem;
     --space-gutter: 0.8rem;
-    --toastify-toast-width: 400px;
+    --toastify-toast-width: 40rem;
     --toastify-color-progress-light: #719093;
 
     /* Colors */

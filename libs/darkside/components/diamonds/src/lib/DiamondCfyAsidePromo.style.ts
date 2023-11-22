@@ -10,7 +10,7 @@ const StyledDiamondCfyAsidePromo = styled.div`
   width: 100%;
 
   ${tabletAndUp(`
-    padding: 30px 30px 50px;
+    padding: 3rem 3rem 5rem;
   `)}
 
   .section-title {
@@ -18,19 +18,19 @@ const StyledDiamondCfyAsidePromo = styled.div`
     font-weight: var(--font-weight-bold);
     line-height: 1.1;
     text-align: center;
-    margin: 0 0 20px;
+    margin: 0 0 2rem;
 
     ${tabletAndUp(`
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
-      margin: 0 0 25px;
+      margin: 0 0 2.5rem;
     `)}
   }
 
   .blocks {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 4rem;
 
     > div {
       text-align: left;

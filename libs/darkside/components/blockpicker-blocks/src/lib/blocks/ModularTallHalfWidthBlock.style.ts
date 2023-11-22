@@ -2,16 +2,16 @@ import styled from 'styled-components';
 
 export const ModularTallHalfWidthBlockContainer = styled.div`
   position: relative;
-  max-width: 1180px;
+  max-width: 118rem;
   margin: 0 auto;
 
   &.-vertical-margins {
-    margin: 50px auto;
+    margin: 5rem auto;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      margin: 80px auto;
+      margin: 8rem auto;
       width: 100%;
-      padding: 0 24px;
+      padding: 0 2.4rem;
     }
 
     @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
@@ -29,7 +29,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
 
   .image-container {
     width: 100%;
-    max-width: 767px;
+    max-width: 76.7rem;
 
     height: auto;
     margin: auto;
@@ -51,7 +51,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
     }
 
     @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-      min-height: 540px;
+      min-height: 54rem;
     }
 
     img {
@@ -103,7 +103,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
       width: calc(var(--space-gutter) * 40);
       background: #fff;
       padding: calc(var(--space-gutter) * 3);
-      margin: -100px auto calc(var(--space-gutter) * 5);
+      margin: -10rem auto calc(var(--space-gutter) * 5);
       position: relative;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -208,7 +208,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
     }
 
     button {
-      border-width: 1px !important;
+      border-width: 0.1rem !important;
       width: 99% !important;
       margin-top: var(--space-gutter);
 
@@ -243,21 +243,21 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 7px;
-    margin: 0 auto 20px;
+    gap: 0.7rem;
+    margin: 0 auto 2rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      gap: 10px;
+      gap: 1rem;
       flex-direction: row;
       align-items: baseline;
     }
   }
 
   .content__title-image {
-    max-width: 180px;
+    max-width: 18rem;
 
     img {
-      max-height: 30px;
+      max-height: 3rem;
     }
   }
 
@@ -285,7 +285,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
     a {
       text-decoration-line: underline;
       text-decoration-style: solid;
-      text-decoration-thickness: 1px;
+      text-decoration-thickness: 0.1rem;
     }
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -297,7 +297,7 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
         }
       }
       &.-tall-block p {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
     }
   }

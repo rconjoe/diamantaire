@@ -11,7 +11,7 @@ const ProductSuggestionQuad = gql`
     halfWidthDesktopImage {
       url
       alt
-      responsiveImage(imgixParams: {w: 720, h: 825, q: 40, auto: format }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+      responsiveImage(imgixParams: {w: 720, h: 825, q: 40, auto: format }, sizes:"(min-width: 144rem) 864px, (min-width: 76.8rem) 60vw") {
         src
         alt
         aspectRatio

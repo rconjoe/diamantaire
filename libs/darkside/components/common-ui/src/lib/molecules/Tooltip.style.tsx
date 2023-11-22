@@ -5,7 +5,7 @@ const StyledTooltip = styled.div`
     opacity: 1;
     z-index: 9999;
     background: var(--color-white);
-    border: 1px solid var(--color-grey);
+    border: 0.1rem solid var(--color-grey);
     padding: 2rem;
     color: var(--color-black);
     text-wrap: wrap;
@@ -22,7 +22,7 @@ const StyledTooltip = styled.div`
   }
 
   .tooltip-arrow {
-    border: 1px solid var(--color-grey);
+    border: 0.1rem solid var(--color-grey);
   }
 
   .react-tooltip__place-top .tooltip-arrow {
@@ -53,9 +53,9 @@ const StyledTooltip = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid var(--color-grey);
-    height: 12px;
-    width: 12px;
+    border: 0.1rem solid var(--color-grey);
+    height: 1.2rem;
+    width: 1.2rem;
     position: relative;
 
     &:after {
@@ -85,7 +85,7 @@ const StyledTooltip = styled.div`
     max-width: 220px;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      max-width: 170px;
+      max-width: 17rem;
     }
   }
 `;

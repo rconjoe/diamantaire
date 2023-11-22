@@ -21,7 +21,7 @@ export const ModularTrioStaggeredBlockContainer = styled.div`
     padding-bottom: ${setSpace(6)};
     padding-top: ${setSpace(2)};
     text-align: center;
-    max-width: 275px;
+    max-width: 27.5rem;
     margin: 0 auto;
 
     ${tabletAndUp(`

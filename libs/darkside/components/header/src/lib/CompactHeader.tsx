@@ -49,7 +49,7 @@ const CompactHeaderStyles = styled.div`
               display: inline-block;
 
               svg {
-                max-width: 60px;
+                max-width: 6rem;
                 height: auto;
               }
             }
@@ -60,7 +60,7 @@ const CompactHeaderStyles = styled.div`
           flex: 2;
 
           .compact-header__nav {
-            min-width: 500px;
+            min-width: 50rem;
 
             ul {
               display: flex;
@@ -69,10 +69,10 @@ const CompactHeaderStyles = styled.div`
               padding: 0;
               list-style: none;
               li {
-                margin: 0 15px;
+                margin: 0 1.5rem;
                 a {
                   font-size: 1.4rem;
-                  letter-spacing: 0.3px;
+                  letter-spacing: 0.3rem;
                   text-decoration: none;
                   position: relative;
                   transition: 0.25s;
@@ -83,9 +83,9 @@ const CompactHeaderStyles = styled.div`
                     background: #719093;
                     display: block;
                     position: absolute;
-                    bottom: -5px;
+                    bottom: -0.5rem;
                     left: 0;
-                    height: 2px;
+                    height: 0.2rem;
                     transition: 0.25s;
                     width: 0%;
                   }

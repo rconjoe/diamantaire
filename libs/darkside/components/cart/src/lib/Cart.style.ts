@@ -14,7 +14,7 @@ export const CartStyles = styled(motion.aside)`
 
   .cart__header {
     text-align: center;
-    padding: 20px 0;
+    padding: 2rem 0;
 
     h2 {
       font-size: 1.4rem;
@@ -23,8 +23,8 @@ export const CartStyles = styled(motion.aside)`
 
     .close {
       position: absolute;
-      right: 20px;
-      top: 19px;
+      right: 2rem;
+      top: 1.9rem;
 
       button {
         background-color: transparent;
@@ -35,26 +35,26 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      max-height: calc(100vh - 20vh - 61px);
+      max-height: calc(100vh - 20vh - 6.1rem);
       overflow-y: auto;
       margin: 0;
-      padding: 0 25px 50px;
-      ${media.medium`margin: 0 30px 0 50px;`}
+      padding: 0 2.5rem 5rem;
+      ${media.medium`margin: 0 3rem 0 5rem;`}
 
       &::-webkit-scrollbar {
-        width: 2px;
+        width: 0.2rem;
       }
 
       /* Track */
       &::-webkit-scrollbar-track {
         background: #f1f1f1;
-        width: 2px;
+        width: 0.2rem;
       }
 
       /* Handle */
       &::-webkit-scrollbar-thumb {
         background: #888;
-        width: 2px;
+        width: 0.2rem;
       }
 
       /* Handle on hover */
@@ -64,15 +64,15 @@ export const CartStyles = styled(motion.aside)`
 
       .cart-empty-message {
         text-align: center;
-        padding-top: 40px;
-        border-top: 1px solid #ccc;
+        padding-top: 4rem;
+        border-top: 0.1rem solid #ccc;
         p {
           margin: 0;
           font-size: 1.4rem;
           a {
             display: inline-block;
-            border-bottom: 1px solid #000;
-            margin-top: 10px;
+            border-bottom: 0.1rem solid #000;
+            margin-top: 1rem;
             transition: 0.25s;
             &:hover {
               opacity: 0.7;
@@ -84,15 +84,15 @@ export const CartStyles = styled(motion.aside)`
       .cart-subtotal {
         .cart-subtotal__sig-text {
           font-size: 1.4rem;
-          padding-bottom: 10px;
+          padding-bottom: 1rem;
         }
         hr {
           background-color: #ccc;
-          height: 1px;
+          height: 0.1rem;
         }
         .cart-subtotal__summary {
           display: flex;
-          padding-top: 10px;
+          padding-top: 1rem;
           > p {
             flex: 1;
             font-size: 1.4rem;
@@ -117,19 +117,19 @@ export const CartStyles = styled(motion.aside)`
     }
   }
   .cart-subtotal__gift-note {
-    margin-top: 10px;
+    margin-top: 1rem;
     textarea {
-      border: 1px solid #000;
+      border: 0.1rem solid #000;
       width: 100%;
-      min-height: 100px;
-      padding: 15px;
+      min-height: 10rem;
+      padding: 1.5rem;
       font-size: 1.6rem;
     }
 
     ul {
-      margin-top: 10px;
+      margin-top: 1rem;
       li {
-        margin-right: 15px;
+        margin-right: 1.5rem;
         &:last-child {
           margin-right: 0px;
         }

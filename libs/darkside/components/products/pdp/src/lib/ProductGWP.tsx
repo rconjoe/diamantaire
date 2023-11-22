@@ -17,9 +17,9 @@ const ProductGWPStyles = styled.div`
     display: flex;
 
     .image-container {
-      flex: 0 0 65px;
-      margin-right: 5px;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      flex: 0 0 6.5rem;
+      margin-right: 0.5rem;
+      box-shadow: 0px 0.4rem 0.4rem 0px rgba(0, 0, 0, 0.25);
       display: flex;
 
       /* Dato image img */
@@ -37,11 +37,11 @@ const ProductGWPStyles = styled.div`
       background-color: ${({ bgColor }) => bgColor};
       display: flex;
       align-items: center;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 0.4rem 0.4rem 0px rgba(0, 0, 0, 0.25);
 
       p {
         font-size: var(--font-size-xxsmall);
-        padding: 10px 15px;
+        padding: 1rem 1.5rem;
       }
     }
   }

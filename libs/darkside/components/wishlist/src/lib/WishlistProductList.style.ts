@@ -66,7 +66,7 @@ export const StyledWishlistSlideoutProductList = styled.div`
     .title {
       transition: all 0.25s ease;
       font-size: var(--font-size-xxsmall);
-      border: 2px solid var(--color-black);
+      border: 0.2rem solid var(--color-black);
       font-weight: var(--font-weight-medium);
       text-align: center;
       padding: 0.5rem 0;
@@ -104,7 +104,7 @@ export const StyledWishlistPageProductList = styled.div`
     }
 
     .cta {
-      width: 250px;
+      width: 25rem;
       margin: auto;
     }
   }
@@ -158,7 +158,7 @@ export const StyledWishlistPageProductList = styled.div`
     .title {
       transition: all 0.25s ease;
       font-size: var(--font-size-xxsmall);
-      border: 2px solid var(--color-black);
+      border: 0.2rem solid var(--color-black);
       font-weight: var(--font-weight-medium);
       text-align: center;
       padding: 0.5rem 0;

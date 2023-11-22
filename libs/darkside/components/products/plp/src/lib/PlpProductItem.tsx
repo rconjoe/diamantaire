@@ -9,22 +9,22 @@ const PlpProductItemStyles = styled.div`
   .metal-selector {
     ul {
       li {
-        margin-right: 5px;
+        margin-right: 0.5rem;
         &:last-child {
           margin-right: 0px;
         }
         button {
-          height: 20px;
-          width: 20px;
+          height: 2rem;
+          width: 2rem;
           border-radius: 50%;
-          border: 1px solid #d2dbde;
+          border: 0.1rem solid #d2dbde;
           position: relative;
           overflow: hidden;
           background-color: transparent;
           cursor: pointer;
 
           &.selected {
-            border: 1px solid var(--color-teal);
+            border: 0.1rem solid var(--color-teal);
           }
 
           &::after {

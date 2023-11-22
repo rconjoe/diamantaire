@@ -1,6 +1,6 @@
 const AccountIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="21px" height="22px" viewBox="0 0 21 22" role="img">
+    <svg xmlns="http://www.w3.org/2000/svg" width="2.1rem" height="2.2rem" viewBox="0 0 21 22" role="img">
       <g strokeWidth="1.4" fill="none" fillRule="evenodd">
         <g transform="translate(-316.000000, -13.000000)" stroke="#000000">
           <g transform="translate(317.000000, 14.000000)">

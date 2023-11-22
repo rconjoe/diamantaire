@@ -21,8 +21,8 @@ const ModularSplitVideoBlockContainer = styled.div`
       position: relative;
 
       > .react-player {
-        height: 250px !important;
-        ${media.medium`height: 500px !important;`}
+        height: 25rem !important;
+        ${media.medium`height: 50rem !important;`}
       }
 
       .react-player__shadow {

@@ -38,7 +38,7 @@ const Accordion: React.FC<AccordionProps> = ({ rows, activeDefault = null, isDia
       const row = `.accordion-row:nth-child(${newIndex + 1})`;
       const rowElement = accordion.current?.querySelector(row);
 
-      rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 50px)`;
+      rowElement.style.maxHeight = `calc(${headerElementHeight} + ${contentElementHeight} + 5rem)`;
     }
   };
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const ProductKlarnaStyles = styled.div`
   position: relative;
-  left: -10px;
+  left: -1rem;
 `;
 
 declare global {
