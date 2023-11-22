@@ -73,8 +73,8 @@ export const StyledWishlistSlideoutProductList = styled.div`
       display: block;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        font-size: var(--font-size-xsmall);
-        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-xxsmall);
+        font-weight: var(--font-weight-medium);
         padding: 1rem;
       }
 
