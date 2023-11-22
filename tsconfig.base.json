@@ -75,6 +75,9 @@
       "@diamantaire/darkside/components/seo": [
         "libs/darkside/components/seo/src/index.ts"
       ],
+      "@diamantaire/darkside/components/wishlist": [
+        "libs/darkside/components/wishlist/src/index.ts"
+      ],
       "@diamantaire/darkside/context/cart-context": [
         "libs/darkside/context/cart-context/src/index.ts"
       ],
@@ -108,8 +111,8 @@
       "@diamantaire/darkside/page/error": [
         "libs/darkside/page/error/src/index.ts"
       ],
-      "@diamantaire/darkside/page/error/server": [
-        "libs/darkside/page/error/src/server.ts"
+      "@diamantaire/darkside/page/wishlist":[
+        "libs/darkside/page/wishlist/src/index.ts"
       ],
       "@diamantaire/darkside/page/home": [
         "libs/darkside/page/home/src/index.ts"

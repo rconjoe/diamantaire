@@ -1,9 +1,9 @@
-import { setSpace, desktopAndUp, mobileOnly, GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const DiamondLeoBlockContainer = styled.div`
   .diamond-leo__wrapper {
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
     margin-top: ${setSpace(2)};
     padding: ${setSpace(3)} !important;
     display: flex;

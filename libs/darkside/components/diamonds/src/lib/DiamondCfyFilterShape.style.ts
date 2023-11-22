@@ -34,7 +34,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     }
 
     a {
-      color: ${TEAL};
+      color: var(--color-teal);
       transition: all 0.2s ease;
       font-weight: var(--font-weight-medium);
 
@@ -45,7 +45,7 @@ const StyledDiamondCfyFilterShape = styled.div`
   }
 
   .box {
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
     padding: 0 0 1rem;
   }
 

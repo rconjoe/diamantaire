@@ -12,6 +12,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
@@ -187,6 +188,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </SwiperStyles>
               )}
             </div>
+            {isMobile && <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />}
           </div>
 
           <div className="page-aside">
@@ -194,6 +196,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               {!isMobile && (
                 <div className="title">
                   <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                  <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
                 </div>
               )}
 

@@ -5,7 +5,6 @@ import {
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  WHITE,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -99,14 +98,14 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       .primary,
       .secondary {
         ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)};
 
         &:hover {
           ${tabletAndUp(`
-            color: ${WHITE};
-            border-color: ${WHITE};
+            color: var(--color-white);
+            border-color: var(--color-white);
           `)}
         }
       }
@@ -257,8 +256,8 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       margin-bottom: ${setSpace(2)};
       ${tabletAndUp(`
         &.-white {
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         }
       `)};
       ${desktopAndUp(`
@@ -298,8 +297,8 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
 
       ${tabletAndUp(`
         &.-white {
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
           a {
             color: inherit;
           }

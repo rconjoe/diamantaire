@@ -1,5 +1,6 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
+import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
@@ -23,14 +24,17 @@ export const GlobalTemplate = ({ children }) => {
   const globalTemplateData = useGlobalData(router.locale);
 
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
+
   const footerData = globalTemplateData.data?.footerNavigation;
 
   const headerRef = useRef<HTMLDivElement | null>(null);
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
+
   const [headerHeight, setHeaderHeight] = useState(0);
 
   const { pathname } = useRouter();
+
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -77,10 +81,14 @@ export const GlobalTemplate = ({ children }) => {
           headerHeight={headerHeight}
         />
       )}
+
       <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
+
       {footerData && <Footer footerData={footerData} />}
+
+      <WishlistSlideOut />
     </>
   );
 };

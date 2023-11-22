@@ -1,4 +1,3 @@
-import { GREY_LIGHTER, TEAL } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledCertificateThumb = styled.div`
@@ -7,13 +6,13 @@ const StyledCertificateThumb = styled.div`
   align-items: center;
   width: 200px;
   position: relative;
-  border: 1px solid ${GREY_LIGHTER};
+  border: 1px solid var(--color-lighter-grey);
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease-in;
 
   &:hover {
-    border-color: ${TEAL};
+    border-color: var(--color-teal);
   }
 
   img {

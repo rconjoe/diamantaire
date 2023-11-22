@@ -37,6 +37,15 @@ export const fetchDiamondData = async (options) => {
     const payload = response?.data || {};
 
     if (id) {
+      // return list of diamonds
+      if (id.split(',').length > 1) {
+        return {
+          diamonds: payload,
+          options,
+        };
+      }
+
+      // return one diamond
       return {
         diamond: payload,
         options,

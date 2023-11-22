@@ -1,4 +1,4 @@
-import { TEAL, WHITE, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const sliderCircle = 'https://images.vraiandoro.com/cto-diamonds/assets/slider_circle_upd.png';
@@ -67,7 +67,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
     height: 0px;
     border-style: solid;
     border-width: 7px 4px;
-    border-color: transparent transparent ${TEAL} transparent;
+    border-color: transparent transparent var(--color-teal) transparent;
     position: absolute;
 
     &.x {
@@ -91,7 +91,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
     border-radius: 50%;
 
     svg {
-      background-color: ${WHITE};
+      background-color: var(--color-white);
       min-width: 10px;
       max-height: 13px;
     }
@@ -146,8 +146,8 @@ const StyledDiamondCfyFilterCarat = styled.div`
     width: 100%;
     overflow: hidden;
     position: relative;
-    border-left: 2px solid ${TEAL};
-    border-bottom: 2px solid ${TEAL};
+    border-left: 2px solid var(--color-teal);
+    border-bottom: 2px solid var(--color-teal);
 
     &:after {
       content: '';

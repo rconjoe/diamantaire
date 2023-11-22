@@ -40,9 +40,9 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
 
         <p>{productTitle}</p>
 
-        <a className="slideout-trigger" onClick={handleOpenSlideOut}>
+        <div className="slideout-trigger" onClick={handleOpenSlideOut}>
           <span>i</span>
-        </a>
+        </div>
       </div>
 
       <div className="icon-list-item waranty-link">

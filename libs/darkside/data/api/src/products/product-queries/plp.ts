@@ -48,6 +48,7 @@ export const CONFIGURATIONS_LIST = gql`
   }
 `;
 
+
 export const PRODUCT_BRIEF_CONTENT = gql`
   query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){

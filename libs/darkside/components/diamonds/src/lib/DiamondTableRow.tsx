@@ -1,5 +1,6 @@
 import { GTM_EVENTS, useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addItemToCart } from '@diamantaire/darkside/data/api';
@@ -29,6 +30,7 @@ const DiamondTableRow = ({
   const { handle, lotId, diamondType } = product;
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const { refetch } = useCartData(locale);
@@ -97,9 +99,8 @@ const DiamondTableRow = ({
     // ];
 
     addItemToCart(product?.variantId).then(() => refetch());
-    updateGlobalContext({
-      isCartOpen: true,
-    });
+
+    updateGlobalContext({ isCartOpen: true });
   };
 
   return (
@@ -107,6 +108,7 @@ const DiamondTableRow = ({
       <div className="row-container">
         <div className="row-media">
           <div className="row-media-content">
+            <WishlistLikeButton extraClass="diamond-table" productId={`diamond-${lotId}`} />
             <Diamond360 lotId={lotId} diamondType={diamondType} />
           </div>
         </div>

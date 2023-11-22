@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { PlpProductVariant } from './PlpProductVariant';
 
 const PlpProductItemStyles = styled.div`
+  position: relative;
   .metal-selector {
     ul {
       li {

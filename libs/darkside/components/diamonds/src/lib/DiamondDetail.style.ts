@@ -7,6 +7,7 @@ const mediaWidth = '50%';
 const StyledDiamondDetail = styled.div`
   display: block;
   flex-wrap: wrap;
+  position: relative;
 
   > .body {
     display: flex;

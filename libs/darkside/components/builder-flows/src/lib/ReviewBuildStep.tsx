@@ -9,6 +9,7 @@ import {
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -18,11 +19,11 @@ import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
   PdpTypePlural,
-  metalTypeAsConst,
-  pdpTypeSingleToPluralAsConst,
   getCurrency,
-  parseValidLocale,
   getFormattedPrice,
+  metalTypeAsConst,
+  parseValidLocale,
+  pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -66,6 +67,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
       flex: 1;
 
       .product-summary__inner {
+        position: relative;
         padding: 20px 40px;
         max-width: 550px;
         margin: 0 auto;
@@ -189,6 +191,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     valueLabel?: string;
     isSelected?: boolean;
   }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations[sizeOptionKey];
@@ -198,6 +201,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   const { product, diamond } = builderProduct;
 
   const { countryCode } = parseValidLocale(router?.locale);
+
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(router?.locale);
@@ -436,9 +440,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
+            <WishlistLikeButton extraClass="bundle" productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}
             </Heading>
+
             <p className="total-price">
               <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
             </p>

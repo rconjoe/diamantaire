@@ -6,15 +6,15 @@ import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darksi
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
   getFormattedPrice,
   metalTypeAsConst,
   parseValidLocale,
-  getCurrency,
 } from '@diamantaire/shared/constants';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -313,8 +313,6 @@ function AddToCartButton({
   const { refetch } = useCartData(locale);
 
   const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
-
-  console.log('additionalVariantData', additionalVariantData);
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);

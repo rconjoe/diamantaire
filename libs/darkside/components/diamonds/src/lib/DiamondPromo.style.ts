@@ -1,4 +1,4 @@
-import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondPromo = styled.div`
@@ -54,7 +54,7 @@ const StyledDiamondPromo = styled.div`
     display: block;
     padding: 20px;
     text-align: center;
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
 
     h2 {
       font-size: var(--font-size-xsmall);

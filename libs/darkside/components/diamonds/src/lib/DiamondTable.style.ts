@@ -1,12 +1,4 @@
-import {
-  GREY_LIGHT,
-  GREY_LIGHTER,
-  GREY_LIGHTEST,
-  TEAL,
-  WHITE,
-  desktopAndUp,
-  tabletAndUp,
-} from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
@@ -38,10 +30,10 @@ const StyledDiamondTable = styled.div`
     display: flex;
     width: 100%;
     margin: 0;
-    background-color: ${WHITE};
+    background-color: var(--color-white);
 
     &:nth-child(2n) {
-      background-color: ${GREY_LIGHTEST};
+      background-color: var(--color-lightest-grey);
     }
   }
 
@@ -86,15 +78,15 @@ const StyledDiamondTable = styled.div`
     justify-content: space-between;
     flex-direction: row;
     display: flex;
-    background: ${GREY_LIGHTER} !important;
+    background: var(--color-lighter-grey) !important;
     width: 100%;
     margin: 0;
   }
 
   .vo-table-head .vo-table-cell {
     cursor: pointer;
-    border-right: 1px solid ${GREY_LIGHT};
-    background: ${GREY_LIGHTER} !important;
+    border-right: 1px solid var(--color-light-grey);
+    background: var(--color-lighter-grey) !important;
     text-transform: uppercase;
     display: flex;
     flex-direction: row;
@@ -105,7 +97,7 @@ const StyledDiamondTable = styled.div`
     font-weight: var(--font-weight-medium);
 
     ${tabletAndUp(`
-      background: ${GREY_LIGHTEST} !important;
+      background: var(--color-lightest-grey) !important;
       padding: 10px 20px;
     `)}
   }
@@ -115,7 +107,7 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-head .vo-table-cell:hover {
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
   }
 
   .vo-table-body {
@@ -136,12 +128,12 @@ const StyledDiamondTable = styled.div`
   .vo-table-body .vo-table-row-head:hover,
   .vo-table-body .vo-table-row-head:focus {
     background-color: var(--color-teal);
-    color: ${WHITE};
+    color: var(--color-white);
   }
 
   .vo-table-body .vo-table-row.active {
     .vo-table-row-head {
-      z-index: 1;
+      z-index: 2;
       position: sticky;
       background-color: var(--color-teal);
       top: calc(${(props) => props.headerHeight}px + ${(props) => props.tableHeadHeight}px);
@@ -154,8 +146,8 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-body .vo-table-row-body {
     display: block;
-    background: ${WHITE};
-    border-top: 1px solid ${GREY_LIGHT};
+    background: var(--color-white);
+    border-top: 1px solid var(--color-light-grey);
   }
 
   .vo-table-pagination {
@@ -164,7 +156,7 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-table-pagi-container {
-    background-color: ${WHITE};
+    background-color: var(--color-white);
     border: 0;
     justify-content: space-between;
     align-items: center;
@@ -199,10 +191,10 @@ const StyledDiamondTable = styled.div`
     height: 40px;
     width: 40px;
     cursor: pointer;
-    background-color: ${WHITE};
+    background-color: var(--color-white);
     margin: 0 -1px;
     border: 0;
-    border: 1px solid ${GREY_LIGHT};
+    border: 1px solid var(--color-light-grey);
   }
 
   .vo-table-pagination p {
@@ -213,7 +205,7 @@ const StyledDiamondTable = styled.div`
   .vo-table-pagination button:hover,
   .vo-table-pagination button:focus {
     background-color: var(--color-teal);
-    color: ${WHITE};
+    color: var(--color-white);
   }
 
   .vo-sort-icon {
@@ -301,7 +293,7 @@ const StyledDiamondTable = styled.div`
     }
 
     li a {
-      color: ${TEAL};
+      color: var(--color-teal);
       text-decoration: underline;
     }
   }
@@ -347,7 +339,7 @@ const StyledDiamondTable = styled.div`
     position: relative;
     display: block;
     background-color: rgba(94, 122, 125, 0.75);
-    color: ${WHITE};
+    color: var(--color-white);
     padding: 1.5rem 2rem;
     display: flex;
     gap: 20px;
@@ -364,7 +356,7 @@ const StyledDiamondTable = styled.div`
   .vo-loader-icon {
     width: 20px;
     height: 20px;
-    border: 2px solid ${WHITE};
+    border: 2px solid var(--color-white);
     border-bottom-color: var(--color-teal);
     border-radius: 50%;
     display: inline-block;

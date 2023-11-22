@@ -43,6 +43,7 @@ const sendHubspotForm = async ({
   erUrl,
 }: any) => {
   const hubspotCookieToken = getHubspotCookieToken();
+
   const data = {
     fields: [
       {
@@ -161,8 +162,9 @@ const sendHubspotForm = async ({
 
     return response.data;
   } catch (error) {
-    console.error('Error submitting form data to HubSpot:', error);
-    throw new Error('Error submitting form data to HubSpot');
+    return;
+
+    // throw new Error('Error submitting form data to HubSpot');
   }
 };
 

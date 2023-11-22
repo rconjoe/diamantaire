@@ -7,6 +7,7 @@ export * from './fetchAndTrackPreviouslyViewed';
 export * from './formatCurrency';
 export * from './formatRingSize';
 export * from './getCountry';
+export * from './getLocalStorageWishlist';
 export * from './getRelativeUrl';
 export * from './getUserCountry';
 export * from './images';

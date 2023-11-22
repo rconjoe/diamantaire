@@ -7,14 +7,16 @@ import {
   MediaSlider,
   ProductConfigurator,
   ProductDescription,
-  ProductPrice,
-  ProductTitle,
   ProductIconList,
   ProductKlarna,
+  ProductPrice,
+  ProductTitle,
   ProductSuggestionBlock,
   ProductGWP,
   ProductSeo,
 } from '@diamantaire/darkside/components/products/pdp';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -30,7 +32,7 @@ import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -51,6 +53,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const {
     params: { collectionSlug, productSlug },
   } = props;
+
+  const { isMobile } = useContext(GlobalContext);
 
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
@@ -100,13 +104,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
+
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
   const variantHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
-  console.log('init additionalVariantData', additionalVariantData);
+  // console.log('init additionalVariantData', additionalVariantData);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -122,7 +127,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
 
-  console.log('v2 additionalVariantData', additionalVariantData);
+  // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
   if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
@@ -254,9 +259,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               diamondType={configuration.diamondType}
             />
             <MediaSlider assets={assetStack} />
+            {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">
             <div className="info__inner">
+              {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}

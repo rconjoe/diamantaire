@@ -1,3 +1,4 @@
+import { WishlistSlideOutButton } from '@diamantaire/darkside/components/wishlist';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -41,6 +42,8 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.wishlist {
+        cursor: pointer;
+
         svg {
           width: 24px;
           height: auto;
@@ -134,9 +137,11 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
           } else {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
-                <button onClick={onClick} aria-label={alt}>
-                  {icon}
-                </button>
+                {(title === 'Wishlist' && <WishlistSlideOutButton />) || (
+                  <button onClick={onClick} aria-label={alt}>
+                    {icon}
+                  </button>
+                )}
               </li>
             );
           }
