@@ -133,7 +133,7 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-body .vo-table-row.active {
     .vo-table-row-head {
-      z-index: 1;
+      z-index: 2;
       position: sticky;
       background-color: var(--color-teal);
       top: calc(${(props) => props.headerHeight}px + ${(props) => props.tableHeadHeight}px);

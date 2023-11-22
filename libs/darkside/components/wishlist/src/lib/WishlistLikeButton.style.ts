@@ -41,7 +41,8 @@ export const StyledWishlistLikeButton = styled.div`
   }
 
   &.diamond-table {
-    top: 1.5rem;
+    top: auto;
+    bottom: 0;
     right: 1.5rem;
   }
 
