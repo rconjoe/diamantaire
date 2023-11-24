@@ -1124,13 +1124,13 @@ export class ProductsService {
           // Adds fields to allow sorting by all of the configuration properties
           {
             $addFields: {
-              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'double-pave', 'pave-twisted'], '$configuration.bandAccent'] },
+              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'], '$configuration.bandAccent'] },
             },
           },
           {
             $addFields: {
               __caratWeightOrder: {
-                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '2ct'], '$configuration.caratWeight'],
+                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '1.5ct', '2ct'], '$configuration.caratWeight'],
               },
             },
           },
@@ -1138,7 +1138,7 @@ export class ProductsService {
             $addFields: {
               __sideStoneShapeOrder: {
                 $indexOfArray: [
-                  ['round-brilliant', 'pear', 'trillion', 'tapered-baguette'],
+                  ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise', 'trillion', 'asscher', 'princess', 'round-brilliant+oval', 'round-brilliant+pear', 'emerald+pear'],
                   '$configuration.sideStoneShape',
                 ],
               },
@@ -1161,6 +1161,11 @@ export class ProductsService {
           {
             $addFields: { __haloSizeOrder: { $indexOfArray: [['original', 'small', 'large'], '$configuration.haloSize'] } },
           },
+          { $addFields: { __prongStyleOrder: { $indexOfArray: ['plain', 'pave'] }  } },
+          { $addFields: { __haloSizeOrder: { $indexOfArray: ['original', 'large'] }  } },
+          { $addFields: { __hiddenHaloOrder: { $indexOfArray: ['yes'] }  } },
+          { $addFields: { __diamondOrientationOrder: { $indexOfArray: ['vertical','horizontal'] }  } },
+          { $addFields: { __bandStoneShapeOrder: { $indexOfArray: ['round-brilliant', 'baguette'] }  } },
           // Sorts by those properties
           {
             $sort: {
@@ -1171,6 +1176,9 @@ export class ProductsService {
               __goldPurityOrder: 1,
               __prongStyleOrder: 1,
               __haloSizeOrder: 1,
+              __hiddenHaloOrder: 1,
+              __diamondOrientationOrder: 1,
+              __bandStoneShapeOrder: 1,
             },
           },
           // Groups them by collectionSlug
