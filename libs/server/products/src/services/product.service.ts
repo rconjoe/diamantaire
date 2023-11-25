@@ -1106,6 +1106,8 @@ export class ProductsService {
     collectionSlugsInOrder: string[],
     { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
+    const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
+
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
         [
@@ -1114,7 +1116,7 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': { $in: diamondTypes || ['round-brilliant'] }, // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypesRegex || [ new RegExp('round-brilliant', "i")] }, // always has a filter applied
               'configuration.metal': { $in: metals || ['yellow-gold'] }, // always has a filter applied
               ...getDraftQuery(),
             },
@@ -1138,7 +1140,7 @@ export class ProductsService {
             $addFields: {
               __sideStoneShapeOrder: {
                 $indexOfArray: [
-                  ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise', 'trillion', 'asscher', 'princess', 'round-brilliant+oval', 'round-brilliant+pear', 'emerald+pear'],
+                  ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise', 'trillion', 'asscher', 'princess', 'tapered-baguette', 'round-brilliant+oval', 'round-brilliant+pear', 'emerald+pear'],
                   '$configuration.sideStoneShape',
                 ],
               },
@@ -1161,11 +1163,10 @@ export class ProductsService {
           {
             $addFields: { __haloSizeOrder: { $indexOfArray: [['original', 'small', 'large'], '$configuration.haloSize'] } },
           },
-          { $addFields: { __prongStyleOrder: { $indexOfArray: ['plain', 'pave'] }  } },
-          { $addFields: { __haloSizeOrder: { $indexOfArray: ['original', 'large'] }  } },
-          { $addFields: { __hiddenHaloOrder: { $indexOfArray: ['yes'] }  } },
-          { $addFields: { __diamondOrientationOrder: { $indexOfArray: ['vertical','horizontal'] }  } },
-          { $addFields: { __bandStoneShapeOrder: { $indexOfArray: ['round-brilliant', 'baguette'] }  } },
+          { $addFields: { __prongStyleOrder: { $indexOfArray: [['plain', 'pave'], '$configuration.prongStyle'] }  } },
+          { $addFields: { __hiddenHaloOrder: { $indexOfArray: [['yes'], '$configuration.hiddenHalo'] }  } },
+          { $addFields: { __diamondOrientationOrder: { $indexOfArray: [['vertical','horizontal'], '$configuration.diamondOrientation'] }  } },
+          { $addFields: { __bandStoneShapeOrder: { $indexOfArray: [['round-brilliant', 'baguette'], '$configuration.bandStoneShape'] }  } },
           // Sorts by those properties
           {
             $sort: {
@@ -1186,8 +1187,6 @@ export class ProductsService {
             $group: {
               _id: {
                 collectionSlug: '$collectionSlug',
-                diamondType: '$configuration.diamondType',
-                metal: '$configuration.metal',
               },
               firstDocument: { $first: '$$ROOT' },
             },
