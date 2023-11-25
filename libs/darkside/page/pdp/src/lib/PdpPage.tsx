@@ -69,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  console.log('datoParentProductData', datoParentProductData);
+  // console.log('datoParentProductData', datoParentProductData);
 
   const {
     // ER + WB SEO
@@ -204,9 +204,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  console.log('shopifyProductData', shopifyProductData);
-  console.log('additionalVariantData', additionalVariantData);
-
   // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
@@ -221,6 +218,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
+
+    const diamondType = shopifyProductData?.configuration.diamondType;
+    const metal = shopifyProductData?.configuration.metal;
+    const productMediaAltDescription = `${productTitle}${diamondType ? " | " + _t(diamondType) : ""}${metal ? " | " + _t(metal) : ""}`;
 
     return (
       <PageContainerStyles>
@@ -253,7 +254,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <MediaGallery
               assets={assetStack}
               options={configuration}
-              title={productTitle}
+              title={productMediaAltDescription}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
