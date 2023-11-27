@@ -214,6 +214,131 @@ export const PlpProductFilterStyles = styled.div`
         border-bottom: 0.2rem solid var(--color-teal);
       }
     }
+    /* mobile filter */
+    &.stacked {
+      ul {
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding: 10px 0;
+        max-width: 90vw;
+        margin: 0 auto;
+        padding-left: 4px;
+        li {
+          margin-right: calc(var(--gutter) / 3);
+          &:last-child {
+            margin-right: 0px;
+          }
+
+          button {
+            background-color: transparent;
+            padding: 0;
+            display: block;
+          }
+          svg {
+            height: 30px;
+            width: auto;
+            display: inline-block;
+            overflow: visible;
+          }
+        }
+      }
+
+      &.diamondType {
+        button {
+          border-bottom: 2px solid transparent;
+          transition: 0.25s;
+
+          &:hover,
+          &.active {
+            border-color: var(--color-teal);
+          }
+        }
+      }
+
+      &.styles {
+        button {
+          border-bottom: 2px solid transparent;
+          transition: 0.25s;
+          &:hover {
+            border-bottom: 2px solid var(--color-teal);
+          }
+          .setting-icon {
+            margin-right: 10px;
+            position: relative;
+            top: 1px;
+          }
+        }
+      }
+
+      &.metal {
+        button {
+          width: 100%;
+          background-color: transparent;
+          transition: 0.25s;
+
+          &.active {
+            .metal-swatch {
+              &::before {
+                border-color: var(--color-teal);
+              }
+            }
+          }
+        }
+
+        .metal-text {
+          white-space: nowrap;
+        }
+
+        .metal-swatch {
+          height: 30px;
+          width: 30px;
+          display: inline-block;
+          flex: 0 0 30px;
+          border: 1px solid transparent;
+          border-radius: 50%;
+          margin-right: 7px;
+          position: relative;
+
+          &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+            border: 1px solid transparent;
+            transform: scale(1.35);
+          }
+
+          /* TODO - refine to css variables */
+          &.yellow-gold {
+            background-color: ${colorMap['yellow-gold']};
+          }
+
+          &.white-gold {
+            background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
+          }
+
+          &.rose-gold {
+            background-color: ${colorMap['rose-gold']};
+          }
+
+          &.sterling-silver {
+            background: linear-gradient(138deg, #d2d2d0 0%, #f7f7f7 50%, #c9cac8 100%);
+          }
+
+          &.platinum {
+            background: #c8c8c8;
+          }
+        }
+      }
+      &.priceRange {
+        button.active {
+          font-weight: bold;
+          border-bottom: 2px solid var(--color-teal);
+        }
+      }
+    }
   }
 
   .active-filters {

@@ -37,20 +37,13 @@ const PlpSpecificFilterOptions = ({
   filterOptionsOverride,
   filterTypes,
   updateFilter,
-  // filterOptionSetOpen,
-  // toggleFilterOptionSet,
-  // handleSliderURLUpdate,
-  // setFilterValues,
+
   filterValue,
 }) => {
-  console.log('filterOptionsOverride', filterOptionsOverride);
-
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
   const { data: { METALS_IN_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'METALS_IN_HUMAN_NAMES');
-
-  console.log('METALS_IN_HUMAN_NAMES', METALS_IN_HUMAN_NAMES);
 
   const filterTextOrder = filterOptionsOverride.map((filterOption) => {
     const { filterValue: value } = filterOption;

@@ -3,7 +3,7 @@ import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { SlideOut } from './SlideOut';
@@ -40,39 +40,55 @@ const ProductAppointmentCTAStyles = styled.div`
 
 const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
+  const [ctaTitle, setCtaTitle] = useState('Book an appointment');
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const getCtaTitle = ({ productType, location }) => {
-    if (location) {
-      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
-        return _t(`Discover our rings at VRAI %%location%%`);
+  useEffect(() => {
+    const getCtaTitle = ({ productType, location }) => {
+      console.log('location', location);
+      if (location) {
+        if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+          return _t(`Discover our rings at VRAI %%location%%`);
+        }
+
+        if (
+          productType === 'Earrings' ||
+          productType === 'Bracelet' ||
+          productType === 'Necklace' ||
+          productType === 'Ring'
+        ) {
+          return _t(`Discover our designs at VRAI %%location%%`);
+        }
+
+        return _t(`Book an appointment`);
+      } else {
+        // Fallback if no location matched
+        if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
+          return _t(`Consult with a diamond expert online`);
+        }
+        if (
+          productType === 'Earrings' ||
+          productType === 'Bracelet' ||
+          productType === 'Necklace' ||
+          productType === 'Ring'
+        ) {
+          _t(`Consult with a diamond expert online`);
+        }
+
+        return _t(`Book an appointment`);
       }
+    };
 
-      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
-        return _t(`Discover our designs at VRAI %%location%%`);
-      }
+    let title = getCtaTitle({ productType, location: showroomLocation?.location });
 
-      return _t(`Book an appointment`);
-    } else {
-      // Fallback if no location matched
-      if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
-        return _t(`Consult with a diamond expert online`);
-      }
-      if (productType === 'Earrings' || productType === 'Bracelet' || productType === 'Necklace' || productType === 'Ring') {
-        _t(`Consult with a diamond expert online`);
-      }
+    title = replacePlaceholders(title, ['%%location%%'], [showroomLocation?.location]);
 
-      return _t(`Book an appointment`);
-    }
-  };
-
-  let title = getCtaTitle({ productType, location: showroomLocation?.location });
-
-  title = replacePlaceholders(title, ['%%location%%'], [showroomLocation?.location]);
+    setCtaTitle(title);
+  }, []);
 
   return (
     <ProductAppointmentCTAStyles>
@@ -80,7 +96,7 @@ const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
         <span>
           <BookCalendarIcon />
         </span>
-        {title}
+        {ctaTitle}
       </button>
 
       {isAppointmentSlideoutShowing && (

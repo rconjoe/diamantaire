@@ -9,9 +9,14 @@ const renderFilterOptionSet = ({
   actualFilterValue,
   updateFilter,
   currentFilters,
+  format,
 }) => {
   return (
-    <div className={`filter-option-set ${filterType}`}>
+    <div
+      className={clsx(`filter-option-set ${filterType}`, {
+        stacked: format === 'stacked',
+      })}
+    >
       <ul className="list-unstyled flex">
         {allFilterTypes[filterType]?.map((val) =>
           mapFunction(val, actualFilterValue, updateFilter, filterType, currentFilters),
@@ -105,7 +110,7 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
 //   );
 // };
 
-const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValueValue, currentFilters }) => {
+const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValueValue, currentFilters, format }) => {
   return (
     <>
       {renderFilterOptionSet({
@@ -115,6 +120,7 @@ const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValue
         updateFilter: updateFilter,
         actualFilterValue: filterValueValue,
         currentFilters,
+        format,
       })}
     </>
   );

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { Dispatch, MutableRefObject, SetStateAction, useState } from 'react';
 
 import PlpAllFilterOptions from './PlpAllFilterOptions';
+import PlpMobileFilter from './PlpMobileFilter';
 import { PlpProductFilterStyles } from './PlpProductFilter.style';
 import PlpSpecificFilterOptions from './PlpSpecificFilterOptions';
 
@@ -137,10 +138,10 @@ const PlpProductFilter = ({
         <div className="filter__sticky-container">
           <div
             className={clsx('filter__wrapper container-wrapper', {
-              'specific-filter-options': filterOptionsOverride.length > 0,
+              'specific-filter-options': filterOptionsOverride?.length > 0,
             })}
           >
-            {filterOptionsOverride.length > 0 ? (
+            {filterOptionsOverride?.length > 0 ? (
               <PlpSpecificFilterOptions
                 filterTypes={filterTypes}
                 filterValue={filterValue}
@@ -159,6 +160,15 @@ const PlpProductFilter = ({
                 handleSliderURLUpdate={handleSliderURLUpdate}
               />
             )}
+            <PlpMobileFilter
+              filterTypes={filterTypes}
+              filterOptionSetOpen={filterOptionSetOpen}
+              toggleFilterOptionSet={toggleFilterOptionSet}
+              filterValue={filterValue}
+              updateFilter={updateFilter}
+              setFilterValues={setFilterValues}
+              handleSliderURLUpdate={handleSliderURLUpdate}
+            />
           </div>
         </div>
       </PlpProductFilterStyles>
