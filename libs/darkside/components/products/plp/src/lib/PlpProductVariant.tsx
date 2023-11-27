@@ -69,6 +69,8 @@ const PlpProductVariant = ({
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
+  const productTitleWithProperties = `${title} | ${metalTypeAsConst[configuration?.metal]}`;
+
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
     setIsPrimaryImage(!isPrimaryImage);
@@ -142,6 +144,7 @@ const PlpProductVariant = ({
                 ? primaryImage && (
                     <DatoImage
                       quality={60}
+                      overrideAlt={productTitleWithProperties}
                       enableDpr
                       image={{
                         url: primaryImage?.src,
@@ -171,7 +174,7 @@ const PlpProductVariant = ({
           </div>
           <div className="plp-variant__content">
             <h3>
-              {title} | {metalTypeAsConst[configuration?.metal]} |{' '}
+              {productTitleWithProperties} |{' '}
               {useLowestPrice
                 ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
                 : makeCurrency(price, locale, currencyCode)}

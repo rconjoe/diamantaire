@@ -69,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  console.log('datoParentProductData', datoParentProductData);
+  // console.log('datoParentProductData', datoParentProductData);
 
   const {
     // ER + WB SEO
@@ -204,9 +204,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     },
   ];
 
-  console.log('shopifyProductData', shopifyProductData);
-  console.log('additionalVariantData', additionalVariantData);
-
   // Doubles price if product is earrings pair
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
@@ -221,6 +218,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
+
+    const productMediaAltDescription = generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration)
 
     return (
       <PageContainerStyles>
@@ -253,7 +252,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <MediaGallery
               assets={assetStack}
               options={configuration}
-              title={productTitle}
+              title={productMediaAltDescription}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
@@ -341,6 +340,34 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       No data found for product page: {collectionSlug} {productSlug}{' '}
     </h1>
   );
+
+  function generatePdpAssetAltTag(
+    producttitle: string,
+    productConfiguration: Record<string, string>,
+    configurationsWithouLabels = ['metal','diamondType','goldPurity'],
+    configurationSortOrder = ['diamondType','goldPurity','metal']){
+    
+    const sortedConfigurations = Object.entries(productConfiguration).sort(([a],[b]) => {
+      const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
+      const posB = configurationSortOrder.includes(b) ? configurationSortOrder.indexOf(b) : 99;
+      
+      if (posA < posB) {
+        return -1;
+      }
+
+      return 1;
+    });
+    
+    const configurationDescriptionArr = sortedConfigurations.map(([type, value]) => {
+      if (configurationsWithouLabels.includes(type)) {
+        return _t(value);
+      }
+
+      return `${_t(type)}: ${_t(value)}`;
+    });
+
+    return `${producttitle} | ${configurationDescriptionArr.join(' | ')}`;
+  }
 }
 
 export async function getServerSideProps(
@@ -378,3 +405,5 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
+
+
