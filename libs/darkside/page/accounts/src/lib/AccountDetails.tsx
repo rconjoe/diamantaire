@@ -21,7 +21,7 @@ const AccountDetailsStyles = styled.div`
   .email__container,
   .phone__container {
     padding: calc(var(--gutter) / 2) 0;
-    border-bottom: 1px solid var(--color-grey);
+    border-bottom: 0.1rem solid var(--color-grey);
   }
 
   .shipping-info__container {
@@ -47,7 +47,7 @@ const AccountDetailsStyles = styled.div`
       }
       form {
         .submit {
-          max-width: 140px;
+          max-width: 14rem;
         }
       }
     }

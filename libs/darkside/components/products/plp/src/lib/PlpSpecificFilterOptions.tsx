@@ -14,7 +14,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
     p {
       font-size: var(--font-size-xxxsmall);
       font-weight: 500;
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
 
     ul {
@@ -24,7 +24,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
       padding: 0;
       li {
         font-size: var(--font-size-xxxsmall);
-        margin-right: 5px;
+        margin-right: 0.5rem;
       }
     }
   }

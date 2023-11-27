@@ -14,7 +14,7 @@ export const ModularLogoGridContainer = styled.div`
     font-size: 3rem;
   `)};
   ${tabletAndUp(`
-    min-height: 300px;
+    min-height: 30rem;
   `)}
 
   .logo-grid__title {
@@ -26,7 +26,7 @@ export const ModularLogoGridContainer = styled.div`
     box-sizing: border-box;
 
     ${tabletAndUp(`
-      margin-bottom: 50px;
+      margin-bottom: 5rem;
     `)}
 
     ${mobileOnly(`
@@ -51,24 +51,24 @@ export const ModularLogoGridContainer = styled.div`
     align-self: center;
     max-width: 100%;
     width: 100vw;
-    max-height: 30px;
+    max-height: 3rem;
     margin-top: 4rem;
     object-fit: contain;
     ${tabletAndUp(`
       margin-top: unset;
-      max-height: 25px;
+      max-height: 2.5rem;
     `)}
     ${desktopAndUp(`
-      max-height: 30px;
+      max-height: 3rem;
     `)}
   &.-is-coveteur {
-      max-height: 60px;
+      max-height: 6rem;
 
       ${tabletAndUp(`
-        max-height: 45px;
+        max-height: 4.5rem;
       `)}
       ${desktopAndUp(`
-        max-height: 50px;
+        max-height: 5rem;
       `)}
     }
   }

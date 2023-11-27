@@ -13,8 +13,8 @@ const PlpSubCategoriesStyles = styled.div`
 
   ${media.medium`justify-content: center;`}
   > .subcategory-block {
-    flex: 0 0 170px;
-    padding: 0 5px;
+    flex: 0 0 17rem;
+    padding: 0 0.5rem;
     > button {
       width: 100%;
       padding: 0;
@@ -24,7 +24,7 @@ const PlpSubCategoriesStyles = styled.div`
     }
 
     .subcategory-title {
-      margin-top: 5px;
+      margin-top: 0.5rem;
       font-size: var(--font-size-xxxxsmall);
       text-align: left;
 

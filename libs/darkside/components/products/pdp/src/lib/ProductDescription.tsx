@@ -20,7 +20,7 @@ const ProductDescriptionContainer = styled.div`
   }
 
   p {
-    margin: 0 0 20px;
+    margin: 0 0 2rem;
     line-height: 1.4;
     font-size: 1.7rem;
 
@@ -40,7 +40,7 @@ const ProductDescriptionContainer = styled.div`
     list-style: none;
     li {
       font-size: 1.7rem;
-      margin-bottom: 5px;
+      margin-bottom: 0.5rem;
 
       span.small {
         font-size: 1.4rem;
@@ -61,7 +61,7 @@ const ProductDescriptionContainer = styled.div`
   }
   .description__variant-details {
     p {
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
     }
   }
 `;

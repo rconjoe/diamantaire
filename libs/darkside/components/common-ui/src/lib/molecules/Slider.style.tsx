@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledSlider = styled.div`
   position: relative;
   margin: 0;
-  padding: 0 8px;
+  padding: 0 0.8rem;
   width: 100%;
 
   .vo-slider-target,
@@ -22,7 +22,7 @@ const StyledSlider = styled.div`
 
   .vo-slider-target {
     position: relative;
-    height: 4px;
+    height: 0.4rem;
   }
 
   .vo-slider-base,
@@ -89,8 +89,8 @@ const StyledSlider = styled.div`
   .vo-slider-touch-area {
     background: var(--color-teal);
     border-radius: 50%;
-    height: 15px;
-    width: 15px;
+    height: 1.5rem;
+    width: 1.5rem;
   }
 
   .vo-slider-state-tap .vo-slider-connect,
@@ -106,35 +106,35 @@ const StyledSlider = styled.div`
   /* Slider size and handle placement; */
 
   .vo-slider-horizontal {
-    height: 4px;
+    height: 0.4rem;
   }
 
   .vo-slider-horizontal .vo-slider-handle {
-    width: 30px;
-    height: 30px;
-    right: -15px;
-    top: -13px;
+    width: 3rem;
+    height: 3rem;
+    right: -1.5rem;
+    top: -1.3rem;
   }
 
   .vo-slider-vertical {
-    width: 4px;
+    width: 0.4rem;
   }
 
   .vo-slider-vertical .vo-slider-handle {
-    width: 30px;
-    height: 30px;
-    right: -13px;
-    bottom: -15px;
+    width: 3rem;
+    height: 3rem;
+    right: -1.3rem;
+    bottom: -1.5rem;
   }
 
   .vo-slider-txt-dir-rtl.vo-slider-horizontal .vo-slider-handle {
-    left: -15px;
+    left: -1.5rem;
     right: auto;
   }
 
   .vo-slider-target {
     background: var(--color-lighter-grey);
-    border-radius: 2px;
+    border-radius: 0.2rem;
     border: 0;
   }
 
@@ -143,7 +143,7 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-connects {
-    border-radius: 2px;
+    border-radius: 0.2rem;
   }
 
   .vo-slider-connect {
@@ -162,10 +162,10 @@ const StyledSlider = styled.div`
 
   .vo-slider-handle {
     border: 0;
-    height: 30px;
-    width: 30px;
-    top: -5px;
-    right: -9px;
+    height: 3rem;
+    width: 3rem;
+    top: -0.5rem;
+    right: -0.9rem;
   }
 
   .vo-slider-active {
@@ -207,7 +207,7 @@ const StyledSlider = styled.div`
 
   .vo-slider-value-sub {
     color: var(--color-grey);
-    font-size: 10px;
+    font-size: 1rem;
   }
 
   /* Markings; */
@@ -229,7 +229,7 @@ const StyledSlider = styled.div`
 
   .vo-slider-pips-horizontal {
     padding: 0;
-    height: 40px;
+    height: 4rem;
     top: 100%;
     left: 0;
     width: 100%;
@@ -247,25 +247,25 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-marker-horizontal.vo-slider-marker {
-    margin-left: -1px;
-    width: 1px;
-    height: 5px;
+    margin-left: -0.1rem;
+    width: 0.1rem;
+    height: 0.5rem;
     background: var(--color-lighter-grey);
   }
 
   .vo-slider-marker-horizontal.vo-slider-marker-sub {
-    height: 4px;
+    height: 0.4rem;
   }
 
   .vo-slider-marker-horizontal.vo-slider-marker-large {
-    height: 15px;
-    margin-top: -4px;
+    height: 1.5rem;
+    margin-top: -0.4rem;
   }
 
   /* Vertical layout; */
 
   .vo-slider-pips-vertical {
-    padding: 0 10px;
+    padding: 0 1rem;
     height: 100%;
     top: 0;
     left: 100%;
@@ -274,7 +274,7 @@ const StyledSlider = styled.div`
   .vo-slider-value-vertical {
     -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
-    padding-left: 25px;
+    padding-left: 2.5rem;
   }
 
   .vo-slider-rtl .vo-slider-value-vertical {
@@ -283,17 +283,17 @@ const StyledSlider = styled.div`
   }
 
   .vo-slider-marker-vertical.vo-slider-marker {
-    width: 5px;
-    height: 2px;
-    margin-top: -1px;
+    width: 0.5rem;
+    height: 0.2rem;
+    margin-top: -0.1rem;
   }
 
   .vo-slider-marker-vertical.vo-slider-marker-sub {
-    width: 4px;
+    width: 0.4rem;
   }
 
   .vo-slider-marker-vertical.vo-slider-marker-large {
-    width: 15px;
+    width: 1.5rem;
   }
 
   .vo-slider-tooltip {
@@ -324,14 +324,14 @@ const StyledSlider = styled.div`
     -webkit-transform: translate(50%, 0);
     transform: translate(50%, 0);
     left: auto;
-    bottom: 10px;
+    bottom: 1rem;
   }
 
   .vo-slider-vertical .vo-slider-origin > .vo-slider-tooltip {
-    -webkit-transform: translate(0, -18px);
-    transform: translate(0, -18px);
+    -webkit-transform: translate(0, -1.8rem);
+    transform: translate(0, -1.8rem);
     top: auto;
-    right: 28px;
+    right: 2.8rem;
   }
 
   .vo-slider-values {
@@ -339,7 +339,7 @@ const StyledSlider = styled.div`
     align-items: center;
     justify-content: space-between;
     font-size: var(--font-size-xxxxsmall);
-    margin: 0 -8px 12px;
+    margin: 0 -0.8rem 1.2rem;
   }
 `;
 

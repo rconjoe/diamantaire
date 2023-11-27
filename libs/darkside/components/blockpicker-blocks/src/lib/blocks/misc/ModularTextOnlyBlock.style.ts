@@ -7,7 +7,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
     justify-content: center;
     align-items: center;
     max-width: 90vw;
-    margin: 5px auto;
+    margin: 0.5rem auto;
 
     ${media.medium`max-width: 714px`}
 
@@ -21,7 +21,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
       margin-top: 0;
       margin-bottom: ${setSpace(4)};
       text-align: center;
-      padding-top: 20px;
+      padding-top: 2rem;
 
       ${desktopAndUp(`
         margin-bottom: ${setSpace(5)};
@@ -70,7 +70,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
       strong {
         display: block;
         font-size: 1.6rem;
-        margin: 0 0 5px;
+        margin: 0 0 0.5rem;
 
         @media (min-width: 1200px) {
           font-size: 2.1rem;
@@ -78,7 +78,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
       }
 
       .primary {
-        width: 320px;
+        width: 32rem;
         margin: 0 auto 0.8rem;
       }
     }
@@ -130,11 +130,11 @@ export const ModularTextOnlyBlockContainer = styled.div`
     }
 
     .interstitial & {
-      margin: ${setSpace(2)} auto 5px auto;
-      font-size: 28px;
+      margin: ${setSpace(2)} auto 0.5rem auto;
+      font-size: 2.8rem;
 
       ${tabletAndUp(`
-        margin: ${setSpace(3)} auto 10px auto;
+        margin: ${setSpace(3)} auto 1rem auto;
         font-size: 42px;
       `)}
     }
@@ -181,7 +181,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
     }
 
     > div {
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
       text-align: center;
 
       &:last-child {

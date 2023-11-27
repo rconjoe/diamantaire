@@ -14,10 +14,10 @@ const ProductSuggestionBlockStyles = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: 0 -10px;
+    margin: 0 -1rem;
 
     .product-suggestion__container {
-      padding: 0 10px;
+      padding: 0 1rem;
       flex: 0 0 50%;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -25,7 +25,7 @@ const ProductSuggestionBlockStyles = styled.div`
       }
 
       .product-suggestion__title {
-        margin: 10px 0;
+        margin: 1rem 0;
         font-weight: bold;
       }
 

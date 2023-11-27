@@ -9,31 +9,31 @@ const StyledOptionList = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 10px;
-    max-height: 300px;
+    gap: 1rem;
+    max-height: 30rem;
     overflow-y: scroll;
-    border: 1px solid #888;
-    border-radius: 10px;
-    padding: 5px;
+    border: 0.1rem solid #888;
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   .option-item {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 0.3rem;
   }
 
   .option-values {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 3px;
-    max-width: 300px;
+    gap: 0.3rem;
+    max-width: 30rem;
   }
 
   .option-value {
-    border-radius: 10px;
-    padding: 5px;
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 `;
 

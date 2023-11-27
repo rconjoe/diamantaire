@@ -40,12 +40,12 @@ const EmailPopUpStyles = styled.div`
       align-items: center;
 
       .emailpopup-content__inner {
-        padding: 20px;
+        padding: 2rem;
         flex: 1;
         margin: 0 auto;
         ${media.medium`max-width: 450px;`}
         h2 {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
         }
       }
     }
@@ -56,7 +56,7 @@ const EmailPopUpStyles = styled.div`
       width: 100%;
     }
     .input-opt-in {
-      height: 40px;
+      height: 4rem;
     }
     .react-international-phone-country-selector-button {
       height: 100%;
@@ -64,7 +64,7 @@ const EmailPopUpStyles = styled.div`
   }
   .button--decline button {
     font-size: var(--font-size-xxxsmall);
-    margin-top: 10px;
+    margin-top: 1rem;
   }
 `;
 

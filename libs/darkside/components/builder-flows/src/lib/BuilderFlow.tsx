@@ -31,16 +31,16 @@ const BuilderFlowStyles = styled.div`
   .custom-builder-message {
     background-color: #000;
     display: flex;
-    padding: 10px 0;
+    padding: 1rem 0;
     text-align: center;
     justify-content: center;
     position: relative;
     .logo {
       position: absolute;
-      left: 20px;
+      left: 2rem;
       svg {
         fill: #fff;
-        width: 60px;
+        width: 6rem;
         height: auto;
       }
     }
@@ -52,8 +52,8 @@ const BuilderFlowStyles = styled.div`
     }
     ul {
       position: absolute;
-      top: 9px;
-      right: 20px;
+      top: 0.9rem;
+      right: 2rem;
       margin: 0 auto;
       padding: 0;
 
@@ -76,7 +76,7 @@ const BuilderFlowStyles = styled.div`
 
 const FooterSpacing = createGlobalStyle`
   footer {
-    margin-bottom: 120px;
+    margin-bottom: 12rem;
   }
 `;
 

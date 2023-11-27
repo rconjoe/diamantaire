@@ -27,7 +27,7 @@ interface CatalogPageProps {
 }
 
 const StyledCatalogPage = styled.div`
-  margin: 20px;
+  margin: 2rem;
 
   .selected {
     background-color: purple;
@@ -50,28 +50,28 @@ const StyledCatalogPage = styled.div`
   }
 
   input {
-    border: 1px solid #888;
+    border: 0.1rem solid #888;
     width: 100%;
-    height: 40px;
-    padding: 10px;
+    height: 4rem;
+    padding: 1rem;
   }
 
   .columns {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 1rem;
   }
 
   /* SLUG SELECTOR COLUMN */
   .slugs-selector {
     width: 30%;
-    min-width: 300px;
+    min-width: 30rem;
   }
 
   .producttype-list {
     display: flex;
     flex-direction: column;
-    margin: 5px;
+    margin: 0.5rem;
   }
 
   .slugs-container {
@@ -87,7 +87,7 @@ const StyledCatalogPage = styled.div`
 
   .slug-item {
     text-align: left;
-    padding-left: 20px;
+    padding-left: 2rem;
 
     &.selected {
       background-color: teal;
@@ -100,53 +100,53 @@ const StyledCatalogPage = styled.div`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #888;
-    border-radius: 10px;
+    padding: 1rem;
+    border: 0.1rem solid #888;
+    border-radius: 1rem;
   }
 
   .options-list {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 10px;
-    max-height: 300px;
+    gap: 1rem;
+    max-height: 30rem;
     overflow-y: scroll;
-    border: 1px solid #888;
-    border-radius: 10px;
-    padding: 5px;
+    border: 0.1rem solid #888;
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   .option-item {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 0.3rem;
   }
 
   .option-values {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 3px;
-    max-width: 300px;
+    gap: 0.3rem;
+    max-width: 30rem;
   }
 
   .option-value {
-    border-radius: 10px;
-    padding: 5px;
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   /* PRODUCTS SECTION */
   .products-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
   }
 
   .product-item {
-    border: 1px solid #888;
-    border-radius: 10px;
-    padding: 5px;
+    border: 0.1rem solid #888;
+    border-radius: 1rem;
+    padding: 0.5rem;
     text-align: left;
 
     .price {
@@ -159,7 +159,7 @@ const StyledCatalogPage = styled.div`
 
     &:hover {
       border-color: teal;
-      box-shadow: 2px 2px 2px teal;
+      box-shadow: 0.2rem 0.2rem 0.2rem teal;
     }
   }
 `;

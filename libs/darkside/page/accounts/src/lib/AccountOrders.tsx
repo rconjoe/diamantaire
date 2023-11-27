@@ -10,7 +10,7 @@ const AccountOrdersStyles = styled.div`
   .table {
     .table-row {
       display: flex;
-      border-bottom: 1px solid #dcdbd5;
+      border-bottom: 0.1rem solid #dcdbd5;
 
       .table-col {
         flex: 1;
@@ -19,7 +19,7 @@ const AccountOrdersStyles = styled.div`
     }
     .table-head {
       .table-row {
-        padding: 10px 0;
+        padding: 1rem 0;
         .table-col {
           font-weight: var(--font-weight-bold);
         }
@@ -27,7 +27,7 @@ const AccountOrdersStyles = styled.div`
     }
     .table-body {
       .table-row {
-        padding: 10px 0;
+        padding: 1rem 0;
       }
     }
   }

@@ -44,24 +44,24 @@ export const StyledWishlistShareModal = styled.div`
     }
 
     [type='text'] {
-      border: 1px solid var(--color-lighter-grey);
+      border: 0.1rem solid var(--color-lighter-grey);
       width: 100%;
-      padding: 0 10px;
+      padding: 0 1rem;
       outline: none;
       height: 4.6rem;
       line-height: 4.6rem;
     }
 
     textarea {
-      border: 1px solid var(--color-lighter-grey);
+      border: 0.1rem solid var(--color-lighter-grey);
       line-height: 1.5rem;
       outline: none;
-      padding: 10px;
-      height: 100px;
+      padding: 1rem;
+      height: 10rem;
     }
 
     [type='checkbox'] {
-      margin: 0 10px 0 0;
+      margin: 0 1rem 0 0;
       outline: none;
     }
 

@@ -5,7 +5,7 @@ const HalfWidthQuad = `
     desktopImage {
       url
       alt
-      responsiveImage (imgixParams: {w: 384, h:461, q: 40, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 1440px) 720px,(min-width: 768px) 50vw"){
+      responsiveImage (imgixParams: {w: 384, h:461, q: 40, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 144rem) 720px,(min-width: 76.8rem) 50vw"){
               src
               alt
               aspectRatio
@@ -41,7 +41,7 @@ const HalfWidthQuad = `
     image1 {
       url
       alt
-      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 1440px) 568px, (min-width: 1200px) 348px, (min-width: 992px) 288px, (min-width: 768px) 208px, calc(50vw - 48px)"){
+      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 144rem) 568px, (min-width: 1200px) 348px, (min-width: 992px) 28.8rem, (min-width: 76.8rem) 20.8rem, calc(50vw - 4.8rem)"){
               src
               alt
               aspectRatio
@@ -62,7 +62,7 @@ const HalfWidthQuad = `
     image2 {
       url
       alt
-      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 1440px) 568px, (min-width: 1200px) 348px, (min-width: 992px) 288px, (min-width: 768px) 208px, calc(50vw - 48px)"){
+      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 144rem) 568px, (min-width: 1200px) 348px, (min-width: 992px) 28.8rem, (min-width: 76.8rem) 20.8rem, calc(50vw - 4.8rem)"){
               src
               alt
               aspectRatio
@@ -83,7 +83,7 @@ const HalfWidthQuad = `
     image3 {
       url
       alt
-      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 1440px) 568px, (min-width: 1200px) 348px, (min-width: 992px) 288px, (min-width: 768px) 208px, calc(50vw - 48px)"){
+      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 144rem) 568px, (min-width: 1200px) 348px, (min-width: 992px) 28.8rem, (min-width: 76.8rem) 20.8rem, calc(50vw - 4.8rem)"){
               src
               alt
               aspectRatio
@@ -104,7 +104,7 @@ const HalfWidthQuad = `
     image4 {
       url
       alt
-      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 1440px) 568px, (min-width: 1200px) 348px, (min-width: 992px) 288px, (min-width: 768px) 208px, calc(50vw - 48px)"){
+      responsiveImage (imgixParams: {w: 328, h:328, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 144rem) 568px, (min-width: 1200px) 348px, (min-width: 992px) 28.8rem, (min-width: 76.8rem) 20.8rem, calc(50vw - 4.8rem)"){
               src
               alt
               aspectRatio

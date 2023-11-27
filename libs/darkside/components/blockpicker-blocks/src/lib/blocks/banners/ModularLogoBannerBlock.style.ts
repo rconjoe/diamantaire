@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const ModularLogoBannerBlockContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   overflow: hidden;
   margin: 0 auto ${setSpace(1.5)};
 
@@ -17,7 +17,7 @@ export const ModularLogoBannerBlockContainer = styled.div`
     margin: 0 auto;
 
     ${customBPAndDown(
-      '1440px',
+      '144rem',
       `
         padding: 0 ${setSpace(3)};
       `,
@@ -25,16 +25,16 @@ export const ModularLogoBannerBlockContainer = styled.div`
   }
 
   &.interstitial {
-    margin-top: 40px;
+    margin-top: 4rem;
 
     ${tabletAndUp(`
-      margin-top: 80px;
+      margin-top: 8rem;
     `)}
   }
 
   .logo-banner__fw-image-container {
     width: 100%;
-    max-width: 1440px;
+    max-width: 144rem;
     height: auto;
     margin: auto;
 
@@ -93,14 +93,14 @@ export const ModularLogoBannerBlockContainer = styled.div`
       ${tabletAndUp(`
         padding-bottom: 9%;
         img {
-          max-width: 500px;
+          max-width: 50rem;
         }
       `)}
 
       ${desktopAndUp(`
         padding-bottom: 5%;
         img {
-          max-width: 650px;
+          max-width: 65rem;
         }
       `)}
     }
@@ -108,13 +108,13 @@ export const ModularLogoBannerBlockContainer = styled.div`
     &.is-hearst-page {
       img {
         width: 100%;
-        max-width: 206px;
+        max-width: 20.6rem;
 
         ${tabletAndUp(`
-          max-width: 500px;
+          max-width: 50rem;
         `)}
         ${desktopAndUp(`
-          max-width: 650px;
+          max-width: 65rem;
         `)}
       }
     }

@@ -4,7 +4,7 @@ const StyledDiamond360 = styled.div`
   display: block;
   // aspect-ratio: 1/1;
   position: relative;
-  border: 1px solid transparent;
+  border: 0.1rem solid transparent;
   overflow: hidden;
 
   > div {
@@ -21,20 +21,20 @@ const StyledDiamond360 = styled.div`
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       transform: scale(0.75);
       width: auto;
-      max-width: 170px;
+      max-width: 17rem;
     }
   }
 
   .spritespin-progress-label {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: 0.5rem;
     background: rgba(0, 0, 0, 0.25);
     transform: translate(-50%, -50%);
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 50px;
-    height: 50px;
+    width: 5rem;
+    height: 5rem;
     display: flex;
     align-items: center;
     justify-content: center;

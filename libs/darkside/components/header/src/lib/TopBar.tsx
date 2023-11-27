@@ -25,7 +25,7 @@ const TopBarContainer = styled.div`
   padding: 1rem 0;
   position: relative;
   z-index: 5000;
-  min-height: 38px;
+  min-height: 3.8rem;
 
   * {
     color: #fff;
@@ -36,10 +36,10 @@ const TopBarContainer = styled.div`
       margin: 0 auto;
       display: flex;
       justify-content: center;
-      padding: 0 20px;
+      padding: 0 2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        max-width: 550px;
+        max-width: 55rem;
         padding: 0;
       }
 
@@ -54,7 +54,7 @@ const TopBarContainer = styled.div`
         ${media.small`font-size: var(--font-size-xxxsmall);`}
 
         span {
-          margin-left: 8px;
+          margin-left: 0.8rem;
         }
       }
 
@@ -68,9 +68,9 @@ const TopBarContainer = styled.div`
       .arrow-left {
         width: 0;
         height: 0;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-bottom: 8px solid var(--color-white);
+        border-left: 0.4rem solid transparent;
+        border-right: 0.4rem solid transparent;
+        border-bottom: 0.8rem solid var(--color-white);
         display: inline-block;
         transform: rotate(90deg);
       }
@@ -114,7 +114,7 @@ const TopBarContainer = styled.div`
 
       svg {
         stroke: #fff;
-        stroke-width: 1px;
+        stroke-width: 0.1rem;
       }
     }
   }

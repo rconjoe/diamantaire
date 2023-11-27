@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 const PlpCreativeBlockStyles = styled.div`
   grid-column: 1/3;
-  border: 1px solid var(--color-light-grey);
+  border: 0.1rem solid var(--color-light-grey);
 
   ${media.medium`grid-column: 1/3; grid-area: 2 / 1 / 4 / 3;`}
 
@@ -25,7 +25,7 @@ const PlpCreativeBlockStyles = styled.div`
     position: relative;
 
     .creative-block__content {
-      ${media.small`position: absolute;right: 20px;bottom: 20px;`}
+      ${media.small`position: absolute;right: 2rem;bottom: 2rem;`}
 
       .creative-block__content-inner {
         background-color: #fff;

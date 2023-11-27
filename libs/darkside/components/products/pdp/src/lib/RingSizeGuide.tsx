@@ -18,7 +18,7 @@ const RingSizeGuideStyles = styled.div`
       list-style: none;
 
       li {
-        margin-right: 15px;
+        margin-right: 1.5rem;
 
         &:last-child {
           margin-right: 0;

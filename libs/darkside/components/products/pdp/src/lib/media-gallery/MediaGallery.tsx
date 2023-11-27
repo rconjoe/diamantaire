@@ -22,14 +22,14 @@ interface MediaGalleryProps {
 const MediaGalleryStyles = styled.div`
   display: none;
 
-  gap: 6px;
+  gap: 0.6rem;
   width: 100%;
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     display: flex;
     flex-wrap: wrap;
 
     > * {
-      flex: 0 0 calc(50% - 3px);
+      flex: 0 0 calc(50% - 0.3rem);
     }
   }
 `;
@@ -118,7 +118,7 @@ const ImageAssetStyles = styled.div`
 
   p {
     position: absolute;
-    bottom: 15px;
+    bottom: 1.5rem;
     left: 0;
     width: 100%;
     text-align: center;

@@ -46,18 +46,18 @@ export const VideoSlideContainer = styled.div`
   .list-item__copy {
     display: block;
     text-align: left;
-    margin: 20px 0 0;
+    margin: 2rem 0 0;
   }
 
   .list-item__copy-title {
     color: #000;
     display: block;
-    font-size: 15px;
+    font-size: 1.5rem;
     font-weight: ${BOLD_WEIGHT};
     ${tabletAndUp(`
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: .3px;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    letter-spacing: .0.3rem;
   `)};
   }
 `;

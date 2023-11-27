@@ -11,12 +11,12 @@ import styled from 'styled-components';
 export const ModularSkinnyBannerBlockContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   margin: 0 auto;
 
   .skinny-banner__image-container {
     width: 100%;
-    max-width: 1440px;
+    max-width: 144rem;
     height: auto;
     min-height: calc(100vw / 375 * 180);
     ${tabletAndUp(`
@@ -69,7 +69,7 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
       &.-center-bottom {
-        margin-bottom: 10px !important;
+        margin-bottom: 1rem !important;
       }
       margin-bottom: ${setSpace(2.5)};
     `)};

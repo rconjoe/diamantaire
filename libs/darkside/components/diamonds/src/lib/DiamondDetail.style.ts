@@ -209,7 +209,7 @@ const StyledDiamondDetail = styled.div`
     width: 100%;
     display: block;
     overflow: hidden;
-    padding: 0 0 30px;
+    padding: 0 0 3rem;
 
     .swiper {
       overflow: visible;
@@ -222,12 +222,12 @@ const StyledDiamondDetail = styled.div`
     }
 
     .swiper-pagination {
-      bottom: -30px;
+      bottom: -3rem;
     }
 
     .swiper-pagination-bullet {
-      width: 5px;
-      height: 5px;
+      width: 0.5rem;
+      height: 0.5rem;
       background: var(--color-dark-grey);
 
       &.active {

@@ -16,20 +16,20 @@ const CookieBannerStyles = styled.div`
   background: var(--color-header-bg);
   color: var(--color-black);
   width: 100%;
-  border-top: 1px solid var(--color-dark-grey);
+  border-top: 0.1rem solid var(--color-dark-grey);
   z-index: var(--z-index-nav);
   .container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: top;
-    padding: 20px 0;
+    padding: 2rem 0;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: 144rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       flex-direction: row;
-      padding: 50px 0;
+      padding: 5rem 0;
     }
     a {
       color: var(--color-teal);
@@ -41,7 +41,7 @@ const CookieBannerStyles = styled.div`
     line-height: 1;
   }
   .col {
-    margin: 30px;
+    margin: 3rem;
   }
   .col-left {
     max-width: 520px;
@@ -52,7 +52,7 @@ const CookieBannerStyles = styled.div`
   }
   .button-select button {
     font-size: var(--font-size-xxxsmall);
-    margin-top: 5px;
+    margin-top: 0.5rem;
   }
   .checkbox-container {
     display: flex;
@@ -60,13 +60,13 @@ const CookieBannerStyles = styled.div`
     justify-content: space-between;
     font-size: var(--font-size-xxxsmall);
     position: relative;
-    gap: 10px;
+    gap: 1rem;
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       flex-direction: row;
     }
   }
   .copy {
-    margin: 20px 0 25px !important;
+    margin: 2rem 0 2.5rem !important;
   }
 `;
 

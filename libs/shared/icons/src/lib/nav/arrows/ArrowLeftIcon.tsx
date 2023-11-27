@@ -1,6 +1,6 @@
 const ArrowLeftIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="8px" height="14px" viewBox="0 0 8 14" role="img">
+    <svg xmlns="http://www.w3.org/2000/svg" width="0.8rem" height="1.4rem" viewBox="0 0 8 14" role="img">
       <defs />
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(-2.000000, 1.000000)">
         <polyline

@@ -10,9 +10,9 @@ import styled from 'styled-components';
 
 const ChildProductStyles = styled.div`
   background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-top: 10px;
+  border: 0.1rem solid #e0e0e0;
+  border-radius: 0.8rem;
+  margin-top: 1rem;
   position: relative;
 
   .child-product__inner {
@@ -20,19 +20,19 @@ const ChildProductStyles = styled.div`
     align-items: center;
 
     .child-product__image {
-      flex: 0 0 168px;
-      padding-right: 20px;
+      flex: 0 0 16.8rem;
+      padding-right: 2rem;
     }
 
     .cart-item__content {
       flex: 1;
-      padding-right: 10px;
+      padding-right: 1rem;
 
       button {
         font-size: 1.4rem;
       }
       p {
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
         font-size: 1.5rem;
         color: #777;
 
@@ -52,7 +52,7 @@ const ChildProductStyles = styled.div`
     }
   }
   .certificate-info {
-    border: 1px solid #000;
+    border: 0.1rem solid #000;
     position: absolute;
     top: 0;
     left: 0;
@@ -61,7 +61,7 @@ const ChildProductStyles = styled.div`
     &.dark {
       background-color: #222;
       .certificate-info__inner {
-        padding: 20px;
+        padding: 2rem;
 
         .certificate-info__title {
           p {
@@ -79,7 +79,7 @@ const ChildProductStyles = styled.div`
           button {
             font-size: 1.6rem;
             color: #fff;
-            border-bottom: 1px solid var(--color-white);
+            border-bottom: 0.1rem solid var(--color-white);
             svg {
               line {
                 stroke: var(--color-white);
@@ -91,11 +91,11 @@ const ChildProductStyles = styled.div`
     }
 
     .certificate-info__inner {
-      padding: 20px;
+      padding: 2rem;
 
       .certificate-info__title {
         display: flex;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
         p {
           flex: 1;
           margin: 0;
@@ -123,9 +123,9 @@ const ChildProductStyles = styled.div`
           font-size: 1.6rem;
           svg {
             position: relative;
-            top: 7px;
-            left: -5px;
-            margin-right: -5px;
+            top: 0.7rem;
+            left: -0.5rem;
+            margin-right: -0.5rem;
             transform: scale(0.75);
           }
         }

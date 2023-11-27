@@ -17,7 +17,7 @@ export const ShowroomContainer = styled.div`
   .showroom__nav {
     flex: 1;
     ${desktopAndUp(`
-      border-right: 1px solid #ccc;
+      border-right: 0.1rem solid #ccc;
       padding-right: var(--gutter);
   `)}
   }

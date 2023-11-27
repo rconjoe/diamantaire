@@ -88,7 +88,7 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-label {
     font-size: var(--font-size-xxxsmall);
-    margin-right: 5px;
+    margin-right: 0.5rem;
     position: relative;
   }
 
@@ -96,7 +96,7 @@ const PlpSortOptionStyle = styled.div`
     border: none;
   }
   .sort-dropdown__menu {
-    min-width: 155px;
+    min-width: 15.5rem;
     left: -3rem;
   }
   .sort-dropdown__value-container {

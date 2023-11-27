@@ -7,7 +7,7 @@ const Leo = `
     image {
       url
       alt
-      responsiveImage (imgixParams: {w: 280, q: 80, auto: format },sizes: "140px"){
+      responsiveImage (imgixParams: {w: 280, q: 80, auto: format },sizes: "14rem"){
         src
         alt
         aspectRatio

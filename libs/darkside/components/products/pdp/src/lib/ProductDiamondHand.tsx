@@ -10,7 +10,7 @@ const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 const offset = '2rem';
 
 const ProductDiamondHandStyles = styled.div`
-  min-height: 200px;
+  min-height: 20rem;
   background-color: #fff;
 
   .hand-image-container {
@@ -27,7 +27,7 @@ const ProductDiamondHandStyles = styled.div`
 
       .shown-on-text {
         font-size: var(--font-size-xxxsmall);
-        margin: 20px 0 0;
+        margin: 2rem 0 0;
       }
     }
 
@@ -52,7 +52,7 @@ const ProductDiamondHandStyles = styled.div`
   }
 
   .slider-outer-container {
-    padding: 20px 0;
+    padding: 2rem 0;
     max-width: 70%;
     margin: 0 auto;
     .slider-grid {
@@ -69,22 +69,22 @@ const ProductDiamondHandStyles = styled.div`
 
       .slider {
         flex: 1;
-        padding: 0 10px;
+        padding: 0 1rem;
 
         .horizontal-slider {
-          top: 1px;
+          top: 0.1rem;
         }
       }
       .track {
-        height: 3px;
+        height: 0.3rem;
         background-color: var(--color-teal);
-        top: 8px;
-        border-radius: 20px;
+        top: 0.8rem;
+        border-radius: 2rem;
       }
 
       .thumb {
-        height: 20px;
-        width: 20px;
+        height: 2rem;
+        width: 2rem;
         background-color: var(--color-teal);
         border-radius: 50%;
         cursor: pointer;
@@ -95,12 +95,12 @@ const ProductDiamondHandStyles = styled.div`
           color: var(--color-teal);
           font-weight: 500;
           display: inline-block;
-          top: -20px;
+          top: -2rem;
           display: inline-block;
-          left: -25px;
+          left: -2.5rem;
           width: 100%;
           text-align: center;
-          min-width: 70px;
+          min-width: 7rem;
           background-color: transparent;
         }
       }

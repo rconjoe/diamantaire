@@ -393,7 +393,7 @@ const MiscStyles = styled.createGlobalStyle`
     display: inline;
     margin-top: -0.25rem;
   }
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 76.8rem) {
     #hero {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }

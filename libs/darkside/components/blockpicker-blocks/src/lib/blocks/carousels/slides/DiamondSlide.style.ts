@@ -22,13 +22,13 @@ export const SlideContainer = styled.div`
 
   .mobile-slide__text {
     font-family: ${MAIN_FONT};
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 500;
     line-height: 1.3;
-    margin-top: 25px;
+    margin-top: 2.5rem;
     ${tabletAndUp(`
-    font-size:18px;
-    margin-top: 40px;
+    font-size:1.8rem;
+    margin-top: 4rem;
     font-weight: 600;
   `)}
   }

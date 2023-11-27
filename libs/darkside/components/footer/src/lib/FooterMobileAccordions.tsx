@@ -15,7 +15,7 @@ type FooterMobileAccordionProps = {
 };
 
 const FooterMobileAccordionsContainer = styled.div`
-  padding-top: 20px;
+  padding-top: 2rem;
 `;
 
 const CountryLabelListItem = styled.div`
@@ -29,7 +29,7 @@ const CountryLabelListItem = styled.div`
 
     .label {
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 1rem;
       text-transform: uppercase;
       font-size: 1.4rem;
     }
@@ -42,7 +42,7 @@ const CountryLabelListItem = styled.div`
 `;
 
 const LanguageLabelListItem = styled.div`
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0.1rem solid #ccc;
   .language-list {
     position: static;
     padding: 0;
@@ -74,7 +74,7 @@ const LanguageLabelListItem = styled.div`
 
     .label {
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 1rem;
       text-transform: uppercase;
       font-size: 1.4rem;
     }
@@ -165,7 +165,7 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JS
 };
 
 const FooterAccordionContainer = styled.div`
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0.1rem solid #ccc;
 
   button {
     padding: 1.5rem 0;
@@ -185,7 +185,7 @@ const FooterAccordionContainer = styled.div`
       text-align: right;
 
       svg {
-        width: 8px;
+        width: 0.8rem;
         height: auto;
         transition: 0.25s;
       }
@@ -200,11 +200,11 @@ const FooterAccordionContainer = styled.div`
 
   ul {
     margin: 0;
-    padding: 0 0 15px;
+    padding: 0 0 1.5rem;
     list-style: none;
 
     li {
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
 
       &:last-child {
         margin-bottom: 0px;

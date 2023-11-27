@@ -42,7 +42,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           color: var(--color-black);
           background-color: #fff;
           border: none;
-          border-bottom: 1px solid #000;
+          border-bottom: 0.1rem solid #000;
           padding: 1.5rem 0;
           display: flex;
           width: 100%;
@@ -65,12 +65,12 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
             flex: 1;
             text-align: right;
             position: relative;
-            top: 2px;
+            top: 0.2rem;
 
             svg {
               transition: 0.25s;
-              width: 10px;
-              height: 17px;
+              width: 1rem;
+              height: 1.7rem;
             }
           }
 
@@ -93,7 +93,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       padding: 1rem;
 
       .submenu__title {
-        font-size: 14px;
+        font-size: 1.4rem;
         margin: 0 0 1rem;
       }
 
@@ -125,11 +125,11 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
             span {
               position: relative;
-              margin-right: 10px;
+              margin-right: 1rem;
               font-size: 1.7rem;
 
               &.diamond {
-                top: 4px;
+                top: 0.4rem;
                 flex: 0 0 3rem;
                 text-align: center;
                 svg {

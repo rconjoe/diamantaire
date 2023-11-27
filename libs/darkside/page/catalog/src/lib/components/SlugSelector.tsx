@@ -34,7 +34,7 @@ const StyledSlugSelector = styled.div`
   .producttype-list {
     display: flex;
     flex-direction: column;
-    margin: 5px;
+    margin: 0.5rem;
   }
 
   .slugs-container {
@@ -50,7 +50,7 @@ const StyledSlugSelector = styled.div`
 
   .slug-item {
     text-align: left;
-    padding-left: 20px;
+    padding-left: 2rem;
 
     &.selected {
       background-color: teal;

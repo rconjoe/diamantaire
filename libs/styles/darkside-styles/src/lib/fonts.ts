@@ -12,21 +12,21 @@ export const ENGRAVING_FONT_RENDER_MAP = {
   Script: 'Script MT Bold',
   Monogram: 'Monogram',
 };
-export const HOME_PAGE_P_FONT_SIZE = '18px';
-export const HOME_PAGE_CTA_FONT_SIZE = '18px';
+export const HOME_PAGE_P_FONT_SIZE = '1.8rem';
+export const HOME_PAGE_CTA_FONT_SIZE = '1.8rem';
 
 // match rendered font size illusion
 export const ENGRAVING_FONT_SIZE_MAP = {
-  Script: '16px',
-  Serif: '14px',
-  'Sans Serif': '13px',
-  Monogram: '16px',
+  Script: '1.6rem',
+  Serif: '1.4rem',
+  'Sans Serif': '1.3rem',
+  Monogram: '1.6rem',
 };
 export const ENGRAVING_FONT_SIZE_MAP_MOBILE = {
-  Script: '19px',
-  Serif: '17px',
-  'Sans Serif': '16px',
-  Monogram: '19px',
+  Script: '1.9rem',
+  Serif: '1.7rem',
+  'Sans Serif': '1.6rem',
+  Monogram: '1.9rem',
 };
 
 export const getRenderedEngravingFontStyles = (selectedEngravingFont) => {

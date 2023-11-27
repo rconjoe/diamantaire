@@ -10,7 +10,7 @@ export const JournalCategoryGridGroupStyles = styled.div`
       border: none;
       background-color: black;
       color: black;
-      height: 5px;
+      height: 0.5rem;
     }
 
     &.header-content {
@@ -34,7 +34,7 @@ export const JournalCategoryGridGroupStyles = styled.div`
       }
 
       .with-route & {
-        margin-right: 5px;
+        margin-right: 0.5rem;
       }
     }
 
