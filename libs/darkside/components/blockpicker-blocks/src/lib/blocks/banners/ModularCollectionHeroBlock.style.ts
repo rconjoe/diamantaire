@@ -89,7 +89,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   }
 
   .hero-block__title {
-    font-family: futura-pt, sans-serif;
+    font-family: var(--font-family-main);
     font-style: initial;
     font-weight: 400;
     line-height: 1;
@@ -130,7 +130,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
 
   .hero-block__subtitle {
     display: block;
-    font-family: ${(props) => (props?.$subtitleFont ? props?.$subtitleFont : 'futura-pt, sans')};
+    font-family: ${(props) => (props?.$subtitleFont ? props?.$subtitleFont : 'var(--font-family-main)')};
     font-style: 'initial';
     font-weight: 200;
     line-height: 1;
@@ -184,7 +184,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
     display: block;
 
     &.swap-title-and-by-vrai {
-      font-family: 'futura-pt, sans';
+      font-family: var(--font-family-main);
       font-style: initial;
     }
 

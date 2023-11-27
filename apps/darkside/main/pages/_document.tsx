@@ -1,3 +1,4 @@
+import { vraiFont } from '@diamantaire/styles/darkside-styles';
 import Document, { Html, Main, NextScript, DocumentContext, Head } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
@@ -28,7 +29,7 @@ export default class MyDocument extends Document {
       <Html>
         <Head />
 
-        <body>
+        <body className={vraiFont.variable}>
           <Main />
           <NextScript />
         </body>

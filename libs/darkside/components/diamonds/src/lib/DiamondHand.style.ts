@@ -40,7 +40,7 @@ const StyledDiamondHand = styled.div`
   .image-diamond {
     position: absolute;
     top: 58%;
-    left: 22.5%;
+    left: 20.5%;
     display: flex;
     align-items: center;
     justify-content: center;

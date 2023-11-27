@@ -65,7 +65,7 @@ export const ModularVideoBlockStyles = styled.div<Props>`
     left: 50%;
     transform: translateX(-50%);
     top: 10%;
-    font-family: ${(props) => (props.$titleFont ? props.$titleFont : 'futura-pt, sans')};
+    font-family: ${(props) => (props.$titleFont ? props.$titleFont : 'var(--font-family-main)')};
     font-style: ${(props) => (props.$titleStyle ? props.$titleStyle : 'initial')};
     font-weight: 200;
     line-height: 1;

@@ -11,6 +11,13 @@ const Trio1x1 = `
     image1 {
       url
       alt
+      responsiveImage(imgixParams: {w: 400, h: 400, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        title
+        height
+        width
+        src
+        base64
+      }
     }
     ctaCopy1
     ctaRoute1
@@ -19,6 +26,13 @@ const Trio1x1 = `
     image2 {
       url
       alt
+      responsiveImage(imgixParams: {w: 400, h: 400, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        title
+        height
+        width
+        src
+        base64
+      }
     }
     ctaCopy2
     ctaRoute2
@@ -27,6 +41,13 @@ const Trio1x1 = `
     image3 {
       url
       alt
+      responsiveImage(imgixParams: {w: 400, h: 400, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+        title
+        height
+        width
+        src
+        base64
+      }
     }
     ctaCopy3
     ctaRoute3
