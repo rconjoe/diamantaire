@@ -1,4 +1,4 @@
-import localFont from 'next/font/local';
+import localFont from '@next/font/local';
 
 import { CssHelpers } from './css-helpers';
 import { CssVariables } from './css-variables.style';
@@ -50,7 +50,6 @@ export function makeTealLink() {
 export const GlobalStyles = () => {
   return (
     <>
-      <div className={vraiFont.variable} />
       <ResetStyles />
       <CssVariables />
       <CssHelpers />
