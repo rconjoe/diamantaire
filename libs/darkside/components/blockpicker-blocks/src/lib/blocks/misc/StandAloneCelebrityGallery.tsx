@@ -4,9 +4,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const StandAloneCelebrityGalleryStyles = styled.div`
-  padding-top: 40px;
+  padding-top: 4rem;
   .title-container {
-    padding-bottom: 40px;
+    padding-bottom: 4rem;
   }
   .celebrity-grid {
     display: flex;
@@ -14,8 +14,8 @@ const StandAloneCelebrityGalleryStyles = styled.div`
 
     .thumbnail-container {
       flex: 1 1 100%;
-      padding: 0 20px;
-      margin-bottom: 40px;
+      padding: 0 2rem;
+      margin-bottom: 4rem;
 
       ${media.xsmall`flex: 0 0 50%;`}
       ${media.small`flex: 0 0 33.33%;`}
@@ -27,12 +27,12 @@ const StandAloneCelebrityGalleryStyles = styled.div`
         padding: 0;
 
         img {
-          border-radius: 4px;
+          border-radius: 0.4rem;
           overflow: hidden;
         }
 
         .thumbnail-content {
-          padding-top: 10px;
+          padding-top: 1rem;
         }
       }
     }
@@ -59,31 +59,31 @@ const StandAloneCelebrityGalleryStyles = styled.div`
       align-items: center;
 
       .celeb-content__inner {
-        padding: 40px;
+        padding: 4rem;
         flex: 1;
         max-width: 450px;
         margin: 0 auto;
 
         h2 {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
         }
 
         .products {
-          margin-top: 20px;
+          margin-top: 2rem;
           display: flex;
           li {
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
             flex: 1;
             display: flex;
-            margin-right: 10px;
+            margin-right: 1rem;
             &:last-child {
               margin-right: 0px;
             }
             a {
               flex: 1;
               display: block;
-              border: 1px solid #e2e2e2;
-              border-radius: 4px;
+              border: 0.1rem solid #e2e2e2;
+              border-radius: 0.4rem;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
@@ -91,33 +91,33 @@ const StandAloneCelebrityGalleryStyles = styled.div`
 
               &:hover {
                 box-shadow:
-                  0 14px 28px rgba(0, 0, 0, 0.25),
-                  0 10px 10px rgba(0, 0, 0, 0.22);
+                  0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
+                  0 1rem 1rem rgba(0, 0, 0, 0.22);
               }
 
               > .image {
-                flex: 0 0 100px;
-                padding: 10px;
+                flex: 0 0 10rem;
+                padding: 1rem;
                 img {
                   height: 100% !important;
-                  max-height: 140px;
+                  max-height: 14rem;
                   object-fit: contain;
                 }
               }
 
               .text {
-                padding: 10px;
+                padding: 1rem;
                 text-align: center;
                 display: block;
               }
 
               button {
-                border-bottom-left-radius: 4px;
-                border-bottom-right-radius: 4px;
-                width: calc(100% + 2px);
+                border-bottom-left-radius: 0.4rem;
+                border-bottom-right-radius: 0.4rem;
+                width: calc(100% + 0.2rem);
                 position: relative;
-                left: -1px;
-                bottom: -1px;
+                left: -0.1rem;
+                bottom: -0.1rem;
               }
             }
           }

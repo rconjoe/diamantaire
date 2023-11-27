@@ -38,22 +38,22 @@ export const JournalNavigationStyles = styled.div`
     .blog-navigation__header-links {
       display: flex;
       justify-content: flex-start;
-      gap: 38px;
-      margin: 0 20px;
+      gap: 3.8rem;
+      margin: 0 2rem;
       ${tabletAndUp(`
         justify-content: center;
       `)};
     }
 
     .blog-navigation__item {
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: 500;
-      letter-spacing: 0.7px;
+      letter-spacing: 0.7rem;
 
       white-space: nowrap;
 
       ${tabletAndUp(`
-        font-size: 16px;
+        font-size: 1.6rem;
       `)};
     }
   }

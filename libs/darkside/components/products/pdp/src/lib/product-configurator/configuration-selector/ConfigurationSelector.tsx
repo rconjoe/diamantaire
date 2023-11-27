@@ -32,8 +32,8 @@ const StyledConfigurationSelector = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 
   > * {
     flex: 1 1 100%;
@@ -44,7 +44,7 @@ const StyledConfigurationSelector = styled.div`
 
     &.bandAccent {
       flex: 1;
-      margin-left: 20px;
+      margin-left: 2rem;
     }
   }
 

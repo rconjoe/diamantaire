@@ -9,7 +9,7 @@ export const ModularShowroomBlockStyles = styled.div`
   ${desktopAndUp(`
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 40px;
+    padding: 0 4rem;
   `)};
 
   .showroom__image-container {
@@ -35,7 +35,7 @@ export const ModularShowroomBlockStyles = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: left;
-    padding: 20px;
+    padding: 2rem;
 
     ${desktopAndUp(`
     display: flex;
@@ -64,7 +64,7 @@ export const ModularShowroomBlockStyles = styled.div`
   .showroom__title {
     margin-bottom: ${setSpace(1)} !important;
     font-weight: var(--font-weight-medium);
-    font-size: 22px;
+    font-size: 2.2rem;
     font-family: ${MAIN_FONT};
     text-align: left;
 
@@ -107,7 +107,7 @@ export const ModularShowroomBlockStyles = styled.div`
 
   p {
     strong {
-      margin-bottom: 5px;
+      margin-bottom: 0.5rem;
       display: block;
     }
   }

@@ -14,7 +14,7 @@ const PlpProductVariantStyles = styled.div`
     position: relative;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      min-height: 300px;
+      min-height: 30rem;
     }
 
     button {
@@ -26,13 +26,13 @@ const PlpProductVariantStyles = styled.div`
 
     .plp-variant__label {
       position: absolute;
-      font-size: 14px;
-      left: 15px;
-      top: 15px;
+      font-size: 1.4rem;
+      left: 1.5rem;
+      top: 1.5rem;
       background: rgb(255, 255, 255);
-      border: 1px solid rgb(216, 214, 209);
-      padding: 4px 6px;
-      border-radius: 2px;
+      border: 0.1rem solid rgb(216, 214, 209);
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.2rem;
     }
   }
   .plp-variant__content {

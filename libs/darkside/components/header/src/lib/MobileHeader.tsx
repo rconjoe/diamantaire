@@ -31,7 +31,7 @@ const MobileHeaderContainer = styled.div`
       flex: 1;
 
       svg {
-        height: 21px;
+        height: 2.1rem;
       }
 
       &.col--left {
@@ -44,7 +44,7 @@ const MobileHeaderContainer = styled.div`
             align-items: center;
 
             li {
-              margin-right: 5px;
+              margin-right: 0.5rem;
               display: flex;
               align-items: center;
 
@@ -56,26 +56,26 @@ const MobileHeaderContainer = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 48px;
-                height: 28px;
+                width: 4.8rem;
+                height: 2.8rem;
                 overflow: hidden;
                 position: relative;
               }
 
               &.calendar {
-                transform: translate(-5px, 0);
+                transform: translate(-0.5rem, 0);
 
                 svg {
-                  height: 24px;
+                  height: 2.4rem;
 
                   ${desktopAndUp(`
-                    height: 18px;
+                    height: 1.8rem;
                   `)}
                 }
               }
 
               img {
-                max-width: 28px;
+                max-width: 2.8rem;
                 position: relative;
               }
             }
@@ -91,7 +91,7 @@ const MobileHeaderContainer = styled.div`
           display: inline-block;
 
           svg {
-            width: 60px;
+            width: 6rem;
             height: auto;
           }
         }
@@ -109,13 +109,13 @@ const MobileHeaderContainer = styled.div`
 
         li.wishlist {
           svg {
-            height: 24px;
+            height: 2.4rem;
           }
         }
 
         li.cart {
           svg {
-            height: 24px;
+            height: 2.4rem;
           }
         }
 

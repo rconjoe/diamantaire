@@ -35,7 +35,7 @@ type DiamondPlpPageProps = {
 
 const StyledPlpDiamondPage = styled.div`
   .filter-bar {
-    height: 40px;
+    height: 4rem;
   }
   .view-more {
     margin: 1rem 0;
@@ -44,7 +44,7 @@ const StyledPlpDiamondPage = styled.div`
     justify-items: center;
 
     & > div {
-      max-width: 300px;
+      max-width: 30rem;
     }
   }
 `;

@@ -55,10 +55,10 @@ type Theme = {
 export const theme: Theme = {
   sizes: {
     xxxxl: '1600px',
-    xxxl: '1500px',
+    xxxl: '150rem',
     xxl: '1441px',
     xl: '1200px',
     desktop: '992px',
-    tablet: '768px',
+    tablet: '76.8rem',
   },
 };

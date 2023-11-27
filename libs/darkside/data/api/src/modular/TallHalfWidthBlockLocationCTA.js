@@ -28,7 +28,7 @@ const TallHalfWidthBlockLocationCTA = `
         url
         alt
         mimeType
-        responsiveImage(imgixParams: {w: 800, h: 650, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 1440px) 864px, (min-width: 768px) 60vw") {
+        responsiveImage(imgixParams: {w: 800, h: 650, q: 40, auto: format, fit: crop, crop: focalpoint }, sizes:"(min-width: 144rem) 864px, (min-width: 76.8rem) 60vw") {
             ...responsiveImageFragment
         }
     }

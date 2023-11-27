@@ -19,7 +19,7 @@ const ProductIconListContainer = styled.div`
       display: flex;
       align-items: center;
       font-size: 1.7rem;
-      margin-bottom: 5px;
+      margin-bottom: 0.5rem;
       a {
         display: flex;
         color: var(--color-teal);
@@ -27,11 +27,11 @@ const ProductIconListContainer = styled.div`
       }
 
       span.icon {
-        margin-right: 10px;
+        margin-right: 1rem;
       }
 
       img {
-        max-width: 15px;
+        max-width: 1.5rem;
       }
 
       .diamond-info-toggle {
@@ -42,7 +42,7 @@ const ProductIconListContainer = styled.div`
         svg {
           transform: scale(0.6);
           position: relative;
-          top: 1px;
+          top: 0.1rem;
         }
       }
     }

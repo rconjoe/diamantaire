@@ -233,7 +233,7 @@ function ProductConfigurator({
       {isBuilderFlowOpen ? (
         <div
           style={{
-            marginTop: '20px',
+            marginTop: '2rem',
           }}
         >
           <DarksideButton
@@ -289,7 +289,7 @@ type CtaButtonProps = {
 };
 
 const AddToCartButtonContainer = styled.div`
-  margin: 10px 0;
+  margin: 1rem 0;
 `;
 
 function AddToCartButton({

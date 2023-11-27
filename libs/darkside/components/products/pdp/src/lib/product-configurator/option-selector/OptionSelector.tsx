@@ -57,17 +57,17 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
 
     &.ringSize {
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
       .show-more-sizes-button button {
         font-size: var(--font-size-xxxsmall);
-        margin-left: 10px;
+        margin-left: 1rem;
       }
       .size-guide-button {
         flex: 0 0 100%;
@@ -84,7 +84,7 @@ const StyledOptionSelector = styled.div`
       flex-wrap: nowrap;
       button {
         flex: 1 1 50%;
-        height: 48px;
+        height: 4.8rem;
       }
     }
 
@@ -94,14 +94,14 @@ const StyledOptionSelector = styled.div`
       flex-wrap: nowrap;
       button {
         flex: 1 1 33.33%;
-        height: 48px;
+        height: 4.8rem;
       }
     }
 
     &.bandAccent {
       button {
-        max-width: 38px;
-        max-height: 38px;
+        max-width: 3.8rem;
+        max-height: 3.8rem;
       }
     }
 
@@ -125,16 +125,16 @@ const StyledOptionSelector = styled.div`
 
     &.diamondSize {
       button {
-        min-width: 64px;
+        min-width: 6.4rem;
       }
     }
 
     &.diamondType {
-      margin-top: 10px;
+      margin-top: 1rem;
       position: relative;
       max-width: 100%;
-      gap: 15px;
-      min-height: 44px;
+      gap: 1.5rem;
+      min-height: 4.4rem;
       ${media.medium`max-width: 80%;`}
 
       .swiper {
@@ -144,10 +144,10 @@ const StyledOptionSelector = styled.div`
 
         .swiper-slide {
           width: fit-content !important;
-          margin-right: 25px;
-          ${media.medium`margin-right: 30px;`}
+          margin-right: 2.5rem;
+          ${media.medium`margin-right: 3rem;`}
           &:last-child {
-            margin-right: 100px;
+            margin-right: 10rem;
           }
         }
       }
@@ -162,10 +162,10 @@ const StyledOptionSelector = styled.div`
 
       .carousel-arrow {
         position: absolute;
-        top: 10px;
+        top: 1rem;
         background-color: transparent;
-        right: -30px;
-        ${media.medium`right: -40px;`}
+        right: -3rem;
+        ${media.medium`right: -4rem;`}
       }
     }
 
@@ -176,14 +176,14 @@ const StyledOptionSelector = styled.div`
     &.bandVersion,
     &.bandStyle {
       button {
-        min-width: 115px;
+        min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
       }
     }
 
     &.space-between-items {
       max-width: 100%;
-      gap: 20px;
+      gap: 2rem;
       min-height: 0;
     }
   }

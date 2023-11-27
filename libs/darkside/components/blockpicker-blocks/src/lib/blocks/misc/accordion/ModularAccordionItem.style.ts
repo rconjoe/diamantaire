@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ModularAccordionItemContainer = styled.div`
   .acc-item__container {
     flex: 0;
-    border-bottom: 1px solid var(--color-light-grey);
+    border-bottom: 0.1rem solid var(--color-light-grey);
     text-align: left;
   }
 
@@ -42,7 +42,7 @@ export const ModularAccordionItemContainer = styled.div`
     font-weight: normal;
     color: var(--color-teal);
     &.minus {
-      right: 1px;
+      right: 0.1rem;
       font-size: 2.4rem;
     }
   }

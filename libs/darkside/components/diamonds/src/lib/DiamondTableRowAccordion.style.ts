@@ -8,7 +8,7 @@ const StyledDiamondTableRowAccordion = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 1.5rem;
     }
 
     img {
@@ -21,7 +21,7 @@ const StyledDiamondTableRowAccordion = styled.div`
     .accordion-content {
       img {
         display: block;
-        margin: 10px 0;
+        margin: 1rem 0;
       }
     }
   }

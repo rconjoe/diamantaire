@@ -15,7 +15,7 @@ const CelebrityCarousel = `
         desktopImage {
           url
           alt
-          responsiveImage (imgixParams: {w: 461, h:461, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 768px) 461px, 100vw"){
+          responsiveImage (imgixParams: {w: 461, h:461, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 76.8rem) 461px, 100vw"){
               src
               alt
               aspectRatio
@@ -32,7 +32,7 @@ const CelebrityCarousel = `
         bottomCarouselImage {
           url
           alt
-          responsiveImage (imgixParams: {w: 461, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 768px) 461px, 100vw"){
+          responsiveImage (imgixParams: {w: 461, q: 30, auto: format, fit: crop, crop: focalpoint },sizes: "(min-width: 76.8rem) 461px, 100vw"){
               src
               alt
               aspectRatio
@@ -56,7 +56,7 @@ const CelebrityCarousel = `
             image {
               url
               alt
-              responsiveImage (imgixParams: {w: 186, h:186, q: 30, auto: format, fit: max, crop: focalpoint },sizes: "186px"){
+              responsiveImage (imgixParams: {w: 186, h:186, q: 30, auto: format, fit: max, crop: focalpoint },sizes: "18.6rem"){
               src
               alt
               aspectRatio

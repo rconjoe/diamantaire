@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const MegaMenuStylesContainer = styled.div<Props>`
-  border-bottom: 1px solid #000;
+  border-bottom: 0.1rem solid #000;
   padding-bottom: 4rem;
   position: ${({ $isFixed }) => ($isFixed ? 'fixed' : 'absolute')};
   top: ${({ $headerHeight }) => $headerHeight + 'px'};
@@ -39,7 +39,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
       &.byRecipient {
         .col__inner {
-          min-width: 130px;
+          min-width: 13rem;
         }
       }
 
@@ -130,7 +130,7 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
                 &.ring-style {
                   flex: 0 0 6rem;
-                  top: 4px;
+                  top: 0.4rem;
 
                   svg {
                     max-width: 6rem;

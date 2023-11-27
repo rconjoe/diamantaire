@@ -12,7 +12,7 @@ const CelebrityReel = `
       desktopImage {
         url
         alt
-        responsiveImage (imgixParams: {w: 240, h:240, q: 30, auto: format, fit: clamp, crop: focalpoint },sizes: "240px"){
+        responsiveImage (imgixParams: {w: 240, h:240, q: 30, auto: format, fit: clamp, crop: focalpoint },sizes: "24rem"){
             src
             alt
             aspectRatio

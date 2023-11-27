@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 
 export const SocialMediaContainer = styled.div`
-  padding: 50px 25px;
+  padding: 5rem 2.5rem;
   background-color: var(--color-lightest-grey);
 
   @media (min-width: 1200px) {
-    padding: 80px 25px;
+    padding: 8rem 2.5rem;
   }
 
   .title__container {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
     }
   }
 
@@ -28,7 +28,7 @@ export const SocialMediaContainer = styled.div`
 
       li {
         flex: 1;
-        margin-right: 20px;
+        margin-right: 2rem;
 
         &:last-child {
           margin-right: 0;

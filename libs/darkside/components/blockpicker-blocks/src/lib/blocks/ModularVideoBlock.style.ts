@@ -9,7 +9,7 @@ interface Props {
 
 export const ModularVideoBlockStyles = styled.div<Props>`
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   margin: ${setSpace(3)} auto;
   position: relative;
   display: flex;

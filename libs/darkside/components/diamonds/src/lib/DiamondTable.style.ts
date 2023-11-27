@@ -85,20 +85,20 @@ const StyledDiamondTable = styled.div`
 
   .vo-table-head .vo-table-cell {
     cursor: pointer;
-    border-right: 1px solid var(--color-light-grey);
+    border-right: 0.1rem solid var(--color-light-grey);
     background: var(--color-lighter-grey) !important;
     text-transform: uppercase;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 10px 5px;
+    padding: 1rem 0.5rem;
     font-size: var(--font-size-xxxxsmall);
     font-weight: var(--font-weight-medium);
 
     ${tabletAndUp(`
       background: var(--color-lightest-grey) !important;
-      padding: 10px 20px;
+      padding: 1rem 2rem;
     `)}
   }
 
@@ -147,7 +147,7 @@ const StyledDiamondTable = styled.div`
   .vo-table-body .vo-table-row-body {
     display: block;
     background: var(--color-white);
-    border-top: 1px solid var(--color-light-grey);
+    border-top: 0.1rem solid var(--color-light-grey);
   }
 
   .vo-table-pagination {
@@ -161,7 +161,7 @@ const StyledDiamondTable = styled.div`
     justify-content: space-between;
     align-items: center;
     display: flex;
-    padding: 20px;
+    padding: 2rem;
     width: 100%;
     flex-direction: column;
     flex-wrap: wrap;
@@ -188,17 +188,17 @@ const StyledDiamondTable = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0;
-    height: 40px;
-    width: 40px;
+    height: 4rem;
+    width: 4rem;
     cursor: pointer;
     background-color: var(--color-white);
-    margin: 0 -1px;
+    margin: 0 -0.1rem;
     border: 0;
-    border: 1px solid var(--color-light-grey);
+    border: 0.1rem solid var(--color-light-grey);
   }
 
   .vo-table-pagination p {
-    margin-top: 10px;
+    margin-top: 1rem;
     font-size: var(--font-size-xxxsmall);
   }
 
@@ -209,13 +209,13 @@ const StyledDiamondTable = styled.div`
   }
 
   .vo-sort-icon {
-    margin-left: 5px;
+    margin-left: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 
     ${tabletAndUp(`
-      margin-left: 10px;
+      margin-left: 1rem;
     `)}
 
     .arrow-up {
@@ -289,7 +289,7 @@ const StyledDiamondTable = styled.div`
     }
 
     li button {
-      margin-left: 5px;
+      margin-left: 0.5rem;
     }
 
     li a {
@@ -313,17 +313,17 @@ const StyledDiamondTable = styled.div`
   .arrow-up {
     width: 0;
     height: 0;
-    border-bottom: 8px solid black;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
+    border-bottom: 0.8rem solid black;
+    border-left: 0.4rem solid transparent;
+    border-right: 0.4rem solid transparent;
   }
 
   .arrow-down {
     width: 0;
     height: 0;
-    border-top: 8px solid black;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
+    border-top: 0.8rem solid black;
+    border-left: 0.4rem solid transparent;
+    border-right: 0.4rem solid transparent;
   }
 
   .vo-table-trigger {
@@ -332,7 +332,7 @@ const StyledDiamondTable = styled.div`
     left: 0;
     display: block;
     width: 100%;
-    height: 1px;
+    height: 0.1rem;
   }
 
   .vo-table-loading {
@@ -342,21 +342,21 @@ const StyledDiamondTable = styled.div`
     color: var(--color-white);
     padding: 1.5rem 2rem;
     display: flex;
-    gap: 20px;
+    gap: 2rem;
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-xxsmall);
     width: 100%;
 
     ${tabletAndUp(`
-      width: 300px;
+      width: 30rem;
     `)}
   }
 
   .vo-loader-icon {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--color-white);
+    width: 2rem;
+    height: 2rem;
+    border: 0.2rem solid var(--color-white);
     border-bottom-color: var(--color-teal);
     border-radius: 50%;
     display: inline-block;

@@ -12,7 +12,7 @@ const CelebrityGallery = `
         alt
         responsiveImage(
           imgixParams: {w: 500, h: 500, q: 50, auto: format, fit: clamp, crop: focalpoint}
-          sizes: "500px"
+          sizes: "50rem"
         ) {
           src
           alt
@@ -39,7 +39,7 @@ const CelebrityGallery = `
             alt
             responsiveImage(
               imgixParams: {w: 186, h: 186, q: 30, auto: format, fit: max, crop: focalpoint}
-              sizes: "186px"
+              sizes: "18.6rem"
             ) {
               src
               alt

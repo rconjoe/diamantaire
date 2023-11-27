@@ -28,13 +28,13 @@ const PlpPromoItemStyles = styled.div`
         .arrow-right {
           width: 0;
           height: 0;
-          border-top: 7px solid transparent !important;
-          border-bottom: 7px solid transparent !important;
-          border-left: 7px solid var(--color-white);
+          border-top: 0.7rem solid transparent !important;
+          border-bottom: 0.7rem solid transparent !important;
+          border-left: 0.7rem solid var(--color-white);
           display: inline-block;
           position: relative;
-          top: 2px;
-          margin-left: 5px;
+          top: 0.2rem;
+          margin-left: 0.5rem;
         }
       }
     }

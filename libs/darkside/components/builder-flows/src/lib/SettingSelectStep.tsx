@@ -16,7 +16,7 @@ const SettingSelectStepStyles = styled.div`
 
   .title-container {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 4rem;
   }
   .wrapper {
     height: 100vh;
@@ -26,18 +26,18 @@ const SettingSelectStepStyles = styled.div`
 
   .loader-container {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 4rem;
   }
 
   .grid-wrapper {
-    padding: 20px 0 200px;
+    padding: 2rem 0 20rem;
     > div {
       height: auto;
     }
   }
   .load-more-trigger {
     /* background-color: red; */
-    height: 100px;
+    height: 10rem;
     width: 100%;
     display: block;
   }

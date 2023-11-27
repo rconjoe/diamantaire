@@ -139,7 +139,7 @@ export const SwiperStyles = styled.div`
   }
   .swiper-centered.swiper-horizontal > .swiper-wrapper::before {
     height: 100%;
-    min-height: 1px;
+    min-height: 0.1rem;
     width: var(--swiper-centered-offset-after);
   }
   .swiper-centered.swiper-vertical > .swiper-wrapper > .swiper-slide:first-child {
@@ -147,7 +147,7 @@ export const SwiperStyles = styled.div`
   }
   .swiper-centered.swiper-vertical > .swiper-wrapper::before {
     width: 100%;
-    min-width: 1px;
+    min-width: 0.1rem;
     height: var(--swiper-centered-offset-after);
   }
   .swiper-centered > .swiper-wrapper > .swiper-slide {
@@ -166,15 +166,15 @@ export const SwiperStyles = styled.div`
     pointer-events: none;
   }
   .swiper-virtual.swiper-css-mode.swiper-horizontal .swiper-wrapper::after {
-    height: 1px;
+    height: 0.1rem;
     width: var(--swiper-virtual-size);
   }
   .swiper-virtual.swiper-css-mode.swiper-vertical .swiper-wrapper::after {
-    width: 1px;
+    width: 0.1rem;
     height: var(--swiper-virtual-size);
   }
   :root {
-    --swiper-navigation-size: 44px;
+    --swiper-navigation-size: 4.4rem;
   }
   .swiper-button-next,
   .swiper-button-prev {
@@ -217,7 +217,7 @@ export const SwiperStyles = styled.div`
   }
   .swiper-button-prev,
   .swiper-rtl .swiper-button-next {
-    left: 10px;
+    left: 1rem;
     right: auto;
   }
   .swiper-button-prev:after,
@@ -226,7 +226,7 @@ export const SwiperStyles = styled.div`
   }
   .swiper-button-next,
   .swiper-rtl .swiper-button-prev {
-    right: 10px;
+    right: 1rem;
     left: auto;
   }
   .swiper-button-next:after,
@@ -254,7 +254,7 @@ export const SwiperStyles = styled.div`
   .swiper-pagination-bullets.swiper-pagination-horizontal,
   .swiper-pagination-custom,
   .swiper-pagination-fraction {
-    bottom: 10px;
+    bottom: 1rem;
     left: 0;
     width: 100%;
   }
@@ -285,8 +285,8 @@ export const SwiperStyles = styled.div`
     transform: scale(0.33);
   }
   .swiper-pagination-bullet {
-    width: var(--swiper-pagination-bullet-width, var(--swiper-pagination-bullet-size, 8px));
-    height: var(--swiper-pagination-bullet-height, var(--swiper-pagination-bullet-size, 8px));
+    width: var(--swiper-pagination-bullet-width, var(--swiper-pagination-bullet-size, 0.8rem));
+    height: var(--swiper-pagination-bullet-height, var(--swiper-pagination-bullet-size, 0.8rem));
     display: inline-block;
     border-radius: 50%;
     background: var(--swiper-pagination-bullet-inactive-color, #000);
@@ -312,29 +312,31 @@ export const SwiperStyles = styled.div`
   }
   .swiper-pagination-vertical.swiper-pagination-bullets,
   .swiper-vertical > .swiper-pagination-bullets {
-    right: 10px;
+    right: 1rem;
     top: 50%;
     transform: translate3d(0px, -50%, 0);
   }
   .swiper-pagination-vertical.swiper-pagination-bullets .swiper-pagination-bullet,
   .swiper-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: var(--swiper-pagination-bullet-vertical-gap, 6px) 0;
+    margin: var(--swiper-pagination-bullet-vertical-gap, 0.6rem) 0;
     display: block;
   }
   .swiper-pagination-vertical.swiper-pagination-bullets.swiper-pagination-bullets-dynamic,
   .swiper-vertical > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
     top: 50%;
     transform: translateY(-50%);
-    width: 8px;
+    width: 0.8rem;
   }
   .swiper-pagination-vertical.swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet,
   .swiper-vertical > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
     display: inline-block;
-    transition: 0.2s transform, 0.2s top;
+    transition:
+      0.2s transform,
+      0.2s top;
   }
   .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
   .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
+    margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 0.4rem);
   }
   .swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic,
   .swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
@@ -344,10 +346,14 @@ export const SwiperStyles = styled.div`
   }
   .swiper-horizontal > .swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet,
   .swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
-    transition: 0.2s transform, 0.2s left;
+    transition:
+      0.2s transform,
+      0.2s left;
   }
   .swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
-    transition: 0.2s transform, 0.2s right;
+    transition:
+      0.2s transform,
+      0.2s right;
   }
   .swiper-pagination-progressbar {
     background: rgba(0, 0, 0, 0.25);
@@ -371,7 +377,7 @@ export const SwiperStyles = styled.div`
   .swiper-pagination-progressbar.swiper-pagination-vertical.swiper-pagination-progressbar-opposite,
   .swiper-vertical > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite {
     width: 100%;
-    height: 4px;
+    height: 0.4rem;
     left: 0;
     top: 0;
   }
@@ -379,7 +385,7 @@ export const SwiperStyles = styled.div`
   .swiper-pagination-progressbar.swiper-pagination-horizontal.swiper-pagination-progressbar-opposite,
   .swiper-pagination-progressbar.swiper-pagination-vertical,
   .swiper-vertical > .swiper-pagination-progressbar {
-    width: 4px;
+    width: 0.4rem;
     height: 100%;
     left: 0;
     top: 0;
@@ -388,7 +394,7 @@ export const SwiperStyles = styled.div`
     display: none;
   }
   .swiper-scrollbar {
-    border-radius: 10px;
+    border-radius: 1rem;
     position: relative;
     -ms-touch-action: none;
     background: rgba(0, 0, 0, 0.1);
@@ -401,18 +407,18 @@ export const SwiperStyles = styled.div`
   .swiper-scrollbar.swiper-scrollbar-horizontal {
     position: absolute;
     left: 1%;
-    bottom: 3px;
+    bottom: 0.3rem;
     z-index: 50;
-    height: 5px;
+    height: 0.5rem;
     width: 98%;
   }
   .swiper-scrollbar.swiper-scrollbar-vertical,
   .swiper-vertical > .swiper-scrollbar {
     position: absolute;
-    right: 3px;
+    right: 0.3rem;
     top: 1%;
     z-index: 50;
-    width: 5px;
+    width: 0.5rem;
     height: 98%;
   }
   .swiper-scrollbar-drag {
@@ -420,7 +426,7 @@ export const SwiperStyles = styled.div`
     width: 100%;
     position: relative;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    border-radius: 1rem;
     left: 0;
     top: 0;
   }
@@ -454,12 +460,12 @@ export const SwiperStyles = styled.div`
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -21px;
-    margin-top: -21px;
+    margin-left: -2.1rem;
+    margin-top: -2.1rem;
     z-index: 10;
     transform-origin: 50%;
     box-sizing: border-box;
-    border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
+    border: 0.4rem solid var(--swiper-preloader-color, var(--swiper-theme-color));
     border-radius: 50%;
     border-top-color: transparent;
   }
@@ -569,7 +575,7 @@ export const SwiperStyles = styled.div`
     top: 0;
     bottom: 0;
     right: 0;
-    filter: blur(50px);
+    filter: blur(5rem);
   }
   .swiper-flip {
     overflow: visible;

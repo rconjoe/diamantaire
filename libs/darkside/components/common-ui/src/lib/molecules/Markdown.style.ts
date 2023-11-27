@@ -12,12 +12,12 @@ export const MarkdownContainer = styled.div`
     }
 
     // copyLongForm
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 
     p {
       font-weight: var(--font-weight-normal);
       font-size: var(--font-size-xsmall);
-      margin: 20px 0;
+      margin: 2rem 0;
     }
 
     h1 {
@@ -26,7 +26,7 @@ export const MarkdownContainer = styled.div`
       line-height: 1.2;
 
       ${mobileOnly(`
-      font-size: 28px;
+      font-size: 2.8rem;
     `)}
     }
 
@@ -36,7 +36,7 @@ export const MarkdownContainer = styled.div`
       font-weight: var(--font-weight-medium);
       line-height: 1.2;
 
-      ${mobileOnly(`font-size: 24px;`)}
+      ${mobileOnly(`font-size: 2.4rem;`)}
     }
 
     ol,
@@ -56,8 +56,8 @@ export const MarkdownContainer = styled.div`
     }
     &.-opt-in {
       display: inline-block;
-      padding-left: 5px;
-      margin: 5px 0 0;
+      padding-left: 0.5rem;
+      margin: 0.5rem 0 0;
       font-size: var(--font-size-xxxsmall);
     }
     &.-modularSideBySideBlock {
@@ -65,13 +65,13 @@ export const MarkdownContainer = styled.div`
       h2 {
         font-size: var(--font-size-xsmall);
         ${desktopAndUp(`
-        font-size: 22px;
+        font-size: 2.2rem;
       `)};
       }
       h2 {
         font-size: var(--font-size-xsmall);
         ${desktopAndUp(`
-        font-size: 22px;
+        font-size: 2.2rem;
       `)};
       }
       strong {

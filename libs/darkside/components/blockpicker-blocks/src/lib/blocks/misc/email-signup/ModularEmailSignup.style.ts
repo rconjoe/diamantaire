@@ -4,9 +4,9 @@ import styled from 'styled-components';
 export const ModularEmailSignupBlockContainer = styled.div`
   position: relative;
   display: block;
-  margin: 50px 0;
+  margin: 5rem 0;
   ${tabletAndUp(`
-    margin: 50px 0;
+    margin: 5rem 0;
   `)}
   &.-reduce-margins {
     margin-top: 0;
@@ -68,18 +68,18 @@ export const ModularEmailSignupBlockContainer = styled.div`
 
   .email-signup__title {
     &.blog {
-      font-size: 24px;
+      font-size: 2.4rem;
       line-height: 1.2;
       font-weight: var(--font-weight-medium);
       ${tabletAndUp(`
-      font-size: 28px;
+      font-size: 2.8rem;
     `)}
     }
   }
 
   .email-signup__subtitle {
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 1.6rem;
+    margin-top: 1rem;
   }
 
   .email-signup__form-container {
@@ -96,14 +96,14 @@ export const ModularEmailSignupBlockContainer = styled.div`
   }
 
   .email-signup__form-wrapper {
-    max-width: 500px;
+    max-width: 50rem;
     margin: auto;
-    padding: 0 20px;
+    padding: 0 2rem;
     text-align: center;
   }
   .input-container.submit {
     button {
-      max-width: 200px;
+      max-width: 20rem;
       margin: 0 auto;
     }
   }

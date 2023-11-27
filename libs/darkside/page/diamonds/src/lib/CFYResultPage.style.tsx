@@ -57,7 +57,7 @@ const StyledCFYResultPage = styled.div`
 
       .swiper {
         width: 100%;
-        padding: 0 0 80px;
+        padding: 0 0 8rem;
 
         ${desktopAndUp(`
           padding: 0;
@@ -82,13 +82,13 @@ const StyledCFYResultPage = styled.div`
       width: 6rem;
       height: 6rem;
       cursor: pointer;
-      border: 1px solid transparent;
+      border: 0.1rem solid transparent;
       padding: 0;
       margin: 0;
       overflow: hidden;
 
       &.active {
-        border: 1px solid ${TEAL_MED};
+        border: 0.1rem solid ${TEAL_MED};
       }
 
       .caption {

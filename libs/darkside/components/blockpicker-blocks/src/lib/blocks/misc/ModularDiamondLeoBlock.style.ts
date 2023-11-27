@@ -38,27 +38,27 @@ export const DiamondLeoBlockContainer = styled.div`
         margin: 0 auto ${setSpace(4)};
         ${mobileOnly(`
           font-size: 1.7rem !important;
-          width: 277px;
-          margin: 0 auto 20px;
+          width: 27.7rem;
+          margin: 0 auto 2rem;
         `)}
       }
     }
 
     .diamond-leo__signature {
-      max-width: 126px;
+      max-width: 12.6rem;
       aspect-ratio: auto;
       height: auto;
       &.-blockquote {
         margin: 0 auto;
       }
       ${mobileOnly(`
-        max-width: 88px;
+        max-width: 8.8rem;
       `)}
     }
   }
 
   svg,
   img {
-    max-width: 140px;
+    max-width: 14rem;
   }
 `;

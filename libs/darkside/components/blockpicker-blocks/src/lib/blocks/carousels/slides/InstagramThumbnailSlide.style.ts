@@ -24,15 +24,15 @@ export const InstagramThumnailSlideContainer = styled.div`
     `)};
 
     ${XXLDesktopAndUp(`
-      height: 256px;
-      width: 256px;
+      height: 25.6rem;
+      width: 25.6rem;
     `)};
 
     ${customBPAndUp(
       '1750px',
       `
-      height: 300px;
-      width: 300px;
+      height: 30rem;
+      width: 30rem;
     `,
     )}
   }

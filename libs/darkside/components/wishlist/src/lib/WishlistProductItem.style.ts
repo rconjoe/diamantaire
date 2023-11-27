@@ -6,7 +6,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     position: relative;
     display: flex;
     gap: 2rem;
-    border-bottom: 1px solid var(--color-lighter-grey);
+    border-bottom: 0.1rem solid var(--color-lighter-grey);
     padding: 0 0 2rem;
   }
 
@@ -52,7 +52,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 
   .custom-pagination-thumbnail {
     width: 4.5rem;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
     cursor: pointer;
 
     &.active {
@@ -137,7 +137,7 @@ export const StyledWishlistPageProductItem = styled.div`
   .custom-pagination-thumbnail {
     width: 4.5rem;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
 
     &.active {
       border-color: var(--color-teal);

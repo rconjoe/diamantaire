@@ -8,7 +8,7 @@ const DarksideButtonStyles = styled.div`
   button {
     text-align: center;
     width: 100%;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     font-size: 1.8rem;
     transition: 0.25s;
     font-weight: 500;
@@ -32,7 +32,7 @@ const DarksideButtonStyles = styled.div`
     button {
       background-color: var(--color-black);
       color: var(--color-white);
-      border: 2px solid var(--color-black);
+      border: 0.2rem solid var(--color-black);
 
       &:hover {
         background-color: var(--color-white);
@@ -42,7 +42,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--white {
       button {
-        border: 2px solid var(--color-white);
+        border: 0.2rem solid var(--color-white);
         color: var(--color-black);
         background-color: var(--color-white);
         &:hover {
@@ -54,7 +54,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--teal {
       button {
-        border: 2px solid var(--color-teal);
+        border: 0.2rem solid var(--color-teal);
         color: var(--color-white);
         background-color: var(--color-teal);
         &:hover {
@@ -66,12 +66,12 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--grey {
       button {
-        border: 2px solid var(--color-lightest-grey);
+        border: 0.2rem solid var(--color-lightest-grey);
         color: var(--color-black);
         background-color: var(--color-lightest-grey);
         font-size: 1.3rem;
         font-weight: 400;
-        min-height: 47px;
+        min-height: 4.7rem;
         &:hover {
           background-color: var(--color-lightest-grey);
           color: var(--color-grey);
@@ -87,7 +87,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--black {
       button {
-        border: 2px solid var(--color-black);
+        border: 0.2rem solid var(--color-black);
         color: var(--color-black);
         &:hover {
           background-color: var(--color-black);
@@ -97,7 +97,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--white {
       button {
-        border: 2px solid var(--color-white);
+        border: 0.2rem solid var(--color-white);
         color: var(--color-white);
         &:hover {
           background-color: var(--color-white);
@@ -107,7 +107,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.m-color-theme--white {
       button {
-        border: 2px solid var(--color-white);
+        border: 0.2rem solid var(--color-white);
         color: var(--color-white);
         &:hover {
           background-color: var(--color-white);
@@ -116,9 +116,9 @@ const DarksideButtonStyles = styled.div`
       }
     }
     &.m-color-theme--black {
-      @media (max-width: 767px) {
+      @media (max-width: 76.7rem) {
         button {
-          border: 2px solid var(--color-black);
+          border: 0.2rem solid var(--color-black);
           color: var(--color-black);
           &:hover {
             background-color: var(--color-black);
@@ -134,7 +134,7 @@ const DarksideButtonStyles = styled.div`
     button {
       width: auto;
       padding: 0;
-      border-bottom: 1px solid var(--color-black);
+      border-bottom: 0.1rem solid var(--color-black);
       background-color: transparent;
       display: inline-block;
       color: var(--color-black);
@@ -146,13 +146,13 @@ const DarksideButtonStyles = styled.div`
     &.color-theme--teal {
       button {
         color: var(--color-teal);
-        border-bottom: 1px solid var(--color-teal);
+        border-bottom: 0.1rem solid var(--color-teal);
       }
     }
     &.color-theme--white {
       button {
         color: var(--color-white);
-        border-bottom: 1px solid var(--color-white);
+        border-bottom: 0.1rem solid var(--color-white);
       }
     }
   }

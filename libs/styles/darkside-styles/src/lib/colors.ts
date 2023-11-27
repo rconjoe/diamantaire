@@ -55,7 +55,7 @@ export const CONTENT_BACKGROUND = '#FAF9F7';
 export const CAROUSEL_BUTTON = 'rgba(255, 255, 255, 0)';
 
 /** box-shadow **/
-export const BOX_SHADOW_TOP_ONLY = '0px -2px 5px 2px rgba(0, 0, 0, 0.15)';
+export const BOX_SHADOW_TOP_ONLY = '0px -0.2rem 0.5rem 0.2rem rgba(0, 0, 0, 0.15)';
 
 export const SYSTEM_ACCESSBILITY_SHADOW = '#FFE597';
 

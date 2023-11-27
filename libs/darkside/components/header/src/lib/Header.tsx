@@ -35,7 +35,7 @@ const FullHeaderStyles = styled.header`
   left: 0;
   width: 100%;
   background-color: var(--color-white);
-  box-shadow: 0 1px 0 var(--color-white);
+  box-shadow: 0 0.1rem 0 var(--color-white);
 
   ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
 

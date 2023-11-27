@@ -1,19 +1,19 @@
 import { setSpace, tabletAndUp, mobileOnly, XXLDesktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const MINI_BANNER_IMAGE_WIDTH = '1180px';
+const MINI_BANNER_IMAGE_WIDTH = '118rem';
 
 export const ModularContentQuadBlockContainer = styled.div`
   padding-left: 2.4rem;
   padding-right: 2.4rem;
   position: relative;
   display: block;
-  margin: 50px 0;
+  margin: 5rem 0;
 
   ${tabletAndUp(`
     padding-left: 0;
     padding-right: 0;
-    margin: 80px 0;
+    margin: 8rem 0;
   `)};
 
   .content-block__layout {
@@ -55,19 +55,19 @@ export const ModularContentQuadBlockContainer = styled.div`
   }
 
   .content-block__subtitle {
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 1.6rem;
+    margin-top: 1rem;
   }
 
   .content-block__container {
     display: grid;
     max-width: ${MINI_BANNER_IMAGE_WIDTH};
     margin: auto;
-    grid-gap: 10px;
+    grid-gap: 1rem;
 
     ${tabletAndUp(`
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-gap: 20px;
+      grid-gap: 2rem;
     `)};
     ${mobileOnly(`
       grid-template-columns: 1fr 1fr;

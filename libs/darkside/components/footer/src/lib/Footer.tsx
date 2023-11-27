@@ -33,10 +33,10 @@ type FooterLink = {
 
 const FooterStyles = styled.footer`
   padding: 4rem 2.4rem 0;
-  border-top: 1px solid #ddd;
+  border-top: 0.1rem solid #ddd;
 
   .footer__column-wrapper {
-    max-width: 1180px;
+    max-width: 118rem;
     margin: 0 auto;
     display: flex;
 
@@ -59,7 +59,7 @@ const FooterStyles = styled.footer`
       &__inner {
         p.col-heading {
           font-size: 1.4rem;
-          margin: 0 0 10px;
+          margin: 0 0 1rem;
           font-weight: var(--font-weight-bold);
         }
         > ul {
@@ -68,7 +68,7 @@ const FooterStyles = styled.footer`
           list-style: none;
 
           > li {
-            margin-bottom: 7px;
+            margin-bottom: 0.7rem;
             position: relative;
             font-size: 1.7rem;
             &:last-child {
@@ -111,17 +111,17 @@ const FooterStyles = styled.footer`
           flex: 1;
         }
         h4 {
-          margin: 0 0 10px;
+          margin: 0 0 1rem;
           font-size: 1.9rem;
         }
 
         p {
           font-size: 1.7rem;
-          margin: 0 0 10px;
+          margin: 0 0 1rem;
         }
 
         .footer-social {
-          padding-top: 20px;
+          padding-top: 2rem;
           ul {
             display: flex;
             align-items: end;
@@ -130,38 +130,38 @@ const FooterStyles = styled.footer`
             list-style: none;
 
             li {
-              flex: 0 0 28px;
+              flex: 0 0 2.8rem;
               margin-bottom: 0px;
-              margin-right: 5px;
+              margin-right: 0.5rem;
               text-align: center;
               position: relative;
               a {
                 display: inline-block;
 
                 svg {
-                  max-height: 20px;
+                  max-height: 2rem;
                   width: auto;
                 }
 
                 &.pinterest,
                 &.tiktok {
                   svg {
-                    height: 19px;
+                    height: 1.9rem;
                     width: auto;
                     position: relative;
-                    top: 1px;
+                    top: 0.1rem;
                   }
                 }
                 &.instagram {
                   svg {
                     position: relative;
-                    top: 4px;
+                    top: 0.4rem;
                   }
                 }
                 &.facebook {
                   svg {
                     position: relative;
-                    top: 2px;
+                    top: 0.2rem;
                   }
                 }
               }

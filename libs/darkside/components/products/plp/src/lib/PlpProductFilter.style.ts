@@ -14,7 +14,7 @@ export const PlpProductFilterStyles = styled.div`
 
   .filter__header {
     .filter__title {
-      margin-right: 10px;
+      margin-right: 1rem;
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
@@ -26,8 +26,8 @@ export const PlpProductFilterStyles = styled.div`
     }
     .filter-icon {
       position: relative;
-      top: 2px;
-      margin-right: 5px;
+      top: 0.2rem;
+      margin-right: 0.5rem;
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: none;
       }
@@ -76,11 +76,11 @@ export const PlpProductFilterStyles = styled.div`
           .arrow-up {
             width: 0;
             height: 0;
-            border-left: 3.5px solid transparent;
-            border-right: 3.5px solid transparent;
-            border-bottom: 7px solid black;
+            border-left: 3.5rem solid transparent;
+            border-right: 3.5rem solid transparent;
+            border-bottom: 0.7rem solid black;
             display: inline-block;
-            margin-left: 3px;
+            margin-left: 0.3rem;
             transform: rotate(180deg);
           }
         }
@@ -89,17 +89,17 @@ export const PlpProductFilterStyles = styled.div`
   }
   .filter-slider {
     max-width: 370px;
-    padding-top: 20px;
+    padding-top: 2rem;
   }
   .filter-option-set {
-    padding-top: 10px;
+    padding-top: 1rem;
     ul {
       overflow-x: auto;
       overflow-y: visible;
-      padding: 10px 0;
+      padding: 1rem 0;
       max-width: 90vw;
       margin: 0 auto;
-      padding-left: 4px;
+      padding-left: 0.4rem;
       li {
         margin-right: calc(var(--gutter) / 3);
         &:last-child {
@@ -111,7 +111,7 @@ export const PlpProductFilterStyles = styled.div`
           padding: 0;
         }
         svg {
-          height: 30px;
+          height: 3rem;
           width: auto;
           display: inline-block;
           overflow: visible;
@@ -121,7 +121,7 @@ export const PlpProductFilterStyles = styled.div`
 
     &.diamondType {
       button {
-        border-bottom: 2px solid transparent;
+        border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
 
         &:hover,
@@ -133,15 +133,15 @@ export const PlpProductFilterStyles = styled.div`
 
     &.styles {
       button {
-        border-bottom: 2px solid transparent;
+        border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
         &:hover {
-          border-bottom: 2px solid var(--color-teal);
+          border-bottom: 0.2rem solid var(--color-teal);
         }
         .setting-icon {
-          margin-right: 10px;
+          margin-right: 1rem;
           position: relative;
-          top: 1px;
+          top: 0.1rem;
         }
       }
     }
@@ -166,13 +166,13 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       .metal-swatch {
-        height: 30px;
-        width: 30px;
+        height: 3rem;
+        width: 3rem;
         display: inline-block;
-        flex: 0 0 30px;
-        border: 1px solid transparent;
+        flex: 0 0 3rem;
+        border: 0.1rem solid transparent;
         border-radius: 50%;
-        margin-right: 7px;
+        margin-right: 0.7rem;
         position: relative;
 
         &::before {
@@ -182,7 +182,7 @@ export const PlpProductFilterStyles = styled.div`
           height: 100%;
           border-radius: 50%;
           position: absolute;
-          border: 1px solid transparent;
+          border: 0.1rem solid transparent;
           transform: scale(1.35);
         }
 
@@ -211,15 +211,15 @@ export const PlpProductFilterStyles = styled.div`
     &.priceRange {
       button.active {
         font-weight: bold;
-        border-bottom: 2px solid var(--color-teal);
+        border-bottom: 0.2rem solid var(--color-teal);
       }
     }
   }
 
   .active-filters {
-    padding: 12px 0 0;
+    padding: 1.2rem 0 0;
     li {
-      margin-right: 10px;
+      margin-right: 1rem;
       button {
         background-color: transparent;
         border: none;
@@ -228,15 +228,15 @@ export const PlpProductFilterStyles = styled.div`
         span {
           color: #777;
           transition: 0.25s;
-          margin-right: 2px;
+          margin-right: 0.2rem;
         }
 
         &.price-filter-tab {
           .close {
-            margin-right: 3px;
+            margin-right: 0.3rem;
           }
           .hyphen {
-            margin: 0 3px 0 3px;
+            margin: 0 0.3rem 0 0.3rem;
           }
         }
       }

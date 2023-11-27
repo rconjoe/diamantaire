@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const StyledCheckSquare = styled.div`
-  line-height: 16px;
+  line-height: 1.6rem;
   color: var(--color-black);
 
   input[type='checkbox'] {
@@ -12,7 +12,7 @@ const StyledCheckSquare = styled.div`
     &:focus + label {
       &::before {
         /* Make accessible */
-        outline: rgb(59, 153, 252) auto 5px;
+        outline: rgb(59, 153, 252) auto 0.5rem;
       }
     }
 
@@ -41,7 +41,7 @@ const StyledCheckSquare = styled.div`
   /* https://medium.com/claritydesignsystem/pure-css-accessible-checkboxes-and-radios-buttons-54063e759bb3 */
   label {
     cursor: pointer;
-    padding-left: 20px;
+    padding-left: 2rem;
     position: relative;
     white-space: nowrap;
     transition: all 0.2s ease;
@@ -55,13 +55,13 @@ const StyledCheckSquare = styled.div`
     &::before {
       position: absolute;
       content: '';
-      width: 16px;
-      height: 16px;
-      border: 1px solid var(--color-black);
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 0.1rem solid var(--color-black);
       background: var(--color-white);
 
       /* Placement of box */
-      top: -2px;
+      top: -0.2rem;
       left: 0px;
     }
 
@@ -70,16 +70,16 @@ const StyledCheckSquare = styled.div`
       content: '';
       display: inline-block;
       position: absolute;
-      height: 7px;
-      width: 11px;
-      border-left: 2px solid;
-      border-bottom: 2px solid;
+      height: 0.7rem;
+      width: 1.1rem;
+      border-left: 0.2rem solid;
+      border-bottom: 0.2rem solid;
       transform: rotate(-45deg);
       border-color: var(--color-black);
 
       /* Placement of check */
-      left: 2px;
-      top: 1px;
+      left: 0.2rem;
+      top: 0.1rem;
     }
   }
 
@@ -103,7 +103,7 @@ const StyledCheckSquare = styled.div`
     // add error border to LightRingPseudoStyle
     label {
       &::before {
-        border: 1px solid var(--color-error-red);
+        border: 0.1rem solid var(--color-error-red);
       }
     }
   }

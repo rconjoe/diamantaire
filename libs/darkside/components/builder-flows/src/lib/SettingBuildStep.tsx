@@ -17,16 +17,16 @@ import styled from 'styled-components';
 const SettingBuildStepStyles = styled(motion.div)`
   height: 100vh;
   overflow-y: scroll;
-  padding: 20px 0 200px;
+  padding: 2rem 0 20rem;
   .product-container {
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
       flex: 1;
-      ${media.medium`padding: 0 20px;`}
+      ${media.medium`padding: 0 2rem;`}
     }
     .info-container {
-      flex: 0 0 550px;
-      padding: 0 40px 0 20px;
+      flex: 0 0 55rem;
+      padding: 0 4rem 0 2rem;
       overflow: hidden;
 
       .info__inner {

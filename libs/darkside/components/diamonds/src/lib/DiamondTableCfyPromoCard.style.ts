@@ -21,7 +21,7 @@ const StyledDiamondTableCfyPromoCard = styled.div`
 
   p {
     max-width: 100%;
-    width: 550px;
+    width: 55rem;
   }
 
   p,
@@ -36,7 +36,7 @@ const StyledDiamondTableCfyPromoCard = styled.div`
 
   .cta {
     display: block;
-    width: 260px;
+    width: 26rem;
     margin: 0 auto;
   }
 

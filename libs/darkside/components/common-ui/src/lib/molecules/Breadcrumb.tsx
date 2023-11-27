@@ -9,7 +9,7 @@ const BreadcrumbStyles = styled.div`
         font-size: var(--font-size-xxxsmall);
       }
       span {
-        margin: 0 8px;
+        margin: 0 0.8rem;
         font-size: var(--font-size-xxxsmall);
       }
     }

@@ -14,7 +14,7 @@ export const JournalHomeEntryStyles = styled.div<{
       border: none;
       background-color: black;
       color: black;
-      height: 5px;
+      height: 0.5rem;
     }
 
     &.header-content {
@@ -38,7 +38,7 @@ export const JournalHomeEntryStyles = styled.div<{
       }
 
       .with-route & {
-        margin-right: 5px;
+        margin-right: 0.5rem;
       }
     }
   }
@@ -68,7 +68,7 @@ export const JournalHomeEntryStyles = styled.div<{
     align-items: center;
     justify-content: center;
     margin-bottom: ${setSpace(6)};
-    max-width: 300px;
+    max-width: 30rem;
     margin: 0 auto;
   }
 `;

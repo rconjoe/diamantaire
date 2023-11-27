@@ -5,12 +5,12 @@ export const ModularTrioBlockContainer = styled.div`
   &.trio-svg {
     .content-block__container {
       img {
-        max-width: 125px;
+        max-width: 12.5rem;
         margin: 0 auto;
       }
       /* ImageTile */
       > * {
-        ${media.medium`max-width: 200px;margin: 0 auto;`}
+        ${media.medium`max-width: 20rem;margin: 0 auto;`}
       }
     }
   }
@@ -41,7 +41,7 @@ export const ModularTrioBlockContainer = styled.div`
     padding-bottom: ${setSpace(6)};
     padding-top: ${setSpace(2)};
     text-align: center;
-    max-width: 275px;
+    max-width: 27.5rem;
     margin: 0 auto;
 
     ${tabletAndUp(`

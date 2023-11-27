@@ -57,7 +57,7 @@ const StyledDiamondCfyFilterShape = styled.div`
 
   .list {
     width: 100%;
-    max-width: 500px;
+    max-width: 50rem;
     flex-wrap: wrap;
     display: flex;
     padding: 1.5rem;
@@ -76,7 +76,7 @@ const StyledDiamondCfyFilterShape = styled.div`
     display: block;
     text-align: center;
     margin: 0 auto;
-    max-width: 79px;
+    max-width: 7.9rem;
     font-size: var(--font-size-xxxsmall);
     line-height: 1;
   }
@@ -87,7 +87,7 @@ const StyledDiamondCfyFilterShape = styled.div`
   }
 
   svg {
-    height: 35px;
+    height: 3.5rem;
   }
 
   .cta {
