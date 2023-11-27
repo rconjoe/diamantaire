@@ -1124,7 +1124,7 @@ export class ProductsService {
           // Adds fields to allow sorting by all of the configuration properties
           {
             $addFields: {
-              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'pave-twisted'], '$configuration.bandAccent'] },
+              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'double-pave', 'pave-twisted'], '$configuration.bandAccent'] },
             },
           },
           {
