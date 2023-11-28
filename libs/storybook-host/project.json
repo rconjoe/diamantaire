@@ -4,24 +4,36 @@
   "sourceRoot": "libs/storybook-host/src",
   "projectType": "library",
   "tags": [],
-  "implicitDependencies": ["darkside-components-common-ui"],
+  "implicitDependencies": [
+    "darkside-components-common-ui"
+  ],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/storybook-host/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/storybook-host/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/storybook-host",
         "tsConfig": "libs/storybook-host/tsconfig.lib.json",
         "project": "libs/storybook-host/package.json",
         "entryFile": "libs/storybook-host/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "external": [
+          "react",
+          "react-dom",
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "babel",
         "assets": [
@@ -35,7 +47,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/storybook-host/jest.config.ts",
         "passWithNoTests": true
@@ -61,7 +75,9 @@
     },
     "build-storybook": {
       "executor": "@nx/storybook:build",
-      "outputs": ["{options.outputDir}"],
+      "outputs": [
+        "{options.outputDir}"
+      ],
       "options": {
         "outputDir": "dist/storybook/storybook-host",
         "configDir": "libs/storybook-host/.storybook"

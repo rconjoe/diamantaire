@@ -7,20 +7,28 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/styles/darkside-styles/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/styles/darkside-styles/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/styles/darkside-styles",
         "tsConfig": "libs/styles/darkside-styles/tsconfig.lib.json",
         "project": "libs/styles/darkside-styles/package.json",
         "entryFile": "libs/styles/darkside-styles/src/index.ts",
-        "external": ["react/jsx-runtime"],
+        "external": [
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
@@ -34,7 +42,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/styles/darkside-styles/jest.config.ts",
         "passWithNoTests": true

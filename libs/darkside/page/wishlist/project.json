@@ -1,5 +1,5 @@
 {
-  "name": "wishlistPage",
+  "name": "WishlistPage",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/darkside/page/wishlist/src",
   "projectType": "library",

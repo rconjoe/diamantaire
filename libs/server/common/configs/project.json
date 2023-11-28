@@ -6,11 +6,17 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/server/common/configs/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/server/common/configs/**/*.ts"
+        ]
       }
     }
   },
-  "tags": ["backend"]
+  "tags": [
+    "backend"
+  ]
 }

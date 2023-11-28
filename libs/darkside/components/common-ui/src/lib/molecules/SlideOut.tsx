@@ -13,7 +13,7 @@ interface SlideOutProps extends PropsWithChildren {
   scrollPosition?: number;
 }
 
-const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className, width, scrollPosition }) => {
+const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className, width = '100%', scrollPosition }) => {
   return (
     <>
       <SlideOutFreezeBody scrollPosition={scrollPosition} />
