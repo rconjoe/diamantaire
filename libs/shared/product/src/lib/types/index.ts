@@ -55,12 +55,12 @@ export type ListPageItemWithConfigurationVariants = {
 
 export type FilterTypeProps = 'metal' | 'diamondType' | 'price' | 'styles' | 'subStyles';
 export type FilterValueProps = {
-  metal?: string;
-  diamondType?: string;
+  metal?: string[];
+  diamondType?: string[];
   price?: {
     min?: number;
     max?: number;
   };
-  styles?: string;
-  subStyles?: string;
+  styles?: string[];
+  subStyles?: string[];
 };

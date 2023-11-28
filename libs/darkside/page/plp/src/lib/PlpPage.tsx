@@ -11,7 +11,13 @@ import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { FACETED_NAV_ORDER, MetalType, DiamondTypes, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  FACETED_NAV_ORDER,
+  MetalType,
+  DiamondTypes,
+  getFormattedPrice,
+  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+} from '@diamantaire/shared/constants';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -33,12 +39,12 @@ type PlpPageProps = {
 };
 
 type FilterQueryValues = {
-  metal?: string;
-  diamondType?: string;
+  metal?: string[];
+  diamondType?: string[];
   priceMin?: string;
   priceMax?: string;
-  style?: string;
-  subStyle?: string;
+  style?: string[];
+  subStyle?: string[];
 };
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
@@ -51,6 +57,13 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
   console.log('initialFilterValues', initialFilterValues);
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
+  // metal: [],
+  // diamondType: [],
+  // style: [],
+  // subStyle: [],
+  // priceMin: '',
+  // priceMax: '',
+
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
@@ -96,6 +109,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
+    console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -194,6 +208,8 @@ const createPlpServerSideProps = (category: string) => {
 
     const initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
 
+    console.log('initialFilterValues', initialFilterValues);
+
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
       return {
@@ -262,14 +278,44 @@ function getValidFiltersFromFacetedNav(
   const style = query.style?.toString();
   const subStyle = query.subStyle?.toString();
 
+  console.log('queryrrrrr', query);
+
   const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
 
   // For when metal is a param (not faceted)
-  const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
+  const metalFromQuery = query?.metal
+    ?.toString()
+    .split(',')
+    .map((metalString) => Object.values(MetalType).find((metalType) => metalType === metalString))
+    .filter(Boolean);
+
+  console.log('metalFromQuery', metalFromQuery);
 
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
+
   // For when diamond is a param (not faceted)
-  const diamondFromQuery = Object.values(DiamondTypes).find((diamondType) => diamondType === query?.diamondType?.toString());
+  const diamondFromQuery = query?.diamondType
+    ?.toString()
+    .split(',')
+    .map((diamondTypeString) => Object.values(DiamondTypes).find((diamondType) => diamondType === diamondTypeString))
+    .filter(Boolean);
+
+  // For when style is a param (not faceted)
+
+  const styleFromQuery = style
+    ?.toString()
+    .split(',')
+    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .filter(Boolean);
+
+  // These are the same?
+
+  // For when subStyle is a param (not faceted)
+  const subStyleFromQuery = subStyle
+    ?.toString()
+    .split(',')
+    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .filter(Boolean);
 
   const facetOrder = [];
 
@@ -305,12 +351,12 @@ function getValidFiltersFromFacetedNav(
     }
   }
 
-  if (style) {
-    filterOptions['style'] = style;
+  if (styleFromQuery?.length > 0) {
+    filterOptions['style'] = styleFromQuery;
   }
 
-  if (subStyle) {
-    filterOptions['subStyle'] = subStyle;
+  if (subStyleFromQuery?.length > 0) {
+    filterOptions['subStyle'] = subStyleFromQuery;
   }
 
   if (metalParamIndex !== -1) {

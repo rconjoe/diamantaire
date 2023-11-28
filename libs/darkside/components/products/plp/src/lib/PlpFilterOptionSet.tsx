@@ -1,3 +1,4 @@
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
@@ -17,6 +18,10 @@ const renderFilterOptionSet = ({
         stacked: format === 'stacked',
       })}
     >
+      <Heading type="h3" className="h1 secondary">
+        <UIString>{filterType}</UIString>
+      </Heading>
+
       <ul className="list-unstyled flex">
         {allFilterTypes[filterType]?.map((val) =>
           mapFunction(val, actualFilterValue, updateFilter, filterType, currentFilters),
@@ -42,6 +47,9 @@ const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType,
         <span className="diamond-icon">
           <Icon />
         </span>
+        <span className="diamond-text">
+          <UIString>{diamondType}</UIString>
+        </span>
       </button>
     </li>
   );
@@ -62,25 +70,6 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
     </li>
   );
 };
-
-// const renderPriceRange = (price) => {
-//   return (
-//     <li key={`filter-${price.title}`}>
-//       <button
-//         className="flex align-center"
-//         onClick={() => {
-//           setIsCustomPriceRangeOpen(false);
-//           updateFilter('price', {
-//             min: price.min,
-//             max: price.max,
-//           });
-//         }}
-//       >
-//         <span className="price-text">{price.title}</span>
-//       </button>
-//     </li>
-//   );
-// };
 
 // const renderStyles = (ringStyle) => {
 //   const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
@@ -117,7 +106,7 @@ const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValue
         filterType: filterType,
         mapFunction: filterType === 'diamondType' ? renderDiamondType : renderMetal,
         allFilterTypes,
-        updateFilter: updateFilter,
+        updateFilter,
         actualFilterValue: filterValueValue,
         currentFilters,
         format,

@@ -11,7 +11,7 @@ import { makeCurrency } from '@diamantaire/shared/helpers';
 import { FilterIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps } from '@diamantaire/shared-product';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const PlpAllFilterOptionsStyles = styled.div``;
@@ -51,6 +51,7 @@ const PlpAllFilterOptions = ({
   updateFilter,
   handleSliderURLUpdate,
   setFilterValues,
+  setIsMobileFilterOpen,
 }) => {
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
 
@@ -66,9 +67,10 @@ const PlpAllFilterOptions = ({
     );
   };
 
-  const isAnyFilterActive = useMemo(() => {
-    return filterValue && Object.values(filterValue).some((value) => value !== null);
-  }, [filterValue]);
+  // const isAnyFilterActive = useMemo(() => {
+  //   return filterValue && Object.values(filterValue).some((value) => value !== null);
+  // }, [filterValue]);
+  const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
     return makeCurrency(value);
@@ -123,7 +125,7 @@ const PlpAllFilterOptions = ({
                 );
               })}
             <li className="mobile-filter-toggle">
-              <button>
+              <button onClick={() => setIsMobileFilterOpen(true)}>
                 <UIString>more</UIString>
               </button>
             </li>
@@ -143,7 +145,7 @@ const PlpAllFilterOptions = ({
                     <li key={`filter-${diamondType}`}>
                       <button
                         className={clsx('flex align-center', {
-                          active: filterValue['diamondType'] === diamondType,
+                          active: filterValue['diamondType']?.includes(diamondType),
                         })}
                         onClick={() => updateFilter('diamondType', diamondType)}
                       >
@@ -168,7 +170,7 @@ const PlpAllFilterOptions = ({
                     <li key={`filter-${metal}`}>
                       <button
                         className={clsx('flex align-center', {
-                          active: filterValue['metal'] === metal,
+                          active: filterValue['metal']?.includes(metal),
                         })}
                         onClick={() => updateFilter('metal', metal)}
                       >
@@ -243,7 +245,12 @@ const PlpAllFilterOptions = ({
 
                   return (
                     <li key={`filter-${ringStyle}`}>
-                      <button className="flex align-center" onClick={() => updateFilter('style', ringStyle)}>
+                      <button
+                        className={clsx('flex align-center', {
+                          active: filterValue['style']?.includes(ringStyle),
+                        })}
+                        onClick={() => updateFilter('style', ringStyle)}
+                      >
                         <span className="setting-icon">
                           <Icon />
                         </span>
@@ -262,7 +269,12 @@ const PlpAllFilterOptions = ({
                 {filterTypes['subStyles']?.map((style) => {
                   return (
                     <li key={`filter-${style}`}>
-                      <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
+                      <button
+                        className={clsx('flex align-center', {
+                          active: filterValue['subStyle']?.includes(style.toLowerCase()),
+                        })}
+                        onClick={() => updateFilter('subStyle', style)}
+                      >
                         <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
                       </button>
                     </li>
@@ -294,7 +306,9 @@ const PlpAllFilterOptions = ({
                       ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                       : filterType;
 
-                    if (filterValue[filterType] === null) return null;
+                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) return null;
+
+                    console.log('lassssttting', filterValue[filterType]);
 
                     if (isPrice) {
                       const price = filterValue[filterType];
@@ -316,13 +330,16 @@ const PlpAllFilterOptions = ({
                         </li>
                       );
                     } else {
-                      return (
-                        <li key={`${filterValue}-${text}`}>
-                          <button onClick={() => updateFilter(filterType, undefined)}>
-                            <span className="close">x</span> {text}
-                          </button>
-                        </li>
-                      );
+                      return filterValue[filterType].map((val, index) => {
+                        return (
+                          <li key={`${filterValue}-${text}-${index}`}>
+                            <button onClick={() => updateFilter(filterType, val)}>
+                              <span className="close">x</span>
+                              {val && (METALS_IN_HUMAN_NAMES[val] || <UIString>{val}</UIString> || val)}
+                            </button>
+                          </li>
+                        );
+                      });
                     }
                   })}
               </ul>

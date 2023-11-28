@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
-import PlpFilterOption from './PlpFilterOptionSet';
+import PlpFilterOption from '../PlpFilterOptionSet';
 
 const PlpSpecificFilterOptionsStyles = styled.div`
   flex: 1;
@@ -33,13 +33,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
   }
 `;
 
-const PlpSpecificFilterOptions = ({
-  filterOptionsOverride,
-  filterTypes,
-  updateFilter,
-
-  filterValue,
-}) => {
+const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFilter, filterValue }) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
@@ -50,9 +44,6 @@ const PlpSpecificFilterOptions = ({
 
     return value;
   });
-
-  console.log('filterTextOrder', filterTextOrder);
-  console.log('filterOptionsOverride', filterOptionsOverride);
 
   const filterTextArray =
     filterValue &&

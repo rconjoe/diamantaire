@@ -7,9 +7,9 @@ import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
+import PlpProductFilter from './filter/PlpProductFilter';
 import PlpCreativeBlock from './PlpCreativeBlock';
 import { PlpDiamondItem } from './PlpDiamondItem';
-import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
 import { SortProperties } from './PlpSortOption';
@@ -39,6 +39,13 @@ const PlpProductGridStyles = styled.div`
 
     .sort {
       padding-top: 0.8rem;
+
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding-top: 0;
+        position: absolute;
+        right: 10px;
+        top: -2px;
+      }
     }
   }
 

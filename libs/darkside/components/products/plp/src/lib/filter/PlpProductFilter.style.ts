@@ -101,10 +101,7 @@ export const PlpProductFilterStyles = styled.div`
       margin: 0 auto;
       padding-left: 0.4rem;
       li {
-        margin-right: calc(var(--gutter) / 3);
-        &:last-child {
-          margin-right: 0px;
-        }
+        margin-right: 1.5rem;
 
         button {
           background-color: transparent;
@@ -135,9 +132,12 @@ export const PlpProductFilterStyles = styled.div`
       button {
         border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
-        &:hover {
-          border-bottom: 0.2rem solid var(--color-teal);
+
+        &:hover,
+        &.active {
+          border-bottom: 2px solid var(--color-teal);
         }
+
         .setting-icon {
           margin-right: 1rem;
           position: relative;
@@ -216,19 +216,25 @@ export const PlpProductFilterStyles = styled.div`
     }
     /* mobile filter */
     &.stacked {
+      border-bottom: 1px solid #eaeaea;
+      padding: 20px 0;
+
+      &:first-child {
+        padding-top: 0;
+      }
+
       ul {
         overflow-x: hidden;
         overflow-y: visible;
         padding: 10px 0;
         max-width: 90vw;
-        margin: 0 auto;
-        padding-left: 4px;
-        li {
-          margin-right: calc(var(--gutter) / 3);
-          &:last-child {
-            margin-right: 0px;
-          }
+        margin: 0;
+        padding-left: 0;
 
+        li {
+          &:last-child {
+            margin-bottom: 0px;
+          }
           button {
             background-color: transparent;
             padding: 0;
@@ -244,9 +250,28 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       &.diamondType {
+        li {
+          margin-bottom: 1rem;
+        }
         button {
           border-bottom: 2px solid transparent;
           transition: 0.25s;
+          display: flex;
+          width: 100%;
+          max-width: 140px;
+          text-align: left;
+          border: 1px solid transparent;
+          padding: 0.5rem 0.7rem 0.3rem;
+
+          .diamond-icon {
+            flex: 0 0 30px;
+            text-align: center;
+            margin-right: 10px;
+          }
+
+          .diamond-text {
+            flex: 0 90px;
+          }
 
           &:hover,
           &.active {
@@ -271,15 +296,23 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       &.metal {
-        button {
-          width: 100%;
-          background-color: transparent;
-          transition: 0.25s;
+        border-bottom: none;
+        li {
+          margin-right: calc(var(--gutter) / 3);
+          &:last-child {
+            margin-right: 0px;
+          }
 
-          &.active {
-            .metal-swatch {
-              &::before {
-                border-color: var(--color-teal);
+          button {
+            width: 100%;
+            background-color: transparent;
+            transition: 0.25s;
+
+            &.active {
+              .metal-swatch {
+                &::before {
+                  border-color: var(--color-teal);
+                }
               }
             }
           }
@@ -332,11 +365,35 @@ export const PlpProductFilterStyles = styled.div`
           }
         }
       }
+
+      &.styles,
+      &.subStyles {
+        display: none;
+      }
+
       &.priceRange {
-        button.active {
-          font-weight: bold;
-          border-bottom: 2px solid var(--color-teal);
+        ul {
+          display: block;
+          margin: 0;
+          padding: 10px 0 0;
+
+          li {
+            margin-bottom: 1rem;
+
+            &:last-child {
+              margin-bottom: 0px;
+            }
+          }
         }
+      }
+      &.diamondType {
+        ul {
+          display: block;
+          margin: 0;
+        }
+      }
+      .filter-slider {
+        padding: 10px 0 30px;
       }
     }
   }

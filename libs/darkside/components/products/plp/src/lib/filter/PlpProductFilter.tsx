@@ -32,6 +32,7 @@ const PlpProductFilter = ({
   const router = useRouter();
   const filterTypes = availableFilters;
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   console.log('filterOptions', filterOptionsOverride);
 
@@ -46,16 +47,44 @@ const PlpProductFilter = ({
   }
 
   function updateFilter(filterType: string, value) {
-    const newFilters = { ...filterValue, [filterType]: value };
+    // Reset all filters
+    if (filterType === 'all') {
+      setFilterValues({});
 
-    // Remove attributes with undefined values
-    Object.keys(newFilters).forEach((key) => {
-      if (newFilters[key] === undefined) {
-        delete newFilters[key];
-      }
-    });
+      return router.push({
+        pathname: router.query.plpSlug.toString(),
+      });
+    }
+
+    // const newFilters = { ...filterValue, [filterType]: value };
+
+    // // Remove attributes with undefined values
+    // Object.keys(newFilters).forEach((key) => {
+    //   if (newFilters[key] === undefined || newFilters[key] === null) {
+    //     delete newFilters[key];
+    //   }
+    // });
 
     if (filterType !== 'price') {
+      // Push multiple filters to the URL
+
+      console.log('check val', filterValue[filterType], filterValue, filterType);
+
+      let newFilterValue = filterValue[filterType];
+
+      if (!newFilterValue || newFilterValue.length === 0) {
+        newFilterValue = [value];
+      } else if (newFilterValue.includes(value)) {
+        // update newFilterValue to remove the value
+        newFilterValue = newFilterValue.filter((val) => val !== value || val === undefined || val === null);
+      } else {
+        newFilterValue.push(value);
+      }
+
+      console.log('newFilterValue', newFilterValue);
+
+      const newFilters = { ...filterValue, [filterType]: newFilterValue };
+
       // Update the browser URL
       if (urlFilterMethod === 'param') {
         // Build the new URL path based on the filter values
@@ -63,12 +92,27 @@ const PlpProductFilter = ({
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
           .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
-            if (FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
-              acc[k] = v;
+            if (k === 'price' && typeof v === 'object') {
+              if (v.min) acc['priceMin'] = v.min;
+              if (v.max) acc['priceMax'] = v.max;
+            } else if (
+              FACETED_NAV_ORDER.includes(k) &&
+              Array.isArray(v) &&
+              v.every((item) => typeof item === 'string') &&
+              v.length > 0
+            ) {
+              console.log('v here', v);
+              acc[k] = v.join(',');
             }
+
+            console.log('acc 333');
 
             return acc;
           }, {});
+
+        console.log('sortedQParams', sortedQParams);
+
+        setFilterValues(newFilters);
 
         // Construct the new URL with the updated path
         router.push(
@@ -97,6 +141,8 @@ const PlpProductFilter = ({
 
             return acc;
           }, {});
+        // todo
+        // setFilterValues(newFilters);
 
         router.push({
           pathname: router.pathname,
@@ -114,8 +160,6 @@ const PlpProductFilter = ({
         handleSliderURLUpdate(value.min, value.max);
       }
     }
-
-    setFilterValues(newFilters);
   }
 
   function handleSliderURLUpdate(min, max) {
@@ -146,7 +190,6 @@ const PlpProductFilter = ({
                 filterTypes={filterTypes}
                 filterValue={filterValue}
                 updateFilter={updateFilter}
-                // handleSliderURLUpdate={handleSliderURLUpdate}
                 filterOptionsOverride={filterOptionsOverride}
               />
             ) : (
@@ -158,17 +201,18 @@ const PlpProductFilter = ({
                 updateFilter={updateFilter}
                 setFilterValues={setFilterValues}
                 handleSliderURLUpdate={handleSliderURLUpdate}
+                setIsMobileFilterOpen={setIsMobileFilterOpen}
               />
             )}
-            <PlpMobileFilter
-              filterTypes={filterTypes}
-              filterOptionSetOpen={filterOptionSetOpen}
-              toggleFilterOptionSet={toggleFilterOptionSet}
-              filterValue={filterValue}
-              updateFilter={updateFilter}
-              setFilterValues={setFilterValues}
-              handleSliderURLUpdate={handleSliderURLUpdate}
-            />
+            {isMobileFilterOpen && (
+              <PlpMobileFilter
+                filterTypes={filterTypes}
+                filterValue={filterValue}
+                updateFilter={updateFilter}
+                handleSliderURLUpdate={handleSliderURLUpdate}
+                close={() => setIsMobileFilterOpen(false)}
+              />
+            )}
           </div>
         </div>
       </PlpProductFilterStyles>
