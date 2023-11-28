@@ -83,7 +83,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
     font-size: 6rem;
 
     font-weight: var(--font-weight-medium);
-    letter-spacing: -0.3rem;
+    letter-spacing: -0.03rem;
     line-height: 4.5rem;
     margin-bottom: ${setSpace(1)};
     overflow-wrap: break-word;

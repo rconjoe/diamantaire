@@ -178,7 +178,7 @@ export const StackedHeaderStylesContainer = styled.div`
 
       a {
         font-family: ${MAIN_FONT};
-        letter-spacing: 0.3rem;
+        letter-spacing: 0.03rem;
         font-size: 1.4rem;
         text-decoration: none;
         position: relative;
