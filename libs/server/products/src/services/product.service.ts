@@ -839,8 +839,6 @@ export class ProductsService {
         subStylesFilters: subStyles,
       });
 
-      console.log(filterQueries)
-
       // Build Query
       const pipeline: PipelineStage[] = [
         { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries, getDraftQuery()] } },
@@ -1050,6 +1048,7 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
+            productTitle: product.productTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
@@ -1231,6 +1230,7 @@ export class ProductsService {
         } else {
           productsArray.push({
             defaultId: product.contentId,
+            productTitle: content?.productTitle,
             productType: product.productType,
             metal: [],
             variants: {
@@ -1312,7 +1312,7 @@ export class ProductsService {
 
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
     return {
-      title: content['plpTitle'] || product.collectionTitle,
+      title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,
