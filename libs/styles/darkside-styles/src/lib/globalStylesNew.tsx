@@ -11,22 +11,22 @@ export const vraiFont = localFont({
   preload: true,
   src: [
     {
-      path: '/fonts/futura-pt_light.woff2',
+      path: './fonts/futura-pt_light.woff2',
       weight: '300',
       style: 'normal',
     },
     {
-      path: '/fonts/futura-pt_book.woff2',
+      path: './fonts/futura-pt_book.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '/fonts/futura-pt_medium.woff2',
+      path: './fonts/futura-pt_medium.woff2',
       weight: '500',
       style: 'normal',
     },
     {
-      path: '/fonts/futura-pt_demi.woff2',
+      path: './fonts/futura-pt_demi.woff2',
       weight: '600',
       style: 'normal',
     },
