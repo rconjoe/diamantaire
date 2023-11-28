@@ -36,6 +36,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
         friendbuyAPI.push(['merchant', friendbuyAPI.merchantId]);
 
         // load the merchant SDK and your campaigns
+        // eslint-disable-next-line
         (function (f, r, n, d, b, u, y) {
           while ((u = n.shift())) {
             // (b = f.createElement(r)), (y = f.getElementsByTagName(r)[0]);
