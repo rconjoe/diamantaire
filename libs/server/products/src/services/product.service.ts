@@ -1108,7 +1108,6 @@ export class ProductsService {
     collectionSlugsInOrder: string[],
     { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
-    console.log("Collections In Order")
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
     const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
