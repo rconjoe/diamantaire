@@ -37,19 +37,19 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
 
         // load the merchant SDK and your campaigns
         // eslint-disable-next-line
-        (function (f, r, n, d, b, u, y) {
-          while ((u = n.shift())) {
-            b = f.createElement(r);
-            y = f.getElementsByTagName(r)[0];
-            b.async = 1;
-            b.src = u;
-            y.parentNode.insertBefore(b, y);
-            console.log(`test`, d);
-          }
-        })(document, 'script', [
-          'https://static.fbot.me/friendbuy.js',
-          'https://campaign.fbot.me/' + friendbuyAPI.merchantId + '/campaigns.js',
-        ]);
+        // (function (f, r, n, d, b, u, y) {
+        //   while ((u = n.shift())) {
+        //     b = f.createElement(r);
+        //     y = f.getElementsByTagName(r)[0];
+        //     b.async = 1;
+        //     b.src = u;
+        //     y.parentNode.insertBefore(b, y);
+        //     console.log(`test`, d);
+        //   }
+        // })(document, 'script', [
+        //   'https://static.fbot.me/friendbuy.js',
+        //   'https://campaign.fbot.me/' + friendbuyAPI.merchantId + '/campaigns.js',
+        // ]);
 
         setIsLoaded(true);
       }
