@@ -809,7 +809,9 @@ export class ProductsService {
           query.push({ 'configuration.metal': { $in: ms } });
         }
         if (dTs && dTs.length > 0) {
-          query.push({ 'configuration.diamondType': { $in: dTs } });
+          const diamondTypeRegex = dTs.map((dt) => new RegExp(dt, 'i'));
+
+          query.push({ 'configuration.diamondType': { $in: diamondTypeRegex } });
         }
 
         if (typeof pMin !== 'undefined') {
@@ -1108,6 +1110,9 @@ export class ProductsService {
   ) {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
+    const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const metalsQueryValues = metals?.length > 1 ? metals : ['yellow-gold'];
+
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
         [
@@ -1116,8 +1121,8 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': { $in: diamondTypesRegex || [ new RegExp('round-brilliant', "i")] }, // always has a filter applied
-              'configuration.metal': { $in: metals || ['yellow-gold'] }, // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypesQueryValues  }, // always has a filter applied
+              'configuration.metal': { $in: metalsQueryValues }, // always has a filter applied
               ...getDraftQuery(),
             },
           },
