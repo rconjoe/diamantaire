@@ -44,7 +44,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
             b.async = 1;
             b.src = u;
             y.parentNode.insertBefore(b, y);
-            console.log(d);
+            console.log(`test`, d);
           }
         })(document, 'script', [
           'https://static.fbot.me/friendbuy.js',
@@ -54,7 +54,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
         setIsLoaded(true);
       }
     } catch (e) {
-      console.log('FriendBuy Script for refer a friend failed to load', e);
+      console.log('FriendBuy Script error', e);
     }
   }, [isLoaded]);
 
