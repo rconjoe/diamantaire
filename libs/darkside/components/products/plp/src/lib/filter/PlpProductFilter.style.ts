@@ -88,7 +88,7 @@ export const PlpProductFilterStyles = styled.div`
     }
   }
   .filter-slider {
-    max-width: 370px;
+    max-width: 37rem;
     padding-top: 2rem;
   }
   .filter-option-set {
@@ -117,6 +117,9 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.diamondType {
+      ul {
+        padding-left: 0.4rem;
+      }
       button {
         border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
@@ -147,6 +150,9 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.metal {
+      ul {
+        padding-left: 0.4rem;
+      }
       button {
         width: 100%;
         background-color: transparent;
@@ -329,8 +335,8 @@ export const PlpProductFilterStyles = styled.div`
           flex: 0 0 30px;
           border: 1px solid transparent;
           border-radius: 50%;
-          margin-right: 7px;
           position: relative;
+          margin: 0 auto;
 
           &::before {
             content: '';
@@ -400,6 +406,9 @@ export const PlpProductFilterStyles = styled.div`
 
   .active-filters {
     padding: 1.2rem 0 0;
+    ul {
+      flex-wrap: wrap;
+    }
     li {
       margin-right: 1rem;
       button {

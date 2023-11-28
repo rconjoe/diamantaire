@@ -3,6 +3,7 @@ import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { METALS_IN_HUMAN_NAMES, formatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
+import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import PlpPriceRange from './PlpPriceRange';
@@ -167,44 +168,49 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
             <ul>
               {filterValue &&
                 Object.keys(filterValue).map((filter) => {
-                  const value = filterValue[filter];
+                  // ex: metal, diamondType
+                  const filterSet = filterValue[filter];
                   const isPrice = filter === 'price';
 
-                  if (filter === 'price' && !value.min && !value.max) return null;
+                  if (filter === 'price' && !filterSet.min && !filterSet.max) return null;
 
-                  if (value) {
-                    return (
-                      <li className="active-filter" key={`active-filter-${filter}`}>
-                        <button
-                          onClick={() =>
-                            updateFilter(
-                              filter,
-                              isPrice
-                                ? {
-                                    min: null,
-                                    max: null,
-                                  }
-                                : null,
-                            )
-                          }
-                        >
-                          <span className="remove-filter">
-                            <XIcon />
-                          </span>
-                          {filter === 'price' ? (
-                            <span className="active-filter__value">
-                              {value.min && formatPrice(parseFloat(value.min), locale)}
-                              {value.min && value.max && '-'}
-                              {value.max && formatPrice(parseFloat(value.max), locale)}
+                  console.log('filterSet', filterSet);
+
+                  if (filterSet) {
+                    return filterSet.map((value) => {
+                      return (
+                        <li className="active-filter" key={`active-filter-${filter}`}>
+                          <button
+                            onClick={() =>
+                              updateFilter(
+                                filter,
+                                isPrice
+                                  ? {
+                                      min: null,
+                                      max: null,
+                                    }
+                                  : value,
+                              )
+                            }
+                          >
+                            <span className="remove-filter">
+                              <XIcon />
                             </span>
-                          ) : (
-                            <span className="active-filter__value">
-                              {METALS_IN_HUMAN_NAMES[value] || <UIString>{value}</UIString>}
-                            </span>
-                          )}
-                        </button>
-                      </li>
-                    );
+                            {filter === 'price' ? (
+                              <span className="active-filter__value">
+                                {value.min && formatPrice(parseFloat(value.min), locale)}
+                                {value.min && value.max && '-'}
+                                {value.max && formatPrice(parseFloat(value.max), locale)}
+                              </span>
+                            ) : (
+                              <span className="active-filter__value">
+                                {METALS_IN_HUMAN_NAMES[value] || <UIString>{value}</UIString>}
+                              </span>
+                            )}
+                          </button>
+                        </li>
+                      );
+                    });
                   }
                 })}
             </ul>

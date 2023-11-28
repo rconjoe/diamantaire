@@ -10,6 +10,11 @@ import PlpMobileFilter from './PlpMobileFilter';
 import { PlpProductFilterStyles } from './PlpProductFilter.style';
 import PlpSpecificFilterOptions from './PlpSpecificFilterOptions';
 
+type PriceType = {
+  min?: number;
+  max?: number;
+};
+
 const PlpProductFilter = ({
   availableFilters,
   filterValue,
@@ -90,27 +95,24 @@ const PlpProductFilter = ({
         // Build the new URL path based on the filter values
         console.log('newFilters', newFilters);
         const sortedQParams = Object.entries(newFilters)
-          .sort(([k], [k2]) => (k > k2 ? 1 : 0))
-          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
+          .sort(([k1], [k2]) => (k1 > k2 ? 1 : 0))
+          .reduce((acc: Record<string, string | number>, [k, v]: [string, string[] | { min?: number; max?: number }]) => {
             if (k === 'price' && typeof v === 'object') {
-              if (v.min) acc['priceMin'] = v.min;
-              if (v.max) acc['priceMax'] = v.max;
+              const { min, max } = (v as PriceType) || {};
+
+              if (min) acc['priceMin'] = min;
+              if (max) acc['priceMax'] = max;
             } else if (
               FACETED_NAV_ORDER.includes(k) &&
               Array.isArray(v) &&
-              v.every((item) => typeof item === 'string') &&
+              v.every((item: string) => typeof item === 'string') &&
               v.length > 0
             ) {
-              console.log('v here', v);
               acc[k] = v.join(',');
             }
 
-            console.log('acc 333');
-
             return acc;
           }, {});
-
-        console.log('sortedQParams', sortedQParams);
 
         setFilterValues(newFilters);
 
@@ -131,18 +133,21 @@ const PlpProductFilter = ({
 
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
-          .reduce((acc: Record<string, string | number>, [k, v]: [string, string | { min?: number; max?: number }]) => {
-            if (k === 'price' && typeof v === 'object') {
-              if (v.min) acc['priceMin'] = v.min;
-              if (v.max) acc['priceMax'] = v.max;
-            } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
-              acc[k] = v;
-            }
+          .reduce(
+            (acc: Record<string, string | number>, [k, v]: [string, string | string[] | { min?: number; max?: number }]) => {
+              if (k === 'price' && typeof v === 'object') {
+                const { min, max } = (v as PriceType) || {};
 
-            return acc;
-          }, {});
-        // todo
-        // setFilterValues(newFilters);
+                if (min) acc['priceMin'] = min;
+                if (max) acc['priceMax'] = max;
+              } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
+                acc[k] = v;
+              }
+
+              return acc;
+            },
+            {},
+          );
 
         router.push({
           pathname: router.pathname,

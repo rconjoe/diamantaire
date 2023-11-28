@@ -3,15 +3,7 @@ import { METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
-const renderFilterOptionSet = ({
-  filterType,
-  mapFunction,
-  allFilterTypes,
-  actualFilterValue,
-  updateFilter,
-  currentFilters,
-  format,
-}) => {
+const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, updateFilter, currentFilters, format }) => {
   return (
     <div
       className={clsx(`filter-option-set ${filterType}`, {
@@ -23,15 +15,13 @@ const renderFilterOptionSet = ({
       </Heading>
 
       <ul className="list-unstyled flex">
-        {allFilterTypes[filterType]?.map((val) =>
-          mapFunction(val, actualFilterValue, updateFilter, filterType, currentFilters),
-        )}
+        {allFilterTypes[filterType]?.map((val) => mapFunction({ optionVal: val, updateFilter, filterType, currentFilters }))}
       </ul>
     </div>
   );
 };
 
-const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType, currentFilters) => {
+const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilters }) => {
   const Icon = diamondIconsMap[diamondType]?.icon;
 
   if (diamondType.includes('+')) return null;
@@ -40,7 +30,7 @@ const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType,
     <li key={`filter-${diamondType}`}>
       <button
         className={clsx('flex align-center', {
-          active: currentFilters['diamondType'] === diamondType,
+          active: currentFilters['diamondType']?.includes(diamondType),
         })}
         onClick={() => updateFilter('diamondType', diamondType)}
       >
@@ -55,12 +45,12 @@ const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType,
   );
 };
 
-const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilters) => {
+const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
   return (
     <li key={`filter-${metal}`}>
       <button
         className={clsx('flex align-center', {
-          active: currentFilters['metal'] === metal,
+          active: currentFilters['metal']?.includes(metal),
         })}
         onClick={() => updateFilter('metal', metal)}
       >
@@ -71,6 +61,7 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
   );
 };
 
+// Need to finish +
 // const renderStyles = (ringStyle) => {
 //   const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
 
@@ -99,7 +90,7 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
 //   );
 // };
 
-const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValueValue, currentFilters, format }) => {
+const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }) => {
   return (
     <>
       {renderFilterOptionSet({
@@ -107,7 +98,6 @@ const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValue
         mapFunction: filterType === 'diamondType' ? renderDiamondType : renderMetal,
         allFilterTypes,
         updateFilter,
-        actualFilterValue: filterValueValue,
         currentFilters,
         format,
       })}
