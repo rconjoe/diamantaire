@@ -1,4 +1,12 @@
-import { Cart, ExtractVariables, ShopifyCartOperation, Connection, ShopifyCart } from './cart-types';
+import {
+  Cart,
+  ExtractVariables,
+  ShopifyCartOperation,
+  Connection,
+  ShopifyCart,
+  ShopifyCreateCartOperation,
+} from './cart-types';
+import { createCartMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { queryDatoGQL } from '../clients';
 
@@ -93,6 +101,15 @@ async function shopifyFetch<T>({
 
 // React Query
 
+async function createCart(): Promise<Cart> {
+  const res = await shopifyFetch<ShopifyCreateCartOperation>({
+    query: createCartMutation,
+    cache: 'no-store',
+  });
+
+  return reshapeCart(res.body.data.cartCreate.cart);
+}
+
 const reshapeCart = (cart: ShopifyCart): Cart => {
   if (!cart) return;
 
@@ -153,7 +170,14 @@ async function getCart(_cartId: string): Promise<Cart | undefined> {
 }
 
 export async function fetchCartShopifyData() {
-  const cartId = localStorage.getItem('cartId');
+  let cartId = localStorage.getItem('cartId');
+
+  if (!cartId) {
+    const newCart = await createCart();
+
+    cartId = newCart.id;
+  }
+
   const cartData = await getCart(cartId);
 
   return cartData;
