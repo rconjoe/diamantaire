@@ -270,20 +270,23 @@ function OptionSelector({
               </>
             ) : optionType === 'caratWeight' && selectedOptionValue !== 'other' ? (
               <>
-                <UIString>
-                  {selectedOptionValue}
-                  {isNaN(parseFloat(selectedOptionValue)) ? 'ct' : ''}
-                </UIString>{' '}
-                {/* Using both translation items because some elements need to be lowercase */}
-                {diamondSpecs.color && (
+                <UIString>{selectedOptionValue}</UIString>
+                {' ct'}
+                {productType === 'Engagement Ring' && (
                   <>
-                    <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
                     {', '}
-                  </>
-                )}
-                {diamondSpecs.clarity && (
-                  <>
-                    <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+                    {/* Using both translation items because some elements need to be lowercase */}
+                    {diamondSpecs.color && (
+                      <>
+                        <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
+                        {', '}
+                      </>
+                    )}
+                    {diamondSpecs.clarity && (
+                      <>
+                        <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+                      </>
+                    )}
                   </>
                 )}
               </>

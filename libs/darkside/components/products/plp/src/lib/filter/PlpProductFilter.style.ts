@@ -15,21 +15,28 @@ export const PlpProductFilterStyles = styled.div`
   .filter__header {
     .filter__title {
       margin-right: 1rem;
+      display: none;
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: block;
+      }
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
-        display: none;
-        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          display: block;
-        }
       }
     }
-    .filter-icon {
+    .filter__icon {
       position: relative;
-      top: 0.2rem;
+      top: 0.1rem;
       margin-right: 0.5rem;
+
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: none;
+      }
+
+      svg {
+        width: 30px;
+        position: relative;
+        top: 0.2rem;
       }
     }
 

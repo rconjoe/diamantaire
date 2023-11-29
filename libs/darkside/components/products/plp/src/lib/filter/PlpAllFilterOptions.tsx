@@ -11,6 +11,7 @@ import { makeCurrency } from '@diamantaire/shared/helpers';
 import { FilterIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps } from '@diamantaire/shared-product';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -56,6 +57,10 @@ const PlpAllFilterOptions = ({
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
 
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+
+  const router = useRouter();
+
+  console.log('router', router);
 
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
@@ -109,6 +114,10 @@ const PlpAllFilterOptions = ({
               Object.keys(filterTypes)?.map((optionSet, index) => {
                 // Hide filters with no options
                 if (filterTypes[optionSet]?.length === 0) return null;
+
+                if (optionSet === 'styles' && router.pathname.includes('/jewelry/')) return null;
+
+                console.log('optionSet', optionSet);
 
                 return (
                   <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>

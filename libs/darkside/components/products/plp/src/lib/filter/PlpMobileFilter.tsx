@@ -19,7 +19,7 @@ const PlpMobileFilterStyles = styled.div`
   z-index: 5000;
   /* top: ${({ headerHeight }) => headerHeight}px; */
   padding: 2rem 1.5rem;
-  padding-bottom: 200px;
+  padding-bottom: 250px;
   overflow-y: scroll;
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     display: none;
