@@ -76,8 +76,8 @@ export const PlpProductFilterStyles = styled.div`
           .arrow-up {
             width: 0;
             height: 0;
-            border-left: 3.5rem solid transparent;
-            border-right: 3.5rem solid transparent;
+            border-left: 0.35rem solid transparent;
+            border-right: 0.35rem solid transparent;
             border-bottom: 0.7rem solid black;
             display: inline-block;
             margin-left: 0.3rem;

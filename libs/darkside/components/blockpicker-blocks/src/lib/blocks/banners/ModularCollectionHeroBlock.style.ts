@@ -120,7 +120,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
     .custom-design-hero & {
       font-size: 3.2rem;
       line-height: 1.29;
-      letter-spacing: 0.3.5rem;
+      letter-spacing: 0.35rem;
 
       ${tabletAndUp(`
         font-size: 42px;

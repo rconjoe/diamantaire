@@ -1,11 +1,11 @@
 // BP = Break Points
 export const BP_XS = '0';
-export const BP_SM = '57.6rem';
-export const BP_MD = '76.8rem';
-export const BP_LG = '99.2rem';
-export const BP_XL = '120rem';
-export const BP_XXL = '144.1rem';
-export const BP_XXXL = '160rem';
+export const BP_SM = '576px';
+export const BP_MD = '768px';
+export const BP_LG = '992px';
+export const BP_XL = '1200px';
+export const BP_XXL = '1441px';
+export const BP_XXXL = '1600px';
 
 export const noHoverDevice = (noHoverStyles = '') => {
   return `
