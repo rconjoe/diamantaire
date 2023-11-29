@@ -15,21 +15,30 @@ export const PlpProductFilterStyles = styled.div`
   .filter__header {
     .filter__title {
       margin-right: 1rem;
+      display: none;
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: block;
+      }
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
-        display: none;
-        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-          display: block;
-        }
+        font-weight: 400;
+        color: var(--color-dark-grey);
       }
     }
-    .filter-icon {
+    .filter__icon {
       position: relative;
-      top: 0.2rem;
+      top: 0.1rem;
       margin-right: 0.5rem;
+
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: none;
+      }
+
+      svg {
+        width: 30px;
+        position: relative;
+        top: 0.2rem;
       }
     }
 
@@ -67,6 +76,7 @@ export const PlpProductFilterStyles = styled.div`
           border: none;
           background-color: transparent;
           padding: 0;
+          font-size: var(--font-size-xxxsmall);
           &.active {
             .arrow-up {
               transform: rotate(0deg);
@@ -88,7 +98,7 @@ export const PlpProductFilterStyles = styled.div`
     }
   }
   .filter-slider {
-    max-width: 370px;
+    max-width: 37rem;
     padding-top: 2rem;
   }
   .filter-option-set {
@@ -101,14 +111,12 @@ export const PlpProductFilterStyles = styled.div`
       margin: 0 auto;
       padding-left: 0.4rem;
       li {
-        margin-right: calc(var(--gutter) / 3);
-        &:last-child {
-          margin-right: 0px;
-        }
+        margin-right: 1.5rem;
 
         button {
           background-color: transparent;
           padding: 0;
+          text-transform: capitalize;
         }
         svg {
           height: 3rem;
@@ -120,6 +128,9 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.diamondType {
+      ul {
+        padding-left: 0.4rem;
+      }
       button {
         border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
@@ -135,9 +146,12 @@ export const PlpProductFilterStyles = styled.div`
       button {
         border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
-        &:hover {
-          border-bottom: 0.2rem solid var(--color-teal);
+
+        &:hover,
+        &.active {
+          border-bottom: 2px solid var(--color-teal);
         }
+
         .setting-icon {
           margin-right: 1rem;
           position: relative;
@@ -147,6 +161,9 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.metal {
+      ul {
+        padding-left: 0.4rem;
+      }
       button {
         width: 100%;
         background-color: transparent;
@@ -214,10 +231,195 @@ export const PlpProductFilterStyles = styled.div`
         border-bottom: 0.2rem solid var(--color-teal);
       }
     }
+    /* mobile filter */
+    &.stacked {
+      border-bottom: 1px solid #eaeaea;
+      padding: 20px 0;
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      ul {
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding: 10px 0;
+        max-width: 90vw;
+        margin: 0;
+        padding-left: 0;
+
+        li {
+          &:last-child {
+            margin-bottom: 0px;
+          }
+          button {
+            background-color: transparent;
+            padding: 0;
+            display: block;
+          }
+          svg {
+            height: 30px;
+            width: auto;
+            display: inline-block;
+            overflow: visible;
+          }
+        }
+      }
+
+      &.diamondType {
+        li {
+          margin-bottom: 1rem;
+        }
+        button {
+          border-bottom: 2px solid transparent;
+          transition: 0.25s;
+          display: flex;
+          width: 100%;
+          max-width: 140px;
+          text-align: left;
+          border: 1px solid transparent;
+          padding: 0.5rem 0.7rem 0.3rem;
+
+          .diamond-icon {
+            flex: 0 0 30px;
+            text-align: center;
+            margin-right: 10px;
+          }
+
+          .diamond-text {
+            flex: 0 90px;
+          }
+
+          &:hover,
+          &.active {
+            border-color: var(--color-teal);
+          }
+        }
+      }
+
+      &.styles {
+        button {
+          border-bottom: 2px solid transparent;
+          transition: 0.25s;
+          &:hover {
+            border-bottom: 2px solid var(--color-teal);
+          }
+          .setting-icon {
+            margin-right: 10px;
+            position: relative;
+            top: 1px;
+          }
+        }
+      }
+
+      &.metal {
+        border-bottom: none;
+        li {
+          margin-right: calc(var(--gutter) / 3);
+          &:last-child {
+            margin-right: 0px;
+          }
+
+          button {
+            width: 100%;
+            background-color: transparent;
+            transition: 0.25s;
+
+            &.active {
+              .metal-swatch {
+                &::before {
+                  border-color: var(--color-teal);
+                }
+              }
+            }
+          }
+        }
+
+        .metal-text {
+          white-space: nowrap;
+        }
+
+        .metal-swatch {
+          height: 30px;
+          width: 30px;
+          display: inline-block;
+          flex: 0 0 30px;
+          border: 1px solid transparent;
+          border-radius: 50%;
+          position: relative;
+          margin: 0 auto;
+
+          &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+            border: 1px solid transparent;
+            transform: scale(1.35);
+          }
+
+          /* TODO - refine to css variables */
+          &.yellow-gold {
+            background-color: ${colorMap['yellow-gold']};
+          }
+
+          &.white-gold {
+            background: linear-gradient(305deg, rgb(254, 254, 254), rgb(206, 206, 206), transparent);
+          }
+
+          &.rose-gold {
+            background-color: ${colorMap['rose-gold']};
+          }
+
+          &.sterling-silver {
+            background: linear-gradient(138deg, #d2d2d0 0%, #f7f7f7 50%, #c9cac8 100%);
+          }
+
+          &.platinum {
+            background: #c8c8c8;
+          }
+        }
+      }
+
+      &.styles,
+      &.subStyles {
+        display: none;
+      }
+
+      &.priceRange {
+        ul {
+          display: block;
+          margin: 0;
+          padding: 10px 0 0;
+
+          li {
+            margin-bottom: 1rem;
+
+            &:last-child {
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+      &.diamondType {
+        ul {
+          display: block;
+          margin: 0;
+        }
+      }
+      .filter-slider {
+        padding: 10px 0 30px;
+      }
+    }
   }
 
   .active-filters {
     padding: 1.2rem 0 0;
+    ul {
+      flex-wrap: wrap;
+    }
     li {
       margin-right: 1rem;
       button {

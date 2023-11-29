@@ -30,12 +30,16 @@ export async function getVRAIServerPlpData(
 
       if (min) acc['priceMin'] = min;
       if (max) acc['priceMax'] = max;
+    } else if (key === 'metal') {
+      acc[key] = value?.join(',').toString() || value;
     } else {
       acc[key] = value;
     }
 
     return acc;
   }, {});
+
+  console.log('optionsQuery', optionsQuery);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({
     category,

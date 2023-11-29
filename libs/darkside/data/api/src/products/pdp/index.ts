@@ -101,6 +101,9 @@ const WEDDING_BAND_QUERY = gql`
       productIconList {
         productType
       }
+      trioBlocks {
+        id
+      }
       caratWeight
       specLabels {
         id

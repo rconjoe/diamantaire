@@ -133,8 +133,6 @@ const SingleVariantCartItem = ({
       const childProduct = attributes?.find((attr) => attr.key === 'childProduct')?.value;
       const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
 
-      console.log('isLeftOrRight', isLeftOrRight, attributes, merchandise.title);
-
       if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
         const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
 
@@ -161,8 +159,8 @@ const SingleVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
-  const itemAttributes = useMemo(
-    () => [
+  const itemAttributes = useMemo(() => {
+    const initAttributes = [
       {
         label: refinedCartItemDetails?.['diamondType'],
         value: info?.diamondShape,
@@ -197,9 +195,26 @@ const SingleVariantCartItem = ({
         label: refinedCartItemDetails?.['ringSize'],
         value: info?.ringSize,
       },
-    ],
-    [refinedCartItemDetails, info],
-  );
+    ];
+
+    // show for loose diamonds
+    if (productType === 'Diamond' || productType === 'Diamonds') {
+      initAttributes.push({
+        label: _t('Color'),
+        value: info?.color,
+      });
+      initAttributes.push({
+        label: _t('Cut'),
+        value: info?.cut,
+      });
+      initAttributes.push({
+        label: _t('Clarity'),
+        value: info?.clarity,
+      });
+    }
+
+    return initAttributes;
+  }, [refinedCartItemDetails, info]);
 
   useEffect(() => {
     const tempRefinedCartItemDetails: { [key: string]: string }[] = [{}];

@@ -84,7 +84,7 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
       )}
       <div className="content-block__container">
         {trioBlocks.map((block, index) => (
-          <ImageTile key={`${id}-${index}-${block.title}`} {...block} />
+          <ImageTile isSvg={block.image.url.includes('.svg')} key={`${id}-${index}-${block.title}`} {...block} />
         ))}
       </div>
 

@@ -1,27 +1,27 @@
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
-const renderFilterOptionSet = ({
-  filterType,
-  mapFunction,
-  allFilterTypes,
-  actualFilterValue,
-  updateFilter,
-  currentFilters,
-}) => {
+const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, updateFilter, currentFilters, format }) => {
   return (
-    <div className={`filter-option-set ${filterType}`}>
+    <div
+      className={clsx(`filter-option-set ${filterType}`, {
+        stacked: format === 'stacked',
+      })}
+    >
+      <Heading type="h3" className="h1 secondary">
+        <UIString>{filterType}</UIString>
+      </Heading>
+
       <ul className="list-unstyled flex">
-        {allFilterTypes[filterType]?.map((val) =>
-          mapFunction(val, actualFilterValue, updateFilter, filterType, currentFilters),
-        )}
+        {allFilterTypes[filterType]?.map((val) => mapFunction({ optionVal: val, updateFilter, filterType, currentFilters }))}
       </ul>
     </div>
   );
 };
 
-const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType, currentFilters) => {
+const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilters }) => {
   const Icon = diamondIconsMap[diamondType]?.icon;
 
   if (diamondType.includes('+')) return null;
@@ -30,24 +30,27 @@ const renderDiamondType = (diamondType, _filterValue, updateFilter, _filterType,
     <li key={`filter-${diamondType}`}>
       <button
         className={clsx('flex align-center', {
-          active: currentFilters['diamondType'] === diamondType,
+          active: currentFilters['diamondType']?.includes(diamondType),
         })}
         onClick={() => updateFilter('diamondType', diamondType)}
       >
         <span className="diamond-icon">
           <Icon />
         </span>
+        <span className="diamond-text">
+          <UIString>{diamondType}</UIString>
+        </span>
       </button>
     </li>
   );
 };
 
-const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilters) => {
+const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
   return (
     <li key={`filter-${metal}`}>
       <button
         className={clsx('flex align-center', {
-          active: currentFilters['metal'] === metal,
+          active: currentFilters['metal']?.includes(metal),
         })}
         onClick={() => updateFilter('metal', metal)}
       >
@@ -58,25 +61,7 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
   );
 };
 
-// const renderPriceRange = (price) => {
-//   return (
-//     <li key={`filter-${price.title}`}>
-//       <button
-//         className="flex align-center"
-//         onClick={() => {
-//           setIsCustomPriceRangeOpen(false);
-//           updateFilter('price', {
-//             min: price.min,
-//             max: price.max,
-//           });
-//         }}
-//       >
-//         <span className="price-text">{price.title}</span>
-//       </button>
-//     </li>
-//   );
-// };
-
+// Need to finish +
 // const renderStyles = (ringStyle) => {
 //   const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
 
@@ -105,16 +90,24 @@ const renderMetal = (metal, _filterValue, updateFilter, _filterType, currentFilt
 //   );
 // };
 
-const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, filterValueValue, currentFilters }) => {
+type FilterOptionsProps = {
+  filterType: string;
+  allFilterTypes: { [key: string]: string[] };
+  updateFilter: (filterType: string, filterValue: string | { min: number; max: number }) => void;
+  currentFilters: { [key: string]: string };
+  format?: 'stacked' | 'inline';
+};
+
+const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }: FilterOptionsProps) => {
   return (
     <>
       {renderFilterOptionSet({
         filterType: filterType,
         mapFunction: filterType === 'diamondType' ? renderDiamondType : renderMetal,
         allFilterTypes,
-        updateFilter: updateFilter,
-        actualFilterValue: filterValueValue,
+        updateFilter,
         currentFilters,
+        format,
       })}
     </>
   );

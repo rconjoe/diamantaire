@@ -80,3 +80,29 @@ export type JewelryCartItemProps = {
     totalPriceOverride?: string | null;
   };
 };
+
+export type LooseDiamondCartItemProps = {
+  diamondVariantId?: string;
+  // Fulfillment
+  diamondAttributes?: {
+    productAsset: string;
+    _productTitle: string;
+    _productType: string;
+    productIconListShippingCopy: string;
+    shippingBusinessDays: string;
+    // This is the diamond variant id - not sure if needed
+    // feedId: string;
+    // This unifies the setting with the custom diamond
+    productGroupKey: string;
+    // This refers to the setting url
+    pdpUrl: string;
+    shippingText: string;
+    caratWeight: string;
+    clarity: string;
+    cut: string;
+    color: string;
+    lotId: string;
+    // isChildProduct: string;
+    _dateAdded: string;
+  };
+};

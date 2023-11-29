@@ -571,7 +571,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
               {product.productType && productIconListType && (
                 <div className="product-icon-list-container">
-                  <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
+                  <ProductIconList
+                    productIconListType={productIconListType}
+                    locale={router.locale}
+                    configuration={selectedConfiguration}
+                  />
                 </div>
               )}
             </div>

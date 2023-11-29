@@ -100,7 +100,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
     <ModularProductSuggestionQuadGridStyles>
       {aboveCopy && (
         <div className="title-container container-wrapper text-center">
-          <Heading type="h2" className="h1 primary">
+          <Heading type="h2" className="h1 secondary">
             {aboveCopy}
           </Heading>
         </div>

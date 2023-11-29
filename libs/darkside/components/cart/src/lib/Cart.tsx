@@ -29,7 +29,15 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
-  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band', 'Earrings', 'Diamonds'];
+  const singleVariantProductTypes = [
+    'Necklace',
+    'Bracelet',
+    'Engagement Ring',
+    'Wedding Band',
+    'Earrings',
+    'Diamonds',
+    'Diamond',
+  ];
 
   const {
     cartHeader,

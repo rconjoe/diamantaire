@@ -3,14 +3,18 @@ import { DarksideButton, UIString } from '@diamantaire/darkside/components/commo
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { addItemToCart } from '@diamantaire/darkside/data/api';
-import { useCartData } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondTableRow from './DiamondTableRow.style';
@@ -28,6 +32,7 @@ const DiamondTableRow = ({
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
+  const { data: checkout } = useCartData(locale);
 
   const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
 
@@ -35,11 +40,27 @@ const DiamondTableRow = ({
 
   const { refetch } = useCartData(locale);
 
+  const { _t } = useTranslations(locale);
+
   const { isMobile } = useContext(GlobalContext);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
+
+  const ToastErrorStyles = styled.div`
+    p {
+      font-size: 1.6rem;
+    }
+  `;
+
+  const ToastError = () => {
+    return (
+      <ToastErrorStyles>
+        <p>This diamond is already in your cart</p>
+      </ToastErrorStyles>
+    );
+  };
 
   const handleSelectDiamond = () => {
     const { carat, color, clarity, cut, price } = product;
@@ -79,26 +100,43 @@ const DiamondTableRow = ({
     // TODO: add handler
     console.log(`handlePurchase`, product);
 
-    // const cartAttributesForDiamond = [
-    //   {
-    //     key: 'productTitle',
-    //     value: 'Loose Diamond',
-    //   },
-    //   {
-    //     key: '_image',
-    //     value: JSON.stringify(image),
-    //   },
-    //   {
-    //     key: '_dateAdded',
-    //     value: Date.now().toString(),
-    //   },
-    //   {
-    //     key: 'diamondType',
-    //     value: product.diamondType,
-    //   },
-    // ];
+    // Check if diamond is in the cart
+    const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === product?.variantId);
 
-    addItemToCart(product?.variantId).then(() => refetch());
+    if (isDiamondInCart) {
+      return toast.error(ToastError, {
+        autoClose: 3000,
+      });
+    }
+
+    const mutatedLotId = getNumericalLotId(product?.lotId);
+
+    const diamondImage = JSON.stringify({
+      src: `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`,
+      alt: product?.productTitle,
+      width: 150,
+      height: 150,
+    });
+
+    const diamondAttributes = {
+      _productTitle: `Loose Diamond (${_t(product?.diamondType)})`,
+      productAsset: diamondImage,
+      _dateAdded: Date.now().toString(),
+      caratWeight: product.carat.toString(),
+      clarity: product.clarity,
+      cut: product.cut,
+      color: product.color,
+      // feedId: settingVariantId,
+      lotId: product.lotId,
+      productGroupKey: uuidv4(),
+      _productType: 'Diamond',
+      shippingText: _t('Made-to-order. Ships by'),
+      productIconListShippingCopy: 'temp',
+      shippingBusinessDays: 'temp',
+      pdpUrl: window.location.href,
+    };
+
+    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes }).then(() => refetch());
 
     updateGlobalContext({ isCartOpen: true });
   };
