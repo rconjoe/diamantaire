@@ -39,8 +39,6 @@ const PlpProductFilter = ({
   const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  console.log('filterOptions', filterOptionsOverride);
-
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
 
   function toggleFilterOptionSet(filterSlug: FilterTypeProps) {
@@ -61,39 +59,26 @@ const PlpProductFilter = ({
       });
     }
 
-    // const newFilters = { ...filterValue, [filterType]: value };
-
-    // // Remove attributes with undefined values
-    // Object.keys(newFilters).forEach((key) => {
-    //   if (newFilters[key] === undefined || newFilters[key] === null) {
-    //     delete newFilters[key];
-    //   }
-    // });
-
     if (filterType !== 'price') {
       // Push multiple filters to the URL
 
-      console.log('check val', filterValue[filterType], filterValue, filterType);
-
       let newFilterValue = filterValue[filterType];
 
-      if (!newFilterValue || newFilterValue.length === 0) {
-        newFilterValue = [value];
-      } else if (newFilterValue.includes(value)) {
-        // update newFilterValue to remove the value
-        newFilterValue = newFilterValue.filter((val) => val !== value || val === undefined || val === null);
-      } else {
-        newFilterValue.push(value);
-      }
-
-      console.log('newFilterValue', newFilterValue);
-
-      const newFilters = { ...filterValue, [filterType]: newFilterValue };
-
-      // Update the browser URL
       if (urlFilterMethod === 'param') {
+        // Manage multiple param filters in the URL
+        if (!newFilterValue || newFilterValue.length === 0) {
+          newFilterValue = [value];
+        } else if (newFilterValue.includes(value)) {
+          // update newFilterValue to remove the value
+          newFilterValue = newFilterValue.filter((val) => val !== value || val === undefined || val === null);
+        } else {
+          newFilterValue.push(value);
+        }
+
+        const newFilters = { ...filterValue, [filterType]: newFilterValue };
+
+        // Update the browser URL
         // Build the new URL path based on the filter values
-        console.log('newFilters', newFilters);
         const sortedQParams = Object.entries(newFilters)
           .sort(([k1], [k2]) => (k1 > k2 ? 1 : 0))
           .reduce((acc: Record<string, string | number>, [k, v]: [string, string[] | { min?: number; max?: number }]) => {
@@ -126,22 +111,42 @@ const PlpProductFilter = ({
           { shallow: true },
         );
       } else if (urlFilterMethod === 'facet') {
-        // Param Filter Behavior
+        // Facet Filter Behavior
+
+        if (newFilterValue && newFilterValue.includes(value)) {
+          // update newFilterValue to remove the value it exists
+          newFilterValue = newFilterValue.filter((val) => val !== value || val === undefined || val === null);
+        } else {
+          // otherwise set it to the new value
+          newFilterValue = [value];
+        }
+
+        const newFilters = { ...filterValue, [filterType]: newFilterValue };
+
         const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, newFilters[key]])
           .filter(([key, v]) => v !== null && key in newFilters)
-          .map(([, v]) => v);
+          .map(([, v]) => v)
+          .flat();
 
         const sortedQParams = Object.entries(newFilters)
           .sort(([k], [k2]) => (k > k2 ? 1 : 0))
           .reduce(
-            (acc: Record<string, string | number>, [k, v]: [string, string | string[] | { min?: number; max?: number }]) => {
+            (
+              acc: Record<string, string | string[] | number>,
+              [k, v]: [string, string | string[] | { min?: number; max?: number }],
+            ) => {
               if (k === 'price' && typeof v === 'object') {
                 const { min, max } = (v as PriceType) || {};
 
                 if (min) acc['priceMin'] = min;
                 if (max) acc['priceMax'] = max;
-              } else if (!FACETED_NAV_ORDER.includes(k) && typeof v === 'string') {
-                acc[k] = v;
+              } else if (
+                !FACETED_NAV_ORDER.includes(k) &&
+                Array.isArray(v) &&
+                v.every((item: string) => typeof item === 'string') &&
+                v.length > 0
+              ) {
+                acc[k] = v.join(',');
               }
 
               return acc;
@@ -149,6 +154,7 @@ const PlpProductFilter = ({
             {},
           );
 
+        setFilterValues(newFilters);
         router.push({
           pathname: router.pathname,
           query: {
@@ -162,6 +168,13 @@ const PlpProductFilter = ({
       }
     } else {
       if (urlFilterMethod !== 'none') {
+        setFilterValues({
+          ...filterValue,
+          price: {
+            min: value.min,
+            max: value.max,
+          },
+        });
         handleSliderURLUpdate(value.min, value.max);
       }
     }

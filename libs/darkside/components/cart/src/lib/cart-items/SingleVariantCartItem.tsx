@@ -133,8 +133,6 @@ const SingleVariantCartItem = ({
       const childProduct = attributes?.find((attr) => attr.key === 'childProduct')?.value;
       const isLeftOrRight = attributes?.find((attr) => attr.key === 'leftOrRight')?.value;
 
-      console.log('isLeftOrRight', isLeftOrRight, attributes, merchandise.title);
-
       if (isLeftOrRight?.toLowerCase() === 'left' || isLeftOrRight?.toLowerCase() === 'right') {
         const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
 

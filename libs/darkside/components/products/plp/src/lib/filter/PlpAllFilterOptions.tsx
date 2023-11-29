@@ -308,8 +308,6 @@ const PlpAllFilterOptions = ({
 
                     if (!filterValue[filterType] || filterValue[filterType]?.length === 0) return null;
 
-                    console.log('lassssttting', filterValue[filterType]);
-
                     if (isPrice) {
                       const price = filterValue[filterType];
 

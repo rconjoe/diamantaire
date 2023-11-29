@@ -68,8 +68,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   const productData = usePlpVRAIProducts(category, plpSlug, { ...filterValue, ...activeSortOptions }, { page: 1 });
 
-  console.log('plpData paramsss', category, plpSlug, filterValue);
-
   const { data, fetchNextPage, isFetching, hasNextPage } = productData;
 
   const availableFilters = data?.pages?.[0]?.availableFilters;
@@ -83,8 +81,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
   }, [inView, fetchNextPage, hasNextPage, isFetching]);
 
   function selectSetting({ collectionSlug, productSlug }) {
-    console.log('selectSetting running', collectionSlug, productSlug);
-
     updateSettingSlugs({ collectionSlug, productSlug });
     updateUrlParameter('collectionSlug', collectionSlug);
     updateUrlParameter('productSlug', productSlug);

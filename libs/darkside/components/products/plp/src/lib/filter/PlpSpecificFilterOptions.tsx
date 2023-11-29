@@ -1,3 +1,4 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -54,7 +55,9 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
   return (
     <PlpSpecificFilterOptionsStyles>
       <div className="selection-container">
-        <p>Shown with:</p>
+        <p>
+          <UIString>Shown with</UIString>:
+        </p>
         <ul>
           {filterTextArray?.map((filterOption, index) => {
             const value = filterValue[filterOption];
@@ -78,7 +81,6 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
               key={`filter-${filterValueValue}`}
               filterType={filterValueValue}
               allFilterTypes={filterTypes}
-              filterValueValue={filterValueValue}
               updateFilter={updateFilter}
               currentFilters={filterValue}
               // handleSliderURLUpdate={handleSliderURLUpdate}

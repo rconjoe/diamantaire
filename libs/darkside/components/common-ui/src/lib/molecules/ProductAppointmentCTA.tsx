@@ -49,7 +49,6 @@ const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
 
   useEffect(() => {
     const getCtaTitle = ({ productType, location }) => {
-      console.log('location', location);
       if (location) {
         if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
           return _t(`Discover our rings at VRAI %%location%%`);

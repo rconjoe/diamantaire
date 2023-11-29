@@ -127,8 +127,6 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
         sortedFilterTypes?.map((filterType, index) => {
           const filter = filterTypes[filterType];
 
-          console.log('filter', filter);
-
           if (filterType === 'price') {
             return (
               <PlpPriceRange
@@ -173,8 +171,6 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
                   const isPrice = filter === 'price';
 
                   if (filter === 'price' && !filterSet.min && !filterSet.max) return null;
-
-                  console.log('filterSet', filterSet);
 
                   if (filterSet) {
                     return filterSet.map((value) => {

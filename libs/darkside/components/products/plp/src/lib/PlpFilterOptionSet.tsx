@@ -90,7 +90,15 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
 //   );
 // };
 
-const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }) => {
+type FilterOptionsProps = {
+  filterType: string;
+  allFilterTypes: { [key: string]: string[] };
+  updateFilter: (filterType: string, filterValue: string | { min: number; max: number }) => void;
+  currentFilters: { [key: string]: string };
+  format?: 'stacked' | 'inline';
+};
+
+const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }: FilterOptionsProps) => {
   return (
     <>
       {renderFilterOptionSet({

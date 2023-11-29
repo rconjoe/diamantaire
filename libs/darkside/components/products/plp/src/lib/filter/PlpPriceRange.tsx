@@ -51,8 +51,6 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
     handleSliderURLUpdate(sliderValue[0], sliderValue[1]);
   };
 
-  console.log('filterValue', filterValue);
-
   return (
     <PlpPriceRangeStyles>
       <div className="filter-option-set priceRange stacked">

@@ -23,8 +23,6 @@ export async function getVRAIServerPlpData(
   filterOptions = {},
   { page = 1, limit = 12 }: PaginatedRequestOptions,
 ) {
-  console.log('getVRAIServerPlpData', { category, slug, filterOptions, page, limit });
-
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
@@ -33,8 +31,7 @@ export async function getVRAIServerPlpData(
       if (min) acc['priceMin'] = min;
       if (max) acc['priceMax'] = max;
     } else if (key === 'metal') {
-      console.log('metallllllll', value, value.join(',').toString());
-      acc[key] = value.join(',').toString();
+      acc[key] = value?.join(',').toString() || value;
     } else {
       acc[key] = value;
     }
