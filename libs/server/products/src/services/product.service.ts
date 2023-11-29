@@ -841,8 +841,6 @@ export class ProductsService {
         subStylesFilters: subStyles,
       });
 
-      console.log(filterQueries)
-
       // Build Query
       const pipeline: PipelineStage[] = [
         { $match: { $and: [{ contentId: { $in: contentIdsInOrder } }, ...filterQueries, getDraftQuery()] } },
@@ -1222,6 +1220,7 @@ export class ProductsService {
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
       const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
         const content = productContent.flat().find((itemContent) => itemContent.shopifyProductHandle === product.contentId);
@@ -1234,9 +1233,20 @@ export class ProductsService {
           // skip product if no match is found
           return productsArray;
         } else {
+
+          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const hasOnlyOnePrice = content?.hasOnlyOnePrice;
+          const productLabel = content?.productLabel;
+
+          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
+
           productsArray.push({
             defaultId: product.contentId,
             productType: product.productType,
+            ...(productLabel && { productLabel }),
+            ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+            ...(useLowestPrice && { useLowestPrice }),
+            ...(lowestPrice && { lowestPrice }),
             metal: [],
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
