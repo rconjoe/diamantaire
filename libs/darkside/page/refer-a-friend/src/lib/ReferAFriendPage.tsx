@@ -66,7 +66,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
       <StandardPageSeo title={pageSeoTitle} description={pageSeoDescription} />
 
       <StyledReferAFriendPage>
-        <div id="friendbuylandingpage" />
+        <div id="friendbuylandingpage"></div>
       </StyledReferAFriendPage>
     </>
   );
