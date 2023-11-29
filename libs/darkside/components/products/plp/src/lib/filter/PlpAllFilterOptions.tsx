@@ -103,7 +103,9 @@ const PlpAllFilterOptions = ({
       <div className="filter">
         <div className="filter__header flex align-center">
           <div className="filter__title">
-            <h4>Filter</h4>
+            <h4>
+              <UIString>Filter</UIString>:
+            </h4>
           </div>
           <div className="filter__icon">
             <FilterIcon />

@@ -107,9 +107,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const variantHandle = productContent?.shopifyProductHandle;
+  const shopifyHandle = productContent?.shopifyProductHandle;
+  const variantHandle = shopifyHandle || productContent?.configuredProductOptionsInOrder;
 
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+  let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
 
   // console.log('init additionalVariantData', additionalVariantData);
 
@@ -211,6 +212,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Tracks previously viewed products in local storage
   useEffect(() => {
+    console.log('temp check', { productTitle, variantHandle });
     if (!productTitle || !variantHandle) return;
 
     fetchAndTrackPreviouslyViewed(productTitle, variantHandle);
@@ -305,7 +307,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               <ProductGWP />
 
-              {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+              {productIconListType && (
+                <ProductIconList
+                  productIconListType={productIconListType}
+                  locale={router?.locale}
+                  configuration={configuration}
+                />
+              )}
               <Form
                 title={_t('Need more time to think?')}
                 caption={_t('Email this customized ring to yourself or drop a hint.')}
@@ -329,7 +337,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         {additionalVariantData?.productSuggestionQuadBlock?.id && (
           <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
         )}
-        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        {shopifyProductData?.productType === 'Engagement Ring' && (
+          <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        )}
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>
     );

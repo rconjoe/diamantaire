@@ -44,7 +44,7 @@ const PlpProductGridStyles = styled.div`
         padding-top: 0;
         position: absolute;
         right: 10px;
-        top: 0px;
+        top: 9px;
       }
     }
   }

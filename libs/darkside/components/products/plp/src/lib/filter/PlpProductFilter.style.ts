@@ -22,6 +22,8 @@ export const PlpProductFilterStyles = styled.div`
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
+        font-weight: 400;
+        color: var(--color-dark-grey);
       }
     }
     .filter__icon {
@@ -74,6 +76,7 @@ export const PlpProductFilterStyles = styled.div`
           border: none;
           background-color: transparent;
           padding: 0;
+          font-size: var(--font-size-xxxsmall);
           &.active {
             .arrow-up {
               transform: rotate(0deg);
@@ -113,6 +116,7 @@ export const PlpProductFilterStyles = styled.div`
         button {
           background-color: transparent;
           padding: 0;
+          text-transform: capitalize;
         }
         svg {
           height: 3rem;

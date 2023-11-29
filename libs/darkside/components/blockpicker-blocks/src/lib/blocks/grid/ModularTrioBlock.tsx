@@ -45,6 +45,8 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
   const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass, blogPosts, blogPostCtaCopy, _modelApiKey } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
+  console.log('trio props', props);
+
   const [additionalClass, setAdditionalClass] = useState('');
 
   useEffect(() => {
@@ -84,7 +86,7 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
       )}
       <div className="content-block__container">
         {trioBlocks.map((block, index) => (
-          <ImageTile key={`${id}-${index}-${block.title}`} {...block} />
+          <ImageTile isSvg={block.image.url.includes('.svg')} key={`${id}-${index}-${block.title}`} {...block} />
         ))}
       </div>
 
