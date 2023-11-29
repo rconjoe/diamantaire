@@ -7,25 +7,35 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/darkside/data/api/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/darkside/data/api/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/darkside/data/api",
         "tsConfig": "libs/darkside/data/api/tsconfig.lib.json",
         "packageJson": "libs/darkside/data/api/package.json",
         "main": "libs/darkside/data/api/src/index.ts",
-        "assets": ["libs/darkside/data/api/*.md"]
+        "assets": [
+          "libs/darkside/data/api/*.md"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/darkside/data/api/jest.config.ts",
         "passWithNoTests": true

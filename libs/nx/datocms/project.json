@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/nx/datocms",
         "main": "libs/nx/datocms/src/index.ts",
@@ -44,9 +46,15 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/nx/datocms/**/*.ts", "libs/nx/datocms/package.json", "libs/nx/datocms/generators.json"]
+        "lintFilePatterns": [
+          "libs/nx/datocms/**/*.ts",
+          "libs/nx/datocms/package.json",
+          "libs/nx/datocms/generators.json"
+        ]
       }
     },
     "genql": {
@@ -74,5 +82,9 @@
       }
     }
   },
-  "tags": ["nx-plugin", "graphql", "datocms"]
+  "tags": [
+    "nx-plugin",
+    "graphql",
+    "datocms"
+  ]
 }

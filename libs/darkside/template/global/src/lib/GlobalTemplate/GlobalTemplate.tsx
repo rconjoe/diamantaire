@@ -8,10 +8,13 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
-  /* This is a fallback for mobile */
   padding-top: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 'px')};
+  min-height: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 1 + 'px')};
 
-  ${media.medium`padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};`}
+  ${media.medium`
+    padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};
+    min-height: ${({ distanceFromTop }) => distanceFromTop + 1 + 'px'};
+  `}
 `;
 
 export type GlobalTemplateProps = {

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-const BreadcrumbStyles = styled.div`
+const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
   padding-bottom: calc(var(--gutter) / 4);
   ul {
     li {

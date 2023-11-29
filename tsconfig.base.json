@@ -34,11 +34,9 @@
       "es2017",
       "dom"
     ],
-    
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@next/third-parties/google": ["libs/shared/types/src/type-helpers/next-third-parties.d.ts"],
       "@diamantaire/_generated/datocms": [
         "libs/_generated/datocms/src/index.ts"
       ],
@@ -111,9 +109,6 @@
       "@diamantaire/darkside/page/error": [
         "libs/darkside/page/error/src/index.ts"
       ],
-      "@diamantaire/darkside/page/wishlist":[
-        "libs/darkside/page/wishlist/src/index.ts"
-      ],
       "@diamantaire/darkside/page/home": [
         "libs/darkside/page/home/src/index.ts"
       ],
@@ -135,6 +130,9 @@
       "@diamantaire/darkside/page/test-page": [
         "libs/darkside/page/test-page/src/index.ts"
       ],
+      "@diamantaire/darkside/page/wishlist": [
+        "libs/darkside/page/wishlist/src/index.ts"
+      ],
       "@diamantaire/darkside/template/accounts": [
         "libs/darkside/template/accounts/src/index.ts"
       ],
@@ -155,6 +153,9 @@
       ],
       "@diamantaire/nx-wmill": [
         "libs/nx/wmill/src/index.ts"
+      ],
+      "@diamantaire/refer-a-friend": [
+        "libs/darkside/page/refer-a-friend/src/index.ts"
       ],
       "@diamantaire/scripts": [
         "libs/scripts/src/index.ts"
@@ -189,6 +190,9 @@
       "@diamantaire/shared-diamond": [
         "libs/shared/diamond/src/index.ts"
       ],
+      "@diamantaire/shared-product": [
+        "libs/shared/product/src/index.ts"
+      ],
       "@diamantaire/shared/constants": [
         "libs/shared/constants/src/index.ts"
       ],
@@ -200,9 +204,6 @@
       ],
       "@diamantaire/shared/icons": [
         "libs/shared/icons/src/index.ts"
-      ],
-      "@diamantaire/shared-product": [
-        "libs/shared/product/src/index.ts"
       ],
       "@diamantaire/shared/routes": [
         "libs/shared/routes/src/index.ts"
@@ -221,6 +222,9 @@
       ],
       "@diamantaire/vraicel": [
         "libs/nx/vraicel/src/index.ts"
+      ],
+      "@next/third-parties/google": [
+        "libs/shared/types/src/type-helpers/next-third-parties.d.ts"
       ]
     }
   },

@@ -6,22 +6,32 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/server/health",
         "tsConfig": "libs/server/health/tsconfig.lib.json",
         "packageJson": "libs/server/health/package.json",
         "main": "libs/server/health/src/index.ts",
-        "assets": ["libs/server/health/*.md"]
+        "assets": [
+          "libs/server/health/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/server/health/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/server/health/**/*.ts"
+        ]
       }
     }
   },
-  "tags": ["backend"]
+  "tags": [
+    "backend"
+  ]
 }
