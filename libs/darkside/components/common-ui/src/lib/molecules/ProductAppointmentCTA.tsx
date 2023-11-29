@@ -39,11 +39,10 @@ const ProductAppointmentCTAStyles = styled.div`
 `;
 
 const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
-  const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
-  const [ctaTitle, setCtaTitle] = useState('Book an appointment');
   const { locale } = useRouter();
-
   const { _t } = useTranslations(locale);
+  const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
+  const [ctaTitle, setCtaTitle] = useState(_t(`Book an appointment`));
 
   const showroomLocation = isUserCloseToShowroom();
 
