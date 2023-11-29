@@ -54,10 +54,11 @@ export const VideoSlideContainer = styled.div`
     display: block;
     font-size: 1.5rem;
     font-weight: ${BOLD_WEIGHT};
+
     ${tabletAndUp(`
     font-size: 1.8rem;
     line-height: 2.2rem;
-    letter-spacing: .0.3rem;
+    letter-spacing: 0.03rem;
   `)};
   }
 `;

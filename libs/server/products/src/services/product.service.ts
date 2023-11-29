@@ -809,7 +809,9 @@ export class ProductsService {
           query.push({ 'configuration.metal': { $in: ms } });
         }
         if (dTs && dTs.length > 0) {
-          query.push({ 'configuration.diamondType': { $in: dTs } });
+          const diamondTypeRegex = dTs.map((dt) => new RegExp(dt, 'i'));
+
+          query.push({ 'configuration.diamondType': { $in: diamondTypeRegex } });
         }
 
         if (typeof pMin !== 'undefined') {
@@ -838,8 +840,6 @@ export class ProductsService {
         stylesFilters: styles,
         subStylesFilters: subStyles,
       });
-
-      console.log(filterQueries)
 
       // Build Query
       const pipeline: PipelineStage[] = [
@@ -1050,6 +1050,7 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
+            productTitle: product.productTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
@@ -1108,6 +1109,9 @@ export class ProductsService {
   ) {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
+    const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const metalsQueryValues = metals?.length > 1 ? metals : ['yellow-gold'];
+
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
         [
@@ -1116,8 +1120,8 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': { $in: diamondTypesRegex || [ new RegExp('round-brilliant', "i")] }, // always has a filter applied
-              'configuration.metal': { $in: metals || ['yellow-gold'] }, // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypesQueryValues  }, // always has a filter applied
+              'configuration.metal': { $in: metalsQueryValues }, // always has a filter applied
               ...getDraftQuery(),
             },
           },
@@ -1217,6 +1221,7 @@ export class ProductsService {
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
       const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
         const content = productContent.flat().find((itemContent) => itemContent.shopifyProductHandle === product.contentId);
@@ -1229,9 +1234,21 @@ export class ProductsService {
           // skip product if no match is found
           return productsArray;
         } else {
+
+          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const hasOnlyOnePrice = content?.hasOnlyOnePrice;
+          const productLabel = content?.productLabel;
+
+          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
+
           productsArray.push({
             defaultId: product.contentId,
+            productTitle: content?.productTitle,
             productType: product.productType,
+            ...(productLabel && { productLabel }),
+            ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+            ...(useLowestPrice && { useLowestPrice }),
+            ...(lowestPrice && { lowestPrice }),
             metal: [],
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
@@ -1312,7 +1329,7 @@ export class ProductsService {
 
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
     return {
-      title: content['plpTitle'] || product.collectionTitle,
+      title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,

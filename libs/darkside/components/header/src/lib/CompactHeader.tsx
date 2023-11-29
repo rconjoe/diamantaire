@@ -72,7 +72,7 @@ const CompactHeaderStyles = styled.div`
                 margin: 0 1.5rem;
                 a {
                   font-size: 1.4rem;
-                  letter-spacing: 0.3rem;
+                  letter-spacing: 0.03rem;
                   text-decoration: none;
                   position: relative;
                   transition: 0.25s;
