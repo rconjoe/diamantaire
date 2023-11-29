@@ -45,8 +45,6 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
   const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass, blogPosts, blogPostCtaCopy, _modelApiKey } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
-  console.log('trio props', props);
-
   const [additionalClass, setAdditionalClass] = useState('');
 
   useEffect(() => {
