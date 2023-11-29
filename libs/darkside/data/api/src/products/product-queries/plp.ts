@@ -97,6 +97,7 @@ export const PLP_QUERY = gql`
             ... on WeddingBandProductRecord {
               slug
               productType
+              productTitle
               productLabel {
                 title
               }
@@ -109,6 +110,7 @@ export const PLP_QUERY = gql`
             ... on EngagementRingProductRecord {
               slug
               productType
+              productTitle
               productLabel {
                 title
               }
@@ -138,6 +140,7 @@ export const PLP_QUERY = gql`
           jewelryProduct {
             slug
             category
+            productTitle
             subCategory {
               slug
               title
@@ -184,6 +187,7 @@ export const PLP_QUERY = gql`
           ... on WeddingBandProductRecord {
             slug
             productType
+            productTitle
             productLabel {
               title
             }
@@ -196,6 +200,7 @@ export const PLP_QUERY = gql`
           ... on EngagementRingProductRecord {
             slug
             productType
+            productTitle
             productLabel {
               title
             }

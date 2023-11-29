@@ -40,6 +40,7 @@ export type ListPageItemConfiguration = {
 export type ListPageItemWithConfigurationVariants = {
   defaultId: string;
   productType: string;
+  productTitle: string;
   productLabel?: {
     title: string;
   };
