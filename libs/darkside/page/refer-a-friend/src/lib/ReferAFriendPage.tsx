@@ -30,13 +30,12 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
 
         window['friendbuyAPI'] = friendbuyAPI = window['friendbuyAPI'] || [];
 
-        // registers your merchant using your merchant ID found in the
-        // retailer app https://retailer.friendbuy.io/settings/general
         friendbuyAPI.merchantId = 'b0362f44-c2c9-439f-8752-29aece68f89d';
+
         friendbuyAPI.push(['merchant', friendbuyAPI.merchantId]);
 
-        // eslint-disable-next-line
         ((f, r, n, d, b, u, y) => {
+          console.log(d);
           while ((u = n.shift())) {
             // eslint-disable-next-line
             (b = f.createElement(r)), (y = f.getElementsByTagName(r)[0]);
