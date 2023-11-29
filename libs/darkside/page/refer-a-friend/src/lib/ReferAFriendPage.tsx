@@ -59,7 +59,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
 
   useEffect(() => {
     loadFriendBuy();
-  });
+  }, []);
 
   return (
     <>
