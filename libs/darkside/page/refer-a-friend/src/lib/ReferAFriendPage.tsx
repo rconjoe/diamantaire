@@ -35,7 +35,7 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
         friendbuyAPI.merchantId = 'b0362f44-c2c9-439f-8752-29aece68f89d';
         friendbuyAPI.push(['merchant', friendbuyAPI.merchantId]);
 
-        // load the merchant SDK and your campaigns
+        // eslint-disable-next-line
         ((f, r, n, d, b, u, y) => {
           while ((u = n.shift())) {
             // eslint-disable-next-line
@@ -43,7 +43,6 @@ const ReferAFriendPage = (props: InferGetServerSidePropsType<typeof getServerSid
             b.async = 1;
             b.src = u;
             y.parentNode.insertBefore(b, y);
-            console.log(d);
           }
         })(document, 'script', [
           'https://static.fbot.me/friendbuy.js',
