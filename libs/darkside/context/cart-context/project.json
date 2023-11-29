@@ -7,20 +7,30 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/darkside/context/cart-context/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/darkside/context/cart-context/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/darkside/context/cart-context",
         "tsConfig": "libs/darkside/context/cart-context/tsconfig.lib.json",
         "project": "libs/darkside/context/cart-context/package.json",
         "entryFile": "libs/darkside/context/cart-context/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "external": [
+          "react",
+          "react-dom",
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
@@ -29,7 +39,7 @@
             "input": ".",
             "output": "."
           }
-        ],
+        ]
       }
     }
   }

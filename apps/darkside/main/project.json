@@ -86,7 +86,9 @@
     },
     "e2e": {
       "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/darkside/main"],
+      "outputs": [
+        "{workspaceRoot}/dist/.playwright/apps/darkside/main"
+      ],
       "options": {
         "config": "apps/darkside/main/playwright.config.ts"
       }

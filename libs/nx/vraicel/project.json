@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/nx/vraicel",
         "main": "libs/nx/vraicel/src/index.ts",
@@ -38,11 +40,19 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/nx/vraicel/**/*.ts", "libs/nx/vraicel/package.json"]
+        "lintFilePatterns": [
+          "libs/nx/vraicel/**/*.ts",
+          "libs/nx/vraicel/package.json"
+        ]
       }
     }
   },
-  "tags": ["nx", "plugin"]
+  "tags": [
+    "nx",
+    "plugin"
+  ]
 }

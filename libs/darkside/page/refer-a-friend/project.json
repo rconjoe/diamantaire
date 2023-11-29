@@ -1,8 +1,9 @@
 {
-  "name": "server-common-configs",
+  "name": "ReferAFriendPage",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/server/common/configs/src",
+  "sourceRoot": "libs/darkside/page/refer-a-friend/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -11,12 +12,9 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "libs/server/common/configs/**/*.ts"
+          "libs/darkside/page/refer-a-friend/**/*.{ts,tsx,js,jsx}"
         ]
       }
     }
-  },
-  "tags": [
-    "backend"
-  ]
+  }
 }

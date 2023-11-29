@@ -7,20 +7,30 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/darkside/components/products/plp/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/darkside/components/products/plp/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/darkside/components/products/plp",
         "tsConfig": "libs/darkside/components/products/plp/tsconfig.lib.json",
         "project": "libs/darkside/components/products/plp/package.json",
         "entryFile": "libs/darkside/components/products/plp/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "external": [
+          "react",
+          "react-dom",
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
@@ -29,7 +39,7 @@
             "input": ".",
             "output": "."
           }
-        ],
+        ]
       }
     }
   }
