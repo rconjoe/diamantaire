@@ -41,7 +41,7 @@ const PlpProductGridStyles = styled.div`
       padding-top: 0.8rem;
 
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding-top: 0;
+        padding-top: 0px;
         position: absolute;
         right: 10px;
         top: 9px;

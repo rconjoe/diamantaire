@@ -212,7 +212,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Tracks previously viewed products in local storage
   useEffect(() => {
-    console.log('temp check', { productTitle, variantHandle });
     if (!productTitle || !variantHandle) return;
 
     fetchAndTrackPreviouslyViewed(productTitle, variantHandle);
