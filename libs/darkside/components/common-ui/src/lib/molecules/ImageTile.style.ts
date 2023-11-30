@@ -118,7 +118,11 @@ export const ImageTileContainer = styled.div<Props>`
 
     p {
       text-align: center;
-      margin: calc(var(--gutter)) 0;
+      margin: 0;
+    }
+
+    .button-style--underline {
+      text-align: center;
     }
 
     .svg {
@@ -133,6 +137,10 @@ export const ImageTileContainer = styled.div<Props>`
       ${tabletAndUp(`
         min-height: 0;
       `)};
+
+      .image-title__copy {
+        text-align: center;
+      }
     }
   }
 `;

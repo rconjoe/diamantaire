@@ -1,6 +1,6 @@
 import { AttributeInput } from 'shopify-buy';
 
-import { ERProductCartItemProps, JewelryCartItemProps } from './cart-item-types';
+import { ERProductCartItemProps, JewelryCartItemProps, LooseDiamondCartItemProps } from './cart-item-types';
 import {
   Cart,
   Connection,
@@ -400,6 +400,19 @@ export async function addERProductToCart({
       },
     ]);
   }
+}
+
+export async function addLooseDiamondToCart({ diamondVariantId, diamondAttributes }: LooseDiamondCartItemProps) {
+  const refinedSettingAttributes = Object.keys(diamondAttributes)
+    .map((key) => {
+      return {
+        key,
+        value: diamondAttributes[key],
+      };
+    })
+    .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+  return await addItemToCart(diamondVariantId, refinedSettingAttributes);
 }
 
 // temp

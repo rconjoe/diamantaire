@@ -11,7 +11,14 @@ import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { FACETED_NAV_ORDER, MetalType, DiamondTypes, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  FACETED_NAV_ORDER,
+  MetalType,
+  DiamondTypes,
+  getFormattedPrice,
+  RING_STYLES_MAP,
+  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+} from '@diamantaire/shared/constants';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -33,12 +40,12 @@ type PlpPageProps = {
 };
 
 type FilterQueryValues = {
-  metal?: string;
-  diamondType?: string;
+  metal?: string[];
+  diamondType?: string[];
   priceMin?: string;
   priceMax?: string;
-  style?: string;
-  subStyle?: string;
+  style?: string[];
+  subStyle?: string[];
 };
 
 function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
@@ -51,6 +58,13 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
   console.log('initialFilterValues', initialFilterValues);
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
+  // metal: [],
+  // diamondType: [],
+  // style: [],
+  // subStyle: [],
+  // priceMin: '',
+  // priceMax: '',
+
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
@@ -76,7 +90,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
-    console.log({ sortBy, sortOrder });
     // If null is passed, reset the sort options
     if (!sortBy) {
       return setActiveSortOptions({});
@@ -96,6 +109,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
+    console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -265,11 +279,44 @@ function getValidFiltersFromFacetedNav(
   const metalParamIndex = params.findIndex((param) => Object.values(MetalType).includes(param as MetalType));
 
   // For when metal is a param (not faceted)
-  const metalFromQuery = Object.values(MetalType).find((metal) => metal === query?.metal?.toString());
+  const metalFromQuery = query?.metal
+    ?.toString()
+    .split(',')
+    .map((metalString) => Object.values(MetalType).find((metalType) => metalType === metalString))
+    .filter(Boolean);
 
   const diamondTypeParamIndex = params.findIndex((param) => Object.values(DiamondTypes).includes(param as DiamondTypes));
+
   // For when diamond is a param (not faceted)
-  const diamondFromQuery = Object.values(DiamondTypes).find((diamondType) => diamondType === query?.diamondType?.toString());
+  const diamondFromQuery = query?.diamondType
+    ?.toString()
+    .split(',')
+    .map((diamondTypeString) => Object.values(DiamondTypes).find((diamondType) => diamondType === diamondTypeString))
+    .filter(Boolean);
+
+  const styleParamIndex = params.findIndex(
+    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+  );
+
+  // For when style is a param (not faceted)
+  const styleFromQuery = style
+    ?.toString()
+    .split(',')
+    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .filter(Boolean);
+
+  // These are the same?
+
+  const subStyleParamIndex = params.findIndex(
+    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+  );
+
+  // For when subStyle is a param (not faceted)
+  const subStyleFromQuery = subStyle
+    ?.toString()
+    .split(',')
+    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .filter(Boolean);
 
   const facetOrder = [];
 
@@ -277,8 +324,17 @@ function getValidFiltersFromFacetedNav(
   if (metalParamIndex !== -1) {
     facetOrder[FACETED_NAV_ORDER.indexOf('metal')] = metalParamIndex;
   }
+
   if (diamondTypeParamIndex !== -1) {
     facetOrder[FACETED_NAV_ORDER.indexOf('diamondType')] = diamondTypeParamIndex;
+  }
+
+  if (styleParamIndex !== -1) {
+    facetOrder[FACETED_NAV_ORDER.indexOf('style')] = styleParamIndex;
+  }
+
+  if (subStyleParamIndex !== -1) {
+    facetOrder[FACETED_NAV_ORDER.indexOf('subStyle')] = subStyleParamIndex;
   }
 
   // Check if the facets are in order by checking if the index of the current facet
@@ -305,22 +361,30 @@ function getValidFiltersFromFacetedNav(
     }
   }
 
-  if (style) {
-    filterOptions['style'] = style;
+  if (styleFromQuery?.length > 0 || styleParamIndex !== -1) {
+    filterOptions['style'] = styleFromQuery;
   }
 
-  if (subStyle) {
-    filterOptions['subStyle'] = subStyle;
+  if (styleParamIndex !== -1) {
+    filterOptions['style'] = [params[styleParamIndex]];
+  } else if (styleFromQuery && styleParamIndex === -1) {
+    filterOptions['style'] = styleFromQuery;
+  }
+
+  if (subStyleParamIndex !== -1) {
+    filterOptions['subStyle'] = [params[subStyleParamIndex]];
+  } else if (subStyleFromQuery && subStyleParamIndex === -1) {
+    filterOptions['subStyle'] = subStyleFromQuery;
   }
 
   if (metalParamIndex !== -1) {
-    filterOptions['metal'] = params[metalParamIndex];
+    filterOptions['metal'] = [params[metalParamIndex]];
   } else if (metalFromQuery && metalParamIndex === -1) {
     filterOptions['metal'] = metalFromQuery;
   }
 
   if (diamondTypeParamIndex !== -1) {
-    filterOptions['diamondType'] = params[diamondTypeParamIndex];
+    filterOptions['diamondType'] = [params[diamondTypeParamIndex]];
   } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
     filterOptions['diamondType'] = diamondFromQuery;
   }

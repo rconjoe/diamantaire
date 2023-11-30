@@ -98,6 +98,10 @@ const PlpSortOptionStyle = styled.div`
   .sort-dropdown__menu {
     min-width: 15.5rem;
     left: -3rem;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      left: -6rem;
+    }
   }
   .sort-dropdown__value-container {
     font-size: var(--font-size-xxxsmall);

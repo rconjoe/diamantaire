@@ -53,7 +53,7 @@ const ProductIconListContainer = styled.div`
   }
 `;
 
-const ProductIconList = ({ productIconListType, locale }) => {
+const ProductIconList = ({ productIconListType, locale, configuration }) => {
   const [isDiamondSlideoutOpen, setIsDiamondSlideoutOpen] = useState(false);
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
   const { items } = productIconList || {};
@@ -65,7 +65,7 @@ const ProductIconList = ({ productIconListType, locale }) => {
       <ul>
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
-            return <ShippingListItem item={item} key={`product-icon-li-${index}`} />;
+            return <ShippingListItem item={item} key={`product-icon-li-${index}`} configuration={configuration} />;
           } else {
             return (
               <IconListItem
@@ -91,7 +91,7 @@ const ProductIconList = ({ productIconListType, locale }) => {
 export { ProductIconList };
 
 // Single Icon List Item
-const ShippingListItem = ({ item }) => {
+const ShippingListItem = ({ item, configuration }) => {
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
 
   const { locale } = useRouter();
@@ -100,7 +100,9 @@ const ShippingListItem = ({ item }) => {
   const shippingDate = format(
     addBusinessDays(
       new Date(),
-      getCountry(locale) === 'US' ? shippingBusinessDays : shippingBusinessDaysCountryMap?.[getCountry(locale)],
+      getCountry(locale) === 'US'
+        ? shippingBusinessDays + (configuration.bandAccent === 'pave' ? 2 : 0)
+        : shippingBusinessDaysCountryMap?.[getCountry(locale)],
     ),
     'E, MMM d',
   );

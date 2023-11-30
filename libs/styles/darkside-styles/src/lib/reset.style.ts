@@ -54,6 +54,10 @@ const ResetStyles = styled.createGlobalStyle`
     cursor: pointer;
   }
 
+  button {
+    color: var(--color-black);
+  }
+
   button:hover {
     cursor: pointer;
   }

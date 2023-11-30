@@ -161,7 +161,7 @@ const Header: FC<HeaderProps> = ({
 
   return (
     <>
-      <FullHeaderStyles $isHome={isHome}>
+      <FullHeaderStyles id="primary-navigation" $isHome={isHome}>
         <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
           {isHome ? (
