@@ -106,6 +106,12 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.sideStoneShape {
+      button {
+        margin-right: 2rem;
+      }
+    }
+
     &.bandVersion {
       button {
         text-transform: capitalize;
@@ -267,11 +273,11 @@ function OptionSelector({
                 <UIString>{selectedOptionValue}</UIString>
                 {'"'}
               </>
-            ) : optionType === 'caratWeight' && selectedOptionValue !== 'other' ? (
+            ) : optionType === 'sideStoneCarat' || (optionType === 'caratWeight' && selectedOptionValue !== 'other') ? (
               <>
                 <UIString>{selectedOptionValue}</UIString>
                 {' ct'}
-                {productType === 'Engagement Ring' && (
+                {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && (
                   <>
                     {', '}
                     {/* Using both translation items because some elements need to be lowercase */}
