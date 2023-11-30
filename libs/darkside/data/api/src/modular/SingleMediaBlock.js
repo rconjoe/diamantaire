@@ -1,3 +1,5 @@
+import { responsiveImage } from './ResponsiveImage';
+
 const SingleMediaBlock = `
 ... on ModularSingleMediaBlockRecord {
     _modelApiKey
@@ -7,11 +9,7 @@ const SingleMediaBlock = `
     headingAdditionalClass
     copy
     media {
-        url
-        alt
-        responsiveImage (imgixParams: { w: 1000, q: 60, auto: format }){
-            ...responsiveImageFragment
-        }
+        ${responsiveImage()}
         video {
             streamingUrl
             thumbnailUrl

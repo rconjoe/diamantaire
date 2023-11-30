@@ -1,3 +1,5 @@
+import { responsiveImage } from './ResponsiveImage';
+
 const Leo = `
   ... on ModularLeoBlockRecord {
     _modelApiKey
@@ -5,21 +7,7 @@ const Leo = `
     copy
     title
     image {
-      url
-      alt
-      responsiveImage (imgixParams: {w: 280, q: 80, auto: format },sizes: "14rem"){
-        src
-        alt
-        aspectRatio
-        base64
-        bgColor
-        height
-        sizes
-        srcSet
-        title
-        webpSrcSet
-        width
-    }
+      ${responsiveImage(130, 95)}
     }
   }
 `;

@@ -1,3 +1,5 @@
+import { responsiveImage } from '../../modular/ResponsiveImage';
+
 export const QuoteQuery = `
   ... on ModularQuoteBlockRecord {
     id
@@ -14,10 +16,7 @@ export const QuoteQuery = `
       hex
     }
     quotationMarksImage {
-      url
-      height
-      width
-      alt
+      ${responsiveImage(130)}
     }
   }
 `;
@@ -31,8 +30,7 @@ export const SingleMediaBlockQuery = `
   headingAdditionalClass
   copy
   media {
-      url
-      alt
+      ${responsiveImage(350)}
       video {
         streamingUrl
         thumbnailUrl
