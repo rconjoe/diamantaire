@@ -14,9 +14,9 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => {
   return (
     <StyledTooltip>
-      <a data-tooltip-id={id} className="tooltip-trigger">
+      <button data-tooltip-id={id} className="tooltip-trigger">
         <span>i</span>
-      </a>
+      </button>
 
       <ReactToolTip
         id={id}

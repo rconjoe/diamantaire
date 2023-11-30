@@ -207,14 +207,14 @@ const RadioFilter = (props) => {
 
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
-                <a title={title} onClick={() => handleClick([shape.slug])}>
+                <button title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                   {shape.icon2 && (
                     <div className="-pair">
                       <shape.icon2 />
                     </div>
                   )}
-                </a>
+                </button>
               </li>
             );
           }
@@ -222,9 +222,9 @@ const RadioFilter = (props) => {
           if (type === 'color') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'color') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>
+                <button onClick={() => handleClick(optionUI)}>
                   {stringMap?.option?.[Array.isArray(optionUI) ? optionUI.join('') : optionUI]?.value || ''}
-                </a>
+                </button>
               </li>
             );
           }
@@ -232,7 +232,7 @@ const RadioFilter = (props) => {
           if (type === 'cut') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'cut') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</a>
+                <button onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</button>
               </li>
             );
           }
@@ -240,7 +240,7 @@ const RadioFilter = (props) => {
           if (type === 'clarity') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'clarity') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</a>
+                <button onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</button>
               </li>
             );
           }
