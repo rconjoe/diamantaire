@@ -23,7 +23,7 @@ const PairSelector = ({
       return [
         {
           id: 'pair',
-          value: 'Pair - ' + getFormattedPrice(variantPrice, locale),
+          value: 'Pair <span class="em-dash">——</span> ' + getFormattedPrice(variantPrice, locale),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -32,12 +32,12 @@ const PairSelector = ({
       return [
         {
           id: 'single',
-          value: 'Single - ' + getFormattedPrice(variantPrice / 2, locale),
+          value: 'Single <span class="em-dash">——</span> ' + getFormattedPrice(variantPrice / 2, locale),
           valueLabel: 'Single',
         },
         {
           id: 'pair',
-          value: 'Pair - ' + getFormattedPrice(variantPrice, locale),
+          value: 'Pair <span class="em-dash">——</span> ' + getFormattedPrice(variantPrice, locale),
           valueLabel: 'Pair',
         },
       ];

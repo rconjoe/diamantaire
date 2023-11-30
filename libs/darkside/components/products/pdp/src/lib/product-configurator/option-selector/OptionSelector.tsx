@@ -85,6 +85,7 @@ const StyledOptionSelector = styled.div`
       button {
         flex: 1 1 50%;
         height: 4.8rem;
+        text-transform: capitalize;
       }
     }
 
@@ -102,6 +103,12 @@ const StyledOptionSelector = styled.div`
       button {
         max-width: 3.8rem;
         max-height: 3.8rem;
+      }
+    }
+
+    &.sideStoneShape {
+      button {
+        margin-right: 2rem;
       }
     }
 
@@ -251,8 +258,6 @@ function OptionSelector({
     }
   }
 
-  console.log('diamondSpecs', diamondSpecs);
-
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
@@ -268,11 +273,11 @@ function OptionSelector({
                 <UIString>{selectedOptionValue}</UIString>
                 {'"'}
               </>
-            ) : optionType === 'caratWeight' && selectedOptionValue !== 'other' ? (
+            ) : optionType === 'sideStoneCarat' || (optionType === 'caratWeight' && selectedOptionValue !== 'other') ? (
               <>
                 <UIString>{selectedOptionValue}</UIString>
                 {' ct'}
-                {productType === 'Engagement Ring' && (
+                {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && (
                   <>
                     {', '}
                     {/* Using both translation items because some elements need to be lowercase */}

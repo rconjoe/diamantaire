@@ -16,7 +16,7 @@ const GWP_PDP_QUERY = gql`
         }
         giftProduct {
           plpImage {
-            responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {
+            responsiveImage(imgixParams: { w: 500, h: 500, q: 40, auto: format, dpr: 2 }) {
               src
               alt
               aspectRatio
@@ -36,23 +36,9 @@ const GWP_PDP_QUERY = gql`
         pdpBannerColor {
           hex
         }
-        # cartQualifiedTitle
-        # cartQualifiedBody
-        # cartQualifiedBackgroundColor {
-        #   hex
-        # }
-        # cartNonQualifiedTitle
-        # cartNonQualifiedBody
-        # cartNonQualifiedBackgroundColor {
-        #   hex
-        # }
-        # announcementBarQualifiedCopy
-        # announcementBarNonQualifiedCopy
-        # announcementBarNothingInCartCopy
-        # promoCardQualifiedCopy
-        # promoCardNonQualifiedCopy
-        # creativeBlockQualifiedCopy
-        # creativeBlockNonQualifiedCopy
+        pdpModalTitle
+        pdpModalBody
+        pdpModalTc
       }
     }
   }

@@ -210,8 +210,20 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
   height: 4.5rem;
   width: 4.5rem;
-  img {
-    border-radius: 50%;
+  position: relative;
+  left: -3px;
+
+  .inner {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    img {
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      transform: scale(0.8);
+    }
   }
 `;
 
@@ -250,6 +262,25 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   &.selected {
     border-color: var(--color-teal);
   }
+
+  span.em-dash {
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      Segoe UI,
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      Fira Sans,
+      Droid Sans,
+      Helvetica Neue,
+      sans-serif;
+    font-size: 9px;
+    position: relative;
+    top: 0px;
+    margin: 0 3px;
+  }
 `;
 
 export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
@@ -272,7 +303,7 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {valueLabel}
+      {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
     </StyledBasicOptionItem>
   );
 }

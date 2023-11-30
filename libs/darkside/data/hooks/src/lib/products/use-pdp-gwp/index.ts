@@ -20,6 +20,9 @@ export type PDPGwpDataType = {
       pdpBannerColor: {
         hex: string;
       };
+      pdpModalTitle: string;
+      pdpModalBody: string;
+      pdpModalTc: string;
     }>;
   }>;
 };
