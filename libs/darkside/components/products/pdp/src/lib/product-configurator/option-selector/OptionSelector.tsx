@@ -85,6 +85,7 @@ const StyledOptionSelector = styled.div`
       button {
         flex: 1 1 50%;
         height: 4.8rem;
+        text-transform: capitalize;
       }
     }
 
@@ -250,8 +251,6 @@ function OptionSelector({
       return options;
     }
   }
-
-  console.log('diamondSpecs', diamondSpecs);
 
   return (
     <StyledOptionSelector className={optionType}>

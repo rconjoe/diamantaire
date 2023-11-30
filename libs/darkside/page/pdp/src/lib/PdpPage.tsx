@@ -101,14 +101,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
+  const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
 
+  console.log('shopifyProductData', shopifyProductData);
   const configurations = shopifyProductData?.optionConfigs;
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
   const shopifyHandle = productContent?.shopifyProductHandle;
-  const variantHandle = shopifyHandle || productContent?.configuredProductOptionsInOrder;
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
 
@@ -212,15 +212,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Tracks previously viewed products in local storage
   useEffect(() => {
-    if (!productTitle || !variantHandle) return;
+    if (!productTitle || !contentId) return;
 
-    fetchAndTrackPreviouslyViewed(productTitle, variantHandle);
-  }, [productTitle, variantHandle]);
+    fetchAndTrackPreviouslyViewed(productTitle, contentId);
+  }, [productTitle, contentId]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
-    const productMediaAltDescription = generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration)
+    const productMediaAltDescription = generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
 
     return (
       <PageContainerStyles>
@@ -298,6 +298,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
+                allAvailableOptions={shopifyProductData?.allAvailableOptions}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
@@ -353,20 +354,20 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   function generatePdpAssetAltTag(
     producttitle: string,
     productConfiguration: Record<string, string>,
-    configurationsWithouLabels = ['metal','diamondType','goldPurity'],
-    configurationSortOrder = ['diamondType','goldPurity','metal']){
-    
-    const sortedConfigurations = Object.entries(productConfiguration).sort(([a],[b]) => {
+    configurationsWithouLabels = ['metal', 'diamondType', 'goldPurity'],
+    configurationSortOrder = ['diamondType', 'goldPurity', 'metal'],
+  ) {
+    const sortedConfigurations = Object.entries(productConfiguration).sort(([a], [b]) => {
       const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
       const posB = configurationSortOrder.includes(b) ? configurationSortOrder.indexOf(b) : 99;
-      
+
       if (posA < posB) {
         return -1;
       }
 
       return 1;
     });
-    
+
     const configurationDescriptionArr = sortedConfigurations.map(([type, value]) => {
       if (configurationsWithouLabels.includes(type)) {
         return _t(value);
@@ -414,5 +415,3 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
-
-

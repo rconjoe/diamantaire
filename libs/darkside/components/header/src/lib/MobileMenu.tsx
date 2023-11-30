@@ -176,10 +176,10 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
       initial="closed"
       animate="open"
       exit="closed"
-      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+      transition={{ duration: 0.5 }}
       variants={{
-        open: { opacity: 1, x: 0 },
-        closed: { opacity: 0, x: -100 },
+        open: { x: 0 },
+        closed: { x: '-100%' },
       }}
     >
       <nav>

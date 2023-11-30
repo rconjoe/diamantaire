@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const ProductKlarnaStyles = styled.div`
   position: relative;
   left: -1rem;
+  min-height: 24px;
 `;
 
 declare global {

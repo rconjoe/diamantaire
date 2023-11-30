@@ -60,6 +60,10 @@ type ProductConfiguratorProps = {
     shopifyVariantId: string;
     variantTitle: string;
   }[];
+
+  allAvailableOptions?: {
+    [key: string]: string[];
+  };
 };
 
 function ProductConfigurator({
