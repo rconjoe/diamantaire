@@ -81,8 +81,6 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
 // };
 
 const renderSubStyles = ({ optionVal: style, updateFilter }) => {
-  console.log('renderSubStyles', style);
-
   return (
     <li key={`filter-${style}`}>
       <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>

@@ -103,7 +103,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
 
-  console.log('shopifyProductData', shopifyProductData);
   const configurations = shopifyProductData?.optionConfigs;
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -216,8 +215,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     fetchAndTrackPreviouslyViewed(productTitle, contentId);
   }, [productTitle, contentId]);
-
-  console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
