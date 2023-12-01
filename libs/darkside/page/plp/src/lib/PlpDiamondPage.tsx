@@ -80,8 +80,6 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
     };
   });
 
-  console.log({creativeBlockIds})
-
   return (
     <StyledPlpDiamondPage>
       <NextSeo title={seoTitle} description={seoDescription} />
