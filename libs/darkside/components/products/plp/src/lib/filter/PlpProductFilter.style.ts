@@ -461,6 +461,12 @@ export const PlpProductFilterStyles = styled.div`
   .specific-filter-options {
     .filter-option-set {
       padding-right: 5rem;
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        h3,
+        .diamond-text {
+          display: none;
+        }
+      }
 
       &:last-child {
         padding-right: 0;
