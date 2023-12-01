@@ -60,8 +60,7 @@ const getIconImageUrl = (s3Slug, ext = 'png') => {
   return cdnImageUrl('icons')(s3Slug)({ ext });
 };
 
-const generateDiamondImageUrl = (type, directory = 'diamond-images-new') => {
-  const trim = '&trim-color=transparent&trim=color';
+const generateDiamondImageUrl = (type, directory = 'diamond-images-new', { trim } = { trim: '&trim-color=transparent&trim=color'}) => {
   const slug = getDiamondType(type)?.slug;
 
   if (!slug) return;
@@ -74,6 +73,16 @@ const generateDiamondImageUrl = (type, directory = 'diamond-images-new') => {
   }`;
 };
 
+// This image is the generic image for the shape provided
+const generateGenericDiamondImageUrl = (diamondType: string) => {
+  return `${
+    getCdnImageUrl('diamond-images-360-thumbs')(diamondType)({
+      ext: 'jpg',
+      quality: 60,
+    })
+  }`;
+}
+
 export default generateDiamondImageUrl;
 
-export { generateDiamondImageUrl, getIconImageUrl };
+export { generateDiamondImageUrl, generateGenericDiamondImageUrl, getIconImageUrl };
