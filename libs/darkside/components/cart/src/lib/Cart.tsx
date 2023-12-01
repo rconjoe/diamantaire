@@ -52,6 +52,7 @@ const Cart = ({ closeCart }) => {
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
+    // Fetch latest cart data
     refetch();
   }, []);
 
@@ -111,6 +112,7 @@ const Cart = ({ closeCart }) => {
                 };
 
                 const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
+                const isHiddenProduct = item.attributes?.find((attr) => attr.key === 'hiddenProduct');
 
                 const hasChildProduct =
                   childProductAttribute &&
@@ -124,7 +126,7 @@ const Cart = ({ closeCart }) => {
                 console.log('checkout', checkout);
 
                 // We don't show any child products in this loop, only in the multi-variant cart item
-                if (item.attributes.find((item) => item.key === 'isChildProduct')) {
+                if (item.attributes.find((item) => item.key === 'isChildProduct') || isHiddenProduct) {
                   return null;
                 }
 

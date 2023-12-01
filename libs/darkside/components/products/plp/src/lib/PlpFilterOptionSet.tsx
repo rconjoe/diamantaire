@@ -1,5 +1,5 @@
 import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
-import { METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { JEWELRY_SUB_CATEGORY_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
@@ -11,7 +11,7 @@ const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, update
       })}
     >
       <Heading type="h3" className="h1 secondary">
-        <UIString>{filterType}</UIString>
+        <UIString>{filterType.replace('subStyles', 'style')}</UIString>
       </Heading>
 
       <ul className="list-unstyled flex">
@@ -80,15 +80,17 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
 //   );
 // };
 
-// const renderSubStyles = (style) => {
-//   return (
-//     <li key={`filter-${style}`}>
-//       <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
-//         <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
-//       </button>
-//     </li>
-//   );
-// };
+const renderSubStyles = ({ optionVal: style, updateFilter }) => {
+  console.log('renderSubStyles', style);
+
+  return (
+    <li key={`filter-${style}`}>
+      <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
+        <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
+      </button>
+    </li>
+  );
+};
 
 type FilterOptionsProps = {
   filterType: string;
@@ -99,11 +101,14 @@ type FilterOptionsProps = {
 };
 
 const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }: FilterOptionsProps) => {
+  console.log('PlpFilterOption', filterType);
+
   return (
     <>
       {renderFilterOptionSet({
         filterType: filterType,
-        mapFunction: filterType === 'diamondType' ? renderDiamondType : renderMetal,
+        mapFunction:
+          filterType === 'subStyles' ? renderSubStyles : filterType === 'diamondType' ? renderDiamondType : renderMetal,
         allFilterTypes,
         updateFilter,
         currentFilters,

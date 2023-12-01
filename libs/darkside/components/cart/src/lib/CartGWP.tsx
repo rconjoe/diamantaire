@@ -1,4 +1,5 @@
 import { DarksideButton, DatoImage } from '@diamantaire/darkside/components/common-ui';
+import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartGwp } from '@diamantaire/darkside/data/hooks';
 import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
 import {
@@ -9,6 +10,7 @@ import {
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const CartGWPStyles = styled.div`
@@ -62,7 +64,7 @@ const CartGWP = () => {
 
   const { data } = useCartGwp(locale);
 
-  const { data: checkout } = useCartData(locale);
+  const { data: checkout, refetch } = useCartData(locale);
 
   const gwpData = data?.allGwpDarksides?.[0]?.tiers?.[0];
 
@@ -84,15 +86,59 @@ const CartGWP = () => {
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
 
-  if (!gwpData) return null;
-
-  const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
-
   const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+  const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
+  console.log('giftProduct', giftProduct);
+
+  useEffect(() => {
+    async function checkForGWP() {
+      if (!checkout || !gwpData) return null;
+      // This is also the item (if it exists 👻)
+      const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+      const doesUserHaveGWPInCart = checkout?.lines?.find(
+        (line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`,
+      );
+
+      if (hasUserQualified && !doesUserHaveGWPInCart) {
+        const attributes = {
+          hiddenProduct: 'true',
+        };
+        const refinedAttributes = Object.keys(attributes)
+          .map((key) => {
+            return {
+              key,
+              value: attributes[key],
+            };
+          })
+          .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+        await addItemToCart(`gid://shopify/ProductVariant/${giftProduct.variantId}`, refinedAttributes).then(() =>
+          refetch(),
+        );
+      } else if (!hasUserQualified && doesUserHaveGWPInCart) {
+        await updateMultipleItemsQuantity({
+          items: [
+            {
+              lineId: doesUserHaveGWPInCart.id,
+              variantId: doesUserHaveGWPInCart.merchandise.id,
+              quantity: 0,
+              attributes: doesUserHaveGWPInCart.attributes,
+            },
+          ],
+        }).then(() => refetch());
+      }
+    }
+
+    checkForGWP();
+  }, [gwpData, checkout]);
+
+  if (!checkout || !gwpData) return null;
   if (!isCountrySupported(gwpSupportedCountries, countryCode) || !isWithinTimeframe) return null;
+
+  if (!gwpData) return null;
 
   return (
     <CartGWPStyles bgColor={hasUserQualified ? cartQualifiedBackgroundColor?.hex : cartNonQualifiedBackgroundColor?.hex}>

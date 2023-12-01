@@ -31,7 +31,6 @@ type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
   variantId: string;
-  diamondId?: string;
   additionalVariantData?: Record<string, string>;
   isBuilderProduct?: boolean;
   updateSettingSlugs?: () => void;
@@ -61,14 +60,11 @@ type ProductConfiguratorProps = {
     variantTitle: string;
   }[];
 
-  allAvailableOptions?: {
-    [key: string]: string[];
-  };
+  requiresCustomDiamond: boolean;
 };
 
 function ProductConfigurator({
   configurations,
-  diamondId,
   selectedConfiguration,
   variantId,
   variantPrice,
@@ -92,6 +88,7 @@ function ProductConfigurator({
   isSoldAsPairOnly = false,
   isSoldAsLeftRight = false,
   variants,
+  requiresCustomDiamond,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -115,23 +112,15 @@ function ProductConfigurator({
   const [isWeddingBandSizeGuideOpen, setIsWeddingBandSizeGuideOpen] = useState<boolean>(false);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
-  const handleConfigChange = useCallback(
-    (configState) => {
-      console.log('selectedConfiguration', selectedConfiguration);
-      const { caratWeight } = configState;
+  const handleConfigChange = useCallback(() => {
+    if (requiresCustomDiamond) {
+      setIsConfigurationComplete(false);
+    } else {
+      setIsConfigurationComplete(true);
+    }
 
-      const usesCustomDiamond = !caratWeight || caratWeight === 'other';
-
-      if (usesCustomDiamond) {
-        setIsConfigurationComplete(false);
-      } else {
-        setIsConfigurationComplete(true);
-      }
-
-      return selectedConfiguration;
-    },
-    [diamondId, selectedVariantId],
-  );
+    return selectedConfiguration;
+  }, [requiresCustomDiamond, selectedVariantId]);
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     setSelectVariantId(option.id);

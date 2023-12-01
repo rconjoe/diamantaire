@@ -57,6 +57,7 @@ const GWP_CART_QUERY = gql`
           name
         }
         giftProduct {
+          variantId
           plpImage {
             responsiveImage(imgixParams: { w: 100, h: 100, q: 40, auto: format, dpr: 2 }) {
               src

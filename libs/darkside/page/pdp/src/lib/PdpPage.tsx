@@ -217,6 +217,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     fetchAndTrackPreviouslyViewed(productTitle, contentId);
   }, [productTitle, contentId]);
 
+  console.log('shopifyProductData', shopifyProductData);
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
@@ -298,7 +300,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
-                allAvailableOptions={shopifyProductData?.allAvailableOptions}
+                requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
