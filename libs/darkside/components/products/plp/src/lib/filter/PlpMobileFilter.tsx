@@ -3,7 +3,6 @@ import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { METALS_IN_HUMAN_NAMES, formatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
-import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import PlpPriceRange from './PlpPriceRange';
@@ -102,7 +101,7 @@ const PlpMobileFilterStyles = styled.div`
   }
 `;
 
-const filterOrder = ['price', 'diamondType', 'metal'];
+const filterOrder = ['price', 'diamondType', 'metal', 'subStyles', 'styles'];
 
 const HideHeader = createGlobalStyle`
   #primary-navigation {
@@ -122,38 +121,44 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
   return (
     <PlpMobileFilterStyles headerHeight={headerHeight}>
       <FreezeBody />
-      <HideHeader />
-      {filterTypes &&
-        sortedFilterTypes?.map((filterType, index) => {
-          const filter = filterTypes[filterType];
 
-          if (filterType === 'price') {
-            return (
-              <PlpPriceRange
-                key={`m-filter-${index}`}
-                price={{
-                  min: filter[0],
-                  max: filter[1],
-                }}
-                updateFilter={updateFilter}
-                filterValue={filterValue}
-                handleSliderURLUpdate={handleSliderURLUpdate}
-                filterTypes={filterTypes}
-              />
-            );
-          } else {
-            return (
-              <PlpFilterOption
-                key={`m-filter-${index}`}
-                filterType={filterType}
-                currentFilters={filterValue}
-                allFilterTypes={filterTypes}
-                format={'stacked'}
-                updateFilter={updateFilter}
-              />
-            );
-          }
-        })}
+      <HideHeader />
+
+      <div className="stacked-filters">
+        {filterTypes &&
+          sortedFilterTypes?.map((filterType, index) => {
+            const filter = filterTypes[filterType];
+
+            if (filterTypes[filterType].length === 0) return null;
+
+            if (filterType === 'price') {
+              return (
+                <PlpPriceRange
+                  key={`m-filter-${index}`}
+                  price={{
+                    min: filter[0],
+                    max: filter[1],
+                  }}
+                  updateFilter={updateFilter}
+                  filterValue={filterValue}
+                  handleSliderURLUpdate={handleSliderURLUpdate}
+                  filterTypes={filterTypes}
+                />
+              );
+            } else {
+              return (
+                <PlpFilterOption
+                  key={`m-filter-${index}`}
+                  filterType={filterType}
+                  currentFilters={filterValue}
+                  allFilterTypes={filterTypes}
+                  format={'stacked'}
+                  updateFilter={updateFilter}
+                />
+              );
+            }
+          })}
+      </div>
       <div className="close-filter">
         <button onClick={() => close()}>
           <XIcon />

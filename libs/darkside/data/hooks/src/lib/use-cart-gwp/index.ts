@@ -14,6 +14,7 @@ export type CartGwpDataType = {
         name: string;
       }[];
       giftProduct: {
+        variantId: string;
         plpImage: DatoImageType;
       };
       giftProductInventoryLevelCutoff: number;

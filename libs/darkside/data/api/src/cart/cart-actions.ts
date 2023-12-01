@@ -459,3 +459,22 @@ const addCustomizedItem = async (
     console.log('Error adding customized item to cart', e);
   }
 };
+
+// Specific to GWP
+export async function toggleCartAddonProduct(variantId) {
+  const cartId = localStorage.getItem('cartId');
+  const cart = await getCart(cartId);
+
+  const line = cart.lines.find((line) => line.merchandise.id === variantId);
+
+  if (line) {
+    await updateItemQuantity({
+      lineId: line.id,
+      variantId,
+      quantity: 0,
+      attributes: [],
+    });
+  } else {
+    await addItemToCart(variantId, []);
+  }
+}

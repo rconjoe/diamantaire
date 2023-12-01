@@ -136,6 +136,7 @@ const SettingBuildStep = ({
               flowIndex={flowIndex}
               disableVariantType={disableVariantType}
               variantProductTitle={shopifyProductData?.productTitle}
+              requiresCustomDiamond={false}
             />
             <ProductDescription
               description={productDescription}
