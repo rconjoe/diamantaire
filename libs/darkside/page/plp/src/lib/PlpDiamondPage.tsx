@@ -67,10 +67,6 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
-    console.log('setting to:', {
-      sortBy,
-      sortOrder,
-    });
     setActiveSortOptions({
       sortBy,
       sortOrder,
@@ -121,6 +117,7 @@ const getDiamondPlpServerSideProps = async (
   const category = 'loose-diamonds';
 
   const queryClient = new QueryClient();
+
   const contentQuery = queries.plp.serverSideDato(locale, plpSlug, category);
 
   await queryClient.prefetchQuery({ ...contentQuery });

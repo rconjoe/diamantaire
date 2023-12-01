@@ -129,7 +129,10 @@ const PlpProductGrid = ({
   const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
-    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks;
+    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a,b) => {
+      // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
+      return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
+    });
 
     if (!creativeBlocksData) return {}; // Return an empty object if cardCollection is falsy
 
@@ -144,7 +147,7 @@ const PlpProductGrid = ({
     }
 
     return object;
-  }, [creativeBlockParentData]);
+  }, [creativeBlockParentData, creativeBlockIds]);
 
   const cardCollectionObject = useMemo(() => {
     if (!cardCollection) return {}; // Return an empty object if cardCollection is falsy
