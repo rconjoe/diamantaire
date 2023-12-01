@@ -96,9 +96,9 @@ const CartGWP = () => {
       if (!checkout || !gwpData) return null;
       // This is also the item (if it exists 👻)
       const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
-      const doesUserHaveGWPInCart = checkout?.lines?.find(
-        (line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`,
-      );
+      const doesUserHaveGWPInCart =
+        checkout?.lines?.find((line) => line?.merchandise?.id === `gid://shopify/ProductVariant/${giftProduct.variantId}`) ||
+        false;
 
       if (hasUserQualified && !doesUserHaveGWPInCart) {
         const attributes = {
