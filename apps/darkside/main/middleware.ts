@@ -1,9 +1,20 @@
+import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
+  // Use authMiddleware
+  const authResult = await authMiddleware({
+    publicRoutes: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+  });
+
+  // If authMiddleware returns a response, return it immediately
+  if (authResult instanceof NextResponse) {
+    return authResult;
+  }
+
   // This is what gets returned from the middleware, cookies need to be set on the res
   const res = NextResponse.next();
 
@@ -34,3 +45,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
   return res;
 }
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+};

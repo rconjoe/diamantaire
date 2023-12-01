@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@clerk/nextjs':
-    specifier: ^4.25.5
+    specifier: ^4.25.6
     version: 4.25.6(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)
   '@datocms/cli':
     specifier: ^1.1.10
