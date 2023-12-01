@@ -101,14 +101,16 @@ type FilterOptionsProps = {
 };
 
 const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilters, format }: FilterOptionsProps) => {
-  console.log('PlpFilterOption', filterType);
-
   return (
     <>
       {renderFilterOptionSet({
         filterType: filterType,
         mapFunction:
-          filterType === 'subStyles' ? renderSubStyles : filterType === 'diamondType' ? renderDiamondType : renderMetal,
+          filterType === 'subStyles' || filterType === 'style'
+            ? renderSubStyles
+            : filterType === 'diamondType'
+            ? renderDiamondType
+            : renderMetal,
         allFilterTypes,
         updateFilter,
         currentFilters,

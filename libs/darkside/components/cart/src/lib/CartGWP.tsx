@@ -91,8 +91,6 @@ const CartGWP = () => {
 
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
-  console.log('giftProduct', giftProduct);
-
   useEffect(() => {
     async function checkForGWP() {
       if (!checkout || !gwpData) return null;
