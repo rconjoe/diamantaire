@@ -68,6 +68,14 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
       return NextResponse.redirect(url);
     }
+
+    const localRewriteDestination = await kv.hget<string>('rewrites', url.pathname);
+
+    if (localRewriteDestination) {
+      url.pathname = localRewriteDestination;
+
+      return NextResponse.rewrite(url);
+    }
   }
 
   return res;
