@@ -85,12 +85,14 @@ const AccountOrders = ({ customer }) => {
         </div>
         <div className="table-body">
           {orders?.map((order) => {
+            console.log(order);
+
             return (
               <div className="table-row" key={order?.id}>
                 <div className="table-col">{order?.name}</div>
-                <div className="table-col">{order?.createdAt && format(new Date(order?.createdAt), 'MM/dd/yyyy')}</div>
-                <div className="table-col">{order?.status === 'FULFILLED' ? 'Shipped' : ''}</div>
-                <div className="table-col hide-md">${order?.price?.total?.amount}</div>
+                <div className="table-col">{order?.created_at && format(new Date(order?.created_at), 'MM/dd/yyyy')}</div>
+                <div className="table-col">{order.financial_status}</div>
+                <div className="table-col hide-md">${order.total_price}</div>
               </div>
             );
           })}

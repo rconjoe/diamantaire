@@ -1,4 +1,4 @@
-import { shopifyAdminRequest } from '@diamantaire/darkside/data/api';
+import { shopifyAdminGraphqlApi } from '@diamantaire/darkside/data/api';
 import { gql } from 'graphql-request';
 
 export type CustomerDetails = {
@@ -39,7 +39,7 @@ export async function fetchCustomerDetailsByCustomerId(customerId: string): Prom
     customerId,
   };
 
-  const data = (await shopifyAdminRequest(query, variables)) as CustomerDetails;
+  const data = (await shopifyAdminGraphqlApi(query, variables)) as CustomerDetails;
 
   return data?.customer || null;
 }

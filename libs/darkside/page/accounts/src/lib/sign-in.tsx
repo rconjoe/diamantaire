@@ -34,8 +34,8 @@ const SignInPage = () => {
           },
         }}
         signUpUrl="/accounts/sign-up"
-        afterSignUpUrl="/accounts/AccountPage"
-        afterSignInUrl="/accounts/AccountPage"
+        afterSignUpUrl="/accounts/AccountPage/details"
+        afterSignInUrl="/accounts/AccountPage/details"
       />
     </SignInPageStyles>
   );

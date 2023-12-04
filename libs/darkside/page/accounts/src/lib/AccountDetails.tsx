@@ -1,17 +1,20 @@
-import { DarksideButton, Form, FormSchemaType } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, FormSchemaType, Heading } from '@diamantaire/darkside/components/common-ui';
 import { fetchData } from '@diamantaire/darkside/data/api';
 import { NextSeo } from 'next-seo';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const AccountDetailsStyles = styled.div`
   padding: var(--gutter) 0;
 
-  h4 {
+  .subtitle {
     font-size: var(--font-size-xsmall);
   }
 
-  ul {
+  .list {
+    list-style-type: none;
+    padding: 0;
+
     li {
       font-size: var(--font-size-xsmall);
     }
@@ -20,7 +23,7 @@ const AccountDetailsStyles = styled.div`
   .shipping-info__container,
   .email__container,
   .phone__container {
-    padding: calc(var(--gutter) / 2) 0;
+    padding: 2rem 0;
     border-bottom: 0.1rem solid var(--color-grey);
   }
 
@@ -32,19 +35,19 @@ const AccountDetailsStyles = styled.div`
     max-width: 450px;
 
     .cancel {
-      padding: calc(var(--gutter) / 3) 0 calc(var(--gutter) / 2);
+      padding: 2rem 0;
     }
   }
 
   .phone__container {
     border-bottom: none;
-    max-width: 450px;
 
     .phone-form {
       .close-phone-form {
         flex: 1;
-        margin-top: calc(var(--gutter) / 3);
+        margin-top: 1rem;
       }
+
       form {
         .submit {
           max-width: 14rem;
@@ -55,61 +58,37 @@ const AccountDetailsStyles = styled.div`
 `;
 
 const AccountDetails = ({ customer }) => {
-  const [customerShippingInfo, setCustomerShippingInfo] = useState(null);
   const [isEditingShippingInfo, setIsEditingShippingInfo] = useState(false);
   const [isEdittingPhone, setIsEdittingPhone] = useState(false);
-  const { phone, defaultAddress } = customerShippingInfo || {};
-
-  useEffect(() => {
-    async function getCustomerShippingDetails() {
-      return fetchData({
-        url: '/api/customers/getCustomerShippingDetails',
-        body: {
-          payload: {
-            id: customer?.id,
-          },
-        },
-      });
-    }
-
-    async function fetchCustomerShippingDetails() {
-      const details = await getCustomerShippingDetails();
-
-      return setCustomerShippingInfo(details);
-    }
-
-    if (customer?.id) {
-      fetchCustomerShippingDetails();
-    }
-  }, [customer?.id]);
+  const { phone, default_address } = customer || {};
 
   const shippingDetailsFormSchema: FormSchemaType[] = [
     {
       name: 'firstName',
       placeholder: 'First name',
       inputType: 'text',
-      defaultValue: defaultAddress?.firstName,
+      defaultValue: default_address?.firstName,
       required: true,
     },
     {
       name: 'lastName',
       placeholder: 'Last name',
       inputType: 'text',
-      defaultValue: defaultAddress?.lastName,
+      defaultValue: default_address?.lastName,
       required: true,
     },
     {
       name: 'address1',
       placeholder: 'Address 1',
       inputType: 'text',
-      defaultValue: defaultAddress?.address1,
+      defaultValue: default_address?.address1,
       required: true,
     },
     {
       name: 'address2',
       placeholder: 'Address 2',
       inputType: 'text',
-      defaultValue: defaultAddress?.address2,
+      defaultValue: default_address?.address2,
       required: true,
     },
 
@@ -117,28 +96,28 @@ const AccountDetails = ({ customer }) => {
       name: 'city',
       placeholder: 'City',
       inputType: 'text',
-      defaultValue: defaultAddress?.city,
+      defaultValue: default_address?.city,
       required: true,
     },
     {
       name: 'zip',
       placeholder: 'Zip',
       inputType: 'text',
-      defaultValue: defaultAddress?.zip,
+      defaultValue: default_address?.zip,
       required: true,
     },
     {
       name: 'state',
       placeholder: 'State',
       inputType: 'state-dropdown',
-      defaultValue: defaultAddress?.provinceCode,
+      defaultValue: default_address?.provinceCode,
       required: true,
     },
     {
       name: 'country',
       placeholder: 'Country',
       inputType: 'country-dropdown',
-      defaultValue: defaultAddress?.country,
+      defaultValue: default_address?.country,
       required: true,
     },
   ];
@@ -148,7 +127,7 @@ const AccountDetails = ({ customer }) => {
       name: 'phone',
       placeholder: 'Phone number',
       inputType: 'phone',
-      defaultValue: defaultAddress?.phone,
+      defaultValue: default_address?.phone,
       required: true,
     },
   ];
@@ -196,6 +175,7 @@ const AccountDetails = ({ customer }) => {
   return (
     <AccountDetailsStyles>
       <NextSeo title="Customer Details" />
+
       <div className="container-wrapper">
         {isEditingShippingInfo ? (
           <div className="shipping-info__form">
@@ -216,42 +196,56 @@ const AccountDetails = ({ customer }) => {
             </div>
           </div>
         ) : (
-          defaultAddress && (
+          default_address && (
             <div className="shipping-info__container">
               <div className="title flex justify-space-between align-center">
-                <h4>Shipping information</h4>
+                <Heading type="h4" className="subtitle">
+                  Shipping information
+                </Heading>
+
                 <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
                   Edit
                 </DarksideButton>
               </div>
-              <ul className="list-unstyled">
+
+              <ul className="list">
                 <li>
-                  {defaultAddress?.firstName} {defaultAddress?.lastName}
+                  {default_address?.firstName} {default_address?.lastName}
                 </li>
-                <li>{defaultAddress?.address1}</li>
-                <li>{defaultAddress?.address2}</li>
+                <li>{default_address?.address1}</li>
+                <li>{default_address?.address2}</li>
                 <li>
-                  {defaultAddress?.city}, {defaultAddress?.provinceCode} {defaultAddress?.zip}
+                  {default_address?.city}, {default_address?.provinceCode} {default_address?.zip}
                 </li>
-                <li>{defaultAddress?.country}</li>
+                <li>{default_address?.country}</li>
               </ul>
             </div>
           )
         )}
 
         <div className="email__container">
-          <h4>Your email</h4>
-          <ul className="list-unstyled">
+          <Heading type="h4" className="subtitle">
+            Your email
+          </Heading>
+          <ul className="list">
             <li>{customer?.email}</li>
           </ul>
         </div>
+
         <div className="phone__container">
-          <h4>Your phone number</h4>
-          <ul className="list-unstyled">
+          <div className="title flex justify-space-between align-center">
+            <Heading type="h4" className="subtitle">
+              Your phone number
+            </Heading>
+
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(true)}>
+              Edit
+            </DarksideButton>
+          </div>
+
+          <ul className="list">
             <li>
-              {phone ? (
-                phone
-              ) : isEdittingPhone ? (
+              {isEdittingPhone ? (
                 <div className="phone-form">
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} />
                   <div className="close-phone-form">
@@ -261,9 +255,7 @@ const AccountDetails = ({ customer }) => {
                   </div>
                 </div>
               ) : (
-                <DarksideButton onClick={() => setIsEdittingPhone(true)} type="underline" colorTheme="teal">
-                  Enter your phone number
-                </DarksideButton>
+                <p>{phone || default_address.phone}</p>
               )}
             </li>
           </ul>
