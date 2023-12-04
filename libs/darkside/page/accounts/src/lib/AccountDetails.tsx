@@ -5,7 +5,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const AccountDetailsStyles = styled.div`
-  padding: var(--gutter) 0;
+  padding: 2rem 0;
 
   .subtitle {
     font-size: var(--font-size-xsmall);
@@ -43,14 +43,18 @@ const AccountDetailsStyles = styled.div`
     border-bottom: none;
 
     .phone-form {
+      max-width: 450px;
+
       .close-phone-form {
         flex: 1;
         margin-top: 1rem;
       }
 
-      form {
-        .submit {
-          max-width: 14rem;
+      .input-container {
+        margin-bottom: 1rem;
+
+        input {
+          width: 100%;
         }
       }
     }
@@ -180,12 +184,16 @@ const AccountDetails = ({ customer }) => {
         {isEditingShippingInfo ? (
           <div className="shipping-info__form">
             <div className="title flex justify-space-between align-center">
-              <h4>Shipping information</h4>
+              <Heading type="h4" className="subtitle">
+                Shipping information
+              </Heading>
             </div>
+
             <Form
               id={'shippping-details'}
               schema={shippingDetailsFormSchema}
               formGridStyle="single"
+              flexDirection="column"
               onSubmit={handleShippingInfoUpdate}
             />
 
@@ -247,9 +255,9 @@ const AccountDetails = ({ customer }) => {
             <li>
               {isEdittingPhone ? (
                 <div className="phone-form">
-                  <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} />
+                  <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
                   <div className="close-phone-form">
-                    <DarksideButton type="underline" onClick={() => setIsEdittingPhone(false)}>
+                    <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(false)}>
                       Cancel
                     </DarksideButton>
                   </div>

@@ -42,6 +42,7 @@ type FormProps = {
   setIsValid?: (state: boolean) => void;
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
+  flexDirection?: 'column' | 'row';
 };
 
 type InputType = 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
@@ -55,26 +56,31 @@ export type FormSchemaType = {
   defaultCountry?: string;
 };
 
-const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
+const FormContainer = styled.div<{
+  flexDirection?: string;
+  gridStyle?: string;
+  stackedSubmit?: boolean;
+  fieldsLength: number;
+}>`
   p {
     margin-top: calc(var(--gutter) / 20);
     font-size: var(--font-size-xxsmall);
   }
+
   .form {
     display: flex;
-    align-items: flex-end;
-    margin-top: calc(var(--gutter) / 5);
+    margin-top: 1rem;
+    flex-direction: ${({ flexDirection }) => (flexDirection ? flexDirection : 'row')};
 
     .input-container {
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
-      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
-      flex: 1.25;
+      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` 1rem;`)};
+      flex: 1;
 
       &.submit {
         margin-bottom: 0px;
         flex: 0.75;
-        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 14rem' : '0 0 14rem')};
       }
 
       > * {
@@ -89,22 +95,28 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
         border: 0.1rem solid #ccc;
         height: 4.7rem;
         padding-left: 1rem;
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
       }
 
       .dropdown__single-value {
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
         color: #000;
       }
 
       .dropdown__option {
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
         color: #000;
+      }
+
+      .react-international-phone-country-selector-button {
+        height: 100%;
       }
     }
   }
+
   .input-opt-in {
     width: 100%;
+
     input[type='checkbox'] {
       width: 1.3rem;
       height: 1.3rem;
@@ -115,6 +127,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       color: currentColor;
       border: 0.1rem solid currentColor;
     }
+
     input[type='checkbox']::before {
       display: block;
       content: '';
@@ -128,6 +141,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     input[type='checkbox']:checked::before {
       transform: scale(1);
     }
+
     &.-error {
       color: red;
       a {
@@ -153,6 +167,7 @@ const Form = ({
   setIsValid,
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
+  flexDirection,
 }: FormProps) => {
   const initialFormState = {};
   const { locale } = useRouter();
@@ -180,7 +195,12 @@ const Form = ({
   const { _t } = useTranslations(locale);
 
   return (
-    <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
+    <FormContainer
+      gridStyle={formGridStyle}
+      stackedSubmit={stackedSubmit}
+      flexDirection={flexDirection}
+      fieldsLength={schema?.length | 1}
+    >
       {title && (
         <Heading type={headingType} className="primary">
           {title}
