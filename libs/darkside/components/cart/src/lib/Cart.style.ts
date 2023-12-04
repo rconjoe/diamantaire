@@ -140,12 +140,6 @@ export const CartStyles = styled(motion.aside)`
       }
     }
   }
-
-  .certificate-toggle {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-  }
 `;
 
 export const CartOverlay = styled(motion.button)`

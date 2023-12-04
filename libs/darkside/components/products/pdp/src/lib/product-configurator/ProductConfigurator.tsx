@@ -258,6 +258,7 @@ function ProductConfigurator({
           isSoldAsLeftRight={isSoldAsLeftRight}
           isSoldAsDouble={isSoldAsDouble}
           additionalVariantIds={additionalVariantIds}
+          engravingText={engravingText}
         />
       )}
     </>
@@ -281,6 +282,7 @@ type CtaButtonProps = {
   selectedEarringOrientation?: string;
   isSoldAsDouble?: boolean;
   additionalVariantIds?: string[];
+  engravingText?: string;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -301,6 +303,7 @@ function AddToCartButton({
   isSoldAsLeftRight,
   additionalVariantIds,
   isSoldAsDouble,
+  engravingText,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -414,7 +417,7 @@ function AddToCartButton({
       addERProductToCart({
         settingVariantId: variantId,
         settingAttributes: erItemAttributes,
-        hasEngraving: true,
+        hasEngraving: Boolean(engravingText),
       }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx

@@ -14,11 +14,12 @@ const ChildProductStyles = styled.div`
 
   .child-product__inner {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     flex-direction: row;
 
     .child-product__image {
       flex: 0 0 16.8rem;
+      padding-left: 2rem;
       padding-right: 2rem;
       height: auto;
 

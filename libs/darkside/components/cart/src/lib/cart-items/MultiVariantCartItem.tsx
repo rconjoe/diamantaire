@@ -180,8 +180,6 @@ const MultiVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
-  console.log('productType', productType);
-
   const productTitle = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
 
@@ -221,7 +219,7 @@ const MultiVariantCartItem = ({
         value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
       },
       {
-        label: 'Engraving',
+        label: _t('Engraving'),
         value: engraving,
       },
     ],
@@ -423,11 +421,11 @@ const MultiVariantCartItem = ({
           })}
         </div>
       </div>
-      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
 
       {hasChildProduct && childProduct && !isChildProductHidden && (
         <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} />
       )}
+      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
     </MultiVariantCartItemStyles>
   );
 };

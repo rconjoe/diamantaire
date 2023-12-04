@@ -56,7 +56,7 @@ const ProductDiamondHandStyles = styled.div`
         left: 21%;
       }
       @media (min-width: 1700px) {
-        left: 20%;
+        left: 22%;
       }
       @media (min-width: 1800px) {
         left: 24%;

@@ -71,8 +71,6 @@ const PlpProductVariant = ({
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
-  console.log('variant configuration', configuration);
-
   const productTitleWithProperties = `${title} ${configuration?.diamond_type ? _t(configuration?.diamond_type) : ''} | ${
     metalTypeAsConst[configuration?.metal]
   }`;
