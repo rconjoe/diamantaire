@@ -60,8 +60,8 @@ type ProductConfiguratorProps = {
     variantTitle: string;
   }[];
   requiresCustomDiamond: boolean;
-  engravingText: string;
-  setEngravingText: (value: string) => void;
+  engravingText?: string;
+  setEngravingText?: (value: string) => void;
 };
 
 function ProductConfigurator({
