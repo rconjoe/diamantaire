@@ -33,7 +33,7 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ClerkProvider publishableKey={process.env['NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY']}>
+      <ClerkProvider {...pageProps}>
         <CookieConsentProvider>
           <GlobalProvider>
             <ThemeProvider theme={theme}>

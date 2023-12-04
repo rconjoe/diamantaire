@@ -8,6 +8,7 @@ import { AccountOrders } from './AccountOrders';
 import { AccountPageNav } from './AccountPageNav';
 
 const AccountPage = () => {
+  console.log('account pageee');
   const [currentCustomer, setCurrentCustomer] = useState(null);
   const { user } = useUser();
   const { query: { accountPageSlug: path } = {} } = useRouter();
@@ -51,7 +52,9 @@ const AccountPage = () => {
   return (
     <>
       <SignedIn>
+        <h1>eeee</h1>
         <AccountPageNav customerName={currentCustomer?.first_name} />
+
         {path === 'details' && <AccountDetails customer={currentCustomer} />}
         {path === 'order-history' && <AccountOrders customer={currentCustomer} />}
       </SignedIn>

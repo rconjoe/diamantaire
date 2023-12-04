@@ -263,7 +263,7 @@ const AccountDetails = ({ customer }) => {
                   </div>
                 </div>
               ) : (
-                <p>{phone || default_address.phone}</p>
+                <p>{phone || default_address?.phone}</p>
               )}
             </li>
           </ul>

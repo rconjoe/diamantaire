@@ -1,31 +1,28 @@
-import { SignIn } from '@clerk/nextjs';
+import { SignUp } from '@clerk/nextjs';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import styled from 'styled-components';
 
-const SignInPageStyles = styled.div`
+const SignUpPageStyles = styled.div`
   padding: 50px 0 100px;
   margin: 0 auto;
   max-width: 400px;
   .cl-rootBox {
     width: 100%;
     margin: 0 auto;
-
     .cl-card {
       width: 100%;
       margin: 0px;
-
       .cl-formFieldInput {
         padding-left: 15px;
       }
     }
   }
 `;
-
 const SignInPage = () => {
   return (
-    <SignInPageStyles>
-      <h1>sign in temp</h1>
-      <SignIn
+    <SignUpPageStyles>
+      <h1>sign up temp</h1>
+      <SignUp
         appearance={{
           variables: {
             colorPrimary: '#5e7a7d',
@@ -33,11 +30,11 @@ const SignInPage = () => {
             spacingUnit: '2rem',
           },
         }}
-        signUpUrl="/accounts/sign-up"
-        afterSignUpUrl="/accounts/AccountPage/details"
-        afterSignInUrl="/accounts/AccountPage/details"
+        afterSignUpUrl="/account/details"
+        afterSignInUrl="/account/details"
+        routing="hash"
       />
-    </SignInPageStyles>
+    </SignUpPageStyles>
   );
 };
 

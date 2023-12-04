@@ -6,8 +6,8 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
   // Use authMiddleware
-  const authResult = await authMiddleware({
-    publicRoutes: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)'],
+  const authResult = authMiddleware({
+    publicRoutes: ['/((?!.*\\..*|_next).*)', '/(api|trpc)(.*)', '/sign-in', '/sign-up'],
   });
 
   // If authMiddleware returns a response, return it immediately

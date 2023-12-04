@@ -15,10 +15,12 @@ export async function shopifyAdminGraphqlApi(shopifyQuery: any, variables: Varia
   return data;
 }
 
-export async function shopifyAdminRestApi() {
-  const baseURL = `${process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']}/admin/api/2023-10/`;
+export async function shopifyAdminRestApi(path) {
+  const baseURL = `${process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']}/admin/api/2023-10${path}`;
 
-  const headers = { 'X-Shopify-Access-Token': process.env['SHOPIFY_ADMIN_API_TOKEN'] || '' };
+  const headers = { 'X-Shopify-Access-Token': process.env['SHOPIFY_ADMIN_API_TOKEN'] || '', method: 'GET' };
+
+  fetch(baseURL, { headers });
 
   return axios.create({ baseURL, headers });
 }
