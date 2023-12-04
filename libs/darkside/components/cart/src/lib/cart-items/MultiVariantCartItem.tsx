@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
+import CartDiamondCertificate from './CartCertificate';
 import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
 
@@ -39,8 +40,6 @@ const MultiVariantCartItemStyles = styled.div`
       }
     }
 
-    .cart-item__title {
-    }
     .cart-item__price {
       flex: 1;
       text-align: right;
@@ -60,20 +59,26 @@ const MultiVariantCartItemStyles = styled.div`
 
     .cart-item__image {
       flex: 0 0 16.8rem;
+      padding-left: 2rem;
       padding-right: 2rem;
+      img {
+        height: 100%;
+      }
     }
 
     .cart-item__content {
       color: #737368;
       flex: 1;
+      padding: 2rem 0;
       padding-right: 1.5rem;
+      position: relative;
 
       button {
         font-size: 1.4rem;
       }
       p {
         margin: 0 0 0.5rem;
-        font-size: 1.5rem;
+        font-size: var(--font-size-xsmall);
         display: flex;
 
         &.setting-text {
@@ -141,6 +146,11 @@ const MultiVariantCartItem = ({
     );
   }, [item]);
 
+  // Handles engravings
+  const isChildProductHidden = useMemo(() => {
+    return childProduct.attributes?.find((attr) => attr.key === 'hiddenProduct');
+  }, [item]);
+
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
@@ -170,8 +180,15 @@ const MultiVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
+  console.log('productType', productType);
+
   const productTitle = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_productTitle')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+  const engraving = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_EngravingBack')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
@@ -196,12 +213,16 @@ const MultiVariantCartItem = ({
         value: info?.metalType,
       },
       {
-        label: '',
+        label: _t('band'),
         value: info?.bandAccent,
       },
       {
         label: refinedCartItemDetails?.['ringSize'],
         value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
+      },
+      {
+        label: 'Engraving',
+        value: engraving,
       },
     ],
     [refinedCartItemDetails, info],
@@ -382,7 +403,13 @@ const MultiVariantCartItem = ({
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
             {productType === 'Engagement Ring' && (
-              <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</span>
+              <span>
+                {getFormattedPrice(
+                  ((engraving ? parseFloat(childProduct?.merchandise?.price?.amount) : 0) +
+                    parseFloat(merchandise?.price?.amount)) *
+                    100,
+                )}
+              </span>
             )}
           </p>
           {itemAttributes?.map((specItem, index) => {
@@ -396,8 +423,10 @@ const MultiVariantCartItem = ({
           })}
         </div>
       </div>
-      {hasChildProduct && childProduct && (
-        <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} certificate={certificate} />
+      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
+
+      {hasChildProduct && childProduct && !isChildProductHidden && (
+        <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} />
       )}
     </MultiVariantCartItemStyles>
   );

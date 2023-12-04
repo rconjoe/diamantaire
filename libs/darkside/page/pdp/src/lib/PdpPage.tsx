@@ -207,6 +207,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
+  // Engraving
+  const [engravingText, setEngravingText] = useState(null);
+
   // Tracks previously viewed products in local storage
   useEffect(() => {
     if (!productTitle || !contentId) return;
@@ -272,6 +275,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 price={price}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
+                engravingText={engravingText}
               />
               <ProductConfigurator
                 configurations={configurations}
@@ -296,6 +300,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
                 requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
+                engravingText={engravingText}
+                setEngravingText={setEngravingText}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />

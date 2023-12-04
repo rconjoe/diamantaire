@@ -8,7 +8,7 @@ import {
   ProductAppointmentCTA,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { OptionSelector, ProductDiamondHand, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -18,6 +18,7 @@ import { useCartData, useProductDato, useTranslations } from '@diamantaire/darks
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
+  ENGRAVING_PRICE_CENTS,
   PdpTypePlural,
   getCurrency,
   getFormattedPrice,
@@ -25,9 +26,10 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
+import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
+import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -46,11 +48,12 @@ const ReviewBuildStepStyles = styled(motion.div)`
     .product-images {
       flex: 2;
       display: flex;
+      flex-wrap: wrap;
       margin: 0 -1rem;
 
       > .image {
         padding: 0 1rem;
-        flex: 1;
+        flex: 0 0 50%;
         display: flex;
 
         > div {
@@ -196,6 +199,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const sizeOptions = configurations[sizeOptionKey];
 
+  console.log('review configurations', configurations);
+
   const { collectionSlug } = settingSlugs;
 
   const { product, diamond } = builderProduct;
@@ -254,7 +259,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const settingVariantId = selectedSize?.id || product?.variantId;
 
     // 2. Get the product variant ID for the diamond
-    const diamondVariantId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
+    const diamondVariantId = createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId);
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
     const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
@@ -331,6 +336,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       settingAttributes,
       diamondVariantId,
       diamondAttributes,
+      hasEngraving: false,
     }).then(() => refetch());
 
     updateGlobalContext({
@@ -437,6 +443,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         <div className="product-images">
           <div className="image setting-image">{product?.image && <DatoImage image={product?.image} />}</div>
           <div className="image diamond-image">{diamondImage && <img src={diamondImage} alt="" />}</div>
+          <div className="diamond-hand">
+            <ProductDiamondHand diamondType={selectedConfiguration?.diamondType} range={[0.5, 8]} initValue={2} />
+          </div>
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
@@ -447,7 +456,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
             </Heading>
 
             <p className="total-price">
-              <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
+              <span>
+                {getFormattedPrice(
+                  product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
+                  router?.locale,
+                )}
+              </span>
             </p>
 
             <div className="builder-summary__content">
