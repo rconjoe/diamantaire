@@ -35,7 +35,7 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      max-height: calc(100vh - 40vh - 6.1rem);
+      max-height: calc(100vh - 20vh - 6.1rem - ${({ gwpSize }) => gwpSize}px);
       overflow-y: auto;
       margin: 0;
       padding: 0 2.5rem 5rem;
@@ -139,6 +139,12 @@ export const CartStyles = styled(motion.aside)`
         }
       }
     }
+  }
+
+  .certificate-toggle {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
   }
 `;
 

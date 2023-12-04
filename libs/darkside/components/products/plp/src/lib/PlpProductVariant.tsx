@@ -2,6 +2,7 @@
 import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/analytics';
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
@@ -62,6 +63,7 @@ const PlpProductVariant = ({
   const { productClicked } = useAnalytics();
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
+  const { _t } = useTranslations(locale);
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
@@ -69,7 +71,11 @@ const PlpProductVariant = ({
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
-  const productTitleWithProperties = `${title} | ${metalTypeAsConst[configuration?.metal]}`;
+  console.log('variant configuration', configuration);
+
+  const productTitleWithProperties = `${title} ${configuration?.diamond_type ? _t(configuration?.diamond_type) : ''} | ${
+    metalTypeAsConst[configuration?.metal]
+  }`;
 
   const handleImageChange = () => {
     if (!hoverImage?.src) return;

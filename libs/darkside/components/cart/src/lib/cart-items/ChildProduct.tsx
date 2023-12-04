@@ -17,15 +17,23 @@ const ChildProductStyles = styled.div`
 
   .child-product__inner {
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    flex-direction: row;
 
     .child-product__image {
       flex: 0 0 16.8rem;
       padding-right: 2rem;
+      height: auto;
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .cart-item__content {
       flex: 1;
+      padding: 1rem 0;
       padding-right: 1rem;
 
       button {
@@ -185,6 +193,10 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
         value: attributes?.find((item) => item.key === 'caratWeight')?.value,
       },
       {
+        label: 'Color',
+        value: attributes?.find((item) => item.key === 'color')?.value,
+      },
+      {
         label: 'Cut',
         value: attributes?.find((item) => item.key === 'cut')?.value,
       },
@@ -221,7 +233,12 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
             );
           })}
           {isProductDiamond && (
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => setShowCert(true)}>
+            <DarksideButton
+              className="certificate-toggle"
+              type="underline"
+              colorTheme="teal"
+              onClick={() => setShowCert(true)}
+            >
               <UIString>Diamond Certificate</UIString>
             </DarksideButton>
           )}

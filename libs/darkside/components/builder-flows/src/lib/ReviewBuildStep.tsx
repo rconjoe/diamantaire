@@ -190,7 +190,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     value?: string;
     valueLabel?: string;
     isSelected?: boolean;
-  }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || null);
 
   const { productAdded } = useAnalytics();
 

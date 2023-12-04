@@ -364,7 +364,7 @@ export async function addERProductToCart({
 }: ERProductCartItemProps) {
   console.log('getting attr', settingAttributes);
 
-  const refinedSettingAttributes = Object.keys(settingAttributes)
+  let refinedSettingAttributes = Object.keys(settingAttributes)
     .map((key) => {
       return {
         key,
@@ -388,6 +388,12 @@ export async function addERProductToCart({
       .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
     console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+    console.log('refinedSettingAttributes', refinedSettingAttributes);
+
+    // Remove centerstone + diamond shape from seting
+    refinedSettingAttributes = refinedSettingAttributes.filter(
+      (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
+    );
 
     return addCustomizedItem([
       {
