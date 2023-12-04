@@ -70,7 +70,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
       });
 
       const firstThreeProducts = normalizedProducts.slice(0, 3);
-      const firstThreeItems = getNormalizedListPageItems({
+      const firstThreeItems = getGTMNormalizedListPageItems({
         productData: listpageProductData,
         locale: router?.locale,
         currencyCode,
@@ -222,7 +222,7 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
   return normalizedProducts.filter((product) => product !== null);
 }
 
-function getNormalizedListPageItems({ productData, locale, currencyCode, listName }) {
+function getGTMNormalizedListPageItems({ productData, locale, currencyCode, listName }) {
   if (!productData || !Array.isArray(productData.pages)) {
     return [];
   }
