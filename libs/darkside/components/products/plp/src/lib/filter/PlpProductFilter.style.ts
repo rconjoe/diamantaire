@@ -239,6 +239,9 @@ export const PlpProductFilterStyles = styled.div`
       &:first-child {
         padding-top: 0;
       }
+      &:last-child {
+        border-bottom: none;
+      }
 
       ul {
         overflow-x: hidden;
@@ -313,7 +316,6 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       &.metal {
-        border-bottom: none;
         li {
           margin-right: calc(var(--gutter) / 3);
           &:last-child {
@@ -383,11 +385,22 @@ export const PlpProductFilterStyles = styled.div`
         }
       }
 
-      &.styles,
+      /* &.styles,
       &.subStyles {
         display: none;
-      }
+      } */
 
+      &.styles,
+      &.subStyles {
+        ul {
+          display: block;
+
+          li {
+            display: block;
+            margin-bottom: 1rem;
+          }
+        }
+      }
       &.priceRange {
         ul {
           display: block;
@@ -448,6 +461,12 @@ export const PlpProductFilterStyles = styled.div`
   .specific-filter-options {
     .filter-option-set {
       padding-right: 5rem;
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        h3,
+        .diamond-text {
+          display: none;
+        }
+      }
 
       &:last-child {
         padding-right: 0;

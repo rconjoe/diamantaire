@@ -103,7 +103,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
 
-  console.log('shopifyProductData', shopifyProductData);
   const configurations = shopifyProductData?.optionConfigs;
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -298,7 +297,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
-                allAvailableOptions={shopifyProductData?.allAvailableOptions}
+                requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />

@@ -1,6 +1,7 @@
 import { DiamondVideoThumbImage } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { generateGenericDiamondImageUrl } from '@diamantaire/shared/helpers';
 import { ListPageDiamondItem, DiamondLink } from '@diamantaire/shared-diamond';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -29,10 +30,12 @@ const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
     router.locale,
   )}`;
 
+  const genericDiamondImage = generateGenericDiamondImageUrl(diamondType);
+
   return (
     <PlpDiamondItemStyles>
       <DiamondLink handle={handle}>
-        <DiamondVideoThumbImage lotId={product.lotId} alt={title} className="primary-image" />
+        <DiamondVideoThumbImage lotId={product.lotId} alt={title} className="primary-image" fallbackSrc={genericDiamondImage}/>
         <div className="plp-title">{title}</div>
       </DiamondLink>
     </PlpDiamondItemStyles>

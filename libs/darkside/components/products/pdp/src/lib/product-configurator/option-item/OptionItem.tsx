@@ -127,7 +127,12 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+  
   const DiamondIcon = diamondIconsMap[value]?.icon;
+
+  if(!DiamondIcon) {
+    return null;
+  }
 
   return (
     <StyledDiamondIconOptionItem
