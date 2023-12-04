@@ -1,4 +1,4 @@
-import { getPdpRedirects } from './pdp_redirects';
+import { getPdpRedirects, publishRedirects } from './pdp_redirects';
 import { getPlpRedirects } from './plp_redirects';
 import { generateCSVfromObj } from '../utils/to_csv';
 import { generateJSONfromObj } from '../utils/to_json';
@@ -48,8 +48,12 @@ async function generateRedirects() {
     generateCSVfromObj(dataObj, headers, filePath);
   }
   // Export to JSON
-  else if (exportType === '-json') {
+  if (exportType === '-json') {
     generateJSONfromObj(dataObj, filePath);
+  }
+  else {
+    console.log('Publishing redirects...');
+    publishRedirects(dataObj);
   }
 
   console.log('Generating redirects with the following options', {

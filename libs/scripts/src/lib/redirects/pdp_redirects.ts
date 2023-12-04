@@ -1,3 +1,4 @@
+import { kv } from '@vercel/kv';
 import axios from 'axios';
 import 'dotenv/config';
 
@@ -177,13 +178,30 @@ function generateRedirects(products, fromBaseUrl, toBaseUrl) {
 
     return;
   }
-  const redirects = products.reduce((acc, current) => {
-    acc.push({ from: generateFromUrl(current, fromBaseUrl), to: generateToUrl(current, toBaseUrl) });
+  const redirects = products.reduce((redirects, current) => {
+    
+    const source = generateFromUrl(current, fromBaseUrl);
+    const destination = generateToUrl(current, toBaseUrl);
+    const isPermanent = true;
 
-    return acc;
-  }, []);
+    redirects[source] = {
+      destination,
+      permanent: isPermanent,
+    };
+
+    return redirects;
+  }, {});
 
   return redirects;
+}
+
+export function publishRedirects(redirects: Record<string, { destination: string; permanent: boolean }>[]) {
+  Object.keys(redirects).forEach((source) => {
+    const { destination, permanent } = redirects[source];
+
+    kv.hset('redirects', { [source]: destination });
+    if (permanent) kv.sadd(source, 'permanent_redirects');
+  });
 }
 
 export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {

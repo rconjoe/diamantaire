@@ -61,12 +61,22 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
     const localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
+    const localRedirectSourceWithQuery = url.pathname + url.search;
 
     if (localRedirectDestination) {
       url.pathname = localRedirectDestination;
-      // const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
+      const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
 
-      return NextResponse.redirect(url);
+      return NextResponse.redirect(url, isPermanent ? 301 : 302);
+    } else {
+      const localRedirectDestinationWithQuery = await kv.hget<string>('redirects', localRedirectSourceWithQuery);
+
+      if (localRedirectDestinationWithQuery) {
+        url.pathname = localRedirectDestinationWithQuery;
+        const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
+
+        return NextResponse.redirect(url, isPermanent ? 301 : 302);
+      }
     }
 
     const localRewriteDestination = await kv.hget<string>('rewrites', url.pathname);
