@@ -124,7 +124,7 @@ const SettingBuildStep = ({
               productType={shopifyProductData?.productType}
               override={productTitleOverride}
             />
-            <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} engravingText={false} />
+            <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} engravingText={null} />
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={selectedConfiguration}
