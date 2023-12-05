@@ -12,8 +12,8 @@ export interface MediaAsset {
   alt?: string;
   mimeType: MimeTypes;
   customData?: {
-    sprite?: boolean;
-    mobile?: boolean;
+    sprite?: string;
+    mobile?: string;
     bunny?: string;
   };
 }

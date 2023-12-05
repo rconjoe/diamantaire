@@ -112,7 +112,7 @@ const SettingBuildStep = ({
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
-            <MediaSlider assets={assetStack} />
+            <MediaSlider assets={assetStack} options={selectedConfiguration} />
           </ShowMobileOnly>
         </div>
 
