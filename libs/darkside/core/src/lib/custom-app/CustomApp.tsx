@@ -9,7 +9,6 @@ import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-import './styles.css';
 
 import 'node_modules/react-toastify/dist/ReactToastify.css';
 

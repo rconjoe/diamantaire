@@ -217,7 +217,7 @@ const Header: FC<HeaderProps> = ({
             <MegaMenu
               navItems={section}
               megaMenuIndex={megaMenuIndex}
-              headerHeight={isCompactMenuVisible ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+              headerHeight={headerHeight}
               isCompactMenuVisible={isCompactMenuVisible}
             />
           )}

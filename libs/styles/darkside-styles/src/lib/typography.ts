@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import * as mediaQueries from './mediaQueries';
 import { setSpace } from './setSpace';
 
-export const MAIN_FONT = 'futura-pt, sans-serif';
+export const MAIN_FONT = 'var(--font-family-main)';
 
 // hack for styled-components to have prettier formatting :)
 const styled = { createGlobalStyle };

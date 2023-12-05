@@ -38,13 +38,13 @@ const StyledTooltip = styled.div`
   }
 
   .react-tooltip__place-left .tooltip-arrow {
-    border-bottom: 0;
-    border-left: 0;
+    border-right: 0;
+    border-top: 0;
   }
 
   .react-tooltip__place-right .tooltip-arrow {
+    border-left: 0;
     border-top: 0;
-    border-right: 0;
   }
 
   .tooltip-trigger {
@@ -56,7 +56,9 @@ const StyledTooltip = styled.div`
     border: 0.1rem solid var(--color-grey);
     height: 1.2rem;
     width: 1.2rem;
+    padding: 0;
     position: relative;
+    background: transparent;
 
     &:after {
       content: '';

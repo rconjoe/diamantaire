@@ -60,6 +60,7 @@ const StyledDiamondDetail = styled.div`
 
   .main > .media {
     display: block;
+    width: 100%;
     margin: 0 -2.4rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {

@@ -28,9 +28,33 @@ type ModularTrioBlockProps = {
   ctaRoute1?: string;
   ctaRoute2?: string;
   ctaRoute3?: string;
-  image1?: string;
-  image2?: string;
-  image3?: string;
+  image1?: {
+    imageAlt?: string;
+    alt?: string;
+    url: string;
+    responsiveImage: {
+      width: number;
+      height: number;
+    };
+  };
+  image2?: {
+    imageAlt?: string;
+    alt?: string;
+    url: string;
+    responsiveImage: {
+      width: number;
+      height: number;
+    };
+  };
+  image3?: {
+    imageAlt?: string;
+    alt?: string;
+    url: string;
+    responsiveImage: {
+      width: number;
+      height: number;
+    };
+  };
   blogPosts?: Array<{
     title: string;
     slug: string;
