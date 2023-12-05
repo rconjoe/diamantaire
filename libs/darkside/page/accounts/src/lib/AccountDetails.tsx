@@ -65,71 +65,70 @@ const AccountDetails = ({ customer }) => {
   const [isEditingShippingInfo, setIsEditingShippingInfo] = useState(false);
   const [isEdittingPhone, setIsEdittingPhone] = useState(false);
   const { phone, default_address } = customer || {};
-
-  console.log(`default_address`, default_address);
+  const { address, setNewAddress } = useState(default_address);
 
   const shippingDetailsFormSchema: FormSchemaType[] = [
     {
       name: 'id',
       inputType: 'hidden',
-      defaultValue: default_address?.id,
+      defaultValue: address?.id,
     },
     {
       name: 'first_name',
       placeholder: 'First name',
       inputType: 'text',
-      defaultValue: default_address?.first_name,
+      defaultValue: address?.first_name,
       required: true,
     },
     {
       name: 'last_name',
       placeholder: 'Last name',
       inputType: 'text',
-      defaultValue: default_address?.last_name,
+      defaultValue: address?.last_name,
       required: true,
     },
     {
       name: 'address1',
       placeholder: 'Address 1',
       inputType: 'text',
-      defaultValue: default_address?.address1,
+      defaultValue: address?.address1,
       required: true,
     },
     {
       name: 'address2',
       placeholder: 'Address 2',
       inputType: 'text',
-      defaultValue: default_address?.address2,
-      required: true,
+      defaultValue: address?.address2,
+      required: false,
     },
 
     {
       name: 'city',
       placeholder: 'City',
       inputType: 'text',
-      defaultValue: default_address?.city,
+      defaultValue: address?.city,
       required: true,
     },
     {
       name: 'zip',
       placeholder: 'Zip',
       inputType: 'text',
-      defaultValue: default_address?.zip,
+      defaultValue: address?.zip,
       required: true,
     },
     {
       name: 'country_code',
       placeholder: 'Country',
       inputType: 'country-dropdown',
-      defaultValue: default_address?.country_code,
+      defaultValue: address?.country_code,
       required: true,
     },
     {
       name: 'province_code',
       placeholder: 'State',
       inputType: 'state-dropdown',
-      defaultValue: default_address?.province_code,
-      required: true,
+      defaultValue: address?.province_code,
+      required: false,
     },
   ];
 
@@ -138,7 +137,7 @@ const AccountDetails = ({ customer }) => {
       name: 'phone',
       placeholder: 'Phone number',
       inputType: 'phone',
-      defaultValue: default_address?.phone,
+      defaultValue: address?.phone,
       required: true,
     },
   ];
@@ -157,14 +156,22 @@ const AccountDetails = ({ customer }) => {
             address1: formData.address1,
             address2: formData.address2,
             city: formData.city,
-            province_code: formData.state.province_code,
-            country_name: formData.state.country,
+            province_code: formData.province_code,
+            country_code: formData.country_code,
             zip: formData.zip,
             id: formData.id,
           },
         },
       },
-    }).then((res) => console.log('update res', res));
+    }).then((res) => {
+      if (res.customer_address) {
+        setNewAddress(res.customer_address);
+
+        setIsEditingShippingInfo(false);
+      } else {
+        // TODO handle Error with message or visual or a call from your granma
+      }
+    });
   }
 
   async function handlePhoneFormSubmit(e, formData) {
