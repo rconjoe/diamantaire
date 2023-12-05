@@ -44,8 +44,6 @@ export async function addNewCustomerAddress(customerId: string, address: object)
 
   const data = (await shopifyAdminGraphqlApi(query, variables)) as CustomerDetails;
 
-  console.log('address data', data);
-
   return data?.customer || null;
 }
 export async function updateCustomerDetailsByCustomerId(
