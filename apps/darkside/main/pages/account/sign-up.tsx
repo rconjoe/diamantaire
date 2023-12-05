@@ -1,5 +1,6 @@
 import { SignUp } from '@clerk/nextjs';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { POST_SIGN_IN_REDIRECT_URL, POST_SIGN_UP_REDIRECT_URL } from '@diamantaire/darkside/page/accounts';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -36,8 +37,8 @@ const SignInPage = () => {
             spacingUnit: '2rem',
           },
         }}
-        afterSignUpUrl="/account/details"
-        afterSignInUrl="/account/details"
+        afterSignUpUrl={POST_SIGN_UP_REDIRECT_URL}
+        afterSignInUrl={POST_SIGN_IN_REDIRECT_URL}
         routing="hash"
       />
     </SignUpPageStyles>

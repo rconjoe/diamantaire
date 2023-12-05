@@ -7,8 +7,30 @@ import AccountDetails from './AccountDetails';
 import { AccountOrders } from './AccountOrders';
 import { AccountPageNav } from './AccountPageNav';
 
+export type AccountCustomer = {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  id: string;
+  email: string;
+  default_address: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    address1: string;
+    address2: string;
+    city: string;
+    zip: string;
+    province: string;
+    country: string;
+    phone: string;
+    country_code: string;
+    province_code: string;
+  };
+};
+
 const AccountPage = () => {
-  const [currentCustomer, setCurrentCustomer] = useState(null);
+  const [currentCustomer, setCurrentCustomer] = useState<AccountCustomer | null>(null);
   const { user } = useUser();
   const { query: { accountPageSlug: path } = {} } = useRouter();
 

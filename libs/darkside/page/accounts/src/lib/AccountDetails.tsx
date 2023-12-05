@@ -4,6 +4,8 @@ import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { AccountCustomer } from './AccountPage';
+
 const AccountDetailsStyles = styled.div`
   padding: 2rem 0;
 
@@ -61,7 +63,7 @@ const AccountDetailsStyles = styled.div`
   }
 `;
 
-const AccountDetails = ({ customer }) => {
+const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
   const [isEditingShippingInfo, setIsEditingShippingInfo] = useState(false);
   const [isEdittingPhoneInfo, setIsEdittingPhoneInfo] = useState(false);
   const { phone, default_address } = customer || {};

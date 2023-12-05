@@ -1,3 +1,4 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { format } from 'date-fns';
@@ -5,6 +6,8 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { AccountCustomer } from './AccountPage';
 
 const AccountOrdersStyles = styled.div`
   padding: var(--gutter) 0;
@@ -50,7 +53,7 @@ const AccountOrdersStyles = styled.div`
   }
 `;
 
-const AccountOrders = ({ customer }) => {
+const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
   const [orders, setOrders] = useState(null);
   const [ordersLoaded, setOrdersLoaded] = useState(false);
 
@@ -97,10 +100,18 @@ const AccountOrders = ({ customer }) => {
             <>
               <div className="table-head">
                 <div className="table-row">
-                  <div className="table-col">Order</div>
-                  <div className="table-col">Date</div>
-                  <div className="table-col">Status</div>
-                  <div className="table-col hide-md">Total</div>
+                  <div className="table-col">
+                    <UIString>Order</UIString>
+                  </div>
+                  <div className="table-col">
+                    <UIString>Date</UIString>
+                  </div>
+                  <div className="table-col">
+                    <UIString>Status</UIString>
+                  </div>
+                  <div className="table-col hide-md">
+                    <UIString>Total</UIString>
+                  </div>
                 </div>
               </div>
               <div className="table-body">

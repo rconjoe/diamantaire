@@ -1,5 +1,10 @@
 import { SignIn } from '@clerk/nextjs';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  POST_SIGN_IN_REDIRECT_URL,
+  POST_SIGN_UP_REDIRECT_URL,
+  SIGN_UP_REDIRECT_URL,
+} from '@diamantaire/darkside/page/accounts';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -35,7 +40,9 @@ const SignInPage = () => {
   return (
     <SignInPageStyles>
       <NextSeo title={`${_t('Sign In')} | VRAI`} />
-      <p>If this is your first time signing in, please create an account using the email you placed your order with</p>
+      <p>
+        {_t('If this is your first time signing in, please create an account using the email you placed your order with')}
+      </p>
       <SignIn
         appearance={{
           variables: {
@@ -44,9 +51,9 @@ const SignInPage = () => {
             spacingUnit: '2rem',
           },
         }}
-        signUpUrl="/account/sign-up"
-        afterSignUpUrl="/account/details"
-        afterSignInUrl="/account/details"
+        signUpUrl={SIGN_UP_REDIRECT_URL}
+        afterSignUpUrl={POST_SIGN_UP_REDIRECT_URL}
+        afterSignInUrl={POST_SIGN_IN_REDIRECT_URL}
       />
     </SignInPageStyles>
   );
