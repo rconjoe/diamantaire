@@ -1,3 +1,4 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import { DefaultSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalProvider } from '@diamantaire/darkside/context/global-context';
 import { GlobalStyles, theme } from '@diamantaire/styles/darkside-styles';
@@ -32,16 +33,18 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CookieConsentProvider>
-        <GlobalProvider>
-          <ThemeProvider theme={theme}>
-            <DefaultSeo />
-            <GlobalStyles />
-            <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </ThemeProvider>
-        </GlobalProvider>
-      </CookieConsentProvider>
+      <ClerkProvider {...pageProps}>
+        <CookieConsentProvider>
+          <GlobalProvider>
+            <ThemeProvider theme={theme}>
+              <DefaultSeo />
+              <GlobalStyles />
+              <Hydrate state={pageProps.dehydratedState}>{getTemplate(<Component {...pageProps} />)}</Hydrate>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </ThemeProvider>
+          </GlobalProvider>
+        </CookieConsentProvider>
+      </ClerkProvider>
     </QueryClientProvider>
   );
 }

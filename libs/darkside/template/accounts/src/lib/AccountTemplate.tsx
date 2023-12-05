@@ -9,6 +9,7 @@ export interface AccountTemplateProps {
 
 export function AccountsTemplate({ children }: AccountTemplateProps) {
   /* eslint-disable-next-line */
+
   return <>{children}</>;
 }
 

@@ -1,5 +1,4 @@
-// export * from './gateway';
-export * from './admin-graphql';
+export * from './shopify-admin';
 export * from './dato-graphql';
 export * from './vraiApiClient';
 export * from './dfApiClient';

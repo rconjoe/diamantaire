@@ -1,17 +1,46 @@
-import { queries } from '@diamantaire/darkside/data/queries';
+import { RedirectToSignIn, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { NextRequest } from 'next/server';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import AccountDetails from './AccountDetails';
 import { AccountOrders } from './AccountOrders';
-import { AccountPageNav, navItems } from './AccountPageNav';
+import { AccountPageNav } from './AccountPageNav';
 
-const AccountPage = ({ path }) => {
-  const [currentCustomer, setCurrentCustomer] = useState(null);
+export type AccountCustomer = {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  id: string;
+  email: string;
+  default_address: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    address1: string;
+    address2: string;
+    city: string;
+    zip: string;
+    province: string;
+    country: string;
+    phone: string;
+    country_code: string;
+    province_code: string;
+  };
+};
+
+const AccountPage = () => {
+  const [currentCustomer, setCurrentCustomer] = useState<AccountCustomer | null>(null);
+  const { user } = useUser();
+  const { query: { accountPageSlug: path } = {} } = useRouter();
 
   useEffect(() => {
+    if (!user) return;
+
+    const email = user.emailAddresses?.[0]?.emailAddress || null;
+
+    if (!email) return;
+
     async function getCustomer() {
       const response = await fetch('/api/customers/getCustomerByEmail', {
         method: 'POST',
@@ -20,63 +49,36 @@ const AccountPage = ({ path }) => {
         },
         body: JSON.stringify({
           payload: {
-            email: 'sam.davidoff@vrai.com',
+            email,
           },
         }),
       });
 
       const data = await response.json();
 
-      return data;
+      setCurrentCustomer(data);
     }
 
-    async function fetchOrders() {
-      const customer = await getCustomer();
-
-      setCurrentCustomer(customer);
-    }
-
-    fetchOrders();
-  }, []);
+    getCustomer();
+  }, [user, path]);
 
   return (
     <>
-      <AccountPageNav customerName={currentCustomer?.firstName} />
-      {path === 'details' && <AccountDetails customer={currentCustomer} />}
-      {path === 'order-history' && <AccountOrders customer={currentCustomer} />}
+      <SignedIn>
+        <AccountPageNav customerName={currentCustomer?.first_name} />
+
+        {path === 'details' && <AccountDetails customer={currentCustomer} />}
+
+        {path === 'order-history' && <AccountOrders customer={currentCustomer} />}
+      </SignedIn>
+
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
     </>
   );
 };
 
 AccountPage.getTemplate = getAccountTemplate;
 
-export interface GetStaticPropsRequest extends NextRequest {
-  query: {
-    accountPageSlug: string;
-  };
-}
-
-async function getStaticPaths() {
-  const paths = navItems.map((item) => item.href);
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-async function getStaticProps({ params, locale }) {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({ ...queries.template.global(locale) });
-
-  return {
-    props: {
-      path: params.accountPageSlug,
-      // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
-}
-
-export { AccountPage, getStaticProps, getStaticPaths };
+export { AccountPage };
