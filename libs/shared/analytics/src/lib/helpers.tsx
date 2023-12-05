@@ -9,7 +9,7 @@ export const GTM_EVENTS = {
   viewPage: 'viewPage',
   viewItem: 'view_item',
   selectDiamond: 'select_diamond',
-  viewListPage: 'viewListPage',
+  productListViewed: 'view_item_list',
   productClicked: 'productClicked',
   productListFiltered: 'productListFiltered',
   cartViewed: 'cartViewed',
@@ -70,7 +70,7 @@ export const useAnalytics = () => {
   };
 
   const productListViewed = async (eventData) => {
-    await trackEvent(GTM_EVENTS.viewListPage, eventData);
+    await trackEvent(GTM_EVENTS.productListViewed, eventData);
   };
 
   const productClicked = async (eventData) => {
