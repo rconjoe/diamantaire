@@ -162,7 +162,11 @@ export const PlpProductFilterStyles = styled.div`
 
     &.metal {
       ul {
-        padding-left: 0.4rem;
+        padding-left: 0;
+        margin: 0;
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+          padding-left: 0.4rem;
+        }
       }
       button {
         width: 100%;

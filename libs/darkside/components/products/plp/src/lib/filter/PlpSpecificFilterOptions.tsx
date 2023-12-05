@@ -12,6 +12,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
   .selection-container {
     display: flex;
     align-items: center;
+
     p {
       font-size: var(--font-size-xxxsmall);
       font-weight: 500;
@@ -30,7 +31,23 @@ const PlpSpecificFilterOptionsStyles = styled.div`
     }
   }
   .flex-row {
-    display: flex;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .filter-option-set {
+    h3 {
+      display: none;
+    }
+  }
+
+  .metal-text,
+  .diamond-text {
+    @media (max-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: none;
+    }
   }
 `;
 
@@ -64,7 +81,7 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
 
             return (
               <React.Fragment key={`sfo-${value}`}>
-                <li>{METALS_IN_HUMAN_NAMES?.[value]?.value || _t(value)}</li>
+                <li>{filterOption === 'metal' ? METALS_IN_HUMAN_NAMES?.[value]?.value : _t(value)}</li>
                 {index < Object.keys(filterValue).filter((val) => filterValue[val] !== null).length - 1 ? <li>|</li> : ''}
               </React.Fragment>
             );
