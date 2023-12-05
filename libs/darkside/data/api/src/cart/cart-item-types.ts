@@ -52,6 +52,8 @@ export type ERProductCartItemProps = {
     isChildProduct: string;
     _dateAdded: string;
   };
+  hasEngraving: boolean;
+  engravingText?: string;
 };
 
 export type JewelryCartItemProps = {

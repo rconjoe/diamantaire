@@ -8,6 +8,7 @@ import {
   isCurrentTimeWithinInterval,
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
+import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -113,9 +114,7 @@ const CartGWP = () => {
           })
           .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-        await addItemToCart(`gid://shopify/ProductVariant/${giftProduct.variantId}`, refinedAttributes).then(() =>
-          refetch(),
-        );
+        await addItemToCart(createShopifyVariantId(giftProduct.variantId), refinedAttributes).then(() => refetch());
       } else if (!hasUserQualified && doesUserHaveGWPInCart) {
         await updateMultipleItemsQuantity({
           items: [

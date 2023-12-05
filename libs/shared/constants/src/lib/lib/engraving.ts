@@ -1,4 +1,5 @@
 export const ENGRAVING_PRICE_CENTS = 6000;
+export const ENGRAVING_PRICE_DOLLARS = 60;
 export const ENGRAVING_INITIALS_OPTIONS = [
   'A',
   'B',
@@ -34,12 +35,13 @@ export const JEWELRY_ENGRAVING_TEXT_STYLE = 'jewleryEngravingText';
 export const FREE_ENGRAVING_HANDLES = ['engravable-bar-necklace'];
 
 export const ENGRAVING_CHARACTER_LIMITS = {
-  // Add this first one temp, slugs don't match up
+  // solitaire-bar-necklace temp, as slugs don't match up
   'solitaire-bar-necklace': 12,
   'engravable-bar-necklace': 12,
   'solitaire-bar-pendant': 8,
 };
 
+// Source of truth for jewlry products that can be engraved
 export const ENGRAVEABLE_JEWELRY_SLUGS = ['solitaire-bar-necklace', 'solitaire-bar-pendant'];
 
 // Wedding Bands

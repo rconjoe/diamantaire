@@ -188,7 +188,7 @@ const SingleVariantCartItem = ({
       },
       // no label for band accent
       {
-        label: '',
+        label: _t('band'),
         value: info?.bandAccent,
       },
       {

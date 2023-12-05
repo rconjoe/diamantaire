@@ -7,7 +7,7 @@ import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
@@ -56,6 +56,8 @@ const Cart = ({ closeCart }) => {
     refetch();
   }, []);
 
+  const gwpRef = useRef(null);
+
   return (
     <>
       <FreezeBody />
@@ -86,6 +88,7 @@ const Cart = ({ closeCart }) => {
         transition={{
           duration: 0.25,
         }}
+        gwpSize={gwpRef?.current?.clientHeight}
       >
         <div className="cart__inner">
           <div className="cart__header">
@@ -102,7 +105,9 @@ const Cart = ({ closeCart }) => {
               </button>
             </div>
           </div>
-          <CartGWP />
+          <div className="gwp" ref={gwpRef}>
+            <CartGWP />
+          </div>
           <div className="cart__items">
             <div className="cart__items-inner">
               {checkout?.lines?.map((item) => {

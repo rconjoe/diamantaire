@@ -1,6 +1,6 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
+import { DEFAULT_LOCALE, ENGRAVING_PRICE_CENTS, getFormattedPrice } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -25,17 +25,27 @@ type ProductPriceProps = {
   price: number;
   shouldDoublePrice?: boolean;
   isBuilderProduct: boolean;
+  engravingText: string;
   productType?: string;
 };
 
-const ProductPrice = ({ shouldDoublePrice = false, price, isBuilderProduct, productType }: ProductPriceProps) => {
+const ProductPrice = ({
+  shouldDoublePrice = false,
+  price,
+  isBuilderProduct,
+  productType,
+  engravingText,
+}: ProductPriceProps) => {
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const isInUS = locale === DEFAULT_LOCALE;
 
-  const refinedPrice = getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale);
+  const refinedPrice = getFormattedPrice(
+    productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
+    locale,
+  );
 
   const translatedText = _t('Starting at %%price%%');
 

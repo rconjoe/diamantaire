@@ -9,14 +9,14 @@ import styled from 'styled-components';
 import { Cart } from '../types';
 
 const CartFooterStyles = styled.div`
-  height: 17vh;
+  min-height: 150px;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: #f6f6f6;
   text-align: center;
-  padding: 4rem 0 0;
+  padding: 4rem 0 2rem;
 
   ul {
     margin: 0;
