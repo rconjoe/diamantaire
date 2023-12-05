@@ -65,7 +65,7 @@ const AccountDetails = ({ customer }) => {
   const [isEditingShippingInfo, setIsEditingShippingInfo] = useState(false);
   const [isEdittingPhone, setIsEdittingPhone] = useState(false);
   const { phone, default_address } = customer || {};
-  const { address, setNewAddress } = useState(default_address);
+  const [address, setNewAddress] = useState(default_address);
 
   const shippingDetailsFormSchema: FormSchemaType[] = [
     {
