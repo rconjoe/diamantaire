@@ -154,8 +154,6 @@ const AccountDetails = ({ customer }) => {
   async function handleShippingInfoUpdate(e, formData) {
     e.preventDefault();
 
-    console.log(`handleShippingInfoUpdate`, formData);
-
     await fetchData({
       url: '/api/customers/updateCustomerShippingDetails',
       body: {
@@ -190,8 +188,6 @@ const AccountDetails = ({ customer }) => {
 
   async function handlePhoneFormSubmit(e, formData) {
     e.preventDefault();
-
-    console.log(`handlePhoneFormSubmit`, formData);
 
     await fetchData({
       url: '/api/customers/updateCustomerShippingDetails',

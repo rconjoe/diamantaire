@@ -105,8 +105,6 @@ const AccountOrders = ({ customer }) => {
               </div>
               <div className="table-body">
                 {orders?.map((order) => {
-                  console.log(order);
-
                   return (
                     <div className="table-row" key={order?.id}>
                       <div className="table-col">
