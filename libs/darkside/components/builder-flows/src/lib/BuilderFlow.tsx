@@ -5,10 +5,9 @@ import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/
 import { isEmptyObject, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import BuilderFlowNav from './BuilderFlowNav';
 import DiamondBuildStep from './DiamondBuildStep';
 import ReviewBuildStep from './ReviewBuildStep';
 import SettingBuildStep from './SettingBuildStep';
@@ -139,6 +138,8 @@ const BuilderFlow = ({
   } = shopifyProductData || {};
   const { productTitle, productTitleOverride } = collectionContent || {};
 
+  console.log('shopifyProductData', shopifyProductData);
+
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
@@ -261,42 +262,42 @@ const BuilderFlow = ({
     fetchProductAndDiamond();
   }, []);
 
-  const steps = useMemo(() => {
-    return {
-      'setting-to-diamond': [
-        {
-          title: 'Customize a setting',
-          enabled: true,
-        },
-        {
-          title: 'Choose a diamond',
-          enabled: builderProduct?.product,
-        },
-        {
-          title: 'Review and Purchase',
-          enabled: builderProduct?.diamond && builderProduct?.product,
-        },
-      ],
-      'diamond-to-setting': [
-        {
-          title: 'Choose a diamond',
-          enabled: true,
-        },
-        {
-          title: 'Choose a setting',
-          enabled: builderProduct?.diamond,
-        },
-        {
-          title: 'Customize a setting',
-          enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
-        },
-        {
-          title: 'Review and Purchase',
-          enabled: builderProduct?.diamond && builderProduct?.product,
-        },
-      ],
-    };
-  }, [builderProduct, settingSlugs]);
+  // const steps = useMemo(() => {
+  //   return {
+  //     'setting-to-diamond': [
+  //       {
+  //         title: 'Customize a setting',
+  //         enabled: true,
+  //       },
+  //       {
+  //         title: 'Choose a diamond',
+  //         enabled: builderProduct?.product,
+  //       },
+  //       {
+  //         title: 'Review and Purchase',
+  //         enabled: builderProduct?.diamond && builderProduct?.product,
+  //       },
+  //     ],
+  //     'diamond-to-setting': [
+  //       {
+  //         title: 'Choose a diamond',
+  //         enabled: true,
+  //       },
+  //       {
+  //         title: 'Choose a setting',
+  //         enabled: builderProduct?.diamond,
+  //       },
+  //       {
+  //         title: 'Customize a setting',
+  //         enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
+  //       },
+  //       {
+  //         title: 'Review and Purchase',
+  //         enabled: builderProduct?.diamond && builderProduct?.product,
+  //       },
+  //     ],
+  //   };
+  // }, [builderProduct, settingSlugs]);
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
@@ -396,7 +397,8 @@ const BuilderFlow = ({
         ) : null}
       </AnimatePresence>
 
-      <BuilderFlowNav currentStep={currentStep} steps={steps[type]} type={type} />
+      {/* Keeping this in case they change their mind :) */}
+      {/* <BuilderFlowNav currentStep={currentStep} steps={steps[type]} type={type} /> */}
     </BuilderFlowStyles>
   );
 };

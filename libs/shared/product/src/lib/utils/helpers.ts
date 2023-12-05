@@ -64,3 +64,7 @@ export function sortDiamondTypes(a: string, b: string) {
 
   return plpDiamondValues.findIndex((metal) => metal === a) > plpDiamondValues.findIndex((metal) => metal === b) ? 1 : -1;
 }
+
+export function createShopifyVariantId(id: string | number) {
+  return `gid://shopify/ProductVariant/${id}`;
+}

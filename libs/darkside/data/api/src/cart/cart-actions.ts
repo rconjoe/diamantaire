@@ -1,3 +1,4 @@
+import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
 import { ERProductCartItemProps, JewelryCartItemProps, LooseDiamondCartItemProps } from './cart-item-types';
@@ -361,10 +362,12 @@ export async function addERProductToCart({
   settingAttributes,
   diamondVariantId,
   diamondAttributes,
+  hasEngraving,
+  engravingText = 'weee',
 }: ERProductCartItemProps) {
   console.log('getting attr', settingAttributes);
 
-  const refinedSettingAttributes = Object.keys(settingAttributes)
+  let refinedSettingAttributes = Object.keys(settingAttributes)
     .map((key) => {
       return {
         key,
@@ -375,7 +378,57 @@ export async function addERProductToCart({
 
   // If no custom diamond, add the setting
   if (!diamondVariantId) {
-    return await addItemToCart(settingVariantId, refinedSettingAttributes);
+    // If engraving, update the setting attributes + add the engraving variant
+    if (hasEngraving) {
+      const engravingVariantId = createShopifyVariantId(12459937759298);
+
+      // Add engraving text to setting attributes
+      refinedSettingAttributes.filter((attr) => attr.key !== 'childProduct');
+
+      refinedSettingAttributes.push({
+        key: 'childProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedSettingAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      return addCustomizedItem([
+        {
+          variantId: settingVariantId,
+          customAttributes: refinedSettingAttributes,
+        },
+        {
+          variantId: engravingVariantId,
+          customAttributes: [
+            {
+              key: 'productAsset',
+              value: settingAttributes.productAsset,
+            },
+            {
+              key: 'engravingText',
+              value: engravingText,
+            },
+            {
+              key: 'hiddenProduct',
+              value: 'true',
+            },
+            {
+              key: 'productGroupKey',
+              value: settingAttributes.productGroupKey,
+            },
+          ],
+        },
+      ]);
+    } else {
+      // Add Er with preset diamond and no engraving
+      return await addItemToCart(settingVariantId, refinedSettingAttributes);
+    }
   } else {
     // If there is a custom diamond, add the setting and the diamond
     const refinedDiamondAttributes = Object.keys(diamondAttributes)
@@ -387,7 +440,10 @@ export async function addERProductToCart({
       })
       .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+    // Remove centerstone + diamond shape from seting
+    refinedSettingAttributes = refinedSettingAttributes.filter(
+      (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
+    );
 
     return addCustomizedItem([
       {

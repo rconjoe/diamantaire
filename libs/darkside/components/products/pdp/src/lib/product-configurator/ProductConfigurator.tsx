@@ -59,8 +59,9 @@ type ProductConfiguratorProps = {
     shopifyVariantId: string;
     variantTitle: string;
   }[];
-
   requiresCustomDiamond: boolean;
+  engravingText?: string;
+  setEngravingText?: (value: string) => void;
 };
 
 function ProductConfigurator({
@@ -89,8 +90,9 @@ function ProductConfigurator({
   isSoldAsLeftRight = false,
   variants,
   requiresCustomDiamond,
+  engravingText,
+  setEngravingText,
 }: ProductConfiguratorProps) {
-  const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
@@ -256,6 +258,7 @@ function ProductConfigurator({
           isSoldAsLeftRight={isSoldAsLeftRight}
           isSoldAsDouble={isSoldAsDouble}
           additionalVariantIds={additionalVariantIds}
+          engravingText={engravingText}
         />
       )}
     </>
@@ -279,6 +282,7 @@ type CtaButtonProps = {
   selectedEarringOrientation?: string;
   isSoldAsDouble?: boolean;
   additionalVariantIds?: string[];
+  engravingText?: string;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -299,6 +303,7 @@ function AddToCartButton({
   isSoldAsLeftRight,
   additionalVariantIds,
   isSoldAsDouble,
+  engravingText,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -412,6 +417,7 @@ function AddToCartButton({
       addERProductToCart({
         settingVariantId: variantId,
         settingAttributes: erItemAttributes,
+        hasEngraving: Boolean(engravingText),
       }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx

@@ -1,13 +1,11 @@
 import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/diamonds';
-import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondsData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DiamondBuildStepStyles = styled(motion.div)`
-  height: 100vh;
-  overflow-y: scroll;
   padding-bottom: 14rem;
 
   .switch-container {
@@ -23,10 +21,14 @@ const DiamondBuildStepStyles = styled(motion.div)`
     display: flex;
     padding: 4rem 2rem;
 
+    .vo-table-head {
+      top: ${({ headerHeight }) => headerHeight}px;
+    }
+
     > aside {
       flex: 0 0 450px;
       padding-right: 5rem;
-      top: 2rem;
+      top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
       height: 100vh;
       position: sticky;
     }
@@ -55,6 +57,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
 
   const [loading, setLoading] = useState(true);
   // const [isTableView, setIsTableView] = useState(true);
+  const { headerHeight } = useGlobalContext();
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
@@ -131,6 +134,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
       transition={{
         duration: 0.75,
       }}
+      headerHeight={headerHeight}
     >
       <div className="">
         {diamonds && (
