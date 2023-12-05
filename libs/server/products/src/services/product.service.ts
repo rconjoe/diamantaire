@@ -1109,7 +1109,7 @@ export class ProductsService {
   ) {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
-    const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const diamondTypesQueryValues = diamondTypes?.length ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
     const metalsQueryValues = metals?.length ? metals : ['yellow-gold'];
 
     try {
