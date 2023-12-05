@@ -7,6 +7,8 @@ import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
+import { SpriteSpinnerBlock } from '../media-gallery/SpriteSpinnerBlock';
+
 const MediaSliderContainer = styled.div`
   position: relative;
   display: block;
@@ -54,7 +56,7 @@ const DEFAULT_BREAKPOINTS = {
   200: { slidesPerView: 1, slidesPerGroup: 1 },
 };
 
-const MediaSlider = ({ assets }) => {
+const MediaSlider = ({ assets, options }) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
   console.log('swiper', swiper);
@@ -78,6 +80,21 @@ const MediaSlider = ({ assets }) => {
 
           switch (mimeType) {
             case MimeTypes.ImageJpeg: {
+              if (asset.customData?.bunny === 'true' || asset.customData?.sprite === 'true') {
+                if (asset.customData?.mobile !== 'true') return null;
+
+                return (
+                  <SwiperSlide key={`mobile-pdp-slide-${index}`}>
+                    <SpriteSpinnerBlock
+                      sprite={asset}
+                      options={options}
+                      srcType={asset.customData?.sprite === 'true' ? 'legacy' : 'bunny'}
+                      mobile={asset.customData?.mobile === 'true'}
+                    />
+                  </SwiperSlide>
+                );
+              }
+
               return (
                 <SwiperSlide key={`mobile-pdp-slide-${index}`}>
                   <ShopifyImage image={asset} />

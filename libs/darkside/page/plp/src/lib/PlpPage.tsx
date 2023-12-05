@@ -19,6 +19,7 @@ import {
   RING_STYLES_MAP,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
 } from '@diamantaire/shared/constants';
+import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -206,7 +207,7 @@ const createPlpServerSideProps = (category: string) => {
       urlFilterMethod = 'facet';
     }
 
-    const initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
+    let initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
@@ -219,6 +220,21 @@ const createPlpServerSideProps = (category: string) => {
     const contentQuery = queries.plp.serverSideDato(locale, slug, category);
 
     await queryClient.prefetchQuery({ ...contentQuery });
+
+    const presetFilters = queryClient.getQueryData<{
+      listPage: {
+        filterOptions: Record<string, string[]>[];
+      };
+    }>(contentQuery.queryKey).listPage?.filterOptions;
+
+    // This is the only edge case right now.  Ex: /engagement-rings/settings
+    if (presetFilters.length > 0 && isEmptyObject(initialFilterValues)) {
+      initialFilterValues = {
+        metal: ['yellow-gold'],
+        diamondType: ['round-brilliant'],
+      };
+    }
+
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
@@ -270,7 +286,7 @@ export { PlpPage, createPlpServerSideProps };
 function getValidFiltersFromFacetedNav(
   params: string[],
   query: Record<string, string | string[]>,
-): Record<string, string> | undefined {
+): Record<string, string[]> | undefined {
   const priceMin = query.priceMin?.toString();
   const priceMax = query.priceMax?.toString();
   const style = query.style?.toString();

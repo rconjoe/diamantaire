@@ -1,10 +1,10 @@
-import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
 import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
+import { SpriteSpinnerBlock } from './SpriteSpinnerBlock';
 import { ProductDiamondHand } from '../ProductDiamondHand';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
@@ -84,8 +84,15 @@ function MediaAsset({ type, asset, options, defaultAlt, disableVideos, productTy
   switch (type) {
     case MimeTypes.ImagePng:
     case MimeTypes.ImageJpeg: {
-      if (asset.customData?.bunny === 'true') {
-        return <SpriteSpinnerBlock sprite={asset} options={options} />;
+      if (asset.customData?.bunny === 'true' || asset.customData?.sprite === 'true') {
+        return (
+          <SpriteSpinnerBlock
+            sprite={asset}
+            options={options}
+            srcType={asset.customData?.sprite === 'true' ? 'legacy' : 'bunny'}
+            mobile={asset.customData?.mobile === 'true'}
+          />
+        );
       }
 
       return (
@@ -190,28 +197,5 @@ function VideoAsset({ video }) {
         <ReactPlayer height="100%" width="100%" playing loop muted playsinline={true} url={streamingUrl} controls={false} />
       )}
     </VideoAssetContainer>
-  );
-}
-
-function SpriteSpinnerBlock({ sprite, options }) {
-  const { diamondType, bandAccent, metal } = options;
-  const spriteImage = sprite;
-  const { query } = useRouter();
-  const bunny360BaseURL = `https://vrai-assets.b-cdn.net/${query.collectionSlug}/${diamondType}/${
-    bandAccent ? bandAccent + '/' : ''
-  }${metal}`;
-
-  // return null;
-
-  // console.log('bunny360BaseURL', bunny360BaseURL);
-  // console.log('spriteImage', spriteImage);
-
-  return (
-    <SpriteSpinner
-      spriteImage={spriteImage}
-      spriteSource={'bunny'}
-      bunnyBaseURL={bunny360BaseURL}
-      shouldStartSpinner={true}
-    />
   );
 }
