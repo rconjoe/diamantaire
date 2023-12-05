@@ -45,6 +45,7 @@ type FormProps = {
 type FormStateType = {
   id?: number;
   email?: string;
+  phone?: string;
   first_name?: string;
   last_name?: string;
   address1?: string;
@@ -347,7 +348,11 @@ const Form = ({
                   </div>
                 );
               } else if (inputType === 'hidden') {
-                return <input key={`${id}-${index}`} type="hidden" name={name} value={field.defaultValue} />;
+                return (
+                  !!field.defaultValue && (
+                    <input key={`${id}-${index}`} type="hidden" name={name} value={field.defaultValue} />
+                  )
+                );
               }
             })
           )}

@@ -63,7 +63,7 @@ const AccountDetailsStyles = styled.div`
 
 const AccountDetails = ({ customer }) => {
   const [isEditingShippingInfo, setIsEditingShippingInfo] = useState(false);
-  const [isEdittingPhone, setIsEdittingPhone] = useState(false);
+  const [isEdittingPhoneInfo, setIsEdittingPhoneInfo] = useState(false);
   const { phone, default_address } = customer || {};
   const [address, setNewAddress] = useState(default_address);
 
@@ -134,6 +134,11 @@ const AccountDetails = ({ customer }) => {
 
   const phoneFormSchema: FormSchemaType[] = [
     {
+      name: 'id',
+      inputType: 'hidden',
+      defaultValue: address?.id,
+    },
+    {
       name: 'phone',
       placeholder: 'Phone number',
       inputType: 'phone',
@@ -176,19 +181,26 @@ const AccountDetails = ({ customer }) => {
 
   async function handlePhoneFormSubmit(e, formData) {
     e.preventDefault();
-    console.log('formData', formData);
 
-    // await fetchData({
-    //   url: '/api/customers/updateCustomerShippingDetails',
-    //   body: {
-    //     payload: {
-    //       customerId: customer?.id,
-    //       address: {
-    //         phone: formData.phone,
-    //       },
-    //     },
-    //   },
-    // }).then((res) => console.log('update res', res));
+    await fetchData({
+      url: '/api/customers/updateCustomerShippingDetails',
+      body: {
+        payload: {
+          customerId: customer?.id,
+          address: {
+            phone: formData.phone,
+          },
+        },
+      },
+    }).then((res) => {
+      if (res.customer_address) {
+        setNewAddress(res.customer_address);
+
+        setIsEdittingPhoneInfo(false);
+      } else {
+        // TODO handle Error with message or visual or a call from your granma
+      }
+    });
   }
 
   return (
@@ -261,18 +273,18 @@ const AccountDetails = ({ customer }) => {
               <UIString>Your phone number</UIString>
             </Heading>
 
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(true)}>
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(true)}>
               <UIString>Edit</UIString>
             </DarksideButton>
           </div>
 
           <ul className="list">
             <li>
-              {isEdittingPhone ? (
+              {isEdittingPhoneInfo ? (
                 <div className="phone-form">
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
                   <div className="close-phone-form">
-                    <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(false)}>
+                    <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(false)}>
                       <UIString>Cancel</UIString>
                     </DarksideButton>
                   </div>
