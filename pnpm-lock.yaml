@@ -149,6 +149,9 @@ dependencies:
   core-js:
     specifier: ^3.6.5
     version: 3.33.0
+  country-and-province:
+    specifier: ^2.0.0
+    version: 2.0.0
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
@@ -13128,6 +13131,17 @@ packages:
       typescript: 5.2.2
     dev: true
 
+  /country-and-province@2.0.0:
+    resolution: {integrity: sha512-lHtLyasxj8gm+KyV2XKP9l8qTzv8msVHwCtrtz2MT8xd8jiCjc4VfYh87JrBEuJCUWnA0NaYSobPuZygGQOMJw==}
+    dependencies:
+      country-list: 2.3.0
+      provinces: 1.11.0
+    dev: false
+
+  /country-list@2.3.0:
+    resolution: {integrity: sha512-qZk66RlmQm7fQjMYWku1AyjlKPogjPEorAZJG88owPExoPV8EsyCcuFLvO2afTXHEhi9liVOoyd+5A6ZS5QwaA==}
+    dev: false
+
   /create-ecdh@4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
     dependencies:
@@ -20934,6 +20948,10 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  /provinces@1.11.0:
+    resolution: {integrity: sha512-5hoDYWtKr89stoSVajofU1rFGKzB2wpUqJJfnldokWfLUnLamQK9PnA8svh2j3XOYdb8BI2vbU4q3DtEcdNQ9w==}
+    dev: false
 
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}

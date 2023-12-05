@@ -1,4 +1,4 @@
-import { DarksideButton, Form, FormSchemaType, Heading } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, FormSchemaType, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { fetchData } from '@diamantaire/darkside/data/api';
 import { NextSeo } from 'next-seo';
 import { useState } from 'react';
@@ -66,19 +66,26 @@ const AccountDetails = ({ customer }) => {
   const [isEdittingPhone, setIsEdittingPhone] = useState(false);
   const { phone, default_address } = customer || {};
 
+  console.log(`default_address`, default_address);
+
   const shippingDetailsFormSchema: FormSchemaType[] = [
     {
-      name: 'firstName',
+      name: 'id',
+      inputType: 'hidden',
+      defaultValue: default_address?.id,
+    },
+    {
+      name: 'first_name',
       placeholder: 'First name',
       inputType: 'text',
-      defaultValue: default_address?.firstName,
+      defaultValue: default_address?.first_name,
       required: true,
     },
     {
-      name: 'lastName',
+      name: 'last_name',
       placeholder: 'Last name',
       inputType: 'text',
-      defaultValue: default_address?.lastName,
+      defaultValue: default_address?.last_name,
       required: true,
     },
     {
@@ -111,17 +118,17 @@ const AccountDetails = ({ customer }) => {
       required: true,
     },
     {
-      name: 'state',
-      placeholder: 'State',
-      inputType: 'state-dropdown',
-      defaultValue: default_address?.provinceCode,
+      name: 'country_code',
+      placeholder: 'Country',
+      inputType: 'country-dropdown',
+      defaultValue: default_address?.country_code,
       required: true,
     },
     {
-      name: 'country',
-      placeholder: 'Country',
-      inputType: 'country-dropdown',
-      defaultValue: default_address?.country,
+      name: 'province_code',
+      placeholder: 'State',
+      inputType: 'state-dropdown',
+      defaultValue: default_address?.province_code,
       required: true,
     },
   ];
@@ -145,14 +152,15 @@ const AccountDetails = ({ customer }) => {
         payload: {
           customerId: customer?.id,
           address: {
-            firstName: formData.firstName,
-            lastName: formData.firstName,
+            first_name: formData.first_name,
+            last_name: formData.last_name,
             address1: formData.address1,
             address2: formData.address2,
             city: formData.city,
-            province: formData.state.label,
-            country: formData.state.country,
+            province_code: formData.state.province_code,
+            country_name: formData.state.country,
             zip: formData.zip,
+            id: formData.id,
           },
         },
       },
@@ -185,21 +193,21 @@ const AccountDetails = ({ customer }) => {
           <div className="shipping-info__form">
             <div className="title flex justify-space-between align-center">
               <Heading type="h4" className="subtitle">
-                Shipping information
+                <UIString>Shipping information</UIString>
               </Heading>
             </div>
 
             <Form
-              id={'shippping-details'}
-              schema={shippingDetailsFormSchema}
               formGridStyle="single"
               flexDirection="column"
+              id={'shippping-details'}
+              schema={shippingDetailsFormSchema}
               onSubmit={handleShippingInfoUpdate}
             />
 
             <div className="cancel">
               <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
-                Cancel
+                <UIString>Cancel</UIString>
               </DarksideButton>
             </div>
           </div>
@@ -208,11 +216,11 @@ const AccountDetails = ({ customer }) => {
             <div className="shipping-info__container">
               <div className="title flex justify-space-between align-center">
                 <Heading type="h4" className="subtitle">
-                  Shipping information
+                  <UIString>Shipping information</UIString>
                 </Heading>
 
                 <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
-                  Edit
+                  <UIString>Edit</UIString>
                 </DarksideButton>
               </div>
 
@@ -223,7 +231,7 @@ const AccountDetails = ({ customer }) => {
                 <li>{default_address?.address1}</li>
                 <li>{default_address?.address2}</li>
                 <li>
-                  {default_address?.city}, {default_address?.provinceCode} {default_address?.zip}
+                  {default_address?.city}, {default_address?.province_code}, {default_address?.zip}
                 </li>
                 <li>{default_address?.country}</li>
               </ul>
@@ -233,7 +241,7 @@ const AccountDetails = ({ customer }) => {
 
         <div className="email__container">
           <Heading type="h4" className="subtitle">
-            Your email
+            <UIString>Your email</UIString>
           </Heading>
           <ul className="list">
             <li>{customer?.email}</li>
@@ -243,11 +251,11 @@ const AccountDetails = ({ customer }) => {
         <div className="phone__container">
           <div className="title flex justify-space-between align-center">
             <Heading type="h4" className="subtitle">
-              Your phone number
+              <UIString>Your phone number</UIString>
             </Heading>
 
             <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(true)}>
-              Edit
+              <UIString>Edit</UIString>
             </DarksideButton>
           </div>
 
@@ -258,7 +266,7 @@ const AccountDetails = ({ customer }) => {
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
                   <div className="close-phone-form">
                     <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhone(false)}>
-                      Cancel
+                      <UIString>Cancel</UIString>
                     </DarksideButton>
                   </div>
                 </div>

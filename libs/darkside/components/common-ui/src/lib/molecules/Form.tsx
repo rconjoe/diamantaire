@@ -5,12 +5,13 @@ This is the master form component, we should never need to manually create a cus
 */
 
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
+import { allCountries } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
-import dynamic from 'next/dynamic';
+import { Provinces } from 'country-and-province';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
+import Select from 'react-select';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
@@ -18,10 +19,6 @@ import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
-
-const Select = dynamic(() => import('react-select'), {
-  ssr: false,
-});
 
 type FormProps = {
   headingType?: 'h1' | 'h2' | 'h3' | 'h4';
@@ -45,14 +42,42 @@ type FormProps = {
   flexDirection?: 'column' | 'row';
 };
 
-type InputType = 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+type FormStateType = {
+  id?: number;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  zip?: string;
+  country_code?: {
+    label: string;
+    value: string;
+  };
+  province_code?: {
+    label?: string;
+    value: string;
+  };
+};
+
+type InputType =
+  | 'hidden'
+  | 'text'
+  | 'textarea'
+  | 'phone'
+  | 'number'
+  | 'country-dropdown'
+  | 'state-dropdown'
+  | 'email'
+  | 'password';
 
 export type FormSchemaType = {
   name: string;
-  placeholder: string;
+  placeholder?: string;
   inputType?: InputType;
   defaultValue?: string;
-  required: boolean;
+  required?: boolean;
   defaultCountry?: string;
 };
 
@@ -89,6 +114,10 @@ const FormContainer = styled.div<{
 
       label {
         font-weight: bold;
+      }
+
+      * {
+        font-size: var(--font-size-xxsmall);
       }
 
       input {
@@ -169,20 +198,29 @@ const Form = ({
   headingType = 'h4',
   flexDirection,
 }: FormProps) => {
-  const initialFormState = {};
   const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
+  const initialCountryCode = schema?.find((v) => v.inputType === 'country-dropdown').defaultValue || null;
+
+  const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown').defaultValue || null;
+
+  const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
+
+  const initialFormState = {};
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
-      initialFormState[field.name] = fiftyStates.find((state) => state.value === field.defaultValue) || null;
+      initialFormState[field.name] = null;
     } else if (field.inputType === 'country-dropdown') {
-      initialFormState[field.name] = allCountries.find((country) => country.label === field.defaultValue) || null;
+      initialFormState[field.name] = allCountries.find((country) => country.value === field.defaultValue) || null;
     } else {
       initialFormState[field.name] = field.defaultValue || '';
     }
   });
 
-  const [formState, setFormState] = useState(null);
+  const [formState, setFormState] = useState<FormStateType>(initialFormState);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -192,7 +230,17 @@ const Form = ({
 
   const showGdprError = showOptIn && !isValid;
 
-  const { _t } = useTranslations(locale);
+  useEffect(() => {
+    const regions = getRegions(formState.country_code);
+
+    setAllRegions(regions);
+
+    setFormState((prevState) => ({
+      ...prevState,
+      province_code:
+        regions.find((region) => region.value === (prevState?.province_code?.value || initialRegionCode)) || null,
+    }));
+  }, [formState?.country_code]);
 
   return (
     <FormContainer
@@ -271,19 +319,35 @@ const Form = ({
                   </div>
                 );
               } else if (inputType === 'country-dropdown') {
-                // Render the country dropdown using the Select component
                 return (
                   <div className="input-container" key={`${id}-${index}`}>
-                    <Select classNamePrefix="dropdown" options={allCountries} value={formState?.[name]} />
+                    <Select
+                      options={allCountries}
+                      classNamePrefix="dropdown"
+                      value={formState?.[name]}
+                      onChange={(newValue) => {
+                        setFormState({ ...formState, [name]: newValue });
+                      }}
+                    />
                   </div>
                 );
               } else if (inputType === 'state-dropdown') {
-                // Render the state dropdown using the Select component (assuming you have a similar component)
+                if (allRegions.length < 1) return;
+
                 return (
                   <div className="input-container" key={`${id}-${index}`}>
-                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                    <Select
+                      options={allRegions}
+                      classNamePrefix="dropdown"
+                      value={formState?.[name]}
+                      onChange={(newValue) => {
+                        setFormState({ ...formState, [name]: newValue });
+                      }}
+                    />
                   </div>
                 );
+              } else if (inputType === 'hidden') {
+                return <input key={`${id}-${index}`} type="hidden" name={name} value={field.defaultValue} />;
               }
             })
           )}
@@ -347,3 +411,16 @@ const Form = ({
 };
 
 export { Form };
+
+function getRegions(countryCode) {
+  if (!countryCode) {
+    return [];
+  }
+
+  const country = countryCode.value;
+
+  return Provinces.byCountryCode(country).map((v) => ({
+    value: v.code,
+    label: v.name,
+  }));
+}

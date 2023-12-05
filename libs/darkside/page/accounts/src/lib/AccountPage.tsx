@@ -8,7 +8,6 @@ import { AccountOrders } from './AccountOrders';
 import { AccountPageNav } from './AccountPageNav';
 
 const AccountPage = () => {
-  console.log('account pageee');
   const [currentCustomer, setCurrentCustomer] = useState(null);
   const { user } = useUser();
   const { query: { accountPageSlug: path } = {} } = useRouter();
@@ -40,8 +39,6 @@ const AccountPage = () => {
 
     async function fetchOrders() {
       const customer = await getCustomer();
-
-      console.log(`customer`, customer);
 
       setCurrentCustomer(customer);
     }

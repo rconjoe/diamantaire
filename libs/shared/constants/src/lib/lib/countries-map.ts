@@ -1,4 +1,4 @@
-export const allCountries = [
+export const allCountries: { label: string; value: string }[] = [
   { label: 'Afghanistan', value: 'AF' },
   { label: 'Åland Islands', value: 'AX' },
   { label: 'Albania', value: 'AL' },

@@ -99,7 +99,7 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
       title: 'Accounts',
       icon: <AccountIcon />,
       type: 'link',
-      href: '/account/sign-in',
+      href: '/account/details',
       alt: 'Accounts Toggle Button',
     },
     {
