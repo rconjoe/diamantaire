@@ -1110,7 +1110,7 @@ export class ProductsService {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
     const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
-    const metalsQueryValues = metals?.length > 1 ? metals : ['yellow-gold'];
+    const metalsQueryValues = metals?.length ? metals : ['yellow-gold'];
 
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
