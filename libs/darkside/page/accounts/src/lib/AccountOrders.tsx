@@ -1,5 +1,7 @@
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { format } from 'date-fns';
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -28,6 +30,16 @@ const AccountOrdersStyles = styled.div`
     .table-body {
       .table-row {
         padding: 1rem 0;
+        a {
+          color: var(--color-teal);
+          text-decoration: underline;
+        }
+
+        .table-col {
+          &.status {
+            text-transform: capitalize;
+          }
+        }
       }
     }
   }
@@ -39,7 +51,11 @@ const AccountOrdersStyles = styled.div`
 `;
 
 const AccountOrders = ({ customer }) => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
+  const [ordersLoaded, setOrdersLoaded] = useState(false);
+
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
 
   useEffect(() => {
     async function getOrders() {
@@ -64,6 +80,7 @@ const AccountOrders = ({ customer }) => {
       const ordersTemp = await getOrders();
 
       setOrders(ordersTemp);
+      setOrdersLoaded(true);
     }
 
     if (customer?.id) {
@@ -73,31 +90,45 @@ const AccountOrders = ({ customer }) => {
 
   return (
     <AccountOrdersStyles>
-      <NextSeo title="Account Orders" />
-      <div className="table container-wrapper">
-        <div className="table-head">
-          <div className="table-row">
-            <div className="table-col">Order</div>
-            <div className="table-col">Date</div>
-            <div className="table-col">Status</div>
-            <div className="table-col hide-md">Total</div>
-          </div>
-        </div>
-        <div className="table-body">
-          {orders?.map((order) => {
-            console.log(order);
-
-            return (
-              <div className="table-row" key={order?.id}>
-                <div className="table-col">{order?.name}</div>
-                <div className="table-col">{order?.created_at && format(new Date(order?.created_at), 'MM/dd/yyyy')}</div>
-                <div className="table-col">{order.financial_status}</div>
-                <div className="table-col hide-md">${order.total_price}</div>
+      <NextSeo title={`${_t('Account Orders')} | VRAI`} />
+      {ordersLoaded && (
+        <div className="table container-wrapper">
+          {orders?.length !== 0 ? (
+            <>
+              <div className="table-head">
+                <div className="table-row">
+                  <div className="table-col">Order</div>
+                  <div className="table-col">Date</div>
+                  <div className="table-col">Status</div>
+                  <div className="table-col hide-md">Total</div>
+                </div>
               </div>
-            );
-          })}
+              <div className="table-body">
+                {orders?.map((order) => {
+                  console.log(order);
+
+                  return (
+                    <div className="table-row" key={order?.id}>
+                      <div className="table-col">
+                        <a target="_blank" href={order?.order_status_url}>
+                          {order?.name}
+                        </a>
+                      </div>
+                      <div className="table-col">
+                        {order?.created_at && format(new Date(order?.created_at), 'MM/dd/yyyy')}
+                      </div>
+                      <div className="table-col status">{order.financial_status}</div>
+                      <div className="table-col hide-md">${order.total_price}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <p>No orders yet!</p>
+          )}
         </div>
-      </div>
+      )}
     </AccountOrdersStyles>
   );
 };

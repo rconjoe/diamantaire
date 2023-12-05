@@ -1,5 +1,6 @@
 import { useClerk } from '@clerk/nextjs';
 import { DarksideButton, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -8,10 +9,10 @@ import styled from 'styled-components';
 
 const AccountPageNavStyles = styled.div`
   .title-container {
-    padding: 1rem 2.4rem;
+    padding: 2rem 2.4rem;
 
     ${media.medium`
-    padding: 1rem 0;`}
+    padding: 4rem 0;`}
 
     .title {
       flex: 1;
@@ -75,26 +76,27 @@ const AccountPageNavStyles = styled.div`
   }
 `;
 
-export const navItems = [
-  {
-    title: 'Account Details',
-    href: '/account/details',
-  },
-  {
-    title: 'Order History',
-    href: '/account/order-history',
-  },
-  {
-    title: 'Your Wishlist',
-    href: '/wishlist',
-  },
-];
-
 const AccountPageNav = ({ customerName }) => {
-  const { query } = useRouter();
+  const { query, locale } = useRouter();
   const { accountPageSlug } = query || {};
+  const { _t } = useTranslations(locale);
 
   const clerk = useClerk();
+
+  const navItems = [
+    {
+      title: _t('Account Details'),
+      href: '/account/details',
+    },
+    {
+      title: _t('Order History'),
+      href: '/account/order-history',
+    },
+    {
+      title: _t('Your Wishlist'),
+      href: '/wishlist',
+    },
+  ];
 
   return (
     <AccountPageNavStyles>

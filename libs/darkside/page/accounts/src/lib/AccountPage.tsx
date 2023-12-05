@@ -1,4 +1,4 @@
-import { RedirectToSignIn, SignedIn, UserButton, SignedOut, useUser } from '@clerk/nextjs';
+import { RedirectToSignIn, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -52,7 +52,6 @@ const AccountPage = () => {
   return (
     <>
       <SignedIn>
-        <h1>eeee</h1>
         <AccountPageNav customerName={currentCustomer?.first_name} />
 
         {path === 'details' && <AccountDetails customer={currentCustomer} />}
@@ -62,8 +61,6 @@ const AccountPage = () => {
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-
-      <UserButton />
     </>
   );
 };

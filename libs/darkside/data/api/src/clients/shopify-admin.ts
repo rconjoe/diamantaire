@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { GraphQLClient, Variables } from 'graphql-request';
 
 export async function shopifyAdminGraphqlApi(shopifyQuery: any, variables: Variables) {
@@ -16,11 +15,13 @@ export async function shopifyAdminGraphqlApi(shopifyQuery: any, variables: Varia
 }
 
 export async function shopifyAdminRestApi(path) {
-  const baseURL = `${process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']}/admin/api/2023-10${path}`;
+  const baseURL = `https://${process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']}/admin/api/2023-10${path}`;
 
-  const headers = { 'X-Shopify-Access-Token': process.env['SHOPIFY_ADMIN_API_TOKEN'] || '', method: 'GET' };
+  const headers = { 'X-Shopify-Access-Token': process.env['SHOPIFY_ADMIN_API_TOKEN'] || '' };
 
-  fetch(baseURL, { headers });
+  const response = await fetch(baseURL, { method: 'GET', headers })
+    .then((res) => res.json())
+    .then((json) => json);
 
-  return axios.create({ baseURL, headers });
+  return response;
 }

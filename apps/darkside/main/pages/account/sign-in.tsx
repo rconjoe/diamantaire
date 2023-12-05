@@ -1,5 +1,8 @@
 import { SignIn } from '@clerk/nextjs';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
+import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import styled from 'styled-components';
 
 const SignInPageStyles = styled.div`
@@ -19,12 +22,20 @@ const SignInPageStyles = styled.div`
       }
     }
   }
+  > p {
+    margin-bottom: 30px;
+    text-align: center;
+  }
 `;
 
 const SignInPage = () => {
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
+
   return (
     <SignInPageStyles>
-      <h1>sign in temp</h1>
+      <NextSeo title={`${_t('Sign In')} | VRAI`} />
+      <p>If this is your first time signing in, please create an account using the email you placed your order with</p>
       <SignIn
         appearance={{
           variables: {
