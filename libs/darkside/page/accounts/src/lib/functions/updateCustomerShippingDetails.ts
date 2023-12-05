@@ -26,24 +26,19 @@ export type AddressDetails = {
 
 export default async function updateCustomerShippingDetails({ customerId, address }: AddressDetails) {
   try {
-    const addressData = address.phone
-      ? {
-          phone: address.phone,
-        }
-      : {
-          ...address,
-          country_code: address?.country_code?.value,
-          country: address?.country_code?.label,
-          ...(address?.province_code?.value
-            ? {
-                province_code: address.province_code.value,
-                province: address.province_code.label,
-              }
-            : {}),
-        };
-
-    addressData['default'] = true;
-    addressData['customer_id'] = customerId;
+    const addressData = {
+      ...address,
+      default: true,
+      customer_id: customerId,
+      country_code: address?.country_code?.value,
+      country: address?.country_code?.label,
+      ...(address?.province_code?.value
+        ? {
+            province_code: address.province_code.value,
+            province: address.province_code.label,
+          }
+        : {}),
+    };
     const body = { customer_address: addressData };
     const bodyString = JSON.stringify(body);
 

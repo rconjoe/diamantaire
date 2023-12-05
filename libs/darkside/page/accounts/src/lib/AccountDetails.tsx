@@ -1,7 +1,7 @@
 import { DarksideButton, Form, FormSchemaType, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { fetchData } from '@diamantaire/darkside/data/api';
 import { NextSeo } from 'next-seo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const AccountDetailsStyles = styled.div`
@@ -66,6 +66,10 @@ const AccountDetails = ({ customer }) => {
   const [isEdittingPhoneInfo, setIsEdittingPhoneInfo] = useState(false);
   const { phone, default_address } = customer || {};
   const [address, setNewAddress] = useState(default_address);
+
+  useEffect(() => {
+    setNewAddress(default_address);
+  }, [default_address]);
 
   const shippingDetailsFormSchema: FormSchemaType[] = [
     {
@@ -150,6 +154,8 @@ const AccountDetails = ({ customer }) => {
   async function handleShippingInfoUpdate(e, formData) {
     e.preventDefault();
 
+    console.log(`handleShippingInfoUpdate`, formData);
+
     await fetchData({
       url: '/api/customers/updateCustomerShippingDetails',
       body: {
@@ -165,6 +171,7 @@ const AccountDetails = ({ customer }) => {
             country_code: formData.country_code,
             zip: formData.zip,
             id: formData.id,
+            phone: address.phone,
           },
         },
       },
@@ -173,6 +180,8 @@ const AccountDetails = ({ customer }) => {
         setNewAddress(res.customer_address);
 
         setIsEditingShippingInfo(false);
+
+        window.scrollTo(0, 0);
       } else {
         // TODO handle Error with message or visual or a call from your granma
       }
@@ -182,12 +191,23 @@ const AccountDetails = ({ customer }) => {
   async function handlePhoneFormSubmit(e, formData) {
     e.preventDefault();
 
+    console.log(`handlePhoneFormSubmit`, formData);
+
     await fetchData({
       url: '/api/customers/updateCustomerShippingDetails',
       body: {
         payload: {
           customerId: customer?.id,
           address: {
+            first_name: address.first_name,
+            last_name: address.last_name,
+            address1: address.address1,
+            address2: address.address2,
+            city: address.city,
+            province_code: address.province_code,
+            country_code: address.country_code,
+            zip: address.zip,
+            id: address.id,
             phone: formData.phone,
           },
         },
@@ -197,6 +217,8 @@ const AccountDetails = ({ customer }) => {
         setNewAddress(res.customer_address);
 
         setIsEdittingPhoneInfo(false);
+
+        window.scrollTo(0, 0);
       } else {
         // TODO handle Error with message or visual or a call from your granma
       }
@@ -208,55 +230,52 @@ const AccountDetails = ({ customer }) => {
       <NextSeo title="Customer Details" />
 
       <div className="container-wrapper">
-        {isEditingShippingInfo ? (
-          <div className="shipping-info__form">
-            <div className="title flex justify-space-between align-center">
-              <Heading type="h4" className="subtitle">
-                <UIString>Shipping information</UIString>
-              </Heading>
-            </div>
+        <div className="shipping-info__container">
+          <div className="title flex justify-space-between align-center">
+            <Heading type="h4" className="subtitle">
+              <UIString>Shipping information</UIString>
+            </Heading>
 
-            <Form
-              formGridStyle="single"
-              flexDirection="column"
-              id={'shippping-details'}
-              schema={shippingDetailsFormSchema}
-              onSubmit={handleShippingInfoUpdate}
-            />
-
-            <div className="cancel">
-              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
-                <UIString>Cancel</UIString>
+            {!isEditingShippingInfo && (
+              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
+                <UIString>Edit</UIString>
               </DarksideButton>
-            </div>
+            )}
           </div>
-        ) : (
-          default_address && (
-            <div className="shipping-info__container">
-              <div className="title flex justify-space-between align-center">
-                <Heading type="h4" className="subtitle">
-                  <UIString>Shipping information</UIString>
-                </Heading>
 
-                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
-                  <UIString>Edit</UIString>
+          {isEditingShippingInfo ? (
+            <div className="shipping-info__form">
+              <Form
+                formGridStyle="single"
+                flexDirection="column"
+                id={'shippping-details'}
+                schema={shippingDetailsFormSchema}
+                onSubmit={handleShippingInfoUpdate}
+              />
+
+              <div className="cancel">
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
+                  <UIString>Cancel</UIString>
                 </DarksideButton>
               </div>
-
+            </div>
+          ) : (
+            <div className="shipping-info__list">
               <ul className="list">
                 <li>
-                  {default_address?.firstName} {default_address?.lastName}
+                  {address?.first_name} {address?.last_name}
                 </li>
-                <li>{default_address?.address1}</li>
-                <li>{default_address?.address2}</li>
+                <li>{address?.address1}</li>
+                <li>{address?.address2}</li>
                 <li>
-                  {default_address?.city}, {default_address?.province_code}, {default_address?.zip}
+                  {address?.city} {address?.province_code && `, ${address?.province_code}`}{' '}
+                  {address?.zip && `, ${address?.zip}`}
                 </li>
-                <li>{default_address?.country}</li>
+                <li>{address?.country}</li>
               </ul>
             </div>
-          )
-        )}
+          )}
+        </div>
 
         <div className="email__container">
           <Heading type="h4" className="subtitle">
@@ -273,9 +292,11 @@ const AccountDetails = ({ customer }) => {
               <UIString>Your phone number</UIString>
             </Heading>
 
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(true)}>
-              <UIString>Edit</UIString>
-            </DarksideButton>
+            {!isEdittingPhoneInfo && (
+              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(true)}>
+                <UIString>Edit</UIString>
+              </DarksideButton>
+            )}
           </div>
 
           <ul className="list">
@@ -283,6 +304,7 @@ const AccountDetails = ({ customer }) => {
               {isEdittingPhoneInfo ? (
                 <div className="phone-form">
                   <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
+
                   <div className="close-phone-form">
                     <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(false)}>
                       <UIString>Cancel</UIString>
@@ -290,7 +312,7 @@ const AccountDetails = ({ customer }) => {
                   </div>
                 </div>
               ) : (
-                <p>{phone || default_address?.phone}</p>
+                <p>{phone || address?.phone}</p>
               )}
             </li>
           </ul>

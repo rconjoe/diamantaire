@@ -34,17 +34,11 @@ const AccountPage = () => {
 
       const data = await response.json();
 
-      return data;
+      setCurrentCustomer(data);
     }
 
-    async function fetchOrders() {
-      const customer = await getCustomer();
-
-      setCurrentCustomer(customer);
-    }
-
-    fetchOrders();
-  }, [user]);
+    getCustomer();
+  }, [user, path]);
 
   return (
     <>
@@ -52,6 +46,7 @@ const AccountPage = () => {
         <AccountPageNav customerName={currentCustomer?.first_name} />
 
         {path === 'details' && <AccountDetails customer={currentCustomer} />}
+
         {path === 'order-history' && <AccountOrders customer={currentCustomer} />}
       </SignedIn>
 

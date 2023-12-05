@@ -203,9 +203,9 @@ const Form = ({
 
   const { _t } = useTranslations(locale);
 
-  const initialCountryCode = schema?.find((v) => v.inputType === 'country-dropdown').defaultValue || null;
+  const initialCountryCode = schema?.find((v) => v.inputType === 'country-dropdown')?.defaultValue || null;
 
-  const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown').defaultValue || null;
+  const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown')?.defaultValue || null;
 
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
 
