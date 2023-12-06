@@ -91,6 +91,7 @@ export const pdpTypePluralAsConst = {
   ['Engagement Rings']: 'Engagement Rings',
   ['Wedding Bands']: 'Wedding Bands',
   ['Jewelry']: 'Jewelry',
+  ['Accessories']: 'Accessory',
 } as const;
 
 export const pdpTypeHandleAsConst = {

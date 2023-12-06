@@ -580,12 +580,16 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
   let query = null;
 
+  console.log("\n\n\n\n", productType, pdpTypePluralAsConst['Accessories'])
+
   if (productType === pdpTypePluralAsConst['Engagement Rings']) {
     query = ENGAGEMENT_RING_QUERY;
   } else if (productType === pdpTypePluralAsConst['Jewelry']) {
     query = JEWELRY_QUERY;
   } else if (productType === pdpTypePluralAsConst['Wedding Bands']) {
     query = WEDDING_BAND_QUERY;
+  } else if (productType === pdpTypePluralAsConst['Accessories'] as PdpTypePlural) {
+    query = JEWELRY_QUERY;
   } else {
     console.log('Unknown productType');
 
