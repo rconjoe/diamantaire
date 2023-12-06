@@ -6,6 +6,7 @@ import {
   DatoImage,
   Heading,
   ProductAppointmentCTA,
+  SlideOut,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductDiamondHand, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
@@ -30,7 +31,8 @@ import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import RingSizeGuide from 'libs/darkside/components/products/pdp/src/lib/RingSizeGuide';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -90,7 +92,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
             padding: 0 0 2rem;
             li {
               display: flex;
-              padding: 0 0 0.5rem;
+              padding: 0 0 0.75rem;
 
               &:last-child {
                 padding: 0;
@@ -101,7 +103,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
                 &.label {
                   font-weight: bold;
-                  margin-right: 1rem;
+                  margin-right: 0.5rem;
                 }
 
                 &.value {
@@ -114,19 +116,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
                   display: block;
 
                   button {
-                    font-size: var(--font-size-xsmall);
+                    font-size: var(--font-size-xxsmall);
+                    color: var(--color-teal);
+                    background-color: transparent;
+                    padding: 0;
+                    border-bottom: 1px solid var(--color-teal);
+                    font-weight: 500;
                   }
                 }
-              }
-
-              button {
-                font-size: 1.4rem;
-                font-weight: normal;
-                color: var(--color-teal);
-                background: none;
-                border: none;
-                padding: 0;
-                cursor: pointer;
               }
             }
           }
@@ -135,13 +132,25 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .ring-size-container {
-      margin: 2rem 0 0;
+      margin: 2rem 0;
+
+      .option-list.ringSize {
+        margin-bottom: 0;
+      }
       .selector-label {
         margin: 0 0 1rem;
       }
 
       h4 {
         margin: 0;
+      }
+    }
+
+    .size-guide-button {
+      flex: 0 0 100%;
+      margin-top: 0.5rem;
+      button {
+        font-size: var(--font-size-xxxsmall);
       }
     }
 
@@ -233,6 +242,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   const { data: checkout, refetch } = useCartData(router?.locale);
   const { builderProduct } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -482,7 +492,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     },
     {
       label: 'Centerstone',
-      value: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
+      value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
     },
     {
       label: _t('Band'),
@@ -541,7 +551,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                 <ul className="list-unstyled">
                   {summaryItems?.map((item, index) => {
                     return (
-                      <li>
+                      <li key={`summary-${index}`}>
                         <span className="label">{item.label}:</span>
                         <span className="value">{item.value}</span>
                         <span className="toggle">
@@ -563,6 +573,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                   selectedOptionValue={selectedSize.value}
                   onChange={handleSizeChange}
                 />
+                <div className="size-guide-button">
+                  <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsSizeGuideOpen(true)}>
+                    <UIString>Size Guide</UIString>
+                  </DarksideButton>
+                </div>
               </div>
             )}
 
@@ -652,6 +667,14 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isSizeGuideOpen && (
+          <SlideOut title="Size Guide" width="30%" onClose={() => setIsSizeGuideOpen(false)} className="extra-side-padding">
+            <RingSizeGuide />
+          </SlideOut>
+        )}
+      </AnimatePresence>
     </ReviewBuildStepStyles>
   );
 };
