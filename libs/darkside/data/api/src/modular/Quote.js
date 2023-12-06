@@ -1,3 +1,5 @@
+import { responsiveImage } from './ResponsiveImage';
+
 const Quote = `
   ... on ModularQuoteBlockRecord {
     id
@@ -14,18 +16,7 @@ const Quote = `
       hex
     }
     quotationMarksImage {
-      url
-      alt
-      height
-      width
-      responsiveImage {
-        src
-        width
-        height
-        aspectRatio
-        title
-        base64
-      }
+      ${responsiveImage(130, 95)}
     }
   }
 `;

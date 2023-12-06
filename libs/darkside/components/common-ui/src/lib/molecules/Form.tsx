@@ -5,12 +5,13 @@ This is the master form component, we should never need to manually create a cus
 */
 
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { allCountries, fiftyStates } from '@diamantaire/shared/constants';
+import { allCountries } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
-import dynamic from 'next/dynamic';
+import { Provinces } from 'country-and-province';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
+import Select from 'react-select';
 import styled from 'styled-components';
 
 import { DarksideButton } from './DarksideButton';
@@ -18,10 +19,6 @@ import { Heading } from './Heading';
 import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
-
-const Select = dynamic(() => import('react-select'), {
-  ssr: false,
-});
 
 type FormProps = {
   headingType?: 'h1' | 'h2' | 'h3' | 'h4';
@@ -42,39 +39,74 @@ type FormProps = {
   setIsValid?: (state: boolean) => void;
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
+  flexDirection?: 'column' | 'row';
 };
 
-type InputType = 'text' | 'textarea' | 'phone' | 'number' | 'country-dropdown' | 'state-dropdown' | 'email' | 'password';
+type FormStateType = {
+  id?: number;
+  email?: string;
+  phone?: string;
+  first_name?: string;
+  last_name?: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  zip?: string;
+  country_code?: {
+    label: string;
+    value: string;
+  };
+  province_code?: {
+    label?: string;
+    value: string;
+  };
+};
+
+type InputType =
+  | 'hidden'
+  | 'text'
+  | 'textarea'
+  | 'phone'
+  | 'number'
+  | 'country-dropdown'
+  | 'state-dropdown'
+  | 'email'
+  | 'password';
 
 export type FormSchemaType = {
   name: string;
-  placeholder: string;
+  placeholder?: string;
   inputType?: InputType;
   defaultValue?: string;
-  required: boolean;
+  required?: boolean;
   defaultCountry?: string;
 };
 
-const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; fieldsLength: number }>`
+const FormContainer = styled.div<{
+  flexDirection?: string;
+  gridStyle?: string;
+  stackedSubmit?: boolean;
+  fieldsLength: number;
+}>`
   p {
     margin-top: calc(var(--gutter) / 20);
     font-size: var(--font-size-xxsmall);
   }
+
   .form {
     display: flex;
-    align-items: flex-end;
-    margin-top: calc(var(--gutter) / 5);
+    margin-top: 1rem;
+    flex-direction: ${({ flexDirection }) => (flexDirection ? flexDirection : 'row')};
 
     .input-container {
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
-      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` calc(var(--gutter) / 3);`)};
-      flex: 1.25;
+      margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` 1rem;`)};
+      flex: 1;
 
       &.submit {
         margin-bottom: 0px;
         flex: 0.75;
-        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 14rem' : '0 0 14rem')};
       }
 
       > * {
@@ -85,26 +117,36 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
         font-weight: bold;
       }
 
+      * {
+        font-size: var(--font-size-xxsmall);
+      }
+
       input {
         border: 0.1rem solid #ccc;
         height: 4.7rem;
         padding-left: 1rem;
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
       }
 
       .dropdown__single-value {
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
         color: #000;
       }
 
       .dropdown__option {
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
         color: #000;
+      }
+
+      .react-international-phone-country-selector-button {
+        height: 100%;
       }
     }
   }
+
   .input-opt-in {
     width: 100%;
+
     input[type='checkbox'] {
       width: 1.3rem;
       height: 1.3rem;
@@ -115,6 +157,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       color: currentColor;
       border: 0.1rem solid currentColor;
     }
+
     input[type='checkbox']::before {
       display: block;
       content: '';
@@ -128,6 +171,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
     input[type='checkbox']:checked::before {
       transform: scale(1);
     }
+
     &.-error {
       color: red;
       a {
@@ -153,21 +197,31 @@ const Form = ({
   setIsValid,
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
+  flexDirection,
 }: FormProps) => {
-  const initialFormState = {};
   const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
+
+  const initialCountryCode = schema?.find((v) => v.inputType === 'country-dropdown')?.defaultValue || null;
+
+  const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown')?.defaultValue || null;
+
+  const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
+
+  const initialFormState = {};
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
-      initialFormState[field.name] = fiftyStates.find((state) => state.value === field.defaultValue) || null;
+      initialFormState[field.name] = null;
     } else if (field.inputType === 'country-dropdown') {
-      initialFormState[field.name] = allCountries.find((country) => country.label === field.defaultValue) || null;
+      initialFormState[field.name] = allCountries.find((country) => country.value === field.defaultValue) || null;
     } else {
       initialFormState[field.name] = field.defaultValue || '';
     }
   });
 
-  const [formState, setFormState] = useState(null);
+  const [formState, setFormState] = useState<FormStateType>(initialFormState);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -177,10 +231,25 @@ const Form = ({
 
   const showGdprError = showOptIn && !isValid;
 
-  const { _t } = useTranslations(locale);
+  useEffect(() => {
+    const regions = getRegions(formState.country_code);
+
+    setAllRegions(regions);
+
+    setFormState((prevState) => ({
+      ...prevState,
+      province_code:
+        regions.find((region) => region.value === (prevState?.province_code?.value || initialRegionCode)) || null,
+    }));
+  }, [formState?.country_code]);
 
   return (
-    <FormContainer gridStyle={formGridStyle} stackedSubmit={stackedSubmit} fieldsLength={schema?.length | 1}>
+    <FormContainer
+      gridStyle={formGridStyle}
+      stackedSubmit={stackedSubmit}
+      flexDirection={flexDirection}
+      fieldsLength={schema?.length | 1}
+    >
       {title && (
         <Heading type={headingType} className="primary">
           {title}
@@ -251,18 +320,38 @@ const Form = ({
                   </div>
                 );
               } else if (inputType === 'country-dropdown') {
-                // Render the country dropdown using the Select component
                 return (
                   <div className="input-container" key={`${id}-${index}`}>
-                    <Select classNamePrefix="dropdown" options={allCountries} value={formState?.[name]} />
+                    <Select
+                      options={allCountries}
+                      classNamePrefix="dropdown"
+                      value={formState?.[name]}
+                      onChange={(newValue) => {
+                        setFormState({ ...formState, [name]: newValue });
+                      }}
+                    />
                   </div>
                 );
               } else if (inputType === 'state-dropdown') {
-                // Render the state dropdown using the Select component (assuming you have a similar component)
+                if (allRegions.length < 1) return;
+
                 return (
                   <div className="input-container" key={`${id}-${index}`}>
-                    <Select classNamePrefix="dropdown" options={fiftyStates} value={formState?.[name]} />
+                    <Select
+                      options={allRegions}
+                      classNamePrefix="dropdown"
+                      value={formState?.[name]}
+                      onChange={(newValue) => {
+                        setFormState({ ...formState, [name]: newValue });
+                      }}
+                    />
                   </div>
+                );
+              } else if (inputType === 'hidden') {
+                return (
+                  !!field.defaultValue && (
+                    <input key={`${id}-${index}`} type="hidden" name={name} value={field.defaultValue} />
+                  )
                 );
               }
             })
@@ -327,3 +416,16 @@ const Form = ({
 };
 
 export { Form };
+
+function getRegions(countryCode) {
+  if (!countryCode) {
+    return [];
+  }
+
+  const country = countryCode.value;
+
+  return Provinces.byCountryCode(country).map((v) => ({
+    value: v.code,
+    label: v.name,
+  }));
+}

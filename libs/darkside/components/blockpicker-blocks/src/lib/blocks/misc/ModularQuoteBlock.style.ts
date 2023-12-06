@@ -52,7 +52,7 @@ export const ModularQuoteBlockContainer = styled.div`
 
   .quote-block__quote {
     font-size: 2rem;
-    font-family: ${(props) => (props.$textFont ? `${props.$textFont}, futura-pt, sans` : 'futura-pt, sans')};
+    font-family: ${(props) => (props.$textFont ? `${props.$textFont}, var(--font-family-main)` : 'var(--font-family-main)')};
     font-style: ${(props) => (props.$textStyle ? props.$textStyle : 'initial')};
     font-weight: 400;
     line-height: 1.6;
@@ -63,7 +63,8 @@ export const ModularQuoteBlockContainer = styled.div`
     text-align: center;
   }
   .quote-block__attribution {
-    font-family: ${(props) => (props.$attributionFont ? `${props.$attributionFont}, futura-pt, sans` : 'futura-pt, sans')};
+    font-family: ${(props) =>
+      props.$attributionFont ? `${props.$attributionFont}, var(--font-family-main)` : 'var(--font-family-main)'};
     color: ${(props) => props.$textColor};
     margin: ${setSpace(1)} 0;
     text-align: center;

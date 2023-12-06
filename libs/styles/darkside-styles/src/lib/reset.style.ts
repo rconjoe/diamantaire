@@ -42,7 +42,7 @@ const ResetStyles = styled.createGlobalStyle`
   body {
     line-height: inherit;
     margin: 0;
-    font-family: 'futura-pt', sans-serif;
+    font-family: var(--font-family-main), sans-serif;
     width: 100%;
     box-sizing: border-box;
     overflow-x: clip;

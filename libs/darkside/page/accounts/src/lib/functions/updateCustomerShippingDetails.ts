@@ -1,89 +1,65 @@
-import { shopifyAdminRequest } from '@diamantaire/darkside/data/api';
-import { gql } from 'graphql-request';
+import { shopifyAdminRestApi } from '@diamantaire/darkside/data/api';
 
-export type CustomerDetails = {
-  customer: {
-    phone: string;
-    defaultAddress: {
-      name: string;
-      address1: string;
-      address2: string;
-      city: string;
-      province: string;
-      zip: string;
-      country: string;
-    };
+export type Address = {
+  phone?: string;
+  first_name?: string;
+  last_name?: string;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  country_code?: {
+    label: string;
+    value: string;
   };
+  province_code?: {
+    label?: string;
+    value: string;
+  };
+  zip?: string;
+  id?: number;
 };
 
-export async function addNewCustomerAddress(customerId: string, address: object): Promise<CustomerDetails['customer']> {
-  const query = gql`
-    mutation addCustomerAddress($customerId: ID!, $address: MailingAddressInput!) {
-      updateCustomer(id: $customerId, input: { addresses: { insert: $address } }) {
-        id
-        addresses {
-          id
-          firstName
-          lastName
-          address1
-          address2
-          city
-          province
-          country
-          zip
-          phone
-        }
-      }
+export type AddressDetails = {
+  customerId: number;
+  address: Address;
+};
+
+export default async function updateCustomerShippingDetails({ customerId, address }: AddressDetails) {
+  try {
+    const addressData = {
+      ...address,
+      default: true,
+      customer_id: customerId,
+      country_code: address?.country_code?.value,
+      country: address?.country_code?.label,
+      ...(address?.province_code?.value
+        ? {
+            province_code: address.province_code.value,
+            province: address.province_code.label,
+          }
+        : {}),
+    };
+    const body = { customer_address: addressData };
+    const bodyString = JSON.stringify(body);
+
+    if (address?.id) {
+      // EDIT ADDRESS
+      const endPoint = `/customers/${customerId}/addresses/${address?.id}.json`;
+
+      const data = await shopifyAdminRestApi(endPoint, 'PUT', bodyString);
+
+      return data;
+    } else {
+      // CREATE NEW ADDRESS
+      const endPoint = `/customers/${customerId}/addresses.json`;
+
+      const data = await shopifyAdminRestApi(endPoint, 'POST', bodyString);
+
+      return data;
     }
-  `;
+  } catch (error) {
+    console.error('Error posting customer data:', error);
 
-  const variables = {
-    customerId,
-    address,
-  };
-
-  const data = (await shopifyAdminRequest(query, variables)) as CustomerDetails;
-
-  console.log('address data', data);
-
-  return data?.customer || null;
-}
-export async function updateCustomerDetailsByCustomerId(
-  customerId: string,
-  shippingInfo: string,
-): Promise<CustomerDetails['customer']> {
-  const query = gql`
-    mutation updateCustomerDefaultShippingInfo($customerId: String!, $shippingInfo: CustomerShippingInfoInput!) {
-      updateCustomer(id: $customerId, input: { defaultShippingInfo: $shippingInfo }) {
-        id
-        defaultShippingInfo {
-          firstName
-          lastName
-          address1
-          address2
-          city
-          province
-          country
-          zip
-        }
-      }
-    }
-  `;
-
-  const variables = {
-    customerId,
-    shippingInfo,
-  };
-
-  const data = (await shopifyAdminRequest(query, variables)) as CustomerDetails;
-
-  return data?.customer || null;
-}
-
-// TODO: Finalize these functions to update customer shipping info via mutations - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-208
-// export default async function updateCustomerShippingDetails({ id }: { id: string; shippingInfo: string }) {
-export default async function updateCustomerShippingDetails() {
-  console.log('update shipping info');
-  // return await addNewCustomerAddress(id);
-  // return await updateCustomerDetailsByCustomerId(id, shippingInfo);
+    throw error;
+  }
 }

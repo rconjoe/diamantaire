@@ -39,9 +39,6 @@ const CssVariables = styled.createGlobalStyle`
     --font-size-xxxxsmall: 1.2rem;
     --font-size-xxxxxsmall: 1rem;
 
-    /* Font Family */
-    --font-family-main: 'futura-pt', sans-serif;
-
     /* Metals - Finish */
     --metal-yellow-gold: #c8ab6e;
     --metal-rose-gold: #ceac8b;

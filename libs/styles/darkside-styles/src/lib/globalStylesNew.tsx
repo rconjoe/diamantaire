@@ -4,7 +4,8 @@ import { MiscStyles } from './misc.style';
 import { ResetStyles } from './reset.style';
 import { Typography } from './typography';
 
-export const MAIN_FONT = 'futura-pt, sans-serif';
+export const MAIN_FONT = 'var(--font-family-main)';
+
 export const HEADLINE_SIZE = '2rem';
 
 export function makeTealLink() {

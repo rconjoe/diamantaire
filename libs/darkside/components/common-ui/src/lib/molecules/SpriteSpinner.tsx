@@ -8,10 +8,18 @@ declare const window: any;
 const SpritSpinnerContainer = styled.div`
   position: relative;
   max-width: 65.7rem;
+
+  display: ${({ mobile }) => (mobile ? 'block' : 'none')};
+
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+    display: ${({ mobile }) => (mobile ? 'none' : 'block')};
+  }
+
   .spritespin-canvas {
     width: 100%;
     height: 100%;
   }
+
   span {
     display: block;
     text-align: center;
@@ -29,10 +37,11 @@ interface SpriteSpinnerProps {
   spriteSource?: string;
   onSpriteLoad?: () => void;
   spriteImage?: string;
+  mobile?: boolean;
 }
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
-  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad } = props;
+  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad, spriteImage, mobile } = props;
 
   const spinnerEl = useRef(null);
 
@@ -75,7 +84,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         });
       }
     } else {
-      const url = bunnyBaseURL;
+      const url = spriteImage;
 
       if (typeof spinnerEl?.current?.spritespin === 'function') {
         spinnerEl?.current.spritespin({
@@ -119,7 +128,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   return (
-    <SpritSpinnerContainer>
+    <SpritSpinnerContainer mobile={mobile}>
       <SpriteSpinnerInit />
       <div
         onMouseEnter={() => playSpinner()}

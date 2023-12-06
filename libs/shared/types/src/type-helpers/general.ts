@@ -14,6 +14,7 @@ export interface DatoImageType {
   };
   video?: {
     streamingUrl: string;
+    thumbnailUrl?: string;
   };
 }
 
