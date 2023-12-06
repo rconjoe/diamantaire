@@ -152,7 +152,7 @@ export class DiamondsService {
 
   /**
    * Fetch single diamond by lotId
-   * @param {GetDiamondByLotIdDto} input - diamond lotId
+   * @param {GetDiamondByHandleDto} input - diamond handle
    * @returns
    */
 
