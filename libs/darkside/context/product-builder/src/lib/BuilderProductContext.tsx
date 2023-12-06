@@ -27,6 +27,7 @@ type BuilderProduct = {
   image?: DatoImageType;
   goldPurity: string;
   bandAccent: string;
+  metal: string;
   shopifyProductHandle: string;
   configuredProductOptionsInOrder: string;
 };

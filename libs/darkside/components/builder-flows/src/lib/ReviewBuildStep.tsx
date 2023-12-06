@@ -37,8 +37,6 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-import SummaryItem from './SummaryItem';
-
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 2rem 2rem 14rem;
 
@@ -86,6 +84,53 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .builder-summary__content {
         border-bottom: 0.1rem solid #ccc;
+
+        .builder-summary__content__inner {
+          ul {
+            padding: 0 0 2rem;
+            li {
+              display: flex;
+              padding: 0 0 0.5rem;
+
+              &:last-child {
+                padding: 0;
+              }
+
+              span {
+                font-size: var(--font-size-xsmall);
+
+                &.label {
+                  font-weight: bold;
+                  margin-right: 1rem;
+                }
+
+                &.value {
+                  font-weight: normal;
+                }
+
+                &.toggle {
+                  flex: 1;
+                  text-align: right;
+                  display: block;
+
+                  button {
+                    font-size: var(--font-size-xsmall);
+                  }
+                }
+              }
+
+              button {
+                font-size: 1.4rem;
+                font-weight: normal;
+                color: var(--color-teal);
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+              }
+            }
+          }
+        }
       }
     }
 
@@ -430,6 +475,28 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     return;
   }
 
+  const summaryItems = [
+    {
+      label: _t('diamondType'),
+      value: _t(diamond?.diamondType),
+    },
+    {
+      label: 'Centerstone',
+      value: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
+    },
+    {
+      label: _t('Band'),
+      value: _t(product?.bandAccent),
+    },
+    {
+      label: 'Metal',
+      value: _t(product.metal),
+    },
+  ];
+
+  console.log('productzzz', product);
+  console.log('diamondzzz', diamond);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -471,35 +538,19 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
             <div className="builder-summary__content">
               <div className="builder-summary__content__inner">
-                {builderProduct &&
-                  sortedKeys.map((key: string, index) => {
-                    if (!builderProduct[key] || (key !== 'product' && key !== 'diamond')) return null;
-
-                    const summaryItem = builderProduct[key];
-
-                    const modifyIndex =
-                      key === 'diamond' && type === 'setting-to-diamond'
-                        ? 1
-                        : key === 'diamond' && type === 'diamond-to-setting'
-                        ? 0
-                        : key === 'product' && type === 'diamond-to-setting'
-                        ? 2
-                        : key === 'product' && type === 'setting-to-diamond'
-                        ? 0
-                        : key === 'product' && type === 'diamond-to-setting'
-                        ? 2
-                        : null;
-
+                <ul className="list-unstyled">
+                  {summaryItems?.map((item, index) => {
                     return (
-                      <SummaryItem
-                        modifyIndex={modifyIndex}
-                        item={summaryItem}
-                        itemType={key}
-                        key={index}
-                        showPrice={true}
-                      />
+                      <li>
+                        <span className="label">{item.label}:</span>
+                        <span className="value">{item.value}</span>
+                        <span className="toggle">
+                          <button>Modify</button>
+                        </span>
+                      </li>
                     );
                   })}
+                </ul>
               </div>
             </div>
 
