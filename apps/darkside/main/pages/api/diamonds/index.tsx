@@ -49,7 +49,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   if (id) {
     let dfApiClientPayload: any = {};
 
-    const pattern = /^([A-Z]\d{7})$/;
+    const pattern = /^F\d{7}$/;
 
     if (!isListIds && pattern.test(id)) {
       try {
