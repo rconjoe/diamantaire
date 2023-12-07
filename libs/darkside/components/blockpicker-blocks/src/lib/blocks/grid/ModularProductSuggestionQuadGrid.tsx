@@ -124,7 +124,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
             if (index >= refinedConfigurations.length) return null;
 
             return (
-              <div className="product-container" key={product?.id}>
+              <div className="product-container" key={product?._id}>
                 <div className="product-container__inner">
                   <ProductLink
                     productType={product?.productType}

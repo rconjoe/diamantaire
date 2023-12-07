@@ -196,8 +196,8 @@ export async function fetchStandardPageDataBySlug(slug: string, locale: string) 
 }
 
 export const LIST_PAGE_BY_SLUG = gql`
-query listPageDatoQuery($locale: SiteLocale, $slug: String!) {
-  listPage(locale: $locale, filter: {slugNew: {eq: $slug}}) {
+query listPageDatoQuery($locale: SiteLocale, $slug: String!, $category: String!) {
+  listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
     slug
     belowBannerBlocks {
       ${Accordion}
@@ -242,10 +242,10 @@ query listPageDatoQuery($locale: SiteLocale, $slug: String!) {
 ${ResponsiveImageFragment}
 `;
 
-export async function fetchListPageDatoBlocksBySlug(locale: string, slug: string) {
+export async function fetchListPageDatoBlocksBySlug(locale: string, slug: string, category: string) {
   const pageData = await queryDatoGQL({
     query: LIST_PAGE_BY_SLUG,
-    variables: { slug, locale },
+    variables: { category, slug, locale },
   });
 
   return pageData;
