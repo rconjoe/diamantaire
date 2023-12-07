@@ -16,7 +16,7 @@ import { Injectable, InternalServerErrorException, Logger, NotFoundException } f
 import { PaginateOptions } from 'mongoose';
 
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondDto, GetDiamondByHandleDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
   DiamondClarities,
@@ -144,6 +144,33 @@ export class DiamondsService {
       throw new NotFoundException(`Diamond with lotId: ${input.lotId} not found`);
     } catch (error) {
       this.Logger.error(`Error fetching diamond by lotId: ${input.lotId}`);
+      throw error;
+    }
+  }
+
+  
+
+  /**
+   * Fetch single diamond by lotId
+   * @param {GetDiamondByHandleDto} input - diamond handle
+   * @returns
+   */
+
+  async diamondByHandle(input: GetDiamondByHandleDto): Promise<DiamondEntity | null > {
+    const { handle } = input;
+
+    this.Logger.verbose(`Fetching diamond by handle: ${handle}`);
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const result = await this.diamondRepository.findOne({ handle: handle });
+
+      if (result) {
+        return result;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      this.Logger.error(`Error fetching diamond by lotId: ${handle}`);
       throw error;
     }
   }
