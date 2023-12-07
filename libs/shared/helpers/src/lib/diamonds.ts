@@ -82,6 +82,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   const getOptionsFromFacetedNav = (data: string[]) => {
     const obj: {
       diamondType?: string;
+      handle?: string;
       clarity?: string;
       color?: string;
       lotId?: string;
@@ -103,6 +104,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
       } else if (arr.every(diamondOption.isColor)) {
         obj.color = value.toUpperCase();
       } else if (arr.every(diamondOption.isHandle)) {
+        obj.handle = value;
         obj.lotId = getDiamondIdFromSlug(value);
       }
     });
