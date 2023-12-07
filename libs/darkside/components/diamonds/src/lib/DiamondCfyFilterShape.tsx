@@ -5,7 +5,7 @@ import {
   UniLink,
   ProductAppointmentCTA,
 } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useDiamondCfyData, useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { ALL_CFY_DIAMOND_TYPES, POPULAR_CFY_DIAMOND_TYPES } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
@@ -23,7 +23,7 @@ const DiamondCfyFilterShape = (props) => {
     bookAnAppointmentWithADiamondExpert,
   } = ctoDiamondTable;
 
-  const { _t } = useTranslations(locale, 'DIAMOND_SHAPES');
+  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const diamondList = availableDiamondTypes
     ? availableDiamondTypes.map((v) => getDiamondType(v))
