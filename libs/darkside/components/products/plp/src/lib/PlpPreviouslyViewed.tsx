@@ -155,7 +155,7 @@ const PlpPreviouslyViewed = () => {
               const content = productNode?.content;
 
               return (
-                <div className="product__container embla__slide" key={product?.id}>
+                <div className="product__container embla__slide" key={product?._id}>
                   <div className="product__inner">
                     <ProductLink
                       productType={product?.productType}
