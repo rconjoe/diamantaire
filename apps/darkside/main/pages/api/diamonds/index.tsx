@@ -5,66 +5,73 @@ import { NextApiRequest, NextApiResponse } from 'next';
 // if lotID is not in query, fn returns a list: [] of {}
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse<string>) {
-  let vraiApiClientURL = '/v1/diamonds';
+  try {
+    let vraiApiClientURL = '/v1/diamonds';
+    let dfApiClientURL = '/api/v1/diamonds';
 
-  let dfApiClientURL = '/api/v1/diamonds';
+    const query = _req.query as Record<string, string>;
 
-  const query = _req.query as Record<string, string>;
+    const id = query?.lotId || null;
+    const isListIds = (id && id.split(',').length > 1) || false;
+    const view = query?.view || null;
+    const handle = query?.handle || null;
+    const getAdditionalInfo = query?.withAdditionalInfo === 'true';
 
-  const array = Object.keys(query || {});
+    // Get Data from VRAI-DIAMOND-API
 
-  const id = query?.lotId || null;
+    let vraiApiClientPayload: any = {};
 
-  const isListIds = (id && id.split(',').length > 1) || false;
-
-  const view = query?.view;
-
-  const qParams = new URLSearchParams(query);
-
-  qParams.delete('view');
-
-  if (id) {
-    if (isListIds) {
-      vraiApiClientURL += `/list/` + id;
-    } else {
-      vraiApiClientURL += `/` + id;
+    if (id) {
+      vraiApiClientURL = `${vraiApiClientURL}/${id}`;
     }
 
-    dfApiClientURL += '/' + id.replace(/\D/g, '');
-  } else {
-    // URL path to get a list of diamonds by filter options
-    vraiApiClientURL += `${getApiRouteFromViewParam(view) ?? ''}?` + (array.length ? qParams.toString() : '');
-  }
+    if (isListIds) {
+      vraiApiClientURL = `${vraiApiClientURL}/list/${id}`;
+    }
 
-  let vraiApiClientPayload: any = {};
+    if (handle) {
+      vraiApiClientURL = `${vraiApiClientURL}/handle/${handle}`;
+    }
 
-  try {
+    if (!id && !handle) {
+      const obj = new URLSearchParams(query);
+      const arr = Object.keys(query || {});
+      const search = obj.toString();
+
+      obj.delete('view');
+      obj.delete('withAdditionalInfo');
+
+      vraiApiClientURL = `${vraiApiClientURL}${getApiRouteFromViewParam(view) ?? ''}?` + (arr.length ? search : '');
+    }
+
     const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
     vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
-  } catch (err) {
-    vraiApiClientPayload = {};
-  }
 
-  if (id) {
+    // Get additional Data from DF-DIAMOND-API
+
     let dfApiClientPayload: any = {};
 
-    const pattern = /^F\d{7}$/;
+    if (vraiApiClientPayload.lotId && getAdditionalInfo) {
+      const sanitizedDfApiDiamondId = vraiApiClientPayload.lotId.replace(/\D/g, '');
 
-    if (!isListIds && pattern.test(id)) {
-      try {
-        const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
+      dfApiClientURL += '/' + sanitizedDfApiDiamondId;
 
-        dfApiClientPayload = dfApiClientResponse?.data || {};
-      } catch (err) {
-        dfApiClientPayload = {};
-      }
+      const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
+
+      dfApiClientPayload = dfApiClientResponse.status === 200 ? dfApiClientResponse?.data : {};
     }
 
-    return res.status(200).json({ ...dfApiClientPayload, ...vraiApiClientPayload });
-  }
+    // Payload
 
-  return res.status(200).json({ ...vraiApiClientPayload });
+    const payload = { ...dfApiClientPayload, ...vraiApiClientPayload };
+
+    console.log(`** Diamond API Payload **`, payload);
+
+    return res.status(200).json(payload);
+  } catch (err) {
+    return res.status(200).json(null);
+  }
 }
 
 function getApiRouteFromViewParam(viewParam?: string) {

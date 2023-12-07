@@ -18,27 +18,28 @@ import DiamondDetailSpecs from './DiamondDetailSpecs';
 import DiamondHand from './DiamondHand';
 
 interface DiamondDetailDataTypes {
-  lotId?: string;
+  handle?: string;
   diamondType?: string;
   locale?: string;
   countryCode?: string;
   currencyCode?: string;
 }
 
-const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
+const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
   const { isMobile, headerHeight } = useContext(GlobalContext);
   const { _t } = useTranslations(locale);
-  const { data: { diamond: product } = {} } = useDiamondsData({ lotId });
+  const { data: { diamond: product } = {} } = useDiamondsData({ handle, withAdditionalInfo: true });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
   const { specs } = DiamondTableData || {};
   const { productTitle, buttonTextDiamondFlow, quickCheckoutText } = DiamondPdpData || {};
-
-  const { carat: productCarat, price: productPrice } = product || {};
+  const { carat: productCarat, price: productPrice, lotId } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? getFormattedPrice(productPrice, locale, true) : null;
   const diamondTitle = _t(getDiamondType(diamondType)?.slug);
   const formattedCarat = getFormattedCarat(productCarat, locale);
+
+  console.log(`lotId`, lotId);
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
@@ -51,7 +52,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
         <div className="main">
           <div className="media">
             <div className="media-content">
-              {(isMobile && (
+              {(isMobile && lotId && (
                 <SwiperStyles className="carousel">
                   <Swiper pagination={{ clickable: true }} modules={[Pagination]}>
                     {media.map((v, i) => {
@@ -62,7 +63,7 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               )) ||
                 media.map((v) => v)}
             </div>
-            {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+            {isMobile && lotId && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
           </div>
         </div>
 
@@ -81,7 +82,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               )}
             </div>
           )}
-          <DiamondDetailAccordion lotId={lotId} locale={locale} />
+
+          {lotId && <DiamondDetailAccordion lotId={lotId} locale={locale} />}
+
           <div className="cta">
             {(product?.available_inventory && (
               <>
@@ -101,7 +104,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
               </UniLink>
             )}
           </div>
+
           <DiamondDetailIconList locale={locale} />
+
           <div className="mail">
             <strong className="title">
               <UIString>Need more time to think?</UIString>
@@ -118,9 +123,9 @@ const DiamondDetail = ({ lotId, diamondType, locale, countryCode, currencyCode }
             />
           </div>
 
-          <DiamondDetailSpecs lotId={lotId} locale={locale} />
+          {lotId && <DiamondDetailSpecs lotId={lotId} locale={locale} />}
 
-          {!isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+          {!isMobile && lotId && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
         </div>
       </div>
 
