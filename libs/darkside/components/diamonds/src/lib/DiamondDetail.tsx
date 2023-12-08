@@ -40,7 +40,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const formattedCarat = getFormattedCarat(productCarat, locale);
 
   const media = [
-    <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
+    <Diamond360 key="0" className="media-content-item" diamondType={diamondType} diamond={product} />,
     <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
 
@@ -48,21 +48,23 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     <StyledDiamondDetail headerHeight={headerHeight}>
       <div className="body">
         <div className="main">
-          <div className="media">
-            <div className="media-content">
-              {(isMobile && (
-                <SwiperStyles className="carousel">
-                  <Swiper pagination={{ clickable: true }} modules={[Pagination]}>
-                    {media.map((v, i) => {
-                      return <SwiperSlide key={`media${i}`}>{v}</SwiperSlide>;
-                    })}
-                  </Swiper>
-                </SwiperStyles>
-              )) ||
-                media.map((v) => v)}
+          {product?.lotId && (
+            <div className="media">
+              <div className="media-content">
+                {(isMobile && (
+                  <SwiperStyles className="carousel">
+                    <Swiper pagination={{ clickable: true }} modules={[Pagination]}>
+                      {media.map((v, i) => {
+                        return <SwiperSlide key={`media${i}`}>{v}</SwiperSlide>;
+                      })}
+                    </Swiper>
+                  </SwiperStyles>
+                )) ||
+                  media.map((v) => v)}
+              </div>
+              {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
             </div>
-            {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
-          </div>
+          )}
         </div>
 
         <div className="aside">

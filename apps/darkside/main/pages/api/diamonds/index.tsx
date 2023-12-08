@@ -66,7 +66,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     const payload = { ...dfApiClientPayload, ...vraiApiClientPayload };
 
-    console.log(`** Diamond API Payload **`, payload);
+    // console.log(`** Diamond API Payload **`, payload);
 
     return res.status(200).json(payload);
   } catch (err) {
