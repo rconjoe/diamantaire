@@ -24,12 +24,17 @@ const ModalStyles = styled.div`
   align-items: center;
   z-index: 10000;
   font-size: 1.6rem;
+  padding: 0 2rem;
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    padding: 0;
+  }
 
   &.modal--lg {
     .wrapper {
       max-width: 100vw;
       border-radius: 0;
-      ${media.large`max-width: 1080px; border-radius: 10px;`}
+      ${media.large`max-width: 1080px; border-radius: 1rem;`}
     }
   }
 
@@ -55,20 +60,26 @@ const ModalStyles = styled.div`
     margin: 0 auto;
     position: relative;
     z-index: 100;
-    border-radius: 10px;
+    border-radius: 1rem;
     overflow: hidden;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    box-shadow:
+      rgba(17, 17, 26, 0.1) 0px 0.4rem 1.6rem,
+      rgba(17, 17, 26, 0.05) 0px 0.8rem 3.2rem;
 
     .header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
-      padding: 20px 40px 0;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      margin-bottom: 2rem;
+      padding: 2rem 2rem 0;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 2rem 4rem 0;
+      }
 
       .modal__title {
-        border: 2px solid #ccc;
+        border: 0.2rem solid #ccc;
         flex: 1;
         h4 {
           margin: 0;
@@ -81,14 +92,14 @@ const ModalStyles = styled.div`
       &.close--fixed {
         position: absolute;
         right: 0;
-        padding: 5px 10px;
+        padding: 0.5rem 1rem;
       }
       button {
         background-color: transparent;
         border: none;
         padding: 0;
         position: relative;
-        right: -4px;
+        right: -0.4rem;
         svg path {
           stroke: #fff;
         }
@@ -96,7 +107,11 @@ const ModalStyles = styled.div`
     }
 
     .body {
-      padding: 0 40px 40px;
+      padding: 0 2rem 4rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 0 4rem 4rem;
+      }
     }
   }
   &.modal--sm {
@@ -108,9 +123,9 @@ const ModalStyles = styled.div`
   &.modal--position-bottom-left {
     .wrapper {
       margin-top: auto;
-      margin-left: 10px;
-      margin-bottom: 10px;
-      margin-right: 10px;
+      margin-left: 1rem;
+      margin-bottom: 1rem;
+      margin-right: 1rem;
     }
   }
   &.modal--no-title {
@@ -126,7 +141,7 @@ const ModalStyles = styled.div`
   .input-container {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     > * {
       flex: 1 1 100%;
     }
@@ -135,22 +150,22 @@ const ModalStyles = styled.div`
     }
     input {
       flex: 1;
-      height: 36px;
-      padding-left: 10px;
+      height: 3.6rem;
+      padding-left: 1rem;
     }
 
     textarea {
-      padding: 15px;
-      min-height: 150px;
+      padding: 1.5rem;
+      min-height: 15rem;
     }
     .error {
       background-color: red;
       color: #fff;
       font-weight: bold;
       font-size: 1.2rem;
-      padding: 5px;
-      margin-top: 5px;
-      border-radius: 5px;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
     }
   }
 `;

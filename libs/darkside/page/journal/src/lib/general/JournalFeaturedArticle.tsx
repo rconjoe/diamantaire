@@ -33,9 +33,9 @@ type JournalFeaturedArticleProps = {
 };
 
 const JournalFeaturedArticleStyles = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 2rem;
   .featured-article__inner {
-    border: 1px solid #ccc;
+    border: 0.1rem solid #ccc;
     ${media.medium`display: flex; border: none;`}
     .featured-article__image {
       flex: 2;
@@ -49,8 +49,8 @@ const JournalFeaturedArticleStyles = styled.div`
       .featured-article__content-inner {
         position: relative;
         background-color: #fff;
-        padding: 20px;
-        ${media.medium`left: -100px;padding: 40px;`}
+        padding: 2rem;
+        ${media.medium`left: -10rem;padding: 4rem;`}
 
         .featured-article__title {
           font-size: 3rem;

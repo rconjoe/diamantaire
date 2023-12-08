@@ -1,9 +1,9 @@
-import { setSpace, desktopAndUp, mobileOnly, GREY_LIGHTEST } from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const DiamondLeoBlockContainer = styled.div`
   .diamond-leo__wrapper {
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
     margin-top: ${setSpace(2)};
     padding: ${setSpace(3)} !important;
     display: flex;
@@ -38,27 +38,27 @@ export const DiamondLeoBlockContainer = styled.div`
         margin: 0 auto ${setSpace(4)};
         ${mobileOnly(`
           font-size: 1.7rem !important;
-          width: 277px;
-          margin: 0 auto 20px;
+          width: 27.7rem;
+          margin: 0 auto 2rem;
         `)}
       }
     }
 
     .diamond-leo__signature {
-      max-width: 126px;
+      max-width: 12.6rem;
       aspect-ratio: auto;
       height: auto;
       &.-blockquote {
         margin: 0 auto;
       }
       ${mobileOnly(`
-        max-width: 88px;
+        max-width: 8.8rem;
       `)}
     }
   }
 
   svg,
   img {
-    max-width: 140px;
+    max-width: 14rem;
   }
 `;

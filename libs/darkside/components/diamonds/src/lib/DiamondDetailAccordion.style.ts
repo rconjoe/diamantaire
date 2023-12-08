@@ -1,4 +1,4 @@
-import { BLACK, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailAccordion = styled.div`
@@ -16,7 +16,7 @@ const StyledDiamondDetailAccordion = styled.div`
     }
 
     .sub {
-      border: 1px solid ${TEAL};
+      border: 0.1rem solid var(--color-teal);
       padding: 1rem;
       display: block;
     }
@@ -24,7 +24,7 @@ const StyledDiamondDetailAccordion = styled.div`
     .thb {
       display: block;
       width: 100%;
-      padding: 0 10px;
+      padding: 0 1rem;
       overflow: hidden;
 
       img {
@@ -34,8 +34,8 @@ const StyledDiamondDetailAccordion = styled.div`
     }
 
     .graph {
-      margin-top: 15px;
-      padding: 50px 35px;
+      margin-top: 1.5rem;
+      padding: 5rem 3.5rem;
     }
 
     .slider {
@@ -43,11 +43,11 @@ const StyledDiamondDetailAccordion = styled.div`
     }
 
     .vo-slider-value {
-      color: ${BLACK};
+      color: var(--color-black);
     }
 
     .vo-slider-tooltip {
-      width: 70px;
+      width: 7rem;
       white-space: wrap;
       font-size: var(--font-size-xxxxsmall);
       line-height: 1.2;
@@ -75,7 +75,7 @@ const StyledDiamondDetailAccordion = styled.div`
 
     .thb img {
       width: 100%;
-      margin-top: -60px;
+      margin-top: -6rem;
     }
 
     .sub {
@@ -89,8 +89,8 @@ const StyledDiamondDetailAccordion = styled.div`
     }
     .thb img {
       width: 100%;
-      margin-top: -35px;
-      transform: translate(3px, 0);
+      margin-top: -3.5rem;
+      transform: translate(0.3rem, 0);
     }
     .sub {
       margin: 2rem 0 1rem;
@@ -102,7 +102,7 @@ const StyledDiamondDetailAccordion = styled.div`
       margin-top: 0;
     }
     .thb {
-      width: 130px;
+      width: 13rem;
     }
     .description {
       flex: 1;

@@ -19,7 +19,9 @@ import { Markdown } from './Markdown';
 
 import 'react-international-phone/style.css';
 
-const Select = dynamic(() => import('react-select'));
+const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+});
 
 type FormProps = {
   headingType?: 'h1' | 'h2' | 'h3' | 'h4';
@@ -72,7 +74,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       &.submit {
         margin-bottom: 0px;
         flex: 0.75;
-        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 140px' : '0 0 140px')};
+        // flex: ${({ stackedSubmit }) => (stackedSubmit ? '0 0 14rem' : '0 0 14rem')};
       }
 
       > * {
@@ -84,9 +86,9 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       }
 
       input {
-        border: 1px solid #ccc;
+        border: 0.1rem solid #ccc;
         height: 4.7rem;
-        padding-left: 10px;
+        padding-left: 1rem;
         font-size: var(--font-size-xxxsmall);
       }
 
@@ -104,14 +106,14 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
   .input-opt-in {
     width: 100%;
     input[type='checkbox'] {
-      width: 13px;
-      height: 13px;
+      width: 1.3rem;
+      height: 1.3rem;
       appearance: none;
       background-color: #fff;
       margin: 0;
       font: inherit;
       color: currentColor;
-      border: 1px solid currentColor;
+      border: 0.1rem solid currentColor;
     }
     input[type='checkbox']::before {
       display: block;
@@ -120,7 +122,7 @@ const FormContainer = styled.div<{ gridStyle?: string; stackedSubmit?: boolean; 
       height: 100%;
       transform: scale(0);
       transition: 120ms transform ease-in-out;
-      box-shadow: inset 13px 13px currentColor;
+      box-shadow: inset 1.3rem 1.3rem currentColor;
     }
 
     input[type='checkbox']:checked::before {
@@ -291,7 +293,7 @@ const Form = ({
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-              {ctaCopy}
+              {_t(ctaCopy)}
             </DarksideButton>
           </div>
         </div>

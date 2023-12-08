@@ -13,6 +13,11 @@ export const TOP_BAR_QUERY = gql`
         enableGeoCopy
         link
         shouldShowDynamicBookAnAppointment
+        enableGwp
+        supportedCountries {
+          code
+          name
+        }
       }
     }
   }

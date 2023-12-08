@@ -16,7 +16,7 @@ export const ShowroomNavContainer = styled.div`
       flex: 2;
       margin: 0;
       display: inline-block;
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
     button {
       flex: 1.5;

@@ -1,4 +1,3 @@
-import { BLACK, GREY_DARK, GREY_LIGHT, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -8,6 +7,7 @@ const mediaWidth = '50%';
 const StyledDiamondDetail = styled.div`
   display: block;
   flex-wrap: wrap;
+  position: relative;
 
   > .body {
     display: flex;
@@ -30,9 +30,9 @@ const StyledDiamondDetail = styled.div`
     justify-content: flex-start;
     gap: ${gap};
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       margin: 0;
-    `)}
+    }
   }
 
   > .body > .main {
@@ -40,10 +40,10 @@ const StyledDiamondDetail = styled.div`
     padding: 0 0 ${gap};
     top: ${(props) => props.headerHeight}px;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       width: 70%;
       position: sticky;
-    `)}
+    }
   }
 
   > .body > .aside {
@@ -52,21 +52,21 @@ const StyledDiamondDetail = styled.div`
     gap: ${gap};
     width: 100%;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding: 0 ${gap} ${gap};
       width: 30%;
-    `)}
+    }
   }
 
   .main > .media {
     display: block;
     margin: 0 -2.4rem;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       margin: 0;
       display: flex;
       align-items: flex-start;
-    `)}
+    }
 
     .media-content {
       position: relative;
@@ -83,9 +83,9 @@ const StyledDiamondDetail = styled.div`
       width: 100%;
       display: block;
 
-      ${desktopAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         width: ${mediaWidth};
-      `)}
+      }
     }
   }
 
@@ -96,34 +96,34 @@ const StyledDiamondDetail = styled.div`
     line-height: 1.2;
     padding-right: 10%;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       font-size: var(--font-size-large);
       font-weight: var(--font-weight-medium);
       text-align: left;
-    `)}
+    }
   }
 
   .aside > .price {
     display: block;
     text-align: center;
     margin-top: -1.5rem;
-    color: ${BLACK};
+    color: var(--color-black);
     font-size: var(--font-size-small);
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       text-align: left;
       font-size: var(--font-size-small);
-    `)}
+    }
 
     .price-text {
       display: block;
       text-align: center;
       font-size: var(--font-size-xxxsmall);
 
-      ${desktopAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         text-align: left;
         font-size: var(--font-size-xxxxsmall);
-      `)}
+      }
     }
   }
 
@@ -136,9 +136,9 @@ const StyledDiamondDetail = styled.div`
     padding: 0 !important;
     width: 100%;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       padding-right: ${gap};
-    `)}
+    }
 
     button {
       width: 100%;
@@ -159,18 +159,18 @@ const StyledDiamondDetail = styled.div`
     flex-direction: column;
     margin-top: 3rem;
 
-    ${desktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       margin-top: 0;
-    `)}
+    }
 
     .title {
       font-size: var(--font-size-small);
       font-weight: 500;
       text-align: left;
 
-      ${desktopAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         font-size: var(--font-size-xsmall);
-      `)}
+      }
     }
 
     p {
@@ -209,7 +209,7 @@ const StyledDiamondDetail = styled.div`
     width: 100%;
     display: block;
     overflow: hidden;
-    padding: 0 0 30px;
+    padding: 0 0 3rem;
 
     .swiper {
       overflow: visible;
@@ -222,16 +222,16 @@ const StyledDiamondDetail = styled.div`
     }
 
     .swiper-pagination {
-      bottom: -30px;
+      bottom: -3rem;
     }
 
     .swiper-pagination-bullet {
-      width: 5px;
-      height: 5px;
-      background: ${GREY_DARK};
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--color-dark-grey);
 
       &.active {
-        background: ${GREY_LIGHT};
+        background: var(--color-light-grey);
       }
     }
 

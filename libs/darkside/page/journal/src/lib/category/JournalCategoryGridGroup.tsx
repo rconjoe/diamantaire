@@ -1,10 +1,10 @@
 import { ImageTile, Heading, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { useJournalsByCategory } from '@diamantaire/darkside/data/hooks';
-import { generateSubheading } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { JournalCategoryGridGroupStyles } from './JournalCategoryGridGroup.style';
+import { generateSubheading } from '../journal-helpers';
 
 function JournalCategoryGridGroup({ category }) {
   const catId = category.id;

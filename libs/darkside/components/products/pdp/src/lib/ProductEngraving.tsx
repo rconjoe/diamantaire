@@ -1,7 +1,7 @@
 // Controlled component for adding custom engraving to a product
 // Keep state regarding actual engraving text outside of this component
 
-import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import {
   ENGRAVING_CHARACTER_LIMITS,
   ENGRAVING_INITIALS_OPTIONS,
@@ -14,14 +14,22 @@ import styled from 'styled-components';
 
 const ProductEngravingStyles = styled.div`
   .engraving-container {
-    padding: 0 0 10px;
+    padding: 0 0 1rem;
 
     .engraving-prompt-text {
       display: flex;
-      align-items: center;
+      align-items: baseline;
+
       p {
-        margin-left: 5px;
+        margin-left: 0.5rem;
         display: inline-block;
+      }
+
+      .engraving-cta {
+        button,
+        a {
+          font-size: 1.7rem;
+        }
       }
     }
 
@@ -31,7 +39,7 @@ const ProductEngravingStyles = styled.div`
       p {
         span {
           font-weight: bold;
-          margin-right: 7px;
+          margin-right: 0.7rem;
         }
       }
 
@@ -42,17 +50,17 @@ const ProductEngravingStyles = styled.div`
     }
 
     .engraving-input-container {
-      margin: 20px 0;
+      margin: 2rem 0;
       input {
-        border: 1px solid #ccc;
-        height: 40px;
+        border: 0.1rem solid #ccc;
+        height: 4rem;
         width: 100%;
-        padding-left: 10px;
+        padding-left: 1rem;
       }
 
       &.is-initial {
         input {
-          max-width: 40px;
+          max-width: 4rem;
           padding-left: 0;
           text-align: center;
           font-size: var(--font-size-xsmall);
@@ -61,7 +69,7 @@ const ProductEngravingStyles = styled.div`
 
       p {
         font-size: 1.3rem;
-        margin: 5px 0 20px;
+        margin: 0.5rem 0 2rem;
       }
     }
   }
@@ -100,7 +108,9 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
     }
   }, [isEngravingInputVisible]);
 
-  console.log('hasSingleInitialEngraving', hasSingleInitialEngraving);
+  const engravingCtaText = useMemo(() => {
+    return `Add ${hasSingleInitialEngraving ? 'initial' : 'engraving'}`;
+  }, [hasSingleInitialEngraving]);
 
   return (
     <ProductEngravingStyles>
@@ -111,10 +121,13 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
               type="underline"
               colorTheme="teal"
+              className="engraving-cta"
             >
-              Add {hasSingleInitialEngraving ? 'initial' : 'engraving'}
+              <UIString>{engravingCtaText}</UIString>
             </DarksideButton>
-            <p>(optional)</p>
+            <p>
+              (<UIString>optional</UIString>)
+            </p>
           </div>
         ) : (
           <div className="engraving-result-text">

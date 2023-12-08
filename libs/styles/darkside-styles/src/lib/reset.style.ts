@@ -15,8 +15,21 @@ const ResetStyles = styled.createGlobalStyle`
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
-      Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      Segoe UI,
+      Roboto,
+      Helvetica Neue,
+      Arial,
+      Noto Sans,
+      sans-serif,
+      Apple Color Emoji,
+      Segoe UI Emoji,
+      Segoe UI Symbol,
+      Noto Color Emoji;
     line-height: 1.5;
     tab-size: 4;
     scroll-behavior: smooth;
@@ -39,6 +52,10 @@ const ResetStyles = styled.createGlobalStyle`
     text-decoration: none;
     color: #000000;
     cursor: pointer;
+  }
+
+  button {
+    color: var(--color-black);
   }
 
   button:hover {

@@ -1,5 +1,4 @@
 import {
-  WHITE,
   XLDesktopAndUp,
   XXLDesktopAndUp,
   customBPAndUp,
@@ -27,7 +26,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
   .half-width__image-wrapper {
     width: 100%;
-    max-width: 767px;
+    max-width: 76.7rem;
     height: auto;
     margin: auto;
     position: relative;
@@ -38,7 +37,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
   `)};
 
     ${XXLDesktopAndUp(`
-    min-height: 540px;
+    min-height: 54rem;
   `)};
 
     &.-left {
@@ -67,7 +66,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
     width: 100%;
 
     &.hearst-necklace {
-      top: -60px;
+      top: -6rem;
 
       img {
         max-width: 450px;
@@ -75,8 +74,8 @@ export const ModularHalfBannerBlockContainer = styled.div`
       }
 
       ${desktopAndUp(`
-      top: -60px;
-      margin-right: 75px;
+      top: -6rem;
+      margin-right: 7.5rem;
 
       img {
         max-width: 600px;
@@ -86,11 +85,11 @@ export const ModularHalfBannerBlockContainer = styled.div`
     `)};
 
       ${XLDesktopAndUp(`
-      margin-right: 230px;
-      top: 25px;
+      margin-right: 23rem;
+      top: 2.5rem;
 
       img {
-        max-width: 650px;
+        max-width: 65rem;
       }
     `)};
     }
@@ -104,20 +103,20 @@ export const ModularHalfBannerBlockContainer = styled.div`
     z-index: 1;
 
     &.hearst-necklace {
-      top: -17px;
+      top: -1.7rem;
 
       img {
-        max-width: 160px;
+        max-width: 16rem;
         margin-left: auto;
       }
 
       ${customBPAndUp(
         '475px',
         `
-        top: -7px;
+        top: -0.7rem;
 
         img {
-          max-width: 250px;
+          max-width: 25rem;
         }
       `,
       )};
@@ -168,14 +167,14 @@ export const ModularHalfBannerBlockContainer = styled.div`
       .primary,
       .secondary {
         ${tabletAndUp(`
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       `)};
 
         &:hover {
           ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)}
         }
       }
@@ -185,9 +184,9 @@ export const ModularHalfBannerBlockContainer = styled.div`
       max-width: ${setSpace(40)};
       background: white;
       padding: ${setSpace(3)};
-      margin: 0 auto -70px;
+      margin: 0 auto -7rem;
       position: relative;
-      bottom: 70px;
+      bottom: 7rem;
 
       ${tabletAndUp(`
       position: absolute;
@@ -327,7 +326,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
     ${tabletAndUp(`
@@ -353,7 +352,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
     ${tabletAndUp(`
@@ -372,7 +371,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
   .half-width-banner__copy {
     p {
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
     }
 
     p:last-child {
@@ -382,19 +381,19 @@ export const ModularHalfBannerBlockContainer = styled.div`
     a {
       text-decoration-line: underline;
       text-decoration-style: solid;
-      text-decoration-thickness: 1px;
+      text-decoration-thickness: 0.1rem;
     }
 
     ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
-      border-color: ${WHITE};
+      color: var(--color-white);
+      border-color: var(--color-white);
       a {
         color: inherit;
       }
     }
     &.-tall-block p {
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
     }
   `)};
   }

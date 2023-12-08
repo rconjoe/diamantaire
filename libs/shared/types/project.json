@@ -6,20 +6,28 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/shared/types",
         "tsConfig": "libs/shared/types/tsconfig.lib.json",
         "packageJson": "libs/shared/types/package.json",
         "main": "libs/shared/types/src/index.ts",
-        "assets": ["libs/shared/types/*.md"]
+        "assets": [
+          "libs/shared/types/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/shared/types/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/shared/types/**/*.ts"
+        ]
       }
     }
   },

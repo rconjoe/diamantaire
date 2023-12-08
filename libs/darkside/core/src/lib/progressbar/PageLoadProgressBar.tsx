@@ -8,8 +8,8 @@ const StyledPageLoadProgressBar = styled.div`
     top: 0;
     left: 0;
     width: 0;
-    height: 2px;
-    background-color: greenyellow;
+    height: 0.2rem;
+    background-color: var(--color-teal);
     z-index: 9999;
   }
   .progress-bar.loading {

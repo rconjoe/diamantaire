@@ -6,22 +6,32 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/shared/constants",
         "tsConfig": "libs/shared/constants/tsconfig.lib.json",
         "packageJson": "libs/shared/constants/package.json",
         "main": "libs/shared/constants/src/index.ts",
-        "assets": ["libs/shared/constants/*.md"]
+        "assets": [
+          "libs/shared/constants/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/shared/constants/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/shared/constants/**/*.ts"
+        ]
       }
     }
   },
-  "tags": ["backend"]
+  "tags": [
+    "backend"
+  ]
 }

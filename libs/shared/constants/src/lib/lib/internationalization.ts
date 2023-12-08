@@ -517,7 +517,7 @@ export function getFormattedPrice(
 
   // this is a hack to see proper CAD formatting
   // https://github.com/nodejs/node/issues/15265#issuecomment-776942859
-  const customLocale = locale === 'en-CA' ? 'en-US' : locale;
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
 
   const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
@@ -530,11 +530,66 @@ export function getFormattedPrice(
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(convertedPrice);
 
-  const currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');
 
-  formattedPrice = currencySymbol + formattedPrice;
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
+  }
+
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
+
+  return formattedPrice;
+}
+
+export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+  const { countryCode } = parseValidLocale(locale);
+  const currency = getCurrency(countryCode);
+
+  const convertedPrice = priceInCents / 100;
+
+  const numberFormat = new Intl.NumberFormat(locale, {
+    currency,
+    style: 'currency',
+    currencyDisplay: 'narrowSymbol',
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
+  });
+
+  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
+  let formattedPrice = numberFormat.format(convertedPrice);
+
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
+  }
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
 
   return formattedPrice;
 }

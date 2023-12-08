@@ -1,5 +1,4 @@
 import { countries, generateLocale, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,26 +8,26 @@ import styled from 'styled-components';
 import { UIString } from './UIString';
 
 const StyledLanguageSelector = styled.ul`
-  font-size: 16px;
+  font-size: 1.6rem;
   list-style: none;
   position: absolute;
   left: 3rem;
   top: calc(100% + 1rem);
-  border: 1px solid #ddd;
+  border: 0.1rem solid #ddd;
   text-align: left;
   padding: 1.5rem;
-  background-color: ${WHITE};
+  background-color: var(--color-white);
 
   &:before {
     content: '';
     width: 1.5rem;
     height: 1.5rem;
-    border: 1px solid #ddd;
+    border: 0.1rem solid #ddd;
     position: absolute;
     top: -0.5rem;
     left: 1.8rem;
     transform: rotate(45deg);
-    background: ${WHITE};
+    background: var(--color-white);
   }
 
   &:after {
@@ -38,7 +37,7 @@ const StyledLanguageSelector = styled.ul`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${WHITE};
+    background: var(--color-white);
   }
 
   li {

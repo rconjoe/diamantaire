@@ -11,13 +11,13 @@ const StyledProductsList = styled.div`
   .products-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
   }
 
   .product-item {
-    border: 1px solid #888;
-    border-radius: 10px;
-    padding: 5px;
+    border: 0.1rem solid #888;
+    border-radius: 1rem;
+    padding: 0.5rem;
     text-align: left;
 
     .price {
@@ -30,7 +30,7 @@ const StyledProductsList = styled.div`
 
     &:hover {
       border-color: teal;
-      box-shadow: 2px 2px 2px teal;
+      box-shadow: 0.2rem 0.2rem 0.2rem teal;
     }
   }
 `;

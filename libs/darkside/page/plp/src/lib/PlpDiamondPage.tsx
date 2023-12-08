@@ -35,7 +35,7 @@ type DiamondPlpPageProps = {
 
 const StyledPlpDiamondPage = styled.div`
   .filter-bar {
-    height: 40px;
+    height: 4rem;
   }
   .view-more {
     margin: 1rem 0;
@@ -44,7 +44,7 @@ const StyledPlpDiamondPage = styled.div`
     justify-items: center;
 
     & > div {
-      max-width: 300px;
+      max-width: 30rem;
     }
   }
 `;
@@ -62,7 +62,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(plpSlug, 1, { activeSortOptions });
+  const { data, fetchNextPage, isFetching, hasNextPage } = useDiamondPlpProducts(plpSlug, 1, { ...activeSortOptions });
 
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
@@ -85,9 +85,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
       <NextSeo title={seoTitle} description={seoDescription} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
-      {/* <div className="filter-bar">
-        {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
-      </div> */}
+
       <PlpProductGrid
         data={data}
         isFetching={isFetching}
@@ -119,6 +117,7 @@ const getDiamondPlpServerSideProps = async (
   const category = 'loose-diamonds';
 
   const queryClient = new QueryClient();
+
   const contentQuery = queries.plp.serverSideDato(locale, plpSlug, category);
 
   await queryClient.prefetchQuery({ ...contentQuery });

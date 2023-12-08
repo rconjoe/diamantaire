@@ -1,4 +1,4 @@
-import { TEAL, WHITE, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const sliderCircle = 'https://images.vraiandoro.com/cto-diamonds/assets/slider_circle_upd.png';
@@ -21,7 +21,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
   .graph {
     display: block;
-    max-width: 500px;
+    max-width: 50rem;
     width: 100%;
     margin: 0 auto;
     padding: 5rem 2.4rem;
@@ -44,7 +44,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
   .graph-tooltip {
     transform: translateX(-50%);
     position: absolute;
-    top: 15px;
+    top: 1.5rem;
     left: 50%;
   }
 
@@ -54,9 +54,9 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
   .graph-path {
     width: 100%;
-    height: 1px;
-    bottom: calc(168% + 28px);
-    left: 2px;
+    height: 0.1rem;
+    bottom: calc(168% + 2.8rem);
+    left: 0.2rem;
     position: absolute;
     transform-origin: top left;
     transform: rotate(${(props) => props.rotation}deg);
@@ -66,19 +66,19 @@ const StyledDiamondCfyFilterCarat = styled.div`
     width: 0px;
     height: 0px;
     border-style: solid;
-    border-width: 7px 4px;
-    border-color: transparent transparent ${TEAL} transparent;
+    border-width: 0.7rem 0.4rem;
+    border-color: transparent transparent var(--color-teal) transparent;
     position: absolute;
 
     &.x {
       transform: rotate(90deg);
-      bottom: -6px;
-      right: -5px;
+      bottom: -0.6rem;
+      right: -0.5rem;
     }
 
     &.y {
-      top: -10px;
-      left: -3px;
+      top: -1rem;
+      left: -0.3rem;
     }
   }
 
@@ -86,36 +86,36 @@ const StyledDiamondCfyFilterCarat = styled.div`
     position: absolute;
     top: 0;
     left: 101%;
-    width: 2px;
-    height: 2px;
+    width: 0.2rem;
+    height: 0.2rem;
     border-radius: 50%;
 
     svg {
-      background-color: ${WHITE};
-      min-width: 10px;
-      max-height: 13px;
+      background-color: var(--color-white);
+      min-width: 1rem;
+      max-height: 1.3rem;
     }
   }
 
   .graph-icon {
     z-index: 1;
-    width: 10px;
-    height: 10px;
+    width: 1rem;
+    height: 1rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -5px;
-    margin-left: -8px;
+    margin-top: -0.5rem;
+    margin-left: -0.8rem;
     transform: rotate(-${(props) => props.rotation}deg) scale(${(props) => props.scale});
   }
 
   .graph-info {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: 0.4rem;
     position: absolute;
-    top: -25px;
-    left: -2px;
+    top: -2.5rem;
+    left: -0.2rem;
     z-index: 1;
 
     * {
@@ -133,7 +133,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
     }
 
     .graph-info-tooltip {
-      transform: translate(2px, 5px);
+      transform: translate(0.2rem, 0.5rem);
       text-align: left;
 
       .tooltip-trigger * {
@@ -146,8 +146,8 @@ const StyledDiamondCfyFilterCarat = styled.div`
     width: 100%;
     overflow: hidden;
     position: relative;
-    border-left: 2px solid ${TEAL};
-    border-bottom: 2px solid ${TEAL};
+    border-left: 0.2rem solid var(--color-teal);
+    border-bottom: 0.2rem solid var(--color-teal);
 
     &:after {
       content: '';
@@ -159,11 +159,11 @@ const StyledDiamondCfyFilterCarat = styled.div`
       content: '';
       width: calc(2 * 100%);
       height: calc(2 * 160%);
-      bottom: 22px;
+      bottom: 2.2rem;
       right: 0;
       position: absolute;
       border-radius: 50%;
-      border: 3px dashed #8c8c8c;
+      border: 0.3rem dashed #8c8c8c;
       opacity: 0.2;
     }
   }
@@ -174,7 +174,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
     align-items: center;
     position: absolute;
     left: 0;
-    bottom: -2px;
+    bottom: -0.2rem;
     width: 100%;
 
     input {
@@ -182,7 +182,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
       -webkit-appearance: none;
       appearance: none;
       width: 97%;
-      height: 2px;
+      height: 0.2rem;
       background: transparent;
       outline: none;
       -webkit-transition: 0.2s;
@@ -192,14 +192,14 @@ const StyledDiamondCfyFilterCarat = styled.div`
         position: relative;
         -webkit-appearance: none;
         appearance: none;
-        width: 30px;
-        height: 650px;
+        width: 3rem;
+        height: 65rem;
         cursor: pointer;
         background-color: transparent;
         background-position: center;
         background-repeat: no-repeat;
         background-image: url(${sliderCircle});
-        background-size: 20px 20px;
+        background-size: 2rem 2rem;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
         box-shadow: none;
@@ -209,14 +209,14 @@ const StyledDiamondCfyFilterCarat = styled.div`
 
       &::-moz-range-thumb {
         position: relative;
-        width: 30px;
-        height: 500px;
+        width: 3rem;
+        height: 50rem;
         cursor: pointer;
         background-color: transparent;
         background-position: center;
         background-repeat: no-repeat;
         background-image: url(${sliderCircle});
-        background-size: 20px 20px;
+        background-size: 2rem 2rem;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
         box-shadow: none;

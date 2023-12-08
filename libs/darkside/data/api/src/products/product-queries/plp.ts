@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-export const CONFIGURATIONS_LIST = `
+export const CONFIGURATIONS_LIST = gql`
   query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
     allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip){
       plpTitle
@@ -48,6 +48,44 @@ export const CONFIGURATIONS_LIST = `
   }
 `;
 
+
+export const PRODUCT_BRIEF_CONTENT = gql`
+  query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
+    allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){
+      plpTitle
+      variantId
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+        }
+        alt
+      }
+    }
+    allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+      shopifyProductHandle
+      plpTitle
+      plpImage {
+        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
+        alt
+      }
+    }
+  }
+  fragment responsiveImageFragment on ResponsiveImage {
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    bgColor
+    base64
+  }
+`;
+
 export const PLP_QUERY = gql`
   query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
     listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
@@ -59,6 +97,7 @@ export const PLP_QUERY = gql`
             ... on WeddingBandProductRecord {
               slug
               productType
+              productTitle
               productLabel {
                 title
               }
@@ -71,6 +110,7 @@ export const PLP_QUERY = gql`
             ... on EngagementRingProductRecord {
               slug
               productType
+              productTitle
               productLabel {
                 title
               }
@@ -100,6 +140,7 @@ export const PLP_QUERY = gql`
           jewelryProduct {
             slug
             category
+            productTitle
             subCategory {
               slug
               title
@@ -146,6 +187,7 @@ export const PLP_QUERY = gql`
           ... on WeddingBandProductRecord {
             slug
             productType
+            productTitle
             productLabel {
               title
             }
@@ -158,6 +200,7 @@ export const PLP_QUERY = gql`
           ... on EngagementRingProductRecord {
             slug
             productType
+            productTitle
             productLabel {
               title
             }

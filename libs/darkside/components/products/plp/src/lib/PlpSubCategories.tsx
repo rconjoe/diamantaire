@@ -9,21 +9,28 @@ const PlpSubCategoriesStyles = styled.div`
   justify-content: center;
   overflow-x: auto;
   justify-content: start;
+  padding-left: 0.5rem;
 
   ${media.medium`justify-content: center;`}
   > .subcategory-block {
-    flex: 0 0 200px;
-    padding: 0 10px;
+    flex: 0 0 17rem;
+    padding: 0 0.5rem;
     > button {
       width: 100%;
       padding: 0;
       background-color: transparent;
       border: none;
+      color: var(--color-black);
     }
 
     .subcategory-title {
-      margin-top: 5px;
-      font-size: var(--font-size-xxsmall);
+      margin-top: 0.5rem;
+      font-size: var(--font-size-xxxxsmall);
+      text-align: left;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: var(--font-size-xxsmall);
+      }
     }
   }
 `;
@@ -45,7 +52,7 @@ const PlpSubCategories = ({ subcategoryFilter, filterValue, setFilterValues }) =
               }
             >
               <div className="subcategory-image">
-                <DatoImage image={block?.image} />
+                <DatoImage image={block?.image} enableDpr={true} />
               </div>
               <div className="subcategory-content">
                 <Heading type="h3" className="subcategory-title">

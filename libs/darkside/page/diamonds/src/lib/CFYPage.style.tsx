@@ -41,7 +41,7 @@ const StyledCFYPage = styled.div`
 
       ${tabletAndUp(`
         font-size: var(--font-size-xsmall);
-        width: 550px;
+        width: 55rem;
       `)}
     }
   }

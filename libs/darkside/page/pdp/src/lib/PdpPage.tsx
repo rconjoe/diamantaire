@@ -1,19 +1,23 @@
 import { ParsedUrlQuery } from 'querystring';
 
-import { Breadcrumb, Form } from '@diamantaire/darkside/components/common-ui';
+import { PageViewTracker } from '@diamantaire/analytics';
+import { Breadcrumb, Form, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
   ProductConfigurator,
   ProductDescription,
-  ProductPrice,
-  ProductTitle,
   ProductIconList,
   ProductKlarna,
-  ProductAppointmentCTA,
+  ProductPrice,
+  ProductTitle,
+  ProductSuggestionBlock,
+  ProductGWP,
+  ProductSeo,
 } from '@diamantaire/darkside/components/products/pdp';
-import { PageViewTracker } from '@diamantaire/darkside/context/analytics';
-import { useProduct, useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
@@ -23,11 +27,12 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
+import { fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductReviews from './pdp-blocks/ProductReviews';
@@ -49,10 +54,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     params: { collectionSlug, productSlug },
   } = props;
 
+  const { isMobile } = useContext(GlobalContext);
+
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
   const { data: shopifyProductData = {} } = query;
   const router = useRouter();
+  const { _t } = useTranslations(router.locale);
 
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
@@ -61,7 +69,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
+  // console.log('datoParentProductData', datoParentProductData);
+
   const {
+    // ER + WB SEO
+    seoTitle,
+    seoDescription,
+    // Jewelry SEO
+    seoFields,
     productDescription,
     bandWidth,
     bandDepth,
@@ -72,6 +87,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     extraOptions,
     diamondDescription,
     productTitle,
+    productTitleOverride,
     trioBlocks: { id: trioBlocksId = '' } = {},
   } = datoParentProductData || {};
 
@@ -85,14 +101,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
+  const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
+
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const variantHandle = productContent?.shopifyProductHandle;
+  const shopifyHandle = productContent?.shopifyProductHandle;
 
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+  let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
+
+  // console.log('init additionalVariantData', additionalVariantData);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -107,6 +126,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
+
+  // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
   if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
@@ -133,7 +154,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  const isBuilderProduct = configuration.caratWeight === 'other';
+  const isBuilderProduct = configuration.caratWeight === 'other' || !configuration.caratWeight;
 
   const parentProductAttributes = {
     bandWidth,
@@ -184,23 +205,46 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   ];
 
   // Doubles price if product is earrings pair
-
-  console.log('shopifyProductData', shopifyProductData);
-
   const [shouldDoublePrice, setShouldDoublePrice] = useState<boolean>(
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
+  // Tracks previously viewed products in local storage
+  useEffect(() => {
+    if (!productTitle || !contentId) return;
+
+    fetchAndTrackPreviouslyViewed(productTitle, contentId);
+  }, [productTitle, contentId]);
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
+    const productMediaAltDescription = generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
+
     return (
       <PageContainerStyles>
+        <ProductSeo
+          seoFields={seoFields}
+          legacySeoFields={{
+            seoTitle,
+            seoDescription,
+          }}
+          productType={shopifyProductData?.productType}
+          diamondType={configuration.diamondType}
+          productTitle={productTitle}
+          metal={configuration.metal}
+        />
         <Script
           id="klara-script"
           src="https://na-library.klarnaservices.com/lib.js"
           data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
         ></Script>
+        <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
+
+        <Script
+          src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+          strategy={'beforeInteractive'}
+        />
         <PageViewTracker productData={productData} />
         <Breadcrumb breadcrumb={breadcrumb} />
         <div className="product-container">
@@ -208,24 +252,26 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <MediaGallery
               assets={assetStack}
               options={configuration}
-              title={productTitle}
+              title={productMediaAltDescription}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
             />
             <MediaSlider assets={assetStack} />
+            {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">
             <div className="info__inner">
+              {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
               <ProductTitle
                 title={productTitle}
+                override={productTitleOverride}
                 diamondType={configuration.diamondType}
                 productType={shopifyProductData?.productType}
               />
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
                 price={price}
-                hasMoreThanOneVariant={hasMoreThanOneVariant}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
               />
@@ -251,15 +297,25 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsPairOnly={shopifyProductData?.isSoldAsPairOnly}
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
+                requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
 
-              <ProductAppointmentCTA />
-              {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+              <ProductAppointmentCTA productType={shopifyProductData?.productType} />
+
+              <ProductGWP />
+
+              {productIconListType && (
+                <ProductIconList
+                  productIconListType={productIconListType}
+                  locale={router?.locale}
+                  configuration={configuration}
+                />
+              )}
               <Form
-                title="Need more time to think?"
-                caption="Email this customized ring to yourself or drop a hint."
+                title={_t('Need more time to think?')}
+                caption={_t('Email this customized ring to yourself or drop a hint.')}
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
                 headingType={'h2'}
@@ -277,7 +333,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
-        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        {additionalVariantData?.productSuggestionQuadBlock?.id && (
+          <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
+        )}
+        {shopifyProductData?.productType === 'Engagement Ring' && (
+          <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+        )}
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
       </PageContainerStyles>
     );
@@ -288,6 +349,34 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       No data found for product page: {collectionSlug} {productSlug}{' '}
     </h1>
   );
+
+  function generatePdpAssetAltTag(
+    producttitle: string,
+    productConfiguration: Record<string, string>,
+    configurationsWithouLabels = ['metal', 'diamondType', 'goldPurity'],
+    configurationSortOrder = ['diamondType', 'goldPurity', 'metal'],
+  ) {
+    const sortedConfigurations = Object.entries(productConfiguration).sort(([a], [b]) => {
+      const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
+      const posB = configurationSortOrder.includes(b) ? configurationSortOrder.indexOf(b) : 99;
+
+      if (posA < posB) {
+        return -1;
+      }
+
+      return 1;
+    });
+
+    const configurationDescriptionArr = sortedConfigurations.map(([type, value]) => {
+      if (configurationsWithouLabels.includes(type)) {
+        return _t(value);
+      }
+
+      return `${_t(type)}: ${_t(value)}`;
+    });
+
+    return `${producttitle} | ${configurationDescriptionArr.join(' | ')}`;
+  }
 }
 
 export async function getServerSideProps(

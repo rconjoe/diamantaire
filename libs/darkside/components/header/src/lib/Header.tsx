@@ -1,9 +1,10 @@
+import { useAnalytics } from '@diamantaire/analytics';
 import { Cart } from '@diamantaire/darkside/components/cart';
 import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
-import { WHITE, media } from '@diamantaire/styles/darkside-styles';
+import { media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
@@ -33,8 +34,8 @@ const FullHeaderStyles = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: ${WHITE};
-  box-shadow: 0 1px 0 ${WHITE};
+  background-color: var(--color-white);
+  box-shadow: 0 0.1rem 0 var(--color-white);
 
   ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
 
@@ -64,13 +65,13 @@ const Header: FC<HeaderProps> = ({
   const { cartViewed } = useAnalytics();
   const router = useRouter();
 
-  const selectedLocale = router.locale;
-  const { checkout } = useContext(CartContext);
-  const { isCartOpen, setIsCartOpen } = useContext(ActionsContext);
+  const { data: checkout } = useCartData(router?.locale);
+  const { isCartOpen } = useGlobalContext();
+  const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const { section } = headerData;
   const { scrollY } = useScroll();
-  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(selectedLocale);
+  const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
   const compactHeaderRef = useRef(null);
 
@@ -126,7 +127,10 @@ const Header: FC<HeaderProps> = ({
       products: cartProducts,
     });
 
-    return setIsCartOpen(!isCartOpen);
+    // return setIsCartOpen(!isCartOpen);
+    return updateGlobalContext({
+      isCartOpen: !isCartOpen,
+    });
   }
 
   function toggleCountrySelector() {
@@ -157,7 +161,7 @@ const Header: FC<HeaderProps> = ({
 
   return (
     <>
-      <FullHeaderStyles $isHome={isHome}>
+      <FullHeaderStyles id="primary-navigation" $isHome={isHome}>
         <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
           {isHome ? (
@@ -224,7 +228,17 @@ const Header: FC<HeaderProps> = ({
           <CountrySelector toggleCountrySelector={toggleCountrySelector} />
         </Modal>
       )}
-      <AnimatePresence>{isCartOpen && <Cart closeCart={() => setIsCartOpen(false)} />}</AnimatePresence>
+      <AnimatePresence>
+        {isCartOpen && (
+          <Cart
+            closeCart={() =>
+              updateGlobalContext({
+                isCartOpen: false,
+              })
+            }
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };

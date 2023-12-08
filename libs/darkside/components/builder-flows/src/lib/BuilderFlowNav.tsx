@@ -1,6 +1,7 @@
 import { DarksideButton, Heading } from '@diamantaire/darkside/components/common-ui';
-import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useContext, useState } from 'react';
@@ -11,10 +12,10 @@ import SummaryItem from './SummaryItem';
 const BuilderFlowNavStyles = styled.div`
   position: fixed;
   bottom: 0;
-  padding: 20px 40px;
+  padding: 2rem 4rem;
   background-color: #fff;
   width: 100%;
-  border-top: 1px solid #ccc;
+  border-top: 0.1rem solid #ccc;
   z-index: 3000;
 
   .nav__inner {
@@ -36,9 +37,9 @@ const BuilderFlowNavStyles = styled.div`
         margin-left: var(--gutter);
 
         li {
-          flex: 0 0 280px;
+          flex: 0 0 28rem;
           display: flex;
-          margin-right: 10px;
+          margin-right: 1rem;
 
           > div {
             flex: 1;
@@ -54,11 +55,11 @@ const BuilderFlowNavStyles = styled.div`
           button {
             flex: 1;
             width: 100%;
-            padding: 15px 20px;
+            padding: 1.5rem 2rem;
             text-align: left;
-            border: 1px solid #ccc;
+            border: 0.1rem solid #ccc;
             background-color: transparent;
-            border-radius: 4px;
+            border-radius: 0.4rem;
 
             span {
               display: block;
@@ -73,10 +74,10 @@ const BuilderFlowNavStyles = styled.div`
     }
     .summary-container {
       display: flex;
-      flex: 0 0 280px;
+      flex: 0 0 28rem;
       justify-content: flex-end;
       > div {
-        flex: 0 0 280px;
+        flex: 0 0 28rem;
         &.active {
           button {
             background-color: var(--color-white);
@@ -86,10 +87,10 @@ const BuilderFlowNavStyles = styled.div`
         button {
           flex: 1;
           width: 100%;
-          padding: 15px 20px;
+          padding: 1.5rem 2rem;
 
-          border: 1px solid #ccc;
-          border-radius: 4px;
+          border: 0.1rem solid #ccc;
+          border-radius: 0.4rem;
 
           span {
             display: block;
@@ -105,51 +106,51 @@ const BuilderFlowNavStyles = styled.div`
   .builder-summary__container {
     position: absolute;
     right: 0;
-    bottom: 100px;
-    height: 400px;
+    bottom: 10rem;
+    height: 40rem;
     width: 450px;
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 20px;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.4rem;
+    padding: 2rem;
 
     .summary__title {
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
       &::after {
         content: ' ';
-        height: 2px;
+        height: 0.2rem;
         background-color: var(--color-teal);
         display: block;
-        max-width: 35px;
-        margin-top: 5px;
+        max-width: 3.5rem;
+        margin-top: 0.5rem;
       }
     }
 
     .summary-item {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
 
       .item__image {
-        flex: 0 0 120px;
-        margin-right: 20px;
+        flex: 0 0 12rem;
+        margin-right: 2rem;
       }
 
       .item__content {
         h4 {
           font-size: 1.6rem;
-          margin-bottom: 5px;
+          margin-bottom: 0.5rem;
         }
 
         p {
           font-size: 1.5rem;
-          margin-bottom: 5px;
+          margin-bottom: 0.5rem;
           color: #777;
         }
       }
       .item__edit-toggle {
         flex: 1;
-        margin-left: 10px;
+        margin-left: 1rem;
         text-align: right;
       }
     }
@@ -160,7 +161,8 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
 
   const { updateStep, builderProduct } = useContext(BuilderProductContext);
-  const { setIsCartOpen, isCartOpen } = useContext(ActionsContext);
+  const { isCartOpen } = useGlobalContext();
+  const updateGlobalContext = useContext(GlobalUpdateContext);
 
   const allowedKeys = ['product', 'diamond'];
 
@@ -196,7 +198,15 @@ const BuilderFlowNav = ({ currentStep, steps, type }) => {
           </div>
           <div className="summary-container">
             {currentStep === steps?.length - 1 ? (
-              <DarksideButton onClick={() => setIsCartOpen(!isCartOpen)}>View Cart</DarksideButton>
+              <DarksideButton
+                onClick={() =>
+                  updateGlobalContext({
+                    isCartOpen: !isCartOpen,
+                  })
+                }
+              >
+                View Cart
+              </DarksideButton>
             ) : (
               <DarksideButton
                 className={clsx({

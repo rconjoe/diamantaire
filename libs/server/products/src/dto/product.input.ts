@@ -290,6 +290,15 @@ export class ProductByContentIdsInput {
   @IsString()
   @Type(() => Array)
   readonly ids: string;
+
+  @ApiProperty({
+    example: 'de',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  readonly locale: string;
 }
 
 export class ProductByProductSlugsInput {

@@ -2,10 +2,12 @@
 
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { usePlpBlockPickerBlocks } from '@diamantaire/darkside/data/hooks';
+import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
 const PlpBlockPicker = ({ plpSlug }) => {
-  const { data: { listPage } = {} } = usePlpBlockPickerBlocks('en_US', plpSlug);
+  const { locale } = useRouter();
+  const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug);
 
   return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
     const { _modelApiKey } = contentBlockData;

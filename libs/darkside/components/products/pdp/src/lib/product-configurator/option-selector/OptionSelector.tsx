@@ -1,5 +1,5 @@
 import { DarksideButton, SwiperStyles, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useHumanNameMapper, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -24,6 +24,11 @@ interface OptionSelectorProps {
   isWeddingBandProduct?: boolean;
   setIsWeddingBandSizeGuideOpen?: (value: boolean) => void;
   hideSelectorLabel?: boolean;
+  productType?: string;
+  diamondSpecs?: {
+    color: string;
+    clarity: string;
+  };
 }
 
 const StyledOptionSelector = styled.div`
@@ -31,7 +36,8 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 
     .selector-title {
       font-size: 1.7rem;
@@ -39,25 +45,29 @@ const StyledOptionSelector = styled.div`
     }
 
     span {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: 400;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: 1.6rem;
+      }
     }
   }
   .option-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
 
     &.ringSize {
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
       .show-more-sizes-button button {
         font-size: var(--font-size-xxxsmall);
-        margin-left: 10px;
+        margin-left: 1rem;
       }
       .size-guide-button {
         flex: 0 0 100%;
@@ -74,7 +84,8 @@ const StyledOptionSelector = styled.div`
       flex-wrap: nowrap;
       button {
         flex: 1 1 50%;
-        height: 48px;
+        height: 4.8rem;
+        text-transform: capitalize;
       }
     }
 
@@ -84,14 +95,20 @@ const StyledOptionSelector = styled.div`
       flex-wrap: nowrap;
       button {
         flex: 1 1 33.33%;
-        height: 48px;
+        height: 4.8rem;
       }
     }
 
     &.bandAccent {
       button {
-        max-width: 38px;
-        max-height: 38px;
+        max-width: 3.8rem;
+        max-height: 3.8rem;
+      }
+    }
+
+    &.sideStoneShape {
+      button {
+        margin-right: 2rem;
       }
     }
 
@@ -107,12 +124,24 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.stoneSetting {
+      button {
+        text-transform: capitalize;
+      }
+    }
+
+    &.diamondSize {
+      button {
+        min-width: 6.4rem;
+      }
+    }
+
     &.diamondType {
-      margin-top: 10px;
+      margin-top: 1rem;
       position: relative;
       max-width: 100%;
-      gap: 15px;
-      min-height: 44px;
+      gap: 1.5rem;
+      min-height: 4.4rem;
       ${media.medium`max-width: 80%;`}
 
       .swiper {
@@ -122,10 +151,10 @@ const StyledOptionSelector = styled.div`
 
         .swiper-slide {
           width: fit-content !important;
-          margin-right: 25px;
-          ${media.medium`margin-right: 30px;`}
+          margin-right: 2.5rem;
+          ${media.medium`margin-right: 3rem;`}
           &:last-child {
-            margin-right: 100px;
+            margin-right: 10rem;
           }
         }
       }
@@ -140,27 +169,28 @@ const StyledOptionSelector = styled.div`
 
       .carousel-arrow {
         position: absolute;
-        top: 10px;
+        top: 1rem;
         background-color: transparent;
-        right: -30px;
-        ${media.medium`right: -40px;`}
+        right: -3rem;
+        ${media.medium`right: -4rem;`}
       }
     }
 
     /* For selectors with medium sized buttons */
     &.prongStyle,
     &.bandWidth,
+    &.stoneSetting,
     &.bandVersion,
     &.bandStyle {
       button {
-        min-width: 115px;
+        min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
       }
     }
 
     &.space-between-items {
       max-width: 100%;
-      gap: 20px;
+      gap: 2rem;
       min-height: 0;
     }
   }
@@ -177,10 +207,13 @@ function OptionSelector({
   isWeddingBandProduct = false,
   setIsWeddingBandSizeGuideOpen,
   hideSelectorLabel = false,
+  productType,
+  diamondSpecs,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
+  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
   const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
@@ -226,15 +259,45 @@ function OptionSelector({
   }
 
   return (
-    <StyledOptionSelector>
+    <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
           </Heading>
           <span>
-            <UIString>{selectedOptionValue}</UIString>
-            {label === 'caratWeight' && !isNaN(parseFloat(_t(selectedOptionValue))) ? 'ct' : ''}{' '}
+            {optionType === 'eternityStyle' ? (
+              ETERNITY_STYLE_HUMAN_NAMES?.[selectedOptionValue]?.value
+            ) : optionType === 'chainLength' ? (
+              <>
+                <UIString>{selectedOptionValue}</UIString>
+                {'"'}
+              </>
+            ) : optionType === 'sideStoneCarat' || (optionType === 'caratWeight' && selectedOptionValue !== 'other') ? (
+              <>
+                <UIString>{selectedOptionValue}</UIString>
+                {' ct'}
+                {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && (
+                  <>
+                    {', '}
+                    {/* Using both translation items because some elements need to be lowercase */}
+                    {diamondSpecs.color && (
+                      <>
+                        <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
+                        {', '}
+                      </>
+                    )}
+                    {diamondSpecs.clarity && (
+                      <>
+                        <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            ) : (
+              <UIString>{selectedOptionValue}</UIString>
+            )}
           </span>
         </div>
       )}
@@ -387,7 +450,8 @@ function OptionSelector({
                 );
               })
             )}
-            {isWeddingBandProduct && (
+
+            {(isWeddingBandProduct || productType === 'Ring') && (
               <div className="size-guide-button">
                 <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
                   <UIString>Size Guide</UIString>

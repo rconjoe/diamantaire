@@ -1,19 +1,29 @@
 /* eslint-disable camelcase */
-import { DarksideButton, DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+
+import { useAnalytics } from '@diamantaire/analytics';
+import {
+  DarksideButton,
+  DatoImage,
+  Heading,
+  ProductAppointmentCTA,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext, CartContext, ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { addERProductToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
   PdpTypePlural,
-  metalTypeAsConst,
-  pdpTypeSingleToPluralAsConst,
   getCurrency,
-  parseValidLocale,
   getFormattedPrice,
+  metalTypeAsConst,
+  parseValidLocale,
+  pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
 import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -28,9 +38,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SummaryItem from './SummaryItem';
 
 const ReviewBuildStepStyles = styled(motion.div)`
-  height: 100vh;
-  overflow-y: scroll;
-  padding: 20px 20px 140px;
+  padding: 2rem 2rem 14rem;
 
   .review-wrapper {
     display: flex;
@@ -38,15 +46,16 @@ const ReviewBuildStepStyles = styled(motion.div)`
     .product-images {
       flex: 2;
       display: flex;
-      margin: 0 -10px;
+      margin: 0 -1rem;
 
       > .image {
-        padding: 0 10px;
+        padding: 0 1rem;
         flex: 1;
-      }
-
-      .diamond-image {
         display: flex;
+
+        > div {
+          display: flex;
+        }
 
         img {
           object-fit: cover;
@@ -58,28 +67,29 @@ const ReviewBuildStepStyles = styled(motion.div)`
       flex: 1;
 
       .product-summary__inner {
-        padding: 20px 40px;
-        max-width: 550px;
+        position: relative;
+        padding: 2rem 4rem;
+        max-width: 55rem;
         margin: 0 auto;
 
         h1 {
-          /* margin-bottom: 20px; */
+          /* margin-bottom: 2rem; */
         }
 
         .total-price {
-          margin-bottom: 20px;
+          margin-bottom: 2rem;
         }
       }
 
       .builder-summary__content {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 0.1rem solid #ccc;
       }
     }
 
     .ring-size-container {
-      margin: 20px 0 0;
+      margin: 2rem 0 0;
       .selector-label {
-        margin: 0 0 10px;
+        margin: 0 0 1rem;
       }
 
       h4 {
@@ -88,13 +98,13 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .engraving-container {
-      padding: 20px 0;
+      padding: 2rem 0;
 
       .engraving-prompt-text {
         display: flex;
         align-items: center;
         p {
-          margin-left: 5px;
+          margin-left: 0.5rem;
           display: inline-block;
         }
       }
@@ -105,7 +115,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
         p {
           span {
             font-weight: bold;
-            margin-right: 7px;
+            margin-right: 0.7rem;
           }
         }
 
@@ -116,26 +126,26 @@ const ReviewBuildStepStyles = styled(motion.div)`
       }
 
       .engraving-input-container {
-        margin: 20px 0;
+        margin: 2rem 0;
         input {
-          border: 1px solid #ccc;
-          height: 40px;
+          border: 0.1rem solid #ccc;
+          height: 4rem;
           width: 100%;
-          padding-left: 10px;
+          padding-left: 1rem;
         }
 
         p {
           font-size: 1.3rem;
-          margin: 5px 0 20px;
+          margin: 0.5rem 0 2rem;
         }
       }
     }
 
     .review-atc {
-      padding: 20px 0 0;
+      padding: 2rem 0 0;
       ul {
         li {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
           &:last-child {
             margin-bottom: 0px;
           }
@@ -145,7 +155,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
   }
   .product-icon-list-container > ul {
     margin: 0;
-    padding-top: 20px;
+    padding-top: 2rem;
   }
 `;
 
@@ -167,9 +177,11 @@ const MAX_CHAR_LIMIT = 16;
 
 const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
   const sizeOptionKey = 'ringSize';
+  const router = useRouter();
+  const { data: checkout, refetch } = useCartData(router?.locale);
   const { builderProduct } = useContext(BuilderProductContext);
-  const { checkout } = useContext(CartContext);
-  const { addERProductToCart, setIsCartOpen } = useContext(ActionsContext);
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
   const [engravingText, setEngravingText] = useState(null);
@@ -179,6 +191,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     valueLabel?: string;
     isSelected?: boolean;
   }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations[sizeOptionKey];
@@ -187,8 +200,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { product, diamond } = builderProduct;
 
-  const router = useRouter();
   const { countryCode } = parseValidLocale(router?.locale);
+
   const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(router?.locale);
@@ -234,7 +247,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     product;
 
   // Need the ring size
-  function addCustomProductToCart() {
+  async function addCustomProductToCart() {
     const productGroupKey = uuidv4();
     // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
@@ -244,7 +257,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const diamondVariantId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
-    const isDiamondInCart = checkout.lines.find((item) => item.merchandise.id === diamondVariantId);
+    const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
 
     if (isDiamondInCart) {
       return toast.error(ToastError, {
@@ -313,14 +326,16 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       pdpUrl: window.location.href,
     };
 
-    addERProductToCart({
+    await addERProductToCart({
       settingVariantId,
       settingAttributes,
       diamondVariantId,
       diamondAttributes,
-    });
+    }).then(() => refetch());
 
-    setIsCartOpen(true);
+    updateGlobalContext({
+      isCartOpen: true,
+    });
 
     // TODO: Add Sentry Loggin
 
@@ -400,6 +415,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         },
       ],
     });
+
+    return;
   }
 
   return (
@@ -423,9 +440,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
+            <WishlistLikeButton extraClass="bundle" productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}
             </Heading>
+
             <p className="total-price">
               <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
             </p>
@@ -484,14 +504,18 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     type="underline"
                     colorTheme="teal"
                   >
-                    Add engraving
+                    <UIString>Add engraving</UIString>
                   </DarksideButton>
-                  <p>(optional)</p>
+                  <p>
+                    (<UIString>optional</UIString>)
+                  </p>
                 </div>
               ) : (
                 <div className="engraving-result-text">
                   <p className="result-text">
-                    <span>Your Engraving:</span>
+                    <span>
+                      <UIString>Your Engraving</UIString>:
+                    </span>
                     {engravingText}
                   </p>
                   <DarksideButton
@@ -499,7 +523,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     type="underline"
                     colorTheme="teal"
                   >
-                    Modify
+                    <UIString>Modify</UIString>
                   </DarksideButton>
                 </div>
               )}
@@ -515,17 +539,19 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                     }}
                   />
                   <p className="limit-text">
-                    Character Limit ({engravingInputText.length}/{MAX_CHAR_LIMIT})
+                    <UIString>Character Limit</UIString> ({engravingInputText.length}/{MAX_CHAR_LIMIT})
                   </p>
                   <DarksideButton
                     onClick={isEngravingInputEmpty ? () => removeEngraving() : () => confirmEngraving()}
                     type="outline"
                   >
-                    {isEngravingInputEmpty && engravingText && isEngravingInputVisible
-                      ? 'Delete engraving'
-                      : !engravingText
-                      ? 'Add engraving'
-                      : 'Update engraving'}
+                    <UIString>
+                      {isEngravingInputEmpty && engravingText && isEngravingInputVisible
+                        ? 'Delete engraving'
+                        : !engravingText
+                        ? 'Add engraving'
+                        : 'Update engraving'}
+                    </UIString>
                   </DarksideButton>
                 </div>
               )}
@@ -533,17 +559,23 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart()}>Add to bag</DarksideButton>
+                    <DarksideButton onClick={() => addCustomProductToCart()}>
+                      <UIString>Add To Bag</UIString>
+                    </DarksideButton>
                   </li>
                   <li>
-                    <DarksideButton colorTheme="grey">Visit our New York Location</DarksideButton>
+                    <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
               </div>
 
               {product.productType && productIconListType && (
                 <div className="product-icon-list-container">
-                  <ProductIconList productIconListType={productIconListType} locale={'en_US'} />
+                  <ProductIconList
+                    productIconListType={productIconListType}
+                    locale={router.locale}
+                    configuration={selectedConfiguration}
+                  />
                 </div>
               )}
             </div>

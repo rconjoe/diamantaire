@@ -3,11 +3,10 @@ import {
   ShowTabletAndUpOnly,
   MobileDesktopImage,
   DarksideButton,
-  DatoDarksideButtonProps,
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
 import { Logo as VOLogo } from '@diamantaire/shared/icons';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoDarksideButtonProps, DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 

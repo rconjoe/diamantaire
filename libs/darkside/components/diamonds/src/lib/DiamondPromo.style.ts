@@ -1,4 +1,4 @@
-import { GREY_LIGHTEST, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondPromo = styled.div`
@@ -22,7 +22,7 @@ const StyledDiamondPromo = styled.div`
 
   .title {
     padding: 0;
-    margin: 0 0 15px;
+    margin: 0 0 1.5rem;
     font-size: var(--font-size-xsmall);
     font-weight: 500;
   }
@@ -34,7 +34,7 @@ const StyledDiamondPromo = styled.div`
     list-style-position: inside;
     flex-direction: column;
     display: flex;
-    gap: 10px;
+    gap: 1rem;
 
     li {
       padding: 0;
@@ -52,9 +52,9 @@ const StyledDiamondPromo = styled.div`
 
   .leo {
     display: block;
-    padding: 20px;
+    padding: 2rem;
     text-align: center;
-    background: ${GREY_LIGHTEST};
+    background: var(--color-lightest-grey);
 
     h2 {
       font-size: var(--font-size-xsmall);
@@ -66,9 +66,9 @@ const StyledDiamondPromo = styled.div`
     }
 
     .media {
-      width: 120px;
+      width: 12rem;
       display: block;
-      margin: 15px auto 0;
+      margin: 1.5rem auto 0;
       position: relative;
     }
   }

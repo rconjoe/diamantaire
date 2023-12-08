@@ -37,11 +37,12 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       list-style: none;
 
       li {
-        button.top-level-link {
+        button.top-level-link,
+        > a.top-level-link {
           color: var(--color-black);
           background-color: #fff;
           border: none;
-          border-bottom: 1px solid #000;
+          border-bottom: 0.1rem solid #000;
           padding: 1.5rem 0;
           display: flex;
           width: 100%;
@@ -64,12 +65,12 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
             flex: 1;
             text-align: right;
             position: relative;
-            top: 2px;
+            top: 0.2rem;
 
             svg {
               transition: 0.25s;
-              width: 10px;
-              height: 17px;
+              width: 1rem;
+              height: 1.7rem;
             }
           }
 
@@ -92,7 +93,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       padding: 1rem;
 
       .submenu__title {
-        font-size: 14px;
+        font-size: 1.4rem;
         margin: 0 0 1rem;
       }
 
@@ -124,15 +125,17 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
 
             span {
               position: relative;
-              margin-right: 5px;
+              margin-right: 1rem;
               font-size: 1.7rem;
 
               &.diamond {
-                top: 4px;
+                top: 0.4rem;
                 flex: 0 0 3rem;
+                text-align: center;
                 svg {
                   max-width: 2.8rem;
-                  height: 2.8rem;
+                  max-height: 2.8rem;
+                  width: 100%;
                 }
               }
               &.ring-style {
@@ -173,10 +176,10 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
       initial="closed"
       animate="open"
       exit="closed"
-      transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+      transition={{ duration: 0.5 }}
       variants={{
-        open: { opacity: 1, x: 0 },
-        closed: { opacity: 0, x: -100 },
+        open: { x: 0 },
+        closed: { x: '-100%' },
       }}
     >
       <nav>
@@ -192,7 +195,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
               );
             })}
           <li>
-            <Link href="/account/login" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/account/login" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
               <UIString>Account</UIString>
             </Link>
           </li>
@@ -257,7 +260,7 @@ const MobileSubMenu = ({
         <h4 className="submenu__title">{columnTitle}</h4>
         <ul className="submenu__list">
           {links?.map((link, index) => {
-            const { linkKey, nestedLinks, route, copy, isBold }: Partial<SubMenuChildLink> = link;
+            const { linkKey, nestedLinks, route, newRoute, copy, isBold }: Partial<SubMenuChildLink> = link;
 
             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
               ? 'diamond'
@@ -268,7 +271,11 @@ const MobileSubMenu = ({
             return (
               <li key={index}>
                 {route && (
-                  <Link href={route} className={iconType ? 'has-icon' : ''} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    href={newRoute || route}
+                    className={iconType ? 'has-icon' : ''}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <>
                       {linkKey && (
                         <span className={iconType}>
@@ -285,23 +292,17 @@ const MobileSubMenu = ({
                 )}
                 {nestedLinks && nestedLinks?.length > 0 && (
                   <ul className="grandchildren-links">
-                    {nestedLinks?.map(
-                      (
-                        link: {
-                          route: string;
-                          copy: string;
-                        },
-                        nestedLinkIndex: number,
-                      ) => {
-                        return (
-                          <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                            <Link href={link.route} onClick={() => setIsMobileMenuOpen(false)}>
-                              <span className="link-text">{link.copy}</span>
-                            </Link>
-                          </li>
-                        );
-                      },
-                    )}
+                    {nestedLinks?.map((link, nestedLinkIndex: number) => {
+                      const { route, newRoute, copy } = link;
+
+                      return (
+                        <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
+                          <Link href={newRoute || route} onClick={() => setIsMobileMenuOpen(false)}>
+                            <span className="link-text">{copy}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </li>

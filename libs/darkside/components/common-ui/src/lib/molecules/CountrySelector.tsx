@@ -25,7 +25,7 @@ const CountrySelectorStyles = styled.div`
       display: none;
     }
     .region {
-      margin-bottom: 40px;
+      margin-bottom: 4rem;
       flex: 1 1 100%;
       &.north-america {
         ${media.medium`flex: 0 0 33.33%;`}
@@ -41,7 +41,7 @@ const CountrySelectorStyles = styled.div`
       }
       .region-title {
         font-weight: bold;
-        margin-bottom: 8px;
+        margin-bottom: 0.8rem;
         font-size: 1.3rem;
       }
       .region-list {
@@ -54,7 +54,7 @@ const CountrySelectorStyles = styled.div`
         }
 
         li {
-          margin-bottom: 5px;
+          margin-bottom: 0.5rem;
           button {
             padding: 0;
             background-color: transparent;

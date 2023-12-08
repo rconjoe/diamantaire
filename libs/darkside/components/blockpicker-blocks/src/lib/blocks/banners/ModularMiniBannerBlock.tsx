@@ -1,7 +1,7 @@
 import { Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
 import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
-import { desktopAndUp, setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,13 +9,11 @@ import styled from 'styled-components';
 
 const ModularMiniBannerBlockStyles = styled.div`
   width: 100%;
-  max-width: 1180px;
+  max-width: 118rem;
   height: auto;
   margin: 0 auto;
   position: relative;
-  margin-bottom: 80px;
-  .image-container {
-  }
+  margin-bottom: 8rem;
 
   .title-copy__wrapper {
     display: grid;
@@ -25,7 +23,7 @@ const ModularMiniBannerBlockStyles = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 20px;
+    padding: 2rem;
     ${tabletAndUp(`
      grid-template-columns: 1fr 1fr;
   `)}
@@ -37,37 +35,38 @@ const ModularMiniBannerBlockStyles = styled.div`
       justify-content: center;
 
       .title {
-        font-size: 24px;
+        font-size: 2.4rem;
         font-weight: 400;
-        margin-bottom: ${setSpace(2)};
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
         ${tabletAndUp(`
-            font-size: 20px;
+            font-size: 2rem;
             margin-bottom: 0px;
           `)}
         ${desktopAndUp(`
-            font-size: 30px;
+            font-size: 3rem;
           `)}
       }
 
       .copy-p {
-        font-size: 14px;
+        font-size: 1.4rem;
         ${tabletAndUp(`
-      font-size: 12px;
+      font-size: 1.2rem;
     `)};
         ${desktopAndUp(`
-      font-size: 16px;
+      font-size: 1.6rem;
     `)}
       }
 
       .copy-terms {
-        font-size: 10px;
+        font-size: 1rem;
         position: absolute;
-        bottom: 12px;
+        bottom: 1.2rem;
         ${tabletAndUp(`
-            bottom: 8px;
+            bottom: 0.8rem;
           `)}
         ${desktopAndUp(`
-            bottom: 12px;
+            bottom: 1.2rem;
           `)}
       }
     }

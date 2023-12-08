@@ -38,10 +38,10 @@ export class ProductController {
   @Get('/contentids')
   @ApiOperation({ summary: 'Get products by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
-  async getProductsByids(@Query() { ids }: ProductByContentIdsInput) {
+  async getProductsByids(@Query() { ids, locale }: ProductByContentIdsInput) {
     const contentIds = ids.split(',').map((s) => s.trim());
 
-    return await this.productService.findProductsByContentIds(contentIds);
+    return await this.productService.findProductsByContentIds(contentIds, locale);
   }
 
   @Get('/slugs')
@@ -50,7 +50,25 @@ export class ProductController {
   async getProductsBySlugs(@Query() { ids }: ProductByProductSlugsInput) {
     const productSlugs = ids.split(',').map((s) => s.trim());
 
-    return await this.productService.findProductsByProductSlugs(productSlugs);
+    const products = await this.productService.findProductsByProductSlugs(productSlugs);
+    const lowestPricesByCollection = await this.productService.getLowestPricesByCollection();
+    const collectionSet = products.reduce((acc, product) => {
+      acc.add(product.collectionSlug);
+
+      return acc;
+    }, new Set());
+    const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
+      if (collectionSet.has(collectionSlug)) {
+        map[collectionSlug] = price;
+      }
+
+      return map;
+    }, {});
+
+    return {
+      products,
+      lowestPricesByCollection: reducedLowerPrices,
+    };
   }
 
   @Get('options')
@@ -59,6 +77,17 @@ export class ProductController {
   @ApiQuery({ name: 'productSlug', required: true, description: 'Product slug' })
   async getProductOptionConfigs(@Query() { collectionSlug, productSlug }: ProductInput) {
     return await this.productService.getProductOptionConfigs(collectionSlug, productSlug);
+  }
+
+  @Get('list')
+  @ApiOperation({ summary: 'Get all products by slug and their content' })
+  @ApiQuery({ name: 'slugs', required: true, description: 'Find specific product and content by slugs' })
+  @ApiQuery({ name: 'locale', required: true, description: 'Locale in which content should be returned as' })
+  async getProducts(@Query() { slugs, locale }: { slugs: string, locale: string }) {
+    const slugsArray = slugs.split(',').map(s => s.trim());
+    const products = await this.productService.findProductsByProductSlugs(slugsArray);
+
+    return await this.productService.findProductContent(products, locale);
   }
 
   @Get('catalog')
@@ -126,7 +155,7 @@ export class ProductController {
   @ApiQuery({ name: 'category', required: true, description: 'PLP category' })
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
   @ApiQuery({ name: 'metal', required: false, description: 'metal filter' })
-  @ApiQuery({ name: 'diamondType', required: false, description: 'dimaond type filter' }) // TODO: should be an array
+  @ApiQuery({ name: 'diamondType', required: false, description: 'diamond type filter' }) // TODO: should be an array
   @ApiQuery({ name: 'priceMin', required: false, description: 'price range filter min' })
   @ApiQuery({ name: 'priceMax', required: false, description: 'price range filter max' })
   @ApiQuery({ name: 'style', required: false, description: 'style filter' })
@@ -151,16 +180,23 @@ export class ProductController {
       sortOrder,
     }: PlpInput,
   ) {
+
+    // Support for multiselect filters
+    const metals = metal ? metal.split(',').map((s:string) => s.trim()) : [];
+    const diamondTypes = diamondType ? diamondType.split(',').map((s:string) => s.trim()) : [];
+    const styles = style ? style.split(',').map((s:string) => s.trim()) : [];
+    const subStyles = subStyle ? subStyle.split(',').map((s:string) => s.trim()) : [];
+
     return await this.productService.findPlpData({
       slug,
       category,
       locale,
-      metal,
-      diamondType,
+      metals,
+      diamondTypes,
       priceMin,
       priceMax,
-      style,
-      subStyle,
+      styles,
+      subStyles,
       page,
       limit,
       sortBy,

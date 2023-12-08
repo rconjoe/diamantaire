@@ -17,14 +17,14 @@ export const ImageTileContainer = styled.div<Props>`
 
   &.journal-item {
     img {
-      ${media.medium`max-height: 305px;min-height: 305px;object-fit: cover;`}
+      ${media.medium`max-height: 30.5rem;min-height: 30.5rem;object-fit: cover;`}
     }
   }
 
   .image-tile__copy-container {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    max-width: 40rem;
     margin-top: ${setSpace(0.5)};
     margin-bottom: ${setSpace(4)};
     text-align: left;
@@ -39,11 +39,11 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__title {
-    margin: 5px 0 1px;
+    margin: 0.5rem 0 0.1rem;
     .in-the-media & {
       font-weight: var(--font-weight-bold);
       text-transform: uppercase;
-      line-height: 32px;
+      line-height: 3.2rem;
     }
     &.primary {
       font-weight: var(--font-weight-medium);
@@ -82,7 +82,7 @@ export const ImageTileContainer = styled.div<Props>`
   }
 
   .image-tile__copy {
-    margin: 0 0 4px;
+    margin: 0 0 0.4rem;
   }
 
   .image-tile__anchor {
@@ -118,12 +118,16 @@ export const ImageTileContainer = styled.div<Props>`
 
     p {
       text-align: center;
-      margin: calc(var(--gutter)) 0;
+      margin: 0;
+    }
+
+    .button-style--underline {
+      text-align: center;
     }
 
     .svg {
-      height: 125px;
-      width: 125px;
+      height: 12.5rem;
+      width: 12.5rem;
       display: flex;
       margin: 0 auto;
       margin-bottom: ${setSpace(2)};
@@ -133,6 +137,10 @@ export const ImageTileContainer = styled.div<Props>`
       ${tabletAndUp(`
         min-height: 0;
       `)};
+
+      .image-title__copy {
+        text-align: center;
+      }
     }
   }
 `;

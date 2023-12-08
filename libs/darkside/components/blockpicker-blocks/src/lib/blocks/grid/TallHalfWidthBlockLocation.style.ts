@@ -5,22 +5,21 @@ import {
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  WHITE,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const TallHalfWidthBlockLocationCTAContainer = styled.div`
   position: relative;
-  max-width: 1180px;
+  max-width: 118rem;
   margin: 0 auto;
-  margin-bottom: 80px;
+  margin-bottom: 8rem;
 
   &.-vertical-margins {
-    margin: 50px auto;
+    margin: 5rem auto;
     ${tabletAndUp(`
-    margin: 80px auto;
+    margin: 8rem auto;
     width: 100%;
-    padding: 0 24px;
+    padding: 0 2.4rem;
   `)}
     ${XXLDesktopAndUp(`
     padding:0;
@@ -36,7 +35,7 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
   }
   .cta__image-container {
     width: 100%;
-    max-width: 767px;
+    max-width: 76.7rem;
 
     height: auto;
     margin: auto;
@@ -48,7 +47,7 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
     `)};
 
     ${XXLDesktopAndUp(`
-      min-height: 540px;
+      min-height: 54rem;
     `)};
 
     &.-left {
@@ -99,14 +98,14 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       .primary,
       .secondary {
         ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)};
 
         &:hover {
           ${tabletAndUp(`
-            color: ${WHITE};
-            border-color: ${WHITE};
+            color: var(--color-white);
+            border-color: var(--color-white);
           `)}
         }
       }
@@ -117,7 +116,7 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       width: ${setSpace(40)};
       background: #fff;
       padding: ${setSpace(3)};
-      margin: -100px auto ${setSpace(5)};
+      margin: -10rem auto ${setSpace(5)};
       position: relative;
 
       ${tabletAndUp(`
@@ -235,12 +234,12 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
     }
 
     button {
-      border-width: 1px !important;
+      border-width: 0.1rem !important;
       width: 99% !important;
       margin-top: ${setSpace(1)};
 
       ${mobileOnly(`
-        font-size: 16px !important;
+        font-size: 1.6rem !important;
       `)}
 
       ${tabletAndUp(`
@@ -257,8 +256,8 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       margin-bottom: ${setSpace(2)};
       ${tabletAndUp(`
         &.-white {
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         }
       `)};
       ${desktopAndUp(`
@@ -293,19 +292,19 @@ export const TallHalfWidthBlockLocationCTAContainer = styled.div`
       a {
         text-decoration-line: underline;
         text-decoration-style: solid;
-        text-decoration-thickness: 1px;
+        text-decoration-thickness: 0.1rem;
       }
 
       ${tabletAndUp(`
         &.-white {
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
           a {
             color: inherit;
           }
         }
         &.-tall-block p {
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
         }
       `)};
     }

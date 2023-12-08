@@ -3,7 +3,14 @@
  * @file products.service.ts
  * @description Products service class
  */
-import { PLP_QUERY, CONFIGURATIONS_LIST, ERPDP, JEWELRYPRODUCT, WEDDING_BAND_PDP } from '@diamantaire/darkside/data/api';
+import {
+  PLP_QUERY,
+  CONFIGURATIONS_LIST,
+  ERPDP,
+  JEWELRYPRODUCT,
+  WEDDING_BAND_PDP,
+  PRODUCT_BRIEF_CONTENT,
+} from '@diamantaire/darkside/data/api';
 import { UtilService } from '@diamantaire/server/common/utils';
 import { DIAMOND_PAGINATED_LABELS, ProductOption } from '@diamantaire/shared/constants';
 import {
@@ -17,6 +24,8 @@ import {
   generateProductTree,
   getProductConfigMatrix,
   ProductNode,
+  sortMetalTypes,
+  sortDiamondTypes,
 } from '@diamantaire/shared-product';
 import {
   BadGatewayException,
@@ -28,10 +37,11 @@ import {
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
+import { Variables } from 'graphql-request';
 import { PipelineStage, FilterQuery, PaginateOptions } from 'mongoose';
 
 import { PaginateFilterDto } from '../dto/paginate-filter.dto';
-import { PlpInput, ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
+import { ProductSlugInput, ProductByVariantIdInput } from '../dto/product.input';
 import { ProductEntity } from '../entities/product.entity';
 import {
   findCanonivalVariant,
@@ -49,7 +59,10 @@ const PRODUCT_DATA_TTL = 3600;
 export class ProductsService {
   private logger = new Logger(ProductsService.name);
   private limiter: Bottleneck;
-  constructor(private readonly productRepository: ProductRepository, private readonly utils: UtilService) {
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly utils: UtilService,
+  ) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
       maxConcurrent: 1,
@@ -94,12 +107,16 @@ export class ProductsService {
     }
   }
 
-  async findProductsByContentIds(contentIds: string[]) {
+  async findProductsByContentIds(contentIds: string[], locale = 'en_US') {
     try {
       const products = await this.productRepository.find({
         contentId: { $in: contentIds },
       });
 
+      // get product content from Dato
+      const productContentMap = await this.findProductContent(products, locale);
+
+      // Get lowest prices for unique set of collections
       const collectionSet = products.reduce((acc, product) => {
         acc.add(product.collectionSlug);
 
@@ -116,7 +133,7 @@ export class ProductsService {
       }, {});
 
       return {
-        products,
+        products: Object.values(productContentMap),
         lowestPricesByCollection: reducedLowerPrices,
       };
     } catch (error: any) {
@@ -129,31 +146,13 @@ export class ProductsService {
     }
   }
 
-  async findProductsByProductSlugs(productSlugs: string[]) {
+  async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]> {
     try {
       const products = await this.productRepository.find({
         productSlug: { $in: productSlugs },
       });
 
-      const collectionSet = products.reduce((acc, product) => {
-        acc.add(product.collectionSlug);
-
-        return acc;
-      }, new Set());
-
-      const lowestPricesByCollection = await this.getLowestPricesByCollection();
-      const reducedLowerPrices = Object.entries(lowestPricesByCollection).reduce((map, [collectionSlug, price]) => {
-        if (collectionSet.has(collectionSlug)) {
-          map[collectionSlug] = price;
-        }
-
-        return map;
-      }, {});
-
-      return {
-        products,
-        lowestPricesByCollection: reducedLowerPrices,
-      };
+      return products;
     } catch (error: any) {
       this.logger.debug('Error fetching products by product slugs');
       throw new InternalServerErrorException({
@@ -162,6 +161,56 @@ export class ProductsService {
         error: error.message,
       });
     }
+  }
+
+  async findProductContent(products: VraiProduct[], locale: string) {
+    const productTypeMap = products.reduce((map: Record<string, VraiProduct[]>, product) => {
+      if (!map[product.productType]) {
+        map[product.productType] = [product];
+      } else {
+        map[product.productType].push(product);
+      }
+
+      return map;
+    }, {});
+
+    const nonJewelryProducts = [
+      ...(productTypeMap[ProductType.EngagementRing] || []),
+      ...(productTypeMap[ProductType.WeddingBand] || []),
+    ];
+    const jewelryProducts = [
+      ...(productTypeMap[ProductType.Ring] || []),
+      ...(productTypeMap[ProductType.Bracelet] || []),
+      ...(productTypeMap[ProductType.Necklace] || []),
+      ...(productTypeMap[ProductType.Earrings] || []),
+    ];
+
+    const { allConfigurations, allOmegaProducts } = await this.getDatoContent<
+      { allConfigurations: object[]; allOmegaProducts: object[] },
+      { productHandles: string[]; variantIds: string[]; locale: string }
+    >({
+      query: PRODUCT_BRIEF_CONTENT,
+      variables: {
+        productHandles: nonJewelryProducts.map((p) => p.contentId),
+        variantIds: jewelryProducts.map((p) => p.contentId),
+        locale,
+      },
+    });
+
+    const productContent = [...allConfigurations, ...allOmegaProducts];
+
+    const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
+      map[product.productSlug] = {
+        product,
+        content: productContent.find(
+          (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
+        ),
+      };
+
+      return map;
+    }, {});
+
+    return productContentMap;
   }
 
   /**
@@ -649,26 +698,26 @@ export class ProductsService {
     slug,
     category,
     locale = 'en_US',
-    metal,
-    diamondType,
+    metals,
+    diamondTypes,
     priceMin,
     priceMax,
-    style,
-    subStyle,
+    styles,
+    subStyles,
     page,
     limit,
     sortBy,
     sortOrder,
-  }: PlpInput) {
+  }: PlpQuery) {
     const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
-      metal,
-      diamondType,
+      metals,
+      diamondTypes,
       priceMin,
       priceMax,
       page,
       limit,
-      style,
-      subStyle,
+      styles,
+      subStyles,
       sortBy,
       sortOrder,
     })}`;
@@ -697,8 +746,8 @@ export class ProductsService {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
         plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
-          metal,
-          diamondType,
+          metals,
+          diamondTypes,
           page,
           limit,
         });
@@ -742,12 +791,12 @@ export class ProductsService {
       }
 
       const getFiltersQuery = ({
-        m,
-        dT,
+        ms,
+        dTs,
         pMin,
         pMax,
-        stylesFilter,
-        subStylesFilter,
+        stylesFilters,
+        subStylesFilters,
       }): FilterQuery<{
         'configuration.metal'?: string;
         'configuration.diamondType'?: string;
@@ -756,11 +805,13 @@ export class ProductsService {
       }>[] => {
         const query = [];
 
-        if (m) {
-          query.push({ 'configuration.metal': m });
+        if (ms && ms.length > 0) {
+          query.push({ 'configuration.metal': { $in: ms } });
         }
-        if (dT) {
-          query.push({ 'configuration.diamondType': dT });
+        if (dTs && dTs.length > 0) {
+          const diamondTypeRegex = dTs.map((dt) => new RegExp(dt, 'i'));
+
+          query.push({ 'configuration.diamondType': { $in: diamondTypeRegex } });
         }
 
         if (typeof pMin !== 'undefined') {
@@ -770,24 +821,24 @@ export class ProductsService {
           query.push({ price: { $lte: priceMax } });
         }
 
-        if (typeof stylesFilter !== 'undefined') {
-          query.push({ styles: stylesFilter });
+        if (typeof stylesFilters !== 'undefined' && stylesFilters.length > 0) {
+          query.push({ styles: { $in: stylesFilters } });
         }
 
-        if (typeof subStylesFilter !== 'undefined') {
-          query.push({ subStyles: subStylesFilter });
+        if (typeof subStylesFilters !== 'undefined' && subStylesFilters.length > 0) {
+          query.push({ subStyles: { $in: subStylesFilters } });
         }
 
         return query;
       };
 
       const filterQueries = getFiltersQuery({
-        m: metal,
-        dT: diamondType,
+        ms: metals,
+        dTs: diamondTypes,
         pMin: priceMin,
         pMax: priceMax,
-        stylesFilter: style,
-        subStylesFilter: subStyle,
+        stylesFilters: styles,
+        subStylesFilters: subStyles,
       });
 
       // Build Query
@@ -844,13 +895,12 @@ export class ProductsService {
           }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
-          filterValueQueries,
-        );
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
+          await Promise.all(filterValueQueries);
 
         availableFilters = {
-          metal: availableMetals,
-          diamondType: availableDiamondTypes,
+          metal: availableMetals.sort(sortMetalTypes),
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1000,6 +1050,7 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
+            productTitle: product.productTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
@@ -1054,8 +1105,13 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
-    { metal, diamondType, page = 1, limit = 12 }: { metal: string; diamondType: string; page?: number; limit: number },
+    { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
+    const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
+
+    const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const metalsQueryValues = metals?.length > 1 ? metals : ['yellow-gold'];
+
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
         [
@@ -1064,8 +1120,8 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': diamondType || 'round-brilliant', // always has a filter applied
-              'configuration.metal': metal || 'yellow-gold', // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypesQueryValues  }, // always has a filter applied
+              'configuration.metal': { $in: metalsQueryValues }, // always has a filter applied
               ...getDraftQuery(),
             },
           },
@@ -1074,13 +1130,13 @@ export class ProductsService {
           // Adds fields to allow sorting by all of the configuration properties
           {
             $addFields: {
-              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'pave-twisted'], '$configuration.bandAccent'] },
+              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'], '$configuration.bandAccent'] },
             },
           },
           {
             $addFields: {
               __caratWeightOrder: {
-                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '2ct'], '$configuration.caratWeight'],
+                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '1.5ct', '2ct'], '$configuration.caratWeight'],
               },
             },
           },
@@ -1088,7 +1144,7 @@ export class ProductsService {
             $addFields: {
               __sideStoneShapeOrder: {
                 $indexOfArray: [
-                  ['round-brilliant', 'pear', 'trillion', 'tapered-baguette'],
+                  ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise', 'trillion', 'asscher', 'princess', 'tapered-baguette', 'round-brilliant+oval', 'round-brilliant+pear', 'emerald+pear'],
                   '$configuration.sideStoneShape',
                 ],
               },
@@ -1111,6 +1167,10 @@ export class ProductsService {
           {
             $addFields: { __haloSizeOrder: { $indexOfArray: [['original', 'small', 'large'], '$configuration.haloSize'] } },
           },
+          { $addFields: { __prongStyleOrder: { $indexOfArray: [['plain', 'pave'], '$configuration.prongStyle'] }  } },
+          { $addFields: { __hiddenHaloOrder: { $indexOfArray: [['yes'], '$configuration.hiddenHalo'] }  } },
+          { $addFields: { __diamondOrientationOrder: { $indexOfArray: [['vertical','horizontal'], '$configuration.diamondOrientation'] }  } },
+          { $addFields: { __bandStoneShapeOrder: { $indexOfArray: [['round-brilliant', 'baguette'], '$configuration.bandStoneShape'] }  } },
           // Sorts by those properties
           {
             $sort: {
@@ -1121,6 +1181,9 @@ export class ProductsService {
               __goldPurityOrder: 1,
               __prongStyleOrder: 1,
               __haloSizeOrder: 1,
+              __hiddenHaloOrder: 1,
+              __diamondOrientationOrder: 1,
+              __bandStoneShapeOrder: 1,
             },
           },
           // Groups them by collectionSlug
@@ -1128,8 +1191,6 @@ export class ProductsService {
             $group: {
               _id: {
                 collectionSlug: '$collectionSlug',
-                diamondType: '$configuration.diamondType',
-                metal: '$configuration.metal',
               },
               firstDocument: { $first: '$$ROOT' },
             },
@@ -1160,6 +1221,7 @@ export class ProductsService {
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
       const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
         const content = productContent.flat().find((itemContent) => itemContent.shopifyProductHandle === product.contentId);
@@ -1172,9 +1234,21 @@ export class ProductsService {
           // skip product if no match is found
           return productsArray;
         } else {
+
+          const useLowestPrice = !content?.shouldUseDefaultPrice;
+          const hasOnlyOnePrice = content?.hasOnlyOnePrice;
+          const productLabel = content?.productLabel;
+
+          const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
+
           productsArray.push({
             defaultId: product.contentId,
+            productTitle: content?.productTitle,
             productType: product.productType,
+            ...(productLabel && { productLabel }),
+            ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+            ...(useLowestPrice && { useLowestPrice }),
+            ...(lowestPrice && { lowestPrice }),
             metal: [],
             variants: {
               [product.contentId]: this.createPlpProduct(product, content),
@@ -1216,13 +1290,12 @@ export class ProductsService {
           }),
         ];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = await Promise.all(
-          filterValueQueries,
-        );
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
+          await Promise.all(filterValueQueries);
 
         availableFilters = {
-          metal: availableMetals,
-          diamondType: availableDiamondTypes,
+          metal: availableMetals.sort(sortMetalTypes),
+          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1256,7 +1329,7 @@ export class ProductsService {
 
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
     return {
-      title: content['plpTitle'] || product.collectionTitle,
+      title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,
@@ -1407,6 +1480,62 @@ export class ProductsService {
     } catch (err) {
       this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
       throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
+    }
+  }
+
+  async getDatoContent<TData, TVars extends Variables>({
+    query,
+    variables,
+  }: {
+    query: string;
+    variables: TVars;
+  }): Promise<TData> {
+    try {
+      const response = await this.utils.createDataGateway().request<TData, any>(query, variables);
+
+      return response;
+    } catch (error) {
+      this.logger.error(`Error retrieving Dato content`, error);
+      throw error;
+    }
+  }
+
+  async datoConfigurationsAndProductContent({
+    jewelryIds = [],
+    nonJewelryIds = [],
+    locale = 'en_US',
+    first = 100,
+    skip = 0,
+  }: {
+    jewelryIds?: string[];
+    nonJewelryIds?: string[];
+    locale;
+    first?: number;
+    skip?: number;
+  }): Promise<any> {
+    this.logger.verbose(`Getting Dato configurations & products for a list of products`);
+    // const cachedKey = `configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
+    let response; // = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
+
+    const queryVars = {
+      productHandles: nonJewelryIds,
+      variantIds: jewelryIds,
+      locale,
+      first,
+      skip,
+    };
+
+    try {
+      if (!response) {
+        response = await this.utils.createDataGateway().request(CONFIGURATIONS_LIST, queryVars);
+        // this.logger.verbose(`Dato content set cached key :: ${cachedKey}`);
+        // this.utils.memSet(cachedKey, response, PRODUCT_DATA_TTL); //set the response in memory
+      }
+
+      return [...response.allConfigurations, ...response.allOmegaProducts];
+    } catch (err) {
+      // this.logger.debug(`Cannot retrieve configurations and products for ${slug}`);
+      // throw new NotFoundException(`Cannot retrieve configurations and products for ${slug}`, err);
     }
   }
 
@@ -1621,6 +1750,25 @@ export class ProductsService {
       throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
   }
+}
+
+type PlpQuery = {
+  slug: string,
+  category: string,
+  locale: string,
+  page,
+  limit,
+  sortBy,
+  sortOrder,
+} & PlpFilters;
+
+type PlpFilters = { 
+  metals: string[],
+  diamondTypes: string[],
+  priceMin: number,
+  priceMax: number,
+  styles: string[],
+  subStyles: string[],
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {

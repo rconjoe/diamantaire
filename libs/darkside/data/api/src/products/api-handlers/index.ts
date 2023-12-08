@@ -3,14 +3,17 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { vraiApiClient } from '../../clients';
 
-// const logger = createLogger('api:products');
-
 export const productsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
 
   console.log(endpoint, req.query);
 
   switch (endpoint) {
+    case 'list': {
+      productsByListHandler(req, res);
+
+      return;
+    }
     case 'slugs': {
       productsBySlugsHandler(req, res);
 
@@ -25,8 +28,6 @@ export const productsHandler = async (req: NextApiRequest, res: NextApiResponse)
       const errorMsg = `No handler available for API endpoint: ${endpoint}`;
 
       console.warn(errorMsg);
-      // logger.warn(errorMsg);
-      // logger.exception(errorMsg);
     }
   }
 };
@@ -43,6 +44,13 @@ export const productsBySlugsHandler = async (req: NextApiRequest, res: NextApiRe
   const { endpoint, ...query } = req.query;
 
   await fetchVraiServerData('/v1/products/slugs', query as any, res);
+};
+
+export const productsByListHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const { endpoint, ...query } = req.query;
+
+  await fetchVraiServerData('/v1/products/list', query as any, res);
 };
 
 async function fetchVraiServerData(

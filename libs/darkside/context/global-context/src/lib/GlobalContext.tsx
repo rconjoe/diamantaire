@@ -4,18 +4,24 @@ import { isMobile } from 'react-device-detect';
 export interface GlobalContextInterface {
   headerHeight?: number;
   isMobile?: boolean;
+  isCartOpen?: boolean;
+  isWishlistOpen?: boolean;
+  isWishlistUpdated?: number;
 }
 
 export const GlobalContext = createContext<GlobalContextInterface | null>(null);
 
-const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInterface>) => void>(() => {
+export const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInterface>) => void>(() => {
   throw new Error('updateGlobalContext function not implemented');
 });
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [globalContext, setGlobalContext] = useState({
-    headerHeight: 0,
     isMobile,
+    headerHeight: 0,
+    isCartOpen: false,
+    isWishlistOpen: false,
+    isWishlistUpdated: 0,
   });
 
   const updateGlobalContext = (data: Partial<GlobalContextInterface>) => {
@@ -49,10 +55,12 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     onIsMobileReset();
 
     window.addEventListener('resize', onWindowResize);
+
     window.addEventListener('RESET_HEADER_HEIGHT', onHeaderHeightReset);
 
     return () => {
       window.removeEventListener('resize', onWindowResize);
+
       window.removeEventListener('RESET_HEADER_HEIGHT', onHeaderHeightReset);
     };
   }, []);

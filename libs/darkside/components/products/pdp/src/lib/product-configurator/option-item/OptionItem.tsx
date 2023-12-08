@@ -1,4 +1,4 @@
-import { useHumanNameMapper } from '@diamantaire/darkside/data/hooks';
+import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -25,10 +25,16 @@ export function OptionItemContainer({
 
   return isLink ? (
     <OptionItemLink {...option}>
-      <OptionItemComponent valueLabel={valueLabel} isSelected={isSelected} {...option} onClick={onClick} />
+      <OptionItemComponent
+        valueLabel={valueLabel}
+        isSelected={isSelected}
+        {...option}
+        optionType={optionType}
+        onClick={onClick}
+      />
     </OptionItemLink>
   ) : (
-    <OptionItemComponent isSelected={isSelected} {...option} onClick={onClick} />
+    <OptionItemComponent isSelected={isSelected} {...option} optionType={optionType} onClick={onClick} />
   );
 }
 
@@ -86,33 +92,34 @@ const StyledOptionItem = styled.button`
 
 const StyledRoundOptionItem = styled(StyledOptionItem)`
   border-radius: 50%;
-  padding: 3px;
-  height: 38px;
-  width: 38px;
+  padding: 0.3rem;
+  height: 3.8rem;
+  width: 3.8rem;
   .inner {
-    border: 1.5px solid transparent;
+    border: 1.5rem solid transparent;
     border-radius: 50%;
     width: 100%;
     height: 100%;
   }
   &.selected {
-    border: 1px solid var(--color-teal);
+    border: 0.1rem solid var(--color-teal);
   }
 `;
 
 interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
+  optionType: string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   &.selected {
-    border-bottom: 2px solid var(--color-teal);
-    padding-bottom: 5px;
+    border-bottom: 0.2rem solid var(--color-teal);
+    padding-bottom: 0.5rem;
   }
 
   .icon {
     svg {
-      height: 32px;
+      height: 3.2rem;
       width: auto;
       margin: 0 auto;
     }
@@ -120,7 +127,12 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+  
   const DiamondIcon = diamondIconsMap[value]?.icon;
+
+  if(!DiamondIcon) {
+    return null;
+  }
 
   return (
     <StyledDiamondIconOptionItem
@@ -177,7 +189,7 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
   }
   &.white {
     .inner {
-      border: 1px solid #000;
+      border: 0.1rem solid #000;
     }
   }
   &.turquoise {
@@ -201,10 +213,22 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 }
 
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
-  height: 45px;
-  width: 45px;
-  img {
-    border-radius: 50%;
+  height: 4.5rem;
+  width: 4.5rem;
+  position: relative;
+  left: -3px;
+
+  .inner {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    img {
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      transform: scale(0.8);
+    }
   }
 `;
 
@@ -232,10 +256,10 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
 }
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`
-  border: 1px solid #d8d6d1;
-  padding: 5px;
-  min-width: 35px;
-  min-height: 35px;
+  border: 0.1rem solid #d8d6d1;
+  padding: 0.5rem;
+  min-width: 3.6rem;
+  min-height: 3.6rem;
   text-align: center;
   font-size: 1.3rem;
   color: var(--color-black);
@@ -243,30 +267,48 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   &.selected {
     border-color: var(--color-teal);
   }
+
+  span.em-dash {
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      Segoe UI,
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      Fira Sans,
+      Droid Sans,
+      Helvetica Neue,
+      sans-serif;
+    font-size: 9px;
+    position: relative;
+    top: 0px;
+    margin: 0 3px;
+  }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
   const { locale } = useRouter();
 
-  // Band Width
+  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
+  const { _t } = useTranslations(locale);
 
-  const {
-    data: {
-      BAND_WIDTH_HUMAN_NAMES: BAND_WIDTH_HUMAN_NAMES_MAP,
-      BAND_STYLE_HUMAN_NAMES: BAND_STYLE_HUMAN_NAMES_MAP,
-      CARAT_WEIGHT_HUMAN_NAMES: CARAT_WEIGHT_HUMAN_NAMES_MAPS,
-    } = {},
-  } = useHumanNameMapper(locale);
+  let valueLabel;
 
-  const valueLabel =
-    BAND_WIDTH_HUMAN_NAMES_MAP?.[value]?.value ||
-    BAND_STYLE_HUMAN_NAMES_MAP?.[value]?.value ||
-    CARAT_WEIGHT_HUMAN_NAMES_MAPS?.[value]?.value ||
-    value;
+  if (optionType === 'eternityStyle') {
+    valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+  } else if (optionType === 'earringSize') {
+    valueLabel = value.replace('mm', '');
+  } else if (optionType === 'chainLength') {
+    valueLabel = value + '"';
+  } else {
+    valueLabel = _t(value.toLowerCase());
+  }
 
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {valueLabel}
+      {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
     </StyledBasicOptionItem>
   );
 }

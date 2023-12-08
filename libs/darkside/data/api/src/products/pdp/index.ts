@@ -30,8 +30,15 @@ const ENGAGEMENT_RING_QUERY = gql`
   query engagementRingQuery($locale: SiteLocale, $slug: String!) {
     engagementRingProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoTitle
+      seoDescription
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       productDescription
       productTitle
+      productTitleOverride
       bandDepth(locale: $locale)
       bandWidth(locale: $locale)
       paveCaratWeight(locale: $locale)
@@ -61,6 +68,10 @@ const JEWELRY_QUERY = gql`
   query jewelryProductQuery($locale: SiteLocale, $slug: String!) {
     jewelryProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       productTitle
       productDescription
       productIconList {
@@ -83,10 +94,15 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoTitle
+      seoDescription
       productTitle
       productDescription
       productIconList {
         productType
+      }
+      trioBlocks {
+        id
       }
       caratWeight
       specLabels {
@@ -407,8 +423,158 @@ const DATO_VARIANT_QUERY = gql`
       metalWeightOverride
       paveCaratWeightOverride
       pdpSubTitle
+      productSuggestionQuadBlock {
+        id
+      }
     }
   }
+`;
+
+const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
+  query datoProductSuggestionBlock($locale: SiteLocale, $id: ItemId) {
+    productSuggestionQuadBlock(filter: { id: { eq: $id } }, locale: $locale) {
+      id
+      content {
+        productsPerRow
+        aboveCopy
+        configurationsInOrder {
+          ... on OmegaProductRecord {
+            collection {
+              ... on WeddingBandProductRecord {
+                slug
+              }
+              ... on EngagementRingProductRecord {
+                slug
+              }
+            }
+            _modelApiKey
+            shopifyProductHandle
+          }
+          ... on ConfigurationRecord {
+            jewelryProduct {
+              slug
+            }
+            _modelApiKey
+            configuredProductOptionsInOrder
+            variantId
+          }
+        }
+        title1
+        configuration1 {
+          ... on OmegaProductRecord {
+            collection {
+              ... on WeddingBandProductRecord {
+                slug
+              }
+              ... on EngagementRingProductRecord {
+                slug
+              }
+            }
+            _modelApiKey
+            shopifyProductHandle
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+          ... on ConfigurationRecord {
+            jewelryProduct {
+              slug
+            }
+            _modelApiKey
+            configuredProductOptionsInOrder
+            variantId
+          }
+        }
+        title2
+        configuration2 {
+          ... on OmegaProductRecord {
+            collection {
+              ... on WeddingBandProductRecord {
+                slug
+              }
+              ... on EngagementRingProductRecord {
+                slug
+              }
+            }
+            _modelApiKey
+            shopifyProductHandle
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+          ... on ConfigurationRecord {
+            jewelryProduct {
+              slug
+            }
+            _modelApiKey
+            configuredProductOptionsInOrder
+            variantId
+          }
+        }
+        title3
+        configuration3 {
+          ... on OmegaProductRecord {
+            collection {
+              ... on WeddingBandProductRecord {
+                slug
+              }
+              ... on EngagementRingProductRecord {
+                slug
+              }
+            }
+            _modelApiKey
+            shopifyProductHandle
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+          ... on ConfigurationRecord {
+            jewelryProduct {
+              slug
+            }
+            _modelApiKey
+            configuredProductOptionsInOrder
+            variantId
+          }
+        }
+        title4
+        configuration4 {
+          ... on OmegaProductRecord {
+            collection {
+              ... on WeddingBandProductRecord {
+                slug
+              }
+              ... on EngagementRingProductRecord {
+                slug
+              }
+            }
+            _modelApiKey
+            shopifyProductHandle
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
+          }
+          ... on ConfigurationRecord {
+            jewelryProduct {
+              slug
+            }
+            _modelApiKey
+            configuredProductOptionsInOrder
+            variantId
+          }
+        }
+      }
+    }
+  }
+  ${ResponsiveImageFragment}
 `;
 
 export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
@@ -468,6 +634,15 @@ export async function fetchDatoProductTrioBlock(id: string, locale: string) {
 export async function fetchDatoProductInstagramReel(id: string, locale: string) {
   const datoData = await queryDatoGQL({
     query: DATO_PRODUCT_INSTAGRAM_REEL_QUERY,
+    variables: { id, locale },
+  });
+
+  return datoData;
+}
+
+export async function fetchDatoProductSuggestionBlock(id: string, locale: string) {
+  const datoData = await queryDatoGQL({
+    query: DATO_PRODUCT_SUGGESTION_BLOCK_QUERY,
     variables: { id, locale },
   });
 

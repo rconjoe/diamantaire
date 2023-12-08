@@ -1,6 +1,5 @@
 import {
   DarksideButton,
-  DatoDarksideButtonProps,
   Heading,
   MobileDesktopImage,
   ShowMobileOnly,
@@ -9,7 +8,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoDarksideButtonProps, DatoImageType } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 import { useEffect, useState } from 'react';

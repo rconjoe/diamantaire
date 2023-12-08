@@ -7,7 +7,9 @@ import styled from 'styled-components';
 
 import { SortProperties } from './PlpSortOption';
 
-const Select = dynamic(() => import('react-select'));
+const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+});
 
 type PlpSortOptionsProps = {
   sortOptions: PlpBasicFieldSortOption[];
@@ -86,7 +88,7 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-label {
     font-size: var(--font-size-xxxsmall);
-    margin-right: 5px;
+    margin-right: 0.5rem;
     position: relative;
   }
 
@@ -94,8 +96,12 @@ const PlpSortOptionStyle = styled.div`
     border: none;
   }
   .sort-dropdown__menu {
-    min-width: 155px;
+    min-width: 15.5rem;
     left: -3rem;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      left: -6rem;
+    }
   }
   .sort-dropdown__value-container {
     font-size: var(--font-size-xxxsmall);
@@ -115,6 +121,12 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-dropdown__option {
     font-size: var(--font-size-xxxsmall);
+
+    &:focus,
+    &:active {
+      background-color: var(--color-black);
+      color: var(--color-white);
+    }
   }
 
   .sort-dropdown__indicator svg {
@@ -130,7 +142,7 @@ const PlpSortOptionStyle = styled.div`
   .sort-dropdown__option--is-selected {
     font-weight: bold;
     background-color: transparent;
-    color: #000;
+    color: var(--color-black);
   }
 `;
 

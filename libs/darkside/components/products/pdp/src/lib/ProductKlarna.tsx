@@ -5,8 +5,19 @@ import styled from 'styled-components';
 
 const ProductKlarnaStyles = styled.div`
   position: relative;
-  left: -10px;
+  left: -1rem;
+  min-height: 24px;
 `;
+
+declare global {
+  interface Window {
+    Klarna?: {
+      OnsiteMessaging?: {
+        refresh: () => void;
+      };
+    };
+  }
+}
 
 const ProductKlarna = ({ title, currentPrice }) => {
   const { locale } = useRouter();
@@ -24,7 +35,6 @@ const ProductKlarna = ({ title, currentPrice }) => {
   };
 
   useEffect(() => {
-    /* @ts-expect-error one-time only for this */
     window && window?.Klarna?.OnsiteMessaging?.refresh();
   }, [currentPrice]);
 

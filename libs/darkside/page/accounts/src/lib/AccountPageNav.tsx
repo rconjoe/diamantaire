@@ -23,7 +23,7 @@ const AccountPageNavStyles = styled.div`
         a {
           font-size: var(--font-size-small);
           color: var(--color-teal);
-          border-bottom: 1px solid var(--color-teal);
+          border-bottom: 0.1rem solid var(--color-teal);
           transition: 0.25s;
           &:hover {
             opacity: 0.6;
@@ -34,10 +34,10 @@ const AccountPageNavStyles = styled.div`
   }
   .nav-items__container {
     background-color: var(--color-lightest-grey);
-    /* padding: 15px 0; */
+    /* padding: 1.5rem 0; */
     ul {
       li {
-        margin-right: 40px;
+        margin-right: 4rem;
 
         &:last-child {
           margin-right: 0px;
@@ -45,8 +45,8 @@ const AccountPageNavStyles = styled.div`
 
         a {
           font-size: var(--font-size-xxxsmall);
-          border-bottom: 2px solid transparent;
-          padding: 10px 0 5px;
+          border-bottom: 0.2rem solid transparent;
+          padding: 1rem 0 0.5rem;
           display: inline-block;
           transition: 0.25s;
           font-weight: var(--font-weight-normal);

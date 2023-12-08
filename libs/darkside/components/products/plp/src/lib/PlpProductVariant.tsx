@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
+import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/analytics';
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/darkside/context/analytics';
+import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
 import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
@@ -10,8 +11,12 @@ import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
   .plp-variant__image {
-    min-height: 300px;
     position: relative;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      min-height: 30rem;
+    }
+
     button {
       padding: 0;
       width: 100%;
@@ -21,13 +26,13 @@ const PlpProductVariantStyles = styled.div`
 
     .plp-variant__label {
       position: absolute;
-      font-size: 14px;
-      left: 15px;
-      top: 15px;
+      font-size: 1.4rem;
+      left: 1.5rem;
+      top: 1.5rem;
       background: rgb(255, 255, 255);
-      border: 1px solid rgb(216, 214, 209);
-      padding: 4px 6px;
-      border-radius: 2px;
+      border: 0.1rem solid rgb(216, 214, 209);
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.2rem;
     }
   }
   .plp-variant__content {
@@ -63,6 +68,8 @@ const PlpProductVariant = ({
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
+
+  const productTitleWithProperties = `${title} | ${metalTypeAsConst[configuration?.metal]}`;
 
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
@@ -136,7 +143,9 @@ const PlpProductVariant = ({
               {isPrimaryImage
                 ? primaryImage && (
                     <DatoImage
-                      quality={100}
+                      quality={60}
+                      overrideAlt={productTitleWithProperties}
+                      enableDpr
                       image={{
                         url: primaryImage?.src,
                         responsiveImage: {
@@ -147,7 +156,8 @@ const PlpProductVariant = ({
                   )
                 : hoverImage && (
                     <DatoImage
-                      quality={100}
+                      quality={60}
+                      enableDpr
                       image={{
                         url: hoverImage?.src,
                         responsiveImage: {
@@ -157,11 +167,14 @@ const PlpProductVariant = ({
                     />
                   )}
             </button>
+
+            <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
+
             {label && <span className="plp-variant__label">{label}</span>}
           </div>
           <div className="plp-variant__content">
             <h3>
-              {title} | {metalTypeAsConst[configuration?.metal]} |{' '}
+              {productTitleWithProperties} |{' '}
               {useLowestPrice
                 ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
                 : makeCurrency(price, locale, currencyCode)}
@@ -174,3 +187,9 @@ const PlpProductVariant = ({
 };
 
 export { PlpProductVariant };
+
+// old
+// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&dpr=2&fit=crop&h=344&q=60&w=344
+
+// new
+// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&fit=crop&h=344&q=100&w=344&dpr=2

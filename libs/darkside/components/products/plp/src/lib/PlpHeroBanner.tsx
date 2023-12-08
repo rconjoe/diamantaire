@@ -39,12 +39,12 @@ const PlpHeroBannerStyles = styled.div`
           color: ${({ textColor }) => textColor || 'var(--color-black)'};
         }
         p {
-          max-width: 320px;
+          max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
           margin: 0 auto;
           color: ${({ textColor }) => textColor || 'var(--color-black)'};
-          ${media.small`max-width: 550px;`}
+          ${media.small`max-width: 55rem;`}
         }
       }
     }

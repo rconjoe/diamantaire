@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const ModularCollectionHeroBlockContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   overflow: hidden;
   margin: 0 auto ${setSpace(1.5)};
   background-color: ${(props) => (props.$backgroundColor ? props.$backgroundColor : 'transparent')};
@@ -18,7 +18,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   }
 
   &.no-image {
-    min-height: 282px;
+    min-height: 28.2rem;
     ${tabletAndUp(`
       min-height: 336px;
     `)}
@@ -27,7 +27,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   &.custom-design-hero {
     display: flex;
     align-items: center;
-    padding: 50px 20px;
+    padding: 5rem 2rem;
     margin: 0 auto;
   }
 
@@ -120,7 +120,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
     .custom-design-hero & {
       font-size: 3.2rem;
       line-height: 1.29;
-      letter-spacing: 0.35px;
+      letter-spacing: 0.35rem;
 
       ${tabletAndUp(`
         font-size: 42px;
@@ -154,11 +154,11 @@ export const ModularCollectionHeroBlockContainer = styled.div`
     }
 
     .custom-design-hero & {
-      font-size: 19px;
+      font-size: 1.9rem;
       line-height: 1.4;
-      margin-top: 14px;
+      margin-top: 1.4rem;
       max-width: 100%;
-      width: 500px;
+      width: 50rem;
     }
   }
 
@@ -203,10 +203,10 @@ export const ModularCollectionHeroBlockContainer = styled.div`
 
     .logo-svg {
       position: relative;
-      width: 127px;
+      width: 12.7rem;
       height: auto;
       margin: auto;
-      left: -8px; // This helps to visually center the VRAI logo, which would otherwise center above the R because the I is so narrow.
+      left: -0.8rem; // This helps to visually center the VRAI logo, which would otherwise center above the R because the I is so narrow.
       fill: ${(props) => props?.$textColor?.hex};
     }
 
@@ -214,7 +214,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
       margin: 0 auto;
 
       .logo-svg {
-        width: 200px;
+        width: 20rem;
       }
     }
   }
@@ -228,7 +228,7 @@ export const ModularCollectionHeroBlockContainer = styled.div`
   .hero-block__button-container {
     width: 100%;
     text-align: center;
-    max-width: 350px;
+    max-width: 35rem;
     margin: 0 auto;
   }
 

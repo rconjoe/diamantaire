@@ -10,7 +10,7 @@ const StyledCFYResultPage = styled.div`
   padding: 0 !important;
 
   ${tabletAndUp(`
-  margin: 2rem auto;
+    margin: 2rem auto;
   `)};
 
   .page-row {
@@ -19,8 +19,8 @@ const StyledCFYResultPage = styled.div`
     flex-direction: column;
 
     ${tabletAndUp(`
-    gap: ${pageGap};
-    flex-direction: row;  
+      gap: ${pageGap};
+      flex-direction: row;  
     `)}
   }
 
@@ -40,11 +40,13 @@ const StyledCFYResultPage = styled.div`
     justify-content: flex-end;
 
     ${tabletAndUp(`
-    width: calc(50% - (${pageGap} / 2))
+      width: calc(50% - (${pageGap} / 2))
     `)}
   }
 
   .page-content {
+    position: relative;
+
     > .media {
       width: 100%;
 
@@ -55,12 +57,12 @@ const StyledCFYResultPage = styled.div`
 
       .swiper {
         width: 100%;
-        padding: 0 0 80px;
+        padding: 0 0 8rem;
 
         ${desktopAndUp(`
-        padding: 0;
-        width: 50rem;
-        height: 57rem;
+          padding: 0;
+          width: 50rem;
+          height: 57rem;
         `)}
       }
     }
@@ -80,13 +82,13 @@ const StyledCFYResultPage = styled.div`
       width: 6rem;
       height: 6rem;
       cursor: pointer;
-      border: 1px solid transparent;
+      border: 0.1rem solid transparent;
       padding: 0;
       margin: 0;
       overflow: hidden;
 
       &.active {
-        border: 1px solid ${TEAL_MED};
+        border: 0.1rem solid ${TEAL_MED};
       }
 
       .caption {
@@ -108,6 +110,7 @@ const StyledCFYResultPage = styled.div`
     width: 100%;
     padding: 0 2.4rem;
     margin: 4rem 0 0;
+    position: relative;
 
     ${tabletAndUp(`
       margin: 0;
@@ -124,6 +127,7 @@ const StyledCFYResultPage = styled.div`
 
     .title,
     .title * {
+      position: relative;
       font-size: var(--font-size-medium);
       font-weight: var(--font-weight-medium);
     }
@@ -179,7 +183,7 @@ const StyledCFYResultPage = styled.div`
       font-size: var(--font-size-xxxsmall);
 
       a {
-        color: ${TEAL};
+        color: var(--color-teal);
       }
     }
 
@@ -188,7 +192,7 @@ const StyledCFYResultPage = styled.div`
     }
 
     .links a {
-      color: ${TEAL};
+      color: var(--color-teal);
     }
 
     .cta {

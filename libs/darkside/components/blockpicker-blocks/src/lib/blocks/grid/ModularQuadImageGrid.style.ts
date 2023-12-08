@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ModularQuadImageGridContainer = styled.div`
-  max-width: 1180px;
+  max-width: 118rem;
   margin: 0 auto;
   .title__container {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
@@ -11,14 +11,14 @@ export const ModularQuadImageGridContainer = styled.div`
   .blocks__grid {
     display: none;
     flex-wrap: wrap;
-    margin: 0 -10px;
+    margin: 0 -1rem;
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
     }
 
     .item__container {
       flex: 0 0 50%;
-      padding: 0 10px;
+      padding: 0 1rem;
 
       .item__title {
         padding: 0.5rem 0 2rem;

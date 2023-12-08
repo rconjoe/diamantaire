@@ -1,20 +1,25 @@
-import { DarksideButton, FreezeBody } from '@diamantaire/darkside/components/common-ui';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
-import { useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getRelativeUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { updateItemQuantity } from '@diamantaire/darkside/data/api';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
+import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
-  const { checkout } = useContext(CartContext);
-  const { setIsCartOpen, updateItemQuantity } = useContext(ActionsContext);
+  const { locale } = useRouter();
+  const { data: checkout, refetch } = useCartData(locale);
+
+  const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;
@@ -24,7 +29,15 @@ const Cart = ({ closeCart }) => {
 
   const { pageCopy: cartCopy, certificates, cartItemDetails } = cartData || {};
 
-  const singleVariantProductTypes = ['Necklace', 'Bracelet', 'Engagement Ring', 'Wedding Band', 'Earrings', 'Diamond'];
+  const singleVariantProductTypes = [
+    'Necklace',
+    'Bracelet',
+    'Engagement Ring',
+    'Wedding Band',
+    'Earrings',
+    'Diamonds',
+    'Diamond',
+  ];
 
   const {
     cartHeader,
@@ -37,6 +50,11 @@ const Cart = ({ closeCart }) => {
     emptyCartMainCtaCopy,
     emptyCartMainCtaLink,
   } = cartCopy?.[0] || {};
+
+  useEffect(() => {
+    // Fetch latest cart data
+    refetch();
+  }, []);
 
   return (
     <>
@@ -73,11 +91,18 @@ const Cart = ({ closeCart }) => {
           <div className="cart__header">
             <h2>{cartHeader}</h2>
             <div className="close">
-              <button onClick={() => setIsCartOpen(false)}>
+              <button
+                onClick={() =>
+                  updateGlobalContext({
+                    isCartOpen: false,
+                  })
+                }
+              >
                 <XIcon />
               </button>
             </div>
           </div>
+          <CartGWP />
           <div className="cart__items">
             <div className="cart__items-inner">
               {checkout?.lines?.map((item) => {
@@ -87,6 +112,7 @@ const Cart = ({ closeCart }) => {
                 };
 
                 const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
+                const isHiddenProduct = item.attributes?.find((attr) => attr.key === 'hiddenProduct');
 
                 const hasChildProduct =
                   childProductAttribute &&
@@ -97,10 +123,10 @@ const Cart = ({ closeCart }) => {
                   cartItemInfo[attr.key] = attr.value;
                 });
 
-                console.log('checkout lines', checkout.lines);
+                console.log('checkout', checkout);
 
                 // We don't show any child products in this loop, only in the multi-variant cart item
-                if (item.attributes.find((item) => item.key === 'isChildProduct')) {
+                if (item.attributes.find((item) => item.key === 'isChildProduct') || isHiddenProduct) {
                   return null;
                 }
 
@@ -161,17 +187,21 @@ const Cart = ({ closeCart }) => {
                 </div>
               ) : (
                 <div className="cart-subtotal">
-                  <p className="cart-subtotal__sig-text">Orders over $500 require a signature upon delivery.</p>
+                  <p className="cart-subtotal__sig-text">
+                    <UIString>Orders over $500 require a signature upon delivery.</UIString>
+                  </p>
                   <hr />
                   <div className="cart-subtotal__summary">
                     <p>
                       {subtotalCopy} <br />{' '}
                       <span className="gift-note">
                         <button onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>{addNoteOptionCta}</button>{' '}
-                        <span>(optional)</span>
+                        <span>
+                          (<UIString>optional</UIString>)
+                        </span>
                       </span>
                     </p>
-                    <p>{makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}</p>
+                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
                   {isGiftNoteOpen && (
                     <div className="cart-subtotal__gift-note">

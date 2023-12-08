@@ -1,6 +1,6 @@
-import { filterConfigurationTypes, configTypesComparitor } from '@diamantaire/shared/helpers';
+import { configTypesComparitor, filterConfigurationTypes } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { useEffect, useReducer, useMemo } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import styled from 'styled-components';
 
 import OptionSelector from '../option-selector/OptionSelector';
@@ -12,6 +12,12 @@ interface ConfigurationSelectorProps {
   updateSettingSlugs?: (item: object) => void;
   disableVariantType?: string[];
   hasMultipleDiamondOrientations?: boolean;
+  productType?: string;
+
+  diamondSpecs?: {
+    color: string;
+    clarity: string;
+  };
 }
 
 interface ConfigurationSelectorAction {
@@ -24,9 +30,39 @@ interface ConfigurationSelectorAction {
 
 const StyledConfigurationSelector = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  > * {
+    flex: 1 1 100%;
+
+    &.metal {
+      flex: 0 0 60%;
+    }
+
+    &.bandAccent {
+      flex: 1;
+      margin-left: 2rem;
+    }
+  }
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    flex-direction: column;
+
+    > * {
+      flex: 1 1 100%;
+      &.metal,
+      &.bandAccent {
+        flex: 1 1 100%;
+      }
+
+      &.bandAccent {
+        margin-left: 0px;
+      }
+    }
+  }
 `;
 
 function configOptionsReducer(state, action: ConfigurationSelectorAction) {
@@ -49,6 +85,8 @@ function ConfigurationSelector({
   updateSettingSlugs,
   disableVariantType,
   hasMultipleDiamondOrientations,
+  productType,
+  diamondSpecs,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
@@ -103,6 +141,7 @@ function ConfigurationSelector({
           <OptionSelector
             key={configurationType}
             optionType={configurationType}
+            productType={productType}
             label={configurationType}
             options={options}
             selectedOptionValue={selectedOption}
@@ -115,6 +154,7 @@ function ConfigurationSelector({
                 : (option) => handleOptionChange(configurationType, option)
             }
             renderItemAsLink={isBuilderFlowOpen ? false : true}
+            diamondSpecs={diamondSpecs}
           />
         );
       })}

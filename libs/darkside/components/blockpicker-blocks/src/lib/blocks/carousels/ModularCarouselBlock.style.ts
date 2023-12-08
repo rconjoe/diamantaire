@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const ModularCarouselBlockContainer = styled.div`
   margin: calc(var(--gutter) / 2) 0;
-  ${media.small`margin: 80px 0;`}
+  ${media.small`margin: 8rem 0;`}
 
   .carousel__title {
     text-align: center;

@@ -6,9 +6,20 @@ import { SpriteSpinnerInit } from './SpriteSpinnerInit';
 declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
+  position: relative;
+  max-width: 65.7rem;
   .spritespin-canvas {
     width: 100%;
     height: 100%;
+  }
+  span {
+    display: block;
+    text-align: center;
+    font-size: var(--font-size-xxxsmall);
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    width: 100%;
   }
 `;
 
@@ -117,6 +128,10 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         // @ts-expect-error - $ is a global
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
       />
+
+      {/* <span>
+        <UIString>Interactive video - drag to rotate</UIString>
+      </span> */}
     </SpritSpinnerContainer>
   );
 };

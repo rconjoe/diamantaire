@@ -4,7 +4,7 @@ import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-const LINK_TO_PDF = `https://images.vraiandoro.com/content-images/VRAI_Ring_Sizer_PDF_es_US.pdf`;
+const LINK_TO_PDF = `https://images.vraiandoro.com/content-images/VRAI_Ring_Sizer_PDF_en_US.pdf`;
 
 const RING_SIZE_GUIDE_COLUMN_TITLES = ['USA & Canada', 'Diameter (mm)', 'Europe', 'UK & Australia'];
 
@@ -18,7 +18,7 @@ const RingSizeGuideStyles = styled.div`
       list-style: none;
 
       li {
-        margin-right: 15px;
+        margin-right: 1.5rem;
 
         &:last-child {
           margin-right: 0;
@@ -62,12 +62,12 @@ const RingSizeGuide = () => {
       <div className="size-guide__actions">
         <ul>
           <li>
-            <DarksideButton colorTheme="teal" type="underline">
+            <DarksideButton openUrlInNewWindow={true} href="/ring-sizer" colorTheme="teal" type="underline">
               <UIString>Order a ring sizer</UIString>
             </DarksideButton>
           </li>
           <li>
-            <DarksideButton href={LINK_TO_PDF} colorTheme="teal" type="underline">
+            <DarksideButton openUrlInNewWindow={true} href={LINK_TO_PDF} colorTheme="teal" type="underline">
               <UIString>Print a ring sizer</UIString>
             </DarksideButton>
           </li>

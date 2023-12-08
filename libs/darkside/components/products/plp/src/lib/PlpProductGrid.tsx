@@ -1,5 +1,5 @@
 import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
-import { usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
+import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -7,9 +7,9 @@ import { useRouter } from 'next/router';
 import { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
+import PlpProductFilter from './filter/PlpProductFilter';
 import PlpCreativeBlock from './PlpCreativeBlock';
 import { PlpDiamondItem } from './PlpDiamondItem';
-import PlpProductFilter from './PlpProductFilter';
 import { PlpProductItem } from './PlpProductItem';
 import PlpPromoItem from './PlpPromoItem';
 import { SortProperties } from './PlpSortOption';
@@ -20,13 +20,40 @@ const PlpProductGridStyles = styled.div`
   position: relative;
   height: 100%;
 
-  .grid-controls {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
+  .grid-controls-container {
+    position: sticky;
+    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
+    z-index: 100;
+    background-color: var(--color-white);
+
+    .grid-controls {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      padding: 0 1rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 0;
+      }
+    }
 
     .sort {
-      padding-top: 8px;
+      padding-top: 0.8rem;
+
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding-top: 0px;
+        position: absolute;
+        right: 10px;
+        top: 9px;
+      }
+    }
+  }
+
+  .product-grid {
+    padding: 0 1rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0;
     }
   }
 
@@ -34,7 +61,7 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 2rem;
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
@@ -67,6 +94,10 @@ type PlpProductGridProps = {
   urlFilterMethod: 'facet' | 'param' | 'none';
   handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
   sortOptions: PlpBasicFieldSortOption[];
+  filterOptionsOverride?: {
+    filterLabel: string;
+    filterValue: string;
+  }[];
 };
 
 const PlpProductGrid = ({
@@ -85,8 +116,10 @@ const PlpProductGrid = ({
   urlFilterMethod,
   sortOptions,
   handleSortChange,
+  filterOptionsOverride,
 }: PlpProductGridProps) => {
   const router = useRouter();
+  const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
     router.locale,
@@ -96,7 +129,10 @@ const PlpProductGrid = ({
   const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
-    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks;
+    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a,b) => {
+      // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
+      return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
+    });
 
     if (!creativeBlocksData) return {}; // Return an empty object if cardCollection is falsy
 
@@ -111,7 +147,7 @@ const PlpProductGrid = ({
     }
 
     return object;
-  }, [creativeBlockParentData]);
+  }, [creativeBlockParentData, creativeBlockIds]);
 
   const cardCollectionObject = useMemo(() => {
     if (!cardCollection) return {}; // Return an empty object if cardCollection is falsy
@@ -130,24 +166,27 @@ const PlpProductGrid = ({
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
   return (
-    <PlpProductGridStyles ref={gridRef}>
-      <div className="grid-controls container-wrapper">
-        <div className="filter">
-          <PlpProductFilter
-            availableFilters={availableFilters}
-            gridRef={gridRef}
-            filterValue={filterValue}
-            setFilterValues={setFilterValues}
-            urlFilterMethod={urlFilterMethod}
-            plpSlug={plpSlug}
-          />
-        </div>
-        <div className="sort">
-          {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+    <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
+      <div className="grid-controls-container">
+        <div className="grid-controls container-wrapper">
+          <div className="filter">
+            <PlpProductFilter
+              availableFilters={availableFilters}
+              gridRef={gridRef}
+              filterValue={filterValue}
+              setFilterValues={setFilterValues}
+              urlFilterMethod={urlFilterMethod}
+              plpSlug={plpSlug}
+              filterOptionsOverride={filterOptionsOverride}
+            />
+          </div>
+          <div className="sort">
+            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+          </div>
         </div>
       </div>
 
-      <div className="container-wrapper">
+      <div className="container-wrapper product-grid">
         <div className="product-grid__row ">
           {products?.length > 0 &&
             products?.map((product, gridItemIndex) => {
@@ -173,7 +212,7 @@ const PlpProductGrid = ({
                       {isSettingSelect && (
                         <div
                           style={{
-                            marginTop: '20px',
+                            marginTop: '2rem',
                           }}
                         >
                           <DarksideButton

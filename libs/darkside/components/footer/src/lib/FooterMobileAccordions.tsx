@@ -1,5 +1,6 @@
 import { CountrySelector, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { parseValidLocale, countries, languagesByCode } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -11,11 +12,10 @@ import { FooterColumn } from './Footer';
 
 type FooterMobileAccordionProps = {
   columns: Array<FooterColumn>;
-  countryLabel: string;
 };
 
 const FooterMobileAccordionsContainer = styled.div`
-  padding-top: 20px;
+  padding-top: 2rem;
 `;
 
 const CountryLabelListItem = styled.div`
@@ -29,7 +29,7 @@ const CountryLabelListItem = styled.div`
 
     .label {
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 1rem;
       text-transform: uppercase;
       font-size: 1.4rem;
     }
@@ -42,7 +42,7 @@ const CountryLabelListItem = styled.div`
 `;
 
 const LanguageLabelListItem = styled.div`
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0.1rem solid #ccc;
   .language-list {
     position: static;
     padding: 0;
@@ -74,7 +74,7 @@ const LanguageLabelListItem = styled.div`
 
     .label {
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 1rem;
       text-transform: uppercase;
       font-size: 1.4rem;
     }
@@ -97,7 +97,7 @@ const LanguageLabelListItem = styled.div`
   }
 `;
 
-const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, countryLabel }): JSX.Element => {
+const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns }): JSX.Element => {
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
 
@@ -146,7 +146,7 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, count
       <CountryLabelListItem>
         <button onClick={() => setIsCountrySelectorOpen(!isCountrySelectorOpen)}>
           <span className="label">
-            <UIString>{countryLabel}</UIString>:
+            <UIString>Location</UIString>:
           </span>
           {selectedCountry}
           <span className="icon">
@@ -165,7 +165,7 @@ const FooterMobileAccordions: FC<FooterMobileAccordionProps> = ({ columns, count
 };
 
 const FooterAccordionContainer = styled.div`
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0.1rem solid #ccc;
 
   button {
     padding: 1.5rem 0;
@@ -185,7 +185,7 @@ const FooterAccordionContainer = styled.div`
       text-align: right;
 
       svg {
-        width: 8px;
+        width: 0.8rem;
         height: auto;
         transition: 0.25s;
       }
@@ -200,11 +200,11 @@ const FooterAccordionContainer = styled.div`
 
   ul {
     margin: 0;
-    padding: 0 0 15px;
+    padding: 0 0 1.5rem;
     list-style: none;
 
     li {
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
 
       &:last-child {
         margin-bottom: 0px;
@@ -222,6 +222,8 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { title, links } = col;
 
+  const countryCode = parseValidLocale(useRouter().locale).countryCode;
+
   return (
     <FooterAccordionContainer>
       <button onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
@@ -236,11 +238,15 @@ const FooterAccordion = ({ col, colKey }: { col: FooterColumn; colKey: number })
           <div className="links-container">
             <ul>
               {links?.map((link, index) => {
-                const { route, copy } = link;
+                const { newRoute, supportedCountries, copy } = link;
+
+                if (!isCountrySupported(supportedCountries, countryCode)) {
+                  return null;
+                }
 
                 return (
                   <li key={`mobile-accordion-${colKey}-link-${index}`}>
-                    <Link href={route}>{copy}</Link>
+                    <Link href={newRoute}>{copy}</Link>
                   </li>
                 );
               })}

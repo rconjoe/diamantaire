@@ -1,5 +1,6 @@
-import { DarksideButton, DatoDarksideButtonProps, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Heading, SwiperStyles } from '@diamantaire/darkside/components/common-ui';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
+import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';

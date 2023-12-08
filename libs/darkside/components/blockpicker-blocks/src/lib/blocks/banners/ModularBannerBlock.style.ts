@@ -1,16 +1,9 @@
-import {
-  WHITE,
-  setSpace,
-  tabletAndUp,
-  desktopAndUp,
-  XLDesktopAndUp,
-  XXLDesktopAndUp,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, desktopAndUp, XLDesktopAndUp, XXLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const FullWidthImageContainer = styled.div`
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   height: auto;
   min-height: calc(100vw / 3 * 2);
   margin: auto;
@@ -20,7 +13,7 @@ export const FullWidthImageContainer = styled.div`
   `)};
 
   ${XXLDesktopAndUp(`
-    min-height: 480px;
+    min-height: 48rem;
     display: flex;
     align-items: center;
   `)};
@@ -32,7 +25,7 @@ export const FullWidthImageContainer = styled.div`
 
 export const HalfWidthImageContainer = styled.div`
   width: 100%;
-  max-width: 767px;
+  max-width: 76.7rem;
   height: auto;
   margin: auto;
 
@@ -42,7 +35,7 @@ export const HalfWidthImageContainer = styled.div`
   `)};
 
   ${XXLDesktopAndUp(`
-    min-height: 540px;
+    min-height: 54rem;
   `)};
 
   &.-left {
@@ -67,7 +60,7 @@ export const HalfWidthImageContainer = styled.div`
 export const BannerWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   margin: 0 auto;
 
   &.-vertical-margins {
@@ -89,16 +82,16 @@ export const BannerWrapper = styled.div`
   }
 
   ul {
-    margin: 20px 0 25px;
+    margin: 2rem 0 2.5rem;
     li {
       font-size: var(--font-size-xsmall);
     }
   }
 
   .cta {
-    max-width: 350px;
+    max-width: 35rem;
     .cta__button {
-      margin: 0 0 20px;
+      margin: 0 0 2rem;
       /* We're overriding DarksideButton styles here */
       .button-style--outline,
       .button-style--solid {
@@ -106,7 +99,7 @@ export const BannerWrapper = styled.div`
         button {
           display: inline-block;
           width: auto;
-          min-width: 300px;
+          min-width: 30rem;
         }
       }
 
@@ -161,14 +154,14 @@ export const BannerTextContainer = styled.div`
     .primary,
     .secondary {
       ${tabletAndUp(`
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       `)};
 
       &:hover {
         ${tabletAndUp(`
-          color: ${WHITE};
-          border-color: ${WHITE};
+          color: var(--color-white);
+          border-color: var(--color-white);
         `)}
       }
     }
@@ -178,9 +171,9 @@ export const BannerTextContainer = styled.div`
     max-width: ${setSpace(40)};
     background: white;
     padding: ${setSpace(3)};
-    margin: 0 auto -70px;
+    margin: 0 auto -7rem;
     position: relative;
-    bottom: 70px;
+    bottom: 7rem;
 
     ${tabletAndUp(`
       position: absolute;
@@ -305,8 +298,8 @@ export const Title = styled.div`
 
   ${tabletAndUp(`
       &.-white {
-        color: ${WHITE};
-        border-color: ${WHITE};
+        color: var(--color-white);
+        border-color: var(--color-white);
       }
     `)};
   ${desktopAndUp(`
@@ -323,7 +316,7 @@ export const SubTitle = styled.div`
 
   ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
+      color: var(--color-white);
     }
   `)};
   ${tabletAndUp(`
@@ -342,7 +335,7 @@ export const SubTitle = styled.div`
 
 export const Copy = styled.div`
   p {
-    margin-bottom: 20px !important;
+    margin-bottom: 2rem !important;
   }
 
   p:last-child {
@@ -352,19 +345,19 @@ export const Copy = styled.div`
   a {
     text-decoration-line: underline;
     text-decoration-style: solid;
-    text-decoration-thickness: 1px;
+    text-decoration-thickness: 0.1rem;
   }
 
   ${tabletAndUp(`
     &.-white {
-      color: ${WHITE};
-      border-color: ${WHITE};
+      color: var(--color-white);
+      border-color: var(--color-white);
       a {
         color: inherit;
       }
     }
     &.-tall-block p {
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
     }
   `)};
 `;

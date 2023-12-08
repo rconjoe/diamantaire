@@ -1,3 +1,4 @@
+import { WishlistSlideOutButton } from '@diamantaire/darkside/components/wishlist';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -14,17 +15,17 @@ const HeaderActionsNavContainer = styled.nav`
     justify-content: flex-end;
 
     li {
-      margin-right: 10px;
+      margin-right: 1rem;
 
       &:last-child {
         margin-right: 0px;
       }
 
       &.accounts {
-        padding: 0 4px 0 0;
+        padding: 0 0.4rem 0 0;
 
         svg {
-          width: 18px;
+          width: 1.8rem;
           height: auto;
           position: relative;
         }
@@ -32,32 +33,34 @@ const HeaderActionsNavContainer = styled.nav`
 
       &.search {
         svg {
-          width: 26px;
+          width: 2.6rem;
           height: auto;
           transform: scale(0.8);
           position: relative;
-          top: 1px;
+          top: 0.1rem;
         }
       }
 
       &.wishlist {
+        cursor: pointer;
+
         svg {
-          width: 24px;
+          width: 2.4rem;
           height: auto;
           transform: scale(0.8);
-          stroke-width: 1.5px;
+          stroke-width: 1.5rem;
           position: relative;
-          top: 2px;
+          top: 0.2rem;
         }
       }
 
       &.cart {
         svg {
-          width: 24px;
+          width: 2.4rem;
           height: auto;
           position: relative;
           top: 0px;
-          ${media.small`top: 1px;`}
+          ${media.small`top: 0.1rem;`}
         }
       }
 
@@ -76,7 +79,7 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       svg {
-        height: 18px;
+        height: 1.8rem;
       }
     }
   }
@@ -134,9 +137,11 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
           } else {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
-                <button onClick={onClick} aria-label={alt}>
-                  {icon}
-                </button>
+                {(title === 'Wishlist' && <WishlistSlideOutButton />) || (
+                  <button onClick={onClick} aria-label={alt}>
+                    {icon}
+                  </button>
+                )}
               </li>
             );
           }

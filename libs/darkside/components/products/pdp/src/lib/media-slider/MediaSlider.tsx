@@ -31,11 +31,11 @@ const MediaSliderContainer = styled.div`
     padding: calc(var(--gutter) / 3) 0;
 
     .swiper-pagination-bullet {
-      height: 5px;
-      width: 5px;
+      height: 0.5rem;
+      width: 0.5rem;
       display: block;
       background-color: #000;
-      margin-right: 10px;
+      margin-right: 1rem;
       border-radius: 50%;
       opacity: 0.2;
 

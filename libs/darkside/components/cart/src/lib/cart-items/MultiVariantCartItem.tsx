@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
+import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext, CartContext } from '@diamantaire/darkside/context/cart-context';
-import { CartCertProps, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
+import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
@@ -15,25 +15,25 @@ import ChildProduct from './ChildProduct';
 import { CartItem } from '../types';
 
 const MultiVariantCartItemStyles = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 4rem;
 
   .cart-item__header {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid #ccc;
 
     .cart-item__remove-product {
       position: relative;
-      top: 4px;
-      padding-right: 10px;
+      top: 0.4rem;
+      padding-right: 1rem;
 
       button {
         padding: 0;
         background-color: transparent;
 
         svg {
-          stroke-width: 1px;
+          stroke-width: 0.1rem;
           transform: scale(0.75);
         }
       }
@@ -47,32 +47,32 @@ const MultiVariantCartItemStyles = styled.div`
 
       p {
         position: relative;
-        top: 2px;
+        top: 0.2rem;
       }
     }
   }
   .cart-item__body {
     display: flex;
     align-items: center;
-    margin-top: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    margin-top: 1.5rem;
+    border: 0.1rem solid #e0e0e0;
+    border-radius: 0.8rem;
 
     .cart-item__image {
-      flex: 0 0 168px;
-      padding-right: 20px;
+      flex: 0 0 16.8rem;
+      padding-right: 2rem;
     }
 
     .cart-item__content {
       color: #737368;
       flex: 1;
-      padding-right: 15px;
+      padding-right: 1.5rem;
 
       button {
         font-size: 1.4rem;
       }
       p {
-        margin: 0 0 5px;
+        margin: 0 0 0.5rem;
         font-size: 1.5rem;
         display: flex;
 
@@ -123,25 +123,24 @@ const MultiVariantCartItem = ({
   }) => Promise<string | undefined>;
   hasChildProduct: boolean;
 }) => {
+  const { locale } = useRouter();
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
   const { productRemoved } = useAnalytics();
-  const { attributes, cost, merchandise, quantity } = item;
-  const price = cost?.totalAmount?.amount;
-  const currency = cost?.totalAmount?.currencyCode;
+  const { attributes, merchandise, quantity } = item;
+  const price = merchandise?.price?.amount;
+  const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
   const { selectedOptions } = merchandise;
-  const { checkout } = useContext(CartContext);
-  const { updateMultipleItemsQuantity } = useContext(ActionsContext);
+  const { data: checkout, refetch } = useCartData(locale);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
   const childProduct = useMemo(() => {
-    return checkout.lines?.find(
+    return checkout?.lines?.find(
       (item) => item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
     );
   }, [item]);
 
-  const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
@@ -219,8 +218,8 @@ const MultiVariantCartItem = ({
   }, [cartItemDetails]);
 
   async function handleRemoveProduct() {
-    if (hasChildProduct && childProduct && checkout.lines.length > 1) {
-      const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
+    if (hasChildProduct && childProduct && checkout?.lines?.length > 1) {
+      const total = parseFloat(price) + parseFloat(childProduct?.merchandise?.price?.amount);
       const formattedTotal = total.toFixed(2);
 
       productRemoved({
@@ -253,7 +252,7 @@ const MultiVariantCartItem = ({
                 variant: childProduct?.merchandise?.product?.title,
                 id: childProduct?.merchandise.id.split('/').pop(),
                 name: childProduct?.merchandise?.product?.title,
-                price: childProduct?.cost?.totalAmount?.amount,
+                price: childProduct?.merchandise?.price?.amount,
                 quantity: childProduct?.quantity,
               },
             ],
@@ -274,7 +273,7 @@ const MultiVariantCartItem = ({
               item_brand: 'VRAI',
               currency,
               item_category: childProduct?.merchandise?.product?.productType,
-              price: childProduct?.cost?.totalAmount?.amount,
+              price: childProduct?.merchandise?.price?.amount,
               quantity: childProduct?.quantity,
             },
           ],
@@ -352,7 +351,7 @@ const MultiVariantCartItem = ({
         <div className="cart-item__remove-product">
           <button
             onClick={() => {
-              handleRemoveProduct();
+              handleRemoveProduct().then(() => refetch());
             }}
           >
             <XIcon />
@@ -367,12 +366,12 @@ const MultiVariantCartItem = ({
           {hasChildProduct ? (
             <p>
               {getFormattedPrice(
-                parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount) * 100,
+                (parseFloat(merchandise?.price?.amount) + parseFloat(childProduct?.merchandise?.price?.amount)) * 100,
                 locale,
               )}
             </p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</p>
+            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</p>
           )}
         </div>
       </div>
@@ -383,7 +382,7 @@ const MultiVariantCartItem = ({
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
             {productType === 'Engagement Ring' && (
-              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100)}</span>
+              <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</span>
             )}
           </p>
           {itemAttributes?.map((specItem, index) => {

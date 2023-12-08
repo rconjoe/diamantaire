@@ -20,8 +20,8 @@ const StyledDiamondCfyGallery = styled.div`
     position: relative;
     aspect-ratio: 1/1;
     width: 100%;
-    max-width: 80px;
-    margin-bottom: 20px;
+    max-width: 8rem;
+    margin-bottom: 2rem;
 
     &.-overflow-visible {
       overflow: visible;
@@ -34,17 +34,17 @@ const StyledDiamondCfyGallery = styled.div`
 
   .howItWorksWrapper {
     width: 100%;
-    max-width: 1500px;
+    max-width: 150rem;
     background: #f3efeb;
     margin: auto;
 
     .section-title {
-      font-size: 18px;
+      font-size: 1.8rem;
       text-align: center;
-      padding: 40px 0 0;
+      padding: 4rem 0 0;
 
       ${tabletAndUp(`
-      padding: 20px 0;
+      padding: 2rem 0;
     `)}
     }
   }
@@ -52,12 +52,12 @@ const StyledDiamondCfyGallery = styled.div`
   .howItWorksBlocksWrapper {
     display: grid;
     grid-template-columns: 1fr;
-    padding: 40px;
-    gap: 20px;
+    padding: 4rem;
+    gap: 2rem;
 
     ${tabletAndUp(`
       grid-template-columns: repeat(5, 1fr);
-      padding: 0 40px 40px;
+      padding: 0 4rem 4rem;
     `)}
   }
 
@@ -67,7 +67,7 @@ const StyledDiamondCfyGallery = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 20px;
+    gap: 2rem;
 
     ${tabletAndUp(`
     gap: 0;
@@ -78,7 +78,7 @@ const StyledDiamondCfyGallery = styled.div`
     display: flex;
     align-items: flex-start;
     flex-direction: row;
-    gap: 20px;
+    gap: 2rem;
 
     ${tabletAndUp(`
       align-items: center;
@@ -101,7 +101,7 @@ const StyledDiamondCfyGallery = styled.div`
   }
 
   .mobile-arrow {
-    margin-top: 25px;
+    margin-top: 2.5rem;
 
     ${tabletAndUp(`
       display: none;
@@ -125,9 +125,9 @@ const StyledDiamondCfyGallery = styled.div`
   }
 
   .diamondImage {
-    width: 80px;
+    width: 8rem;
     * {
-      width: 80px;
+      width: 8rem;
     }
     img {
       width: 100%;
@@ -135,13 +135,13 @@ const StyledDiamondCfyGallery = styled.div`
   }
 
   .howItWorksHeader {
-    font-size: 18px;
+    font-size: 1.8rem;
     line-height: 1.2;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
   }
 
   .howItWorksCopy {
-    font-size: 18px;
+    font-size: 1.8rem;
   }
 `;
 

@@ -5,14 +5,14 @@ export const ModularCelebrityReelRowStyles = styled.div`
   padding: var(--gutter) 0;
   .title-container {
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 2rem;
   }
   .celeb-container {
     display: flex;
 
     > * {
-      flex: 0 0 250px;
-      margin-right: 20px;
+      flex: 0 0 25rem;
+      margin-right: 2rem;
       &:last-child {
         margin-right: 0px;
       }
@@ -20,7 +20,7 @@ export const ModularCelebrityReelRowStyles = styled.div`
     }
   }
   .cta-container {
-    max-width: 300px;
+    max-width: 30rem;
     margin: 0 auto;
   }
 `;

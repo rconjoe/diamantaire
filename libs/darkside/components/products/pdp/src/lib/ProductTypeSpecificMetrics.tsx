@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const ProductTypeSpecificMetricsStyles = styled.div`
   .metric-title {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     font-size: var(--font-size-xxsmall);
 
     span {
@@ -21,7 +21,8 @@ const ProductTypeSpecificMetrics = ({ additionalVariantData, productType, should
     <ProductTypeSpecificMetricsStyles>
       {acceptableProductTypes.includes(productType) && caratWeight ? (
         <Heading type="h2" className="metric-title">
-          <UIString>Carat weight</UIString>: <span>{shouldDoublePrice ? caratWeight * 2 : caratWeight}</span>
+          {/* keep carat weight lowercase for translation */}
+          <UIString>carat weight</UIString>: <span>{shouldDoublePrice ? caratWeight * 2 : caratWeight}</span>
         </Heading>
       ) : (
         ''

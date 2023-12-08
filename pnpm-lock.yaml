@@ -59,6 +59,9 @@ dependencies:
   '@next/bundle-analyzer':
     specifier: ^13.5.4
     version: 13.5.6
+  '@next/third-parties':
+    specifier: ^14.0.2
+    version: 14.0.2(next@13.5.6)(react@18.2.0)
   '@reach/accordion':
     specifier: ^0.18.0
     version: 0.18.0(react-dom@18.2.0)(react@18.2.0)
@@ -83,6 +86,9 @@ dependencies:
   '@tanstack/react-table':
     specifier: ^8.7.9
     version: 8.10.6(react-dom@18.2.0)(react@18.2.0)
+  '@types/react-slider':
+    specifier: ^1.3.4
+    version: 1.3.4
   '@types/shopify-buy':
     specifier: ^2.17.1
     version: 2.17.2
@@ -152,6 +158,9 @@ dependencies:
   effect:
     specifier: 2.0.0-next.50
     version: 2.0.0-next.50
+  embla-carousel-autoplay:
+    specifier: 8.0.0-rc14
+    version: 8.0.0-rc14(embla-carousel@8.0.0-rc14)
   embla-carousel-react:
     specifier: ^8.0.0-rc14
     version: 8.0.0-rc14(react@18.2.0)
@@ -167,6 +176,9 @@ dependencies:
   framer-motion:
     specifier: ^8.5.5
     version: 8.5.5(react-dom@18.2.0)(react@18.2.0)
+  google:
+    specifier: link:@next/third-parties/google
+    version: link:@next/third-parties/google
   graphql:
     specifier: ^16.6.0
     version: 16.8.1
@@ -254,9 +266,6 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
-  react-gtm-module:
-    specifier: ^2.0.11
-    version: 2.0.11
   react-international-phone:
     specifier: ^3.1.2
     version: 3.1.2(react@18.2.0)
@@ -284,6 +293,9 @@ dependencies:
   react-select:
     specifier: ^5.7.3
     version: 5.7.7(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
+  react-slider:
+    specifier: ^2.0.6
+    version: 2.0.6(react@18.2.0)
   react-switch:
     specifier: ^7.0.0
     version: 7.0.0(react-dom@18.2.0)(react@18.2.0)
@@ -4829,6 +4841,17 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@next/third-parties@14.0.2(next@13.5.6)(react@18.2.0):
+    resolution: {integrity: sha512-Tye1jJtMRmu2tkKHlDh47Og+SKi/bz40vs16WwmcDPjZd42XNmd9k1UHw84ZnA1gx4LIiqaL/1H3otnJ1nLLuA==}
+    peerDependencies:
+      next: ^13.0.0 || ^14.0.0
+      react: ^18.2.0
+    dependencies:
+      next: 13.5.6(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      third-party-capital: 1.0.20
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -10357,6 +10380,12 @@ packages:
       '@types/react': 18.2.14
     dev: true
 
+  /@types/react-slider@1.3.4:
+    resolution: {integrity: sha512-r744XX7HAnsDXH8wfSBTBWC0I4v5laRJOTRwDF2JbSWIvfxhh5psGJa2cl9gOEisJoTlCcHJw6/C7GNDYwX7Xw==}
+    dependencies:
+      '@types/react': 18.2.14
+    dev: false
+
   /@types/react-transition-group@4.4.7:
     resolution: {integrity: sha512-ICCyBl5mvyqYp8Qeq9B5G/fyBSRC0zx3XM3sCC6KkcMsNeAHqXBKkmat4GqdJET5jtYUpZXrxI5flve5qhi2Eg==}
     dependencies:
@@ -14117,6 +14146,14 @@ packages:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: true
+
+  /embla-carousel-autoplay@8.0.0-rc14(embla-carousel@8.0.0-rc14):
+    resolution: {integrity: sha512-ey3MFD6Lti8sAO/bHLvdl+LO19U77SpYVIZP5rsPqFpnRac7bjZt9cSZ5udw9adniN0ckeRe+0y5wy+AYmzQsw==}
+    peerDependencies:
+      embla-carousel: 8.0.0-rc14
+    dependencies:
+      embla-carousel: 8.0.0-rc14
+    dev: false
 
   /embla-carousel-react@8.0.0-rc14(react@18.2.0):
     resolution: {integrity: sha512-2b9vXACEcn0qja4QyaFMfCgFbFhumV3krOCGr9+jlQiuXt5z/EyfiYYziDsm70DhTtxtg/uKEGflIqZSfWRYKg==}
@@ -21192,10 +21229,6 @@ packages:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
     dev: false
 
-  /react-gtm-module@2.0.11:
-    resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
-    dev: false
-
   /react-inspector@6.0.2(react@18.2.0):
     resolution: {integrity: sha512-x+b7LxhmHXjHoU/VrFAzw5iutsILRoYyDq97EDYdFpPLcvqtEzk4ZSZSQjnFPbr5T57tLXnHcqFYoN1pI6u8uQ==}
     peerDependencies:
@@ -21370,6 +21403,15 @@ packages:
       use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.14)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /react-slider@2.0.6(react@18.2.0):
+    resolution: {integrity: sha512-gJxG1HwmuMTJ+oWIRCmVWvgwotNCbByTwRkFZC6U4MBsHqJBmxwbYRJUmxy4Tke1ef8r9jfXjgkmY/uHOCEvbA==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-style-singleton@2.2.1(@types/react@18.2.14)(react@18.2.0):
@@ -23135,6 +23177,10 @@ packages:
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
+
+  /third-party-capital@1.0.20:
+    resolution: {integrity: sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==}
+    dev: false
 
   /throttleit@1.0.0:
     resolution: {integrity: sha512-rkTVqu6IjfQ/6+uNuuc3sZek4CEYxTJom3IktzgdSxcZqdARuebbA/f4QmAxMQIxqq9ZLEUkSYqvuk1I6VKq4g==}

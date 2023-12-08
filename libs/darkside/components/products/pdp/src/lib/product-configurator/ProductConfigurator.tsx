@@ -1,19 +1,20 @@
 /* eslint-disable camelcase */
+import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
 import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useAnalytics, GTM_EVENTS } from '@diamantaire/darkside/context/analytics';
-import { ActionsContext } from '@diamantaire/darkside/context/cart-context';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
+  getCurrency,
   getFormattedPrice,
   metalTypeAsConst,
   parseValidLocale,
-  getCurrency,
 } from '@diamantaire/shared/constants';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useCallback, useState, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -30,7 +31,6 @@ type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
   selectedConfiguration: { [key: string]: string };
   variantId: string;
-  diamondId?: string;
   additionalVariantData?: Record<string, string>;
   isBuilderProduct?: boolean;
   updateSettingSlugs?: () => void;
@@ -59,11 +59,12 @@ type ProductConfiguratorProps = {
     shopifyVariantId: string;
     variantTitle: string;
   }[];
+
+  requiresCustomDiamond: boolean;
 };
 
 function ProductConfigurator({
   configurations,
-  diamondId,
   selectedConfiguration,
   variantId,
   variantPrice,
@@ -87,6 +88,7 @@ function ProductConfigurator({
   isSoldAsPairOnly = false,
   isSoldAsLeftRight = false,
   variants,
+  requiresCustomDiamond,
 }: ProductConfiguratorProps) {
   const [engravingText, setEngravingText] = useState(null);
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
@@ -110,24 +112,15 @@ function ProductConfigurator({
   const [isWeddingBandSizeGuideOpen, setIsWeddingBandSizeGuideOpen] = useState<boolean>(false);
 
   // This manages the state of the add to cart button, the variant is tracked via response from VRAI server
-  const handleConfigChange = useCallback(
-    (configState) => {
-      console.log('selectedConfiguration', selectedConfiguration);
-      const { diamondType, caratWeight } = configState;
+  const handleConfigChange = useCallback(() => {
+    if (requiresCustomDiamond) {
+      setIsConfigurationComplete(false);
+    } else {
+      setIsConfigurationComplete(true);
+    }
 
-      const usesCustomDiamond =
-        diamondType && configurations.diamondType.length > 1 && caratWeight && caratWeight === 'other';
-
-      if (usesCustomDiamond) {
-        setIsConfigurationComplete(false);
-      } else {
-        setIsConfigurationComplete(true);
-      }
-
-      return selectedConfiguration;
-    },
-    [diamondId, selectedVariantId],
-  );
+    return selectedConfiguration;
+  }, [requiresCustomDiamond, selectedVariantId]);
 
   const handleSizeChange = useCallback((option: OptionItemProps) => {
     setSelectVariantId(option.id);
@@ -165,6 +158,11 @@ function ProductConfigurator({
             updateSettingSlugs={updateSettingSlugs}
             disableVariantType={disableVariantType}
             hasMultipleDiamondOrientations={hasMultipleDiamondOrientations}
+            productType={additionalVariantData?.productType}
+            diamondSpecs={{
+              color: additionalVariantData?.color,
+              clarity: additionalVariantData?.clarity,
+            }}
           />
 
           {/* Ring Size */}
@@ -182,6 +180,7 @@ function ProductConfigurator({
                 onChange={handleSizeChange}
                 isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
+                productType={additionalVariantData?.productType}
               />
             )}
         </>
@@ -227,7 +226,7 @@ function ProductConfigurator({
       {isBuilderFlowOpen ? (
         <div
           style={{
-            marginTop: '20px',
+            marginTop: '2rem',
           }}
         >
           <DarksideButton
@@ -283,7 +282,7 @@ type CtaButtonProps = {
 };
 
 const AddToCartButtonContainer = styled.div`
-  margin: 10px 0;
+  margin: 1rem 0;
 `;
 
 function AddToCartButton({
@@ -301,14 +300,13 @@ function AddToCartButton({
   additionalVariantIds,
   isSoldAsDouble,
 }: CtaButtonProps) {
-  const { setIsCartOpen, addERProductToCart, addJewelryProductToCart } = useContext(ActionsContext);
-
-  const ctaText = isReadyForCart ? 'Add to bag' : 'Select your diamond';
-
-  console.log('additionalVariantData', additionalVariantData);
-
   const router = useRouter();
   const { locale } = router;
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+  const { refetch } = useCartData(locale);
+
+  const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
+
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
 
@@ -414,7 +412,7 @@ function AddToCartButton({
       addERProductToCart({
         settingVariantId: variantId,
         settingAttributes: erItemAttributes,
-      });
+      }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx
 
@@ -453,10 +451,12 @@ function AddToCartButton({
         }
       }
 
-      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes });
+      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes }).then(() => refetch());
     }
 
-    setIsCartOpen(true);
+    updateGlobalContext({
+      isCartOpen: true,
+    });
   }
 
   return (

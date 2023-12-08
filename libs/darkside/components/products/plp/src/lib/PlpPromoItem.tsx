@@ -1,6 +1,15 @@
 import { MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { useCartData, usePlpGWP } from '@diamantaire/darkside/data/hooks';
+import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  getCountry,
+  getRelativeUrl,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const PlpPromoItemStyles = styled.div`
@@ -19,13 +28,13 @@ const PlpPromoItemStyles = styled.div`
         .arrow-right {
           width: 0;
           height: 0;
-          border-top: 7px solid transparent !important;
-          border-bottom: 7px solid transparent !important;
-          border-left: 7px solid var(--color-white);
+          border-top: 0.7rem solid transparent !important;
+          border-bottom: 0.7rem solid transparent !important;
+          border-left: 0.7rem solid var(--color-white);
           display: inline-block;
           position: relative;
-          top: 2px;
-          margin-left: 5px;
+          top: 0.2rem;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -33,7 +42,50 @@ const PlpPromoItemStyles = styled.div`
 `;
 
 const PlpPromoItem = ({ block }) => {
-  const { image, imageMobile, title, link, textColor } = block || {};
+  const { image, imageMobile, title, link, textColor, enableGwp } = block || {};
+  const { locale } = useRouter();
+
+  const { data: gwp } = usePlpGWP(locale);
+  const { data: checkout } = useCartData(locale);
+
+  const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
+
+  const {
+    supportedCountries,
+    minSpendByCurrencyCode,
+    promotionDateRangeStart,
+    promotionDateRangeEnd,
+    promoCardQualifiedCopy,
+    promoCardNonQualifiedCopy,
+  } = gwpData || {};
+
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
+
+  const isWithinTimeframe =
+    promotionDateRangeEnd &&
+    promotionDateRangeStart &&
+    isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+
+  const minSpendValue = minSpendByCurrencyCode?.[currencyCode].toString();
+
+  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
+
+  const gwpText = hasUserQualified ? promoCardQualifiedCopy : promoCardNonQualifiedCopy;
+
+  const areSettingsValid = isWithinTimeframe && isCountrySupported(supportedCountries, countryCode) && minSpendValue;
+
+  let replacedGwpText = replacePlaceholders(
+    gwpText,
+    ['%%GWP_minimum_spend%%'],
+    [getFormattedPrice(parseFloat(minSpendValue), locale)],
+  ).toString();
+
+  replacedGwpText = replacePlaceholders(
+    replacedGwpText,
+    ['%%GWP_remaining_spend%%'],
+    [getFormattedPrice(parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)],
+  ).toString();
 
   return (
     <PlpPromoItemStyles>
@@ -46,7 +98,7 @@ const PlpPromoItem = ({ block }) => {
                 color: textColor?.hex,
               }}
             >
-              {title}{' '}
+              {enableGwp && areSettingsValid ? replacedGwpText : title}
               <span
                 className="arrow-right"
                 style={{

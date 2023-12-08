@@ -8,7 +8,7 @@ export const ModularDuoBlockContainer = styled.div`
 
     &.with-swiper {
       ${mobileOnly(`
-        padding: ${setSpace(4)} 0 calc(${setSpace(4)} - 20px) !important;
+        padding: ${setSpace(4)} 0 calc(${setSpace(4)} - 2rem) !important;
       `)}
     }
 
@@ -51,7 +51,7 @@ export const ModularDuoBlockContainer = styled.div`
 
   .mod-duo__media {
     margin: ${setSpace(4)} auto 0;
-    max-width: 1024px;
+    max-width: 102.4rem;
     position: relative;
     grid-template-columns: 1fr 1fr;
     grid-row-gap: 0;
@@ -83,7 +83,7 @@ export const ModularDuoBlockContainer = styled.div`
       ${mobileOnly(`
         white-space: nowrap;
         width: 150%;
-        padding-bottom: 20px;
+        padding-bottom: 2rem;
       `)}
     }
   }

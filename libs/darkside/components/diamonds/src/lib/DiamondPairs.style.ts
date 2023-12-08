@@ -1,4 +1,4 @@
-import { BLACK, desktopAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -97,7 +97,7 @@ export const StyledDiamondPairActiveRow = styled.div`
   }
 
   .row-info {
-    color: ${BLACK};
+    color: var(--color-black);
     display: block;
     font-size: var(--font-size-xsmall);
     margin: -1rem 0 1rem;

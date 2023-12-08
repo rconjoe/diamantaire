@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledDiamondCfyBreadCrumb = styled.div`
   display: block;
   width: 100%;
-  max-width: 500px;
+  max-width: 50rem;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -32,12 +32,12 @@ const StyledDiamondCfyBreadCrumb = styled.div`
 
   .info {
     display: flex;
-    gap: 5px;
+    gap: 0.5rem;
   }
 
   .text {
     display: flex;
-    gap: 4px;
+    gap: 0.4rem;
     font-size: var(--font-size-xxxsmall);
   }
 
@@ -51,7 +51,7 @@ const StyledDiamondCfyBreadCrumb = styled.div`
 
   .tooltip-trigger {
     font-size: var(--font-size-xxxsmall);
-    transform: translate(0, 5px);
+    transform: translate(0, 0.5rem);
   }
 
   .react-tooltip {

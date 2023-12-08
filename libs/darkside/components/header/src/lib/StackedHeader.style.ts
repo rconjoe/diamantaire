@@ -35,7 +35,7 @@ export const StackedHeaderStylesContainer = styled.div`
     }
 
     .nav__logo {
-      max-width: 95px;
+      max-width: 9.5rem;
       margin: 0 auto;
 
       svg {
@@ -61,11 +61,11 @@ export const StackedHeaderStylesContainer = styled.div`
         > li {
           font-size: 1.4rem;
           display: inline-block;
-          margin-right: 20px;
+          margin-right: 2rem;
           position: relative;
 
           &.divider {
-            margin: 0 10px;
+            margin: 0 1rem;
           }
 
           button {
@@ -77,26 +77,26 @@ export const StackedHeaderStylesContainer = styled.div`
 
           .language-icon {
             display: inline-block;
-            transform: translateY(-2px) rotate(180deg);
+            transform: translateY(-0.2rem) rotate(180deg);
             padding: 0 0.7rem;
 
             &.active {
-              transform: translateY(1px) rotate(0deg);
+              transform: translateY(0.1rem) rotate(0deg);
             }
           }
 
           &.country-selector {
-            /* flex: 0 0 100px; */
+            /* flex: 0 0 10rem; */
             button {
               display: flex;
               align-items: baseline;
               width: 100%;
-              margin-right: 10px;
+              margin-right: 1rem;
 
               svg {
-                flex: 0 0 30px;
+                flex: 0 0 3rem;
                 position: relative;
-                top: 6px;
+                top: 0.6rem;
               }
 
               span {
@@ -110,29 +110,29 @@ export const StackedHeaderStylesContainer = styled.div`
 
           &.country-selector__chat {
             svg {
-              width: 17px;
+              width: 1.7rem;
               position: relative;
-              top: 3px;
+              top: 0.3rem;
             }
 
             &.with-lang {
-              margin-left: 20px;
+              margin-left: 2rem;
             }
           }
 
           &.calendar {
             display: flex;
-            top: 3px;
+            top: 0.3rem;
 
             svg {
-              height: 18px;
+              height: 1.8rem;
               position: relative;
-              top: 1px;
+              top: 0.1rem;
             }
           }
 
           &.language {
-            min-width: 80px;
+            min-width: 8rem;
             margin-right: 0;
           }
 
@@ -150,15 +150,15 @@ export const StackedHeaderStylesContainer = styled.div`
         justify-content: flex-end;
 
         .cart svg {
-          height: 21px;
+          height: 2.1rem;
         }
 
         .wishlist svg {
-          transform: scale(0.8) translate(0, 1px);
+          transform: scale(0.8) translate(0, 0.1rem);
         }
 
         .accounts svg {
-          transform: translate(0, 1px);
+          transform: translate(0, 0.1rem);
         }
       }
     }
@@ -173,12 +173,12 @@ export const StackedHeaderStylesContainer = styled.div`
     text-align: center;
 
     li {
-      margin: 0 15px;
+      margin: 0 1.5rem;
       font-family: ${MAIN_FONT};
 
       a {
         font-family: ${MAIN_FONT};
-        letter-spacing: 0.3px;
+        letter-spacing: 0.03rem;
         font-size: 1.4rem;
         text-decoration: none;
         position: relative;
@@ -189,9 +189,9 @@ export const StackedHeaderStylesContainer = styled.div`
           background: var(--color-teal);
           display: block;
           position: absolute;
-          bottom: -5px;
+          bottom: -0.5rem;
           left: 0;
-          height: 2px;
+          height: 0.2rem;
           transition: 0.25s;
           width: 0%;
         }

@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
 
 import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
@@ -29,12 +30,16 @@ export async function getVRAIServerPlpData(
 
       if (min) acc['priceMin'] = min;
       if (max) acc['priceMax'] = max;
+    } else if (key === 'metal') {
+      acc[key] = value?.join(',').toString() || value;
     } else {
       acc[key] = value;
     }
 
     return acc;
   }, {});
+
+  console.log('optionsQuery', optionsQuery);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({
     category,
@@ -66,6 +71,7 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
+  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -111,7 +117,7 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
     [`plp-${slug}`, ...Object.values(options || {})],
     ({ pageParam = pageParamInit }) =>
-      getVRAIServerDiamondPlpData(slug, { page: pageParam === null ? 1 : pageParam, ...options }),
+      getVRAIServerDiamondPlpData(slug, { ...options, page: pageParam === null ? 1 : pageParam }),
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => {
@@ -129,9 +135,9 @@ export function useDiamondPlpProducts(slug, pageParamInit = 1, options) {
   return { data, fetchNextPage, isFetching, hasNextPage };
 }
 
-export const LIST_PAGE_DATO_SERVER_QUERY = `
-query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
-    listPage(locale: $locale, filter: {slugNew: {eq: $slug}, category: {eq: $category}}) {
+export const LIST_PAGE_DATO_SERVER_QUERY = gql`
+  query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
+    listPage(locale: $locale, filter: { slugNew: { eq: $slug }, category: { eq: $category } }) {
       id
       seo {
         id
@@ -146,7 +152,7 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         id
         name
         link {
-          ...on ListPageRecord {
+          ... on ListPageRecord {
             slug
           }
           ... on StandardPageRecord {
@@ -160,9 +166,9 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         data {
           title
           image {
-            responsiveImage(imgixParams: {w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+            responsiveImage(imgixParams: { w: 200, h: 200, q: 60, auto: format, fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
-          }
+            }
           }
           slug
         }
@@ -177,8 +183,8 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
           url
           alt
           mimeType
-          responsiveImage(imgixParams: {w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-              ...responsiveImageFragment
+          responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
+            ...responsiveImageFragment
           }
         }
       }
@@ -187,6 +193,10 @@ query listPageQuery($locale: SiteLocale, $slug: String!, $category: String!) {
         label
         id
         isDescendingOrder
+      }
+      filterOptions {
+        filterLabel
+        filterValue
       }
       creativeBlocks {
         id
@@ -215,34 +225,35 @@ export async function fetchPlpDatoServerData(locale: string, slug: string, categ
   }
 }
 
-const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = `
-query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
-  plpPromoCardCollection(locale: $locale, filter: {id: {eq: $id}}) {
-    id
-    ... on PlpPromoCardCollectionRecord {
-      data {
-        title
-        link
-        textColor {
-          hex
-        }
-        image {
-          responsiveImage (imgixParams: {q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
+  query listPagePromoCardCollectionQuery($locale: SiteLocale, $id: ItemId!) {
+    plpPromoCardCollection(locale: $locale, filter: { id: { eq: $id } }) {
+      id
+      ... on PlpPromoCardCollectionRecord {
+        data {
+          title
+          link
+          textColor {
+            hex
           }
-        }
-        imageMobile {
-          responsiveImage (imgixParams: {w: 344, h: 500, auto: format, fit: crop, crop: focalpoint}) {
-            ...responsiveImageFragment
+          image {
+            responsiveImage(imgixParams: { q: 90, w: 344, h: 410, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
           }
+          imageMobile {
+            responsiveImage(imgixParams: { w: 344, h: 500, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpPosition
+          plpPositionMobile
+          enableGwp
         }
-        plpPosition
-        plpPositionMobile
       }
     }
-    }
-}
-${ResponsiveImageFragment}
+  }
+  ${ResponsiveImageFragment}
 `;
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
@@ -255,10 +266,11 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const LIST_PAGE_CREATIVE_BLOCK_QUERY = `
+const LIST_PAGE_CREATIVE_BLOCK_QUERY = gql`
 query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
   allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
     id
+    enableGwp
     desktopImage {
       responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment

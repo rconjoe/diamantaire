@@ -13,25 +13,25 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
     padding: ${setSpace(3)};
   `)}
   ${tabletAndUp(`
-    min-height: 350px;
+    min-height: 35rem;
     max-width: 960px !important;
   `)}
 
   .quad-block__title {
     text-align: center;
-    line-height: 30px;
+    line-height: 3rem;
     font-size: ${setSpace(3)};
-    margin-bottom: 25px;
+    margin-bottom: 2.5rem;
 
     ${tabletAndUp(`
       font-size: ${setSpace(4.5)};
-      line-height: 40px;
-      margin-bottom: 60px;
+      line-height: 4rem;
+      margin-bottom: 6rem;
     `)}
 
     &.line1 {
       font-weight: normal;
-      max-width: 275px;
+      max-width: 27.5rem;
       ${tabletAndUp(`
         max-width: unset;
       `)}
@@ -43,7 +43,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
       }
       padding-bottom: ${setSpace(7)};
       ${mobileOnly(`
-        padding-bottom: 20px;
+        padding-bottom: 2rem;
       `)}
     }
   }
@@ -51,12 +51,12 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
   .quad-block__stats-container {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
     ${mobileOnly(`
       flex-direction: column;
       justify-content: left;
-      gap: 40px;
+      gap: 4rem;
     `)}
 
     ${desktopAndUp(`
@@ -80,28 +80,28 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
   }
 
   .quad-block__stats-title {
-    font-size: 60px;
+    font-size: 6rem;
 
     font-weight: var(--font-weight-medium);
-    letter-spacing: -3px;
-    line-height: 45px;
+    letter-spacing: -0.03rem;
+    line-height: 4.5rem;
     margin-bottom: ${setSpace(1)};
     overflow-wrap: break-word;
     ${tabletAndUp(`
-      font-size: 50px;
+      font-size: 5rem;
       margin-bottom: 0;
     `)}
     ${desktopAndUp(`
-      font-size: 60px;
+      font-size: 6rem;
       margin-bottom: ${setSpace(2)};
     `)}
   }
 
   .quad-block__image {
-    max-height: 45px;
-    max-width: 70px;
+    max-height: 4.5rem;
+    max-width: 7rem;
 
-    margin-right: 15px;
+    margin-right: 1.5rem;
 
     ${mobileOnly(`
       width: 55px;
@@ -110,13 +110,13 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
     &.-halfmoon {
       max-width: 55px;
       ${mobileOnly(`
-        width: 50px;
+        width: 5rem;
       `)}
     }
     &.-pear {
-      max-height: 48px;
+      max-height: 4.8rem;
       ${mobileOnly(`
-        max-height: 52px;
+        max-height: 5.2rem;
       `)}
     }
   }
@@ -124,7 +124,7 @@ export const ModularQuadStatisticsBlockContainer = styled.div`
   .quad-block__stats-copy {
     line-height: 1.3;
     ${tabletAndUp(`
-      font-size: 14px;
+      font-size: 1.4rem;
     `)}
     ${desktopAndUp(`
       font-size: var(--font-size-xsmall);

@@ -1,17 +1,17 @@
 import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const asideWidthLG = '400px';
+const asideWidthLG = '40rem';
 const asideWidthMD = '40%';
 const gapMD = '2.4rem';
-const gapLG = '50px';
+const gapLG = '5rem';
 
 const StyledDiamondPage = styled.div`
-  margin: 25px auto 0;
+  margin: 2.5rem auto 0;
   display: block;
 
   ${tabletAndUp(`
-    margin: 25px auto 0;
+    margin: 2.5rem auto 0;
     flex-wrap: wrap;
     display: flex;
     gap: 0 ${gapMD};
@@ -50,7 +50,7 @@ const StyledDiamondPage = styled.div`
       flex-direction: column;
       position: sticky;
       align-self: flex-start;
-      top: 125px;
+      top: 12.5rem;
     `)}
 
     ${desktopAndUp(`

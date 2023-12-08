@@ -1,13 +1,19 @@
-import { useTopBar } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useTopBar, useTopBarGWP } from '@diamantaire/darkside/data/hooks';
+import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
-import { replacePlaceholders } from '@diamantaire/shared/helpers';
+import {
+  getCountry,
+  isCountrySupported,
+  isCurrentTimeWithinInterval,
+  replacePlaceholders,
+} from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
-import clsx from 'clsx';
+import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 type TopBarTypes = {
@@ -19,7 +25,7 @@ const TopBarContainer = styled.div`
   padding: 1rem 0;
   position: relative;
   z-index: 5000;
-  min-height: 38px;
+  min-height: 3.8rem;
 
   * {
     color: #fff;
@@ -27,10 +33,15 @@ const TopBarContainer = styled.div`
 
   .top-bar__wrapper {
     .slider__wrapper {
-      max-width: 550px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
+      padding: 0 2rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        max-width: 55rem;
+        padding: 0;
+      }
 
       .slides {
         flex: 1;
@@ -43,7 +54,7 @@ const TopBarContainer = styled.div`
         ${media.small`font-size: var(--font-size-xxxsmall);`}
 
         span {
-          margin-left: 8px;
+          margin-left: 0.8rem;
         }
       }
 
@@ -57,9 +68,9 @@ const TopBarContainer = styled.div`
       .arrow-left {
         width: 0;
         height: 0;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-bottom: 8px solid var(--color-white);
+        border-left: 0.4rem solid transparent;
+        border-right: 0.4rem solid transparent;
+        border-bottom: 0.8rem solid var(--color-white);
         display: inline-block;
         transform: rotate(90deg);
       }
@@ -103,7 +114,7 @@ const TopBarContainer = styled.div`
 
       svg {
         stroke: #fff;
-        stroke-width: 1px;
+        stroke-width: 0.1rem;
       }
     }
   }
@@ -112,64 +123,105 @@ const TopBarContainer = styled.div`
 const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
   const { locale } = useRouter();
   const { data } = useTopBar(locale);
-  const canSliderLoop = data?.announcementBar?.loop || true;
-  const [isFirstSlide, setIsFirstSlide] = useState(false);
-  const [isLastSlide, setIsLastSlide] = useState(false);
+  const { data: gwp } = useTopBarGWP(locale);
+  const { data: checkout } = useCartData(locale);
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const options: EmblaOptionsType = { loop: canSliderLoop };
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const options: EmblaOptionsType = { loop: true };
+  const [emblaRef] = useEmblaCarousel(options, [
+    Autoplay({
+      delay: 7000,
+    }),
+  ]);
 
   const isThereMoreThanOneSlide = data?.announcementBar?.data.length > 1;
 
-  const onSelect = useCallback((emblaApi) => {
-    const isLastSlideTemp = emblaApi?.selectedScrollSnap() === emblaApi?.scrollSnapList().length - 1;
-    const isFirstSlideTemp = emblaApi?.selectedScrollSnap() === 0;
+  const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
 
-    setIsFirstSlide(isFirstSlideTemp);
-    setIsLastSlide(isLastSlideTemp);
-  }, []);
+  const {
+    gwpSupportedCountries,
+    minSpendByCurrencyCode,
+    promotionDateRangeStart,
+    promotionDateRangeEnd,
+    announcementBarQualifiedCopy,
+    announcementBarNonQualifiedCopy,
+    announcementBarNothingInCartCopy,
+  } = gwpData || {};
 
-  useEffect(() => {
-    if (emblaApi && !canSliderLoop) {
-      emblaApi.on('select', onSelect);
-    }
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
 
-    return () => {
-      if (emblaApi && !canSliderLoop) {
-        emblaApi.off('select', onSelect);
-      }
-    };
-  }, [emblaApi]);
+  const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
+  const isThereOneProduct = checkout?.lines?.length > 0;
+  const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
   return (
     <TopBarContainer id="top-bar">
       <div className="top-bar__wrapper">
         <div className="slider__wrapper">
-          {isThereMoreThanOneSlide && (
-            <div
-              className={clsx('slider-nav prev', {
-                disabled: isFirstSlide,
-              })}
-            >
-              <button onClick={() => emblaApi.scrollPrev()}>
-                <span className="arrow-left"></span>
-              </button>
-            </div>
-          )}
           <div className="embla slides" ref={isThereMoreThanOneSlide ? emblaRef : null}>
             <div className="embla__container">
               {data?.announcementBar?.data?.map((slide, index) => {
-                const { link, copy: defaultCopy, enableGeoCopy, nonGeoCopy, geoCopy } = slide || {};
+                const {
+                  link,
+                  copy: defaultCopy,
+                  enableGeoCopy,
+                  nonGeoCopy,
+                  geoCopy,
+                  enableGwp,
+                  supportedCountries,
+                } = slide || {};
+
+                // confirm if country is supported for slide
+                if (
+                  !isCountrySupported(supportedCountries, countryCode) ||
+                  !isCountrySupported(gwpSupportedCountries, countryCode)
+                ) {
+                  return null;
+                }
+
+                // Skips GWP slide if conditions are not met
+                const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
+
+                const minSpendValue = minSpendByCurrencyCode?.[currencyCode]?.toString();
+
+                const textVal = !isThereOneProduct
+                  ? announcementBarNothingInCartCopy
+                  : hasUserQualified
+                  ? announcementBarQualifiedCopy
+                  : announcementBarNonQualifiedCopy;
+
+                let replacedText = replacePlaceholders(
+                  textVal,
+                  ['%%GWP_minimum_spend%%'],
+                  [formatPrice(parseFloat(minSpendValue), locale).trim()],
+                ).toString();
+
+                replacedText = replacePlaceholders(
+                  replacedText,
+                  ['%%GWP_remaining_spend%%'],
+                  [
+                    formatPrice(
+                      parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
+                      locale,
+                    ).trim(),
+                  ],
+                ).toString();
+
+                if (enableGwp && !isWithinTimeframe) return null;
 
                 return (
                   <div className="embla__slide" key={`top-bar-slide-${index}`}>
-                    {/* If there is a location, and the slide has geo on it 🪄 */}
-                    {enableGeoCopy && showroomLocation ? (
+                    {enableGwp ? (
+                      <p>{replacedText}</p>
+                    ) : enableGeoCopy && showroomLocation ? (
                       <p>
+                        {/* If there is a location, and the slide has geo on it 🪄 */}
                         <Link href={link}>
-                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location]) as string}{' '}
+                          {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
+                            .toString()
+                            .trim()}{' '}
                           <span className="arrow-right"></span>
                         </Link>
                       </p>
@@ -183,17 +235,6 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
               })}
             </div>
           </div>
-          {isThereMoreThanOneSlide && (
-            <div
-              className={clsx('slider-nav next', {
-                disabled: isLastSlide,
-              })}
-            >
-              <button onClick={() => emblaApi.scrollNext()}>
-                <span className="arrow-right"></span>
-              </button>
-            </div>
-          )}
         </div>
 
         <div className="close__container">
