@@ -15,10 +15,21 @@ interface Diamond360Props {
   noCaption?: boolean;
 }
 
-const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabled, noCaption }: Diamond360Props) => {
-  const id = lotId.includes('cfy-')
-    ? lotId
-    : lotId
+const Diamond360 = ({
+  diamond,
+  lotId,
+  diamondType,
+  useImageOnly,
+  className,
+  isCto,
+  disabled,
+  noCaption,
+}: Diamond360Props) => {
+  const diamondID = diamond?.lotId || lotId;
+
+  const id = diamondID.includes('cfy-')
+    ? diamondID
+    : diamondID
         .split('')
         .filter((v) => !isNaN(Number(v)))
         .join('');
@@ -34,7 +45,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
       setMediaJpgFallback(true);
     }
 
-    if (lotId) {
+    if (diamondID) {
       const diamond360SpriteUrl = generateDiamondSpriteUrl(id, 'webp');
 
       // HEAD fetch method fetches the metadata without the body
@@ -57,14 +68,14 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
         setMediaType('diamond-video');
       }
     }
-  }, [lotId, id]);
+  }, [id]);
 
   const renderMedia = () => {
     if (disabled) {
       return (
         <Image
           alt={diamondType}
-          src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`}
+          src={`https://videos.diamondfoundry.com/${diamondID}-thumb.jpg`}
           sizes="100vw"
           height={0}
           width={0}
@@ -87,7 +98,7 @@ const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabl
 
   useEffect(() => {
     fetchMediaType();
-  }, [lotId, fetchMediaType]);
+  }, [diamondID, fetchMediaType]);
 
   return (
     mediaType && (
