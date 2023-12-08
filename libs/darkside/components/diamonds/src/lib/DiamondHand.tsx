@@ -1,7 +1,7 @@
 import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
-import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ const DiamondHand = ({
   initValue,
 }: {
   className?: string;
-  diamond?: DiamondDataTypes;
+  diamond?: DiamondDataTypes | DiamondCtoDataTypes;
   isCto?: boolean;
   isThumb?: boolean;
   withSlider?: boolean;
