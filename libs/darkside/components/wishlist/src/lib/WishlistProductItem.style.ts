@@ -28,16 +28,17 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 
   .title {
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-xsmall);
+    font-size: var(--font-size-xxsmall);
   }
 
   .price {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xsmall);
+    font-size: var(--font-size-xxsmall);
     margin-top: 0.75rem;
   }
 
   button {
+    font-size: var(--font-size-xxsmall);
     margin-top: 1rem;
     padding: 0.5rem 1rem;
     max-width: 20rem;
@@ -68,7 +69,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
     display: flex;
     gap: 1rem;
     align-items: center;
-    font-size: var(--font-size-xsmall);
+    font-size: var(--font-size-xxsmall);
 
     svg {
       width: 2.5rem;
@@ -79,11 +80,6 @@ export const StyledWishlistSlideoutProductItem = styled.div`
 
 export const StyledWishlistPageProductItem = styled.div`
   width: 100%;
-
-  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-    width: calc((100% - 6rem) / 4);
-    align-self: stretch;
-  }
 
   .card {
     position: relative;
@@ -111,17 +107,18 @@ export const StyledWishlistPageProductItem = styled.div`
   }
 
   .title {
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xsmall);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xxsmall);
   }
 
   .price {
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-xxsmall);
     margin-top: 0.25rem;
   }
 
   button {
+    font-size: var(--font-size-xxsmall);
     margin-top: 1rem;
     width: 100%;
   }
@@ -152,11 +149,19 @@ export const StyledWishlistPageProductItem = styled.div`
     display: flex;
     gap: 1rem;
     align-items: center;
-    font-size: var(--font-size-xsmall);
+    font-size: var(--font-size-xxsmall);
 
     svg {
       width: 2.5rem;
       height: auto;
     }
+  }
+
+  .action {
+    margin-top: auto;
+    width: 100%;
+    flex-direction: column;
+    align-self: flex-end;
+    display: flex;
   }
 `;

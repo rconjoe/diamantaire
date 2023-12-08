@@ -31,11 +31,17 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
     });
   };
 
-  const handleClick = useCallback(() => {
-    handleStorage(!active);
+  const handleClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      e.preventDefault();
 
-    setActive(!active);
-  }, [active]);
+      handleStorage(!active);
+
+      setActive(!active);
+    },
+    [active],
+  );
 
   const handleUpdate = useCallback(() => {
     if (productId) {
@@ -53,7 +59,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   return (
     <StyledWishlistLikeButton className={extraClass}>
-      <div className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={handleClick}>
+      <div className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={(e) => handleClick(e)}>
         {active ? <LoveIconActive /> : <LoveIcon />}
       </div>
     </StyledWishlistLikeButton>

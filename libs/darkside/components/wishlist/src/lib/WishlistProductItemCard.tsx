@@ -99,18 +99,20 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
       <div className="text">
         <div className="title">{title}</div>
 
-        <div className="price">{_f.price}</div>
+        <div className="action">
+          <div className="price">{_f.price}</div>
 
-        <DarksideButton href={link} type="solid">
-          {button}
-        </DarksideButton>
+          <DarksideButton href={link} type="solid">
+            {button}
+          </DarksideButton>
 
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
-          </div>
-        )}
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (
@@ -166,21 +168,23 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div className="text">
         <div className="title">{title}</div>
 
-        <div className="price">
-          {price}
-          {caratWeight && caratWeight === 'other' && '+'}
-        </div>
-
-        <DarksideButton href={link} type="solid">
-          {button}
-        </DarksideButton>
-
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
+        <div className="action">
+          <div className="price">
+            {price}
+            {caratWeight && caratWeight === 'other' && '+'}
           </div>
-        )}
+
+          <DarksideButton href={link} type="solid">
+            {button}
+          </DarksideButton>
+
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (
@@ -280,18 +284,20 @@ const CardBundle: React.FC<CardBundleProps> = ({
       <div className="text">
         <div className="title">{bundleTitle}</div>
 
-        <div className="price">{bundlePrice}</div>
+        <div className="action">
+          <div className="price">{bundlePrice}</div>
 
-        <UniLink route={link}>
-          <DarksideButton type="solid">{button}</DarksideButton>
-        </UniLink>
+          <UniLink route={link}>
+            <DarksideButton type="solid">{button}</DarksideButton>
+          </UniLink>
 
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
-          </div>
-        )}
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (

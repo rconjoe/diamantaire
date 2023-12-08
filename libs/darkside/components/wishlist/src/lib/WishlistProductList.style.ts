@@ -96,11 +96,19 @@ export const StyledWishlistPageProductList = styled.div`
     display: flex;
     width: 100%;
 
+    display: grid;
+
     .list {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
       margin: 4rem 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
 
     .cta {
