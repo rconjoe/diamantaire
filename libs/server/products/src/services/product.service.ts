@@ -1136,7 +1136,7 @@ export class ProductsService {
           {
             $addFields: {
               __caratWeightOrder: {
-                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '1.5ct', '2ct'], '$configuration.caratWeight'],
+                $indexOfArray: [['other', '0.25ct', '0.5ct', '1.0ct', '1.5ct', '2.0ct'], '$configuration.caratWeight'],
               },
             },
           },
