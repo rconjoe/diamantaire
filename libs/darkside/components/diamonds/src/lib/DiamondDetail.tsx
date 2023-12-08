@@ -39,11 +39,9 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const diamondTitle = _t(getDiamondType(diamondType)?.slug);
   const formattedCarat = getFormattedCarat(productCarat, locale);
 
-  console.log(`lotId`, lotId);
-
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
-    <DiamondHand key="1" className="media-content-item" diamondType={diamondType} lotId={lotId} />,
+    <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
 
   return (
@@ -52,7 +50,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
         <div className="main">
           <div className="media">
             <div className="media-content">
-              {(isMobile && lotId && (
+              {(isMobile && (
                 <SwiperStyles className="carousel">
                   <Swiper pagination={{ clickable: true }} modules={[Pagination]}>
                     {media.map((v, i) => {
@@ -63,7 +61,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
               )) ||
                 media.map((v) => v)}
             </div>
-            {isMobile && lotId && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+            {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
           </div>
         </div>
 
@@ -123,9 +121,9 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
             />
           </div>
 
-          {lotId && <DiamondDetailSpecs lotId={lotId} locale={locale} />}
+          <DiamondDetailSpecs handle={handle} locale={locale} />
 
-          {!isMobile && lotId && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+          {!isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
         </div>
       </div>
 

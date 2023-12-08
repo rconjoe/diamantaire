@@ -1,6 +1,7 @@
 import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
+import { DiamondDataTypes } from '@diamantaire/shared/types';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -9,32 +10,25 @@ import DiamondImage from './DiamondImage';
 
 const DiamondHand = ({
   className,
-  lotId,
-  diamondType,
-  withSlider = false,
   isCto = false,
   isThumb = false,
-  product,
+  withSlider = false,
+  diamond,
   // Init value overrides
   initRange,
   initValue,
 }: {
   className?: string;
-  lotId?: string;
-  diamondType?: string;
-  withSlider?: boolean;
-  product?: { [key: string]: any };
+  diamond?: DiamondDataTypes;
   isCto?: boolean;
   isThumb?: boolean;
-
+  withSlider?: boolean;
   initRange?: number[];
   initValue?: number;
 }) => {
   const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
-  let { data: { diamond } = {} } = useDiamondsData({ lotId });
-
-  if (product) diamond = product;
+  const { diamondType } = diamond;
 
   const { data: { ranges } = {} } = useDiamondsData({ diamondType });
 
