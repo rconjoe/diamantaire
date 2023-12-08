@@ -29,9 +29,9 @@ export const fetchDiamondData = async (options) => {
       return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
     };
 
-    const id: string = options?.lotId;
+    const id: string = options?.lotId || null;
 
-    const handle: string = options?.handle;
+    const handle: string = options?.handle || null;
 
     const url: string = '/diamonds' + getFormatedDataForApi();
 

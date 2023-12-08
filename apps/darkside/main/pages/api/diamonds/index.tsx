@@ -12,7 +12,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     const query = _req.query as Record<string, string>;
 
     const id = query?.lotId || null;
-    const isListIds = (id && id.split(',').length > 1) || false;
+    const ids = (id && id.split(',').length > 1) || false;
     const view = query?.view || null;
     const handle = query?.handle || null;
     const getAdditionalInfo = query?.withAdditionalInfo === 'true';
@@ -21,12 +21,12 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     let vraiApiClientPayload: any = {};
 
-    if (id) {
-      vraiApiClientURL = `${vraiApiClientURL}/${id}`;
+    if (ids) {
+      vraiApiClientURL = `${vraiApiClientURL}/list/${id}`;
     }
 
-    if (isListIds) {
-      vraiApiClientURL = `${vraiApiClientURL}/list/${id}`;
+    if (id && !ids) {
+      vraiApiClientURL = `${vraiApiClientURL}/${id}`;
     }
 
     if (handle) {
@@ -70,6 +70,8 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     return res.status(200).json(payload);
   } catch (err) {
+    console.log(`err`, err);
+
     return res.status(200).json(null);
   }
 }
