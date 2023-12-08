@@ -76,6 +76,15 @@ const ProductDescription = ({
 }) => {
   const { locale } = useRouter();
 
+  console.log('dessss', {
+    description,
+    productAttributes,
+    variantAttributes,
+    productSpecId,
+    title,
+    selectedConfiguration,
+  });
+
   const {
     productType,
     bandWidth: parentProductBandWidth,

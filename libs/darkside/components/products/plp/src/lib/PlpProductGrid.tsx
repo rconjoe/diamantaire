@@ -1,4 +1,4 @@
-import { DarksideButton, Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -84,7 +84,6 @@ type PlpProductGridProps = {
   plpSlug: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
   builderFlowOverride?: boolean;
-  isSettingSelect?: boolean;
   selectSetting?: (_obj: { collectionSlug: string; productSlug: string }) => void;
   filterValue?: FilterValueProps;
   setFilterValues?;
@@ -114,7 +113,6 @@ const PlpProductGrid = ({
   setFilterValues,
   plpTitle,
   builderFlowOverride = false,
-  isSettingSelect = false,
   selectSetting,
   isFetching,
   plpSlug,
@@ -135,6 +133,7 @@ const PlpProductGrid = ({
   const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
+    if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
     const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a, b) => {
       // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
       return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
@@ -203,11 +202,11 @@ const PlpProductGrid = ({
 
               return (
                 <Fragment key={product?.defaultId}>
-                  {cardCollectionObject[gridItemIndex + 1] !== undefined && !builderFlowOverride && (
+                  {cardCollectionObject[gridItemIndex + 1] !== undefined && (
                     <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
                   )}
 
-                  {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && !builderFlowOverride && (
+                  {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
                     <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
                   )}
 
@@ -215,25 +214,18 @@ const PlpProductGrid = ({
                     <PlpDiamondItem product={product} />
                   ) : (
                     <div>
-                      <PlpProductItem product={product} position={gridItemIndex} plpTitle={plpTitle} />
-                      {isSettingSelect && (
-                        <div
-                          style={{
-                            marginTop: '2rem',
-                          }}
-                        >
-                          <DarksideButton
-                            onClick={() =>
-                              selectSetting({
-                                collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                                productSlug: product.variants[product.defaultId]?.productSlug,
-                              })
-                            }
-                          >
-                            Select
-                          </DarksideButton>
-                        </div>
-                      )}
+                      <PlpProductItem
+                        product={product}
+                        position={gridItemIndex}
+                        plpTitle={plpTitle}
+                        selectSettingForBuilderFlow={() => {
+                          return selectSetting({
+                            collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                            productSlug: product.variants[product.defaultId]?.productSlug,
+                          });
+                        }}
+                        builderFlowOverride={builderFlowOverride}
+                      />
                     </div>
                   )}
                 </Fragment>

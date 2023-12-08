@@ -141,18 +141,24 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
         product: action.payload,
       };
 
+      // Need to revisit
       // If a product and diamond have already been added, check that the new product diamondType matches the existing diamondType
-      if (state.type === 'setting-to-diamond' && state.product !== null && state.diamond !== null) {
-        if (state.diamond.diamondType !== action.payload.diamondType) {
-          newState.diamond = null;
-          removeUrlParameter('lotId');
+      // if (state.type === 'setting-to-diamond' && state.product !== null && state.diamond !== null) {
+      //   console.log('here we go', {
+      //     diamondInState: state.diamond.diamondType,
+      //     prodDiamondType: action.payload.diamondType,
+      //   });
 
-          return {
-            ...newState,
-            builderState: getState(newState),
-          };
-        }
-      }
+      //   if (state.diamond.diamondType !== action.payload.diamondType) {
+      //     newState.diamond = null;
+      //     removeUrlParameter('lotId');
+
+      //     return {
+      //       ...newState,
+      //       builderState: getState(newState),
+      //     };
+      //   }
+      // }
 
       return {
         ...newState,

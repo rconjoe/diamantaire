@@ -11,6 +11,12 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
+  > button {
+    width: 100%;
+    background-color: transparent;
+    padding: 0;
+    text-align: left;
+  }
   .plp-variant__image {
     position: relative;
 
@@ -52,6 +58,8 @@ const PlpProductVariant = ({
   lowestPrice,
   useLowestPrice,
   label,
+  builderFlow = false,
+  selectSettingForBuilderFlow,
 }: {
   variant: ListPageItemConfiguration;
   position: number;
@@ -59,6 +67,8 @@ const PlpProductVariant = ({
   lowestPrice: number;
   useLowestPrice: boolean;
   label: string | null;
+  builderFlow?: boolean;
+  selectSettingForBuilderFlow?: () => void;
 }) => {
   const { productClicked } = useAnalytics();
   const { locale } = useRouter();
@@ -135,65 +145,118 @@ const PlpProductVariant = ({
 
   return (
     <PlpProductVariantStyles>
-      <ProductLink onClick={handleClick} productType={productType} collectionSlug={collectionSlug} productSlug={productSlug}>
-        <div className="plp-variant__inner">
-          <div className="plp-variant__image">
-            <button
-              onMouseEnter={handleImageChange}
-              onFocus={handleImageChange}
-              onMouseLeave={handleImageChange}
-              onBlur={handleImageChange}
-            >
-              {isPrimaryImage
-                ? primaryImage && (
-                    <DatoImage
-                      quality={60}
-                      overrideAlt={productTitleWithProperties}
-                      enableDpr
-                      image={{
-                        url: primaryImage?.src,
-                        responsiveImage: {
-                          ...primaryImage,
-                        },
-                      }}
-                    />
-                  )
-                : hoverImage && (
-                    <DatoImage
-                      quality={60}
-                      enableDpr
-                      image={{
-                        url: hoverImage?.src,
-                        responsiveImage: {
-                          ...hoverImage,
-                        },
-                      }}
-                    />
-                  )}
-            </button>
+      {builderFlow ? (
+        <button onClick={selectSettingForBuilderFlow}>
+          <div className="plp-variant__inner">
+            <div className="plp-variant__image">
+              <button
+                onMouseEnter={handleImageChange}
+                onFocus={handleImageChange}
+                onMouseLeave={handleImageChange}
+                onBlur={handleImageChange}
+              >
+                {isPrimaryImage
+                  ? primaryImage && (
+                      <DatoImage
+                        quality={60}
+                        overrideAlt={productTitleWithProperties}
+                        enableDpr
+                        image={{
+                          url: primaryImage?.src,
+                          responsiveImage: {
+                            ...primaryImage,
+                          },
+                        }}
+                      />
+                    )
+                  : hoverImage && (
+                      <DatoImage
+                        quality={60}
+                        enableDpr
+                        image={{
+                          url: hoverImage?.src,
+                          responsiveImage: {
+                            ...hoverImage,
+                          },
+                        }}
+                      />
+                    )}
+              </button>
 
-            <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
+              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
 
-            {label && <span className="plp-variant__label">{label}</span>}
+              {label && <span className="plp-variant__label">{label}</span>}
+            </div>
+            <div className="plp-variant__content">
+              <h3>
+                {productTitleWithProperties} |{' '}
+                {useLowestPrice
+                  ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
+                  : makeCurrency(price, locale, currencyCode)}
+              </h3>
+            </div>
           </div>
-          <div className="plp-variant__content">
-            <h3>
-              {productTitleWithProperties} |{' '}
-              {useLowestPrice
-                ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
-                : makeCurrency(price, locale, currencyCode)}
-            </h3>
+        </button>
+      ) : (
+        <ProductLink
+          onClick={handleClick}
+          productType={productType}
+          collectionSlug={collectionSlug}
+          productSlug={productSlug}
+        >
+          <div className="plp-variant__inner">
+            <div className="plp-variant__image">
+              <button
+                onMouseEnter={handleImageChange}
+                onFocus={handleImageChange}
+                onMouseLeave={handleImageChange}
+                onBlur={handleImageChange}
+              >
+                {isPrimaryImage
+                  ? primaryImage && (
+                      <DatoImage
+                        quality={60}
+                        overrideAlt={productTitleWithProperties}
+                        enableDpr
+                        image={{
+                          url: primaryImage?.src,
+                          responsiveImage: {
+                            ...primaryImage,
+                          },
+                        }}
+                      />
+                    )
+                  : hoverImage && (
+                      <DatoImage
+                        quality={60}
+                        enableDpr
+                        image={{
+                          url: hoverImage?.src,
+                          responsiveImage: {
+                            ...hoverImage,
+                          },
+                        }}
+                      />
+                    )}
+              </button>
+
+              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
+
+              {label && <span className="plp-variant__label">{label}</span>}
+            </div>
+            <div className="plp-variant__content">
+              <h3>
+                {productTitleWithProperties} |{' '}
+                {useLowestPrice
+                  ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
+                  : makeCurrency(price, locale, currencyCode)}
+              </h3>
+            </div>
           </div>
-        </div>
-      </ProductLink>
+        </ProductLink>
+      )}
     </PlpProductVariantStyles>
   );
 };
 
 export { PlpProductVariant };
-
-// old
-// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&dpr=2&fit=crop&h=344&q=60&w=344
-
-// new
-// https://www.datocms-assets.com/25216/1666939585-petite-solitaire-round-studs-three-quarter-yellow.jpg?auto=format&crop=focalpoint&fit=crop&h=344&q=100&w=344&dpr=2

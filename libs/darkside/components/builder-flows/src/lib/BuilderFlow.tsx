@@ -1,7 +1,7 @@
 import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { PdpTypePlural, pdpTypeHandleSingleToPluralAsConst } from '@diamantaire/shared/constants';
+import { PdpTypePlural } from '@diamantaire/shared/constants';
 import { isEmptyObject, removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -27,42 +27,9 @@ const BuilderFlowStyles = styled.div`
     }
   }
 
-  .custom-builder-message {
-    background-color: #000;
-    display: flex;
-    padding: 1rem 0;
+  .nav-title {
     text-align: center;
-    justify-content: center;
-    position: relative;
-    .logo {
-      position: absolute;
-      left: 2rem;
-      svg {
-        fill: #fff;
-        width: 6rem;
-        height: auto;
-      }
-    }
-    p {
-      margin: 0;
-      color: #fff;
-      text-align: center;
-      font-size: 1.5rem;
-    }
-    ul {
-      position: absolute;
-      top: 0.9rem;
-      right: 2rem;
-      margin: 0 auto;
-      padding: 0;
-
-      li {
-        button {
-          font-weight: 400;
-          font-size: 1.4rem;
-        }
-      }
-    }
+    padding: 2rem 0 0;
   }
 
   > .loader-container {
@@ -70,6 +37,10 @@ const BuilderFlowStyles = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .nav-title {
+    text-align: center;
   }
 `;
 
@@ -109,6 +80,13 @@ const BuilderFlow = ({
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const router = useRouter();
 
+<<<<<<< HEAD
+=======
+  console.log('router', router);
+
+  // console.log('init flow', initialLotId, initialCollectionSlug, initialProductSlug, type);
+
+>>>>>>> 4e910fa0 (desktop flow working)
   function updateSettingSlugs(value: object) {
     setSettingSlugs({
       ...settingSlugs,
@@ -117,14 +95,16 @@ const BuilderFlow = ({
   }
 
   // Jewelry | ER | Wedding Band
-  const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
+  const pdpType: PdpTypePlural = shopifyProductData?.productType?.replace('Engagement Ring', 'Engagement Rings');
 
-  const { data }: { data: any } = useProductDato(settingSlugs?.collectionSlug, router.locale, pdpType);
+  const { data }: { data: any } = useProductDato(shopifyProductData?.collectionSlug as string, router.locale, pdpType);
 
-  const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
+  const datoParentProductData: any = data?.engagementRingProduct;
 
   const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
     datoParentProductData || {};
+
+  console.log('datoParentProductData', datoParentProductData);
 
   // Variant Specific Data
   const {
@@ -143,7 +123,11 @@ const BuilderFlow = ({
 
   const variantHandle = productContent?.shopifyProductHandle;
 
+  console.log('variantHandle', variantHandle);
+
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+
+  console.log('xxxxx', additionalVariantData);
 
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
@@ -172,7 +156,18 @@ const BuilderFlow = ({
     };
   }
 
-  const parentProductAttributes = { bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel };
+  console.log('yyyyy', additionalVariantData);
+
+  const parentProductAttributes = {
+    bandWidth,
+    bandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    styles: shopifyProductData?.styles,
+    productType: shopifyProductData?.productType,
+  };
 
   const productSpecId = datoParentProductData?.specLabels?.id;
 
@@ -219,6 +214,7 @@ const BuilderFlow = ({
 
     // Only run on load
     if (initialLotId && !initDiamond) {
+      console.log("is this running when it shouldn't");
       setInitDiamond(true);
       await getDiamond();
     }
@@ -297,7 +293,11 @@ const BuilderFlow = ({
   //   };
   // }, [builderProduct, settingSlugs]);
 
+  const productIconListType = datoParentProductData?.productIconList?.productType;
+
   const variantId = shopifyProductData?.shopifyVariantId;
+
+  console.log('builderProduct', builderProduct);
 
   return (
     <BuilderFlowStyles>
@@ -308,6 +308,7 @@ const BuilderFlow = ({
             <Loader color="#000" />
           </div>
         )}
+
         {type === 'setting-to-diamond' ? (
           currentStep === 0 ? (
             shopifyProductData && (
@@ -333,8 +334,8 @@ const BuilderFlow = ({
           ) : currentStep === 1 ? (
             <DiamondBuildStep
               flowIndex={1}
-              diamondTypeToShow={builderProduct?.product?.diamondType}
-              hideFilters={['diamondType']}
+              diamondTypeToShow={builderProduct?.diamond?.diamondType || builderProduct?.product?.diamondType}
+              availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
             />
           ) : currentStep === 2 ? (
             builderProduct.product &&
@@ -345,11 +346,18 @@ const BuilderFlow = ({
                 configurations={configurations}
                 variantProductTitle={shopifyProductData?.productTitle}
                 selectedConfiguration={selectedConfiguration}
+                updateSettingSlugs={updateSettingSlugs}
+                additionalVariantData={additionalVariantData}
+                shopifyProductData={shopifyProductData}
               />
             )
           ) : null
         ) : currentStep === 0 ? (
-          <DiamondBuildStep flowIndex={0} diamondTypeToShow="round-brilliant" />
+          <DiamondBuildStep
+            flowIndex={0}
+            diamondTypeToShow="round-brilliant"
+            availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
+          />
         ) : currentStep === 1 ? (
           <SettingSelectStep
             flowIndex={1}
@@ -375,6 +383,7 @@ const BuilderFlow = ({
               parentProductAttributes={parentProductAttributes}
               disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
               productTitleOverride={productTitleOverride}
+              productIconListType={productIconListType}
             />
           ) : (
             <div className="loader-container">
@@ -390,6 +399,9 @@ const BuilderFlow = ({
               configurations={configurations}
               selectedConfiguration={selectedConfiguration}
               variantProductTitle={shopifyProductData?.productTitle}
+              updateSettingSlugs={updateSettingSlugs}
+              additionalVariantData={additionalVariantData}
+              shopifyProductData={shopifyProductData}
             />
           )
         ) : null}

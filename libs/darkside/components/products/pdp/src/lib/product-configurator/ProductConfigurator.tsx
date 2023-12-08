@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
-import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
@@ -25,7 +25,6 @@ import PairSelector from './option-selector/PairSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
-import RingSizeGuide from '../RingSizeGuide';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };

@@ -1,16 +1,27 @@
-import { ShowDesktopAndUpOnly, ShowMobileOnly } from '@diamantaire/darkside/components/common-ui';
+import {
+  Form,
+  Heading,
+  ProductAppointmentCTA,
+  ShowDesktopAndUpOnly,
+  ShowMobileOnly,
+  UIString,
+} from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
   ProductConfigurator,
   ProductDescription,
+  ProductGWP,
+  ProductIconList,
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -18,6 +29,11 @@ const SettingBuildStepStyles = styled(motion.div)`
   height: 100vh;
   overflow-y: scroll;
   padding: 2rem 0 20rem;
+
+  .nav-title {
+    padding-bottom: 4rem;
+  }
+
   .product-container {
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
@@ -75,6 +91,7 @@ const SettingBuildStep = ({
   productSpecId,
   disableVariantType,
   productTitleOverride,
+  productIconListType,
 }: SettingBuildStepProps) => {
   const product = useMemo(() => {
     return {
@@ -82,6 +99,10 @@ const SettingBuildStep = ({
       price: price,
     };
   }, [productTitle, price]);
+
+  const router = useRouter();
+
+  const { _t } = useTranslations(router.locale);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -100,6 +121,11 @@ const SettingBuildStep = ({
         duration: 0.75,
       }}
     >
+      <div className="nav-title container-wrapper">
+        <Heading type="h1" className="primary h2">
+          <UIString>Complete your ring</UIString>
+        </Heading>
+      </div>
       <div className="product-container">
         <div className="media-container">
           <ShowDesktopAndUpOnly>
@@ -142,6 +168,28 @@ const SettingBuildStep = ({
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
             />
+
+            {/* <ProductKlarna title={productTitle} currentPrice={price} /> */}
+
+            <ProductAppointmentCTA productType={shopifyProductData?.productType} />
+
+            <ProductGWP />
+
+            {productIconListType && (
+              <ProductIconList
+                productIconListType={productIconListType}
+                locale={router?.locale}
+                configuration={selectedConfiguration}
+              />
+            )}
+            <Form
+              title={_t('Need more time to think?')}
+              caption={_t('Email this customized ring to yourself or drop a hint.')}
+              onSubmit={(e) => e.preventDefault()}
+              stackedSubmit={false}
+              headingType={'h2'}
+            />
+
             <ProductDescription
               description={productDescription}
               productAttributes={parentProductAttributes}

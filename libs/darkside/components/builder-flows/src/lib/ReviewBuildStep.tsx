@@ -6,6 +6,7 @@ import {
   DatoImage,
   Heading,
   ProductAppointmentCTA,
+  RingSizeGuide,
   SlideOut,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
@@ -32,9 +33,8 @@ import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AnimatePresence, motion } from 'framer-motion';
-import RingSizeGuide from 'libs/darkside/components/products/pdp/src/lib/RingSizeGuide';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -65,6 +65,28 @@ const ReviewBuildStepStyles = styled(motion.div)`
           max-height: 608px;
         }
       }
+
+      .image-diamond {
+        top: 53%;
+        left: 20.5%;
+
+        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+          left: 22%;
+        }
+
+        @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
+          left: 21.5%;
+        }
+        @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
+          left: 21%;
+        }
+        @media (min-width: 1700px) {
+          left: 20%;
+        }
+        @media (min-width: 1800px) {
+          left: 21%;
+        }
+      }
     }
     .product-summary {
       flex: 1;
@@ -92,6 +114,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
             padding: 0 0 2rem;
             li {
               display: flex;
+              flex-wrap: wrap;
               padding: 0 0 0.75rem;
 
               &:last-child {
@@ -124,6 +147,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
                     font-weight: 500;
                   }
                 }
+              }
+
+              .acc-container {
+                flex: 0 0 100%;
               }
             }
           }
@@ -236,13 +263,24 @@ const ToastError = () => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
+const ReviewBuildStep = ({
+  settingSlugs,
+  type,
+  configurations,
+  variantProductTitle,
+  selectedConfiguration,
+  updateSettingSlugs,
+  shopifyProductData,
+  additionalVariantData,
+}) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
   const { data: checkout, refetch } = useCartData(router?.locale);
-  const { builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct, updateStep, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isBandSelectorOpen, setIsBandSelectorOpen] = useState(false);
+  const [isMetalSelectorOpen, setIsMetalSelectorOpen] = useState(false);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -256,9 +294,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { productAdded } = useAnalytics();
 
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
 
-  console.log('review configurations', configurations);
+  console.log('builderProduct', builderProduct);
 
   const { collectionSlug } = settingSlugs;
 
@@ -270,16 +308,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { _t } = useTranslations(router?.locale);
 
-  const mutatedLotId = getNumericalLotId(diamond?.lotId);
+  const mutatedLotId = diamond?.lotId && getNumericalLotId(diamond?.lotId);
 
   const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
-  const allowedKeys = ['product', 'diamond'];
-
-  const sortedKeys = Object.keys(builderProduct)
-    .filter((key) => allowedKeys.includes(key))
-    .sort((a, b) => {
-      return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
-    });
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -309,6 +340,22 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
     product;
+
+  function configOptionsReducer(state, action: any) {
+    const { payload, type } = action;
+    const { typeId, value } = payload;
+
+    console.log('configOptionsReducer', { state, action });
+
+    switch (type) {
+      case 'option-change':
+        return { ...state, [typeId]: value };
+    }
+  }
+
+  const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
+
+  console.log('configState', configState);
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -489,23 +536,60 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     {
       label: _t('diamondType'),
       value: _t(diamond?.diamondType),
+      onClick: () => updateStep(type === 'setting-to-diamond' ? 1 : 0),
+      slug: 'diamondType',
     },
     {
       label: 'Centerstone',
       value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
+      onClick: () => updateStep(type === 'setting-to-diamond' ? 1 : 0),
+      slug: 'centerstone',
     },
     {
       label: _t('Band'),
       value: _t(product?.bandAccent),
+      onClick: () => setIsBandSelectorOpen(!isBandSelectorOpen),
+      slug: 'band',
     },
     {
       label: 'Metal',
       value: _t(product.metal),
+      onClick: () => setIsMetalSelectorOpen(!isMetalSelectorOpen),
+      slug: 'metal',
     },
   ];
 
-  console.log('productzzz', product);
-  console.log('diamondzzz', diamond);
+  function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
+    console.log({ configurationType, option });
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('productSlug', option?.id);
+
+    window.history.pushState(null, '', url);
+
+    updateSettingSlugs({
+      productSlug: option?.id,
+    });
+  }
+
+  const handleOptionChange = (typeId: string, option: OptionItemProps) => {
+    dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
+  };
+
+  useEffect(() => {
+    console.log('var changingggggg', router);
+
+    if (router.query.productSlug !== product.productSlug)
+      updateFlowData('ADD_PRODUCT', {
+        ...additionalVariantData,
+        ...selectedConfiguration,
+        variantId: router.query.productSlug,
+      });
+
+    setIsBandSelectorOpen(false);
+    setIsMetalSelectorOpen(false);
+  }, [additionalVariantData]);
 
   return (
     <ReviewBuildStepStyles
@@ -526,7 +610,12 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
           <div className="image setting-image">{product?.image && <DatoImage image={product?.image} />}</div>
           <div className="image diamond-image">{diamondImage && <img src={diamondImage} alt="" />}</div>
           <div className="diamond-hand">
-            <ProductDiamondHand diamondType={selectedConfiguration?.diamondType} range={[0.5, 8]} initValue={2} />
+            <ProductDiamondHand
+              diamondType={selectedConfiguration?.diamondType}
+              range={[0.5, 8]}
+              initValue={diamond?.carat}
+              disableControls={true}
+            />
           </div>
         </div>
         <div className="product-summary">
@@ -555,8 +644,49 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                         <span className="label">{item.label}:</span>
                         <span className="value">{item.value}</span>
                         <span className="toggle">
-                          <button>Modify</button>
+                          <button onClick={() => item.onClick()}>Modify</button>
                         </span>
+                        <AnimatePresence>
+                          {item.slug === 'metal'
+                            ? isMetalSelectorOpen && (
+                                <div className="acc-container">
+                                  <OptionSelector
+                                    optionType={'metal'}
+                                    productType={'Engagement Ring'}
+                                    label={'metal'}
+                                    options={configurations.metal}
+                                    selectedOptionValue={selectedConfiguration['metal']}
+                                    onChange={(option) => {
+                                      // console.log('option', val);
+                                      handleOptionChange('metal', option);
+                                      handleBuilderFlowVariantChange(option, 'metal');
+                                    }}
+                                    renderItemAsLink={false}
+                                    hideSelectorLabel={true}
+                                  />
+                                </div>
+                              )
+                            : item.slug === 'band'
+                            ? isBandSelectorOpen && (
+                                <div className="acc-container">
+                                  <OptionSelector
+                                    optionType={'bandAccent'}
+                                    productType={'Engagement Ring'}
+                                    label={'metal'}
+                                    options={configurations.bandAccent}
+                                    selectedOptionValue={selectedConfiguration['bandAccent']}
+                                    onChange={(option) => {
+                                      // console.log('option', val);
+                                      handleOptionChange('bandAccent', option);
+                                      handleBuilderFlowVariantChange(option, 'bandAccent');
+                                    }}
+                                    renderItemAsLink={false}
+                                    hideSelectorLabel={true}
+                                  />
+                                </div>
+                              )
+                            : ''}
+                        </AnimatePresence>
                       </li>
                     );
                   })}
