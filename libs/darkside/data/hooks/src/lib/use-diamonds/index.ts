@@ -18,6 +18,8 @@ export interface OptionsDataTypes {
   caratMax?: number;
   lotId?: string;
   view?: string;
+  handle?: string;
+  withAdditionalInfo?: boolean;
 }
 
 interface MinMax {
