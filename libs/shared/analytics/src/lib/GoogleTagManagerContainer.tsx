@@ -1,5 +1,3 @@
-'use client';
-
 import { isProdEnv } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { GoogleTagManager } from '@next/third-parties/google';
