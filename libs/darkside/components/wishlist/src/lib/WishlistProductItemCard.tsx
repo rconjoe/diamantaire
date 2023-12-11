@@ -158,7 +158,11 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);
 
-  const title = caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${caratWeight}` : collectionTitle;
+  const caratNum = extractNumber(caratWeight);
+
+  const translatedCarat = caratNum ? getFormattedCarat(caratNum, locale) : null;
+
+  const title = caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${translatedCarat}ct` : collectionTitle;
 
   return (
     <div className="card item-product">
@@ -308,3 +312,17 @@ const CardBundle: React.FC<CardBundleProps> = ({
 };
 
 export { CardDiamond, CardProduct, CardBundle };
+
+function extractNumber(inputString) {
+  if (!inputString) return null;
+
+  const match = inputString.match(/\d+(\.\d+)?/);
+
+  if (match) {
+    const result = match[0];
+
+    return parseFloat(result);
+  } else {
+    return null;
+  }
+}
