@@ -1,6 +1,5 @@
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
-import React from 'react';
 import styled from 'styled-components';
 
 const PlpSubCategoriesStyles = styled.div`
