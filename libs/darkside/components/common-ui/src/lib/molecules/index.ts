@@ -5,6 +5,7 @@ export * from './CountrySelector';
 export * from './DarksideButton';
 export * from './DatoImage';
 export * from './DiamondVideoThumbImage';
+export * from './DropHintModal';
 export * from './Form';
 export * from './FreezeBody';
 export * from './Heading';

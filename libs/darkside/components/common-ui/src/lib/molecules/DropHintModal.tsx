@@ -1,31 +1,36 @@
-import { DarksideButton, Markdown, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
-import { FORM_SUBSCRIPTION_SOURCE_NAME, HUBSPOT_WISHLIST_SHARE_FORM_ID } from '@diamantaire/shared/constants';
-import { getCountry, getLocalStorageWishlist } from '@diamantaire/shared/helpers';
+import { FORM_SUBSCRIPTION_SOURCE_NAME, HUBSPOT_DROP_A_HINT_FORM_ID } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { useState } from 'react';
 
-import { StyledWishlistShareModal } from './WishlistShareModal.style';
+import { DarksideButton } from './DarksideButton';
+import { StyledDropHintModal } from './DropHintModal.style';
+import { Markdown } from './Markdown';
+import { Modal } from './Modal';
+import { UIString } from './UIString';
 
 interface HubspotResponse {
   inlineMessage: string;
 }
 
-interface WishlistShareModalProps {
+interface DropHintModalProps {
   title: string;
   subtitle: string;
   locale: string;
   onClose: () => void;
+  productLink: string;
+  productImage: string;
   errorMessage: string;
-  successMessage: string;
 }
 
-const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
-  onClose,
-  locale,
+const DropHintModal: React.FC<DropHintModalProps> = ({
   title,
   subtitle,
+  onClose,
+  locale,
+  productImage,
+  productLink,
   errorMessage,
-  successMessage,
 }) => {
   const defaultData = {
     recipientEmail: '',
@@ -35,19 +40,17 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
     isConsent: true,
   };
 
-  const [response, setResponse] = useState(null);
-
   const [formData, setFormData] = useState(defaultData);
 
-  const products = getLocalStorageWishlist()?.join(',');
-
-  const baseUrl = window?.location?.origin || '';
-
-  const listId = HUBSPOT_WISHLIST_SHARE_FORM_ID;
+  const [response, setResponse] = useState(null);
 
   const countryCode = getCountry(locale);
 
-  const source = FORM_SUBSCRIPTION_SOURCE_NAME.wishlistShareSource;
+  const source = FORM_SUBSCRIPTION_SOURCE_NAME.dropAHintSource;
+
+  const baseUrl = window?.location?.origin || '';
+
+  const listId = HUBSPOT_DROP_A_HINT_FORM_ID;
 
   const handleShare: ({
     message,
@@ -67,14 +70,15 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
         listId,
       },
       source,
-      isConsent,
       locale,
       message,
+      isConsent,
       countryCode,
       recipientEmail,
       name: userName,
       email: userEmail,
-      wishlistingLinkProperty: `${baseUrl}/wishlist-share?username=${userName}&products=${products}`,
+      productLink: `${baseUrl}${productLink}`,
+      productImage: productImage,
     };
 
     return sendHubspotForm(data);
@@ -88,7 +92,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
     const { inlineMessage } = payload || {};
 
     if (inlineMessage) {
-      setResponse(successMessage);
+      setResponse(inlineMessage);
 
       setFormData(defaultData);
     } else {
@@ -110,7 +114,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
   };
 
   return (
-    <StyledWishlistShareModal>
+    <StyledDropHintModal>
       <Modal className="wishlist-share-modal" onClose={onClose} title={title}>
         <div className="subtitle">
           <p>{subtitle}</p>
@@ -155,8 +159,8 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
           </div>
         )}
       </Modal>
-    </StyledWishlistShareModal>
+    </StyledDropHintModal>
   );
 };
 
-export { WishlistShareModal };
+export { DropHintModal };
