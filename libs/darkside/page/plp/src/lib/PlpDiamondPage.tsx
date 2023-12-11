@@ -103,7 +103,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
           </DarksideButton>
         </div>
       )}
-      <PlpBlockPicker plpSlug={plpSlug} />
+      <PlpBlockPicker category={category} plpSlug={plpSlug} />
     </StyledPlpDiamondPage>
   );
 }

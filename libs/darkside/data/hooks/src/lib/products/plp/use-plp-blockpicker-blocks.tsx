@@ -10,9 +10,9 @@ type PlpBlockPickerBlocksProps = {
   };
 };
 
-export function usePlpBlockPickerBlocks(locale: string, slug: string): UseQueryResult<PlpBlockPickerBlocksProps, unknown> {
+export function usePlpBlockPickerBlocks(locale: string, slug: string, category: string): UseQueryResult<PlpBlockPickerBlocksProps, unknown> {
   return useQuery({
-    ...queries.plp.plpBlockPickerBlocks(locale, slug),
+    ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
   });
 }
 
