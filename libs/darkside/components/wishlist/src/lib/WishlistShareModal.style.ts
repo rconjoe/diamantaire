@@ -41,6 +41,10 @@ export const StyledWishlistShareModal = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+
+      * {
+        font-size: var(--font-size-xxsmall);
+      }
     }
 
     [type='text'] {
@@ -68,7 +72,7 @@ export const StyledWishlistShareModal = styled.div`
     .form-response {
       display: block;
       margin: 2rem 0 0;
-      font-size: var(font-size-xxsmall);
+      font-size: var(--font-size-xxsmall);
     }
 
     button {
