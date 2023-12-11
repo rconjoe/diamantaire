@@ -19,8 +19,8 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   const { isWishlistUpdated } = useContext(GlobalContext);
 
-  const handleStorage = (active) => {
-    const list = active
+  const handleStorage = (isActive) => {
+    const list = isActive
       ? [...getLocalStorageWishlist(), productId]
       : [...getLocalStorageWishlist().filter((v) => v !== productId)];
 
@@ -31,17 +31,13 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
     });
   };
 
-  const handleClick = useCallback(
-    (e) => {
-      e.stopPropagation();
-      e.preventDefault();
+  const handleClick = (e) => {
+    e.preventDefault();
 
-      handleStorage(!active);
+    handleStorage(!active);
 
-      setActive(!active);
-    },
-    [active],
-  );
+    setActive(!active);
+  };
 
   const handleUpdate = useCallback(() => {
     if (productId) {

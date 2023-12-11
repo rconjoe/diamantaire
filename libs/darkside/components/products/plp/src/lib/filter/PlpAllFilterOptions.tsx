@@ -60,7 +60,7 @@ const PlpAllFilterOptions = ({
 
   const router = useRouter();
 
-  console.log('router', router);
+  // console.log('router', router);
 
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
@@ -119,7 +119,7 @@ const PlpAllFilterOptions = ({
 
                 if (optionSet === 'styles' && router.pathname.includes('/jewelry/')) return null;
 
-                console.log('optionSet', optionSet);
+                // console.log('optionSet', optionSet);
 
                 return (
                   <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>

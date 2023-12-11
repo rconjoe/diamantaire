@@ -52,7 +52,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
 
   const [openDropHintModal, setOpenDropHintModal] = useState(false);
 
-  const [wishlist, setWishlist] = useState(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
+  const [wishlist, setWishlist] = useState<string[]>(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
 
   const [dropHintData, setDropHintData] = useState(null);
 
@@ -89,6 +89,8 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
   };
 
   useEffect(() => {
+    console.log('wishlistUpdated!', isWishlistUpdated);
+
     setWishlist(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
 
     if (!ready) setReady(true);
