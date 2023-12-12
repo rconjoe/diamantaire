@@ -198,7 +198,7 @@ export class ProductsService {
       variables: {
         productHandles: nonJewelryProducts.map((p) => p.contentId),
         variantIds: jewelryProducts.map((p) => p.contentId),
-        locale,
+        locale: getDatoRequestLocale(locale),
       },
     });
 
@@ -1786,7 +1786,12 @@ type PlpFilters = {
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {
+  const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
   const language = locale.split('-')[0];
+
+  if (!validDatoLocales.includes(locale)) {
+    return 'en_US';
+  }
 
   if (language === 'en') {
     return 'en_US';
