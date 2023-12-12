@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-version="1.0.0-alpha.1"
+version="1.0.1-alpha.1"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 plasmadir="${rootdir}/.plasma"
@@ -13,12 +13,15 @@ tmpdir="${plasmadir}/tmp"
 sessionname="${selfname}"
 userinput="${1:-"noinput"}"
 
+# TODO: lets try seeing if the sourcing of module files can happen only for the modules needed on this run?
+# sourcing all of them every time is kind of annoying and leads to stuff like missing deps breaking modules that dont need them and other dumb errors.
 for module in "${modulesdir}"/*; do
     if [ -f "$module" ]; then
     # shellcheck disable=SC1090
         echo -e " "
         echo -e "-----------------------------------------------------"
         printf "Found module %s\n" "$(basename "$module"), sourcing..."
+        # shellcheck disable=SC1090
         \. "$module"
         printf "Sourced module: %s\n" "$(basename "$module")"
         echo -e "-----------------------------------------------------"
@@ -33,10 +36,10 @@ githubuser="diamondfoundry"
 githubrepo="diamantaire"
 githubbranch="plasma"
 
-check_deps
-
 if [ "$userinput" == "commit" ]; then
     generate_commit_from_staged
+elif [ "$userinput" == "bootstrap" ]; then
+    check_deps
 else
     printf "exiting.\n"
     exit 0
