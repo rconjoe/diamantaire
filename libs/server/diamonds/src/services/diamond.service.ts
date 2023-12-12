@@ -208,10 +208,6 @@ export class DiamondsService {
       query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
-    } else {
-      query['diamondType'] = {
-        $in: DiamondTypes,
-      };
     }
 
     // Optional query for price and currencycode
@@ -239,10 +235,6 @@ export class DiamondsService {
       query['color'] = {
         $in: colors, // mongoose $in take an array value as input
       };
-    } else {
-      query['color'] = {
-        $in: DiamondColors, // get all the colors
-      };
     }
 
     /**
@@ -256,10 +248,6 @@ export class DiamondsService {
       query['clarity'] = {
         $in: clarity, // mongoose $in take an array value as input
       };
-    } else {
-      query['clarity'] = {
-        $in: DiamondClarities, // get all the clarity
-      };
     }
 
     /**
@@ -272,10 +260,6 @@ export class DiamondsService {
 
       query['cut'] = {
         $in: cuts, // mongoose $in take an array value as input
-      };
-    } else {
-      query['cut'] = {
-        $in: DiamondCuts, // get all the cuts
       };
     }
 
