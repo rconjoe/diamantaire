@@ -37,6 +37,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   selectedLanguage,
   isLanguageSelectorOpen,
 }): JSX.Element => {
+  console.log('navItems', navItems);
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);

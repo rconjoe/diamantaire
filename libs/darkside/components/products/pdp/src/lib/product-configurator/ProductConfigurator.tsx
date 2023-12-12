@@ -96,6 +96,9 @@ function ProductConfigurator({
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
+  const { locale } = useRouter();
+
+  const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
     sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
@@ -190,7 +193,12 @@ function ProductConfigurator({
 
       <AnimatePresence>
         {isWeddingBandSizeGuideOpen && (
-          <SlideOut title="Size Guide" onClose={() => setIsWeddingBandSizeGuideOpen(false)} className="extra-side-padding">
+          <SlideOut
+            title={_t('Size Guide')}
+            width="30%"
+            onClose={() => setIsWeddingBandSizeGuideOpen(false)}
+            className="extra-side-padding"
+          >
             <RingSizeGuide />
           </SlideOut>
         )}
@@ -287,6 +295,11 @@ type CtaButtonProps = {
 
 const AddToCartButtonContainer = styled.div`
   margin: 1rem 0;
+
+  .atc-button button {
+    font-size: var(--font-size-xxsmall);
+    min-height: 4.7rem;
+  }
 `;
 
 function AddToCartButton({
@@ -418,6 +431,7 @@ function AddToCartButton({
         settingVariantId: variantId,
         settingAttributes: erItemAttributes,
         hasEngraving: Boolean(engravingText),
+        engravingText,
       }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx
@@ -468,6 +482,7 @@ function AddToCartButton({
   return (
     <AddToCartButtonContainer>
       <DarksideButton
+        className="atc-button"
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();

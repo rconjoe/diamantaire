@@ -1,9 +1,10 @@
 import { Breadcrumb, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { PlpBlockPicker, PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { getVRAIServerDiamondPlpData, useDiamondPlpProducts } from '@diamantaire/darkside/data/api';
-import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
+import { usePlpDatoServerside, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
@@ -47,11 +48,17 @@ const StyledPlpDiamondPage = styled.div`
       max-width: 30rem;
     }
   }
+
+  .pag-count-text {
+    text-align: center;
+    font-size: var(--font-size-xxsmall);
+  }
 `;
 
 function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpServerSideProps>) {
   const router = useRouter();
   const [activeSortOptions, setActiveSortOptions] = useState({});
+  const { _t } = useTranslations(router.locale);
 
   const { plpSlug, category } = props;
   // const { products: initialProducts } = productData;
@@ -80,6 +87,26 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
     };
   });
 
+  console.log('diamond data', data);
+
+  let showingText = replacePlaceholders(
+    _t('Showing %%current_number%% of %%total_number%%'),
+    ['%%current_number%%'],
+    [
+      data?.pages?.length * 12 < data?.pages?.[0].paginator?.totalDocs
+        ? (data?.pages?.length * 12).toString()
+        : data?.pages?.[0].paginator?.totalDocs?.toString(),
+    ],
+  ).toString();
+
+  console.log('showingText 1', showingText);
+
+  showingText = replacePlaceholders(
+    showingText.toString(),
+    ['%%total_number%%'],
+    [data?.pages?.[0].paginator?.totalDocs?.toString()],
+  ).toString();
+
   return (
     <StyledPlpDiamondPage>
       <NextSeo title={seoTitle} description={seoDescription} />
@@ -96,6 +123,9 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         sortOptions={sortOptions}
         handleSortChange={handleSortChange}
       />
+
+      <p className="pag-count-text">{showingText}</p>
+
       {hasNextPage && (
         <div className="view-more">
           <DarksideButton type="outline" onClick={() => fetchNextPage()}>

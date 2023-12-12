@@ -29,6 +29,11 @@ const CartFooterStyles = styled.div`
       &.checkout-button {
         max-width: 40rem;
         margin: 0 auto 3rem;
+
+        &.disabled {
+          opacity: 0.5;
+          pointer-events: none;
+        }
       }
       .consent-container {
         background-color: transparent;
@@ -112,6 +117,7 @@ const CartFooterStyles = styled.div`
           }
         }
         &.error {
+          color: #d0021b;
           .checkmark {
             border-color: #d0021b;
           }
@@ -253,7 +259,11 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     <CartFooterStyles>
       <ul>
         <li className="checkout-button">
-          <DarksideButton onClick={handleCheckoutClick}>
+          <DarksideButton
+            className={!hasTermsConsent ? 'disabled' : ''}
+            disabled={!hasTermsConsent}
+            onClick={handleCheckoutClick}
+          >
             {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
           </DarksideButton>
         </li>

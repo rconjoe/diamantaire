@@ -174,6 +174,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         sortOptions={sortOptions}
         filterOptionsOverride={filterOptionsOverride}
         handleSortChange={handleSortChange}
+        subcategoryFilter={subcategoryFilter}
       />
       <div ref={pageEndRef} />
       <PlpPreviouslyViewed />
@@ -195,6 +196,8 @@ const createPlpServerSideProps = (category: string) => {
 
     //Render 404 if no plpSlug
     if (!plpSlug) {
+      console.log('invalid filter options case 1');
+
       return {
         notFound: true,
       };
@@ -211,6 +214,8 @@ const createPlpServerSideProps = (category: string) => {
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
+      console.log('invalid filter options case 2');
+
       return {
         notFound: true,
       };
@@ -228,7 +233,7 @@ const createPlpServerSideProps = (category: string) => {
     }>(contentQuery.queryKey).listPage?.filterOptions;
 
     // This is the only edge case right now.  Ex: /engagement-rings/settings
-    if (presetFilters.length > 0 && isEmptyObject(initialFilterValues)) {
+    if (presetFilters?.length > 0 && isEmptyObject(initialFilterValues)) {
       initialFilterValues = {
         metal: ['yellow-gold'],
         diamondType: ['round-brilliant'],
@@ -250,6 +255,8 @@ const createPlpServerSideProps = (category: string) => {
     });
 
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
+      console.log('invalid filter options case 3');
+
       return {
         notFound: true,
       };
@@ -327,6 +334,8 @@ function getValidFiltersFromFacetedNav(
     (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
   );
 
+  console.log('subStyleParamIndex', subStyleParamIndex);
+
   // For when subStyle is a param (not faceted)
   const subStyleFromQuery = subStyle
     ?.toString()
@@ -358,6 +367,8 @@ function getValidFiltersFromFacetedNav(
   const areFacetsInOrder = facetOrder.filter(Boolean).every((facetIndex, index) => {
     return index === 0 || facetIndex > facetOrder[index - 1];
   });
+
+  console.log('facet order', areFacetsInOrder);
 
   // TODO: Need to return 404 if a single facet is not valid
   if (!areFacetsInOrder) {
@@ -404,6 +415,8 @@ function getValidFiltersFromFacetedNav(
   } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
     filterOptions['diamondType'] = diamondFromQuery;
   }
+
+  console.log('returned filter options', filterOptions);
 
   return filterOptions;
 }

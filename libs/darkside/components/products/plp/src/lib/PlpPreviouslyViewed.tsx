@@ -92,6 +92,8 @@ const PlpPreviouslyViewed = () => {
   function fetchPreviouslyViewed() {
     const previouslyViewed = localStorage.getItem('previouslyViewed');
 
+    console.log('previouslyViewed', previouslyViewed);
+
     if (!previouslyViewed) return;
 
     const previouslyViewedArray = JSON.parse(previouslyViewed);
@@ -100,7 +102,7 @@ const PlpPreviouslyViewed = () => {
 
     previouslyViewedArray.map((item) => handlesArray.push(item.slug));
 
-    // console.log('previouslyViewedArray', previouslyViewedArray);
+    console.log('previouslyViewedArray', previouslyViewedArray);
     setHandles(handlesArray);
   }
 
@@ -124,6 +126,8 @@ const PlpPreviouslyViewed = () => {
 
   // if they haven't seen anything, hide the block
   if (handles.length === 0) return null;
+
+  console.log('product shape', data);
 
   return (
     <PlpPreviouslyViewedStyles className="container-wrapper">
@@ -150,33 +154,34 @@ const PlpPreviouslyViewed = () => {
         )}
         <div className="embla" ref={products?.length > 4 ? emblaRef : null}>
           <div className="products__container embla__container">
-            {products?.map((productNode) => {
-              const product = productNode?.product;
-              const content = productNode?.content;
+            {products &&
+              handles?.map((handle) => {
+                const productNode = products?.find((p) => p?.content?.variantId === handle);
 
-              return (
-                <div className="product__container embla__slide" key={product?._id}>
-                  <div className="product__inner">
-                    <ProductLink
-                      productType={product?.productType}
-                      productSlug={product?.productSlug}
-                      collectionSlug={product?.collectionSlug}
-                    >
-                      <div className="product__image">
-                        <DatoImage image={content.plpImage} enableDpr />
-                      </div>
-                      <div className="product__content">
-                        <Heading type="h3" className="secondary product-suggestion__title">
-                          {product?.collectionTitle}
-                        </Heading>
-                        <p>|</p>
-                        <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
-                      </div>
-                    </ProductLink>
+                const product = productNode?.product;
+                const content = productNode?.content;
+
+                return (
+                  <div className="product__container embla__slide" key={product?._id}>
+                    <div className="product__inner">
+                      <ProductLink
+                        productType={product?.productType}
+                        productSlug={product?.productSlug}
+                        collectionSlug={product?.collectionSlug}
+                      >
+                        <div className="product__image">{content?.plpImage && <DatoImage image={content.plpImage} />}</div>
+                        <div className="product__content">
+                          <Heading type="h3" className="secondary product-suggestion__title">
+                            {product?.collectionTitle}
+                          </Heading>
+                          <p>|</p>
+                          <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                        </div>
+                      </ProductLink>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

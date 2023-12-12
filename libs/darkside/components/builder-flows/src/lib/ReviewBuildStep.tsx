@@ -144,6 +144,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
       }
     }
 
+    .atc-button {
+      font-size: var(--font-size-xxsmall);
+    }
+
     .review-atc {
       padding: 2rem 0 0;
       ul {
@@ -573,7 +577,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart()}>
+                    <DarksideButton className="atc-button" onClick={() => addCustomProductToCart()}>
                       <UIString>Add To Bag</UIString>
                     </DarksideButton>
                   </li>

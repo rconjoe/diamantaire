@@ -2,34 +2,34 @@ import { gql } from 'graphql-request';
 
 export const CONFIGURATIONS_LIST = gql`
   query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
-    allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip){
+    allConfigurations(filter: { variantId: { in: $variantIds } }, first: $first, skip: $skip) {
       plpTitle
       variantId
       plpImage {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
         }
         alt
       }
       plpImageHover {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
         }
       }
     }
-    allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
       shopifyProductHandle
       plpTitle
       plpImage {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
-          }
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
         alt
       }
       plpImageHover {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
-          }
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
         alt
       }
     }
@@ -48,26 +48,25 @@ export const CONFIGURATIONS_LIST = gql`
   }
 `;
 
-
 export const PRODUCT_BRIEF_CONTENT = gql`
   query list($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
-    allConfigurations(filter: {variantId: {in: $variantIds }}, first: $first, skip: $skip, locale: $locale){
+    allConfigurations(filter: { variantId: { in: $variantIds } }, first: $first, skip: $skip, locale: $locale) {
       plpTitle
       variantId
       plpImage {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
         }
         alt
       }
     }
-    allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
+    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
       shopifyProductHandle
       plpTitle
       plpImage {
-        responsiveImage(imgixParams: {w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
-          }
+        responsiveImage(imgixParams: { w: 344, h: 344, q: 80, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
         alt
       }
     }

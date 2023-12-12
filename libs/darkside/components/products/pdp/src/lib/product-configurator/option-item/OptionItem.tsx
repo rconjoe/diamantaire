@@ -127,10 +127,9 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  
   const DiamondIcon = diamondIconsMap[value]?.icon;
 
-  if(!DiamondIcon) {
+  if (!DiamondIcon) {
     return null;
   }
 
@@ -281,10 +280,13 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
       Droid Sans,
       Helvetica Neue,
       sans-serif;
-    font-size: 9px;
     position: relative;
-    top: 0px;
     margin: 0 3px;
+    width: 7px;
+    height: 1px;
+    background: #000;
+    display: inline-block;
+    top: -3px;
   }
 `;
 

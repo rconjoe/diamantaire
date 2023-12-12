@@ -363,7 +363,7 @@ export async function addERProductToCart({
   diamondVariantId,
   diamondAttributes,
   hasEngraving,
-  engravingText = 'weee',
+  engravingText,
 }: ERProductCartItemProps) {
   console.log('getting attr', settingAttributes);
 
