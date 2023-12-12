@@ -1,27 +1,24 @@
-'use client';
-
+import { isProdEnv } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
-import { useEffect } from 'react';
 
 const GTM_CONTAINER_ID = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
+const isDevEnabled = process.env.NEXT_PUBLIC_LOCAL_GTM === 'true'; // set locally in .env.local
 
 const GoogleTagManagerContainer = () => {
   const isUserInEu = getIsUserInEu();
   const { consent } = useCookieConsentContext();
 
-  const isEnabled = !isUserInEu || (consent?.statistics && consent?.marketing);
+  // 3 cases:
+  // 1. User is in EU and has accepted statistics and marketing cookies
+  // 2. User is not in EU and is in production environment
+  // 3. User is in development environment and has enabled GTM
 
-  useEffect(() => {
-    if (!isEnabled || !GTM_CONTAINER_ID) {
-      return;
-    }
+  const isEnabled =
+    (isProdEnv && isUserInEu && consent?.statistics && consent?.marketing) || (!isUserInEu && isProdEnv) || isDevEnabled;
 
-    // Initialize Google Tag Manager
-  }, [isEnabled]);
-
-  if (!isEnabled) {
+  if (!isEnabled || !GTM_CONTAINER_ID) {
     return null;
   }
 
