@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+version="1.0.0-alpha.1"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+plasmadir="${rootdir}/.plasma"
+logdir="${plasmadir}/log"
+modulesdir="${plasmadir}/modules"
+lockdir="${plasmadir}/lock"
+tmpdir="${plasmadir}/tmp"
+sessionname="${selfname}"
+userinput="${1:-"noinput"}"
+
+for module in "${modulesdir}"/*; do
+    if [ -f "$module" ]; then
+    # shellcheck disable=SC1090
+        echo -e " "
+        echo -e "-----------------------------------------------------"
+        printf "Found module %s\n" "$(basename "$module"), sourcing..."
+        \. "$module"
+        printf "Sourced module: %s\n" "$(basename "$module")"
+        echo -e "-----------------------------------------------------"
+    fi
+done
+
+# if ~/.nvm/nvm.sh exists, source it
+[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+
+# allow for specification of git repo and branch
+githubuser="diamondfoundry"
+githubrepo="diamantaire"
+githubbranch="plasma"
+
+check_deps
+
+if [ "$userinput" == "commit" ]; then
+    generate_commit_from_staged
+else
+    printf "exiting.\n"
+    exit 0
+fi
