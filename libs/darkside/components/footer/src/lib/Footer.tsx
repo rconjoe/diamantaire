@@ -1,6 +1,7 @@
 import { CountrySelector, Form, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
@@ -230,9 +231,9 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
-  const selectedRegion = countries[selectedCountryCode].region;
-  const isUserInEu = selectedRegion === 'Europe';
-  const { optInCopy } = emailSignUpCopy[0];
+
+  const isUserInEu = getIsUserInEu();
+  const { optInCopy } = emailSignUpCopy?.[0] || {};
   const date = new Date();
 
   function toggleLanguageSelector() {

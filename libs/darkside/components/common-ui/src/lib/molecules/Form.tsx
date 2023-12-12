@@ -123,7 +123,7 @@ const FormContainer = styled.div<{
 
       input {
         border: 0.1rem solid #ccc;
-        height: 4.7rem;
+        height: 4.5rem;
         padding-left: 1rem;
         font-size: var(--font-size-xxsmall);
       }
@@ -146,7 +146,7 @@ const FormContainer = styled.div<{
 
   .input-opt-in {
     width: 100%;
-
+    position: relative;
     input[type='checkbox'] {
       width: 1.3rem;
       height: 1.3rem;
@@ -167,9 +167,26 @@ const FormContainer = styled.div<{
       transition: 120ms transform ease-in-out;
       box-shadow: inset 1.3rem 1.3rem currentColor;
     }
+    /* Check styling */
+    input[type='checkbox']:checked {
+      &::before {
+        transform: scale(1);
+      }
+      &::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        height: 6px;
+        width: 11px;
+        border-left: 1.75px solid;
+        border-bottom: 1.75px solid;
+        transform: rotate(-45deg);
+        border-color: white;
 
-    input[type='checkbox']:checked::before {
-      transform: scale(1);
+        /* Placement of check */
+        left: 1px;
+        top: 8px;
+      }
     }
 
     &.-error {

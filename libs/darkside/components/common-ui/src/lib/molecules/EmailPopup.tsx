@@ -236,6 +236,7 @@ const EmailPopUp = () => {
               <Form
                 onSubmit={onSubmit}
                 formGridStyle="single"
+                flexDirection="column"
                 stackedSubmit={true}
                 showOptIn={showOptIn}
                 ctaCopy={submitCopy}
