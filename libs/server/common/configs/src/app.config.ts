@@ -28,4 +28,13 @@ export default registerAs('app', () => ({
     schemaDestination: './libs/server/schema.graphql',
     sortSchema: true,
   },
+  redis: {
+    // url: process.env.REDIS_URL,
+    username: process.env.REDISUSER,
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+      host: process.env.REDISHOST,
+      port: parseInt(process.env.REDISPORT, 10) || 6379,
+    },    
+  },
 }));
