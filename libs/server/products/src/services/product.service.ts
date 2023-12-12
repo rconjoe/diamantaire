@@ -191,7 +191,7 @@ export class ProductsService {
     ];
 
     const { allConfigurations, allOmegaProducts } = await this.getDatoContent<
-      { allConfigurations: object[]; allOmegaProducts: object[] },
+      { allConfigurations: any[]; allOmegaProducts: any[] },
       { productHandles: string[]; variantIds: string[]; locale: string }
     >({
       query: PRODUCT_BRIEF_CONTENT,
@@ -205,11 +205,19 @@ export class ProductsService {
     const productContent = [...allConfigurations, ...allOmegaProducts];
 
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
+      const content = productContent.find(
+        (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
+      )
+
+      if (content) {
+        content['productTitle'] = content?.jewelryProduct?.productTitle || content?.collection?.productTitle;
+        delete content.jewelryProduct;
+        delete content.collection;
+      }
+
       map[product.productSlug] = {
         product,
-        content: productContent.find(
-          (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
-        ),
+        content,
       };
 
       return map;
