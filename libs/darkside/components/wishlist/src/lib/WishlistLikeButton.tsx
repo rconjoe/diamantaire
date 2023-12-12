@@ -46,9 +46,7 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
   );
 
   useEffect(() => {
-    if (productId) {
-      setActive(getLocalStorageWishlist().includes(productId));
-    }
+    setActive(getLocalStorageWishlist().includes(productId));
   }, [productId]);
 
   if (!productId) return;
