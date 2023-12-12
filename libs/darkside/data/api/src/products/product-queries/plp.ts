@@ -60,6 +60,9 @@ export const PRODUCT_BRIEF_CONTENT = gql`
         }
         alt
       }
+      jewelryProduct {
+        productTitle
+      }
     }
     allOmegaProducts(filter: {shopifyProductHandle: {in: $productHandles}}, first: $first, skip: $skip) {
       shopifyProductHandle
@@ -69,6 +72,14 @@ export const PRODUCT_BRIEF_CONTENT = gql`
             ...responsiveImageFragment
           }
         alt
+      }
+      collection {
+        ... on EngagementRingProductRecord {
+          productTitle
+        }
+        ... on WeddingBandProductRecord {
+          productTitle
+        }
       }
     }
   }
