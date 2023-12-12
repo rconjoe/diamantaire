@@ -27,6 +27,7 @@ import {
   sortMetalTypes,
   sortDiamondTypes,
 } from '@diamantaire/shared-product';
+import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager';
 import {
   BadGatewayException,
   HttpStatus,
@@ -34,6 +35,7 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
+  Inject
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
@@ -49,11 +51,12 @@ import {
   optionTypesComparators,
   getDraftQuery,
 } from '../helper/product.helper';
-import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
+import { OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const PRODUCT_DATA_TTL = 3600;
+const TTL_HOURS = 12;
+const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
 export class ProductsService {
@@ -62,6 +65,7 @@ export class ProductsService {
   constructor(
     private readonly productRepository: ProductRepository,
     private readonly utils: UtilService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager:CacheStore
   ) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
@@ -77,6 +81,7 @@ export class ProductsService {
    */
 
   async findProducts(input: PaginateFilterDto): Promise<ProductEntity> {
+
     const options: PaginateOptions = {
       limit: input.limit || 30,
       page: input.page || 1,
@@ -270,7 +275,7 @@ export class ProductsService {
       // create unique cacheKey for each prodyct variant
       const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
       // check for cached data
-      const cachedData = await this.utils.memGet<ProductVariantPDPData>(cachedKey);
+      const cachedData = await this.cacheManager.get(cachedKey);
 
       if (cachedData) {
         this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
@@ -367,7 +372,7 @@ export class ProductsService {
         };
 
         //await this.cacheService.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
-        this.utils.memSet(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
+        this.cacheManager.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
 
         return pdpProductData;
       } else {
@@ -694,36 +699,29 @@ export class ProductsService {
    * @returns Array of plp products and page content
    */
 
-  async findPlpData({
-    slug,
-    category,
-    locale = 'en_US',
-    metals,
-    diamondTypes,
-    priceMin,
-    priceMax,
-    styles,
-    subStyles,
-    page,
-    limit,
-    sortBy,
-    sortOrder,
-  }: PlpQuery) {
-    const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
+  async findPlpData(query: PlpQuery) {
+    
+    const {
+      slug,
+      category,
+      locale = 'en_US',
       metals,
       diamondTypes,
       priceMin,
       priceMax,
-      page,
-      limit,
       styles,
       subStyles,
+      page,
+      limit,
       sortBy,
       sortOrder,
-    })}`;
+    } = query;
+  
+    const cachedKey = `plp-${category}-${slug}-${locale}-${this.generateQueryCacheKey(query)}`;
+    
     let plpReturnData;
     // check for cached data
-    const cachedData = await this.utils.memGet(cachedKey);
+    const cachedData = await this.cacheManager.get(cachedKey);
 
     if (cachedData) {
       this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
@@ -752,7 +750,7 @@ export class ProductsService {
           limit,
         });
 
-        this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
+        this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
 
         return plpReturnData;
       }
@@ -1085,7 +1083,10 @@ export class ProductsService {
         paginator,
       };
 
-      this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
+      this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
+      // this.cacheManager.set('test', plpReturnData, 100000);
+
+      // console.log(cachedKey);
 
       return plpReturnData;
     } catch (error: any) {
@@ -1749,6 +1750,19 @@ export class ProductsService {
       this.logger.error(`Error retrieving option configs for collection: ${collectionSlug}`, e);
       throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
+  }
+
+  generateQueryCacheKey(query: Record<string, unknown>) {
+    return Object.entries(query)
+      .filter(([,v])=> {
+        if (Array.isArray(v)) {
+          return v.length > 0;
+        } else {
+          return typeof v !== 'undefined';
+        }
+      })
+      .map(([k,v]) => `${k}=${v}`)
+      .flat().sort().join('-');
   }
 }
 

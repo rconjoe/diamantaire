@@ -5,9 +5,14 @@ import { usePlpBlockPickerBlocks } from '@diamantaire/darkside/data/hooks';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
-const PlpBlockPicker = ({ plpSlug }) => {
+type PlpBlockPickerProps = {
+  plpSlug: string;
+  category: string;
+};
+
+const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
   const { locale } = useRouter();
-  const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug);
+  const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug, category);
 
   return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
     const { _modelApiKey } = contentBlockData;

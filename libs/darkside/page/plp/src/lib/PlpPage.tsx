@@ -57,15 +57,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   });
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
-  // console.log('initialFilterValues', initialFilterValues);
-
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
-  // metal: [],
-  // diamondType: [],
-  // style: [],
-  // subStyle: [],
-  // priceMin: '',
-  // priceMax: '',
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
@@ -111,7 +103,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
-    console.log('filter changed', filters);
+    // console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -178,7 +170,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
       />
       <div ref={pageEndRef} />
       <PlpPreviouslyViewed />
-      <PlpBlockPicker plpSlug={plpSlug} />
+      <PlpBlockPicker category={category} plpSlug={plpSlug} />
     </div>
   );
 }
@@ -247,7 +239,7 @@ const createPlpServerSideProps = (category: string) => {
     });
 
     await queryClient.prefetchQuery({
-      ...queries.plp.plpBlockPickerBlocks(locale, slug),
+      ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {

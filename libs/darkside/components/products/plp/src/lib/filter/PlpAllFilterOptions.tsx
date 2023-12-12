@@ -60,8 +60,6 @@ const PlpAllFilterOptions = ({
 
   const router = useRouter();
 
-  // console.log('router', router);
-
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
@@ -339,7 +337,11 @@ const PlpAllFilterOptions = ({
                         </li>
                       );
                     } else {
-                      return filterValue[filterType].map((val, index) => {
+                      const filterValueArray = Array.isArray(filterValue[filterType])
+                        ? filterValue[filterType]
+                        : [filterValue[filterType]];
+
+                      return filterValueArray.map((val, index) => {
                         return (
                           <li key={`${filterValue}-${text}-${index}`}>
                             <button onClick={() => updateFilter(filterType, val)}>

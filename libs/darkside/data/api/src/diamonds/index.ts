@@ -8,6 +8,7 @@ import { DIAMOND_CFY_QUERY, DIAMOND_INFO_QUERY, DIAMOND_PDP_QUERY, DIAMOND_TABLE
 // Get a single diamond per id or a list per other options
 export const fetchDiamondData = async (options) => {
   if (!options) return;
+
   try {
     const getFormatedDataForApi = () => {
       const diamondType =
@@ -28,7 +29,9 @@ export const fetchDiamondData = async (options) => {
       return Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : '';
     };
 
-    const id: string = options?.lotId;
+    const id: string = options?.lotId || null;
+
+    const handle: string = options?.handle || null;
 
     const url: string = '/diamonds' + getFormatedDataForApi();
 
@@ -36,8 +39,15 @@ export const fetchDiamondData = async (options) => {
 
     const payload = response?.data || {};
 
+    if (handle) {
+      return {
+        diamond: payload,
+        options,
+      };
+    }
+
     if (id) {
-      // return list of diamonds
+      // return list of diamonds by ids
       if (id.split(',').length > 1) {
         return {
           diamonds: payload,
@@ -45,12 +55,13 @@ export const fetchDiamondData = async (options) => {
         };
       }
 
-      // return one diamond
+      // return one diamond by id
       return {
         diamond: payload,
         options,
       };
     } else {
+      // return list of diamonds by other params
       return {
         diamonds: payload.items,
         options,
