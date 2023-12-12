@@ -121,12 +121,14 @@ const ModalStyles = styled.div`
     }
   }
   &.modal--position-bottom-left {
+    ${media.medium`
     .wrapper {
       margin-top: auto;
       margin-left: 1rem;
       margin-bottom: 1rem;
       margin-right: 1rem;
     }
+    `}
   }
   &.modal--no-title {
     .wrapper {

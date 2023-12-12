@@ -23,6 +23,11 @@ const EmailPopUpStyles = styled.div`
     max-height: 100%;
     max-width: 860px;
     max-height: 430px;
+    .emailpopup-title {
+      font-size: 4rem;
+      font-weight: 500 !important;
+      line-height: 1;
+    }
     .emailpopup-image {
       display: none;
       ${media.medium`display:block;`}
@@ -46,6 +51,9 @@ const EmailPopUpStyles = styled.div`
         padding: 20px;
         h2 {
           margin-bottom: 1rem;
+        }
+        p {
+          font-size: 16px;
         }
       }
     }
@@ -228,7 +236,7 @@ const EmailPopUp = () => {
           </div>
           <div className="emailpopup-content">
             <div className="emailpopup-content__inner">
-              <Heading type="h2" className={'h1 primary -medium'}>
+              <Heading type="h2" className={' emailpopup-title -medium'}>
                 {userTitle}
               </Heading>
               <Markdown>{userCopy}</Markdown>
