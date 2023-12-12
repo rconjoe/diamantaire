@@ -1,7 +1,6 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
-import { Fragment } from 'react';
 
 import { StyledErrorPage } from './darkside-page-error.style';
 
@@ -9,10 +8,11 @@ export interface DarksidePageErrorProps {
   locale: string;
   countryCode: string;
   currencyCode: string;
+  error?: object;
 }
 
 const DarksidePageError = (props: DarksidePageErrorProps) => {
-  const { locale, currencyCode, countryCode } = props;
+  const { locale, currencyCode, countryCode, error } = props;
 
   const { data }: any = useStandardPage('error-page', locale) || {};
   const { standardPage } = data || {};
@@ -21,24 +21,23 @@ const DarksidePageError = (props: DarksidePageErrorProps) => {
 
   return (
     <>
-      <h1>500</h1>
       <StandardPageSeo title={seoTitle} description={seoDescription} />
       <StyledErrorPage>
         {content1?.map((contentBlockData, idx) => {
           const { _modelApiKey } = contentBlockData;
 
           return (
-            <Fragment key={`${_modelApiKey}_${idx}`}>
               <BlockPicker
+                key={`${_modelApiKey}_${idx}`}
                 _modelApiKey={_modelApiKey}
                 modularBlockData={{ ...contentBlockData }}
                 countryCode={countryCode}
                 currencyCode={currencyCode}
                 shouldLazyLoad={false}
               />
-            </Fragment>
           );
         })}
+        {error && <p>{JSON.stringify(error)}</p>}
       </StyledErrorPage>
     </>
   );
