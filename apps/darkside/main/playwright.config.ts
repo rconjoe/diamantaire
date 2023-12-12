@@ -1,6 +1,6 @@
 import { workspaceRoot } from '@nx/devkit';
 import { nxE2EPreset } from '@nx/playwright/preset';
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 // For CI, you may want to set BASE_URL to the deployed application.
@@ -23,6 +23,18 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
+
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        // It is important to define the `viewport` property after destructuring `devices`,
+        // since devices also define the `viewport` for that device.
+        viewport: { width: 1680, height: 900 },
+      },
+    },
+  ],
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'pnpm run start',

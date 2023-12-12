@@ -1,47 +1,56 @@
-import { test, expect } from '@playwright/test';
-import { QACart } from '../../model/qacart-model';
-import { StringHelper } from '../../utils/StringHelper';
+import { QACart } from "../../model/qacart-model";
+import { test, expect } from "../../pages/page-fixture";
+import { StringHelper } from "../../utils/StringHelper";
 
+// test.beforeEach(async ({ page }, testInfo) => {
+//   console.log(`Running ${testInfo.title}`);
+//   await page.goto('/');
+// });
 
 /**
- * Fine Jewery - Basic flow. Neclace , filtering  
- *  
+ * Not ready to commit
  */
-test('Setting First flow - Happy flow', async ({ page })=> {
+test.describe("Basic flow - setting first", () => {
 
     const expectedCart = new QACart();
-    await page.goto('/');
 
-    await page.getByRole('link', { name: 'JEWELRY' }).first().hover();
-    await page.getByRole('link', { name: 'Necklaces' }).click();
-
-    // Need to update test once filtering is fixed
-    // await page.getByRole('button', { name: 'Metal' }).click();
-    // await page.getByRole('button', { name: 'Yellow Gold'}).first().click();
-    // await page.getByRole('button', { name: 'Shape' }).click();
-    // await page.locator('li > .flex').first().click()
-    // await page.getByRole('button', { name: 'Styles' }).click();
-    // await page.locator('li').filter({ hasText: 'Statement' }).getByRole('button').click()
     
-    await page.getByRole('button', { name: 'North Star Medallion' }).click();
-    await expect(page.getByText('Starting at $')).toHaveText('Starting at $425');
+  test("Open Home Page", async ({ homePage , page}) => {
 
-    await page.getByRole('button', { name: 'Add to bag' }).click();
+    await test.step("open home page", async () => {
+      await homePage.open();
+    });
 
-    let price = await page.textContent("li.checkout-button > div > button");
-    let jewerlyPrice = StringHelper.extractPrice(price)*100
-    expectedCart.addItem(1, 'North Star Medallion', jewerlyPrice);
-    expectedCart.displayCart();
+    await test.step("Select Jewerly > Necklace ", async () => {
+        await page.getByRole('link', { name: 'JEWELRY' }).first().hover();
+        await page.getByRole('link', { name: 'Necklaces' }).click();
 
-    await page.waitForLoadState();
-    await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$425');
-    await page.getByRole('button', { name: 'Checkout' }).click();
-
-    let total = await page.locator('tfoot').getByText('$').textContent();
-    total = total.substring(1).trim();
+        await page.getByRole('button', { name: 'North Star Medallion' }).click();
+        await expect(page.getByText('Starting at $')).toHaveText('Starting at $425');
     
-    expect(StringHelper.extractPrice(total)).toBe(Number(expectedCart.calculateTotal()))
+        await page.getByRole('button', { name: 'Add to bag' }).click();
+    
+        const price = await page.textContent("li.checkout-button > div > button");
+        const jewerlyPrice = StringHelper.extractPrice(price)*100
 
+        expectedCart.addItem(1, 'North Star Medallion', jewerlyPrice);
+        expectedCart.displayCart();
+    
+    });
 
+    await test.step("Checkout ", async () => {
 
+        await page.waitForLoadState();
+        await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$425');
+        await page.getByRole('button', { name: 'Checkout' }).click();
+    
+        let total = await page.locator('tfoot').getByText('$').textContent();
+
+        total = total.substring(1).trim();
+        
+        expect(StringHelper.extractPrice(total)).toBe(Number(expectedCart.calculateTotal()))   
+       }); 
+
+    })
 });
+
