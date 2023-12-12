@@ -74,9 +74,9 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
       message,
       isConsent,
       countryCode,
-      recipientEmail,
+      recipientEmail: userEmail,
       name: userName,
-      email: userEmail,
+      email: recipientEmail,
       productLink: `${baseUrl}${productLink}`,
       productImage: productImage,
     };

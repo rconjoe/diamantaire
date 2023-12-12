@@ -71,9 +71,9 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
       locale,
       message,
       countryCode,
-      recipientEmail,
+      recipientEmail: userEmail,
       name: userName,
-      email: userEmail,
+      email: recipientEmail,
       wishlistingLinkProperty: `${baseUrl}/wishlist-share?username=${userName}&products=${products}`,
     };
 

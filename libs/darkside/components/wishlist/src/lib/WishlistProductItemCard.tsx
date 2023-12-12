@@ -6,7 +6,7 @@ import {
   UIString,
   UniLink,
 } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DropHintIcon } from '@diamantaire/shared/icons';
@@ -65,14 +65,15 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
   handleOpenDropHintModal,
 }) => {
   const { _t } = useTranslations(locale);
+  const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
 
   const { slug, handle, diamondType, carat, price, color, clarity, cut } = diamond || {};
 
   const _f = useMemo(() => {
     return {
-      carat: `${getFormattedCarat(carat, locale)}ct`,
+      carat: `${getFormattedCarat(carat, locale)}${_tt('ct')}`,
       price: getFormattedPrice(price, locale, true),
-      type: _t(getDiamondType(diamondType)?.title),
+      type: _t(getDiamondType(diamondType)?.slug),
       cut: _t(cut),
       clarity: _t(clarity),
       color: _t(color),
@@ -132,6 +133,8 @@ const CardProduct: React.FC<CardProductProps> = ({
   isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
+  const { _t } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
+
   if (!content || !product) {
     return;
   }
@@ -162,7 +165,8 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const translatedCarat = caratNum ? getFormattedCarat(caratNum, locale) : null;
 
-  const title = caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${translatedCarat}ct` : collectionTitle;
+  const title =
+    caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${translatedCarat}${_t('ct')}` : collectionTitle;
 
   return (
     <div className="card item-product">
