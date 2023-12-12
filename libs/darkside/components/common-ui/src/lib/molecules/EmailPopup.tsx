@@ -21,11 +21,12 @@ const EmailPopUpStyles = styled.div`
     overflow-y: auto;
     display: flex;
     max-height: 100%;
-
+    max-width: 860px;
+    max-height: 430px;
     .emailpopup-image {
       display: none;
       ${media.medium`display:block;`}
-      flex: 1;
+      flex: 0 0 330px;
 
       > div {
         height: 100%;
@@ -40,10 +41,9 @@ const EmailPopUpStyles = styled.div`
       align-items: center;
 
       .emailpopup-content__inner {
-        padding: 2rem;
         flex: 1;
         margin: 0 auto;
-        ${media.medium`max-width: 450px;`}
+        padding: 20px;
         h2 {
           margin-bottom: 1rem;
         }
@@ -228,7 +228,7 @@ const EmailPopUp = () => {
           </div>
           <div className="emailpopup-content">
             <div className="emailpopup-content__inner">
-              <Heading type="h2" className="h1 primary">
+              <Heading type="h2" className={'h1 primary -medium'}>
                 {userTitle}
               </Heading>
               <Markdown>{userCopy}</Markdown>

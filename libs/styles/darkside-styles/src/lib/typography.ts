@@ -52,6 +52,12 @@ export const Typography = styled.createGlobalStyle`
           line-height: ${setSpace(4.5)};
         `)};
     }
+    &.-medium {
+      font-weight: var(--font-weight-medium);
+    }
+    &.-bold {
+      font-weight: var(--font-weight-bold);
+    }
   }
 
   h2,
