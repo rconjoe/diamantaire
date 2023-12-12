@@ -1083,10 +1083,8 @@ export class ProductsService {
         paginator,
       };
 
+      this.logger.verbose(`PLP :: cache set on key ${cachedKey}`);
       this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
-      // this.cacheManager.set('test', plpReturnData, 100000);
-
-      // console.log(cachedKey);
 
       return plpReturnData;
     } catch (error: any) {
