@@ -106,7 +106,9 @@ const PlpAllFilterOptions = ({
             </h4>
           </div>
           <div className="filter__icon">
-            <FilterIcon />
+            <button onClick={() => setIsMobileFilterOpen(true)}>
+              <FilterIcon />
+            </button>
           </div>
 
           <ul className="list-unstyled flex filter__options">
@@ -337,9 +339,11 @@ const PlpAllFilterOptions = ({
                         </li>
                       );
                     } else {
-                      const filterValueArray = Array.isArray(filterValue[filterType]) ? filterValue[filterType] : [filterValue[filterType]]
+                      const filterValueArray = Array.isArray(filterValue[filterType])
+                        ? filterValue[filterType]
+                        : [filterValue[filterType]];
 
-                      return  filterValueArray.map((val, index) => {
+                      return filterValueArray.map((val, index) => {
                         return (
                           <li key={`${filterValue}-${text}-${index}`}>
                             <button onClick={() => updateFilter(filterType, val)}>

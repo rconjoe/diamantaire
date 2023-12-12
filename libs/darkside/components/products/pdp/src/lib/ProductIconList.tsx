@@ -1,5 +1,6 @@
 import { DatoImage, Markdown, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useProductIconList } from '@diamantaire/darkside/data/hooks';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { InfoIcon } from '@diamantaire/shared/icons';
 import { addBusinessDays, format } from 'date-fns';
@@ -93,6 +94,7 @@ export { ProductIconList };
 // Single Icon List Item
 const ShippingListItem = ({ item, configuration }) => {
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
+  const isUserInEu = getIsUserInEu();
 
   const { locale } = useRouter();
 
@@ -101,8 +103,11 @@ const ShippingListItem = ({ item, configuration }) => {
     addBusinessDays(
       new Date(),
       getCountry(locale) === 'US'
-        ? shippingBusinessDays + (configuration.bandAccent === 'pave' ? 2 : 0)
-        : shippingBusinessDaysCountryMap?.[getCountry(locale)],
+        ? shippingBusinessDays + (configuration.bandAccent === 'pave' ? 3 : 0)
+        : isUserInEu
+        ? // EU 3 days, International 2 days
+          shippingBusinessDaysCountryMap?.[getCountry(locale)] + (configuration.bandAccent === 'pave' ? 3 : 0)
+        : shippingBusinessDaysCountryMap?.[getCountry(locale)] + (configuration.bandAccent === 'pave' ? 2 : 0),
     ),
     'E, MMM d',
   );

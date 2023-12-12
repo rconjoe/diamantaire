@@ -34,7 +34,7 @@ const ModalStyles = styled.div`
     .wrapper {
       max-width: 100vw;
       border-radius: 0;
-      ${media.large`max-width: 1080px; border-radius: 1rem;`}
+      ${media.large`max-width: 1080px;`}
     }
   }
 

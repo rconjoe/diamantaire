@@ -22,6 +22,7 @@ const PlpProductFilter = ({
   urlFilterMethod,
   plpSlug,
   filterOptionsOverride,
+  subcategoryFilter,
 }: {
   gridRef: MutableRefObject<HTMLDivElement>;
   availableFilters: { [key in FilterTypeProps]: string[] };
@@ -33,6 +34,7 @@ const PlpProductFilter = ({
     filterLabel: string;
     filterValue: string;
   }[];
+  subcategoryFilter;
 }) => {
   const router = useRouter();
   const filterTypes = availableFilters;
@@ -54,9 +56,17 @@ const PlpProductFilter = ({
     if (filterType === 'all') {
       setFilterValues({});
 
-      return router.push({
-        pathname: router.query.plpSlug.toString(),
-      });
+      if (urlFilterMethod === 'param') {
+        return router.push({
+          pathname: router.query.plpSlug.toString(),
+          query: {},
+        });
+      } else {
+        // for facet nav, give us the path without the filters
+        return router.push({
+          pathname: router.query.plpSlug[0],
+        });
+      }
     }
 
     if (filterType !== 'price') {
@@ -229,6 +239,7 @@ const PlpProductFilter = ({
                 updateFilter={updateFilter}
                 handleSliderURLUpdate={handleSliderURLUpdate}
                 close={() => setIsMobileFilterOpen(false)}
+                subcategoryFilter={subcategoryFilter}
               />
             )}
           </div>

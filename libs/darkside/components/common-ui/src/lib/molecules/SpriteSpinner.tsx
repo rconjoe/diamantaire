@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { SpriteSpinnerInit } from './SpriteSpinnerInit';
+import { UIString } from './UIString';
 
 declare const window: any;
 
@@ -138,9 +139,9 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
       />
 
-      {/* <span>
+      <span>
         <UIString>Interactive video - drag to rotate</UIString>
-      </span> */}
+      </span>
     </SpritSpinnerContainer>
   );
 };

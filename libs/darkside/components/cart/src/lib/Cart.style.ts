@@ -35,11 +35,11 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart__items {
     .cart__items-inner {
-      max-height: calc(100vh - 20vh - 6.1rem - ${({ gwpSize }) => gwpSize}px);
+      max-height: calc(100vh - 240px);
       overflow-y: auto;
       margin: 0;
       padding: 0 2.5rem 5rem;
-      ${media.medium`margin: 0 3rem 0 5rem;`}
+      ${media.medium`margin: 0 3rem 0 2rem;`}
 
       &::-webkit-scrollbar {
         width: 0.2rem;
@@ -83,19 +83,19 @@ export const CartStyles = styled(motion.aside)`
 
       .cart-subtotal {
         .cart-subtotal__sig-text {
-          font-size: 1.4rem;
-          padding-bottom: 1rem;
+          font-size: var(--font-size-xxxsmall);
         }
         hr {
           background-color: #ccc;
           height: 0.1rem;
+          padding-top: 1rem;
         }
         .cart-subtotal__summary {
           display: flex;
           padding-top: 1rem;
           > p {
             flex: 1;
-            font-size: 1.4rem;
+            font-size: var(--font-size-xsmall);
 
             &:last-child {
               text-align: right;
@@ -108,9 +108,16 @@ export const CartStyles = styled(motion.aside)`
             color: var(--color-teal);
             transition: 0.25s;
             font-weight: bold;
+            font-size: var(--font-size-xsmall);
+
             &:hover {
               opacity: 0.7;
             }
+          }
+
+          .gift-note {
+            margin-top: 5rem;
+            display: block;
           }
         }
       }

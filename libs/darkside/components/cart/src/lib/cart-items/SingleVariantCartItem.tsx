@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
+import CartDiamondCertificate from './CartCertificate';
 import { CartItem } from '../types';
 
 const SingleVariantCartItemStyles = styled.div`
@@ -38,8 +39,6 @@ const SingleVariantCartItemStyles = styled.div`
       }
     }
 
-    .cart-item__title {
-    }
     .cart-item__price {
       flex: 1;
       text-align: right;
@@ -60,7 +59,7 @@ const SingleVariantCartItemStyles = styled.div`
       flex: 1;
       p {
         margin: 0 0 0.5rem;
-        font-size: 1.5rem;
+        font-size: var(--font-size-xsmall);
         display: flex;
 
         &.setting-text {
@@ -90,9 +89,11 @@ const SingleVariantCartItem = ({
   info,
   updateItemQuantity,
   cartItemDetails,
+  certificate,
 }: {
   item: CartItem;
   info: any;
+  certificate: CartCertProps;
   cartItemDetails: { [key: string]: string }[];
   updateItemQuantity: ({
     lineId,
@@ -316,6 +317,7 @@ const SingleVariantCartItem = ({
           })}
         </div>
       </div>
+      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
     </SingleVariantCartItemStyles>
   );
 };

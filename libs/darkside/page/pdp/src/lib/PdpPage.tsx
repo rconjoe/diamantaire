@@ -111,6 +111,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
 
+  console.log('v1 additionalVariantData', additionalVariantData);
+  console.log('v1 productContent', productContent);
+
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
@@ -132,7 +135,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     if (additionalVariantData?.caratWeightOverride) {
       additionalVariantData.carat = additionalVariantData.caratWeightOverride;
     } else {
-      additionalVariantData.carat = datoParentProductData?.caratWeight;
+      additionalVariantData.carat = datoParentProductData?.caratWeight || '';
     }
   } else {
     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
@@ -152,7 +155,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  const isBuilderProduct = configuration.caratWeight === 'other' || !configuration.caratWeight;
+  console.log('shopifyProductData', shopifyProductData);
+  const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
 
   const parentProductAttributes = {
     bandWidth,

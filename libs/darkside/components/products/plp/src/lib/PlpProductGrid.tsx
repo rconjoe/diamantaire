@@ -98,6 +98,11 @@ type PlpProductGridProps = {
     filterLabel: string;
     filterValue: string;
   }[];
+  subcategoryFilter?: {
+    data: {
+      slug: string;
+    }[];
+  }[];
 };
 
 const PlpProductGrid = ({
@@ -117,6 +122,7 @@ const PlpProductGrid = ({
   sortOptions,
   handleSortChange,
   filterOptionsOverride,
+  subcategoryFilter,
 }: PlpProductGridProps) => {
   const router = useRouter();
   const { headerHeight } = useGlobalContext();
@@ -129,7 +135,7 @@ const PlpProductGrid = ({
   const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
-    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a,b) => {
+    const creativeBlocksData = creativeBlockParentData?.allCreativeBlocks.sort((a, b) => {
       // order is not guaranteed when requesting the ids by themselves so the blocks must be sorted
       return creativeBlockIds.indexOf(a.id) - creativeBlockIds.indexOf(b.id);
     });
@@ -178,6 +184,7 @@ const PlpProductGrid = ({
               urlFilterMethod={urlFilterMethod}
               plpSlug={plpSlug}
               filterOptionsOverride={filterOptionsOverride}
+              subcategoryFilter={subcategoryFilter}
             />
           </div>
           <div className="sort">

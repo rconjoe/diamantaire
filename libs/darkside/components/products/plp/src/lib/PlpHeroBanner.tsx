@@ -32,7 +32,7 @@ const PlpHeroBannerStyles = styled.div`
       ${media.small`display: flex; position: absolute;top: 0;left: 0;width: 100%;height: 100%; text-align: left; justify-content: start;`}
 
       .hero__content-inner {
-        padding: calc(var(--gutter) / 1.5) 0;
+        padding: 0;
         ${media.small`padding: 0 var(--gutter);`}
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
@@ -52,7 +52,9 @@ const PlpHeroBannerStyles = styled.div`
 
   .hero__content {
     text-align: center;
-    padding: 3rem 0 2.5rem;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 3rem 0 2.5rem;
+    }
 
     .hero-title {
       margin-bottom: 2rem;
