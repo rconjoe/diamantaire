@@ -53,7 +53,6 @@ const PlpProductFilter = ({
 
   function updateFilter(filterType: string, value) {
     // Reset all filters
-    console.log('router', router);
     if (filterType === 'all') {
       setFilterValues({});
 

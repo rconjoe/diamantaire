@@ -118,11 +118,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
 
   const { locale, asPath } = useRouter();
 
-  console.log('asPath', asPath);
-
   const subStyleOverride = subcategoryFilter?.[0]?.data?.map((block) => block.slug);
-
-  console.log('subStyleOverride', subStyleOverride);
 
   return (
     <PlpMobileFilterStyles headerHeight={headerHeight}>
@@ -134,10 +130,6 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
         {filterTypes &&
           sortedFilterTypes?.map((filterType, index) => {
             const filter = filterTypes[filterType];
-
-            console.log('filterTypes', filterTypes);
-            console.log('filterType', filterType);
-            console.log('mixed', filterTypes[filterType]);
 
             // If subcategories on jewelry products, override the subStyle filter
             if (filterType === 'subStyles' && subStyleOverride) {

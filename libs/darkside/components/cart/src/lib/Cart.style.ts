@@ -84,11 +84,11 @@ export const CartStyles = styled(motion.aside)`
       .cart-subtotal {
         .cart-subtotal__sig-text {
           font-size: var(--font-size-xxxsmall);
-          padding-bottom: 1rem;
         }
         hr {
           background-color: #ccc;
           height: 0.1rem;
+          padding-top: 1rem;
         }
         .cart-subtotal__summary {
           display: flex;

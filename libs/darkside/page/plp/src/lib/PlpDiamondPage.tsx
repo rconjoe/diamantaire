@@ -87,8 +87,6 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
     };
   });
 
-  console.log('diamond data', data);
-
   let showingText = replacePlaceholders(
     _t('Showing %%current_number%% of %%total_number%%'),
     ['%%current_number%%'],

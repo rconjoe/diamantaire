@@ -92,8 +92,6 @@ const PlpPreviouslyViewed = () => {
   function fetchPreviouslyViewed() {
     const previouslyViewed = localStorage.getItem('previouslyViewed');
 
-    console.log('previouslyViewed', previouslyViewed);
-
     if (!previouslyViewed) return;
 
     const previouslyViewedArray = JSON.parse(previouslyViewed);
@@ -102,7 +100,6 @@ const PlpPreviouslyViewed = () => {
 
     previouslyViewedArray.map((item) => handlesArray.push(item.slug));
 
-    console.log('previouslyViewedArray', previouslyViewedArray);
     setHandles(handlesArray);
   }
 

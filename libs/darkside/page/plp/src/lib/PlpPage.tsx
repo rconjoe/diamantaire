@@ -196,8 +196,6 @@ const createPlpServerSideProps = (category: string) => {
 
     //Render 404 if no plpSlug
     if (!plpSlug) {
-      console.log('invalid filter options case 1');
-
       return {
         notFound: true,
       };
@@ -214,8 +212,6 @@ const createPlpServerSideProps = (category: string) => {
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
-      console.log('invalid filter options case 2');
-
       return {
         notFound: true,
       };
@@ -255,8 +251,6 @@ const createPlpServerSideProps = (category: string) => {
     });
 
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
-      console.log('invalid filter options case 3');
-
       return {
         notFound: true,
       };
@@ -334,8 +328,6 @@ function getValidFiltersFromFacetedNav(
     (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
   );
 
-  console.log('subStyleParamIndex', subStyleParamIndex);
-
   // For when subStyle is a param (not faceted)
   const subStyleFromQuery = subStyle
     ?.toString()
@@ -367,8 +359,6 @@ function getValidFiltersFromFacetedNav(
   const areFacetsInOrder = facetOrder.filter(Boolean).every((facetIndex, index) => {
     return index === 0 || facetIndex > facetOrder[index - 1];
   });
-
-  console.log('facet order', areFacetsInOrder);
 
   // TODO: Need to return 404 if a single facet is not valid
   if (!areFacetsInOrder) {
