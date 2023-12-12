@@ -1,4 +1,11 @@
-import { CountrySelector, Form, LanguageSelector, Modal, UIString } from '@diamantaire/darkside/components/common-ui';
+import {
+  CountrySelector,
+  Form,
+  LanguageSelector,
+  Modal,
+  UIString,
+  Loader,
+} from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
@@ -7,7 +14,7 @@ import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamant
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import FooterMobileAccordions from './FooterMobileAccordions';
@@ -232,7 +239,6 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
   const selectedLanguage = languagesByCode[selectedLanguageCode].name;
   const availableLanguages = countries[selectedCountryCode].languages;
 
-  const isUserInEu = getIsUserInEu();
   const { optInCopy } = emailSignUpCopy?.[0] || {};
   const date = new Date();
 
@@ -305,7 +311,6 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
                 <p>{copy}</p>
 
                 <FooterEmailSignup
-                  showOptIn={isUserInEu}
                   ctaCopy={ctaCopy}
                   optInCopy={optInCopy}
                   countryCode={selectedCountryCode}
@@ -350,16 +355,18 @@ const Footer: FC<FooterTypes> = ({ footerData }) => {
 
 export { Footer };
 
-export const FooterEmailSignup = ({
-  listData = HUBSPOT_FOOTER_LIST,
-  showOptIn = false,
-  ctaCopy,
-  optInCopy,
-  countryCode,
-  locale,
-}) => {
+export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST, ctaCopy, optInCopy, countryCode, locale }) => {
+  const [loading, setLoading] = useState(false);
+  const [showOptIn, setOptIn] = useState(false);
   const [message, setMessage] = useState(null);
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    const isUserInEu = getIsUserInEu();
+
+    setOptIn(isUserInEu);
+    setLoading(false);
+  }, []);
 
   const onSubmit = async (e, formState) => {
     e.preventDefault();
@@ -382,6 +389,10 @@ export const FooterEmailSignup = ({
       console.error('Error submitting form data to HubSpot:', error);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return message ? (
     <div dangerouslySetInnerHTML={{ __html: message }}></div>
