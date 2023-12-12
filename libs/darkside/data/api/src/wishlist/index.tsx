@@ -1,3 +1,5 @@
+import { parseValidLocale } from '@diamantaire/shared/constants';
+
 import { WISHLIST_QUERY } from './query';
 import { queryClientApi, queryDatoGQL } from '../clients';
 import { fetchDiamondData } from '../diamonds';
@@ -40,11 +42,18 @@ export const fetchWishlistProducts = async (ids: string[], locale: string) => {
     product: [...new Set([...list.product, ...unbundle(list.bundle).product])].join(','),
   };
 
+  const withDiamonds = queryList.diamond.length > 0;
+
+  const withProducts = queryList.product.length > 0;
+
+  // TODO: should be able to just pass the locale
+  const loc = parseValidLocale(locale).languageCode;
+
+  const productEndpoint = `/products/list?locale=${loc}&slugs=${queryList.product}`;
+
   const payload = {
-    diamond: queryList.diamond.length > 0 && (await fetchDiamondData({ lotId: queryList.diamond, locale })),
-    product:
-      queryList.product.length > 0 &&
-      (await queryClientApi().request({ method: 'get', url: `/products/list?slugs=${queryList.product}` })),
+    diamond: withDiamonds && (await fetchDiamondData({ lotId: queryList.diamond, locale })),
+    product: withProducts && (await queryClientApi().request({ method: 'get', url: productEndpoint })),
   };
 
   const result = {
