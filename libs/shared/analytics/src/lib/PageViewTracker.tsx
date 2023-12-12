@@ -181,13 +181,19 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
 export { PageViewTracker };
 
 function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
+  console.log(productData);
   if (!productData || !Array.isArray(productData.pages)) {
     return [];
   }
 
   const allProducts = productData.pages.flatMap((page) => page.products);
 
+  console.log(allProducts);
+
   const normalizedProducts = allProducts.map((product, idx) => {
+    if (!product){
+      return null;
+    }
     const { defaultId, variants } = product;
     const variant = variants[defaultId];
 
