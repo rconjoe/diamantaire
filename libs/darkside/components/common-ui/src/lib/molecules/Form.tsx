@@ -209,7 +209,6 @@ const Form = ({
   formGridStyle = 'single',
   stackedSubmit = true,
   showOptIn,
-
   ctaCopy = 'Submit',
   optInCopy,
   extraClass,

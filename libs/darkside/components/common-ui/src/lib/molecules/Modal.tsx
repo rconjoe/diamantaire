@@ -2,14 +2,7 @@ import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-
-export const FreezeBody = createGlobalStyle`
-    body, html {
-      overflow: hidden;
-    }
-
-`;
+import styled from 'styled-components';
 
 const ModalStyles = styled.div`
   position: fixed;
