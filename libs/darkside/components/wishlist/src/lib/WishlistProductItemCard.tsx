@@ -148,8 +148,6 @@ const CardProduct: React.FC<CardProductProps> = ({
     collectionSlug,
   } = product;
 
-  console.log(`CardProduct:product`, product);
-
   const { productTitle } = content;
 
   const price = getFormattedPrice(productPrice, locale, true);
