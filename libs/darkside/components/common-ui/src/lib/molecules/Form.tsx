@@ -6,6 +6,7 @@ This is the master form component, we should never need to manually create a cus
 
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { allCountries } from '@diamantaire/shared/constants';
+import { getIsUserInUs } from '@diamantaire/shared/geolocation';
 import clsx from 'clsx';
 import { Provinces } from 'country-and-province';
 import { useRouter } from 'next/router';
@@ -60,6 +61,7 @@ type FormStateType = {
     label?: string;
     value: string;
   };
+  isConsent?: boolean;
 };
 
 type InputType =
@@ -207,6 +209,7 @@ const Form = ({
   formGridStyle = 'single',
   stackedSubmit = true,
   showOptIn,
+
   ctaCopy = 'Submit',
   optInCopy,
   extraClass,
@@ -225,8 +228,8 @@ const Form = ({
   const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown')?.defaultValue || null;
 
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
-
-  const initialFormState = {};
+  const isUserInUs = getIsUserInUs();
+  const initialFormState = { isConsent: isUserInUs };
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -383,6 +386,7 @@ const Form = ({
                 type="checkbox"
                 name="isConsent"
                 id="optin"
+                checked={formState?.isConsent}
                 onChange={(e) => {
                   const { name, checked } = e.target;
 
@@ -413,6 +417,7 @@ const Form = ({
               type="checkbox"
               name="isConsent"
               id="optin"
+              checked={formState?.isConsent}
               onChange={(e) => {
                 const { name, checked } = e.target;
 

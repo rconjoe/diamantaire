@@ -1,7 +1,7 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, HUBSPOT_EMAIL_POPUP_LISTDATA } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getIsUserInEu, getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Cookies from 'js-cookie';
@@ -78,20 +78,9 @@ const EmailPopUpStyles = styled.div`
 
 const EmailPopUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showOptIn, setShowOptIn] = useState(false);
-
-  // showOptIn is true if isUserInEurope is true
   const router = useRouter();
 
   const { locale, pathname } = router || {};
-
-  const initializeUserState = () => {
-    const isUserInEu = getIsUserInEu();
-
-    if (isUserInEu) {
-      setShowOptIn(true);
-    }
-  };
 
   const shouldShowEmailPopup = () => {
     // Check if the pop-up should render on this page
@@ -109,7 +98,7 @@ const EmailPopUp = () => {
   };
 
   const setupEmailPopup = () => {
-    initializeUserState();
+    // initializeUserState();
     if (shouldShowEmailPopup()) {
       return setTimeout(openEmailPopup, 30000);
     }
@@ -163,14 +152,14 @@ const EmailPopUp = () => {
     const smsConsentSource = phone.length > 0 ? 'popup' : '';
     const sendSMS = phone.length > 0 ? 'subscribed' : '';
 
-    if (showOptIn && !isConsent) {
+    if (!isConsent) {
       setIsValid(false);
 
       return;
     }
 
     try {
-      if (!showOptIn || (showOptIn && isConsent)) {
+      if (isConsent) {
         await sendHubspotForm({
           email,
           phone,
@@ -246,7 +235,7 @@ const EmailPopUp = () => {
                 formGridStyle="single"
                 flexDirection="column"
                 stackedSubmit={true}
-                showOptIn={showOptIn}
+                showOptIn={true}
                 ctaCopy={submitCopy}
                 optInCopy={optInCopy}
                 extraClass="-links-teal -opt-in"

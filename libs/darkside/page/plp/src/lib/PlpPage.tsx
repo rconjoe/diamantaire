@@ -115,7 +115,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     handleFilterEvent(filters);
   };
 
-  const listPageData = { productData: data, hero, category };
+  const listPageData = { productData: data, hero, category } || {};
 
   function handleFilterEvent(filters) {
     if (window.location.search !== '') {
