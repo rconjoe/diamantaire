@@ -140,13 +140,14 @@ const CardProduct: React.FC<CardProductProps> = ({
   }
 
   const {
-    collectionTitle,
     configuration: { caratWeight = null } = {},
     price: productPrice,
     productType,
     productSlug,
     collectionSlug,
   } = product;
+
+  const { productTitle } = content;
 
   const price = getFormattedPrice(productPrice, locale, true);
 
@@ -165,8 +166,7 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const translatedCarat = caratNum ? getFormattedCarat(caratNum, locale) : null;
 
-  const title =
-    caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${translatedCarat}${_t('ct')}` : collectionTitle;
+  const title = caratWeight && caratWeight !== 'other' ? `${productTitle} - ${translatedCarat}${_t('ct')}` : productTitle;
 
   return (
     <div className="card item-product">
@@ -230,9 +230,11 @@ const CardBundle: React.FC<CardBundleProps> = ({
 
   const { diamondType, carat, price: diamondPrice, lotId } = diamond;
 
-  const { collectionTitle, price: productPrice, collectionSlug, productSlug } = product;
+  const { price: productPrice, collectionSlug, productSlug } = product;
 
-  const bundleTitle = `${collectionTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}ct ${_t(
+  const { productTitle } = content;
+
+  const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}${_t('ct')} ${_t(
     getDiamondType(diamondType)?.title,
   )}`;
 
