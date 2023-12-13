@@ -67,7 +67,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   // priceMax: '',
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category) || {};
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
 
   const {
     breadcrumb,
