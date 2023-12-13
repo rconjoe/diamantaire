@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-const FreezeBody = createGlobalStyle`
+export const FreezeBody = createGlobalStyle`
     body, html {
       overflow: hidden;
     }
@@ -188,7 +188,6 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className, onCl
         'modal--no-title': isHeaderDisabled,
       })}
     >
-      <FreezeBody />
       <button className="close" onClick={onClose}></button>
       <div className="wrapper">
         <div className="inner">

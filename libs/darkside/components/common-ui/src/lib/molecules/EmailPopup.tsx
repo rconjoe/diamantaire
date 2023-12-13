@@ -21,8 +21,8 @@ const EmailPopUpStyles = styled.div`
     overflow-y: auto;
     display: flex;
     max-height: 100%;
-    max-width: 860px;
-    max-height: 430px;
+    max-width: 86rem;
+    max-height: 43rem;
     .emailpopup-title {
       font-size: 4rem;
       font-weight: 500 !important;
@@ -31,7 +31,7 @@ const EmailPopUpStyles = styled.div`
     .emailpopup-image {
       display: none;
       ${media.medium`display:block;`}
-      flex: 0 0 330px;
+      flex: 0 0 33rem;
 
       > div {
         height: 100%;
@@ -53,7 +53,7 @@ const EmailPopUpStyles = styled.div`
           margin-bottom: 1rem;
         }
         p {
-          font-size: 16px;
+          font-size: 1.6rem;
         }
       }
     }
