@@ -1,6 +1,7 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
+import { useRouter } from 'next/router';
 
 import { StyledErrorPage } from './darkside-page-error.style';
 
@@ -12,9 +13,10 @@ export interface DarksidePageErrorProps {
 }
 
 const DarksidePageError = (props: DarksidePageErrorProps) => {
-  const { locale, currencyCode, countryCode, error } = props;
+  const router = useRouter();
+  const { currencyCode, countryCode, error } = props;
 
-  const { data }: any = useStandardPage('error-page', locale) || {};
+  const { data }: any = useStandardPage('error-page', router.locale) || {};
   const { standardPage } = data || {};
   const { content1 = [], seo = {} } = standardPage || {};
   const { seoTitle, seoDescription } = seo;

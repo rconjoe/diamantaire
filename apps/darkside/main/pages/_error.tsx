@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs';
+
 function Error({ statusCode }) {
   return (
     <p>
@@ -8,7 +10,11 @@ function Error({ statusCode }) {
   )
 }
  
-Error.getInitialProps = ({ res, err }) => {
+Error.getInitialProps = async (contextData) => {
+  const {res, err} = contextData;
+
+  await Sentry.captureUnderscoreErrorException(contextData);
+
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   
   return { statusCode }
