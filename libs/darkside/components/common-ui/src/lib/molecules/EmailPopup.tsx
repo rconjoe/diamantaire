@@ -78,6 +78,8 @@ const EmailPopUpStyles = styled.div`
 
 const EmailPopUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [formSubmissionResult, setFormSubmissionResult] = useState(null);
   const router = useRouter();
 
   const { locale, pathname } = router || {};
@@ -172,10 +174,11 @@ const EmailPopUp = () => {
           sendSMS,
         });
         Cookies.set('email-popup', 'true', { expires: 365 }); //fallback if hubspot not loaded via gtm
-        toast.success(successCopy, {
-          autoClose: 3000,
-        });
-        setIsModalOpen(false);
+        setIsSuccessful(true);
+        setFormSubmissionResult(successCopy);
+        setTimeout(() => {
+          setIsModalOpen(false);
+        }, 1000);
       }
     } catch (error) {
       toast.error(errorCopy, {
@@ -242,6 +245,8 @@ const EmailPopUp = () => {
                 isValid={isValid}
                 setIsValid={setIsValid}
                 schema={schema}
+                isSuccessful={isSuccessful}
+                formSubmissionResult={formSubmissionResult}
               />
 
               <DarksideButton type="text-underline" onClick={handleClose} colorTheme="teal" className="button--decline">

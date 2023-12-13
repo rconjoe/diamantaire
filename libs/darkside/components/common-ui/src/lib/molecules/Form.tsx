@@ -41,6 +41,8 @@ type FormProps = {
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
   flexDirection?: 'column' | 'row';
+  isSuccessful?: boolean;
+  formSubmissionResult?: string;
 };
 
 type FormStateType = {
@@ -217,6 +219,8 @@ const Form = ({
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
   flexDirection,
+  isSuccessful,
+  formSubmissionResult,
 }: FormProps) => {
   const { locale } = useRouter();
 
@@ -402,7 +406,7 @@ const Form = ({
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-              {_t(ctaCopy)}
+              {isSuccessful ? formSubmissionResult : _t(ctaCopy)}
             </DarksideButton>
           </div>
         </div>
