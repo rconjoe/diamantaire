@@ -9,15 +9,12 @@ import {
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const CartGWPStyles = styled.div`
-  margin: 0;
-  padding: 0 2.5rem 5rem;
-  ${media.medium`margin: 0 3rem 0 5rem;`}
+  padding: 0 0 2rem;
   .inner {
     display: flex;
 

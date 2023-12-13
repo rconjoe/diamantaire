@@ -54,12 +54,9 @@ const MultiVariantCartItemStyles = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
-    border: 0.1rem solid #e0e0e0;
-    border-radius: 0.8rem;
 
     .cart-item__image {
       flex: 0 0 16.8rem;
-      padding-left: 2rem;
       padding-right: 2rem;
       img {
         height: 100%;
@@ -70,7 +67,6 @@ const MultiVariantCartItemStyles = styled.div`
       color: #737368;
       flex: 1;
       padding: 2rem 0;
-      padding-right: 1.5rem;
       position: relative;
 
       button {
@@ -83,10 +79,20 @@ const MultiVariantCartItemStyles = styled.div`
 
         &.setting-text {
           color: #000;
+          span {
+            flex: 1;
+            text-align: right;
+          }
         }
 
         &.shape {
           text-transform: capitalize;
+        }
+        &.engraving {
+          span {
+            font-weight: bold;
+            font-style: italic;
+          }
         }
 
         &:last-child {
@@ -94,8 +100,7 @@ const MultiVariantCartItemStyles = styled.div`
         }
 
         span {
-          flex: 1;
-          text-align: right;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -415,7 +420,7 @@ const MultiVariantCartItem = ({
 
             return (
               <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
               </p>
             );
           })}

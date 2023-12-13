@@ -167,6 +167,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         sortOptions={sortOptions}
         filterOptionsOverride={filterOptionsOverride}
         handleSortChange={handleSortChange}
+        subcategoryFilter={subcategoryFilter}
       />
       <div ref={pageEndRef} />
       <PlpPreviouslyViewed />
@@ -221,7 +222,7 @@ const createPlpServerSideProps = (category: string) => {
     }>(contentQuery.queryKey).listPage?.filterOptions;
 
     // This is the only edge case right now.  Ex: /engagement-rings/settings
-    if (presetFilters.length > 0 && isEmptyObject(initialFilterValues)) {
+    if (presetFilters?.length > 0 && isEmptyObject(initialFilterValues)) {
       initialFilterValues = {
         metal: ['yellow-gold'],
         diamondType: ['round-brilliant'],
@@ -397,6 +398,8 @@ function getValidFiltersFromFacetedNav(
   } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
     filterOptions['diamondType'] = diamondFromQuery;
   }
+
+  console.log('returned filter options', filterOptions);
 
   return filterOptions;
 }

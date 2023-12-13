@@ -7,7 +7,7 @@ import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
@@ -56,8 +56,6 @@ const Cart = ({ closeCart }) => {
     refetch();
   }, []);
 
-  const gwpRef = useRef(null);
-
   return (
     <>
       <FreezeBody />
@@ -88,7 +86,6 @@ const Cart = ({ closeCart }) => {
         transition={{
           duration: 0.25,
         }}
-        gwpSize={gwpRef?.current?.clientHeight}
       >
         <div className="cart__inner">
           <div className="cart__header">
@@ -105,11 +102,11 @@ const Cart = ({ closeCart }) => {
               </button>
             </div>
           </div>
-          <div className="gwp" ref={gwpRef}>
-            <CartGWP />
-          </div>
           <div className="cart__items">
             <div className="cart__items-inner">
+              <div className="gwp">
+                <CartGWP />
+              </div>
               {checkout?.lines?.map((item) => {
                 const cartItemInfo = {
                   _productType: null,
@@ -157,6 +154,7 @@ const Cart = ({ closeCart }) => {
                       updateItemQuantity={updateItemQuantity}
                       cartItemDetails={cartItemDetails}
                       key={`cart-item-${item.id}`}
+                      certificate={certificates?.[0]}
                     />
                   );
                 }
@@ -193,6 +191,11 @@ const Cart = ({ closeCart }) => {
               ) : (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
+                    {/* they prob mean this.... */}
+                    {/* {parseFloat(checkout?.cost?.subtotalAmount?.amount) > 500 && (
+                      <UIString>Orders over $500 require a signature upon delivery.</UIString>
+                    )} */}
+
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
                   </p>
                   <hr />

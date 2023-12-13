@@ -751,7 +751,7 @@ export class ProductsService {
       if (collectionsInOrder.length > 0) {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
-        plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
           metals,
           diamondTypes,
           page,

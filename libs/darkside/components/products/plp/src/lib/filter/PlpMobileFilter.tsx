@@ -109,14 +109,16 @@ const HideHeader = createGlobalStyle`
   }
 `;
 
-const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderURLUpdate, close }) => {
+const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderURLUpdate, close, subcategoryFilter }) => {
   const sortedFilterTypes = Object.keys(filterTypes).sort((a, b) => {
     return filterOrder.indexOf(a) - filterOrder.indexOf(b);
   });
 
   const { headerHeight } = useGlobalContext();
 
-  const { locale } = useRouter();
+  const { locale, asPath } = useRouter();
+
+  const subStyleOverride = subcategoryFilter?.[0]?.data?.map((block) => block.slug);
 
   return (
     <PlpMobileFilterStyles headerHeight={headerHeight}>
@@ -128,6 +130,16 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
         {filterTypes &&
           sortedFilterTypes?.map((filterType, index) => {
             const filter = filterTypes[filterType];
+
+            // If subcategories on jewelry products, override the subStyle filter
+            if (filterType === 'subStyles' && subStyleOverride) {
+              filterTypes[filterType] = subStyleOverride;
+            }
+
+            // if jewelry, remove the style filter
+            if (asPath.includes('/jewelry/') && filterType === 'styles') {
+              return null;
+            }
 
             if (filterTypes[filterType].length === 0) return null;
 

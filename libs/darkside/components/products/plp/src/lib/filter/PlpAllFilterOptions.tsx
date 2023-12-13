@@ -106,7 +106,9 @@ const PlpAllFilterOptions = ({
             </h4>
           </div>
           <div className="filter__icon">
-            <FilterIcon />
+            <button onClick={() => setIsMobileFilterOpen(true)}>
+              <FilterIcon />
+            </button>
           </div>
 
           <ul className="list-unstyled flex filter__options">

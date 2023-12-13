@@ -39,7 +39,9 @@ const ProductGWPStyles = styled.div`
       background-color: ${({ bgColor }) => bgColor};
       display: flex;
       align-items: center;
-      box-shadow: 0px 0.4rem 0.4rem 0px rgba(0, 0, 0, 0.25);
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.16),
+        0 3px 6px rgba(0, 0, 0, 0.23);
 
       p {
         font-size: var(--font-size-xxsmall);

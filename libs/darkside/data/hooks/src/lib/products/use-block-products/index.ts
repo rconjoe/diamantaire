@@ -13,6 +13,8 @@ type BlockProductProps = {
     };
     content: {
       plpImage: DatoImageType;
+      shopifyProductHandle: string;
+      variantId: string;
     };
   }[];
   lowestPricesByCollection;
