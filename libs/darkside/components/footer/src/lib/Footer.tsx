@@ -8,7 +8,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getIsUserInEu, getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
@@ -357,14 +357,14 @@ export { Footer };
 
 export const FooterEmailSignup = ({ listData = HUBSPOT_FOOTER_LIST, ctaCopy, optInCopy, countryCode, locale }) => {
   const [loading, setLoading] = useState(false);
-  const [showOptIn, setOptIn] = useState(false);
+  const [showOptIn, setShowOptIn] = useState(false);
   const [message, setMessage] = useState(null);
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    const isUserInEu = getIsUserInEu();
+    const isUserInUs = getIsUserInUs();
 
-    setOptIn(isUserInEu);
+    setShowOptIn(!isUserInUs);
     setLoading(false);
   }, []);
 

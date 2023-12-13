@@ -27,6 +27,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     const DE_GEO = { city: 'Frankfurt am Main', country: 'DE', latitude: '50.1049', longitude: '8.6295', region: 'HE' };
     const UK_GEO = { city: 'London', country: 'UK', latitude: '51.5074', longitude: '-0.1278', region: 'ENG' };
     const ES_GEO = { city: 'Madrid', country: 'ES', latitude: '40.4168', longitude: '-3.7038', region: 'M' };
+    const PT_GEO = { city: 'Lisbon', country: 'PT', latitude: '38.7223', longitude: '-9.1393', region: 'L' };
 
     let selectedGeo = US_GEO; // default to US
 
@@ -43,6 +44,8 @@ export default async function middleware(request: NextRequest, _event: NextFetch
         selectedGeo = ES_GEO;
       } else if (countryLocale === 'GB') {
         selectedGeo = UK_GEO;
+      } else if (countryLocale === 'PT') {
+        selectedGeo = PT_GEO;
       }
     }
 
