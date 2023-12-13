@@ -21,6 +21,7 @@ query wishlistQuery($locale: SiteLocale) {
     sharedWishlistPageSubtitle
     sharedWishlistPageSeoTitle
     sharedWishlistPageSeoDescription
+    sharedWishlistFormSuccessMessage
     noResult
     noResultBlocks {
       itemTitle

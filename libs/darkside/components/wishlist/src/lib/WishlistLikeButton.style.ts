@@ -8,6 +8,12 @@ export const StyledWishlistLikeButton = styled.div`
   top: 0;
   z-index: 1;
 
+  .wishlist-like-button {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
   .active {
     svg {
       fill: var(--color-teal);

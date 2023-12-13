@@ -3,12 +3,14 @@ import { ParsedUrlQuery } from 'querystring';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistProductList } from '@diamantaire/darkside/components/wishlist';
-import { useWishlistContent, useWishlistProduct } from '@diamantaire/darkside/data/hooks';
+import { fetchWishlistProducts } from '@diamantaire/darkside/data/api';
+import { useWishlistContent } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/global';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useEffect, useState } from 'react';
 
 import StyledWishlistPage from './WishlistPage.style';
 
@@ -27,9 +29,9 @@ interface WishlistSharePageProps {
 const WishlistSharePage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, username, products: productListFromUrl } = props;
 
-  const { data: { wishlist: content } = {} } = useWishlistContent(locale);
+  const [wishlistProductData, setWishlistProductData] = useState<any>(null);
 
-  const { data: { wishlist: products } = {} } = useWishlistProduct(productListFromUrl, locale);
+  const { data: { wishlist: content } = {} } = useWishlistContent(locale);
 
   const { pageSeoDescription, sharedWishlistPageTitle, sharedWishlistPageSubtitle } = content;
 
@@ -38,6 +40,22 @@ const WishlistSharePage = (props: InferGetServerSidePropsType<typeof getServerSi
   const pageTitle = replacePlaceholders(sharedWishlistPageTitle, ['%%user%%'], [usernameCapitalized]) as string;
 
   const pageSubtitle = replacePlaceholders(sharedWishlistPageSubtitle, ['%%user%%'], [usernameCapitalized]) as string;
+
+  const getWishlistProductData = async () => {
+    const res = await fetchWishlistProducts(productListFromUrl, locale);
+
+    return res.wishlist;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const wishlistProducts = await getWishlistProductData();
+
+      setWishlistProductData(wishlistProducts);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -56,7 +74,7 @@ const WishlistSharePage = (props: InferGetServerSidePropsType<typeof getServerSi
             isSharedWishlistPage={true}
             productListFromUrl={productListFromUrl}
             content={content}
-            products={products}
+            products={wishlistProductData}
           />
         </div>
       </StyledWishlistPage>

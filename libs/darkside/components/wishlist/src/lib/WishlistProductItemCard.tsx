@@ -6,7 +6,7 @@ import {
   UIString,
   UniLink,
 } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DropHintIcon } from '@diamantaire/shared/icons';
@@ -65,14 +65,15 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
   handleOpenDropHintModal,
 }) => {
   const { _t } = useTranslations(locale);
+  const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
 
   const { slug, handle, diamondType, carat, price, color, clarity, cut } = diamond || {};
 
   const _f = useMemo(() => {
     return {
-      carat: `${getFormattedCarat(carat, locale)}ct`,
+      carat: `${getFormattedCarat(carat, locale)}${_tt('ct')}`,
       price: getFormattedPrice(price, locale, true),
-      type: _t(getDiamondType(diamondType)?.title),
+      type: _t(getDiamondType(diamondType)?.slug),
       cut: _t(cut),
       clarity: _t(clarity),
       color: _t(color),
@@ -99,18 +100,20 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
       <div className="text">
         <div className="title">{title}</div>
 
-        <div className="price">{_f.price}</div>
+        <div className="action">
+          <div className="price">{_f.price}</div>
 
-        <DarksideButton href={link} type="solid">
-          {button}
-        </DarksideButton>
+          <DarksideButton href={link} type="solid">
+            {button}
+          </DarksideButton>
 
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
-          </div>
-        )}
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (
@@ -130,18 +133,21 @@ const CardProduct: React.FC<CardProductProps> = ({
   isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
+  const { _t } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
+
   if (!content || !product) {
     return;
   }
 
   const {
-    collectionTitle,
     configuration: { caratWeight = null } = {},
     price: productPrice,
     productType,
     productSlug,
     collectionSlug,
   } = product;
+
+  const { productTitle } = content;
 
   const price = getFormattedPrice(productPrice, locale, true);
 
@@ -156,7 +162,11 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);
 
-  const title = caratWeight && caratWeight !== 'other' ? `${collectionTitle} - ${caratWeight}` : collectionTitle;
+  const caratNum = extractNumber(caratWeight);
+
+  const translatedCarat = caratNum ? getFormattedCarat(caratNum, locale) : null;
+
+  const title = caratWeight && caratWeight !== 'other' ? `${productTitle} - ${translatedCarat}${_t('ct')}` : productTitle;
 
   return (
     <div className="card item-product">
@@ -166,21 +176,23 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div className="text">
         <div className="title">{title}</div>
 
-        <div className="price">
-          {price}
-          {caratWeight && caratWeight === 'other' && '+'}
-        </div>
-
-        <DarksideButton href={link} type="solid">
-          {button}
-        </DarksideButton>
-
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
+        <div className="action">
+          <div className="price">
+            {price}
+            {caratWeight && caratWeight === 'other' && '+'}
           </div>
-        )}
+
+          <DarksideButton href={link} type="solid">
+            {button}
+          </DarksideButton>
+
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (
@@ -218,9 +230,11 @@ const CardBundle: React.FC<CardBundleProps> = ({
 
   const { diamondType, carat, price: diamondPrice, lotId } = diamond;
 
-  const { collectionTitle, price: productPrice, collectionSlug, productSlug } = product;
+  const { price: productPrice, collectionSlug, productSlug } = product;
 
-  const bundleTitle = `${collectionTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}ct ${_t(
+  const { productTitle } = content;
+
+  const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}${_t('ct')} ${_t(
     getDiamondType(diamondType)?.title,
   )}`;
 
@@ -280,18 +294,20 @@ const CardBundle: React.FC<CardBundleProps> = ({
       <div className="text">
         <div className="title">{bundleTitle}</div>
 
-        <div className="price">{bundlePrice}</div>
+        <div className="action">
+          <div className="price">{bundlePrice}</div>
 
-        <UniLink route={link}>
-          <DarksideButton type="solid">{button}</DarksideButton>
-        </UniLink>
+          <UniLink route={link}>
+            <DarksideButton type="solid">{button}</DarksideButton>
+          </UniLink>
 
-        {!isSharedWishlistPage && (
-          <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
-            <DropHintIcon />
-            <UIString>Drop a Hint</UIString>
-          </div>
-        )}
+          {!isSharedWishlistPage && (
+            <div className="share" onClick={() => handleOpenDropHintModal({ link, image: imageUrl })}>
+              <DropHintIcon />
+              <UIString>Drop a Hint</UIString>
+            </div>
+          )}
+        </div>
       </div>
 
       {!isSharedWishlistPage && (
@@ -302,3 +318,17 @@ const CardBundle: React.FC<CardBundleProps> = ({
 };
 
 export { CardDiamond, CardProduct, CardBundle };
+
+function extractNumber(inputString) {
+  if (!inputString) return null;
+
+  const match = inputString.match(/\d+(\.\d+)?/);
+
+  if (match) {
+    const result = match[0];
+
+    return parseFloat(result);
+  } else {
+    return null;
+  }
+}

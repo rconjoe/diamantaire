@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledWishlistShareModal = styled.div`
+export const StyledDropHintModal = styled.div`
   .wishlist-share-modal {
     .header {
       text-align: center;
