@@ -96,6 +96,11 @@ const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
   }, []);
 
   function generateAppointmentLink(matchingLocation, productType) {
+    if (!matchingLocation) {
+      console.log("No matching appointment options", matchingLocation, productType);
+
+      return 'https://vrai.as.me/schedule.php?appointmentType=Virtual';
+    }
     const fineJewelryTypes = ['Earrings', 'Bracelet', 'Necklace', 'Ring'];
     const { appointmentOptions } = matchingLocation;
 
