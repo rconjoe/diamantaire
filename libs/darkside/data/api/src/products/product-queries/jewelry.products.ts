@@ -267,6 +267,7 @@ export const JEWELRYPRODUCT = `
           }
         }
         productSuggestionQuadBlock {
+          id
           _modelApiKey
           name
           content {
@@ -379,6 +380,7 @@ export const JEWELRYPRODUCT = `
   }
     configuration(filter: {variantId: {eq: $variantId}}) {
       accordionBlocks {
+        id
         bottomCopy
         copy
         ctaButtonType
