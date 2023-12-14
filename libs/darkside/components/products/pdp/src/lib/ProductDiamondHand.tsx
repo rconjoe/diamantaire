@@ -16,13 +16,21 @@ const ProductDiamondHandStyles = styled.div`
   .hand-image-container {
     margin-bottom: ${offset};
     position: relative;
+    margin-bottom: 1rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.small}) {
+      margin-bottom: ${offset};
+    }
 
     .image-hand {
       display: block;
       aspect-ratio: 1/1;
       position: relative;
-      max-height: 460px;
+      max-height: 330px;
 
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        max-height: 460px;
+      }
       @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
         max-height: 520px;
       }
@@ -37,13 +45,19 @@ const ProductDiamondHandStyles = styled.div`
 
     .image-diamond {
       position: absolute;
-      top: 53%;
-      left: 20.5%;
+
       display: flex;
       align-items: center;
       justify-content: center;
       width: 25%;
       height: 25%;
+      top: 50%;
+      left: 24%;
+
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        left: 20.5%;
+        top: 53%;
+      }
 
       @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
         left: 22%;
@@ -307,7 +321,9 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
                   onChange={(v) => setSliderValue(v)}
                   renderThumb={(props, state) => (
                     <div {...props}>
-                      <button>{state.valueNow} carat</button>
+                      <button>
+                        {state.valueNow} <UIString>carat</UIString>
+                      </button>
                     </div>
                   )}
                 />

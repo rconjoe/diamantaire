@@ -334,7 +334,7 @@ function AddToCartButton({
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
   const formattedPrice = getFormattedPrice(price, locale, true, true);
-  const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings', 'Wedding Band'];
+  const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings', 'Wedding Band', 'Ring'];
 
   async function addProductToCart() {
     const productGroupKey = uuidv4();
@@ -471,7 +471,12 @@ function AddToCartButton({
         }
       }
 
-      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes }).then(() => refetch());
+      addJewelryProductToCart({
+        variantId: refinedVariantId,
+        attributes: jewelryAttributes,
+        hasEngraving: Boolean(engravingText),
+        engravingText,
+      }).then(() => refetch());
     }
 
     updateGlobalContext({

@@ -20,8 +20,8 @@ const SimpleProductSlide = (props) => {
     <SimpleProductSlideStyles>
       <ProductLink
         productType={configuration?.collection?.productType}
-        collectionSlug={productData?.collectionSlug}
-        productSlug={productData?.productSlug}
+        collectionSlug={productData?.product?.collectionSlug}
+        productSlug={productData?.product?.productSlug}
       >
         <div className="slide__inner">
           <div className="slide__image">

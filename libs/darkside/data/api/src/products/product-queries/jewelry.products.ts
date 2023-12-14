@@ -402,6 +402,7 @@ export const JEWELRYPRODUCT = `
         height
         width
         mimeType
+        title
         customData
         video {
           streamingUrl

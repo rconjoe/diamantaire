@@ -58,6 +58,8 @@ export type ERProductCartItemProps = {
 
 export type JewelryCartItemProps = {
   variantId: string;
+  engravingText?: string;
+  hasEngraving?: boolean;
   attributes: {
     // Fulfillment
     _productType: 'Necklace' | 'Bracelet' | 'Earring';

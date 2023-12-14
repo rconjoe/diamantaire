@@ -153,7 +153,9 @@ const PlpPreviouslyViewed = () => {
           <div className="products__container embla__container">
             {products &&
               handles?.map((handle) => {
-                const productNode = products?.find((p) => p?.content?.variantId === handle);
+                const productNode = products?.find(
+                  (p) => p?.content?.variantId === handle || p?.content?.shopifyProductHandle === handle,
+                );
 
                 const product = productNode?.product;
                 const content = productNode?.content;

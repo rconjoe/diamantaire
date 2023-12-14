@@ -37,6 +37,7 @@ const Cart = ({ closeCart }) => {
     'Earrings',
     'Diamonds',
     'Diamond',
+    'Ring',
   ];
 
   const {
@@ -114,12 +115,16 @@ const Cart = ({ closeCart }) => {
                 };
 
                 const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
+                const engravingProductAttribute = item.attributes?.find((attr) => attr.key === 'engravingProduct');
                 const isHiddenProduct = item.attributes?.find((attr) => attr.key === 'hiddenProduct');
 
                 const hasChildProduct =
-                  childProductAttribute &&
-                  childProductAttribute?.value !== null &&
-                  JSON.parse(childProductAttribute?.value).behavior !== 'duplicate';
+                  (childProductAttribute &&
+                    childProductAttribute?.value !== null &&
+                    JSON.parse(childProductAttribute?.value).behavior !== 'duplicate') ||
+                  (engravingProductAttribute &&
+                    engravingProductAttribute?.value !== null &&
+                    JSON.parse(engravingProductAttribute?.value).behavior !== 'duplicate');
 
                 item.attributes?.map((attr) => {
                   cartItemInfo[attr.key] = attr.value;
