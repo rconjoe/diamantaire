@@ -94,6 +94,7 @@ export const WEDDING_BAND_PDP = `
         width
         mimeType
         customData
+        title
         video {
           streamingUrl
           thumbnailUrl
