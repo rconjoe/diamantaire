@@ -206,6 +206,7 @@ export const JEWELRYPRODUCT = `
             streamingUrl
           }
           alt
+          title
         }
         productIconList {
           items {
