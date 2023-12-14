@@ -55,14 +55,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   });
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
-  // console.log('initialFilterValues', initialFilterValues);
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
-  // metal: [],
-  // diamondType: [],
-  // style: [],
-  // subStyle: [],
-  // priceMin: '',
-  // priceMax: '',
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);

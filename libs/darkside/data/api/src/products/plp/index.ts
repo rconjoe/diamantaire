@@ -39,6 +39,7 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
 
+
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({
     category,
