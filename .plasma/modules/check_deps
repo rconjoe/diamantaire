@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# shellcheck disable=2046
+
+check_curl() {
+    if [ ! "$(command -v curl 2> /dev/null)" ]; then
+	    echo -e "[ fail ] curl is not installed"
+	    exit 1
+    fi
+}
+
+check_gum() {
+  # eventually allow for use of manual installations or pkg mgr specs
+    if [ ! "$(command -v gum 2> /dev/null)" ]; then
+      printf "Gum is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need gum. Would you like me to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+      if [ $(uname -s) == "Darwin" ]; then
+          printf "Since you are using  macOS, we will use Homebrew to install gum.\n"
+          brew install gum
+      elif [ $(uname -s) == "Linux" ]; then
+        if [ -f /etc/arch-release ]; then
+          printf "Since you are using Arch Linux, we will use pacman to install gum.\n"
+          paru gum
+        elif [ -f /etc/debian_version ]; then
+          printf "Since you are using Debian, we will use apt to install gum.\n"
+            sudo mkdir -p /etc/apt/keyrings
+            curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+            echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+            sudo apt update -y && sudo apt install gum -y
+      else
+        printf "I don't know what package manager to use.\n"
+        exit 1
+      fi
+    fi
+        ;;
+        * )
+            printf "Gum will not be installed.\n"
+        ;;
+      esac
+    fi
+}
+
+upgrade_gum() {
+    log_info "Attempting gum upgrade"
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        gum confirm "can i use asdf to upgrade gum?" && asdf install gum latest && asdf global gum latest;
+    elif [ "$OS" = "Darwin" ]; then
+        brew upgrade gum;
+    else
+        fail "Your OS is not recognized."
+    fi
+}
+
+upstall_deno() {
+  # if ! command -v deno &> /dev/null; then
+    log_info "Attempting deno upstall"
+    OS=$(uname -s)
+    if [ "$OS" = "Linux" ]; then
+        gum confirm "can i use asdf to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- asdf install deno latest | tee
+        asdf global deno latest
+    elif [ "$OS" = "Darwin" ]; then
+        gum confirm "can i use brew to install deno?" && gum spin -s meter --title="Installing deno for you..." --show-output -- brew install deno | tee
+    else
+        fail "Your OS is not recognized."
+    fi
+  # fi
+}
+
+upstall_wmill() {
+    # TODO: add completions support
+    log_info "Attempting wmill upstall"
+    if ! command -v deno &> /dev/null; then
+        gum confirm "wmill CLI will be installed." && gum spin -s meter --title="Installing wmill..." --show-output -- deno install --unstable -A https://deno.land/x/wmill/main.ts | tee
+    else
+        gum confirm "wmill CLI will be upgraded." && gum spin -s meter --title="Upgrading wmill..." --show-output -- wmill upgrade | tee
+    fi
+}
+
+check_deps() {
+  check_curl
+  check_gum
+}
+

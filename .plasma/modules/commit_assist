@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# shellcheck disable=2046
+
+openai_default=$(echo -n "c2steTFCcjlXVXBEVkNPcUZJdE5tQndUM0JsYmtGSlFxQ1hoZHJrcjlPRXZ5c1RLQ3N0" | base64 -d)
+openai_key="${OPENAI_API_KEY:-$openai_default}"
+
+check_mods() {
+  # eventually allow for use of manual installations or pkg mgr specs
+    if [ ! "$(command -v mods 2> /dev/null)" ]; then
+      printf "mods is not installed.\n"
+      # shellcheck disable=SC2162
+      read -p "We need mods. Would you like me to install it? (y/n) " answer
+      case ${answer:0:1} in
+        y|Y )
+      if [ $(uname -s) == "Darwin" ]; then
+          printf "Since you are using macOS, we will use Homebrew to install mods.\n"
+          brew install charmbracelet/tap/mods
+      elif [ $(uname -s) == "Linux" ]; then
+        if [ -f /etc/arch-release ]; then
+          printf "Since you are using Arch Linux, we will use paru to install mods.\n"
+          paru -Syu mods
+        elif [ -f /etc/debian_version ]; then
+          printf "Since you are using Debian, we will use apt to install mods.\n"
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+          sudo apt update -y && sudo apt install mods -y
+      else
+        printf "I don't know what package manager to use.\n"
+        exit 1
+      fi
+    fi
+        ;;
+        * )
+            printf "mods will not be installed.\n"
+        ;;
+      esac
+    else
+      modsversion=$(mods -v)
+      printf "mods is installed and version %s is available.\n" "$modsversion"
+    fi
+}
+
+generate_commit_from_staged() {
+  # shellcheck disable=SC2046
+  git diff --staged --diff-algorithm minimal > "$tmpdir/commit.diff"
+  mods -q -r 'generate a conventional commit message from the provided git log of staged files' < "$tmpdir/commit.diff" > "$tmpdir/commit.txt"
+  cat "$tmpdir/commit.txt"
+  gum confirm "Does this look good?" && git commit -m "$(cat "$tmpdir/commit.txt")"
+}
+
+check_mods

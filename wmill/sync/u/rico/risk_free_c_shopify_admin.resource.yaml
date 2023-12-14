@@ -1,5 +1,0 @@
-description: Shopify Admin API
-value:
-  access_token: '$var:u/rico/risk_free_c_shopify_admin'
-  url: '$var:f/shopify/admin_rest_url'
-resource_type: c_shopify_admin
