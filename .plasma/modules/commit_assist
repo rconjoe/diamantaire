@@ -50,4 +50,3 @@ generate_commit_from_staged() {
 }
 
 check_mods
-export generate_commit_from_staged
