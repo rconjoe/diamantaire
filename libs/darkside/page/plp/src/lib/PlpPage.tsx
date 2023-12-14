@@ -17,7 +17,8 @@ import {
   DiamondTypes,
   getFormattedPrice,
   RING_STYLES_MAP,
-  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+  SUBSTYLE_SLUGS,
+  STYLE_SLUGS,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
@@ -305,27 +306,27 @@ function getValidFiltersFromFacetedNav(
     .filter(Boolean);
 
   const styleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => STYLE_SLUGS.includes(param),
   );
 
   // For when style is a param (not faceted)
   const styleFromQuery = style
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => STYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   // These are the same?
 
   const subStyleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => SUBSTYLE_SLUGS.includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
   );
 
   // For when subStyle is a param (not faceted)
   const subStyleFromQuery = subStyle
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => SUBSTYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   const facetOrder = [];
@@ -352,6 +353,8 @@ function getValidFiltersFromFacetedNav(
   const areFacetsInOrder = facetOrder.filter(Boolean).every((facetIndex, index) => {
     return index === 0 || facetIndex > facetOrder[index - 1];
   });
+
+  console.log("Facets in order?", areFacetsInOrder ? "yes" : "no", facetOrder, styleParamIndex, subStyleParamIndex, params);
 
   // TODO: Need to return 404 if a single facet is not valid
   if (!areFacetsInOrder) {

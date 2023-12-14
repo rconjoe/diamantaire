@@ -29,3 +29,44 @@ export const JEWELRY_SUB_CATEGORY_HUMAN_NAMES = {
   'new-arrivals': 'New Arrivals',
   stud: 'Stud',
 };
+
+export const STYLE_SLUGS = [
+  "two-tone",
+  "vintage-inspired",
+  "halo",
+  "cathedral",
+  "hidden-halo",
+  "solitaire",
+  "bezel",
+  "floral",
+  "statement",
+  "three-stone"
+];
+
+export const SUBSTYLE_SLUGS = [
+  "stud",
+  "everyday",
+  "tennis",
+  "hoop",
+  "necklaces",
+  "personalize",
+  "timeless",
+  "vrai-created-diamonds",
+  "chain",
+  "pendant",
+  "bracelets",
+  "most-popular",
+  "earrings",
+  "mens",
+  "rings",
+  "classic",
+  "drop-dangle",
+  "anniversary",
+  "stacking",
+  "chevron",
+  "brushed",
+  "layered",
+  "textured",
+  "statement",
+  "eternity"
+];
