@@ -16,8 +16,6 @@ const SimpleProductSlideStyles = styled.div`
 const SimpleProductSlide = (props) => {
   const { configuration, title, productData } = props;
 
-  console.log('propsprops', props);
-
   return (
     <SimpleProductSlideStyles>
       <ProductLink

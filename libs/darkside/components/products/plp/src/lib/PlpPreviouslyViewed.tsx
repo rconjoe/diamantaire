@@ -107,9 +107,6 @@ const PlpPreviouslyViewed = () => {
 
   const { products, lowestPricesByCollection } = data || {};
 
-  console.log('products handles', handles);
-  console.log('products returned', products);
-
   useEffect(() => {
     fetchPreviouslyViewed();
   }, []);
