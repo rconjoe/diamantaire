@@ -354,8 +354,6 @@ function getValidFiltersFromFacetedNav(
     return index === 0 || facetIndex > facetOrder[index - 1];
   });
 
-  console.log("Facets in order?", areFacetsInOrder ? "yes" : "no", facetOrder, styleParamIndex, subStyleParamIndex, params);
-
   // TODO: Need to return 404 if a single facet is not valid
   if (!areFacetsInOrder) {
     return undefined;
@@ -401,8 +399,6 @@ function getValidFiltersFromFacetedNav(
   } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
     filterOptions['diamondType'] = diamondFromQuery;
   }
-
-  console.log('returned filter options', filterOptions);
 
   return filterOptions;
 }
