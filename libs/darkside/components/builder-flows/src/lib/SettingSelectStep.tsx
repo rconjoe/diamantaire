@@ -95,9 +95,9 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
     });
   };
 
-  useEffect(() => {
-    console.log('plp data changing', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('plp data changing', data);
+  // }, [data]);
 
   return (
     <SettingSelectStepStyles>
