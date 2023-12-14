@@ -13,17 +13,13 @@ import { CFY_DIAMOND_LIMIT, DIAMOND_PAGINATED_LABELS, MIN_CARAT_EMPTY_RESULT } f
 
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { PaginateOptions } from 'mongoose';
+import { PaginateOptions, FilterQuery } from 'mongoose';
 
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
 import { GetDiamondByLotIdDto, GetDiamondDto, GetDiamondByHandleDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
-  DiamondClarities,
-  DiamondColors,
-  DiamondCuts,
   DiamondProperty,
-  DiamondTypes,
   caratFirstSortOrder,
   colorFirstSortOrder,
   createSortCaratFromTargetWithWeightComparator,
@@ -199,8 +195,8 @@ export class DiamondsService {
    * @returns and Object
    */
 
-  optionalDiamondQuery(input) {
-    const query = { ...input };
+  optionalDiamondQuery(input): FilterQuery<DiamondEntity > {
+    const query = { };
 
     if (input?.diamondType) {
       const diamondTypes = input.diamondType.trim().split(',');
