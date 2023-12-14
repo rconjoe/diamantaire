@@ -233,7 +233,7 @@ async function getServerSideProps(
   const { locale, query } = context;
   const currencyCode = getCurrencyFromLocale(locale);
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
-  const globalQuery = queries.template.global(locale);\
+  const globalQuery = queries.template.global(locale);
   const diamondQuery = queries.diamonds.content(options);
   const diamondTableQuery = queries.diamondTable.content(locale);
   const queryClient = new QueryClient();
