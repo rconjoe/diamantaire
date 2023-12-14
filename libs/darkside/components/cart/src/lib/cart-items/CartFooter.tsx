@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { goToCheckoutUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -140,6 +142,9 @@ type CartFooterProps = {
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
   const [hasTermsConsent, setHasTermsConsent] = useState(true);
   const { checkoutStarted } = useAnalytics();
+  const router = useRouter();
+  const locale = router.locale;
+  const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
     if (!hasTermsConsent) return;
 
@@ -252,7 +257,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    window.location.href = checkoutUrl;
+    goToCheckoutUrl({ checkoutUrl, locale, consent });
   };
 
   return (
