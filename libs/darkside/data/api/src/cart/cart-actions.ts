@@ -208,6 +208,7 @@ export function addJewelryProductToCart({ variantId, attributes, engravingText, 
   if (productType !== 'Wedding Band') {
     refinedAttributes = refinedAttributes.filter((attr) => attr.key !== 'ringSize');
   } else {
+    // Wedding bands with engravings cost $, other jewelry items with engravings are free
     if (hasEngraving) {
       const engravingVariantId = createShopifyVariantId(12459937759298);
 
@@ -307,6 +308,14 @@ export function addJewelryProductToCart({ variantId, attributes, engravingText, 
       //   return addCustomizedItem(items);
       console.log('items', items);
     }
+  }
+
+  // add engraving text to item for free
+  if (hasEngraving) {
+    refinedAttributes.push({
+      key: '_EngravingBack',
+      value: engravingText,
+    });
   }
 
   return addItemToCart(variantId, refinedAttributes);

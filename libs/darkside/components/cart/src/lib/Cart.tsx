@@ -37,6 +37,7 @@ const Cart = ({ closeCart }) => {
     'Earrings',
     'Diamonds',
     'Diamond',
+    'Ring',
   ];
 
   const {
@@ -147,7 +148,6 @@ const Cart = ({ closeCart }) => {
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}
-                      hasEngraving={engravingProductAttribute}
                     />
                   );
                 } else if (singleVariantProductTypes.includes(cartItemInfo._productType)) {

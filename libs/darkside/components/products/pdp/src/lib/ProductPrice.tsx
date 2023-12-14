@@ -43,7 +43,9 @@ const ProductPrice = ({
   const isInUS = locale === DEFAULT_LOCALE;
 
   const refinedPrice = getFormattedPrice(
-    productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
+    productType === 'Earrings' && !shouldDoublePrice
+      ? price / 2
+      : price + (engravingText && productType !== 'Ring' ? ENGRAVING_PRICE_CENTS : 0),
     locale,
   );
 

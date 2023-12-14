@@ -402,11 +402,6 @@ const MultiVariantCartItem = ({
     }
   }
 
-  console.log('pricing vals', {
-    setting: parseFloat(merchandise?.price?.amount),
-    engraving: parseFloat(engravingProduct?.merchandise?.price?.amount),
-  });
-
   const totalPrice =
     (engraving && childProduct
       ? parseFloat(engravingProduct?.merchandise?.price?.amount) +
@@ -432,7 +427,7 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            multi -- {productTitle}
+            {process.env.NODE_ENV === 'development' && 'multi --- '} {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
