@@ -78,11 +78,16 @@ const StyledDiamondDetail = styled.div`
       display: flex;
       align-items: flex-start;
       justify-content: center;
+
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        justify-content: space-between;
+      }
     }
 
     .media-content-item {
       width: 100%;
       display: block;
+      aspect-ratio: 1/1;
 
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         width: ${mediaWidth};
