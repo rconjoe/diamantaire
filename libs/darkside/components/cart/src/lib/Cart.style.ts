@@ -88,7 +88,7 @@ export const CartStyles = styled(motion.aside)`
         hr {
           background-color: #ccc;
           height: 0.1rem;
-          padding-top: 1rem;
+          margin-top: 1rem;
         }
         .cart-subtotal__summary {
           display: flex;

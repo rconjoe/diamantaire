@@ -206,6 +206,7 @@ export const JEWELRYPRODUCT = `
             streamingUrl
           }
           alt
+          title
         }
         productIconList {
           items {
@@ -399,6 +400,7 @@ export const JEWELRYPRODUCT = `
         height
         width
         mimeType
+        title
         customData
         video {
           streamingUrl

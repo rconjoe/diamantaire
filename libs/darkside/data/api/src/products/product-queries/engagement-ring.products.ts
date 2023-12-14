@@ -53,6 +53,7 @@ export const ERPDP = `
           width
           mimeType
           customData
+          title
           video {
             streamingUrl
             thumbnailUrl

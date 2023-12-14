@@ -46,6 +46,8 @@ const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilter
 };
 
 const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
+  if (metal.includes('and')) return null;
+
   return (
     <li key={`filter-${metal}`}>
       <button

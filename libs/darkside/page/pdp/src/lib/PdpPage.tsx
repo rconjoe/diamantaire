@@ -262,7 +262,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
             />
-            <MediaSlider assets={assetStack} options={configuration} />
+            <MediaSlider assets={assetStack} options={configuration} diamondType={configuration.diamondType} />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">

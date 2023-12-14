@@ -471,7 +471,12 @@ function AddToCartButton({
         }
       }
 
-      addJewelryProductToCart({ variantId: refinedVariantId, attributes: jewelryAttributes }).then(() => refetch());
+      addJewelryProductToCart({
+        variantId: refinedVariantId,
+        attributes: jewelryAttributes,
+        hasEngraving: Boolean(engravingText),
+        engravingText,
+      }).then(() => refetch());
     }
 
     updateGlobalContext({

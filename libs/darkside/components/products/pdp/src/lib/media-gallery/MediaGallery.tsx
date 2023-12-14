@@ -144,6 +144,8 @@ type ImageAssetProps = {
 function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: ImageAssetProps) {
   const { alt, url } = image;
 
+  console.log('image', image.title);
+
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
       auto: 'format',
@@ -158,6 +160,8 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
     return `${src}?${searchParams.toString()}&dpr=2`;
   };
 
+  const doesImageHavAlt = alt && alt.length > 0;
+
   return (
     <ImageAssetStyles>
       <Image
@@ -169,9 +173,11 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
         style={{ objectFit: 'cover' }}
         loader={loader}
       />
+      {/* {doesImageHavAlt && <p>blehh {alt}</p>} */}
       {index === 0 && productType === 'Engagement Ring' && (
         <p>
-          <UIString>Shown with</UIString> {shownWithCtw ? shownWithCtw : '1.5ct'}
+          <UIString>Shown with </UIString>
+          {shownWithCtw ? shownWithCtw : '1.5ct'}
         </p>
       )}
     </ImageAssetStyles>

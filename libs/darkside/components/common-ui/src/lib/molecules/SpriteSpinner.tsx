@@ -39,10 +39,11 @@ interface SpriteSpinnerProps {
   onSpriteLoad?: () => void;
   spriteImage?: string;
   mobile?: boolean;
+  disableCaption?: boolean;
 }
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
-  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad, spriteImage, mobile } = props;
+  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad, spriteImage, mobile, disableCaption } = props;
 
   const spinnerEl = useRef(null);
 
@@ -139,9 +140,11 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
       />
 
-      <span>
-        <UIString>Interactive video - drag to rotate</UIString>
-      </span>
+      {!disableCaption && (
+        <span>
+          <UIString>Interactive video - drag to rotate</UIString>
+        </span>
+      )}
     </SpritSpinnerContainer>
   );
 };

@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
 import { SpriteSpinnerBlock } from '../media-gallery/SpriteSpinnerBlock';
+import { ProductDiamondHand } from '../ProductDiamondHand';
 
 const MediaSliderContainer = styled.div`
   position: relative;
@@ -56,7 +57,7 @@ const DEFAULT_BREAKPOINTS = {
   200: { slidesPerView: 1, slidesPerGroup: 1 },
 };
 
-const MediaSlider = ({ assets, options }) => {
+const MediaSlider = ({ assets, options, diamondType }) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
   console.log('swiper', swiper);
@@ -106,6 +107,9 @@ const MediaSlider = ({ assets, options }) => {
             }
           }
         })}
+        <SwiperSlide>
+          <ProductDiamondHand range={[0.5, 8]} initValue={2} diamondType={diamondType} />
+        </SwiperSlide>
       </Swiper>
     </MediaSliderContainer>
   );

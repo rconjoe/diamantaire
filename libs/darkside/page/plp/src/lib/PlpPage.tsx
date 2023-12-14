@@ -28,8 +28,6 @@ import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { jewelryFacetNavLinks } from '../facet-nav-plp-links';
-
 type PlpPageProps = {
   key: string;
   plpSlug: string;
@@ -204,7 +202,7 @@ const createPlpServerSideProps = (category: string) => {
     const [slug, ...params] = plpSlug;
 
     // All ER PLPs use faceted nav
-    if (category === 'engagement-rings' || (category === 'jewelry' && jewelryFacetNavLinks.includes(slug.toLowerCase()))) {
+    if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
     }
 
