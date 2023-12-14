@@ -7,6 +7,7 @@ nukefiles=(
 )
 
 function restore() {
+  gum confirm "restore?" || exit 0
   log_to_file "info" "restoring" "reactor"
   log "info" "restoring"
   gum spin -s meter --show-output --title "installing latest pnpm..." -- npm i -g pnpm@latest
@@ -23,6 +24,6 @@ function detonate() {
     log "info" "detonating ${file}"
     rm -rf "${file}"
   done
-  gum confirm "restore?" && restore || exit 0
+  restore
 }
 
