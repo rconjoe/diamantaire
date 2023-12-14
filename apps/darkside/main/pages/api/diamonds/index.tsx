@@ -35,11 +35,12 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
     if (!id && !handle) {
       const obj = new URLSearchParams(query);
-      const arr = Object.keys(query || {});
-      const search = obj.toString();
-
+      
       obj.delete('view');
       obj.delete('withAdditionalInfo');
+
+      const arr = Object.keys(query || {});
+      const search = obj.toString();
 
       vraiApiClientURL = `${vraiApiClientURL}${getApiRouteFromViewParam(view) ?? ''}?` + (arr.length ? search : '');
     }
