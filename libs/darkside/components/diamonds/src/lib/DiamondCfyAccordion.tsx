@@ -47,6 +47,7 @@ const DiamondCfyAccordion = ({
     );
   };
   const getColorContent = () => {
+    const title = getInfo(specs, 'color')?.value;
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
@@ -72,7 +73,9 @@ const DiamondCfyAccordion = ({
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{desc}</Markdown>
+        <Markdown withStyles={false} imageConfig={{ w: 350, h: 126, alt: title }}>
+          {desc}
+        </Markdown>
 
         {upgrade && (
           <div className="upgrade">
@@ -119,10 +122,13 @@ const DiamondCfyAccordion = ({
   };
   const getClarityContent = () => {
     const { clarityDetails } = DiamondCfyData || {};
+    const title = getInfo(specs, 'clarity')?.value;
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{clarityDetails}</Markdown>
+        <Markdown withStyles={false} imageConfig={{ w: 350, h: 136, alt: title }}>
+          {clarityDetails}
+        </Markdown>
       </div>
     );
   };
