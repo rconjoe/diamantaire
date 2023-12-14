@@ -186,8 +186,10 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
   }
 
   const allProducts = productData.pages.flatMap((page) => page.products);
-
   const normalizedProducts = allProducts.map((product, idx) => {
+    if (!product){
+      return null;
+    }
     const { defaultId, variants } = product;
     const variant = variants[defaultId];
 

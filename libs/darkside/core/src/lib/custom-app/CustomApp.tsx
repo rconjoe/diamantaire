@@ -47,3 +47,5 @@ export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
     </QueryClientProvider>
   );
 }
+
+
