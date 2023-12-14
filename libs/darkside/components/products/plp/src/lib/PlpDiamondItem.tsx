@@ -25,7 +25,7 @@ const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
   const { _t } = useTranslations();
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
-  const title = `${carat} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
+  const title = `${carat.toFixed(2)} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
     price,
     router.locale,
   )}`;
