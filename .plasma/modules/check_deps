@@ -84,4 +84,3 @@ check_deps() {
   check_gum
 }
 
-export check_deps
