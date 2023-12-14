@@ -55,7 +55,7 @@ import { OptionsConfigurations, PLPResponse } from '../interface/product.interfa
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const TTL_HOURS = 12;
+const TTL_HOURS = 36;
 const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
@@ -745,7 +745,7 @@ export class ProductsService {
         throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
       }
 
-      const { configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
+      const { bestSellersInOrder, configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
 
       // PLP merchandized by collection.  Currently only supports engagement rings
       if (collectionsInOrder.length > 0) {
@@ -764,12 +764,21 @@ export class ProductsService {
       }
 
       // Need to support both productsInOrder and ConfigurationsInOrder
-      const productList = productsInOrder.length ? productsInOrder : configurationsInOrder;
+      let productList = configurationsInOrder;
+      
+      if (productsInOrder.length){
+        console.log("Using PRODUCTS IN ORDER")
+        productList = productsInOrder;
+      } 
+      if(bestSellersInOrder.length){
+        console.log("Using BEST SELLETRS IN ORDER")
+        productList = bestSellersInOrder;
+      }
 
       const contentIdsInOrder: string[] = [];
       let plpProductsContentData;
 
-      if (configurationsInOrder || productsInOrder) {
+      if (configurationsInOrder || productsInOrder || bestSellersInOrder) {
         plpProductsContentData = productList.reduce((data, item) => {
           let contentId: string, content: object;
 
