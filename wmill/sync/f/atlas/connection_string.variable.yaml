@@ -1,7 +1,0 @@
-account: null
-description: 'fully qualified mongodb+srv://... string'
-value: >-
-  TtTsP5O5oq8fNEErBGah1qiRRhjl/Rhr8QylQLSpzm/5aYfxy3Lo5WSjFvLsQacdWh6spOXA7fp/V3wwLDAQwGd+9GoBhz1mjwn4oCsmtCFQMzRohRd+imdvzzVWB/1XcwXneHDJgcgJ+GyOrD6xK5rmsRzluhDunPTg4urwZIE=
-is_expired: false
-is_oauth: false
-is_secret: true
