@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-version="1.0.1-alpha.1"
+version="1.0.2-alpha.1"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 plasmadir="${rootdir}/.plasma"
@@ -40,6 +40,13 @@ if [ "$userinput" == "commit" ]; then
     generate_commit_from_staged
 elif [ "$userinput" == "bootstrap" ]; then
     check_deps
+    log_to_file "info" "plasma bootstrap started" "mods"
+elif [ "$userinput" == "lock" ]; then
+    get_lock_version "${2}"
+elif [ "$userinput" == "detonate" ]; then
+    detonate
+elif [ "$userinput" == "restore" ]; then
+    restore
 else
     printf "exiting.\n"
     exit 0
