@@ -109,8 +109,6 @@ const BuilderFlow = ({
   const [shopifyProductData, setShopifyProductData] = useState(null);
   const router = useRouter();
 
-  // console.log('init flow', initialLotId, initialCollectionSlug, initialProductSlug, type);
-
   function updateSettingSlugs(value: object) {
     setSettingSlugs({
       ...settingSlugs,

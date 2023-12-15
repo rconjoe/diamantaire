@@ -7,8 +7,7 @@ import styled from 'styled-components';
 
 const ChildProductStyles = styled.div`
   background-color: #fff;
-  border: 0.1rem solid #e0e0e0;
-  border-radius: 0.8rem;
+  border-top: 0.1rem solid #e0e0e0;
   margin-top: 1rem;
   position: relative;
 
@@ -19,7 +18,6 @@ const ChildProductStyles = styled.div`
 
     .child-product__image {
       flex: 0 0 16.8rem;
-      padding-left: 2rem;
       padding-right: 2rem;
       height: auto;
 
@@ -31,8 +29,7 @@ const ChildProductStyles = styled.div`
 
     .cart-item__content {
       flex: 1;
-      padding: 1rem 0;
-      padding-right: 1rem;
+      padding: 2rem 0;
 
       button {
         font-size: 1.4rem;

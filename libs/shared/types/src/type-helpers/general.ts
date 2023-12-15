@@ -5,6 +5,7 @@ export interface DatoImageType {
   width?: number;
   height?: number;
   src?: string;
+  title?: string;
   responsiveImage?: {
     src: string;
     width: number;

@@ -340,7 +340,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       settingAttributes,
       diamondVariantId,
       diamondAttributes,
-      hasEngraving: false,
+      hasEngraving: engravingText ? true : false,
+      engravingText,
     }).then(() => refetch());
 
     updateGlobalContext({

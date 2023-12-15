@@ -45,7 +45,7 @@ const PlpSubCategories = ({ subcategoryFilter, filterValue, setFilterValues }) =
               onClick={() =>
                 setFilterValues({
                   ...filterValue,
-                  subStyle: block?.slug,
+                  subStyle: [block?.slug],
                 })
               }
             >

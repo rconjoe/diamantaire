@@ -1,5 +1,0 @@
-description: ''
-value:
-  access_token: '$var:f/shopify/admin_access_token'
-  url: '$var:f/shopify/admin_rest_url'
-resource_type: c_shopify_admin

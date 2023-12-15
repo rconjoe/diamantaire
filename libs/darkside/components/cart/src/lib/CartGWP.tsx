@@ -91,7 +91,7 @@ const CartGWP = () => {
 
   useEffect(() => {
     async function checkForGWP() {
-      if (!checkout || !gwpData) return null;
+      if (!checkout || !gwpData || !isWithinTimeframe) return null;
       // This is also the item (if it exists 👻)
       const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
       const doesUserHaveGWPInCart =

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# module: lock_parser
+# description: functions to parse lock files and provide simple variable assignment
+# TODO: keep track of sourcing and dependency tracks, and add a 'used in' key or depends on etc
+
+# usage: modsversion=$(get_lock_version "mods")
+function get_lock_version() {
+  local lockfile=".plasma/lock/${1}.lock"
+  local system=$(uname -s)
+  if [ -e "$lockfile" ]; then
+    grep $system < "$lockfile" | cut -d' ' -f2;
+  else
+    printf "lockfile %s does not exist, exiting.\n" "$lockfile"
+    exit 1
+  fi
+}
