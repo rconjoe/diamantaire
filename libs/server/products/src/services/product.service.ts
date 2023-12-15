@@ -729,13 +729,13 @@ export class ProductsService {
     
     let plpReturnData;
     // check for cached data
-    const cachedData = await this.cacheManager.get(cachedKey);
+    // const cachedData = await this.cacheManager.get(cachedKey);
 
-    if (cachedData) {
-      this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
+    // if (cachedData) {
+    //   this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
 
-      return cachedData; // return the entire cached data including dato content
-    }
+    //   return cachedData; // return the entire cached data including dato content
+    // }
 
     try {
       // Get Dato PLP data
@@ -913,9 +913,12 @@ export class ProductsService {
         const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
           await Promise.all(filterValueQueries);
 
+        // split joined types to be individual types and remove duplicates
+        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
+          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
