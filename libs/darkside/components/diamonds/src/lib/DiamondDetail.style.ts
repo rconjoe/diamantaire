@@ -1,3 +1,4 @@
+import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -61,6 +62,10 @@ const StyledDiamondDetail = styled.div`
   .main > .media {
     display: block;
     margin: 0 -2.4rem;
+
+    ${mobileOnly(`
+      height: calc(100vw + 3rem);
+    `)}
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       margin: 0;
@@ -209,6 +214,12 @@ const StyledDiamondDetail = styled.div`
         height: 4.8rem;
       }
     }
+  }
+
+  .media-content {
+    ${mobileOnly(`
+      height: calc(100vw + 3rem);
+    `)}
   }
 
   .media-content > .carousel {
