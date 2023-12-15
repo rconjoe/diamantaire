@@ -767,11 +767,9 @@ export class ProductsService {
       let productList = configurationsInOrder;
       
       if (productsInOrder.length){
-        console.log("Using PRODUCTS IN ORDER")
         productList = productsInOrder;
       } 
       if(bestSellersInOrder.length){
-        console.log("Using BEST SELLETRS IN ORDER")
         productList = bestSellersInOrder;
       }
 
