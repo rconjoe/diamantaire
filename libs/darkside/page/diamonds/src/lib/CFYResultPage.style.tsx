@@ -58,6 +58,7 @@ const StyledCFYResultPage = styled.div`
       .swiper {
         width: 100%;
         padding: 0 0 8rem;
+        height: calc(100vw + 8rem);
 
         ${desktopAndUp(`
           padding: 0;
