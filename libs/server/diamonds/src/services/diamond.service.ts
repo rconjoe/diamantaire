@@ -75,11 +75,9 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(input);
 
-    //const regexPattern = /fancy/i;
-
     filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery.hidden = false;
-    //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
+     // filter out pink diamonds
 
     if (input?.isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -88,6 +86,8 @@ export class DiamondsService {
       filteredQuery.slug = 'diamonds';
       query['slug'] = 'diamonds';
     }
+
+    console.log(filteredQuery)
 
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
@@ -204,6 +204,8 @@ export class DiamondsService {
       query['diamondType'] = {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
+    } else {
+      query['diamondType'] = { $ne: null };
     }
 
     // Optional query for price and currencycode
@@ -226,11 +228,14 @@ export class DiamondsService {
       //const colors: string[] = Array.from(input.color);
       const colors = input.color.toLocaleUpperCase().trim().split(',');
 
-      // TODO handle errors here
-      // const found = colors.some((ele) => ACCEPTABLE_COLORS.includes(ele));
       query['color'] = {
         $in: colors, // mongoose $in take an array value as input
       };
+    } else {
+      // Exclude pink unless specified in color query
+      const regexPattern = /fancy/i;
+
+      query['color'] = { $not: { $regex: regexPattern } };
     }
 
     /**

@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData, useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -62,7 +62,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
-
+  const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION;
@@ -121,7 +121,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
           const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
 
-          return <UIString>{diamondTypeHandle}</UIString>;
+          return _diamondType(diamondTypeHandle);
         },
         header: () => <UIString>shape</UIString>,
       },
