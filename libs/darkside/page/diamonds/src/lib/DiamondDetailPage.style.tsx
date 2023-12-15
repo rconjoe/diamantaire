@@ -25,8 +25,8 @@ const StyledDiamondDetailPage = styled.div`
     }
     .text-container {
       ${mobileOnly(`
-      max-width: 100% !important;
-      margin: 0 auto 4rem;
+        max-width: 100% !important;
+        margin: 0 auto 4rem;
     `)}
     }
   }
