@@ -55,7 +55,7 @@ import { OptionsConfigurations, PLPResponse } from '../interface/product.interfa
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const TTL_HOURS = 36;
+const TTL_HOURS = 48;
 const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
@@ -913,9 +913,12 @@ export class ProductsService {
         const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
           await Promise.all(filterValueQueries);
 
+        // split joined types to be individual types and remove duplicates
+        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
+          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
