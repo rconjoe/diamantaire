@@ -63,8 +63,6 @@ export const plpDiamondValues = [
   'kite'
 ] as const;
 
-// round, oval, emerald, marquise, pear, trillion, baguette, princess, 
-
 export const standardDiamondTypeValues = [
   'round-brilliant',
   'oval',
