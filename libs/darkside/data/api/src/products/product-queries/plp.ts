@@ -179,6 +179,86 @@ export const PLP_QUERY = gql`
           plpTitle
         }
       }
+      bestSellersInOrder {
+        ... on OmegaProductRecord {
+          _modelApiKey
+          shopifyProductHandle
+          collection {
+            ... on WeddingBandProductRecord {
+              slug
+              productType
+              productTitle
+              productLabel {
+                title
+              }
+              subCategory {
+                slug
+                title
+              }
+              shouldUseDefaultPrice
+            }
+            ... on EngagementRingProductRecord {
+              slug
+              productType
+              productTitle
+              productLabel {
+                title
+              }
+              subCategory {
+                slug
+                title
+              }
+              shouldUseDefaultPrice
+            }
+          }
+          countrySpecificPrices
+          plpTitle
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+        }
+        ... on ConfigurationRecord {
+          _modelApiKey
+          jewelryProduct {
+            slug
+            category
+            productTitle
+            subCategory {
+              slug
+              title
+            }
+            productLabel {
+              title
+            }
+            productAccordionSpecsLabel {
+              productType
+            }
+            shouldUseDefaultPrice
+            hasOnlyOnePrice
+          }
+          variantId
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpTitle
+        }
+      }
       productsInOrder {
         _modelApiKey
         shopifyProductHandle
