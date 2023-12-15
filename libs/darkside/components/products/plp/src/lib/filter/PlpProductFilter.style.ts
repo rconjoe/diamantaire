@@ -234,6 +234,10 @@ export const PlpProductFilterStyles = styled.div`
         &.platinum {
           background: #c8c8c8;
         }
+
+        &.and {
+          display: none;
+        }
       }
     }
     &.priceRange {

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# name: core_logs
+# desc: Logs core module
+
+function log() {
+  local level=${1}
+  local message=${2}
+
+  gum log --structured --level "${level}" --time rfc822 "${message}"
+}
+
+function log_to_file() {
+  local level=${1}
+  local message=${2}
+  local logfile=${3:-$sessionname}
+  local logpath="${logdir}/${logfile}.log"
+
+  gum log --structured --level "${level}" --time rfc822 "${message}" -o "${logpath}"
+}

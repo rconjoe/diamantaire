@@ -17,7 +17,8 @@ import {
   DiamondTypes,
   getFormattedPrice,
   RING_STYLES_MAP,
-  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+  SUBSTYLE_SLUGS,
+  STYLE_SLUGS,
 } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
@@ -27,8 +28,6 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-
-import { jewelryFacetNavLinks } from '../facet-nav-plp-links';
 
 type PlpPageProps = {
   key: string;
@@ -197,7 +196,7 @@ const createPlpServerSideProps = (category: string) => {
     const [slug, ...params] = plpSlug;
 
     // All ER PLPs use faceted nav
-    if (category === 'engagement-rings' || (category === 'jewelry' && jewelryFacetNavLinks.includes(slug.toLowerCase()))) {
+    if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
     }
 
@@ -305,27 +304,27 @@ function getValidFiltersFromFacetedNav(
     .filter(Boolean);
 
   const styleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => STYLE_SLUGS.includes(param),
   );
 
   // For when style is a param (not faceted)
   const styleFromQuery = style
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => STYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   // These are the same?
 
   const subStyleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => SUBSTYLE_SLUGS.includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
   );
 
   // For when subStyle is a param (not faceted)
   const subStyleFromQuery = subStyle
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => SUBSTYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   const facetOrder = [];
@@ -398,8 +397,6 @@ function getValidFiltersFromFacetedNav(
   } else if (diamondFromQuery && diamondTypeParamIndex === -1) {
     filterOptions['diamondType'] = diamondFromQuery;
   }
-
-  console.log('returned filter options', filterOptions);
 
   return filterOptions;
 }

@@ -1,6 +1,11 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { DEFAULT_LOCALE, ENGRAVING_PRICE_CENTS, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  DEFAULT_LOCALE,
+  ENGRAVEABLE_JEWELRY_SLUGS,
+  ENGRAVING_PRICE_CENTS,
+  getFormattedPrice,
+} from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -36,14 +41,19 @@ const ProductPrice = ({
   productType,
   engravingText,
 }: ProductPriceProps) => {
-  const { locale } = useRouter();
+  const { locale, query } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const isInUS = locale === DEFAULT_LOCALE;
 
+  const doesProductQualifyForFreeEngraving =
+    ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
+
   const refinedPrice = getFormattedPrice(
-    productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
+    productType === 'Earrings' && !shouldDoublePrice
+      ? price / 2
+      : price + (engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving ? ENGRAVING_PRICE_CENTS : 0),
     locale,
   );
 

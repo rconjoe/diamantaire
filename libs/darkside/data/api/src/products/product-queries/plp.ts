@@ -63,7 +63,7 @@ export const PRODUCT_BRIEF_CONTENT = gql`
         productTitle
       }
     }
-    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
+    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip, locale: $locale) {
       shopifyProductHandle
       plpTitle
       plpImage {
@@ -100,6 +100,86 @@ export const PLP_QUERY = gql`
   query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
     listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
       configurationsInOrder {
+        ... on OmegaProductRecord {
+          _modelApiKey
+          shopifyProductHandle
+          collection {
+            ... on WeddingBandProductRecord {
+              slug
+              productType
+              productTitle
+              productLabel {
+                title
+              }
+              subCategory {
+                slug
+                title
+              }
+              shouldUseDefaultPrice
+            }
+            ... on EngagementRingProductRecord {
+              slug
+              productType
+              productTitle
+              productLabel {
+                title
+              }
+              subCategory {
+                slug
+                title
+              }
+              shouldUseDefaultPrice
+            }
+          }
+          countrySpecificPrices
+          plpTitle
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+        }
+        ... on ConfigurationRecord {
+          _modelApiKey
+          jewelryProduct {
+            slug
+            category
+            productTitle
+            subCategory {
+              slug
+              title
+            }
+            productLabel {
+              title
+            }
+            productAccordionSpecsLabel {
+              productType
+            }
+            shouldUseDefaultPrice
+            hasOnlyOnePrice
+          }
+          variantId
+          plpImage {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          plpImageHover {
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          plpTitle
+        }
+      }
+      bestSellersInOrder {
         ... on OmegaProductRecord {
           _modelApiKey
           shopifyProductHandle

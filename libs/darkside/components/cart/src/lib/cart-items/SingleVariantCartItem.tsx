@@ -65,10 +65,21 @@ const SingleVariantCartItemStyles = styled.div`
         &.setting-text {
           font-weight: bold;
           color: var(--color-black);
+          span {
+            flex: 1;
+            text-align: right;
+          }
         }
 
         &.shape {
           text-transform: capitalize;
+        }
+
+        &.engraving {
+          span {
+            font-weight: bold;
+            font-style: italic;
+          }
         }
 
         &:last-child {
@@ -76,8 +87,7 @@ const SingleVariantCartItemStyles = styled.div`
         }
 
         span {
-          flex: 1;
-          text-align: right;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -160,6 +170,12 @@ const SingleVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
+  const engraving = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_EngravingBack')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
   const itemAttributes = useMemo(() => {
     const initAttributes = [
       {
@@ -195,6 +211,10 @@ const SingleVariantCartItem = ({
       {
         label: refinedCartItemDetails?.['ringSize'],
         value: info?.ringSize,
+      },
+      {
+        label: _t('Engraving'),
+        value: engraving,
       },
     ];
 
@@ -295,7 +315,8 @@ const SingleVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            single --- {productTitle}
+            {process.env.NODE_ENV === 'development' && 'single --- '}
+            {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">{totalPrice && <p>{getFormattedPrice(totalPrice, locale)}</p>}</div>
@@ -311,7 +332,7 @@ const SingleVariantCartItem = ({
 
             return (
               <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
               </p>
             );
           })}

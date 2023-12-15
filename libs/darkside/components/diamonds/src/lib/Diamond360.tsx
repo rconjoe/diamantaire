@@ -94,7 +94,14 @@ const Diamond360 = ({
     if (mediaType === 'diamond-video') {
       const spriteImageUrl = generateDiamondSpriteUrl(id, mediaJpgFallback ? 'jpg' : 'webp');
 
-      return <SpriteSpinner shouldStartSpinner={true} spriteImage={spriteImageUrl} bunnyBaseURL={spriteImageUrl} />;
+      return (
+        <SpriteSpinner
+          shouldStartSpinner={true}
+          spriteImage={spriteImageUrl}
+          bunnyBaseURL={spriteImageUrl}
+          disableCaption={true}
+        />
+      );
     }
   };
 

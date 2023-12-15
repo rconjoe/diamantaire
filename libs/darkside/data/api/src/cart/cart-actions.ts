@@ -191,7 +191,7 @@ export const addItemToCart = async (
   }
 };
 
-export function addJewelryProductToCart({ variantId, attributes }: JewelryCartItemProps) {
+export function addJewelryProductToCart({ variantId, attributes, engravingText, hasEngraving }: JewelryCartItemProps) {
   // shopify api won't ever take a product with an empty or null attribute value
   let refinedAttributes = Object.keys(attributes)
     .map((key) => {
@@ -207,6 +207,59 @@ export function addJewelryProductToCart({ variantId, attributes }: JewelryCartIt
   // This is where we apply productType specific logic
   if (productType !== 'Wedding Band') {
     refinedAttributes = refinedAttributes.filter((attr) => attr.key !== 'ringSize');
+  } else {
+    // Wedding bands with engravings cost $, other jewelry items with engravings are free
+    if (hasEngraving) {
+      const engravingVariantId = createShopifyVariantId(12459937759298);
+
+      // Add engraving text to setting attributes - in this case the engraving is the only child product
+      refinedAttributes.filter((attr) => attr.key !== 'engravingProduct');
+
+      refinedAttributes.push({
+        key: 'engravingProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      return addCustomizedItem([
+        {
+          variantId: variantId,
+          customAttributes: refinedAttributes,
+        },
+        {
+          variantId: engravingVariantId,
+          customAttributes: [
+            {
+              key: 'productAsset',
+              value: attributes.productAsset,
+            },
+            {
+              key: 'engravingText',
+              value: engravingText,
+            },
+            {
+              key: 'hiddenProduct',
+              value: 'true',
+            },
+            {
+              key: 'productGroupKey',
+              value: attributes.productGroupKey,
+            },
+            {
+              key: 'engravingProduct',
+              value: 'true',
+            },
+          ],
+        },
+      ]);
+    }
   }
 
   if (productType === 'Earrings') {
@@ -255,6 +308,14 @@ export function addJewelryProductToCart({ variantId, attributes }: JewelryCartIt
       //   return addCustomizedItem(items);
       console.log('items', items);
     }
+  }
+
+  // add engraving text to item for free
+  if (hasEngraving) {
+    refinedAttributes.push({
+      key: '_EngravingBack',
+      value: engravingText,
+    });
   }
 
   return addItemToCart(variantId, refinedAttributes);
@@ -367,6 +428,8 @@ export async function addERProductToCart({
 }: ERProductCartItemProps) {
   console.log('getting attr', settingAttributes);
 
+  const engravingVariantId = createShopifyVariantId(12459937759298);
+
   let refinedSettingAttributes = Object.keys(settingAttributes)
     .map((key) => {
       return {
@@ -380,13 +443,11 @@ export async function addERProductToCart({
   if (!diamondVariantId) {
     // If engraving, update the setting attributes + add the engraving variant
     if (hasEngraving) {
-      const engravingVariantId = createShopifyVariantId(12459937759298);
-
-      // Add engraving text to setting attributes
-      refinedSettingAttributes.filter((attr) => attr.key !== 'childProduct');
+      // Add engraving text to setting attributes - in this case the engraving is the only child product
+      refinedSettingAttributes.filter((attr) => attr.key !== 'engravingProduct');
 
       refinedSettingAttributes.push({
-        key: 'childProduct',
+        key: 'engravingProduct',
         value: JSON.stringify({
           behavior: 'linked',
           additionalVariantIds: [engravingVariantId],
@@ -422,6 +483,10 @@ export async function addERProductToCart({
               key: 'productGroupKey',
               value: settingAttributes.productGroupKey,
             },
+            {
+              key: 'engravingProduct',
+              value: 'true',
+            },
           ],
         },
       ]);
@@ -445,7 +510,7 @@ export async function addERProductToCart({
       (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
     );
 
-    return addCustomizedItem([
+    const groupedItems = [
       {
         variantId: settingVariantId,
         customAttributes: refinedSettingAttributes,
@@ -454,7 +519,50 @@ export async function addERProductToCart({
         variantId: diamondVariantId,
         customAttributes: refinedDiamondAttributes,
       },
-    ]);
+    ];
+
+    if (hasEngraving) {
+      refinedSettingAttributes.push({
+        key: 'engravingProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedSettingAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      groupedItems.push({
+        variantId: engravingVariantId,
+        customAttributes: [
+          {
+            key: 'productAsset',
+            value: settingAttributes.productAsset,
+          },
+          {
+            key: 'engravingText',
+            value: engravingText,
+          },
+          {
+            key: 'hiddenProduct',
+            value: 'true',
+          },
+          {
+            key: 'productGroupKey',
+            value: settingAttributes.productGroupKey,
+          },
+          {
+            key: 'engravingProduct',
+            value: 'true',
+          },
+        ],
+      });
+    }
+
+    return addCustomizedItem(groupedItems);
   }
 }
 

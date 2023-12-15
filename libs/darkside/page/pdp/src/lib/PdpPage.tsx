@@ -101,7 +101,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
+  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
 
@@ -216,10 +216,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Tracks previously viewed products in local storage
   useEffect(() => {
-    if (!productTitle || !contentId) return;
+    console.log('contentIdcontentIdcontentId', productContent?.id);
+    if (!productTitle || !productContent?.id) return;
 
-    fetchAndTrackPreviouslyViewed(productTitle, contentId);
-  }, [productTitle, contentId]);
+    fetchAndTrackPreviouslyViewed(productTitle, productContent?.id);
+  }, [productTitle, productContent?.id]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -262,7 +263,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
             />
-            <MediaSlider assets={assetStack} options={configuration} />
+            <MediaSlider assets={assetStack} options={configuration} diamondType={configuration.diamondType} />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">

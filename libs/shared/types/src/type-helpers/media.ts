@@ -10,6 +10,7 @@ export interface MediaAsset {
   id: string;
   url: string;
   alt?: string;
+  title?: string;
   mimeType: MimeTypes;
   customData?: {
     sprite?: string;
