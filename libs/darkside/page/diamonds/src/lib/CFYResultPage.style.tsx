@@ -1,4 +1,4 @@
-import { TEAL, TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
