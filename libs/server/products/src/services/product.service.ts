@@ -55,7 +55,7 @@ import { OptionsConfigurations, PLPResponse } from '../interface/product.interfa
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const TTL_HOURS = 36;
+const TTL_HOURS = 48;
 const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
@@ -731,11 +731,11 @@ export class ProductsService {
     // check for cached data
     // const cachedData = await this.cacheManager.get(cachedKey);
 
-    // if (cachedData) {
-    //   this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
+    if (cachedData) {
+      this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
 
-    //   return cachedData; // return the entire cached data including dato content
-    // }
+      return cachedData; // return the entire cached data including dato content
+    }
 
     try {
       // Get Dato PLP data
