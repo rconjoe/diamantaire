@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { SpriteSpinnerInit } from './SpriteSpinnerInit';
+import { UIString } from './UIString';
 
 declare const window: any;
 
