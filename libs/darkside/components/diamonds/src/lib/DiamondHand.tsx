@@ -193,7 +193,7 @@ const DiamondHand = ({
     <StyledDiamondHand className={`diamond-hand ${extraClass}`}>
       <div className="media">
         <div className="image-hand">
-          <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
+          <Image className="bg" alt="Hand" src={handImageSource} width={450} height={450} />
         </div>
 
         <div className="image-diamond">
