@@ -21,3 +21,18 @@ example: ```vercel --scope vrai cert issue darkside-main-git-feature-cls-diamond
 
 During a rebase, you can skip Husky checks with:
 `HUSKY_SKIP_HOOKS=1 git rebase ...`
+
+## Linux Run Steps
+To pull latest and start on Linux the following command sequence should work after library changes from the upstream repo:
+```
+git pull
+git checkout [branch]
+sudo su
+    nvm use
+    rm -rf ./node_modules
+    pnpm install
+    chmod 777 . -R
+    exit
+nvm use
+pnpm start
+```
