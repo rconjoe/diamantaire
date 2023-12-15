@@ -1,6 +1,7 @@
 import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
+import { el } from 'date-fns/locale';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
@@ -21,11 +22,38 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   const { nextUrl: url, geo } = request;
 
   if (isDevEnv) {
-    const LA_GEO = { city: 'Los Angeles', country: 'US', latitude: '34.0726', longitude: '-118.261', region: 'CA' };
-    // const NY_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
-    // const DE_GEO = { city: 'Frankfurt am Main', country: 'DE', latitude: '50.1049', longitude: '8.6295', region: 'HE' };
+    // const US_GEO = { city: 'New York', country: 'US', latitude: '40.7128', longitude: '-74.0060', region: 'NY' };
+    const US_GEO = {
+      city: 'Los Angeles',
+      country: 'US',
+      latitude: '34.0726',
+      longitude: '-118.261',
+      region: 'North America',
+    };
+    const DE_GEO = { city: 'Frankfurt am Main', country: 'DE', latitude: '50.1049', longitude: '8.6295', region: 'Europe' };
+    const UK_GEO = { city: 'London', country: 'UK', latitude: '51.5074', longitude: '-0.1278', region: 'Europe' };
+    const ES_GEO = { city: 'Madrid', country: 'ES', latitude: '40.4168', longitude: '-3.7038', region: 'Europe' };
 
-    res.cookies?.set('geo', JSON.stringify(LA_GEO));
+    let selectedGeo = US_GEO; // default to US
+
+    const parsedUrl = new URL(url);
+    const params = new URLSearchParams(parsedUrl.search);
+    const localeParam = params.get('locale');
+
+    if (localeParam) {
+      const countryLocale = localeParam.split('-')[1];
+
+      if (countryLocale === 'DE') {
+        selectedGeo = DE_GEO;
+      } else if (countryLocale === 'ES') {
+        selectedGeo = ES_GEO;
+      } else if (countryLocale === 'GB') {
+        selectedGeo = UK_GEO;
+      }
+    }
+
+    // If you need to test a specific country as if they were choosing different locales, then replace selectedGeo with the country you want to test
+    res.cookies?.set('geo', JSON.stringify(selectedGeo));
   } else {
     // store user's geo data in a cookie
     res.cookies?.set('geo', JSON.stringify(geo));
