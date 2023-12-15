@@ -63,7 +63,7 @@ export const PRODUCT_BRIEF_CONTENT = gql`
         productTitle
       }
     }
-    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
+    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip, locale: $locale) {
       shopifyProductHandle
       plpTitle
       plpImage {
