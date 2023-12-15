@@ -6,6 +6,7 @@ This is the master form component, we should never need to manually create a cus
 
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { allCountries } from '@diamantaire/shared/constants';
+import { getIsUserInUs } from '@diamantaire/shared/geolocation';
 import clsx from 'clsx';
 import { Provinces } from 'country-and-province';
 import { useRouter } from 'next/router';
@@ -40,6 +41,8 @@ type FormProps = {
   gridStyle?: 'single' | 'split';
   emailPlaceholderText?: string;
   flexDirection?: 'column' | 'row';
+  isSuccessful?: boolean;
+  formSubmissionResult?: string;
 };
 
 type FormStateType = {
@@ -60,6 +63,7 @@ type FormStateType = {
     label?: string;
     value: string;
   };
+  isConsent?: boolean;
 };
 
 type InputType =
@@ -123,7 +127,7 @@ const FormContainer = styled.div<{
 
       input {
         border: 0.1rem solid #ccc;
-        height: 4.7rem;
+        height: 4.5rem;
         padding-left: 1rem;
         font-size: var(--font-size-xxsmall);
       }
@@ -146,7 +150,7 @@ const FormContainer = styled.div<{
 
   .input-opt-in {
     width: 100%;
-
+    position: relative;
     input[type='checkbox'] {
       width: 1.3rem;
       height: 1.3rem;
@@ -167,9 +171,26 @@ const FormContainer = styled.div<{
       transition: 120ms transform ease-in-out;
       box-shadow: inset 1.3rem 1.3rem currentColor;
     }
+    /* Check styling */
+    input[type='checkbox']:checked {
+      &::before {
+        transform: scale(1);
+      }
+      &::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        height: 6px;
+        width: 11px;
+        border-left: 1.75px solid;
+        border-bottom: 1.75px solid;
+        transform: rotate(-45deg);
+        border-color: white;
 
-    input[type='checkbox']:checked::before {
-      transform: scale(1);
+        /* Placement of check */
+        left: 1px;
+        top: 8px;
+      }
     }
 
     &.-error {
@@ -198,6 +219,8 @@ const Form = ({
   emailPlaceholderText = 'Enter your email',
   headingType = 'h4',
   flexDirection,
+  isSuccessful,
+  formSubmissionResult,
 }: FormProps) => {
   const { locale } = useRouter();
 
@@ -208,8 +231,8 @@ const Form = ({
   const initialRegionCode = schema?.find((v) => v.inputType === 'state-dropdown')?.defaultValue || null;
 
   const [allRegions, setAllRegions] = useState(initialCountryCode ? getRegions(initialCountryCode) : []);
-
-  const initialFormState = {};
+  const isUserInUs = getIsUserInUs();
+  const initialFormState = { isConsent: isUserInUs };
 
   schema?.forEach((field) => {
     if (field.inputType === 'state-dropdown') {
@@ -366,6 +389,7 @@ const Form = ({
                 type="checkbox"
                 name="isConsent"
                 id="optin"
+                checked={formState?.isConsent}
                 onChange={(e) => {
                   const { name, checked } = e.target;
 
@@ -382,7 +406,7 @@ const Form = ({
           )}
           <div className="input-container submit">
             <DarksideButton type="solid" colorTheme="black" buttonType="submit">
-              {_t(ctaCopy)}
+              {isSuccessful ? formSubmissionResult : _t(ctaCopy)}
             </DarksideButton>
           </div>
         </div>
@@ -396,6 +420,7 @@ const Form = ({
               type="checkbox"
               name="isConsent"
               id="optin"
+              checked={formState?.isConsent}
               onChange={(e) => {
                 const { name, checked } = e.target;
 

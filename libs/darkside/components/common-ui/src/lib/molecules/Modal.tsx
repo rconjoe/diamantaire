@@ -2,14 +2,7 @@ import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import React, { PropsWithChildren } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-
-const FreezeBody = createGlobalStyle`
-    body, html {
-      overflow: hidden;
-    }
-
-`;
+import styled from 'styled-components';
 
 const ModalStyles = styled.div`
   position: fixed;
@@ -121,12 +114,14 @@ const ModalStyles = styled.div`
     }
   }
   &.modal--position-bottom-left {
+    ${media.medium`
     .wrapper {
       margin-top: auto;
       margin-left: 1rem;
       margin-bottom: 1rem;
       margin-right: 1rem;
     }
+    `}
   }
   &.modal--no-title {
     .wrapper {
@@ -186,7 +181,6 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children, className, onCl
         'modal--no-title': isHeaderDisabled,
       })}
     >
-      <FreezeBody />
       <button className="close" onClick={onClose}></button>
       <div className="wrapper">
         <div className="inner">
