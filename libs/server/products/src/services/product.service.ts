@@ -729,7 +729,7 @@ export class ProductsService {
     
     let plpReturnData;
     // check for cached data
-    // const cachedData = await this.cacheManager.get(cachedKey);
+    const cachedData = await this.cacheManager.get(cachedKey);
 
     if (cachedData) {
       this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
