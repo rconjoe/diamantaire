@@ -249,7 +249,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   // TABLE
   const table = useReactTable<DiamondDataTypes | DiamondPairDataTypes>({
     columns: isDiamondPairs ? diamondPairColumns : singleDiamondColumns,
-    data: flatDiamonds ?? initialDiamonds,
+    data: flatDiamonds ?? (initialDiamonds || []),
     getCoreRowModel: getCoreRowModel(),
     state: { pagination },
   });

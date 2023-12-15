@@ -87,8 +87,6 @@ export class DiamondsService {
       query['slug'] = 'diamonds';
     }
 
-    console.log(filteredQuery)
-
     const result = await this.diamondRepository.paginate(filteredQuery, options);
 
     /* DATA RANGES : used for filters */

@@ -53,6 +53,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
   const [loading, setLoading] = useState(true);
 
   const { _t } = useTranslations(locale);
+  const { _t: _diamondTypes } = useTranslations(locale);
 
   const {
     data: { diamonds, pagination, ranges },
@@ -66,7 +67,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const diamondTypeTitle = options?.diamondType ? _t(getDiamondType(options?.diamondType).slug) : '';
+  const diamondTypeTitle = options?.diamondType ? _diamondTypes(getDiamondType(options?.diamondType).slug) : '';
 
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
@@ -189,6 +190,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         {isMobile && title}
 
         <div className="page-aside">
+          { ranges && (
           <DiamondFilter
             handleRadioFilterChange={handleRadioFilterChange}
             handleSliderFilterChange={handleSliderFilterChange}
@@ -196,7 +198,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             options={options}
             ranges={ranges}
             locale={locale}
-          />
+          />)}
 
           {isMobile && (
             <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
