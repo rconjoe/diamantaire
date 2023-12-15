@@ -175,7 +175,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
             <input
               type="text"
               name={_t('userName')}
-              placeholder="Your name"
+              placeholder={_t('Your name')}
               value={formData.userName}
               onChange={handleChange}
             />
