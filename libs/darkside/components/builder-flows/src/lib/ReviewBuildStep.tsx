@@ -667,6 +667,8 @@ const ReviewBuildStep = ({
     };
   }, [emblaApi]);
 
+  const isWindowDefined = typeof window !== 'undefined';
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -683,17 +685,17 @@ const ReviewBuildStep = ({
     >
       <div className="review-wrapper">
         <div className="product-images ">
-          <div className="embla" ref={window.clientWidth > 767 ? emblaRef : null}>
+          <div className="embla" ref={isWindowDefined && window.clientWidth > 767 ? emblaRef : null}>
             <div className="embla__container">
-              <div className={clsx('image setting-image', { embla: window.clientWidth < 767 })}>
+              <div className={clsx('image setting-image', { embla: isWindowDefined && window.clientWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
               </div>
-              <div className={clsx('image diamond-image', { embla: window.clientWidth < 767 })}>
+              <div className={clsx('image diamond-image', { embla: isWindowDefined && window.clientWidth < 767 })}>
                 {diamondImage && <img src={diamondImage} alt="" />}
               </div>
               <div
                 className={clsx('diamond-hand', {
-                  embla: window.clientWidth < 767,
+                  embla: isWindowDefined && window.clientWidth < 767,
                 })}
               >
                 <ProductDiamondHand
