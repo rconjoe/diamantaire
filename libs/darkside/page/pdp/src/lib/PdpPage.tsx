@@ -69,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   const {
     // ER + WB SEO
@@ -111,8 +111,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
 
-  console.log('v1 additionalVariantData', additionalVariantData);
-  console.log('v1 productContent', productContent);
+  // console.log('v1 additionalVariantData', additionalVariantData);
+  // console.log('v1 productContent', productContent);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -128,7 +128,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
 
-  console.log('v2 additionalVariantData', additionalVariantData);
+  // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
   if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
@@ -155,7 +155,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
   const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
 
   const parentProductAttributes = {

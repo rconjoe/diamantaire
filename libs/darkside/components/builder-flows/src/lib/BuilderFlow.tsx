@@ -136,7 +136,7 @@ const BuilderFlow = ({
   } = shopifyProductData || {};
   const { productTitle, productTitleOverride } = collectionContent || {};
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   const configurations = shopifyProductData?.optionConfigs;
   const assetStack = productContent?.assetStack; // flatten array in normalization
