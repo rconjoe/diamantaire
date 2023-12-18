@@ -477,6 +477,18 @@ function AddToCartButton({
         hasEngraving: Boolean(engravingText),
         engravingText,
       }).then(() => refetch());
+    } else if (productType === 'Gift Card') {
+      const giftCardAttributes = {
+        ...defaultAttributes,
+        pdpUrl: window.location.href,
+        feedId: variantId,
+      };
+
+      // Assuming you have a function to handle adding a gift card to the cart
+      addJewelryProductToCart({
+        variantId: variantId,
+        attributes: giftCardAttributes,
+      }).then(() => refetch());
     }
 
     updateGlobalContext({

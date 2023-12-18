@@ -17,6 +17,7 @@ const CONFIG_TYPE_ORDER = [
   'earringSize',
   'bandStyle',
   'bandVersion',
+  'value',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
