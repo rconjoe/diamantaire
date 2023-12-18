@@ -116,6 +116,7 @@ const SettingBuildStep = ({
               assets={assetStack}
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}
+              productType={shopifyProductData?.productType}
             />
           </ShowMobileOnly>
         </div>
