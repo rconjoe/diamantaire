@@ -685,17 +685,17 @@ const ReviewBuildStep = ({
     >
       <div className="review-wrapper">
         <div className="product-images ">
-          <div className="embla" ref={isWindowDefined && window.clientWidth > 767 ? emblaRef : null}>
+          <div className="embla" ref={isWindowDefined && window.innerWidth > 767 ? emblaRef : null}>
             <div className="embla__container">
-              <div className={clsx('image setting-image', { embla: isWindowDefined && window.clientWidth < 767 })}>
+              <div className={clsx('image setting-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
               </div>
-              <div className={clsx('image diamond-image', { embla: isWindowDefined && window.clientWidth < 767 })}>
+              <div className={clsx('image diamond-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
                 {diamondImage && <img src={diamondImage} alt="" />}
               </div>
               <div
                 className={clsx('diamond-hand', {
-                  embla: isWindowDefined && window.clientWidth < 767,
+                  embla: isWindowDefined && window.innerWidth < 767,
                 })}
               >
                 <ProductDiamondHand
