@@ -19,19 +19,23 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    display: flex;
     padding: 4rem 2rem;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+    }
 
     .vo-table-head {
       top: ${({ headerHeight }) => headerHeight}px;
     }
 
     > aside {
-      flex: 0 0 450px;
-      padding-right: 5rem;
-      top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
-      height: 100vh;
-      position: sticky;
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        flex: 0 0 450px;
+        padding-right: 5rem;
+        top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
+        height: 100vh;
+        position: sticky;
+      }
     }
 
     > div {
@@ -44,9 +48,12 @@ type DiamondBuildStepProps = {
   flowIndex: number;
   diamondTypeToShow: string;
   availableDiamonds?: string[];
+  settingSlugs?: {
+    [key: string]: string;
+  };
 };
 
-const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, availableDiamonds }: DiamondBuildStepProps) => {
+const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -171,6 +178,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, availableDiamonds }: D
                 updateOptions={() => null}
                 clearOptions={() => null}
                 ranges={ranges}
+                settingSlugs={settingSlugs}
               />
             </div>
           </div>

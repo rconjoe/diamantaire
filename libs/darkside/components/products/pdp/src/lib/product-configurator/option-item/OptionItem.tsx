@@ -47,6 +47,8 @@ function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
 
   const { collectionSlug, jewelryCategory } = router.query;
 
+  console.log('router.query', router.query);
+
   const url = {
     pathname: router.pathname,
     query: {

@@ -3,7 +3,6 @@ import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
-import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -76,10 +75,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   function selectSetting({ collectionSlug, productSlug }) {
     updateSettingSlugs({ collectionSlug, productSlug });
-    updateUrlParameter('collectionSlug', collectionSlug);
-    updateUrlParameter('productSlug', productSlug);
-
-    updateStep(flowIndex + 1);
   }
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {

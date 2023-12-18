@@ -42,6 +42,9 @@ type DiamondTableProps = {
   flowIndex?: number;
   ranges: Record<string, any>;
   isDiamondPairs?: boolean;
+  settingSlugs?: {
+    [key: string]: string;
+  };
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
@@ -57,6 +60,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     isTableView = true,
     flowIndex,
     isDiamondPairs,
+    settingSlugs,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
@@ -432,7 +436,12 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {isDiamondPairs ? (
                         <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
+                        <DiamondTableRow
+                          isBuilderFlowOpen={isBuilderFlowOpen}
+                          product={row?.original}
+                          locale={locale}
+                          settingSlugs={settingSlugs}
+                        />
                       )}
                     </div>
                   )}

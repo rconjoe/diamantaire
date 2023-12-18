@@ -32,6 +32,8 @@ import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
+import clsx from 'clsx';
+import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
@@ -43,26 +45,37 @@ const ReviewBuildStepStyles = styled(motion.div)`
   padding: 2rem 2rem 14rem;
 
   .review-wrapper {
-    display: flex;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+      flex-direction: row;
+    }
 
     .product-images {
       flex: 2;
-      display: flex;
-      flex-wrap: wrap;
       margin: 0 -1rem;
 
-      > .image {
-        padding: 0 1rem;
-        flex: 0 0 50%;
+      .embla {
         display: flex;
+        flex-wrap: wrap;
 
-        > div {
-          display: flex;
-        }
+        .embla__container {
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            flex-wrap: wrap;
+          }
+          > .image {
+            padding: 0 1rem;
+            flex: 0 0 50%;
+            display: flex;
 
-        img {
-          object-fit: cover;
-          max-height: 608px;
+            > div {
+              display: flex;
+            }
+
+            img {
+              object-fit: cover;
+              max-height: 608px;
+            }
+          }
         }
       }
 
@@ -87,18 +100,56 @@ const ReviewBuildStepStyles = styled(motion.div)`
           left: 21%;
         }
       }
+
+      .slider-dots {
+        flex: 1 1 100%;
+        padding-top: 20px;
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+          display: none;
+        }
+        ul {
+          display: flex;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          justify-content: center;
+
+          li {
+            margin-right: 5px;
+
+            &:last-child {
+              margin-right: 0px;
+            }
+
+            button {
+              height: 10px;
+              width: 10px;
+              background-color: var(--color-black);
+              border: none;
+              border-radius: 50%;
+              line-height: 1;
+              padding: 0;
+              opacity: 0.3;
+
+              &.active {
+                opacity: 0.75;
+              }
+            }
+          }
+        }
+      }
     }
     .product-summary {
       flex: 1;
 
       .product-summary__inner {
         position: relative;
-        padding: 2rem 4rem;
+        padding: 2rem 0;
         max-width: 55rem;
         margin: 0 auto;
 
-        h1 {
-          /* margin-bottom: 2rem; */
+        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+          padding: 2rem 4rem;
         }
 
         .total-price {
@@ -270,13 +321,12 @@ const ReviewBuildStep = ({
   variantProductTitle,
   selectedConfiguration,
   updateSettingSlugs,
-  shopifyProductData,
   additionalVariantData,
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
   const { data: checkout, refetch } = useCartData(router?.locale);
-  const { builderProduct, updateStep, updateFlowData } = useContext(BuilderProductContext);
+  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isBandSelectorOpen, setIsBandSelectorOpen] = useState(false);
@@ -295,8 +345,6 @@ const ReviewBuildStep = ({
   const { productAdded } = useAnalytics();
 
   const sizeOptions = configurations?.[sizeOptionKey];
-
-  console.log('builderProduct', builderProduct);
 
   const { collectionSlug } = settingSlugs;
 
@@ -339,7 +387,7 @@ const ReviewBuildStep = ({
   }, []);
 
   const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
-    product;
+    product || {};
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
@@ -536,13 +584,13 @@ const ReviewBuildStep = ({
     {
       label: _t('diamondType'),
       value: _t(diamond?.diamondType),
-      onClick: () => updateStep(type === 'setting-to-diamond' ? 1 : 0),
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
       slug: 'diamondType',
     },
     {
       label: 'Centerstone',
       value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
-      onClick: () => updateStep(type === 'setting-to-diamond' ? 1 : 0),
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
       slug: 'centerstone',
     },
     {
@@ -562,24 +610,29 @@ const ReviewBuildStep = ({
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
-    const url = new URL(window.location.href);
-
-    url.searchParams.set('productSlug', option?.id);
-
-    window.history.pushState(null, '', url);
-
     updateSettingSlugs({
       productSlug: option?.id,
     });
+
+    if (type === 'setting-to-diamond') {
+      const newUrl = `/customize/setting-to-diamond/summary/${settingSlugs.collectionSlug}/${option?.id}/${builderProduct?.diamond?.lotId}`;
+
+      return router.push(newUrl);
+    } else {
+      const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs.collectionSlug}/${option?.id}`;
+
+      router.push(newUrl);
+    }
   }
 
   const handleOptionChange = (typeId: string, option: OptionItemProps) => {
     dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
   };
 
-  useEffect(() => {
-    console.log('var changingggggg', router);
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [activeSlide, setActiveSlide] = useState(0);
 
+  useEffect(() => {
     if (router.query.productSlug !== product.productSlug)
       updateFlowData('ADD_PRODUCT', {
         ...additionalVariantData,
@@ -590,6 +643,25 @@ const ReviewBuildStep = ({
     setIsBandSelectorOpen(false);
     setIsMetalSelectorOpen(false);
   }, [additionalVariantData]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      setActiveSlide(emblaApi.selectedScrollSnap());
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+    };
+  }, [emblaApi]);
 
   return (
     <ReviewBuildStepStyles
@@ -606,16 +678,42 @@ const ReviewBuildStep = ({
       }}
     >
       <div className="review-wrapper">
-        <div className="product-images">
-          <div className="image setting-image">{product?.image && <DatoImage image={product?.image} />}</div>
-          <div className="image diamond-image">{diamondImage && <img src={diamondImage} alt="" />}</div>
-          <div className="diamond-hand">
-            <ProductDiamondHand
-              diamondType={selectedConfiguration?.diamondType}
-              range={[0.5, 8]}
-              initValue={diamond?.carat}
-              disableControls={true}
-            />
+        <div className="product-images ">
+          <div className="embla" ref={window.clientWidth > 767 ? emblaRef : null}>
+            <div className="embla__container">
+              <div className={clsx('image setting-image', { embla: window.clientWidth < 767 })}>
+                {product?.image && <DatoImage image={product?.image} />}
+              </div>
+              <div className={clsx('image diamond-image', { embla: window.clientWidth < 767 })}>
+                {diamondImage && <img src={diamondImage} alt="" />}
+              </div>
+              <div
+                className={clsx('diamond-hand', {
+                  embla: window.clientWidth < 767,
+                })}
+              >
+                <ProductDiamondHand
+                  diamondType={selectedConfiguration?.diamondType}
+                  range={[0.5, 8]}
+                  initValue={diamond?.carat}
+                  disableControls={true}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="slider-dots">
+            <ul>
+              {[0, 1, 2].map((_item, index) => {
+                return (
+                  <li key={`review-build-dot-${index}`}>
+                    <button
+                      className={activeSlide === index ? 'active' : ''}
+                      onClick={() => emblaApi?.scrollTo(index)}
+                    ></button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
         <div className="product-summary">

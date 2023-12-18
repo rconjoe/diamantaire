@@ -256,48 +256,15 @@ const BuilderFlow = ({
     fetchProductAndDiamond();
   }, []);
 
-  // const steps = useMemo(() => {
-  //   return {
-  //     'setting-to-diamond': [
-  //       {
-  //         title: 'Customize a setting',
-  //         enabled: true,
-  //       },
-  //       {
-  //         title: 'Choose a diamond',
-  //         enabled: builderProduct?.product,
-  //       },
-  //       {
-  //         title: 'Review and Purchase',
-  //         enabled: builderProduct?.diamond && builderProduct?.product,
-  //       },
-  //     ],
-  //     'diamond-to-setting': [
-  //       {
-  //         title: 'Choose a diamond',
-  //         enabled: true,
-  //       },
-  //       {
-  //         title: 'Choose a setting',
-  //         enabled: builderProduct?.diamond,
-  //       },
-  //       {
-  //         title: 'Customize a setting',
-  //         enabled: builderProduct?.diamond && settingSlugs?.collectionSlug,
-  //       },
-  //       {
-  //         title: 'Review and Purchase',
-  //         enabled: builderProduct?.diamond && builderProduct?.product,
-  //       },
-  //     ],
-  //   };
-  // }, [builderProduct, settingSlugs]);
-
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
   console.log('builderProduct', builderProduct);
+
+  useEffect(() => {
+    console.log('router query changed', router.query);
+  }, [router.query]);
 
   return (
     <BuilderFlowStyles>

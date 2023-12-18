@@ -71,9 +71,10 @@ const PlpProductVariant = ({
   selectSettingForBuilderFlow?: () => void;
 }) => {
   const { productClicked } = useAnalytics();
-  const { locale } = useRouter();
-  const { countryCode } = parseValidLocale(locale);
-  const { _t } = useTranslations(locale);
+  const router = useRouter();
+
+  const { countryCode } = parseValidLocale(router?.locale);
+  const { _t } = useTranslations(router?.locale);
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
@@ -93,7 +94,7 @@ const PlpProductVariant = ({
   const handleClick = () => {
     const { primaryImage: { src } = { src: '' } } = variant || {};
     const id = productSlug.split('-').pop();
-    const formattedPrice = getFormattedPrice(price, locale, true, true);
+    const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
     const brand = 'VRAI';
 
     productClicked({
@@ -146,7 +147,17 @@ const PlpProductVariant = ({
   return (
     <PlpProductVariantStyles>
       {builderFlow ? (
-        <button onClick={selectSettingForBuilderFlow}>
+        <button
+          onClick={() => {
+            selectSettingForBuilderFlow();
+
+            router.push(
+              `/customize/diamond-to-setting/${
+                Array.isArray(router.query.flowParams) && router.query.flowParams.join('/')
+              }/${collectionSlug}/${productSlug}`,
+            );
+          }}
+        >
           <div className="plp-variant__inner">
             <div className="plp-variant__image">
               <button
@@ -191,8 +202,8 @@ const PlpProductVariant = ({
               <h3>
                 {productTitleWithProperties} |{' '}
                 {useLowestPrice
-                  ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
-                  : makeCurrency(price, locale, currencyCode)}
+                  ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
+                  : makeCurrency(price, router?.locale, currencyCode)}
               </h3>
             </div>
           </div>
@@ -248,8 +259,8 @@ const PlpProductVariant = ({
               <h3>
                 {productTitleWithProperties} |{' '}
                 {useLowestPrice
-                  ? makeCurrency(lowestPrice, locale, currencyCode) + '+'
-                  : makeCurrency(price, locale, currencyCode)}
+                  ? makeCurrency(lowestPrice, router.locale, currencyCode) + '+'
+                  : makeCurrency(price, router.locale, currencyCode)}
               </h3>
             </div>
           </div>

@@ -71,7 +71,8 @@ type SettingBuildStepProps = {
   productDescription: string;
   productSpecId: string;
   disableVariantType?: string[];
-  productTitleOverride;
+  productTitleOverride?: string;
+  productIconListType?: string;
 };
 
 const SettingBuildStep = ({
@@ -107,6 +108,26 @@ const SettingBuildStep = ({
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
 
+  console.log('props coming thru', {
+    updateSettingSlugs,
+    shopifyProductData,
+    updateFlowData,
+    flowIndex,
+    parentProductAttributes,
+    assetStack,
+    selectedConfiguration,
+    configurations,
+    variantId,
+    additionalVariantData,
+    productTitle,
+    price,
+    productDescription,
+    productSpecId,
+    disableVariantType,
+    productTitleOverride,
+    productIconListType,
+  });
+
   return (
     <SettingBuildStepStyles
       key="setting-step-container"
@@ -135,6 +156,7 @@ const SettingBuildStep = ({
               disableVideos={true}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
+              diamondType={selectedConfiguration?.diamondType}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
@@ -149,11 +171,12 @@ const SettingBuildStep = ({
         <div className="info-container">
           <div className="info__inner">
             <ProductTitle
-              title={product.title}
+              title={product?.title}
               diamondType={selectedConfiguration?.diamondType}
               productType={shopifyProductData?.productType}
               override={productTitleOverride}
             />
+
             <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} engravingText={null} />
             <ProductConfigurator
               configurations={configurations}
