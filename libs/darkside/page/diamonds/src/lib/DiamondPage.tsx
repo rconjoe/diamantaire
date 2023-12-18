@@ -124,6 +124,14 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         updatedOptions = { ...prevOptions, ...newOptions };
       }
 
+      // if Fancy shape is selected automatically remove Ideal and Ideal+Heart options
+      if (updatedOptions.diamondType && updatedOptions.cut && updatedOptions.diamondType !== 'round-brilliant') {
+        updatedOptions.cut = updatedOptions.cut
+          .split(',')
+          .filter((v) => v === 'Excellent')
+          .join();
+      }
+
       return updatedOptions;
     });
   };
