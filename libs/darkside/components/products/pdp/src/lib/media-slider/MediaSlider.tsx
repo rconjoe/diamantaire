@@ -1,4 +1,5 @@
 import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
+import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useState } from 'react';
@@ -57,10 +58,10 @@ const DEFAULT_BREAKPOINTS = {
   200: { slidesPerView: 1, slidesPerGroup: 1 },
 };
 
-const MediaSlider = ({ assets, options, diamondType }) => {
+const MediaSlider = ({ assets, options, diamondType, productType }) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
-  console.log('swiper', swiper);
+  console.log('swiper', swiper, productType);
 
   return (
     <MediaSliderContainer>
@@ -107,9 +108,11 @@ const MediaSlider = ({ assets, options, diamondType }) => {
             }
           }
         })}
-        <SwiperSlide>
-          <ProductDiamondHand range={[0.5, 8]} initValue={2} diamondType={diamondType} />
-        </SwiperSlide>
+        {productType === ENGAGEMENT_RING_PRODUCT_TYPE ? (
+          <SwiperSlide>
+            <ProductDiamondHand range={[0.5, 8]} initValue={2} diamondType={diamondType} />
+          </SwiperSlide>
+        ) : null}
       </Swiper>
     </MediaSliderContainer>
   );
