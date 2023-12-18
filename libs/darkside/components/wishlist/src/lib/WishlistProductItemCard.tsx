@@ -140,6 +140,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   }
 
   const {
+    requiresCustomDiamond,
     configuration: { caratWeight = null } = {},
     price: productPrice,
     productType,
@@ -179,7 +180,7 @@ const CardProduct: React.FC<CardProductProps> = ({
         <div className="action">
           <div className="price">
             {price}
-            {caratWeight && caratWeight === 'other' && '+'}
+            {requiresCustomDiamond && '+'}
           </div>
 
           <DarksideButton href={link} type="solid">
@@ -223,6 +224,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
   }, []);
 
   const { _t } = useTranslations(locale);
+  const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
 
   if (!diamond || !setting?.content || !setting?.product) return;
 
@@ -234,7 +236,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
 
   const { productTitle } = content;
 
-  const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}${_t('ct')} ${_t(
+  const bundleTitle = `${productTitle} ${_t('with')} ${getFormattedCarat(carat, locale)}${_tt('ct')} ${_t(
     getDiamondType(diamondType)?.title,
   )}`;
 

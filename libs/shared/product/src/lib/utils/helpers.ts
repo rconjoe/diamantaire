@@ -42,6 +42,10 @@ export function getOptionValueSorterByType(optionType: string) {
       return order.indexOf(a) > order.indexOf(b) ? 1 : -1;
     }
 
+    if (!isNaN(Number(a)) && !isNaN(Number(b))) {
+      return Number(a) > Number(b) ? 1 : -1;
+    }
+
     return a > b ? 1 : -1;
   };
 }

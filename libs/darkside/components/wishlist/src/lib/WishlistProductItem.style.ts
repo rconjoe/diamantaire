@@ -52,7 +52,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
   }
 
   .custom-pagination-thumbnail {
-    width: 4.5rem;
+    width: 4rem;
     border: 0.1rem solid transparent;
     cursor: pointer;
 
@@ -132,7 +132,7 @@ export const StyledWishlistPageProductItem = styled.div`
   }
 
   .custom-pagination-thumbnail {
-    width: 4.5rem;
+    width: 4rem;
     cursor: pointer;
     border: 0.1rem solid transparent;
 

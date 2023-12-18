@@ -59,9 +59,8 @@ const DEFAULT_BREAKPOINTS = {
 };
 
 const MediaSlider = ({ assets, options, diamondType, productType }) => {
+  // eslint-disable-next-line
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
-
-  console.log('swiper', swiper, productType);
 
   return (
     <MediaSliderContainer>
