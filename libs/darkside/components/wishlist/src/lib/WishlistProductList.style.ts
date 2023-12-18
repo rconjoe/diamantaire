@@ -72,12 +72,6 @@ export const StyledWishlistSlideoutProductList = styled.div`
       padding: 0.5rem 0;
       display: block;
 
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        font-size: var(--font-size-xxsmall);
-        font-weight: var(--font-weight-medium);
-        padding: 1rem;
-      }
-
       &:hover,
       &.active {
         background: var(--color-black);
@@ -96,18 +90,16 @@ export const StyledWishlistPageProductList = styled.div`
     display: flex;
     width: 100%;
 
-    display: grid;
-
     .list {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
       margin: 4rem 0;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
       }
     }
 
