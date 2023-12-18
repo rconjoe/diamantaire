@@ -39,7 +39,7 @@ import ProductReviews from './pdp-blocks/ProductReviews';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
-interface PdpPageParams extends ParsedUrlQuery {
+export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
   productSlug: string;
 }
