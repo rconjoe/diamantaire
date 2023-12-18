@@ -33,7 +33,7 @@ export const sideStoneShapeValues = [
   'trillion',
 ] as const;
 export const goldPurityValues = ['14k', '18k'] as const;
-export const bandAccentValues = ['plain', 'pave', 'double-pave', 'double-pave-twisted', 'pave-twisted'] as const;
+export const bandAccentValues = ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'] as const;
 export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
 export const plpMetalValues = ['yellow-gold', 'rose-gold', 'white-gold', 'platinum', 'sterling-silver'] as const;
 export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
