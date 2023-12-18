@@ -103,6 +103,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
       setResponse(emailError);
 
       setTimeout(() => {
+        // the response is removed after 5 sec
         setResponse(null);
       }, 5000);
 
@@ -115,6 +116,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
       setResponse(emailError);
 
       setTimeout(() => {
+        // the response is removed after 5 sec
         setResponse(null);
       }, 5000);
 

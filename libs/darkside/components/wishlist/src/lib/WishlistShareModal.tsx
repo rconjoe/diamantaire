@@ -99,6 +99,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
       setResponse(emailError);
 
       setTimeout(() => {
+        // the response is removed after 5 sec
         setResponse(null);
       }, 5000);
 
@@ -111,6 +112,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
       setResponse(emailError);
 
       setTimeout(() => {
+        // the response is removed after 5 sec
         setResponse(null);
       }, 5000);
 
