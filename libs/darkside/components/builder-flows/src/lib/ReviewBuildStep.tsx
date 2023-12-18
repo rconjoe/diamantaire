@@ -633,12 +633,16 @@ const ReviewBuildStep = ({
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
-    if (router.query.productSlug !== product.productSlug)
-      updateFlowData('ADD_PRODUCT', {
-        ...additionalVariantData,
-        ...selectedConfiguration,
-        variantId: router.query.productSlug,
+    if (!router.query.productSlug && !product.productSlug && router.query.productSlug !== product.productSlug)
+      console.log('isssue is this', {
+        routerSlug: router.query.productSlug,
+        productSlug: product.productSlug,
       });
+    updateFlowData('ADD_PRODUCT', {
+      ...additionalVariantData,
+      ...selectedConfiguration,
+      variantId: router.query.productSlug,
+    });
 
     setIsBandSelectorOpen(false);
     setIsMetalSelectorOpen(false);

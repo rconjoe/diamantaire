@@ -123,8 +123,6 @@ const BuilderFlow = ({
 
   const variantHandle = productContent?.shopifyProductHandle;
 
-  console.log('variantHandle', variantHandle);
-
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
   console.log('xxxxx', additionalVariantData);
@@ -259,12 +257,6 @@ const BuilderFlow = ({
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
   const variantId = shopifyProductData?.shopifyVariantId;
-
-  console.log('builderProduct', builderProduct);
-
-  useEffect(() => {
-    console.log('router query changed', router.query);
-  }, [router.query]);
 
   return (
     <BuilderFlowStyles>

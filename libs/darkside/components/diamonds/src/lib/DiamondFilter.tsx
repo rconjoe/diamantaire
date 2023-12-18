@@ -100,9 +100,6 @@ const RadioFilter = (props) => {
       rangeTypes = ranges?.diamondType;
       shapeHandles = Object.values(DIAMOND_TABLE_SHAPES);
 
-      console.log('availableDiamonds', availableDiamonds);
-      console.log('shapeHandles', shapeHandles);
-
       if (availableDiamonds) {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }

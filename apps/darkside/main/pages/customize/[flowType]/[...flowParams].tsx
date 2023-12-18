@@ -16,21 +16,14 @@ export type BuilderPageProps = {
   productSlug: string | null;
   lotId: string | null;
   type: 'setting-to-diamond' | 'diamond-to-setting';
-  initialStep: number | null;
 };
 
-const BuilderPage = ({ collectionSlug, productSlug, type, lotId, initialStep }: BuilderPageProps) => {
+const BuilderPage = ({ collectionSlug, productSlug, type, lotId }: BuilderPageProps) => {
   return (
     <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
-      <BuilderFlowV2
-        collectionSlug={collectionSlug}
-        type={type}
-        lotId={lotId}
-        productSlug={productSlug}
-        initialStep={initialStep}
-      />
+      <BuilderFlowV2 collectionSlug={collectionSlug} type={type} lotId={lotId} productSlug={productSlug} />
     </>
   );
 };
@@ -45,7 +38,7 @@ export async function getServerSideProps(
   const { query, resolvedUrl } = context;
 
   // 1. Identify flow type based flowType
-  const flowType = query.flowType;
+  const flowType = query.flowType as 'setting-to-diamond' | 'diamond-to-setting';
   const flowParams = query.flowParams;
   let urlIndex = 0;
 
@@ -80,26 +73,4 @@ export async function getServerSideProps(
       },
     };
   }
-
-  console.log('query', query);
-
-  //   const { collectionSlug, productSlug, lotId, step } = query as BuilderPageQueryParams;
-  //   let { type } = query as BuilderPageQueryParams;
-
-  //   // 1. Identify the flow type based on URL params
-  //   if (!type) {
-  //     if (collectionSlug && productSlug && !lotId) {
-  //       type = 'setting-to-diamond';
-  //     } else if (lotId && !collectionSlug && !productSlug) {
-  //       type = 'diamond-to-setting';
-  //     } else {
-  //       // if all params are on, default to setting-to-diamond
-  //       type = 'setting-to-diamond';
-  //     }
-  //   }
-
-  //   // 2. Identify the step based on URL params
-  //   let initialStep = parseFloat(step);
-
-  //   initialStep = validateStep(initialStep, type, collectionSlug, productSlug, lotId);
 }

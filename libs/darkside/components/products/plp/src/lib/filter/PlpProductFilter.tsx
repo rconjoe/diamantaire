@@ -69,7 +69,6 @@ const PlpProductFilter = ({
       }
     }
 
-    console.log('filter click', filterValue, filterType, value);
     let newFilterValue = filterValue[filterType];
 
     if (filterType !== 'price') {
@@ -175,10 +174,7 @@ const PlpProductFilter = ({
           },
         });
       } else {
-        console.log('url filter running 1');
         if (urlFilterMethod === 'none') {
-          console.log('url filter running 2');
-
           if (!newFilterValue || newFilterValue.length === 0) {
             newFilterValue = [value];
           } else if (newFilterValue.includes(value)) {

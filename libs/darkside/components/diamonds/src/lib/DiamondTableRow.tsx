@@ -53,9 +53,6 @@ const DiamondTableRow = ({
 
   const { builderProduct } = useContext(BuilderProductContext);
 
-  console.log('builderProductxxx', builderProduct);
-  console.log('row slugs', settingSlugs);
-
   const ToastErrorStyles = styled.div`
     p {
       font-size: 1.6rem;
@@ -96,13 +93,15 @@ const DiamondTableRow = ({
     });
 
     updateFlowData('ADD_DIAMOND', product);
-    console.log('router.query.flowType', router.query);
     if (router.query.flowType === 'setting-to-diamond') {
+      console.log('builderProduct drow', builderProduct);
+      console.log('settingSlugs drow', settingSlugs);
+
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
-        `/customize/setting-to-diamond/summary/${
-          builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''
-        }/${product?.lotId}`,
+        `/customize/setting-to-diamond/summary/${`/${
+          settingSlugs?.collectionSlug || builderProduct?.product?.collectionSlug
+        }/${settingSlugs?.productSlug || builderProduct?.product?.productSlug}`}/${product?.lotId}`,
       );
     } else {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });

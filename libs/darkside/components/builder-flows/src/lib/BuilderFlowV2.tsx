@@ -75,8 +75,6 @@ const BuilderFlowV2 = ({
 
   const variantHandle = productContent?.shopifyProductHandle;
 
-  console.log('variantHandle', variantHandle);
-
   let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
 
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
@@ -222,7 +220,11 @@ const BuilderFlowV2 = ({
           productSlug: newProductSlug,
         });
 
-        router.push(`/customize/diamond-to-setting/${initialLotId}/${initialCollectionSlug}/${newProductSlug}`);
+        if (router.query.flowType === 'setting-to-diamond') {
+          router.push(`/customize/setting-to-diamond/summary/${initialCollectionSlug}/${newProductSlug}/${initialLotId}`);
+        } else {
+          router.push(`/customize/diamond-to-setting/summary/${initialLotId}/${initialCollectionSlug}/${newProductSlug}`);
+        }
       }
     }
   }, [
