@@ -484,6 +484,12 @@ function AddToCartButton({
         ...otherAttributes,
         pdpUrl: window.location.href,
         feedId: variantId,
+        // Jewelry specific attributes
+        metalType: '',
+        shippingBusinessDays: '',
+        productIconListShippingCopy: '',
+        shippingText: '',
+        childProduct: '',
       };
 
       // Assuming you have a function to handle adding a gift card to the cart
