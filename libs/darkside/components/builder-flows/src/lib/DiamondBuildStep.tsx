@@ -45,7 +45,6 @@ const DiamondBuildStepStyles = styled(motion.div)`
 `;
 
 type DiamondBuildStepProps = {
-  flowIndex: number;
   diamondTypeToShow: string;
   availableDiamonds?: string[];
   settingSlugs?: {
@@ -53,7 +52,7 @@ type DiamondBuildStepProps = {
   };
 };
 
-const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
+const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -174,7 +173,6 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, availableDiamonds, set
                 isTableView={isTableView}
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
-                flowIndex={flowIndex}
                 updateOptions={() => null}
                 clearOptions={() => null}
                 ranges={ranges}

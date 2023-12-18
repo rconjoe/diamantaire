@@ -36,7 +36,6 @@ type ProductConfiguratorProps = {
   updateSettingSlugs?: () => void;
   isBuilderFlowOpen?: boolean;
   updateFlowData?: (action: string, value: object, nextStep: null | string) => void;
-  flowIndex?: number;
   disableVariantType?: string[];
   hasMoreThanOneVariant?: boolean;
   extraOptions?: {

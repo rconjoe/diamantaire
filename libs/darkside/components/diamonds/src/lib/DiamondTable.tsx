@@ -8,7 +8,6 @@ import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@ta
 import clsx from 'clsx';
 import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import DiamondGrid from './DiamondGrid';
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
@@ -39,7 +38,6 @@ type DiamondTableProps = {
   clearOptions: () => void;
   isBuilderFlowOpen?: boolean;
   isTableView?: boolean;
-  flowIndex?: number;
   ranges: Record<string, any>;
   isDiamondPairs?: boolean;
   settingSlugs?: {
@@ -58,7 +56,6 @@ const DiamondTable = (props: DiamondTableProps) => {
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
-    flowIndex,
     isDiamondPairs,
     settingSlugs,
   } = props;
@@ -492,7 +489,8 @@ const DiamondTable = (props: DiamondTableProps) => {
       </div>
     </StyledDiamondTable>
   ) : (
-    <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
+    ''
+    // <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
   );
 };
 

@@ -1,11 +1,10 @@
 import { Loader } from '@diamantaire/darkside/components/common-ui';
 import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
-import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 
@@ -36,8 +35,7 @@ const SettingSelectStepStyles = styled.div`
   }
 `;
 
-const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow }) => {
-  const { updateStep } = useContext(BuilderProductContext);
+const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
   const { locale } = useRouter();
 
   const containerRef = useRef(null);

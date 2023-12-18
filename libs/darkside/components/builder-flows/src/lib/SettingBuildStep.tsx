@@ -57,7 +57,6 @@ type SettingBuildStepProps = {
   updateSettingSlugs;
   shopifyProductData;
   updateFlowData;
-  flowIndex: number;
   parentProductAttributes: object;
   assetStack: MediaAsset[];
   selectedConfiguration: {
@@ -79,7 +78,6 @@ const SettingBuildStep = ({
   updateSettingSlugs,
   shopifyProductData,
   updateFlowData,
-  flowIndex,
   parentProductAttributes,
   assetStack,
   selectedConfiguration,
@@ -107,26 +105,6 @@ const SettingBuildStep = ({
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
-
-  console.log('props coming thru', {
-    updateSettingSlugs,
-    shopifyProductData,
-    updateFlowData,
-    flowIndex,
-    parentProductAttributes,
-    assetStack,
-    selectedConfiguration,
-    configurations,
-    variantId,
-    additionalVariantData,
-    productTitle,
-    price,
-    productDescription,
-    productSpecId,
-    disableVariantType,
-    productTitleOverride,
-    productIconListType,
-  });
 
   return (
     <SettingBuildStepStyles
@@ -186,7 +164,6 @@ const SettingBuildStep = ({
               isBuilderFlowOpen={true}
               updateSettingSlugs={updateSettingSlugs}
               updateFlowData={updateFlowData}
-              flowIndex={flowIndex}
               disableVariantType={disableVariantType}
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
