@@ -485,7 +485,7 @@ function AddToCartButton({
         pdpUrl: window.location.href,
         feedId: variantId,
       };
-      debugger;
+
       // Assuming you have a function to handle adding a gift card to the cart
       addJewelryProductToCart({
         variantId: variantId,
