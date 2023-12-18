@@ -478,12 +478,14 @@ function AddToCartButton({
         engravingText,
       }).then(() => refetch());
     } else if (productType === 'Gift Card') {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { shippingText, ...otherAttributes } = defaultAttributes;
       const giftCardAttributes = {
-        ...defaultAttributes,
+        ...otherAttributes,
         pdpUrl: window.location.href,
         feedId: variantId,
       };
-
+      debugger;
       // Assuming you have a function to handle adding a gift card to the cart
       addJewelryProductToCart({
         variantId: variantId,
