@@ -58,7 +58,7 @@ const DEFAULT_BREAKPOINTS = {
   200: { slidesPerView: 1, slidesPerGroup: 1 },
 };
 
-const MediaSlider = ({ assets, options, diamondType, productType }) => {
+const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = false }) => {
   // eslint-disable-next-line
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
@@ -107,7 +107,7 @@ const MediaSlider = ({ assets, options, diamondType, productType }) => {
             }
           }
         })}
-        {productType === ENGAGEMENT_RING_PRODUCT_TYPE ? (
+        {shouldDisplayDiamondHand ? (
           <SwiperSlide>
             <ProductDiamondHand range={[0.5, 8]} initValue={2} diamondType={diamondType} />
           </SwiperSlide>

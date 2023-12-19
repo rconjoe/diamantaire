@@ -7,6 +7,7 @@ import {
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
+import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -116,7 +117,7 @@ const SettingBuildStep = ({
               assets={assetStack}
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}
-              productType={shopifyProductData?.productType}
+              shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
             />
           </ShowMobileOnly>
         </div>

@@ -21,6 +21,7 @@ import { useProduct, useProductDato, useProductVariant, useTranslations } from '
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
+  ENGAGEMENT_RING_PRODUCT_TYPE,
   jewelryTypes,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
@@ -263,7 +264,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
             />
-            <MediaSlider assets={assetStack} options={configuration} diamondType={configuration.diamondType} productType={shopifyProductData?.productType}/>
+            <MediaSlider
+              assets={assetStack}
+              options={configuration}
+              diamondType={configuration.diamondType}
+              shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+            />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">
