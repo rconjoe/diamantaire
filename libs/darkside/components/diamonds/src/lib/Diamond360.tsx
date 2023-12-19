@@ -15,6 +15,9 @@ interface Diamond360Props {
   isCto?: boolean;
   disabled?: boolean;
   noCaption?: boolean;
+  width?: number;
+  height?: number;
+  priority?: boolean;
 }
 
 const Diamond360 = ({
@@ -26,6 +29,9 @@ const Diamond360 = ({
   isCto,
   disabled,
   noCaption,
+  width = 500,
+  height = 500,
+  priority = true,
 }: Diamond360Props) => {
   const diamondID = diamond?.lotId || lotId;
 
@@ -76,7 +82,7 @@ const Diamond360 = ({
     if (disabled || useImageOnly || mediaType === 'diamond-image') {
       const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
 
-      return <Image priority src={spriteImageUrl} alt={diamondType} width={500} height={500} />;
+      return <Image priority={priority} src={spriteImageUrl} alt={diamondType} width={width} height={height} />;
     }
 
     if (mediaType === 'diamond-video') {
