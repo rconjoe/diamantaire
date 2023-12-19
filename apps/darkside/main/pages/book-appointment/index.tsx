@@ -1,16 +1,16 @@
 import { StandardPage, getServerSideProps as originalGetServerSideProps } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 
-import { renderIframe } from './[location]';
+import { renderIframe, BookAppointmentStyles } from './[location]';
 
 const BookAppointmentPage = (props) => {
   const defaultBookingUrl = `https://vrai.as.me`;
 
   return (
-    <>
+    <BookAppointmentStyles>
       <StandardPage {...props} />
       {defaultBookingUrl && renderIframe({ src: defaultBookingUrl })}
-    </>
+    </BookAppointmentStyles>
   );
 };
 

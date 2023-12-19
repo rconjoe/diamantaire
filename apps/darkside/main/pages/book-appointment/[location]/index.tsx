@@ -5,7 +5,7 @@ import { getLanguage } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
-const BookAppointmentStyles = styled.div`
+export const BookAppointmentStyles = styled.div`
   display: flex;
   flex-direction: column;
   .iframe-container {
