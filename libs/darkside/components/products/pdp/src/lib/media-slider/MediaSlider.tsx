@@ -82,7 +82,7 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
         keyboard={true}
         onSwiper={setSwiper}
         watchSlidesProgress={true}
-        pagination={totalSlides > 1 ? { clickable: true } : false}
+        pagination={hasPagination ? { clickable: true } : false}
         navigation={true}
       >
         {assets?.map((asset, index) => {
