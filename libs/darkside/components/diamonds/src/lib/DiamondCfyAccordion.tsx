@@ -114,7 +114,7 @@ const DiamondCfyAccordion = ({
   };
   const getClarityTitle = () => {
     const { clarity } = product || {};
-    const label = clarityLabelMap[clarity] || '';
+    const label = clarityLabelMap[clarity] ? clarityLabelMap[clarity] : getInfo(specs, clarity)?.value;
     const title = getInfo(specs, 'clarity')?.value;
 
     return (
@@ -137,7 +137,9 @@ const DiamondCfyAccordion = ({
     const { diamondClarityUpgrade: upgrade } = diamondCtoData || {};
 
     if (product && upgrade) {
-      upgradeLabel = clarityLabelMap[upgrade.clarity] || '';
+      upgradeLabel = clarityLabelMap[upgrade.clarity]
+        ? clarityLabelMap[upgrade.clarity]
+        : getInfo(specs, upgrade.clarity)?.value;
       upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
       upgradePriceHuman = (
