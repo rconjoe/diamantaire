@@ -404,6 +404,7 @@ const ReviewBuildStep = ({
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   console.log('configState', configState);
+  console.log('selectedSize', selectedSize);
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -437,7 +438,8 @@ const ReviewBuildStep = ({
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
       _productType: productType,
       metalType: erMetal,
-      productAsset: JSON.stringify(image),
+      productAsset: image?.src,
+      _productAssetObject: JSON.stringify(image),
       _productTitle: productTitle,
       productIconListShippingCopy: 'temp',
       pdpUrl: window.location.href,
@@ -447,11 +449,11 @@ const ReviewBuildStep = ({
       _EngravingBack: engravingText,
       _specs: `Shape: ${
         DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]
-      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedConfiguration?.ringSize}`,
+      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedSize?.value}`,
       productGroupKey,
       diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
       centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
-      ringSize: selectedConfiguration?.ringSize,
+      ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (product.price + diamond.price).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
@@ -469,7 +471,7 @@ const ReviewBuildStep = ({
     const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
       _productTitle: diamond?.productTitle,
       productAsset: diamondImage,
-      _dateAdded: Date.now().toString(),
+      _dateAdded: Date.now().toString() + 100,
       caratWeight: diamond.carat.toString(),
       clarity: diamond.clarity,
       cut: diamond.cut,

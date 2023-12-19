@@ -94,6 +94,10 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       seoTitle
       seoDescription
       productTitle

@@ -8,11 +8,11 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
-  padding-top: ${({ distanceFromTopMobile }) => (distanceFromTopMobile ? `${distanceFromTopMobile}px` : '94px')};
-  min-height: ${({ distanceFromTopMobile }) => (distanceFromTopMobile ? `${distanceFromTopMobile + 1}px` : '7rem')};
+  padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
+  min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
-    padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '94px')};
+    padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
   `}
 `;
@@ -39,6 +39,8 @@ export const GlobalTemplate = ({ children }) => {
   const { pathname } = useRouter();
 
   const isHome = pathname === '/';
+
+  console.log('pathname', isHome);
 
   useEffect(() => {
     // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
@@ -85,9 +87,7 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
-        {children}
-      </MainContainer>
+      <MainContainer distanceFromTop={isHome ? 0 : headerHeight}>{children}</MainContainer>
 
       {footerData && <Footer footerData={footerData} />}
 

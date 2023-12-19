@@ -271,3 +271,13 @@ export type ShopifyProductsOperation = {
     sortKey?: string;
   };
 };
+
+export type ShopifyCartUpdateGiftNoteOperation = {
+  // data: {
+  //   products: Connection<ShopifyProduct>;
+  // };
+  variables: {
+    cartId: string;
+    note: string;
+  };
+};
