@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
-import { DarksideButton, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
@@ -25,7 +26,6 @@ import PairSelector from './option-selector/PairSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
-import RingSizeGuide from '../RingSizeGuide';
 
 type ProductConfiguratorProps = {
   configurations: { [key: string]: OptionItemProps[] };
@@ -35,8 +35,7 @@ type ProductConfiguratorProps = {
   isBuilderProduct?: boolean;
   updateSettingSlugs?: () => void;
   isBuilderFlowOpen?: boolean;
-  updateFlowData?: (action: string, value: object, nextStep: null | number) => void;
-  flowIndex?: number;
+  updateFlowData?: (action: string, value: object, nextStep: null | string) => void;
   disableVariantType?: string[];
   hasMoreThanOneVariant?: boolean;
   extraOptions?: {
@@ -73,7 +72,6 @@ function ProductConfigurator({
   isBuilderFlowOpen = false,
   updateFlowData,
   updateSettingSlugs,
-  flowIndex,
   disableVariantType = [],
   hasMoreThanOneVariant = true,
   extraOptions,
@@ -143,6 +141,10 @@ function ProductConfigurator({
   const additionalVariantIds = useMemo(() => {
     return variants?.filter((variant) => variant.shopifyVariantId !== variantId).map((variant) => variant.shopifyVariantId);
   }, [selectedEarringOrientation, variants]);
+
+  const { builderProduct } = useContext(BuilderProductContext);
+
+  const router = useRouter();
 
   return (
     <>
@@ -243,8 +245,17 @@ function ProductConfigurator({
             onClick={() => {
               updateFlowData(
                 'ADD_PRODUCT',
-                { ...additionalVariantData, ...selectedConfiguration, variantId: selectedVariantId },
-                flowIndex + 1,
+                {
+                  ...additionalVariantData,
+                  ...selectedConfiguration,
+                  variantId: selectedVariantId,
+                  collectionSlug: builderProduct?.product?.collectionSlug,
+                },
+                null,
+              );
+
+              router.push(
+                `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${builderProduct?.product?.collectionSlug}/${builderProduct?.product?.productSlug}`,
               );
             }}
           >
@@ -503,9 +514,7 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
-            router.push(
-              `/customize?type=setting-to-diamond&collectionSlug=${router.query.collectionSlug}&productSlug=${router.query.productSlug}`,
-            );
+            router.push(`/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}`);
           }
         }}
       >

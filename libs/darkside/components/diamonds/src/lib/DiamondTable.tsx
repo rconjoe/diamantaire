@@ -8,7 +8,6 @@ import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@ta
 import clsx from 'clsx';
 import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import DiamondGrid from './DiamondGrid';
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
@@ -39,9 +38,11 @@ type DiamondTableProps = {
   clearOptions: () => void;
   isBuilderFlowOpen?: boolean;
   isTableView?: boolean;
-  flowIndex?: number;
   ranges: Record<string, any>;
   isDiamondPairs?: boolean;
+  settingSlugs?: {
+    [key: string]: string;
+  };
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
@@ -55,8 +56,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
-    flowIndex,
     isDiamondPairs,
+    settingSlugs,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
@@ -432,7 +433,12 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {isDiamondPairs ? (
                         <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
+                        <DiamondTableRow
+                          isBuilderFlowOpen={isBuilderFlowOpen}
+                          product={row?.original}
+                          locale={locale}
+                          settingSlugs={settingSlugs}
+                        />
                       )}
                     </div>
                   )}
@@ -483,7 +489,8 @@ const DiamondTable = (props: DiamondTableProps) => {
       </div>
     </StyledDiamondTable>
   ) : (
-    <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
+    ''
+    // <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
   );
 };
 

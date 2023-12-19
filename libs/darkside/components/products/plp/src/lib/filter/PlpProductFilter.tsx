@@ -69,10 +69,10 @@ const PlpProductFilter = ({
       }
     }
 
+    let newFilterValue = filterValue[filterType];
+
     if (filterType !== 'price') {
       // Push multiple filters to the URL
-
-      let newFilterValue = filterValue[filterType];
 
       if (urlFilterMethod === 'param') {
         // Manage multiple param filters in the URL
@@ -174,18 +174,31 @@ const PlpProductFilter = ({
           },
         });
       } else {
-        // No URL update
+        if (urlFilterMethod === 'none') {
+          if (!newFilterValue || newFilterValue.length === 0) {
+            newFilterValue = [value];
+          } else if (newFilterValue.includes(value)) {
+            // update newFilterValue to remove the value
+            newFilterValue = newFilterValue.filter((val) => val !== value || val === undefined || val === null);
+          } else {
+            newFilterValue.push(value);
+          }
+
+          const newFilters = { ...filterValue, [filterType]: newFilterValue };
+
+          setFilterValues(newFilters);
+          handleSliderURLUpdate(value.min, value.max);
+        }
       }
     } else {
-      if (urlFilterMethod !== 'none') {
-        setFilterValues({
-          ...filterValue,
-          price: {
-            min: value.min,
-            max: value.max,
-          },
-        });
-        handleSliderURLUpdate(value.min, value.max);
+      // Price Filter Behavior
+      const { min, max } = value || {};
+
+      if (min && max) {
+        const newFilters = { ...filterValue, [filterType]: { min, max } };
+
+        setFilterValues(newFilters);
+        // handleSliderURLUpdate(min, max);
       }
     }
   }
