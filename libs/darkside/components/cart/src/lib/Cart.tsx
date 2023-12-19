@@ -38,6 +38,7 @@ const Cart = ({ closeCart }) => {
     'Diamonds',
     'Diamond',
     'Ring',
+    'Gift Card',
   ];
 
   const {
