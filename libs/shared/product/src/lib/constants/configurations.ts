@@ -134,6 +134,7 @@ export const caratWeightValues = [
   '1.7ct',
   '1.85ct',
   '13.0ct',
+  '2ct',
   '2.0ct',
   '2.8ct',
   '3ct',
