@@ -69,7 +69,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  // console.log('shopifyProductData', shopifyProductData);
+  console.log('shopifyProductData', shopifyProductData);
 
   const {
     // ER + WB SEO
@@ -110,9 +110,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const shopifyHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
-
-  // console.log('v1 additionalVariantData', additionalVariantData);
-  // console.log('v1 productContent', productContent);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -216,11 +213,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Tracks previously viewed products in local storage
   useEffect(() => {
-    console.log('contentIdcontentIdcontentId', productContent?.id);
-    if (!productTitle || !productContent?.id) return;
+    if (!productTitle || !shopifyProductData?.contentId) return;
 
-    fetchAndTrackPreviouslyViewed(productTitle, productContent?.id);
-  }, [productTitle, productContent?.id]);
+    fetchAndTrackPreviouslyViewed(productTitle, shopifyProductData?.contentId);
+  }, [productTitle, shopifyProductData?.contentId]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

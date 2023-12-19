@@ -8,12 +8,12 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
-  padding-top: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 'px')};
-  min-height: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 1 + 'px')};
+  padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
+  min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
-    padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};
-    min-height: ${({ distanceFromTop }) => distanceFromTop + 1 + 'px'};
+    padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
+    min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
   `}
 `;
 
@@ -85,9 +85,7 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer distanceFromTopMobile={headerHeight} distanceFromTop={isHome ? 0 : headerHeight}>
-        {children}
-      </MainContainer>
+      <MainContainer distanceFromTop={isHome ? 0 : headerHeight}>{children}</MainContainer>
 
       {footerData && <Footer footerData={footerData} />}
 

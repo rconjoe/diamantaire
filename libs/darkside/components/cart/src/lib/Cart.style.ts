@@ -94,24 +94,8 @@ export const CartStyles = styled(motion.aside)`
           display: flex;
           padding-top: 1rem;
           > p {
-            flex: 1;
-            font-size: var(--font-size-xsmall);
-
-            &:last-child {
-              text-align: right;
-            }
-          }
-          button {
-            background-color: transparent;
-            border: none;
-            padding: 0;
-            color: var(--color-teal);
-            transition: 0.25s;
-            font-weight: bold;
-            font-size: var(--font-size-xsmall);
-
-            &:hover {
-              opacity: 0.7;
+            &:first-child {
+              flex: 1;
             }
           }
 
@@ -125,27 +109,6 @@ export const CartStyles = styled(motion.aside)`
   }
   .cart-subtotal__gift-note {
     margin-top: 1rem;
-    textarea {
-      border: 0.1rem solid #000;
-      width: 100%;
-      min-height: 10rem;
-      padding: 1.5rem;
-      font-size: 1.6rem;
-    }
-
-    ul {
-      margin-top: 1rem;
-      li {
-        margin-right: 1.5rem;
-        &:last-child {
-          margin-right: 0px;
-        }
-
-        button {
-          font-size: 1.3rem;
-        }
-      }
-    }
   }
 `;
 

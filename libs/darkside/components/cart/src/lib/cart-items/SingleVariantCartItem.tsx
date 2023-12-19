@@ -131,7 +131,7 @@ const SingleVariantCartItem = ({
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productAsset')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_productAssetObject')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);

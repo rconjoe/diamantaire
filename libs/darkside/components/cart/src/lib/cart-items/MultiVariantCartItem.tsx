@@ -172,13 +172,13 @@ const MultiVariantCartItem = ({
 
   // Handles engravings
   const isChildProductHidden = useMemo(() => {
-    return childProduct?.attributes?.find((attr) => attr.key === 'hiddenProduct');
+    return childProduct?.attributes?.find((attr) => attr.key === '_hiddenProduct');
   }, [item]);
 
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.find((attr) => attr.key === 'productAsset');
+    const matchingAttribute = attributes?.find((attr) => attr.key === '_productAssetObject');
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);

@@ -309,7 +309,7 @@ const AddToCartButtonContainer = styled.div`
 
   .atc-button button {
     font-size: var(--font-size-xxsmall);
-    min-height: 4.7rem;
+    min-height: 4.9rem;
   }
 `;
 
@@ -353,7 +353,8 @@ function AddToCartButton({
     // Applies to all products
     const defaultAttributes = {
       _productTitle: productTitle,
-      productAsset: JSON.stringify(image),
+      productAsset: image?.src,
+      _productAssetObject: JSON.stringify(image),
       _dateAdded: Date.now().toString(),
       _productType: productType,
       shippingText: _t('Made-to-order. Ships by'),
