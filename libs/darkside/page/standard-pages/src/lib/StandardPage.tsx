@@ -14,14 +14,16 @@ export interface StandardPageProps {
   isMobile: boolean;
   countryCode: string;
   currencyCode: string;
+  pageSlug: string;
 }
 
 const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
-
+  const { pageSlug: pageSlugFromProps } = props; // for static page slugs
   const { pageSlug } = router.query;
+  const pageSlugMerge = pageSlug || pageSlugFromProps;
 
-  const { data }: any = useStandardPage(pageSlug.toString(), router.locale);
+  const { data }: any = useStandardPage(pageSlugMerge.toString(), router.locale);
   const page = data?.standardPage;
 
   const { seo } = page || {};
@@ -98,6 +100,7 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
   // device:
   const isMobile = false;
   const { pageSlug } = params || {};
+
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
