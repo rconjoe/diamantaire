@@ -8,6 +8,11 @@ const StyledDiamond360 = styled.div`
   overflow: hidden;
   background: var(--color-lightest-grey);
 
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+
   > div {
     transform: scale(1.05);
   }

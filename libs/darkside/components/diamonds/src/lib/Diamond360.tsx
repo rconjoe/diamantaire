@@ -36,7 +36,7 @@ const Diamond360 = ({
         .filter((v) => !isNaN(Number(v)))
         .join('');
 
-  const [mediaType, setMediaType] = useState(null);
+  const [mediaType, setMediaType] = useState('diamond-image');
 
   const [mediaJpgFallback, setMediaJpgFallback] = useState(false);
 
@@ -70,25 +70,13 @@ const Diamond360 = ({
         setMediaType('diamond-video');
       }
     }
-  }, [id]);
+  }, [id, diamondID]);
 
   const renderMedia = () => {
-    if (disabled) {
-      return (
-        <Image
-          alt={diamondType}
-          src={`https://videos.diamondfoundry.com/${diamondID}-thumb.jpg`}
-          sizes="100vw"
-          height={0}
-          width={0}
-        />
-      );
-    }
-
-    if (useImageOnly || mediaType === 'diamond-image') {
+    if (disabled || useImageOnly || mediaType === 'diamond-image') {
       const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
 
-      return <Image src={spriteImageUrl} alt={diamondType} width={0} height={0} sizes="100vw" />;
+      return <Image priority src={spriteImageUrl} alt={diamondType} width={500} height={500} />;
     }
 
     if (mediaType === 'diamond-video') {
@@ -96,17 +84,17 @@ const Diamond360 = ({
 
       return (
         <SpriteSpinner
+          disableCaption={true}
           shouldStartSpinner={true}
           spriteImage={spriteImageUrl}
           bunnyBaseURL={spriteImageUrl}
-          disableCaption={true}
         />
       );
     }
   };
 
   useEffect(() => {
-    fetchMediaType();
+    // fetchMediaType();
   }, [diamondID, fetchMediaType]);
 
   return (
