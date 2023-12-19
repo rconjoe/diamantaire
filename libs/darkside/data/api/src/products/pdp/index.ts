@@ -588,6 +588,8 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
     query = WEDDING_BAND_QUERY;
   } else if (productType === (pdpTypePluralAsConst['Accessories'] as PdpTypePlural)) {
     query = JEWELRY_QUERY;
+  } else if (productType === (pdpTypePluralAsConst['Ring Sizer'] as PdpTypePlural)) {
+    query = JEWELRY_QUERY;
   } else {
     console.log('Unknown productType');
 
