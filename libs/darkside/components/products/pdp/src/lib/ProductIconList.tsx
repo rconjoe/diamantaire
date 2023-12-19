@@ -1,12 +1,11 @@
 import { DatoImage, Markdown, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useProductIconList } from '@diamantaire/darkside/data/hooks';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCountry } from '@diamantaire/shared/helpers';
+import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
 import { InfoIcon } from '@diamantaire/shared/icons';
 import { addBusinessDays, format } from 'date-fns';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -66,11 +65,14 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
       <ul>
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
-            return <ShippingListItem item={item} key={`product-icon-li-${index}`} configuration={configuration} />;
+            return (
+              <ShippingListItem item={item} key={`product-icon-li-${index}`} configuration={configuration} locale={locale} />
+            );
           } else {
             return (
               <IconListItem
                 item={item}
+                locale={locale}
                 key={`product-icon-li-${index}`}
                 setIsDiamondSlideoutOpen={setIsDiamondSlideoutOpen}
               />
@@ -92,11 +94,9 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
 export { ProductIconList };
 
 // Single Icon List Item
-const ShippingListItem = ({ item, configuration }) => {
+const ShippingListItem = ({ item, configuration, locale }) => {
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
   const isUserInEu = getIsUserInEu();
-
-  const { locale } = useRouter();
 
   // Checks if the locale is US, if not, it will check the shippingBusinessDaysCountryMap for the country code based days
   const shippingDate = format(
@@ -123,8 +123,13 @@ const ShippingListItem = ({ item, configuration }) => {
 };
 
 // Standard Icon List Item
-const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
-  const { copy, ctaRoute, ctaCopy, icon, additionalInfo } = item || {};
+const IconListItem = ({ item, setIsDiamondSlideoutOpen, locale }) => {
+  const { copy, ctaRoute, ctaCopy, icon, additionalInfo, supportedCountries } = item || {};
+  const countryCode = getCountry(locale);
+
+  if (!isCountrySupported(supportedCountries, countryCode)) {
+    return null;
+  }
 
   return (
     <li>

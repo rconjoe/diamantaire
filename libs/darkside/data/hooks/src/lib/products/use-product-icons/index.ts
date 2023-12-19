@@ -22,6 +22,7 @@ export interface ProductIconListDataTypes {
     image: DatoImageType;
     copy: string;
   };
+  supportedCountries?: { code: string }[];
 }
 
 type ProductIconListProps = {
