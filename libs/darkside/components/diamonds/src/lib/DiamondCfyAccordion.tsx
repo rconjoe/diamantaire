@@ -30,9 +30,9 @@ const DiamondCfyAccordion = ({
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
   const { specs } = DiamondTableData || {};
-  const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
 
   // COLOR
+  const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
   const getColorTitle = () => {
     const { color } = product || {};
     const title = getInfo(specs, 'color')?.value;
@@ -104,10 +104,17 @@ const DiamondCfyAccordion = ({
   };
 
   // CLARITY
+  const { clarityMapAbridged } = DiamondTableData || {};
+  const clarityObjAbridged = (Object.values(clarityMapAbridged) as { key: string; value: string }[]).reduce((a, v) => {
+    return { ...a, [v.key]: v.value };
+  }, {});
+  const clarityLabelMap = {
+    'VS+': clarityObjAbridged['VS1']?.replace('.', '+') || '',
+    'VVS+': clarityObjAbridged['VVS2'] || '',
+  };
   const getClarityTitle = () => {
     const { clarity } = product || {};
-    const { clarityMapAbridged } = DiamondTableData || {};
-    const label = getInfo(clarityMapAbridged, clarity)?.value || '';
+    const label = clarityLabelMap[clarity] || '';
     const title = getInfo(specs, 'clarity')?.value;
 
     return (
@@ -130,7 +137,7 @@ const DiamondCfyAccordion = ({
     const { diamondClarityUpgrade: upgrade } = diamondCtoData || {};
 
     if (product && upgrade) {
-      upgradeLabel = upgrade.clarity || '';
+      upgradeLabel = clarityLabelMap[upgrade.clarity] || '';
       upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
       upgradePriceHuman = (
@@ -200,11 +207,8 @@ const DiamondCfyAccordion = ({
 
     if (product && upgrade) {
       upgradeLabel = upgrade.cut || '';
-
       upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
-
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>

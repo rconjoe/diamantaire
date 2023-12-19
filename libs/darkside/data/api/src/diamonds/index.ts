@@ -156,41 +156,31 @@ export const fetchDiamondCfyData = async (locale: string) => {
 
 // Get Diamond Cut To Order
 export const fetchDiamondCtoData = async (options) => {
-  const getAvailableOptions = (diamonds) => {
-    const options = diamonds?.reduce(
-      (prevOptions, diamond) => {
-        if (!prevOptions.clarity.includes(diamond.clarity)) {
-          prevOptions.clarity.push(diamond.clarity);
-        }
-
-        if (!prevOptions.cut.includes(diamond.cut)) {
-          prevOptions.cut.push(diamond.cut);
-        }
-
-        if (!prevOptions.color.includes(diamond.color)) {
-          prevOptions.color.push(diamond.color);
-        }
-
-        return prevOptions;
-      },
-      { cut: [], color: [], clarity: [] },
-    );
-
-    return options;
-  };
-
   const getDefaultCtoDiamond = (diamonds) => {
-    const upgradeOptions = getAvailableOptions(diamonds);
+    const conditions = [
+      (diamond) => diamond.color === 'Colorless',
+      (diamond) => diamond.cut === 'Ideal+Hearts',
+      (diamond) => diamond.clarity === 'VVS+',
+    ];
 
-    if (upgradeOptions.color.includes('Colorless')) {
-      const colorlessDiamonds = diamonds.filter((diamond) => diamond.color === 'Colorless');
+    let bestMatch = null;
 
-      if (colorlessDiamonds.length >= 1) {
-        return colorlessDiamonds[0];
+    let bestMatchConditionsMet = 0;
+
+    for (const diamond of diamonds) {
+      const conditionsMet = conditions.reduce((count, condition) => (condition(diamond) ? count + 1 : count), 0);
+
+      if (conditionsMet > bestMatchConditionsMet) {
+        bestMatch = diamond;
+        bestMatchConditionsMet = conditionsMet;
       }
     }
 
-    return diamonds?.[0];
+    if (bestMatch) {
+      return bestMatch;
+    }
+
+    return diamonds[0];
   };
 
   const getAvailableUpgrades = (diamonds, selectedDiamond) => {
