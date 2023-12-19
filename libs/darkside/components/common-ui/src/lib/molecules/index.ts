@@ -18,6 +18,7 @@ export * from './Markdown';
 export * from './MobileDesktopImage';
 export * from './Modal';
 export * from './ProductAppointmentCTA';
+export * from './RingSizeGuide';
 export * from './ShopifyImage';
 export * from './SlideOut';
 export * from './Slider';

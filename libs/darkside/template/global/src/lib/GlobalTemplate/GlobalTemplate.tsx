@@ -8,12 +8,12 @@ import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
-  padding-top: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 'px')};
-  min-height: ${({ distanceFromTopMobile }) => (!distanceFromTopMobile ? '7rem' : distanceFromTopMobile + 1 + 'px')};
+  padding-top: ${({ distanceFromTopMobile }) => (distanceFromTopMobile ? `${distanceFromTopMobile}px` : '94px')};
+  min-height: ${({ distanceFromTopMobile }) => (distanceFromTopMobile ? `${distanceFromTopMobile + 1}px` : '7rem')};
 
   ${media.medium`
-    padding-top: ${({ distanceFromTop }) => distanceFromTop + 'px'};
-    min-height: ${({ distanceFromTop }) => distanceFromTop + 1 + 'px'};
+    padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '94px')};
+    min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
   `}
 `;
 

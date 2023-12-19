@@ -67,9 +67,17 @@ type PlpProductItemProps = {
   product: ListPageItemWithConfigurationVariants;
   position: number;
   plpTitle: string;
+  builderFlowOverride?: boolean;
+  selectSettingForBuilderFlow: () => void;
 };
 
-const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) => {
+const PlpProductItem = ({
+  product,
+  position,
+  plpTitle,
+  selectSettingForBuilderFlow,
+  builderFlowOverride,
+}: PlpProductItemProps) => {
   const { defaultId, variants, metal, useLowestPrice, lowestPrice } = product;
   const [selectedId, setSelectedId] = useState(defaultId);
   const selectedVariant = variants[selectedId];
@@ -83,6 +91,8 @@ const PlpProductItem = ({ product, position, plpTitle }: PlpProductItemProps) =>
         useLowestPrice={useLowestPrice}
         lowestPrice={lowestPrice}
         label={product?.productLabel?.title || null}
+        selectSettingForBuilderFlow={selectSettingForBuilderFlow}
+        builderFlow={builderFlowOverride}
       />
       <div className="metal-selector">
         <ul className="list-unstyled flex">

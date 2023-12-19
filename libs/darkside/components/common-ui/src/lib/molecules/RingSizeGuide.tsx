@@ -1,8 +1,9 @@
-import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { formatRingSize } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
+import { DarksideButton, UIString } from './';
 
 const LINK_TO_PDF = `https://images.vraiandoro.com/content-images/VRAI_Ring_Sizer_PDF_en_US.pdf`;
 
@@ -104,7 +105,7 @@ const RingSizeGuide = () => {
   );
 };
 
-export default RingSizeGuide;
+export { RingSizeGuide };
 
 const RING_SIZE_CONVERSIONS = [
   {
