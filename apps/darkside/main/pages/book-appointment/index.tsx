@@ -1,4 +1,18 @@
 import { StandardPage, getServerSideProps as originalGetServerSideProps } from '@diamantaire/darkside/page/standard-pages';
+import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+
+import { renderIframe } from './[location]';
+
+const BookAppointmentPage = (props) => {
+  const defaultBookingUrl = `https://vrai.as.me`;
+
+  return (
+    <>
+      <StandardPage {...props} />
+      {defaultBookingUrl && renderIframe({ src: defaultBookingUrl })}
+    </>
+  );
+};
 
 const customGetServerSideProps = async (context) => {
   const customContext = {
@@ -16,5 +30,7 @@ const customGetServerSideProps = async (context) => {
   };
 };
 
-export default StandardPage;
+BookAppointmentPage.getTemplate = getStandardTemplate;
+
+export default BookAppointmentPage;
 export { customGetServerSideProps as getServerSideProps };

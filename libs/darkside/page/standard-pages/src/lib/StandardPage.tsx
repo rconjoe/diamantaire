@@ -95,11 +95,15 @@ export interface GetStaticPropsRequest extends NextRequest {
 //   };
 // }
 
-async function getServerSideProps({ locale, params, res }: GetServerSidePropsContext<{ pageSlug: string }>) {
+async function getServerSideProps({
+  locale,
+  params,
+  res,
+}: GetServerSidePropsContext<{ pageSlug: string; location?: string }>) {
   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1800');
   // device:
   const isMobile = false;
-  const { pageSlug } = params || {};
+  const { pageSlug, location } = params || {};
 
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
@@ -128,6 +132,8 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
       isMobile,
       currencyCode,
       countryCode,
+      locale,
+      ...(location && { location }),
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
