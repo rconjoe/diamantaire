@@ -273,9 +273,6 @@ export type ShopifyProductsOperation = {
 };
 
 export type ShopifyCartUpdateGiftNoteOperation = {
-  // data: {
-  //   products: Connection<ShopifyProduct>;
-  // };
   variables: {
     cartId: string;
     note: string;

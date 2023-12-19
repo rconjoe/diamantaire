@@ -18,7 +18,7 @@ export interface DatoImageType {
     thumbnailUrl?: string;
   };
   customData?: {
-    [key: string]: any;
+    [key: string]: string;
   };
 }
 

@@ -40,8 +40,6 @@ export const GlobalTemplate = ({ children }) => {
 
   const isHome = pathname === '/';
 
-  console.log('pathname', isHome);
-
   useEffect(() => {
     // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
     const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
