@@ -85,7 +85,7 @@ const SliderFilter = (props) => {
 };
 
 const RadioFilter = (props) => {
-  const { stringMap, type, ranges, options, handleRadioFilterChange } = props;
+  const { stringMap, type, ranges, options, handleRadioFilterChange, availableDiamonds } = props;
   const { isMobile } = useContext(GlobalContext);
   const [useLeftArrow, setUseLeftArrow] = useState(false);
   const [useRightArrow, setUseRightArrow] = useState(true);
@@ -99,6 +99,10 @@ const RadioFilter = (props) => {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
       shapeHandles = Object.values(DIAMOND_TABLE_SHAPES);
+
+      if (availableDiamonds) {
+        shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
+      }
 
       optionsUI = shapeHandles
         .filter((handle) => {
@@ -273,11 +277,11 @@ export interface DiamondFilterProps {
   options: object;
   ranges: object;
   locale: string;
-  hideFilters?: string[];
+  availableDiamonds?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, hideFilters } = props;
+  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
 
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
@@ -340,8 +344,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
         const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
 
-        if (hideFilters?.includes(filter)) return null;
-
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>
             <div className="vo-filter-title">
@@ -373,6 +375,7 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 stringMap={stringMap[filter]}
                 ranges={ranges}
                 type={filter}
+                availableDiamonds={availableDiamonds}
               />
             )}
 

@@ -27,6 +27,11 @@ const ProductDiamondHandStyles = styled.div`
       aspect-ratio: 1/1;
       position: relative;
       max-height: 330px;
+      max-height: 360px;
+
+      @media (min-width: ${({ theme }) => theme.sizes.small}) {
+        max-height: 360px;
+      }
 
       @media (min-width: ${({ theme }) => theme.sizes.small}) {
         max-height: 460px;
@@ -144,7 +149,7 @@ const ProductDiamondHandStyles = styled.div`
   }
 `;
 
-const ProductDiamondHand = ({ range, diamondType, initValue }) => {
+const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false }) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
 
   const pickDiamondWidth = (carat) => {
@@ -302,39 +307,39 @@ const ProductDiamondHand = ({ range, diamondType, initValue }) => {
           </div>
         </div>
       </div>
-      <div className="slider-outer-container">
-        <div className="slider swiper-no-swiping">
-          <div className="slider-container">
-            <div className="slider-grid">
-              <div className="min">
-                <span>{range[0]}ct</span>
-              </div>
-              <div className="slider">
-                <ReactSlider
-                  className="horizontal-slider"
-                  thumbClassName="thumb"
-                  trackClassName="track"
-                  min={range[0]}
-                  max={range[1]}
-                  value={sliderValue}
-                  step={0.1}
-                  onChange={(v) => setSliderValue(v)}
-                  renderThumb={(props, state) => (
-                    <div {...props}>
-                      <button>
-                        {state.valueNow} <UIString>carat</UIString>
-                      </button>
-                    </div>
-                  )}
-                />
-              </div>
-              <div className="max">
-                <span>{range[1]}ct</span>
+      {!disableControls && (
+        <div className="slider-outer-container">
+          <div className="slider swiper-no-swiping">
+            <div className="slider-container">
+              <div className="slider-grid">
+                <div className="min">
+                  <span>{range[0]}ct</span>
+                </div>
+                <div className="slider">
+                  <ReactSlider
+                    className="horizontal-slider"
+                    thumbClassName="thumb"
+                    trackClassName="track"
+                    min={range[0]}
+                    max={range[1]}
+                    value={sliderValue}
+                    step={0.1}
+                    onChange={(v) => setSliderValue(v)}
+                    renderThumb={(props, state) => (
+                      <div {...props}>
+                        <button>{state.valueNow} carat</button>
+                      </div>
+                    )}
+                  />
+                </div>
+                <div className="max">
+                  <span>{range[1]}ct</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </ProductDiamondHandStyles>
   );
 };

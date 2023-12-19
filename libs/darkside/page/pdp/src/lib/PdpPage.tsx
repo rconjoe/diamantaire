@@ -39,7 +39,7 @@ import ProductReviews from './pdp-blocks/ProductReviews';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
-interface PdpPageParams extends ParsedUrlQuery {
+export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
   productSlug: string;
 }
@@ -390,12 +390,20 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
+  contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+  const mergedContext = {
+    ...context,
+    params: {
+      ...context.params,
+      ...(contextOverride?.params || {}),
+    },
+  };
 
-  const { params, locale } = context;
+  const { params, locale } = mergedContext;
 
-  const { collectionSlug, productSlug } = context.params;
+  const { collectionSlug, productSlug } = mergedContext.params;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
