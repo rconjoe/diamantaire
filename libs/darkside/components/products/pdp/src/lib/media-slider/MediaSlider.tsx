@@ -1,8 +1,8 @@
 import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
-import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { useState } from 'react';
+import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Keyboard, Lazy, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,7 +14,7 @@ import { ProductDiamondHand } from '../ProductDiamondHand';
 const MediaSliderContainer = styled.div`
   position: relative;
   display: block;
-  margin: 0 auto;
+  margin: ${({ hasPagination }) => (hasPagination ? '0 auto' : '0 auto 20px')};
   padding: 0;
   height: 100%;
   max-width: 100%;
@@ -61,9 +61,18 @@ const DEFAULT_BREAKPOINTS = {
 const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = false }) => {
   // eslint-disable-next-line
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const [totalSlides, setTotalSlides] = useState(0);
+  const hasPagination = totalSlides > 1;
+
+  useEffect(() => {
+    // Calculate the total number of slides
+    const slidesCount = assets?.length + (shouldDisplayDiamondHand ? 1 : 0);
+
+    setTotalSlides(slidesCount);
+  }, [assets, shouldDisplayDiamondHand]);
 
   return (
-    <MediaSliderContainer>
+    <MediaSliderContainer hasPagination={hasPagination}>
       <Swiper
         className="media-slider__swiper"
         spaceBetween={20}
@@ -73,7 +82,7 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
         keyboard={true}
         onSwiper={setSwiper}
         watchSlidesProgress={true}
-        pagination={{ clickable: true }}
+        pagination={totalSlides > 1 ? { clickable: true } : false}
         navigation={true}
       >
         {assets?.map((asset, index) => {
