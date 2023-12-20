@@ -2,6 +2,8 @@ import { HUBSPOT_FORM_SUBMIT_URL, HUBSPOT_PORTAL_ID, HUBSPOT_CONSENT_TEXT } from
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import { hubspotEmailCookie } from './hubspotCookie';
+
 const generateHubspotURL = (listId: string) => {
   if (!listId) {
     throw new Error('listId is missing or undefined');
@@ -156,6 +158,8 @@ const sendHubspotForm = async ({
   };
 
   const url = generateHubspotURL(listData?.listId);
+
+  hubspotEmailCookie.set(email);
 
   try {
     const response = await axios.post(url, data);
