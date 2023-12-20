@@ -5,6 +5,7 @@ import { getCountry } from '@diamantaire/shared/helpers';
 import * as EmailValidator from 'email-validator';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Form } from './';
 
@@ -42,7 +43,10 @@ const NeedTimeToThinkForm = ({ productData }) => {
     const { email, isConsent = true } = formState;
 
     if (!EmailValidator.validate(email)) {
-      setFormSubmissionResult(_t('Please enter a valid email address.'));
+      toast.error(_t('Please enter a valid email address.'), {
+        autoClose: 3000,
+      });
+
       setIsSuccessful(false);
 
       return;
@@ -63,7 +67,10 @@ const NeedTimeToThinkForm = ({ productData }) => {
       setFormSubmissionResult(successCopy);
     } catch (error) {
       setIsSuccessful(false);
-      setFormSubmissionResult(errorCopy);
+      toast.error(errorCopy, {
+        autoClose: 3000,
+      });
+
       console.error('Error submitting form data to HubSpot:', error);
     }
   };
