@@ -11,11 +11,15 @@ const StyledDiamond360 = styled.div`
   .img {
     width: 100%;
     height: 100%;
-    transform: scale(1.01);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .vid {
-    transform: scale(1.01);
+    transform: scale(1.02);
     position: absolute;
     top: 0;
     left: 0;

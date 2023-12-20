@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { SpriteSpinnerInit } from './SpriteSpinnerInit';
 import { UIString } from './UIString';
 
 declare const window: any;
@@ -126,7 +125,6 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   return (
     <SpritSpinnerContainer mobile={mobile}>
-      <SpriteSpinnerInit />
       <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}

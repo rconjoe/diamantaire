@@ -13,6 +13,7 @@ const StyledDiamondDetailPage = styled.div`
       font-weight: var(--font-weight-medium);
       text-align: center;
       line-height: 1.2;
+      min-height: 2.2rem;
     }
   }
 
