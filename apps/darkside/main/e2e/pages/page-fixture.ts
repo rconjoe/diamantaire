@@ -18,6 +18,7 @@ export const test = base.extend<PageObjects>({
   },
   checkoutPage: async ({ page }, use) => {
     const checkoutPage = new CheckoutPage(page);
+
     await use(checkoutPage);
   },
 

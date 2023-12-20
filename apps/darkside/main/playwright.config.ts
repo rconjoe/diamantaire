@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 // For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
+//const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 
 /**
  * Read environment variables from file.
@@ -19,10 +19,13 @@ export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './e2e' }),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL,
+    baseURL: process.env.test_env ==='prod' ? "https://www.vrai.com/" : process.env.test_env ==='qa' ? "https://main.vrai.qa/" : "http://localhost:4200" ,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    video: "retain-on-failure"
+
   },
+  reporter: [['html', { outputFolder: './e2e/output'}]],
 
   projects: [
     {
@@ -36,10 +39,10 @@ export default defineConfig({
     },
   ],
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'pnpm run start',
-    url: 'http://127.0.0.1:4200',
-    reuseExistingServer: !process.env.CI,
-    cwd: workspaceRoot,
-  },
+   webServer: {
+     command: 'pnpm run start',
+     url: 'http://127.0.0.1:4200',
+     reuseExistingServer: !process.env.CI,
+     cwd: workspaceRoot,
+   },
 });
