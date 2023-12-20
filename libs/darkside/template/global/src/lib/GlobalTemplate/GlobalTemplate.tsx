@@ -34,7 +34,7 @@ export const GlobalTemplate = ({ children }) => {
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(56);
 
   const { pathname } = useRouter();
 
@@ -43,8 +43,6 @@ export const GlobalTemplate = ({ children }) => {
   useEffect(() => {
     // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
     const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
-
-    console.log(`fullHeaderHeight`, fullHeaderHeight);
 
     setHeaderHeight(fullHeaderHeight);
   }, [isTopbarShowing]);

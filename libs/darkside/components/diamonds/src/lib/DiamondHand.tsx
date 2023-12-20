@@ -14,9 +14,11 @@ const DiamondHand = ({
   isThumb = false,
   withSlider = false,
   diamond,
-  // Init value overrides
   initRange,
   initValue,
+  priority = false,
+  width = 500,
+  height = 500,
 }: {
   className?: string;
   diamond?: DiamondDataTypes | DiamondCtoDataTypes;
@@ -25,6 +27,9 @@ const DiamondHand = ({
   withSlider?: boolean;
   initRange?: number[];
   initValue?: number;
+  priority?: boolean;
+  width?: number;
+  height?: number;
 }) => {
   const handImageSource = `${IMAGE_BASE_URL}/diamond-images/hand-transparent.png`;
 
@@ -193,7 +198,7 @@ const DiamondHand = ({
     <StyledDiamondHand className={`diamond-hand ${extraClass}`}>
       <div className="media">
         <div className="image-hand">
-          <Image className="bg" alt="Hand" src={handImageSource} width={450} height={450} />
+          <Image className="bg" alt="Hand" src={handImageSource} width={width} height={height} priority={priority} />
         </div>
 
         <div className="image-diamond">

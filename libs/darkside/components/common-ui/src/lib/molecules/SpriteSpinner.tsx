@@ -8,13 +8,8 @@ declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
   position: relative;
-  max-width: 65.7rem;
-
-  display: ${({ mobile }) => (mobile ? 'block' : 'none')};
-
-  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    display: ${({ mobile }) => (mobile ? 'none' : 'block')};
-  }
+  width: 100%;
+  height: 100%;
 
   .spritespin-canvas {
     width: 100%;

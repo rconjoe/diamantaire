@@ -29,6 +29,14 @@ const StyledCFYResultPage = styled.div`
     text-align: center;
     margin-bottom: 2rem;
 
+    &.mobile-only {
+      height: 2.7rem;
+
+      ${tabletAndUp(`
+        display: none;
+      `)}
+    }
+
     * {
       font-size: var(--font-size-xsmall);
     }
