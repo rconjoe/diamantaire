@@ -309,7 +309,7 @@ const AddToCartButtonContainer = styled.div`
 
   .atc-button button {
     font-size: var(--font-size-xxsmall);
-    min-height: 4.7rem;
+    min-height: 4.9rem;
   }
 `;
 
@@ -353,7 +353,8 @@ function AddToCartButton({
     // Applies to all products
     const defaultAttributes = {
       _productTitle: productTitle,
-      productAsset: JSON.stringify(image),
+      productAsset: image?.src,
+      _productAssetObject: JSON.stringify(image),
       _dateAdded: Date.now().toString(),
       _productType: productType,
       shippingText: _t('Made-to-order. Ships by'),
@@ -487,6 +488,26 @@ function AddToCartButton({
         attributes: jewelryAttributes,
         hasEngraving: Boolean(engravingText),
         engravingText,
+      }).then(() => refetch());
+    } else if (productType === 'Gift Card') {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { shippingText, ...otherAttributes } = defaultAttributes;
+      const giftCardAttributes = {
+        ...otherAttributes,
+        pdpUrl: window.location.href,
+        feedId: variantId,
+        // Jewelry specific attributes
+        metalType: '',
+        shippingBusinessDays: '',
+        productIconListShippingCopy: '',
+        shippingText: '',
+        childProduct: '',
+      };
+
+      // Assuming you have a function to handle adding a gift card to the cart
+      addJewelryProductToCart({
+        variantId: variantId,
+        attributes: giftCardAttributes,
       }).then(() => refetch());
     }
 

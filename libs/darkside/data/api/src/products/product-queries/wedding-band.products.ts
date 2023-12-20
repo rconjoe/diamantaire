@@ -9,6 +9,10 @@ export const WEDDING_BAND_PDP = `
         title
         slug
       }
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       slug
       productTitle
       productDescription

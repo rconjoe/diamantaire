@@ -94,6 +94,10 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       seoTitle
       seoDescription
       productTitle
@@ -587,6 +591,8 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
   } else if (productType === pdpTypePluralAsConst['Wedding Bands']) {
     query = WEDDING_BAND_QUERY;
   } else if (productType === (pdpTypePluralAsConst['Accessories'] as PdpTypePlural)) {
+    query = JEWELRY_QUERY;
+  } else if (productType === (pdpTypePluralAsConst['Gift Cards'] as PdpTypePlural)) {
     query = JEWELRY_QUERY;
   } else if (productType === (pdpTypePluralAsConst['Ring Sizer'] as PdpTypePlural)) {
     query = JEWELRY_QUERY;

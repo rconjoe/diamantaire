@@ -13,11 +13,13 @@ const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;
   .appointment-button {
     width: 100%;
-    height: 4.7rem;
+    height: 4.9rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f7f7f7;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-black);
+    color: var(--color-black);
     font-size: var(--font-size-xxsmall);
 
     span {
@@ -97,7 +99,7 @@ const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
 
   function generateAppointmentLink(matchingLocation, productType) {
     if (!matchingLocation) {
-      console.log("No matching appointment options", matchingLocation, productType);
+      console.log('No matching appointment options', matchingLocation, productType);
 
       return 'https://vrai.as.me/schedule.php?appointmentType=Virtual';
     }

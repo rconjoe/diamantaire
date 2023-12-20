@@ -97,6 +97,8 @@ interface CtoDiamondTable {
   caratWeightCopy: string;
   caratDetails: string;
   clarityDetails: string;
+  clarityDetailsVvsLg: string;
+  clarityDetailsVvsSm: string;
   cutDetails: string;
   cutDetailsRoundBrilliant: string;
   colorDetails: string;

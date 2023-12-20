@@ -95,6 +95,16 @@ const RadioFilter = (props) => {
     rangeTypes,
     shapeHandles = [];
 
+  const colorOptions = Object.values(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
+
+  const cutOptions = Object.values(DIAMOND_TABLE_FILTER_CUT_OPTIONS);
+
+  const clarityOptions = Object.values(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
+
+  const optionsDiamondType = options?.diamondType?.split(',') || [];
+
+  const isFancyShape = optionsDiamondType.length > 0 && !optionsDiamondType.includes('round-brilliant');
+
   switch (type) {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
@@ -114,13 +124,13 @@ const RadioFilter = (props) => {
 
       break;
     case 'clarity':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
+      optionsUI = clarityOptions;
       break;
     case 'color':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
+      optionsUI = colorOptions;
       break;
     case 'cut':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_CUT_OPTIONS);
+      optionsUI = isFancyShape ? [cutOptions[2]] : cutOptions;
       break;
   }
 
@@ -282,11 +292,9 @@ export interface DiamondFilterProps {
 
 const DiamondFilter = (props: DiamondFilterProps) => {
   const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
-
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
-
   const { data: humanNameMapperData } = useHumanNameMapper(locale);
   const { DIAMOND_CUTS } = humanNameMapperData || {};
 

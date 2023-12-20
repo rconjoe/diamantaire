@@ -60,6 +60,12 @@ const PlpHeroBannerStyles = styled.div`
       margin-bottom: 2rem;
     }
 
+    .hero__content-inner {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 1rem 0 2.5rem;
+      }
+    }
+
     p {
       margin: 0;
       font-size: var(--font-size-xxsmall);

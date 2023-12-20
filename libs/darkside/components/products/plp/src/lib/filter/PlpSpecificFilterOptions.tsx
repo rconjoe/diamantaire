@@ -45,7 +45,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
     &.metal {
       padding-top: 0px;
       ul {
-        padding-left: 0.5rem;
+        padding-left: 0.6rem;
       }
     }
   }

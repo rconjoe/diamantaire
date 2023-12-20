@@ -17,6 +17,9 @@ export interface DatoImageType {
     streamingUrl: string;
     thumbnailUrl?: string;
   };
+  customData?: {
+    [key: string]: string;
+  };
 }
 
 export type ErrorWithMessage = {

@@ -245,6 +245,10 @@ export const PlpProductFilterStyles = styled.div`
         font-weight: bold;
         border-bottom: 0.2rem solid var(--color-teal);
       }
+
+      .price-text {
+        font-size: var(--font-size-xxxsmall);
+      }
     }
     /* mobile filter */
     &.stacked {
@@ -490,7 +494,7 @@ export const PlpProductFilterStyles = styled.div`
   .specific-filter-options {
     .filter-option-set {
       padding-right: 5rem;
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         h3,
         .diamond-text {
           display: none;

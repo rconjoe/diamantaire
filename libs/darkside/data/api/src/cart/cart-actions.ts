@@ -9,10 +9,11 @@ import {
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
+  ShopifyCartUpdateGiftNoteOperation,
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
 } from './cart-types';
-import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
+import { addToCartMutation, createCartMutation, editCartItemsMutation, updateGiftNoteMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 
 // NEW
@@ -150,6 +151,7 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
+  console.log('getttinggggg', lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -245,7 +247,7 @@ export function addJewelryProductToCart({ variantId, attributes, engravingText, 
               value: engravingText,
             },
             {
-              key: 'hiddenProduct',
+              key: '_hiddenProduct',
               value: 'true',
             },
             {
@@ -476,7 +478,7 @@ export async function addERProductToCart({
               value: engravingText,
             },
             {
-              key: 'hiddenProduct',
+              key: '_hiddenProduct',
               value: 'true',
             },
             {
@@ -547,7 +549,7 @@ export async function addERProductToCart({
             value: engravingText,
           },
           {
-            key: 'hiddenProduct',
+            key: '_hiddenProduct',
             value: 'true',
           },
           {
@@ -617,12 +619,42 @@ const addCustomizedItem = async (
     return refinedItems.push(newItem);
   });
 
+  console.log('refinedItems', refinedItems);
+
   try {
-    await addToCart(cartId, Array.from(refinedItems));
+    // Need to do it like this to maintain order in shopify checkout
+    refinedItems.map(async (item) => await addToCart(cartId, [item]));
   } catch (e) {
     console.log('Error adding customized item to cart', e);
   }
 };
+
+// Gift Note
+export async function updateGiftNote({ giftNote }: { giftNote: string }): Promise<Cart | string | undefined> {
+  try {
+    let cartId = localStorage.getItem('cartId');
+
+    if (!cartId) {
+      const cart = await createCart();
+
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
+    const res = await shopifyFetch<ShopifyCartUpdateGiftNoteOperation>({
+      query: updateGiftNoteMutation,
+      variables: {
+        cartId,
+        note: giftNote,
+      },
+      cache: 'no-store',
+    });
+
+    console.log('gift card res', res);
+  } catch (e) {
+    return 'Error updating gift note';
+  }
+}
 
 // Specific to GWP
 export async function toggleCartAddonProduct(variantId) {
