@@ -1,6 +1,6 @@
 import { StandardPage, getServerSideProps as originalGetServerSideProps } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
-import { SHOWROOM_LOCATIONS } from '@diamantaire/shared/constants';
+import { ALL_SHOWROOMS } from '@diamantaire/shared/constants';
 import { getLanguage } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
@@ -60,7 +60,7 @@ function getLocationBasedBookingLink(location, locale) {
       return `${acuityBaseUrl}/virtual-spanish`;
     }
 
-    const matchingLocation = SHOWROOM_LOCATIONS.find((showroomLocation) => {
+    const matchingLocation = ALL_SHOWROOMS.find((showroomLocation) => {
       return showroomLocation?.handle?.includes(location);
     });
 
