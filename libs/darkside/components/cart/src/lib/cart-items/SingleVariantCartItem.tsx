@@ -245,6 +245,8 @@ const SingleVariantCartItem = ({
     return initAttributes;
   }, [refinedCartItemDetails, info]);
 
+  console.log('itemAttributes', itemAttributes);
+
   useEffect(() => {
     const tempRefinedCartItemDetails: { [key: string]: string }[] = [{}];
 
