@@ -144,6 +144,10 @@ const PRODUCT_ICON_LIST_QUERY = gql`
             }
             text
           }
+          supportedCountries {
+            code
+            name
+          }
         }
         ... on ModularShippingProductIconListItemRecord {
           _modelApiKey

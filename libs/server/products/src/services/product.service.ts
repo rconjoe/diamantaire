@@ -913,9 +913,10 @@ export class ProductsService {
 
         // split joined types to be individual types and remove duplicates
         const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
 
         availableFilters = {
-          metal: availableMetals.sort(sortMetalTypes),
+          metal: explodedMetalType.sort(sortMetalTypes),
           diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
@@ -1310,9 +1311,12 @@ export class ProductsService {
         const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
           await Promise.all(filterValueQueries);
 
+        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
+
         availableFilters = {
-          metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
+          metal: explodedMetalType.sort(sortMetalTypes),
+          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1805,7 +1809,7 @@ function getDatoRequestLocale(locale = 'en_US'): string {
   const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
   const language = locale.split('-')[0];
 
-  if (!validDatoLocales.includes(locale)) {
+  if (!validDatoLocales.includes(language)) {
     return 'en_US';
   }
 

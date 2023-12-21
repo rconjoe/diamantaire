@@ -134,9 +134,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
             <Image
               src="https://www.datocms-assets.com/25216/1661530410-4c-cut.jpg"
               alt={getInfo(specs, 'cut')}
-              sizes="100vw"
-              height={0}
-              width={0}
+              height={100}
+              width={90}
             />
           </div>
           <div className="sub">
@@ -205,9 +204,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Image
             alt={getInfo(specs, 'color')?.value}
             src="https://www.datocms-assets.com/25216/1678265887-color-2.png"
-            sizes="100vw"
-            width={0}
-            height={0}
+            width={323}
+            height={129}
             loading="eager"
           />
         </div>
@@ -273,9 +271,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Image
             alt={getInfo(specs, 'clarity')?.value}
             src="https://www.datocms-assets.com/25216/1678265893-clarity-2.png"
-            sizes="100vw"
-            width={0}
-            height={0}
+            width={323}
+            height={125}
             loading="eager"
           />
         </div>

@@ -1,3 +1,4 @@
+import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -60,11 +61,15 @@ const StyledDiamondDetail = styled.div`
 
   .main > .media {
     display: block;
-    width: 100%;
     margin: 0 -2.4rem;
+
+    ${mobileOnly(`
+      height: calc(100vw + 3rem);
+    `)}
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       margin: 0;
+      width: 100%;
       display: flex;
       align-items: flex-start;
     }
@@ -78,11 +83,16 @@ const StyledDiamondDetail = styled.div`
       display: flex;
       align-items: flex-start;
       justify-content: center;
+
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        justify-content: space-between;
+      }
     }
 
     .media-content-item {
       width: 100%;
       display: block;
+      aspect-ratio: 1/1;
 
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         width: ${mediaWidth};
@@ -204,6 +214,12 @@ const StyledDiamondDetail = styled.div`
         height: 4.8rem;
       }
     }
+  }
+
+  .media-content {
+    ${mobileOnly(`
+      height: calc(100vw + 3rem);
+    `)}
   }
 
   .media-content > .carousel {
