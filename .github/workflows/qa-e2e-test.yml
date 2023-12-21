@@ -28,10 +28,10 @@ jobs:
     steps:
       - name: Prepare testing env
         uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: "18"
-      - run: npm ci
+          version: 8
+      - run: pnpm install
       - run: npx playwright install --with-deps
       - name: Run tests
         run: test_env=qa npx playwright test tests/fine-jewerly  --workers=1
