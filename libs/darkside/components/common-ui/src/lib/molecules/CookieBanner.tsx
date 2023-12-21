@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { CheckSquare, DarksideButton, Heading, Markdown } from './';
 
 const CookieBannerStyles = styled.div`
+  display: none !important;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -116,6 +117,7 @@ const CookieBanner = () => {
     acceptCookies(selectedOptions);
     handleAcceptPrivacy();
   };
+
   const handleAcceptAllCookies = () => {
     acceptAllCookies();
     handleAcceptPrivacy();
