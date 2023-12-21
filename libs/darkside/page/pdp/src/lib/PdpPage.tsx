@@ -112,6 +112,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
 
+  const productIconListTypeOverride = additionalVariantData?.omegaProduct?.productIconList?.productType;
+
+  console.log('productIconListTypeOverride', productIconListTypeOverride);
+
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;
@@ -309,6 +313,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
                 engravingText={engravingText}
                 setEngravingText={setEngravingText}
+                productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
@@ -319,9 +324,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               {productIconListType && (
                 <ProductIconList
-                  productIconListType={productIconListType}
+                  productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                   locale={router?.locale}
-                  configuration={configuration}
                 />
               )}
               <Form

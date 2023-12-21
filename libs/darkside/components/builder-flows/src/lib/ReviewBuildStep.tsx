@@ -586,7 +586,10 @@ const ReviewBuildStep = ({
     {
       label: _t('diamondType'),
       value: _t(diamond?.diamondType),
-      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      onClick: () => {
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+        router.push(router.asPath + '/edit-diamond');
+      },
       slug: 'diamondType',
     },
     {
@@ -892,11 +895,7 @@ const ReviewBuildStep = ({
 
               {product.productType && productIconListType && (
                 <div className="product-icon-list-container">
-                  <ProductIconList
-                    productIconListType={productIconListType}
-                    locale={router.locale}
-                    configuration={selectedConfiguration}
-                  />
+                  <ProductIconList productIconListType={productIconListType} locale={router.locale} />
                 </div>
               )}
             </div>
@@ -906,7 +905,12 @@ const ReviewBuildStep = ({
 
       <AnimatePresence>
         {isSizeGuideOpen && (
-          <SlideOut title="Size Guide" width="30%" onClose={() => setIsSizeGuideOpen(false)} className="extra-side-padding">
+          <SlideOut
+            title={_t('Size Guide')}
+            width="30%"
+            onClose={() => setIsSizeGuideOpen(false)}
+            className="extra-side-padding"
+          >
             <RingSizeGuide />
           </SlideOut>
         )}

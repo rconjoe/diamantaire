@@ -430,6 +430,9 @@ const DATO_VARIANT_QUERY = gql`
       productSuggestionQuadBlock {
         id
       }
+      productIconList {
+        productType
+      }
     }
   }
 `;
@@ -669,11 +672,6 @@ export async function fetchDatoProductVideoBlock(id: string, locale: string) {
 }
 
 export async function fetchDatoVariant(slug: string, locale: string) {
-  console.log('fetchDatoVariant', {
-    slug,
-    locale,
-  });
-
   const datoData = await queryDatoGQL({
     query: DATO_VARIANT_QUERY,
     variables: { slug, locale },

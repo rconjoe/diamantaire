@@ -3,12 +3,13 @@ import { DarksideButton, Form, Heading, SwiperStyles, UIString, UniLink } from '
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { v4 as uuidv4 } from 'uuid';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondDetail from './DiamondDetail.style';
@@ -16,6 +17,8 @@ import DiamondDetailAccordion from './DiamondDetailAccordion';
 import DiamondDetailIconList from './DiamondDetailIconList';
 import DiamondDetailSpecs from './DiamondDetailSpecs';
 import DiamondHand from './DiamondHand';
+import { ERProductCartItemProps } from 'libs/darkside/data/api/src/cart/cart-item-types';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 
 interface DiamondDetailDataTypes {
   handle?: string;
@@ -43,6 +46,32 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} diamond={product} />,
     <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
+
+  console.log('productPrice', productPrice);
+
+  function addLooseDiamondToCart() {
+    const mutatedLotId = lotId && getNumericalLotId(lotId);
+    const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+
+    const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
+      _productTitle: product?.productTitle,
+      productAsset: diamondImage,
+      _dateAdded: Date.now().toString() + 100,
+      caratWeight: product.carat.toString(),
+      clarity: product.clarity,
+      cut: product.cut,
+      color: product.color,
+      feedId: product.lotId,
+      lotId: product.lotId,
+      isChildProduct: 'true',
+      productGroupKey: uuidv4(),
+      _productType: 'Diamond',
+      shippingText: _t('Made-to-order. Ships by'),
+      productIconListShippingCopy: 'temp',
+      shippingBusinessDays: 'temp',
+      pdpUrl: window.location.href,
+    };
+  }
 
   return (
     <StyledDiamondDetail headerHeight={headerHeight}>
@@ -88,7 +117,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           <div className="cta">
             {(product?.available_inventory && (
               <>
-                <DarksideButton type="solid" colorTheme="black">
+                <DarksideButton type="solid" colorTheme="black" href={`/customize/diamond-to-setting/${lotId}`}>
                   {buttonTextDiamondFlow}
                 </DarksideButton>
 
