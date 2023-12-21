@@ -163,7 +163,7 @@ const CartNote = ({ addNoteOptionCta }) => {
           })
           .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-        await addItemToCart(noteVariantId, refinedAttributes).then(() => refetch());
+        await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
       } else if (!orderHasNote && doesUserHaveNoteInCart) {
         await removeNoteFromOrder(doesUserHaveNoteInCart);
       }

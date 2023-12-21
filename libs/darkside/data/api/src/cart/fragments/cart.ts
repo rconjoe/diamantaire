@@ -5,6 +5,10 @@ import productFragment from './product';
 const cartFragment = gql`
   fragment cart on Cart {
     id
+    buyerIdentity {
+      email
+      countryCode
+    }
     checkoutUrl
     note
     cost {

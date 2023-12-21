@@ -325,7 +325,8 @@ const ReviewBuildStep = ({
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
-  const { data: checkout, refetch } = useCartData(router?.locale);
+  const { locale } = router;
+  const { data: checkout, refetch } = useCartData(locale);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -350,11 +351,11 @@ const ReviewBuildStep = ({
 
   const { product, diamond } = builderProduct;
 
-  const { countryCode } = parseValidLocale(router?.locale);
+  const { countryCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
 
-  const { _t } = useTranslations(router?.locale);
+  const { _t } = useTranslations(locale);
 
   const mutatedLotId = diamond?.lotId && getNumericalLotId(diamond?.lotId);
 
@@ -372,7 +373,7 @@ const ReviewBuildStep = ({
   }
 
   const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
-  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
+  const { data }: { data: any } = useProductDato(collectionSlug, locale, pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
   const productIconListType = datoParentProductData?.productIconList?.productType;
@@ -494,6 +495,7 @@ const ReviewBuildStep = ({
       diamondAttributes,
       hasEngraving: engravingText ? true : false,
       engravingText,
+      locale,
     }).then(() => refetch());
 
     updateGlobalContext({
@@ -503,10 +505,10 @@ const ReviewBuildStep = ({
     // TODO: Add Sentry Loggin
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
-    const formattedSettingPrice = getFormattedPrice(settingPrice, router?.locale, true, true);
-    const formattedDiamondPrice = getFormattedPrice(diamond?.price, router?.locale, true, true);
+    const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamond?.price, locale, true, true);
     const id = settingVariantId.split('/').pop();
-    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, router?.locale, true, true);
+    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, locale, true, true);
 
     productAdded({
       id,
@@ -734,10 +736,7 @@ const ReviewBuildStep = ({
 
             <p className="total-price">
               <span>
-                {getFormattedPrice(
-                  product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
-                  router?.locale,
-                )}
+                {getFormattedPrice(product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0), locale)}
               </span>
             </p>
 
@@ -894,7 +893,7 @@ const ReviewBuildStep = ({
                 <div className="product-icon-list-container">
                   <ProductIconList
                     productIconListType={productIconListType}
-                    locale={router.locale}
+                    locale={locale}
                     configuration={selectedConfiguration}
                   />
                 </div>

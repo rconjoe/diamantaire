@@ -9,8 +9,10 @@ export const hubspotEmailCookie = {
       expires: 360,
     });
   },
-  get(cookies) {
-    return cookies[HUBSPOT_EMAIL_COOKIE] ? decode(cookies[HUBSPOT_EMAIL_COOKIE]) : false;
+  get() {
+    const cookieValue = Cookies.get(HUBSPOT_EMAIL_COOKIE);
+
+    return cookieValue ? decode(cookieValue) : false;
   },
   remove() {
     Cookies.remove(HUBSPOT_EMAIL_COOKIE);
@@ -23,8 +25,10 @@ export const accountEmailCookie = {
       expires: 30,
     });
   },
-  get(cookies) {
-    return cookies[ACCOUNT_EMAIL_COOKIE] ? decode(cookies[ACCOUNT_EMAIL_COOKIE]) : false;
+  get() {
+    const cookieValue = Cookies.get(ACCOUNT_EMAIL_COOKIE);
+
+    return cookieValue ? decode(cookieValue) : false;
   },
   remove() {
     Cookies.remove(ACCOUNT_EMAIL_COOKIE);

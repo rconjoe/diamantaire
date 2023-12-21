@@ -444,6 +444,7 @@ function AddToCartButton({
         settingAttributes: erItemAttributes,
         hasEngraving: Boolean(engravingText),
         engravingText,
+        locale,
       }).then(() => refetch());
     } else if (jewelryProductTypes.includes(productType)) {
       // Certain products have a different set of attributes, so we add them all here, then filter out when adding to cart. See addJewelryProductToCart in CartContext.tsx
@@ -488,6 +489,7 @@ function AddToCartButton({
         attributes: jewelryAttributes,
         hasEngraving: Boolean(engravingText),
         engravingText,
+        locale,
       }).then(() => refetch());
     } else if (productType === 'Gift Card') {
       // eslint-disable-next-line unused-imports/no-unused-vars
@@ -508,6 +510,7 @@ function AddToCartButton({
       addJewelryProductToCart({
         variantId: variantId,
         attributes: giftCardAttributes,
+        locale,
       }).then(() => refetch());
     }
 
