@@ -1063,8 +1063,6 @@ export class ProductsService {
 
           const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
 
-          console.log({ collectionTitle: content?.collection.productTitle, plpTitle: content?.plpTitle});
-
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
