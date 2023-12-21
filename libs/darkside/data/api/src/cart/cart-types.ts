@@ -12,6 +12,10 @@ export type Edge<T> = {
 
 export type Cart = Omit<ShopifyCart, 'lines'> & {
   lines: CartItem[];
+  buyerIdentity?: {
+    email?: string;
+    countryCode?: string;
+  };
 };
 
 export type CartItem = {
@@ -276,5 +280,13 @@ export type ShopifyCartUpdateGiftNoteOperation = {
   variables: {
     cartId: string;
     note: string;
+  };
+};
+
+export type CartBuyerIdentityUpdateResponse = {
+  data: {
+    cartBuyerIdentityUpdate: {
+      cart: Cart;
+    };
   };
 };

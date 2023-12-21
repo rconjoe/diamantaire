@@ -233,7 +233,7 @@ const BuilderFlow = ({
     shopifyProductData,
     builderProduct.diamond,
     settingSlugs?.collectionSlug,
-    shopifyProductData?.optionConfigs['diamondType'],
+    shopifyProductData?.optionConfigs?.['diamondType'],
   ]);
 
   useEffect(() => {

@@ -11,13 +11,13 @@ import {
 import {
   Cart,
   Connection,
-  ExtractVariables,
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
   ShopifyCartUpdateGiftNoteOperation,
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
+  CartBuyerIdentityUpdateResponse,
 } from './cart-types';
 import {
   addToCartMutation,
@@ -64,7 +64,7 @@ async function shopifyFetch<T>({
     });
 
     const body = await result.json();
-    console.log('shopifyFetch body', body);
+
     if (body.errors) {
       throw body.errors[0];
     }
@@ -85,7 +85,7 @@ async function createCart({ locale = '' }): Promise<Cart> {
     ...(email && { email }),
     ...(countryCode && { countryCode }),
   };
-  console.log('cartCreate', { variables });
+
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
     variables,
@@ -735,12 +735,11 @@ export async function updateCartBuyerIdentity({ locale }) {
     ...(countryCode && { countryCode }),
   };
 
-  const res = await shopifyFetch({
+  const res = await shopifyFetch<CartBuyerIdentityUpdateResponse>({
     query: cartBuyerIdentityUpdateMutation,
     variables,
     cache: 'no-store',
   });
-  console.log({ variables, res });
-  return res.body;
-  // .data.cartBuyerIdentityUpdate.cart;
+
+  return res.body.data.cartBuyerIdentityUpdate.cart;
 }

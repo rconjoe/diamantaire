@@ -1,3 +1,6 @@
+import { getCountry } from '@diamantaire/shared/helpers';
+
+import { updateCartBuyerIdentity } from './cart-actions';
 import {
   Cart,
   ExtractVariables,
@@ -169,7 +172,7 @@ async function getCart(_cartId: string): Promise<Cart | undefined> {
   return reshapeCart(res.body.data.cart);
 }
 
-export async function fetchCartShopifyData() {
+export async function fetchCartShopifyData(locale) {
   let cartId = localStorage.getItem('cartId');
 
   if (!cartId) {
@@ -178,7 +181,16 @@ export async function fetchCartShopifyData() {
     cartId = newCart.id;
   }
 
-  const cartData = await getCart(cartId);
+  let cartData = await getCart(cartId);
+  const countryCode = getCountry(locale);
+
+  if (cartData && cartData?.buyerIdentity && cartData.buyerIdentity?.countryCode !== countryCode) {
+    await updateCartBuyerIdentity({ locale });
+
+    cartData = await getCart(cartId);
+
+    return cartData;
+  }
 
   return cartData;
 }
