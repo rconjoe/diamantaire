@@ -7,9 +7,13 @@ export type VraiProductContent = {
   shouldUseDefaultPrice?: boolean;
   hasOnlyOnePrice?: boolean;
   productTitle?: string;
+  plpTitle?: string;
   productLabel?: {
     title: string;
   };
+  collection: {
+    productTitle: string;
+  }
 };
 export type VraiProductData = { content: VraiProductContent; product: VraiProduct; metal?: Record<string, string> };
 
@@ -32,16 +36,20 @@ export type ListPageItemConfiguration = {
   productType: string;
   collectionSlug: string;
   title: string;
+  productTitle?: string;
+  plpTitle?: string;
   price: number;
   configuration: Record<string, string>;
   primaryImage: ProgressiveImage;
   hoverImage?: ProgressiveImage;
 };
 
-export type ListPageItemWithConfigurationVariants = {
+export type ListPageItemWithConfigurationVariants = 
+{
   defaultId: string;
   productType: string;
   productTitle: string;
+  plpTitle: string;
   productLabel?: {
     title: string;
   };
