@@ -114,8 +114,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const productIconListTypeOverride = additionalVariantData?.omegaProduct?.productIconList?.productType;
 
-  console.log('productIconListTypeOverride', productIconListTypeOverride);
-
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
     additionalVariantData = productContent;

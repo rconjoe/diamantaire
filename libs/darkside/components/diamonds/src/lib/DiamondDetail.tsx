@@ -47,8 +47,6 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
 
-  console.log('productPrice', productPrice);
-
   function addLooseDiamondToCart() {
     const mutatedLotId = lotId && getNumericalLotId(lotId);
     const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;

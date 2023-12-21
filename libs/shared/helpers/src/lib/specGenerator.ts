@@ -32,7 +32,6 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   }
 
   // ER specific
-  console.log('productTypeproductTypeproductType', productType);
   if (isEngagementRing) {
     specArray.push(`${_t('centerstone')}: ${caratWeightOverride + ', ' + color + ', ' + clarity}`);
   }

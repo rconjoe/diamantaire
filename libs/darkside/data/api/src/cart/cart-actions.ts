@@ -390,8 +390,6 @@ export const updateMultipleItemsQuantity = async ({
 
   const refinedItems = [];
 
-  console.log('updateMultipleItemsQuantity items', items);
-
   items.map((item) => {
     const newItem = {
       id: item.lineId,

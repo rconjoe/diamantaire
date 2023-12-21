@@ -350,8 +350,6 @@ function AddToCartButton({
 
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
 
-  console.log('productIconList', productIconListType, productIconList);
-
   const shipTimeParent = productIconList?.items?.find(
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
@@ -435,8 +433,6 @@ function AddToCartButton({
     });
 
     // Common attributes
-
-    console.log('selectedConfiguration', selectedConfiguration);
 
     const specs = specGenerator(
       { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
