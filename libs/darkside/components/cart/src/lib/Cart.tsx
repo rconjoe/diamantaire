@@ -1,7 +1,7 @@
 import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
-import { useCartData, useCartInfo, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
@@ -18,7 +18,7 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
-  const { _t } = useTranslations(locale);
+  // const { _t } = useTranslations(locale);
   const { data: checkout, refetch } = useCartData(locale);
 
   console.log('checkout', checkout);
