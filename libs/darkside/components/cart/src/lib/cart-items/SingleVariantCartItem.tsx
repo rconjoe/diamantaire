@@ -306,8 +306,6 @@ const SingleVariantCartItem = ({
 
   // The price needs to be combined in the case of two identical earrings
   const totalPrice = useMemo(() => {
-    console.log('totallll', price);
-
     return getFormattedPrice(parseFloat(price) * 100, locale);
   }, [info]);
 
@@ -337,6 +335,11 @@ const SingleVariantCartItem = ({
           <p className="setting-text">{productType}</p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
+          {engraving && (
+            <p className="engraving">
+              {_t('Engraving')}: <span>{engraving}</span>
+            </p>
+          )}
         </div>
       </div>
       {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
