@@ -39,10 +39,10 @@ export default defineConfig({
     },
   ],
   /* Run your local dev server before starting the tests */
-   webServer: {
-     command: 'pnpm run start',
-     url: 'http://127.0.0.1:4200',
-     reuseExistingServer: !process.env.CI,
-     cwd: workspaceRoot,
-   },
+  //  webServer: {
+  //    command: 'pnpm run start',
+  //    url: 'http://127.0.0.1:4200',
+  //    reuseExistingServer: !process.env.CI,
+  //    cwd: workspaceRoot,
+  //  },
 });
