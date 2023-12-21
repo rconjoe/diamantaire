@@ -1805,7 +1805,7 @@ function getDatoRequestLocale(locale = 'en_US'): string {
   const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
   const language = locale.split('-')[0];
 
-  if (!validDatoLocales.includes(locale)) {
+  if (!validDatoLocales.includes(language)) {
     return 'en_US';
   }
 

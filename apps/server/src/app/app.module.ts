@@ -17,9 +17,6 @@ import { redisStore } from 'cache-manager-redis-yet';
 import appConfig from 'libs/server/common/configs/src/app.config';
 
 import { AppService } from './app.service';
-
-console.log(process.env.REDISHOST, 'process.env.REDISHOST')
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [appConfig], validationSchema: JoiSchemaValidation }),
