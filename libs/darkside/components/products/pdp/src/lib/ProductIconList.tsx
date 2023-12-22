@@ -1,11 +1,11 @@
 import { DatoImage, Markdown, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useProductIconList } from '@diamantaire/darkside/data/hooks';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCountry, isCountrySupported } from '@diamantaire/shared/helpers';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { InfoIcon } from '@diamantaire/shared/icons';
-import { addBusinessDays, format } from 'date-fns';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -53,7 +53,7 @@ const ProductIconListContainer = styled.div`
   }
 `;
 
-const ProductIconList = ({ productIconListType, locale, configuration }) => {
+const ProductIconList = ({ productIconListType, locale }) => {
   const [isDiamondSlideoutOpen, setIsDiamondSlideoutOpen] = useState(false);
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
   const { items } = productIconList || {};
@@ -65,14 +65,11 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
       <ul>
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
-            return (
-              <ShippingListItem item={item} key={`product-icon-li-${index}`} configuration={configuration} locale={locale} />
-            );
+            return <ShippingListItem item={item} key={`product-icon-li-${index}`} />;
           } else {
             return (
               <IconListItem
                 item={item}
-                locale={locale}
                 key={`product-icon-li-${index}`}
                 setIsDiamondSlideoutOpen={setIsDiamondSlideoutOpen}
               />
@@ -94,23 +91,20 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
 export { ProductIconList };
 
 // Single Icon List Item
-const ShippingListItem = ({ item, configuration, locale }) => {
+const ShippingListItem = ({ item }) => {
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
-  const isUserInEu = getIsUserInEu();
 
-  // Checks if the locale is US, if not, it will check the shippingBusinessDaysCountryMap for the country code based days
-  const shippingDate = format(
-    addBusinessDays(
-      new Date(),
-      getCountry(locale) === 'US'
-        ? shippingBusinessDays + (configuration.bandAccent === 'pave' ? 3 : 0)
-        : isUserInEu
-        ? // EU 3 days, International 2 days
-          shippingBusinessDaysCountryMap?.[getCountry(locale)] + (configuration.bandAccent === 'pave' ? 3 : 0)
-        : shippingBusinessDaysCountryMap?.[getCountry(locale)] + (configuration.bandAccent === 'pave' ? 2 : 0),
-    ),
-    'E, MMM d',
-  );
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
+
+  const businessDays =
+    countryCode === 'US'
+      ? shippingBusinessDays
+      : shippingBusinessDaysCountryMap?.[countryCode]
+      ? shippingBusinessDaysCountryMap?.[countryCode]
+      : shippingBusinessDaysCountryMap?.['International'];
+
+  const shippingDate = getFormattedShipByDate(businessDays, locale);
 
   return (
     <li>
@@ -123,13 +117,8 @@ const ShippingListItem = ({ item, configuration, locale }) => {
 };
 
 // Standard Icon List Item
-const IconListItem = ({ item, setIsDiamondSlideoutOpen, locale }) => {
-  const { copy, ctaRoute, ctaCopy, icon, additionalInfo, supportedCountries } = item || {};
-  const countryCode = getCountry(locale);
-
-  if (!isCountrySupported(supportedCountries, countryCode)) {
-    return null;
-  }
+const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
+  const { copy, ctaRoute, ctaCopy, icon, additionalInfo } = item || {};
 
   return (
     <li>

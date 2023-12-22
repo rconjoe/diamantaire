@@ -164,6 +164,11 @@ const BuilderFlow = ({
   }
 
   function configureCurrentStep() {
+    // Overrides both - is triggered by clicking modify
+    if (router.asPath.includes('edit-diamond')) {
+      return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+    }
+
     // S2D - Select Diamond
     if (
       type === 'setting-to-diamond' &&
@@ -184,7 +189,21 @@ const BuilderFlow = ({
       !settingSlugs?.productSlug
     ) {
       updateFlowData('UPDATE_STEP', { step: 'select-setting' });
-    } else if (type === 'diamond-to-setting' && initialLotId && !router.asPath.includes('/summary')) {
+    } else if (
+      type === 'diamond-to-setting' &&
+      initialLotId &&
+      !router.asPath.includes(settingSlugs?.productSlug) &&
+      !router.asPath.includes(settingSlugs?.collectionSlug) &&
+      !router.asPath.includes('/summary')
+    ) {
+      updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+    } else if (
+      type === 'diamond-to-setting' &&
+      initialLotId &&
+      router.asPath.includes(settingSlugs?.productSlug) &&
+      router.asPath.includes(settingSlugs?.collectionSlug) &&
+      !router.asPath.includes('/summary')
+    ) {
       updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
     } else if (type === 'diamond-to-setting' && router.asPath.includes('/summary')) {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
@@ -274,6 +293,7 @@ const BuilderFlow = ({
           productDescription={productDescription}
           productTitle={productTitle}
           price={price}
+          settingSlugs={settingSlugs}
           productSpecId={productSpecId}
           parentProductAttributes={parentProductAttributes}
           disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
