@@ -239,7 +239,9 @@ const DiamondCfyAccordion = ({
                 }
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
-              <div className="label">{upgradeLabel}</div>
+              <div className="label">
+                <UIString>{upgradeLabel}</UIString>
+              </div>
               <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
