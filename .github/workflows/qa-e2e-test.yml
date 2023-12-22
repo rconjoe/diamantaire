@@ -1,11 +1,24 @@
 name: Playwright Tests
 on:
-  # pull_request:
-  #   branches:
-  #     - develop
   push:
     branches:
       - qa
+  workflow_dispatch:
+    inputs:
+      # environment:
+      #   type: environment
+      #   description: Select the environment
+      # choice:
+      #   type: choice
+      #   description: Make a choice
+      #   options:
+      #   - qa
+      #   - prod
+      environment:
+        description: 'environment or url to test'
+        default: 'qa'
+        required: true
+        type: string
 
 jobs:
   # test_setup:
@@ -36,7 +49,7 @@ jobs:
       - name: Run tests
         run:  cd apps/darkside/main/ && npx playwright test tests/control-temp  --workers=1
         env:
-          test_env: qa
+          test_env: ${{ inputs.environment }} 
           # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
       - uses: actions/upload-artifact@v3
         if: always()
