@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
-import { Breadcrumb, Form, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, NeedTimeToThinkForm, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -326,13 +326,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   locale={router?.locale}
                 />
               )}
-              <Form
+              <NeedTimeToThinkForm productData={productData} />
+              {/* <Form
                 title={_t('Need more time to think?')}
                 caption={_t('Email this customized ring to yourself or drop a hint.')}
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
                 headingType={'h2'}
-              />
+              /> */}
               <ProductDescription
                 description={productDescription}
                 productAttributes={parentProductAttributes}
