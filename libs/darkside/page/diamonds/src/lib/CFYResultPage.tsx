@@ -62,6 +62,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultNote,
     ctoDiamondResultNeedItFaster,
     ctoDiamondResultShapeAndWeightTitle,
+    productIconList,
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
@@ -82,7 +83,10 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const formattedPrice = getFormattedPrice(price, locale);
 
-  const formattedDate = getFormattedShipppingDate(locale);
+  const formattedDate = getFormattedShipppingDate(
+    locale,
+    productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
+  );
 
   const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
@@ -412,9 +416,9 @@ function isValidForReturn(diamondType, caratWeight) {
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
 }
 
-function getFormattedShipppingDate(locale) {
+function getFormattedShipppingDate(locale, data) {
   const result = new Date();
-  let days = 20;
+  let days = data?.cutForYouShippingBusinessDays || 20;
 
   while (days > 0) {
     result.setDate(result.getDate() + 1); // Move to the next day
