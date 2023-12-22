@@ -73,9 +73,15 @@ const BuilderFlow = ({
   const assetStack = productContent?.assetStack; // flatten array in normalization
   const variantId = shopifyProductData?.shopifyVariantId;
 
-  const variantHandle = productContent?.shopifyProductHandle;
+  const variantHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
-  let { data: additionalVariantData }: any = useProductVariant(variantHandle, router.locale);
+  let { data: additionalVariantData }: any = useProductVariant(
+    variantHandle,
+    shopifyProductData?.productType,
+    router.locale,
+  );
+
+  console.log('additionalVariantData v111', additionalVariantData);
 
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products

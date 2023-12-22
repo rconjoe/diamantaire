@@ -1,9 +1,11 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { useQuery } from '@tanstack/react-query';
 
-export function useProductVariant(variantSlug: string, locale: string) {
+export function useProductVariant(variantSlugOrConfigurationVariantId: string, productType: string, locale: string) {
+  console.log('variantSlug', variantSlugOrConfigurationVariantId);
+
   return useQuery({
-    ...queries.products.datoVariant(variantSlug, locale),
+    ...queries.products.datoVariant(variantSlugOrConfigurationVariantId, productType, locale),
   });
 }
 

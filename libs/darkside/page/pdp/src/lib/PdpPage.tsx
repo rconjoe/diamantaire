@@ -108,22 +108,31 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const shopifyHandle = productContent?.shopifyProductHandle;
+  const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
-  let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
+  let { data: additionalVariantData }: any = useProductVariant(
+    shopifyHandle,
+    shopifyProductData?.productType,
+    router.locale,
+  );
 
-  const productIconListTypeOverride = additionalVariantData?.omegaProduct?.productIconList?.productType;
+  const productIconListTypeOverride =
+    additionalVariantData?.omegaProduct?.productIconList?.productType ||
+    additionalVariantData?.configuration?.productIconList?.productType;
 
-  // Fallback for Jewelry Products
-  if (!additionalVariantData) {
-    additionalVariantData = productContent;
-  } else if (additionalVariantData?.omegaProduct) {
-    // Wedding bands have a different data structure
+  console.log('additionalVariantData v1', additionalVariantData);
+  console.log('productContent v1', productContent);
+
+  // ER/WB
+  if (additionalVariantData?.omegaProduct) {
     additionalVariantData = additionalVariantData?.omegaProduct;
+  } else if (additionalVariantData?.configuration) {
+    // Jewelry
+    additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
   } else {
     // Add Shopify Product Data to Dato Product Data
-    additionalVariantData = additionalVariantData?.omegaProduct;
-    additionalVariantData.goldPurity = shopifyProductData?.configuration?.goldPurity;
+    additionalVariantData = productContent;
+    additionalVariantData['goldPurity'] = shopifyProductData?.configuration?.goldPurity;
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
