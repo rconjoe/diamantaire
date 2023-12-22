@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { getEmailFromCookies } from '@diamantaire/darkside/data/api';
 import { goToCheckoutUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
@@ -257,7 +258,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    goToCheckoutUrl({ checkoutUrl, locale, consent });
+    goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() });
   };
 
   return (
