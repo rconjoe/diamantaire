@@ -1,7 +1,7 @@
 import { test, expect } from "../../pages/page-fixture";
 
 /**
- * Not ready to commit
+ * Earrings Setting First flow
  */
 test.describe("Earrings Setting First flow with filter", () => {
     
@@ -18,7 +18,7 @@ test.describe("Earrings Setting First flow with filter", () => {
       await page.getByRole('button', { name: 'Metal' }).click();
       await page.getByRole('button', { name: 'White Gold'}).first().click();
 
-      await page.getByRole('link', { name: 'White Gold Solitaire Diamond Studs Emerald' }).click();
+      await page.getByRole('link', { name: 'Solitaire Diamond Studs' }).click();
 
     
     });
@@ -27,7 +27,7 @@ test.describe("Earrings Setting First flow with filter", () => {
 
       await page.getByRole('button', { name: 'Add to bag' }).click();
       await page.waitForLoadState();
-      await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$750');
+      await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$500');
       await page.getByRole('button', { name: 'Checkout' }).click();
        }); 
 

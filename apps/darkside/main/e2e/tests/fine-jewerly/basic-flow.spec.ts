@@ -3,15 +3,10 @@ import { QACart } from "../../model/qacart-model";
 import { test, expect } from "../../pages/page-fixture";
 import { StringHelper } from "../../utils/StringHelper";
 
-// test.beforeEach(async ({ page }, testInfo) => {
-//   console.log(`Running ${testInfo.title}`);
-//   await page.goto('/');
-// });
-
 /**
- * Not ready to commit
+ * Fine Jewerly - basic flow - price validation
  */
-test.describe("Basic flow - setting first", () => {
+test.describe("Fine Jewerly Basic flow", () => {
 
     const expectedCart = new QACart();
 
@@ -24,7 +19,7 @@ test.describe("Basic flow - setting first", () => {
 
     await test.step("Select Jewerly > Necklace ", async () => {
         await page.getByRole('link', { name: 'JEWELRY' }).first().hover();
-        await page.getByRole('link', { name: 'Necklaces' }).click();
+        await page.getByRole('link', { name: 'Necklaces' }).first().click();
 
         await page.getByRole('button', { name: 'North Star Medallion' }).click();
 
@@ -32,13 +27,12 @@ test.describe("Basic flow - setting first", () => {
 
         expect(pricing).toBe(Number('425'));        
     
-        await page.waitForTimeout(5000);
+        await page.waitForTimeout(2000); //replace this with better later. It is throwing some error since test is clicking too fast
 
         await page.getByRole('button', { name: 'Add to bag' }).click();
         const price = StringHelper.extractPrice(await page.getByRole('button', { name: 'Checkout' }).textContent());
 
         expect(pricing).toBe(price);
-        //const price = await page.textContent("li.checkout-button > div > button");
         const jewerlyPrice = price*100
 
         expectedCart.addItem(1, 'North Star Medallion', jewerlyPrice);
