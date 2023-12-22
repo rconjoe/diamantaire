@@ -4,7 +4,6 @@ const StyledDiamond360 = styled.div`
   display: block;
   aspect-ratio: 1/1;
   position: relative;
-  border: 0.1rem solid transparent;
   overflow: hidden;
   background: var(--color-lightest-grey);
 
@@ -19,19 +18,19 @@ const StyledDiamond360 = styled.div`
   }
 
   .vid {
-    transform: scale(1.025);
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 
+    > div > div,
     > div {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100% !important;
+      height: 100% !important;
     }
   }
 

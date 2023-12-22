@@ -18,3 +18,5 @@ export * from './lib/DiamondTable';
 export * from './lib/DiamondTableCfyPromoCard';
 export * from './lib/DiamondTableRow';
 export * from './lib/DiamondTableRowAccordion';
+export * from './lib/DiamondRough';
+export * from './lib/DiamondPlan';

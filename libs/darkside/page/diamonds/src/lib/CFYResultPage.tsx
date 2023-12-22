@@ -10,7 +10,14 @@ import {
   SwiperStyles,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
+import {
+  Diamond360,
+  DiamondCfyAccordion,
+  DiamondCfyGallery,
+  DiamondHand,
+  DiamondPlan,
+  DiamondRough,
+} from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -334,8 +341,10 @@ export default CFYResultPage;
 
 function getMedia({ product, diamondType, lotIdPicker }) {
   return [
+    <DiamondRough key={0} extraClass="media-content-item" withCaption={true} />,
+    <DiamondPlan key={1} extraClass="media-content-item" diamondType={diamondType} withCaption={true} />,
     <Diamond360
-      key={0}
+      key={2}
       className="media-content-item"
       diamondType={diamondType}
       lotId={lotIdPicker}
@@ -344,14 +353,16 @@ function getMedia({ product, diamondType, lotIdPicker }) {
       width={500}
       height={500}
     />,
-    <DiamondHand className="media-content-item" diamond={product} key={1} priority={true} width={500} height={500} />,
+    <DiamondHand key={3} className="media-content-item" diamond={product} priority={true} width={500} height={500} />,
   ];
 }
 
 function getThumb({ product, diamondType, lotIdPicker }) {
   return [
+    <DiamondRough key={0} extraClass="media-content-item" width={60} height={60} priority={true} />,
+    <DiamondPlan key={1} extraClass="media-content-item" diamondType={diamondType} width={60} height={60} priority={true} />,
     <Diamond360
-      key={0}
+      key={2}
       className="media-content-item diamond36"
       diamondType={diamondType}
       lotId={lotIdPicker}
@@ -361,7 +372,7 @@ function getThumb({ product, diamondType, lotIdPicker }) {
       priority={true}
     />,
     <DiamondHand
-      key={1}
+      key={3}
       className="media-content-item"
       diamond={product}
       isThumb={true}

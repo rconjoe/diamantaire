@@ -44,30 +44,6 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
 
-  // function addLooseDiamondToCart() {
-  //   const mutatedLotId = lotId && getNumericalLotId(lotId);
-  //   const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
-
-  //   const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
-  //     _productTitle: product?.productTitle,
-  //     productAsset: diamondImage,
-  //     _dateAdded: Date.now().toString() + 100,
-  //     caratWeight: product.carat.toString(),
-  //     clarity: product.clarity,
-  //     cut: product.cut,
-  //     color: product.color,
-  //     feedId: product.lotId,
-  //     lotId: product.lotId,
-  //     isChildProduct: 'true',
-  //     productGroupKey: uuidv4(),
-  //     _productType: 'Diamond',
-  //     shippingText: _t('Made-to-order. Ships by'),
-  //     productIconListShippingCopy: 'temp',
-  //     shippingBusinessDays: 'temp',
-  //     pdpUrl: window.location.href,
-  //   };
-  // }
-
   return (
     <StyledDiamondDetail headerHeight={headerHeight}>
       <div className="body">
@@ -110,7 +86,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           {lotId && <DiamondDetailAccordion lotId={lotId} locale={locale} />}
 
           <div className="cta">
-            {(product?.available_inventory && (
+            {(product?.availableForSale && (
               <>
                 <DarksideButton type="solid" colorTheme="black" href={`/customize/diamond-to-setting/${lotId}`}>
                   {buttonTextDiamondFlow}

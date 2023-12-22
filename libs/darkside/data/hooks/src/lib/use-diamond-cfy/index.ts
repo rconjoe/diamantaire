@@ -86,6 +86,10 @@ interface CtoDiamondTable {
     headingAdditionalClass?: string;
   }[];
   ctoDiamondResultShapeAndWeightTitle: string;
+  ctoDiamondResultRoughImageCaption: string;
+  ctoDiamondResultPolishingPlanImageCaption: string;
+  ctoDiamondResultPolishedDiamondImageCaption: string;
+  ctoDiamondResultPolishedByDateCopy: string;
   diamondsNote: string;
   notesAdditionalInfo: string;
   diamondNotesImages: { url: string; alt: string }[];
@@ -113,6 +117,7 @@ interface CtoDiamondTable {
   seeDetails: string;
   selectedDiamondId: string;
   vraiDiamondsInfo: string;
+
   blocks: {
     _modelApiKey: string;
     title: string;
