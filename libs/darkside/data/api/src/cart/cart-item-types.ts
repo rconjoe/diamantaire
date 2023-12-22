@@ -113,6 +113,7 @@ export type LooseDiamondCartItemProps = {
     // isChildProduct: string;
     _dateAdded: string;
   };
+  locale?: string;
 };
 
 export type CreateCartVariables = {

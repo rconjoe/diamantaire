@@ -610,7 +610,7 @@ export async function addERProductToCart({
   }
 }
 
-export async function addLooseDiamondToCart({ diamondVariantId, diamondAttributes }: LooseDiamondCartItemProps) {
+export async function addLooseDiamondToCart({ diamondVariantId, diamondAttributes, locale }: LooseDiamondCartItemProps) {
   const refinedSettingAttributes = Object.keys(diamondAttributes)
     .map((key) => {
       return {
@@ -620,7 +620,7 @@ export async function addLooseDiamondToCart({ diamondVariantId, diamondAttribute
     })
     .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-  return await addItemToCart({ variantId: diamondVariantId, customAttributes: refinedSettingAttributes });
+  return await addItemToCart({ variantId: diamondVariantId, customAttributes: refinedSettingAttributes, locale });
 }
 
 // temp
@@ -706,7 +706,7 @@ export async function updateGiftNote({
 }
 
 // Specific to GWP
-export async function toggleCartAddonProduct(variantId) {
+export async function toggleCartAddonProduct({ variantId, locale }: { variantId: string; locale: string }) {
   const cartId = localStorage.getItem('cartId');
   const cart = await getCart(cartId);
 
@@ -720,7 +720,7 @@ export async function toggleCartAddonProduct(variantId) {
       attributes: [],
     });
   } else {
-    await addItemToCart({ variantId, customAttributes: [] });
+    await addItemToCart({ variantId, customAttributes: [], locale });
   }
 }
 

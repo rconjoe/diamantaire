@@ -157,7 +157,7 @@ const DiamondTableRow = ({
       pdpUrl: window.location.href,
     };
 
-    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes }).then(() => refetch());
+    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes, locale }).then(() => refetch());
 
     updateGlobalContext({ isCartOpen: true });
   };
