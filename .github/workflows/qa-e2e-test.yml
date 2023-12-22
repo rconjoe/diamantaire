@@ -34,7 +34,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - run: npx playwright install --with-deps
       - name: Run tests
-        run:  cd apps/darkside/main/ && npx playwright test tests/fine-jewerly  --workers=1
+        run:  cd apps/darkside/main/ && npx playwright test tests/control-temp  --workers=1
         env:
           test_env: qa
           # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
