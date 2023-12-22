@@ -10,7 +10,12 @@ import {
   SlideOut,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { OptionSelector, ProductDiamondHand, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import {
+  OptionSelector,
+  ProductDiamondHand,
+  ProductIconList,
+  ProductKlarna,
+} from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -36,6 +41,7 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -674,6 +680,8 @@ const ReviewBuildStep = ({
 
   const isWindowDefined = typeof window !== 'undefined';
 
+  const totalPriceInCents = product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -688,6 +696,11 @@ const ReviewBuildStep = ({
         duration: 0.75,
       }}
     >
+      <Script
+        id="klara-script"
+        src="https://js.klarna.com/web-sdk/v1/klarna.js"
+        data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
+      ></Script>
       <div className="review-wrapper">
         <div className="product-images ">
           <div className="embla" ref={isWindowDefined && window.innerWidth > 767 ? emblaRef : null}>
@@ -736,12 +749,7 @@ const ReviewBuildStep = ({
             </Heading>
 
             <p className="total-price">
-              <span>
-                {getFormattedPrice(
-                  product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
-                  router?.locale,
-                )}
-              </span>
+              <span>{getFormattedPrice(totalPriceInCents, router?.locale)}</span>
             </p>
 
             <div className="builder-summary__content">
@@ -888,6 +896,7 @@ const ReviewBuildStep = ({
                     </DarksideButton>
                   </li>
                   <li>
+                    <ProductKlarna title={productTitle} currentPrice={totalPriceInCents} />
                     <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
