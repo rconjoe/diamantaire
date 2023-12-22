@@ -27,7 +27,7 @@ import {
   cartBuyerIdentityUpdateMutation,
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
-import { accountEmailCookie } from '../clients';
+import { getEmailFromCookies } from '../clients';
 
 // NEW
 
@@ -79,7 +79,7 @@ async function shopifyFetch<T>({
 }
 
 async function createCart({ locale = '' }): Promise<Cart> {
-  const email = accountEmailCookie.get();
+  const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
   const variables: CreateCartVariables = {
     ...(email && { email }),
@@ -726,7 +726,7 @@ export async function toggleCartAddonProduct({ variantId, locale }: { variantId:
 
 export async function updateCartBuyerIdentity({ locale }) {
   const cartId = localStorage.getItem('cartId');
-  const email = accountEmailCookie.get();
+  const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
 
   const variables = {

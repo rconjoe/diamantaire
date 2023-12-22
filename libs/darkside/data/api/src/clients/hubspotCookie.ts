@@ -34,3 +34,19 @@ export const accountEmailCookie = {
     Cookies.remove(ACCOUNT_EMAIL_COOKIE);
   },
 };
+
+export function getEmailFromCookies() {
+  const accountEmail = accountEmailCookie.get();
+
+  if (accountEmail) {
+    return accountEmail;
+  }
+
+  const hubspotEmail = hubspotEmailCookie.get();
+
+  if (hubspotEmail) {
+    return hubspotEmail;
+  }
+
+  return false;
+}
