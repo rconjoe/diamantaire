@@ -1,17 +1,11 @@
 import { test, expect } from "../../pages/page-fixture";
 import { StringHelper } from "../../utils/StringHelper";
 
-// test.beforeEach(async ({ page }, testInfo) => {
-//   console.log(`Running ${testInfo.title}`);
-//   await page.goto('/');
-// });
-
 /**
- * Not ready to commit
+ * Sample test - delete after github action is trigger properly
  */
-test.describe("Home flow - setting first", () => {
+test.describe("Sample Test", () => {
 
-    
   test("Open Home Page", async ({ homePage , page}) => {
 
     await test.step("open home page", async () => {
