@@ -35,7 +35,7 @@ export const sideStoneShapeValues = [
 export const goldPurityValues = ['14k', '18k'] as const;
 export const bandAccentValues = ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'] as const;
 export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
-export const plpMetalValues = ['platinum', 'yellow-gold', 'rose-gold', 'white-gold', 'sterling-silver'] as const;
+export const plpMetalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
 export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
 export const eternityStyleValues = ['half', 'full'] as const;
 export const bandStyleValues = ['full', 'half'] as const;
@@ -55,12 +55,12 @@ export const plpDiamondValues = [
   'asscher',
   'princess',
   'radiant',
-  'half-moon', 
-  'shield', 
-  'lozenge', 
-  'hexagon', 
-  'keystone', 
-  'kite'
+  'half-moon',
+  'shield',
+  'lozenge',
+  'hexagon',
+  'keystone',
+  'kite',
 ] as const;
 
 export const standardDiamondTypeValues = [
