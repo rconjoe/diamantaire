@@ -86,7 +86,7 @@ const CartNote = ({ addNoteOptionCta }) => {
       setOrderHasNote(false);
     }
 
-    await updateGiftNote({ giftNote: giftNoteInputText }).then(() => refetch());
+    await updateGiftNote({ giftNote: giftNoteInputText, locale }).then(() => refetch());
     if (doesUserHaveNoteInCart) {
       const updatedAttributes = {
         _hiddenProduct: 'true',
