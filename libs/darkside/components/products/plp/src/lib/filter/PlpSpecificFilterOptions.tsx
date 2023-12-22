@@ -41,6 +41,13 @@ const PlpSpecificFilterOptionsStyles = styled.div`
     h3 {
       display: none;
     }
+
+    &.metal {
+      padding-top: 0px;
+      ul {
+        padding-left: 0.6rem;
+      }
+    }
   }
 
   .metal-text,

@@ -5,7 +5,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 type BlockProductProps = {
   products: {
     product: {
-      id: string;
+      _id: string;
       productType: string;
       productSlug: string;
       collectionSlug: string;
@@ -13,6 +13,8 @@ type BlockProductProps = {
     };
     content: {
       plpImage: DatoImageType;
+      shopifyProductHandle: string;
+      variantId: string;
     };
   }[];
   lowestPricesByCollection;

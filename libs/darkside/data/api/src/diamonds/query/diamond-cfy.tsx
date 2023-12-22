@@ -146,6 +146,8 @@ query ctoDiamondTable($locale: SiteLocale) {
     caratWeightCopy
     caratDetails
     clarityDetails
+    clarityDetailsVvsSm
+    clarityDetailsVvsLg
     cutDetails
     cutDetailsRoundBrilliant
     colorDetails

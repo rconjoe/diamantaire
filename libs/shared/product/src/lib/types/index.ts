@@ -6,6 +6,7 @@ export type VraiProduct = z.infer<typeof transformedShopifyProductSchema>;
 export type VraiProductContent = {
   shouldUseDefaultPrice?: boolean;
   hasOnlyOnePrice?: boolean;
+  productTitle?: string;
   productLabel?: {
     title: string;
   };

@@ -54,12 +54,9 @@ const MultiVariantCartItemStyles = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
-    border: 0.1rem solid #e0e0e0;
-    border-radius: 0.8rem;
 
     .cart-item__image {
       flex: 0 0 16.8rem;
-      padding-left: 2rem;
       padding-right: 2rem;
       img {
         height: 100%;
@@ -70,7 +67,6 @@ const MultiVariantCartItemStyles = styled.div`
       color: #737368;
       flex: 1;
       padding: 2rem 0;
-      padding-right: 1.5rem;
       position: relative;
 
       button {
@@ -83,10 +79,20 @@ const MultiVariantCartItemStyles = styled.div`
 
         &.setting-text {
           color: #000;
+          span {
+            flex: 1;
+            text-align: right;
+          }
         }
 
         &.shape {
           text-transform: capitalize;
+        }
+        &.engraving {
+          span {
+            font-weight: bold;
+            font-style: italic;
+          }
         }
 
         &:last-child {
@@ -94,8 +100,7 @@ const MultiVariantCartItemStyles = styled.div`
         }
 
         span {
-          flex: 1;
-          text-align: right;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -140,21 +145,40 @@ const MultiVariantCartItem = ({
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
+  // Engraving is considered an engraving product, not a child product
   const childProduct = useMemo(() => {
     return checkout?.lines?.find(
-      (item) => item.attributes?.find((attr) => attr.value === productGroupKey && item.merchandise.id !== merchandise.id),
+      (item) =>
+        item.attributes?.find(
+          (attr) =>
+            attr.value === productGroupKey &&
+            item.merchandise.id !== merchandise.id &&
+            !item.attributes?.find((attr) => attr.key === 'engravingProduct'),
+        ),
+    );
+  }, [item]);
+
+  const engravingProduct = useMemo(() => {
+    return checkout?.lines?.find(
+      (item) =>
+        item.attributes?.find(
+          (attr) =>
+            attr.value === productGroupKey &&
+            item.merchandise.id !== merchandise.id &&
+            item.attributes?.find((attr) => attr.key === 'engravingProduct'),
+        ),
     );
   }, [item]);
 
   // Handles engravings
   const isChildProductHidden = useMemo(() => {
-    return childProduct.attributes?.find((attr) => attr.key === 'hiddenProduct');
+    return childProduct?.attributes?.find((attr) => attr.key === '_hiddenProduct');
   }, [item]);
 
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.find((attr) => attr.key === 'productAsset');
+    const matchingAttribute = attributes?.find((attr) => attr.key === '_productAssetObject');
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
@@ -185,6 +209,7 @@ const MultiVariantCartItem = ({
 
     return matchingAttribute;
   }, [attributes]);
+
   const engraving = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === '_EngravingBack')?.[0]?.value;
 
@@ -237,7 +262,7 @@ const MultiVariantCartItem = ({
   }, [cartItemDetails]);
 
   async function handleRemoveProduct() {
-    if (hasChildProduct && childProduct && checkout?.lines?.length > 1) {
+    if (((hasChildProduct && childProduct) || engravingProduct) && checkout?.lines?.length > 1) {
       const total = parseFloat(price) + parseFloat(childProduct?.merchandise?.price?.amount);
       const formattedTotal = total.toFixed(2);
 
@@ -299,21 +324,34 @@ const MultiVariantCartItem = ({
         },
       });
 
+      const itemsToRemove = [
+        {
+          lineId: item.id,
+          variantId: merchandise.id,
+          quantity: item.quantity - 1,
+          attributes: item.attributes,
+        },
+      ];
+
+      if (childProduct) {
+        itemsToRemove.push({
+          lineId: childProduct.id,
+          variantId: childProduct.merchandise.id,
+          quantity: childProduct.quantity - 1,
+          attributes: childProduct.attributes,
+        });
+      }
+      if (engravingProduct) {
+        itemsToRemove.push({
+          lineId: engravingProduct.id,
+          variantId: engravingProduct.merchandise.id,
+          quantity: engravingProduct.quantity - 1,
+          attributes: engravingProduct.attributes,
+        });
+      }
+
       await updateMultipleItemsQuantity({
-        items: [
-          {
-            lineId: item.id,
-            variantId: merchandise.id,
-            quantity: item.quantity - 1,
-            attributes: item.attributes,
-          },
-          {
-            lineId: childProduct.id,
-            variantId: childProduct.merchandise.id,
-            quantity: childProduct.quantity - 1,
-            attributes: childProduct.attributes,
-          },
-        ],
+        items: itemsToRemove,
       });
     } else {
       productRemoved({
@@ -364,6 +402,17 @@ const MultiVariantCartItem = ({
     }
   }
 
+  const totalPrice =
+    (engraving && childProduct
+      ? parseFloat(engravingProduct?.merchandise?.price?.amount) +
+        parseFloat(childProduct?.merchandise?.price?.amount) +
+        parseFloat(merchandise?.price?.amount)
+      : engraving
+      ? parseFloat(merchandise?.price?.amount) + parseFloat(engravingProduct?.merchandise?.price?.amount)
+      : childProduct
+      ? parseFloat(merchandise?.price?.amount) + parseFloat(childProduct?.merchandise?.price?.amount)
+      : parseFloat(merchandise?.price?.amount)) * 100;
+
   return (
     <MultiVariantCartItemStyles>
       <div className="cart-item__header">
@@ -378,17 +427,12 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            multi -- {productTitle}
+            {process.env.NODE_ENV === 'development' && 'multi --- '} {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">
-          {hasChildProduct ? (
-            <p>
-              {getFormattedPrice(
-                (parseFloat(merchandise?.price?.amount) + parseFloat(childProduct?.merchandise?.price?.amount)) * 100,
-                locale,
-              )}
-            </p>
+          {hasChildProduct || engravingProduct ? (
+            <p>{getFormattedPrice(totalPrice, locale)}</p>
           ) : (
             <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</p>
           )}
@@ -403,7 +447,7 @@ const MultiVariantCartItem = ({
             {productType === 'Engagement Ring' && (
               <span>
                 {getFormattedPrice(
-                  ((engraving ? parseFloat(childProduct?.merchandise?.price?.amount) : 0) +
+                  ((engraving ? parseFloat(engravingProduct?.merchandise?.price?.amount) : 0) +
                     parseFloat(merchandise?.price?.amount)) *
                     100,
                 )}
@@ -415,7 +459,7 @@ const MultiVariantCartItem = ({
 
             return (
               <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
               </p>
             );
           })}

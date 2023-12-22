@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+version="1.0.2-alpha.1"
+rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
+plasmadir="${rootdir}/.plasma"
+logdir="${plasmadir}/log"
+modulesdir="${plasmadir}/modules"
+lockdir="${plasmadir}/lock"
+tmpdir="${plasmadir}/tmp"
+sessionname="${selfname}"
+userinput="${1:-"noinput"}"
+
+# TODO: lets try seeing if the sourcing of module files can happen only for the modules needed on this run?
+# sourcing all of them every time is kind of annoying and leads to stuff like missing deps breaking modules that dont need them and other dumb errors.
+for module in "${modulesdir}"/*; do
+    if [ -f "$module" ]; then
+    # shellcheck disable=SC1090
+        echo -e " "
+        echo -e "-----------------------------------------------------"
+        printf "Found module %s\n" "$(basename "$module"), sourcing..."
+        # shellcheck disable=SC1090
+        \. "$module"
+        printf "Sourced module: %s\n" "$(basename "$module")"
+        echo -e "-----------------------------------------------------"
+    fi
+done
+
+# if ~/.nvm/nvm.sh exists, source it
+[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+
+# allow for specification of git repo and branch
+githubuser="diamondfoundry"
+githubrepo="diamantaire"
+githubbranch="plasma"
+
+if [ "$userinput" == "commit" ]; then
+    generate_commit_from_staged
+elif [ "$userinput" == "bootstrap" ]; then
+    check_deps
+    log_to_file "info" "plasma bootstrap started" "mods"
+elif [ "$userinput" == "lock" ]; then
+    get_lock_version "${2}"
+elif [ "$userinput" == "detonate" ]; then
+    detonate
+elif [ "$userinput" == "restore" ]; then
+    restore
+else
+    printf "exiting.\n"
+    exit 0
+fi

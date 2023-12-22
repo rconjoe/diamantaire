@@ -1,4 +1,3 @@
-import { removeUrlParameter, updateUrlParameter } from '@diamantaire/shared/helpers';
 import { DatoImageType } from '@diamantaire/shared/types';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
 
@@ -27,12 +26,16 @@ type BuilderProduct = {
   image?: DatoImageType;
   goldPurity: string;
   bandAccent: string;
+  metal: string;
   shopifyProductHandle: string;
   configuredProductOptionsInOrder: string;
+  allDiamondTypes: string[];
 };
 
+type StepType = 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build';
+
 type BuilderStep = {
-  step: number;
+  step: StepType;
 };
 
 type FlowType = 'setting-to-diamond' | 'diamond-to-setting';
@@ -53,7 +56,7 @@ const builderState = {
 interface BuilderProductState {
   product: BuilderProduct | null;
   diamond: BuilderDiamond | null;
-  step: number;
+  step: 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build';
   type: FlowType;
   builderState: (typeof builderState)[keyof typeof builderState];
 }
@@ -61,7 +64,7 @@ interface BuilderProductState {
 const initialBuilderProductState: BuilderProductState = {
   diamond: null,
   product: null,
-  step: 0,
+  step: 'select-diamond',
   type: 'setting-to-diamond',
   builderState: builderState.SelectDiamondOrSetting,
 };
@@ -70,7 +73,7 @@ type BuilderProductContextType = {
   builderProduct: BuilderProductState;
   dispatch: Dispatch<BuilderAction> | null;
   updateFlowData: (type: string, value: object, nextStep?: null | number) => void;
-  updateStep: (step: number) => void;
+  updateStep: (step: StepType) => void;
 };
 
 const BuilderProductContext = createContext<BuilderProductContextType>({
@@ -97,26 +100,10 @@ type BuilderAction =
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
     case 'ADD_DIAMOND': {
-      console.log('add diamond payload', action.payload);
       const newState = {
         ...state,
         diamond: action.payload,
       };
-
-      // If a product and diamond have already been added, check that the new product diamondType matches the existing diamondType
-      if (state.type === 'diamond-to-setting' && state.product !== null && state.diamond !== null) {
-        if (state.diamond.diamondType !== action.payload.diamondType) {
-          newState.product = null;
-
-          removeUrlParameter('productSlug');
-          removeUrlParameter('collectionSlug');
-
-          return {
-            ...newState,
-            builderState: getState(newState),
-          };
-        }
-      }
 
       return {
         ...newState,
@@ -139,19 +126,6 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
         ...state,
         product: action.payload,
       };
-
-      // If a product and diamond have already been added, check that the new product diamondType matches the existing diamondType
-      if (state.type === 'setting-to-diamond' && state.product !== null && state.diamond !== null) {
-        if (state.diamond.diamondType !== action.payload.diamondType) {
-          newState.diamond = null;
-          removeUrlParameter('lotId');
-
-          return {
-            ...newState,
-            builderState: getState(newState),
-          };
-        }
-      }
 
       return {
         ...newState,
@@ -200,10 +174,12 @@ type BuilderProductContextProviderProps = {
   children: React.ReactNode;
 };
 
+type UpdateFlowType = (type: string, value: object, nextStep?: null | number) => void;
+
 const BuilderProductContextProvider = ({ children }: BuilderProductContextProviderProps) => {
   const [state, dispatch] = useReducer(builderReducer, initialBuilderProductState);
 
-  const updateFlowData = (type, value, nextStep = null) => {
+  const updateFlowData = (type, value, nextStep = null): UpdateFlowType => {
     if (type && value) {
       dispatch({ type, payload: value });
     }
@@ -211,16 +187,17 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
     if (nextStep) {
       updateStep(nextStep);
     }
+
+    return null;
   };
 
-  function updateStep(step: number) {
+  function updateStep(step: 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build') {
     dispatch({
       type: 'UPDATE_STEP',
       payload: {
         step,
       },
     });
-    updateUrlParameter('step', step.toString());
   }
 
   useEffect(() => {

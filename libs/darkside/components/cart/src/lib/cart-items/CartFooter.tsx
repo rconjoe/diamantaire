@@ -1,8 +1,13 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { updateShippingTimes } from '@diamantaire/darkside/data/api';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { goToCheckoutUrl } from '@diamantaire/shared/helpers';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -29,6 +34,11 @@ const CartFooterStyles = styled.div`
       &.checkout-button {
         max-width: 40rem;
         margin: 0 auto 3rem;
+
+        &.disabled {
+          opacity: 0.5;
+          pointer-events: none;
+        }
       }
       .consent-container {
         background-color: transparent;
@@ -112,6 +122,7 @@ const CartFooterStyles = styled.div`
           }
         }
         &.error {
+          color: #d0021b;
           .checkmark {
             border-color: #d0021b;
           }
@@ -132,8 +143,23 @@ type CartFooterProps = {
 };
 
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
-  const [hasTermsConsent, setHasTermsConsent] = useState(true);
+  const { locale } = useRouter();
+  // Off by default in EU
+  const { countryCode } = parseValidLocale(locale);
+  const [hasTermsConsent, setHasTermsConsent] = useState(
+    localStorage.getItem('hasTermsConsent') === 'true'
+      ? true
+      : countryCode !== 'US'
+      ? false
+      : countryCode === 'US'
+      ? true
+      : false,
+  );
   const { checkoutStarted } = useAnalytics();
+
+  const { _t } = useTranslations(locale);
+
+  const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
     if (!hasTermsConsent) return;
 
@@ -246,15 +272,25 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    window.location.href = checkoutUrl;
+
+    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() => goToCheckoutUrl({ checkoutUrl, locale, consent }));
   };
+
+  function toggleConsent() {
+    setHasTermsConsent(!hasTermsConsent);
+    localStorage.setItem('hasTermsConsent', JSON.stringify(!hasTermsConsent));
+  }
 
   return (
     <CartFooterStyles>
       <ul>
         <li className="checkout-button">
-          <DarksideButton onClick={handleCheckoutClick}>
-            {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
+          <DarksideButton
+            className={!hasTermsConsent ? 'disabled' : ''}
+            disabled={!hasTermsConsent}
+            onClick={handleCheckoutClick}
+          >
+            {checkoutCta} | {getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale)}
           </DarksideButton>
         </li>
         <li>
@@ -264,12 +300,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             })}
           >
             <label className="checkbox" htmlFor="terms-consent">
-              <input
-                type="checkbox"
-                checked={hasTermsConsent}
-                id="terms-consent"
-                onClick={() => setHasTermsConsent(!hasTermsConsent)}
-              />
+              <input type="checkbox" checked={hasTermsConsent} id="terms-consent" onClick={() => toggleConsent()} />
               <span className="checkmark"></span>
             </label>
             <span className="consent-link">

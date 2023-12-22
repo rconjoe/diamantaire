@@ -7,33 +7,41 @@ import { DiamondsModule } from '@diamantaire/server/diamonds';
 import { HealthModule } from '@diamantaire/server/health';
 import { PriceModule } from '@diamantaire/server/price';
 import { ProductsModule } from '@diamantaire/server/products';
-//import { ProductLoaderModule } from '@diamantaire/shared-product';
 import { HttpModule } from '@nestjs/axios';
+import { CacheModule } from '@nestjs/cache-manager';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Sentry from '@sentry/node';
+import { redisStore } from 'cache-manager-redis-yet';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import appConfig from 'libs/server/common/configs/src/app.config';
 
 import { AppService } from './app.service';
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [appConfig], validationSchema: JoiSchemaValidation }),
-    //MongooseModule.forRoot(appConfig().mongoUri, { useNewUrlParser: true, useUnifiedTopology: true }),
+    process.env.REDISHOST ? CacheModule.registerAsync({  
+      isGlobal: true,  
+      useFactory: async () => ({  
+        store: await redisStore({  
+          username: process.env.REDIS_USERNAME,
+          password: process.env.REDIS_PASSWORD,
+          socket: {  
+            host: process.env.REDISHOST,  
+            port: parseInt(process.env.REDISPORT, 10) || 6379,  
+          },        
+        }),      
+      }),    
+    }) : CacheModule.register({ isGlobal: true }),
     DatabaseModule,
-    // GraphQLModule.forRootAsync<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   useClass: GqlConfigService,
-    // }),
     UtilsModule,
     ProductsModule,
     PriceModule,
     DiamondsModule,
-    //ProductLoaderModule,
     HealthModule,
     HttpModule,
     AuthModule,
+        
   ],
   controllers: [],
   providers: [AppService],

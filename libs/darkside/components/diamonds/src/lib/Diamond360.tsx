@@ -1,11 +1,13 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
-import { canUseWebP, generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
 import StyledDiamond360 from './Diamond360.style';
 
 interface Diamond360Props {
+  diamond?: DiamondDataTypes | DiamondCtoDataTypes;
   className?: string;
   diamondType?: string;
   lotId?: string;
@@ -13,104 +15,102 @@ interface Diamond360Props {
   isCto?: boolean;
   disabled?: boolean;
   noCaption?: boolean;
+  width?: number;
+  height?: number;
+  priority?: boolean;
 }
 
-const Diamond360 = ({ lotId, diamondType, useImageOnly, className, isCto, disabled, noCaption }: Diamond360Props) => {
-  const id = lotId.includes('cfy-')
-    ? lotId
-    : lotId
-        .split('')
-        .filter((v) => !isNaN(Number(v)))
-        .join('');
+const Diamond360 = ({
+  diamond,
+  lotId,
+  diamondType,
+  useImageOnly,
+  className,
+  isCto,
+  disabled,
+  noCaption,
+  width = 500,
+  height = 500,
+  priority = false,
+}: Diamond360Props) => {
+  const [vid, setVid] = useState(null);
 
-  const [mediaType, setMediaType] = useState(null);
+  const diamondID = diamond?.lotId || lotId;
 
-  const [mediaJpgFallback, setMediaJpgFallback] = useState(false);
+  const fetchVideo = useCallback(
+    async (diamondID) => {
+      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
+      const webp = await fetch(webpSprite, { method: 'HEAD' });
 
-  const fetchMediaType = useCallback(async () => {
-    const isWebPCompatible = canUseWebP();
-
-    if (!isWebPCompatible) {
-      setMediaJpgFallback(true);
-    }
-
-    if (lotId) {
-      const diamond360SpriteUrl = generateDiamondSpriteUrl(id, 'webp');
-
-      // HEAD fetch method fetches the metadata without the body
-      const response = await fetch(diamond360SpriteUrl, {
-        method: 'HEAD',
-      });
-
-      if (!response.ok) {
-        const diamond360SpriteJpgUrl = generateDiamondSpriteUrl(id, 'jpg');
-        const responseJpg = await fetch(diamond360SpriteJpgUrl, {
-          method: 'HEAD',
-        });
-
-        if (!responseJpg.ok) {
-          setMediaType('diamond-image');
-        } else {
-          setMediaJpgFallback(true);
-        }
+      if (webp.ok) {
+        setVid(
+          <SpriteSpinner
+            disableCaption={true}
+            shouldStartSpinner={true}
+            spriteImage={webpSprite}
+            bunnyBaseURL={webpSprite}
+          />,
+        );
       } else {
-        setMediaType('diamond-video');
+        const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
+        const jpg = await fetch(jpgSprite, { method: 'HEAD' });
+
+        if (jpg.ok) {
+          setVid(
+            <SpriteSpinner
+              disableCaption={true}
+              shouldStartSpinner={true}
+              spriteImage={jpgSprite}
+              bunnyBaseURL={jpgSprite}
+            />,
+          );
+        }
       }
-    }
-  }, [lotId, id]);
-
-  const renderMedia = () => {
-    if (disabled) {
-      return (
-        <Image
-          alt={diamondType}
-          src={`https://videos.diamondfoundry.com/${lotId}-thumb.jpg`}
-          sizes="100vw"
-          height={0}
-          width={0}
-        />
-      );
-    }
-
-    if (useImageOnly || mediaType === 'diamond-image') {
-      const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
-
-      return <Image src={spriteImageUrl} alt={diamondType} width={0} height={0} sizes="100vw" />;
-    }
-
-    if (mediaType === 'diamond-video') {
-      const spriteImageUrl = generateDiamondSpriteUrl(id, mediaJpgFallback ? 'jpg' : 'webp');
-
-      return <SpriteSpinner shouldStartSpinner={true} bunnyBaseURL={spriteImageUrl} />;
-    }
-  };
+    },
+    [diamondID],
+  );
 
   useEffect(() => {
-    fetchMediaType();
-  }, [lotId, fetchMediaType]);
+    const id = diamondID.includes('cfy-')
+      ? diamondID
+      : diamondID
+          .split('')
+          .filter((v) => !isNaN(Number(v)))
+          .join('');
+
+    if (!disabled && !useImageOnly) {
+      fetchVideo(id);
+    }
+  }, [diamondID]);
+
+  const img = () => {
+    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+
+    return <Image priority={priority} src={spriteImageUrl} alt={diamondType} width={width} height={height} />;
+  };
 
   return (
-    mediaType && (
-      <StyledDiamond360 className={className}>
-        {renderMedia()}
+    <StyledDiamond360 className={className}>
+      <div className="img">{img()}</div>
 
-        {!noCaption && (
-          <>
-            {isCto && mediaType === 'diamond-video' && (
-              <div className="caption">
-                <UIString>Example of how it will look cut and polished</UIString>
-              </div>
-            )}
+      {!disabled && !useImageOnly && <div className="vid">{vid}</div>}
 
-            {!disabled && !useImageOnly && !isCto && mediaType === 'diamond-video' && (
-              <div className="caption">
-                <UIString>Interactive actual diamond video</UIString>
-              </div>
-            )}
-          </>
-        )}
-      </StyledDiamond360>
-    )
+      {!noCaption && vid && (
+        <>
+          {isCto && (
+            <div className="caption">
+              <UIString>Example of how it will look cut and polished</UIString>
+            </div>
+          )}
+
+          {!disabled && !useImageOnly && !isCto && (
+            <div className="caption">
+              <UIString>Interactive actual diamond video</UIString>
+            </div>
+          )}
+        </>
+      )}
+    </StyledDiamond360>
   );
 };
 

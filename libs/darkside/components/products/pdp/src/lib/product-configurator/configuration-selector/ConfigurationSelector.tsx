@@ -1,6 +1,8 @@
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { configTypesComparitor, filterConfigurationTypes } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { useEffect, useMemo, useReducer } from 'react';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useMemo, useReducer } from 'react';
 import styled from 'styled-components';
 
 import OptionSelector from '../option-selector/OptionSelector';
@@ -89,6 +91,8 @@ function ConfigurationSelector({
   diamondSpecs,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
+  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (onChange) {
@@ -112,15 +116,15 @@ function ConfigurationSelector({
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 
-    const url = new URL(window.location.href);
-
-    url.searchParams.set('productSlug', option?.id);
-
-    window.history.pushState(null, '', url);
-
     updateSettingSlugs({
       productSlug: option?.id,
     });
+
+    updateFlowData('UPDATE_STEP', { step: 'review-build' });
+
+    router.push(
+      `/customize/diamond-to-setting/${builderProduct?.diamond?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
+    );
   }
 
   return (

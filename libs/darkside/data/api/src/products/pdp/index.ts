@@ -94,6 +94,10 @@ const WEDDING_BAND_QUERY = gql`
   query weddingBandProductQuery($locale: SiteLocale, $slug: String!) {
     weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
       id
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       seoTitle
       seoDescription
       productTitle
@@ -139,6 +143,10 @@ const PRODUCT_ICON_LIST_QUERY = gql`
               }
             }
             text
+          }
+          supportedCountries {
+            code
+            name
           }
         }
         ... on ModularShippingProductIconListItemRecord {
@@ -426,6 +434,9 @@ const DATO_VARIANT_QUERY = gql`
       productSuggestionQuadBlock {
         id
       }
+      productIconList {
+        productType
+      }
     }
   }
 `;
@@ -577,16 +588,20 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
   ${ResponsiveImageFragment}
 `;
 
-export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural) {
+export async function fetchDatoProductInfo(slug: string, locale: string, productType: PdpTypePlural | 'Engagement Ring') {
   let query = null;
 
-  if (productType === pdpTypePluralAsConst['Engagement Rings']) {
+  if (productType === pdpTypePluralAsConst['Engagement Rings'] || productType === 'Engagement Ring') {
     query = ENGAGEMENT_RING_QUERY;
   } else if (productType === pdpTypePluralAsConst['Jewelry']) {
     query = JEWELRY_QUERY;
   } else if (productType === pdpTypePluralAsConst['Wedding Bands']) {
     query = WEDDING_BAND_QUERY;
-  } else if (productType === pdpTypePluralAsConst['Accessories'] as PdpTypePlural) {
+  } else if (productType === (pdpTypePluralAsConst['Accessories'] as PdpTypePlural)) {
+    query = JEWELRY_QUERY;
+  } else if (productType === (pdpTypePluralAsConst['Gift Cards'] as PdpTypePlural)) {
+    query = JEWELRY_QUERY;
+  } else if (productType === (pdpTypePluralAsConst['Ring Sizer'] as PdpTypePlural)) {
     query = JEWELRY_QUERY;
   } else {
     console.log('Unknown productType');

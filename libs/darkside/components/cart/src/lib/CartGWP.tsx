@@ -9,20 +9,17 @@ import {
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const CartGWPStyles = styled.div`
-  margin: 0;
-  padding: 0 2.5rem 5rem;
-  ${media.medium`margin: 0 3rem 0 5rem;`}
+  padding: 0 0 2rem;
   .inner {
     display: flex;
 
     .image {
-      flex: 0 0 14rem;
+      flex: 0 0 12rem;
       display: flex;
 
       > * {
@@ -42,6 +39,13 @@ const CartGWPStyles = styled.div`
       .content__inner {
         padding: 2rem;
 
+        .button-style--underline {
+          a {
+            button {
+              font-size: var(--font-size-xxsmall);
+            }
+          }
+        }
         p {
           font-size: var(--font-size-xxsmall);
 
@@ -70,10 +74,10 @@ const CartGWP = () => {
   const gwpData = data?.allGwpDarksides?.[0]?.tiers?.[0];
 
   const {
-    cartQualifiedTitle,
+    // cartQualifiedTitle,
+    // cartNonQualifiedTitle,
     cartQualifiedBody,
     cartQualifiedBackgroundColor,
-    cartNonQualifiedTitle,
     cartNonQualifiedBody,
     cartNonQualifiedBackgroundColor,
     giftProduct,
@@ -94,7 +98,7 @@ const CartGWP = () => {
 
   useEffect(() => {
     async function checkForGWP() {
-      if (!checkout || !gwpData) return null;
+      if (!checkout || !gwpData || !isWithinTimeframe) return null;
       // This is also the item (if it exists 👻)
       const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
       const doesUserHaveGWPInCart =
@@ -103,7 +107,7 @@ const CartGWP = () => {
 
       if (hasUserQualified && !doesUserHaveGWPInCart) {
         const attributes = {
-          hiddenProduct: 'true',
+          _hiddenProduct: 'true',
         };
         const refinedAttributes = Object.keys(attributes)
           .map((key) => {
@@ -147,12 +151,12 @@ const CartGWP = () => {
           <div className="content__inner">
             {hasUserQualified ? (
               <>
-                {cartQualifiedTitle && <p className="title">{cartQualifiedTitle}</p>}
+                {/* {cartQualifiedTitle && <p className="title">{cartQualifiedTitle}</p>} */}
                 <p>{cartQualifiedBody}</p>
               </>
             ) : (
               <>
-                {cartNonQualifiedTitle !== '' && <p className="title">{cartNonQualifiedTitle}</p>}
+                {/* {cartNonQualifiedTitle !== '' && <p className="title">{cartNonQualifiedTitle}</p>} */}
                 <p className="non-qualified-copy">
                   {replacePlaceholders(
                     cartNonQualifiedBody,

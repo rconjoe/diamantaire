@@ -113,5 +113,6 @@ export type PLPResponse = {
     configurationsInOrder: (ConfigurationRecord | OmegaProductRecord)[];
     productsInOrder: OmegaProductRecord[];
     collectionsInOrder: CollectionRecord[];
+    bestSellersInOrder: (ConfigurationRecord | OmegaProductRecord)[];
   } & Record<string, unknown>;
 };

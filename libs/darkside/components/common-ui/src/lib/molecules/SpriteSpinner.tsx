@@ -1,19 +1,14 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { SpriteSpinnerInit } from './SpriteSpinnerInit';
+import { UIString } from './UIString';
 
 declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
   position: relative;
-  max-width: 65.7rem;
-
-  display: ${({ mobile }) => (mobile ? 'block' : 'none')};
-
-  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    display: ${({ mobile }) => (mobile ? 'none' : 'block')};
-  }
+  width: 100%;
+  height: 100%;
 
   .spritespin-canvas {
     width: 100%;
@@ -38,10 +33,11 @@ interface SpriteSpinnerProps {
   onSpriteLoad?: () => void;
   spriteImage?: string;
   mobile?: boolean;
+  disableCaption?: boolean;
 }
 
 const SpriteSpinner = (props: SpriteSpinnerProps) => {
-  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad, spriteImage, mobile } = props;
+  const { shouldStartSpinner, bunnyBaseURL, spriteSource, onSpriteLoad, spriteImage, mobile, disableCaption } = props;
 
   const spinnerEl = useRef(null);
 
@@ -129,7 +125,6 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   return (
     <SpritSpinnerContainer mobile={mobile}>
-      <SpriteSpinnerInit />
       <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}
@@ -138,9 +133,11 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         ref={(spriteDivRef) => (spinnerEl.current = $ && $(spriteDivRef))}
       />
 
-      {/* <span>
-        <UIString>Interactive video - drag to rotate</UIString>
-      </span> */}
+      {!disableCaption && (
+        <span>
+          <UIString>Interactive video - drag to rotate</UIString>
+        </span>
+      )}
     </SpritSpinnerContainer>
   );
 };

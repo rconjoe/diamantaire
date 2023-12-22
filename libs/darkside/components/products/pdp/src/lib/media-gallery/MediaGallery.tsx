@@ -129,7 +129,7 @@ const ImageAssetStyles = styled.div`
     left: 0;
     width: 100%;
     text-align: center;
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xxsmall);
   }
 `;
 
@@ -142,7 +142,7 @@ type ImageAssetProps = {
 };
 
 function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: ImageAssetProps) {
-  const { alt, url } = image;
+  const { alt, url, title, customData } = image;
 
   const loader = ({ src, width, quality = 50 }: ImageLoaderProps) => {
     const params = {
@@ -158,6 +158,8 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
     return `${src}?${searchParams.toString()}&dpr=2`;
   };
 
+  const doesImageHavTitle = title && title.length > 0;
+
   return (
     <ImageAssetStyles>
       <Image
@@ -169,9 +171,22 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
         style={{ objectFit: 'cover' }}
         loader={loader}
       />
+
       {index === 0 && productType === 'Engagement Ring' && (
         <p>
-          <UIString>Shown with</UIString> {shownWithCtw ? shownWithCtw : '1.5ct'}
+          <UIString>Shown with </UIString>
+          {shownWithCtw ? shownWithCtw : '1.5ct'}
+        </p>
+      )}
+
+      {doesImageHavTitle && (
+        <p
+          className="overlay-text"
+          style={{
+            color: customData?.color || 'var(--color-black)',
+          }}
+        >
+          {title}
         </p>
       )}
     </ImageAssetStyles>

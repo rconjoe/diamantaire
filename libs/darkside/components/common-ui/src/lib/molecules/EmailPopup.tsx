@@ -1,7 +1,7 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, HUBSPOT_EMAIL_POPUP_LISTDATA } from '@diamantaire/shared/constants';
-import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { getIsUserInEu, getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Cookies from 'js-cookie';
@@ -21,11 +21,17 @@ const EmailPopUpStyles = styled.div`
     overflow-y: auto;
     display: flex;
     max-height: 100%;
-
+    max-width: 86rem;
+    max-height: 43rem;
+    .emailpopup-title {
+      font-size: 4rem;
+      font-weight: 500 !important;
+      line-height: 1;
+    }
     .emailpopup-image {
       display: none;
       ${media.medium`display:block;`}
-      flex: 1;
+      flex: 0 0 33rem;
 
       > div {
         height: 100%;
@@ -40,12 +46,14 @@ const EmailPopUpStyles = styled.div`
       align-items: center;
 
       .emailpopup-content__inner {
-        padding: 2rem;
         flex: 1;
         margin: 0 auto;
-        ${media.medium`max-width: 450px;`}
+        padding: 20px;
         h2 {
           margin-bottom: 1rem;
+        }
+        p {
+          font-size: 1.6rem;
         }
       }
     }
@@ -70,20 +78,11 @@ const EmailPopUpStyles = styled.div`
 
 const EmailPopUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showOptIn, setShowOptIn] = useState(false);
-
-  // showOptIn is true if isUserInEurope is true
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [formSubmissionResult, setFormSubmissionResult] = useState(null);
   const router = useRouter();
 
   const { locale, pathname } = router || {};
-
-  const initializeUserState = () => {
-    const isUserInEu = getIsUserInEu();
-
-    if (isUserInEu) {
-      setShowOptIn(true);
-    }
-  };
 
   const shouldShowEmailPopup = () => {
     // Check if the pop-up should render on this page
@@ -101,7 +100,7 @@ const EmailPopUp = () => {
   };
 
   const setupEmailPopup = () => {
-    initializeUserState();
+    // initializeUserState();
     if (shouldShowEmailPopup()) {
       return setTimeout(openEmailPopup, 30000);
     }
@@ -155,14 +154,14 @@ const EmailPopUp = () => {
     const smsConsentSource = phone.length > 0 ? 'popup' : '';
     const sendSMS = phone.length > 0 ? 'subscribed' : '';
 
-    if (showOptIn && !isConsent) {
+    if (!isConsent) {
       setIsValid(false);
 
       return;
     }
 
     try {
-      if (!showOptIn || (showOptIn && isConsent)) {
+      if (isConsent) {
         await sendHubspotForm({
           email,
           phone,
@@ -175,10 +174,11 @@ const EmailPopUp = () => {
           sendSMS,
         });
         Cookies.set('email-popup', 'true', { expires: 365 }); //fallback if hubspot not loaded via gtm
-        toast.success(successCopy, {
-          autoClose: 3000,
-        });
-        setIsModalOpen(false);
+        setIsSuccessful(true);
+        setFormSubmissionResult(successCopy);
+        setTimeout(() => {
+          setIsModalOpen(false);
+        }, 1000);
       }
     } catch (error) {
       toast.error(errorCopy, {
@@ -228,7 +228,7 @@ const EmailPopUp = () => {
           </div>
           <div className="emailpopup-content">
             <div className="emailpopup-content__inner">
-              <Heading type="h2" className="h1 primary">
+              <Heading type="h2" className={' emailpopup-title -medium'}>
                 {userTitle}
               </Heading>
               <Markdown>{userCopy}</Markdown>
@@ -236,14 +236,17 @@ const EmailPopUp = () => {
               <Form
                 onSubmit={onSubmit}
                 formGridStyle="single"
+                flexDirection="column"
                 stackedSubmit={true}
-                showOptIn={showOptIn}
+                showOptIn={true}
                 ctaCopy={submitCopy}
                 optInCopy={optInCopy}
                 extraClass="-links-teal -opt-in"
                 isValid={isValid}
                 setIsValid={setIsValid}
                 schema={schema}
+                isSuccessful={isSuccessful}
+                formSubmissionResult={formSubmissionResult}
               />
 
               <DarksideButton type="text-underline" onClick={handleClose} colorTheme="teal" className="button--decline">

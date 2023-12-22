@@ -12,7 +12,7 @@ type PlpDiamondItemProps = {
 
 const PlpDiamondItemStyles = styled.div`
   .plp-title {
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-size: var(--font-size-xxsmall);
   }
   .primary-image {
@@ -25,7 +25,7 @@ const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   const router = useRouter();
   const { _t } = useTranslations();
   const { carat, diamondType, cut, color, clarity, price, handle } = product;
-  const title = `${carat} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
+  const title = `${carat.toFixed(2)} carat, ${_t(diamondType)} | ${_t(cut)}, ${_t(color)}, ${_t(clarity)} | ${getFormattedPrice(
     price,
     router.locale,
   )}`;
@@ -35,7 +35,12 @@ const PlpDiamondItem = ({ product }: PlpDiamondItemProps) => {
   return (
     <PlpDiamondItemStyles>
       <DiamondLink handle={handle}>
-        <DiamondVideoThumbImage lotId={product.lotId} alt={title} className="primary-image" fallbackSrc={genericDiamondImage}/>
+        <DiamondVideoThumbImage
+          lotId={product.lotId}
+          alt={title}
+          className="primary-image"
+          fallbackSrc={genericDiamondImage}
+        />
         <div className="plp-title">{title}</div>
       </DiamondLink>
     </PlpDiamondItemStyles>

@@ -117,34 +117,37 @@ const ModularProductSuggestionQuadGrid = (props) => {
         )}
 
         <div className="products">
-          {products?.map((productNode, index) => {
-            const product = productNode?.product;
-            const content = productNode?.content;
+          {products &&
+            productHandles?.map((handle, index) => {
+              const productNode = products?.find((p) => p?.content?.shopifyProductHandle === handle);
 
-            if (index >= refinedConfigurations.length) return null;
+              if (!productNode) return null;
 
-            return (
-              <div className="product-container" key={product?.id}>
-                <div className="product-container__inner">
-                  <ProductLink
-                    productType={product?.productType}
-                    collectionSlug={product?.collectionSlug}
-                    productSlug={product?.productSlug}
-                  >
-                    <div className="product-image">
-                      <DatoImage image={content.plpImage} />
-                    </div>
-                    <div className="product-content__container">
-                      <Heading type="h3" className="secondary product-content__title">
-                        {refinedTitles?.[index]?.title}
-                      </Heading>
-                      <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
-                    </div>
-                  </ProductLink>
+              const product = productNode?.product;
+              const content = productNode?.content;
+
+              if (index >= refinedConfigurations.length) return null;
+
+              return (
+                <div className="product-container" key={product?._id}>
+                  <div className="product-container__inner">
+                    <ProductLink
+                      productType={product?.productType}
+                      collectionSlug={product?.collectionSlug}
+                      productSlug={product?.productSlug}
+                    >
+                      <div className="product-image">{content?.plpImage && <DatoImage image={content.plpImage} />}</div>
+                      <div className="product-content__container">
+                        <Heading type="h3" className="secondary product-content__title">
+                          {refinedTitles?.[index]?.title}
+                        </Heading>
+                        <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                      </div>
+                    </ProductLink>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </ModularProductSuggestionQuadGridStyles>

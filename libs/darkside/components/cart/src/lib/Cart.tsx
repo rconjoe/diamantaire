@@ -1,4 +1,4 @@
-import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
+import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
@@ -7,9 +7,10 @@ import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import CartFooter from './cart-items/CartFooter';
+import CartNote from './cart-items/CartNote';
 import MultiVariantCartItem from './cart-items/MultiVariantCartItem';
 import SingleVariantCartItem from './cart-items/SingleVariantCartItem';
 import { CartOverlay, CartStyles } from './Cart.style';
@@ -17,10 +18,12 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
+  // const { _t } = useTranslations(locale);
   const { data: checkout, refetch } = useCartData(locale);
 
+  console.log('checkout', checkout);
+
   const updateGlobalContext = useContext(GlobalUpdateContext);
-  const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
 
   const isCartEmpty = checkout?.lines.length === 0;
   const router = useRouter();
@@ -37,6 +40,8 @@ const Cart = ({ closeCart }) => {
     'Earrings',
     'Diamonds',
     'Diamond',
+    'Ring',
+    'Gift Card',
   ];
 
   const {
@@ -55,8 +60,6 @@ const Cart = ({ closeCart }) => {
     // Fetch latest cart data
     refetch();
   }, []);
-
-  const gwpRef = useRef(null);
 
   return (
     <>
@@ -88,7 +91,6 @@ const Cart = ({ closeCart }) => {
         transition={{
           duration: 0.25,
         }}
-        gwpSize={gwpRef?.current?.clientHeight}
       >
         <div className="cart__inner">
           <div className="cart__header">
@@ -105,11 +107,11 @@ const Cart = ({ closeCart }) => {
               </button>
             </div>
           </div>
-          <div className="gwp" ref={gwpRef}>
-            <CartGWP />
-          </div>
           <div className="cart__items">
             <div className="cart__items-inner">
+              <div className="gwp">
+                <CartGWP />
+              </div>
               {checkout?.lines?.map((item) => {
                 const cartItemInfo = {
                   _productType: null,
@@ -117,18 +119,20 @@ const Cart = ({ closeCart }) => {
                 };
 
                 const childProductAttribute = item.attributes?.find((attr) => attr.key === 'childProduct');
-                const isHiddenProduct = item.attributes?.find((attr) => attr.key === 'hiddenProduct');
+                const engravingProductAttribute = item.attributes?.find((attr) => attr.key === 'engravingProduct');
+                const isHiddenProduct = item.attributes?.find((attr) => attr.key === '_hiddenProduct');
 
                 const hasChildProduct =
-                  childProductAttribute &&
-                  childProductAttribute?.value !== null &&
-                  JSON.parse(childProductAttribute?.value).behavior !== 'duplicate';
+                  (childProductAttribute &&
+                    childProductAttribute?.value !== null &&
+                    JSON.parse(childProductAttribute?.value).behavior !== 'duplicate') ||
+                  (engravingProductAttribute &&
+                    engravingProductAttribute?.value !== null &&
+                    JSON.parse(engravingProductAttribute?.value).behavior !== 'duplicate');
 
                 item.attributes?.map((attr) => {
                   cartItemInfo[attr.key] = attr.value;
                 });
-
-                console.log('checkout', checkout);
 
                 // We don't show any child products in this loop, only in the multi-variant cart item
                 if (item.attributes.find((item) => item.key === 'isChildProduct') || isHiddenProduct) {
@@ -157,6 +161,7 @@ const Cart = ({ closeCart }) => {
                       updateItemQuantity={updateItemQuantity}
                       cartItemDetails={cartItemDetails}
                       key={`cart-item-${item.id}`}
+                      certificate={certificates?.[0]}
                     />
                   );
                 }
@@ -193,36 +198,21 @@ const Cart = ({ closeCart }) => {
               ) : (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
+                    {/* they prob mean this.... */}
+                    {/* {parseFloat(checkout?.cost?.subtotalAmount?.amount) > 500 && (
+                      <UIString>Orders over $500 require a signature upon delivery.</UIString>
+                    )} */}
+
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
                   </p>
                   <hr />
                   <div className="cart-subtotal__summary">
                     <p>
                       {subtotalCopy} <br />{' '}
-                      <span className="gift-note">
-                        <button onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>{addNoteOptionCta}</button>{' '}
-                        <span>
-                          (<UIString>optional</UIString>)
-                        </span>
-                      </span>
                     </p>
                     <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
-                  {isGiftNoteOpen && (
-                    <div className="cart-subtotal__gift-note">
-                      <textarea name="" id=""></textarea>
-                      <ul className="flex list-unstyled align-center">
-                        <li>
-                          <DarksideButton>Save</DarksideButton>
-                        </li>
-                        <li>
-                          <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsGiftNoteOpen(false)}>
-                            Cancel
-                          </DarksideButton>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+                  <CartNote addNoteOptionCta={addNoteOptionCta} />
                 </div>
               )}
             </div>

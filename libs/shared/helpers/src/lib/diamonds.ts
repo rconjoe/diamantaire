@@ -1,4 +1,5 @@
 import {
+  ACCEPTABLE_CLARITIES,
   DIAMOND_CFY_FACETED_NAV,
   DIAMOND_CFY_VALID_QUERIES,
   DIAMOND_TABLE_DEFAULT_OPTIONS,
@@ -49,8 +50,23 @@ export const getDiamondType = (value: string) => {
   return null;
 };
 
-export const getDiamondId = (slug: string) => {
-  return slug && slug.split('-').pop().toUpperCase();
+// Function to extract the diamond ID from the slug
+export const getDiamondIdFromSlug = (slug: string) => {
+  if (!slug) return null;
+
+  const clarities = ACCEPTABLE_CLARITIES;
+
+  const slugUpperCase = slug.toUpperCase();
+
+  const clarityMatchArr = clarities.map((v) => `-${v}-`);
+
+  const clarityMatch = clarityMatchArr.find((v) => slugUpperCase.includes(v));
+
+  if (!clarityMatch) return null;
+
+  const idUpperCase = slugUpperCase.split(clarityMatch).pop();
+
+  return idUpperCase;
 };
 
 /**
@@ -65,11 +81,11 @@ export const getDiamondOptionsFromUrl = (query, page) => {
 
   const getOptionsFromFacetedNav = (data: string[]) => {
     const obj: {
-      diamondType?: string;
       clarity?: string;
       color?: string;
-      lotId?: string;
       cut?: string;
+      diamondType?: string;
+      handle?: string;
     } = {};
 
     data?.forEach((value) => {
@@ -87,7 +103,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
       } else if (arr.every(diamondOption.isColor)) {
         obj.color = value.toUpperCase();
       } else if (arr.every(diamondOption.isHandle)) {
-        obj.lotId = getDiamondId(value);
+        obj.handle = value;
       }
     });
 

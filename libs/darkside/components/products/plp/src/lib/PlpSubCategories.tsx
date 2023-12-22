@@ -1,20 +1,18 @@
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
-import React from 'react';
 import styled from 'styled-components';
 
 const PlpSubCategoriesStyles = styled.div`
   display: flex;
-  padding: 0 0 2rem;
+  padding: 0 0 1rem;
   justify-content: center;
   overflow-x: auto;
   justify-content: start;
-  padding-left: 0.5rem;
 
-  ${media.medium`justify-content: center;`}
+  ${media.medium`justify-content: center;padding: 0 0 1rem; padding-left: 0;`}
   > .subcategory-block {
-    flex: 0 0 17rem;
-    padding: 0 0.5rem;
+    flex: 0 0 22rem;
+    padding: 0 1.2rem;
     > button {
       width: 100%;
       padding: 0;
@@ -25,7 +23,7 @@ const PlpSubCategoriesStyles = styled.div`
 
     .subcategory-title {
       margin-top: 0.5rem;
-      font-size: var(--font-size-xxxxsmall);
+      font-size: var(--font-size-xxxsmall);
       text-align: left;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
@@ -47,7 +45,7 @@ const PlpSubCategories = ({ subcategoryFilter, filterValue, setFilterValues }) =
               onClick={() =>
                 setFilterValues({
                   ...filterValue,
-                  subStyle: block?.slug,
+                  subStyle: [block?.slug],
                 })
               }
             >

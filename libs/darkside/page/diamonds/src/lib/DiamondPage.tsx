@@ -10,7 +10,7 @@ import {
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { OptionsDataTypes, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { OptionsDataTypes, humanNamesMapperType, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -52,7 +52,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const [loading, setLoading] = useState(true);
 
-  const { _t } = useTranslations(locale);
+  const { _t: _diamondTypes } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const {
     data: { diamonds, pagination, ranges },
@@ -66,7 +66,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const { seoTitle, seoDescription } = seo || {};
 
-  const diamondTypeTitle = options?.diamondType ? _t(getDiamondType(options?.diamondType).slug) : '';
+  const diamondTypeTitle = options?.diamondType ? _diamondTypes(getDiamondType(options?.diamondType).slug) : '';
 
   const pageSeoTitle = seoTitle.replace(/%%(.*?)%%/g, diamondTypeTitle);
 
@@ -122,6 +122,14 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         }
       } else {
         updatedOptions = { ...prevOptions, ...newOptions };
+      }
+
+      // if Fancy shape is selected automatically remove Ideal and Ideal+Heart options
+      if (updatedOptions.diamondType && updatedOptions.cut && updatedOptions.diamondType !== 'round-brilliant') {
+        updatedOptions.cut = updatedOptions.cut
+          .split(',')
+          .filter((v) => v === 'Excellent')
+          .join();
       }
 
       return updatedOptions;
@@ -189,6 +197,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         {isMobile && title}
 
         <div className="page-aside">
+          { ranges && (
           <DiamondFilter
             handleRadioFilterChange={handleRadioFilterChange}
             handleSliderFilterChange={handleSliderFilterChange}
@@ -196,7 +205,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             options={options}
             ranges={ranges}
             locale={locale}
-          />
+          />)}
 
           {isMobile && (
             <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
@@ -231,23 +240,15 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { locale, query } = context;
-
   const currencyCode = getCurrencyFromLocale(locale);
-
   const options = getDiamondOptionsFromUrl(query || {}, 'diamondTable');
-
   const globalQuery = queries.template.global(locale);
-
   const diamondQuery = queries.diamonds.content(options);
-
   const diamondTableQuery = queries.diamondTable.content(locale);
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(globalQuery);
-
   await queryClient.prefetchQuery(diamondQuery);
-
   await queryClient.prefetchQuery(diamondTableQuery);
 
   if (!queryClient.getQueryData(diamondQuery.queryKey) || !queryClient.getQueryData(diamondTableQuery.queryKey)) {

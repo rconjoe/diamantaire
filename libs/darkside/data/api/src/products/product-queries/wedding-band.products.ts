@@ -9,6 +9,10 @@ export const WEDDING_BAND_PDP = `
         title
         slug
       }
+      seoFields {
+        seoTitle
+        seoDescription
+      }
       slug
       productTitle
       productDescription
@@ -94,6 +98,7 @@ export const WEDDING_BAND_PDP = `
         width
         mimeType
         customData
+        title
         video {
           streamingUrl
           thumbnailUrl

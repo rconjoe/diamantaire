@@ -54,6 +54,7 @@ const SignInPage = () => {
         signUpUrl={SIGN_UP_REDIRECT_URL}
         afterSignUpUrl={POST_SIGN_UP_REDIRECT_URL}
         afterSignInUrl={POST_SIGN_IN_REDIRECT_URL}
+        routing="hash"
       />
     </SignInPageStyles>
   );

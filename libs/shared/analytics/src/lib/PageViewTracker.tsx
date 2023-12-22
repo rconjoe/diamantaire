@@ -82,6 +82,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
         listName,
         category,
         variantIds,
+        currency: currencyCode,
         products: firstThreeProducts,
         ecommerce: {
           items: firstThreeItems,
@@ -185,8 +186,10 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
   }
 
   const allProducts = productData.pages.flatMap((page) => page.products);
-
   const normalizedProducts = allProducts.map((product, idx) => {
+    if (!product){
+      return null;
+    }
     const { defaultId, variants } = product;
     const variant = variants[defaultId];
 
@@ -209,7 +212,7 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
       category: productType,
       image_url: src,
       price: formattedPrice,
-      currencyCode,
+      currency: currencyCode,
       brand,
       name: title,
       // rudderstack base ecommerce keys could add later
@@ -255,7 +258,8 @@ function getGTMNormalizedListPageItems({ productData, locale, currencyCode, list
       item_category: productType,
       item_list_name: listName,
       price: formattedPrice,
-      currencyCode,
+      quantity: 1,
+      currency: currencyCode,
       item_variant: itemVariant, // Add item_variant to the returned object
     };
   });

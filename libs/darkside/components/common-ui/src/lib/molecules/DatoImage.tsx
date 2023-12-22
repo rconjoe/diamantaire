@@ -11,6 +11,7 @@ type DatoImageProps = {
   image: DatoImageType;
   quality?: number;
   enableDpr?: boolean;
+  title?: string;
 };
 
 const DatoImageContainer = styled.div`

@@ -5,6 +5,7 @@ export interface DatoImageType {
   width?: number;
   height?: number;
   src?: string;
+  title?: string;
   responsiveImage?: {
     src: string;
     width: number;
@@ -15,6 +16,9 @@ export interface DatoImageType {
   video?: {
     streamingUrl: string;
     thumbnailUrl?: string;
+  };
+  customData?: {
+    [key: string]: string;
   };
 }
 

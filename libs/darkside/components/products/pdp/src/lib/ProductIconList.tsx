@@ -1,8 +1,8 @@
 import { DatoImage, Markdown, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { useProductIconList } from '@diamantaire/darkside/data/hooks';
-import { getCountry } from '@diamantaire/shared/helpers';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { InfoIcon } from '@diamantaire/shared/icons';
-import { addBusinessDays, format } from 'date-fns';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -53,7 +53,7 @@ const ProductIconListContainer = styled.div`
   }
 `;
 
-const ProductIconList = ({ productIconListType, locale, configuration }) => {
+const ProductIconList = ({ productIconListType, locale }) => {
   const [isDiamondSlideoutOpen, setIsDiamondSlideoutOpen] = useState(false);
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
   const { items } = productIconList || {};
@@ -65,7 +65,7 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
       <ul>
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
-            return <ShippingListItem item={item} key={`product-icon-li-${index}`} configuration={configuration} />;
+            return <ShippingListItem item={item} key={`product-icon-li-${index}`} />;
           } else {
             return (
               <IconListItem
@@ -91,21 +91,20 @@ const ProductIconList = ({ productIconListType, locale, configuration }) => {
 export { ProductIconList };
 
 // Single Icon List Item
-const ShippingListItem = ({ item, configuration }) => {
+const ShippingListItem = ({ item }) => {
   const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
 
   const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
 
-  // Checks if the locale is US, if not, it will check the shippingBusinessDaysCountryMap for the country code based days
-  const shippingDate = format(
-    addBusinessDays(
-      new Date(),
-      getCountry(locale) === 'US'
-        ? shippingBusinessDays + (configuration.bandAccent === 'pave' ? 2 : 0)
-        : shippingBusinessDaysCountryMap?.[getCountry(locale)],
-    ),
-    'E, MMM d',
-  );
+  const businessDays =
+    countryCode === 'US'
+      ? shippingBusinessDays
+      : shippingBusinessDaysCountryMap?.[countryCode]
+      ? shippingBusinessDaysCountryMap?.[countryCode]
+      : shippingBusinessDaysCountryMap?.['International'];
+
+  const shippingDate = getFormattedShipByDate(businessDays, locale);
 
   return (
     <li>
