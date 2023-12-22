@@ -1,6 +1,7 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -93,7 +94,13 @@ const Diamond360 = ({
     <StyledDiamond360 className={className}>
       <div className="img">{img()}</div>
 
-      {!disabled && !useImageOnly && <div className="vid">{vid}</div>}
+      {!disabled && !useImageOnly && (
+        <AnimatePresence>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>
+            <div className="vid">{vid}</div>
+          </motion.div>
+        </AnimatePresence>
+      )}
 
       {!noCaption && vid && (
         <>

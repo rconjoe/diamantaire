@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 const gap = '2rem';
 
-const mediaWidth = '50%';
-
 const StyledDiamondDetail = styled.div`
   display: block;
   flex-wrap: wrap;
@@ -95,7 +93,8 @@ const StyledDiamondDetail = styled.div`
       aspect-ratio: 1/1;
 
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-        width: ${mediaWidth};
+        width: 43.5rem;
+        max-width: 50%;
       }
     }
   }

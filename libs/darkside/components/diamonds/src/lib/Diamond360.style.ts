@@ -19,7 +19,7 @@ const StyledDiamond360 = styled.div`
   }
 
   .vid {
-    transform: scale(1.02);
+    transform: scale(1.025);
     position: absolute;
     top: 0;
     left: 0;
@@ -34,24 +34,6 @@ const StyledDiamond360 = styled.div`
       height: 100%;
     }
   }
-
-  // > div {
-  //   transform: scale(1.05);
-  // }
-
-  // .diamond-image-only {
-  //   display: block;
-  //   margin: auto;
-  //   width: 100%;
-  //   max-height: 100%;
-  //   transform: scale(0.9);
-
-  //   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-  //     transform: scale(0.75);
-  //     width: auto;
-  //     max-width: 17rem;
-  //   }
-  // }
 
   .caption {
     font-size: var(--font-size-xxxsmall);
