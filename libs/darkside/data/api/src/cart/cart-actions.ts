@@ -1,3 +1,4 @@
+import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
@@ -400,8 +401,6 @@ export const updateMultipleItemsQuantity = async ({
     return refinedItems.push(newItem);
   });
 
-  console.log('updateMultipleItemsQuantity refinedItems', refinedItems);
-
   if (!cartId) {
     return 'Missing cart ID';
   }
@@ -623,7 +622,7 @@ const addCustomizedItem = async (
 
   try {
     // Need to do it like this to maintain order in shopify checkout
-    refinedItems.map(async (item) => await addToCart(cartId, [item]));
+    addToCart(cartId, refinedItems);
   } catch (e) {
     console.log('Error adding customized item to cart', e);
   }
@@ -673,4 +672,38 @@ export async function toggleCartAddonProduct(variantId) {
   } else {
     await addItemToCart(variantId, []);
   }
+}
+
+// Run this when the user goes to checkout to update the line item shipping text attribute
+export async function updateShippingTimes(shippingText, locale) {
+  const cartId = localStorage.getItem('cartId');
+  const cart = await getCart(cartId);
+
+  const updatedItems = cart?.lines?.map((cartItem) => {
+    const updatedAttributes = [...cartItem.attributes];
+
+    const shippingDaysInt =
+      cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingBusinessDays')?.value);
+
+    cartItem.attributes.map((attr) => {
+      if (attr.key === 'productIconListShippingCopy') {
+        attr.value = shippingText + ' ' + getFormattedShipByDate(shippingDaysInt, locale);
+      }
+
+      return attr;
+    });
+
+    const updatedItem = {
+      lineId: cartItem.id,
+      variantId: cartItem.merchandise.id,
+      quantity: cartItem.quantity,
+      attributes: updatedAttributes,
+    };
+
+    return updatedItem;
+  });
+
+  return await updateMultipleItemsQuantity({
+    items: updatedItems,
+  });
 }

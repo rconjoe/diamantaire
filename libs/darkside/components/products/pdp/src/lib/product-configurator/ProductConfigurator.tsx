@@ -4,14 +4,9 @@ import { DarksideButton, RingSizeGuide, SlideOut, UIString } from '@diamantaire/
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import {
-  DIAMOND_TYPE_HUMAN_NAMES,
-  getCurrency,
-  getFormattedPrice,
-  metalTypeAsConst,
-  parseValidLocale,
-} from '@diamantaire/shared/constants';
+import { useCartData, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -61,6 +56,11 @@ type ProductConfiguratorProps = {
   requiresCustomDiamond: boolean;
   engravingText?: string;
   setEngravingText?: (value: string) => void;
+  productIconListType?: string;
+  settingSlugs?: {
+    collectionSlug: string;
+    productSlug: string;
+  };
 };
 
 function ProductConfigurator({
@@ -90,6 +90,8 @@ function ProductConfigurator({
   requiresCustomDiamond,
   engravingText,
   setEngravingText,
+  productIconListType,
+  settingSlugs,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -255,7 +257,7 @@ function ProductConfigurator({
               );
 
               router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${builderProduct?.product?.collectionSlug}/${builderProduct?.product?.productSlug}`,
+                `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
               );
             }}
           >
@@ -278,6 +280,7 @@ function ProductConfigurator({
           isSoldAsDouble={isSoldAsDouble}
           additionalVariantIds={additionalVariantIds}
           engravingText={engravingText}
+          productIconListType={productIconListType}
         />
       )}
     </>
@@ -302,6 +305,7 @@ type CtaButtonProps = {
   isSoldAsDouble?: boolean;
   additionalVariantIds?: string[];
   engravingText?: string;
+  productIconListType?: string;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -328,6 +332,7 @@ function AddToCartButton({
   additionalVariantIds,
   isSoldAsDouble,
   engravingText,
+  productIconListType,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -338,14 +343,34 @@ function AddToCartButton({
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
+  const { _t: earring_t } = useTranslations(locale, ['OPTION_NAMES']);
 
   const { chainLength, productTitle, productType, color, clarity, bandAccent, caratWeightOverride, image } =
     additionalVariantData;
 
+  const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
+
+  const shipTimeParent = productIconList?.items?.find(
+    (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
+  );
+
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+
   const { countryCode } = parseValidLocale(locale);
+  const shippingTime =
+    countryCode === 'US'
+      ? shippingBusinessDays
+      : shippingBusinessDaysCountryMap?.[countryCode]
+      ? shippingBusinessDaysCountryMap?.[countryCode]
+      : shippingBusinessDaysCountryMap?.['International'];
+
+  // Shipping times
+
   const currencyCode = getCurrency(countryCode);
   const formattedPrice = getFormattedPrice(price, locale, true, true);
   const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings', 'Wedding Band', 'Ring'];
+
+  // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
 
   async function addProductToCart() {
     const productGroupKey = uuidv4();
@@ -409,9 +434,16 @@ function AddToCartButton({
 
     // Common attributes
 
-    const metal =
-      (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') +
-      metalTypeAsConst[selectedConfiguration?.metal];
+    const specs = specGenerator(
+      { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
+      productType,
+      _t,
+      earring_t,
+    );
+
+    const metal = _t(
+      (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') + selectedConfiguration?.metal,
+    );
     const pickBandAccent = bandAccent || selectedConfiguration?.bandAccent;
     const refinedBandAccent = pickBandAccent
       ? pickBandAccent?.charAt(0)?.toUpperCase() + (pickBandAccent ? pickBandAccent.slice(1) : '')
@@ -425,12 +457,11 @@ function AddToCartButton({
         metalType: metal,
         pdpUrl: window.location.href,
         feedId: variantId,
-        _specs: `Shape: ${
-          DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]
-        };Metal: ${metal};Band: ${refinedBandAccent};Ring size: ${selectedConfiguration?.ringSize}`,
-        productIconListShippingCopy: 'temp',
+        _specs: specs,
+        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
+        shippingBusinessDays: shippingTime.toString(),
 
         // Cart specific info
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
@@ -451,11 +482,12 @@ function AddToCartButton({
       const jewelryAttributes = {
         ...defaultAttributes,
         feedId: variantId,
-        diamondShape: selectedConfiguration.diamondShape || DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration.diamondType],
+        diamondShape: _t(selectedConfiguration.diamondShape) || _t(selectedConfiguration.diamondType),
         caratWeight: selectedConfiguration.caratWeight ? _t(selectedConfiguration.caratWeight) + 'ct' : '',
         metalType: metal,
         chainLength: chainLength?.split('-')?.[1],
         bandWidth: _t(selectedConfiguration?.bandWidth),
+        _specs: specs,
         // selectedSize comes from the ringSize selector
         ringSize: selectedSize,
         leftOrRight: isSoldAsLeftRight ? selectedEarringOrientation : null,
@@ -470,8 +502,8 @@ function AddToCartButton({
             : null,
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
-        shippingBusinessDays: 'temp',
-        productIconListShippingCopy: 'temp',
+        shippingBusinessDays: shippingTime.toString(),
+        productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
       };
 
       let refinedVariantId = variantId;

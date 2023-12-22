@@ -80,7 +80,7 @@ const CartNote = ({ addNoteOptionCta }) => {
     setIsGiftNoteOpen(false);
     const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
 
-    if (giftNoteInputText.length > 0) {
+    if (giftNoteInputText?.length > 0) {
       setOrderHasNote(true);
     } else {
       setOrderHasNote(false);
@@ -121,11 +121,11 @@ const CartNote = ({ addNoteOptionCta }) => {
   }, []);
 
   const giftNoteStatus =
-    giftNoteInputText.length > 0 && giftNoteText.length > 0
+    giftNoteInputText?.length > 0 && giftNoteText?.length > 0
       ? 'Update Gift Note'
       : !giftNoteText
       ? 'Add Gift Note'
-      : giftNoteInputText?.length === 0 && giftNoteText.length > 0
+      : giftNoteInputText?.length === 0 && giftNoteText?.length > 0
       ? 'Remove Gift Note'
       : '';
 

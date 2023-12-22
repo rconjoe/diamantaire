@@ -239,6 +239,9 @@ dependencies:
   luxon:
     specifier: ^3.2.1
     version: 3.4.3
+  luxon-business-days:
+    specifier: ^3.0.1
+    version: 3.0.1(luxon@3.4.3)
   markdown-to-jsx:
     specifier: ^7.1.8
     version: 7.3.2(react@18.2.0)
@@ -18600,6 +18603,14 @@ packages:
 
   /lunr@2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
+
+  /luxon-business-days@3.0.1(luxon@3.4.3):
+    resolution: {integrity: sha512-MOKq0tdTjsCnvcaIEw7x0hGPBJHcqufvNSiI2klXZTGh/Hs4h6c1TjJNfQKq6ctwSTnLTyP53/SFHDBX/ghmsQ==}
+    peerDependencies:
+      luxon: 3.x.x
+    dependencies:
+      luxon: 3.4.3
+    dev: false
 
   /luxon@3.4.3:
     resolution: {integrity: sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg==}
