@@ -40,7 +40,9 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   const formattedCarat = getFormattedCarat(carat, locale);
 
-  const pageSeoTitle = `${formattedCarat} Carat ` + (diamondTitle ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
+  const pageSeoTitle =
+    `${formattedCarat} Carat ` +
+    (diamondTitle && typeof seoTitle !== undefined ? seoTitle.replace(/%%(.*?)%%/g, diamondTitle) : seoTitle);
 
   return (
     <>

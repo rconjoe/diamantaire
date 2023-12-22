@@ -13,9 +13,10 @@ import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_CFY_CARAT_DEFAULT } from '@diamantaire/shared/constants';
-import { getCFYOptionsFromUrl, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { getCFYOptionsFromUrl, getCFYShallowRoute, getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { StyledCFYPage } from './CFYPage.style';
@@ -33,6 +34,8 @@ interface CFYPageProps {
 }
 
 const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const router = useRouter();
+
   const { locale, options } = props;
 
   const { headerHeight } = useContext(GlobalContext);
@@ -41,7 +44,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   const [checkAvailability, setCheckAvailability] = useState(false);
 
-  const [selectedCarat, setSelectedCarat] = useState(carat || DIAMOND_CFY_CARAT_DEFAULT);
+  const [selectedCarat, setSelectedCarat] = useState(parseFloat(carat) || DIAMOND_CFY_CARAT_DEFAULT);
 
   const [selectedDiamondType, setSelectedDiamondType] = useState(getDiamondType(diamondType));
 
@@ -85,8 +88,16 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
   const [productRoute, setProductRoute] = useState('');
 
   useEffect(() => {
-    if (selectedDiamondType?.slug && selectedCarat)
-      setProductRoute(`/diamonds/results/${selectedDiamondType.slug}?carat=${selectedCarat}`);
+    const shape = selectedDiamondType?.slug || null;
+
+    if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
+      setProductRoute(`/diamonds/results/${shape}?carat=${selectedCarat}`);
+      router.push(getCFYShallowRoute({ carat: selectedCarat, diamondType: shape }, 'diamondCfy'), undefined, {
+        shallow: true,
+      });
+    } else if (!shape) {
+      router.push('/diamonds', undefined, { shallow: true });
+    }
   }, [selectedCarat, selectedDiamondType]);
 
   return (

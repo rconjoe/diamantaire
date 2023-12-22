@@ -73,6 +73,7 @@ const StyledDiamondFilter = styled.aside`
     justify-content: center;
     border: 0.1rem solid transparent;
     background: transparent;
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-filter-list-item a:hover,
