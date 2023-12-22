@@ -21,7 +21,12 @@ import {
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  humanNamesMapperType,
+  useDiamondCfyData,
+  useDiamondCtoData,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
@@ -67,7 +72,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
 
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
