@@ -198,6 +198,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </SwiperStyles>
               )}
             </div>
+
             {isMobile && <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />}
           </div>
 
@@ -243,14 +244,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </p>
               </div>
 
-              <div className="policy">
-                {shouldRenderReturnPolicy ? (
-                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
-                ) : (
-                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
-                )}
-              </div>
-
               <div className="links">
                 <Markdown
                   options={{
@@ -271,6 +264,14 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 <DarksideButton type="outline">
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
+              </div>
+
+              <div className="policy">
+                {shouldRenderReturnPolicy ? (
+                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
+                ) : (
+                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
+                )}
               </div>
             </div>
           </div>
