@@ -40,7 +40,7 @@ export function isUserCloseToShowroom() {
   let { latitude, longitude } = geo;
 
   // Dev fallback
-  if (!latitude || !longitude) {
+  if (process.env.NODE_ENV === 'development' && (!latitude || !longitude)) {
     // Brooklyn
     // latitude = 40.6505;
     // longitude = -73.94958;

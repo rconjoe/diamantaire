@@ -1,26 +1,19 @@
 import { Loader } from '@diamantaire/darkside/components/common-ui';
-import { PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
-import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { PlpHeroBanner, PlpProductGrid } from '@diamantaire/darkside/components/products/plp';
 import { usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
-import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 
 const SettingSelectStepStyles = styled.div`
-  height: 100vh;
-  overflow: hidden;
-
   .title-container {
     text-align: center;
     padding-top: 4rem;
   }
   .wrapper {
-    height: 100vh;
-    overflow-y: scroll;
     position: relative;
   }
 
@@ -36,21 +29,19 @@ const SettingSelectStepStyles = styled.div`
     }
   }
   .load-more-trigger {
-    /* background-color: red; */
     height: 10rem;
     width: 100%;
     display: block;
   }
 `;
 
-const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow }) => {
-  const { updateStep } = useContext(BuilderProductContext);
+const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
   const { locale } = useRouter();
 
   const containerRef = useRef(null);
 
   const { ref: pageEndRef, inView } = useInView({
-    root: containerRef.current,
+    rootMargin: '800px',
   });
 
   const category = 'engagement-rings';
@@ -61,8 +52,8 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   // Keep in case we're asked to add creative to PLP in this view
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
-  // const { hero, promoCardCollection, creativeBlocks } = plpData || {};
-  // const creativeBlockIds = Array.from(creativeBlocks)?.map((block) => block.id);
+  const { hero, promoCardCollection, creativeBlocks } = plpData || {};
+  const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const { sortOptions } = plpData || {};
 
@@ -82,10 +73,6 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   function selectSetting({ collectionSlug, productSlug }) {
     updateSettingSlugs({ collectionSlug, productSlug });
-    updateUrlParameter('collectionSlug', collectionSlug);
-    updateUrlParameter('productSlug', productSlug);
-
-    updateStep(flowIndex + 1);
   }
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
@@ -101,6 +88,7 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
 
   return (
     <SettingSelectStepStyles>
+      <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
         <div className="title-container">
           <h1>Setting Select</h1>
@@ -117,16 +105,16 @@ const SettingSelectStep = ({ flowIndex, updateSettingSlugs, settingTypeToShow })
             data={data}
             isFetching={isFetching}
             availableFilters={availableFilters}
-            promoCardCollectionId={''}
-            creativeBlockIds={[]}
+            promoCardCollectionId={promoCardCollection?.id}
+            creativeBlockIds={creativeBlockIds}
             setFilterValues={setFilterValues}
             filterValue={filterValue}
-            isSettingSelect={true}
             selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
             handleSortChange={handleSortChange}
             sortOptions={sortOptions}
+            builderFlowOverride={true}
           />
         </div>
 

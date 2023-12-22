@@ -34,22 +34,29 @@ const StyledDiamondCfyAccordion = styled.div`
     }
   }
 
+  .accordion-row.clarity {
+    img {
+      aspect-ratio: 175/68;
+    }
+  }
+
   .accordion-row.color {
     .description {
       margin-top: -2rem;
     }
 
     img {
+      aspect-ratio: 25/9;
       margin-bottom: 1rem;
     }
   }
 
   .upgrade {
     background: var(--color-lightest-grey);
-    padding: 1rem 2rem;
-    display: flex;
     justify-content: space-between;
+    padding: 1rem 2rem;
     margin: 2rem 0 0;
+    display: flex;
 
     * {
       font-size: var(--font-size-xxsmall) !important;

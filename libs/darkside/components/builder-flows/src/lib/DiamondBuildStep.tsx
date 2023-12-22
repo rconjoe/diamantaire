@@ -1,3 +1,4 @@
+import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { useDiamondsData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
@@ -18,19 +19,23 @@ const DiamondBuildStepStyles = styled(motion.div)`
   }
 
   .table-container {
-    display: flex;
     padding: 4rem 2rem;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+    }
 
     .vo-table-head {
       top: ${({ headerHeight }) => headerHeight}px;
     }
 
     > aside {
-      flex: 0 0 450px;
-      padding-right: 5rem;
-      top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
-      height: 100vh;
-      position: sticky;
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        flex: 0 0 450px;
+        padding-right: 5rem;
+        top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
+        height: 100vh;
+        position: sticky;
+      }
     }
 
     > div {
@@ -40,12 +45,14 @@ const DiamondBuildStepStyles = styled(motion.div)`
 `;
 
 type DiamondBuildStepProps = {
-  flowIndex: number;
   diamondTypeToShow: string;
-  hideFilters?: string[];
+  availableDiamonds?: string[];
+  settingSlugs?: {
+    [key: string]: string;
+  };
 };
 
-const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: DiamondBuildStepProps) => {
+const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -136,6 +143,11 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
       }}
       headerHeight={headerHeight}
     >
+      <div className="nav-title container-wrapper">
+        <Heading type="h1" className="primary h2">
+          <UIString>Complete your ring</UIString>
+        </Heading>
+      </div>
       <div className="">
         {diamonds && (
           <div className="table-container">
@@ -146,7 +158,7 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
               options={options}
               ranges={ranges}
               locale={DEFAULT_LOCALE}
-              hideFilters={hideFilters}
+              availableDiamonds={availableDiamonds}
             />
             <div className="table">
               {/* Launching re-arch with table view only - this will be helpful in the future */}
@@ -161,10 +173,10 @@ const DiamondBuildStep = ({ flowIndex, diamondTypeToShow, hideFilters }: Diamond
                 isTableView={isTableView}
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
-                flowIndex={flowIndex}
                 updateOptions={() => null}
                 clearOptions={() => null}
                 ranges={ranges}
+                settingSlugs={settingSlugs}
               />
             </div>
           </div>

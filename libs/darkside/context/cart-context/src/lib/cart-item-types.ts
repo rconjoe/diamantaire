@@ -5,6 +5,7 @@ export type ERProductCartItemProps = {
     _productType: string;
     metalType: string;
     productAsset: string;
+    _productAssetObject: string;
     _productTitle: string;
     productIconListShippingCopy: string;
     pdpUrl: string;

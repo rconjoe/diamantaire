@@ -30,9 +30,9 @@ const DiamondCfyAccordion = ({
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { ctoDiamondTable: DiamondCfyData } = {} } = useDiamondCfyData(locale);
   const { specs } = DiamondTableData || {};
-  const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
 
   // COLOR
+  const { DIAMOND_COLOR_GROUPS = {}, DIAMOND_COLOR_GROUP_TYPES = {} } = humanStrings;
   const getColorTitle = () => {
     const { color } = product || {};
     const title = getInfo(specs, 'color')?.value;
@@ -47,6 +47,7 @@ const DiamondCfyAccordion = ({
     );
   };
   const getColorContent = () => {
+    const title = getInfo(specs, 'color')?.value;
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
@@ -72,14 +73,21 @@ const DiamondCfyAccordion = ({
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{desc}</Markdown>
+        <Markdown withStyles={false} imageConfig={{ w: 350, h: 126, alt: title }}>
+          {desc}
+        </Markdown>
 
         {upgrade && (
           <div className="upgrade">
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondColorUpgrade' || display === 'diamondCutAndColorUpgrade'}
+                checked={
+                  display === 'diamondColorUpgrade' ||
+                  display === 'diamondCutAndColorUpgrade' ||
+                  display === 'diamondColorAndClarityUpgrade' ||
+                  display === 'diamondColorAndCutAndClarityUpgrade'
+                }
                 onChange={() => handleUpgradeClick('diamondColorUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>
@@ -99,10 +107,17 @@ const DiamondCfyAccordion = ({
   };
 
   // CLARITY
+  const { clarityMapAbridged } = DiamondTableData || {};
+  const clarityObjAbridged = (Object.values(clarityMapAbridged) as { key: string; value: string }[]).reduce((a, v) => {
+    return { ...a, [v.key]: v.value };
+  }, {});
+  const clarityLabelMap = {
+    'VS+': clarityObjAbridged['VS1']?.replace('.', '+') || '',
+    'VVS+': clarityObjAbridged['VVS2'] || '',
+  };
   const getClarityTitle = () => {
     const { clarity } = product || {};
-    const { clarityMapAbridged } = DiamondTableData || {};
-    const label = getInfo(clarityMapAbridged, clarity)?.value || '';
+    const label = clarityLabelMap[clarity] ? clarityLabelMap[clarity] : getInfo(specs, clarity)?.value;
     const title = getInfo(specs, 'clarity')?.value;
 
     return (
@@ -118,11 +133,55 @@ const DiamondCfyAccordion = ({
     );
   };
   const getClarityContent = () => {
-    const { clarityDetails } = DiamondCfyData || {};
+    let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
+    const { clarity, carat } = product || {};
+    const { clarityDetails, clarityDetailsVvsLg, clarityDetailsVvsSm } = DiamondCfyData || {};
+    const clarityContent = clarity === 'VVS+' ? (carat > 4 ? clarityDetailsVvsLg : clarityDetailsVvsSm) : clarityDetails;
+    const { diamondClarityUpgrade: upgrade } = diamondCtoData || {};
+
+    if (product && upgrade) {
+      upgradeLabel = clarityLabelMap[upgrade.clarity]
+        ? clarityLabelMap[upgrade.clarity]
+        : getInfo(specs, upgrade.clarity)?.value;
+      upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
+      upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
+      upgradePriceHuman = (
+        <>
+          <i>{upgradePriceSymbol}</i>
+          <span>{getFormattedPrice(upgradePrice, locale)}</span>
+        </>
+      );
+    }
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{clarityDetails}</Markdown>
+        <Markdown withStyles={false}>{clarityContent}</Markdown>
+
+        {upgrade && (
+          <div className="upgrade">
+            <form>
+              <input
+                type="checkbox"
+                checked={
+                  display === 'diamondClarityUpgrade' ||
+                  display === 'diamondCutAndClarityUpgrade' ||
+                  display === 'diamondColorAndClarityUpgrade' ||
+                  display === 'diamondColorAndCutAndClarityUpgrade'
+                }
+                onChange={() => handleUpgradeClick('diamondClarityUpgrade')}
+              />
+              <div className="label">{upgradeLabel}</div>
+              <div className="price">{upgradePriceHuman}</div>
+            </form>
+            <div className="link">
+              <UniLink route="/journal/post/diamond-clarity">
+                <DarksideButton type="underline" colorTheme="teal">
+                  <UIString>Learn More</UIString>
+                </DarksideButton>
+              </UniLink>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -153,11 +212,8 @@ const DiamondCfyAccordion = ({
 
     if (product && upgrade) {
       upgradeLabel = upgrade.cut || '';
-
       upgradePrice = Math.abs(upgrade.price - defaultProduct.price);
-
       upgradePriceSymbol = upgrade.price > defaultProduct.price ? '+' : '-';
-
       upgradePriceHuman = (
         <>
           <i>{upgradePriceSymbol}</i>
@@ -175,7 +231,12 @@ const DiamondCfyAccordion = ({
             <form>
               <input
                 type="checkbox"
-                checked={display === 'diamondCutUpgrade' || display === 'diamondCutAndColorUpgrade'}
+                checked={
+                  display === 'diamondCutUpgrade' ||
+                  display === 'diamondCutAndColorUpgrade' ||
+                  display === 'diamondCutAndClarityUpgrade' ||
+                  display === 'diamondColorAndCutAndClarityUpgrade'
+                }
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
               <div className="label">{upgradeLabel}</div>

@@ -79,6 +79,9 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'bandAccent': {
       return BandAccentStyleOptionItem;
     }
+    case 'value': {
+      return ValueOptionItem;
+    }
     default: {
       return BasicOptionItem;
     }
@@ -252,6 +255,15 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`three-stone-${sanitizedValue}`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+// Hardcoded $ sign unless we start offering other currencies
+export function ValueOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+  return (
+    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
+      ${value}
+    </StyledBasicOptionItem>
+  );
 }
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`

@@ -1,4 +1,4 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, mobileOnly, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTable = styled.div`
@@ -116,6 +116,10 @@ const StyledDiamondTable = styled.div`
     border-bottom: 0;
     cursor: pointer;
     width: 100%;
+
+    ${mobileOnly(`
+      min-height: 5.2rem;
+    `)}
   }
 
   .vo-table-body .vo-table-row.active,

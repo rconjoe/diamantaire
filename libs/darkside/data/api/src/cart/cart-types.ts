@@ -271,3 +271,10 @@ export type ShopifyProductsOperation = {
     sortKey?: string;
   };
 };
+
+export type ShopifyCartUpdateGiftNoteOperation = {
+  variables: {
+    cartId: string;
+    note: string;
+  };
+};

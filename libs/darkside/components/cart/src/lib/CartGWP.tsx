@@ -19,7 +19,7 @@ const CartGWPStyles = styled.div`
     display: flex;
 
     .image {
-      flex: 0 0 14rem;
+      flex: 0 0 12rem;
       display: flex;
 
       > * {
@@ -39,6 +39,13 @@ const CartGWPStyles = styled.div`
       .content__inner {
         padding: 2rem;
 
+        .button-style--underline {
+          a {
+            button {
+              font-size: var(--font-size-xxsmall);
+            }
+          }
+        }
         p {
           font-size: var(--font-size-xxsmall);
 
@@ -67,10 +74,10 @@ const CartGWP = () => {
   const gwpData = data?.allGwpDarksides?.[0]?.tiers?.[0];
 
   const {
-    cartQualifiedTitle,
+    // cartQualifiedTitle,
+    // cartNonQualifiedTitle,
     cartQualifiedBody,
     cartQualifiedBackgroundColor,
-    cartNonQualifiedTitle,
     cartNonQualifiedBody,
     cartNonQualifiedBackgroundColor,
     giftProduct,
@@ -100,7 +107,7 @@ const CartGWP = () => {
 
       if (hasUserQualified && !doesUserHaveGWPInCart) {
         const attributes = {
-          hiddenProduct: 'true',
+          _hiddenProduct: 'true',
         };
         const refinedAttributes = Object.keys(attributes)
           .map((key) => {
@@ -144,12 +151,12 @@ const CartGWP = () => {
           <div className="content__inner">
             {hasUserQualified ? (
               <>
-                {cartQualifiedTitle && <p className="title">{cartQualifiedTitle}</p>}
+                {/* {cartQualifiedTitle && <p className="title">{cartQualifiedTitle}</p>} */}
                 <p>{cartQualifiedBody}</p>
               </>
             ) : (
               <>
-                {cartNonQualifiedTitle !== '' && <p className="title">{cartNonQualifiedTitle}</p>}
+                {/* {cartNonQualifiedTitle !== '' && <p className="title">{cartNonQualifiedTitle}</p>} */}
                 <p className="non-qualified-copy">
                   {replacePlaceholders(
                     cartNonQualifiedBody,

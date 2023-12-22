@@ -1,3 +1,4 @@
+import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
@@ -9,10 +10,11 @@ import {
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
+  ShopifyCartUpdateGiftNoteOperation,
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
 } from './cart-types';
-import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
+import { addToCartMutation, createCartMutation, editCartItemsMutation, updateGiftNoteMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 
 // NEW
@@ -150,6 +152,7 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
+  console.log('getttinggggg', lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -245,7 +248,7 @@ export function addJewelryProductToCart({ variantId, attributes, engravingText, 
               value: engravingText,
             },
             {
-              key: 'hiddenProduct',
+              key: '_hiddenProduct',
               value: 'true',
             },
             {
@@ -398,8 +401,6 @@ export const updateMultipleItemsQuantity = async ({
     return refinedItems.push(newItem);
   });
 
-  console.log('updateMultipleItemsQuantity refinedItems', refinedItems);
-
   if (!cartId) {
     return 'Missing cart ID';
   }
@@ -476,7 +477,7 @@ export async function addERProductToCart({
               value: engravingText,
             },
             {
-              key: 'hiddenProduct',
+              key: '_hiddenProduct',
               value: 'true',
             },
             {
@@ -547,7 +548,7 @@ export async function addERProductToCart({
             value: engravingText,
           },
           {
-            key: 'hiddenProduct',
+            key: '_hiddenProduct',
             value: 'true',
           },
           {
@@ -617,12 +618,42 @@ const addCustomizedItem = async (
     return refinedItems.push(newItem);
   });
 
+  console.log('refinedItems', refinedItems);
+
   try {
-    await addToCart(cartId, Array.from(refinedItems));
+    // Need to do it like this to maintain order in shopify checkout
+    addToCart(cartId, refinedItems);
   } catch (e) {
     console.log('Error adding customized item to cart', e);
   }
 };
+
+// Gift Note
+export async function updateGiftNote({ giftNote }: { giftNote: string }): Promise<Cart | string | undefined> {
+  try {
+    let cartId = localStorage.getItem('cartId');
+
+    if (!cartId) {
+      const cart = await createCart();
+
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
+    const res = await shopifyFetch<ShopifyCartUpdateGiftNoteOperation>({
+      query: updateGiftNoteMutation,
+      variables: {
+        cartId,
+        note: giftNote,
+      },
+      cache: 'no-store',
+    });
+
+    console.log('gift card res', res);
+  } catch (e) {
+    return 'Error updating gift note';
+  }
+}
 
 // Specific to GWP
 export async function toggleCartAddonProduct(variantId) {
@@ -641,4 +672,38 @@ export async function toggleCartAddonProduct(variantId) {
   } else {
     await addItemToCart(variantId, []);
   }
+}
+
+// Run this when the user goes to checkout to update the line item shipping text attribute
+export async function updateShippingTimes(shippingText, locale) {
+  const cartId = localStorage.getItem('cartId');
+  const cart = await getCart(cartId);
+
+  const updatedItems = cart?.lines?.map((cartItem) => {
+    const updatedAttributes = [...cartItem.attributes];
+
+    const shippingDaysInt =
+      cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingBusinessDays')?.value);
+
+    cartItem.attributes.map((attr) => {
+      if (attr.key === 'productIconListShippingCopy') {
+        attr.value = shippingText + ' ' + getFormattedShipByDate(shippingDaysInt, locale);
+      }
+
+      return attr;
+    });
+
+    const updatedItem = {
+      lineId: cartItem.id,
+      variantId: cartItem.merchandise.id,
+      quantity: cartItem.quantity,
+      attributes: updatedAttributes,
+    };
+
+    return updatedItem;
+  });
+
+  return await updateMultipleItemsQuantity({
+    items: updatedItems,
+  });
 }

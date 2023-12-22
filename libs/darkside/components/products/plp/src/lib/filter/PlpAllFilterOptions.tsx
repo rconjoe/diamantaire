@@ -115,11 +115,17 @@ const PlpAllFilterOptions = ({
             {filterTypes &&
               Object.keys(filterTypes)?.map((optionSet, index) => {
                 // Hide filters with no options
-                if (filterTypes[optionSet]?.length === 0) return null;
+                if (filterTypes[optionSet]?.length < 2) return null;
 
-                if (optionSet === 'styles' && router.pathname.includes('/jewelry/')) return null;
+                // Check diamondType count as + diamonds are removed
+                if (optionSet === 'diamondType' && filterTypes[optionSet]?.filter((item) => !item.includes('+')).length < 2)
+                  return null;
 
-                // console.log('optionSet', optionSet);
+                if (
+                  (optionSet === 'styles' && router.pathname.includes('/jewelry/')) ||
+                  router.pathname.includes('/wedding-bands/')
+                )
+                  return null;
 
                 return (
                   <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>

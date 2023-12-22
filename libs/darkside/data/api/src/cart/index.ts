@@ -11,6 +11,7 @@ import { getCartQuery } from './queries/cart';
 import { queryDatoGQL } from '../clients';
 
 export * from './cart-actions';
+export * from './cart-item-types';
 
 const CART_QUERY = `
     query cartData($locale: SiteLocale) {

@@ -53,7 +53,7 @@ const ModalStyles = styled.div`
     margin: 0 auto;
     position: relative;
     z-index: 100;
-    border-radius: 1rem;
+    border-radius: 0;
     overflow: hidden;
     box-shadow:
       rgba(17, 17, 26, 0.1) 0px 0.4rem 1.6rem,
