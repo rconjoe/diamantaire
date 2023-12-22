@@ -4,6 +4,7 @@ export const HUBSPOT_DROP_A_HINT_FORM_ID = 'e1e27d69-025c-4cac-88ff-402b0cc59197
 export const HUBSPOT_NEED_MORE_TIME_FORM_ID = '148fcc3b-3e18-4307-88c6-4586b504fe0b';
 export const HUBSPOT_BACK_IN_STOCK_FORM_ID = 'ef5ffa4e-7f36-489e-8c27-6da515959978';
 export const HUBSPOT_CONTENT_BLOCK_FORM_ID = 'c03da3ce-a7ac-4ad6-8290-92b6d483d7b6';
+export const HUBSPOT_ER_SUMMARY_FORM_ID = '4fa333d4-3115-4919-a68b-f36a625c47b8';
 export const HUBSPOT_PORTAL_ID = '21830550';
 export const HUBSPOT_CAMPAIGN_ID = '7012E000001lWbSQAU';
 export const HUBSPOT_FORM_SUBMIT_URL = 'https://api.hsforms.com/submissions/v3/integration/submit';
@@ -28,4 +29,8 @@ export const HUBSPOT_EMAIL_POPUP_LISTDATA = {
   source: 'Email Sub - Email Popup Signup',
   listId: HUBSPOT_EMAIL_POPUP_FORM_ID,
   sfdcCampaignId: HUBSPOT_CAMPAIGN_ID,
+};
+
+export const HUBSPOT_ER_SUMMARY_LISTDATA = {
+  listId: HUBSPOT_ER_SUMMARY_FORM_ID,
 };
