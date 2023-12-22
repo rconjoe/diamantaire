@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { default as URI } from 'jsuri';
 
 import { toBCP47LocaleTag } from './currency';
+import { getEmailFromCookies } from '@diamantaire/darkside/data/api';
 
 interface Consent {
   marketing?: boolean;
@@ -21,6 +22,7 @@ const goToCheckoutUrl = ({ checkoutUrl, locale, consent }: CheckoutUrlParams) =>
   const isUserInEu = getIsUserInEu();
   const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
   const url = new URI(checkoutUrl);
+  const email = getEmailFromCookies();
   const { countryCode } = parseValidLocale(locale);
 
   if (url.host().includes('vo-live.myshopify.com')) {
@@ -32,7 +34,9 @@ const goToCheckoutUrl = ({ checkoutUrl, locale, consent }: CheckoutUrlParams) =>
   if (locale) {
     url.addQueryParam('locale', toBCP47LocaleTag(locale));
   }
-
+  if (email) {
+    url.addQueryParam('checkout[email]', email);
+  }
   if (isUserInEu && consent) {
     // User in EU has interacted with the cookie banner
     if (didAcceptPrivacy) {
