@@ -17,8 +17,12 @@ export function isJewelry(productType: string) {
 }
 
 export function generateProductUrl(productType: string, collectionSlug: string, productSlug: string) {
+  if (!productType || !collectionSlug || !productSlug) return ``;
+
   const isJewelryProduct = isJewelry(productType);
+
   const productCategory = productTypeToCategoryMap[productType];
+
   const productPath = isJewelryProduct ? `jewelry/${productCategory}` : productCategory;
 
   return `/${productPath}/${collectionSlug}/${productSlug}`;
