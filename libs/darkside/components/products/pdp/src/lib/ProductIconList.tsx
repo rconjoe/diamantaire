@@ -71,7 +71,21 @@ const ProductIconListContainer = styled.div`
   }
 `;
 
-const ProductIconList = ({ productIconListType, locale, productData, withDropHint, handleOpenDropHintModal }) => {
+interface ProductIconListProps {
+  productIconListType: string;
+  locale: string;
+  withDropHint?: boolean;
+  handleOpenDropHintModal?: (data: { link: string; image: string }) => void;
+  productData?: any;
+}
+
+const ProductIconList = ({
+  productIconListType,
+  locale,
+  productData,
+  withDropHint = false,
+  handleOpenDropHintModal,
+}: ProductIconListProps) => {
   const [isDiamondSlideoutOpen, setIsDiamondSlideoutOpen] = useState(false);
 
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
