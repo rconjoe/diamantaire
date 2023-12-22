@@ -1,3 +1,4 @@
+import exp from "constants";
 import { QACart } from "../../model/qacart-model";
 import { test, expect } from "../../pages/page-fixture";
 import { StringHelper } from "../../utils/StringHelper";
@@ -26,12 +27,19 @@ test.describe("Basic flow - setting first", () => {
         await page.getByRole('link', { name: 'Necklaces' }).click();
 
         await page.getByRole('button', { name: 'North Star Medallion' }).click();
-        await expect(page.getByText('Starting at $')).toHaveText('Starting at $425');
+
+        const pricing = StringHelper.extractPrice(await page.locator('.price-text').innerText());
+
+        expect(pricing).toBe(Number('425'));        
     
+        await page.waitForTimeout(5000);
+
         await page.getByRole('button', { name: 'Add to bag' }).click();
-    
-        const price = await page.textContent("li.checkout-button > div > button");
-        const jewerlyPrice = StringHelper.extractPrice(price)*100
+        const price = StringHelper.extractPrice(await page.getByRole('button', { name: 'Checkout' }).textContent());
+
+        expect(pricing).toBe(price);
+        //const price = await page.textContent("li.checkout-button > div > button");
+        const jewerlyPrice = price*100
 
         expectedCart.addItem(1, 'North Star Medallion', jewerlyPrice);
         expectedCart.displayCart();
@@ -41,7 +49,7 @@ test.describe("Basic flow - setting first", () => {
     await test.step("Checkout ", async () => {
 
         await page.waitForLoadState();
-        await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$425');
+      //  await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$425');
         await page.getByRole('button', { name: 'Checkout' }).click();
     
         let total = await page.locator('tfoot').getByText('$').textContent();
@@ -53,4 +61,6 @@ test.describe("Basic flow - setting first", () => {
 
     })
 });
+
+
 
