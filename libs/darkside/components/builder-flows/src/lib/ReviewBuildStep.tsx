@@ -426,8 +426,6 @@ const ReviewBuildStep = ({
       ? shippingBusinessDaysCountryMap?.[countryCode]
       : shippingBusinessDaysCountryMap?.['International'];
 
-  console.log('shipTimeParent', shipTimeParent);
-
   // Need the ring size
   async function addCustomProductToCart() {
     const productGroupKey = uuidv4();
@@ -464,8 +462,6 @@ const ReviewBuildStep = ({
       _t,
       hasChildDiamond: true,
     });
-
-    console.log('settingSpecs', settingSpecs);
 
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
       _productType: productType,

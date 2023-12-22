@@ -67,8 +67,6 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     _t,
   });
 
-  console.log('specGen', specGen);
-
   function handleAddLooseDiamondToCart() {
     const mutatedLotId = lotId && getNumericalLotId(lotId);
     const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
@@ -102,12 +100,12 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
       diamondVariantId: product?.variantId,
       diamondAttributes,
     })
+      .then(() => refetch())
       .then(() =>
         updateGlobalContext({
           isCartOpen: true,
         }),
-      )
-      .then(() => refetch());
+      );
   }
 
   return (

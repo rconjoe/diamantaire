@@ -81,8 +81,6 @@ const BuilderFlow = ({
     router.locale,
   );
 
-  console.log('additionalVariantData v111', additionalVariantData);
-
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
     if (!additionalVariantData) {
