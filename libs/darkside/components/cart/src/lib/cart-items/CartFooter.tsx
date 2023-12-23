@@ -290,7 +290,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             disabled={!hasTermsConsent}
             onClick={handleCheckoutClick}
           >
-            {checkoutCta} | {getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale)}
+            {checkoutCta} | {getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}
           </DarksideButton>
         </li>
         <li>

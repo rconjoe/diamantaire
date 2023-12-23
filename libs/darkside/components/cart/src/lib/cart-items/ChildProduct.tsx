@@ -56,8 +56,8 @@ const ChildProductStyles = styled.div`
   }
 `;
 
-const ChildProduct = ({ lineItem, refinedCartItemDetails }) => {
-  const { attributes, merchandise } = lineItem || {};
+const ChildProduct = ({ lineItem }) => {
+  const { attributes, merchandise, id } = lineItem || {};
 
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
@@ -91,40 +91,11 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails }) => {
     return productType === 'Diamond';
   }, [productType]);
 
-  const itemAttributes = useMemo(
-    () => [
-      {
-        label: refinedCartItemDetails?.['diamondType'],
-        value: attributes?.find((item) => item.key === 'diamondShape')?.value,
-      },
-      {
-        label: refinedCartItemDetails?.['metal'],
-        value: attributes?.find((item) => item.key === 'metalType')?.value,
-      },
-      {
-        label: refinedCartItemDetails?.['caratWeight'],
-        value: attributes?.find((item) => item.key === 'caratWeight')?.value,
-      },
-      {
-        label: 'Color',
-        value: attributes?.find((item) => item.key === 'color')?.value,
-      },
-      {
-        label: 'Cut',
-        value: attributes?.find((item) => item.key === 'cut')?.value,
-      },
-      {
-        label: 'Clarity',
-        value: attributes?.find((item) => item.key === 'clarity')?.value,
-      },
+  const specs = useMemo(() => {
+    const matchingAttribute = attributes?.find((attr) => attr.key === '_specs')?.value;
 
-      {
-        label: '',
-        value: attributes?.bandAccent,
-      },
-    ],
-    [refinedCartItemDetails, lineItem],
-  );
+    return matchingAttribute;
+  }, []);
 
   return (
     <ChildProductStyles>
@@ -133,18 +104,11 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails }) => {
 
         <div className="cart-item__content">
           <p>
-            <strong>{productType}</strong>
+            <strong>{_t(productType)}</strong>
             {isProductDiamond && <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</span>}
           </p>
-          {itemAttributes?.map((specItem, index) => {
-            if (!specItem?.value || specItem.value === '') return null;
 
-            return (
-              <p className={specItem?.label?.toLowerCase()} key={`${lineItem.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
-              </p>
-            );
-          })}
+          {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
         </div>
       </div>
     </ChildProductStyles>

@@ -7,7 +7,7 @@ import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
@@ -112,14 +112,11 @@ const MultiVariantCartItem = ({
   info,
   certificate,
   updateItemQuantity,
-  cartItemDetails,
   hasChildProduct,
 }: {
   item: CartItem;
   certificate: CartCertProps;
   info: any;
-  cartItemDetails: { [key: string]: string }[];
-
   updateItemQuantity: ({
     lineId,
     variantId,
@@ -134,13 +131,12 @@ const MultiVariantCartItem = ({
   hasChildProduct: boolean;
 }) => {
   const { locale } = useRouter();
-  const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
+
   const { productRemoved } = useAnalytics();
   const { attributes, merchandise, quantity } = item;
   const price = merchandise?.price?.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
-  const { selectedOptions } = merchandise;
   const { data: checkout, refetch } = useCartData(locale);
 
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
@@ -216,50 +212,17 @@ const MultiVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
+  const specs = useMemo(() => {
+    const matchingAttribute = attributes?.find((attr) => attr.key === '_specs')?.value;
+
+    return matchingAttribute;
+  }, []);
+
   const diamondShape = useMemo(() => {
     const matchingAttribute = attributes?.filter((attr) => attr.key === 'diamondShape')?.[0]?.value;
 
     return matchingAttribute;
   }, [attributes]);
-  const itemAttributes = useMemo(
-    () => [
-      {
-        label: refinedCartItemDetails?.['diamondType'],
-        value: info?.diamondShape,
-      },
-      {
-        label: refinedCartItemDetails?.['centerStone'],
-        value: info?.centerStone,
-      },
-      {
-        label: refinedCartItemDetails?.['metal'],
-        value: info?.metalType,
-      },
-      {
-        label: _t('band'),
-        value: info?.bandAccent,
-      },
-      {
-        label: refinedCartItemDetails?.['ringSize'],
-        value: selectedOptions.filter((option) => option.name === 'Size')?.[0]?.value,
-      },
-      {
-        label: _t('Engraving'),
-        value: engraving,
-      },
-    ],
-    [refinedCartItemDetails, info],
-  );
-
-  useEffect(() => {
-    const tempRefinedCartItemDetails: { [key: string]: string }[] = [{}];
-
-    cartItemDetails?.map((item) => {
-      tempRefinedCartItemDetails[item['value']] = item['label'];
-    });
-
-    setRefinedCartItemDetails(tempRefinedCartItemDetails);
-  }, [cartItemDetails]);
 
   async function handleRemoveProduct() {
     if (((hasChildProduct && childProduct) || engravingProduct) && checkout?.lines?.length > 1) {
@@ -402,6 +365,8 @@ const MultiVariantCartItem = ({
     }
   }
 
+  console.log('merchandise', merchandise);
+  console.log('childProduct', childProduct);
   const totalPrice =
     (engraving && childProduct
       ? parseFloat(engravingProduct?.merchandise?.price?.amount) +
@@ -434,7 +399,7 @@ const MultiVariantCartItem = ({
           {hasChildProduct || engravingProduct ? (
             <p>{getFormattedPrice(totalPrice, locale)}</p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</p>
+            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</p>
           )}
         </div>
       </div>
@@ -450,25 +415,21 @@ const MultiVariantCartItem = ({
                   ((engraving ? parseFloat(engravingProduct?.merchandise?.price?.amount) : 0) +
                     parseFloat(merchandise?.price?.amount)) *
                     100,
+                  locale,
                 )}
               </span>
             )}
           </p>
-          {itemAttributes?.map((specItem, index) => {
-            if (!specItem?.value || specItem.value === 'other') return null;
-
-            return (
-              <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
-              </p>
-            );
-          })}
+          {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
+          {engraving && (
+            <p className="engraving">
+              {_t('Engraving')}: <span>{engraving}</span>
+            </p>
+          )}
         </div>
       </div>
 
-      {hasChildProduct && childProduct && !isChildProductHidden && (
-        <ChildProduct lineItem={childProduct} refinedCartItemDetails={refinedCartItemDetails} />
-      )}
+      {hasChildProduct && childProduct && !isChildProductHidden && <ChildProduct lineItem={childProduct} />}
       {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
     </MultiVariantCartItemStyles>
   );
