@@ -97,8 +97,6 @@ const ChildProduct = ({ lineItem }) => {
     return matchingAttribute;
   }, []);
 
-  console.log('image', image);
-
   return (
     <ChildProductStyles>
       <div className="child-product__inner">

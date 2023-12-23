@@ -165,6 +165,9 @@ export const PlpProductFilterStyles = styled.div`
           top: 0.1rem;
         }
       }
+      span {
+        font-size: var(--font-size-xxxsmall);
+      }
     }
 
     &.metal {
@@ -191,6 +194,7 @@ export const PlpProductFilterStyles = styled.div`
 
       .metal-text {
         white-space: nowrap;
+        font-size: var(--font-size-xxxsmall);
       }
 
       .metal-swatch {
@@ -320,7 +324,8 @@ export const PlpProductFilterStyles = styled.div`
         }
       }
 
-      &.styles {
+      &.styles,
+      &.subStyles {
         button {
           border-bottom: 2px solid transparent;
           transition: 0.25s;

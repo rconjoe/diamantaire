@@ -455,7 +455,6 @@ const ReviewBuildStep = ({
     const refinedBandAccent =
       settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
-    // const settingSpecs = specGenerator({ {configuration: {...selectedConfiguration, ringSize: selectedSize?.value }}, productType, _t, null}});
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
       productType,
@@ -485,7 +484,7 @@ const ReviewBuildStep = ({
       totalPrice: (product.price + diamond.price).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
-      shippingBusinessDays: shippingTime?.toString()?.toString(),
+      shippingBusinessDays: shippingTime?.toString(),
 
       // Diamond Sync
       childProduct: JSON.stringify({

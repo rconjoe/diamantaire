@@ -397,9 +397,9 @@ const MultiVariantCartItem = ({
         </div>
         <div className="cart-item__price">
           {hasChildProduct || engravingProduct ? (
-            <p>{getFormattedPrice(totalPrice, locale)}weeee</p>
+            <p>{getFormattedPrice(totalPrice, locale)}</p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100)}</p>
+            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</p>
           )}
         </div>
       </div>
