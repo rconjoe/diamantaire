@@ -20,8 +20,8 @@ test.describe("Setting First flow - Discover Cut for You flow", () => {
 
     await test.step("Select an engagement ring", async () => {
 
-      await page.getByRole('link', { name: 'ENGAGEMENT' }).first().hover();
-      await page.locator('#primary-navigation').getByRole('link', { name: 'Start with a setting' }).click()
+      await page.getByRole('link', { name: 'ENGAGEMENT' }).first().click();
+     // await page.locator('#primary-navigation').getByRole('link', { name: 'Start with a setting' }).click()
   
       await expect(page.locator("h1").first()).toHaveText('Engagement ring settings');
       await page.getByRole('link', { name: 'The Classic' }).first().click();

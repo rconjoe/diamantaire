@@ -16,11 +16,11 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './e2e' }),
+  ...nxE2EPreset(__filename, { testDir: './tests' }),
   
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: process.env.test_env ==='prod' ? "https://www.vrai.com/" : process.env.test_env ==='qa' ? "https://main.vrai.qa/" : process.env.test_env.startsWith('http') ? process.env.test_env :  "http://localhost:4200" ,
+    baseURL: "http://localhost:4200" ,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
