@@ -51,7 +51,7 @@ export interface GetStaticPropsRequest extends NextRequest {
   };
 }
 
-async function getStaticPaths({ locales }) {
+async function getStaticPaths() {
   const pageSlugs = await getAllStandardPageSlugs();
 
   // Define the locales you want to include
@@ -59,14 +59,14 @@ async function getStaticPaths({ locales }) {
 
   // Filter the locales and generate paths
   const paths = pageSlugs.flatMap((slug) => {
-    return locales
-      ?.filter((locale) => includedLocales.includes(locale))
-      .map((locale) => ({ locale, params: { pageSlug: slug } }));
+    return includedLocales.map((locale) => ({ locale, params: { pageSlug: slug } }));
   });
+
+  console.log('pathsxxx', paths);
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 
