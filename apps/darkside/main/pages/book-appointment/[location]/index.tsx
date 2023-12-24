@@ -1,4 +1,4 @@
-import { StandardPage, getServerSideProps as originalGetServerSideProps } from '@diamantaire/darkside/page/standard-pages';
+import { StandardPage, getStaticProps as originalGetStaticProps } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { ALL_SHOWROOMS } from '@diamantaire/shared/constants';
 import { getLanguage } from '@diamantaire/shared/helpers';
@@ -29,13 +29,13 @@ const BookAppointmentPage = (props) => {
   );
 };
 
-const customGetServerSideProps = async (context) => {
+const customGetStaticProps = async (context) => {
   const customContext = {
     ...context,
     params: { ...context.params, pageSlug: 'appointment-booking--darkside' },
   };
 
-  const serverSideProps = await originalGetServerSideProps(customContext);
+  const serverSideProps = await originalGetStaticProps(customContext);
 
   return {
     ...serverSideProps,
@@ -46,10 +46,23 @@ const customGetServerSideProps = async (context) => {
   };
 };
 
+async function getStaticPaths({ locales }) {
+  const paths = ALL_SHOWROOMS.flatMap((showroomLocation) => {
+    return locales.map((locale) => ({ locale, params: { location: showroomLocation.handle } }));
+  });
+
+  console.log('paths', paths);
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
 BookAppointmentPage.getTemplate = getStandardTemplate;
 
 export default BookAppointmentPage;
-export { customGetServerSideProps as getServerSideProps };
+export { customGetStaticProps as getStaticProps, getStaticPaths };
 
 function getLocationBasedBookingLink(location, locale) {
   const acuityBaseUrl = `https://vrai.as.me`;
