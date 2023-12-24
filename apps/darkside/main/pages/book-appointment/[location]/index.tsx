@@ -47,15 +47,19 @@ const customGetStaticProps = async (context) => {
 };
 
 async function getStaticPaths({ locales }) {
-  const paths = ALL_SHOWROOMS.flatMap((showroomLocation) => {
-    return locales.map((locale) => ({ locale, params: { location: showroomLocation.handle } }));
-  });
+  // Define the locales you want to include
+  const includedLocales = ['en-US', 'en-CA'];
 
-  console.log('paths', paths);
+  // Filter the locales and generate paths
+  const paths = ALL_SHOWROOMS.flatMap((showroomLocation) => {
+    return locales
+      .filter((locale) => includedLocales.includes(locale))
+      .map((locale) => ({ locale, params: { location: showroomLocation.handle } }));
+  });
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 

@@ -53,13 +53,20 @@ export interface GetStaticPropsRequest extends NextRequest {
 
 async function getStaticPaths({ locales }) {
   const pageSlugs = await getAllStandardPageSlugs();
+
+  // Define the locales you want to include
+  const includedLocales = ['en-US', 'en-CA'];
+
+  // Filter the locales and generate paths
   const paths = pageSlugs.flatMap((slug) => {
-    return locales.map((locale) => ({ locale, params: { pageSlug: slug } }));
+    return locales
+      ?.filter((locale) => includedLocales.includes(locale))
+      .map((locale) => ({ locale, params: { pageSlug: slug } }));
   });
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
