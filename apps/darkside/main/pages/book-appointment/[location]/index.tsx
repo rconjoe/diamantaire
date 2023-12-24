@@ -17,7 +17,12 @@ export const BookAppointmentStyles = styled.div`
   }
 `;
 const BookAppointmentPage = (props) => {
+  console.log('BookAppointmentPage', props);
   const { location, locale } = props;
+
+  if (!location) {
+    return null;
+  }
   const bookingUrl = getLocationBasedBookingLink(location, locale);
 
   return (

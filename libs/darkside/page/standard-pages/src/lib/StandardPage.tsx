@@ -20,11 +20,12 @@ export interface StandardPageProps {
 
 const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
+
   const { pageSlug: pageSlugFromProps } = props; // for static page slugs
   const { pageSlug } = router.query;
   const pageSlugMerge = pageSlug || pageSlugFromProps;
 
-  const { data }: any = useStandardPage(pageSlugMerge.toString(), router.locale);
+  const { data }: any = useStandardPage(pageSlugMerge?.toString(), router.locale);
   const page = data?.standardPage;
 
   const { seo } = page || {};
@@ -71,6 +72,7 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
+  console.log('getStaticPropsxxx', locale, params);
   const isMobile = false;
   const { pageSlug, location } = params || {};
 
