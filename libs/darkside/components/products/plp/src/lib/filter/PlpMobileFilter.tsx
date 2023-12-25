@@ -104,7 +104,7 @@ const PlpMobileFilterStyles = styled.div`
 const filterOrder = ['price', 'diamondType', 'metal', 'subStyles', 'styles'];
 
 const HideHeader = createGlobalStyle`
-  #primary-navigation {
+  #primary-navigation--compact {
     display: none;
   }
 `;
