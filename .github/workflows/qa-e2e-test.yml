@@ -45,6 +45,7 @@ jobs:
         with:
           version: 8
       - run: pnpm install --product
+      - run: pnpm i -D @nx/playwright
       - run: npx playwright install --with-deps
       - name: Run tests
         run:  cd apps/darkside/main/ && npx playwright test tests/control-temp  --workers=
