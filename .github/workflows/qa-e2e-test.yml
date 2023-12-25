@@ -40,11 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Prepare testing env
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
-          version: latest
-      - run: pnpm install
+          version: 8
+      - run: pnpm install --frozen-lockfile
       - run: npx playwright install --with-deps
       - name: Run tests
         run:  cd apps/darkside/main/ && npx playwright test tests/control-temp  --workers=
