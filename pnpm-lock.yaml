@@ -6517,7 +6517,7 @@ packages:
     requiresBuild: true
     dependencies:
       node-addon-api: 3.2.1
-      node-gyp-build: 4.6.1
+      node-gyp-build: 4.7.1
     dev: true
 
   /@peculiar/asn1-schema@2.3.6:
