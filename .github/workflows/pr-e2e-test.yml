@@ -15,9 +15,11 @@ jobs:
         id: waitForVercelPreviewDeployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          max_timeout: 300
+          max_timeout: 660
           environment: Preview
           check_interval: 30
+      - run: echo ${{steps.waitForVercelPreviewDeployment.outputs.url}}
+
 
   test_e2e:
     needs: test_setup
