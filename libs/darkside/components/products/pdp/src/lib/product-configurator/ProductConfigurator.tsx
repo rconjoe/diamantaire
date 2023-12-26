@@ -381,7 +381,9 @@ function AddToCartButton({
       productAsset: image?.src,
       _productAssetObject: JSON.stringify(image),
       _dateAdded: Date.now().toString(),
+      // Keep product in english for now
       _productType: productType,
+      _productTypeTranslated: _t(productType),
       shippingText: _t('Made-to-order. Ships by'),
       productGroupKey,
     };
@@ -434,12 +436,12 @@ function AddToCartButton({
 
     // Common attributes
 
-    const specs = specGenerator(
-      { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
+    const specs = specGenerator({
+      configuration: { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
       productType,
       _t,
       earring_t,
-    );
+    });
 
     const metal = _t(
       (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') + selectedConfiguration?.metal,
