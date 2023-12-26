@@ -28,6 +28,7 @@ import { PrincessIcon } from './PrincessIcon';
 import { RadiantIcon } from './RadiantIcon';
 import { RandIcon } from './RandIcon';
 import { RegulusIcon } from './RegulusIcon';
+import { RoundBrilliantAndRoundBrilliantIcon } from './RoundBrilliantAndRoundBrilliantIcon';
 import { RoundBrilliantIcon } from './RoundBrilliantIcon';
 import { RoundRoseIcon } from './RoundRoseIcon';
 import { ShieldIcon } from './ShieldIcon';
@@ -66,6 +67,7 @@ export * from './RoundBrilliantIcon';
 export * from './RoundRoseIcon';
 export * from './ShieldIcon';
 export * from './TrillionIcon';
+export * from './RoundBrilliantAndRoundBrilliantIcon';
 
 export const diamondIconsMap = {
   asscher: {
@@ -191,6 +193,10 @@ export const diamondIconsMap = {
   'round-brilliant': {
     slug: 'round-brilliant',
     icon: RoundBrilliantIcon,
+  },
+  'round-brilliant+round-brilliant': {
+    slug: 'round-brilliant+round-brilliant',
+    icon: RoundBrilliantAndRoundBrilliantIcon,
   },
   'round-rose': {
     slug: 'round-rose',

@@ -35,7 +35,7 @@ export const diamondShapes = {
   marquise: 'Marquise',
   cushion: 'Cushion',
   'baguette+oval': 'Baguette and Oval',
-  'marquise+Trillion': 'Marquise and Trillion',
+  'marquise+trillion': 'Marquise and Trillion',
   'oval+trillion': 'Oval and Trillion',
   oval: 'Oval',
   pear: 'Pear',
@@ -56,6 +56,7 @@ export const diamondShapes = {
   'round-brilliant+oval': 'Round Brilliant and Oval',
   'round-brilliant+baguette': 'Round Brilliant and Baguette',
   'round-brilliant+emerald': 'Round Brilliant and Emerald',
+  'round-brilliant+round-brilliant': 'Round Brilliant and Round Brilliant',
   'marquise+baguette': 'Marquise and Baguette',
   'marquise+round-brilliant': 'Marquise and Round Brilliant',
 };
@@ -87,7 +88,7 @@ export const diamondShapesWithIcon = {
     icon: <CushionIcon />,
   },
   'baguette+oval': 'Baguette and Oval',
-  'marquise+Trillion': 'Marquise and Trillion',
+  'marquise+trillion': 'Marquise and Trillion',
   'oval+trillion': 'Oval and Trillion',
   oval: {
     title: 'Oval',
@@ -126,6 +127,10 @@ export const diamondShapesWithIcon = {
   'round-brilliant+emerald': 'Round Brilliant and Emerald',
   'marquise+baguette': 'Marquise and Baguette',
   'marquise+round-brilliant': 'Marquise and Round Brilliant',
+  'round-brilliant+round-brilliant': {
+    title: 'Round Brilliant and Round Brilliant',
+    icon: <PrincessIcon />,
+  },
 };
 
 export const ringStylesWithIcon: RingStyleWithIconProps = {
