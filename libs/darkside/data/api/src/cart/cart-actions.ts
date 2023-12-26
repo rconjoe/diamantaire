@@ -1,5 +1,4 @@
-import { getCountry } from '@diamantaire/shared/helpers';
-import { getFormattedShipByDate } from '@diamantaire/shared/helpers';
+import { getCountry, getFormattedShipByDate } from '@diamantaire/shared/helpers';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
@@ -79,12 +78,13 @@ async function shopifyFetch<T>({
   }
 }
 
-async function createCart({ locale = '' }): Promise<Cart> {
+async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
   const email = getEmailFromCookies();
   const countryCode = locale ? getCountry(locale) : null;
   const variables: CreateCartVariables = {
     ...(email && { email }),
     ...(countryCode && { countryCode }),
+    ...(lineItems?.length > 0 && { lineItems }),
   };
 
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
@@ -198,28 +198,48 @@ export const addItemToCart = async ({
   quantity,
   locale,
 }: CartActionParams): Promise<string | undefined> => {
+  if (!variantId) {
+    return 'Missing product variant ID';
+  }
+
   let cartId = localStorage.getItem('cartId');
   let cart;
 
   if (cartId) {
     cart = await getCart(cartId);
   }
+  if (!cart) {
+    try {
+      // Prepare the initial line item
+      const initialItem = {
+        merchandiseId: variantId,
+        quantity: quantity || 1,
+        attributes: customAttributes,
+      };
 
-  if (!cartId || !cart) {
-    cart = await createCart({ locale });
-    console.log('returned cart', { cart, locale });
-    cartId = cart.id;
-    localStorage.setItem('cartId', cartId);
-  }
+      // Create a new cart with the initial item
+      cart = await createCart({ locale, lineItems: [initialItem] });
+      console.log('returned cart', { cart, locale });
 
-  if (!variantId) {
-    return 'Missing product variant ID';
-  }
-
-  try {
-    await addToCart(cartId, [{ merchandiseId: variantId, quantity: quantity || 1, attributes: customAttributes }]);
-  } catch (e) {
-    return 'Error adding item to cart';
+      // Update the cart ID in local storage
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    } catch (e) {
+      return 'Error creating cart with item';
+    }
+  } else {
+    try {
+      // If a cart already exists, add the item to it
+      await addToCart(cartId, [
+        {
+          merchandiseId: variantId,
+          quantity: quantity || 1,
+          attributes: customAttributes,
+        },
+      ]);
+    } catch (e) {
+      return 'Error adding item to cart';
+    }
   }
 };
 
@@ -236,7 +256,13 @@ export async function addLooseDiamondToCart({ diamondVariantId, diamondAttribute
   return await addItemToCart({ variantId: diamondVariantId, customAttributes: refinedSettingAttributes, locale });
 }
 
-export function addJewelryProductToCart({ variantId, attributes, locale, engravingText, hasEngraving }: JewelryCartItemProps) {
+export function addJewelryProductToCart({
+  variantId,
+  attributes,
+  locale,
+  engravingText,
+  hasEngraving,
+}: JewelryCartItemProps) {
   // shopify api won't ever take a product with an empty or null attribute value
   let refinedAttributes = Object.keys(attributes)
     .map((key) => {
@@ -628,6 +654,17 @@ const addCustomizedItem = async (
   locale: string,
 ): Promise<string | undefined> => {
   console.log('customized item getting', items);
+  if (!items || items.length === 0) {
+    return 'Missing product or diamond';
+  }
+
+  // Refine items for cart addition
+  const refinedItems = items.map((item) => ({
+    merchandiseId: item.variantId,
+    quantity: item?.quantity || 1,
+    attributes: item.customAttributes,
+  }));
+
   let cartId = localStorage.getItem('cartId');
   let cart;
 
@@ -635,31 +672,27 @@ const addCustomizedItem = async (
     cart = await getCart(cartId);
   }
 
-  if (!cartId || !cart) {
-    cart = await createCart({ locale });
-    cartId = cart.id;
-    localStorage.setItem('cartId', cartId);
-  }
+  // Create a new cart with initial items if no cart exists
+  if (!cart) {
+    try {
+      console.log('trying to create cart with ', { refinedItems });
+      cart = await createCart({ locale, lineItems: refinedItems });
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    } catch (e) {
+      console.log('Error creating cart with items', e);
 
-  if (items.length === 0) {
-    return 'Missing product or diamond';
-  }
+      return 'Error creating cart with items';
+    }
+  } else {
+    // If a cart exists, add items to it
+    try {
+      await addToCart(cartId, refinedItems);
+    } catch (e) {
+      console.log('Error adding customized items to cart', e);
 
-  const refinedItems = [];
-
-  items?.map((item) => {
-    const newItem = { merchandiseId: item.variantId, quantity: item?.quantity || 1, attributes: item.customAttributes };
-
-    return refinedItems.push(newItem);
-  });
-
-  console.log('refinedItems', refinedItems);
-
-  try {
-    // Need to do it like this to maintain order in shopify checkout
-    addToCart(cartId, refinedItems);
-  } catch (e) {
-    console.log('Error adding customized item to cart', e);
+      return 'Error adding items to cart';
+    }
   }
 };
 
@@ -714,7 +747,6 @@ export async function toggleCartAddonProduct({ variantId, locale }: { variantId:
     await addItemToCart({ variantId, customAttributes: [], locale });
   }
 }
-
 
 export async function updateCartBuyerIdentity({ locale }) {
   const cartId = localStorage.getItem('cartId');
