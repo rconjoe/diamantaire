@@ -1,8 +1,13 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
+
 import { getEmailFromCookies } from '@diamantaire/darkside/data/api';
 import { goToCheckoutUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+
+import { updateShippingTimes } from '@diamantaire/darkside/data/api';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -141,10 +146,22 @@ type CartFooterProps = {
 };
 
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
-  const [hasTermsConsent, setHasTermsConsent] = useState(true);
+  const { locale } = useRouter();
+  // Off by default in EU
+  const { countryCode } = parseValidLocale(locale);
+  const [hasTermsConsent, setHasTermsConsent] = useState(
+    localStorage.getItem('hasTermsConsent') === 'true'
+      ? true
+      : countryCode !== 'US'
+      ? false
+      : countryCode === 'US'
+      ? true
+      : false,
+  );
   const { checkoutStarted } = useAnalytics();
-  const router = useRouter();
-  const locale = router.locale;
+
+  const { _t } = useTranslations(locale);
+
   const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
     if (!hasTermsConsent) return;
@@ -258,8 +275,13 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() });
+    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() => goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }));
   };
+
+  function toggleConsent() {
+    setHasTermsConsent(!hasTermsConsent);
+    localStorage.setItem('hasTermsConsent', JSON.stringify(!hasTermsConsent));
+  }
 
   return (
     <CartFooterStyles>
@@ -270,7 +292,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             disabled={!hasTermsConsent}
             onClick={handleCheckoutClick}
           >
-            {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
+            {checkoutCta} | {getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}
           </DarksideButton>
         </li>
         <li>
@@ -280,12 +302,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             })}
           >
             <label className="checkbox" htmlFor="terms-consent">
-              <input
-                type="checkbox"
-                checked={hasTermsConsent}
-                id="terms-consent"
-                onClick={() => setHasTermsConsent(!hasTermsConsent)}
-              />
+              <input type="checkbox" checked={hasTermsConsent} id="terms-consent" onClick={() => toggleConsent()} />
               <span className="checkmark"></span>
             </label>
             <span className="consent-link">

@@ -1,4 +1,9 @@
-import { HUBSPOT_FORM_SUBMIT_URL, HUBSPOT_PORTAL_ID, HUBSPOT_CONSENT_TEXT } from '@diamantaire/shared/constants';
+import {
+  HUBSPOT_FORM_SUBMIT_URL,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_CONSENT_TEXT,
+  VO_ROOT_URL,
+} from '@diamantaire/shared/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -23,7 +28,7 @@ const sendHubspotForm = async ({
   locale,
   countryCode,
   isConsent,
-  pageUrl,
+  pageUrl = VO_ROOT_URL,
   pageTitle,
   recipientEmail,
   partnerName,

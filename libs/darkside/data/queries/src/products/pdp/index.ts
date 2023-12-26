@@ -52,9 +52,9 @@ export const productPage = createQueryKeys('products', {
     queryKey: [id, locale],
     queryFn: () => fetchDatoProductSuggestionBlock(id, locale),
   }),
-  datoVariant: (variantSlug: string, locale: string) => ({
+  datoVariant: (variantSlug: string, productType: string, locale: string) => ({
     queryKey: [variantSlug, locale],
-    queryFn: () => fetchDatoVariant(variantSlug, locale),
+    queryFn: () => fetchDatoVariant(variantSlug, productType, locale),
   }),
   productDiamondTypes: (productSlug: string) => ({
     queryKey: [productSlug],

@@ -110,7 +110,7 @@ const FormContainer = styled.div<{
 
       &.submit {
         margin-bottom: 0px;
-        flex: 0.75;
+        flex: 0.5;
       }
 
       > * {

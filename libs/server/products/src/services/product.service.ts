@@ -913,9 +913,10 @@ export class ProductsService {
 
         // split joined types to be individual types and remove duplicates
         const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
 
         availableFilters = {
-          metal: availableMetals.sort(sortMetalTypes),
+          metal: explodedMetalType.sort(sortMetalTypes),
           diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
@@ -998,7 +999,7 @@ export class ProductsService {
 
       const variantContentIds = [...variantIds, ...productHandles];
 
-      // TODO: may need paginated request but most likely not since we limit to 20 items per page
+      // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
         this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
@@ -1024,7 +1025,7 @@ export class ProductsService {
 
       // merge and reduce
       const plpProducts = Object.values(scopedPlpData).reduce(
-        (plpItems: ListPageItemWithConfigurationVariants[], item: VraiProductData) => {
+        (plpItems: ListPageItemWithConfigurationVariants[], item: any /* VraiProductData */) => {
           const { content, product, metal: metalOptions } = item;
 
           const altConfigs = Object.values<string>(metalOptions).reduce((map, id) => {
@@ -1066,7 +1067,8 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            productTitle: product.productTitle,
+            productTitle: content.collection.productTitle,
+            plpTitle: content?.plpTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
@@ -1260,7 +1262,8 @@ export class ProductsService {
 
           productsArray.push({
             defaultId: product.contentId,
-            productTitle: content?.productTitle,
+            productTitle: content?.collection.productTitle,
+            plpTitle: content?.plpTitle,
             productType: product.productType,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
@@ -1310,9 +1313,12 @@ export class ProductsService {
         const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
           await Promise.all(filterValueQueries);
 
+        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
+
         availableFilters = {
-          metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
+          metal: explodedMetalType.sort(sortMetalTypes),
+          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1347,6 +1353,8 @@ export class ProductsService {
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
     return {
       title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
+      productTitle: content?.collection?.productTitle,
+      plpTitle: content?.plpTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,
@@ -1805,7 +1813,7 @@ function getDatoRequestLocale(locale = 'en_US'): string {
   const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
   const language = locale.split('-')[0];
 
-  if (!validDatoLocales.includes(locale)) {
+  if (!validDatoLocales.includes(language)) {
     return 'en_US';
   }
 

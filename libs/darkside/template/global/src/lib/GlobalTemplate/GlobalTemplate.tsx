@@ -34,7 +34,7 @@ export const GlobalTemplate = ({ children }) => {
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(56);
 
   const { pathname } = useRouter();
 
