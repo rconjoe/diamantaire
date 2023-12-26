@@ -1,39 +1,42 @@
-import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
-import { XIcon } from '@diamantaire/shared/icons';
-import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 const ChildProductStyles = styled.div`
   background-color: #fff;
-  border: 0.1rem solid #e0e0e0;
-  border-radius: 0.8rem;
+  border-top: 0.1rem solid #e0e0e0;
   margin-top: 1rem;
   position: relative;
 
   .child-product__inner {
     display: flex;
     align-items: center;
+    flex-direction: row;
 
     .child-product__image {
       flex: 0 0 16.8rem;
       padding-right: 2rem;
+      height: auto;
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .cart-item__content {
       flex: 1;
-      padding-right: 1rem;
+      padding: 2rem 0;
 
       button {
         font-size: 1.4rem;
       }
       p {
         margin-bottom: 0.5rem;
-        font-size: 1.5rem;
+        font-size: var(--font-size-xsmall);
         color: #777;
 
         &:first-child {
@@ -51,93 +54,11 @@ const ChildProductStyles = styled.div`
       }
     }
   }
-  .certificate-info {
-    border: 0.1rem solid #000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    &.dark {
-      background-color: #222;
-      .certificate-info__inner {
-        padding: 2rem;
-
-        .certificate-info__title {
-          p {
-            color: var(--color-white);
-          }
-        }
-        .certificate-info__body {
-          p {
-            margin: 0;
-            font-size: 1.4rem;
-            display: block;
-            color: #ccc;
-          }
-
-          button {
-            font-size: 1.6rem;
-            color: #fff;
-            border-bottom: 0.1rem solid var(--color-white);
-            svg {
-              line {
-                stroke: var(--color-white);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .certificate-info__inner {
-      padding: 2rem;
-
-      .certificate-info__title {
-        display: flex;
-        margin-bottom: 1rem;
-        p {
-          flex: 1;
-          margin: 0;
-          font-size: 1.7rem;
-          display: block;
-          color: #000;
-
-          &:first-child {
-            flex: 2;
-          }
-          &:last-child {
-            text-align: right;
-          }
-        }
-      }
-      .certificate-info__body {
-        p {
-          margin: 0;
-          font-size: 1.4rem;
-          display: block;
-          color: #737368;
-        }
-
-        button {
-          font-size: 1.6rem;
-          svg {
-            position: relative;
-            top: 0.7rem;
-            left: -0.5rem;
-            margin-right: -0.5rem;
-            transform: scale(0.75);
-          }
-        }
-      }
-    }
-  }
 `;
 
-const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
+const ChildProduct = ({ lineItem, refinedCartItemDetails }) => {
   const { attributes, merchandise } = lineItem || {};
-  const { copy: certCopy, title: certTitle, price: certPrice } = certificate || {};
-  const [showCert, setShowCert] = useState(false);
+
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
@@ -185,6 +106,10 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
         value: attributes?.find((item) => item.key === 'caratWeight')?.value,
       },
       {
+        label: 'Color',
+        value: attributes?.find((item) => item.key === 'color')?.value,
+      },
+      {
         label: 'Cut',
         value: attributes?.find((item) => item.key === 'cut')?.value,
       },
@@ -220,45 +145,8 @@ const ChildProduct = ({ lineItem, refinedCartItemDetails, certificate }) => {
               </p>
             );
           })}
-          {isProductDiamond && (
-            <DarksideButton type="underline" colorTheme="teal" onClick={() => setShowCert(true)}>
-              <UIString>Diamond Certificate</UIString>
-            </DarksideButton>
-          )}
         </div>
       </div>
-      <AnimatePresence>
-        {showCert && (
-          <motion.div
-            className="certificate-info dark"
-            key="cert-container"
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            variants={{
-              open: { y: 0, opacity: 1 },
-              collapsed: { y: 50, opacity: 0 },
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-          >
-            <div className="certificate-info__inner">
-              <div className="certificate-info__title">
-                <p>{certTitle}</p>
-                <p>{certPrice}</p>
-              </div>
-              <div className="certificate-info__body">
-                <p>{certCopy}</p>
-                <DarksideButton type="underline" onClick={() => setShowCert(false)}>
-                  <XIcon />
-                  Close
-                </DarksideButton>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </ChildProductStyles>
   );
 };

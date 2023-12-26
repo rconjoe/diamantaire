@@ -173,6 +173,16 @@ export class GetDiamondByLotIdDto {
   readonly lotId: string;
 }
 
+export class GetDiamondByHandleDto {
+  @ApiProperty({
+    example: 'oval-4-03-excellent-e-si1-lv33-10',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  readonly handle: string;
+}
+
 export class GetDiamondByLotIdsDto {
   @ApiProperty({
     example: 'F700032,F999001',

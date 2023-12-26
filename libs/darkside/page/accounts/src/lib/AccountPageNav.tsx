@@ -1,3 +1,6 @@
+import { useClerk } from '@clerk/nextjs';
+import { DarksideButton, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -6,8 +9,11 @@ import styled from 'styled-components';
 
 const AccountPageNavStyles = styled.div`
   .title-container {
-    padding: calc(var(--gutter) / 2) 2.4rem;
-    ${media.medium`padding: calc(var(--gutter) / 2) 0;`}
+    padding: 2rem 2.4rem;
+
+    ${media.medium`
+    padding: 4rem 0;`}
+
     .title {
       flex: 1;
 
@@ -16,7 +22,12 @@ const AccountPageNavStyles = styled.div`
         font-family: var(--font-family-main);
         font-weight: var(--font-weight-normal);
       }
+
+      .customer-name {
+        text-transform: capitalize;
+      }
     }
+
     .actions {
       flex: 1;
       li {
@@ -34,7 +45,7 @@ const AccountPageNavStyles = styled.div`
   }
   .nav-items__container {
     background-color: var(--color-lightest-grey);
-    /* padding: 1.5rem 0; */
+
     ul {
       li {
         margin-right: 4rem;
@@ -65,34 +76,42 @@ const AccountPageNavStyles = styled.div`
   }
 `;
 
-export const navItems = [
-  {
-    title: 'Account Details',
-    href: '/account/details',
-  },
-  {
-    title: 'Order History',
-    href: '/account/order-history',
-  },
-  {
-    title: 'Your Wishlist',
-    href: '/account/wishlist',
-  },
-];
-
 const AccountPageNav = ({ customerName }) => {
-  const { asPath } = useRouter();
+  const { query, locale } = useRouter();
+  const { accountPageSlug } = query || {};
+  const { _t } = useTranslations(locale);
+
+  const clerk = useClerk();
+
+  const navItems = [
+    {
+      title: _t('Account Details'),
+      href: '/account/details',
+    },
+    {
+      title: _t('Order History'),
+      href: '/account/order-history',
+    },
+    {
+      title: _t('Your Wishlist'),
+      href: '/wishlist',
+    },
+  ];
 
   return (
     <AccountPageNavStyles>
       <div className="title-container flex align-center container-wrapper">
         <div className="title">
-          <h2>Hi {customerName}</h2>
+          <Heading type="h2">
+            <UIString>Welcome</UIString> <span className="customer-name">{customerName}</span>
+          </Heading>
         </div>
         <div className="actions">
           <ul className="flex justify-flex-end list-unstyled">
             <li>
-              <Link href="/">Log out</Link>
+              <DarksideButton type="underline" colorTheme="teal" onClick={() => clerk.signOut()}>
+                Log out
+              </DarksideButton>
             </li>
           </ul>
         </div>
@@ -105,7 +124,7 @@ const AccountPageNav = ({ customerName }) => {
               <li key={`account-nav-item-${index}`}>
                 <Link
                   className={clsx({
-                    active: asPath === item.href,
+                    active: item.href.includes(accountPageSlug as string),
                   })}
                   href={item.href}
                 >

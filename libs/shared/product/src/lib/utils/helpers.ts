@@ -42,6 +42,10 @@ export function getOptionValueSorterByType(optionType: string) {
       return order.indexOf(a) > order.indexOf(b) ? 1 : -1;
     }
 
+    if (!isNaN(Number(a)) && !isNaN(Number(b))) {
+      return Number(a) > Number(b) ? 1 : -1;
+    }
+
     return a > b ? 1 : -1;
   };
 }
@@ -63,4 +67,8 @@ export function sortDiamondTypes(a: string, b: string) {
   if (!a || !b) return -1;
 
   return plpDiamondValues.findIndex((metal) => metal === a) > plpDiamondValues.findIndex((metal) => metal === b) ? 1 : -1;
+}
+
+export function createShopifyVariantId(id: string | number) {
+  return `gid://shopify/ProductVariant/${id}`;
 }

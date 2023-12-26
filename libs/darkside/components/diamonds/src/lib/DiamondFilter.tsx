@@ -85,7 +85,7 @@ const SliderFilter = (props) => {
 };
 
 const RadioFilter = (props) => {
-  const { stringMap, type, ranges, options, handleRadioFilterChange } = props;
+  const { stringMap, type, ranges, options, handleRadioFilterChange, availableDiamonds } = props;
   const { isMobile } = useContext(GlobalContext);
   const [useLeftArrow, setUseLeftArrow] = useState(false);
   const [useRightArrow, setUseRightArrow] = useState(true);
@@ -95,10 +95,24 @@ const RadioFilter = (props) => {
     rangeTypes,
     shapeHandles = [];
 
+  const colorOptions = Object.values(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
+
+  const cutOptions = Object.values(DIAMOND_TABLE_FILTER_CUT_OPTIONS);
+
+  const clarityOptions = Object.values(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
+
+  const optionsDiamondType = options?.diamondType?.split(',') || [];
+
+  const isFancyShape = optionsDiamondType.length > 0 && !optionsDiamondType.includes('round-brilliant');
+
   switch (type) {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
       shapeHandles = Object.values(DIAMOND_TABLE_SHAPES);
+
+      if (availableDiamonds) {
+        shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
+      }
 
       optionsUI = shapeHandles
         .filter((handle) => {
@@ -110,13 +124,13 @@ const RadioFilter = (props) => {
 
       break;
     case 'clarity':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_CLARITY_OPTIONS);
+      optionsUI = clarityOptions;
       break;
     case 'color':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_COLOR_OPTIONS);
+      optionsUI = colorOptions;
       break;
     case 'cut':
-      optionsUI = Object.values(DIAMOND_TABLE_FILTER_CUT_OPTIONS);
+      optionsUI = isFancyShape ? [cutOptions[2]] : cutOptions;
       break;
   }
 
@@ -207,14 +221,14 @@ const RadioFilter = (props) => {
 
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive([shape.slug], 'diamondType') ? 'active' : '')}>
-                <a title={title} onClick={() => handleClick([shape.slug])}>
+                <button title={title} onClick={() => handleClick([shape.slug])}>
                   <shape.icon />
                   {shape.icon2 && (
                     <div className="-pair">
                       <shape.icon2 />
                     </div>
                   )}
-                </a>
+                </button>
               </li>
             );
           }
@@ -222,9 +236,9 @@ const RadioFilter = (props) => {
           if (type === 'color') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'color') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>
+                <button onClick={() => handleClick(optionUI)}>
                   {stringMap?.option?.[Array.isArray(optionUI) ? optionUI.join('') : optionUI]?.value || ''}
-                </a>
+                </button>
               </li>
             );
           }
@@ -232,7 +246,7 @@ const RadioFilter = (props) => {
           if (type === 'cut') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'cut') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</a>
+                <button onClick={() => handleClick(optionUI)}>{stringMap?.option?.[optionUI]?.value || ''}</button>
               </li>
             );
           }
@@ -240,7 +254,7 @@ const RadioFilter = (props) => {
           if (type === 'clarity') {
             return (
               <li key={index} className={clsx('vo-filter-list-item', isActive(optionUI, 'clarity') ? 'active' : '')}>
-                <a onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</a>
+                <button onClick={() => handleClick(optionUI)}>{Object.keys(stringMap?.option)?.[index] || ''}</button>
               </li>
             );
           }
@@ -273,16 +287,14 @@ export interface DiamondFilterProps {
   options: object;
   ranges: object;
   locale: string;
-  hideFilters?: string[];
+  availableDiamonds?: string[];
 }
 
 const DiamondFilter = (props: DiamondFilterProps) => {
-  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, hideFilters } = props;
-
+  const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
-
   const { data: humanNameMapperData } = useHumanNameMapper(locale);
   const { DIAMOND_CUTS } = humanNameMapperData || {};
 
@@ -340,8 +352,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
         const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
 
-        if (hideFilters?.includes(filter)) return null;
-
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>
             <div className="vo-filter-title">
@@ -373,6 +383,7 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 stringMap={stringMap[filter]}
                 ranges={ranges}
                 type={filter}
+                availableDiamonds={availableDiamonds}
               />
             )}
 

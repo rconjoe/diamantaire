@@ -258,6 +258,59 @@ function OptionSelector({
     }
   }
 
+  function renderDiamondSpecs() {
+    return (
+      <>
+        {', '}
+        {diamondSpecs.color && (
+          <>
+            <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
+            {', '}
+          </>
+        )}
+        {diamondSpecs.clarity && (
+          <>
+            <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+          </>
+        )}
+      </>
+    );
+  }
+
+  function renderOptionValue() {
+    switch (optionType) {
+      case 'eternityStyle':
+        return ETERNITY_STYLE_HUMAN_NAMES?.[selectedOptionValue]?.value;
+
+      case 'chainLength':
+        return (
+          <>
+            <UIString>{selectedOptionValue}</UIString>
+            {'"'}
+          </>
+        );
+
+      case 'sideStoneCarat':
+      case 'caratWeight':
+        if (selectedOptionValue !== 'other') {
+          return (
+            <>
+              <UIString>{selectedOptionValue}</UIString>
+              {' ct'}
+              {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && renderDiamondSpecs()}
+            </>
+          );
+        }
+        break;
+
+      case 'value': // used for US only digital-gift-card
+        return `$${selectedOptionValue}`;
+
+      default:
+        return <UIString>{selectedOptionValue}</UIString>;
+    }
+  }
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
@@ -265,40 +318,7 @@ function OptionSelector({
           <Heading type="h2" className="selector-title">
             <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
           </Heading>
-          <span>
-            {optionType === 'eternityStyle' ? (
-              ETERNITY_STYLE_HUMAN_NAMES?.[selectedOptionValue]?.value
-            ) : optionType === 'chainLength' ? (
-              <>
-                <UIString>{selectedOptionValue}</UIString>
-                {'"'}
-              </>
-            ) : optionType === 'sideStoneCarat' || (optionType === 'caratWeight' && selectedOptionValue !== 'other') ? (
-              <>
-                <UIString>{selectedOptionValue}</UIString>
-                {' ct'}
-                {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && (
-                  <>
-                    {', '}
-                    {/* Using both translation items because some elements need to be lowercase */}
-                    {diamondSpecs.color && (
-                      <>
-                        <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
-                        {', '}
-                      </>
-                    )}
-                    {diamondSpecs.clarity && (
-                      <>
-                        <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
-                      </>
-                    )}
-                  </>
-                )}
-              </>
-            ) : (
-              <UIString>{selectedOptionValue}</UIString>
-            )}
-          </span>
+          <span>{renderOptionValue()}</span>
         </div>
       )}
 

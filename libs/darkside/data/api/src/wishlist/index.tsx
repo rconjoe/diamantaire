@@ -40,11 +40,15 @@ export const fetchWishlistProducts = async (ids: string[], locale: string) => {
     product: [...new Set([...list.product, ...unbundle(list.bundle).product])].join(','),
   };
 
+  const withDiamonds = queryList.diamond.length > 0;
+
+  const withProducts = queryList.product.length > 0;
+
+  const productEndpoint = `/products/list?locale=${locale}&slugs=${queryList.product}`;
+
   const payload = {
-    diamond: queryList.diamond.length > 0 && (await fetchDiamondData({ lotId: queryList.diamond, locale })),
-    product:
-      queryList.product.length > 0 &&
-      (await queryClientApi().request({ method: 'get', url: `/products/list?slugs=${queryList.product}` })),
+    diamond: withDiamonds && (await fetchDiamondData({ lotId: queryList.diamond, locale })),
+    product: withProducts && (await queryClientApi().request({ method: 'get', url: productEndpoint })),
   };
 
   const result = {

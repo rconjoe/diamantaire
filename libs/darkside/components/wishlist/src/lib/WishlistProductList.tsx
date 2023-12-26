@@ -1,4 +1,4 @@
-import { DarksideButton, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DropHintModal, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getLocalStorageWishlist } from '@diamantaire/shared/helpers';
@@ -8,7 +8,7 @@ import { useEffect, useState, useContext } from 'react';
 import { WishListNoResultItem } from './WishlistNoResultItem';
 import { WishlistProductItem } from './WishlistProductItem';
 import { StyledWishlistSlideoutProductList, StyledWishlistPageProductList } from './WishlistProductList.style';
-import { WishlistShareModal, WishlistDropHintModal } from './WishlistShareModal';
+import { WishlistShareModal } from './WishlistShareModal';
 
 interface WishlistProductListProps {
   isSharedWishlistPage?: boolean;
@@ -52,7 +52,7 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
 
   const [openDropHintModal, setOpenDropHintModal] = useState(false);
 
-  const [wishlist, setWishlist] = useState(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
+  const [wishlist, setWishlist] = useState<string[]>(isSharedWishlistPage ? productListFromUrl : getLocalStorageWishlist());
 
   const [dropHintData, setDropHintData] = useState(null);
 
@@ -134,11 +134,12 @@ const WishlistProductList: React.FC<WishlistProductListProps> = ({
           onClose={handleModalClose}
           locale={locale}
           errorMessage={content?.modalErrorMessage}
+          successMessage={content?.sharedWishlistFormSuccessMessage}
         />
       )}
 
       {openDropHintModal && (
-        <WishlistDropHintModal
+        <DropHintModal
           title={_t('Drop a hint')}
           subtitle={content?.shareWishlistModalSubtitle}
           onClose={handleModalClose}

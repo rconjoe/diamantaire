@@ -6,9 +6,11 @@ import {
   DatoImage,
   Heading,
   ProductAppointmentCTA,
+  RingSizeGuide,
+  SlideOut,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { OptionSelector, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import { OptionSelector, ProductDiamondHand, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -18,6 +20,7 @@ import { useCartData, useProductDato, useTranslations } from '@diamantaire/darks
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
+  ENGRAVING_PRICE_CENTS,
   PdpTypePlural,
   getCurrency,
   getFormattedPrice,
@@ -25,41 +28,114 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle, makeCurrency } from '@diamantaire/shared/helpers';
+import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-import { motion } from 'framer-motion';
+import { createShopifyVariantId } from '@diamantaire/shared-product';
+import clsx from 'clsx';
+import useEmblaCarousel from 'embla-carousel-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-
-import SummaryItem from './SummaryItem';
 
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 2rem 2rem 14rem;
 
   .review-wrapper {
-    display: flex;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+      flex-direction: row;
+    }
 
     .product-images {
       flex: 2;
-      display: flex;
       margin: 0 -1rem;
 
-      > .image {
-        padding: 0 1rem;
-        flex: 1;
+      .embla {
         display: flex;
+        flex-wrap: wrap;
 
-        > div {
-          display: flex;
+        .embla__container {
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            flex-wrap: wrap;
+          }
+          > .image {
+            padding: 0 1rem;
+            flex: 0 0 50%;
+            display: flex;
+
+            > div {
+              display: flex;
+            }
+
+            img {
+              object-fit: cover;
+              max-height: 608px;
+            }
+          }
+        }
+      }
+
+      .image-diamond {
+        top: 53%;
+        left: 20.5%;
+
+        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+          left: 22%;
         }
 
-        img {
-          object-fit: cover;
-          max-height: 608px;
+        @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
+          left: 21.5%;
+        }
+        @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
+          left: 21%;
+        }
+        @media (min-width: 1700px) {
+          left: 20%;
+        }
+        @media (min-width: 1800px) {
+          left: 21%;
+        }
+      }
+
+      .slider-dots {
+        flex: 1 1 100%;
+        padding-top: 20px;
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+          display: none;
+        }
+        ul {
+          display: flex;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          justify-content: center;
+
+          li {
+            margin-right: 5px;
+
+            &:last-child {
+              margin-right: 0px;
+            }
+
+            button {
+              height: 10px;
+              width: 10px;
+              background-color: var(--color-black);
+              border: none;
+              border-radius: 50%;
+              line-height: 1;
+              padding: 0;
+              opacity: 0.3;
+
+              &.active {
+                opacity: 0.75;
+              }
+            }
+          }
         }
       }
     }
@@ -68,12 +144,12 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .product-summary__inner {
         position: relative;
-        padding: 2rem 4rem;
+        padding: 2rem 0;
         max-width: 55rem;
         margin: 0 auto;
 
-        h1 {
-          /* margin-bottom: 2rem; */
+        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
+          padding: 2rem 4rem;
         }
 
         .total-price {
@@ -83,17 +159,76 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .builder-summary__content {
         border-bottom: 0.1rem solid #ccc;
+
+        .builder-summary__content__inner {
+          ul {
+            padding: 0 0 2rem;
+            li {
+              display: flex;
+              flex-wrap: wrap;
+              padding: 0 0 0.75rem;
+
+              &:last-child {
+                padding: 0;
+              }
+
+              span {
+                font-size: var(--font-size-xsmall);
+
+                &.label {
+                  font-weight: bold;
+                  margin-right: 0.5rem;
+                }
+
+                &.value {
+                  font-weight: normal;
+                }
+
+                &.toggle {
+                  flex: 1;
+                  text-align: right;
+                  display: block;
+
+                  button {
+                    font-size: var(--font-size-xxsmall);
+                    color: var(--color-teal);
+                    background-color: transparent;
+                    padding: 0;
+                    border-bottom: 1px solid var(--color-teal);
+                    font-weight: 500;
+                  }
+                }
+              }
+
+              .acc-container {
+                flex: 0 0 100%;
+              }
+            }
+          }
+        }
       }
     }
 
     .ring-size-container {
-      margin: 2rem 0 0;
+      margin: 2rem 0;
+
+      .option-list.ringSize {
+        margin-bottom: 0;
+      }
       .selector-label {
         margin: 0 0 1rem;
       }
 
       h4 {
         margin: 0;
+      }
+    }
+
+    .size-guide-button {
+      flex: 0 0 100%;
+      margin-top: 0.5rem;
+      button {
+        font-size: var(--font-size-xxxsmall);
       }
     }
 
@@ -141,6 +276,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
       }
     }
 
+    .atc-button {
+      font-size: var(--font-size-xxsmall);
+    }
+
     .review-atc {
       padding: 2rem 0 0;
       ul {
@@ -175,12 +314,23 @@ const ToastError = () => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTitle, selectedConfiguration }) => {
+const ReviewBuildStep = ({
+  settingSlugs,
+  type,
+  configurations,
+  variantProductTitle,
+  selectedConfiguration,
+  updateSettingSlugs,
+  additionalVariantData,
+}) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
   const { data: checkout, refetch } = useCartData(router?.locale);
-  const { builderProduct } = useContext(BuilderProductContext);
+  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isBandSelectorOpen, setIsBandSelectorOpen] = useState(false);
+  const [isMetalSelectorOpen, setIsMetalSelectorOpen] = useState(false);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -190,11 +340,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     value?: string;
     valueLabel?: string;
     isSelected?: boolean;
-  }>(configurations.ringSize.filter((item) => item.value === '5')[0] || null);
+  }>(configurations?.ringSize?.filter((item) => item.value === '5')[0] || null);
 
   const { productAdded } = useAnalytics();
 
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
 
   const { collectionSlug } = settingSlugs;
 
@@ -206,16 +356,9 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
 
   const { _t } = useTranslations(router?.locale);
 
-  const mutatedLotId = getNumericalLotId(diamond?.lotId);
+  const mutatedLotId = diamond?.lotId && getNumericalLotId(diamond?.lotId);
 
   const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
-  const allowedKeys = ['product', 'diamond'];
-
-  const sortedKeys = Object.keys(builderProduct)
-    .filter((key) => allowedKeys.includes(key))
-    .sort((a, b) => {
-      return allowedKeys.indexOf(a) - allowedKeys.indexOf(b);
-    });
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -244,7 +387,24 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
   }, []);
 
   const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
-    product;
+    product || {};
+
+  function configOptionsReducer(state, action: any) {
+    const { payload, type } = action;
+    const { typeId, value } = payload;
+
+    console.log('configOptionsReducer', { state, action });
+
+    switch (type) {
+      case 'option-change':
+        return { ...state, [typeId]: value };
+    }
+  }
+
+  const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
+
+  console.log('configState', configState);
+  console.log('selectedSize', selectedSize);
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -254,7 +414,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const settingVariantId = selectedSize?.id || product?.variantId;
 
     // 2. Get the product variant ID for the diamond
-    const diamondVariantId = 'gid://shopify/ProductVariant/' + diamond?.dangerousInternalShopifyVariantId;
+    const diamondVariantId = createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId);
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
     const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
@@ -278,7 +438,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
       _productType: productType,
       metalType: erMetal,
-      productAsset: JSON.stringify(image),
+      productAsset: image?.src,
+      _productAssetObject: JSON.stringify(image),
       _productTitle: productTitle,
       productIconListShippingCopy: 'temp',
       pdpUrl: window.location.href,
@@ -288,11 +449,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       _EngravingBack: engravingText,
       _specs: `Shape: ${
         DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]
-      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedConfiguration?.ringSize}`,
+      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedSize?.value}`,
       productGroupKey,
       diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
       centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
-      ringSize: selectedConfiguration?.ringSize,
+      ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (product.price + diamond.price).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
@@ -310,7 +471,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
       _productTitle: diamond?.productTitle,
       productAsset: diamondImage,
-      _dateAdded: Date.now().toString(),
+      _dateAdded: Date.now().toString() + 100,
       caratWeight: diamond.carat.toString(),
       clarity: diamond.clarity,
       cut: diamond.cut,
@@ -331,6 +492,8 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       settingAttributes,
       diamondVariantId,
       diamondAttributes,
+      hasEngraving: engravingText ? true : false,
+      engravingText,
     }).then(() => refetch());
 
     updateGlobalContext({
@@ -419,6 +582,95 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
     return;
   }
 
+  const summaryItems = [
+    {
+      label: _t('diamondType'),
+      value: _t(diamond?.diamondType),
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      slug: 'diamondType',
+    },
+    {
+      label: 'Centerstone',
+      value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      slug: 'centerstone',
+    },
+    {
+      label: _t('Band'),
+      value: _t(product?.bandAccent),
+      onClick: () => setIsBandSelectorOpen(!isBandSelectorOpen),
+      slug: 'band',
+    },
+    {
+      label: 'Metal',
+      value: _t(product.metal),
+      onClick: () => setIsMetalSelectorOpen(!isMetalSelectorOpen),
+      slug: 'metal',
+    },
+  ];
+
+  function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
+    console.log({ configurationType, option });
+
+    updateSettingSlugs({
+      productSlug: option?.id,
+    });
+
+    if (type === 'setting-to-diamond') {
+      const newUrl = `/customize/setting-to-diamond/summary/${settingSlugs.collectionSlug}/${option?.id}/${builderProduct?.diamond?.lotId}`;
+
+      return router.push(newUrl);
+    } else {
+      const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs.collectionSlug}/${option?.id}`;
+
+      router.push(newUrl);
+    }
+  }
+
+  const handleOptionChange = (typeId: string, option: OptionItemProps) => {
+    dispatch({ type: 'option-change', payload: { typeId, value: option.value } });
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    if (!router.query.productSlug && !product.productSlug && router.query.productSlug !== product.productSlug)
+      console.log('isssue is this', {
+        routerSlug: router.query.productSlug,
+        productSlug: product.productSlug,
+      });
+    updateFlowData('ADD_PRODUCT', {
+      ...additionalVariantData,
+      ...selectedConfiguration,
+      variantId: router.query.productSlug,
+    });
+
+    setIsBandSelectorOpen(false);
+    setIsMetalSelectorOpen(false);
+  }, [additionalVariantData]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      setActiveSlide(emblaApi.selectedScrollSnap());
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+    };
+  }, [emblaApi]);
+
+  const isWindowDefined = typeof window !== 'undefined';
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -434,9 +686,43 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
       }}
     >
       <div className="review-wrapper">
-        <div className="product-images">
-          <div className="image setting-image">{product?.image && <DatoImage image={product?.image} />}</div>
-          <div className="image diamond-image">{diamondImage && <img src={diamondImage} alt="" />}</div>
+        <div className="product-images ">
+          <div className="embla" ref={isWindowDefined && window.innerWidth > 767 ? emblaRef : null}>
+            <div className="embla__container">
+              <div className={clsx('image setting-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
+                {product?.image && <DatoImage image={product?.image} />}
+              </div>
+              <div className={clsx('image diamond-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
+                {diamondImage && <img src={diamondImage} alt="" />}
+              </div>
+              <div
+                className={clsx('diamond-hand', {
+                  embla: isWindowDefined && window.innerWidth < 767,
+                })}
+              >
+                <ProductDiamondHand
+                  diamondType={selectedConfiguration?.diamondType}
+                  range={[0.5, 8]}
+                  initValue={diamond?.carat}
+                  disableControls={true}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="slider-dots">
+            <ul>
+              {[0, 1, 2].map((_item, index) => {
+                return (
+                  <li key={`review-build-dot-${index}`}>
+                    <button
+                      className={activeSlide === index ? 'active' : ''}
+                      onClick={() => emblaApi?.scrollTo(index)}
+                    ></button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
@@ -447,40 +733,70 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
             </Heading>
 
             <p className="total-price">
-              <span>{makeCurrency(product?.price + diamond?.price, 'en-US', 'USD')}</span>
+              <span>
+                {getFormattedPrice(
+                  product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
+                  router?.locale,
+                )}
+              </span>
             </p>
 
             <div className="builder-summary__content">
               <div className="builder-summary__content__inner">
-                {builderProduct &&
-                  sortedKeys.map((key: string, index) => {
-                    if (!builderProduct[key] || (key !== 'product' && key !== 'diamond')) return null;
-
-                    const summaryItem = builderProduct[key];
-
-                    const modifyIndex =
-                      key === 'diamond' && type === 'setting-to-diamond'
-                        ? 1
-                        : key === 'diamond' && type === 'diamond-to-setting'
-                        ? 0
-                        : key === 'product' && type === 'diamond-to-setting'
-                        ? 2
-                        : key === 'product' && type === 'setting-to-diamond'
-                        ? 0
-                        : key === 'product' && type === 'diamond-to-setting'
-                        ? 2
-                        : null;
-
+                <ul className="list-unstyled">
+                  {summaryItems?.map((item, index) => {
                     return (
-                      <SummaryItem
-                        modifyIndex={modifyIndex}
-                        item={summaryItem}
-                        itemType={key}
-                        key={index}
-                        showPrice={true}
-                      />
+                      <li key={`summary-${index}`}>
+                        <span className="label">{item.label}:</span>
+                        <span className="value">{item.value}</span>
+                        <span className="toggle">
+                          <button onClick={() => item.onClick()}>Modify</button>
+                        </span>
+                        <AnimatePresence>
+                          {item.slug === 'metal'
+                            ? isMetalSelectorOpen && (
+                                <div className="acc-container">
+                                  <OptionSelector
+                                    optionType={'metal'}
+                                    productType={'Engagement Ring'}
+                                    label={'metal'}
+                                    options={configurations.metal}
+                                    selectedOptionValue={selectedConfiguration['metal']}
+                                    onChange={(option) => {
+                                      // console.log('option', val);
+                                      handleOptionChange('metal', option);
+                                      handleBuilderFlowVariantChange(option, 'metal');
+                                    }}
+                                    renderItemAsLink={false}
+                                    hideSelectorLabel={true}
+                                  />
+                                </div>
+                              )
+                            : item.slug === 'band'
+                            ? isBandSelectorOpen && (
+                                <div className="acc-container">
+                                  <OptionSelector
+                                    optionType={'bandAccent'}
+                                    productType={'Engagement Ring'}
+                                    label={'metal'}
+                                    options={configurations.bandAccent}
+                                    selectedOptionValue={selectedConfiguration['bandAccent']}
+                                    onChange={(option) => {
+                                      // console.log('option', val);
+                                      handleOptionChange('bandAccent', option);
+                                      handleBuilderFlowVariantChange(option, 'bandAccent');
+                                    }}
+                                    renderItemAsLink={false}
+                                    hideSelectorLabel={true}
+                                  />
+                                </div>
+                              )
+                            : ''}
+                        </AnimatePresence>
+                      </li>
                     );
                   })}
+                </ul>
               </div>
             </div>
 
@@ -493,6 +809,11 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
                   selectedOptionValue={selectedSize.value}
                   onChange={handleSizeChange}
                 />
+                <div className="size-guide-button">
+                  <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsSizeGuideOpen(true)}>
+                    <UIString>Size Guide</UIString>
+                  </DarksideButton>
+                </div>
               </div>
             )}
 
@@ -559,7 +880,7 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
               <div className="review-atc">
                 <ul className="list-unstyled">
                   <li>
-                    <DarksideButton onClick={() => addCustomProductToCart()}>
+                    <DarksideButton className="atc-button" onClick={() => addCustomProductToCart()}>
                       <UIString>Add To Bag</UIString>
                     </DarksideButton>
                   </li>
@@ -582,6 +903,14 @@ const ReviewBuildStep = ({ settingSlugs, type, configurations, variantProductTit
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isSizeGuideOpen && (
+          <SlideOut title="Size Guide" width="30%" onClose={() => setIsSizeGuideOpen(false)} className="extra-side-padding">
+            <RingSizeGuide />
+          </SlideOut>
+        )}
+      </AnimatePresence>
     </ReviewBuildStepStyles>
   );
 };

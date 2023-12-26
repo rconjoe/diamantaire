@@ -17,8 +17,10 @@ import {
   DiamondTypes,
   getFormattedPrice,
   RING_STYLES_MAP,
-  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+  SUBSTYLE_SLUGS,
+  STYLE_SLUGS,
 } from '@diamantaire/shared/constants';
+import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -26,8 +28,6 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-
-import { jewelryFacetNavLinks } from '../facet-nav-plp-links';
 
 type PlpPageProps = {
   key: string;
@@ -56,14 +56,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   });
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
-  console.log('initialFilterValues', initialFilterValues);
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
-  // metal: [],
-  // diamondType: [],
-  // style: [],
-  // subStyle: [],
-  // priceMin: '',
-  // priceMax: '',
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
   const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
@@ -109,7 +102,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
-    console.log('filter changed', filters);
+    // console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -173,10 +166,11 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
         sortOptions={sortOptions}
         filterOptionsOverride={filterOptionsOverride}
         handleSortChange={handleSortChange}
+        subcategoryFilter={subcategoryFilter}
       />
       <div ref={pageEndRef} />
       <PlpPreviouslyViewed />
-      <PlpBlockPicker plpSlug={plpSlug} />
+      <PlpBlockPicker category={category} plpSlug={plpSlug} />
     </div>
   );
 }
@@ -202,11 +196,11 @@ const createPlpServerSideProps = (category: string) => {
     const [slug, ...params] = plpSlug;
 
     // All ER PLPs use faceted nav
-    if (category === 'engagement-rings' || (category === 'jewelry' && jewelryFacetNavLinks.includes(slug.toLowerCase()))) {
+    if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
     }
 
-    const initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
+    let initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
@@ -219,6 +213,21 @@ const createPlpServerSideProps = (category: string) => {
     const contentQuery = queries.plp.serverSideDato(locale, slug, category);
 
     await queryClient.prefetchQuery({ ...contentQuery });
+
+    const presetFilters = queryClient.getQueryData<{
+      listPage: {
+        filterOptions: Record<string, string[]>[];
+      };
+    }>(contentQuery.queryKey).listPage?.filterOptions;
+
+    // This is the only edge case right now.  Ex: /engagement-rings/settings
+    if (presetFilters?.length > 0 && isEmptyObject(initialFilterValues)) {
+      initialFilterValues = {
+        metal: ['yellow-gold'],
+        diamondType: ['round-brilliant'],
+      };
+    }
+
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
@@ -230,7 +239,7 @@ const createPlpServerSideProps = (category: string) => {
     });
 
     await queryClient.prefetchQuery({
-      ...queries.plp.plpBlockPickerBlocks(locale, slug),
+      ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
@@ -270,7 +279,7 @@ export { PlpPage, createPlpServerSideProps };
 function getValidFiltersFromFacetedNav(
   params: string[],
   query: Record<string, string | string[]>,
-): Record<string, string> | undefined {
+): Record<string, string[]> | undefined {
   const priceMin = query.priceMin?.toString();
   const priceMax = query.priceMax?.toString();
   const style = query.style?.toString();
@@ -295,27 +304,27 @@ function getValidFiltersFromFacetedNav(
     .filter(Boolean);
 
   const styleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => STYLE_SLUGS.includes(param),
   );
 
   // For when style is a param (not faceted)
   const styleFromQuery = style
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => STYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   // These are the same?
 
   const subStyleParamIndex = params.findIndex(
-    (param) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
+    (param) => SUBSTYLE_SLUGS.includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
   );
 
   // For when subStyle is a param (not faceted)
   const subStyleFromQuery = subStyle
     ?.toString()
     .split(',')
-    .map((styleString) => Object.keys(JEWELRY_SUB_CATEGORY_HUMAN_NAMES).find((key) => key === styleString))
+    .map((styleString) => SUBSTYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
 
   const facetOrder = [];

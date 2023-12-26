@@ -66,7 +66,7 @@ const ProductSuggestionBlock = ({ id }) => {
           const product = productNode?.product;
 
           return (
-            <div className="product-suggestion__container" key={product?.id}>
+            <div className="product-suggestion__container" key={product?._id}>
               <div className="product-suggestion__inner">
                 <ProductLink
                   productType={product?.productType}

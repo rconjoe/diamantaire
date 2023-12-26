@@ -1,3 +1,4 @@
+import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { AttributeInput } from 'shopify-buy';
 
 import { ERProductCartItemProps, JewelryCartItemProps, LooseDiamondCartItemProps } from './cart-item-types';
@@ -8,10 +9,11 @@ import {
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
+  ShopifyCartUpdateGiftNoteOperation,
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
 } from './cart-types';
-import { addToCartMutation, createCartMutation, editCartItemsMutation } from './mutations/cart';
+import { addToCartMutation, createCartMutation, editCartItemsMutation, updateGiftNoteMutation } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 
 // NEW
@@ -149,6 +151,7 @@ async function addToCart(
   cartId: string,
   lines: { merchandiseId: string; quantity: number; attributes?: AttributeInput[] }[],
 ): Promise<Cart> {
+  console.log('getttinggggg', lines);
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -190,7 +193,7 @@ export const addItemToCart = async (
   }
 };
 
-export function addJewelryProductToCart({ variantId, attributes }: JewelryCartItemProps) {
+export function addJewelryProductToCart({ variantId, attributes, engravingText, hasEngraving }: JewelryCartItemProps) {
   // shopify api won't ever take a product with an empty or null attribute value
   let refinedAttributes = Object.keys(attributes)
     .map((key) => {
@@ -206,6 +209,59 @@ export function addJewelryProductToCart({ variantId, attributes }: JewelryCartIt
   // This is where we apply productType specific logic
   if (productType !== 'Wedding Band') {
     refinedAttributes = refinedAttributes.filter((attr) => attr.key !== 'ringSize');
+  } else {
+    // Wedding bands with engravings cost $, other jewelry items with engravings are free
+    if (hasEngraving) {
+      const engravingVariantId = createShopifyVariantId(12459937759298);
+
+      // Add engraving text to setting attributes - in this case the engraving is the only child product
+      refinedAttributes.filter((attr) => attr.key !== 'engravingProduct');
+
+      refinedAttributes.push({
+        key: 'engravingProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      return addCustomizedItem([
+        {
+          variantId: variantId,
+          customAttributes: refinedAttributes,
+        },
+        {
+          variantId: engravingVariantId,
+          customAttributes: [
+            {
+              key: 'productAsset',
+              value: attributes.productAsset,
+            },
+            {
+              key: 'engravingText',
+              value: engravingText,
+            },
+            {
+              key: '_hiddenProduct',
+              value: 'true',
+            },
+            {
+              key: 'productGroupKey',
+              value: attributes.productGroupKey,
+            },
+            {
+              key: 'engravingProduct',
+              value: 'true',
+            },
+          ],
+        },
+      ]);
+    }
   }
 
   if (productType === 'Earrings') {
@@ -254,6 +310,14 @@ export function addJewelryProductToCart({ variantId, attributes }: JewelryCartIt
       //   return addCustomizedItem(items);
       console.log('items', items);
     }
+  }
+
+  // add engraving text to item for free
+  if (hasEngraving) {
+    refinedAttributes.push({
+      key: '_EngravingBack',
+      value: engravingText,
+    });
   }
 
   return addItemToCart(variantId, refinedAttributes);
@@ -361,10 +425,14 @@ export async function addERProductToCart({
   settingAttributes,
   diamondVariantId,
   diamondAttributes,
+  hasEngraving,
+  engravingText,
 }: ERProductCartItemProps) {
   console.log('getting attr', settingAttributes);
 
-  const refinedSettingAttributes = Object.keys(settingAttributes)
+  const engravingVariantId = createShopifyVariantId(12459937759298);
+
+  let refinedSettingAttributes = Object.keys(settingAttributes)
     .map((key) => {
       return {
         key,
@@ -375,7 +443,59 @@ export async function addERProductToCart({
 
   // If no custom diamond, add the setting
   if (!diamondVariantId) {
-    return await addItemToCart(settingVariantId, refinedSettingAttributes);
+    // If engraving, update the setting attributes + add the engraving variant
+    if (hasEngraving) {
+      // Add engraving text to setting attributes - in this case the engraving is the only child product
+      refinedSettingAttributes.filter((attr) => attr.key !== 'engravingProduct');
+
+      refinedSettingAttributes.push({
+        key: 'engravingProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedSettingAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      return addCustomizedItem([
+        {
+          variantId: settingVariantId,
+          customAttributes: refinedSettingAttributes,
+        },
+        {
+          variantId: engravingVariantId,
+          customAttributes: [
+            {
+              key: 'productAsset',
+              value: settingAttributes.productAsset,
+            },
+            {
+              key: 'engravingText',
+              value: engravingText,
+            },
+            {
+              key: '_hiddenProduct',
+              value: 'true',
+            },
+            {
+              key: 'productGroupKey',
+              value: settingAttributes.productGroupKey,
+            },
+            {
+              key: 'engravingProduct',
+              value: 'true',
+            },
+          ],
+        },
+      ]);
+    } else {
+      // Add Er with preset diamond and no engraving
+      return await addItemToCart(settingVariantId, refinedSettingAttributes);
+    }
   } else {
     // If there is a custom diamond, add the setting and the diamond
     const refinedDiamondAttributes = Object.keys(diamondAttributes)
@@ -387,9 +507,12 @@ export async function addERProductToCart({
       })
       .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    console.log('refinedDiamondAttributes', refinedDiamondAttributes);
+    // Remove centerstone + diamond shape from seting
+    refinedSettingAttributes = refinedSettingAttributes.filter(
+      (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
+    );
 
-    return addCustomizedItem([
+    const groupedItems = [
       {
         variantId: settingVariantId,
         customAttributes: refinedSettingAttributes,
@@ -398,7 +521,50 @@ export async function addERProductToCart({
         variantId: diamondVariantId,
         customAttributes: refinedDiamondAttributes,
       },
-    ]);
+    ];
+
+    if (hasEngraving) {
+      refinedSettingAttributes.push({
+        key: 'engravingProduct',
+        value: JSON.stringify({
+          behavior: 'linked',
+          additionalVariantIds: [engravingVariantId],
+        }),
+      });
+
+      refinedSettingAttributes.push({
+        key: '_EngravingBack',
+        value: engravingText,
+      });
+
+      groupedItems.push({
+        variantId: engravingVariantId,
+        customAttributes: [
+          {
+            key: 'productAsset',
+            value: settingAttributes.productAsset,
+          },
+          {
+            key: 'engravingText',
+            value: engravingText,
+          },
+          {
+            key: '_hiddenProduct',
+            value: 'true',
+          },
+          {
+            key: 'productGroupKey',
+            value: settingAttributes.productGroupKey,
+          },
+          {
+            key: 'engravingProduct',
+            value: 'true',
+          },
+        ],
+      });
+    }
+
+    return addCustomizedItem(groupedItems);
   }
 }
 
@@ -453,12 +619,42 @@ const addCustomizedItem = async (
     return refinedItems.push(newItem);
   });
 
+  console.log('refinedItems', refinedItems);
+
   try {
-    await addToCart(cartId, Array.from(refinedItems));
+    // Need to do it like this to maintain order in shopify checkout
+    refinedItems.map(async (item) => await addToCart(cartId, [item]));
   } catch (e) {
     console.log('Error adding customized item to cart', e);
   }
 };
+
+// Gift Note
+export async function updateGiftNote({ giftNote }: { giftNote: string }): Promise<Cart | string | undefined> {
+  try {
+    let cartId = localStorage.getItem('cartId');
+
+    if (!cartId) {
+      const cart = await createCart();
+
+      cartId = cart.id;
+      localStorage.setItem('cartId', cartId);
+    }
+
+    const res = await shopifyFetch<ShopifyCartUpdateGiftNoteOperation>({
+      query: updateGiftNoteMutation,
+      variables: {
+        cartId,
+        note: giftNote,
+      },
+      cache: 'no-store',
+    });
+
+    console.log('gift card res', res);
+  } catch (e) {
+    return 'Error updating gift note';
+  }
+}
 
 // Specific to GWP
 export async function toggleCartAddonProduct(variantId) {

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+nukefiles=(
+  "tmp/**/*"
+  "dist/**/*"
+  "node_modules/"
+)
+
+function restore() {
+  gum confirm "restore?" || exit 0
+  log_to_file "info" "restoring" "reactor"
+  log "info" "restoring"
+  gum spin -s meter --show-output --title "installing latest pnpm..." -- npm i -g pnpm@latest
+  gum spin -s meter --show-output --title "restoring dependencies..." -- pnpm i
+  gum spin -s meter --show-output --title "restoring build: server..." -- pnpm exec nx build server
+  gum spin -s meter --show-output --title "restoring build: darkside-main..." -- pnpm exec nx build darkside-main
+}
+
+function detonate() {
+  gum confirm "detonate?" || exit 0
+  log_to_file "info" "detonating" "reactor"
+  log "info" "detonating"
+  for file in "${nukefiles[@]}"; do
+    log "info" "detonating ${file}"
+    rm -rf "${file}"
+  done
+  restore
+}
+

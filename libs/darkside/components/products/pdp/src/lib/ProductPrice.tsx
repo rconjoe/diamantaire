@@ -1,6 +1,11 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { DEFAULT_LOCALE, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  DEFAULT_LOCALE,
+  ENGRAVEABLE_JEWELRY_SLUGS,
+  ENGRAVING_PRICE_CENTS,
+  getFormattedPrice,
+} from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -25,17 +30,32 @@ type ProductPriceProps = {
   price: number;
   shouldDoublePrice?: boolean;
   isBuilderProduct: boolean;
+  engravingText: string;
   productType?: string;
 };
 
-const ProductPrice = ({ shouldDoublePrice = false, price, isBuilderProduct, productType }: ProductPriceProps) => {
-  const { locale } = useRouter();
+const ProductPrice = ({
+  shouldDoublePrice = false,
+  price,
+  isBuilderProduct,
+  productType,
+  engravingText,
+}: ProductPriceProps) => {
+  const { locale, query } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const isInUS = locale === DEFAULT_LOCALE;
 
-  const refinedPrice = getFormattedPrice(productType === 'Earrings' && !shouldDoublePrice ? price / 2 : price, locale);
+  const doesProductQualifyForFreeEngraving =
+    ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
+
+  const refinedPrice = getFormattedPrice(
+    productType === 'Earrings' && !shouldDoublePrice
+      ? price / 2
+      : price + (engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving ? ENGRAVING_PRICE_CENTS : 0),
+    locale,
+  );
 
   const translatedText = _t('Starting at %%price%%');
 

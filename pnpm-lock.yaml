@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@clerk/nextjs':
-    specifier: ^4.25.5
+    specifier: ^4.25.6
     version: 4.25.6(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)
   '@datocms/cli':
     specifier: ^1.1.10
@@ -29,6 +29,9 @@ dependencies:
   '@nestjs/axios':
     specifier: ^3.0.0
     version: 3.0.0(@nestjs/common@10.2.7)(axios@1.5.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+  '@nestjs/cache-manager':
+    specifier: 2.1.1
+    version: 2.1.1(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)(cache-manager@5.3.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/common':
     specifier: 10.2.7
     version: 10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -59,6 +62,9 @@ dependencies:
   '@next/bundle-analyzer':
     specifier: ^13.5.4
     version: 13.5.6
+  '@next/font':
+    specifier: ^14.0.3
+    version: 14.0.3(next@13.5.6)
   '@next/third-parties':
     specifier: ^14.0.2
     version: 14.0.2(next@13.5.6)(react@18.2.0)
@@ -86,6 +92,12 @@ dependencies:
   '@tanstack/react-table':
     specifier: ^8.7.9
     version: 8.10.6(react-dom@18.2.0)(react@18.2.0)
+  '@types/cache-manager':
+    specifier: 4.0.6
+    version: 4.0.6
+  '@types/cache-manager-redis-store':
+    specifier: 2.0.4
+    version: 2.0.4
   '@types/react-slider':
     specifier: ^1.3.4
     version: 1.3.4
@@ -126,8 +138,14 @@ dependencies:
     specifier: ^2.19.5
     version: 2.19.5
   cache-manager:
-    specifier: ^5.1.6
-    version: 5.2.4
+    specifier: ^5.3.1
+    version: 5.3.1
+  cache-manager-redis-store:
+    specifier: 3.0.1
+    version: 3.0.1
+  cache-manager-redis-yet:
+    specifier: 4.1.2
+    version: 4.1.2
   class-transformer:
     specifier: ^0.5.1
     version: 0.5.1
@@ -149,6 +167,9 @@ dependencies:
   core-js:
     specifier: ^3.6.5
     version: 3.33.0
+  country-and-province:
+    specifier: ^2.0.0
+    version: 2.0.0
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
@@ -158,6 +179,9 @@ dependencies:
   effect:
     specifier: 2.0.0-next.50
     version: 2.0.0-next.50
+  email-validator:
+    specifier: ^2.0.4
+    version: 2.0.4
   embla-carousel-autoplay:
     specifier: 8.0.0-rc14
     version: 8.0.0-rc14(embla-carousel@8.0.0-rc14)
@@ -305,6 +329,9 @@ dependencies:
   react-tooltip:
     specifier: 5.21.5
     version: 5.21.5(react-dom@18.2.0)(react@18.2.0)
+  redis:
+    specifier: 5.0.0-next.4
+    version: 5.0.0-next.4
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
@@ -429,7 +456,7 @@ devDependencies:
     version: 7.4.0
   '@storybook/nextjs':
     specifier: ^7.0.22
-    version: 7.4.6(@swc/core@1.3.92)(@swc/helpers@0.5.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(esbuild@0.19.2)(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(webpack@5.88.2)
+    version: 7.4.6(@next/font@14.0.3)(@swc/core@1.3.92)(@swc/helpers@0.5.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(esbuild@0.19.2)(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(webpack@5.88.2)
   '@storybook/react-vite':
     specifier: 7.4.0
     version: 7.4.0(react-dom@18.2.0)(react@18.2.0)(rollup@2.79.1)(typescript@5.2.2)(vite@4.4.11)
@@ -571,6 +598,9 @@ devDependencies:
   nx:
     specifier: 16.8.1
     version: 16.8.1(@swc-node/register@1.6.8)(@swc/core@1.3.92)
+  nx-cloud:
+    specifier: ^16.5.2
+    version: 16.5.2
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -4443,6 +4473,22 @@ packages:
       rxjs: 7.8.1
     dev: false
 
+  /@nestjs/cache-manager@2.1.1(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)(cache-manager@5.3.1)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+    resolution: {integrity: sha512-oYfRys4Ng0zp2HTUPNjH7gizf4vvG3PQZZ+3yGemb3xrF+p3JxDSK0cDq9NTjHzD5UmhjiyAftB9GkuL+t3r9g==}
+    peerDependencies:
+      '@nestjs/common': ^9.0.0 || ^10.0.0
+      '@nestjs/core': ^9.0.0 || ^10.0.0
+      cache-manager: <=5
+      reflect-metadata: ^0.1.12
+      rxjs: ^7.0.0
+    dependencies:
+      '@nestjs/common': 10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 10.2.7(@nestjs/common@10.2.7)(@nestjs/platform-express@10.2.7)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      cache-manager: 5.3.1
+      reflect-metadata: 0.1.13
+      rxjs: 7.8.1
+    dev: false
+
   /@nestjs/common@10.2.7(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-cUtCRXiUstDmh4bSBhVbq4cI439Gngp4LgLGLBmd5dqFQodfXKnSD441ldYfFiLz4rbUsnoMJz/8ZjuIEI+B7A==}
     peerDependencies:
@@ -4769,6 +4815,13 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /@next/font@14.0.3(next@13.5.6):
+    resolution: {integrity: sha512-M96skA6j99ri/J9+BpoDOoO9ntadHUyX2CmwSzsLDm3fL3hgyPfskH6Kd92sz6H8cr7ZHV3xNkCTggFvnLdq2Q==}
+    peerDependencies:
+      next: '*'
+    dependencies:
+      next: 13.5.6(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
 
   /@next/swc-darwin-arm64@13.5.6:
     resolution: {integrity: sha512-5nvXMzKtZfvcu4BhtV0KH1oGv4XEW+B+jOfmBdpFI3C7FrB/MfujRpWYSBBO64+qbW8pkZiSyQv9eiwnn5VIQA==}
@@ -5135,6 +5188,14 @@ packages:
       - ts-node
       - typescript
       - verdaccio
+    dev: true
+
+  /@nrwl/nx-cloud@16.5.2:
+    resolution: {integrity: sha512-oHO5T1HRJsR9mbRd8eUqMBPCgqVZLSbAh3zJoPFmhEmjbM4YB9ePRpgYFT8dRNeZUOUd/8Yt7Pb6EVWOHvpD/w==}
+    dependencies:
+      nx-cloud: 16.5.2
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /@nrwl/nx-plugin@16.8.1(@swc-node/register@1.6.8)(@swc/core@1.3.92)(@types/node@18.14.2)(eslint@8.46.0)(nx@16.8.1)(ts-node@10.9.1)(typescript@5.2.2):
@@ -7297,6 +7358,103 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@redis/bloom@1.2.0(@redis/client@1.5.12):
+    resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.12
+    dev: false
+
+  /@redis/bloom@2.0.0-next.3(@redis/client@2.0.0-next.4):
+    resolution: {integrity: sha512-vUUWImXOH8BQ/DhGe0GysP1kIkbK0urgKojS9Cg52DWX3XHixigYPF2DSw+wG6CNHL8OnOCUs+mB4nXB6a3XwA==}
+    peerDependencies:
+      '@redis/client': ^2.0.0-next.4
+    dependencies:
+      '@redis/client': 2.0.0-next.4
+    dev: false
+
+  /@redis/client@1.5.12:
+    resolution: {integrity: sha512-/ZjE18HRzMd80eXIIUIPcH81UoZpwulbo8FmbElrjPqH0QC0SeIKu1BOU49bO5trM5g895kAjhvalt5h77q+4A==}
+    engines: {node: '>=14'}
+    dependencies:
+      cluster-key-slot: 1.1.2
+      generic-pool: 3.9.0
+      yallist: 4.0.0
+    dev: false
+
+  /@redis/client@2.0.0-next.4:
+    resolution: {integrity: sha512-LEiAE1N7VNePq92YrbydW+iRauzmRZQYLHj7SQPwn8RxVLMKU0rdkWuNg3ew4+PdJwsaEsOg1JHbk/XkjgLjUg==}
+    engines: {node: '>=14'}
+    dependencies:
+      cluster-key-slot: 1.1.2
+      generic-pool: 3.9.0
+    dev: false
+
+  /@redis/graph@1.1.1(@redis/client@1.5.12):
+    resolution: {integrity: sha512-FEMTcTHZozZciLRl6GiiIB4zGm5z5F3F6a6FZCyrfxdKOhFlGkiAqlexWMBzCi4DcRoyiOsuLfW+cjlGWyExOw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.12
+    dev: false
+
+  /@redis/graph@2.0.0-next.2(@redis/client@2.0.0-next.4):
+    resolution: {integrity: sha512-4iR+EV0co1nOSukJTiLKZmwuD2Zyo5STqg4Xb82jlQsiqpPCvtQLPxnhHR3dro1PFascTNKU3HqbExUnddxszg==}
+    peerDependencies:
+      '@redis/client': ^2.0.0-next.4
+    dependencies:
+      '@redis/client': 2.0.0-next.4
+    dev: false
+
+  /@redis/json@1.0.6(@redis/client@1.5.12):
+    resolution: {integrity: sha512-rcZO3bfQbm2zPRpqo82XbW8zg4G/w4W3tI7X8Mqleq9goQjAGLL7q/1n1ZX4dXEAmORVZ4s1+uKLaUOg7LrUhw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.12
+    dev: false
+
+  /@redis/json@2.0.0-next.2(@redis/client@2.0.0-next.4):
+    resolution: {integrity: sha512-3JKr7BVFsIWBnmDtkANB64r59lUfrLkfr43h/1iN5dPTCwOMsvlCGid91Aitwgp9a0LI+VHWpiPbAIEKyxtjAA==}
+    peerDependencies:
+      '@redis/client': ^2.0.0-next.4
+    dependencies:
+      '@redis/client': 2.0.0-next.4
+    dev: false
+
+  /@redis/search@1.1.6(@redis/client@1.5.12):
+    resolution: {integrity: sha512-mZXCxbTYKBQ3M2lZnEddwEAks0Kc7nauire8q20oA0oA/LoA+E/b5Y5KZn232ztPb1FkIGqo12vh3Lf+Vw5iTw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.12
+    dev: false
+
+  /@redis/search@2.0.0-next.2(@redis/client@2.0.0-next.4):
+    resolution: {integrity: sha512-A20csog7V7/RT9Ve9OK9NKn0mPX9oNoqYJsA9+k/3+N9InDfiyPUIwl/xVy1sKODH13zHbqOIng72X+AcMDZ/Q==}
+    peerDependencies:
+      '@redis/client': ^2.0.0-next.4
+    dependencies:
+      '@redis/client': 2.0.0-next.4
+    dev: false
+
+  /@redis/time-series@1.0.5(@redis/client@1.5.12):
+    resolution: {integrity: sha512-IFjIgTusQym2B5IZJG3XKr5llka7ey84fw/NOYqESP5WUfQs9zz1ww/9+qoz4ka/S6KcGBodzlCeZ5UImKbscg==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.5.12
+    dev: false
+
+  /@redis/time-series@2.0.0-next.2(@redis/client@2.0.0-next.4):
+    resolution: {integrity: sha512-I62IsbPDXt3WsLhPX9sloyKl2T9xH/Lo5WRwYS4/l2fqTJ/Q7tzH7Gq9MCIYQzImbQo4N4cmK/7quVF2LDFVVw==}
+    peerDependencies:
+      '@redis/client': ^2.0.0-next.4
+    dependencies:
+      '@redis/client': 2.0.0-next.4
+    dev: false
+
   /@remix-run/router@1.10.0:
     resolution: {integrity: sha512-Lm+fYpMfZoEucJ7cMxgt4dYt8jLfbpwRCzAjm9UgSLOkmlqo9gupxt6YX3DY0Fk155NT9l17d/ydi+964uS9Lw==}
     engines: {node: '>=14.0.0'}
@@ -9033,7 +9191,7 @@ packages:
     resolution: {integrity: sha512-TXJJd5RAKakWx4BtpwvSNdgTDkKM6RkXU8GK34S/LhidQ5Pjz3wcnqb0TxEkfhK/ztbP8nKHqXFwLfa2CYkvQw==}
     dev: true
 
-  /@storybook/nextjs@7.4.6(@swc/core@1.3.92)(@swc/helpers@0.5.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(esbuild@0.19.2)(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(webpack@5.88.2):
+  /@storybook/nextjs@7.4.6(@next/font@14.0.3)(@swc/core@1.3.92)(@swc/helpers@0.5.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(esbuild@0.19.2)(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(webpack@5.88.2):
     resolution: {integrity: sha512-9Xr0gKEXihxefn0ihDHOxlGyuPdiD4AsrhduNP63brbBaZmOEJZm1b/V9WulCFc8tE/Xu4o5ThUphhB8GFtdzw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -9066,6 +9224,7 @@ packages:
       '@babel/preset-react': 7.22.15(@babel/core@7.23.2)
       '@babel/preset-typescript': 7.23.2(@babel/core@7.23.2)
       '@babel/runtime': 7.23.2
+      '@next/font': 14.0.3(next@13.5.6)
       '@storybook/addon-actions': 7.4.6(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
       '@storybook/builder-webpack5': 7.4.6(@swc/helpers@0.5.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(esbuild@0.19.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)
       '@storybook/core-common': 7.4.6
@@ -10022,6 +10181,17 @@ packages:
       '@types/node': 18.14.2
     dev: true
 
+  /@types/cache-manager-redis-store@2.0.4:
+    resolution: {integrity: sha512-EG4ac1KsUr07uv6N/O0X1OaQBNVKShVUxn+GwJQQpUkTEi4+KJl6yvqfwc4uTPT1+pwfKRgQhCoHQQCd/ObkZQ==}
+    dependencies:
+      '@types/cache-manager': 4.0.6
+      '@types/redis': 2.8.32
+    dev: false
+
+  /@types/cache-manager@4.0.6:
+    resolution: {integrity: sha512-8qL93MF05/xrzFm/LSPtzNEOE1eQF3VwGHAcQEylgp5hDSTe41jtFwbSYAPfyYcVa28y1vYSjIt0c1fLLUiC/Q==}
+    dev: false
+
   /@types/cacheable-request@6.0.3:
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
     dependencies:
@@ -10406,6 +10576,12 @@ packages:
       '@types/prop-types': 15.7.8
       '@types/scheduler': 0.16.4
       csstype: 3.1.2
+
+  /@types/redis@2.8.32:
+    resolution: {integrity: sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==}
+    dependencies:
+      '@types/node': 18.14.2
+    dev: false
 
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -11769,6 +11945,16 @@ packages:
       - debug
     dev: false
 
+  /axios@1.1.3:
+    resolution: {integrity: sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==}
+    dependencies:
+      follow-redirects: 1.15.3(debug@4.3.4)
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: true
+
   /axios@1.5.1:
     resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
     dependencies:
@@ -12400,11 +12586,33 @@ packages:
       unique-filename: 3.0.0
     dev: false
 
-  /cache-manager@5.2.4:
-    resolution: {integrity: sha512-gkuCjug16NdGvKm/sydxGVx17uffrSWcEe2xraBtwRCgdYcFxwJAla4OYpASAZT2yhSoxgDiWL9XH6IAChcZJA==}
+  /cache-manager-redis-store@3.0.1:
+    resolution: {integrity: sha512-o560kw+dFqusC9lQJhcm6L2F2fMKobJ5af+FoR2PdnMVdpQ3f3Bz6qzvObTGyvoazQJxjQNWgMQeChP4vRTuXQ==}
+    engines: {node: '>= 16.18.0'}
+    dependencies:
+      redis: 4.6.11
+    dev: false
+
+  /cache-manager-redis-yet@4.1.2:
+    resolution: {integrity: sha512-pM2K1ZlOv8gQpE1Z5mcDrfLj5CsNKVRiYua/SZ12j7LEDgfDeFVntI6JSgIw0siFSR/9P/FpG30scI3frHwibA==}
+    engines: {node: '>= 16.17.0'}
+    dependencies:
+      '@redis/bloom': 1.2.0(@redis/client@1.5.12)
+      '@redis/client': 1.5.12
+      '@redis/graph': 1.1.1(@redis/client@1.5.12)
+      '@redis/json': 1.0.6(@redis/client@1.5.12)
+      '@redis/search': 1.1.6(@redis/client@1.5.12)
+      '@redis/time-series': 1.0.5(@redis/client@1.5.12)
+      cache-manager: 5.3.1
+      redis: 4.6.11
+    dev: false
+
+  /cache-manager@5.3.1:
+    resolution: {integrity: sha512-9HP6nc1ZqyZgcVEpy5XS2ns9MYE6cPEM6InA1wQhR6M7GviJzLH2NTFYnf3NEfRmLE351NCSkDo2VISX8dlG+w==}
     dependencies:
       lodash.clonedeep: 4.5.0
-      lru-cache: 10.0.1
+      lru-cache: 10.1.0
+      promise-coalesce: 1.1.1
     dev: false
 
   /cacheable-lookup@5.0.4:
@@ -12771,6 +12979,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /cluster-key-slot@1.1.2:
+    resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
@@ -13127,6 +13340,17 @@ packages:
       path-type: 4.0.0
       typescript: 5.2.2
     dev: true
+
+  /country-and-province@2.0.0:
+    resolution: {integrity: sha512-lHtLyasxj8gm+KyV2XKP9l8qTzv8msVHwCtrtz2MT8xd8jiCjc4VfYh87JrBEuJCUWnA0NaYSobPuZygGQOMJw==}
+    dependencies:
+      country-list: 2.3.0
+      provinces: 1.11.0
+    dev: false
+
+  /country-list@2.3.0:
+    resolution: {integrity: sha512-qZk66RlmQm7fQjMYWku1AyjlKPogjPEorAZJG88owPExoPV8EsyCcuFLvO2afTXHEhi9liVOoyd+5A6ZS5QwaA==}
+    dev: false
 
   /create-ecdh@4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
@@ -14078,6 +14302,11 @@ packages:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
 
+  /dotenv@10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
+    dev: true
+
   /dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
@@ -14146,6 +14375,11 @@ packages:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
     dev: true
+
+  /email-validator@2.0.4:
+    resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
+    engines: {node: '>4.0'}
+    dev: false
 
   /embla-carousel-autoplay@8.0.0-rc14(embla-carousel@8.0.0-rc14):
     resolution: {integrity: sha512-ey3MFD6Lti8sAO/bHLvdl+LO19U77SpYVIZP5rsPqFpnRac7bjZt9cSZ5udw9adniN0ckeRe+0y5wy+AYmzQsw==}
@@ -15942,6 +16176,11 @@ packages:
     resolution: {integrity: sha512-H7cUpwCQSiJmAHM4c/aFu6fUfrhWXW1ncyh8ftxEPMu6AiYkHw9K8br720TGPZJbk5eOH2bynjZD1yPvdDAmag==}
     engines: {node: '>= 4'}
     dev: true
+
+  /generic-pool@3.9.0:
+    resolution: {integrity: sha512-hymDOu5B53XvN4QT9dBmZxPX4CWhBPPLguTZ9MMFeFa/Kg0xWVfylOVNlJji/E7yTZWFd/q9GO5TxDLq156D7g==}
+    engines: {node: '>= 4'}
+    dev: false
 
   /gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -18322,6 +18561,11 @@ packages:
     resolution: {integrity: sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==}
     engines: {node: 14 || >=16.14}
 
+  /lru-cache@10.1.0:
+    resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
+    engines: {node: 14 || >=16.14}
+    dev: false
+
   /lru-cache@4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
     dependencies:
@@ -19251,6 +19495,24 @@ packages:
 
   /nwsapi@2.2.7:
     resolution: {integrity: sha512-ub5E4+FBPKwAZx0UwIQOjYWGHTEq5sPqHQNRN8Z9e4A7u3Tj1weLJsL59yH9vmvqEtBHaOmT6cYQKIZOxp35FQ==}
+    dev: true
+
+  /nx-cloud@16.5.2:
+    resolution: {integrity: sha512-1t1Ii9gojl8r/8hFGaZ/ZyYR0Cb0hzvXLCsaFuvg+EJEFdvua3P4cfNya/0bdRrm+7Eb/ITUOskbvYq4TSlyGg==}
+    hasBin: true
+    dependencies:
+      '@nrwl/nx-cloud': 16.5.2
+      axios: 1.1.3
+      chalk: 4.1.2
+      dotenv: 10.0.0
+      fs-extra: 11.1.1
+      node-machine-id: 1.1.12
+      open: 8.4.2
+      strip-json-comments: 3.1.1
+      tar: 6.1.11
+      yargs-parser: 21.1.1
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /nx-remotecache-custom@4.2.1(@nx/workspace@16.8.1):
@@ -20897,6 +21159,11 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: false
 
+  /promise-coalesce@1.1.1:
+    resolution: {integrity: sha512-k7+VaIwZc5dRfSF6RELqRY1+LCmcCkrnuNV9HzIpA6iwRHKke+j9yb0LBTTHQ2RRgf6AlMl9TntuTzcgV/BZwg==}
+    engines: {node: '>=18'}
+    dev: false
+
   /promise-retry@2.0.1:
     resolution: {integrity: sha512-y+WKFlBR8BGXnsNlIHFGPZmyDf3DFMoLhaflAnyZgV6rG6xu+JwesTo2Q9R6XwYmtmwAFCkAk3e35jEdoeh/3g==}
     engines: {node: '>=10'}
@@ -20934,6 +21201,10 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  /provinces@1.11.0:
+    resolution: {integrity: sha512-5hoDYWtKr89stoSVajofU1rFGKzB2wpUqJJfnldokWfLUnLamQK9PnA8svh2j3XOYdb8BI2vbU4q3DtEcdNQ9w==}
+    dev: false
 
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -21582,6 +21853,28 @@ packages:
     resolution: {integrity: sha512-FNpGGo1DycYAdnrKFxCMmKYgo/mILAqtRYbkdQD8Ep/Hk2PQ5+aEAEx+IU713RTDmuBaH0c8P5ZozurNu5ObRQ==}
     dependencies:
       esprima: 4.0.1
+    dev: false
+
+  /redis@4.6.11:
+    resolution: {integrity: sha512-kg1Lt4NZLYkAjPOj/WcyIGWfZfnyfKo1Wg9YKVSlzhFwxpFIl3LYI8BWy1Ab963LLDsTz2+OwdsesHKljB3WMQ==}
+    dependencies:
+      '@redis/bloom': 1.2.0(@redis/client@1.5.12)
+      '@redis/client': 1.5.12
+      '@redis/graph': 1.1.1(@redis/client@1.5.12)
+      '@redis/json': 1.0.6(@redis/client@1.5.12)
+      '@redis/search': 1.1.6(@redis/client@1.5.12)
+      '@redis/time-series': 1.0.5(@redis/client@1.5.12)
+    dev: false
+
+  /redis@5.0.0-next.4:
+    resolution: {integrity: sha512-qwWARXSKfHLcDu7wTKLwghST97bIIbO0uiu7pxLaWl0jABiimF8pI7DC64p/XagwPsOkkUctv66ax7N6eE0SwQ==}
+    dependencies:
+      '@redis/bloom': 2.0.0-next.3(@redis/client@2.0.0-next.4)
+      '@redis/client': 2.0.0-next.4
+      '@redis/graph': 2.0.0-next.2(@redis/client@2.0.0-next.4)
+      '@redis/json': 2.0.0-next.2(@redis/client@2.0.0-next.4)
+      '@redis/search': 2.0.0-next.2(@redis/client@2.0.0-next.4)
+      '@redis/time-series': 2.0.0-next.2(@redis/client@2.0.0-next.4)
     dev: false
 
   /reflect-metadata@0.1.13:
@@ -23102,6 +23395,18 @@ packages:
       mkdirp: 0.5.6
       safe-buffer: 5.2.1
       yallist: 3.1.1
+    dev: true
+
+  /tar@6.1.11:
+    resolution: {integrity: sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==}
+    engines: {node: '>= 10'}
+    dependencies:
+      chownr: 2.0.0
+      fs-minipass: 2.1.0
+      minipass: 3.3.6
+      minizlib: 2.1.2
+      mkdirp: 1.0.4
+      yallist: 4.0.0
     dev: true
 
   /tar@6.2.0:

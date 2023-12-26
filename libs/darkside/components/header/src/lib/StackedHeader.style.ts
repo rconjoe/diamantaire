@@ -77,7 +77,7 @@ export const StackedHeaderStylesContainer = styled.div`
 
           .language-icon {
             display: inline-block;
-            transform: translateY(-0.2rem) rotate(180deg);
+            transform: rotate(180deg);
             padding: 0 0.7rem;
 
             &.active {

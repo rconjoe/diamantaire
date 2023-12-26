@@ -1,4 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
+import { DatoImageType } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 import { ProductIconListDataTypes } from '../products/use-product-icons';
@@ -26,14 +27,7 @@ export interface CtoDiamondPromoBlock {
   headingAdditionalClass: string;
   copy: string;
   shouldLazyLoad: boolean;
-  media: {
-    url: string;
-    alt: string;
-    video: {
-      streamingUrl: string;
-      thumbnailUrl: string;
-    };
-  };
+  media: DatoImageType;
   supportedCountries: {
     code: string;
     name: string;
@@ -103,6 +97,8 @@ interface CtoDiamondTable {
   caratWeightCopy: string;
   caratDetails: string;
   clarityDetails: string;
+  clarityDetailsVvsLg: string;
+  clarityDetailsVvsSm: string;
   cutDetails: string;
   cutDetailsRoundBrilliant: string;
   colorDetails: string;

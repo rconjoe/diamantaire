@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
-import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AttributeInput } from 'shopify-buy';
 import styled from 'styled-components';
 
+import CartDiamondCertificate from './CartCertificate';
 import { CartItem } from '../types';
 
 const SingleVariantCartItemStyles = styled.div`
@@ -38,8 +39,6 @@ const SingleVariantCartItemStyles = styled.div`
       }
     }
 
-    .cart-item__title {
-    }
     .cart-item__price {
       flex: 1;
       text-align: right;
@@ -60,16 +59,27 @@ const SingleVariantCartItemStyles = styled.div`
       flex: 1;
       p {
         margin: 0 0 0.5rem;
-        font-size: 1.5rem;
+        font-size: var(--font-size-xsmall);
         display: flex;
 
         &.setting-text {
           font-weight: bold;
           color: var(--color-black);
+          span {
+            flex: 1;
+            text-align: right;
+          }
         }
 
         &.shape {
           text-transform: capitalize;
+        }
+
+        &.engraving {
+          span {
+            font-weight: bold;
+            font-style: italic;
+          }
         }
 
         &:last-child {
@@ -77,8 +87,7 @@ const SingleVariantCartItemStyles = styled.div`
         }
 
         span {
-          flex: 1;
-          text-align: right;
+          margin-left: 0.5rem;
         }
       }
     }
@@ -90,9 +99,11 @@ const SingleVariantCartItem = ({
   info,
   updateItemQuantity,
   cartItemDetails,
+  certificate,
 }: {
   item: CartItem;
   info: any;
+  certificate: CartCertProps;
   cartItemDetails: { [key: string]: string }[];
   updateItemQuantity: ({
     lineId,
@@ -120,7 +131,7 @@ const SingleVariantCartItem = ({
   const [refinedCartItemDetails, setRefinedCartItemDetails] = useState<{ [key: string]: string }[] | null>(null);
 
   const image = useMemo(() => {
-    const matchingAttribute = attributes?.filter((attr) => attr.key === 'productAsset')?.[0];
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_productAssetObject')?.[0];
 
     return matchingAttribute ? JSON.parse(matchingAttribute.value) : null;
   }, [attributes]);
@@ -159,6 +170,12 @@ const SingleVariantCartItem = ({
     return matchingAttribute;
   }, [attributes]);
 
+  const engraving = useMemo(() => {
+    const matchingAttribute = attributes?.filter((attr) => attr.key === '_EngravingBack')?.[0]?.value;
+
+    return matchingAttribute;
+  }, [attributes]);
+
   const itemAttributes = useMemo(() => {
     const initAttributes = [
       {
@@ -188,12 +205,16 @@ const SingleVariantCartItem = ({
       },
       // no label for band accent
       {
-        label: '',
+        label: _t('band'),
         value: info?.bandAccent,
       },
       {
         label: refinedCartItemDetails?.['ringSize'],
         value: info?.ringSize,
+      },
+      {
+        label: _t('Engraving'),
+        value: engraving,
       },
     ];
 
@@ -294,7 +315,8 @@ const SingleVariantCartItem = ({
         </div>
         <div className="cart-item__title">
           <Heading type="h4" className="primary no-margin">
-            single --- {productTitle}
+            {process.env.NODE_ENV === 'development' && 'single --- '}
+            {productTitle}
           </Heading>
         </div>
         <div className="cart-item__price">{totalPrice && <p>{getFormattedPrice(totalPrice, locale)}</p>}</div>
@@ -310,12 +332,13 @@ const SingleVariantCartItem = ({
 
             return (
               <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} {specItem.value}
+                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
               </p>
             );
           })}
         </div>
       </div>
+      {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
     </SingleVariantCartItemStyles>
   );
 };

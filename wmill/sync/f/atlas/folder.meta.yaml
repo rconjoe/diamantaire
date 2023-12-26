@@ -1,7 +1,0 @@
-display_name: atlas
-extra_perms:
-  g/all: true
-  u/jcarlton: true
-owners:
-  - u/jcarlton
-  - g/all

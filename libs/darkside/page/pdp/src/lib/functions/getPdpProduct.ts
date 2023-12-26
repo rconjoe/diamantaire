@@ -14,6 +14,8 @@ export default async function getPdpProduct(options: GetPdpProductOptions, res: 
   let response;
   const reqUrl = `/v1/products?${qParams}`;
 
+  console.log('reqUrl', reqUrl);
+
   try {
     response = await vraiApiClient.get(reqUrl);
   } catch (error) {

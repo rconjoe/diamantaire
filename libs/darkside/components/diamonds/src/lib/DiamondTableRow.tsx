@@ -6,7 +6,6 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
-import { updateUrlParameter } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
@@ -24,17 +23,21 @@ const DiamondTableRow = ({
   product,
   locale,
   isBuilderFlowOpen = false,
+  settingSlugs,
 }: {
   product?: DiamondDataTypes;
   locale: string;
   isBuilderFlowOpen?: boolean;
+  settingSlugs?: {
+    [key: string]: string;
+  };
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
   const { data: checkout } = useCartData(locale);
 
-  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const { updateFlowData } = useContext(BuilderProductContext);
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
@@ -47,6 +50,8 @@ const DiamondTableRow = ({
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
+
+  const { builderProduct } = useContext(BuilderProductContext);
 
   const ToastErrorStyles = styled.div`
     p {
@@ -87,13 +92,29 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    updateUrlParameter('lotId', product.lotId);
-    updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
+    updateFlowData('ADD_DIAMOND', product);
+    if (router.query.flowType === 'setting-to-diamond') {
+      console.log('builderProduct drow', builderProduct);
+      console.log('settingSlugs drow', settingSlugs);
+
+      updateFlowData('UPDATE_STEP', { step: 'review-build' });
+      router.push(
+        `/customize/setting-to-diamond/summary/${`/${
+          settingSlugs?.collectionSlug || builderProduct?.product?.collectionSlug
+        }/${settingSlugs?.productSlug || builderProduct?.product?.productSlug}`}/${product?.lotId}`,
+      );
+    } else {
+      updateFlowData('UPDATE_STEP', { step: 'review-build' });
+      router.push(
+        `/customize/diamond-to-setting/${router.asPath.includes('/summary/') ? '/summary/' : ''}${product.lotId}${
+          builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''
+        }`,
+      );
+    }
   };
 
   const handleInitBuilderFlow = () => {
     handleSelectDiamond();
-    router.push(`/customize?lotId=${product.lotId}`);
   };
 
   const handlePurchase = () => {

@@ -149,3 +149,5 @@ docs/apps/darkside/main
 .nvrc
 .nvmrc
 .vercel
+# Sentry Config File
+.sentryclirc

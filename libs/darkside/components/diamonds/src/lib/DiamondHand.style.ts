@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
 const StyledDiamondHand = styled.div`
+  position: relative;
+  aspect-ratio: 1/1;
+
   .media {
     position: relative;
+    aspect-ratio: 1/1;
   }
 
   .slider {
@@ -33,14 +37,13 @@ const StyledDiamondHand = styled.div`
     display: block;
     aspect-ratio: 1/1;
     position: relative;
-    max-height: 582px;
     margin: 0 auto;
   }
 
   .image-diamond {
     position: absolute;
     top: 58%;
-    left: 22.5%;
+    left: 20.5%;
     display: flex;
     align-items: center;
     justify-content: center;

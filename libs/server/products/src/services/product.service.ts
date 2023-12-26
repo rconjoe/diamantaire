@@ -27,6 +27,7 @@ import {
   sortMetalTypes,
   sortDiamondTypes,
 } from '@diamantaire/shared-product';
+import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager';
 import {
   BadGatewayException,
   HttpStatus,
@@ -34,6 +35,7 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
+  Inject
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
@@ -49,11 +51,12 @@ import {
   optionTypesComparators,
   getDraftQuery,
 } from '../helper/product.helper';
-import { ProductVariantPDPData, OptionsConfigurations, PLPResponse } from '../interface/product.interface';
+import { OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const PRODUCT_DATA_TTL = 3600;
+const TTL_HOURS = 48;
+const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
 export class ProductsService {
@@ -62,6 +65,7 @@ export class ProductsService {
   constructor(
     private readonly productRepository: ProductRepository,
     private readonly utils: UtilService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager:CacheStore
   ) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
@@ -77,6 +81,7 @@ export class ProductsService {
    */
 
   async findProducts(input: PaginateFilterDto): Promise<ProductEntity> {
+
     const options: PaginateOptions = {
       limit: input.limit || 30,
       page: input.page || 1,
@@ -186,25 +191,33 @@ export class ProductsService {
     ];
 
     const { allConfigurations, allOmegaProducts } = await this.getDatoContent<
-      { allConfigurations: object[]; allOmegaProducts: object[] },
+      { allConfigurations: any[]; allOmegaProducts: any[] },
       { productHandles: string[]; variantIds: string[]; locale: string }
     >({
       query: PRODUCT_BRIEF_CONTENT,
       variables: {
         productHandles: nonJewelryProducts.map((p) => p.contentId),
         variantIds: jewelryProducts.map((p) => p.contentId),
-        locale,
+        locale: getDatoRequestLocale(locale),
       },
     });
 
     const productContent = [...allConfigurations, ...allOmegaProducts];
 
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
+      const content = productContent.find(
+        (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
+      )
+
+      if (content) {
+        content['productTitle'] = content?.jewelryProduct?.productTitle || content?.collection?.productTitle;
+        delete content.jewelryProduct;
+        delete content.collection;
+      }
+
       map[product.productSlug] = {
         product,
-        content: productContent.find(
-          (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
-        ),
+        content,
       };
 
       return map;
@@ -270,7 +283,7 @@ export class ProductsService {
       // create unique cacheKey for each prodyct variant
       const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
       // check for cached data
-      const cachedData = await this.utils.memGet<ProductVariantPDPData>(cachedKey);
+      const cachedData = await this.cacheManager.get(cachedKey);
 
       if (cachedData) {
         this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
@@ -367,7 +380,7 @@ export class ProductsService {
         };
 
         //await this.cacheService.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
-        this.utils.memSet(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
+        this.cacheManager.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
 
         return pdpProductData;
       } else {
@@ -694,36 +707,29 @@ export class ProductsService {
    * @returns Array of plp products and page content
    */
 
-  async findPlpData({
-    slug,
-    category,
-    locale = 'en_US',
-    metals,
-    diamondTypes,
-    priceMin,
-    priceMax,
-    styles,
-    subStyles,
-    page,
-    limit,
-    sortBy,
-    sortOrder,
-  }: PlpQuery) {
-    const cachedKey = `plp-${category}-${slug}-${locale}-${JSON.stringify({
+  async findPlpData(query: PlpQuery) {
+    
+    const {
+      slug,
+      category,
+      locale = 'en_US',
       metals,
       diamondTypes,
       priceMin,
       priceMax,
-      page,
-      limit,
       styles,
       subStyles,
+      page,
+      limit,
       sortBy,
       sortOrder,
-    })}`;
+    } = query;
+  
+    const cachedKey = `plp-${category}-${slug}-${locale}-${this.generateQueryCacheKey(query)}`;
+    
     let plpReturnData;
     // check for cached data
-    const cachedData = await this.utils.memGet(cachedKey);
+    const cachedData = await this.cacheManager.get(cachedKey);
 
     if (cachedData) {
       this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
@@ -739,31 +745,38 @@ export class ProductsService {
         throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
       }
 
-      const { configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
+      const { bestSellersInOrder, configurationsInOrder, productsInOrder, collectionsInOrder } = plpContent.listPage;
 
       // PLP merchandized by collection.  Currently only supports engagement rings
       if (collectionsInOrder.length > 0) {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
-        plpReturnData = this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
           metals,
           diamondTypes,
           page,
           limit,
         });
 
-        this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
+        this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
 
         return plpReturnData;
       }
 
       // Need to support both productsInOrder and ConfigurationsInOrder
-      const productList = productsInOrder.length ? productsInOrder : configurationsInOrder;
+      let productList = configurationsInOrder;
+      
+      if (productsInOrder.length){
+        productList = productsInOrder;
+      } 
+      if(bestSellersInOrder.length){
+        productList = bestSellersInOrder;
+      }
 
       const contentIdsInOrder: string[] = [];
       let plpProductsContentData;
 
-      if (configurationsInOrder || productsInOrder) {
+      if (configurationsInOrder || productsInOrder || bestSellersInOrder) {
         plpProductsContentData = productList.reduce((data, item) => {
           let contentId: string, content: object;
 
@@ -898,9 +911,12 @@ export class ProductsService {
         const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
           await Promise.all(filterValueQueries);
 
+        // split joined types to be individual types and remove duplicates
+        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
+
         availableFilters = {
           metal: availableMetals.sort(sortMetalTypes),
-          diamondType: availableDiamondTypes.sort(sortDiamondTypes),
+          diamondType: explodedDiamondTypes.sort(sortDiamondTypes),
           price: [Math.min(...priceValues), Math.max(...priceValues)],
           styles: availableStyles,
           subStyles: availableSubStyles,
@@ -1085,7 +1101,8 @@ export class ProductsService {
         paginator,
       };
 
-      this.utils.memSet(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
+      this.logger.verbose(`PLP :: cache set on key ${cachedKey}`);
+      this.cacheManager.set(cachedKey, plpReturnData, PRODUCT_DATA_TTL);
 
       return plpReturnData;
     } catch (error: any) {
@@ -1109,8 +1126,8 @@ export class ProductsService {
   ) {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
-    const diamondTypesQueryValues = diamondTypes.length > 1 ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
-    const metalsQueryValues = metals?.length > 1 ? metals : ['yellow-gold'];
+    const diamondTypesQueryValues = diamondTypes?.length ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const metalsQueryValues = metals?.length ? metals : ['yellow-gold'];
 
     try {
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(
@@ -1136,7 +1153,7 @@ export class ProductsService {
           {
             $addFields: {
               __caratWeightOrder: {
-                $indexOfArray: [['other', '0.25ct', '0.5ct', '1ct', '1.5ct', '2ct'], '$configuration.caratWeight'],
+                $indexOfArray: [['other', '0.25ct', '0.5ct', '1.0ct', '1.5ct', '2.0ct'], '$configuration.caratWeight'],
               },
             },
           },
@@ -1750,6 +1767,19 @@ export class ProductsService {
       throw new InternalServerErrorException(`Error retrieving option configs for collection: ${collectionSlug}`, e);
     }
   }
+
+  generateQueryCacheKey(query: Record<string, unknown>) {
+    return Object.entries(query)
+      .filter(([,v])=> {
+        if (Array.isArray(v)) {
+          return v.length > 0;
+        } else {
+          return typeof v !== 'undefined';
+        }
+      })
+      .map(([k,v]) => `${k}=${v}`)
+      .flat().sort().join('-');
+  }
 }
 
 type PlpQuery = {
@@ -1772,7 +1802,12 @@ type PlpFilters = {
 }
 
 function getDatoRequestLocale(locale = 'en_US'): string {
+  const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
   const language = locale.split('-')[0];
+
+  if (!validDatoLocales.includes(locale)) {
+    return 'en_US';
+  }
 
   if (language === 'en') {
     return 'en_US';

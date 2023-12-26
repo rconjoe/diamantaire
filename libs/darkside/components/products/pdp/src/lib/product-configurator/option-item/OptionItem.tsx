@@ -79,6 +79,9 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'bandAccent': {
       return BandAccentStyleOptionItem;
     }
+    case 'value': {
+      return ValueOptionItem;
+    }
     default: {
       return BasicOptionItem;
     }
@@ -127,10 +130,9 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  
   const DiamondIcon = diamondIconsMap[value]?.icon;
 
-  if(!DiamondIcon) {
+  if (!DiamondIcon) {
     return null;
   }
 
@@ -255,6 +257,15 @@ export function SideStoneCaratWeightOptionItem(props: OptionItemComponent) {
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
 
+// Hardcoded $ sign unless we start offering other currencies
+export function ValueOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
+  return (
+    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
+      ${value}
+    </StyledBasicOptionItem>
+  );
+}
+
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 0.1rem solid #d8d6d1;
   padding: 0.5rem;
@@ -281,10 +292,13 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
       Droid Sans,
       Helvetica Neue,
       sans-serif;
-    font-size: 9px;
     position: relative;
-    top: 0px;
     margin: 0 3px;
+    width: 7px;
+    height: 1px;
+    background: #000;
+    display: inline-block;
+    top: -3px;
   }
 `;
 

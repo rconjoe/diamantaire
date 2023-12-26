@@ -1,6 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData, useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -8,7 +8,6 @@ import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@ta
 import clsx from 'clsx';
 import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import DiamondGrid from './DiamondGrid';
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
 import { StyledDiamondTable } from './DiamondTable.style';
 import DiamondTableCfyPromoCard from './DiamondTableCfyPromoCard';
@@ -39,9 +38,11 @@ type DiamondTableProps = {
   clearOptions: () => void;
   isBuilderFlowOpen?: boolean;
   isTableView?: boolean;
-  flowIndex?: number;
   ranges: Record<string, any>;
   isDiamondPairs?: boolean;
+  settingSlugs?: {
+    [key: string]: string;
+  };
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
@@ -55,14 +56,14 @@ const DiamondTable = (props: DiamondTableProps) => {
     clearOptions,
     isBuilderFlowOpen,
     isTableView = true,
-    flowIndex,
     isDiamondPairs,
+    settingSlugs,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
-
+  const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
 
   // PAGINATION;
@@ -121,7 +122,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
           const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
 
-          return <UIString>{diamondTypeHandle}</UIString>;
+          return _diamondType(diamondTypeHandle);
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -249,7 +250,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   // TABLE
   const table = useReactTable<DiamondDataTypes | DiamondPairDataTypes>({
     columns: isDiamondPairs ? diamondPairColumns : singleDiamondColumns,
-    data: flatDiamonds ?? initialDiamonds,
+    data: flatDiamonds ?? (initialDiamonds || []),
     getCoreRowModel: getCoreRowModel(),
     state: { pagination },
   });
@@ -432,7 +433,12 @@ const DiamondTable = (props: DiamondTableProps) => {
                       {isDiamondPairs ? (
                         <DiamondPairActiveRow isBuilderFlowOpen={isBuilderFlowOpen} diamonds={diamonds} locale={locale} />
                       ) : (
-                        <DiamondTableRow isBuilderFlowOpen={isBuilderFlowOpen} product={row?.original} locale={locale} />
+                        <DiamondTableRow
+                          isBuilderFlowOpen={isBuilderFlowOpen}
+                          product={row?.original}
+                          locale={locale}
+                          settingSlugs={settingSlugs}
+                        />
                       )}
                     </div>
                   )}
@@ -483,7 +489,8 @@ const DiamondTable = (props: DiamondTableProps) => {
       </div>
     </StyledDiamondTable>
   ) : (
-    <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
+    ''
+    // <DiamondGrid items={initialDiamonds} flowIndex={flowIndex} />
   );
 };
 

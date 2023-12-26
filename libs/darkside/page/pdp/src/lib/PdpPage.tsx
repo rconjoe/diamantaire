@@ -21,6 +21,7 @@ import { useProduct, useProductDato, useProductVariant, useTranslations } from '
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
+  ENGAGEMENT_RING_PRODUCT_TYPE,
   jewelryTypes,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
@@ -39,7 +40,7 @@ import ProductReviews from './pdp-blocks/ProductReviews';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
-interface PdpPageParams extends ParsedUrlQuery {
+export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
   productSlug: string;
 }
@@ -69,7 +70,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
 
-  // console.log('datoParentProductData', datoParentProductData);
+  console.log('shopifyProductData', shopifyProductData);
 
   const {
     // ER + WB SEO
@@ -101,7 +102,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price, contentId } = shopifyProductData;
+  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
 
@@ -110,8 +111,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const shopifyHandle = productContent?.shopifyProductHandle;
 
   let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
-
-  // console.log('init additionalVariantData', additionalVariantData);
 
   // Fallback for Jewelry Products
   if (!additionalVariantData) {
@@ -130,11 +129,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
-  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData.caratWeightOverride) {
-    if (additionalVariantData.caratWeightOverride) {
+  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
+    if (additionalVariantData?.caratWeightOverride) {
       additionalVariantData.carat = additionalVariantData.caratWeightOverride;
     } else {
-      additionalVariantData.carat = datoParentProductData?.caratWeight;
+      additionalVariantData.carat = datoParentProductData?.caratWeight || '';
     }
   } else {
     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
@@ -154,7 +153,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   };
 
   // Can this product be added directly to cart?
-  const isBuilderProduct = configuration.caratWeight === 'other' || !configuration.caratWeight;
+  // console.log('shopifyProductData', shopifyProductData);
+  const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
 
   const parentProductAttributes = {
     bandWidth,
@@ -209,12 +209,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.productType.toLowerCase() === 'earrings' || null,
   );
 
+  // Engraving
+  const [engravingText, setEngravingText] = useState(null);
+
   // Tracks previously viewed products in local storage
   useEffect(() => {
-    if (!productTitle || !contentId) return;
+    if (!productTitle || !shopifyProductData?.contentId) return;
 
-    fetchAndTrackPreviouslyViewed(productTitle, contentId);
-  }, [productTitle, contentId]);
+    fetchAndTrackPreviouslyViewed(productTitle, shopifyProductData?.contentId);
+  }, [productTitle, shopifyProductData?.contentId]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
@@ -257,7 +260,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration.diamondType}
             />
-            <MediaSlider assets={assetStack} />
+            <MediaSlider
+              assets={assetStack}
+              options={configuration}
+              diamondType={configuration.diamondType}
+              shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+            />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
           <div className="info-container">
@@ -274,6 +282,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 price={price}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
+                engravingText={engravingText}
               />
               <ProductConfigurator
                 configurations={configurations}
@@ -298,6 +307,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isSoldAsLeftRight={shopifyProductData?.isSoldAsLeftRight}
                 variants={shopifyProductData?.variants}
                 requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
+                engravingText={engravingText}
+                setEngravingText={setEngravingText}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
@@ -381,12 +392,20 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
+  contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+  const mergedContext = {
+    ...context,
+    params: {
+      ...context.params,
+      ...(contextOverride?.params || {}),
+    },
+  };
 
-  const { params, locale } = context;
+  const { params, locale } = mergedContext;
 
-  const { collectionSlug, productSlug } = context.params;
+  const { collectionSlug, productSlug } = mergedContext.params;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 

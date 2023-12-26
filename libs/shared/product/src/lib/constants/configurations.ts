@@ -33,7 +33,7 @@ export const sideStoneShapeValues = [
   'trillion',
 ] as const;
 export const goldPurityValues = ['14k', '18k'] as const;
-export const bandAccentValues = ['plain', 'pave', 'double-pave', 'double-pave-twisted', 'pave-twisted'] as const;
+export const bandAccentValues = ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'] as const;
 export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver'] as const;
 export const plpMetalValues = ['yellow-gold', 'rose-gold', 'white-gold', 'platinum', 'sterling-silver'] as const;
 export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
@@ -51,9 +51,16 @@ export const plpDiamondValues = [
   'cushion',
   'pear',
   'trillion',
+  'baguette',
   'asscher',
   'princess',
   'radiant',
+  'half-moon', 
+  'shield', 
+  'lozenge', 
+  'hexagon', 
+  'keystone', 
+  'kite'
 ] as const;
 
 export const standardDiamondTypeValues = [
@@ -127,6 +134,7 @@ export const caratWeightValues = [
   '1.7ct',
   '1.85ct',
   '13.0ct',
+  '2ct',
   '2.0ct',
   '2.8ct',
   '3ct',

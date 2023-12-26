@@ -195,7 +195,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMe
               );
             })}
           <li>
-            <Link href="/account/login" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/account/sign-in" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
               <UIString>Account</UIString>
             </Link>
           </li>

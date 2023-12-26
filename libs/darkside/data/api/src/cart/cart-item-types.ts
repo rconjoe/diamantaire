@@ -52,10 +52,14 @@ export type ERProductCartItemProps = {
     isChildProduct: string;
     _dateAdded: string;
   };
+  hasEngraving: boolean;
+  engravingText?: string;
 };
 
 export type JewelryCartItemProps = {
   variantId: string;
+  engravingText?: string;
+  hasEngraving?: boolean;
   attributes: {
     // Fulfillment
     _productType: 'Necklace' | 'Bracelet' | 'Earring';

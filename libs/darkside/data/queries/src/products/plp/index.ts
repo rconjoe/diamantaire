@@ -20,9 +20,9 @@ export const plpListPage = createQueryKeys('plp', {
     queryKey: [locale, ids],
     queryFn: () => fetchPlpDatoCreativeBlocks(locale, ids),
   }),
-  plpBlockPickerBlocks: (locale: string, slug: string) => ({
-    queryKey: [locale, slug],
-    queryFn: () => fetchListPageDatoBlocksBySlug(locale, slug),
+  plpBlockPickerBlocks: (locale: string, slug: string, category: string) => ({
+    queryKey: [locale, slug, category],
+    queryFn: () => fetchListPageDatoBlocksBySlug(locale, slug, category),
   }),
   gwp: (locale: string) => ({
     queryKey: [locale],

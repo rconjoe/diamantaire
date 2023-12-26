@@ -61,6 +61,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
 
     if (isListPageSlug) {
       const { hero, productData: listpageProductData, category } = listPageData || {};
+      const listName = hero?.title;
 
       const normalizedProducts = getNormalizedListPageProducts({
         productData: listpageProductData,
@@ -69,13 +70,24 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
       });
 
       const firstThreeProducts = normalizedProducts.slice(0, 3);
+      const firstThreeItems = getGTMNormalizedListPageItems({
+        productData: listpageProductData,
+        locale: router?.locale,
+        currencyCode,
+        listName,
+      }).slice(0, 3);
       const variantIds = firstThreeProducts.map(({ id }) => id);
 
       productListViewed({
-        listName: hero?.title,
+        listName,
         category,
         variantIds,
+        currency: currencyCode,
         products: firstThreeProducts,
+        ecommerce: {
+          items: firstThreeItems,
+        },
+        item_list_name: listName,
       });
     } else if (isProductSlug) {
       const {
@@ -174,8 +186,10 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
   }
 
   const allProducts = productData.pages.flatMap((page) => page.products);
-
   const normalizedProducts = allProducts.map((product, idx) => {
+    if (!product){
+      return null;
+    }
     const { defaultId, variants } = product;
     const variant = variants[defaultId];
 
@@ -198,13 +212,55 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
       category: productType,
       image_url: src,
       price: formattedPrice,
-      currencyCode,
+      currency: currencyCode,
       brand,
       name: title,
       // rudderstack base ecommerce keys could add later
       // sku,
       // variant,
       // product_id
+    };
+  });
+
+  return normalizedProducts.filter((product) => product !== null);
+}
+
+function getGTMNormalizedListPageItems({ productData, locale, currencyCode, listName }) {
+  if (!productData || !Array.isArray(productData.pages)) {
+    return [];
+  }
+
+  const allProducts = productData.pages.flatMap((page) => page.products);
+
+  const normalizedProducts = allProducts.map((product, idx) => {
+    const { defaultId, variants } = product;
+    const variant = variants[defaultId];
+
+    if (!variant) return null;
+
+    const { productSlug, productType, price, title, configuration } = variant;
+    const variantId = productSlug.split('-').pop();
+    const formattedPrice = getFormattedPrice(price, locale, true, true);
+    const brand = 'VRAI';
+
+    // Check if configuration exists and is an object
+    let itemVariant = '';
+
+    if (configuration && typeof configuration === 'object') {
+      itemVariant = Object.values(configuration).join(', ');
+    }
+
+    return {
+      item_id: variantId,
+      item_name: title,
+      index: idx,
+      item_brand: brand,
+      item_category: productType,
+      item_list_name: listName,
+      price: formattedPrice,
+      quantity: 1,
+      currency: currencyCode,
+      item_variant: itemVariant, // Add item_variant to the returned object
     };
   });
 

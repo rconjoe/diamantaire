@@ -65,6 +65,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const defaultProduct = diamondCtoData['diamond'];
 
+  const [checkbox, setCheckbox] = useState([]);
+
   const [display, setDisplay] = useState('diamond');
 
   const [product, setProduct] = useState(defaultProduct);
@@ -90,31 +92,32 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const handleUpgradeClick = (type: string) => {
-    if (type === 'diamondCutUpgrade') {
-      if (display === 'diamondCutUpgrade') {
-        setDisplay('diamond');
-      } else if (display === 'diamondColorUpgrade') {
-        setDisplay('diamondCutAndColorUpgrade');
-      } else if (display === 'diamondCutAndColorUpgrade') {
-        setDisplay('diamondColorUpgrade');
-      } else {
-        setDisplay('diamondCutUpgrade');
-      }
-    }
+    let checkboxArray = [...checkbox];
+    let selectedDisplay = 'diamond';
 
-    if (type === 'diamondColorUpgrade') {
-      if (display === 'diamondColorUpgrade') {
-        setDisplay('diamond');
-      } else if (display === 'diamondCutUpgrade') {
-        setDisplay('diamondCutAndColorUpgrade');
-      } else if (display === 'diamondCutAndColorUpgrade') {
-        setDisplay('diamondCutUpgrade');
-      } else {
-        setDisplay('diamondColorUpgrade');
-      }
-    }
+    const upgradeTypes = ['cut', 'color', 'clarity'];
 
-    return;
+    upgradeTypes.forEach((upgradeType) => {
+      if (type === `diamond${capitalizeFirstLetter(upgradeType)}Upgrade`) {
+        checkboxArray = updateCheckboxSelection(upgradeType, checkboxArray);
+        selectedDisplay = checkboxArray.includes(upgradeType)
+          ? `diamond${capitalizeFirstLetter(upgradeType)}Upgrade`
+          : 'diamond';
+      }
+    });
+
+    const combinations = ['cut', 'color', 'clarity'];
+
+    combinations.forEach((combo) => {
+      if (combinations.every((item) => checkboxArray.includes(item))) {
+        selectedDisplay = `diamond${combo.replace(/(^|\s)\S/g, (l) => l.toUpperCase())}And${capitalizeFirstLetter(
+          combo,
+        )}Upgrade`;
+      }
+    });
+
+    setCheckbox(checkboxArray);
+    setDisplay(selectedDisplay);
   };
 
   const diamondTypeTitle = _t(getDiamondType(product?.diamondType)?.slug || '');
@@ -330,7 +333,7 @@ export default CFYResultPage;
 function getMedia({ product, diamondType, lotIdPicker }) {
   return [
     <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
-    <DiamondHand className="media-content-item" diamondType={diamondType} product={product} lotId={lotIdPicker} key={1} />,
+    <DiamondHand className="media-content-item" diamond={product} key={1} />,
   ];
 }
 
@@ -343,14 +346,7 @@ function getThumb({ product, diamondType, lotIdPicker }) {
       lotId={lotIdPicker}
       useImageOnly={true}
     />,
-    <DiamondHand
-      key={1}
-      className="media-content-item"
-      diamondType={diamondType}
-      product={product}
-      lotId={lotIdPicker}
-      isThumb={true}
-    />,
+    <DiamondHand key={1} className="media-content-item" diamond={product} isThumb={true} />,
   ];
 }
 
@@ -424,4 +420,12 @@ function getOverrides(href: string, classOverride?: string) {
 
   // Return the `overrides` object.
   return overrides;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function updateCheckboxSelection(value, checkboxArray) {
+  return checkboxArray.includes(value) ? checkboxArray.filter((v) => v !== value) : checkboxArray.concat(value);
 }

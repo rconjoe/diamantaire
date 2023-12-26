@@ -46,6 +46,10 @@ const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilter
 };
 
 const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
+  const filtersToNotShow = ['rose-gold and platinum', 'yellow-gold and platinum'];
+
+  if (filtersToNotShow.includes(metal)) return null;
+
   return (
     <li key={`filter-${metal}`}>
       <button

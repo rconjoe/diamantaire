@@ -60,8 +60,6 @@ const PlpAllFilterOptions = ({
 
   const router = useRouter();
 
-  console.log('router', router);
-
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
@@ -108,18 +106,26 @@ const PlpAllFilterOptions = ({
             </h4>
           </div>
           <div className="filter__icon">
-            <FilterIcon />
+            <button onClick={() => setIsMobileFilterOpen(true)}>
+              <FilterIcon />
+            </button>
           </div>
 
           <ul className="list-unstyled flex filter__options">
             {filterTypes &&
               Object.keys(filterTypes)?.map((optionSet, index) => {
                 // Hide filters with no options
-                if (filterTypes[optionSet]?.length === 0) return null;
+                if (filterTypes[optionSet]?.length < 2) return null;
 
-                if (optionSet === 'styles' && router.pathname.includes('/jewelry/')) return null;
+                // Check diamondType count as + diamonds are removed
+                if (optionSet === 'diamondType' && filterTypes[optionSet]?.filter((item) => !item.includes('+')).length < 2)
+                  return null;
 
-                console.log('optionSet', optionSet);
+                if (
+                  (optionSet === 'styles' && router.pathname.includes('/jewelry/')) ||
+                  router.pathname.includes('/wedding-bands/')
+                )
+                  return null;
 
                 return (
                   <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>
@@ -339,7 +345,11 @@ const PlpAllFilterOptions = ({
                         </li>
                       );
                     } else {
-                      return filterValue[filterType].map((val, index) => {
+                      const filterValueArray = Array.isArray(filterValue[filterType])
+                        ? filterValue[filterType]
+                        : [filterValue[filterType]];
+
+                      return filterValueArray.map((val, index) => {
                         return (
                           <li key={`${filterValue}-${text}-${index}`}>
                             <button onClick={() => updateFilter(filterType, val)}>

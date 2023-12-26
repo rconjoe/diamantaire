@@ -19,43 +19,43 @@ const WishlistLikeButton: React.FC<WishlistLikeButtonProps> = (props) => {
 
   const { isWishlistUpdated } = useContext(GlobalContext);
 
-  const handleStorage = (active) => {
-    const list = active
-      ? [...getLocalStorageWishlist(), productId]
-      : [...getLocalStorageWishlist().filter((v) => v !== productId)];
+  const handleStorage = useCallback(
+    (isActive) => {
+      const list = isActive
+        ? [...getLocalStorageWishlist(), productId]
+        : [...getLocalStorageWishlist().filter((v) => v !== productId)];
 
-    localStorage.setItem('diamantaireWishlist', list.join(','));
+      localStorage.setItem('diamantaireWishlist', list.join(','));
 
-    updateGlobalContext({
-      isWishlistUpdated: isWishlistUpdated + 1,
-    });
-  };
+      updateGlobalContext({
+        isWishlistUpdated: isWishlistUpdated + 1,
+      });
+    },
+    [productId, isWishlistUpdated, updateGlobalContext],
+  );
 
-  const handleClick = useCallback(() => {
-    handleStorage(!active);
+  const handleClick = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    setActive(!active);
-  }, [active]);
+      handleStorage(!active);
 
-  const handleUpdate = useCallback(() => {
-    if (productId) {
-      setActive(getLocalStorageWishlist().includes(productId));
-    }
-  }, [productId, isWishlistUpdated]);
+      setActive(!active);
+    },
+    [handleStorage, active],
+  );
 
   useEffect(() => {
-    if (productId) {
-      setActive(getLocalStorageWishlist().includes(productId));
-    }
-  }, [productId, handleUpdate]);
+    setActive(getLocalStorageWishlist().includes(productId));
+  }, [productId]);
 
   if (!productId) return;
 
   return (
     <StyledWishlistLikeButton className={extraClass}>
-      <div className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={handleClick}>
+      <button className={`wishlist-like-button ${active ? 'active' : ''}`} onClick={(e) => handleClick(e)}>
         {active ? <LoveIconActive /> : <LoveIcon />}
-      </div>
+      </button>
     </StyledWishlistLikeButton>
   );
 };

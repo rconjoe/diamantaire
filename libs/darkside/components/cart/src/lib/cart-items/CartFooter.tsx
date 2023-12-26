@@ -1,22 +1,24 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { goToCheckoutUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 import { Cart } from '../types';
 
 const CartFooterStyles = styled.div`
-  height: 17vh;
+  min-height: 150px;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: #f6f6f6;
   text-align: center;
-  padding: 4rem 0 0;
+  padding: 4rem 0 2rem;
 
   ul {
     margin: 0;
@@ -29,6 +31,11 @@ const CartFooterStyles = styled.div`
       &.checkout-button {
         max-width: 40rem;
         margin: 0 auto 3rem;
+
+        &.disabled {
+          opacity: 0.5;
+          pointer-events: none;
+        }
       }
       .consent-container {
         background-color: transparent;
@@ -112,6 +119,7 @@ const CartFooterStyles = styled.div`
           }
         }
         &.error {
+          color: #d0021b;
           .checkmark {
             border-color: #d0021b;
           }
@@ -134,6 +142,9 @@ type CartFooterProps = {
 const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
   const [hasTermsConsent, setHasTermsConsent] = useState(true);
   const { checkoutStarted } = useAnalytics();
+  const router = useRouter();
+  const locale = router.locale;
+  const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
     if (!hasTermsConsent) return;
 
@@ -246,14 +257,18 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    window.location.href = checkoutUrl;
+    goToCheckoutUrl({ checkoutUrl, locale, consent });
   };
 
   return (
     <CartFooterStyles>
       <ul>
         <li className="checkout-button">
-          <DarksideButton onClick={handleCheckoutClick}>
+          <DarksideButton
+            className={!hasTermsConsent ? 'disabled' : ''}
+            disabled={!hasTermsConsent}
+            onClick={handleCheckoutClick}
+          >
             {checkoutCta} | {makeCurrencyFromShopifyPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount))}
           </DarksideButton>
         </li>

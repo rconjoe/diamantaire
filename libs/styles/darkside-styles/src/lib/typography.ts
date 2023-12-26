@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import * as mediaQueries from './mediaQueries';
 import { setSpace } from './setSpace';
 
-export const MAIN_FONT = 'futura-pt, sans-serif';
+export const MAIN_FONT = 'var(--font-family-main)';
 
 // hack for styled-components to have prettier formatting :)
 const styled = { createGlobalStyle };
@@ -51,6 +51,12 @@ export const Typography = styled.createGlobalStyle`
           font-size: 2.8rem;
           line-height: ${setSpace(4.5)};
         `)};
+    }
+    &.-medium {
+      font-weight: var(--font-weight-medium);
+    }
+    &.-bold {
+      font-weight: var(--font-weight-bold);
     }
   }
 

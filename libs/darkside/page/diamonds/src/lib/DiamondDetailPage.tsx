@@ -1,17 +1,11 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { DiamondDetail } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
-import {
-  OptionsDataTypes,
-  useDiamondPdpData,
-  useDiamondTableData,
-  useDiamondsData,
-  useTranslations,
-} from '@diamantaire/darkside/data/hooks';
+import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { getCurrencyFromLocale, getFormattedCarat } from '@diamantaire/shared/constants';
-import { getCountry, getDiamondOptionsFromUrl, getDiamondType } from '@diamantaire/shared/helpers';
+import { getCountry, getDiamondType } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -20,20 +14,21 @@ import { StyledDiamondDetailPage } from './DiamondDetailPage.style';
 
 interface DiamondDetailPageDataTypes {
   locale: string;
-  options: OptionsDataTypes;
+  handle: string;
   countryCode: string;
   currencyCode: string;
   dehydratedState: DehydratedState;
 }
 
 const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, countryCode, options } = props;
+  const { locale, countryCode, handle } = props;
 
   const { _t } = useTranslations(locale);
 
-  const { lotId } = options || {};
-
-  const { data: { diamond: { carat, diamondType } = {} } = {} } = useDiamondsData({ lotId });
+  const { data: { diamond: { carat, diamondType } = {} } = {} } = useDiamondsData({
+    handle,
+    withAdditionalInfo: true,
+  });
 
   const { data: { diamondTable: { title } = {} } = {} } = useDiamondTableData(locale);
 
@@ -61,7 +56,7 @@ const DiamondDetailPage = (props: InferGetServerSidePropsType<typeof getServerSi
         </div>
 
         <div className="page-main">
-          <DiamondDetail countryCode={countryCode} diamondType={diamondType} locale={locale} lotId={lotId} />
+          <DiamondDetail countryCode={countryCode} diamondType={diamondType} locale={locale} handle={handle} />
         </div>
       </StyledDiamondDetailPage>
     </>
@@ -81,16 +76,14 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
 
   const currencyCode = getCurrencyFromLocale(locale);
 
-  const options = getDiamondOptionsFromUrl([handle], 'diamondPDP');
-
-  if (!options?.lotId) {
+  if (!handle) {
     return {
       notFound: true,
     };
   }
 
   const globalQuery = queries.template.global(locale);
-  const diamondQuery = queries.diamonds.content({ lotId: options?.lotId });
+  const diamondQuery = queries.diamonds.content({ handle, withAdditionalInfo: true });
   const diamondPdpQuery = queries.diamondPdp.content(locale);
   const diamondInfoQuery = queries.diamondInfo.content(locale);
   const diamondTableQuery = queries.diamondTable.content(locale);
@@ -99,7 +92,6 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(globalQuery);
-  await queryClient.prefetchQuery(diamondQuery);
   await queryClient.prefetchQuery(diamondQuery);
   await queryClient.prefetchQuery(diamondPdpQuery);
   await queryClient.prefetchQuery(diamondInfoQuery);
@@ -121,7 +113,7 @@ async function getServerSideProps(context): Promise<GetServerSidePropsResult<Dia
   return {
     props: {
       locale,
-      options,
+      handle,
       countryCode,
       currencyCode,
       dehydratedState: dehydrate(queryClient),

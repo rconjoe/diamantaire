@@ -6,10 +6,10 @@ import StyledDiamondSpecs from './DiamondDetailSpecs.style';
 
 export interface DiamondSpecsProps {
   locale?: string;
-  lotId?: string;
+  handle?: string;
 }
 
-const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: string; lotId?: string }) => {
+const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, handle }: { locale?: string; handle?: string }) => {
   const {
     data: {
       diamondProduct: {
@@ -40,7 +40,7 @@ const DiamondDetailSpecs = ({ locale = DEFAULT_LOCALE, lotId }: { locale?: strin
         fluorescence,
       } = {},
     } = {},
-  } = useDiamondsData({ lotId });
+  } = useDiamondsData({ handle, withAdditionalInfo: true });
 
   const pickSpecValue = useCallback(
     (name) => {

@@ -64,13 +64,15 @@ const StyledDiamondFilter = styled.aside`
     text-align: center;
   }
 
-  .vo-filter-list-item a {
+  .vo-filter-list-item a,
+  .vo-filter-list-item button {
     color: #333;
     width: 100%;
     padding: 0.4rem 0.2rem;
     display: flex;
     justify-content: center;
     border: 0.1rem solid transparent;
+    background: transparent;
   }
 
   .vo-filter-list-item a:hover,
@@ -78,7 +80,8 @@ const StyledDiamondFilter = styled.aside`
     color: var(--color-teal);
   }
 
-  .vo-filter-list-item.active a {
+  .vo-filter-list-item.active a,
+  .vo-filter-list-item.active button {
     cursor: pointer;
     color: var(--color-teal);
     border: 0.1rem solid var(--color-teal);
@@ -90,6 +93,7 @@ const StyledDiamondFilter = styled.aside`
 
   .vo-filter-cut,
   .vo-filter-clarity {
+    .vo-filter-list-item button,
     .vo-filter-list-item a {
       padding-left: 1rem;
       padding-right: 1rem;
@@ -158,7 +162,9 @@ const StyledDiamondFilter = styled.aside`
         display: flex;
       `)}
 
+      &.active button,
       &.active a,
+      button,
       a {
         padding: 0 0.8rem;
         border: 0;

@@ -13,17 +13,13 @@ import { CFY_DIAMOND_LIMIT, DIAMOND_PAGINATED_LABELS, MIN_CARAT_EMPTY_RESULT } f
 
 import { ListPageDiamondItem } from '@diamantaire/shared-diamond';
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { PaginateOptions } from 'mongoose';
+import { PaginateOptions, FilterQuery } from 'mongoose';
 
 import { DiamondPlp, GetDiamondCheckoutDto, LowestPricedDto, ProductInventoryDto } from '../dto/diamond-checkout.dto';
-import { GetDiamondByLotIdDto, GetDiamondDto } from '../dto/get-diamond.input';
+import { GetDiamondByLotIdDto, GetDiamondDto, GetDiamondByHandleDto } from '../dto/get-diamond.input';
 import { DiamondEntity } from '../entities/diamond.entity';
 import {
-  DiamondClarities,
-  DiamondColors,
-  DiamondCuts,
   DiamondProperty,
-  DiamondTypes,
   caratFirstSortOrder,
   colorFirstSortOrder,
   createSortCaratFromTargetWithWeightComparator,
@@ -79,11 +75,9 @@ export class DiamondsService {
 
     const filteredQuery = this.optionalDiamondQuery(input);
 
-    //const regexPattern = /fancy/i;
-
     filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery.hidden = false;
-    //filteredQuery['color'] = { $not: { $regex: regexPattern } }; // filter out pink diamonds
+     // filter out pink diamonds
 
     if (input?.isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -148,6 +142,33 @@ export class DiamondsService {
     }
   }
 
+  
+
+  /**
+   * Fetch single diamond by lotId
+   * @param {GetDiamondByHandleDto} input - diamond handle
+   * @returns
+   */
+
+  async diamondByHandle(input: GetDiamondByHandleDto): Promise<DiamondEntity | null > {
+    const { handle } = input;
+
+    this.Logger.verbose(`Fetching diamond by handle: ${handle}`);
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const result = await this.diamondRepository.findOne({ handle: handle });
+
+      if (result) {
+        return result;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      this.Logger.error(`Error fetching diamond by lotId: ${handle}`);
+      throw error;
+    }
+  }
+
   async diamondsByLotIdArray(lotIds: string[]): Promise<DiamondEntity[]> {
     this.Logger.verbose(`Fetching diamond list by lotIds array: ${lotIds}`);
     // eslint-disable-next-line no-useless-catch
@@ -172,8 +193,8 @@ export class DiamondsService {
    * @returns and Object
    */
 
-  optionalDiamondQuery(input) {
-    const query = { ...input };
+  optionalDiamondQuery(input): FilterQuery<DiamondEntity > {
+    const query = { };
 
     if (input?.diamondType) {
       const diamondTypes = input.diamondType.trim().split(',');
@@ -182,9 +203,7 @@ export class DiamondsService {
         $in: diamondTypes, // mongoose $in take an array value as input
       };
     } else {
-      query['diamondType'] = {
-        $in: DiamondTypes,
-      };
+      query['diamondType'] = { $ne: null };
     }
 
     // Optional query for price and currencycode
@@ -207,15 +226,14 @@ export class DiamondsService {
       //const colors: string[] = Array.from(input.color);
       const colors = input.color.toLocaleUpperCase().trim().split(',');
 
-      // TODO handle errors here
-      // const found = colors.some((ele) => ACCEPTABLE_COLORS.includes(ele));
       query['color'] = {
         $in: colors, // mongoose $in take an array value as input
       };
     } else {
-      query['color'] = {
-        $in: DiamondColors, // get all the colors
-      };
+      // Exclude pink unless specified in color query
+      const regexPattern = /fancy/i;
+
+      query['color'] = { $not: { $regex: regexPattern } };
     }
 
     /**
@@ -229,10 +247,6 @@ export class DiamondsService {
       query['clarity'] = {
         $in: clarity, // mongoose $in take an array value as input
       };
-    } else {
-      query['clarity'] = {
-        $in: DiamondClarities, // get all the clarity
-      };
     }
 
     /**
@@ -245,10 +259,6 @@ export class DiamondsService {
 
       query['cut'] = {
         $in: cuts, // mongoose $in take an array value as input
-      };
-    } else {
-      query['cut'] = {
-        $in: DiamondCuts, // get all the cuts
       };
     }
 
