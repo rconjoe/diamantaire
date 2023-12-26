@@ -127,10 +127,7 @@ export const diamondShapesWithIcon = {
   'round-brilliant+emerald': 'Round Brilliant and Emerald',
   'marquise+baguette': 'Marquise and Baguette',
   'marquise+round-brilliant': 'Marquise and Round Brilliant',
-  'round-brilliant+round-brilliant': {
-    title: 'Round Brilliant and Round Brilliant',
-    icon: <PrincessIcon />,
-  },
+  'round-brilliant+round-brilliant': 'Round Brilliant and Round Brilliant',
 };
 
 export const ringStylesWithIcon: RingStyleWithIconProps = {

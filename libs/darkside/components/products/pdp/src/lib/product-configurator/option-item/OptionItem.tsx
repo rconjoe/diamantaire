@@ -121,6 +121,8 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 
   .icon {
+    gap: 0.5rem;
+    display: flex;
     svg {
       height: 3.2rem;
       width: auto;
@@ -131,6 +133,7 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
   const DiamondIcon = diamondIconsMap[value]?.icon;
+  const DiamondPairedIcon = diamondIconsMap[value]?.icon2;
 
   if (!DiamondIcon) {
     return null;
@@ -138,12 +141,13 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
 
   return (
     <StyledDiamondIconOptionItem
-      className={clsx('option-item diamond-shape', value, { selected: isSelected })}
+      className={clsx('option-item diamond-shape', value, { selected: isSelected, 'paired-icon': DiamondPairedIcon })}
       title={valueLabel}
       onClick={onClick}
     >
       <span className="icon">
         <DiamondIcon />
+        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
       </span>
     </StyledDiamondIconOptionItem>
   );
