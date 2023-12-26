@@ -27,11 +27,7 @@ const ProductKlarna = ({ title, currentPrice }) => {
     const minKlarnaPrice = 200 * 100;
     const maxKlarnaPrice = 10000 * 100;
 
-    if (price < minKlarnaPrice || price > maxKlarnaPrice) {
-      return false;
-    }
-
-    return true;
+    return price >= minKlarnaPrice && price <= maxKlarnaPrice;
   };
 
   useEffect(() => {
