@@ -1,7 +1,11 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
+import { getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { PdpTypePlural } from '@diamantaire/shared/constants';
-import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { HUBSPOT_ER_SUMMARY_LISTDATA, PdpTypePlural } from '@diamantaire/shared/constants';
+import { getIsUserInEu } from '@diamantaire/shared/geolocation';
+import { isEmptyObject, getCurrentUrl } from '@diamantaire/shared/helpers';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -30,7 +34,7 @@ const BuilderFlow = ({
   });
 
   const router = useRouter();
-
+  const { locale, asPath } = router || {};
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
 
   const {
@@ -41,6 +45,14 @@ const BuilderFlow = ({
     defaultRingSize,
   } = shopifyProductData || {};
   const { productTitle, productTitleOverride } = collectionContent || {};
+
+  const { consent } = useCookieConsentContext();
+  const didAcceptPrivacy = Cookies.get('didAcceptPrivacy') === 'true';
+  const isUserInEu = getIsUserInEu();
+  const email = getEmailFromCookies();
+
+  const isValidToSendHubSpotEvent =
+    email && (!isUserInEu || (isUserInEu && didAcceptPrivacy && consent?.marketing && consent?.statistics));
 
   console.log('shopifyProductData', shopifyProductData);
 
@@ -263,7 +275,35 @@ const BuilderFlow = ({
     console.log('path changed', router.asPath);
 
     configureCurrentStep();
-  }, [router.asPath]);
+
+    const isSummaryPage = router.asPath.includes('/summary');
+
+    if (isSummaryPage && assetStack && isValidToSendHubSpotEvent) {
+      const erImages = assetStack?.reduce((acc, asset) => {
+        const imageType = ['angle', 'detail', 'profile', 'upright', 'front', 'side'].find((type) =>
+          asset.url.includes(type),
+        );
+
+        if (imageType) {
+          acc[`er${imageType.charAt(0).toUpperCase() + imageType.slice(1)}Image`] = asset.url;
+        }
+
+        return acc;
+      }, {});
+
+      const currentUrl = getCurrentUrl({ locale, asPath });
+
+      sendHubspotForm({
+        listData: HUBSPOT_ER_SUMMARY_LISTDATA,
+        email,
+        isConsent: isValidToSendHubSpotEvent,
+        erName: productTitle,
+        erUrl: currentUrl,
+        ...erImages,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
 
   return (
     <BuilderFlowStyles>
