@@ -35,7 +35,7 @@ const StyledDiamond360 = styled.div`
   }
 
   .caption {
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xxsmall);
     position: absolute;
     color: var(--color-black);
     display: block;

@@ -20,7 +20,7 @@ export const StyledDiamondRough = styled.div`
     bottom: 1rem;
     left: 0;
     line-height: 1.2;
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xxsmall);
     padding: 0 2rem;
     color: var(--color-black);
   }

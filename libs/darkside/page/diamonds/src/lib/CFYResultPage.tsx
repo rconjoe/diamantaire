@@ -67,6 +67,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultNote,
     ctoDiamondResultNeedItFaster,
     ctoDiamondResultShapeAndWeightTitle,
+    ctoDiamondResultPolishedDiamondImageCaption: caption360,
     productIconList,
   } = diamondCfyData;
 
@@ -99,7 +100,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const lotIdPicker = `cfy-${diamondType}`;
 
-  const media = getMedia({ product, diamondType, lotIdPicker });
+  const media = getMedia({ product, diamondType, lotIdPicker, caption360 });
 
   const thumb = getThumb({ product, diamondType, lotIdPicker });
 
@@ -349,7 +350,7 @@ export { CFYResultPage, getServerSideProps as getServerSidePropsCFYResultPage };
 
 export default CFYResultPage;
 
-function getMedia({ product, diamondType, lotIdPicker }) {
+function getMedia({ product, diamondType, lotIdPicker, caption360 }) {
   return [
     <DiamondRough key={0} extraClass="media-content-item" withCaption={true} />,
     <DiamondPlan key={1} extraClass="media-content-item" diamondType={diamondType} withCaption={true} />,
@@ -362,6 +363,7 @@ function getMedia({ product, diamondType, lotIdPicker }) {
       priority={true}
       width={500}
       height={500}
+      caption={caption360}
     />,
     <DiamondHand key={3} className="media-content-item" diamond={product} priority={true} width={500} height={500} />,
   ];

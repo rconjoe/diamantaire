@@ -19,6 +19,7 @@ interface Diamond360Props {
   width?: number;
   height?: number;
   priority?: boolean;
+  caption?: string;
 }
 
 const Diamond360 = ({
@@ -33,6 +34,7 @@ const Diamond360 = ({
   width = 500,
   height = 500,
   priority = false,
+  caption = 'Example of how it will look cut and polished',
 }: Diamond360Props) => {
   const [vid, setVid] = useState(null);
 
@@ -106,7 +108,7 @@ const Diamond360 = ({
         <>
           {isCto && (
             <div className="caption">
-              <UIString>Example of how it will look cut and polished</UIString>
+              <UIString>{caption}</UIString>
             </div>
           )}
 
