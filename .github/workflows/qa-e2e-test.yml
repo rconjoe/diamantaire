@@ -21,20 +21,7 @@ on:
   #       type: string
 
 jobs:
-  # test_setup:
-  #   name: Test setup
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
-  #   steps:
-  #     - name: Wait for Vercel preview deployment to be ready
-  #       uses: patrickedqvist/wait-for-vercel-preview@master
-  #       id: waitForVercelPreviewDeployment
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         max_timeout: 300
   test_e2e:
-    # needs: test_setup
     name: Playwright tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -48,7 +35,7 @@ jobs:
       - run: pnpm add @nx/playwright --ignore-scripts
       - run: npx playwright install --with-deps
       - name: Run tests
-        run:  cd apps/darkside/main/ && npx playwright test tests/control-temp  --workers=
+        run:  cd apps/darkside/main/ && npx playwright test e2e/tests/control-temp  --workers=2
         env:
           test_env: qa
           # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
