@@ -54,7 +54,7 @@ const PlpProductVariantStyles = styled.div`
 const PlpProductVariant = ({
   variant,
   position,
-  // plpTitle,
+  plpTitle,
   lowestPrice,
   useLowestPrice,
   label,
@@ -78,7 +78,7 @@ const PlpProductVariant = ({
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
-  const { productType, collectionSlug, productSlug, title, productTitle, plpTitle, primaryImage, hoverImage, price } = variant || {};
+  const { productType, collectionSlug, productSlug, title, productTitle, plpTitle: variantTitle, primaryImage, hoverImage, price } = variant || {};
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
@@ -86,7 +86,7 @@ const PlpProductVariant = ({
     metalTypeAsConst[configuration?.metal]
   }`;
 
-  const generatedTitle = generatePlpTitle(_t('%%title%% %%shape%% in'), productTitle, { plpTitle, diamondType: _t(variant.configuration.diamondType), metal: _t(variant.configuration.metal) } );
+  const generatedTitle = generatePlpTitle(_t('%%title%% %%shape%% in'), productTitle, variantTitle, { diamondType: _t(variant.configuration.diamondType), metal: _t(variant.configuration.metal) } );
   
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
@@ -279,13 +279,12 @@ function isMixedDiamondType(diamondType: string){
 }
 
 // https://diamondfoundry.atlassian.net/wiki/spaces/DGT/pages/971407413/Product+Titles+on+PLPs
-type PlpTitleOptions = {
-  plpTitle?: string;
+type ProductConfigureation = {
   metal: string;
   diamondType: string;
-}
+} & Record<string, string>
 
-function generatePlpTitle(placeholderString, productTitle: string, {plpTitle, metal, diamondType} : PlpTitleOptions ) {
+function generatePlpTitle(placeholderString, productTitle: string, plpTitle: string, {metal, diamondType} : ProductConfigureation ) {
   
   let genTitle = productTitle;
 
