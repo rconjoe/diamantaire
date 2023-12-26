@@ -16,6 +16,23 @@ export const CONFIGURATIONS_LIST = gql`
           ...responsiveImageFragment
         }
       }
+      jewelryProduct {
+        slug
+        category
+        productTitle
+        subCategory {
+          slug
+          title
+        }
+        productLabel {
+          title
+        }
+        productAccordionSpecsLabel {
+          productType
+        }
+        shouldUseDefaultPrice
+        hasOnlyOnePrice
+      }
     }
     allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
       shopifyProductHandle
@@ -31,6 +48,34 @@ export const CONFIGURATIONS_LIST = gql`
           ...responsiveImageFragment
         }
         alt
+      }
+      collection {
+        ... on WeddingBandProductRecord {
+          slug
+          productType
+          productTitle
+          productLabel {
+            title
+          }
+          subCategory {
+            slug
+            title
+          }
+          shouldUseDefaultPrice
+        }
+        ... on EngagementRingProductRecord {
+          slug
+          productType
+          productTitle
+          productLabel {
+            title
+          }
+          subCategory {
+            slug
+            title
+          }
+          shouldUseDefaultPrice
+        }
       }
     }
   }
@@ -96,12 +141,51 @@ export const PRODUCT_BRIEF_CONTENT = gql`
   }
 `;
 
+export const PLP_INIT_QUERY = gql`
+query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
+  listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
+    configurationsInOrder {
+      ... on OmegaProductRecord {
+        _modelApiKey
+        shopifyProductHandle
+      }
+      ... on ConfigurationRecord {
+        _modelApiKey
+        variantId
+      }
+    }
+    bestSellersInOrder {
+      ... on OmegaProductRecord {
+        _modelApiKey
+        shopifyProductHandle
+      }
+      ... on ConfigurationRecord {
+        _modelApiKey
+        variantId
+      }
+    }
+    productsInOrder {
+      _modelApiKey
+      shopifyProductHandle
+    }
+    collectionsInOrder {
+      ... on EngagementRingProductRecord {
+        id
+        _modelApiKey
+        slug
+      }
+    }
+  }
+}
+`;
+
 export const PLP_QUERY = gql`
   query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
     listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
       configurationsInOrder {
         ... on OmegaProductRecord {
           _modelApiKey
+          plpTitle
           shopifyProductHandle
           collection {
             ... on WeddingBandProductRecord {
@@ -132,7 +216,6 @@ export const PLP_QUERY = gql`
             }
           }
           countrySpecificPrices
-          plpTitle
           plpImage {
             responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
@@ -147,6 +230,7 @@ export const PLP_QUERY = gql`
         }
         ... on ConfigurationRecord {
           _modelApiKey
+          plpTitle
           jewelryProduct {
             slug
             category
@@ -176,7 +260,6 @@ export const PLP_QUERY = gql`
               ...responsiveImageFragment
             }
           }
-          plpTitle
         }
       }
       bestSellersInOrder {
@@ -262,6 +345,7 @@ export const PLP_QUERY = gql`
       productsInOrder {
         _modelApiKey
         shopifyProductHandle
+        plpTitle
         plpImage {
           responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
