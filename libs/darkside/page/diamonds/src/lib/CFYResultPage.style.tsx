@@ -1,4 +1,4 @@
-import { TEAL, TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
@@ -29,6 +29,14 @@ const StyledCFYResultPage = styled.div`
     text-align: center;
     margin-bottom: 2rem;
 
+    &.mobile-only {
+      height: 2.7rem;
+
+      ${tabletAndUp(`
+        display: none;
+      `)}
+    }
+
     * {
       font-size: var(--font-size-xsmall);
     }
@@ -58,6 +66,7 @@ const StyledCFYResultPage = styled.div`
       .swiper {
         width: 100%;
         padding: 0 0 8rem;
+        height: calc(100vw + 8rem);
 
         ${desktopAndUp(`
           padding: 0;

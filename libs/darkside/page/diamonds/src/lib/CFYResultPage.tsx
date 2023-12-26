@@ -156,13 +156,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
       <StyledCFYResultPage className="container-wrapper">
         <div className="page-row">
-          {isMobile && (
-            <div className="page-head">
+          <div className="page-head mobile-only">
+            {isMobile && (
               <div className="title">
                 <Heading>{ctoDiamondResultFoundTitle}</Heading>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="page-content">
             <div className="media">
@@ -196,12 +196,14 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
           <div className="page-aside">
             <div className="inner">
-              {!isMobile && (
-                <div className="title">
-                  <Heading>{ctoDiamondResultFoundTitle}</Heading>
-                  <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
-                </div>
-              )}
+              <div className="title desktop-only">
+                {!isMobile && (
+                  <>
+                    <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                    <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
+                  </>
+                )}
+              </div>
 
               <div className="subtitle">
                 <p>{pageTitle}</p>
@@ -332,8 +334,17 @@ export default CFYResultPage;
 
 function getMedia({ product, diamondType, lotIdPicker }) {
   return [
-    <Diamond360 key={0} className="media-content-item" diamondType={diamondType} lotId={lotIdPicker} isCto={true} />,
-    <DiamondHand className="media-content-item" diamond={product} key={1} />,
+    <Diamond360
+      key={0}
+      className="media-content-item"
+      diamondType={diamondType}
+      lotId={lotIdPicker}
+      isCto={true}
+      priority={true}
+      width={500}
+      height={500}
+    />,
+    <DiamondHand className="media-content-item" diamond={product} key={1} priority={true} width={500} height={500} />,
   ];
 }
 
@@ -345,8 +356,19 @@ function getThumb({ product, diamondType, lotIdPicker }) {
       diamondType={diamondType}
       lotId={lotIdPicker}
       useImageOnly={true}
+      width={60}
+      height={60}
+      priority={true}
     />,
-    <DiamondHand key={1} className="media-content-item" diamond={product} isThumb={true} />,
+    <DiamondHand
+      key={1}
+      className="media-content-item"
+      diamond={product}
+      isThumb={true}
+      width={60}
+      height={60}
+      priority={true}
+    />,
   ];
 }
 

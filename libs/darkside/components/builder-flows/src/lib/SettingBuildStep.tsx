@@ -16,9 +16,8 @@ import {
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
-
-import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -74,6 +73,10 @@ type SettingBuildStepProps = {
   disableVariantType?: string[];
   productTitleOverride?: string;
   productIconListType?: string;
+  settingSlugs: {
+    collectionSlug: string;
+    productSlug: string;
+  };
 };
 
 const SettingBuildStep = ({
@@ -93,6 +96,7 @@ const SettingBuildStep = ({
   disableVariantType,
   productTitleOverride,
   productIconListType,
+  settingSlugs,
 }: SettingBuildStepProps) => {
   const product = useMemo(() => {
     return {
@@ -166,10 +170,12 @@ const SettingBuildStep = ({
               additionalVariantData={additionalVariantData}
               isBuilderFlowOpen={true}
               updateSettingSlugs={updateSettingSlugs}
+              settingSlugs={settingSlugs}
               updateFlowData={updateFlowData}
               disableVariantType={disableVariantType}
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
+              productIconListType={productIconListType}
             />
 
             {/* <ProductKlarna title={productTitle} currentPrice={price} /> */}
@@ -178,13 +184,7 @@ const SettingBuildStep = ({
 
             <ProductGWP />
 
-            {productIconListType && (
-              <ProductIconList
-                productIconListType={productIconListType}
-                locale={router?.locale}
-                configuration={selectedConfiguration}
-              />
-            )}
+            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
             <Form
               title={_t('Need more time to think?')}
               caption={_t('Email this customized ring to yourself or drop a hint.')}

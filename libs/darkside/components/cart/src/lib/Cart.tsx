@@ -18,7 +18,10 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
+  // const { _t } = useTranslations(locale);
   const { data: checkout, refetch } = useCartData(locale);
+
+  console.log('checkout', checkout);
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
@@ -143,7 +146,6 @@ const Cart = ({ closeCart }) => {
                       item={item}
                       info={cartItemInfo}
                       updateItemQuantity={updateItemQuantity}
-                      cartItemDetails={cartItemDetails}
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}

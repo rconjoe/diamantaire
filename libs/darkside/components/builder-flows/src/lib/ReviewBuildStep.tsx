@@ -16,7 +16,7 @@ import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-conte
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useProductDato, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useProductDato, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -28,7 +28,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle } from '@diamantaire/shared/helpers';
+import { extractMetalTypeFromShopifyHandle, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -405,7 +405,27 @@ const ReviewBuildStep = ({
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
 
   console.log('configState', configState);
-  console.log('selectedSize', selectedSize);
+
+  const productIconListTypeOverride =
+    additionalVariantData.productIconList?.productType || additionalVariantData?.configuration?.productIconList?.productType;
+
+  const { data: { productIconList } = {} } = useProductIconList(
+    productIconListTypeOverride ? productIconListTypeOverride : productIconListType,
+    router.locale,
+  );
+
+  const shipTimeParent = productIconList?.items?.find(
+    (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
+  );
+
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+
+  const shippingTime =
+    countryCode === 'US'
+      ? shippingBusinessDays
+      : shippingBusinessDaysCountryMap?.[countryCode]
+      ? shippingBusinessDaysCountryMap?.[countryCode]
+      : shippingBusinessDaysCountryMap?.['International'];
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -436,8 +456,16 @@ const ReviewBuildStep = ({
     const refinedBandAccent =
       settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
+    const settingSpecs = specGenerator({
+      configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
+      productType,
+      _t,
+      hasChildDiamond: true,
+    });
+
     const settingAttributes: ERProductCartItemProps['settingAttributes'] = {
       _productType: productType,
+      _productTypeTranslated: _t(productType),
       metalType: erMetal,
       productAsset: image?.src,
       _productAssetObject: JSON.stringify(image),
@@ -448,9 +476,7 @@ const ReviewBuildStep = ({
       feedId: settingVariantId,
       // engraving
       _EngravingBack: engravingText,
-      _specs: `Shape: ${
-        DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType]
-      };Metal: ${erMetal};Band: ${refinedBandAccent};Ring size: ${selectedSize?.value}`,
+      _specs: settingSpecs,
       productGroupKey,
       diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
       centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
@@ -459,6 +485,7 @@ const ReviewBuildStep = ({
       totalPrice: (product.price + diamond.price).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
+      shippingBusinessDays: shippingTime?.toString(),
 
       // Diamond Sync
       childProduct: JSON.stringify({
@@ -469,6 +496,11 @@ const ReviewBuildStep = ({
 
     // 4. Create custom attributes for the diamond
 
+    const diamondSpecs = specGenerator({
+      configuration: { ...diamond },
+      productType: 'Diamond',
+      _t,
+    });
     const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
       _productTitle: diamond?.productTitle,
       productAsset: diamondImage,
@@ -481,11 +513,13 @@ const ReviewBuildStep = ({
       lotId: diamond.lotId,
       isChildProduct: 'true',
       productGroupKey,
+      _specs: diamondSpecs,
       _productType: 'Diamond',
+      _productTypeTranslated: _t('Diamond'),
       shippingText: _t('Made-to-order. Ships by'),
       productIconListShippingCopy: 'temp',
-      shippingBusinessDays: 'temp',
       pdpUrl: window.location.href,
+      shippingBusinessDays: shippingTime?.toString(),
     };
 
     await addERProductToCart({
@@ -588,7 +622,10 @@ const ReviewBuildStep = ({
     {
       label: _t('diamondType'),
       value: _t(diamond?.diamondType),
-      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      onClick: () => {
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+        router.push(router.asPath + '/edit-diamond');
+      },
       slug: 'diamondType',
     },
     {
@@ -672,6 +709,8 @@ const ReviewBuildStep = ({
   }, [emblaApi]);
 
   const isWindowDefined = typeof window !== 'undefined';
+
+  console.log('productIconListTypeOverride', productIconListTypeOverride);
 
   return (
     <ReviewBuildStepStyles
@@ -892,9 +931,8 @@ const ReviewBuildStep = ({
               {product.productType && productIconListType && (
                 <div className="product-icon-list-container">
                   <ProductIconList
-                    productIconListType={productIconListType}
+                    productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                     locale={locale}
-                    configuration={selectedConfiguration}
                   />
                 </div>
               )}
@@ -905,7 +943,12 @@ const ReviewBuildStep = ({
 
       <AnimatePresence>
         {isSizeGuideOpen && (
-          <SlideOut title="Size Guide" width="30%" onClose={() => setIsSizeGuideOpen(false)} className="extra-side-padding">
+          <SlideOut
+            title={_t('Size Guide')}
+            width="30%"
+            onClose={() => setIsSizeGuideOpen(false)}
+            className="extra-side-padding"
+          >
             <RingSizeGuide />
           </SlideOut>
         )}

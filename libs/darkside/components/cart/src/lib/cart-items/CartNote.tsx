@@ -80,7 +80,7 @@ const CartNote = ({ addNoteOptionCta }) => {
     setIsGiftNoteOpen(false);
     const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
 
-    if (giftNoteInputText.length > 0) {
+    if (giftNoteInputText?.length > 0) {
       setOrderHasNote(true);
     } else {
       setOrderHasNote(false);

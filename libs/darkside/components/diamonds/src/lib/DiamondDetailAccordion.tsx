@@ -46,9 +46,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <div className="description">
-          <Markdown>{description}</Markdown>
-        </div>
+        <div className="description">{description && <Markdown>{description}</Markdown>}</div>
         <div className="graph">
           <Slider
             edge={false}
@@ -101,9 +99,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <div className="description">
-          <Markdown>{description}</Markdown>
-        </div>
+        <div className="description">{description && <Markdown>{description}</Markdown>}</div>
         <div className="graph">
           <Slider
             edge={false}
@@ -134,16 +130,15 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
             <Image
               src="https://www.datocms-assets.com/25216/1661530410-4c-cut.jpg"
               alt={getInfo(specs, 'cut')}
-              sizes="100vw"
-              height={0}
-              width={0}
+              height={100}
+              width={90}
             />
           </div>
           <div className="sub">
             <Heading type="h3">
               {cut} <UIString>cut</UIString>
             </Heading>
-            <Markdown>{sub}</Markdown>
+            {sub && <Markdown>{sub}</Markdown>}
           </div>
         </div>
       </>
@@ -178,9 +173,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <div className="description">
-          <Markdown>{description}</Markdown>
-        </div>
+        <div className="description">{description && <Markdown>{description}</Markdown>}</div>
         <div className="graph">
           <Slider
             edge={false}
@@ -205,9 +198,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Image
             alt={getInfo(specs, 'color')?.value}
             src="https://www.datocms-assets.com/25216/1678265887-color-2.png"
-            sizes="100vw"
-            width={0}
-            height={0}
+            width={323}
+            height={129}
             loading="eager"
           />
         </div>
@@ -215,7 +207,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Heading type="h3">
             {color} - {colorMapAbridged[index]?.value}
           </Heading>
-          <Markdown>{sub}</Markdown>
+          {sub && <Markdown>{sub}</Markdown>}
         </div>
       </>
     );
@@ -246,9 +238,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
 
     return (
       <>
-        <div className="description">
-          <Markdown>{description}</Markdown>
-        </div>
+        <div className="description">{description && <Markdown>{description}</Markdown>}</div>
         <div className="graph">
           <Slider
             edge={false}
@@ -273,9 +263,8 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Image
             alt={getInfo(specs, 'clarity')?.value}
             src="https://www.datocms-assets.com/25216/1678265893-clarity-2.png"
-            sizes="100vw"
-            width={0}
-            height={0}
+            width={323}
+            height={125}
             loading="eager"
           />
         </div>
@@ -283,7 +272,7 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
           <Heading type="h3">
             {clarity} - {clarityMapAbridged[index]?.value}
           </Heading>
-          <Markdown>{sub}</Markdown>
+          {sub && <Markdown>{sub}</Markdown>}
         </div>
       </>
     );
@@ -310,14 +299,10 @@ const DiamondDetailAccordion = ({ lotId, locale }: { lotId?: string; locale?: st
         <div className="row">
           <CertificateThumb certificateUrl={dfCertificateUrl} title={certificateLabel} />
 
-          <div className="description">
-            <Markdown>{dfCertificateDetail}</Markdown>
-          </div>
+          <div className="description">{dfCertificateDetail && <Markdown>{dfCertificateDetail}</Markdown>}</div>
         </div>
 
-        <div className="sub">
-          <Markdown>{certificate}</Markdown>
-        </div>
+        <div className="sub">{certificate && <Markdown>{certificate}</Markdown>}</div>
       </>
     );
   };

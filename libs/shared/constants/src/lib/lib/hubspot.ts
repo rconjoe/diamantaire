@@ -33,4 +33,10 @@ export const HUBSPOT_EMAIL_POPUP_LISTDATA = {
 
 export const HUBSPOT_ER_SUMMARY_LISTDATA = {
   listId: HUBSPOT_ER_SUMMARY_FORM_ID,
+}
+
+export const HUBSPOT_NEED_TIME_TO_THINK_LISTDATA = {
+  source: 'Email Sub - Need Time To Think',
+  listId: HUBSPOT_NEED_MORE_TIME_FORM_ID,
+  sfdcCampaignId: HUBSPOT_CAMPAIGN_ID,
 };

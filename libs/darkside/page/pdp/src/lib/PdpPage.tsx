@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
-import { Breadcrumb, Form, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
+import { Breadcrumb, NeedTimeToThinkForm, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -108,20 +108,31 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
 
-  const shopifyHandle = productContent?.shopifyProductHandle;
+  const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
-  let { data: additionalVariantData }: any = useProductVariant(shopifyHandle, router.locale);
+  let { data: additionalVariantData }: any = useProductVariant(
+    shopifyHandle,
+    shopifyProductData?.productType,
+    router.locale,
+  );
 
-  // Fallback for Jewelry Products
-  if (!additionalVariantData) {
-    additionalVariantData = productContent;
-  } else if (additionalVariantData?.omegaProduct) {
-    // Wedding bands have a different data structure
+  const productIconListTypeOverride =
+    additionalVariantData?.omegaProduct?.productIconList?.productType ||
+    additionalVariantData?.configuration?.productIconList?.productType;
+
+  console.log('additionalVariantData v1', additionalVariantData);
+  console.log('productContent v1', productContent);
+
+  // ER/WB
+  if (additionalVariantData?.omegaProduct) {
     additionalVariantData = additionalVariantData?.omegaProduct;
+  } else if (additionalVariantData?.configuration) {
+    // Jewelry
+    additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
   } else {
     // Add Shopify Product Data to Dato Product Data
-    additionalVariantData = additionalVariantData?.omegaProduct;
-    additionalVariantData.goldPurity = shopifyProductData?.configuration?.goldPurity;
+    additionalVariantData = productContent;
+    additionalVariantData['goldPurity'] = shopifyProductData?.configuration?.goldPurity;
     additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
     additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
   }
@@ -309,6 +320,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 requiresCustomDiamond={shopifyProductData?.requiresCustomDiamond}
                 engravingText={engravingText}
                 setEngravingText={setEngravingText}
+                productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
@@ -319,18 +331,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               {productIconListType && (
                 <ProductIconList
-                  productIconListType={productIconListType}
+                  productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                   locale={router?.locale}
-                  configuration={configuration}
                 />
               )}
-              <Form
+              <NeedTimeToThinkForm productData={productData} />
+              {/* <Form
                 title={_t('Need more time to think?')}
                 caption={_t('Email this customized ring to yourself or drop a hint.')}
                 onSubmit={(e) => e.preventDefault()}
                 stackedSubmit={false}
                 headingType={'h2'}
-              />
+              /> */}
               <ProductDescription
                 description={productDescription}
                 productAttributes={parentProductAttributes}

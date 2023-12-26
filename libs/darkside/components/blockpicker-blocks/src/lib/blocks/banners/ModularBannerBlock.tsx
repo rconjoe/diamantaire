@@ -117,11 +117,15 @@ const ModularBannerBlock = (props) => {
   return (
     <BannerWrapper>
       <div
-        className={clsx(additionalClass, {
-          '-vertical-margins': !isFullWidth,
-        })}
+        className={clsx(
+          {
+            '-vertical-margins': !isFullWidth,
+          },
+          'modular-banner-container',
+          additionalClass,
+        )}
       >
-        <FullWidthImageContainer>
+        <FullWidthImageContainer className="full-width-image-container">
           <MobileDesktopImage
             desktopImage={desktopImage}
             mobileImage={mobileImage}
@@ -139,6 +143,7 @@ const ModularBannerBlock = (props) => {
               '-white': textColor?.toLowerCase() === 'white',
               '-wide': isTextBlockWide,
             },
+            'text-container',
             additionalClass,
           )}
         >

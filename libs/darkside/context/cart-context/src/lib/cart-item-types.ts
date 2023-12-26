@@ -10,6 +10,9 @@ export type ERProductCartItemProps = {
     productIconListShippingCopy: string;
     pdpUrl: string;
     shippingText: string;
+    _productTypeTranslated: string;
+    shippingBusinessDays: string;
+
     // This is the setting variant id
     feedId: string;
     // This is the engraving text
@@ -36,6 +39,8 @@ export type ERProductCartItemProps = {
     productAsset: string;
     _productTitle: string;
     _productType: string;
+    _specs: string;
+    _productTypeTranslated: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id
