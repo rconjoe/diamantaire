@@ -278,7 +278,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
         <Script
           id="klara-script"
-          src="https://na-library.klarnaservices.com/lib.js"
+          src="https://js.klarna.com/web-sdk/v1/klarna.js"
           data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
         ></Script>
 
@@ -355,7 +355,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
               />
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
+
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+
               <ProductAppointmentCTA productType={shopifyProductData?.productType} />
               <ProductGWP />
 

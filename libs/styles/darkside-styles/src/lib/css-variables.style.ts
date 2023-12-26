@@ -45,6 +45,8 @@ const CssVariables = styled.createGlobalStyle`
 
     /* Z Index */
     --z-index-nav: 40;
+    --z-index-filter: 50;
+    --z-index-modal: 60;
   }
 `;
 

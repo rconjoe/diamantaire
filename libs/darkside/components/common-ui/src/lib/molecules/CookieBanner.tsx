@@ -16,7 +16,7 @@ const CookieBannerStyles = styled.div`
   right: 0;
   color: var(--color-black);
   width: 100%;
-  z-index: var(--z-index-nav);
+  z-index: var(--z-index-modal);
 
   .container {
     background: var(--color-header-bg);
