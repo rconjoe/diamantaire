@@ -219,7 +219,6 @@ export const addItemToCart = async ({
 
       // Create a new cart with the initial item
       cart = await createCart({ locale, lineItems: [initialItem] });
-      console.log('returned cart', { cart, locale });
 
       // Update the cart ID in local storage
       cartId = cart.id;
