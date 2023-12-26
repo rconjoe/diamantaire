@@ -31,7 +31,12 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCFYResultOptionsFromUrl, getCountry, getDiamondType } from '@diamantaire/shared/helpers';
+import {
+  getCFYResultOptionsFromUrl,
+  getDiamondType,
+  getShipByDateCopy,
+  parseCookieHeader,
+} from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
@@ -55,7 +60,7 @@ interface CFYResultPageProps {
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, options = {} } = props;
+  const { locale, countryCode = 'US', options = {} } = props;
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -67,6 +72,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultNote,
     ctoDiamondResultNeedItFaster,
     ctoDiamondResultShapeAndWeightTitle,
+    ctoDiamondResultPolishedByDateCopy,
     ctoDiamondResultPolishedDiamondImageCaption: caption360,
     productIconList,
   } = diamondCfyData;
@@ -88,11 +94,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const { diamondType, carat, price } = product;
 
   const formattedPrice = getFormattedPrice(price, locale);
-
-  const formattedDate = getFormattedShipppingDate(
-    locale,
-    productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
-  );
 
   const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
@@ -152,6 +153,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
+
+  const formattedDate = getFormattedShipppingDate(
+    locale,
+    productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
+    ctoDiamondResultPolishedByDateCopy,
+    countryCode,
+  );
 
   useEffect(() => {
     setProduct(diamondCtoData[display]);
@@ -249,9 +257,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
 
               <div className="date">
-                <p>
-                  <UIString>Ships by</UIString> {formattedDate}
-                </p>
+                <p>{formattedDate}</p>
               </div>
 
               <div className="links">
@@ -304,7 +310,13 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const countryCode = getCountry(locale);
+  const cookies = parseCookieHeader(context.req.headers.cookie || '');
+
+  console.log(`****** cookies -----------------`, cookies);
+
+  const { geo } = cookies;
+
+  const countryCode = geo.country || 'US';
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
@@ -423,27 +435,25 @@ function isValidForReturn(diamondType, caratWeight) {
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
 }
 
-function getFormattedShipppingDate(locale, data) {
-  const result = new Date();
-  let days = data?.cutForYouShippingBusinessDays || 20;
+function getFormattedShipppingDate(locale, data, shippingText, countryCode) {
+  const isUserInUs = countryCode === 'US';
 
-  while (days > 0) {
-    result.setDate(result.getDate() + 1); // Move to the next day
+  const defaultBusinessDaysCount = 20;
 
-    // Check if the current day is not a Saturday (6) or Sunday (0)
-    if (result.getDay() !== 6 && result.getDay() !== 0) {
-      days--; // Subtract a day if it's a business day
+  const { cutForYouShippingBusinessDays = defaultBusinessDaysCount, cutForYouShippingBusinessDaysCountryMap = {} } =
+    data || {};
+
+  if (!isUserInUs && cutForYouShippingBusinessDaysCountryMap) {
+    const localizedCutForYouShippingBusinessDays = cutForYouShippingBusinessDaysCountryMap[countryCode];
+
+    // If a country specific buisness day is provided, then generate new shipping copy;
+    if (localizedCutForYouShippingBusinessDays) {
+      return getShipByDateCopy(localizedCutForYouShippingBusinessDays, shippingText, locale);
     }
+  } else {
+    // US override
+    return getShipByDateCopy(cutForYouShippingBusinessDays, shippingText, locale);
   }
-
-  const formattedDate = result.toLocaleDateString(locale, {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-  return formattedDate.replace(',', '');
 }
 
 function getOverrides(href: string, classOverride?: string) {

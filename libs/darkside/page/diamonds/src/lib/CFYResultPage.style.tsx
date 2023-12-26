@@ -176,6 +176,7 @@ const StyledCFYResultPage = styled.div`
     }
 
     .date {
+      min-height: 24px;
       margin: 2rem 0 0.5rem;
     }
 
