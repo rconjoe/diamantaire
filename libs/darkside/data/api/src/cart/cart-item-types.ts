@@ -1,3 +1,28 @@
+export type LooseDiamondProductCartItem = {
+  productAsset: string;
+  _productAssetObject: string;
+  _productTitle: string;
+  _productType: string;
+  _productTypeTranslated: string;
+  _specs: string;
+  productIconListShippingCopy: string;
+  shippingBusinessDays: string;
+  // This is the setting variant id
+  feedId: string;
+  // This unifies the setting with the custom diamond
+  productGroupKey: string;
+  // This refers to the setting url
+  pdpUrl: string;
+  shippingText: string;
+  caratWeight: string;
+  clarity: string;
+  cut: string;
+  color: string;
+  lotId: string;
+  isChildProduct?: string;
+  _dateAdded: string;
+};
+
 export type ERProductCartItemProps = {
   settingVariantId: string;
   settingAttributes: {

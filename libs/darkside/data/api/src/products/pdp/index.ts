@@ -414,6 +414,23 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
   }
 `;
 
+const DATO_JEWELRY_VARIANT_QUERY = gql`
+  query datoJewelryVariantQuery($locale: SiteLocale, $slug: String!) {
+    configuration(filter: { configuredProductOptionsInOrder: { eq: $slug } }, locale: $locale) {
+      id
+      productIconList {
+        productType
+      }
+      cut
+      carat
+      color
+      clarity
+      closure
+      chainWidth
+    }
+  }
+`;
+
 const DATO_VARIANT_QUERY = gql`
   query datoVariantQuery($locale: SiteLocale, $slug: String!) {
     omegaProduct(filter: { shopifyProductHandle: { eq: $slug } }, locale: $locale) {
@@ -675,9 +692,10 @@ export async function fetchDatoProductVideoBlock(id: string, locale: string) {
   return datoData;
 }
 
-export async function fetchDatoVariant(slug: string, locale: string) {
+export async function fetchDatoVariant(slug: string, productType: string, locale: string) {
   const datoData = await queryDatoGQL({
-    query: DATO_VARIANT_QUERY,
+    query:
+      productType === 'Engagement Ring' || productType === 'Wedding Band' ? DATO_VARIANT_QUERY : DATO_JEWELRY_VARIANT_QUERY,
     variables: { slug, locale },
   });
 

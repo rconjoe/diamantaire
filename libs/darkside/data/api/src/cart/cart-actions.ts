@@ -194,6 +194,19 @@ export const addItemToCart = async (
   }
 };
 
+export function addLooseDiamondToCart({ diamondVariantId, diamondAttributes }: LooseDiamondCartItemProps) {
+  const refinedDiamondAttributes = Object.keys(diamondAttributes)
+    .map((key) => {
+      return {
+        key,
+        value: diamondAttributes[key],
+      };
+    })
+    .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+  return addItemToCart(diamondVariantId, refinedDiamondAttributes);
+}
+
 export function addJewelryProductToCart({ variantId, attributes, engravingText, hasEngraving }: JewelryCartItemProps) {
   // shopify api won't ever take a product with an empty or null attribute value
   let refinedAttributes = Object.keys(attributes)
@@ -565,19 +578,6 @@ export async function addERProductToCart({
 
     return addCustomizedItem(groupedItems);
   }
-}
-
-export async function addLooseDiamondToCart({ diamondVariantId, diamondAttributes }: LooseDiamondCartItemProps) {
-  const refinedSettingAttributes = Object.keys(diamondAttributes)
-    .map((key) => {
-      return {
-        key,
-        value: diamondAttributes[key],
-      };
-    })
-    .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
-
-  return await addItemToCart(diamondVariantId, refinedSettingAttributes);
 }
 
 // temp

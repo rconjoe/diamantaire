@@ -7,6 +7,7 @@ export * from './fetchAndTrackPreviouslyViewed';
 export * from './formatCurrency';
 export * from './formatRingSize';
 export * from './getCountry';
+export * from './getLanguage';
 export * from './getFormattedShipByDate';
 export * from './getLocalStorageWishlist';
 export * from './getRelativeUrl';

@@ -1,5 +1,17 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
-export function specGenerator(configuration, productType, _t, earring_t) {
+
+type SpecGenerator = {
+  configuration: {
+    [key: string]: any;
+  };
+  productType: string;
+  _t: (key: string) => string;
+  earring_t?: (key: string) => string;
+  // Builder flow product indicator
+  hasChildDiamond?: boolean;
+};
+
+export function specGenerator({ configuration, productType, _t, earring_t, hasChildDiamond }: SpecGenerator) {
   const {
     diamondShape,
     diamondSize,
@@ -14,6 +26,7 @@ export function specGenerator(configuration, productType, _t, earring_t) {
     diamondType,
     caratWeightOverride,
     color,
+    cut,
     clarity,
     ringSize,
   } = configuration || {};
@@ -21,8 +34,9 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   const specArray = [];
 
   const isEngagementRing = productType === 'Engagement Ring';
+  const isDiamond = productType === 'Diamond';
 
-  // Need to duplicate the first 2 to catch all cases
+  // Need to duplicate next 2 to catch all cases
   if (diamondShape) {
     specArray.push(`${_t('shape')}: ${_t(diamondShape)}`);
   }
@@ -32,7 +46,7 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   }
 
   // ER specific
-  if (isEngagementRing) {
+  if (isEngagementRing && !hasChildDiamond) {
     specArray.push(`${_t('centerstone')}: ${caratWeightOverride + ', ' + color + ', ' + clarity}`);
   }
 
@@ -53,7 +67,7 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   }
 
   if (bandWidth) {
-    specArray.push(`${_t('band')}: ${_t(bandWidth)}`);
+    specArray.push(`${_t('bandWidth')}: ${_t(bandWidth)}`);
   }
 
   if (diamondCount) {
@@ -61,7 +75,7 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   }
 
   if (bandAccent) {
-    specArray.push(`${_t('bandAccent')}: ${_t(bandAccent)}`);
+    specArray.push(`${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent)}`);
   }
 
   if (chainLength) {
@@ -79,6 +93,13 @@ export function specGenerator(configuration, productType, _t, earring_t) {
   // ER specific
   if (isEngagementRing || productType === 'Wedding Band') {
     specArray.push(`${_t('ringSize')}: ${ringSize}`);
+  }
+
+  // Loose diamond Specifc
+  if (isDiamond) {
+    specArray.push(`${_t('color')}: ${color}`);
+    specArray.push(`${_t('clarity')}: ${clarity}`);
+    specArray.push(`${_t('cut')}: ${cut}`);
   }
 
   return specArray.join(';');

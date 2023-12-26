@@ -137,7 +137,7 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productType = useMemo(() => {
-    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
 
     if (matchingAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair

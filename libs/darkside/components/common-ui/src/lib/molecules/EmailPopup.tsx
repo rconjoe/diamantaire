@@ -1,7 +1,6 @@
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, HUBSPOT_EMAIL_POPUP_LISTDATA } from '@diamantaire/shared/constants';
-import { getIsUserInEu, getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { getUserCountry, makeCurrency } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Cookies from 'js-cookie';
@@ -91,12 +90,9 @@ const EmailPopUp = () => {
     // Check if the 'email-popup' cookie is set (pop-up was recently closed)
     const isEmailPopupCookieSet = !!Cookies.get('email-popup');
 
-    // Check if the 'hbe' cookie is set (user has already subscribed)
-    const isHbeCookieSet = !!Cookies.get('hbe');
-
     // Show the pop-up if it should render on this page,
-    // and neither the 'email-popup' nor 'hbe' cookies are set
-    return shouldRenderOnThisPage && !isEmailPopupCookieSet && !isHbeCookieSet;
+    // and 'email-popup' is not set
+    return shouldRenderOnThisPage && !isEmailPopupCookieSet;
   };
 
   const setupEmailPopup = () => {
@@ -107,7 +103,7 @@ const EmailPopUp = () => {
   };
 
   useEffect(() => {
-    if (Cookies.get('hbe')) return; // Check for hubspot cookie
+    if (Cookies.get('email-popup')) return;
     const timeoutId = setupEmailPopup();
 
     return () => {

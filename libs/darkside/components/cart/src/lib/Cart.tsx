@@ -146,7 +146,6 @@ const Cart = ({ closeCart }) => {
                       item={item}
                       info={cartItemInfo}
                       updateItemQuantity={updateItemQuantity}
-                      cartItemDetails={cartItemDetails}
                       key={`cart-item-${item.id}`}
                       certificate={certificates?.[0]}
                       hasChildProduct={hasChildProduct}

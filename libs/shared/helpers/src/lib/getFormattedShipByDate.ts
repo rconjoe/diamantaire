@@ -61,10 +61,10 @@ export const getShipByDate = (shippingBusinessDays, currentDateTime = DateTime.l
   const currentDate = DateTime.local(currentPacificDateTime.year, currentPacificDateTime.month, currentPacificDateTime.day);
 
   const {
-    // /* eslint-disable-next-line no-unused-vars */
-    // isColumbusDay,
-    // /* eslint-disable-next-line no-unused-vars */
-    // isMLKDay,
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    isColumbusDay,
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    isMLKDay,
     ...desiredHolidays
   } = currentDate.availableHolidayMatchers;
 
