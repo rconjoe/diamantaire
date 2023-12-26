@@ -999,7 +999,7 @@ export class ProductsService {
 
       const variantContentIds = [...variantIds, ...productHandles];
 
-      // TODO: may need paginated request but most likely not since we limit to 20 items per page
+      // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
         this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
@@ -1025,7 +1025,7 @@ export class ProductsService {
 
       // merge and reduce
       const plpProducts = Object.values(scopedPlpData).reduce(
-        (plpItems: ListPageItemWithConfigurationVariants[], item: VraiProductData) => {
+        (plpItems: ListPageItemWithConfigurationVariants[], item: any /* VraiProductData */) => {
           const { content, product, metal: metalOptions } = item;
 
           const altConfigs = Object.values<string>(metalOptions).reduce((map, id) => {
@@ -1067,7 +1067,8 @@ export class ProductsService {
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            productTitle: product.productTitle,
+            productTitle: content.collection.productTitle,
+            plpTitle: content?.plpTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
             ...(useLowestPrice && { useLowestPrice }),
@@ -1261,7 +1262,8 @@ export class ProductsService {
 
           productsArray.push({
             defaultId: product.contentId,
-            productTitle: content?.productTitle,
+            productTitle: content?.collection.productTitle,
+            plpTitle: content?.plpTitle,
             productType: product.productType,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
@@ -1351,6 +1353,8 @@ export class ProductsService {
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
     return {
       title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
+      productTitle: content?.collection?.productTitle,
+      plpTitle: content?.plpTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
       configuration: product.configuration,

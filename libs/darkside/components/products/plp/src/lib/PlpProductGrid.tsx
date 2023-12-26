@@ -196,6 +196,7 @@ const PlpProductGrid = ({
         <div className="product-grid__row ">
           {products?.length > 0 &&
             products?.map((product, gridItemIndex) => {
+
               if (!product) {
                 return null;
               }
