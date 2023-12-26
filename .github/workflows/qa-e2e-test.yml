@@ -37,7 +37,7 @@ jobs:
       - name: Run tests
         run:  cd apps/darkside/main && npx playwright test e2e/tests/control-temp  --workers=2
         env:
-          test_env: qa
+          test_env: stage
           # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
       - uses: actions/upload-artifact@v3
         if: always()
