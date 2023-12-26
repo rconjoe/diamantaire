@@ -674,7 +674,6 @@ const addCustomizedItem = async (
   // Create a new cart with initial items if no cart exists
   if (!cart) {
     try {
-      console.log('trying to create cart with ', { refinedItems });
       cart = await createCart({ locale, lineItems: refinedItems });
       cartId = cart.id;
       localStorage.setItem('cartId', cartId);
