@@ -141,7 +141,7 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
 
   return (
     <StyledDiamondIconOptionItem
-      className={clsx('option-item diamond-shape', value, { selected: isSelected, 'paired-icon': DiamondPairedIcon })}
+      className={clsx('option-item diamond-shape', value, { selected: isSelected })}
       title={valueLabel}
       onClick={onClick}
     >
