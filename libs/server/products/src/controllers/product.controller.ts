@@ -26,6 +26,15 @@ import { ProductsService } from '../services/product.service';
 export class ProductController {
   constructor(private readonly productService: ProductsService) {}
 
+  @Get('/p')
+  @ApiOperation({ summary: 'Get product variant' })
+  @ApiQuery({ name: 'slug', required: true, description: 'Plp slug' })
+  @ApiQuery({ name: 'category', required: true, description: 'Plp category' })
+  @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
+  async function(@Query() { category, slug, locale }: PlpInput) {
+    return await this.productService.getPlpProducts({ slug, category, locale });
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get product variant' })
   @ApiQuery({ name: 'slug', required: true, description: 'collection slug' })

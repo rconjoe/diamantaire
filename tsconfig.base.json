@@ -154,9 +154,6 @@
       "@diamantaire/nx-wmill": [
         "libs/nx/wmill/src/index.ts"
       ],
-      "@diamantaire/plp": [
-        "libs/server/plp/src/index.ts"
-      ],
       "@diamantaire/refer-a-friend": [
         "libs/darkside/page/refer-a-friend/src/index.ts"
       ],

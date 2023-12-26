@@ -1,6 +1,7 @@
 export * from './products.module';
 export * from './interface/product.interface';
 export * from './entities/product.entity';
+export * from './entities/plp.entity';
 export * from './repository/product.repository';
 export * from './services/product.service';
 export * from './dto/product.input';

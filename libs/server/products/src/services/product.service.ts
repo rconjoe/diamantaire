@@ -52,6 +52,7 @@ import {
   getDraftQuery,
 } from '../helper/product.helper';
 import { OptionsConfigurations, PLPResponse } from '../interface/product.interface';
+import { PlpRepository } from '../repository/plp.repository';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
@@ -64,6 +65,7 @@ export class ProductsService {
   private limiter: Bottleneck;
   constructor(
     private readonly productRepository: ProductRepository,
+    private readonly plpRepository: PlpRepository,
     private readonly utils: UtilService,
     @Inject(CACHE_MANAGER) private readonly cacheManager:CacheStore
   ) {
@@ -72,6 +74,125 @@ export class ProductsService {
       maxConcurrent: 1,
       minTime: 100,
     });
+  }
+
+  async getPlpProducts({ category, slug, locale, filterOptions = {}, paginationOptions = { limit: 12, page: 1 } }){
+    const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
+    const { limit, page } = paginationOptions;
+    const skip = (page - 1) * limit;
+
+    const filters = Object.entries(filterOptions).reduce((acc, [configType, value]) => {
+      acc[`configuration.${configType}`] = value;
+
+      return acc;
+    },{});
+
+    const products = await this.plpRepository.aggregate([
+      { $match: { slug: plpSlug }}, // Get specific PLP item
+      { $unwind: "$products" }, // Unwind products array so that we are working only with the products
+      { $replaceRoot: { newRoot: "$products" }},
+      { $match: filters },
+      //{ $sort: { price: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      {
+          $lookup: {
+              from: "products",
+              localField: "_id",
+              foreignField: "productSlug",
+              as: "product",
+          }
+      },
+      {
+          $lookup: {
+              from: "products",
+              localField: "variants",
+              foreignField: "productSlug",
+              as: "variants",
+          }
+      },
+      {
+          $project: {
+              product: { $first: "$product" },
+              variants: "$variants"
+          }
+      }
+    ]);
+
+    // generate query for product content by product type
+    const variantIdProductTypes = ['Necklace','Earrings','Bracelet','Ring'];
+    const productHandleProductTypes = ['Engagement Rings']
+    const contentIdsByProductType = products.reduce((acc,plpItem) => {
+
+      const idList = [plpItem.product.contentId, ...plpItem.variants.map(v => v.contentId)]
+
+      if (variantIdProductTypes.includes(plpItem.product.productType)){
+        acc.variantIds.push(...idList);
+      } else if(productHandleProductTypes.includes(plpItem.product.productType)){
+        acc.productHandles.push(...idList);
+      } else {
+        this.logger.verbose("Unknown product type.  Cannot add to ID list", plpItem.product.productType)
+      }
+
+      return acc;
+    },{ variantIds: [], productHandles: []})
+    
+    // Get DATO content
+    const productContent = await this.datoConfigurationsAndProducts(contentIdsByProductType);
+
+    // Create content map to merge with product data
+    const productContentMap = productContent.reduce((acc, content) => {
+      acc[content.variantId || content.shopifyProductHandle] = content;
+
+      return acc;
+    },{});
+
+    // Merge product data with content
+    const plpProducts = products.map(plpItem => {
+      const product = plpItem.product;
+      const metalOptions = [
+        { value: product.configuration.metal, id: product.contentId },
+        ...plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }))
+      ];
+      
+      return {
+        defaultId: product.contentId,
+        metal: metalOptions.sort((a,b) => sortMetalTypes(a.value,b.value)),
+        // ...(productLabel && { productLabel }),
+        // ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+        // ...(useLowestPrice && { useLowestPrice }),
+        // ...(lowestPrice && { lowestPrice }),
+        variants: plpItem.variants.reduce((acc,v) => {
+          const variantContent = productContentMap[v.contentId];
+          const collectionContent = variantContent.collection || variantContent.jewelryProduct;
+
+          if (!collectionContent) {
+            this.logger.warn(`No collection content found for variant ${v.productType} : ${v.contentId}`);
+          }
+
+          acc[v.contentId] = {
+            productType: product.productType,
+            productSlug: product.productSlug,
+            collectionSlug: product.collectionSlug,
+            configuration: product.configuration,
+            productTitle: collectionContent?.productTitle,
+            plpTitle: variantContent.plpTitle,
+            primaryImage: variantContent['plpImage']?.responsiveImage,
+            hoverImage: variantContent['plpImageHover']?.responsiveImage,
+            price: product.price,
+          }
+
+          return acc;
+        },{[product.contentId]:product})
+      }
+    })
+
+    return {
+      category, 
+      slug,
+      locale,
+      products: plpProducts,
+    };
   }
 
   /**
