@@ -122,7 +122,7 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
 
   .icon {
     gap: ${(props) => {
-      if (props.diamondShape === 'round-brilliant+pear') {
+      if (props.diamondShape === 'round-brilliant+pear' && props.isEastWest) {
         return '1.8rem';
       }
 
