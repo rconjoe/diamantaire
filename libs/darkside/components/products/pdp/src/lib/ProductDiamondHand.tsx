@@ -12,6 +12,7 @@ const offset = '2rem';
 const ProductDiamondHandStyles = styled.div`
   min-height: 20rem;
   background-color: #fff;
+  display: block;
 
   .hand-image-container {
     margin-bottom: ${offset};
@@ -27,7 +28,6 @@ const ProductDiamondHandStyles = styled.div`
       aspect-ratio: 1/1;
       position: relative;
       max-height: 330px;
-      max-height: 360px;
 
       @media (min-width: ${({ theme }) => theme.sizes.small}) {
         max-height: 360px;

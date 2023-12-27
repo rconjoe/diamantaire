@@ -1,13 +1,11 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, MediaAsset, MimeTypes } from '@diamantaire/shared/types';
-import dynamic from 'next/dynamic';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
 
 import { SpriteSpinnerBlock } from './SpriteSpinnerBlock';
+import { VideoAsset } from './VideoAsset';
 import { ProductDiamondHand } from '../ProductDiamondHand';
-
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 interface MediaGalleryProps {
   assets: MediaAsset[]; // define Asset (from DATO)
@@ -200,27 +198,5 @@ function ImageAsset({ image, defaultAlt, productType, index, shownWithCtw }: Ima
         </p>
       )}
     </ImageAssetStyles>
-  );
-}
-
-const VideoAssetContainer = styled.div`
-  aspect-ratio: 1/1;
-  position: relative;
-  video {
-    object-fit: cover;
-  }
-`;
-
-function VideoAsset({ video }) {
-  if (!video) return null;
-
-  const { streamingUrl } = video?.video || {};
-
-  return (
-    <VideoAssetContainer>
-      {streamingUrl && (
-        <ReactPlayer height="100%" width="100%" playing loop muted playsinline={true} url={streamingUrl} controls={false} />
-      )}
-    </VideoAssetContainer>
   );
 }

@@ -77,16 +77,8 @@ const StyledDiamondDetail = styled.div`
     .media-content {
       position: relative;
       flex: 1;
-      gap: ${gap};
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-
-      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-        justify-content: space-between;
-      }
     }
 
     .media-content-item {
@@ -105,7 +97,6 @@ const StyledDiamondDetail = styled.div`
     font-weight: var(--font-weight-medium);
     text-align: center;
     line-height: 1.2;
-    padding-right: 10%;
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       font-size: var(--font-size-large);
@@ -226,7 +217,6 @@ const StyledDiamondDetail = styled.div`
     width: 100%;
     display: block;
     overflow: hidden;
-    padding: 0 0 3rem;
 
     .swiper {
       overflow: visible;
@@ -254,7 +244,78 @@ const StyledDiamondDetail = styled.div`
 
     .diamond-hand {
       padding-bottom: 1rem;
-      max-width: calc(100% - 4.8rem);
+
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        max-width: calc(100% - 4.8rem);
+      }
+    }
+  }
+
+  .slider-dots {
+    flex: 1 1 100%;
+    padding: 20px 0;
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: none;
+    }
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+
+      li {
+        margin-right: 5px;
+
+        &:last-child {
+          margin-right: 0px;
+        }
+
+        button {
+          height: 0.8rem;
+          width: 0.8rem;
+          background-color: var(--color-black);
+          border: none;
+          border-radius: 50%;
+          line-height: 1;
+          padding: 0;
+          opacity: 0.3;
+
+          &.active {
+            opacity: 0.75;
+          }
+        }
+      }
+    }
+  }
+
+  /* Sam D. updates */
+
+  .desktop-media-slider {
+    display: none;
+
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: flex;
+    }
+  }
+
+  .mobile-media-slider {
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: none;
+    }
+  }
+
+  .wishlist-button--desktop {
+    display: none;
+
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: block;
+    }
+  }
+
+  .wishlist-button--mobile {
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      display: none;
     }
   }
 `;
