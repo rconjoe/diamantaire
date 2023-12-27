@@ -60,6 +60,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
       flex: 2;
       margin: 0 -1rem;
 
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding-right: 2rem;
+      }
+
       .embla {
         display: flex;
         flex-wrap: wrap;
@@ -510,7 +514,7 @@ const ReviewBuildStep = ({
     const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
       _productTitle: diamond?.productTitle,
       productAsset: diamondImage,
-      _dateAdded: Date.now().toString() + 100,
+      _dateAdded: (Date.now() + 100).toString(),
       caratWeight: diamond.carat.toString(),
       clarity: diamond.clarity,
       cut: diamond.cut,
@@ -755,7 +759,7 @@ const ReviewBuildStep = ({
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
                   range={[0.5, 8]}
-                  initValue={diamond?.carat}
+                  initValue={parseFloat(diamond?.carat)}
                   disableControls={true}
                 />
               </div>

@@ -17,6 +17,8 @@ interface MediaGalleryProps {
   productType: string;
   shownWithCtw?: string;
   diamondType?: string;
+  disableHandSliderControls?: boolean;
+  presetHandSliderValue?: number;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -42,6 +44,8 @@ function MediaGallery({
   productType,
   shownWithCtw,
   diamondType,
+  disableHandSliderControls = false,
+  presetHandSliderValue,
 }: MediaGalleryProps) {
   return (
     assets && (
@@ -60,7 +64,13 @@ function MediaGallery({
           />
         ))}
         {productType === 'Engagement Ring' && (
-          <ProductDiamondHand diamondType={diamondType} range={[0.5, 8]} initValue={2} />
+          <ProductDiamondHand
+            disableControls={disableHandSliderControls}
+            diamondType={diamondType}
+            range={[0.5, 8]}
+            initValue={presetHandSliderValue || 2}
+            prefix={presetHandSliderValue + 'ct'}
+          />
         )}
       </MediaGalleryStyles>
     )
