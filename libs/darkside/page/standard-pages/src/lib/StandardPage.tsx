@@ -108,49 +108,4 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
   };
 }
 
-// async function getServerSideProps({
-//   locale,
-//   params,
-//   res,
-// }: GetServerSidePropsContext<{ pageSlug: string; location?: string }>) {
-//   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1800');
-//   // device:
-//   const isMobile = false;
-//   const { pageSlug, location } = params || {};
-
-//   const { countryCode } = parseValidLocale(locale);
-//   const currencyCode = getCurrency(countryCode);
-//   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
-
-//   // dato
-//   const queryClient = new QueryClient();
-
-//   await queryClient.prefetchQuery({
-//     ...queries.template.global(locale),
-//   });
-
-//   await queryClient.prefetchQuery({
-//     ...standardPageContentQuery,
-//   });
-
-//   if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-
-//   return {
-//     props: {
-//       key: pageSlug,
-//       isMobile,
-//       currencyCode,
-//       countryCode,
-//       locale,
-//       ...(location && { location }),
-//       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
-//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//     },
-//   };
-// }
-
 export { StandardPage, getStaticProps, getStaticPaths };

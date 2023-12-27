@@ -17,7 +17,6 @@ export const BookAppointmentStyles = styled.div`
   }
 `;
 const BookAppointmentPage = (props) => {
-  console.log('BookAppointmentPage', props);
   const { location, locale } = props;
 
   if (!location) {
@@ -53,7 +52,7 @@ const customGetStaticProps = async (context) => {
 
 async function getStaticPaths({ locales }) {
   // Define the locales you want to include
-  const includedLocales = ['en-US', 'en-CA'];
+  const includedLocales = ['en-US'];
 
   // Filter the locales and generate paths
   const paths = ALL_SHOWROOMS.flatMap((showroomLocation) => {
