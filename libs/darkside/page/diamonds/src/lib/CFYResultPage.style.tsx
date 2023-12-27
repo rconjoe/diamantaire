@@ -237,6 +237,20 @@ const StyledCFYResultPage = styled.div`
       }
     }
   }
+
+  .desktop-only {
+    display: none;
+
+    ${desktopAndUp(`
+      display: block;
+    `)}
+  }
+
+  .mobile-only {
+    ${desktopAndUp(`
+      display: none;
+    `)}
+  }
 `;
 
 export default StyledCFYResultPage;

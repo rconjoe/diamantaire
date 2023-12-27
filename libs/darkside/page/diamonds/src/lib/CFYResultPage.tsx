@@ -182,11 +182,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       <StyledCFYResultPage className="container-wrapper">
         <div className="page-row">
           <div className="page-head mobile-only">
-            {isMobile && (
-              <div className="title">
-                <Heading>{ctoDiamondResultFoundTitle}</Heading>
-              </div>
-            )}
+            <div className="title">
+              <Heading>{ctoDiamondResultFoundTitle}</Heading>
+            </div>
           </div>
 
           <div className="page-content">
@@ -239,18 +237,16 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </div>
               )}
             </div>
-            {isMobile && <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />}
+            <div className="mobile-only">
+              <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
+            </div>
           </div>
 
           <div className="page-aside">
             <div className="inner">
               <div className="title desktop-only">
-                {!isMobile && (
-                  <>
-                    <Heading>{ctoDiamondResultFoundTitle}</Heading>
-                    <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
-                  </>
-                )}
+                <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
               </div>
 
               <div className="subtitle">
