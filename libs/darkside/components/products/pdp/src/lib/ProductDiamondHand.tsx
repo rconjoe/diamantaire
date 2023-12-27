@@ -149,7 +149,15 @@ const ProductDiamondHandStyles = styled.div`
   }
 `;
 
-const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }) => {
+type ProductDiamondHandProps = {
+  range: number[];
+  diamondType: string;
+  initValue: number;
+  disableControls?: boolean;
+  prefix?: string;
+};
+
+const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
 
   const pickDiamondWidth = (carat) => {
