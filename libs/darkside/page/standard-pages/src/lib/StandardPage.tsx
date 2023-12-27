@@ -63,8 +63,6 @@ async function getStaticPaths() {
     return includedLocales.map((locale) => ({ locale, params: { pageSlug: slug } }));
   });
 
-  console.log('pathsxxx', paths);
-
   return {
     paths,
     fallback: true,
@@ -72,7 +70,6 @@ async function getStaticPaths() {
 }
 
 async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
-  console.log('getStaticPropsxxx', locale, params);
   const isMobile = false;
   const { pageSlug, location } = params || {};
 

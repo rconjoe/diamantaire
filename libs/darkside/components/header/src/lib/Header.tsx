@@ -52,7 +52,6 @@ const HeaderWrapper = styled.div`
 
 const Header: FC<HeaderProps> = ({
   headerData,
-  isHome = false,
   headerRef,
   headerHeight,
   isTopbarShowing,
@@ -146,6 +145,10 @@ const Header: FC<HeaderProps> = ({
     return setMegaMenuIndex(-1);
   }
 
+  const isHome = router.pathname === '/';
+
+  console.log('isHome', isHome);
+
   useEffect(() => {
     setIsLoaded(true);
 
@@ -161,7 +164,7 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper $isHome={isHome}>
       <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
         {isHome ? (
           <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
@@ -202,6 +205,15 @@ const Header: FC<HeaderProps> = ({
                   />
                 </div>
               </motion.div>
+
+              {isLoaded && (
+                <MegaMenu
+                  navItems={section}
+                  megaMenuIndex={megaMenuIndex}
+                  headerHeight={headerHeight}
+                  isCompactMenuVisible={isCompactMenuVisible}
+                />
+              )}
             </AnimatePresence>
           </FullHeaderStyles>
         ) : (
