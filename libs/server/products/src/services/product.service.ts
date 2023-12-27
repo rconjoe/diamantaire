@@ -76,23 +76,24 @@ export class ProductsService {
     });
   }
 
-  async getPlpProducts({ category, slug, locale, filterOptions = {}, paginationOptions = { limit: 12, page: 1 } }){
+  async getPlpProducts({ category, slug, locale, metal, diamondType, style, priceMin, priceMax, limit = 12, page = 1  }){
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
-    const { limit, page } = paginationOptions;
     const skip = (page - 1) * limit;
 
-    const filters = Object.entries(filterOptions).reduce((acc, [configType, value]) => {
-      acc[`configuration.${configType}`] = value;
-
-      return acc;
-    },{});
+    const filters = {
+      ...(metal && { 'configuration.metal': metal }),
+      ...(style && { 'configuration.style': { $in: style }}),
+      ...(diamondType && { 'configuration.diamondType': diamondType }),
+      ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
+      ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
+    }
 
     const products = await this.plpRepository.aggregate([
       { $match: { slug: plpSlug }}, // Get specific PLP item
       { $unwind: "$products" }, // Unwind products array so that we are working only with the products
       { $replaceRoot: { newRoot: "$products" }},
-      { $match: filters },
-      //{ $sort: { price: -1 } },
+      // { $match: filters },
+      // { $sort: { price: -1 } },
       { $skip: skip },
       { $limit: limit },
       {
@@ -121,7 +122,7 @@ export class ProductsService {
 
     // generate query for product content by product type
     const variantIdProductTypes = ['Necklace','Earrings','Bracelet','Ring'];
-    const productHandleProductTypes = ['Engagement Rings']
+    const productHandleProductTypes = ['Engagement Ring','Wedding Band']
     const contentIdsByProductType = products.reduce((acc,plpItem) => {
 
       const idList = [plpItem.product.contentId, ...plpItem.variants.map(v => v.contentId)]
@@ -138,7 +139,7 @@ export class ProductsService {
     },{ variantIds: [], productHandles: []})
     
     // Get DATO content
-    const productContent = await this.datoConfigurationsAndProducts(contentIdsByProductType);
+    const productContent = await this.datoConfigurationsAndProducts({ slug: plpSlug, ...contentIdsByProductType, locale });
 
     // Create content map to merge with product data
     const productContentMap = productContent.reduce((acc, content) => {

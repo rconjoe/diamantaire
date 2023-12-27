@@ -31,8 +31,8 @@ export class ProductController {
   @ApiQuery({ name: 'slug', required: true, description: 'Plp slug' })
   @ApiQuery({ name: 'category', required: true, description: 'Plp category' })
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
-  async function(@Query() { category, slug, locale }: PlpInput) {
-    return await this.productService.getPlpProducts({ slug, category, locale });
+  async function(@Query() { category, slug, locale, metal, diamondType, priceMin, priceMax, style, limit, page }: PlpInput) {
+    return await this.productService.getPlpProducts({ slug, category, locale, metal, diamondType, priceMin, priceMax, style, limit, page });
   }
 
   @Get()
