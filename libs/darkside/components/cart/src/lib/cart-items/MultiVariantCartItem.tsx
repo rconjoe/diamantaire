@@ -133,7 +133,7 @@ const MultiVariantCartItem = ({
   const { locale } = useRouter();
 
   const { productRemoved } = useAnalytics();
-  const { attributes, merchandise, quantity } = item;
+  const { attributes, merchandise, cost, quantity } = item;
   const price = merchandise?.price?.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
@@ -226,7 +226,7 @@ const MultiVariantCartItem = ({
 
   async function handleRemoveProduct() {
     if (((hasChildProduct && childProduct) || engravingProduct) && checkout?.lines?.length > 1) {
-      const total = parseFloat(price) + parseFloat(childProduct?.merchandise?.price?.amount);
+      const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
       const formattedTotal = total.toFixed(2);
 
       productRemoved({
@@ -259,7 +259,7 @@ const MultiVariantCartItem = ({
                 variant: childProduct?.merchandise?.product?.title,
                 id: childProduct?.merchandise.id.split('/').pop(),
                 name: childProduct?.merchandise?.product?.title,
-                price: childProduct?.merchandise?.price?.amount,
+                price: childProduct?.cost?.totalAmount?.amount,
                 quantity: childProduct?.quantity,
               },
             ],
@@ -280,7 +280,7 @@ const MultiVariantCartItem = ({
               item_brand: 'VRAI',
               currency,
               item_category: childProduct?.merchandise?.product?.productType,
-              price: childProduct?.merchandise?.price?.amount,
+              price: childProduct?.cost?.totalAmount?.amount,
               quantity: childProduct?.quantity,
             },
           ],
@@ -365,18 +365,16 @@ const MultiVariantCartItem = ({
     }
   }
 
-  console.log('merchandise', merchandise);
-  console.log('childProduct', childProduct);
   const totalPrice =
     (engraving && childProduct
-      ? parseFloat(engravingProduct?.merchandise?.price?.amount) +
-        parseFloat(childProduct?.merchandise?.price?.amount) +
+      ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) +
+        parseFloat(childProduct?.cost?.totalAmount?.amount) +
         parseFloat(merchandise?.price?.amount)
       : engraving
-      ? parseFloat(merchandise?.price?.amount) + parseFloat(engravingProduct?.merchandise?.price?.amount)
+      ? parseFloat(merchandise?.price?.amount) + parseFloat(engravingProduct?.cost?.totalAmount?.amount)
       : childProduct
-      ? parseFloat(merchandise?.price?.amount) + parseFloat(childProduct?.merchandise?.price?.amount)
-      : parseFloat(merchandise?.price?.amount)) * 100;
+      ? parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount)
+      : parseFloat(cost?.totalAmount?.amount)) * 100;
 
   return (
     <MultiVariantCartItemStyles>
@@ -399,7 +397,7 @@ const MultiVariantCartItem = ({
           {hasChildProduct || engravingProduct ? (
             <p>{getFormattedPrice(totalPrice, locale)}</p>
           ) : (
-            <p>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</p>
+            <p>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</p>
           )}
         </div>
       </div>
@@ -412,8 +410,8 @@ const MultiVariantCartItem = ({
             {productType === 'Engagement Ring' && (
               <span>
                 {getFormattedPrice(
-                  ((engraving ? parseFloat(engravingProduct?.merchandise?.price?.amount) : 0) +
-                    parseFloat(merchandise?.price?.amount)) *
+                  ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +
+                    parseFloat(cost?.totalAmount?.amount)) *
                     100,
                   locale,
                 )}

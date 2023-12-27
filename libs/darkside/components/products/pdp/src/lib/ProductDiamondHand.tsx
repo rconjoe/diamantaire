@@ -149,7 +149,7 @@ const ProductDiamondHandStyles = styled.div`
   }
 `;
 
-const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false }) => {
+const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
 
   const pickDiamondWidth = (carat) => {
@@ -291,12 +291,20 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
     }
   };
 
+  console.log('prefix', prefix);
+
   return (
     <ProductDiamondHandStyles>
       <div className="hand-image-container">
         <div className="image-hand">
           <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
           <p className="shown-on-text text-center">
+            {prefix && (
+              <>
+                <UIString>{prefix}</UIString>
+                {' | '}
+              </>
+            )}
             <UIString>Shown on ring size 6</UIString>
           </p>
         </div>

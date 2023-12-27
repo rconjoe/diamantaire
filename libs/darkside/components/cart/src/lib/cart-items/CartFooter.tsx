@@ -1,13 +1,10 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-
-import { getEmailFromCookies } from '@diamantaire/darkside/data/api';
-import { goToCheckoutUrl, makeCurrencyFromShopifyPrice } from '@diamantaire/shared/helpers';
-
-import { updateShippingTimes } from '@diamantaire/darkside/data/api';
+import { getEmailFromCookies, updateShippingTimes } from '@diamantaire/darkside/data/api';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { goToCheckoutUrl } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -275,7 +272,10 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() => goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }));
+    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() =>
+      goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }),
+    );
+    // updateShippingTimes(_t('Made-to-order. Ships by'), locale);
   };
 
   function toggleConsent() {

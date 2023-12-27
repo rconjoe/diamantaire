@@ -14,6 +14,7 @@ import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@d
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
+import { useRouter } from 'next/router';
 import { Fragment, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -108,6 +109,14 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
       );
   }
 
+  const { query } = useRouter();
+
+  // console.log('router', router);
+  const selectYourSettingLink =
+    query?.collectionSlug && query.productSlug
+      ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
+      : `/customize/diamond-to-setting/${lotId}`;
+
   return (
     <StyledDiamondDetail headerHeight={headerHeight}>
       <div className="body">
@@ -152,7 +161,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           <div className="cta">
             {(product?.available_inventory && (
               <>
-                <DarksideButton type="solid" colorTheme="black" href={`/customize/diamond-to-setting/${lotId}`}>
+                <DarksideButton type="solid" colorTheme="black" href={selectYourSettingLink}>
                   {buttonTextDiamondFlow}
                 </DarksideButton>
 
