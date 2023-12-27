@@ -221,6 +221,7 @@ function OptionSelector({
   const prevButtonRef = useRef(null);
 
   const { _t } = useTranslations(locale);
+  const { _t: translateOptionNames } = useTranslations(locale, ['OPTION_NAMES']);
 
   useEffect(() => {
     // TODO: Resolve error
@@ -316,7 +317,7 @@ function OptionSelector({
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
-            <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
+            {translateOptionNames(label.replace('caratWeight', 'centerstone'))}:
           </Heading>
           <span>{renderOptionValue()}</span>
         </div>
