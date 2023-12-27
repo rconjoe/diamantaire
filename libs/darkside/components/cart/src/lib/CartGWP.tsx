@@ -118,7 +118,9 @@ const CartGWP = () => {
           })
           .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-        await addItemToCart(createShopifyVariantId(giftProduct.variantId), refinedAttributes).then(() => refetch());
+        const variantId = createShopifyVariantId(giftProduct.variantId);
+
+        await addItemToCart({ variantId, customAttributes: refinedAttributes, locale }).then(() => refetch());
       } else if (!hasUserQualified && doesUserHaveGWPInCart) {
         await updateMultipleItemsQuantity({
           items: [

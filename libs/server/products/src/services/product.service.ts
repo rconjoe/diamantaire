@@ -1061,13 +1061,13 @@ export class ProductsService {
             [product.contentId]: this.createPlpProduct(product, content),
             ...altConfigs,
           };
-
           const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
+          const collectionContent = content?.collection || content?.jewelryProduct;
 
           plpItems.push({
             defaultId: product.contentId,
             productType: product.productType,
-            productTitle: content.collection.productTitle,
+            productTitle: collectionContent?.productTitle,
             plpTitle: content?.plpTitle,
             ...(productLabel && { productLabel }),
             ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
@@ -1351,9 +1351,11 @@ export class ProductsService {
   }
 
   createPlpProduct(product: VraiProduct, content: Record<string, any>): ListPageItemConfiguration {
+    const collectionContent = content?.collection || content?.jewelryProduct;
+
     return {
-      title: content['plpTitle'] || content?.collection?.productTitle || product.collectionTitle,
-      productTitle: content?.collection?.productTitle,
+      title: content['plpTitle'] || collectionContent?.productTitle || product.collectionTitle,
+      productTitle: collectionContent?.productTitle,
       plpTitle: content?.plpTitle,
       productSlug: product.productSlug,
       collectionSlug: product.collectionSlug,
