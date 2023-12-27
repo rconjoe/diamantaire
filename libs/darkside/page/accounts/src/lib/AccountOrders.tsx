@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { AccountCustomer } from './AccountPage';
 
 const AccountOrdersStyles = styled.div`
-  padding: var(--gutter) 0;
+  padding: 4rem 0;
 
   .table {
     .table-row {
@@ -20,17 +20,28 @@ const AccountOrdersStyles = styled.div`
 
       .table-col {
         flex: 1;
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
+
+        ${media.medium`
+          font-size: var(--font-size-xxsmall);
+        `}
       }
     }
     .table-head {
       .table-row {
-        padding: 1rem 0;
+        padding: 0 0 1rem;
+
         .table-col {
           font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-xsmall);
+
+          ${media.medium`
+            font-size: var(--font-size-xsmall);
+          `};
         }
       }
     }
+
     .table-body {
       .table-row {
         padding: 1rem 0;

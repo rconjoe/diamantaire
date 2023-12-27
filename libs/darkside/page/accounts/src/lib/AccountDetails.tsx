@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { AccountCustomer } from './AccountPage';
 
 const AccountDetailsStyles = styled.div`
-  padding: 2rem 0;
+  padding: 4rem 0;
 
   .subtitle {
     font-size: var(--font-size-xsmall);
@@ -22,9 +22,9 @@ const AccountDetailsStyles = styled.div`
     }
   }
 
-  .shipping-info__container,
   .email__container,
-  .phone__container {
+  .phone__container,
+  .shipping-info__container {
     padding: 2rem 0;
     border-bottom: 0.1rem solid var(--color-grey);
   }
