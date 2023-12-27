@@ -299,8 +299,6 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
     }
   };
 
-  console.log('prefix', prefix);
-
   return (
     <ProductDiamondHandStyles>
       <div className="hand-image-container">

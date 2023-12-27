@@ -87,11 +87,7 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer
-        $isHome={isHome}
-        // distanceFromTop={isHome ? 0 : headerHeight}
-        distanceFromTop={isHome ? 0 : headerHeight}
-      >
+      <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
 

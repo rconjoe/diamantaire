@@ -114,8 +114,6 @@ const SettingBuildStep = ({
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
 
-  console.log('selectedConfiguration', builderProduct.diamond);
-
   return (
     <SettingBuildStepStyles
       key="setting-step-container"

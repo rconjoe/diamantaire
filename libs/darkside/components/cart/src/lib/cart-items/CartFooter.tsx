@@ -275,7 +275,6 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() =>
       goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }),
     );
-    // updateShippingTimes(_t('Made-to-order. Ships by'), locale);
   };
 
   function toggleConsent() {
