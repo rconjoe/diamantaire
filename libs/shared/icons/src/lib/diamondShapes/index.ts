@@ -208,6 +208,11 @@ export const diamondIconsMap = {
     icon: RoundBrilliantIcon,
     icon2: RoundBrilliantIcon,
   },
+  'round-brilliant+trillion': {
+    slug: 'round-brilliant+trillion',
+    icon: RoundBrilliantIcon,
+    icon2: TrillionIcon,
+  },
   'round-rose': {
     slug: 'round-rose',
     icon: RoundRoseIcon,

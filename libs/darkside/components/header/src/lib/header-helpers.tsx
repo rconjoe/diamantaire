@@ -58,6 +58,7 @@ export const diamondShapes = {
   'round-brilliant+baguette': 'Round Brilliant and Baguette',
   'round-brilliant+emerald': 'Round Brilliant and Emerald',
   'round-brilliant+round-brilliant': 'Round Brilliant and Round Brilliant',
+  'round-brilliant+trillion': 'Round Brilliant and Trillion',
   'marquise+baguette': 'Marquise and Baguette',
   'marquise+round-brilliant': 'Marquise and Round Brilliant',
 };
@@ -130,6 +131,7 @@ export const diamondShapesWithIcon = {
   'marquise+baguette': 'Marquise and Baguette',
   'marquise+round-brilliant': 'Marquise and Round Brilliant',
   'round-brilliant+round-brilliant': 'Round Brilliant and Round Brilliant',
+  'round-brilliant+trillion': 'Round Brilliant and Trillion',
 };
 
 export const ringStylesWithIcon: RingStyleWithIconProps = {
