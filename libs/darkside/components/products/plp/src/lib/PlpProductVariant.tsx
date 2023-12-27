@@ -293,7 +293,7 @@ function generatePlpTitle(placeholderString, productTitle: string, plpTitle: str
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
   }
 
-  if (!plpTitle && !isMixedDiamondType(diamondType)) {
+  if (!plpTitle && diamondType && !isMixedDiamondType(diamondType)) {
     // %%title%% %%shape%% in %%metal%% 
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType])} ${metal}`;
   } else {
