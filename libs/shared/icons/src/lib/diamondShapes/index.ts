@@ -109,6 +109,12 @@ export const diamondIconsMap = {
     icon: EmeraldIcon,
     icon2: RoundBrilliantIcon,
   },
+  'emerald+round-brilliant-east-west': {
+    slug: 'emerald+round-brilliant',
+    icon: EmeraldIcon,
+    icon2: RoundBrilliantIcon,
+    isEastWest: true,
+  },
   felix: {
     slug: 'felix',
     icon: FelixIcon,
@@ -223,6 +229,12 @@ export const diamondIconsMap = {
     slug: 'round-brilliant+pear',
     icon: RoundBrilliantIcon,
     icon2: PearIcon,
+  },
+  'round-brilliant+pear-east-west': {
+    slug: 'round-brilliant+pear',
+    icon: RoundBrilliantIcon,
+    icon2: PearIcon,
+    isEastWest: true,
   },
   'round-brilliant+oval': {
     slug: 'round-brilliant+oval',

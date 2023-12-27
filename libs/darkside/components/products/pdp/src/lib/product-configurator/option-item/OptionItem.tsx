@@ -121,19 +121,28 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 
   .icon {
-    gap: 0.5rem;
+    gap: ${(props) => {
+      if (props.diamondShape === 'round-brilliant+pear') {
+        return '1.8rem';
+      }
+
+      return props.isEastWest ? '1.5rem' : '0.5rem';
+    }};
     display: flex;
     svg {
       height: 3.2rem;
       width: auto;
       margin: 0 auto;
+      transform: ${(props) => (props.isEastWest ? 'rotate(90deg)' : 'none')};
     }
   }
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  const DiamondIcon = diamondIconsMap[value]?.icon;
-  const DiamondPairedIcon = diamondIconsMap[value]?.icon2;
+  const selectedDiamond = diamondIconsMap?.[value];
+  const DiamondIcon = selectedDiamond?.icon;
+  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const isEastWest = selectedDiamond?.isEastWest;
 
   if (!DiamondIcon) {
     return null;
@@ -144,6 +153,8 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
       className={clsx('option-item diamond-shape', value, { selected: isSelected })}
       title={valueLabel}
       onClick={onClick}
+      isEastWest={isEastWest}
+      diamondShape={value}
     >
       <span className="icon">
         <DiamondIcon />
