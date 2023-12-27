@@ -180,6 +180,7 @@ const CardProduct: React.FC<CardProductProps> = ({
         <div className="action">
           <div className="price">
             {price}
+            {locale !== 'en-US' && ' '}
             {requiresCustomDiamond && '+'}
           </div>
 
