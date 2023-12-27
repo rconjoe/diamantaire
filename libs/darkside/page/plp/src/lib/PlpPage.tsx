@@ -181,7 +181,7 @@ async function getStaticPaths() {
   const pageSlugs = await getAllPlpSlugs();
 
   // Define the locales you want to include
-  const includedLocales = ['en-US', 'en-CA'];
+  const includedLocales = ['en-US'];
 
   // Filter the locales and generate paths
   const paths = pageSlugs.flatMap(({ slug, category }) => {
