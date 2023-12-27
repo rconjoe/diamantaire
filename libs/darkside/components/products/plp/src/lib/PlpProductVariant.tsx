@@ -288,8 +288,6 @@ function generatePlpTitle(placeholderString, productTitle: string, plpTitle: str
   
   let genTitle = productTitle;
 
-  console.log(productTitle, plpTitle, {metal, diamondType})
-
   if (plpTitle) {
     // %%title%% in %%metal%% 
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
