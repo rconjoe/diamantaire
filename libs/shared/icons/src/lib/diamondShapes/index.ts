@@ -104,6 +104,11 @@ export const diamondIconsMap = {
     slug: 'emerald',
     icon: EmeraldIcon,
   },
+  'emerald+round-brilliant': {
+    slug: 'emerald+round-brilliant',
+    icon: EmeraldIcon,
+    icon2: RoundBrilliantIcon,
+  },
   felix: {
     slug: 'felix',
     icon: FelixIcon,
