@@ -759,7 +759,7 @@ const ReviewBuildStep = ({
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
                   range={[0.5, 8]}
-                  initValue={diamond?.carat}
+                  initValue={parseFloat(diamond?.carat)}
                   disableControls={true}
                 />
               </div>
