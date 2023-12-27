@@ -1,3 +1,5 @@
+
+import { SiteLocale } from '@diamantaire/_generated/datocms';
 export type LooseDiamondProductCartItem = {
   productAsset: string;
   _productAssetObject: string;
@@ -79,12 +81,14 @@ export type ERProductCartItemProps = {
   };
   hasEngraving: boolean;
   engravingText?: string;
+  locale?: string;
 };
 
 export type JewelryCartItemProps = {
   variantId: string;
   engravingText?: string;
   hasEngraving?: boolean;
+  locale?: string;
   attributes: {
     // Fulfillment
     _productType: 'Necklace' | 'Bracelet' | 'Earring';
@@ -134,4 +138,10 @@ export type LooseDiamondCartItemProps = {
     // isChildProduct: string;
     _dateAdded: string;
   };
+  locale?: string;
+};
+
+export type CreateCartVariables = {
+  email: string;
+  countryCode: string;
 };
