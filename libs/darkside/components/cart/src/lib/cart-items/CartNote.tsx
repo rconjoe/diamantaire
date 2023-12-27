@@ -86,7 +86,7 @@ const CartNote = ({ addNoteOptionCta }) => {
       setOrderHasNote(false);
     }
 
-    await updateGiftNote({ giftNote: giftNoteInputText }).then(() => refetch());
+    await updateGiftNote({ giftNote: giftNoteInputText, locale }).then(() => refetch());
     if (doesUserHaveNoteInCart) {
       const updatedAttributes = {
         _hiddenProduct: 'true',
@@ -163,7 +163,7 @@ const CartNote = ({ addNoteOptionCta }) => {
           })
           .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-        await addItemToCart(noteVariantId, refinedAttributes).then(() => refetch());
+        await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
       } else if (!orderHasNote && doesUserHaveNoteInCart) {
         await removeNoteFromOrder(doesUserHaveNoteInCart);
       }

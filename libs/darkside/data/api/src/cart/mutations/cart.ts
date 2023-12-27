@@ -12,10 +12,14 @@ export const addToCartMutation = /* GraphQL */ `
 `;
 
 export const createCartMutation = /* GraphQL */ `
-  mutation createCart($lineItems: [CartLineInput!]) {
-    cartCreate(input: { lines: $lineItems }) {
+  mutation createCart($lineItems: [CartLineInput!], $email: String, $countryCode: CountryCode) {
+    cartCreate(input: { lines: $lineItems, buyerIdentity: { email: $email, countryCode: $countryCode } }) {
       cart {
         ...cart
+      }
+      userErrors {
+        field
+        message
       }
     }
   }
@@ -57,4 +61,15 @@ export const updateGiftNoteMutation = /* GraphQL */ `
       }
     }
   }
+`;
+
+export const cartBuyerIdentityUpdateMutation = /* GraphQL */ `
+  mutation cartBuyerIdentityUpdate($cartId: ID!, $email: String, $countryCode: CountryCode) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: { email: $email, countryCode: $countryCode }) {
+      cart {
+        ...cart
+      }
+    }
+  }
+  ${cartFragment}
 `;

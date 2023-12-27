@@ -1,5 +1,6 @@
 import { useClerk } from '@clerk/nextjs';
 import { DarksideButton, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { accountEmailCookie } from '@diamantaire/darkside/data/api';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
@@ -97,6 +98,11 @@ const AccountPageNav = ({ customerName }) => {
       href: '/wishlist',
     },
   ];
+  const handleLogOutClick = () => {
+    accountEmailCookie.remove();
+
+    clerk.signOut();
+  };
 
   return (
     <AccountPageNavStyles>
@@ -109,7 +115,7 @@ const AccountPageNav = ({ customerName }) => {
         <div className="actions">
           <ul className="flex justify-flex-end list-unstyled">
             <li>
-              <DarksideButton type="underline" colorTheme="teal" onClick={() => clerk.signOut()}>
+              <DarksideButton type="underline" colorTheme="teal" onClick={handleLogOutClick}>
                 Log out
               </DarksideButton>
             </li>

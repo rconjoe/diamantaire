@@ -8,7 +8,7 @@ export const cart = createQueryKeys('cart', {
   }),
   checkout: (locale: string) => ({
     queryKey: [locale],
-    queryFn: () => fetchCartShopifyData(),
+    queryFn: () => fetchCartShopifyData(locale),
   }),
   gwp: (locale: string) => ({
     queryKey: [locale],
