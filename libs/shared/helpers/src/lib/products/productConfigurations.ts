@@ -1,11 +1,12 @@
 const CONFIG_TYPE_ORDER = [
   'diamondType',
+  'hiddenHalo',
+  'bandWidth',
   'sideStoneShape',
   'sideStoneCarat',
   'prongStyle',
   'metal',
   'ceramicColor',
-  'bandWidth',
   'bandAccent',
   'size',
   'caratWeight',

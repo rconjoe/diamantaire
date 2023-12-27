@@ -82,6 +82,9 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'value': {
       return ValueOptionItem;
     }
+    case 'hiddenHalo': {
+      return HiddenHaloOptionItem;
+    }
     default: {
       return BasicOptionItem;
     }
@@ -215,10 +218,9 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 }
 
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 3.8rem;
+  width: 3.8rem;
   position: relative;
-  left: -3px;
 
   .inner {
     justify-content: center;
@@ -227,9 +229,8 @@ const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
 
     img {
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      transform: scale(0.8);
+      width: 30px;
+      height: 30px;
     }
   }
 `;
@@ -246,6 +247,12 @@ function ImageIconOptionItem({ value, isSelected, imgSrc, onClick }: OptionItemC
 
 export function BandAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+export function HiddenHaloOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`hiddenHalo-${props.value}`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
