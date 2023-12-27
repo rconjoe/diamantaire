@@ -1,3 +1,4 @@
+import { useClerk } from '@clerk/nextjs';
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -55,10 +56,14 @@ const AccountOrdersStyles = styled.div`
 
 const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
   const [orders, setOrders] = useState(null);
+
   const [ordersLoaded, setOrdersLoaded] = useState(false);
 
   const { locale } = useRouter();
+
   const { _t } = useTranslations(locale);
+
+  const clerk = useClerk();
 
   useEffect(() => {
     async function getOrders() {
@@ -74,15 +79,28 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
         }),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        try {
+          return await response.json();
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
 
-      return data;
+          clerk.signOut();
+        }
+      } else {
+        console.error('HTTP error! Status:', response.status);
+
+        const rawResponse = await response.text();
+
+        console.log('text:', rawResponse);
+      }
     }
 
     async function fetchOrders() {
       const ordersTemp = await getOrders();
 
       setOrders(ordersTemp);
+
       setOrdersLoaded(true);
     }
 

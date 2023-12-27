@@ -1,4 +1,4 @@
-import { RedirectToSignIn, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
+import { RedirectToSignIn, SignedIn, SignedOut, useUser, useClerk } from '@clerk/nextjs';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ const AccountPage = () => {
   const [currentCustomer, setCurrentCustomer] = useState<AccountCustomer | null>(null);
   const { user } = useUser();
   const { query: { accountPageSlug: path } = {} } = useRouter();
+  const clerk = useClerk();
 
   useEffect(() => {
     if (!user) return;
@@ -54,9 +55,25 @@ const AccountPage = () => {
         }),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        try {
+          const json = await response.json();
 
-      setCurrentCustomer(data);
+          setCurrentCustomer(json);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+
+          clerk.signOut();
+        }
+      } else {
+        console.error('HTTP error! Status:', response.status);
+
+        const rawResponse = await response.text();
+
+        console.log('text:', rawResponse);
+
+        clerk.signOut();
+      }
     }
 
     getCustomer();

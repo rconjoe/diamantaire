@@ -183,7 +183,7 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
 
         window.scrollTo(0, 0);
       } else {
-        // TODO handle Error with message or visual or a call from your granma
+        // TODO handle Error
       }
     });
   }
@@ -218,7 +218,7 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
 
         window.scrollTo(0, 0);
       } else {
-        // TODO handle Error with message or visual or a call from your granma
+        // TODO handle Error
       }
     });
   }

@@ -1,6 +1,6 @@
 import { useClerk } from '@clerk/nextjs';
 import { DarksideButton, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -79,7 +79,7 @@ const AccountPageNavStyles = styled.div`
 const AccountPageNav = ({ customerName }) => {
   const { query, locale } = useRouter();
   const { accountPageSlug } = query || {};
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS_2]);
 
   const clerk = useClerk();
 
@@ -110,7 +110,7 @@ const AccountPageNav = ({ customerName }) => {
           <ul className="flex justify-flex-end list-unstyled">
             <li>
               <DarksideButton type="underline" colorTheme="teal" onClick={() => clerk.signOut()}>
-                Log out
+                <UIString>Log out</UIString>
               </DarksideButton>
             </li>
           </ul>
