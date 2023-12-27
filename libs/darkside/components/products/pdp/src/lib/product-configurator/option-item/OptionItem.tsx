@@ -82,6 +82,10 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'value': {
       return ValueOptionItem;
     }
+    case 'bandWidth': {
+      return BandWidthOptionItem;
+    }
+
     default: {
       return BasicOptionItem;
     }
@@ -246,6 +250,12 @@ function ImageIconOptionItem({ value, isSelected, imgSrc, onClick }: OptionItemC
 
 export function BandAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+export function BandWidthOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }

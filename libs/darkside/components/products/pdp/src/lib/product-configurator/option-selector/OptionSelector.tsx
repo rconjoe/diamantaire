@@ -106,6 +106,13 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.bandWidth {
+      button {
+        max-width: 3.8rem;
+        max-height: 3.8rem;
+      }
+    }
+
     &.sideStoneShape {
       button {
         margin-right: 2rem;
@@ -178,7 +185,6 @@ const StyledOptionSelector = styled.div`
 
     /* For selectors with medium sized buttons */
     &.prongStyle,
-    &.bandWidth,
     &.stoneSetting,
     &.bandVersion,
     &.bandStyle {
