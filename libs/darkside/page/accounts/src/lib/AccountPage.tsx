@@ -1,4 +1,4 @@
-import { RedirectToSignIn, SignedIn, SignedOut, useUser, useClerk } from '@clerk/nextjs';
+import { RedirectToSignIn, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { accountEmailCookie } from '@diamantaire/darkside/data/api';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
@@ -9,24 +9,24 @@ import { AccountOrders } from './AccountOrders';
 import { AccountPageNav } from './AccountPageNav';
 
 export type AccountCustomer = {
-  first_name: string;
-  last_name: string;
-  phone: string;
-  id: string;
-  email: string;
-  default_address: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    address1: string;
-    address2: string;
-    city: string;
-    zip: string;
-    province: string;
-    country: string;
-    phone: string;
-    country_code: string;
-    province_code: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  id?: string;
+  email?: string;
+  default_address?: {
+    id?: string;
+    first_name?: string;
+    last_name?: string;
+    address1?: string;
+    address2?: string;
+    city?: string;
+    zip?: string;
+    province?: string;
+    country?: string;
+    phone?: string;
+    country_code?: string;
+    province_code?: string;
   };
 };
 
@@ -34,12 +34,13 @@ const AccountPage = () => {
   const [currentCustomer, setCurrentCustomer] = useState<AccountCustomer | null>(null);
   const { user } = useUser();
   const { query: { accountPageSlug: path } = {} } = useRouter();
-  const clerk = useClerk();
 
   useEffect(() => {
     if (!user) return;
 
     const email = user.emailAddresses?.[0]?.emailAddress || null;
+
+    accountEmailCookie.set(email);
 
     if (!email) return;
 
@@ -64,7 +65,9 @@ const AccountPage = () => {
         } catch (error) {
           console.error('Error parsing JSON:', error);
 
-          clerk.signOut();
+          setCurrentCustomer({
+            email,
+          });
         }
       } else {
         console.error('HTTP error! Status:', response.status);
@@ -73,15 +76,13 @@ const AccountPage = () => {
 
         console.log('text:', rawResponse);
 
-        clerk.signOut();
+        setCurrentCustomer({
+          email,
+        });
       }
     }
 
     getCustomer();
-
-    if (email) {
-      accountEmailCookie.set(email);
-    }
   }, [user, path]);
 
   return (

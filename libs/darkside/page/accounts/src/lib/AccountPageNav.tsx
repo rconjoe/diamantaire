@@ -61,7 +61,25 @@ const AccountPageNavStyles = styled.div`
 
     ul {
       li {
+        position: relative;
         margin-right: 2.5rem;
+
+        &.disabled {
+          :after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            cursor: disabled;
+          }
+
+          a {
+            opacity: 0.5;
+          }
+        }
 
         ${media.medium`
           margin-right: 6rem;
@@ -109,14 +127,17 @@ const AccountPageNav = ({ customerName }) => {
     {
       title: _t('Account Details'),
       href: '/account/details',
+      enabled: true,
     },
     {
       title: _t('Order History'),
       href: '/account/order-history',
+      enabled: !!customerName,
     },
     {
       title: _t('Your Wishlist'),
       href: '/wishlist',
+      enabled: true,
     },
   ];
 
@@ -149,7 +170,7 @@ const AccountPageNav = ({ customerName }) => {
         <ul className="flex justify-center align-center list-unstyled container-wrapper nav-items">
           {navItems.map((item, index) => {
             return (
-              <li key={`account-nav-item-${index}`}>
+              <li key={`account-nav-item-${index}`} className={item.enabled ? '' : 'disabled'}>
                 <Link
                   className={clsx({
                     active: item.href.includes(accountPageSlug as string),
