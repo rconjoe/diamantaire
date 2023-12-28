@@ -1,6 +1,5 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
-import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import localFont from '@next/font/local';
@@ -122,7 +121,7 @@ export const GlobalTemplate = ({ children }) => {
 
       {footerData && <Footer footerData={footerData} />}
 
-      <WishlistSlideOut />
+      {/* <WishlistSlideOut /> */}
     </div>
   );
 };
