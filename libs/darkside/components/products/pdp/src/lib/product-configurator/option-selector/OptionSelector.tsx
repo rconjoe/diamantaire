@@ -236,7 +236,7 @@ function OptionSelector({
 
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, ['OPTION_NAMES']);
-
+  const { _t: translateBandwidthValues } = useTranslations(locale, ['BAND_WIDTH_LABEL_HUMAN_NAMES']);
   const diamondSliderOptions: EmblaOptionsType = {
     loop: false,
     dragFree: false,
@@ -357,7 +357,8 @@ function OptionSelector({
           );
         }
         break;
-
+      case 'bandWidth':
+        return translateBandwidthValues(selectedOptionValue);
       case 'value': // used for US only digital-gift-card
         return `$${selectedOptionValue}`;
 
