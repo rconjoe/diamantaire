@@ -22,15 +22,15 @@ const PlpProductGridStyles = styled.div`
 
   .grid-controls-container {
     position: sticky;
-    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
+    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
 
     .grid-controls {
       display: flex;
+      padding: 0 1rem;
       align-items: start;
       justify-content: space-between;
-      padding: 0 1rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         padding: 0;
@@ -196,7 +196,6 @@ const PlpProductGrid = ({
         <div className="product-grid__row ">
           {products?.length > 0 &&
             products?.map((product, gridItemIndex) => {
-
               if (!product) {
                 return null;
               }

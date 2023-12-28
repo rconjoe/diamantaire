@@ -273,7 +273,7 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     id
     enableGwp
     desktopImage {
-      responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 636, h: 804, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment
       }
     }
@@ -289,6 +289,17 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     ctaRoute
     darksideButtons {
       ${ButtonFragment}
+    }
+    additionalClass
+    configurationsInOrder {
+      ... on OmegaProductRecord {
+        _modelApiKey
+        shopifyProductHandle
+      }
+      ... on ConfigurationRecord {
+        _modelApiKey
+        variantId
+      }
     }
   }
 }

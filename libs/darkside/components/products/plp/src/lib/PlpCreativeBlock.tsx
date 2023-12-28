@@ -15,7 +15,9 @@ const PlpCreativeBlockStyles = styled.div`
   grid-column: 1/3;
   border: 0.1rem solid var(--color-light-grey);
 
-  ${media.medium`grid-column: 1/3; grid-area: 2 / 1 / 4 / 3;`}
+  ${media.medium`
+    grid-column: 1/3; grid-area: 2 / 1 / 4 / 3;
+  `}
 
   &.creative-block--right {
     ${media.medium`grid-area: 5 / 3 / 7 / 5;`}
@@ -25,27 +27,40 @@ const PlpCreativeBlockStyles = styled.div`
     position: relative;
 
     .creative-block__content {
-      ${media.small`position: absolute;right: 2rem;bottom: 2rem;`}
-
       .creative-block__content-inner {
-        background-color: #fff;
-        padding: calc(var(--gutter) / 2);
-        max-width: 420px;
+        position: absolute;
+        bottom: 4rem;
+        width: 100%;
+        left: 0;
+        display: flex;
+        justify-content: center;
+      }
 
-        p {
-          margin: calc(var(--gutter) / 4) 0;
-        }
+      &.with-copy-content .creative-block__content-inner {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-white);
+        gap: 1rem;
+        position: absolute;
+        max-width: 42rem;
+        right: -0.1rem;
+        bottom: 4rem;
+        padding: 2rem;
+        left: auto;
       }
     }
   }
 `;
 
 const PlpCreativeBlock = ({ block }) => {
-  const { desktopImage, mobileImage, desktopCopy, title, className, darksideButtons, enableGwp } = block || {};
+  console.log(`PlpCreativeBlock`, block);
+
+  const { desktopImage, mobileImage, desktopCopy, mobileCopy, title, className, darksideButtons, enableGwp } = block || {};
 
   const { locale } = useRouter();
 
   const { data: gwp } = usePlpGWP(locale);
+
   const { data: checkout } = useCartData(locale);
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
@@ -60,6 +75,7 @@ const PlpCreativeBlock = ({ block }) => {
   } = gwpData || {};
 
   const countryCode = getCountry(locale);
+
   const currencyCode = getCurrency(countryCode);
 
   const isWithinTimeframe =
@@ -72,6 +88,7 @@ const PlpCreativeBlock = ({ block }) => {
   const hasUserQualified = parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100 >= parseFloat(minSpendValue);
 
   const gwpText = hasUserQualified ? creativeBlockQualifiedCopy : creativeBlockNonQualifiedCopy;
+
   const areSettingsValid = isWithinTimeframe && isCountrySupported(supportedCountries, countryCode) && minSpendValue;
 
   let replacedGwpText = replacePlaceholders(
@@ -91,16 +108,21 @@ const PlpCreativeBlock = ({ block }) => {
       <div className="creative-block__image">
         <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
 
-        <div className="creative-block__content">
+        <div className={`creative-block__content ${title || desktopCopy || mobileCopy ? 'with-copy-content' : ''}`}>
           <div className="creative-block__content-inner">
             {enableGwp && areSettingsValid ? (
               <p>{replacedGwpText}</p>
             ) : (
               <>
-                <Heading type="h2" className="primary">
-                  {title}
-                </Heading>
-                <p>{desktopCopy}</p>
+                {title && (
+                  <Heading type="h2" className="primary">
+                    {title}
+                  </Heading>
+                )}
+
+                {desktopCopy && <p>{desktopCopy}</p>}
+
+                {mobileCopy && <p>{mobileCopy}</p>}
 
                 {darksideButtons?.map((button) => {
                   return (
