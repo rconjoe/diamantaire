@@ -19,6 +19,8 @@ export const bandWidthValues = [
   '3.2mm',
   '3mm',
   '4.5mm',
+  'standard',
+  'large',
 ] as const;
 export const sideStoneShapeValues = [
   'emerald',
