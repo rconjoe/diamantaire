@@ -76,13 +76,19 @@ interface ProductIconListProps {
   locale: string;
   withDropHint?: boolean;
   handleOpenDropHintModal?: (data: { link: string; image: string }) => void;
-  productData?: any;
+  productImageUrl?: string;
+  collectionSlug?: string;
+  productSlug?: string;
+  productType?: string;
 }
 
 const ProductIconList = ({
   productIconListType,
   locale,
-  productData,
+  productType,
+  collectionSlug,
+  productSlug,
+  productImageUrl,
   withDropHint = false,
   handleOpenDropHintModal,
 }: ProductIconListProps) => {
@@ -93,13 +99,6 @@ const ProductIconList = ({
   const { items } = productIconList || {};
 
   const slideoutContent = items?.find((item) => item.additionalInfo)?.additionalInfo;
-
-  const {
-    productType,
-    collectionSlug,
-    productSlug,
-    productContent: { image: { responsiveImage: { src: productImageUrl = {} } = {} } = {} } = {},
-  } = productData || {};
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);
 

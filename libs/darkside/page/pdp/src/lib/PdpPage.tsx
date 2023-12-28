@@ -359,6 +359,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
 
               <ProductAppointmentCTA productType={shopifyProductData?.productType} />
+
               <ProductGWP />
 
               {productIconListType && (
@@ -368,6 +369,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                   handleOpenDropHintModal={handleOpenDropHintModal}
                   locale={router?.locale}
                   withDropHint={true}
+                  productType={shopifyProductData?.productType}
+                  collectionSlug={collectionSlug}
+                  productSlug={productSlug}
+                  productImageUrl={productContent?.image?.responsiveImage?.src}
                 />
               )}
 
