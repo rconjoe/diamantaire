@@ -199,7 +199,7 @@ const Header: FC<HeaderProps> = ({
               }}
               className="slide-in-header"
             >
-              <div>
+              <div ref={compactHeaderRef}>
                 <CompactHeader
                   navItems={section}
                   toggleMegaMenuOpen={toggleMegaMenuOpen}
@@ -214,83 +214,13 @@ const Header: FC<HeaderProps> = ({
               <MegaMenu
                 navItems={section}
                 megaMenuIndex={megaMenuIndex}
-                headerHeight={headerHeight}
+                headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
                 isCompactMenuVisible={isCompactMenuVisible}
               />
             )}
           </AnimatePresence>
         </FullHeaderStyles>
 
-        {/* {isHome ? (
-          <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
-            {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-            <StackedHeader
-              navItems={section}
-              toggleMegaMenuOpen={toggleMegaMenuOpen}
-              menuIndex={megaMenuIndex}
-              toggleCart={toggleCart}
-              toggleCountrySelector={toggleCountrySelector}
-              toggleLanguageSelector={toggleLanguageSelector}
-              selectedCountry={countries[selectedCountryCode].name}
-              selectedLanguage={languagesByCode[selectedLanguageCode].name}
-              isLanguageSelectorOpen={isLanguageSelectorOpen}
-            />
-            <AnimatePresence>
-              <motion.div
-                key="slide-in-header"
-                initial="collapsed"
-                animate={isStickyNavShowing ? 'open' : 'collapsed'}
-                exit="collapsed"
-                variants={{
-                  open: { y: 0, opacity: 1 },
-                  collapsed: { y: -300, opacity: 0 },
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                className="slide-in-header"
-              >
-                <div>
-                  <CompactHeader
-                    navItems={section}
-                    toggleMegaMenuOpen={toggleMegaMenuOpen}
-                    menuIndex={megaMenuIndex}
-                    compactHeaderRef={compactHeaderRef}
-                    toggleCart={toggleCart}
-                  />
-                </div>
-              </motion.div>
-
-              {isLoaded && (
-                <MegaMenu
-                  navItems={section}
-                  megaMenuIndex={megaMenuIndex}
-                  headerHeight={headerHeight}
-                  isCompactMenuVisible={isCompactMenuVisible}
-                />
-              )}
-            </AnimatePresence>
-          </FullHeaderStyles>
-        ) : (
-          <FullHeaderStyles id="primary-navigation--compact" $isHome={isHome}>
-            {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-            <CompactHeader
-              navItems={section}
-              toggleMegaMenuOpen={toggleMegaMenuOpen}
-              menuIndex={megaMenuIndex}
-              toggleCart={toggleCart}
-            />
-
-            {isLoaded && (
-              <MegaMenu
-                navItems={section}
-                megaMenuIndex={megaMenuIndex}
-                headerHeight={headerHeight}
-                isCompactMenuVisible={isCompactMenuVisible}
-              />
-            )}
-          </FullHeaderStyles>
-        )} */}
         <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
       </div>
 

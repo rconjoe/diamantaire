@@ -37,21 +37,21 @@ export function calculateProximityToShowrooms(lat, lng) {
 export function isUserCloseToShowroom() {
   const geo = getUserGeo() || {};
 
-  let { latitude, longitude } = geo;
+  console.log('geo', geo);
+
+  const { latitude, longitude } = geo;
 
   // Dev fallback
   if (process.env.NODE_ENV === 'development' && (!latitude || !longitude)) {
     // Brooklyn
     // latitude = 40.6505;
     // longitude = -73.94958;
-
     // Madrid
     // latitude = 40.4607623;
     // longitude = -3.6966508;
-
     // SF
-    latitude = 37.7953449;
-    longitude = -122.3998769;
+    // latitude = 37.7953449;
+    // longitude = -122.3998769;
   }
 
   const results = calculateProximityToShowrooms(latitude, longitude);

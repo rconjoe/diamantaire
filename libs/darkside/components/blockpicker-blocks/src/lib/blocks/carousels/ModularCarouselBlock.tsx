@@ -84,7 +84,6 @@ const ModularCarouselBlock = (props) => {
           {props.title}
         </Heading>
       )}
-      <p>{_modelApiKey}</p>
       {SelectedSliderSlide ? (
         <CarouselSlider
           {...sliderType}

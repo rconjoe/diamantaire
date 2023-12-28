@@ -17,7 +17,6 @@ type CompactHeaderTypes = {
 };
 
 const CompactHeaderStyles = styled.div`
-  padding: 1.4rem 0;
   width: 100%;
   background-color: #fff;
   z-index: 5000;
@@ -32,6 +31,8 @@ const CompactHeaderStyles = styled.div`
 
   .compact-header__container {
     position: relative;
+    padding: 1.4rem 0;
+
     height: 100%;
 
     .compact-header__nav-wrapper {
