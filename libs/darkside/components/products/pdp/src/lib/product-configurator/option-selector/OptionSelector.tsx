@@ -367,12 +367,22 @@ function OptionSelector({
     }
   }
 
+  function getOptionHeaderName({ label, productType }) {
+    if (label === 'caratWeight' && productType === 'Engagement Ring') {
+      return 'centerstone';
+    }
+
+    return label;
+  }
+
+  const labelName = getOptionHeaderName({ label, productType });
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
-            {translateOptionNames(label.replace('caratWeight', 'centerstone'))}:
+            {translateOptionNames(labelName)}:
           </Heading>
           <span>{renderOptionValue()}</span>
         </div>
