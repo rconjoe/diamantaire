@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright E2E Tests for PR
 on:
   pull_request:
     branches:
@@ -15,7 +15,7 @@ jobs:
         id: waitForVercelPreviewDeployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          max_timeout: 900
+          max_timeout: 1000
           check_interval: 30
       - run: echo ${{steps.waitForVercelPreviewDeployment.outputs.url}}
 
