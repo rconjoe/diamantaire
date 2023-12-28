@@ -5,7 +5,7 @@ on:
       - develop
 jobs:
   test_setup:
-    name: Test setup
+    name: Test setup - Waiting for Vercel 
     runs-on: ubuntu-latest
     outputs:
       preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
@@ -15,7 +15,7 @@ jobs:
         id: waitForVercelPreviewDeployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          max_timeout: 660
+          max_timeout: 900
           check_interval: 30
       - run: echo ${{steps.waitForVercelPreviewDeployment.outputs.url}}
 
@@ -23,7 +23,7 @@ jobs:
   test_e2e:
     needs: test_setup
     name: Playwright tests
-    timeout-minutes: 5
+    timeout-minutes: 8
     runs-on: ubuntu-latest
     steps:
       - name: Prepare testing env
