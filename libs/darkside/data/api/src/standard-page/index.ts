@@ -49,6 +49,8 @@ import {
 } from '../modular';
 import { CelebrityGallery } from '../nonModular';
 
+export * from './getAllStandardPageSlugs';
+
 export const ALL_STANDARD_PAGE_SLUGS_QUERY = gql`
   query AllStandardPages($first: IntType!, $skip: IntType!) {
     allStandardPages(skip: $skip, first: $first) {
