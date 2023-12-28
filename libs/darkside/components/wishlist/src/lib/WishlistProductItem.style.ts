@@ -76,6 +76,31 @@ export const StyledWishlistSlideoutProductItem = styled.div`
       height: auto;
     }
   }
+
+  .pagination {
+    padding-top: 1rem;
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+      li {
+        padding: 0 0.5rem;
+        flex: 1;
+        button {
+          padding: 0;
+
+          &.active {
+            > div,
+            > img {
+              border: 0.1rem solid rgb(81, 104, 104);
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const StyledWishlistPageProductItem = styled.div`
@@ -163,5 +188,9 @@ export const StyledWishlistPageProductItem = styled.div`
     flex-direction: column;
     align-self: flex-end;
     display: flex;
+  }
+
+  .pagination {
+    display: none;
   }
 `;

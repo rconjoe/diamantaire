@@ -1,20 +1,13 @@
-import {
-  DarksideButton,
-  DatoImage,
-  SwiperStyles,
-  SwiperCustomPagination,
-  UIString,
-  UniLink,
-} from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, DatoImage, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DropHintIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
+import clsx from 'clsx';
+import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import Image from 'next/image';
-import { useEffect, useRef, useState, useMemo } from 'react';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useEffect, useState, useMemo } from 'react';
 
 import { WishlistLikeButton } from './WishlistLikeButton';
 
@@ -214,11 +207,36 @@ const CardBundle: React.FC<CardBundleProps> = ({
   isSharedWishlistPage,
   handleOpenDropHintModal,
 }) => {
-  const swiperRef = useRef(null);
-
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const [loadPagination, setLoadPagination] = useState(0);
+
+  const sliderOptions: EmblaOptionsType = {
+    loop: false,
+    dragFree: false,
+    align: 'start',
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      setActiveSlideIndex(emblaApi.selectedScrollSnap());
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+    };
+  }, [emblaApi]);
 
   useEffect(() => {
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
@@ -270,28 +288,48 @@ const CardBundle: React.FC<CardBundleProps> = ({
   return (
     <div className="card item-bundle">
       <div className="poster">
-        <SwiperStyles>
-          <Swiper
-            onSlideChange={(swiper) => {
-              setActiveSlideIndex(swiper.activeIndex);
-            }}
-            onSwiper={(swiper) => {
-              return (swiperRef.current = swiper);
-            }}
-            lazy={{ loadPrevNext: true }}
-            modules={[Pagination]}
-          >
+        <div className="embla" ref={emblaRef}>
+          <div className="embla__container">
             {media.map((v, i) => {
-              return <SwiperSlide key={`media${i}`}>{v}</SwiperSlide>;
+              return (
+                <div className="embla__slide" key={`media${i}`}>
+                  {v}
+                </div>
+              );
             })}
-            <SwiperCustomPagination
-              reload={loadPagination}
-              swiper={swiperRef.current}
-              activeIndex={activeSlideIndex}
-              thumb={media}
-            />
-          </Swiper>
-        </SwiperStyles>
+          </div>
+        </div>
+        <div className="pagination">
+          <ul>
+            <li>
+              <button
+                className={clsx({
+                  active: activeSlideIndex === 0,
+                })}
+                onClick={() => emblaApi?.scrollTo(0)}
+              >
+                <DatoImage quality={100} image={imageData} />
+              </button>
+            </li>
+            <li>
+              <button
+                className={clsx({
+                  active: activeSlideIndex === 1,
+                })}
+                onClick={() => emblaApi?.scrollTo(1)}
+              >
+                <Image
+                  key={1}
+                  alt={diamondType}
+                  src={generateCfyDiamondSpriteThumbUrl(diamondType)}
+                  sizes="100vw"
+                  height={0}
+                  width={0}
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div className="text">

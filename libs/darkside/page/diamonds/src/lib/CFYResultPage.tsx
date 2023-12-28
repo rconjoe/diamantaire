@@ -6,8 +6,6 @@ import {
   HideTopBar,
   Markdown,
   StickyElementWrapper,
-  SwiperCustomPagination,
-  SwiperStyles,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
@@ -20,7 +18,6 @@ import {
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import {
   humanNamesMapperType,
   useDiamondCfyData,
@@ -38,11 +35,11 @@ import {
   parseCookieHeader,
 } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
+import clsx from 'clsx';
+import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useEffect, useState } from 'react';
 
 import { StyledCFYResultPage } from './CFYResultPage.style';
 
@@ -61,8 +58,6 @@ interface CFYResultPageProps {
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, countryCode = 'US', options = {} } = props;
-
-  const { isMobile } = useContext(GlobalContext);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -97,15 +92,15 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
-  const swiperRef = useRef(null);
-
   const lotIdPicker = `cfy-${diamondType}`;
 
   const media = getMedia({ product, diamondType, lotIdPicker, caption360 });
 
-  const thumb = getThumb({ product, diamondType, lotIdPicker });
-
-  const slides = media.map((mediaComponent, index) => <SwiperSlide key={`media${index}`}>{mediaComponent}</SwiperSlide>);
+  const slides = media.map((mediaComponent, index) => (
+    <div className="embla__slide" key={`media${index}`}>
+      {mediaComponent}
+    </div>
+  ));
 
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
@@ -169,6 +164,33 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
   }, []);
 
+  const sliderOptions: EmblaOptionsType = {
+    loop: false,
+    dragFree: false,
+    align: 'start',
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      setActiveSlideIndex(emblaApi.selectedScrollSnap());
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+    };
+  }, [emblaApi]);
+
   return (
     <>
       <HideTopBar />
@@ -182,53 +204,78 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       <StyledCFYResultPage className="container-wrapper">
         <div className="page-row">
           <div className="page-head mobile-only">
-            {isMobile && (
-              <div className="title">
-                <Heading>{ctoDiamondResultFoundTitle}</Heading>
-              </div>
-            )}
+            <div className="title">
+              <Heading>{ctoDiamondResultFoundTitle}</Heading>
+            </div>
           </div>
 
           <div className="page-content">
             <div className="media">
               {diamondCtoData && (
-                <SwiperStyles>
-                  <Swiper
-                    onSlideChange={(swiper) => {
-                      setActiveSlideIndex(swiper.activeIndex);
-                    }}
-                    onSwiper={(swiper) => {
-                      return (swiperRef.current = swiper);
-                    }}
-                    lazy={{ loadPrevNext: true }}
-                    modules={[Pagination]}
-                    className="carousel"
-                  >
-                    {slides}
+                <div className="embla" ref={emblaRef}>
+                  <div className="embla__container carousel">{slides}</div>
 
-                    <SwiperCustomPagination
-                      reload={loadPagination}
-                      swiper={swiperRef.current}
-                      activeIndex={activeSlideIndex}
-                      thumb={thumb}
-                    />
-                  </Swiper>
-                </SwiperStyles>
+                  <div className="pagination">
+                    <ul>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 0 })} onClick={() => emblaApi?.scrollTo(0)}>
+                          <DiamondRough extraClass="media-content-item" width={60} height={60} priority={true} />
+                        </button>
+                      </li>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 1 })} onClick={() => emblaApi?.scrollTo(1)}>
+                          <DiamondPlan
+                            extraClass="media-content-item"
+                            diamondType={diamondType}
+                            width={60}
+                            height={60}
+                            priority={true}
+                          />
+                        </button>
+                      </li>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 2 })} onClick={() => emblaApi?.scrollTo(2)}>
+                          <Diamond360
+                            key={0}
+                            className="media-content-item diamond36"
+                            diamondType={diamondType}
+                            lotId={lotIdPicker}
+                            useImageOnly={true}
+                            width={60}
+                            height={60}
+                            priority={true}
+                          />
+                        </button>
+                      </li>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 3 })} onClick={() => emblaApi?.scrollTo(3)}>
+                          <DiamondHand
+                            key={1}
+                            className="media-content-item"
+                            diamond={product}
+                            isThumb={true}
+                            width={60}
+                            height={60}
+                            priority={true}
+                          />
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               )}
             </div>
 
-            {isMobile && <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />}
+            <div className="mobile-only">
+              <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
+            </div>
           </div>
 
           <div className="page-aside">
             <div className="inner">
               <div className="title desktop-only">
-                {!isMobile && (
-                  <>
-                    <Heading>{ctoDiamondResultFoundTitle}</Heading>
-                    <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
-                  </>
-                )}
+                <Heading>{ctoDiamondResultFoundTitle}</Heading>
+                <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
               </div>
 
               <div className="subtitle">
@@ -312,8 +359,6 @@ async function getServerSideProps(
 
   const cookies = parseCookieHeader(context.req.headers.cookie || '');
 
-  console.log(`****** cookies -----------------`, cookies);
-
   const { geo } = cookies;
 
   const countryCode = geo.country || 'US';
@@ -378,32 +423,6 @@ function getMedia({ product, diamondType, lotIdPicker, caption360 }) {
       caption={caption360}
     />,
     <DiamondHand key={3} className="media-content-item" diamond={product} priority={true} width={500} height={500} />,
-  ];
-}
-
-function getThumb({ product, diamondType, lotIdPicker }) {
-  return [
-    <DiamondRough key={0} extraClass="media-content-item" width={60} height={60} priority={true} />,
-    <DiamondPlan key={1} extraClass="media-content-item" diamondType={diamondType} width={60} height={60} priority={true} />,
-    <Diamond360
-      key={2}
-      className="media-content-item diamond36"
-      diamondType={diamondType}
-      lotId={lotIdPicker}
-      useImageOnly={true}
-      width={60}
-      height={60}
-      priority={true}
-    />,
-    <DiamondHand
-      key={3}
-      className="media-content-item"
-      diamond={product}
-      isThumb={true}
-      width={60}
-      height={60}
-      priority={true}
-    />,
   ];
 }
 

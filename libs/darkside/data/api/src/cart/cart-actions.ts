@@ -587,12 +587,12 @@ export async function addERProductToCart({
 
     const groupedItems = [
       {
-        variantId: settingVariantId,
-        customAttributes: refinedSettingAttributes,
-      },
-      {
         variantId: diamondVariantId,
         customAttributes: refinedDiamondAttributes,
+      },
+      {
+        variantId: settingVariantId,
+        customAttributes: refinedSettingAttributes,
       },
     ];
 

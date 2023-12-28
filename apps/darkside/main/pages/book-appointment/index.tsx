@@ -1,4 +1,4 @@
-import { StandardPage, getServerSideProps as originalGetServerSideProps } from '@diamantaire/darkside/page/standard-pages';
+import { StandardPage, getStaticProps as originalGetStaticProps } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 
 import { renderIframe, BookAppointmentStyles } from './[location]';
@@ -14,12 +14,12 @@ const BookAppointmentPage = (props) => {
   );
 };
 
-const customGetServerSideProps = async (context) => {
+const customGetStaticProps = async (context) => {
   const customContext = {
     ...context,
     params: { ...context.params, pageSlug: 'appointment-booking--darkside' },
   };
-  const serverSideProps = await originalGetServerSideProps(customContext);
+  const serverSideProps = await originalGetStaticProps(customContext);
 
   return {
     ...serverSideProps,
@@ -33,4 +33,4 @@ const customGetServerSideProps = async (context) => {
 BookAppointmentPage.getTemplate = getStandardTemplate;
 
 export default BookAppointmentPage;
-export { customGetServerSideProps as getServerSideProps };
+export { customGetStaticProps as getStaticProps };
