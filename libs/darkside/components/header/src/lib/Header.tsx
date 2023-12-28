@@ -166,7 +166,62 @@ const Header: FC<HeaderProps> = ({
   return (
     <HeaderWrapper $isHome={isHome}>
       <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-        {isHome ? (
+        <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
+          {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
+          {isHome && (
+            <StackedHeader
+              navItems={section}
+              toggleMegaMenuOpen={toggleMegaMenuOpen}
+              menuIndex={megaMenuIndex}
+              toggleCart={toggleCart}
+              toggleCountrySelector={toggleCountrySelector}
+              toggleLanguageSelector={toggleLanguageSelector}
+              selectedCountry={countries[selectedCountryCode].name}
+              selectedLanguage={languagesByCode[selectedLanguageCode].name}
+              isLanguageSelectorOpen={isLanguageSelectorOpen}
+            />
+          )}
+          <AnimatePresence>
+            <motion.div
+              key="slide-in-header"
+              initial={isHome ? 'collapsed' : 'open'}
+              animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+              exit="collapsed"
+              variants={{
+                open: { y: 0, opacity: 1 },
+                collapsed: { y: -300, opacity: 0 },
+              }}
+              transition={{
+                duration: 0.5,
+              }}
+              style={{
+                position: isHome ? 'fixed' : 'relative',
+              }}
+              className="slide-in-header"
+            >
+              <div>
+                <CompactHeader
+                  navItems={section}
+                  toggleMegaMenuOpen={toggleMegaMenuOpen}
+                  menuIndex={megaMenuIndex}
+                  compactHeaderRef={compactHeaderRef}
+                  toggleCart={toggleCart}
+                />
+              </div>
+            </motion.div>
+
+            {isLoaded && (
+              <MegaMenu
+                navItems={section}
+                megaMenuIndex={megaMenuIndex}
+                headerHeight={headerHeight}
+                isCompactMenuVisible={isCompactMenuVisible}
+              />
+            )}
+          </AnimatePresence>
+        </FullHeaderStyles>
+
+        {/* {isHome ? (
           <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
             {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
             <StackedHeader
@@ -235,7 +290,7 @@ const Header: FC<HeaderProps> = ({
               />
             )}
           </FullHeaderStyles>
-        )}
+        )} */}
         <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
       </div>
 
