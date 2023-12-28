@@ -1,8 +1,6 @@
 import Document, { Html, Main, NextScript, DocumentContext, Head } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import { vraiFont } from './_app';
-
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
@@ -30,7 +28,7 @@ export default class MyDocument extends Document {
       <Html>
         <Head />
 
-        <body className={vraiFont.variable}>
+        <body>
           <Main />
           <NextScript />
         </body>
