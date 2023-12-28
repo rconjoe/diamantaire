@@ -15,6 +15,7 @@ import {
   ProductDiamondHand,
   ProductIconList,
   ProductKlarna,
+  ProductPrice,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
@@ -417,7 +418,8 @@ const ReviewBuildStep = ({
   console.log('configState', configState);
 
   const productIconListTypeOverride =
-    additionalVariantData.productIconList?.productType || additionalVariantData?.configuration?.productIconList?.productType;
+    additionalVariantData?.productIconList?.productType ||
+    additionalVariantData?.configuration?.productIconList?.productType;
 
   const { data: { productIconList } = {} } = useProductIconList(
     productIconListTypeOverride ? productIconListTypeOverride : productIconListType,
@@ -761,6 +763,7 @@ const ReviewBuildStep = ({
                   range={[0.5, 8]}
                   initValue={parseFloat(diamond?.carat)}
                   disableControls={true}
+                  prefix={builderProduct.diamond?.carat.toString() + 'ct'}
                 />
               </div>
             </div>
@@ -789,7 +792,13 @@ const ReviewBuildStep = ({
             </Heading>
 
             <p className="total-price">
-              <span>{getFormattedPrice(totalPriceInCents, locale)}</span>
+              <ProductPrice
+                isBuilderProduct={false}
+                price={totalPriceInCents}
+                shouldDoublePrice={false}
+                productType={product?.productType}
+                engravingText={engravingText}
+              />
             </p>
 
             <div className="builder-summary__content">

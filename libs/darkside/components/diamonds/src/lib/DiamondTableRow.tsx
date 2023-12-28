@@ -51,7 +51,7 @@ const DiamondTableRow = ({
   console.log('builderProduct?.product', settingSlugs);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
-    settingSlugs.collectionSlug ? '?collectionSlug=' + settingSlugs.collectionSlug : ''
+    settingSlugs?.collectionSlug ? '?collectionSlug=' + settingSlugs?.collectionSlug : ''
   }${settingSlugs?.productSlug ? '&productSlug=' + settingSlugs?.productSlug : ''}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
@@ -69,6 +69,8 @@ const DiamondTableRow = ({
       </ToastErrorStyles>
     );
   };
+
+  console.log('router.query', router.query);
 
   const handleSelectDiamond = () => {
     const { carat, color, clarity, cut, price } = product;
@@ -96,15 +98,13 @@ const DiamondTableRow = ({
     });
 
     updateFlowData('ADD_DIAMOND', product);
-    if (router.query.flowType === 'setting-to-diamond') {
-      console.log('builderProduct drow', builderProduct);
-      console.log('settingSlugs drow', settingSlugs);
 
+    if (!router.query.flowType) {
+      router.push(`/customize/diamond-to-setting/${product.lotId}`);
+    } else if (router.query.flowType === 'setting-to-diamond') {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
-        `/customize/setting-to-diamond/summary/${`/${
-          settingSlugs?.collectionSlug || builderProduct?.product?.collectionSlug
-        }/${settingSlugs?.productSlug || builderProduct?.product?.productSlug}`}/${product?.lotId}`,
+        `/customize/setting-to-diamond/summary/${`/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
       );
     } else {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });

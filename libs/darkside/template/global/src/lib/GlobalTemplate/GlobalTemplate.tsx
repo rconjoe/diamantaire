@@ -37,14 +37,14 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')};
+  /* padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')};
   padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
   min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
     padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-  `}
+  `} */
 `;
 
 export type GlobalTemplateProps = {
@@ -102,6 +102,8 @@ export const GlobalTemplate = ({ children }) => {
     return () => resizeObserver.disconnect();
   }, [headerData, isTopbarShowing]);
 
+  console.log('headerData', headerData);
+
   return (
     <div className={vraiFont.className}>
       {headerData && (
@@ -115,9 +117,7 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
-        {children}
-      </MainContainer>
+      <MainContainer>{children}</MainContainer>
 
       {footerData && <Footer footerData={footerData} />}
 

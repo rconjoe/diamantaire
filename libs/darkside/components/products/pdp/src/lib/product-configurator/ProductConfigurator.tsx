@@ -261,7 +261,7 @@ function ProductConfigurator({
               );
             }}
           >
-            Next
+            <UIString>Complete & Review Your Ring</UIString>
           </DarksideButton>
         </div>
       ) : (

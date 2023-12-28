@@ -2,7 +2,7 @@ import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
@@ -25,7 +25,9 @@ const Cart = ({ closeCart }) => {
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
-  const isCartEmpty = checkout?.lines.length === 0;
+  const isCartEmpty = !checkout || checkout?.totalQuantity === 0 ? true : false;
+
+  console.log('isCartEmpty', isCartEmpty);
   const router = useRouter();
 
   const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
@@ -47,6 +49,7 @@ const Cart = ({ closeCart }) => {
   const {
     cartHeader,
     subtotalCopy,
+    euSubtotalCopy,
     cartCtaCopy,
     termsAndConditionsCtaCopy,
     termsAndConditionsCtaLink,
@@ -60,6 +63,8 @@ const Cart = ({ closeCart }) => {
     // Fetch latest cart data
     refetch();
   }, []);
+
+  const { countryCode } = parseValidLocale(locale);
 
   return (
     <>
@@ -207,7 +212,7 @@ const Cart = ({ closeCart }) => {
                   <hr />
                   <div className="cart-subtotal__summary">
                     <p>
-                      {subtotalCopy} <br />{' '}
+                      {getVat(countryCode) ? euSubtotalCopy : subtotalCopy} <br />{' '}
                     </p>
                     <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
