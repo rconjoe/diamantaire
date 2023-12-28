@@ -791,7 +791,7 @@ const ReviewBuildStep = ({
               {product?.productTitle}
             </Heading>
 
-            <p className="total-price">
+            <div className="total-price">
               <ProductPrice
                 isBuilderProduct={false}
                 price={totalPriceInCents}
@@ -799,7 +799,7 @@ const ReviewBuildStep = ({
                 productType={product?.productType}
                 engravingText={engravingText}
               />
-            </p>
+            </div>
 
             <div className="builder-summary__content">
               <div className="builder-summary__content__inner">

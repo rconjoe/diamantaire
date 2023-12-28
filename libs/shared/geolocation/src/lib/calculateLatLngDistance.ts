@@ -37,8 +37,6 @@ export function calculateProximityToShowrooms(lat, lng) {
 export function isUserCloseToShowroom() {
   const geo = getUserGeo() || {};
 
-  console.log('geo', geo);
-
   const { latitude, longitude } = geo;
 
   // Dev fallback

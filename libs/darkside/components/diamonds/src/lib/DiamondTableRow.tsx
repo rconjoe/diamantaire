@@ -70,8 +70,6 @@ const DiamondTableRow = ({
     );
   };
 
-  console.log('router.query', router.query);
-
   const handleSelectDiamond = () => {
     const { carat, color, clarity, cut, price } = product;
 

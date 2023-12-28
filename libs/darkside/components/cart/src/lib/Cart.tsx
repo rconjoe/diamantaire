@@ -27,7 +27,6 @@ const Cart = ({ closeCart }) => {
 
   const isCartEmpty = !checkout || checkout?.totalQuantity === 0 ? true : false;
 
-  console.log('isCartEmpty', isCartEmpty);
   const router = useRouter();
 
   const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
