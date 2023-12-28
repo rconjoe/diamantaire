@@ -205,6 +205,16 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: #e9d540;
     }
   }
+  &.yellow-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #c8ab6e 50%, #c8c8c8 50%);
+    }
+  }
+  &.rose-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #ceac8b 50%, #c8c8c8 50%);
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
