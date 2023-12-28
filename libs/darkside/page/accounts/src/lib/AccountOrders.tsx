@@ -1,3 +1,4 @@
+import { useClerk } from '@clerk/nextjs';
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -10,7 +11,7 @@ import styled from 'styled-components';
 import { AccountCustomer } from './AccountPage';
 
 const AccountOrdersStyles = styled.div`
-  padding: var(--gutter) 0;
+  padding: 4rem 0;
 
   .table {
     .table-row {
@@ -19,17 +20,28 @@ const AccountOrdersStyles = styled.div`
 
       .table-col {
         flex: 1;
-        font-size: var(--font-size-xxxsmall);
+        font-size: var(--font-size-xxsmall);
+
+        ${media.medium`
+          font-size: var(--font-size-xxsmall);
+        `}
       }
     }
     .table-head {
       .table-row {
-        padding: 1rem 0;
+        padding: 0 0 1rem;
+
         .table-col {
           font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-xsmall);
+
+          ${media.medium`
+            font-size: var(--font-size-xsmall);
+          `};
         }
       }
     }
+
     .table-body {
       .table-row {
         padding: 1rem 0;
@@ -55,10 +67,14 @@ const AccountOrdersStyles = styled.div`
 
 const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
   const [orders, setOrders] = useState(null);
+
   const [ordersLoaded, setOrdersLoaded] = useState(false);
 
   const { locale } = useRouter();
+
   const { _t } = useTranslations(locale);
+
+  const clerk = useClerk();
 
   useEffect(() => {
     async function getOrders() {
@@ -74,15 +90,28 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
         }),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        try {
+          return await response.json();
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
 
-      return data;
+          clerk.signOut();
+        }
+      } else {
+        console.error('HTTP error! Status:', response.status);
+
+        const rawResponse = await response.text();
+
+        console.log('text:', rawResponse);
+      }
     }
 
     async function fetchOrders() {
       const ordersTemp = await getOrders();
 
       setOrders(ordersTemp);
+
       setOrdersLoaded(true);
     }
 
