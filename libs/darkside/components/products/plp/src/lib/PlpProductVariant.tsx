@@ -1,10 +1,8 @@
 /* eslint-disable camelcase */
 import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/analytics';
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
-import { replacePlaceholders , makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -42,21 +40,12 @@ const PlpProductVariantStyles = styled.div`
       border-radius: 0.2rem;
     }
   }
-  .plp-variant__content {
-    padding: calc(var(--gutter) / 10) 0;
-    h3 {
-      font-size: var(--font-size-xxxsmall);
-      font-weight: var(--font-weight-normal);
-    }
-  }
 `;
 
 const PlpProductVariant = ({
   variant,
   position,
   plpTitle,
-  lowestPrice,
-  useLowestPrice,
   label,
   builderFlow = false,
   selectSettingForBuilderFlow,
@@ -74,11 +63,15 @@ const PlpProductVariant = ({
   const router = useRouter();
 
   const { countryCode } = parseValidLocale(router?.locale);
-  const { _t } = useTranslations(router?.locale, [humanNamesMapperType.DIAMOND_SHAPES, humanNamesMapperType.METALS_IN_HUMAN_NAMES, humanNamesMapperType.UI_STRINGS_2]);
+  const { _t } = useTranslations(router?.locale, [
+    humanNamesMapperType.DIAMOND_SHAPES,
+    humanNamesMapperType.METALS_IN_HUMAN_NAMES,
+    humanNamesMapperType.UI_STRINGS_2,
+  ]);
 
   const currencyCode = getCurrency(countryCode);
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
-  const { productType, collectionSlug, productSlug, title, productTitle, plpTitle: variantTitle, primaryImage, hoverImage, price } = variant || {};
+  const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
 
@@ -86,8 +79,6 @@ const PlpProductVariant = ({
     metalTypeAsConst[configuration?.metal]
   }`;
 
-  const generatedTitle = generatePlpTitle(_t('%%title%% %%shape%% in'), productTitle, variantTitle, { diamondType: _t(variant.configuration.diamondType), metal: _t(variant.configuration.metal) } );
-  
   const handleImageChange = () => {
     if (!hoverImage?.src) return;
     setIsPrimaryImage(!isPrimaryImage);
@@ -196,17 +187,7 @@ const PlpProductVariant = ({
                     )}
               </button>
 
-              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
-
               {label && <span className="plp-variant__label">{label}</span>}
-            </div>
-            <div className="plp-variant__content">
-              <h3>
-                {generatedTitle} |{' '}
-                {useLowestPrice
-                  ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
-                  : makeCurrency(price, router?.locale, currencyCode)}
-              </h3>
             </div>
           </div>
         </button>
@@ -253,17 +234,7 @@ const PlpProductVariant = ({
                     )}
               </button>
 
-              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
-
               {label && <span className="plp-variant__label">{label}</span>}
-            </div>
-            <div className="plp-variant__content">
-              <h3>
-                {generatedTitle} |{' '}
-                {useLowestPrice
-                  ? makeCurrency(lowestPrice, router.locale, currencyCode) + '+'
-                  : makeCurrency(price, router.locale, currencyCode)}
-              </h3>
             </div>
           </div>
         </ProductLink>
@@ -271,38 +242,5 @@ const PlpProductVariant = ({
     </PlpProductVariantStyles>
   );
 };
-
-function isMixedDiamondType(diamondType: string){
-  const regex = /\w+(\+\w+)/;
-
-  return regex.test(diamondType);
-}
-
-// https://diamondfoundry.atlassian.net/wiki/spaces/DGT/pages/971407413/Product+Titles+on+PLPs
-type ProductConfigureation = {
-  metal: string;
-  diamondType: string;
-} & Record<string, string>
-
-function generatePlpTitle(placeholderString, productTitle: string, plpTitle: string, {metal, diamondType} : ProductConfigureation ) {
-  
-  let genTitle = productTitle;
-
-  if (plpTitle) {
-    // %%title%% in %%metal%% 
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
-  }
-
-  if (!plpTitle && diamondType && !isMixedDiamondType(diamondType)) {
-    // %%title%% %%shape%% in %%metal%% 
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType])} ${metal}`;
-  } else {
-    // %%title%% in %%metal%%
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])} ${metal}`;
-  }
-
-  return genTitle
-
-}
 
 export { PlpProductVariant };
