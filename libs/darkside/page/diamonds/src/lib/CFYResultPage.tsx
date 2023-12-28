@@ -11,7 +11,6 @@ import {
 import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -23,7 +22,7 @@ import clsx from 'clsx';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { StyledCFYResultPage } from './CFYResultPage.style';
 
@@ -42,8 +41,6 @@ interface CFYResultPageProps {
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { locale, options = {} } = props;
-
-  const { isMobile } = useContext(GlobalContext);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 

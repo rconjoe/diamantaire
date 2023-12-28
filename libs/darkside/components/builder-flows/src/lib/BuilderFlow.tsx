@@ -196,15 +196,6 @@ const BuilderFlow = ({
       updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     } else if (type === 'setting-to-diamond' && settingSlugs?.productSlug && settingSlugs?.collectionSlug && initialLotId) {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
-
-      // D2S - Select Setting
-    } else if (
-      type === 'diamond-to-setting' &&
-      initialLotId &&
-      !settingSlugs?.collectionSlug &&
-      !settingSlugs?.productSlug
-    ) {
-      updateFlowData('UPDATE_STEP', { step: 'select-setting' });
     } else if (
       type === 'diamond-to-setting' &&
       initialLotId &&
@@ -212,7 +203,8 @@ const BuilderFlow = ({
       !router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
     ) {
-      updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+      // D2S - Select Setting
+      updateFlowData('UPDATE_STEP', { step: 'select-setting' });
     } else if (
       type === 'diamond-to-setting' &&
       initialLotId &&
