@@ -14,6 +14,8 @@ const SignInPageStyles = styled.div`
   padding: 50px 0 100px;
   margin: 0 auto;
   max-width: 400px;
+  min-height: 63rem;
+
   .cl-rootBox {
     width: 100%;
     margin: 0 auto;
@@ -61,4 +63,5 @@ const SignInPage = () => {
 };
 
 SignInPage.getTemplate = getAccountTemplate;
+
 export default SignInPage;

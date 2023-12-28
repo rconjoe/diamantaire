@@ -1,7 +1,7 @@
 import { useClerk } from '@clerk/nextjs';
 import { DarksideButton, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { accountEmailCookie } from '@diamantaire/darkside/data/api';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -13,15 +13,20 @@ const AccountPageNavStyles = styled.div`
     padding: 2rem 2.4rem;
 
     ${media.medium`
-    padding: 4rem 0;`}
+      padding: 4rem 0;
+    `}
 
     .title {
       flex: 1;
 
       h2 {
-        font-size: var(--font-size-xxlarge);
+        font-size: var(--font-size-large);
         font-family: var(--font-family-main);
         font-weight: var(--font-weight-normal);
+
+        ${media.medium`
+          font-size: var(--font-size-xxlarge);
+        `}
       }
 
       .customer-name {
@@ -31,12 +36,18 @@ const AccountPageNavStyles = styled.div`
 
     .actions {
       flex: 1;
+
       li {
         a {
-          font-size: var(--font-size-small);
-          color: var(--color-teal);
-          border-bottom: 0.1rem solid var(--color-teal);
           transition: 0.25s;
+          color: var(--color-teal);
+          font-size: var(--font-size-small);
+          border-bottom: 0.1rem solid var(--color-teal);
+
+          ${media.medium`
+            font-size: var(--font-size-small);
+          `}
+
           &:hover {
             opacity: 0.6;
           }
@@ -44,24 +55,52 @@ const AccountPageNavStyles = styled.div`
       }
     }
   }
+
   .nav-items__container {
     background-color: var(--color-lightest-grey);
 
     ul {
       li {
-        margin-right: 4rem;
+        position: relative;
+        margin-right: 2.5rem;
+
+        &.disabled {
+          :after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            cursor: disabled;
+          }
+
+          a {
+            opacity: 0.5;
+          }
+        }
+
+        ${media.medium`
+          margin-right: 6rem;
+        `}
 
         &:last-child {
-          margin-right: 0px;
+          margin-right: 0;
         }
 
         a {
-          font-size: var(--font-size-xxxsmall);
+          font-size: var(--font-size-xsmall);
+          font-weight: var(--font-weight-normal);
           border-bottom: 0.2rem solid transparent;
           padding: 1rem 0 0.5rem;
           display: inline-block;
           transition: 0.25s;
-          font-weight: var(--font-weight-normal);
+          line-height: 1.2;
+
+          ${media.medium`
+            font-size: var(--font-size-small);
+          `}
 
           &:hover,
           &.active {
@@ -80,7 +119,7 @@ const AccountPageNavStyles = styled.div`
 const AccountPageNav = ({ customerName }) => {
   const { query, locale } = useRouter();
   const { accountPageSlug } = query || {};
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS_2]);
 
   const clerk = useClerk();
 
@@ -88,16 +127,20 @@ const AccountPageNav = ({ customerName }) => {
     {
       title: _t('Account Details'),
       href: '/account/details',
+      enabled: true,
     },
     {
       title: _t('Order History'),
       href: '/account/order-history',
+      enabled: !!customerName,
     },
     {
       title: _t('Your Wishlist'),
       href: '/wishlist',
+      enabled: true,
     },
   ];
+
   const handleLogOutClick = () => {
     accountEmailCookie.remove();
 
@@ -116,7 +159,7 @@ const AccountPageNav = ({ customerName }) => {
           <ul className="flex justify-flex-end list-unstyled">
             <li>
               <DarksideButton type="underline" colorTheme="teal" onClick={handleLogOutClick}>
-                Log out
+                <UIString>Log out</UIString>
               </DarksideButton>
             </li>
           </ul>
@@ -127,7 +170,7 @@ const AccountPageNav = ({ customerName }) => {
         <ul className="flex justify-center align-center list-unstyled container-wrapper nav-items">
           {navItems.map((item, index) => {
             return (
-              <li key={`account-nav-item-${index}`}>
+              <li key={`account-nav-item-${index}`} className={item.enabled ? '' : 'disabled'}>
                 <Link
                   className={clsx({
                     active: item.href.includes(accountPageSlug as string),
