@@ -15,6 +15,10 @@ const SpritSpinnerContainer = styled.div`
     height: 100%;
   }
 
+  .spritespin-instance {
+    position: static;
+  }
+
   span {
     display: block;
     text-align: center;

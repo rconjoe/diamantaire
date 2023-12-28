@@ -5,6 +5,10 @@ export const VideoSlideContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  video {
+    object-fit: cover;
+  }
+
   > a:hover .list-item__media--hover {
     opacity: 1;
   }

@@ -83,7 +83,6 @@ export const CarouselSliderContainer = styled.div`
 
   .carousel-arrow {
     background: #fff;
-    cursor: pointer;
     display: none;
     align-items: center;
     justify-content: center;
@@ -93,6 +92,11 @@ export const CarouselSliderContainer = styled.div`
     z-index: 1;
     right: 0;
     top: 0;
+
+    button {
+      padding: 0;
+      background-color: transparent;
+    }
 
     ${tabletAndUp(`
     display: flex;
@@ -154,27 +158,17 @@ export const CarouselSliderContainer = styled.div`
     overflow: hidden;
 
     ${tabletAndUp(`
-    width: calc(100vw  - 12.5rem);
+    max-width: calc(100vw  - 12.5rem);
   `)}
 
     ${XXLDesktopAndUp(`
-    width: calc(${carouselWidth} - ${chevronWidth} * 2);
+    max-width: calc(${carouselWidth} - ${chevronWidth} * 2);
     `)}
 
   &.xl-width {
       ${XXLDesktopAndUp(`
-     width: 90vw;
+     max-width: 90vw;
     `)}
-    }
-
-    &:before {
-      content: '';
-      width: 100%;
-      height: 2rem;
-      background: #fff;
-      position: absolute;
-      bottom: 0;
-      left: 0;
     }
   }
 
@@ -216,6 +210,32 @@ export const CarouselSliderContainer = styled.div`
       ${mobileOnly(`
     transform: scale(1);
   `)}
+    }
+  }
+
+  /* Embla styles */
+
+  &.modular_carousel_hover_block,
+  &.modular_product_slider_block,
+  &.modular_celebrity_carousel_block,
+  &.modular_instagram_reel_block,
+  &.modular_slick_carousel_block,
+  &.modular_grid_carousel_block {
+    .embla__slide {
+      padding: 0 10px;
+      max-width: 280px;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        flex: 0 0 25%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  &.modular_slick_carousel_block {
+    .embla__slide {
+      flex: 0 0 20%;
+      padding: 0 40px;
     }
   }
 `;
