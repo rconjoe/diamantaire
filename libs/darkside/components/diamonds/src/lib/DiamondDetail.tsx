@@ -14,15 +14,9 @@ import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@d
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-<<<<<<< HEAD
-import { useRouter } from 'next/router';
-import { Fragment, useContext } from 'react';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-=======
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import { useRouter } from 'next/router';
 import { Fragment, useContext, useEffect, useState } from 'react';
->>>>>>> 0863d3fa (replace all swiper sliders)
 import { v4 as uuidv4 } from 'uuid';
 
 import Diamond360 from './Diamond360';
@@ -116,7 +110,6 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   }
 
   const { query } = useRouter();
-
 
   const selectYourSettingLink =
     query?.collectionSlug && query.productSlug
