@@ -365,7 +365,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               {productIconListType && (
                 <ProductIconList
                   productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
-                  productData={shopifyProductData}
                   handleOpenDropHintModal={handleOpenDropHintModal}
                   locale={router?.locale}
                   withDropHint={true}

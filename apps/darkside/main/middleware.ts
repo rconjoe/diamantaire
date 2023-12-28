@@ -1,7 +1,6 @@
 import { authMiddleware } from '@clerk/nextjs';
 import { isDevEnv } from '@diamantaire/shared/constants';
 import { kv } from '@vercel/kv';
-import { el } from 'date-fns/locale';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
