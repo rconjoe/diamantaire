@@ -90,10 +90,6 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
     <SettingSelectStepStyles>
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
-        <div className="title-container">
-          <h1>Setting Select</h1>
-        </div>
-
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
           <div className="loader-container">
             <Loader color={'#719093'} />

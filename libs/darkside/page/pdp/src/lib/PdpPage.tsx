@@ -120,8 +120,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
 
-  console.log('additionalVariantData v1', additionalVariantData);
-  console.log('productContent v1', productContent);
+  // console.log('additionalVariantData v1', additionalVariantData);
+  // console.log('productContent v1', productContent);
 
   // ER/WB
   if (additionalVariantData?.omegaProduct) {
@@ -250,9 +250,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
         />
         <Script
           id="klara-script"
-          src="https://na-library.klarnaservices.com/lib.js"
+          src="https://js.klarna.com/web-sdk/v1/klarna.js"
           data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
         ></Script>
+
         <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
 
         <Script
@@ -323,7 +324,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
               />
 
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price : price / 2} />
+              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
 
               <ProductAppointmentCTA productType={shopifyProductData?.productType} />
 

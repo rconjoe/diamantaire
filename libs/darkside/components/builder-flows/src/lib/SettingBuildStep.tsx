@@ -16,6 +16,7 @@ import {
   ProductPrice,
   ProductTitle,
 } from '@diamantaire/darkside/components/products/pdp';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
 import { isEmptyObject } from '@diamantaire/shared/helpers';
@@ -23,7 +24,7 @@ import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 const SettingBuildStepStyles = styled(motion.div)`
@@ -108,6 +109,7 @@ const SettingBuildStep = ({
   const router = useRouter();
 
   const { _t } = useTranslations(router.locale);
+  const { builderProduct } = useContext(BuilderProductContext);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -141,6 +143,8 @@ const SettingBuildStep = ({
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={selectedConfiguration?.diamondType}
+              disableHandSliderControls={true}
+              presetHandSliderValue={parseFloat(builderProduct.diamond?.carat)}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>

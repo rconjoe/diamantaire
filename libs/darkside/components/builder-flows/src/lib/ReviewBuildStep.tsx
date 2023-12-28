@@ -10,7 +10,12 @@ import {
   SlideOut,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { OptionSelector, ProductDiamondHand, ProductIconList } from '@diamantaire/darkside/components/products/pdp';
+import {
+  OptionSelector,
+  ProductDiamondHand,
+  ProductIconList,
+  ProductKlarna,
+} from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
@@ -36,6 +41,7 @@ import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -53,6 +59,10 @@ const ReviewBuildStepStyles = styled(motion.div)`
     .product-images {
       flex: 2;
       margin: 0 -1rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding-right: 2rem;
+      }
 
       .embla {
         display: flex;
@@ -325,7 +335,8 @@ const ReviewBuildStep = ({
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
-  const { data: checkout, refetch } = useCartData(router?.locale);
+  const { locale } = router;
+  const { data: checkout, refetch } = useCartData(locale);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -350,11 +361,11 @@ const ReviewBuildStep = ({
 
   const { product, diamond } = builderProduct;
 
-  const { countryCode } = parseValidLocale(router?.locale);
+  const { countryCode } = parseValidLocale(locale);
 
   const currencyCode = getCurrency(countryCode);
 
-  const { _t } = useTranslations(router?.locale);
+  const { _t } = useTranslations(locale);
 
   const mutatedLotId = diamond?.lotId && getNumericalLotId(diamond?.lotId);
 
@@ -372,7 +383,7 @@ const ReviewBuildStep = ({
   }
 
   const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
-  const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
+  const { data }: { data: any } = useProductDato(collectionSlug, locale, pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
   const productIconListType = datoParentProductData?.productIconList?.productType;
@@ -503,7 +514,7 @@ const ReviewBuildStep = ({
     const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
       _productTitle: diamond?.productTitle,
       productAsset: diamondImage,
-      _dateAdded: Date.now().toString() + 100,
+      _dateAdded: (Date.now() + 100).toString(),
       caratWeight: diamond.carat.toString(),
       clarity: diamond.clarity,
       cut: diamond.cut,
@@ -528,6 +539,7 @@ const ReviewBuildStep = ({
       diamondAttributes,
       hasEngraving: engravingText ? true : false,
       engravingText,
+      locale,
     }).then(() => refetch());
 
     updateGlobalContext({
@@ -537,10 +549,10 @@ const ReviewBuildStep = ({
     // TODO: Add Sentry Loggin
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
-    const formattedSettingPrice = getFormattedPrice(settingPrice, router?.locale, true, true);
-    const formattedDiamondPrice = getFormattedPrice(diamond?.price, router?.locale, true, true);
+    const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamond?.price, locale, true, true);
     const id = settingVariantId.split('/').pop();
-    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, router?.locale, true, true);
+    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, locale, true, true);
 
     productAdded({
       id,
@@ -708,7 +720,7 @@ const ReviewBuildStep = ({
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  console.log('productIconListTypeOverride', productIconListTypeOverride);
+  const totalPriceInCents = product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
   return (
     <ReviewBuildStepStyles
@@ -724,6 +736,11 @@ const ReviewBuildStep = ({
         duration: 0.75,
       }}
     >
+      <Script
+        id="klara-script"
+        src="https://js.klarna.com/web-sdk/v1/klarna.js"
+        data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
+      ></Script>
       <div className="review-wrapper">
         <div className="product-images ">
           <div className="embla" ref={isWindowDefined && window.innerWidth > 767 ? emblaRef : null}>
@@ -742,7 +759,7 @@ const ReviewBuildStep = ({
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
                   range={[0.5, 8]}
-                  initValue={diamond?.carat}
+                  initValue={parseFloat(diamond?.carat)}
                   disableControls={true}
                 />
               </div>
@@ -772,12 +789,7 @@ const ReviewBuildStep = ({
             </Heading>
 
             <p className="total-price">
-              <span>
-                {getFormattedPrice(
-                  product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0),
-                  router?.locale,
-                )}
-              </span>
+              <span>{getFormattedPrice(totalPriceInCents, locale)}</span>
             </p>
 
             <div className="builder-summary__content">
@@ -924,6 +936,7 @@ const ReviewBuildStep = ({
                     </DarksideButton>
                   </li>
                   <li>
+                    <ProductKlarna title={productTitle} currentPrice={totalPriceInCents} />
                     <ProductAppointmentCTA productType={productType} />
                   </li>
                 </ul>
@@ -933,7 +946,7 @@ const ReviewBuildStep = ({
                 <div className="product-icon-list-container">
                   <ProductIconList
                     productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
-                    locale={router.locale}
+                    locale={locale}
                   />
                 </div>
               )}

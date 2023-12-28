@@ -46,12 +46,15 @@ const DiamondTableRow = ({
   const { _t } = useTranslations(locale);
 
   const { isMobile } = useContext(GlobalContext);
+  const { builderProduct } = useContext(BuilderProductContext);
 
-  const diamondDetailRoute = `${diamondRoutePdp}/${handle}`;
+  console.log('builderProduct?.product', settingSlugs);
+
+  const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
+    settingSlugs.collectionSlug ? '?collectionSlug=' + settingSlugs.collectionSlug : ''
+  }${settingSlugs?.productSlug ? '&productSlug=' + settingSlugs?.productSlug : ''}`;
 
   const diamondExpertRoute = diamondRouteAppointment;
-
-  const { builderProduct } = useContext(BuilderProductContext);
 
   const ToastErrorStyles = styled.div`
     p {
@@ -157,7 +160,7 @@ const DiamondTableRow = ({
       pdpUrl: window.location.href,
     };
 
-    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes }).then(() => refetch());
+    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes, locale }).then(() => refetch());
 
     updateGlobalContext({ isCartOpen: true });
   };

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
-import { updateShippingTimes } from '@diamantaire/darkside/data/api';
+import { getEmailFromCookies, updateShippingTimes } from '@diamantaire/darkside/data/api';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { goToCheckoutUrl } from '@diamantaire/shared/helpers';
@@ -272,8 +272,9 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-
-    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() => goToCheckoutUrl({ checkoutUrl, locale, consent }));
+    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() =>
+      goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }),
+    );
   };
 
   function toggleConsent() {

@@ -1,4 +1,5 @@
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
+import { accountEmailCookie } from '@diamantaire/darkside/data/api';
 import { getTemplate as getAccountTemplate } from '@diamantaire/darkside/template/accounts';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -60,6 +61,10 @@ const AccountPage = () => {
     }
 
     getCustomer();
+
+    if (email) {
+      accountEmailCookie.set(email);
+    }
   }, [user, path]);
 
   return (

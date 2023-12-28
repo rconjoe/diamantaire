@@ -1,7 +1,7 @@
-import { PlpPage, createPlpServerSideProps } from '@diamantaire/darkside/page/plp';
+import { PlpPage, createStaticProps, getStaticPaths } from '@diamantaire/darkside/page/plp';
 
 export default PlpPage;
 
-const getServerSideProps = createPlpServerSideProps('engagement-rings');
+const getStaticProps = createStaticProps('engagement-rings');
 
-export { getServerSideProps };
+export { getStaticProps, getStaticPaths };
