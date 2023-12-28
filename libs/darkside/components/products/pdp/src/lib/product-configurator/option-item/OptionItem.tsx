@@ -124,30 +124,49 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 
   .icon {
+    gap: ${(props) => props.gap};
+    display: flex;
     svg {
       height: 3.2rem;
       width: auto;
       margin: 0 auto;
+      transform: ${(props) => (props.isRotated ? 'rotate(90deg)' : 'none')};
       overflow: visible;
     }
   }
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  const DiamondIcon = diamondIconsMap[value]?.icon;
+  const selectedDiamond = diamondIconsMap?.[value];
+  const DiamondIcon = selectedDiamond?.icon;
+  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const isEastWest = selectedDiamond?.isEastWest;
+
+  function getDiamondTypeGap(diamondType, isRotated) {
+    if (diamondType === 'round-brilliant+pear' && isRotated) {
+      return '1.8rem';
+    }
+
+    return isRotated ? '1.5rem' : '0.5rem';
+  }
 
   if (!DiamondIcon) {
     return null;
   }
+
+  const gap = getDiamondTypeGap(value, isEastWest);
 
   return (
     <StyledDiamondIconOptionItem
       className={clsx('option-item diamond-shape', value, { selected: isSelected })}
       title={valueLabel}
       onClick={onClick}
+      isRotated={isEastWest}
+      gap={gap}
     >
       <span className="icon">
         <DiamondIcon />
+        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
       </span>
     </StyledDiamondIconOptionItem>
   );

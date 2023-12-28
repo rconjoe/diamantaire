@@ -104,6 +104,17 @@ export const diamondIconsMap = {
     slug: 'emerald',
     icon: EmeraldIcon,
   },
+  'emerald+round-brilliant': {
+    slug: 'emerald+round-brilliant',
+    icon: EmeraldIcon,
+    icon2: RoundBrilliantIcon,
+  },
+  'emerald+round-brilliant-east-west': {
+    slug: 'emerald+round-brilliant',
+    icon: EmeraldIcon,
+    icon2: RoundBrilliantIcon,
+    isEastWest: true,
+  },
   felix: {
     slug: 'felix',
     icon: FelixIcon,
@@ -192,6 +203,16 @@ export const diamondIconsMap = {
     slug: 'round-brilliant',
     icon: RoundBrilliantIcon,
   },
+  'round-brilliant+round-brilliant': {
+    slug: 'round-brilliant+round-brilliant',
+    icon: RoundBrilliantIcon,
+    icon2: RoundBrilliantIcon,
+  },
+  'round-brilliant+trillion': {
+    slug: 'round-brilliant+trillion',
+    icon: RoundBrilliantIcon,
+    icon2: TrillionIcon,
+  },
   'round-rose': {
     slug: 'round-rose',
     icon: RoundRoseIcon,
@@ -213,6 +234,12 @@ export const diamondIconsMap = {
     slug: 'round-brilliant+pear',
     icon: RoundBrilliantIcon,
     icon2: PearIcon,
+  },
+  'round-brilliant+pear-east-west': {
+    slug: 'round-brilliant+pear',
+    icon: RoundBrilliantIcon,
+    icon2: PearIcon,
+    isEastWest: true,
   },
   'round-brilliant+oval': {
     slug: 'round-brilliant+oval',
