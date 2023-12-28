@@ -1,17 +1,5 @@
 export function sortBandWidth(options) {
-  console.log('options', options);
   options.sort((a, b) => {
-    // Check if the values are 'large' or 'standard'
-    if (['large', 'standard'].includes(a.value) || ['large', 'standard'].includes(b.value)) {
-      if (a.value === 'standard') {
-        return -1;
-      }
-      if (b.value === 'standard') {
-        return 1;
-      }
-
-      return 0;
-    }
     // Extract the carat value as a number from the 'value' property
     const caratA = parseFloat(a.value.replace('.mm', ''));
     const caratB = parseFloat(b.value.replace('.mm', ''));
