@@ -125,6 +125,7 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
       height: 3.2rem;
       width: auto;
       margin: 0 auto;
+      overflow: visible;
     }
   }
 `;

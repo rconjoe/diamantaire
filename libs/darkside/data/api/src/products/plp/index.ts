@@ -4,6 +4,8 @@ import { gql } from 'graphql-request';
 import { queryDatoGQL, queryClientApi } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
+export * from './getAllPlpSlugs';
+
 type SortedRequestOptions = {
   sortBy?: string;
   sortOrder?: string;
@@ -38,7 +40,6 @@ export async function getVRAIServerPlpData(
 
     return acc;
   }, {});
-
 
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({

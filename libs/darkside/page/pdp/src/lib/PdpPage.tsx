@@ -120,8 +120,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
 
-  console.log('additionalVariantData v1', additionalVariantData);
-  console.log('productContent v1', productContent);
+  // console.log('additionalVariantData v1', additionalVariantData);
+  // console.log('productContent v1', productContent);
 
   // ER/WB
   if (additionalVariantData?.omegaProduct) {
