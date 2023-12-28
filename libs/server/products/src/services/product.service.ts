@@ -884,32 +884,27 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const filterValueQueries: [
-          Promise<string[]>,
-          Promise<string[]>,
-          Promise<number[]>,
-          Promise<string[]>,
-          Promise<string[]>,
-        ] = [
-          this.productRepository.distinct('configuration.metal', {
-            contentId: { $in: contentIdsInOrder },
-          }),
-          this.productRepository.distinct('configuration.diamondType', {
-            contentId: { $in: contentIdsInOrder },
-          }),
-          this.productRepository.distinct('price', {
-            contentId: { $in: contentIdsInOrder },
-          }),
-          this.productRepository.distinct('styles', {
-            contentId: { $in: contentIdsInOrder },
-          }),
-          this.productRepository.distinct('subStyles', {
-            contentId: { $in: contentIdsInOrder },
-          }),
-        ];
+        const simplified = await this.productRepository
+        .find({ contentId: { $in: contentIdsInOrder }});
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [[], [], [], [], []];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
-          await Promise.all(filterValueQueries);
+        simplified.map((item) => {
+            if (item.configuration.metal !== undefined) {
+                if (availableMetals.indexOf(item.configuration.metal) < 0) { availableMetals.push(item.configuration.metal); }
+            }
+            if (item.configuration.diamondType !== undefined) {
+                if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) { availableDiamondTypes.push(item.configuration.diamondType); }
+            }
+            if (item.price !== undefined) {
+                if (priceValues.indexOf(item.price) < 0) { priceValues.push(item.price); }
+            }
+            if (item.styles !== undefined) {
+                if (availableStyles.indexOf(item.styles) < 0) { availableStyles.push(item.styles); }
+            }
+            if (item.subStyles !== undefined) {
+                if (availableSubStyles.indexOf(item.subStyles) < 0) { availableSubStyles.push(item.subStyles); }
+            }
+        });
 
         // split joined types to be individual types and remove duplicates
         const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
@@ -1286,32 +1281,27 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const filterValueQueries: [
-          Promise<string[]>,
-          Promise<string[]>,
-          Promise<number[]>,
-          Promise<string[]>,
-          Promise<string[]>,
-        ] = [
-          this.productRepository.distinct('configuration.metal', {
-            collectionSlug: { $in: collectionSlugsInOrder },
-          }),
-          this.productRepository.distinct('configuration.diamondType', {
-            collectionSlug: { $in: collectionSlugsInOrder },
-          }),
-          this.productRepository.distinct('price', {
-            collectionSlug: { $in: collectionSlugsInOrder },
-          }),
-          this.productRepository.distinct('styles', {
-            collectionSlug: { $in: collectionSlugsInOrder },
-          }),
-          this.productRepository.distinct('subStyles', {
-            collectionSlug: { $in: collectionSlugsInOrder },
-          }),
-        ];
+        const simplified = await this.productRepository
+        .find({ collectionSlug: { $in: collectionSlugsInOrder }});
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [[], [], [], [], []];
 
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] =
-          await Promise.all(filterValueQueries);
+        simplified.map((item) => {
+            if (item.configuration.metal !== undefined) {
+                if (availableMetals.indexOf(item.configuration.metal) < 0) { availableMetals.push(item.configuration.metal); }
+            }
+            if (item.configuration.diamondType !== undefined) {
+                if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) { availableDiamondTypes.push(item.configuration.diamondType); }
+            }
+            if (item.price !== undefined) {
+                if (priceValues.indexOf(item.price) < 0) { priceValues.push(item.price); }
+            }
+            if (item.styles !== undefined) {
+                if (availableStyles.indexOf(item.styles) < 0) { availableStyles.push(item.styles); }
+            }
+            if (item.subStyles !== undefined) {
+                if (availableSubStyles.indexOf(item.subStyles) < 0) { availableSubStyles.push(item.subStyles); }
+            }
+        });
 
         const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
         const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
