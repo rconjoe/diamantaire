@@ -141,7 +141,7 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+export function DiamondIconOptionItem({ optionType, value, valueLabel, isSelected, onClick }: OptionItemComponent) {
   const selectedDiamond = diamondIconsMap?.[value];
   const DiamondIcon = selectedDiamond?.icon;
   const DiamondPairedIcon = selectedDiamond?.icon2;
@@ -160,7 +160,7 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
   }
 
   const gap = getDiamondTypeGap(value, isEastWest);
-  const isRotated = EAST_WEST_SIDE_STONE_SHAPES.includes(value) || isEastWest;
+  const isRotated = isEastWest || (optionType === 'sideStoneShape' && EAST_WEST_SIDE_STONE_SHAPES.includes(value));
 
   return (
     <StyledDiamondIconOptionItem
