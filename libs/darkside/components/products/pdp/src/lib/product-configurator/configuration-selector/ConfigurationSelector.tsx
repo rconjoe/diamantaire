@@ -137,7 +137,7 @@ function ConfigurationSelector({
 
         if (disableVariantType?.includes(configurationType)) return null;
 
-        if (!options || options.length <= 1) {
+        if (!options || options.length < 1) {
           return null;
         }
 

@@ -158,3 +158,5 @@ export const MOCK_COLOR_DISPLAY_NAMING_MAP = {
   'White Gold': 'White Gold / Platinum',
   'Yellow Gold': 'Yellow Gold',
 } as const;
+
+export const EAST_WEST_SIDE_STONE_SHAPES = ['pear', 'trillion', 'tapered-baguette'];

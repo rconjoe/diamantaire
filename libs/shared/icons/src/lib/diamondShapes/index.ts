@@ -31,6 +31,7 @@ import { RegulusIcon } from './RegulusIcon';
 import { RoundBrilliantIcon } from './RoundBrilliantIcon';
 import { RoundRoseIcon } from './RoundRoseIcon';
 import { ShieldIcon } from './ShieldIcon';
+import { TaperedBaguetteIcon } from './TaperedBaguetteIcon';
 import { TrillionIcon } from './TrillionIcon';
 
 export * from './AsscherIcon';
@@ -66,6 +67,7 @@ export * from './RoundBrilliantIcon';
 export * from './RoundRoseIcon';
 export * from './ShieldIcon';
 export * from './TrillionIcon';
+export * from './TaperedBaguetteIcon';
 
 export const diamondIconsMap = {
   asscher: {
@@ -245,5 +247,9 @@ export const diamondIconsMap = {
     slug: 'round-brilliant+oval',
     icon: RoundBrilliantIcon,
     icon2: OvalIcon,
+  },
+  'tapered-baguette': {
+    slug: 'tapered-baguette',
+    icon: TaperedBaguetteIcon,
   },
 };

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 
 /**
  * This Component is a good candidate for a globally shared component
@@ -159,13 +160,14 @@ export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }
   }
 
   const gap = getDiamondTypeGap(value, isEastWest);
+  const isRotated = EAST_WEST_SIDE_STONE_SHAPES.includes(value) || isEastWest;
 
   return (
     <StyledDiamondIconOptionItem
       className={clsx('option-item diamond-shape', value, { selected: isSelected })}
       title={valueLabel}
       onClick={onClick}
-      isRotated={isEastWest}
+      isRotated={isRotated}
       gap={gap}
     >
       <span className="icon">
@@ -284,7 +286,6 @@ export function BandAccentStyleOptionItem(props: OptionItemComponent) {
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
-
 
 export function BandWidthOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
