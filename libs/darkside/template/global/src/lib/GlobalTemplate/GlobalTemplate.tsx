@@ -5,7 +5,7 @@ import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export const vraiFont = localFont({
@@ -64,43 +64,44 @@ export const GlobalTemplate = ({ children }) => {
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
-  const [headerHeight, setHeaderHeight] = useState(56);
+  // const [headerHeight, setHeaderHeight] = useState(56);
+  const headerHeight = 56;
 
   const { pathname } = useRouter();
 
   const isHome = pathname === '/';
 
-  useEffect(() => {
-    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
-    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
+  // useEffect(() => {
+  //   // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+  //   const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
-    setHeaderHeight(fullHeaderHeight);
-  }, [isTopbarShowing]);
+  //   setHeaderHeight(fullHeaderHeight);
+  // }, [isTopbarShowing]);
 
-  useEffect(() => {
-    if (!headerRef.current) return;
+  // useEffect(() => {
+  //   if (!headerRef.current) return;
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      // Use entries to get the new height
-      if (entries[0].target instanceof HTMLElement) {
-        const newHeight = entries[0].target.offsetHeight;
+  //   const resizeObserver = new ResizeObserver((entries) => {
+  //     // Use entries to get the new height
+  //     if (entries[0].target instanceof HTMLElement) {
+  //       const newHeight = entries[0].target.offsetHeight;
 
-        setHeaderHeight(newHeight);
+  //       setHeaderHeight(newHeight);
 
-        window.dispatchEvent(
-          new CustomEvent('RESET_HEADER_HEIGHT', {
-            detail: {
-              headerHeight: newHeight,
-            },
-          }),
-        );
-      }
-    });
+  //       window.dispatchEvent(
+  //         new CustomEvent('RESET_HEADER_HEIGHT', {
+  //           detail: {
+  //             headerHeight: newHeight,
+  //           },
+  //         }),
+  //       );
+  //     }
+  //   });
 
-    resizeObserver.observe(headerRef.current);
+  //   resizeObserver.observe(headerRef.current);
 
-    return () => resizeObserver.disconnect();
-  }, [headerData, isTopbarShowing]);
+  //   return () => resizeObserver.disconnect();
+  // }, [headerData, isTopbarShowing]);
 
   console.log('headerData', headerData);
 
