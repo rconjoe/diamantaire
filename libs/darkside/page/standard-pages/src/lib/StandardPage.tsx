@@ -88,7 +88,7 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
     ...standardPageContentQuery,
   });
 
-  // Need to refine
+  // Need to refine - in prog - Sam D.
   // if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
   //   console.log('404 caseeeee', queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']);
 

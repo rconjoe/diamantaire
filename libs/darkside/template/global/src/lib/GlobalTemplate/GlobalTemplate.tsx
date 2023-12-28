@@ -1,10 +1,11 @@
 import { Footer } from '@diamantaire/darkside/components/footer';
 import { Header } from '@diamantaire/darkside/components/header';
+import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
 import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export const vraiFont = localFont({
@@ -36,14 +37,14 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  /* padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')};
+  padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')};
   padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
   min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
     padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-  `} */
+  `}
 `;
 
 export type GlobalTemplateProps = {
@@ -63,46 +64,45 @@ export const GlobalTemplate = ({ children }) => {
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
-  // const [headerHeight, setHeaderHeight] = useState(56);
-  const headerHeight = 56;
+  const [headerHeight, setHeaderHeight] = useState(56);
 
   const { pathname } = useRouter();
 
   const isHome = pathname === '/';
 
-  // useEffect(() => {
-  //   // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
-  //   const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
+  useEffect(() => {
+    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
-  //   setHeaderHeight(fullHeaderHeight);
-  // }, [isTopbarShowing]);
+    setHeaderHeight(fullHeaderHeight);
+  }, [isTopbarShowing]);
 
-  // useEffect(() => {
-  //   if (!headerRef.current) return;
+  useEffect(() => {
+    if (!headerRef.current) return;
 
-  //   const resizeObserver = new ResizeObserver((entries) => {
-  //     // Use entries to get the new height
-  //     if (entries[0].target instanceof HTMLElement) {
-  //       const newHeight = entries[0].target.offsetHeight;
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Use entries to get the new height
+      if (entries[0].target instanceof HTMLElement) {
+        const newHeight = entries[0].target.offsetHeight;
 
-  //       setHeaderHeight(newHeight);
+        setHeaderHeight(newHeight);
 
-  //       window.dispatchEvent(
-  //         new CustomEvent('RESET_HEADER_HEIGHT', {
-  //           detail: {
-  //             headerHeight: newHeight,
-  //           },
-  //         }),
-  //       );
-  //     }
-  //   });
+        window.dispatchEvent(
+          new CustomEvent('RESET_HEADER_HEIGHT', {
+            detail: {
+              headerHeight: newHeight,
+            },
+          }),
+        );
+      }
+    });
 
-  //   resizeObserver.observe(headerRef.current);
+    resizeObserver.observe(headerRef.current);
 
-  //   return () => resizeObserver.disconnect();
-  // }, [headerData, isTopbarShowing]);
+    return () => resizeObserver.disconnect();
+  }, [headerData, isTopbarShowing]);
 
-  console.log('headerData', headerData);
+  // console.log('headerData', headerData);
 
   return (
     <div className={vraiFont.className}>
@@ -117,11 +117,13 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer>{children}</MainContainer>
+      <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
+        {children}
+      </MainContainer>
 
       {footerData && <Footer footerData={footerData} />}
 
-      {/* <WishlistSlideOut /> */}
+      <WishlistSlideOut />
     </div>
   );
 };
