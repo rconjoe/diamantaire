@@ -13,7 +13,7 @@ export const PageContainerStyles = styled.div`
       ${media.xl`padding: 0 3rem 0 2rem;`}
     }
     .info-container {
-      padding: 0 4rem 0 2rem;
+      padding: 0 2.4rem 0;
       overflow: hidden;
       flex: 0 0 40rem;
       ${media.xl`flex: 0 0 55rem;`}

@@ -44,7 +44,7 @@ const SettingBuildStepStyles = styled(motion.div)`
     }
     .info-container {
       flex: 0 0 55rem;
-      padding: 0 4rem 0 2rem;
+      padding: 0 2.4rem 0;
       overflow: hidden;
 
       .info__inner {
