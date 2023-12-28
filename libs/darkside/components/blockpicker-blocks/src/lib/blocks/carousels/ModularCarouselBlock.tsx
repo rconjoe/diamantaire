@@ -10,7 +10,7 @@
 
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
-import { SwiperSlide } from 'swiper/react';
+import clsx from 'clsx';
 import { v4 as uuidv4 } from 'uuid';
 
 import CarouselSlider from './CarouselSlider';
@@ -47,23 +47,6 @@ const ModularCarouselBlock = (props) => {
       type: 'modular_slick_carousel_block',
       title: props.title,
       slide: DiamondSlide,
-      breakpoints: {
-        200: {
-          slidesPerView: 2,
-          centeredSlides: true,
-          spaceBetween: 25,
-        },
-        768: {
-          slidesPerView: 5,
-          centeredSlides: false,
-          spaceBetween: 50,
-        },
-        992: {
-          slidesPerView: 5,
-          centeredSlides: false,
-          spaceBetween: 100,
-        },
-      },
     },
     {
       type: 'modular_grid_carousel_block',
@@ -80,23 +63,6 @@ const ModularCarouselBlock = (props) => {
       title: null,
       slide: ModularCarouselBlockOptions,
       className: 'quote-slider',
-      breakpoints: {
-        200: {
-          slidesPerView: 1,
-          centeredSlides: true,
-          spaceBetween: 25,
-        },
-        768: {
-          slidesPerView: 1,
-          centeredSlides: false,
-          spaceBetween: 50,
-        },
-        992: {
-          slidesPerView: 1,
-          centeredSlides: false,
-          spaceBetween: 100,
-        },
-      },
     },
   ];
 
@@ -118,9 +84,11 @@ const ModularCarouselBlock = (props) => {
           {props.title}
         </Heading>
       )}
+      <p>{_modelApiKey}</p>
       {SelectedSliderSlide ? (
         <CarouselSlider
           {...sliderType}
+          className={_modelApiKey}
           hasPagination={_modelApiKey === 'modular_carousel_block'}
           darksideButtons={darksideButtons}
         >
@@ -133,9 +101,9 @@ const ModularCarouselBlock = (props) => {
               );
 
             return (
-              <SwiperSlide className={_modelApiKey} key={`slide-${uuidv4()}`}>
+              <div className={clsx('embla__slide', _modelApiKey)} key={`slide-${uuidv4()}`}>
                 <SelectedSliderSlide {...slide} productData={productData} />
-              </SwiperSlide>
+              </div>
             );
           })}
         </CarouselSlider>

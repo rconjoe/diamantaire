@@ -149,6 +149,7 @@ function ConfigurationSelector({
             label={configurationType}
             options={options}
             selectedOptionValue={selectedOption}
+            selectedOptionIndex={options.findIndex((option) => option.value === selectedOption)}
             onChange={
               isBuilderFlowOpen
                 ? (option) => {

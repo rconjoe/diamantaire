@@ -118,8 +118,8 @@ const SingleVariantCartItem = ({
   }) => Promise<string | undefined>;
 }) => {
   const { productRemoved } = useAnalytics();
-  const { attributes, merchandise, quantity } = item;
-  const price = merchandise?.price?.amount;
+  const { attributes, merchandise, cost, quantity } = item;
+  const price = cost?.totalAmount?.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
 

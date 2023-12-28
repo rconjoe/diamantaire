@@ -214,6 +214,43 @@ const StyledCFYResultPage = styled.div`
       `)}
     }
   }
+
+  .pagination {
+    padding-top: 20px;
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+      li {
+        padding: 0 0.5rem;
+        button {
+          padding: 0;
+
+          &.active {
+            > div {
+              border: 0.1rem solid rgb(81, 104, 104);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .desktop-only {
+    display: none;
+
+    ${desktopAndUp(`
+      display: block;
+    `)}
+  }
+
+  .mobile-only {
+    ${desktopAndUp(`
+      display: none;
+    `)}
+  }
 `;
 
 export default StyledCFYResultPage;

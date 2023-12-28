@@ -7,7 +7,7 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { getAllPlpSlugs, getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -23,7 +23,7 @@ import {
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { InferGetServerSidePropsType, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -177,14 +177,37 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
 PlpPage.getTemplate = getStandardTemplate;
 
-const createPlpServerSideProps = (category: string) => {
-  const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
-    context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
-    const { query, locale } = context;
+async function getStaticPaths() {
+  const pageSlugs = await getAllPlpSlugs();
+
+  // Define the locales you want to include
+  const includedLocales = ['en-US'];
+
+  // Filter the locales and generate paths
+  const paths = pageSlugs.flatMap(({ slug, category }) => {
+    // Skip if slug is not defined or empty
+    if (!slug || slug === '') return [];
+
+    return includedLocales.map((locale) => ({
+      locale,
+      params: { plpSlug: [category, slug] },
+    }));
+  });
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+const createStaticProps = (category: string) => {
+  const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
+    // context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+    const { params, locale } = context;
 
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
 
-    const { plpSlug, ...qParams } = query;
+    const { plpSlug, ...qParams } = params;
 
     //Render 404 if no plpSlug
     if (!plpSlug) {
@@ -193,14 +216,14 @@ const createPlpServerSideProps = (category: string) => {
       };
     }
 
-    const [slug, ...params] = plpSlug;
+    const [slug, ...plpParams] = plpSlug;
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
     }
 
-    let initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
+    let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues) {
@@ -260,12 +283,12 @@ const createPlpServerSideProps = (category: string) => {
     };
   };
 
-  return getServerSideProps;
+  return getStaticProps;
 };
 
-const jewelryGetServerSideProps = createPlpServerSideProps('jewelry');
+const jewelryGetServerSideProps = createStaticProps('jewelry');
 
-export { PlpPage, createPlpServerSideProps };
+export { PlpPage, createStaticProps, getStaticPaths };
 
 /**
  * Takes the params from the URL and the query params and returns the filter options.
@@ -303,9 +326,7 @@ function getValidFiltersFromFacetedNav(
     .map((diamondTypeString) => Object.values(DiamondTypes).find((diamondType) => diamondType === diamondTypeString))
     .filter(Boolean);
 
-  const styleParamIndex = params.findIndex(
-    (param) => STYLE_SLUGS.includes(param),
-  );
+  const styleParamIndex = params.findIndex((param) => STYLE_SLUGS.includes(param));
 
   // For when style is a param (not faceted)
   const styleFromQuery = style
