@@ -28,12 +28,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import {
-  getCFYResultOptionsFromUrl,
-  getDiamondType,
-  getShipByDateCopy,
-  parseCookieHeader,
-} from '@diamantaire/shared/helpers';
+import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
@@ -357,11 +352,11 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const cookies = parseCookieHeader(context.req.headers.cookie || '');
+  const { geo } = context.req.cookies;
 
-  const { geo } = cookies;
+  const geoCookieData = JSON.parse(geo);
 
-  const countryCode = geo.country || 'US';
+  const countryCode = geoCookieData?.country || 'US';
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
