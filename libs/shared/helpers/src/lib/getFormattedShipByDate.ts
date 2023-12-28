@@ -143,8 +143,6 @@ export const getFormattedShipByDateWithYear = (
 };
 
 export const getShippingTextWithDateCopy = (shippingText, formattedShipByDate) => {
-  console.log(`getShippingTextWithDateCopy`, shippingText, formattedShipByDate);
-
   if (!shippingText || !formattedShipByDate) {
     return;
   }
