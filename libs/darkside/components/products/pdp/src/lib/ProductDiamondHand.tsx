@@ -323,7 +323,7 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
       </div>
       {!disableControls && (
         <div className="slider-outer-container">
-          <div className="slider swiper-no-swiping">
+          <div className="slider no-swiping">
             <div className="slider-container">
               <div className="slider-grid">
                 <div className="min">
