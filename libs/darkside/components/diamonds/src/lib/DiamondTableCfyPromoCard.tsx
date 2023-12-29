@@ -6,6 +6,8 @@ import StyledDiamondTableCfyPromoCard from './DiamondTableCfyPromoCard.style';
 const DiamondTableCfyPromoCard = (props) => {
   const { content, options } = props;
 
+  const { diamondType: selectedDiamondType } = options || {};
+
   const {
     bottomPromoContentLargerCarat,
     bottomPromoContentNoShape,
@@ -32,7 +34,7 @@ const DiamondTableCfyPromoCard = (props) => {
       <Markdown withStyles={false}>{promoContent}</Markdown>
 
       <div className="cta">
-        <UniLink route="/diamonds">
+        <UniLink route={`/diamonds/${selectedDiamondType ? selectedDiamondType : ''}`}>
           <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
         </UniLink>
       </div>

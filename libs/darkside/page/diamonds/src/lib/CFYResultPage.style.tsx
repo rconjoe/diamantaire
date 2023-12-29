@@ -176,7 +176,8 @@ const StyledCFYResultPage = styled.div`
     }
 
     .date {
-      margin: 2rem 0 0;
+      min-height: 24px;
+      margin: 2rem 0 0.5rem;
     }
 
     .date,
@@ -188,8 +189,8 @@ const StyledCFYResultPage = styled.div`
     .policy,
     .policy * {
       padding: 0;
-      margin: 0.25rem 0 0;
-      font-size: var(--font-size-xxxsmall);
+      margin: 0;
+      font-size: var(--font-size-xxsmall);
 
       a {
         color: var(--color-teal);
@@ -197,6 +198,8 @@ const StyledCFYResultPage = styled.div`
     }
 
     .links * {
+      margin: 0;
+      padding: 0;
       font-size: var(--font-size-xxsmall);
     }
 
@@ -207,6 +210,7 @@ const StyledCFYResultPage = styled.div`
     .cta {
       display: flex;
       flex-direction: column;
+      margin: 2rem 0;
       gap: 1rem;
 
       ${desktopAndUp(`

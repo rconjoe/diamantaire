@@ -26,6 +26,7 @@ const StyledDiamondHand = styled.div`
     .vo-slider-values {
       margin: 0 -5rem;
     }
+
     .vo-slider-tooltip,
     .vo-slider-value-start,
     .vo-slider-value-end {
@@ -59,8 +60,9 @@ const StyledDiamondHand = styled.div`
     left: 0;
     width: 100%;
     padding: 1rem;
+
     * {
-      font-size: var(--font-size-xxxsmall);
+      font-size: var(--font-size-xxsmall);
     }
   }
 `;

@@ -1,6 +1,7 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
 import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -18,6 +19,7 @@ interface Diamond360Props {
   width?: number;
   height?: number;
   priority?: boolean;
+  caption?: string;
 }
 
 const Diamond360 = ({
@@ -32,6 +34,7 @@ const Diamond360 = ({
   width = 500,
   height = 500,
   priority = false,
+  caption = 'Example of how it will look cut and polished',
 }: Diamond360Props) => {
   const [vid, setVid] = useState(null);
 
@@ -93,13 +96,19 @@ const Diamond360 = ({
     <StyledDiamond360 className={className}>
       <div className="img">{img()}</div>
 
-      {!disabled && !useImageOnly && <div className="vid">{vid}</div>}
+      {!disabled && !useImageOnly && (
+        <AnimatePresence>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>
+            <div className="vid">{vid}</div>
+          </motion.div>
+        </AnimatePresence>
+      )}
 
       {!noCaption && vid && (
         <>
           {isCto && (
             <div className="caption">
-              <UIString>Example of how it will look cut and polished</UIString>
+              <UIString>{caption}</UIString>
             </div>
           )}
 
