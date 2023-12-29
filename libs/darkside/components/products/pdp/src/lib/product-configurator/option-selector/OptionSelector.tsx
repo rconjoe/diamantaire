@@ -351,13 +351,20 @@ function OptionSelector({
         );
 
       case 'sideStoneCarat':
+        return (
+          <>
+            <UIString>{selectedOptionValue}</UIString>
+            {'ct x 2'}
+          </>
+        );
+
       case 'caratWeight':
         if (selectedOptionValue !== 'other') {
           return (
             <>
               <UIString>{selectedOptionValue}</UIString>
-              {' ct'}
-              {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && renderDiamondSpecs()}
+              {'ct'}
+              {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
         }
