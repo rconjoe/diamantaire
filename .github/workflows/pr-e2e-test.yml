@@ -23,7 +23,7 @@ jobs:
 
   test_e2e:
     needs: test_setup
-    name: Playwright tests
+    name: Executing tests
     timeout-minutes: 8
     runs-on: ubuntu-latest
     steps:
