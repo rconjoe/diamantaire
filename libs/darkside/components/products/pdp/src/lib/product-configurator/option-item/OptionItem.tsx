@@ -82,6 +82,13 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'value': {
       return ValueOptionItem;
     }
+    case 'bandWidth': {
+      return BandWidthOptionItem;
+    }
+    case 'hiddenHalo': {
+      return HiddenHaloOptionItem;
+    }
+
     default: {
       return BasicOptionItem;
     }
@@ -121,30 +128,49 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 
   .icon {
+    gap: ${(props) => props.gap};
+    display: flex;
     svg {
       height: 3.2rem;
       width: auto;
       margin: 0 auto;
+      transform: ${(props) => (props.isRotated ? 'rotate(90deg)' : 'none')};
       overflow: visible;
     }
   }
 `;
 
 export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  const DiamondIcon = diamondIconsMap[value]?.icon;
+  const selectedDiamond = diamondIconsMap?.[value];
+  const DiamondIcon = selectedDiamond?.icon;
+  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const isEastWest = selectedDiamond?.isEastWest;
+
+  function getDiamondTypeGap(diamondType, isRotated) {
+    if (diamondType === 'round-brilliant+pear' && isRotated) {
+      return '1.8rem';
+    }
+
+    return isRotated ? '1.5rem' : '0.5rem';
+  }
 
   if (!DiamondIcon) {
     return null;
   }
+
+  const gap = getDiamondTypeGap(value, isEastWest);
 
   return (
     <StyledDiamondIconOptionItem
       className={clsx('option-item diamond-shape', value, { selected: isSelected })}
       title={valueLabel}
       onClick={onClick}
+      isRotated={isEastWest}
+      gap={gap}
     >
       <span className="icon">
         <DiamondIcon />
+        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
       </span>
     </StyledDiamondIconOptionItem>
   );
@@ -205,6 +231,16 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: #e9d540;
     }
   }
+  &.yellow-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #c8ab6e 50%, #c8c8c8 50%);
+    }
+  }
+  &.rose-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #ceac8b 50%, #c8c8c8 50%);
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
@@ -216,10 +252,9 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 }
 
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 3.8rem;
+  width: 3.8rem;
   position: relative;
-  left: -3px;
 
   .inner {
     justify-content: center;
@@ -228,9 +263,8 @@ const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
 
     img {
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      transform: scale(0.8);
+      width: 30px;
+      height: 30px;
     }
   }
 `;
@@ -247,6 +281,19 @@ function ImageIconOptionItem({ value, isSelected, imgSrc, onClick }: OptionItemC
 
 export function BandAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+
+export function BandWidthOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+export function HiddenHaloOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`hiddenHalo-${props.value}`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }

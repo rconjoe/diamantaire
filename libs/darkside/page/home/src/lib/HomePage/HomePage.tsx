@@ -63,7 +63,7 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
       isMobile,
       currencyCode,
       countryCode,
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }

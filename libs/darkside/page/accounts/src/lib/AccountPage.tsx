@@ -9,24 +9,24 @@ import { AccountOrders } from './AccountOrders';
 import { AccountPageNav } from './AccountPageNav';
 
 export type AccountCustomer = {
-  first_name: string;
-  last_name: string;
-  phone: string;
-  id: string;
-  email: string;
-  default_address: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    address1: string;
-    address2: string;
-    city: string;
-    zip: string;
-    province: string;
-    country: string;
-    phone: string;
-    country_code: string;
-    province_code: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  id?: string;
+  email?: string;
+  default_address?: {
+    id?: string;
+    first_name?: string;
+    last_name?: string;
+    address1?: string;
+    address2?: string;
+    city?: string;
+    zip?: string;
+    province?: string;
+    country?: string;
+    phone?: string;
+    country_code?: string;
+    province_code?: string;
   };
 };
 
@@ -39,6 +39,8 @@ const AccountPage = () => {
     if (!user) return;
 
     const email = user.emailAddresses?.[0]?.emailAddress || null;
+
+    accountEmailCookie.set(email);
 
     if (!email) return;
 
@@ -55,16 +57,32 @@ const AccountPage = () => {
         }),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        try {
+          const json = await response.json();
 
-      setCurrentCustomer(data);
+          setCurrentCustomer(json);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+
+          setCurrentCustomer({
+            email,
+          });
+        }
+      } else {
+        console.error('HTTP error! Status:', response.status);
+
+        const rawResponse = await response.text();
+
+        console.log('text:', rawResponse);
+
+        setCurrentCustomer({
+          email,
+        });
+      }
     }
 
     getCustomer();
-
-    if (email) {
-      accountEmailCookie.set(email);
-    }
   }, [user, path]);
 
   return (

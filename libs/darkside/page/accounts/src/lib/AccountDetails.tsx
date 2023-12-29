@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { AccountCustomer } from './AccountPage';
 
 const AccountDetailsStyles = styled.div`
-  padding: 2rem 0;
+  padding: 4rem 0;
 
   .subtitle {
     font-size: var(--font-size-xsmall);
@@ -22,11 +22,15 @@ const AccountDetailsStyles = styled.div`
     }
   }
 
-  .shipping-info__container,
   .email__container,
-  .phone__container {
+  .phone__container,
+  .shipping-info__container {
     padding: 2rem 0;
     border-bottom: 0.1rem solid var(--color-grey);
+  }
+
+  .email__container.without-customer-id {
+    border-bottom: 0;
   }
 
   .shipping-info__container {
@@ -183,7 +187,7 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
 
         window.scrollTo(0, 0);
       } else {
-        // TODO handle Error with message or visual or a call from your granma
+        // TODO handle Error
       }
     });
   }
@@ -218,7 +222,7 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
 
         window.scrollTo(0, 0);
       } else {
-        // TODO handle Error with message or visual or a call from your granma
+        // TODO handle Error
       }
     });
   }
@@ -228,93 +232,98 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
       <NextSeo title="Customer Details" />
 
       <div className="container-wrapper">
-        <div className="shipping-info__container">
-          <div className="title flex justify-space-between align-center">
-            <Heading type="h4" className="subtitle">
-              <UIString>Shipping information</UIString>
-            </Heading>
+        {customer?.id && (
+          <div className="shipping-info__container">
+            <div className="title flex justify-space-between align-center">
+              <Heading type="h4" className="subtitle">
+                <UIString>Shipping information</UIString>
+              </Heading>
 
-            {!isEditingShippingInfo && (
-              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
-                <UIString>Edit</UIString>
-              </DarksideButton>
+              {!isEditingShippingInfo && (
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(true)}>
+                  <UIString>Edit</UIString>
+                </DarksideButton>
+              )}
+            </div>
+
+            {isEditingShippingInfo ? (
+              <div className="shipping-info__form">
+                <Form
+                  formGridStyle="single"
+                  flexDirection="column"
+                  id={'shippping-details'}
+                  schema={shippingDetailsFormSchema}
+                  onSubmit={handleShippingInfoUpdate}
+                />
+
+                <div className="cancel">
+                  <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
+                    <UIString>Cancel</UIString>
+                  </DarksideButton>
+                </div>
+              </div>
+            ) : (
+              <div className="shipping-info__list">
+                <ul className="list">
+                  <li>
+                    {address?.first_name} {address?.last_name}
+                  </li>
+                  <li>{address?.address1}</li>
+                  <li>{address?.address2}</li>
+                  <li>
+                    {address?.city} {address?.province_code && `, ${address?.province_code}`}{' '}
+                    {address?.zip && `, ${address?.zip}`}
+                  </li>
+                  <li>{address?.country}</li>
+                </ul>
+              </div>
             )}
           </div>
+        )}
 
-          {isEditingShippingInfo ? (
-            <div className="shipping-info__form">
-              <Form
-                formGridStyle="single"
-                flexDirection="column"
-                id={'shippping-details'}
-                schema={shippingDetailsFormSchema}
-                onSubmit={handleShippingInfoUpdate}
-              />
-
-              <div className="cancel">
-                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEditingShippingInfo(false)}>
-                  <UIString>Cancel</UIString>
-                </DarksideButton>
-              </div>
-            </div>
-          ) : (
-            <div className="shipping-info__list">
-              <ul className="list">
-                <li>
-                  {address?.first_name} {address?.last_name}
-                </li>
-                <li>{address?.address1}</li>
-                <li>{address?.address2}</li>
-                <li>
-                  {address?.city} {address?.province_code && `, ${address?.province_code}`}{' '}
-                  {address?.zip && `, ${address?.zip}`}
-                </li>
-                <li>{address?.country}</li>
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <div className="email__container">
+        <div className={`${customer?.id ? '' : 'without-customer-id'} email__container`}>
           <Heading type="h4" className="subtitle">
             <UIString>Your email</UIString>
           </Heading>
+
           <ul className="list">
             <li>{customer?.email}</li>
           </ul>
         </div>
 
-        <div className="phone__container">
-          <div className="title flex justify-space-between align-center">
-            <Heading type="h4" className="subtitle">
-              <UIString>Your phone number</UIString>
-            </Heading>
+        {customer?.id && (
+          <div className="phone__container">
+            <div className="title flex justify-space-between align-center">
+              <Heading type="h4" className="subtitle">
+                <UIString>Your phone number</UIString>
+              </Heading>
 
-            {!isEdittingPhoneInfo && (
-              <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(true)}>
-                <UIString>Edit</UIString>
-              </DarksideButton>
-            )}
-          </div>
-
-          <ul className="list">
-            <li>
-              {isEdittingPhoneInfo ? (
-                <div className="phone-form">
-                  <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
-
-                  <div className="close-phone-form">
-                    <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(false)}>
-                      <UIString>Cancel</UIString>
-                    </DarksideButton>
-                  </div>
-                </div>
-              ) : (
-                <p>{phone || address?.phone}</p>
+              {!isEdittingPhoneInfo && (
+                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(true)}>
+                  <UIString>Edit</UIString>
+                </DarksideButton>
               )}
-            </li>
-          </ul>
-        </div>
+            </div>
+
+            <ul className="list">
+              <li>
+                {isEdittingPhoneInfo ? (
+                  <div className="phone-form">
+                    <Form schema={phoneFormSchema} onSubmit={handlePhoneFormSubmit} flexDirection="column" />
+
+                    <div className="close-phone-form">
+                      <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsEdittingPhoneInfo(false)}>
+                        <UIString>Cancel</UIString>
+                      </DarksideButton>
+                    </div>
+                  </div>
+                ) : (
+                  <p>{phone || address?.phone}</p>
+                )}
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </AccountDetailsStyles>
   );

@@ -28,8 +28,6 @@ import { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 
 const SettingBuildStepStyles = styled(motion.div)`
-  height: 100vh;
-  overflow-y: scroll;
   padding: 2rem 0 20rem;
 
   .nav-title {
@@ -129,7 +127,7 @@ const SettingBuildStep = ({
       }}
     >
       <div className="nav-title container-wrapper">
-        <Heading type="h1" className="primary h2">
+        <Heading type="h1" className="primary h2 text-center">
           <UIString>Complete your ring</UIString>
         </Heading>
       </div>

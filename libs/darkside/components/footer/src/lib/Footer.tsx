@@ -66,7 +66,7 @@ const FooterStyles = styled.footer`
 
       &__inner {
         p.col-heading {
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           margin: 0 0 1rem;
           font-weight: var(--font-weight-bold);
         }
