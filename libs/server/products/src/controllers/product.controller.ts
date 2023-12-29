@@ -32,7 +32,23 @@ export class ProductController {
   @ApiQuery({ name: 'category', required: true, description: 'Plp category' })
   @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
   async function(@Query() { category, slug, locale, metal, diamondType, priceMin, priceMax, style, subStyle, sortBy, sortOrder, limit, page }: PlpInput) {
-    return await this.productService.getPlpProducts({ slug, category, locale, metal, diamondType, priceMin, priceMax, style, subStyle, sortBy, sortOrder, limit, page });
+
+    // Support for multiselect filters
+    const diamondTypes = diamondType ? diamondType.split(',').map((s:string) => s.trim()) : undefined;
+    const styles = style ? style.split(',').map((s:string) => s.trim()) : undefined;
+    const subStyles = subStyle ? subStyle.split(',').map((s:string) => s.trim()) : undefined;
+    const metals = metal ? metal.split(',').map((s:string) => s.trim()) : undefined;
+
+    const filters = {
+      diamondTypes,
+      metals,
+      styles,
+      subStyles,
+      priceMin,
+      priceMax
+    };
+
+    return await this.productService.getPlpProducts({ slug, category, locale, filters, sortBy, sortOrder, limit, page });
   }
 
   @Get()

@@ -76,21 +76,23 @@ export class ProductsService {
     });
   }
 
-  async getPlpProducts({ category, slug, locale, metal, diamondType, style, subStyle, priceMin, priceMax, sortBy, sortOrder = 'asc', limit = 12, page = 1  }){
+  async getPlpProducts({ category, slug, locale, filters, sortBy, sortOrder = 'asc', limit = 12, page = 1  }){
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
+    const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
 
     const filterQuery = {
-      ...(metal && { 'configuration.metal': metal }),
-      ...(style && { 'configuration.style': { $in: style }}),
-      ...(diamondType && { 'configuration.diamondType': diamondType }),
+      ...(metals && { 'configuration.metal': metals }),
+      ...(styles && { 'configuration.style': { $in: styles }}),
+      ...(subStyles && { 'configuration.subStyle': { $in: subStyles }}),
+      ...(diamondTypes && { 'configuration.diamondType': diamondTypes }),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
     }
 
     const sortQuery: Record<string, 1 | -1 > = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : { };
 
-    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey({diamondType,priceMin,priceMax,metal,style,subStyle,})}`;
+    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
     const cachedData = await this.utils.memGet(cacheKey);
     let productResponse;
 
@@ -120,7 +122,7 @@ export class ProductsService {
       pipeline.push(
         { $skip: skip },
         { $limit: limit },
-        {
+        { // join products from the product table
             $lookup: {
                 from: "products",
                 localField: "_id",
@@ -136,7 +138,7 @@ export class ProductsService {
                 as: "variants",
             }
         },
-        {
+        { // reduce data returned
             $project: {
                 product: { $first: "$product" },
                 variants: "$variants"
@@ -186,7 +188,7 @@ export class ProductsService {
       this.getLowestPricesByCollection(),
       this.getPlpFilterData(plpSlug),
     ]
-    const [productContent, collectionLowestPrices, filters] = await Promise.all(dataPromises);
+    const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
 
     const paginator = {
       totalDocs: totalDocuments,
@@ -264,7 +266,7 @@ export class ProductsService {
       slug,
       locale,
       products: plpProducts,
-      availableFilters: filters,
+      availableFilters,
       paginator
     };
   }
