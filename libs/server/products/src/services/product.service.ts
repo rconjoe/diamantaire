@@ -58,6 +58,7 @@ import { ProductRepository } from '../repository/product.repository';
 const OPTIONS_TO_SKIP = ['goldPurity'];
 const TTL_HOURS = 48;
 const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
+const PLP_DATA_TTL = 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
 export class ProductsService {
@@ -151,7 +152,7 @@ export class ProductsService {
 
       productResponse = await Promise.all(productPromises);
       
-      this.utils.memSet(cacheKey, productResponse, PRODUCT_DATA_TTL);
+      this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
     }
     const [ products, totalDocumentsQuery ] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
@@ -180,7 +181,7 @@ export class ProductsService {
       this.getLowestPricesByCollection(),
       this.getPlpFilterData(plpSlug),
     ]
-    const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+    const [productContent, collectionLowestPrices, plpResponse] = await Promise.all(dataPromises);
 
     const paginator = {
       totalDocs: totalDocuments,
@@ -230,9 +231,8 @@ export class ProductsService {
 
     // Merge product data with content
     const plpProducts = products.map(plpItem => {
-      console.log(plpItem)
       const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
-      const metalOptions = [plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }))];
+      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
 
       const mainProductContent = productContentMap[product.contentId];
       const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
@@ -263,7 +263,7 @@ export class ProductsService {
       slug,
       locale,
       products: plpProducts,
-      availableFilters,
+      availableFilters: plpResponse.filters,
       paginator
     };
   }
