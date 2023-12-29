@@ -152,7 +152,6 @@ export class ProductsService {
 
       productResponse = await Promise.all(productPromises);
 
-      console.log("PRODUCTS", productResponse);
       if (!productResponse[0] || productResponse[0].length === 0) {
         throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
       }
