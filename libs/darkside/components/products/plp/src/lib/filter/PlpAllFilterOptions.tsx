@@ -96,6 +96,8 @@ const PlpAllFilterOptions = ({
     handleChange(priceRange);
   }
 
+  const isDiamondFirstFlow = router.asPath.includes('diamond-to-setting');
+
   return (
     <PlpAllFilterOptionsStyles>
       <div className="filter">
@@ -118,7 +120,11 @@ const PlpAllFilterOptions = ({
                 if (filterTypes[optionSet]?.length < 2) return null;
 
                 // Check diamondType count as + diamonds are removed
-                if (optionSet === 'diamondType' && filterTypes[optionSet]?.filter((item) => !item.includes('+')).length < 2)
+                if (
+                  (optionSet === 'diamondType' &&
+                    filterTypes[optionSet]?.filter((item) => !item.includes('+')).length < 2) ||
+                  (optionSet === 'diamondType' && isDiamondFirstFlow)
+                )
                   return null;
 
                 if (
@@ -150,7 +156,7 @@ const PlpAllFilterOptions = ({
         </div>
 
         <div className="filter__body">
-          {filterOptionSetOpen === 'diamondType' && (
+          {filterOptionSetOpen === 'diamondType' && !isDiamondFirstFlow && (
             <div className="filter-option-set diamondType ">
               <ul className="list-unstyled flex">
                 {filterTypes['diamondType']?.map((diamondType) => {

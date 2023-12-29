@@ -52,7 +52,7 @@ interface CFYResultPageProps {
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, countryCode = 'US', options = {} } = props;
+  const { locale, countryCode, options = {} } = props;
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -101,6 +101,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const handleUpgradeClick = (type: string) => {
     let checkboxArray = [...checkbox];
+
     let selectedDisplay = 'diamond';
 
     const upgradeTypes = ['cut', 'color', 'clarity'];
@@ -125,6 +126,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     });
 
     setCheckbox(checkboxArray);
+
     setDisplay(selectedDisplay);
   };
 

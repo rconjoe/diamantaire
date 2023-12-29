@@ -106,6 +106,13 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.bandWidth {
+      button {
+        max-width: 3.8rem;
+        max-height: 3.8rem;
+      }
+    }
+
     &.sideStoneShape {
       button {
         margin-right: 2rem;
@@ -178,7 +185,6 @@ const StyledOptionSelector = styled.div`
 
     /* For selectors with medium sized buttons */
     &.prongStyle,
-    &.bandWidth,
     &.stoneSetting,
     &.bandVersion,
     &.bandStyle {
@@ -230,7 +236,7 @@ function OptionSelector({
 
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, ['OPTION_NAMES']);
-
+  const { _t: translateBandwidthValues } = useTranslations(locale, ['BAND_WIDTH_LABEL_HUMAN_NAMES']);
   const diamondSliderOptions: EmblaOptionsType = {
     loop: false,
     dragFree: false,
@@ -351,7 +357,8 @@ function OptionSelector({
           );
         }
         break;
-
+      case 'bandWidth':
+        return translateBandwidthValues(selectedOptionValue);
       case 'value': // used for US only digital-gift-card
         return `$${selectedOptionValue}`;
 
