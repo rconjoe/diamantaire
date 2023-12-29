@@ -17,6 +17,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 1000
           check_interval: 30
+          environment: Preview – darkside-main
       - run: echo ${{steps.waitForVercelPreviewDeployment.outputs.url}}
 
 
