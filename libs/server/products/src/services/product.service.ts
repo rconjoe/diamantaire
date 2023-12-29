@@ -151,6 +151,11 @@ export class ProductsService {
       ];
 
       productResponse = await Promise.all(productPromises);
+
+      console.log("PRODUCTS", productResponse);
+      if (!productResponse[0] || productResponse[0].length === 0) {
+        throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
+      }
       
       this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
     }
@@ -181,7 +186,7 @@ export class ProductsService {
       this.getLowestPricesByCollection(),
       this.getPlpFilterData(plpSlug),
     ]
-    const [productContent, collectionLowestPrices, plpResponse] = await Promise.all(dataPromises);
+    const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
 
     const paginator = {
       totalDocs: totalDocuments,
@@ -263,7 +268,7 @@ export class ProductsService {
       slug,
       locale,
       products: plpProducts,
-      availableFilters: plpResponse.filters,
+      availableFilters,
       paginator
     };
   }
@@ -271,16 +276,26 @@ export class ProductsService {
   async getPlpFilterData(plpSlug: string){
     const cacheKey = `plp-page-data:${plpSlug}`;
     const cachedData = await this.utils.memGet(cacheKey);
-    let plpPageData;
 
     if (cachedData) {
-      plpPageData = cachedData;
+      return cachedData;
     } else {
-      plpPageData = await this.plpRepository.findOne({ slug: plpSlug });
-      this.utils.memSet(cacheKey, plpPageData.filters, PRODUCT_DATA_TTL);
-    }
+      const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });     
+      const filterData = plpResponse['filters'];
+      const { diamondType, metal, styles, subStyles } = filterData;
 
-    return plpPageData;
+      const sortedFilters = {
+        ...filterData,
+        diamondType: diamondType.sort(sortDiamondTypes),
+        metal: metal.sort(sortMetalTypes),
+        styles: styles.sort(),
+        subStyles: subStyles.sort(),
+      }
+
+      this.utils.memSet(cacheKey, sortedFilters, PRODUCT_DATA_TTL);
+
+      return sortedFilters;
+    }
   }
 
   /**
