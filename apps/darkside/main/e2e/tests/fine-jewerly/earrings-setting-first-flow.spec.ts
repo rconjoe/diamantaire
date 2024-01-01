@@ -1,7 +1,4 @@
-import CheckoutSlidePage from "../../pages/components/checkoutslide-component";
 import { test, expect } from "../../pages/page-fixture";
-import ProductDetailedPage from "../../pages/pdp-page";
-import SettingPage from "../../pages/setting-page";
 
 /**
  * Earrings Setting First flow

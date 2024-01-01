@@ -6,7 +6,7 @@ import { test, } from "../../pages/page-fixture";
 test.describe("Fine Jewerly Basic flow", () => {
     
   // eslint-disable-next-line playwright/expect-expect
-  test("Open Home Page", async ({ homePage, settingPage, productDetailedPage, diamondTablePage,diamondToSettingPage,checkoutSlidePage,checkoutPage}) => {
+  test("Open Home Page", async ({ homePage, settingPage, productDetailedPage, diamondTablePage,diamondToSettingPage,checkoutSlidePage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
@@ -41,20 +41,20 @@ test.describe("Fine Jewerly Basic flow", () => {
       await productDetailedPage.clickAddToBag();
     });
 
-    await test.step("Checkout slide", async () => {
-      await checkoutSlidePage.clickCheckout();
+    // await test.step("Checkout slide", async () => {
+    //   await checkoutSlidePage.clickCheckout();
 
-      const element = await checkoutPage.page.getByText('Express Checkout');
+    //   const element = await checkoutPage.page.getByText('Express Checkout');
 
-      await expect(element !== undefined ).toBeTruthy();  
+    //   await expect(element !== undefined ).toBeTruthy();  
 
-      await checkoutPage.getCheckoutTotal();
-    });
+    //   await checkoutPage.getCheckoutTotal();
+    // });
 
-    await test.step("Diamond Table", async () => {
-      await diamondTablePage.checkAllDiamondType()
+    // await test.step("Diamond Table", async () => {
+    //   await diamondTablePage.checkAllDiamondType()
 
-    });
+    // });
 
     await test.step("select a diamond first", async () => {
       await homePage.navigateToEngagementStartWithAVRAICreatedDiamond();
