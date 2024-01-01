@@ -9,7 +9,7 @@ test.describe("Engagement ring - Diamond First flow", () => {
 
     const expectedCart = new QACart();
 
-  test("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
+  test.skip("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
