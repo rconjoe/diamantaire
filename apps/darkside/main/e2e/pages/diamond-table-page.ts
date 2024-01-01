@@ -52,14 +52,11 @@ export default class DiamondTablePage extends HomePage {
     // await page.locator('div:nth-child(2) > .vo-table-row-head > div').first().click();
   }
 
-  async selectPriceRange(diamond : diamondType){
-    await this.page.getByRole('button', { name: `${diamond}` }).click();
-
-    // await page.getByRole('button', { name: 'Excellent' }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.locator('div:nth-child(2) > .vo-table-row-head > div').first().click();
-  }
+  //tobe implemented when needed
+  // async selectPriceRange(diamond : diamondType){
+    
+  //  // await this.page.getByRole('button', { name: `${diamond}` }).click();
+  // }
 
   async selectCut(){
     await this.page.getByRole('button', { name: 'Excellent' }).click();
@@ -84,7 +81,7 @@ export default class DiamondTablePage extends HomePage {
   }
 
   async clickCheckAvailability(){
-    this.ccheckAvailabilityBtn.click()
+    this.checkAvailabilityBtn.click()
   }
 
   async getDiamondPriceByRow(row) : Promise<number> {
