@@ -1,34 +1,47 @@
+import CheckoutSlidePage from "../../pages/components/checkoutslide-component";
 import { test, expect } from "../../pages/page-fixture";
+import ProductDetailedPage from "../../pages/pdp-page";
+import SettingPage from "../../pages/setting-page";
 
 /**
  * Earrings Setting First flow
  */
 test.describe("Earrings Setting First flow with filter", () => {
     
-  test("Open Home Page", async ({ homePage , page}) => {
+  let itemPrice;
+
+  test("Open Home Page", async ({ homePage , jewerlyPage, productDetailedPage, checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
     });
 
     await test.step("Select Jewerly > Earrings ", async () => {
-      await page.getByRole('link', { name: 'JEWELRY' }).first().hover();
-      await page.getByRole('link', { name: 'Earrings' }).click();
-  
-      await page.getByRole('button', { name: 'Metal' }).click();
-      await page.getByRole('button', { name: 'White Gold'}).first().click();
+      await homePage.navigateToJewery('Earrings')
+      await jewerlyPage.selectMetalFilter('Rose Gold')
+      await jewerlyPage.selectJewerlyByName('Solitaire Diamond Studs Round Brilliant');
 
-      await page.getByRole('link', { name: 'Solitaire Diamond Studs' }).click();
+    
+    });
 
+    await test.step("Confirm selection and add to bag ", async () => {
+
+      itemPrice = await productDetailedPage.getItemPrice();
+
+      console.log(' Jewerly price -> ' + itemPrice);
+
+      await productDetailedPage.clickAddToBag();
+      
     
     });
 
     await test.step("Checkout ", async () => {
 
-      await page.getByRole('button', { name: 'Add to bag' }).click();
-      await page.waitForLoadState();
-      await expect(page.getByRole('button', { name: 'Checkout' })).toContainText('$500');
-      await page.getByRole('button', { name: 'Checkout' }).click();
+      await checkoutSlidePage.clickCheckout()
+      const checkoutTotal = await checkoutPage.getCheckoutTotal();
+
+      await expect(+checkoutTotal).toBe(+itemPrice);
+   
        }); 
 
     })

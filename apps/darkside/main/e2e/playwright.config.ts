@@ -16,7 +16,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './e2e' }),
+  ...nxE2EPreset(__filename, { testDir: './tests' }),
   timeout: 2 * 60 * 1000,
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -28,7 +28,7 @@ export default defineConfig({
     video: "retain-on-failure"
 
   },
-  reporter: [['html', { outputFolder: './e2e/output'}]],
+  reporter: [['html', { outputFolder: './output'}]],
 
   projects: [
     {
@@ -37,19 +37,17 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         launchOptions:{
           slowMo: 2000 },
-        
         // It is important to define the `viewport` property after destructuring `devices`,
         // since devices also define the `viewport` for that device.
-        viewport: { width: 1680, height: 900 },
-        
+        viewport: { width: 1880, height: 1000 },
       },
     },
   ],
   /* Run your local dev server before starting the tests */
-  //  webServer: {
-  //    command: 'pnpm run start',
-  //    url: 'http://127.0.0.1:4200',
-  //    reuseExistingServer: !process.env.CI,
-  //    cwd: workspaceRoot,
-  //  },
+   webServer: {
+     command: 'pnpm run start',
+     url: 'http://127.0.0.1:4200',
+     reuseExistingServer: !process.env.CI,
+     cwd: workspaceRoot,
+   },
 });
