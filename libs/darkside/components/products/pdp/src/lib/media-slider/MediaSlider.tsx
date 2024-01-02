@@ -90,7 +90,7 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
     loop: false,
     dragFree: false,
     align: 'center',
-    watchDrag: (emblaApi, event) => {
+    watchDrag: (_emblaApi, event) => {
       const target = event.target as Element;
       // Return false to cancel dragging on specific elements
 
