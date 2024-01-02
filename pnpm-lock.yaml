@@ -345,7 +345,7 @@ dependencies:
     specifier: 0.14.0
     version: 0.14.0
   rxjs:
-    specifier: ^7.0.0
+    specifier: ^7.8.0
     version: 7.8.1
   shopify-buy:
     specifier: ^2.19.0
