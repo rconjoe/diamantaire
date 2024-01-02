@@ -73,7 +73,6 @@ const ProductDescription = ({
   productSpecId,
   title,
   selectedConfiguration,
-  specLabels,
 }) => {
   const { locale } = useRouter();
 
