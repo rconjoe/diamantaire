@@ -178,6 +178,7 @@ const SettingBuildStep = ({
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
               productIconListType={productIconListType}
+              setProductSlug={(val) => updateSettingSlugs({ productSlug: val })}
             />
 
             {/* <ProductKlarna title={productTitle} currentPrice={price} /> */}

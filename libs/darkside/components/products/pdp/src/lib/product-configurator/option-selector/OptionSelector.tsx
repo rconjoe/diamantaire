@@ -37,6 +37,7 @@ interface OptionSelectorProps {
   selectedConfiguration: {
     [key: string]: string;
   };
+  setProductSlug?: (_value: string) => void;
 }
 
 const StyledOptionSelector = styled.div`
@@ -234,7 +235,11 @@ function OptionSelector({
   productType,
   diamondSpecs,
   selectedOptionIndex = 0,
+<<<<<<< HEAD
   selectedConfiguration,
+=======
+  setProductSlug,
+>>>>>>> 0f595e7b (test shallow rendering)
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -437,6 +442,7 @@ function OptionSelector({
                               isSelected={isSelected}
                               onClick={() => handleOptionClick(option)}
                               isLink={renderItemAsLink}
+                              setProductSlug={setProductSlug}
                             />
                           </div>
                         );
@@ -479,6 +485,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -504,6 +511,7 @@ function OptionSelector({
                         isSelected={isSelected}
                         onClick={() => handleOptionClick(option)}
                         isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                        setProductSlug={setProductSlug}
                       />
                     );
                   })}
@@ -534,6 +542,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -570,6 +579,7 @@ function OptionSelector({
                   isSelected={isSelected}
                   onClick={() => handleOptionClick(option)}
                   isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                  setProductSlug={setProductSlug}
                 />
               );
             })}

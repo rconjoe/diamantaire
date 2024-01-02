@@ -61,6 +61,7 @@ type ProductConfiguratorProps = {
     collectionSlug: string;
     productSlug: string;
   };
+  setProductSlug: (_value: string) => void;
 };
 
 function ProductConfigurator({
@@ -92,6 +93,7 @@ function ProductConfigurator({
   setEngravingText,
   productIconListType,
   settingSlugs,
+  setProductSlug,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -172,6 +174,7 @@ function ProductConfigurator({
               color: additionalVariantData?.color,
               clarity: additionalVariantData?.clarity,
             }}
+            setProductSlug={setProductSlug}
           />
 
           {/* Ring Size */}
@@ -267,7 +270,7 @@ function ProductConfigurator({
             <UIString>Complete & Review Your Ring</UIString>
           </DarksideButton>
         </div>
-      ) : (
+      ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
@@ -285,6 +288,8 @@ function ProductConfigurator({
           engravingText={engravingText}
           productIconListType={productIconListType}
         />
+      ) : (
+        ''
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -8,7 +9,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 
 /**
  * This Component is a good candidate for a globally shared component
@@ -21,11 +21,12 @@ export function OptionItemContainer({
   onClick,
   isLink,
   valueLabel,
+  setProductSlug,
 }: OptionItemContainerProps) {
   const OptionItemComponent = getOptionItemComponentByType(optionType);
 
   return isLink ? (
-    <OptionItemLink {...option}>
+    <OptionItemLink {...option} setProductSlug={setProductSlug}>
       <OptionItemComponent
         valueLabel={valueLabel}
         isSelected={isSelected}
@@ -41,9 +42,10 @@ export function OptionItemContainer({
 
 interface OptionItemLinkProps extends OptionItemProps {
   children?: React.ReactNode;
+  setProductSlug: (_value: string) => void;
 }
 
-function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
+function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkProps) {
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
@@ -58,7 +60,14 @@ function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
   };
 
   return (
-    <Link href={url} scroll={false}>
+    <Link
+      href={url}
+      shallow={true}
+      scroll={false}
+      onClick={() => {
+        setProductSlug(id);
+      }}
+    >
       {children || value}
     </Link>
   );

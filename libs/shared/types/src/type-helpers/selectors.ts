@@ -12,4 +12,5 @@ export interface OptionItemContainerProps {
   onClick: () => void;
   isLink?: boolean;
   valueLabel: string;
+  setProductSlug: (_value: string) => void;
 }

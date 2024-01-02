@@ -16,12 +16,38 @@ export async function getProductDiamondTypes(productSlug) {
 
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
-  const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });
-  const apiUrl = `/v1/products?${searchParams.toString()}`;
+  // const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });
+  // const apiUrl = `/v1/products?${searchParams.toString()}`;
 
-  const response = await vraiApiClient.get(apiUrl);
+  // const response = await vraiApiClient.get(apiUrl);
 
-  return response.data;
+  // return response.data;
+
+  const qParams = new URLSearchParams({
+    slug: productSlug,
+    id: variantSlug,
+  }).toString();
+
+  const response = await fetch(
+    typeof window !== 'undefined'
+      ? window.location.origin + `/api/pdp/getPdpProduct?${qParams}`
+      : `http://localhost:4200/api/pdp/getPdpProduct?${qParams}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  )
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((e) => {
+      console.log('getPdpProduct error', e);
+    });
+
+  // setShopifyProductData(response);
+
+  return response;
 }
 
 // PDP - ENGAGEMENT RING DATA - DatoCMS - TODO: What should be prefetched (prob this)

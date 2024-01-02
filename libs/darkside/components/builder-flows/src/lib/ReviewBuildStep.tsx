@@ -73,10 +73,19 @@ const ReviewBuildStepStyles = styled(motion.div)`
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             flex-wrap: wrap;
           }
+
+          > div {
+            @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+              flex: 0 0 50%;
+            }
+          }
           > .image {
             padding: 0 1rem;
-            flex: 0 0 50%;
-            display: flex;
+
+            @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+              flex: 0 0 50%;
+              display: flex;
+            }
 
             > div {
               display: flex;
@@ -94,21 +103,25 @@ const ReviewBuildStepStyles = styled(motion.div)`
         top: 53%;
         left: 20.5%;
 
+        @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+          left: 25%;
+        }
+
         @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-          left: 22%;
+          left: 20%;
         }
 
         @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
-          left: 21.5%;
+          left: 21%;
         }
         @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
           left: 21%;
         }
         @media (min-width: 1700px) {
-          left: 20%;
+          left: 22%;
         }
         @media (min-width: 1800px) {
-          left: 21%;
+          left: 23%;
         }
       }
 
@@ -745,19 +758,15 @@ const ReviewBuildStep = ({
       ></Script>
       <div className="review-wrapper">
         <div className="product-images ">
-          <div className="embla" ref={isWindowDefined && window.innerWidth > 767 ? emblaRef : null}>
+          <div className="embla" ref={emblaRef}>
             <div className="embla__container">
-              <div className={clsx('image setting-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
+              <div className={clsx('image setting-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
               </div>
-              <div className={clsx('image diamond-image', { embla: isWindowDefined && window.innerWidth < 767 })}>
+              <div className={clsx('image diamond-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {diamondImage && <img src={diamondImage} alt="" />}
               </div>
-              <div
-                className={clsx('diamond-hand', {
-                  embla: isWindowDefined && window.innerWidth < 767,
-                })}
-              >
+              <div className={clsx('diamond-hand embla__slide')}>
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
                   range={[0.5, 8]}

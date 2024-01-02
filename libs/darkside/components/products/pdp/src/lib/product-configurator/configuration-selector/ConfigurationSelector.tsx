@@ -15,7 +15,7 @@ interface ConfigurationSelectorProps {
   disableVariantType?: string[];
   hasMultipleDiamondOrientations?: boolean;
   productType?: string;
-
+  setProductSlug?: (_value: string) => void;
   diamondSpecs?: {
     color: string;
     clarity: string;
@@ -88,6 +88,7 @@ function ConfigurationSelector({
   hasMultipleDiamondOrientations,
   productType,
   diamondSpecs,
+  setProductSlug,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
@@ -160,6 +161,7 @@ function ConfigurationSelector({
             }
             renderItemAsLink={isBuilderFlowOpen ? false : true}
             diamondSpecs={diamondSpecs}
+            setProductSlug={setProductSlug}
           />
         );
       })}
