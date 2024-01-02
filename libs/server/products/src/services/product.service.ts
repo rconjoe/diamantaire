@@ -52,11 +52,13 @@ import {
   getDraftQuery,
 } from '../helper/product.helper';
 import { OptionsConfigurations, PLPResponse } from '../interface/product.interface';
+import { PlpRepository } from '../repository/plp.repository';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
 const TTL_HOURS = 48;
 const PRODUCT_DATA_TTL = TTL_HOURS * 60 * 60 * 1000; // ttl in seconds
+const PLP_DATA_TTL = 60 * 60 * 1000; // ttl in seconds
 
 @Injectable()
 export class ProductsService {
@@ -64,6 +66,7 @@ export class ProductsService {
   private limiter: Bottleneck;
   constructor(
     private readonly productRepository: ProductRepository,
+    private readonly plpRepository: PlpRepository,
     private readonly utils: UtilService,
     @Inject(CACHE_MANAGER) private readonly cacheManager:CacheStore
   ) {
@@ -72,6 +75,249 @@ export class ProductsService {
       maxConcurrent: 1,
       minTime: 100,
     });
+  }
+
+  /**
+   * Fetch PLP products
+   * 
+   * 1) Get product list from MongoDB (returns variants for metal selectors)
+   * 2) Also retrieve pagination data (total docs)
+   * 3) Generate list of content data to fetch from Dato
+   * 4) Fetch content data from Dato
+   * 5) Also fetch lowest prices for collections (cache by collection)
+   * 6) Also fetch available filters (cache by PLP)
+   * 7) Merge product data with content data
+   * 8) Return PLP data
+   * 
+   * @param {string} category - PLP Category
+   * @param {string} slug - PLP Slug
+   * @param {string} locale - Content locale
+   * @param {object} filters - Filters
+   * @param {string} sortBy - Sort by
+   * @param {string} sortOrder - Sort order
+   * @param {number} limit - Limit
+   * @param {number} page - Page 
+   * @returns {object} Array of PLP products (cache result)
+   */
+  async getPlpProducts({ category, slug, locale, filters, sortBy, sortOrder = 'asc', limit = 12, page = 1  }){
+    const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
+    const skip = (page - 1) * limit;
+    const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
+
+    // Supports multiselect
+    const filterQuery = {
+      ...(metals && { 'configuration.metal': { $in: metals }}),
+      ...(styles && { 'configuration.style': { $in: styles }}),
+      ...(subStyles && { 'configuration.subStyle': { $in: subStyles }}),
+      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes }}),
+      ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
+      ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
+    }
+
+    const sortQuery: Record<string, 1 | -1 > = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : { };
+
+    const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
+    const cachedData = await this.utils.memGet(cacheKey);
+    let productResponse;
+
+    if (cachedData) {
+      this.logger.verbose(`getPlpProducts :: cache HIT on key ${cacheKey}`);
+      productResponse = cachedData;
+    } else {
+      this.logger.verbose(`getPlpProducts :: cache MISS on key ${cacheKey}`);
+
+      // Init pipeline stage
+      const pipeline: PipelineStage[] = [
+        { $match: { slug: plpSlug }}, // Get specific PLP item
+        { $unwind: "$products" }, // Unwind products array so that we are working only with the products
+        { $replaceRoot: { newRoot: "$products" }},
+      ]
+
+      // Add filtering
+      if (Object.keys(filterQuery).length > 0){
+        pipeline.push({ $match: filterQuery })
+      }
+
+      // Add sorting
+      if (sortBy){
+        pipeline.push({ $sort: sortQuery })
+      }
+
+      pipeline.push(
+        { $skip: skip },
+        { $limit: limit },
+        { // join products from the products collection
+            $lookup: {
+                from: "products",
+                localField: "variants",
+                foreignField: "productSlug",
+                as: "variants",
+            }
+        },
+        { // reduce data returned
+            $project: {
+                primaryProductSlug: 1,
+                variants: "$variants"
+            }
+        }
+      );
+      
+      const productPromises = [
+        this.plpRepository.aggregate(pipeline),
+        this.plpRepository.aggregate([
+          { $match: {slug: plpSlug }},
+          { $unwind: "$products" },
+          { $replaceRoot: { newRoot: "$products" }},
+          { $match: filterQuery },
+          { $count: "documentCount" }
+        ])
+      ];
+
+      productResponse = await Promise.all(productPromises);
+
+      if (!productResponse[0] || productResponse[0].length === 0) {
+        throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
+      }
+      
+      this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
+    }
+    const [ products, totalDocumentsQuery ] = productResponse;
+    const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
+
+    // generate query for product content by product type
+    const variantIdProductTypes = ['Necklace','Earrings','Bracelet','Ring'];
+    const productHandleProductTypes = ['Engagement Ring','Wedding Band']
+    const contentIdsByProductType = products.reduce((acc,plpItem) => {
+
+      const idList = plpItem.variants.map(v => v.contentId);
+      const productType = plpItem.variants?.[0].productType;
+
+      if (variantIdProductTypes.includes(productType)){
+        acc.variantIds.push(...idList);
+      } else if(productHandleProductTypes.includes(productType)){
+        acc.productHandles.push(...idList);
+      } else {
+        this.logger.verbose("Unknown product type.  Cannot add to ID list", plpItem.product.productType)
+      }
+
+      return acc;
+    },{ variantIds: [], productHandles: []})
+    
+    const dataPromises = [
+      this.datoConfigurationsAndProducts({ slug: plpSlug, ...contentIdsByProductType, locale }),
+      this.getLowestPricesByCollection(),
+      this.getPlpFilterData(plpSlug),
+    ]
+    const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
+
+    const paginator = {
+      totalDocs: totalDocuments,
+      limit,
+      page,
+      totalPages: Math.ceil(totalDocuments/limit),
+      pagingCounter: 1,
+      hasPrevPage: page > 1,
+      hasNextPage: page < Math.ceil(totalDocuments/limit),
+      prevPage: page - 1 < 1 ? null : page - 1,
+      nextPage: page + 1 > Math.ceil(totalDocuments/limit) ? null : page + 1,
+    }
+
+    // Create content map to merge with product data
+    const productContentMap = productContent?.reduce((acc, content) => {
+      const contentId = content.variantId || content.shopifyProductHandle
+
+      acc[contentId] = content;
+
+      return acc;
+    },{}) || {};
+
+    const generatePlpItem = (product, variantContent) => {
+
+      if (!variantContent || !product) {
+        return {};
+      }
+
+      const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
+
+      if (!collectionContent) {
+        this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
+      }
+
+      return {
+        productType: product.productType,
+        productSlug: product.productSlug,
+        collectionSlug: product.collectionSlug,
+        configuration: product.configuration,
+        productTitle: collectionContent?.productTitle,
+        plpTitle: variantContent.plpTitle,
+        primaryImage: variantContent['plpImage']?.responsiveImage,
+        hoverImage: variantContent['plpImageHover']?.responsiveImage,
+        price: product.price,
+      }
+    }
+
+    // Merge product data with content
+    const plpProducts = products.map(plpItem => {
+      const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
+      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
+
+      const mainProductContent = productContentMap[product.contentId];
+      const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
+      const productLabel = collectionContent?.productLabel;
+      const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
+      const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
+      
+      return {
+        defaultId: product.contentId,
+        productType: product.productType,
+        metal: metalOptions.sort((a,b) => sortMetalTypes(a.value,b.value)),
+        ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug]}),
+        ...(productLabel && { productLabel }),
+        ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+        ...(useLowestPrice && { useLowestPrice }),
+        variants: plpItem.variants.reduce((acc,v) => {
+          const variantContent = productContentMap[v.contentId];
+
+          acc[v.contentId] = generatePlpItem(v, variantContent);
+
+          return acc;
+        },{})
+      }
+    }).filter(Boolean)
+
+    return {
+      category, 
+      slug,
+      locale,
+      products: plpProducts,
+      availableFilters,
+      paginator
+    };
+  }
+
+  async getPlpFilterData(plpSlug: string){
+    const cacheKey = `plp-page-data:${plpSlug}`;
+    const cachedData = await this.utils.memGet(cacheKey);
+
+    if (cachedData) {
+      return cachedData;
+    } else {
+      const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });     
+      const filterData = plpResponse['filters'];
+      const { diamondType, metal, styles, subStyles } = filterData;
+
+      const sortedFilters = {
+        ...filterData,
+        diamondType: diamondType.sort(sortDiamondTypes),
+        metal: metal.sort(sortMetalTypes),
+        styles: styles.sort(),
+        subStyles: subStyles.sort(),
+      }
+
+      this.utils.memSet(cacheKey, sortedFilters, PRODUCT_DATA_TTL);
+
+      return sortedFilters;
+    }
   }
 
   /**
@@ -695,6 +941,7 @@ export class ProductsService {
   }
 
   /**
+   * ------// PLP DATA //------
    * This function accepts an input for retrieving PLP data.
    * It will return a list of products with combined content and product data.
    * @param {object} input - PLP input
@@ -705,6 +952,17 @@ export class ProductsService {
    * @param {number} input.priceMin - price range filter min
    * @param {number} input.priceMax - price range filter max
    * @returns Array of plp products and page content
+   * 
+   * 1) Get Dato PLP filter data and products (can be FJ, WB or ER)
+   *   Note: Merchandized products can be either in productsInOrder or configurationsInOrder 
+   *         or bestSellersInOrder or collectionsInOrder. When supporting collectionsInOrder, 
+   *         the algorithm handles 1 product per collection
+   * 2) Get paginated and filtered products from Mongo
+   * 3) Get all collections for (2) result products from Mongo to determine relationship
+   *    and variant products
+   * 4) Get all product content from Dato for merchandized products & variant products
+   * 5) Gat all product data from Mongo for merchandized products & variant products
+   * 6) Merge CMS content with Mongo product data and return plp datas
    */
 
   async findPlpData(query: PlpQuery) {
@@ -724,6 +982,9 @@ export class ProductsService {
       sortBy,
       sortOrder,
     } = query;
+
+    // performance measurement
+    const p0 = performance.now();
   
     const cachedKey = `plp-${category}-${slug}-${locale}-${this.generateQueryCacheKey(query)}`;
     
@@ -732,7 +993,7 @@ export class ProductsService {
     const cachedData = await this.cacheManager.get(cachedKey);
 
     if (cachedData) {
-      this.logger.verbose(`PLP :: cache hit on key ${cachedKey}`);
+      this.logger.verbose(`PLP :: cache hit on key ${cachedKey} :: ${performance.now() - p0}ms`);
 
       return cachedData; // return the entire cached data including dato content
     }
@@ -740,6 +1001,11 @@ export class ProductsService {
     try {
       // Get Dato PLP data
       const plpContent = await this.datoPLPContent({ slug, category, locale });
+
+      // performance measurement
+      const postDatoTime = performance.now();
+
+      this.logger.verbose(`PLP :: Dato PLP data Retrieved :: ${postDatoTime - p0}ms`);
 
       if (!plpContent.listPage) {
         throw new NotFoundException(`PLP slug: ${slug} and category: ${category} not found`);
@@ -877,6 +1143,11 @@ export class ProductsService {
 
       const productsResponse = await this.productRepository.aggregatePaginate<VraiProduct>(pipeline, paginateOptions);
 
+      // performance measurement
+      const postMainProductMongo = performance.now();
+
+      this.logger.verbose(`PLP :: Mongo primary product data Retrieved :: ${postMainProductMongo - postDatoTime}ms (total: ${postMainProductMongo - p0}ms)`);
+
       const availableFiltersCacheKey = `plp-${slug}-filter-types`;
       // check for cached data
       let availableFilters = await this.utils.memGet(availableFiltersCacheKey);
@@ -917,7 +1188,10 @@ export class ProductsService {
           styles: availableStyles,
           subStyles: availableSubStyles,
         };
+        // performance measurement
+        const postFilterReq = performance.now();
 
+        this.logger.verbose(`PLP :: Available filters request :: ${postFilterReq - preFiltersReq}ms (total: ${postFilterReq - p0}ms)`);
         this.utils.memSet(availableFiltersCacheKey, availableFilters, PRODUCT_DATA_TTL);
       }
 
@@ -935,21 +1209,24 @@ export class ProductsService {
         return map;
       }, {});
 
+      // PERFORMANCE BENCHMARK: Mongo collection request
+      const preMongoCollectionReq = performance.now();
+
       const collectionSlugs = [...collectionSlugsSet];
-
-      const collectionQueries = collectionSlugs.map((collectionSlug) => ({ collectionSlug }));
-
-      const collections = await Promise.all<VraiProduct[][]>(
-        collectionQueries.map((query) => this.productRepository.find(query)),
-      );
-
-      // TODO: is it faster to get all with a single query and then group
-
+      const collections = await this.productRepository.find({ collectionSlug: { $in: collectionSlugs } });
       const collectionsMap = collections.reduce((map: Record<string, VraiProduct[]>, collection) => {
-        map[collection[0].collectionSlug] = collection;
+        if (!map[collection.collectionSlug]) {
+          map[collection.collectionSlug] = [collection];
+        } else {
+          map[collection.collectionSlug].push(collection);
+        }
 
         return map;
-      }, {});
+      }, {})
+
+      const postMongoCollectionReq = performance.now();
+
+      this.logger.verbose(`PLP :: Mongo Collection Request :: ${postMongoCollectionReq - preMongoCollectionReq}ms (total: ${postMongoCollectionReq - p0}ms)`);
 
       // for each collection slug, get each configuration based on the primary contentId
       // get all configMatrices
@@ -994,6 +1271,9 @@ export class ProductsService {
 
       const variantContentIds = [...variantIds, ...productHandles];
 
+      // PERFORMANCE BENCHMARK: Dato & Mongo variant request
+      const preVariantDataRequest = performance.now();
+
       // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
@@ -1001,6 +1281,10 @@ export class ProductsService {
         this.productRepository.find({ contentId: { $in: variantContentIds } }),
       ];
       const [variantContentData, variantProducts] = await Promise.all(variantPromises);
+
+      const postVariantDataRequest = performance.now();
+
+      this.logger.verbose(`PLP :: Mongo & Dato variant Request :: ${postVariantDataRequest - preVariantDataRequest}ms (total: ${postVariantDataRequest - p0}ms)`);
 
       const variantsMap = variantContentIds.reduce(
         (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
@@ -1252,7 +1536,6 @@ export class ProductsService {
           const useLowestPrice = !content?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
           const productLabel = content?.productLabel;
-
           const lowestPrice = lowestPricesByCollection?.[product.collectionSlug];
 
           productsArray.push({
@@ -1358,8 +1641,9 @@ export class ProductsService {
   }
 
   /**
-   * Gets Dato listPage content
+   * Gets Dato listPage content necessary to make additional queries for plp data
    * @param {object} input - PLP input
+   * @param {string} input.category - PLP category
    * @param {string} input.slug - PLP slug
    * @param {string} input.locale - locale for content
    * @returns {object}- Dato listPage content
