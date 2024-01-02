@@ -97,7 +97,7 @@ const ProductDescription = ({
     dimensions,
     shape,
     shownWithCtw,
-    caratWeightOverride,
+    //caratWeightOverride,
     pdpSubTitle,
 
     // Jewelry
@@ -114,7 +114,7 @@ const ProductDescription = ({
     diamondCount,
     carat,
   } = variantAttributes || {};
-  console.log({ carat });
+
   // Product Spec - These are the locale-based labels for the product
 
   const { data } = useProductSpec(productSpecId, locale) as ProductSpecProps;
