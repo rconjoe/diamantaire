@@ -34,9 +34,8 @@ interface OptionSelectorProps {
     clarity: string;
   };
   selectedOptionIndex?: number;
-  selectedConfiguration?: {
-    goldPurity: string;
-    metal: string;
+  selectedConfiguration: {
+    [key: string]: string;
   };
 }
 
