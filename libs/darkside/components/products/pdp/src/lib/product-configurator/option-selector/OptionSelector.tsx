@@ -1,5 +1,10 @@
 import { DarksideButton, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  useHumanNameMapper,
+  useSingleHumanNameMapper,
+  useTranslations,
+  humanNamesMapperType,
+} from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -235,8 +240,8 @@ function OptionSelector({
   const [isLastSlide, setIsLastSlide] = useState(false);
 
   const { _t } = useTranslations(locale);
-  const { _t: translateOptionNames } = useTranslations(locale, ['OPTION_NAMES']);
-  const { _t: translateBandwidthValues } = useTranslations(locale, ['BAND_WIDTH_LABEL_HUMAN_NAMES']);
+  const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
+  const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
   const diamondSliderOptions: EmblaOptionsType = {
     loop: false,
     dragFree: false,
@@ -346,13 +351,20 @@ function OptionSelector({
         );
 
       case 'sideStoneCarat':
+        return (
+          <>
+            <UIString>{selectedOptionValue}</UIString>
+            {'ct x 2'}
+          </>
+        );
+
       case 'caratWeight':
         if (selectedOptionValue !== 'other') {
           return (
             <>
               <UIString>{selectedOptionValue}</UIString>
-              {' ct'}
-              {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && renderDiamondSpecs()}
+              {'ct'}
+              {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
         }
@@ -367,12 +379,22 @@ function OptionSelector({
     }
   }
 
+  function getOptionHeaderName({ label, productType }) {
+    if (label === 'caratWeight' && productType === 'Engagement Ring') {
+      return 'centerstone';
+    }
+
+    return label;
+  }
+
+  const labelName = getOptionHeaderName({ label, productType });
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
-            {translateOptionNames(label.replace('caratWeight', 'centerstone'))}:
+            {translateOptionNames(labelName)}:
           </Heading>
           <span>{renderOptionValue()}</span>
         </div>

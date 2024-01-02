@@ -8,15 +8,27 @@ import {
   StickyElementWrapper,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
-import { Diamond360, DiamondCfyAccordion, DiamondCfyGallery, DiamondHand } from '@diamantaire/darkside/components/diamonds';
+import {
+  Diamond360,
+  DiamondCfyAccordion,
+  DiamondCfyGallery,
+  DiamondHand,
+  DiamondPlan,
+  DiamondRough,
+} from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { useDiamondCfyData, useDiamondCtoData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  humanNamesMapperType,
+  useDiamondCfyData,
+  useDiamondCtoData,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCFYResultOptionsFromUrl, getCountry, getDiamondType } from '@diamantaire/shared/helpers';
+import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
@@ -40,7 +52,7 @@ interface CFYResultPageProps {
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, options = {} } = props;
+  const { locale, countryCode, options = {} } = props;
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -50,11 +62,14 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     ctoDiamondResultNote,
     ctoDiamondResultNeedItFaster,
     ctoDiamondResultShapeAndWeightTitle,
+    ctoDiamondResultPolishedByDateCopy,
+    ctoDiamondResultPolishedDiamondImageCaption: caption360,
+    productIconList,
   } = diamondCfyData;
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
 
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
@@ -70,13 +85,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const formattedPrice = getFormattedPrice(price, locale);
 
-  const formattedDate = getFormattedShipppingDate(locale);
-
   const shouldRenderReturnPolicy = !isValidForReturn(diamondType, Number(carat));
 
   const lotIdPicker = `cfy-${diamondType}`;
 
-  const media = getMedia({ product, diamondType, lotIdPicker });
+  const media = getMedia({ product, diamondType, lotIdPicker, caption360 });
 
   const slides = media.map((mediaComponent, index) => (
     <div className="embla__slide" key={`media${index}`}>
@@ -88,6 +101,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const handleUpgradeClick = (type: string) => {
     let checkboxArray = [...checkbox];
+
     let selectedDisplay = 'diamond';
 
     const upgradeTypes = ['cut', 'color', 'clarity'];
@@ -112,6 +126,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     });
 
     setCheckbox(checkboxArray);
+
     setDisplay(selectedDisplay);
   };
 
@@ -130,6 +145,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
   const isStandardShape = POPULAR_CFY_DIAMOND_TYPES.includes(diamondType);
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
+
+  const formattedDate = getFormattedShipppingDate(
+    locale,
+    productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
+    ctoDiamondResultPolishedByDateCopy,
+    countryCode,
+  );
 
   useEffect(() => {
     setProduct(diamondCtoData[display]);
@@ -193,12 +215,23 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <div className="pagination">
                     <ul>
                       <li>
-                        <button
-                          className={clsx({
-                            active: activeSlideIndex === 0,
-                          })}
-                          onClick={() => emblaApi?.scrollTo(0)}
-                        >
+                        <button className={clsx({ active: activeSlideIndex === 0 })} onClick={() => emblaApi?.scrollTo(0)}>
+                          <DiamondRough extraClass="media-content-item" width={60} height={60} priority={true} />
+                        </button>
+                      </li>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 1 })} onClick={() => emblaApi?.scrollTo(1)}>
+                          <DiamondPlan
+                            extraClass="media-content-item"
+                            diamondType={diamondType}
+                            width={60}
+                            height={60}
+                            priority={true}
+                          />
+                        </button>
+                      </li>
+                      <li>
+                        <button className={clsx({ active: activeSlideIndex === 2 })} onClick={() => emblaApi?.scrollTo(2)}>
                           <Diamond360
                             key={0}
                             className="media-content-item diamond36"
@@ -212,12 +245,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                         </button>
                       </li>
                       <li>
-                        <button
-                          className={clsx({
-                            active: activeSlideIndex === 1,
-                          })}
-                          onClick={() => emblaApi?.scrollTo(1)}
-                        >
+                        <button className={clsx({ active: activeSlideIndex === 3 })} onClick={() => emblaApi?.scrollTo(3)}>
                           <DiamondHand
                             key={1}
                             className="media-content-item"
@@ -234,6 +262,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                 </div>
               )}
             </div>
+
             <div className="mobile-only">
               <WishlistLikeButton extraClass="cfy" productId={`cfy-${product.lotId}`} />
             </div>
@@ -272,17 +301,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
               </div>
 
               <div className="date">
-                <p>
-                  <UIString>Ships by</UIString> {formattedDate}
-                </p>
-              </div>
-
-              <div className="policy">
-                {shouldRenderReturnPolicy ? (
-                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
-                ) : (
-                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
-                )}
+                <p>{formattedDate}</p>
               </div>
 
               <div className="links">
@@ -306,6 +325,14 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
               </div>
+
+              <div className="policy">
+                {shouldRenderReturnPolicy ? (
+                  <Markdown>{ctoDiamondResultFinalSaleNote || ''}</Markdown>
+                ) : (
+                  <Markdown>{ctoDiamondResultNote || ''}</Markdown>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -327,7 +354,11 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const countryCode = getCountry(locale);
+  const { geo } = context.req.cookies;
+
+  const geoCookieData = JSON.parse(geo);
+
+  const countryCode = geoCookieData?.country || 'US';
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
@@ -373,10 +404,12 @@ export { CFYResultPage, getServerSideProps as getServerSidePropsCFYResultPage };
 
 export default CFYResultPage;
 
-function getMedia({ product, diamondType, lotIdPicker }) {
+function getMedia({ product, diamondType, lotIdPicker, caption360 }) {
   return [
+    <DiamondRough key={0} extraClass="media-content-item" withCaption={true} />,
+    <DiamondPlan key={1} extraClass="media-content-item" diamondType={diamondType} withCaption={true} />,
     <Diamond360
-      key={0}
+      key={2}
       className="media-content-item"
       diamondType={diamondType}
       lotId={lotIdPicker}
@@ -384,8 +417,9 @@ function getMedia({ product, diamondType, lotIdPicker }) {
       priority={true}
       width={500}
       height={500}
+      caption={caption360}
     />,
-    <DiamondHand className="media-content-item" diamond={product} key={1} priority={true} width={500} height={500} />,
+    <DiamondHand key={3} className="media-content-item" diamond={product} priority={true} width={500} height={500} />,
   ];
 }
 
@@ -417,27 +451,25 @@ function isValidForReturn(diamondType, caratWeight) {
   return validDiamondTypes.includes(diamondType) && caratWeight <= validCaratWeight;
 }
 
-function getFormattedShipppingDate(locale) {
-  const result = new Date();
-  let days = 20;
+function getFormattedShipppingDate(locale, data, shippingText, countryCode) {
+  const isUserInUs = countryCode === 'US';
 
-  while (days > 0) {
-    result.setDate(result.getDate() + 1); // Move to the next day
+  const defaultBusinessDaysCount = 20;
 
-    // Check if the current day is not a Saturday (6) or Sunday (0)
-    if (result.getDay() !== 6 && result.getDay() !== 0) {
-      days--; // Subtract a day if it's a business day
+  const { cutForYouShippingBusinessDays = defaultBusinessDaysCount, cutForYouShippingBusinessDaysCountryMap = {} } =
+    data || {};
+
+  if (!isUserInUs && cutForYouShippingBusinessDaysCountryMap) {
+    const localizedCutForYouShippingBusinessDays = cutForYouShippingBusinessDaysCountryMap[countryCode];
+
+    // If a country specific buisness day is provided, then generate new shipping copy;
+    if (localizedCutForYouShippingBusinessDays) {
+      return getShipByDateCopy(localizedCutForYouShippingBusinessDays, shippingText, locale);
     }
+  } else {
+    // US override
+    return getShipByDateCopy(cutForYouShippingBusinessDays, shippingText, locale);
   }
-
-  const formattedDate = result.toLocaleDateString(locale, {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-  return formattedDate.replace(',', '');
 }
 
 function getOverrides(href: string, classOverride?: string) {

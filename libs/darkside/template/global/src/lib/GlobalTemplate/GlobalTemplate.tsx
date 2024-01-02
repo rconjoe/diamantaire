@@ -105,7 +105,7 @@ export const GlobalTemplate = ({ children }) => {
   // console.log('headerData', headerData);
 
   return (
-    <div className={vraiFont.className}>
+    <div className={`${vraiFont.className} ${vraiFont.variable}`}>
       {headerData && (
         <Header
           headerData={headerData}

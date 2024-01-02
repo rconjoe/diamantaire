@@ -17,18 +17,10 @@ interface WishlistShareModalProps {
   subtitle: string;
   locale: string;
   onClose: () => void;
-  errorMessage: string;
   successMessage: string;
 }
 
-const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
-  onClose,
-  locale,
-  title,
-  subtitle,
-  errorMessage,
-  successMessage,
-}) => {
+const WishlistShareModal: React.FC<WishlistShareModalProps> = ({ onClose, locale, title, subtitle, successMessage }) => {
   const { _t } = useTranslations(locale);
 
   const defaultData = {
@@ -128,7 +120,7 @@ const WishlistShareModal: React.FC<WishlistShareModalProps> = ({
 
       setFormData(defaultData);
     } else {
-      setResponse(errorMessage);
+      setResponse(_t('Drop Hint Error Message'));
     }
 
     setTimeout(() => {

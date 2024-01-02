@@ -1,7 +1,12 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
-import { Breadcrumb, NeedTimeToThinkForm, ProductAppointmentCTA } from '@diamantaire/darkside/components/common-ui';
+import {
+  Breadcrumb,
+  DropHintModal,
+  NeedTimeToThinkForm,
+  ProductAppointmentCTA,
+} from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
   MediaSlider,
@@ -44,6 +49,7 @@ export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
   productSlug: string;
 }
+
 export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
@@ -59,9 +65,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // General Data - Serverside
   const query = useProduct({ collectionSlug, productSlug });
+
   const { data: shopifyProductData = {} } = query;
+
   const router = useRouter();
-  const { _t } = useTranslations(router.locale);
+
+  const { locale } = router || {};
+
+  const { _t } = useTranslations(locale);
 
   // Jewelry | ER | Wedding Band
   const pdpType: PdpTypePlural = pdpTypeHandleSingleToPluralAsConst[router.pathname.split('/')[1]];
@@ -230,6 +241,22 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     fetchAndTrackPreviouslyViewed(productTitle, shopifyProductData?.contentId);
   }, [productTitle, shopifyProductData?.contentId]);
 
+  // DropHint
+  const [openDropHintModal, setOpenDropHintModal] = useState(false);
+
+  const [dropHintData, setDropHintData] = useState(null);
+
+  const handleOpenDropHintModal = (data: { link: string; image: string }) => {
+    setOpenDropHintModal(true);
+
+    setDropHintData(data);
+  };
+
+  const handleModalClose = () => {
+    setOpenDropHintModal(false);
+    setDropHintData(null);
+  };
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
@@ -248,6 +275,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           productTitle={productTitle}
           metal={configuration.metal}
         />
+
         <Script
           id="klara-script"
           src="https://js.klarna.com/web-sdk/v1/klarna.js"
@@ -260,8 +288,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
           strategy={'beforeInteractive'}
         />
+
         <PageViewTracker productData={productData} />
+
         <Breadcrumb breadcrumb={breadcrumb} />
+
         <div className="product-container">
           <div className="media-container">
             <MediaGallery
@@ -280,6 +311,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
+
           <div className="info-container">
             <div className="info__inner">
               {!isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
@@ -333,10 +365,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               {productIconListType && (
                 <ProductIconList
                   productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
+                  handleOpenDropHintModal={handleOpenDropHintModal}
                   locale={router?.locale}
+                  withDropHint={true}
+                  productType={shopifyProductData?.productType}
+                  collectionSlug={collectionSlug}
+                  productSlug={productSlug}
+                  productImageUrl={productContent?.image?.responsiveImage?.src}
                 />
               )}
+
               <NeedTimeToThinkForm productData={productData} />
+
               {/* <Form
                 title={_t('Need more time to think?')}
                 caption={_t('Email this customized ring to yourself or drop a hint.')}
@@ -344,26 +384,41 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 stackedSubmit={false}
                 headingType={'h2'}
               /> */}
+
               <ProductDescription
-                description={productDescription}
-                productAttributes={parentProductAttributes}
-                variantAttributes={additionalVariantData}
-                productSpecId={datoParentProductData?.specLabels?.id}
                 title={productTitle}
+                description={productDescription}
                 selectedConfiguration={configuration}
+                variantAttributes={additionalVariantData}
+                productAttributes={parentProductAttributes}
+                productSpecId={datoParentProductData?.specLabels?.id}
               />
             </div>
           </div>
         </div>
 
         {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+
         {additionalVariantData?.productSuggestionQuadBlock?.id && (
           <ProductSuggestionBlock id={additionalVariantData?.productSuggestionQuadBlock?.id} />
         )}
+
         {shopifyProductData?.productType === 'Engagement Ring' && (
           <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         )}
+
         <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
+
+        {openDropHintModal && (
+          <DropHintModal
+            title={_t('Drop a hint')}
+            subtitle={_t('Enter the email address where you would like this to be sent.')}
+            locale={locale}
+            onClose={handleModalClose}
+            productLink={dropHintData?.link}
+            productImage={dropHintData?.image}
+          />
+        )}
       </PageContainerStyles>
     );
   }

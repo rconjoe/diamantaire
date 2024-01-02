@@ -7,6 +7,9 @@ const ProductKlarnaStyles = styled.div`
   position: relative;
   left: -1rem;
   min-height: 24px;
+  #klarna-placement::part(osm-message) {
+    font-family: var(--font-family-main);
+  }
 `;
 
 declare global {

@@ -4,7 +4,6 @@ const StyledDiamond360 = styled.div`
   display: block;
   aspect-ratio: 1/1;
   position: relative;
-  border: 0.1rem solid transparent;
   overflow: hidden;
   background: var(--color-lightest-grey);
 
@@ -19,42 +18,24 @@ const StyledDiamond360 = styled.div`
   }
 
   .vid {
-    transform: scale(1.02);
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 
+    > div > div,
     > div {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100% !important;
+      height: 100% !important;
     }
   }
 
-  // > div {
-  //   transform: scale(1.05);
-  // }
-
-  // .diamond-image-only {
-  //   display: block;
-  //   margin: auto;
-  //   width: 100%;
-  //   max-height: 100%;
-  //   transform: scale(0.9);
-
-  //   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-  //     transform: scale(0.75);
-  //     width: auto;
-  //     max-width: 17rem;
-  //   }
-  // }
-
   .caption {
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xxsmall);
     position: absolute;
     color: var(--color-black);
     display: block;

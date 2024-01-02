@@ -41,12 +41,11 @@ const StyledConfigurationSelector = styled.div`
     flex: 1 1 100%;
 
     &.metal {
-      flex: 0 0 60%;
+      flex: 1;
     }
 
     &.bandAccent {
-      flex: 1;
-      margin-left: 2rem;
+      flex: 0 0 auto;
     }
   }
 
@@ -137,7 +136,7 @@ function ConfigurationSelector({
 
         if (disableVariantType?.includes(configurationType)) return null;
 
-        if (!options || options.length <= 1) {
+        if (!options || options.length < 1) {
           return null;
         }
 

@@ -57,6 +57,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   ];
 
   const { color, clarity, carat, cut } = product || {};
+
   const specGen = specGenerator({
     configuration: {
       color,
@@ -206,7 +207,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           {lotId && <DiamondDetailAccordion lotId={lotId} locale={locale} />}
 
           <div className="cta">
-            {(product?.available_inventory && (
+            {(product?.availableForSale && (
               <>
                 <DarksideButton type="solid" colorTheme="black" href={selectYourSettingLink}>
                   {buttonTextDiamondFlow}
