@@ -16,13 +16,6 @@ export async function getProductDiamondTypes(productSlug) {
 
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
-  // const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });
-  // const apiUrl = `/v1/products?${searchParams.toString()}`;
-
-  // const response = await vraiApiClient.get(apiUrl);
-
-  // return response.data;
-
   const qParams = new URLSearchParams({
     slug: productSlug,
     id: variantSlug,
@@ -46,8 +39,6 @@ export async function getProductPage(productSlug, variantSlug) {
     .catch((e) => {
       console.log('getPdpProduct error', e);
     });
-
-  // setShopifyProductData(response);
 
   return response;
 }

@@ -121,8 +121,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
-  console.log('shopifyHandle', shopifyHandle);
-
   let { data: additionalVariantData }: any = useProductVariant(
     shopifyHandle,
     shopifyProductData?.productType,
@@ -260,39 +258,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setOpenDropHintModal(false);
     setDropHintData(null);
   };
-
-  // useEffect(() => {
-  //   async function getSettingProduct() {
-  //     const qParams = new URLSearchParams({
-  //       slug: collectionSlug,
-  //       id: productSlug,
-  //     }).toString();
-
-  //     const response = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((res) => res)
-  //       .catch((e) => {
-  //         console.log('getPdpProduct error', e);
-  //       });
-
-  //     // setShopifyProductData(response);
-
-  //     return response;
-  //   }
-
-  //   async function fetchNewProduct() {
-  //     const newProduct = await getSettingProduct();
-
-  //     console.log('newProduct', newProduct);
-  //   }
-
-  //   fetchNewProduct();
-  // }, [productSlug]);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
