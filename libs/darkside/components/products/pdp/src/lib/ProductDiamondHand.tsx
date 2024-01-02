@@ -1,7 +1,9 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
+import { formatNumber } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ReactSlider from 'react-slider';
 import styled from 'styled-components';
@@ -134,6 +136,8 @@ const ProductDiamondHandStyles = styled.div`
           text-align: center;
           min-width: 7rem;
           background-color: transparent;
+          white-space: nowrap;
+          text-transform: lowercase;
         }
       }
     }
@@ -159,7 +163,7 @@ type ProductDiamondHandProps = {
 
 const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
   const [sliderValue, setSliderValue] = useState(Number(initValue));
-
+  const { locale } = useRouter();
   const pickDiamondWidth = (carat) => {
     const powerFn = powerFnPicker();
     const widthInMillimeter = powerFn(carat);
@@ -327,7 +331,15 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
             <div className="slider-container">
               <div className="slider-grid">
                 <div className="min">
-                  <span>{range[0]}ct</span>
+                  <span>
+                    {range?.[0]
+                      ? formatNumber(Number(range?.[0]), locale, {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })
+                      : null}
+                    ct
+                  </span>
                 </div>
                 <div className="slider">
                   <ReactSlider
@@ -341,13 +353,23 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
                     onChange={(v) => setSliderValue(v)}
                     renderThumb={(props, state) => (
                       <div {...props}>
-                        <button>{state.valueNow} carat</button>
+                        <button>
+                          {state.valueNow} <UIString>carat</UIString>
+                        </button>
                       </div>
                     )}
                   />
                 </div>
                 <div className="max">
-                  <span>{range[1]}ct</span>
+                  <span>
+                    {range?.[1]
+                      ? formatNumber(Number(range?.[1]), locale, {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })
+                      : null}
+                    ct
+                  </span>
                 </div>
               </div>
             </div>
