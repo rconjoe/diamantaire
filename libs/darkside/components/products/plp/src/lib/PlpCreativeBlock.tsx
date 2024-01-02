@@ -1,5 +1,6 @@
-import { DarksideButton, Heading, MobileDesktopImage } from '@diamantaire/darkside/components/common-ui';
-import { useCartData, usePlpGWP } from '@diamantaire/darkside/data/hooks';
+import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
+import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { useBlockProducts, useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
@@ -9,6 +10,8 @@ import {
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 const PlpCreativeBlockStyles = styled.div`
@@ -20,7 +23,13 @@ const PlpCreativeBlockStyles = styled.div`
   `}
 
   &.creative-block--right {
-    ${media.medium`grid-area: 5 / 3 / 7 / 5;`}
+    ${media.medium`
+      grid-area: 5 / 3 / 7 / 5;
+    `}
+  }
+
+  .closing-animation {
+    background: red;
   }
 
   .creative-block__image {
@@ -48,22 +57,54 @@ const PlpCreativeBlockStyles = styled.div`
         padding: 2rem;
         left: auto;
       }
+
+      &.with-shop-the-look .creative-block__content-inner {
+        left: 50%;
+        width: 25rem;
+        margin-left: -12.5rem;
+
+        button {
+          border: 0.1rem solid var(--color-white);
+          color: var(--color-white);
+
+          &:focus,
+          &:hover {
+            background: var(--color-black);
+            border: 0.1rem solid var(--color-black);
+          }
+        }
+      }
     }
   }
 `;
 
 const PlpCreativeBlock = ({ block }) => {
-  console.log(`PlpCreativeBlock`, block);
+  const {
+    configurationsInOrder,
+    desktopImage,
+    mobileImage,
+    desktopCopy,
+    mobileCopy,
+    title,
+    className,
+    darksideButtons,
+    enableGwp,
+    openInNewTab,
+  } = block || {};
 
-  const { desktopImage, mobileImage, desktopCopy, mobileCopy, title, className, darksideButtons, enableGwp } = block || {};
+  const router = useRouter();
 
-  const { locale } = useRouter();
+  const { locale } = router || {};
+
+  const { _t } = useTranslations(locale);
 
   const { data: gwp } = usePlpGWP(locale);
 
   const { data: checkout } = useCartData(locale);
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
+
+  const { isMobile } = useContext(GlobalContext);
 
   const {
     supportedCountries,
@@ -103,12 +144,40 @@ const PlpCreativeBlock = ({ block }) => {
     [getFormattedPrice(parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)],
   ).toString();
 
+  const isShopTheLook = configurationsInOrder && Array.isArray(configurationsInOrder);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const [showShopTheLookSlideout, setShowShopTheLookSlideout] = useState(false);
+
+  const handleOpenShopTheLook = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setShowShopTheLookSlideout(true);
+  };
+
+  const handleCloseShopTheLook = () => {
+    setShowShopTheLookSlideout(false);
+  };
+
+  useEffect(() => {
+    if (showShopTheLookSlideout) {
+      const currentScrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+
+      setScrollPosition(currentScrollPosition);
+    }
+  }, [showShopTheLookSlideout]);
+
   return (
     <PlpCreativeBlockStyles className={className}>
       <div className="creative-block__image">
         <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={title} />
 
-        <div className={`creative-block__content ${title || desktopCopy || mobileCopy ? 'with-copy-content' : ''}`}>
+        <div
+          className={`creative-block__content${
+            title || desktopCopy || mobileCopy ? ' with-copy-content' : isShopTheLook ? ' with-shop-the-look' : ''
+          }`}
+        >
           <div className="creative-block__content-inner">
             {enableGwp && areSettingsValid ? (
               <p>{replacedGwpText}</p>
@@ -127,16 +196,34 @@ const PlpCreativeBlock = ({ block }) => {
                 {darksideButtons?.map((button) => {
                   return (
                     <DarksideButton
-                      colorTheme={button.ctaButtonColorTheme}
                       mobileColorTheme={button.ctaButtonMobileColorTheme}
+                      colorTheme={button.ctaButtonColorTheme}
+                      type={button.ctaButtonType}
                       href={button.ctaLinkUrl}
                       key={button.id}
-                      type={button.ctaButtonType}
+                      onClick={(e) => {
+                        isShopTheLook && handleOpenShopTheLook(e);
+                      }}
+                      openUrlInNewWindow={openInNewTab}
                     >
                       {button.ctaCopy}
                     </DarksideButton>
                   );
                 })}
+
+                {showShopTheLookSlideout &&
+                  createPortal(
+                    <SlideOut
+                      className="slideout--shop-the-look"
+                      title={_t('Shop the look')}
+                      scrollPosition={scrollPosition}
+                      onClose={handleCloseShopTheLook}
+                      width={isMobile ? '100%' : '55rem'}
+                    >
+                      <PlpCreativeSlideOutContent configurationsInOrder={configurationsInOrder} />
+                    </SlideOut>,
+                    document.body,
+                  )}
               </>
             )}
           </div>
@@ -144,6 +231,21 @@ const PlpCreativeBlock = ({ block }) => {
       </div>
     </PlpCreativeBlockStyles>
   );
+};
+
+const PlpCreativeSlideOutContent = ({ configurationsInOrder }) => {
+  const ids = useMemo(
+    () => configurationsInOrder.reduce((a, v) => [...a, v.variantId || v.shopifyProductHandle], []),
+    [configurationsInOrder],
+  );
+
+  const { data: { products } = {} } = useBlockProducts(ids);
+
+  console.log(`products`, products);
+
+  // create new endpoint to get valid data that can be used in PlpProductGrid.tsx
+
+  return <div>{JSON.stringify(ids)}</div>;
 };
 
 export default PlpCreativeBlock;

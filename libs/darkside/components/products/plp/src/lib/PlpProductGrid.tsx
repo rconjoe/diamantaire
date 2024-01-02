@@ -168,6 +168,7 @@ const PlpProductGrid = ({
   }, [cardCollection]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
   return (
@@ -231,6 +232,7 @@ const PlpProductGrid = ({
                 </Fragment>
               );
             })}
+
           {products.length === 0 && !isFetching && (
             <div className="no-items-message">
               <p>No items match your selection</p>

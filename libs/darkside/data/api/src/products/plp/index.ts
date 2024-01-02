@@ -293,11 +293,9 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     additionalClass
     configurationsInOrder {
       ... on OmegaProductRecord {
-        _modelApiKey
         shopifyProductHandle
       }
       ... on ConfigurationRecord {
-        _modelApiKey
         variantId
       }
     }

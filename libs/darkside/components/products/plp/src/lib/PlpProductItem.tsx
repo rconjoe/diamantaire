@@ -97,13 +97,11 @@ type PlpProductItemProps = {
   selectSettingForBuilderFlow: () => void;
 };
 
-const PlpProductItem = ({
-  product,
-  position,
-  plpTitle,
-  selectSettingForBuilderFlow,
-  builderFlowOverride,
-}: PlpProductItemProps) => {
+const PlpProductItem = (props: PlpProductItemProps) => {
+  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride } = props;
+
+  // console.log(`PlpProductItem`, props);
+
   const router = useRouter();
 
   const { locale } = router || {};
