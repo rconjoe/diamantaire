@@ -1189,9 +1189,9 @@ export class ProductsService {
           subStyles: availableSubStyles,
         };
         // performance measurement
-        const postFilterReq = performance.now();
+        //const postFilterReq = performance.now();
 
-        this.logger.verbose(`PLP :: Available filters request :: ${postFilterReq - preFiltersReq}ms (total: ${postFilterReq - p0}ms)`);
+        // this.logger.verbose(`PLP :: Available filters request :: ${postFilterReq - preFiltersReq}ms (total: ${postFilterReq - p0}ms)`);
         this.utils.memSet(availableFiltersCacheKey, availableFilters, PRODUCT_DATA_TTL);
       }
 
