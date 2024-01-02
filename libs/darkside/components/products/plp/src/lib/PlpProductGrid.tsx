@@ -123,6 +123,13 @@ const PlpProductGrid = ({
   subcategoryFilter,
 }: PlpProductGridProps) => {
   const router = useRouter();
+
+  const { asPath } = router || {};
+
+  console.log(`asPath`, asPath);
+
+  const hideSwatchesNav = asPath === '/engagement-rings/settings';
+
   const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
@@ -226,6 +233,7 @@ const PlpProductGrid = ({
                           });
                         }}
                         builderFlowOverride={builderFlowOverride}
+                        hideSwatchesNav={hideSwatchesNav}
                       />
                     </div>
                   )}

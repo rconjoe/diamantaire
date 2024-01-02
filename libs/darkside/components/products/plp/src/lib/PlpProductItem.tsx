@@ -22,6 +22,13 @@ const PlpProductItemStyles = styled.div`
       align-items: center;
       justify-content: space-between;
     }
+
+    &.with-hidden-swatches {
+      background: green;
+      justify-content: flex-end;
+      padding-right: 2rem;
+      margin: -3.5rem 0 2.5rem 0;
+    }
   }
 
   .product-title {
@@ -95,12 +102,11 @@ type PlpProductItemProps = {
   plpTitle: string;
   builderFlowOverride?: boolean;
   selectSettingForBuilderFlow: () => void;
+  hideSwatchesNav: boolean;
 };
 
 const PlpProductItem = (props: PlpProductItemProps) => {
-  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride } = props;
-
-  // console.log(`PlpProductItem`, props);
+  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride, hideSwatchesNav } = props;
 
   const router = useRouter();
 
@@ -142,23 +148,25 @@ const PlpProductItem = (props: PlpProductItemProps) => {
         builderFlow={builderFlowOverride}
       />
 
-      <div className="row nav">
-        <div className="metal-selector">
-          <ul className="list-unstyled flex">
-            {metal?.map((option) => (
-              <li key={option.id}>
-                <button
-                  onClick={() => {
-                    setSelectedId(option.id);
-                  }}
-                  className={
-                    option.value === selectedVariant.configuration.metal ? 'selected ' + option.value : option.value
-                  }
-                ></button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className={`row nav${hideSwatchesNav ? ' with-hidden-swatches' : ''}`}>
+        {!hideSwatchesNav && (
+          <div className="metal-selector">
+            <ul className="list-unstyled flex">
+              {metal?.map((option) => (
+                <li key={option.id}>
+                  <button
+                    onClick={() => {
+                      setSelectedId(option.id);
+                    }}
+                    className={
+                      option.value === selectedVariant.configuration.metal ? 'selected ' + option.value : option.value
+                    }
+                  ></button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
       </div>
