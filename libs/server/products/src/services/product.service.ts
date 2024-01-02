@@ -106,10 +106,10 @@ export class ProductsService {
 
     // Supports multiselect
     const filterQuery = {
-      ...(metals && { 'configuration.metal': { $in: metals }}),
+      ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
       ...(styles && { 'configuration.style': { $in: styles }}),
       ...(subStyles && { 'configuration.subStyle': { $in: subStyles }}),
-      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes }}),
+      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
     }
