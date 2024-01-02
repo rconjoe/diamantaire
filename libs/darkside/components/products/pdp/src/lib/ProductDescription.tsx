@@ -112,8 +112,9 @@ const ProductDescription = ({
     metalWeightOverride,
     paveCaratWeightOverride,
     diamondCount,
+    carat,
   } = variantAttributes || {};
-
+  console.log({ carat });
   // Product Spec - These are the locale-based labels for the product
 
   const { data } = useProductSpec(productSpecId, locale) as ProductSpecProps;
@@ -150,10 +151,10 @@ const ProductDescription = ({
       },
       {
         title: 'carat',
-        value: caratWeightOverride,
+        value: carat,
       },
     ],
-    [color, shape, clarity, dimensions, caratWeightOverride, origin, diamondCount],
+    [color, shape, clarity, dimensions, carat, origin, diamondCount],
   );
 
   const engagementRingLabels = useMemo(
