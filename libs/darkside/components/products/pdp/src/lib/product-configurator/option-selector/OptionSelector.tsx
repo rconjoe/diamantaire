@@ -34,6 +34,10 @@ interface OptionSelectorProps {
     clarity: string;
   };
   selectedOptionIndex?: number;
+  selectedConfiguration?: {
+    goldPurity: string;
+    metal: string;
+  };
 }
 
 const StyledOptionSelector = styled.div`
@@ -231,6 +235,7 @@ function OptionSelector({
   productType,
   diamondSpecs,
   selectedOptionIndex = 0,
+  selectedConfiguration,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -337,6 +342,10 @@ function OptionSelector({
     );
   }
 
+  const metal = _t(
+    `${selectedConfiguration?.goldPurity ? `${selectedConfiguration.goldPurity} ` : ''}${selectedConfiguration?.metal}`,
+  );
+
   function renderOptionValue() {
     switch (optionType) {
       case 'eternityStyle':
@@ -371,6 +380,8 @@ function OptionSelector({
         break;
       case 'bandWidth':
         return translateBandwidthValues(selectedOptionValue);
+      case 'metal':
+        return metal;
       case 'value': // used for US only digital-gift-card
         return `$${selectedOptionValue}`;
 

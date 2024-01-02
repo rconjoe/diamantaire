@@ -444,7 +444,7 @@ function AddToCartButton({
     });
 
     const metal = _t(
-      (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') + selectedConfiguration?.metal,
+      `${selectedConfiguration?.goldPurity ? `${selectedConfiguration.goldPurity} ` : ''}${selectedConfiguration?.metal}`,
     );
     const pickBandAccent = bandAccent || selectedConfiguration?.bandAccent;
     const refinedBandAccent = pickBandAccent
