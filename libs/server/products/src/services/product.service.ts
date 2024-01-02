@@ -77,11 +77,34 @@ export class ProductsService {
     });
   }
 
+  /**
+   * Fetch PLP products
+   * 
+   * 1) Get product list from MongoDB (returns variants for metal selectors)
+   * 2) Also retrieve pagination data (total docs)
+   * 3) Generate list of content data to fetch from Dato
+   * 4) Fetch content data from Dato
+   * 5) Also fetch lowest prices for collections (cache by collection)
+   * 6) Also fetch available filters (cache by PLP)
+   * 7) Merge product data with content data
+   * 8) Return PLP data
+   * 
+   * @param {string} category - PLP Category
+   * @param {string} slug - PLP Slug
+   * @param {string} locale - Content locale
+   * @param {object} filters - Filters
+   * @param {string} sortBy - Sort by
+   * @param {string} sortOrder - Sort order
+   * @param {number} limit - Limit
+   * @param {number} page - Page 
+   * @returns {object} Array of PLP products (cache result)
+   */
   async getPlpProducts({ category, slug, locale, filters, sortBy, sortOrder = 'asc', limit = 12, page = 1  }){
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
 
+    // Supports multiselect
     const filterQuery = {
       ...(metals && { 'configuration.metal': { $in: metals }}),
       ...(styles && { 'configuration.style': { $in: styles }}),
