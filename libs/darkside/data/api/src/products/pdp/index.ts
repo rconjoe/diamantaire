@@ -31,7 +31,9 @@ export async function getProductPage(productSlug, variantSlug) {
   const response = await fetch(
     typeof window !== 'undefined'
       ? window.location.origin + `/api/pdp/getPdpProduct?${qParams}`
-      : `http://localhost:4200/api/pdp/getPdpProduct?${qParams}`,
+      : `${
+          process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:4200`
+        }/api/pdp/getPdpProduct?${qParams}`,
     {
       method: 'GET',
       headers: {
