@@ -184,13 +184,13 @@ async function getStaticPaths() {
   const includedLocales = ['en-US'];
 
   // Filter the locales and generate paths
-  const paths = pageSlugs.flatMap(({ slug, category }) => {
+  const paths = pageSlugs.flatMap(({ slug }) => {
     // Skip if slug is not defined or empty
     if (!slug || slug === '') return [];
 
     return includedLocales.map((locale) => ({
       locale,
-      params: { plpSlug: [category, slug] },
+      params: { plpSlug: [slug] },
     }));
   });
 
