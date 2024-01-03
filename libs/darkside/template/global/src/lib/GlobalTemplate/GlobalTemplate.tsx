@@ -3,37 +3,37 @@ import { Header } from '@diamantaire/darkside/components/header';
 import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
-// import localFont from '@next/font/local';
+import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-// export const vraiFont = localFont({
-//   variable: '--font-family-main',
-//   preload: true,
-//   src: [
-//     {
-//       path: './futura-pt_light.woff2',
-//       weight: '300',
-//       style: 'normal',
-//     },
-//     {
-//       path: './futura-pt_book.woff2',
-//       weight: '400',
-//       style: 'normal',
-//     },
-//     {
-//       path: './futura-pt_medium.woff2',
-//       weight: '500',
-//       style: 'normal',
-//     },
-//     {
-//       path: './futura-pt_demi.woff2',
-//       weight: '600',
-//       style: 'normal',
-//     },
-//   ],
-// });
+export const vraiFont = localFont({
+  variable: '--font-family-main',
+  preload: true,
+  src: [
+    {
+      path: './futura-pt_light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './futura-pt_book.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './futura-pt_medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './futura-pt_demi.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+});
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
@@ -64,50 +64,48 @@ export const GlobalTemplate = ({ children }) => {
 
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
 
-  // const [headerHeight, setHeaderHeight] = useState(56);
-  const headerHeight = 56;
+  const [headerHeight, setHeaderHeight] = useState(56);
 
   const { pathname } = useRouter();
 
   const isHome = pathname === '/';
 
-  // useEffect(() => {
-  //   // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
-  //   const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
+  useEffect(() => {
+    // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
+    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
-  //   setHeaderHeight(fullHeaderHeight);
-  // }, [isTopbarShowing]);
+    setHeaderHeight(fullHeaderHeight);
+  }, [isTopbarShowing]);
 
-  // useEffect(() => {
-  //   if (!headerRef.current) return;
+  useEffect(() => {
+    if (!headerRef.current) return;
 
-  //   const resizeObserver = new ResizeObserver((entries) => {
-  //     // Use entries to get the new height
-  //     if (entries[0].target instanceof HTMLElement) {
-  //       const newHeight = entries[0].target.offsetHeight;
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Use entries to get the new height
+      if (entries[0].target instanceof HTMLElement) {
+        const newHeight = entries[0].target.offsetHeight;
 
-  //       setHeaderHeight(newHeight);
+        setHeaderHeight(newHeight);
 
-  //       window.dispatchEvent(
-  //         new CustomEvent('RESET_HEADER_HEIGHT', {
-  //           detail: {
-  //             headerHeight: newHeight,
-  //           },
-  //         }),
-  //       );
-  //     }
-  //   });
+        window.dispatchEvent(
+          new CustomEvent('RESET_HEADER_HEIGHT', {
+            detail: {
+              headerHeight: newHeight,
+            },
+          }),
+        );
+      }
+    });
 
-  //   resizeObserver.observe(headerRef.current);
+    resizeObserver.observe(headerRef.current);
 
-  //   return () => resizeObserver.disconnect();
-  // }, [headerData, isTopbarShowing]);
+    return () => resizeObserver.disconnect();
+  }, [headerData, isTopbarShowing]);
 
   console.log('global template rendering');
 
   return (
-    // <div className={`${vraiFont.className} ${vraiFont.variable}`}>
-    <div>
+    <div className={`${vraiFont.className} ${vraiFont.variable}`}>
       {headerData && (
         <Header
           headerData={headerData}
@@ -118,11 +116,12 @@ export const GlobalTemplate = ({ children }) => {
           headerHeight={headerHeight}
         />
       )}
-      {footerData && <Footer footerData={footerData} />}
 
       <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
+
+      {footerData && <Footer footerData={footerData} />}
 
       <WishlistSlideOut />
     </div>
