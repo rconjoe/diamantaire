@@ -427,6 +427,7 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       clarity
       closure
       chainWidth
+      outerDiameter
     }
   }
 `;
