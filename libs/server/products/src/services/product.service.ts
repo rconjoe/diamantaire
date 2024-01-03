@@ -106,10 +106,10 @@ export class ProductsService {
 
     // Supports multiselect
     const filterQuery = {
-      ...(metals && { 'configuration.metal': { $in: metals } }),
-      ...(styles && { 'configuration.style': { $in: styles } }),
-      ...(subStyles && { 'configuration.subStyle': { $in: subStyles } }),
-      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes } }),
+      ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
+      ...(styles && { 'configuration.style': { $in: styles }}),
+      ...(subStyles && { 'configuration.subStyle': { $in: subStyles }}),
+      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
     };
@@ -512,7 +512,7 @@ export class ProductsService {
         'variants.shopifyVariantId': shopifyVariantGid,
         ...getDraftQuery(),
       };
-      const product: VraiProduct = await this.productRepository.find(query);
+      const product = await this.productRepository.findOne<VraiProduct>(query);
 
       return {
         product,
@@ -755,42 +755,67 @@ export class ProductsService {
       }
     }
 
-    // Ensure all diamondTypes have a variant
-    // figure out which diamond types still need products
-    const missingDiamondTypes =
-      allOptions?.[ProductOption.DiamondType]?.filter((diamondType) => {
-        return !altConfigs[ProductOption.DiamondType][diamondType];
-      }) || [];
+    // options which are always included
+    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
+    
+    // options which are always included as long as the "parent" option matches
+    const MATCHING_PARENT_OPTION_MAP = {
+      [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
+    }
 
-    const diamondTypeMatchers = { ...productOptionsToMatch };
-    const diamondTypeVariants = products.sort((a, b) => {
-      for (const optionTypeKey of Object.keys(diamondTypeMatchers)) {
-        const variantOptionsValue = productOptionsToMatch[optionTypeKey];
+    OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {
+      if (!altConfigs[optionType]) {
+        return
+      }
+      // Ensure all options of this type are represented
+      const missingOptions = allOptions?.[optionType]?.filter((value) => {
+        return !altConfigs[optionType][value];
+      }).filter(Boolean);
 
-        if (optionTypeKey !== ProductOption.DiamondType) {
-          if (a.configuration[optionTypeKey] !== b.configuration[optionTypeKey]) {
-            if (a.configuration[optionTypeKey] === variantOptionsValue) {
-              return -1;
-            } else if (b.configuration[optionTypeKey] === variantOptionsValue) {
-              return 1;
-            } else {
-              return compareProductConfigurations(a, b, optionTypeKey);
+      const optionMatchers = { ...productOptionsToMatch };
+      const optionTypeTypeVariants = products.sort((a, b) => {
+        for (const optionTypeKey of Object.keys(optionMatchers)) {
+          const variantOptionsValue = productOptionsToMatch[optionTypeKey];
+  
+          if (optionTypeKey !== optionType) {
+            if (a.configuration[optionTypeKey] !== b.configuration[optionTypeKey]) {
+              if (a.configuration[optionTypeKey] === variantOptionsValue) {
+                return -1;
+              } else if (b.configuration[optionTypeKey] === variantOptionsValue) {
+                return 1;
+              } else {
+                return compareProductConfigurations(a, b, optionTypeKey);
+              }
             }
           }
         }
-      }
+  
+        return 0;
+      });
 
-      return 0;
-    });
+      missingOptions.forEach((optionValue) => {
+        const result = optionTypeTypeVariants.find((v) => {
+          const reqMatchingOptions = MATCHING_PARENT_OPTION_MAP[optionType];
 
-    missingDiamondTypes.forEach((diamondType) => {
-      const result = diamondTypeVariants.find((v) => v.configuration?.[ProductOption.DiamondType] === diamondType);
+          if (reqMatchingOptions) {
+            return v.configuration?.[optionType] === optionValue && reqMatchingOptions.every((reqOptionType) => {
+              if (!optionMatchers[reqOptionType] || !v.configuration?.[reqOptionType]){
+                return true;
+              }
 
-      if (result) {
-        addToConfigObj(ProductOption.DiamondType, result);
-      }
-    });
+              return v.configuration?.[reqOptionType] === optionMatchers[reqOptionType];
+            });
+          }
 
+          return v.configuration?.[optionType] === optionValue
+        });
+  
+        if (result) {
+          addToConfigObj(optionType, result);
+        }
+      });
+    })
+    
     // Match for ringSize from parent product
     const ringSizeConfigs = productToMatch?.variants
       ?.filter((variant) => {

@@ -22,6 +22,10 @@ const ProductAppointmentCTAStyles = styled.div`
     color: var(--color-black);
     font-size: var(--font-size-xxsmall);
 
+    &.with-hidden-button {
+      display: none;
+    }
+
     span {
       flex: 0 0 2.5rem;
       position: relative;
@@ -42,7 +46,7 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
+const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?: string; withHiddenButton?: boolean }) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
@@ -172,7 +176,10 @@ const ProductAppointmentCTA = ({ productType }: { productType?: string }) => {
 
   return (
     <ProductAppointmentCTAStyles>
-      <button className="appointment-button" onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}>
+      <button
+        className={`appointment-button${withHiddenButton ? ' with-hidden-button' : ''}`}
+        onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}
+      >
         <span>
           <BookCalendarIcon />
         </span>
