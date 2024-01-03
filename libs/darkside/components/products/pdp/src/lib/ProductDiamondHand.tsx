@@ -45,8 +45,8 @@ const ProductDiamondHandStyles = styled.div`
       justify-content: center;
       width: 25%;
       height: 25%;
-      top: 50%; /* Adjust based on design */
-      left: 50%; /* Centered by default */
+      top: 50%;
+      left: 50%;
       transform: translate(-118%, 20%);
     }
   }
