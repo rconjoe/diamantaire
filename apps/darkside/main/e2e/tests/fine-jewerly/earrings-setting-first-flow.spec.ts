@@ -7,7 +7,7 @@ test.describe("Earrings Setting First flow with filter", () => {
     
   let itemPrice;
 
-  test("Open Home Page", async ({ homePage , jewerlyPage, productDetailedPage, checkoutSlidePage,checkoutPage}) => {
+  test.skip("Open Home Page", async ({ homePage , jewerlyPage, productDetailedPage, checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();

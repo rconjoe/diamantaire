@@ -16,8 +16,10 @@ export default class HomePage extends BasePage {
     engagement: this.page.getByRole('link', { name: "ENGAGEMENT"}),
     diamonds: this.page.getByRole('link', { name: "DIAMONDS"}),
     jewerly: this.page.getByRole('link', { name: "JEWERLY"}),
-    startWithASetting: this.page.locator('#primary-navigation').getByRole('link', { name: 'Start with a setting' }),
-    startWithAVRAICreatedDiamond: this.page.locator('#primary-navigation').getByRole('link', { name: 'Start with a VRAI created diamond' })
+    startWithASetting: this.page.getByRole('link', { name: 'Start with a setting' }),
+    startWithAVRAICreatedDiamond: this.page.getByRole('link', { name: 'Start with a VRAI created diamond' })
+    // startWithASetting: this.page.locator('#primary-navigation').getByRole('link', { name: 'Start with a setting' }),
+    // startWithAVRAICreatedDiamond: this.page.locator('#primary-navigation').getByRole('link', { name: 'Start with a VRAI created diamond' })
 
 
   }
