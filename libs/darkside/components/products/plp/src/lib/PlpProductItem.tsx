@@ -136,7 +136,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
     if (isEngRingSettingPage) {
       return _t('%%title%% %%shape%%');
     } else if (isMultiShape) {
-      return _t('%%title%%');
+      return _t('%%title%% in');
     } else {
       return _t('%%title%% %%shape%% in');
     }
