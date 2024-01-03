@@ -117,7 +117,7 @@ export class ProductsService {
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
-    const cachedData = await this.utils.memGet(cacheKey);
+    const cachedData = await this.cacheManager.get(cacheKey);
     let productResponse;
 
     if (cachedData) {
@@ -180,8 +180,13 @@ export class ProductsService {
       if (!productResponse[0] || productResponse[0].length === 0) {
         throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
       }
+<<<<<<< HEAD
 
       this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
+=======
+      
+      this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
+>>>>>>> 5cd70b78 (added some safeguards to bad data)
     }
     const [products, totalDocumentsQuery] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
@@ -193,6 +198,12 @@ export class ProductsService {
       (acc, plpItem) => {
         const idList = plpItem.variants.map((v) => v.contentId);
         const productType = plpItem.variants?.[0].productType;
+
+        if (!plpItem.variants.length){
+          console.log("No variants", plpItem)
+  
+          return acc;
+        }
 
         if (variantIdProductTypes.includes(productType)) {
           acc.variantIds.push(...idList);
@@ -261,10 +272,23 @@ export class ProductsService {
     };
 
     // Merge product data with content
+<<<<<<< HEAD
     const plpProducts = products
       .map((plpItem) => {
         const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
         const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
+=======
+    const plpProducts = products.map(plpItem => {
+      const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
+
+      if (!product){
+        this.logger.warn(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        Sentry.captureMessage(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        
+        return undefined;
+      }
+      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
+>>>>>>> 5cd70b78 (added some safeguards to bad data)
 
         const mainProductContent = productContentMap[product.contentId];
         const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
