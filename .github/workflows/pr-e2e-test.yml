@@ -36,7 +36,7 @@ jobs:
       - run: pnpm add @nx/playwright --ignore-scripts
       - run: npx playwright install --with-deps
       - name: Run tests
-        run:  cd apps/darkside/main && npx playwright test engagement-ring/engraving-gift-note.spec.ts  --workers=1
+        run:  cd apps/darkside/main && npx playwright test npx playwright test e2e/tests/  --workers=2
         env:
           test_env: ${{ needs.test_setup.outputs.preview_url }}
       - uses: actions/upload-artifact@v3
