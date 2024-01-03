@@ -29,19 +29,6 @@ const ProductDiamondHandStyles = styled.div`
       display: block;
       aspect-ratio: 1/1;
       position: relative;
-      max-height: 330px;
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        max-height: 360px;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        max-height: 460px;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-        max-height: 520px;
-      }
-
       margin: 0 auto;
 
       .shown-on-text {
