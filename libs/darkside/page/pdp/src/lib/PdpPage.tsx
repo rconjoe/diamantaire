@@ -151,14 +151,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // console.log('v2 additionalVariantData', additionalVariantData);
 
   // use parent product carat if none provided on the variant in Dato
-  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
+  if (!additionalVariantData?.carat || additionalVariantData?.carat === '') {
+    // If caratWeightOverride is provided, use it
     if (additionalVariantData?.caratWeightOverride) {
       additionalVariantData.carat = additionalVariantData.caratWeightOverride;
     } else {
+      // Otherwise, use the carat weight from the parent product data
       additionalVariantData.carat = datoParentProductData?.caratWeight || '';
     }
-  } else {
-    additionalVariantData.carat = additionalVariantData.caratWeightOverride;
   }
 
   additionalVariantData.productType = shopifyProductData.productType;

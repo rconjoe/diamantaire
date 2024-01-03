@@ -21,7 +21,7 @@ const ProductTypeSpecificMetricsStyles = styled.div`
 
 const ProductTypeSpecificMetrics = ({ additionalVariantData, productType, shouldDoublePrice }) => {
   const { locale } = useRouter();
-  const caratWeight = additionalVariantData?.carat;
+  const caratWeight = additionalVariantData?.caratWeightOverride;
 
   const acceptableProductTypes = ['Necklace', 'Bracelet', 'Wedding Band', 'Earrings', 'Ring'];
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);

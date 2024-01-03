@@ -35,7 +35,7 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
-  Inject
+  Inject,
 } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import Bottleneck from 'bottleneck';
@@ -68,7 +68,7 @@ export class ProductsService {
     private readonly productRepository: ProductRepository,
     private readonly plpRepository: PlpRepository,
     private readonly utils: UtilService,
-    @Inject(CACHE_MANAGER) private readonly cacheManager:CacheStore
+    @Inject(CACHE_MANAGER) private readonly cacheManager: CacheStore,
   ) {
     // create an intance of Bottleneck
     this.limiter = new Bottleneck({
@@ -79,7 +79,7 @@ export class ProductsService {
 
   /**
    * Fetch PLP products
-   * 
+   *
    * 1) Get product list from MongoDB (returns variants for metal selectors)
    * 2) Also retrieve pagination data (total docs)
    * 3) Generate list of content data to fetch from Dato
@@ -88,7 +88,7 @@ export class ProductsService {
    * 6) Also fetch available filters (cache by PLP)
    * 7) Merge product data with content data
    * 8) Return PLP data
-   * 
+   *
    * @param {string} category - PLP Category
    * @param {string} slug - PLP Slug
    * @param {string} locale - Content locale
@@ -96,10 +96,10 @@ export class ProductsService {
    * @param {string} sortBy - Sort by
    * @param {string} sortOrder - Sort order
    * @param {number} limit - Limit
-   * @param {number} page - Page 
+   * @param {number} page - Page
    * @returns {object} Array of PLP products (cache result)
    */
-  async getPlpProducts({ category, slug, locale, filters, sortBy, sortOrder = 'asc', limit = 12, page = 1  }){
+  async getPlpProducts({ category, slug, locale, filters, sortBy, sortOrder = 'asc', limit = 12, page = 1 }) {
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
@@ -112,9 +112,9 @@ export class ProductsService {
       ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
-    }
+    };
 
-    const sortQuery: Record<string, 1 | -1 > = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : { };
+    const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
     const cachedData = await this.utils.memGet(cacheKey);
@@ -128,49 +128,51 @@ export class ProductsService {
 
       // Init pipeline stage
       const pipeline: PipelineStage[] = [
-        { $match: { slug: plpSlug }}, // Get specific PLP item
-        { $unwind: "$products" }, // Unwind products array so that we are working only with the products
-        { $replaceRoot: { newRoot: "$products" }},
-      ]
+        { $match: { slug: plpSlug } }, // Get specific PLP item
+        { $unwind: '$products' }, // Unwind products array so that we are working only with the products
+        { $replaceRoot: { newRoot: '$products' } },
+      ];
 
       // Add filtering
-      if (Object.keys(filterQuery).length > 0){
-        pipeline.push({ $match: filterQuery })
+      if (Object.keys(filterQuery).length > 0) {
+        pipeline.push({ $match: filterQuery });
       }
 
       // Add sorting
-      if (sortBy){
-        pipeline.push({ $sort: sortQuery })
+      if (sortBy) {
+        pipeline.push({ $sort: sortQuery });
       }
 
       pipeline.push(
         { $skip: skip },
         { $limit: limit },
-        { // join products from the products collection
-            $lookup: {
-                from: "products",
-                localField: "variants",
-                foreignField: "productSlug",
-                as: "variants",
-            }
+        {
+          // join products from the products collection
+          $lookup: {
+            from: 'products',
+            localField: 'variants',
+            foreignField: 'productSlug',
+            as: 'variants',
+          },
         },
-        { // reduce data returned
-            $project: {
-                primaryProductSlug: 1,
-                variants: "$variants"
-            }
-        }
+        {
+          // reduce data returned
+          $project: {
+            primaryProductSlug: 1,
+            variants: '$variants',
+          },
+        },
       );
-      
+
       const productPromises = [
         this.plpRepository.aggregate(pipeline),
         this.plpRepository.aggregate([
-          { $match: {slug: plpSlug }},
-          { $unwind: "$products" },
-          { $replaceRoot: { newRoot: "$products" }},
+          { $match: { slug: plpSlug } },
+          { $unwind: '$products' },
+          { $replaceRoot: { newRoot: '$products' } },
           { $match: filterQuery },
-          { $count: "documentCount" }
-        ])
+          { $count: 'documentCount' },
+        ]),
       ];
 
       productResponse = await Promise.all(productPromises);
@@ -178,61 +180,63 @@ export class ProductsService {
       if (!productResponse[0] || productResponse[0].length === 0) {
         throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
       }
-      
+
       this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
     }
-    const [ products, totalDocumentsQuery ] = productResponse;
+    const [products, totalDocumentsQuery] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
 
     // generate query for product content by product type
-    const variantIdProductTypes = ['Necklace','Earrings','Bracelet','Ring'];
-    const productHandleProductTypes = ['Engagement Ring','Wedding Band']
-    const contentIdsByProductType = products.reduce((acc,plpItem) => {
+    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring'];
+    const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
+    const contentIdsByProductType = products.reduce(
+      (acc, plpItem) => {
+        const idList = plpItem.variants.map((v) => v.contentId);
+        const productType = plpItem.variants?.[0].productType;
 
-      const idList = plpItem.variants.map(v => v.contentId);
-      const productType = plpItem.variants?.[0].productType;
+        if (variantIdProductTypes.includes(productType)) {
+          acc.variantIds.push(...idList);
+        } else if (productHandleProductTypes.includes(productType)) {
+          acc.productHandles.push(...idList);
+        } else {
+          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem.product.productType);
+        }
 
-      if (variantIdProductTypes.includes(productType)){
-        acc.variantIds.push(...idList);
-      } else if(productHandleProductTypes.includes(productType)){
-        acc.productHandles.push(...idList);
-      } else {
-        this.logger.verbose("Unknown product type.  Cannot add to ID list", plpItem.product.productType)
-      }
+        return acc;
+      },
+      { variantIds: [], productHandles: [] },
+    );
 
-      return acc;
-    },{ variantIds: [], productHandles: []})
-    
     const dataPromises = [
       this.datoConfigurationsAndProducts({ slug: plpSlug, ...contentIdsByProductType, locale }),
       this.getLowestPricesByCollection(),
       this.getPlpFilterData(plpSlug),
-    ]
+    ];
     const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
 
     const paginator = {
       totalDocs: totalDocuments,
       limit,
       page,
-      totalPages: Math.ceil(totalDocuments/limit),
+      totalPages: Math.ceil(totalDocuments / limit),
       pagingCounter: 1,
       hasPrevPage: page > 1,
-      hasNextPage: page < Math.ceil(totalDocuments/limit),
+      hasNextPage: page < Math.ceil(totalDocuments / limit),
       prevPage: page - 1 < 1 ? null : page - 1,
-      nextPage: page + 1 > Math.ceil(totalDocuments/limit) ? null : page + 1,
-    }
+      nextPage: page + 1 > Math.ceil(totalDocuments / limit) ? null : page + 1,
+    };
 
     // Create content map to merge with product data
-    const productContentMap = productContent?.reduce((acc, content) => {
-      const contentId = content.variantId || content.shopifyProductHandle
+    const productContentMap =
+      productContent?.reduce((acc, content) => {
+        const contentId = content.variantId || content.shopifyProductHandle;
 
-      acc[contentId] = content;
+        acc[contentId] = content;
 
-      return acc;
-    },{}) || {};
+        return acc;
+      }, {}) || {};
 
     const generatePlpItem = (product, variantContent) => {
-
       if (!variantContent || !product) {
         return {};
       }
@@ -253,56 +257,58 @@ export class ProductsService {
         primaryImage: variantContent['plpImage']?.responsiveImage,
         hoverImage: variantContent['plpImageHover']?.responsiveImage,
         price: product.price,
-      }
-    }
+      };
+    };
 
     // Merge product data with content
-    const plpProducts = products.map(plpItem => {
-      const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
-      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
+    const plpProducts = products
+      .map((plpItem) => {
+        const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
+        const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
 
-      const mainProductContent = productContentMap[product.contentId];
-      const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
-      const productLabel = collectionContent?.productLabel;
-      const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
-      const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
-      
-      return {
-        defaultId: product.contentId,
-        productType: product.productType,
-        metal: metalOptions.sort((a,b) => sortMetalTypes(a.value,b.value)),
-        ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug]}),
-        ...(productLabel && { productLabel }),
-        ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
-        ...(useLowestPrice && { useLowestPrice }),
-        variants: plpItem.variants.reduce((acc,v) => {
-          const variantContent = productContentMap[v.contentId];
+        const mainProductContent = productContentMap[product.contentId];
+        const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
+        const productLabel = collectionContent?.productLabel;
+        const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
+        const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
 
-          acc[v.contentId] = generatePlpItem(v, variantContent);
+        return {
+          defaultId: product.contentId,
+          productType: product.productType,
+          metal: metalOptions.sort((a, b) => sortMetalTypes(a.value, b.value)),
+          ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug] }),
+          ...(productLabel && { productLabel }),
+          ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+          ...(useLowestPrice && { useLowestPrice }),
+          variants: plpItem.variants.reduce((acc, v) => {
+            const variantContent = productContentMap[v.contentId];
 
-          return acc;
-        },{})
-      }
-    }).filter(Boolean)
+            acc[v.contentId] = generatePlpItem(v, variantContent);
+
+            return acc;
+          }, {}),
+        };
+      })
+      .filter(Boolean);
 
     return {
-      category, 
+      category,
       slug,
       locale,
       products: plpProducts,
       availableFilters,
-      paginator
+      paginator,
     };
   }
 
-  async getPlpFilterData(plpSlug: string){
+  async getPlpFilterData(plpSlug: string) {
     const cacheKey = `plp-page-data:${plpSlug}`;
     const cachedData = await this.utils.memGet(cacheKey);
 
     if (cachedData) {
       return cachedData;
     } else {
-      const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });     
+      const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });
       const filterData = plpResponse['filters'];
       const { diamondType, metal, styles, subStyles } = filterData;
 
@@ -312,7 +318,7 @@ export class ProductsService {
         metal: metal.sort(sortMetalTypes),
         styles: styles.sort(),
         subStyles: subStyles.sort(),
-      }
+      };
 
       this.utils.memSet(cacheKey, sortedFilters, PRODUCT_DATA_TTL);
 
@@ -327,7 +333,6 @@ export class ProductsService {
    */
 
   async findProducts(input: PaginateFilterDto): Promise<ProductEntity> {
-
     const options: PaginateOptions = {
       limit: input.limit || 30,
       page: input.page || 1,
@@ -453,7 +458,7 @@ export class ProductsService {
     const productContentMap = products.reduce((map: Record<string, VraiProductData>, product) => {
       const content = productContent.find(
         (pc) => pc['variantId'] === product.contentId || pc['shopifyProductHandle'] === product.contentId,
-      )
+      );
 
       if (content) {
         content['productTitle'] = content?.jewelryProduct?.productTitle || content?.collection?.productTitle;
@@ -978,10 +983,10 @@ export class ProductsService {
    * @param {number} input.priceMin - price range filter min
    * @param {number} input.priceMax - price range filter max
    * @returns Array of plp products and page content
-   * 
+   *
    * 1) Get Dato PLP filter data and products (can be FJ, WB or ER)
-   *   Note: Merchandized products can be either in productsInOrder or configurationsInOrder 
-   *         or bestSellersInOrder or collectionsInOrder. When supporting collectionsInOrder, 
+   *   Note: Merchandized products can be either in productsInOrder or configurationsInOrder
+   *         or bestSellersInOrder or collectionsInOrder. When supporting collectionsInOrder,
    *         the algorithm handles 1 product per collection
    * 2) Get paginated and filtered products from Mongo
    * 3) Get all collections for (2) result products from Mongo to determine relationship
@@ -992,7 +997,6 @@ export class ProductsService {
    */
 
   async findPlpData(query: PlpQuery) {
-    
     const {
       slug,
       category,
@@ -1011,9 +1015,9 @@ export class ProductsService {
 
     // performance measurement
     const p0 = performance.now();
-  
+
     const cachedKey = `plp-${category}-${slug}-${locale}-${this.generateQueryCacheKey(query)}`;
-    
+
     let plpReturnData;
     // check for cached data
     const cachedData = await this.cacheManager.get(cachedKey);
@@ -1057,11 +1061,11 @@ export class ProductsService {
 
       // Need to support both productsInOrder and ConfigurationsInOrder
       let productList = configurationsInOrder;
-      
-      if (productsInOrder.length){
+
+      if (productsInOrder.length) {
         productList = productsInOrder;
-      } 
-      if(bestSellersInOrder.length){
+      }
+      if (bestSellersInOrder.length) {
         productList = bestSellersInOrder;
       }
 
@@ -1172,7 +1176,11 @@ export class ProductsService {
       // performance measurement
       const postMainProductMongo = performance.now();
 
-      this.logger.verbose(`PLP :: Mongo primary product data Retrieved :: ${postMainProductMongo - postDatoTime}ms (total: ${postMainProductMongo - p0}ms)`);
+      this.logger.verbose(
+        `PLP :: Mongo primary product data Retrieved :: ${postMainProductMongo - postDatoTime}ms (total: ${
+          postMainProductMongo - p0
+        }ms)`,
+      );
 
       const availableFiltersCacheKey = `plp-${slug}-filter-types`;
       // check for cached data
@@ -1181,31 +1189,46 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const simplified = await this.productRepository
-        .find({ contentId: { $in: contentIdsInOrder }});
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [[], [], [], [], []];
+        const simplified = await this.productRepository.find({ contentId: { $in: contentIdsInOrder } });
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [
+          [],
+          [],
+          [],
+          [],
+          [],
+        ];
 
         simplified.map((item) => {
-            if (item.configuration.metal !== undefined) {
-                if (availableMetals.indexOf(item.configuration.metal) < 0) { availableMetals.push(item.configuration.metal); }
+          if (item.configuration.metal !== undefined) {
+            if (availableMetals.indexOf(item.configuration.metal) < 0) {
+              availableMetals.push(item.configuration.metal);
             }
-            if (item.configuration.diamondType !== undefined) {
-                if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) { availableDiamondTypes.push(item.configuration.diamondType); }
+          }
+          if (item.configuration.diamondType !== undefined) {
+            if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) {
+              availableDiamondTypes.push(item.configuration.diamondType);
             }
-            if (item.price !== undefined) {
-                if (priceValues.indexOf(item.price) < 0) { priceValues.push(item.price); }
+          }
+          if (item.price !== undefined) {
+            if (priceValues.indexOf(item.price) < 0) {
+              priceValues.push(item.price);
             }
-            if (item.styles !== undefined) {
-                if (availableStyles.indexOf(item.styles) < 0) { availableStyles.push(item.styles); }
+          }
+          if (item.styles !== undefined) {
+            if (availableStyles.indexOf(item.styles) < 0) {
+              availableStyles.push(item.styles);
             }
-            if (item.subStyles !== undefined) {
-                if (availableSubStyles.indexOf(item.subStyles) < 0) { availableSubStyles.push(item.subStyles); }
+          }
+          if (item.subStyles !== undefined) {
+            if (availableSubStyles.indexOf(item.subStyles) < 0) {
+              availableSubStyles.push(item.subStyles);
             }
+          }
         });
 
         // split joined types to be individual types and remove duplicates
-        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
-        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
+        const explodedDiamondTypes = [...new Set(availableDiamondTypes.flatMap((d) => d.split('+')))];
+        const explodedMetalType = [...new Set(availableMetals.flatMap((m) => m.split(' and ')))];
 
         availableFilters = {
           metal: explodedMetalType.sort(sortMetalTypes),
@@ -1248,11 +1271,15 @@ export class ProductsService {
         }
 
         return map;
-      }, {})
+      }, {});
 
       const postMongoCollectionReq = performance.now();
 
-      this.logger.verbose(`PLP :: Mongo Collection Request :: ${postMongoCollectionReq - preMongoCollectionReq}ms (total: ${postMongoCollectionReq - p0}ms)`);
+      this.logger.verbose(
+        `PLP :: Mongo Collection Request :: ${postMongoCollectionReq - preMongoCollectionReq}ms (total: ${
+          postMongoCollectionReq - p0
+        }ms)`,
+      );
 
       // for each collection slug, get each configuration based on the primary contentId
       // get all configMatrices
@@ -1310,7 +1337,11 @@ export class ProductsService {
 
       const postVariantDataRequest = performance.now();
 
-      this.logger.verbose(`PLP :: Mongo & Dato variant Request :: ${postVariantDataRequest - preVariantDataRequest}ms (total: ${postVariantDataRequest - p0}ms)`);
+      this.logger.verbose(
+        `PLP :: Mongo & Dato variant Request :: ${postVariantDataRequest - preVariantDataRequest}ms (total: ${
+          postVariantDataRequest - p0
+        }ms)`,
+      );
 
       const variantsMap = variantContentIds.reduce(
         (map: Record<string, { content?: object; product?: VraiProduct }>, contentId) => {
@@ -1429,11 +1460,16 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
-    { metals, diamondTypes, page = 1, limit = 12 }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
+    {
+      metals,
+      diamondTypes,
+      page = 1,
+      limit = 12,
+    }: { metals: string[]; diamondTypes: string[]; page?: number; limit: number },
   ) {
     const diamondTypesRegex = diamondTypes?.map((diamondType) => new RegExp(diamondType, 'i'));
 
-    const diamondTypesQueryValues = diamondTypes?.length ? diamondTypesRegex : [ new RegExp('round-brilliant', "i")];
+    const diamondTypesQueryValues = diamondTypes?.length ? diamondTypesRegex : [new RegExp('round-brilliant', 'i')];
     const metalsQueryValues = metals?.length ? metals : ['yellow-gold'];
 
     try {
@@ -1444,7 +1480,7 @@ export class ProductsService {
           {
             $match: {
               collectionSlug: { $in: collectionSlugsInOrder },
-              'configuration.diamondType': { $in: diamondTypesQueryValues  }, // always has a filter applied
+              'configuration.diamondType': { $in: diamondTypesQueryValues }, // always has a filter applied
               'configuration.metal': { $in: metalsQueryValues }, // always has a filter applied
               ...getDraftQuery(),
             },
@@ -1454,7 +1490,12 @@ export class ProductsService {
           // Adds fields to allow sorting by all of the configuration properties
           {
             $addFields: {
-              __bandAccentOrder: { $indexOfArray: [['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'], '$configuration.bandAccent'] },
+              __bandAccentOrder: {
+                $indexOfArray: [
+                  ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'],
+                  '$configuration.bandAccent',
+                ],
+              },
             },
           },
           {
@@ -1468,7 +1509,22 @@ export class ProductsService {
             $addFields: {
               __sideStoneShapeOrder: {
                 $indexOfArray: [
-                  ['round-brilliant', 'oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise', 'trillion', 'asscher', 'princess', 'tapered-baguette', 'round-brilliant+oval', 'round-brilliant+pear', 'emerald+pear'],
+                  [
+                    'round-brilliant',
+                    'oval',
+                    'emerald',
+                    'pear',
+                    'radiant',
+                    'cushion',
+                    'marquise',
+                    'trillion',
+                    'asscher',
+                    'princess',
+                    'tapered-baguette',
+                    'round-brilliant+oval',
+                    'round-brilliant+pear',
+                    'emerald+pear',
+                  ],
                   '$configuration.sideStoneShape',
                 ],
               },
@@ -1491,10 +1547,20 @@ export class ProductsService {
           {
             $addFields: { __haloSizeOrder: { $indexOfArray: [['original', 'small', 'large'], '$configuration.haloSize'] } },
           },
-          { $addFields: { __prongStyleOrder: { $indexOfArray: [['plain', 'pave'], '$configuration.prongStyle'] }  } },
-          { $addFields: { __hiddenHaloOrder: { $indexOfArray: [['yes'], '$configuration.hiddenHalo'] }  } },
-          { $addFields: { __diamondOrientationOrder: { $indexOfArray: [['vertical','horizontal'], '$configuration.diamondOrientation'] }  } },
-          { $addFields: { __bandStoneShapeOrder: { $indexOfArray: [['round-brilliant', 'baguette'], '$configuration.bandStoneShape'] }  } },
+          { $addFields: { __prongStyleOrder: { $indexOfArray: [['plain', 'pave'], '$configuration.prongStyle'] } } },
+          { $addFields: { __hiddenHaloOrder: { $indexOfArray: [['yes'], '$configuration.hiddenHalo'] } } },
+          {
+            $addFields: {
+              __diamondOrientationOrder: {
+                $indexOfArray: [['vertical', 'horizontal'], '$configuration.diamondOrientation'],
+              },
+            },
+          },
+          {
+            $addFields: {
+              __bandStoneShapeOrder: { $indexOfArray: [['round-brilliant', 'baguette'], '$configuration.bandStoneShape'] },
+            },
+          },
           // Sorts by those properties
           {
             $sort: {
@@ -1558,7 +1624,6 @@ export class ProductsService {
           // skip product if no match is found
           return productsArray;
         } else {
-
           const useLowestPrice = !content?.shouldUseDefaultPrice;
           const hasOnlyOnePrice = content?.hasOnlyOnePrice;
           const productLabel = content?.productLabel;
@@ -1590,30 +1655,45 @@ export class ProductsService {
       if (!availableFilters) {
         this.logger.verbose(`PLP :: Filters :: cache miss on key ${availableFiltersCacheKey}`);
 
-        const simplified = await this.productRepository
-        .find({ collectionSlug: { $in: collectionSlugsInOrder }});
-        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [[], [], [], [], []];
+        const simplified = await this.productRepository.find({ collectionSlug: { $in: collectionSlugsInOrder } });
+        const [availableMetals, availableDiamondTypes, priceValues, availableStyles, availableSubStyles] = [
+          [],
+          [],
+          [],
+          [],
+          [],
+        ];
 
         simplified.map((item) => {
-            if (item.configuration.metal !== undefined) {
-                if (availableMetals.indexOf(item.configuration.metal) < 0) { availableMetals.push(item.configuration.metal); }
+          if (item.configuration.metal !== undefined) {
+            if (availableMetals.indexOf(item.configuration.metal) < 0) {
+              availableMetals.push(item.configuration.metal);
             }
-            if (item.configuration.diamondType !== undefined) {
-                if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) { availableDiamondTypes.push(item.configuration.diamondType); }
+          }
+          if (item.configuration.diamondType !== undefined) {
+            if (availableDiamondTypes.indexOf(item.configuration.diamondType) < 0) {
+              availableDiamondTypes.push(item.configuration.diamondType);
             }
-            if (item.price !== undefined) {
-                if (priceValues.indexOf(item.price) < 0) { priceValues.push(item.price); }
+          }
+          if (item.price !== undefined) {
+            if (priceValues.indexOf(item.price) < 0) {
+              priceValues.push(item.price);
             }
-            if (item.styles !== undefined) {
-                if (availableStyles.indexOf(item.styles) < 0) { availableStyles.push(item.styles); }
+          }
+          if (item.styles !== undefined) {
+            if (availableStyles.indexOf(item.styles) < 0) {
+              availableStyles.push(item.styles);
             }
-            if (item.subStyles !== undefined) {
-                if (availableSubStyles.indexOf(item.subStyles) < 0) { availableSubStyles.push(item.subStyles); }
+          }
+          if (item.subStyles !== undefined) {
+            if (availableSubStyles.indexOf(item.subStyles) < 0) {
+              availableSubStyles.push(item.subStyles);
             }
+          }
         });
 
-        const explodedDiamondTypes = [ ...new Set(availableDiamondTypes.flatMap(d => d.split('+')))];
-        const explodedMetalType = [ ...new Set(availableMetals.flatMap(m => m.split(' and ')))];
+        const explodedDiamondTypes = [...new Set(availableDiamondTypes.flatMap((d) => d.split('+')))];
+        const explodedMetalType = [...new Set(availableMetals.flatMap((m) => m.split(' and ')))];
 
         availableFilters = {
           metal: explodedMetalType.sort(sortMetalTypes),
@@ -2080,36 +2160,38 @@ export class ProductsService {
 
   generateQueryCacheKey(query: Record<string, unknown>) {
     return Object.entries(query)
-      .filter(([,v])=> {
+      .filter(([, v]) => {
         if (Array.isArray(v)) {
           return v.length > 0;
         } else {
           return typeof v !== 'undefined';
         }
       })
-      .map(([k,v]) => `${k}=${v}`)
-      .flat().sort().join('-');
+      .map(([k, v]) => `${k}=${v}`)
+      .flat()
+      .sort()
+      .join('-');
   }
 }
 
 type PlpQuery = {
-  slug: string,
-  category: string,
-  locale: string,
-  page,
-  limit,
-  sortBy,
-  sortOrder,
+  slug: string;
+  category: string;
+  locale: string;
+  page;
+  limit;
+  sortBy;
+  sortOrder;
 } & PlpFilters;
 
-type PlpFilters = { 
-  metals: string[],
-  diamondTypes: string[],
-  priceMin: number,
-  priceMax: number,
-  styles: string[],
-  subStyles: string[],
-}
+type PlpFilters = {
+  metals: string[];
+  diamondTypes: string[];
+  priceMin: number;
+  priceMax: number;
+  styles: string[];
+  subStyles: string[];
+};
 
 function getDatoRequestLocale(locale = 'en_US'): string {
   const validDatoLocales = ['en_US', 'fr', 'de', 'es'];
