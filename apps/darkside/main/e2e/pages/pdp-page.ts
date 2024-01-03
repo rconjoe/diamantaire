@@ -1,36 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 import HomePage from "./home-page";
+import { diamondList,metalList, prongStyle, bandStyle } from "../model/filterLists";
 import { StringHelper } from "../utils/StringHelper";
-
-
-type diamondType =
-| "Asscher"
-| "Round Brilliant"
-| "Oval"
-| "Emerald"
-| "Pavé Marquise"
-| "Pavé Cushion"
-| "Pear"
-| "Trillion"
-| "Princess"
-| "Radiant";
-
-type prongStyle=
-| "Standard"
-| "Large"
-
-type bandStyle=
-| "plan"
-| "pave"
-
-
-type metalList = 
-| "Platinum"
-| "Rose Gold"
-| "White Gold"
-| "18k White gold"
-
 
 export default class ProductDetailedPage extends HomePage {
 
@@ -107,7 +79,7 @@ export default class ProductDetailedPage extends HomePage {
     await this.diamondTypeFilter.radiant.click();
   }
 
-  async selectDiamondShape(diamond : diamondType){
+  async selectDiamondShape(diamond : diamondList){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
    //await this.page.locator('button').filter({ hasText: `${diamond}` }).click(); 
   }

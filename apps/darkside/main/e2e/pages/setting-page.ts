@@ -1,25 +1,8 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 import HomePage from "./home-page";
+import { diamondList,metalList } from "../model/filterLists";
 
-
-type diamondType =
-| "Asscher"
-| "Round Brilliant"
-| "Oval"
-| "Emerald"
-| "Pavé Marquise"
-| "Pavé Cushion"
-| "Pear"
-| "Trillion"
-| "Princess"
-| "Radiant";
-
-type metalList = 
-| "Platinum"
-| "Rose Gold"
-| "White Gold"
-| "Yellow Gold"
 
 
 export default class SettingPage extends HomePage {
@@ -75,7 +58,7 @@ export default class SettingPage extends HomePage {
     await this.diamondTypeFilter.radiant.click();
   }
 
-  async selectDiamondType(diamond : diamondType){
+  async selectDiamondType(diamond : diamondList){
     await this.page.locator('button').filter({ hasText: `${diamond}`})
   }
 

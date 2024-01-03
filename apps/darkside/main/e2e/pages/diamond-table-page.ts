@@ -1,25 +1,7 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 import HomePage from "./home-page";
-
-
-type diamondType =
-| "Asscher"
-| "Round Brilliant"
-| "Oval"
-| "Emerald"
-| "Marquise"
-| "Cushion"
-| "Pear"
-| "Trillion"
-| "Princess"
-| "Radiant";
-
-type clarityList =
-| "VVS"
-| "VS"
-| "SI"
-
+import { diamondList, clarityList } from "../model/filterLists";
 
 export default class DiamondTablePage extends HomePage {
 
@@ -34,7 +16,7 @@ export default class DiamondTablePage extends HomePage {
     this.checkAvailabilityBtn = this.page.getByRole('button', { name: 'Check availability' });
   }
 
-  async selectDiamondShape(diamond : diamondType){
+  async selectDiamondShape(diamond : diamondList){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
 
     // await page.getByRole('button', { name: 'Excellent' }).click();

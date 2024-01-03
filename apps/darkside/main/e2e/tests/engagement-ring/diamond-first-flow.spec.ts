@@ -9,7 +9,7 @@ test.describe("Engagement ring - Diamond First flow", () => {
 
     const expectedCart = new QACart();
 
-  test.skip("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
+  test("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
@@ -29,7 +29,7 @@ test.describe("Engagement ring - Diamond First flow", () => {
     await test.step("Select an engagement ring setting", async () => {
 
       await diamondToSettingPage.selectMetalFilter('White Gold');
-      await diamondToSettingPage.selectSettingBySettingName('V Engagement Ring')
+      await diamondToSettingPage.selectSettingBySettingName('The Classic')
       const itemPrice = await productDetailedPage.getItemPrice();
 
       console.log('Item price ->' + itemPrice)

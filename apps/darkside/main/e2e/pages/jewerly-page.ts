@@ -1,12 +1,7 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 import HomePage from "./home-page";
-
-type metalList = 
-| "Platinum"
-| "Rose Gold"
-| "White Gold"
-| "Yellow Gold"
+import { metalList } from "../model/filterLists";
 
 
 export default class JewerlyPage extends HomePage {

@@ -1,25 +1,9 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 import HomePage from "./home-page";
+import { metalList } from "../model/filterLists";
 
 
-type diamondType =
-| "Asscher"
-| "Round Brilliant"
-| "Oval"
-| "Emerald"
-| "Pavé Marquise"
-| "Pavé Cushion"
-| "Pear"
-| "Trillion"
-| "Princess"
-| "Radiant";
-
-type metalList = 
-| "Platinum"
-| "Rose Gold"
-| "White Gold"
-| "Yellow Gold"
 
 export default class DiamondToSettingPage extends HomePage {
 

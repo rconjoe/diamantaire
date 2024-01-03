@@ -1,14 +1,9 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 import { BasePage } from "./base-page";
+import { jewerlyTypeList } from "../model/filterLists";
 
-type jewerlyTypelist =
-| 'Explore all jewerly'
-| 'Necklaces'
-| 'Bracelets'
-| 'Earrings'
-| 'Rings'
-| 'Men\'s jewerly'
+
 
 export default class HomePage extends BasePage {
 
@@ -53,7 +48,7 @@ export default class HomePage extends BasePage {
     await expect(this.diamondPageTitle.first()).toBeVisible();  
   }
 
-  async navigateToJewery(jewerlyType : jewerlyTypelist){
+  async navigateToJewery(jewerlyType : jewerlyTypeList){
     await this.page.getByRole('link', { name: 'JEWELRY' }).first().hover();
     await this.page.getByRole('link', { name: `${jewerlyType}` }).click();
   }
