@@ -180,13 +180,8 @@ export class ProductsService {
       if (!productResponse[0] || productResponse[0].length === 0) {
         throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
       }
-<<<<<<< HEAD
-
-      this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
-=======
       
       this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
->>>>>>> 5cd70b78 (added some safeguards to bad data)
     }
     const [products, totalDocumentsQuery] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
@@ -273,12 +268,6 @@ export class ProductsService {
     };
 
     // Merge product data with content
-<<<<<<< HEAD
-    const plpProducts = products
-      .map((plpItem) => {
-        const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
-        const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
-=======
     const plpProducts = products.map(plpItem => {
       const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
 
@@ -289,7 +278,6 @@ export class ProductsService {
         return undefined;
       }
       const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
->>>>>>> 5cd70b78 (added some safeguards to bad data)
 
         const mainProductContent = productContentMap[product.contentId];
         const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
