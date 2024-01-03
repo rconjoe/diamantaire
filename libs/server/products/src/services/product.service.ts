@@ -751,11 +751,12 @@ export class ProductsService {
     }
 
     // options which are always included
-    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
+    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
     
     // options which are always included as long as the "parent" option matches
     const MATCHING_PARENT_OPTION_MAP = {
       [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
+      [ProductOption.Metal]: [ProductOption.DiamondType],
     }
 
     OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {
