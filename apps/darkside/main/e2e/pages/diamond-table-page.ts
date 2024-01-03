@@ -18,23 +18,14 @@ export default class DiamondTablePage extends HomePage {
 
   async selectDiamondShape(diamond : diamondList){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
-
-    // await page.getByRole('button', { name: 'Excellent' }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.locator('div:nth-child(2) > .vo-table-row-head > div').first().click();
   }
 
-  async selectCaratRange(diamond : diamondType){
+    //TOBE implemented when needed
+  async selectCaratRange(diamond : diamondList){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
-
-    // await page.getByRole('button', { name: 'Excellent' }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.getByRole('button', { name: 'VS', exact: true }).click();
-    // await page.locator('div:nth-child(2) > .vo-table-row-head > div').first().click();
   }
 
-  //tobe implemented when needed
+  //TOBE implemented when needed
   // async selectPriceRange(diamond : diamondType){
     
   //  // await this.page.getByRole('button', { name: `${diamond}` }).click();
@@ -58,7 +49,7 @@ export default class DiamondTablePage extends HomePage {
   }
 
 
-  async selectCutForMeDiamondShape(diamond:diamondType){
+  async selectCutForMeDiamondShape(diamond:diamondList){
     await this.page.getByTitle(`${diamond}`, { exact: true }).click();
   }
 
