@@ -45,30 +45,9 @@ const ProductDiamondHandStyles = styled.div`
       justify-content: center;
       width: 25%;
       height: 25%;
-      top: 50%;
-      left: 24%;
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        left: 20.5%;
-        top: 53%;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-        left: 22%;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
-        left: 21.5%;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
-        left: 21%;
-      }
-      @media (min-width: 1700px) {
-        left: 22%;
-      }
-      @media (min-width: 1800px) {
-        left: 24%;
-      }
+      top: 50%; /* Adjust based on design */
+      left: 50%; /* Centered by default */
+      transform: translate(-118%, 20%);
     }
   }
 
