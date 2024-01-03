@@ -118,12 +118,11 @@ export const GlobalTemplate = ({ children }) => {
           headerHeight={headerHeight}
         />
       )}
+      {footerData && <Footer footerData={footerData} />}
 
       <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
         {children}
       </MainContainer>
-
-      {footerData && <Footer footerData={footerData} />}
 
       <WishlistSlideOut />
     </div>
