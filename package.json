@@ -65,6 +65,7 @@
     "@use-cookie-consent/react": "^0.3.7",
     "@vercel/kv": "0.2.3",
     "apollo-server-express": "^3.11.1",
+    "artillery": "2.0.3",
     "axios": "^1.2.4",
     "babel-plugin-styled-components": "^2.1.4",
     "base-64": "^1.0.0",
