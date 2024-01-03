@@ -1047,7 +1047,7 @@ export class ProductsService {
       if (collectionsInOrder.length > 0) {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
-        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, locale,{
           metals,
           diamondTypes,
           page,
@@ -1330,7 +1330,7 @@ export class ProductsService {
       // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
-        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
+        this.datoConfigurationsAndProducts({ slug, locale, variantIds: variantContentIds, productHandles: productHandles }),
         this.productRepository.find({ contentId: { $in: variantContentIds } }),
       ];
       const [variantContentData, variantProducts] = await Promise.all(variantPromises);
@@ -1460,6 +1460,7 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
+    locale: string,
     {
       metals,
       diamondTypes,
@@ -1610,7 +1611,7 @@ export class ProductsService {
 
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
-      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles, locale });
       const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
@@ -1856,17 +1857,19 @@ export class ProductsService {
     productHandles = [],
     first = 100,
     skip = 0,
+    locale,
   }: {
     slug: string;
     variantIds?: string[];
     productHandles?: string[];
     first?: number;
     skip?: number;
+    locale: string;
   }): Promise<any> {
     const ids = [...variantIds, ...productHandles].sort();
 
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
-    const cachedKey = `plp-configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
+    const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
     let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
@@ -1874,6 +1877,7 @@ export class ProductsService {
       variantIds,
       first,
       skip,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {
