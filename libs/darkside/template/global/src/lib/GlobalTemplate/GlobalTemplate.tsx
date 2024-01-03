@@ -102,7 +102,7 @@ export const GlobalTemplate = ({ children }) => {
     return () => resizeObserver.disconnect();
   }, [headerData, isTopbarShowing]);
 
-  // console.log('headerData', headerData);
+  console.log('global template rendering');
 
   return (
     <div className={`${vraiFont.className} ${vraiFont.variable}`}>
