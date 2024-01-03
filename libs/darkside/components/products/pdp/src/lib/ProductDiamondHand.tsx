@@ -309,12 +309,12 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
         <div className="image-hand">
           <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
           <p className="shown-on-text text-center">
-            {prefix && (
+            {prefix && disableControls ? (
               <>
                 <UIString>{prefix}</UIString>
                 {' | '}
               </>
-            )}
+            ) : null}
             <UIString>Shown on ring size 6</UIString>
           </p>
         </div>
