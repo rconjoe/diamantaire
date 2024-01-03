@@ -3,37 +3,37 @@ import { Header } from '@diamantaire/darkside/components/header';
 import { WishlistSlideOut } from '@diamantaire/darkside/components/wishlist';
 import { useGlobalData } from '@diamantaire/darkside/data/hooks';
 import { media } from '@diamantaire/styles/darkside-styles';
-import localFont from '@next/font/local';
+// import localFont from '@next/font/local';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-export const vraiFont = localFont({
-  variable: '--font-family-main',
-  preload: true,
-  src: [
-    {
-      path: './futura-pt_light.woff2',
-      weight: '300',
-      style: 'normal',
-    },
-    {
-      path: './futura-pt_book.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './futura-pt_medium.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: './futura-pt_demi.woff2',
-      weight: '600',
-      style: 'normal',
-    },
-  ],
-});
+// export const vraiFont = localFont({
+//   variable: '--font-family-main',
+//   preload: true,
+//   src: [
+//     {
+//       path: './futura-pt_light.woff2',
+//       weight: '300',
+//       style: 'normal',
+//     },
+//     {
+//       path: './futura-pt_book.woff2',
+//       weight: '400',
+//       style: 'normal',
+//     },
+//     {
+//       path: './futura-pt_medium.woff2',
+//       weight: '500',
+//       style: 'normal',
+//     },
+//     {
+//       path: './futura-pt_demi.woff2',
+//       weight: '600',
+//       style: 'normal',
+//     },
+//   ],
+// });
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
@@ -106,7 +106,8 @@ export const GlobalTemplate = ({ children }) => {
   console.log('global template rendering');
 
   return (
-    <div className={`${vraiFont.className} ${vraiFont.variable}`}>
+    // <div className={`${vraiFont.className} ${vraiFont.variable}`}>
+    <div>
       {headerData && (
         <Header
           headerData={headerData}
