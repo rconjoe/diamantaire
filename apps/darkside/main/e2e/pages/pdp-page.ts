@@ -109,6 +109,7 @@ export default class ProductDetailedPage extends HomePage {
 
   async selectDiamondShape(diamond : diamondType){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
+   //await this.page.locator('button').filter({ hasText: `${diamond}` }).click(); 
   }
   async nextDiamondShapeList(){
     await this.page.locator('button:nth-child(3)').click();
