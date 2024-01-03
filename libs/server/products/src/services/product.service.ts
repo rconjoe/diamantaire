@@ -200,8 +200,9 @@ export class ProductsService {
         const productType = plpItem.variants?.[0].productType;
 
         if (!plpItem.variants.length){
-          console.log("No variants", plpItem)
-  
+          Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+          this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+
           return acc;
         }
 
