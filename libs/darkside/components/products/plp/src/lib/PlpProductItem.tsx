@@ -133,10 +133,10 @@ const PlpProductItem = (props: PlpProductItemProps) => {
   const isMultiShape = selectedVariant?.configuration?.diamondType?.includes('+') || false;
 
   const engRingFormatMap = () => {
-    if (isMultiShape) {
-      return _t('%%title%%');
-    } else if (isEngRingSettingPage) {
+    if (isEngRingSettingPage) {
       return _t('%%title%% %%shape%%');
+    } else if (isMultiShape) {
+      return _t('%%title%%');
     } else {
       return _t('%%title%% %%shape%% in');
     }
@@ -221,24 +221,24 @@ function generatePlpTitle(
 ) {
   let genTitle = productTitle;
 
-  // console.log(`productTitle`, productTitle);
-  // console.log(`plpTitle`, plpTitle || 'x');
-  // console.log(`isMultiShape`, isMultiShape);
-  // console.log(`isEngRingSettingPage`, isEngRingSettingPage);
+  console.log(`productTitle`, productTitle);
+  console.log(`plpTitle`, plpTitle || 'x');
+  console.log(`isMultiShape`, isMultiShape);
+  console.log(`isEngRingSettingPage`, isEngRingSettingPage);
 
   if (plpTitle) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
   } else if (diamondType && !isMixedDiamondType(diamondType) && !isEngRingSettingPage && !isMultiShape) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType])} ${metal}`;
-  } else if (isEngRingSettingPage && !isEngRingSettingPage) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])}`;
-  } else if (isMultiShape) {
+  } else if (isMultiShape && !isEngRingSettingPage) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%'], [productTitle])} ${metal}`;
+  } else if (isEngRingSettingPage) {
+    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])}`;
   } else {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])} ${metal}`;
   }
 
-  // console.log(`**`, genTitle);
+  console.log(`**`, genTitle);
 
   return genTitle;
 }
