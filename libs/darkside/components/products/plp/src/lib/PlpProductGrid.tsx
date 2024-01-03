@@ -128,7 +128,7 @@ const PlpProductGrid = ({
 
   console.log(`asPath`, asPath);
 
-  const hideSwatchesNav = asPath === '/engagement-rings/settings';
+  const isEngRingSettingPage = asPath === '/engagement-rings/settings';
 
   const { headerHeight } = useGlobalContext();
 
@@ -233,7 +233,7 @@ const PlpProductGrid = ({
                           });
                         }}
                         builderFlowOverride={builderFlowOverride}
-                        hideSwatchesNav={hideSwatchesNav}
+                        isEngRingSettingPage={isEngRingSettingPage}
                       />
                     </div>
                   )}
