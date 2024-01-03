@@ -1,13 +1,9 @@
-import { GREY_LIGHTEST, TEAL, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyFilterShape = styled.div`
   display: flex;
   flex-direction: column;
-
-  .appointment-button {
-    display: none;
-  }
 
   .title {
     display: block;
