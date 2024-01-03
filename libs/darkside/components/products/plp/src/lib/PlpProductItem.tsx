@@ -102,11 +102,11 @@ type PlpProductItemProps = {
   plpTitle: string;
   builderFlowOverride?: boolean;
   selectSettingForBuilderFlow: () => void;
-  isEngRingSettingPage: boolean;
+  useProductTitleOnly: boolean;
 };
 
 const PlpProductItem = (props: PlpProductItemProps) => {
-  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride, isEngRingSettingPage } = props;
+  const { product, position, plpTitle, selectSettingForBuilderFlow, builderFlowOverride, useProductTitleOnly } = props;
 
   const router = useRouter();
 
@@ -132,18 +132,8 @@ const PlpProductItem = (props: PlpProductItemProps) => {
 
   const isMultiShape = selectedVariant?.configuration?.diamondType?.includes('+') || false;
 
-  const engRingFormatMap = () => {
-    if (isEngRingSettingPage) {
-      return _t('%%title%% %%shape%%');
-    } else if (isMultiShape) {
-      return _t('%%title%% in');
-    } else {
-      return _t('%%title%% %%shape%% in');
-    }
-  };
-
   const generatedTitle = generatePlpTitle(
-    engRingFormatMap(),
+    _t('%%title%% %%shape%% in'),
     productTitle,
     variantTitle,
     {
@@ -151,7 +141,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
       metal: _t(selectedVariant.configuration.metal),
     },
     isMultiShape,
-    isEngRingSettingPage,
+    useProductTitleOnly,
   );
 
   return (
@@ -167,8 +157,8 @@ const PlpProductItem = (props: PlpProductItemProps) => {
         builderFlow={builderFlowOverride}
       />
 
-      <div className={`row nav${isEngRingSettingPage ? ' with-hidden-swatches' : ''}`}>
-        {!isEngRingSettingPage && (
+      <div className={`row nav${useProductTitleOnly ? ' with-hidden-swatches' : ''}`}>
+        {!useProductTitleOnly && (
           <div className="metal-selector">
             <ul className="list-unstyled flex">
               {metal?.map((option) => (
@@ -217,28 +207,30 @@ function generatePlpTitle(
   plpTitle: string,
   { metal, diamondType }: ProductConfiguration,
   isMultiShape: boolean,
-  isEngRingSettingPage: boolean,
+  useProductTitleOnly: boolean,
 ) {
   let genTitle = productTitle;
 
-  console.log(`productTitle`, productTitle);
-  console.log(`plpTitle`, plpTitle || 'x');
-  console.log(`isMultiShape`, isMultiShape);
-  console.log(`isEngRingSettingPage`, isEngRingSettingPage);
+  // console.log(`productTitle`, productTitle);
+  // console.log(`plpTitle`, plpTitle || 'x');
+  // console.log(`isMultiShape`, isMultiShape);
+  // console.log(`isEngRingSettingPage`, isEngRingSettingPage);
+
+  if (useProductTitleOnly) return productTitle;
 
   if (plpTitle) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
-  } else if (diamondType && !isMixedDiamondType(diamondType) && !isEngRingSettingPage && !isMultiShape) {
+  } else if (diamondType && !isMixedDiamondType(diamondType) && !isMultiShape) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType])} ${metal}`;
-  } else if (isMultiShape && !isEngRingSettingPage) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%'], [productTitle])} ${metal}`;
-  } else if (isEngRingSettingPage) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])}`;
+  } else if (isMultiShape && !useProductTitleOnly) {
+    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%'], [productTitle])
+      .toString()
+      .replace('%%shape%%', '')} ${metal}`;
   } else {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])} ${metal}`;
   }
 
-  console.log(`**`, genTitle);
+  // console.log(`**`, genTitle);
 
   return genTitle;
 }

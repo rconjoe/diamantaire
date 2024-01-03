@@ -126,9 +126,9 @@ const PlpProductGrid = ({
 
   const { asPath } = router || {};
 
-  console.log(`asPath`, asPath);
+  // console.log(`asPath`, asPath);
 
-  const isEngRingSettingPage = asPath === '/engagement-rings/settings';
+  const useProductTitleOnly = asPath === '/engagement-rings/settings';
 
   const { headerHeight } = useGlobalContext();
 
@@ -233,7 +233,7 @@ const PlpProductGrid = ({
                           });
                         }}
                         builderFlowOverride={builderFlowOverride}
-                        isEngRingSettingPage={isEngRingSettingPage}
+                        useProductTitleOnly={useProductTitleOnly}
                       />
                     </div>
                   )}
