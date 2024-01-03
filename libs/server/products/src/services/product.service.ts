@@ -192,9 +192,9 @@ export class ProductsService {
     const contentIdsByProductType = products.reduce(
       (acc, plpItem) => {
         const idList = plpItem.variants.map((v) => v.contentId);
-        const productType = plpItem.variants?.[0].productType;
+        const productType = plpItem.variants?.[0]?.productType;
 
-        if (!plpItem.variants.length){
+        if (!productType || !plpItem.variants.length){
           Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
           this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
 
