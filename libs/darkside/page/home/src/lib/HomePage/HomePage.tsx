@@ -20,6 +20,8 @@ const HomePage = (props: HomePageProps) => {
 
   const { data }: any = useStandardPage('darkside-home', router.locale);
 
+  console.log("HOMEPAGE DATA", data);
+
   const page = data?.standardPage;
   const { seo } = page || {};
   const { seoTitle, seoDescription } = seo || {};
