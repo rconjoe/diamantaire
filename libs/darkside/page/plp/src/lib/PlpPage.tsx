@@ -184,13 +184,13 @@ async function getStaticPaths() {
   const includedLocales = ['en-US'];
 
   // Filter the locales and generate paths
-  const paths = pageSlugs.flatMap(({ slug, category }) => {
+  const paths = pageSlugs.flatMap(({ slug }) => {
     // Skip if slug is not defined or empty
     if (!slug || slug === '') return [];
 
     return includedLocales.map((locale) => ({
       locale,
-      params: { plpSlug: [category, slug] },
+      params: { plpSlug: [slug] },
     }));
   });
 
@@ -202,7 +202,6 @@ async function getStaticPaths() {
 
 const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
-    // context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
     const { params, locale } = context;
 
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
@@ -257,6 +256,8 @@ const createStaticProps = (category: string) => {
       queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
     });
 
+    console.log("GET STATIC PROPS");
+
     await queryClient.prefetchQuery({
       ...queries.template.global(locale),
     });
@@ -287,8 +288,16 @@ const createStaticProps = (category: string) => {
 };
 
 const jewelryGetServerSideProps = createStaticProps('jewelry');
+const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
+const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
 
-export { PlpPage, createStaticProps, getStaticPaths };
+export { 
+  PlpPage,
+  engagementRingsGetStaticProps,
+  jewelryGetServerSideProps,
+  weddingRingsGetStaticProps,
+  getStaticPaths 
+};
 
 /**
  * Takes the params from the URL and the query params and returns the filter options.
