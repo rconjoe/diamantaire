@@ -24,6 +24,7 @@ export async function getVRAIServerPlpData(
   slug: string,
   filterOptions = {},
   { page = 1, limit = 12 }: PaginatedRequestOptions,
+  locale,
 ) {
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
@@ -42,12 +43,14 @@ export async function getVRAIServerPlpData(
   }, {});
 
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
   const qParams = new URLSearchParams({
     category,
     slug,
     ...optionsQuery,
     page: page?.toString() || '1',
     limit: limit?.toString(),
+    locale,
   });
 
   const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
@@ -92,10 +95,10 @@ export async function getVRAIServerDiamondPlpData(
   return response;
 }
 
-export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
+export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions, locale) {
   const { data, fetchNextPage, isFetching, hasNextPage, error } = useInfiniteQuery(
-    [`plp`, category, slug, JSON.stringify(filterOptions || {})],
-    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
+    [`plp`, category, slug, JSON.stringify(filterOptions || {}), locale],
+    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }, locale),
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
