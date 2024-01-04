@@ -1,8 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { queryDatoGQL, queryClientApi } from '../../clients';
+import { queryDatoGQL } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
+
+// import { createQueryKeys } from '@lukemorales/query-key-factory';
 
 export * from './getAllPlpSlugs';
 
@@ -212,18 +214,27 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
 
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
-  const qParams = new URLSearchParams({ slug, category, locale });
-  const reqUrl = `/page/plpssr?${qParams.toString()}`;
-
   try {
-    const response = await queryClientApi().request({ url: reqUrl });
+    const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
-    return response.data;
-  } catch (e) {
-    console.log(e);
+    return response;
+  } catch(error) {
+    console.log("Error retrieving list page ssr data", error);
 
-    return null;
+    return {}
   }
+  // const qParams = new URLSearchParams({ slug, category, locale });
+  // const reqUrl = `/page/plpssr?${qParams.toString()}`;
+
+  // try {
+  //   const response = await queryClientApi().request({ url: reqUrl });
+
+  //   return response.data;
+  // } catch (e) {
+  //   console.log(e);
+
+  //   return null;
+  // }
 }
 
 const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`

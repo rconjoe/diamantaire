@@ -291,8 +291,6 @@ const createStaticProps = (category: string) => {
         });
         const responseJson = await response.json();
 
-        console.log("response", responseJson)
-
         return responseJson;
 
       }
