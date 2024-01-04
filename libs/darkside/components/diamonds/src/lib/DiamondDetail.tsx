@@ -14,7 +14,7 @@ import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@d
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -116,7 +116,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     query?.collectionSlug && query.productSlug
       ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
       : `/customize/diamond-to-setting/${lotId}`;
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'center',

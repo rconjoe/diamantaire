@@ -5,7 +5,7 @@ import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondTy
 import { DropHintIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { useEffect, useState, useMemo } from 'react';
 
@@ -211,7 +211,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
 
   const [loadPagination, setLoadPagination] = useState(0);
 
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',

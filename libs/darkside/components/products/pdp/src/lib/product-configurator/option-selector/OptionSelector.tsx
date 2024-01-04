@@ -10,7 +10,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -259,7 +259,7 @@ function OptionSelector({
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
   const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
-  const diamondSliderOptions: EmblaOptionsType = {
+  const diamondSliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',

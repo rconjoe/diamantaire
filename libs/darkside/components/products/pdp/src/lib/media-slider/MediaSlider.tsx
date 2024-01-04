@@ -1,7 +1,7 @@
 import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
 import { MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -87,7 +87,7 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
     setTotalSlides(slidesCount);
   }, [assets, shouldDisplayDiamondHand]);
 
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'center',

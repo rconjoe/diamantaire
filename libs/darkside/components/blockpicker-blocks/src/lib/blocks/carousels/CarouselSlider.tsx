@@ -32,6 +32,7 @@ const CarouselSlider = ({
   darksideButtons,
   _modelApiKey,
 }: CarouselContentBlockProps) => {
+  // https://github.com/davidjerleke/embla-carousel/issues/647
   const sliderOptions: any = {
     loop: loopItems,
     dragFree: false,
