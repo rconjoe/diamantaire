@@ -38,6 +38,7 @@ interface OptionSelectorProps {
     [key: string]: string;
   };
   setProductSlug?: (_value: string) => void;
+  areDiamondShapesHorizontal: boolean;
 }
 
 const StyledOptionSelector = styled.div`
@@ -175,10 +176,6 @@ const StyledOptionSelector = styled.div`
         }
       }
 
-      .swiper-wrapper {
-        display: flex;
-      }
-
       a {
         display: inline-block;
       }
@@ -189,6 +186,18 @@ const StyledOptionSelector = styled.div`
         background-color: transparent;
         right: -3rem;
         ${media.medium`right: -4rem;`}
+      }
+
+      svg {
+        transition: 0.25s;
+      }
+
+      &.isRotated {
+        .canRotate {
+          svg {
+            transform: rotate(90deg);
+          }
+        }
       }
     }
 
@@ -235,11 +244,10 @@ function OptionSelector({
   productType,
   diamondSpecs,
   selectedOptionIndex = 0,
-<<<<<<< HEAD
+
   selectedConfiguration,
-=======
   setProductSlug,
->>>>>>> 0f595e7b (test shallow rendering)
+  areDiamondShapesHorizontal,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -420,6 +428,7 @@ function OptionSelector({
           <div
             className={clsx('option-list', label, {
               'space-between-items': options.length < 8,
+              isRotated: areDiamondShapesHorizontal,
             })}
           >
             {options.length > 7 ? (

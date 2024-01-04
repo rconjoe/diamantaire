@@ -13,4 +13,5 @@ export interface OptionItemContainerProps {
   isLink?: boolean;
   valueLabel: string;
   setProductSlug: (_value: string) => void;
+  areDiamondShapesHorizontal?: boolean;
 }

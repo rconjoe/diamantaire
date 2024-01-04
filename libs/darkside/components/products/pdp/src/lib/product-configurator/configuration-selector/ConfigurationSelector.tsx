@@ -1,5 +1,6 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { configTypesComparitor, filterConfigurationTypes } from '@diamantaire/shared/helpers';
+import { RotateIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useReducer } from 'react';
@@ -36,6 +37,7 @@ const StyledConfigurationSelector = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+  position: relative;
 
   > * {
     flex: 1 1 100%;
@@ -46,6 +48,23 @@ const StyledConfigurationSelector = styled.div`
 
     &.bandAccent {
       flex: 0 0 auto;
+    }
+  }
+
+  .rotate-toggle {
+    position: absolute;
+    right: 0;
+    background-color: transparent;
+    padding: 0;
+    svg {
+      transform: scaleX(-1) rotate(100deg);
+      position: relative;
+      top: 4px;
+      margin-right: 3px;
+    }
+
+    span {
+      font-size: var(--font-size-xxsmall);
     }
   }
 
@@ -127,9 +146,35 @@ function ConfigurationSelector({
     );
   }
 
+  function toggleOrientation() {
+    let newOrientation;
+
+    if (selectedConfiguration?.diamondOrientation === 'horizontal') {
+      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'horizontal');
+    } else {
+      newOrientation = configurations['diamondOrientation'].find((option) => option.value !== 'vertical');
+    }
+
+    // Extract the dynamic part of the URL path
+    const pathSegments = router.pathname.split('/');
+    const dynamicSegment = pathSegments[1]; // Assuming it's the second segment
+
+    // Construct the new path using the dynamic segment
+    const newPath = `/${dynamicSegment}/${router.query.collectionSlug}/${newOrientation?.id}`;
+
+    setProductSlug(newOrientation?.id);
+    router.push(newPath, newPath, { shallow: true });
+  }
+
   return (
     <StyledConfigurationSelector>
-      {hasMultipleDiamondOrientations && <button>Rotate</button>}
+      {hasMultipleDiamondOrientations && (
+        <button className="rotate-toggle" onClick={() => toggleOrientation()}>
+          {' '}
+          <RotateIcon />
+          <span>90°</span>
+        </button>
+      )}
       {validConfigs.map((configurationType) => {
         const options = configurations[configurationType];
 
@@ -162,6 +207,7 @@ function ConfigurationSelector({
             renderItemAsLink={isBuilderFlowOpen ? false : true}
             diamondSpecs={diamondSpecs}
             setProductSlug={setProductSlug}
+            areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
           />
         );
       })}

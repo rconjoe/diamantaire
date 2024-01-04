@@ -1,5 +1,5 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
+import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 /**
@@ -50,24 +50,25 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
 
   const { collectionSlug, jewelryCategory } = router.query;
 
-  const url = {
-    pathname: router.pathname,
-    query: {
-      collectionSlug,
-      productSlug: id,
-      ...(jewelryCategory && { jewelryCategory }),
-    },
-  };
+  // Memoize the URL computation to prevent recalculations unless dependencies change
+  const url = useMemo(() => {
+    return {
+      pathname: router.pathname,
+      query: {
+        collectionSlug,
+        productSlug: id,
+        ...(jewelryCategory && { jewelryCategory }),
+      },
+    };
+  }, [router.pathname, collectionSlug, jewelryCategory, id]);
+
+  // useCallback to memoize the click handler
+  const handleClick = useCallback(() => {
+    setProductSlug(id);
+  }, [id, setProductSlug]);
 
   return (
-    <Link
-      href={url}
-      shallow={true}
-      scroll={false}
-      onClick={() => {
-        setProductSlug(id);
-      }}
-    >
+    <Link href={url} shallow={true} scroll={false} onClick={handleClick}>
       {children || value}
     </Link>
   );
@@ -132,6 +133,12 @@ interface OptionItemComponent extends OptionItemProps {
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
+  .icon {
+    transition: 0.25s;
+    &.isRotated {
+      transform: rotate(90deg) !important;
+    }
+  }
   &.selected {
     border-bottom: 0.2rem solid var(--color-teal);
     padding-bottom: 0.5rem;
@@ -173,7 +180,10 @@ export function DiamondIconOptionItem({ optionType, value, valueLabel, isSelecte
 
   return (
     <StyledDiamondIconOptionItem
-      className={clsx('option-item diamond-shape', value, { selected: isSelected })}
+      className={clsx('option-item diamond-shape', value, {
+        selected: isSelected,
+        canRotate: EAST_WEST_SHAPES.includes(value),
+      })}
       title={valueLabel}
       onClick={onClick}
       isRotated={isRotated}
