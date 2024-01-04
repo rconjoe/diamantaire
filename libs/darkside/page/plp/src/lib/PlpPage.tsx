@@ -304,11 +304,11 @@ const createStaticProps = (category: string) => {
       ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
-    if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
-      return {
-        notFound: true,
-      };
-    }
+    // if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
+    //   return {
+    //     notFound: true,
+    //   };
+    // }
 
     return {
       props: {
