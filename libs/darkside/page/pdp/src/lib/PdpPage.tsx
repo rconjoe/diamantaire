@@ -93,8 +93,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
+    // paveCaratWeight,
+    // metalWeight,
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
@@ -182,13 +182,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
+    paveCaratWeight: shopifyProductData?.collectionContent?.paveCaratWeight,
+    metalWeight: shopifyProductData?.collectionContent?.metalWeight,
     shownWithCtwLabel,
     diamondDescription,
     styles: shopifyProductData?.styles,
     productType: shopifyProductData.productType,
   };
+
   const variantId = shopifyProductData?.shopifyVariantId;
 
   const hasMoreThanOneVariant = useMemo(() => {
