@@ -230,13 +230,12 @@ const ProductDescription = ({
             </Heading>
             {diamondDescription && <Markdown withStyles={false}>{diamondDescription}</Markdown>}
             <ul>
-              {diamondSpecs.map((spec, index) => (
-                <li key={`diamond-spec-${index}`}>{spec.label + ': ' + _t(spec.value)}</li>
-              ))}
-
+              {renderSpecs(diamondSpecs)}
               <li>
                 <span className="small">
-                  <Link href="/diamond-tolerance">For precise weight please see tolerance specs.</Link>
+                  <Link href="/diamond-tolerance">
+                    <UIString>For precise weight please see tolerance specs.</UIString>
+                  </Link>
                 </span>
               </li>
             </ul>
