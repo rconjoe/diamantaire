@@ -117,7 +117,7 @@ export class ProductsService {
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
-    const cachedData = await this.utils.memGet(cacheKey);
+    const cachedData = await this.cacheManager.get(cacheKey);
     let productResponse;
 
     if (cachedData) {
@@ -180,8 +180,8 @@ export class ProductsService {
       if (!productResponse[0] || productResponse[0].length === 0) {
         throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
       }
-
-      this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
+      
+      this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
     }
     const [products, totalDocumentsQuery] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
@@ -192,7 +192,14 @@ export class ProductsService {
     const contentIdsByProductType = products.reduce(
       (acc, plpItem) => {
         const idList = plpItem.variants.map((v) => v.contentId);
-        const productType = plpItem.variants?.[0].productType;
+        const productType = plpItem.variants?.[0]?.productType;
+
+        if (!productType || !plpItem.variants.length){
+          Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+          this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+
+          return acc;
+        }
 
         if (variantIdProductTypes.includes(productType)) {
           acc.variantIds.push(...idList);
@@ -261,10 +268,16 @@ export class ProductsService {
     };
 
     // Merge product data with content
-    const plpProducts = products
-      .map((plpItem) => {
-        const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
-        const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
+    const plpProducts = products.map(plpItem => {
+      const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
+
+      if (!product){
+        this.logger.warn(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        Sentry.captureMessage(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        
+        return undefined;
+      }
+      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
 
         const mainProductContent = productContentMap[product.contentId];
         const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
@@ -1047,7 +1060,7 @@ export class ProductsService {
       if (collectionsInOrder.length > 0) {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
-        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, locale,{
           metals,
           diamondTypes,
           page,
@@ -1330,7 +1343,7 @@ export class ProductsService {
       // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
-        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
+        this.datoConfigurationsAndProducts({ slug, locale, variantIds: variantContentIds, productHandles: productHandles }),
         this.productRepository.find({ contentId: { $in: variantContentIds } }),
       ];
       const [variantContentData, variantProducts] = await Promise.all(variantPromises);
@@ -1460,6 +1473,7 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
+    locale: string,
     {
       metals,
       diamondTypes,
@@ -1610,7 +1624,7 @@ export class ProductsService {
 
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
-      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles, locale });
       const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
@@ -1856,17 +1870,19 @@ export class ProductsService {
     productHandles = [],
     first = 100,
     skip = 0,
+    locale,
   }: {
     slug: string;
     variantIds?: string[];
     productHandles?: string[];
     first?: number;
     skip?: number;
+    locale: string;
   }): Promise<any> {
     const ids = [...variantIds, ...productHandles].sort();
 
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
-    const cachedKey = `plp-configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
+    const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
     let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
@@ -1874,6 +1890,7 @@ export class ProductsService {
       variantIds,
       first,
       skip,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {

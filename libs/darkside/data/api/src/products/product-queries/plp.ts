@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 export const CONFIGURATIONS_LIST = gql`
-  query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType) {
-    allConfigurations(filter: { variantId: { in: $variantIds } }, first: $first, skip: $skip) {
+  query PLPIdList($productHandles: [String], $variantIds: [String], $first: IntType, $skip: IntType, $locale: SiteLocale) {
+    allConfigurations(filter: { variantId: { in: $variantIds } }, first: $first, skip: $skip, locale: $locale) {
       plpTitle
       variantId
       plpImage {
@@ -34,7 +34,7 @@ export const CONFIGURATIONS_LIST = gql`
         hasOnlyOnePrice
       }
     }
-    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip) {
+    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip, locale: $locale) {
       shopifyProductHandle
       plpTitle
       plpImage {
