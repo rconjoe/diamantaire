@@ -37,9 +37,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "embla-carousel-react": [
-        "./node_modules/embla-carousel-react"
-      ],
       "@diamantaire/_generated/datocms": [
         "libs/_generated/datocms/src/index.ts"
       ],
