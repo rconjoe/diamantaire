@@ -177,27 +177,31 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
 PlpPage.getTemplate = getStandardTemplate;
 
-async function getStaticPaths() {
-  const pageSlugs = await getAllPlpSlugs();
+const createGetStaticPaths = (category: string) => {
+  const getStaticPaths = async function getStaticPaths() {
+    const pageSlugs = await getAllPlpSlugs();
 
-  // Define the locales you want to include
-  const includedLocales = ['en-US'];
+    // Define the locales you want to include
+    const includedLocales = ['en-US'];
 
-  // Filter the locales and generate paths
-  const paths = pageSlugs.flatMap(({ slug }) => {
-    // Skip if slug is not defined or empty
-    if (!slug || slug === '') return [];
+    // Filter the locales and generate paths
+    const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category)).flatMap(({ slug }) => {
+      // Skip if slug is not defined or empty
+      if (!slug || slug === '') return [];
 
-    return includedLocales.map((locale) => ({
-      locale,
-      params: { plpSlug: [slug] },
-    }));
-  });
+      return includedLocales.map((locale) => ({
+        locale,
+        params: { plpSlug: [slug] },
+      }));
+    });
 
-  return {
-    paths,
-    fallback: true,
-  };
+    return {
+      paths,
+      fallback: true,
+    };
+  }
+
+  return getStaticPaths;
 }
 
 const createStaticProps = (category: string) => {
@@ -256,8 +260,6 @@ const createStaticProps = (category: string) => {
       queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
     });
 
-    console.log("GET STATIC PROPS");
-
     await queryClient.prefetchQuery({
       ...queries.template.global(locale),
     });
@@ -287,16 +289,24 @@ const createStaticProps = (category: string) => {
   return getStaticProps;
 };
 
+// JEWELRY
 const jewelryGetServerSideProps = createStaticProps('jewelry');
+const jewelryGetStaticPaths = createGetStaticPaths('jewelry');
+// ER
 const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
+const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
+// WB
 const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
+const weddingRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
 
 export { 
   PlpPage,
   engagementRingsGetStaticProps,
+  engagementRingsGetStaticPaths,
   jewelryGetServerSideProps,
+  jewelryGetStaticPaths,
   weddingRingsGetStaticProps,
-  getStaticPaths 
+  weddingRingsGetStaticPaths,
 };
 
 /**

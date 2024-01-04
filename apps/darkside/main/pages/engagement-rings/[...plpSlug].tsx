@@ -1,6 +1,6 @@
 import { 
   PlpPage,  
-  getStaticPaths,
+  engagementRingsGetStaticPaths as getStaticPaths,
   engagementRingsGetStaticProps as getStaticProps, 
 } from '@diamantaire/darkside/page/plp';
 

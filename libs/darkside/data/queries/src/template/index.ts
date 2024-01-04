@@ -9,9 +9,14 @@ export const template = createQueryKeys('template', {
 });
 
 async function getGlobalTemplateData(locale) {
-  const response = await queryDatoGQL({ query: GLOBAL_TEMPLATE_QUERY, variables: { locale } });
+  try {
+    const response = await queryDatoGQL({ query: GLOBAL_TEMPLATE_QUERY, variables: { locale } });
 
-  console.log("response", response);
+    return response;
+  } catch(error) {
+    console.log("Error retrieving global template data", error);
 
-  return response;
+    return {}
+  }
+  
 }
