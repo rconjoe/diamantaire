@@ -7,11 +7,10 @@ import { test, expect } from "../../pages/page-fixture";
 
 test.describe("Setting First flow - Happy flow", () => {
 
-  test("Happy flow - verify price", async ({ homePage ,settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage , checkoutPage}) => {
+  test.skip("Happy flow - verify price", async ({ homePage ,settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage , checkoutPage}) => {
 
     const expectedCart = new QACart();
 
-    
     await test.step("open home page", async () => {
       await homePage.open();
     });

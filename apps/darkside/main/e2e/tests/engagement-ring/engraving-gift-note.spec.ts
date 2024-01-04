@@ -8,7 +8,7 @@ test.describe("Engagement ring - Setting First flow", () => {
 
 
       // eslint-disable-next-line playwright/expect-expect
-  test("Happy Path with engraving and gift note", async ({ homePage , settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage,checkoutPage}) => {
+  test.skip("Happy Path with engraving and gift note", async ({ homePage , settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();

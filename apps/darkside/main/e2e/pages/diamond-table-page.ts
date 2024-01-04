@@ -17,7 +17,10 @@ export default class DiamondTablePage extends HomePage {
   }
 
   async selectDiamondShape(diamond : diamondList){
+    console.log('Select diamond shape -> '+ diamond +' on diamond table page');
+
     await this.page.getByRole('button', { name: `${diamond}` }).click();
+    await this.page.waitForLoadState('domcontentloaded')
   }
 
     //TOBE implemented when needed
