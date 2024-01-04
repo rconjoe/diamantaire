@@ -221,6 +221,8 @@ const createStaticProps = (category: string) => {
 
     const [slug, ...plpParams] = plpSlug;
 
+    console.log("PLP STATIC PROPS:", plpSlug, slug, plpParams)
+
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
@@ -229,7 +231,7 @@ const createStaticProps = (category: string) => {
     let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
-    if (!initialFilterValues) {
+    if (!initialFilterValues || !slug) {
       return {
         notFound: true,
       };
