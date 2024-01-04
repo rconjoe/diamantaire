@@ -829,6 +829,7 @@ const ReviewBuildStep = ({
                                     }}
                                     renderItemAsLink={false}
                                     hideSelectorLabel={true}
+                                    selectedConfiguration={selectedConfiguration}
                                   />
                                 </div>
                               )
@@ -848,6 +849,7 @@ const ReviewBuildStep = ({
                                     }}
                                     renderItemAsLink={false}
                                     hideSelectorLabel={true}
+                                    selectedConfiguration={selectedConfiguration}
                                   />
                                 </div>
                               )
@@ -868,6 +870,7 @@ const ReviewBuildStep = ({
                   options={sizeOptions}
                   selectedOptionValue={selectedSize.value}
                   onChange={handleSizeChange}
+                  selectedConfiguration={selectedConfiguration}
                 />
                 <div className="size-guide-button">
                   <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsSizeGuideOpen(true)}>

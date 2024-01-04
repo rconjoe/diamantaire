@@ -16,6 +16,7 @@ const PairSelector = ({
   isSoldAsPairOnly,
   variantPrice,
   setShouldDoublePrice,
+  selectedConfiguration,
 }) => {
   const { locale } = useRouter();
   const pairSelector = useMemo(() => {
@@ -73,6 +74,7 @@ const PairSelector = ({
         selectedOptionValue={selectedPair}
         onChange={handlePairChange}
         hideSelectorLabel={true}
+        selectedConfiguration={selectedConfiguration}
       />
     </PairSelectorStyles>
   );

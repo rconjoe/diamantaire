@@ -190,6 +190,7 @@ function ProductConfigurator({
                 isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
                 productType={additionalVariantData?.productType}
+                selectedConfiguration={selectedConfiguration}
               />
             )}
         </>
@@ -217,12 +218,14 @@ function ProductConfigurator({
           selectedPair={selectedPair}
           variantPrice={variantPrice}
           setShouldDoublePrice={setShouldDoublePrice}
+          selectedConfiguration={selectedConfiguration}
         />
       )}
 
       {/* Left/Right Products */}
       {isSoldAsLeftRight && (
         <LeftRightSelector
+          selectedConfiguration={selectedConfiguration}
           selectedEarringOrientation={selectedEarringOrientation}
           setSelectedEarringOrientation={setSelectedEarringOrientation}
           setShouldDoublePrice={setShouldDoublePrice}
@@ -444,7 +447,7 @@ function AddToCartButton({
     });
 
     const metal = _t(
-      (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') + selectedConfiguration?.metal,
+      `${selectedConfiguration?.goldPurity ? `${selectedConfiguration.goldPurity} ` : ''}${selectedConfiguration?.metal}`,
     );
     const pickBandAccent = bandAccent || selectedConfiguration?.bandAccent;
     const refinedBandAccent = pickBandAccent
