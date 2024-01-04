@@ -88,6 +88,9 @@ const ProductDiamondHandStyles = styled.div`
         background-color: var(--color-teal);
         border-radius: 50%;
         cursor: pointer;
+        &:focus {
+          outline: none;
+        }
         button {
           position: absolute;
           top: -${offset};
