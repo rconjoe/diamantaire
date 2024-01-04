@@ -1,7 +1,22 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-export function useGlobalData(locale: string) {
+export type GlobalDataResponse = {
+  headerNavigationDynamic: object;
+  section: object[][],
+    mobileAccordionOrder: object[][],
+    mobileLocalizationAccordionOrder: object[][],
+    iconsAltText: object[][]
+  footerNavigation: {
+    columns: object[]
+    emailSignUpColumn: object[][],
+    emailSignUpCopy: object[][],
+    copyright: string,
+    countryPicker: object[][]
+  }
+}
+
+export function useGlobalData(locale: string): UseQueryResult<GlobalDataResponse> {
   return useQuery({
     ...queries.template.global(locale),
   });

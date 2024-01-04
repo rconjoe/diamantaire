@@ -53,23 +53,13 @@ export type GlobalTemplateProps = {
 
 export const GlobalTemplate = ({ children }) => {
   const router = useRouter();
-
   const globalTemplateData = useGlobalData(router.locale);
-
-  console.log(globalTemplateData.data);
-
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
-
   const footerData = globalTemplateData.data?.footerNavigation;
-
   const headerRef = useRef<HTMLDivElement | null>(null);
-
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
-
   const [headerHeight, setHeaderHeight] = useState(56);
-
   const { pathname } = useRouter();
-
   const isHome = pathname === '/';
 
   useEffect(() => {
