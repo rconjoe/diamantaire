@@ -2,7 +2,7 @@ import { DarksideButton, Heading } from '@diamantaire/darkside/components/common
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { ReactNode } from 'react';
 
 import { CarouselSliderContainer } from './CarouselSlider.style';
@@ -32,7 +32,7 @@ const CarouselSlider = ({
   darksideButtons,
   _modelApiKey,
 }: CarouselContentBlockProps) => {
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: loopItems,
     dragFree: false,
     align: 'center',
