@@ -38,7 +38,7 @@ interface OptionSelectorProps {
     [key: string]: string;
   };
   setProductSlug?: (_value: string) => void;
-  areDiamondShapesHorizontal: boolean;
+  areDiamondShapesHorizontal?: boolean;
 }
 
 const StyledOptionSelector = styled.div`

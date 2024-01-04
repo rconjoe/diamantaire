@@ -194,6 +194,7 @@ function ProductConfigurator({
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
                 productType={additionalVariantData?.productType}
                 selectedConfiguration={selectedConfiguration}
+                areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
               />
             )}
         </>

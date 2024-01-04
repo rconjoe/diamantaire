@@ -839,6 +839,7 @@ const ReviewBuildStep = ({
                                     renderItemAsLink={false}
                                     hideSelectorLabel={true}
                                     selectedConfiguration={selectedConfiguration}
+                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
                                   />
                                 </div>
                               )
@@ -859,6 +860,7 @@ const ReviewBuildStep = ({
                                     renderItemAsLink={false}
                                     hideSelectorLabel={true}
                                     selectedConfiguration={selectedConfiguration}
+                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
                                   />
                                 </div>
                               )
@@ -880,6 +882,7 @@ const ReviewBuildStep = ({
                   selectedOptionValue={selectedSize.value}
                   onChange={handleSizeChange}
                   selectedConfiguration={selectedConfiguration}
+                  areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
                 />
                 <div className="size-guide-button">
                   <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsSizeGuideOpen(true)}>
