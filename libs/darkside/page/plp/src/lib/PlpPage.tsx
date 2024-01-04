@@ -297,7 +297,7 @@ const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
 const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
 // WB
 const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
-const weddingRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
+const weddingRingsGetStaticPaths = createGetStaticPaths('wedding-rings');
 
 export { 
   PlpPage,
