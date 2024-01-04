@@ -126,8 +126,6 @@ const PlpProductGrid = ({
 
   const { asPath } = router || {};
 
-  // console.log(`asPath`, asPath);
-
   const useProductTitleOnly = asPath === '/engagement-rings/settings';
 
   const { headerHeight } = useGlobalContext();
@@ -224,8 +222,8 @@ const PlpProductGrid = ({
                     <div>
                       <PlpProductItem
                         product={product}
-                        position={gridItemIndex}
                         plpTitle={plpTitle}
+                        position={gridItemIndex}
                         selectSettingForBuilderFlow={() => {
                           return selectSetting({
                             collectionSlug: product.variants[product.defaultId]?.collectionSlug,

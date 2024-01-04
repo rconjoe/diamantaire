@@ -1,3 +1,4 @@
+import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
@@ -11,89 +12,6 @@ import { PlpProductVariant } from './PlpProductVariant';
 
 const PlpProductItemStyles = styled.div`
   position: relative;
-
-  .row {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-
-    &.nav {
-      margin: 1.25rem 0 0.75rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    &.with-hidden-swatches {
-      background: green;
-      justify-content: flex-end;
-      padding-right: 1.25rem;
-      margin: -3rem 0 2rem 0;
-    }
-  }
-
-  .product-title {
-    display: block;
-    font-size: var(--font-size-xxxsmall);
-    font-weight: var(--font-weight-normal);
-  }
-
-  .metal-selector {
-    ul {
-      li {
-        margin-right: 0.5rem;
-
-        &:last-child {
-          margin-right: 0px;
-        }
-
-        button {
-          height: 2rem;
-          width: 2rem;
-          border-radius: 50%;
-          border: 0.1rem solid #d2dbde;
-          position: relative;
-          overflow: hidden;
-          background-color: transparent;
-          cursor: pointer;
-
-          &.selected {
-            border: 0.1rem solid var(--color-teal);
-          }
-
-          &::after {
-            content: '';
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            transform: scale(0.75);
-            border-radius: 50%;
-          }
-
-          &.sterling-silver::after {
-            background: linear-gradient(138deg, #d2d2d0 0%, #f7f7f7 50%, #c9cac8 100%);
-          }
-
-          &.yellow-gold::after {
-            background-color: #c8ab6e;
-          }
-
-          &.white-gold::after {
-            background: linear-gradient(135deg, #fefefe, #cecece);
-          }
-
-          &.rose-gold::after {
-            background: #ceac8b;
-          }
-
-          &.platinum::after {
-            background-color: rgb(200, 200, 200);
-          }
-        }
-      }
-    }
-  }
 `;
 
 type PlpProductItemProps = {
@@ -155,39 +73,40 @@ const PlpProductItem = (props: PlpProductItemProps) => {
         label={product?.productLabel?.title || null}
         selectSettingForBuilderFlow={selectSettingForBuilderFlow}
         builderFlow={builderFlowOverride}
-      />
+      >
+        <div className={`row nav${useProductTitleOnly ? ' with-hidden-swatches' : ''}`}>
+          {!useProductTitleOnly && (
+            <div className="metal-selector">
+              <ul className="list-unstyled flex">
+                {metal?.map((option) => (
+                  <li key={option.id}>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setSelectedId(option.id);
+                      }}
+                      className={
+                        option.value === selectedVariant.configuration.metal ? 'selected ' + option.value : option.value
+                      }
+                    ></button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-      <div className={`row nav${useProductTitleOnly ? ' with-hidden-swatches' : ''}`}>
-        {!useProductTitleOnly && (
-          <div className="metal-selector">
-            <ul className="list-unstyled flex">
-              {metal?.map((option) => (
-                <li key={option.id}>
-                  <button
-                    onClick={() => {
-                      setSelectedId(option.id);
-                    }}
-                    className={
-                      option.value === selectedVariant.configuration.metal ? 'selected ' + option.value : option.value
-                    }
-                  ></button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
+        </div>
 
-        <WishlistLikeButton extraClass="plp" productId={`product-${selectedVariant?.productSlug}`} />
-      </div>
-
-      <div className="row txt">
-        <h3 className="product-title">
-          {generatedTitle} |{' '}
-          {useLowestPrice
-            ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
-            : makeCurrency(price, router?.locale, currencyCode)}
-        </h3>
-      </div>
+        <div className="row txt">
+          <Heading type="h3" className="product-title">
+            {generatedTitle} |{' '}
+            {useLowestPrice
+              ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
+              : makeCurrency(price, router?.locale, currencyCode)}
+          </Heading>
+        </div>
+      </PlpProductVariant>
     </PlpProductItemStyles>
   );
 };
@@ -216,7 +135,7 @@ function generatePlpTitle(
   // console.log(`isMultiShape`, isMultiShape);
   // console.log(`isEngRingSettingPage`, isEngRingSettingPage);
 
-  if (useProductTitleOnly) return productTitle;
+  if (useProductTitleOnly) return plpTitle ? plpTitle : productTitle;
 
   if (plpTitle) {
     genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
