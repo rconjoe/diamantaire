@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const BlogListTrio = `
   ... on ModularBlogListTrioBlockRecord {
     id
@@ -7,6 +9,9 @@ const BlogListTrio = `
     ctaRoute
     blogPostCtaCopy
     additionalClass
+    darksideButtons {
+      ${ButtonFragment}
+    }
     blogPosts {
       ... on BlogPostRecord {
         id

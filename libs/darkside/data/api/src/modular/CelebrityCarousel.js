@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CelebrityCarousel = `
   ... on ModularCelebrityCarouselBlockRecord {
     id
@@ -53,6 +55,9 @@ const CelebrityCarousel = `
             itemName
             ctaCopy
             ctaRoute
+            darksideButtons {
+              ${ButtonFragment}
+            }
             image {
               url
               alt
@@ -68,12 +73,12 @@ const CelebrityCarousel = `
               title
               webpSrcSet
               width
-            }
+              }
             }
           }
         }
       }
-    }          
+    }
   }
 `;
 

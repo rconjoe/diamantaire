@@ -175,6 +175,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         }
       }
       hero {
+             ...on ListpageHeroBannerRecord {
         title
         copy
         textColor {
@@ -188,6 +189,10 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             ...responsiveImageFragment
           }
         }
+        darksideButtons {
+          ${ButtonFragment}
+        }
+      }
       }
       sortOptions {
         field

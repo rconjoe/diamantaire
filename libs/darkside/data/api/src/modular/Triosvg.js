@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Triosvg = `
   ... on ModularTriosvgBlockRecord {
     id
@@ -35,6 +37,9 @@ const Triosvg = `
       red
       green
       blue
+    }
+    darksideButtons {
+      ${ButtonFragment}
     }
   }
 `;

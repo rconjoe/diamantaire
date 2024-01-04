@@ -1,4 +1,5 @@
 import { responsiveImage } from './ResponsiveImage';
+import { ButtonFragment } from '../fragments';
 
 const Trio1x1 = `
   ... on ModularTrio1x1BlockRecord {
@@ -29,6 +30,9 @@ const Trio1x1 = `
     }
     ctaCopy3
     ctaRoute3
+    darksideButtons {
+        ${ButtonFragment}
+      }
   }
 `;
 

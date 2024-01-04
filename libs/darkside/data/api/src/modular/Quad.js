@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Quad = `
   ... on ModularQuadBlockRecord {
     id
@@ -90,6 +92,9 @@ const Quad = `
     copy4
     ctaCopy4
     ctaRoute4
+    darksideButtons {
+        ${ButtonFragment}
+      }
   }
 `;
 

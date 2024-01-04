@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const SideBySide = `
   ... on ModularSideBySideBlockRecord {
     id
@@ -68,6 +70,9 @@ const SideBySide = `
       code
       name
     }
+    darksideButtons {
+        ${ButtonFragment}
+      }
   }
 `;
 

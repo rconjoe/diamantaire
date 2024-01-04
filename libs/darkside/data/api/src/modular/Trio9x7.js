@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Trio9x7 = `
 ... on ModularTrio9x7BlockRecord {
   id
@@ -69,6 +71,9 @@ const Trio9x7 = `
   }
   ctaCopy3
   ctaRoute3
+  darksideButtons {
+    ${ButtonFragment}
+  }
 }
 `;
 

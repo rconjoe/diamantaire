@@ -74,9 +74,6 @@ const FullWidthBanner = `
     }
     gtmClass
     additionalClass
-    darksideButtons {
-      ${ButtonFragment}
-    }
   }
 `;
 

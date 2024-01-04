@@ -43,6 +43,9 @@ const Accordion = `
         name
         code
       }
+      darksideButtons {
+        ${ButtonFragment}
+      }
     }
     bottomCopy
     shouldUseFaqSchema

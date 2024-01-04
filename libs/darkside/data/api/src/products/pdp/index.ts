@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
-import { ResponsiveImageFragment } from '../../fragments';
+import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
 
 // Get associated DiamondTypes from Product slug
 export async function getProductDiamondTypes(productSlug) {
@@ -147,6 +147,9 @@ const PRODUCT_ICON_LIST_QUERY = gql`
           supportedCountries {
             code
             name
+          }
+          darksideButtons {
+            ${ButtonFragment}
           }
         }
         ... on ModularShippingProductIconListItemRecord {
@@ -353,6 +356,9 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
           responsiveImage(imgixParams: { w: 600, q: 40, auto: format, fit: crop, crop: focalpoint }) {
             ...responsiveImageFragment
           }
+        }
+        darksideButtons {
+          ${ButtonFragment}
         }
       }
     }

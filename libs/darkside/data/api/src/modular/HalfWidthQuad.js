@@ -1,7 +1,12 @@
+import { ButtonFragment } from '../fragments';
+
 const HalfWidthQuad = `
   ... on ModularHalfWidthQuadBlockRecord {
     id
     _modelApiKey
+    darksideButtons {
+        ${ButtonFragment}
+      }
     desktopImage {
       url
       alt
@@ -55,7 +60,7 @@ const HalfWidthQuad = `
               width
         }
     }
-    title1  
+    title1
     copy1
     ctaCopy1
     ctaRoute1
@@ -121,7 +126,7 @@ const HalfWidthQuad = `
     title4
     copy4
     ctaCopy4
-    ctaRoute4          
+    ctaRoute4
   }
 `;
 
