@@ -7,7 +7,7 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { getAllPlpSlugs, getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { getAllPlpSlugs, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -257,7 +257,45 @@ const createStaticProps = (category: string) => {
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
-      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
+      queryFn: async ({ pageParam = 1 }) => {
+        const limit = 12;
+        const optionsQuery = Object.entries(initialFilterValues).reduce((acc, [key, value]: [string, any]) => {
+          if (key === 'price') {
+            const { min, max } = value;
+      
+            if (min) acc['priceMin'] = min;
+            if (max) acc['priceMax'] = max;
+          } else if (key === 'metal') {
+            acc[key] = value?.join(',').toString() || value;
+          } else {
+            acc[key] = value;
+          }
+      
+          return acc;
+        }, {});
+
+        const q = new URLSearchParams({
+          category,
+          slug,
+          ...optionsQuery,
+          page: pageParam?.toString() || '1',
+          limit: limit?.toString(),
+        });
+
+        const response = await fetch(`${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${q}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.VRAI_SERVER_API_KEY,
+          },
+        });
+        const responseJson = await response.json();
+
+        console.log("response", responseJson)
+
+        return responseJson;
+
+      }
     });
 
     await queryClient.prefetchQuery({
