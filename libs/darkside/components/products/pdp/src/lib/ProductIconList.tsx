@@ -63,12 +63,8 @@ const ProductIconListContainer = styled.div`
           top: 0.1rem;
         }
       }
-      .ships-by-copy {
-        font-weight: var(--font-weight-medium);
-      }
     }
-
-    .slideout__title {
+    .f .slideout__title {
       font-size: var(--font-size-small);
     }
   }
@@ -167,7 +163,7 @@ const ShippingListItem = ({ item }) => {
       <span className="icon">
         {icon && <DatoImage image={icon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />}
       </span>
-      <span className="ships-by-copy">
+      <span className="font-medium">
         {shippingText} {shippingDate}
       </span>
     </li>
