@@ -1,5 +1,5 @@
 import { queries } from '@diamantaire/darkside/data/queries';
-import { DatoImageType, DarksideButtonProps } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 type TrioBlockProps = {
@@ -11,7 +11,7 @@ type TrioBlockProps = {
       ctaCopy: string;
       ctaRoute: string;
       image: DatoImageType;
-      darksideButtons: DarksideButtonProps[];
+      darksideButtons: DatoDarksideButtonProps[];
     }[];
   };
 };

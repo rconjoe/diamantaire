@@ -7,7 +7,7 @@ import {
   UniLink,
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import { DatoImageType, DarksideButtonProps } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
