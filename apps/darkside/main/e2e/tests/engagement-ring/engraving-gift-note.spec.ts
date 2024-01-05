@@ -2,6 +2,7 @@ import { test } from "../../pages/page-fixture";
 
 /**
  * Verify engraving and Gift note are showing at checkout
+ * ISSUE : DIA-1231
  */
 
 test.describe("Engagement ring - Setting First flow", () => {

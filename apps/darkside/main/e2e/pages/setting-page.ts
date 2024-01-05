@@ -59,11 +59,11 @@ export default class SettingPage extends HomePage {
   }
 
   async selectDiamondType(diamond : diamondList){
-    await this.page.locator('button').filter({ hasText: `${diamond}`})
+    await this.page.locator('button').filter({ hasText: `${diamond}`}).click()
   }
 
   async selectMetalType(metal : metalList){
-    await this.page.locator('button').filter({ hasText: `${metal}`})
+    await this.page.locator('button').filter({ hasText: `${metal}`}).click()
   }
 
   async selectSettingBySettingName(settingName){

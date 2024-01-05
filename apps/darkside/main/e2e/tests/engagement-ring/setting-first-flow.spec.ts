@@ -3,6 +3,7 @@ import { test, expect } from "../../pages/page-fixture";
 
 /**
  * Setting First flow - Signature Halo setting and Emerald 
+ * ISSUE : DIA-1231
  */
 
 test.describe("Setting First flow - Happy flow", () => {

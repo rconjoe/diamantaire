@@ -9,7 +9,7 @@ test.describe("Fine Jewerly Basic flow", () => {
     const expectedCart = new QACart();
 
     
-  test.skip("Open Home Page", async ({ homePage , jewerlyPage,productDetailedPage,checkoutSlidePage,checkoutPage}) => {
+  test("Open Home Page", async ({ homePage , jewerlyPage,productDetailedPage,checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();

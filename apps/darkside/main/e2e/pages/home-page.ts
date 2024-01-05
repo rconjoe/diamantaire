@@ -31,6 +31,7 @@ export default class HomePage extends BasePage {
 
   async open() {
     await super.open('/');   
+    console.log('Test URL -> ' + process.env.test_env)
   }
   async openURL(url) {
     await super.open(url);   

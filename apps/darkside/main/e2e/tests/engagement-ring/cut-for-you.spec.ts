@@ -6,6 +6,7 @@ import { StringHelper } from "../../utils/StringHelper";
  * Cut for you flow
  * Need to include slider
  * Issue with flow - Test not ready
+ * DIA-1235
  */
 
 test.describe("Setting First flow - Discover Cut for You flow", () => {
@@ -21,8 +22,8 @@ test.describe("Setting First flow - Discover Cut for You flow", () => {
     await test.step("Select an engagement ring", async () => {
 
       await homePage.navigateToEngagementStartWithASetting();
-      await settingPage.selectDiamondType('Pear')
-      await settingPage.selectSettingBySettingName('The Classic Hidden Halo')
+      await settingPage.selectDiamondType('Trillion')
+      await settingPage.selectSettingBySettingName('Classic Hidden Halo')
 
       await productDetailedPage.selectDiamondShape('Oval');
 
