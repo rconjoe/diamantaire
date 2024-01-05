@@ -221,7 +221,7 @@ const createStaticProps = (category: string) => {
 
     const [slug, ...plpParams] = plpSlug;
 
-    console.log("PLP STATIC PROPS:", plpSlug, slug, plpParams)
+    console.log("PLP STATIC PROPS:", category, plpSlug, slug, plpParams)
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
