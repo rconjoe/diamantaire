@@ -7,7 +7,7 @@ import {
   UniLink,
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -33,6 +33,7 @@ type ModularShowroomBlockProps = {
     services: string;
     locationLabel: string;
     hoursOfOperationLabel: string;
+    darksideButtons: DatoDarksideButtonProps[];
   };
   image: DatoImageType;
 };
@@ -57,6 +58,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
     services,
     locationLabel,
     hoursOfOperationLabel,
+    darksideButtons,
   } = data;
 
   const directionsImageAlt = getBlockPictureAlt({ image: directionsImage, title });
@@ -125,6 +127,19 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
               </DarksideButton>
             </div>
           )}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
           {detailCtaLink && detailCtaCopy && (
             <UniLink route={detailCtaLink} className="showroom__cta ">
               {detailCtaCopy}
