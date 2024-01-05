@@ -1,5 +1,5 @@
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { DarksideButton } from './DarksideButton';
@@ -21,6 +21,7 @@ type ImageTilePropTypes = {
   subtitle?: string;
   forceAspectRatio?: boolean;
   shouldLazyLoad?: boolean;
+  darksideButtons: DarksideButtonProps[];
 };
 
 const ImageTile = ({
@@ -35,6 +36,7 @@ const ImageTile = ({
   subtitle,
   forceAspectRatio,
   shouldLazyLoad,
+  darksideButtons,
 }: ImageTilePropTypes) => {
   const hasCopy = Boolean(copy);
 
@@ -105,6 +107,19 @@ const ImageTile = ({
               {ctaCopy}
             </DarksideButton>
           )}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
         </div>
       )}
     </ImageTileContainer>
