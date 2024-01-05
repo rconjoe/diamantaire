@@ -135,7 +135,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
-      path: '/' + crumb.link.slug,
+      path: '/' + crumb?.link?.slug,
     };
   });
 
