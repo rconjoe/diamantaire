@@ -102,7 +102,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
-    // console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };

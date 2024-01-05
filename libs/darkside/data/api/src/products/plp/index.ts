@@ -87,7 +87,6 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
-  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -236,18 +235,6 @@ export async function fetchPlpDatoServerData(locale: string, slug: string, categ
 
     return {}
   }
-  // const qParams = new URLSearchParams({ slug, category, locale });
-  // const reqUrl = `/page/plpssr?${qParams.toString()}`;
-
-  // try {
-  //   const response = await queryClientApi().request({ url: reqUrl });
-
-  //   return response.data;
-  // } catch (e) {
-  //   console.log(e);
-
-  //   return null;
-  // }
 }
 
 const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
