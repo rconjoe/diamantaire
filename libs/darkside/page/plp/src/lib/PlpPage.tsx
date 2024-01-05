@@ -179,39 +179,27 @@ PlpPage.getTemplate = getStandardTemplate;
 
 const createGetStaticPaths = (category: string) => {
   const getStaticPaths = async function getStaticPaths() {
+    const excludedSlugs = [];
     const pageSlugs = await getAllPlpSlugs();
 
     // Define the locales you want to include
     const includedLocales = ['en-US'];
 
     // Filter the locales and generate paths
-    // const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category)).flatMap(({ slug }) => {
-    //   // Skip if slug is not defined or empty
-    //   if (!slug || slug === '') return [];
+    const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category && !excludedSlugs.includes(p.slug))).flatMap(({ slug }) => {
+      // Skip if slug is not defined or empty
+      if (!slug || slug === '') return [];
 
-    //   return includedLocales.map((locale) => ({
-    //     locale,
-    //     params: { plpSlug: [slug] },
-    //   }));
-    // });
+      return includedLocales.map((locale) => ({
+        locale,
+        params: { plpSlug: [slug] },
+      }));
+    });
 
-    if (category === 'engagement-rings'){
-      return {
-        paths: [
-          {
-            locale: 'en-US',
-            params: {
-              plpSlug: ['solitaire-setting']
-            }
-          }
-        ],
-        fallback: true,
-      };
-    } else {
-      return {
-        paths: [],
-        fallback: true
-      }
+
+    return {
+      paths,
+      fallback: true
     }
     
   }
@@ -223,7 +211,7 @@ const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
     const { params, locale } = context;
 
-    console.log("GSP PARAMS:", params)
+    console.log("GSP PARAMS:", params, locale)
 
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
 
