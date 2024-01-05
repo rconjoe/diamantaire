@@ -7,7 +7,7 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { getAllPlpSlugs, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { getAllPlpSlugs, usePlpVRAIProducts, getVRAIServerPlpData } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -135,7 +135,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
-      path: '/' + crumb?.link?.slug,
+      path: crumb?.link?.slug ? '/' + crumb.link.slug : '',
     };
   });
 
@@ -210,11 +210,7 @@ const createGetStaticPaths = (category: string) => {
 const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
     const { params, locale } = context;
-
-    console.log("GSP PARAMS:", params, locale)
-
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
-
     const { plpSlug, ...qParams } = params;
 
     //Render 404 if no plpSlug
@@ -224,11 +220,7 @@ const createStaticProps = (category: string) => {
       };
     }
 
-    console.log("PLPSLUG", plpSlug);
-
     const [slug, ...plpParams] = plpSlug;
-
-    console.log("PLP STATIC PROPS:", category, plpSlug, slug, plpParams)
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
@@ -266,43 +258,7 @@ const createStaticProps = (category: string) => {
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
       queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
-      queryFn: async ({ pageParam = 1 }) => {
-        const limit = 12;
-        const optionsQuery = Object.entries(initialFilterValues).reduce((acc, [key, value]: [string, any]) => {
-          if (key === 'price') {
-            const { min, max } = value;
-      
-            if (min) acc['priceMin'] = min;
-            if (max) acc['priceMax'] = max;
-          } else if (key === 'metal') {
-            acc[key] = value?.join(',').toString() || value;
-          } else {
-            acc[key] = value;
-          }
-      
-          return acc;
-        }, {});
-
-        const q = new URLSearchParams({
-          category,
-          slug,
-          ...optionsQuery,
-          page: pageParam?.toString() || '1',
-          limit: limit?.toString(),
-        });
-
-        const response = await fetch(`${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${q}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': process.env.VRAI_SERVER_API_KEY,
-          },
-        });
-        const responseJson = await response.json();
-
-        return responseJson;
-
-      }
+      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
     });
 
     await queryClient.prefetchQuery({
@@ -313,11 +269,12 @@ const createStaticProps = (category: string) => {
       ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
-    // if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
-    //   return {
-    //     notFound: true,
-    //   };
-    // }
+    // Render 404 if no content is returned
+    if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
+      return {
+        notFound: true,
+      };
+    }
 
     return {
       props: {
@@ -328,6 +285,7 @@ const createStaticProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
+      revalidate: 60 * 60 // revalidate every 60 minutes // TODO: control per environment
     };
   };
 

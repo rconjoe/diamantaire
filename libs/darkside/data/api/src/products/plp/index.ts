@@ -43,7 +43,7 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
 
-  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+  
   const qParams = new URLSearchParams({
     category,
     slug,
@@ -52,20 +52,33 @@ export async function getVRAIServerPlpData(
     limit: limit?.toString(),
   });
 
-  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  
+  const isServer = typeof window === 'undefined';
+  let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
-  const response = await fetch(reqUrl, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((res) => {
-      return res.json();
+  if (!isServer){
+    reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  }
+
+  try {
+    const response = await fetch(reqUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY })
+      },
     })
-    .then((res) => res);
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => res);
 
-  return response;
+      return response;
+    } catch (err){
+      console.log("Cannot fetch plp products", err);
+
+      return null;
+    }
 }
 
 type DiamondPlpRequestOptions = SortedRequestOptions & PaginatedRequestOptions;
