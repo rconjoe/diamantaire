@@ -147,6 +147,7 @@ function ConfigurationSelector({
             productType={productType}
             label={configurationType}
             options={options}
+            selectedConfiguration={selectedConfiguration}
             selectedOptionValue={selectedOption}
             selectedOptionIndex={options.findIndex((option) => option.value === selectedOption)}
             onChange={

@@ -29,6 +29,7 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     cut,
     clarity,
     ringSize,
+    goldPurity,
   } = configuration || {};
 
   const specArray = [];
@@ -55,7 +56,9 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   }
 
   if (metal) {
-    specArray.push(`${_t('metal')}: ${_t(metal)}`);
+    const metalWithGoldPurity = _t(`${goldPurity ? `${goldPurity} ` : ''}${metal}`);
+
+    specArray.push(metalWithGoldPurity);
   }
 
   if (diamondSize) {
