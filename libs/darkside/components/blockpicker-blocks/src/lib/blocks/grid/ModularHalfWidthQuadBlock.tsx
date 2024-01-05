@@ -1,6 +1,6 @@
 import { MobileDesktopImage, ImageTile, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { ModularHalfWidthQuadBlockContainer } from './ModularHalfWidthQuadBlock.style';
@@ -13,12 +13,13 @@ type ModularHalfWidthQuadBlockProps = {
   ctaRoute?: string;
   blocks: unknown[];
   shouldLazyLoad?: boolean;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
   const { id, desktopImage, mobileImage, imageAlignment, ctaRoute } = props;
 
-  const arrayOfAttributes = ['copy', 'image', 'title'];
+  const arrayOfAttributes = ['copy', 'image', 'title', 'darksideButtons'];
   const blocks = normalizeDatoNumberedContent(props, arrayOfAttributes);
 
   if (!blocks) {
