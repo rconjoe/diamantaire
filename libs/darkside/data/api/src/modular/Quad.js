@@ -29,6 +29,9 @@ const Quad = `
     copy1
     ctaCopy1
     ctaRoute1
+    darksideButtons1 {
+      ${ButtonFragment}
+    }
     image2 {
       url
       alt
@@ -50,6 +53,9 @@ const Quad = `
     copy2
     ctaCopy2
     ctaRoute2
+    darksideButtons2 {
+      ${ButtonFragment}
+    }
     image3 {
       url
       alt
@@ -71,6 +77,9 @@ const Quad = `
     copy3
     ctaCopy3
     ctaRoute3
+    darksideButtons3 {
+      ${ButtonFragment}
+    }
     image4 {
       url
       alt
@@ -92,9 +101,9 @@ const Quad = `
     copy4
     ctaCopy4
     ctaRoute4
-    darksideButtons {
-        ${ButtonFragment}
-      }
+    darksideButtons4 {
+      ${ButtonFragment}
+    }
   }
 `;
 
