@@ -1,8 +1,8 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, parseValidLocale } from '@diamantaire/shared/constants';
-import { replacePlaceholders, makeCurrency } from '@diamantaire/shared/helpers';
+import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -101,9 +101,7 @@ const PlpProductItem = (props: PlpProductItemProps) => {
         <div className="row txt">
           <Heading type="h3" className="product-title">
             {generatedTitle} |{' '}
-            {useLowestPrice
-              ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
-              : makeCurrency(price, router?.locale, currencyCode)}
+            {useLowestPrice ? getFormattedPrice(lowestPrice, locale, true) + '+' : getFormattedPrice(price, locale, true)}
           </Heading>
         </div>
       </PlpProductVariant>

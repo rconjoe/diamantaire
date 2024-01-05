@@ -79,7 +79,6 @@ type PlpProductGridProps = {
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
-
   plpTitle?: string;
   plpSlug: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
@@ -124,18 +123,18 @@ const PlpProductGrid = ({
 }: PlpProductGridProps) => {
   const router = useRouter();
 
-  const { asPath } = router || {};
+  const { asPath, locale } = router || {};
 
   const useProductTitleOnly = asPath === '/engagement-rings/settings';
 
   const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
-    router.locale,
+    locale,
     promoCardCollectionId,
   );
 
-  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
