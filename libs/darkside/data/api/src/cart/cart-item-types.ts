@@ -1,5 +1,3 @@
-
-import { SiteLocale } from '@diamantaire/_generated/datocms';
 export type LooseDiamondProductCartItem = {
   productAsset: string;
   _productAssetObject: string;
@@ -30,6 +28,8 @@ export type ERProductCartItemProps = {
   settingAttributes: {
     // Fulfillment
     _productType: string;
+    _productTypeTranslated: string;
+    _productAssetObject: string;
     metalType: string;
     productAsset: string;
     _productTitle: string;
@@ -47,7 +47,8 @@ export type ERProductCartItemProps = {
 
     // Item specific stuff
     diamondShape: string;
-    centerStone: string;
+    // Not sure if this has to be included
+    centerStone?: string;
     bandAccent: string;
     _dateAdded: string;
     ringSize: string;
@@ -56,12 +57,22 @@ export type ERProductCartItemProps = {
     productCategory?: string;
 
     childProduct: string;
+    shippingBusinessDays: string;
   };
-  diamondVariantId?: string;
-  diamondAttributes?: {
+  diamonds?: ProductAddonDiamond[];
+
+  hasEngraving: boolean;
+  engravingText?: string;
+  locale?: string;
+};
+
+export type ProductAddonDiamond = {
+  variantId: string;
+  attributes?: {
     productAsset: string;
     _productTitle: string;
     _productType: string;
+    _productTypeTranslated: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id
@@ -78,10 +89,8 @@ export type ERProductCartItemProps = {
     lotId: string;
     isChildProduct: string;
     _dateAdded: string;
+    _specs: string;
   };
-  hasEngraving: boolean;
-  engravingText?: string;
-  locale?: string;
 };
 
 export type JewelryCartItemProps = {

@@ -18,10 +18,9 @@ import {
   ProductPrice,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { ERProductCartItemProps } from '@diamantaire/darkside/context/cart-context';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { addERProductToCart } from '@diamantaire/darkside/data/api';
+import { ERProductCartItemProps, ProductAddonDiamond, addERProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductDato, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
@@ -373,7 +372,9 @@ const ReviewBuildStep = ({
 
   const { collectionSlug } = settingSlugs;
 
-  const { product, diamond } = builderProduct;
+  const { product, diamonds } = builderProduct;
+
+  const diamondPrice = Array.isArray(diamonds) && diamonds?.map((diamond) => diamond.price).reduce((a, b) => a + b, 0);
 
   const { countryCode } = parseValidLocale(locale);
 
@@ -381,9 +382,15 @@ const ReviewBuildStep = ({
 
   const { _t } = useTranslations(locale);
 
-  const mutatedLotId = diamond?.lotId && getNumericalLotId(diamond?.lotId);
+  const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
-  const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+  const diamondImages =
+    (Array.isArray(mutatedLotIds) &&
+      mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
+    [];
+
+  console.log('diamondImages', diamondImages);
+  console.log('mutatedLotIds', mutatedLotIds);
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -460,7 +467,8 @@ const ReviewBuildStep = ({
     const settingVariantId = selectedSize?.id || product?.variantId;
 
     // 2. Get the product variant ID for the diamond
-    const diamondVariantId = createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId);
+    // TODO: Add support for multiple diamonds
+    const diamondVariantId = createShopifyVariantId(diamonds[0]?.dangerousInternalShopifyVariantId);
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
     const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
@@ -503,11 +511,11 @@ const ReviewBuildStep = ({
       _EngravingBack: engravingText,
       _specs: settingSpecs,
       productGroupKey,
-      diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamond.diamondType],
-      centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
+      diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamonds?.[0]?.diamondType],
+      // centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
-      totalPrice: (product.price + diamond.price).toString(),
+      totalPrice: (product.price + diamondPrice).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
       shippingBusinessDays: shippingTime?.toString(),
@@ -515,43 +523,52 @@ const ReviewBuildStep = ({
       // Diamond Sync
       childProduct: JSON.stringify({
         behavior: 'linked',
-        additionalVariantIds: [diamondVariantId],
+        additionalVariantIds: diamonds?.map((diamond) => createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId)),
       }),
     };
 
     // 4. Create custom attributes for the diamond
 
-    const diamondSpecs = specGenerator({
-      configuration: { ...diamond },
-      productType: 'Diamond',
-      _t,
+    const diamondsToAdd = diamonds.map((diamond, index) => {
+      const diamondSpecs = specGenerator({
+        configuration: { ...diamond },
+        productType: 'Diamond',
+        _t,
+      });
+      const diamondAttributes: ProductAddonDiamond['attributes'] = {
+        _productTitle: diamond?.productTitle,
+        productAsset: diamondImages[index],
+        _dateAdded: (Date.now() + 100).toString(),
+        caratWeight: diamond.carat.toString(),
+        clarity: diamond.clarity,
+        cut: diamond.cut,
+        color: diamond.color,
+        feedId: settingVariantId,
+        lotId: diamond.lotId,
+        isChildProduct: 'true',
+        productGroupKey,
+        _specs: diamondSpecs,
+        _productType: 'Diamond',
+        _productTypeTranslated: _t('Diamond'),
+        shippingText: _t('Made-to-order. Ships by'),
+        productIconListShippingCopy: 'temp',
+        pdpUrl: window.location.href,
+        shippingBusinessDays: shippingTime?.toString(),
+      };
+
+      return {
+        variantId: createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId),
+        attributes: diamondAttributes,
+        quantity: 1,
+      };
     });
-    const diamondAttributes: ERProductCartItemProps['diamondAttributes'] = {
-      _productTitle: diamond?.productTitle,
-      productAsset: diamondImage,
-      _dateAdded: (Date.now() + 100).toString(),
-      caratWeight: diamond.carat.toString(),
-      clarity: diamond.clarity,
-      cut: diamond.cut,
-      color: diamond.color,
-      feedId: settingVariantId,
-      lotId: diamond.lotId,
-      isChildProduct: 'true',
-      productGroupKey,
-      _specs: diamondSpecs,
-      _productType: 'Diamond',
-      _productTypeTranslated: _t('Diamond'),
-      shippingText: _t('Made-to-order. Ships by'),
-      productIconListShippingCopy: 'temp',
-      pdpUrl: window.location.href,
-      shippingBusinessDays: shippingTime?.toString(),
-    };
+
+    console.log('diamondsToAdd', diamondsToAdd);
 
     await addERProductToCart({
       settingVariantId,
       settingAttributes,
-      diamondVariantId,
-      diamondAttributes,
+      diamonds: diamondsToAdd,
       hasEngraving: engravingText ? true : false,
       engravingText,
       locale,
@@ -565,100 +582,103 @@ const ReviewBuildStep = ({
 
     const { productTitle: settingProductTitle, image: { src } = { src: '' }, price: settingPrice } = product || {};
     const formattedSettingPrice = getFormattedPrice(settingPrice, locale, true, true);
-    const formattedDiamondPrice = getFormattedPrice(diamond?.price, locale, true, true);
+    const formattedDiamondPrice = getFormattedPrice(diamondPrice, locale, true, true);
     const id = settingVariantId.split('/').pop();
-    const totalAmount = getFormattedPrice(settingPrice + diamond?.price, locale, true, true);
+    const totalAmount = getFormattedPrice(settingPrice + diamondPrice, locale, true, true);
 
-    productAdded({
-      id,
-      // sku: 'F15',
-      category: pdpType,
-      name: settingProductTitle,
-      brand: 'VRAI',
-      variant: variantProductTitle,
-      product: variantProductTitle,
-      // url: 'https://www.website.com/product/path',
-      image_url: src,
-      ...selectedConfiguration,
-      // complete_your_ring
-      setting: settingProductTitle,
-      diamond_lot_Id: diamond?.lotId,
-      diamond_type: diamond?.diamondType,
-      carat: diamond?.carat,
-      gold_purity: goldPurity,
-      band_accent: bandAccent,
-      shape: diamond?.diamondType,
-      clarity: diamond?.clarity,
-      colour: diamond?.color,
-      centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
-      ecommerce: {
-        value: totalAmount,
-        currency: currencyCode,
-        add: {
-          products: [
+    Array.isArray(diamonds) &&
+      diamonds?.map((diamond) => {
+        productAdded({
+          id,
+          // sku: 'F15',
+          category: pdpType,
+          name: settingProductTitle,
+          brand: 'VRAI',
+          variant: variantProductTitle,
+          product: variantProductTitle,
+          // url: 'https://www.website.com/product/path',
+          image_url: src,
+          ...selectedConfiguration,
+          // complete_your_ring
+          setting: settingProductTitle,
+          diamond_lot_Id: diamond?.lotId,
+          diamond_type: diamond?.diamondType,
+          carat: diamond?.carat,
+          gold_purity: goldPurity,
+          band_accent: bandAccent,
+          shape: diamond?.diamondType,
+          clarity: diamond?.clarity,
+          colour: diamond?.color,
+          centerstone: `${diamond?.carat}ct, ${diamond?.color}, ${diamond?.clarity}`,
+          ecommerce: {
+            value: totalAmount,
+            currency: currencyCode,
+            add: {
+              products: [
+                {
+                  id,
+                  name: settingProductTitle,
+                  price: formattedSettingPrice,
+                  category: pdpType,
+                  variant: variantProductTitle,
+                  quantity: 1,
+                  brand: 'VRAI',
+                },
+                {
+                  id: diamond?.dangerousInternalShopifyVariantId,
+                  name: diamond?.productTitle,
+                  price: formattedDiamondPrice,
+                  brand: 'VRAI',
+                  category: diamond?.productType,
+                  variant: diamond?.productTitle,
+                  quantity: 1,
+                },
+              ],
+            },
+          },
+          items: [
             {
-              id,
-              name: settingProductTitle,
+              item_id: id,
+              item_name: variantProductTitle,
+              item_brand: 'VRAI',
+              item_category: pdpType,
               price: formattedSettingPrice,
-              category: pdpType,
-              variant: variantProductTitle,
+              currency: currencyCode,
               quantity: 1,
-              brand: 'VRAI',
+              ...selectedConfiguration,
             },
             {
-              id: diamond?.dangerousInternalShopifyVariantId,
-              name: diamond?.productTitle,
+              item_id: diamond?.dangerousInternalShopifyVariantId,
+              item_name: diamond?.productTitle,
+              item_brand: 'VRAI',
+              item_category: diamond?.productType,
               price: formattedDiamondPrice,
-              brand: 'VRAI',
-              category: diamond?.productType,
-              variant: diamond?.productTitle,
+              currency: currencyCode,
               quantity: 1,
             },
           ],
-        },
-      },
-      items: [
-        {
-          item_id: id,
-          item_name: variantProductTitle,
-          item_brand: 'VRAI',
-          item_category: pdpType,
-          price: formattedSettingPrice,
-          currency: currencyCode,
-          quantity: 1,
-          ...selectedConfiguration,
-        },
-        {
-          item_id: diamond?.dangerousInternalShopifyVariantId,
-          item_name: diamond?.productTitle,
-          item_brand: 'VRAI',
-          item_category: diamond?.productType,
-          price: formattedDiamondPrice,
-          currency: currencyCode,
-          quantity: 1,
-        },
-      ],
-    });
+        });
+      });
 
     return;
   }
 
   const summaryItems = [
-    {
-      label: _t('diamondType'),
-      value: _t(diamond?.diamondType),
-      onClick: () => {
-        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-        router.push(router.asPath + '/edit-diamond');
-      },
-      slug: 'diamondType',
-    },
-    {
-      label: 'Centerstone',
-      value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
-      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
-      slug: 'centerstone',
-    },
+    // {
+    //   label: _t('diamondType'),
+    //   value: _t(diamond?.diamondType),
+    //   onClick: () => {
+    //     updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+    //     router.push(router.asPath + '/edit-diamond');
+    //   },
+    //   slug: 'diamondType',
+    // },
+    // {
+    //   label: 'Centerstone',
+    //   value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
+    //   onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+    //   slug: 'centerstone',
+    // },
     {
       label: _t('Band'),
       value: _t(product?.bandAccent),
@@ -681,11 +701,15 @@ const ReviewBuildStep = ({
     });
 
     if (type === 'setting-to-diamond') {
-      const newUrl = `/customize/setting-to-diamond/summary/${settingSlugs.collectionSlug}/${option?.id}/${builderProduct?.diamond?.lotId}`;
+      const newUrl = `/customize/setting-to-diamond/summary/${
+        settingSlugs.collectionSlug
+      }/${option?.id}/${builderProduct?.diamonds.map((diamond) => diamond?.lotId).join('/')}`;
 
       return router.push(newUrl);
     } else {
-      const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs.collectionSlug}/${option?.id}`;
+      const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+        ?.map((diamond) => diamond?.lotId)
+        .join('/')}/${settingSlugs.collectionSlug}/${option?.id}`;
 
       router.push(newUrl);
     }
@@ -735,7 +759,7 @@ const ReviewBuildStep = ({
 
   const isWindowDefined = typeof window !== 'undefined';
 
-  const totalPriceInCents = product?.price + diamond?.price + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
+  const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
   return (
     <ReviewBuildStepStyles
@@ -763,16 +787,21 @@ const ReviewBuildStep = ({
               <div className={clsx('image setting-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
               </div>
-              <div className={clsx('image diamond-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
-                {diamondImage && <img src={diamondImage} alt="" />}
-              </div>
+              {diamondImages?.map((image) => (
+                <div
+                  key={image}
+                  className={clsx('image diamond-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}
+                >
+                  {image && <img src={image} alt="" />}
+                </div>
+              ))}
               <div className={clsx('diamond-hand embla__slide')}>
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
                   range={[0.5, 8]}
-                  initValue={parseFloat(diamond?.carat)}
+                  initValue={parseFloat(diamonds?.[0]?.carat)}
                   disableControls={true}
-                  prefix={builderProduct.diamond?.carat.toString() + 'ct'}
+                  prefix={builderProduct.diamonds?.[0]?.carat.toString() + 'ct'}
                 />
               </div>
             </div>
@@ -794,7 +823,10 @@ const ReviewBuildStep = ({
         </div>
         <div className="product-summary">
           <div className="product-summary__inner">
-            <WishlistLikeButton extraClass="bundle" productId={`bundle-${settingSlugs?.productSlug}::${diamond?.lotId}`} />
+            <WishlistLikeButton
+              extraClass="bundle"
+              productId={`bundle-${settingSlugs?.productSlug}::${diamonds[0]?.lotId}`}
+            />
 
             <Heading type="h1" className="secondary no-margin">
               {product?.productTitle}

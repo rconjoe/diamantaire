@@ -3,8 +3,10 @@ export async function getDiamondByLotId(options) {
 
   let response;
   const BASE_URL = `${process.env['VRAI_SERVER_BASE_URL']}`;
-  const API_URL = `${BASE_URL}/v1/diamonds/`;
-  const reqUrl = `${API_URL}${qParams.toString().replace('lotId=', '')}`;
+  const API_URL = `${BASE_URL}/v1/diamonds/list/`;
+  const reqUrl = `${API_URL}${qParams.toString().replace('lotIds=', '')}`;
+
+  console.log('reqUrl', reqUrl);
 
   try {
     response = await fetch(reqUrl, {
@@ -17,7 +19,9 @@ export async function getDiamondByLotId(options) {
     console.log({ getDiamondByLotIdError: error });
   }
 
-  const productData = await response.json();
+  let productData = await response.json();
+
+  productData = productData.filter((item) => item.hidden === true);
 
   return productData;
 }
