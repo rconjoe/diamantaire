@@ -219,6 +219,8 @@ const createStaticProps = (category: string) => {
       };
     }
 
+    console.log("PLPSLUG", plpSlug);
+
     const [slug, ...plpParams] = plpSlug;
 
     console.log("PLP STATIC PROPS:", category, plpSlug, slug, plpParams)
