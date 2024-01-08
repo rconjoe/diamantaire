@@ -36,9 +36,7 @@ const CelebrityGallery = `
           itemName
           ctaCopy
           ctaRoute
-          darksideButtons {
-            ${ButtonFragment}
-          }
+          newRoute
           image {
             url
             alt

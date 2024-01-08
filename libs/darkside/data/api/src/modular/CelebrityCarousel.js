@@ -55,9 +55,7 @@ const CelebrityCarousel = `
             itemName
             ctaCopy
             ctaRoute
-            darksideButtons {
-              ${ButtonFragment}
-            }
+            newRoute
             image {
               url
               alt
