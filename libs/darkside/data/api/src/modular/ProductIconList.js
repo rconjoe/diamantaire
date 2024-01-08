@@ -9,6 +9,7 @@ const ProductIconList = `
     copy
     ctaCopy
     ctaRoute
+    newRoute
     additionalInfo {
         text
         title

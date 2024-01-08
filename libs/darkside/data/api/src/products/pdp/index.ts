@@ -127,6 +127,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
         ... on ModularProductIconListItemRecord {
           _modelApiKey
           ctaRoute
+          newRoute
           ctaCopy
           copy
           icon {
