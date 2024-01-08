@@ -27,7 +27,7 @@ export type CartCopyProps = {
   addNoteOptionCta: string;
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;
-  emptyCartMainCtaLink: string;
+  emptyCartMainCtaRoute: string;
 };
 
 export function useCartInfo(locale: string): UseQueryResult<CartProps, unknown> {

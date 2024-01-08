@@ -39,7 +39,7 @@ const CART_QUERY = `
               addNoteOptionCta
               emptyCartMainCopy
               emptyCartMainCtaCopy
-              emptyCartMainCtaLink
+              emptyCartMainCtaRoute
             }
           }
     }

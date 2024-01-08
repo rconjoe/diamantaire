@@ -924,7 +924,7 @@ export interface CartPageCopyRecord {
     emptyCartBelowTitleCopy: (Scalars['String'] | null)
     emptyCartMainCopy: (Scalars['String'] | null)
     emptyCartMainCtaCopy: (Scalars['String'] | null)
-    emptyCartMainCtaLink: (Scalars['String'] | null)
+    emptyCartMainCtaRoute: (Scalars['String'] | null)
     engagementProductSubtitleCopy: (Scalars['String'] | null)
     euSubtotalCopy: (Scalars['String'] | null)
     freeShippingCopy: (Scalars['String'] | null)
@@ -8276,17 +8276,17 @@ export interface AccordionItemModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface AccordionItemRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtacopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8306,13 +8306,13 @@ export interface AccordionItemRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
     ctacopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaroute?: boolean | number
@@ -8320,7 +8320,7 @@ export interface AccordionItemRecordGenqlSelection{
     supportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -8333,67 +8333,67 @@ export interface AccordionItemRecordGenqlSelection{
 export interface AccountReminderFormRecordGenqlSelection{
     _allDateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDatePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allErrorCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allInstructionsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allOccasionLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOccasionOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOtherOccasionPlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPhonePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNamePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSaveCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8414,68 +8414,68 @@ export interface AccountReminderFormRecordGenqlSelection{
     createdAt?: boolean | number
     dateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     datePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     errorCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     instructions?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     occasionLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     occasionOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     otherOccasionPlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     phonePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     recipientNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientNamePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     saveCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -8488,62 +8488,62 @@ export interface AccountReminderFormRecordGenqlSelection{
 export interface AccountRemindersListRecordGenqlSelection{
     _allDateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationNoLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationYesLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEditReminderCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeaderSubtitleHasRemindersLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allHeaderSubtitleNoRemindersLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allHeaderTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allNewReminderCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRemoveReminderCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8564,63 +8564,63 @@ export interface AccountRemindersListRecordGenqlSelection{
     createdAt?: boolean | number
     dateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationNo?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationYes?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     editReminderCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     headerSubtitleHasReminders?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     headerSubtitleNoReminders?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     headerTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     newReminderCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     removeReminderCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -8633,77 +8633,77 @@ export interface AccountRemindersListRecordGenqlSelection{
 export interface AccountSubscriptionFormRecordGenqlSelection{
     _allDateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDatePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allErrorCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allInstructionsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allMetalColorLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalColorOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOccasionLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOccasionOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOtherOccasionPlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPhonePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNamePlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSaveCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8724,78 +8724,78 @@ export interface AccountSubscriptionFormRecordGenqlSelection{
     createdAt?: boolean | number
     dateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     datePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     errorCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     instructions?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     metalColorLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     metalColorOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     occasionLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     occasionOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     otherOccasionPlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     phonePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     recipientNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientNamePlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     saveCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -8808,62 +8808,62 @@ export interface AccountSubscriptionFormRecordGenqlSelection{
 export interface AccountSubscriptionsListRecordGenqlSelection{
     _allDateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationNoLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDeleteConfirmationYesLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEditSubscriptionCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeaderSubtitleEmptyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allHeaderSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allHeaderTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allNewSubscriptionCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPreferredCommunicationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRemoveSubscriptionCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8884,63 +8884,63 @@ export interface AccountSubscriptionsListRecordGenqlSelection{
     createdAt?: boolean | number
     dateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationNo?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     deleteConfirmationYes?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     editSubscriptionCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     headerSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     headerSubtitleEmpty?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     headerTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     newSubscriptionCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     preferredCommunicationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     removeSubscriptionCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -8955,12 +8955,12 @@ export interface AdditionalInfoModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface AdditionalInfoRecordGenqlSelection{
     _allTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -8983,12 +8983,12 @@ export interface AdditionalInfoRecordGenqlSelection{
     image?: FileFieldGenqlSelection
     text?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9003,22 +9003,22 @@ export interface AnnouncementBarInfoModelFilter {_createdAt?: (CreatedAtFilter |
 export interface AnnouncementBarInfoRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allLinkLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShouldShowDynamicBookAnAppointmentLocales?: (BooleanTypeMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9041,7 +9041,7 @@ export interface AnnouncementBarInfoRecordGenqlSelection{
     color?: ColorFieldGenqlSelection
     copy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
@@ -9050,19 +9050,19 @@ export interface AnnouncementBarInfoRecordGenqlSelection{
     id?: boolean | number
     link?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shouldShowDynamicBookAnAppointment?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     startDate?: boolean | number
     supportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9101,47 +9101,47 @@ export interface AnnouncementBarRecordGenqlSelection{
 export interface AnnualGiftFormRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPhoneInputPlaceholderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRadioLabel1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRadioLabel2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRadioOptions1Locales?: (MoneyRadioOptionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRadioOptions2Locales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTextInputLabel1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTextInputPlaceholder1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9162,48 +9162,48 @@ export interface AnnualGiftFormRecordGenqlSelection{
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     phoneInputPlaceholder?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     radioLabel1?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     radioLabel2?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     radioOptions1?: (MoneyRadioOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     radioOptions2?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     textInputLabel1?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     textInputPlaceholder1?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9216,107 +9216,107 @@ export interface AnnualGiftFormRecordGenqlSelection{
 export interface AnnualGiftingRecordGenqlSelection{
     _allBudgetLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBudgetOptionsLocales?: (MoneyRadioOptionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCustomerEmailLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCustomerNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCustomerPhoneLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMessageLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalColorLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalColorOptionsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOccasionLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientAddressLine1LabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientAddressLine2LabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientCityLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientCountryLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientFormTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientNameLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientPostalCodeLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRecipientStateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSubscriptionFormCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSubscriptionFormTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9336,109 +9336,109 @@ export interface AnnualGiftingRecordGenqlSelection{
     _updatedAt?: boolean | number
     budgetLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     budgetOptions?: (MoneyRadioOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     customerEmailLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     customerNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     customerPhoneLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     dateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     messageLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     metalColorLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     metalColorOptions?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     occasionLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientAddressLine1Label?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientAddressLine2Label?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientCityLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientCountryLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientFormTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientNameLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientPostalCodeLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     recipientStateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     subscriptionFormCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     subscriptionFormTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9588,27 +9588,27 @@ export interface BlogCategoryModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface BlogCategoryRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSubcategoriesLocales?: (BlogSubcategoryRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9629,7 +9629,7 @@ export interface BlogCategoryRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
@@ -9637,22 +9637,22 @@ export interface BlogCategoryRecordGenqlSelection{
     key?: boolean | number
     route?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     subcategories?: (BlogSubcategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     updatedAt?: boolean | number
@@ -9679,32 +9679,32 @@ export interface BlogCategoryRecordMultiLocaleFieldGenqlSelection{
 export interface BlogConfigurationRecordGenqlSelection{
     _allBlogHomeSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBlogHomeSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCategoriesToDisplayLocales?: (BlogCategoryRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeroPostLocales?: (BlogPostRecordMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allLatestStoriesTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9724,36 +9724,36 @@ export interface BlogConfigurationRecordGenqlSelection{
     _updatedAt?: boolean | number
     blogHomeSeoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     blogHomeSeoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     categoriesToDisplay?: (BlogCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     heroPost?: (BlogPostRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
     latestStoriesTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     postsPerPage?: boolean | number
     sortMethod?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9766,12 +9766,12 @@ export interface BlogConfigurationRecordGenqlSelection{
 export interface BlogHeaderRecordGenqlSelection{
     _allLinksLocales?: (NavigationLinkRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9794,12 +9794,12 @@ export interface BlogHeaderRecordGenqlSelection{
     id?: boolean | number
     links?: (NavigationLinkRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9867,37 +9867,37 @@ export interface BlogPostModelFilter {_createdAt?: (CreatedAtFilter | null),crea
 export interface BlogPostRecordGenqlSelection{
     _allCategoryLocales?: (BlogCategoryRecordMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allContentLocales?: (BlogPostModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allExcerptLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSummaryLocales?: (ModularTextOnlyBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -9919,18 +9919,18 @@ export interface BlogPostRecordGenqlSelection{
     author?: boolean | number
     category?: (BlogCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     content?: (BlogPostModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     excerpt?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     featuredImage?: FileFieldGenqlSelection
@@ -9938,12 +9938,12 @@ export interface BlogPostRecordGenqlSelection{
     publishedAt?: boolean | number
     seoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     showBlogHeader?: boolean | number
@@ -9952,13 +9952,13 @@ export interface BlogPostRecordGenqlSelection{
     subcategories?: BlogSubcategoryRecordGenqlSelection
     summary?: (ModularTextOnlyBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     tags?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -9980,17 +9980,17 @@ export interface BlogSubcategoryModelFilter {_createdAt?: (CreatedAtFilter | nul
 export interface BlogSubcategoryRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allKeyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10011,21 +10011,21 @@ export interface BlogSubcategoryRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     id?: boolean | number
     key?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     route?: boolean | number
     seoDescription?: boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -10088,7 +10088,7 @@ export interface BreadcrumbModelLinkFieldGenqlSelection{
 export interface BreadcrumbRecordGenqlSelection{
     _allNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10112,7 +10112,7 @@ export interface BreadcrumbRecordGenqlSelection{
     link?: BreadcrumbModelLinkFieldGenqlSelection
     name?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -10154,17 +10154,17 @@ export interface CarouselHoverBlockItemModelFilter {_createdAt?: (CreatedAtFilte
 export interface CarouselHoverBlockItemRecordGenqlSelection{
     _allItemNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allUrlLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10189,18 +10189,18 @@ export interface CarouselHoverBlockItemRecordGenqlSelection{
     image?: FileFieldGenqlSelection
     itemName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
     url?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     __typename?: boolean | number
@@ -10274,7 +10274,7 @@ export interface CartPageCopyRecordGenqlSelection{
     emptyCartBelowTitleCopy?: boolean | number
     emptyCartMainCopy?: boolean | number
     emptyCartMainCtaCopy?: boolean | number
-    emptyCartMainCtaLink?: boolean | number
+    emptyCartMainCtaRoute?: boolean | number
     engagementProductSubtitleCopy?: boolean | number
     euSubtotalCopy?: boolean | number
     freeShippingCopy?: boolean | number
@@ -10313,22 +10313,22 @@ export interface CartPageCopyRecordListListNonNullMultiLocaleFieldGenqlSelection
 export interface CartRecordGenqlSelection{
     _allCertificatesLocales?: (CartCertificateRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondDetailInOrderLocales?: (ModularProductOptionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPageCopyLocales?: (CartPageCopyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductDetailInOrderLocales?: (ModularProductOptionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10349,25 +10349,25 @@ export interface CartRecordGenqlSelection{
     _updatedAt?: boolean | number
     certificates?: (CartCertificateRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     diamondDetailInOrder?: (ModularProductOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
     mappers?: HumanNamesMapperRecordGenqlSelection
     pageCopy?: (CartPageCopyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     productDetailInOrder?: (ModularProductOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     updatedAt?: boolean | number
@@ -10382,17 +10382,17 @@ export interface CelebrityBlockModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface CelebrityBlockRecordGenqlSelection{
     _allBottomCarouselCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10413,13 +10413,13 @@ export interface CelebrityBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     bottomCarouselCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     bottomCarouselImage?: FileFieldGenqlSelection
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
@@ -10429,7 +10429,7 @@ export interface CelebrityBlockRecordGenqlSelection{
     jewelry?: CelebrityJewelryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -10471,17 +10471,17 @@ export interface CelebrityJewelryModelFilter {_createdAt?: (CreatedAtFilter | nu
 export interface CelebrityJewelryRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allItemNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10503,19 +10503,19 @@ export interface CelebrityJewelryRecordGenqlSelection{
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     image?: FileFieldGenqlSelection
     itemName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -10804,122 +10804,122 @@ export interface ConfigurationModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface ConfigurationRecordGenqlSelection{
     _allAccordionBlocksLocales?: (ModularAccordionBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBandWidthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allChainLengthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allChainWidthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCharmLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClarityLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClosureLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allColorLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCordWidthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDepthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondDescriptionOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondSizeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allJacketLengthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOriginLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOuterDiameterLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPostsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRingFaceLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSettingLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShapeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShownWithCenterStoneLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -10939,136 +10939,136 @@ export interface ConfigurationRecordGenqlSelection{
     _updatedAt?: boolean | number
     accordionBlocks?: (ModularAccordionBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     assetStack?: FileFieldGenqlSelection
     bandWidth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     belowBannerBlocks?: ConfigurationModelBelowBannerBlocksFieldGenqlSelection
     carat?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     caratWeightOverride?: boolean | number
     chainLength?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     chainWidth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     charm?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     clarity?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     closure?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     color?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     configuredProductOptionsInOrder?: boolean | number
     cordWidth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     countrySpecificPrices?: boolean | number
     createdAt?: boolean | number
     cut?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     depth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondCount?: boolean | number
     diamondDescriptionOverride?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondSize?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     isWaitlisted?: boolean | number
     jacketLength?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     jewelryProduct?: JewelryProductRecordGenqlSelection
     metal?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     origin?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     outerDiameter?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     plpImage?: FileFieldGenqlSelection
     plpImageHover?: FileFieldGenqlSelection
     plpTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     posts?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     productSuggestionQuadBlock?: ProductSuggestionQuadBlockRecordGenqlSelection
     ringFace?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     setting?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shape?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shownWithCenterStone?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     trioBlocks?: TrioBlockRecordGenqlSelection
@@ -11085,12 +11085,12 @@ export interface ConfiguredProductOptionModelFilter {_createdAt?: (CreatedAtFilt
 export interface ConfiguredProductOptionRecordGenqlSelection{
     _allPlpTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShownWithCenterStoneLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -11115,13 +11115,13 @@ export interface ConfiguredProductOptionRecordGenqlSelection{
     id?: boolean | number
     plpTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productSuggestionQuadBlock?: ProductSuggestionQuadBlockRecordGenqlSelection
     shownWithCenterStone?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -11135,42 +11135,42 @@ export interface ConfiguredProductOptionRecordGenqlSelection{
 export interface CookieBannerRecordGenqlSelection{
     _allAcceptAllCtaTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allAcceptSelectionCtaTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCustomerSupportCookiesCategoryNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEssentialCookiesCategoryNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMarketingCookiesCategoryNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allStatisticsCookiesCategoryNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -11191,44 +11191,44 @@ export interface CookieBannerRecordGenqlSelection{
     _updatedAt?: boolean | number
     acceptAllCtaText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     acceptSelectionCtaText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     customerSupportCookiesCategoryName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     essentialCookiesCategoryName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     marketingCookiesCategoryName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     statisticsCookiesCategoryName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     text?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -11414,32 +11414,32 @@ export interface CreativeBlockModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface CreativeBlockRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDarksideButtonsLocales?: (DarksideButtonRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -11462,22 +11462,22 @@ export interface CreativeBlockRecordGenqlSelection{
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     darksideButtons?: (DarksideButtonRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     desktopCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopImage?: FileFieldGenqlSelection
@@ -11485,7 +11485,7 @@ export interface CreativeBlockRecordGenqlSelection{
     id?: boolean | number
     mobileCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     mobileImage?: FileFieldGenqlSelection
@@ -11493,7 +11493,7 @@ export interface CreativeBlockRecordGenqlSelection{
     supportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -11506,317 +11506,317 @@ export interface CreativeBlockRecordGenqlSelection{
 export interface CtoDiamondTableRecordGenqlSelection{
     _allBlocksLocales?: (ModularBlockWrapperRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratChartTooltipLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCaratDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCaratLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratSliderTooltipLocales?: (ModularSingleMediaBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratWeightCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCheckAvailabilityLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClarityDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allColorDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allColorNearcolorlessDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtoDiamondResultCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtoDiamondResultFinalSaleNoteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtoDiamondResultFoundTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtoDiamondResultHowItWorksLocales?: (ModularBlockWrapperRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtoDiamondResultNeedItFasterLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtoDiamondResultNoteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtoDiamondResultPriceTooltipLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCtoDiamondResultShapeAndWeightTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCutDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCutDetailsRoundBrilliantLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondDetailsCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondResultComparisonGridSeeDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultComparisonGridSelectLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondResultCopyMin2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondResultFoundTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultFoundTitleMin2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultMatchCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultMatchSeeMoreInventoryCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultMatchSelectedCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultMatchTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultMatchViewAllCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondResultTitleSecondLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondSelectorNoteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondSelectorSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondSelectorTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondVariantImageCaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondsNoteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeaderCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allHeaderSubtextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeaderTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHowToAnchorLinkAndCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allIdealHeartsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allImage1CaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allImage2CaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allImage3CaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allModifyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allNearColorlessLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allNoDiamondsCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allNotesAdditionalInfoLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPriceLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPricingDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPricingLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeeDetailsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSelectedDiamondIdLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSelectedLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoLocales?: (SeoFieldMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoResultsLocales?: (SeoFieldMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShapeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSpeakWithExpertLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allVraiDiamondsInfoLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _createdAt?: boolean | number
@@ -11836,323 +11836,323 @@ export interface CtoDiamondTableRecordGenqlSelection{
     _updatedAt?: boolean | number
     blocks?: (ModularBlockWrapperRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     bottomContentImage?: FileFieldGenqlSelection
     carat?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     caratChartTooltip?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     caratDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     caratSliderTooltip?: (ModularSingleMediaBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     caratWeightCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     checkAvailability?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     clarityDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     colorDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     colorNearcolorlessDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctoDiamondResultCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     ctoDiamondResultFinalSaleNote?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     ctoDiamondResultFoundTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctoDiamondResultHowItWorks?: (ModularBlockWrapperRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     ctoDiamondResultNeedItFaster?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     ctoDiamondResultNote?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     ctoDiamondResultPriceTooltip?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     ctoDiamondResultShapeAndWeightTitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cutDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cutDetailsRoundBrilliant?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondDetailsCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondNotesImages?: FileFieldGenqlSelection
     diamondResultComparisonGridSeeDetails?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultComparisonGridSelect?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondResultCopyMin2?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondResultFoundTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultFoundTitleMin2?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultMatchCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultMatchSeeMoreInventoryCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultMatchSelectedCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultMatchTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultMatchViewAllCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondResultTitleSecond?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondSelectorNote?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondSelectorSubtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondSelectorTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondVariantImageCaption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondsNote?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     headerCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     headerSubtext?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     headerTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     howToAnchorLinkAndCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     id?: boolean | number
     idealHearts?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     image1Caption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     image2Caption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     image3Caption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     modify?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     nearColorless?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     noDiamondsCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     notesAdditionalInfo?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     price?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pricingDetails?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     pricingLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     seeDetails?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     selected?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     selectedDiamondId?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seo?: (SeoFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     seoResults?: (SeoFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     shape?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     speakWithExpert?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     updatedAt?: boolean | number
     vraiDiamondsInfo?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     __typename?: boolean | number
@@ -12193,27 +12193,27 @@ export interface CustomProductModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface CustomProductRecordGenqlSelection{
     _allProductDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -12237,29 +12237,29 @@ export interface CustomProductRecordGenqlSelection{
     id?: boolean | number
     productDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     productSubtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productSuggestionQuadBlock?: ProductSuggestionQuadBlockRecordGenqlSelection
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     slug?: boolean | number
@@ -12538,17 +12538,17 @@ export interface DiamondContentBlockModelFilter {_createdAt?: (CreatedAtFilter |
 export interface DiamondContentBlockRecordGenqlSelection{
     _allDiamondBlockTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondBlockTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondBlockVideoLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -12570,17 +12570,17 @@ export interface DiamondContentBlockRecordGenqlSelection{
     createdAt?: boolean | number
     diamondBlockText?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondBlockTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondBlockVideo?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondShapes?: DiamondShapeSpecRecordGenqlSelection
@@ -12623,32 +12623,32 @@ export interface DiamondCountLabelRecordGenqlSelection{
 export interface DiamondNotifierPageRecordGenqlSelection{
     _allContentLocales?: (ModularFullWidthBannerBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailSignUpColumnLocales?: (CopyWithCtaRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOptInTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSuccessCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -12669,36 +12669,36 @@ export interface DiamondNotifierPageRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: (ModularFullWidthBannerBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     emailSignUpColumn?: (CopyWithCtaRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
     mappers?: HumanNamesMapperRecordGenqlSelection
     optInText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seo?: PageSeoRecordGenqlSelection
     successCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -12711,77 +12711,77 @@ export interface DiamondNotifierPageRecordGenqlSelection{
 export interface DiamondPageRecordGenqlSelection{
     _allBookAppointmentCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allBuilderFlowCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratWeightSelectorLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtoResultsHeaderCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtoResultsTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondOnlyCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondShapeSelectorLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondVideoCaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allInStockResultHeaderCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allInStockResultTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPolishingPlanCaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRoughVideoCaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSearchDiamondsCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoLocales?: (SeoFieldMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -12801,79 +12801,79 @@ export interface DiamondPageRecordGenqlSelection{
     _updatedAt?: boolean | number
     bookAppointmentCta?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     builderFlowCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     caratWeightSelectorLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     ctoResultsHeaderCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctoResultsTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondOnlyCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondShapeSelectorLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondVideoCaption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     inStockResultHeaderCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     inStockResultTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     polishingPlanCaption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     roughVideoCaption?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     searchDiamondsCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seo?: (SeoFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     subtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -12900,132 +12900,132 @@ export interface DiamondProductModelContentFieldListListNonNullMultiLocaleFieldG
 export interface DiamondProductRecordGenqlSelection{
     _allButtonTextDiamondFlowLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allButtonTextModularJewelryFlowLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allButtonTextSettingFlowLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCaratLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCertificateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCertificateLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allClarityInfoMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClarityLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allClarityMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allColorInfoMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allColorLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allColorMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allContentLocales?: (DiamondProductModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutInfoMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCutMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDfCertificateDetailLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allFluorescenceAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allGirdleAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHeaderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOriginLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPolishAndSymmetryAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allQuickCheckoutTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSpecsHeadlineLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allThirdPartyCertificateDetailLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -13047,140 +13047,140 @@ export interface DiamondProductRecordGenqlSelection{
     accordionLabels?: ProductSpecLabelCollectionRecordGenqlSelection
     buttonTextDiamondFlow?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     buttonTextModularJewelryFlow?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     buttonTextSettingFlow?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     carat?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     certificate?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     certificateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     clarity?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     clarityDiamondImage?: FileFieldGenqlSelection
     clarityInfoMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     clarityMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     color?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     colorDiamondImage?: FileFieldGenqlSelection
     colorInfoMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     colorMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     content?: (DiamondProductModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     cut?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cutDiamondImage?: FileFieldGenqlSelection
     cutInfoMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     cutMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     dfCertificateDetail?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     fluorescenceAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     girdleAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     header?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     originLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     polishAndSymmetryAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     productIconList?: ProductIconListRecordGenqlSelection
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     quickCheckoutText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoFields?: PageSeoRecordGenqlSelection
     specLabels?: ProductSpecLabelCollectionRecordGenqlSelection
     specsHeadline?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     thirdPartyCertificateDetail?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -13195,7 +13195,7 @@ export interface DiamondShapeDescriptionModelFilter {_createdAt?: (CreatedAtFilt
 export interface DiamondShapeDescriptionRecordGenqlSelection{
     _allDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _createdAt?: boolean | number
@@ -13216,7 +13216,7 @@ export interface DiamondShapeDescriptionRecordGenqlSelection{
     createdAt?: boolean | number
     description?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondType?: boolean | number
@@ -13233,12 +13233,12 @@ export interface DiamondShapeSpecModelFilter {_createdAt?: (CreatedAtFilter | nu
 export interface DiamondShapeSpecRecordGenqlSelection{
     _allDiamondShapeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondShapeTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _createdAt?: boolean | number
@@ -13260,13 +13260,13 @@ export interface DiamondShapeSpecRecordGenqlSelection{
     createdAt?: boolean | number
     diamondShape?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondShapeImage?: boolean | number
     diamondShapeText?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     id?: boolean | number
@@ -13307,267 +13307,267 @@ export interface DiamondSizeLabelRecordGenqlSelection{
 export interface DiamondTableRecordGenqlSelection{
     _allBlockquoteLocales?: (ModularSinglesvgBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBottomContentLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allBottomPromoContentCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBottomPromoContentLargerCaratLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allBottomPromoContentLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allBottomPromoContentNoShapeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCannotFindDiamondSentence1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCannotFindDiamondSentence2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCaratLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCertificateLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCertificateLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allClarityFilterBelowCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allClarityLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allClarityMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClearFiltersButtonCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allColorFilterBelowCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allColorLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allColorMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutFilterBelowCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCutInfoMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCutMapAbridgedLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDfCertificateDetailLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorIntroSubtitleLinkLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorIntroSubtitleTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorNoResultTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorPostSubmissionConjunctionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorPostSubmissionHeaderLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorPostSubmissionSecondaryCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorPostSubmissionSubtitleLinkLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorPostSubmissionSubtitleTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizFinalButtonCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizNextButtonCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep1SubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep1TitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep2SubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep2TitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3Option1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3Option2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3Option3Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3Option4Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3Option5Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3SubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorQuizStep3TitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondAdvisorResultTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondNotifierCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDynamicTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOriginLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSidebarLocales?: (SidebarTextBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSidebarTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSpecsLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allThirdPartyCertificateDetailLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -13587,273 +13587,273 @@ export interface DiamondTableRecordGenqlSelection{
     _updatedAt?: boolean | number
     blockquote?: (ModularSinglesvgBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     bottomContent?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     bottomPromoContent?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     bottomPromoContentCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     bottomPromoContentCtaLink?: boolean | number
     bottomPromoContentLargerCarat?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     bottomPromoContentNoShape?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cannotFindDiamondSentence1?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cannotFindDiamondSentence2?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     carat?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     certificate?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     certificateLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     clarity?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     clarityFilterBelowCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     clarityMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     clearFiltersButtonCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     color?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     colorFilterBelowCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     colorMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     cut?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cutFilterBelowCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     cutInfoMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     cutMapAbridged?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     dfCertificateDetail?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorIntroSubtitleLink?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorIntroSubtitleText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorNoResultTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorPostSubmissionConjunction?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorPostSubmissionHeader?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorPostSubmissionSecondaryCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorPostSubmissionSecondaryCtaRoute?: boolean | number
     diamondAdvisorPostSubmissionSubtitleLink?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorPostSubmissionSubtitleText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizFinalButtonCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizNextButtonCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep1Subtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep1Title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep2Subtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep2Title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Option1?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Option2?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Option3?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Option4?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Option5?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Subtitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorQuizStep3Title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondAdvisorResultTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondNotifierCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondNotifierCtaLink?: boolean | number
     dynamicTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     origin?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seo?: PageSeoRecordGenqlSelection
     sidebar?: (SidebarTextBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     sidebarTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     specs?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     thirdPartyCertificateDetail?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -13893,57 +13893,57 @@ export interface DiamondsQueryConfigRecordGenqlSelection{
 export interface EmailPopupRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allCopyPricesLocales?: (PricingByCurrencyRecordMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCountrySpecificCopyLocales?: (ModularEmailPopupOverrideRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allErrorCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlaceholder1Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlaceholder2Locales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPrivacyctacopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPrivacyctalinkLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSubmitCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSuccessCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -13963,61 +13963,61 @@ export interface EmailPopupRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     copyPrices?: (PricingByCurrencyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     countrySpecificCopy?: (ModularEmailPopupOverrideRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     errorCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     image?: FileFieldGenqlSelection
     placeholder1?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     placeholder2?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     privacyctacopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     privacyctalink?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     submitCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     successCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     supportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -14073,42 +14073,42 @@ export interface EmailSignupPageCopyRecordListListNonNullMultiLocaleFieldGenqlSe
 export interface EngagementRingPdpCtaRecordGenqlSelection{
     _allBelowOptionsCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allBuyButtonCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondFlowCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allReviewYourRingCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSettingFlowCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSettingFlowCtaPluralCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allUnavailableCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14129,44 +14129,44 @@ export interface EngagementRingPdpCtaRecordGenqlSelection{
     _updatedAt?: boolean | number
     belowOptionsCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     buyButtonCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     diamondFlowCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     reviewYourRingCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     settingFlowCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     settingFlowCtaPluralCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     unavailableCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -14217,67 +14217,67 @@ export interface EngagementRingProductModelPageCopyFieldGenqlSelection{
 export interface EngagementRingProductRecordGenqlSelection{
     _allBandDepthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBandWidthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondVideoBlockLocales?: (VideoBlockRecordMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalWeightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPaveCaratWeightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSettingHeightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShownWithCtwLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSpecBlockTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14298,12 +14298,12 @@ export interface EngagementRingProductRecordGenqlSelection{
     _updatedAt?: boolean | number
     bandDepth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     bandWidth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     belowBannerBlocks?: EngagementRingProductModelBelowBannerBlocksFieldGenqlSelection
@@ -14312,12 +14312,12 @@ export interface EngagementRingProductRecordGenqlSelection{
     diamondContentBlock?: DiamondContentBlockRecordGenqlSelection
     diamondDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondVideoBlock?: (VideoBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     hasDiamond?: boolean | number
@@ -14326,18 +14326,18 @@ export interface EngagementRingProductRecordGenqlSelection{
     isPromoIconEnabled?: boolean | number
     metalWeight?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pageCopy?: EngagementRingProductModelPageCopyFieldGenqlSelection
     paveCaratWeight?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productFaqBlock?: ProductTypeFaqRecordGenqlSelection
@@ -14345,37 +14345,37 @@ export interface EngagementRingProductRecordGenqlSelection{
     productLabel?: ProductLabelRecordGenqlSelection
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productType?: boolean | number
     products?: OmegaProductRecordGenqlSelection
     seoDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     settingHeight?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shouldUseDatoAssets?: boolean | number
     shouldUseDefaultPrice?: boolean | number
     shownWithCtwLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     slug?: boolean | number
     specBlockTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     specImage?: boolean | number
@@ -14401,37 +14401,37 @@ export interface EngagementRingSummaryPageModelPageCopyFieldGenqlSelection{
 export interface EngagementRingSummaryPageRecordGenqlSelection{
     _allAddEngravingOptionCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allAddEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allConfiguredOptionsInDisplayOrderLocales?: (ProductOptionLabelRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRemoveEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRingSizeOptionCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRingSizeOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allUpdateEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14452,17 +14452,17 @@ export interface EngagementRingSummaryPageRecordGenqlSelection{
     _updatedAt?: boolean | number
     addEngravingOptionCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     addEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     configuredOptionsInDisplayOrder?: (ProductOptionLabelRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -14471,22 +14471,22 @@ export interface EngagementRingSummaryPageRecordGenqlSelection{
     productIconList?: ProductIconListRecordGenqlSelection
     removeEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ringSizeOptionCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ringSizeOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updateEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -14499,37 +14499,37 @@ export interface EngagementRingSummaryPageRecordGenqlSelection{
 export interface EngravingOptionCopyRecordGenqlSelection{
     _allAddEngravingOptionCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allAddEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCurrentEngravingCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allModifyEngravingCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRemoveEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allUpdateEngravingOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14550,39 +14550,39 @@ export interface EngravingOptionCopyRecordGenqlSelection{
     _updatedAt?: boolean | number
     addEngravingOptionCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     addEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     currentEngravingCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     modifyEngravingCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     removeEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updateEngravingOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -14597,12 +14597,12 @@ export interface FaqAccordionContentModelFilter {_createdAt?: (CreatedAtFilter |
 export interface FaqAccordionContentRecordGenqlSelection{
     _allContentLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14623,14 +14623,14 @@ export interface FaqAccordionContentRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
     id?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -14645,18 +14645,18 @@ export interface FileFieldGenqlSelection{
     _updatedAt?: boolean | number
     alt?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     author?: boolean | number
     basename?: boolean | number
     blurUpThumb?: { __args: {
     /** Controls the "punch" value (~contrast) of the blurhash decoding algorithm (defaults to 1.0) */
-    punch: Scalars['Float'], 
+    punch: Scalars['Float'],
     /** Maximum image dimension (defaults to 24px) */
-    size: Scalars['Int'], 
+    size: Scalars['Int'],
     /** Image quality (defaults to 70%) */
-    quality: Scalars['Int'], 
+    quality: Scalars['Int'],
     /** Imgix transformations to apply to the image */
     imgixParams?: (ImgixParams | null)} }
     blurhash?: boolean | number
@@ -14664,14 +14664,14 @@ export interface FileFieldGenqlSelection{
     copyright?: boolean | number
     customData?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     exifInfo?: boolean | number
     filename?: boolean | number
     focalPoint?: (focalPointGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     format?: boolean | number
@@ -14682,11 +14682,11 @@ export interface FileFieldGenqlSelection{
     notes?: boolean | number
     responsiveImage?: (ResponsiveImageGenqlSelection & { __args?: {
     /** Imgix transformations to apply to the image */
-    imgixParams?: (ImgixParams | null), 
+    imgixParams?: (ImgixParams | null),
     /** Specify a custom `sizes` attribute for the image */
-    sizes?: (Scalars['String'] | null), 
+    sizes?: (Scalars['String'] | null),
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     size?: boolean | number
@@ -14695,7 +14695,7 @@ export interface FileFieldGenqlSelection{
     thumbhash?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     url?: { __args: {
@@ -14714,18 +14714,18 @@ export interface FileFieldInterfaceGenqlSelection{
     _updatedAt?: boolean | number
     alt?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     author?: boolean | number
     basename?: boolean | number
     blurUpThumb?: { __args: {
     /** Controls the "punch" value (~contrast) of the blurhash decoding algorithm (defaults to 1.0) */
-    punch: Scalars['Float'], 
+    punch: Scalars['Float'],
     /** Maximum image dimension (defaults to 24px) */
-    size: Scalars['Int'], 
+    size: Scalars['Int'],
     /** Image quality (defaults to 70%) */
-    quality: Scalars['Int'], 
+    quality: Scalars['Int'],
     /** Imgix transformations to apply to the image */
     imgixParams?: (ImgixParams | null)} }
     blurhash?: boolean | number
@@ -14733,14 +14733,14 @@ export interface FileFieldInterfaceGenqlSelection{
     copyright?: boolean | number
     customData?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     exifInfo?: boolean | number
     filename?: boolean | number
     focalPoint?: (focalPointGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     format?: boolean | number
@@ -14751,11 +14751,11 @@ export interface FileFieldInterfaceGenqlSelection{
     notes?: boolean | number
     responsiveImage?: (ResponsiveImageGenqlSelection & { __args?: {
     /** Imgix transformations to apply to the image */
-    imgixParams?: (ImgixParams | null), 
+    imgixParams?: (ImgixParams | null),
     /** Specify a custom `sizes` attribute for the image */
-    sizes?: (Scalars['String'] | null), 
+    sizes?: (Scalars['String'] | null),
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     size?: boolean | number
@@ -14764,7 +14764,7 @@ export interface FileFieldInterfaceGenqlSelection{
     thumbhash?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     url?: { __args: {
@@ -14837,22 +14837,22 @@ export interface FooterNavigationModelCountryPickerFieldGenqlSelection{
 export interface FooterNavigationRecordGenqlSelection{
     _allColumnsLocales?: (ColumnRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCopyrightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailSignUpColumnLocales?: (CopyWithCtaRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailSignUpCopyLocales?: (EmailSignupPageCopyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14872,24 +14872,24 @@ export interface FooterNavigationRecordGenqlSelection{
     _updatedAt?: boolean | number
     columns?: (ColumnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     copyright?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     countryPicker?: FooterNavigationModelCountryPickerFieldGenqlSelection
     createdAt?: boolean | number
     emailSignUpColumn?: (CopyWithCtaRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     emailSignUpCopy?: (EmailSignupPageCopyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
@@ -14905,27 +14905,27 @@ export interface FullWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter 
 export interface FullWidthBannerBlockRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allMobileCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -14948,17 +14948,17 @@ export interface FullWidthBannerBlockRecordGenqlSelection{
     ctaButton?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     desktopImage?: FileFieldGenqlSelection
@@ -14968,7 +14968,7 @@ export interface FullWidthBannerBlockRecordGenqlSelection{
     isTextBlockWide?: boolean | number
     mobileCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     mobileImage?: FileFieldGenqlSelection
@@ -14976,7 +14976,7 @@ export interface FullWidthBannerBlockRecordGenqlSelection{
     textColor?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -15003,32 +15003,32 @@ exists?: (Scalars['BooleanType'] | null)}
 export interface GiftWithPurchaseRecordGenqlSelection{
     _allPdpBannerSubtitleAfterPriceLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPdpBannerSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPdpBannerTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allQualifiedCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allUnqualifiedAfterPriceCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allUnqualifiedBeforePriceCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _createdAt?: boolean | number
@@ -15055,32 +15055,32 @@ export interface GiftWithPurchaseRecordGenqlSelection{
     minimumSubtotal?: boolean | number
     pdpBannerSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     pdpBannerSubtitleAfterPrice?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     pdpBannerTitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     qualifiedCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     unqualifiedAfterPriceCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     unqualifiedBeforePriceCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -15132,7 +15132,7 @@ export interface GridCarouselBlockItemModelFilter {_createdAt?: (CreatedAtFilter
 export interface GridCarouselBlockItemRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15158,7 +15158,7 @@ export interface GridCarouselBlockItemRecordGenqlSelection{
     supportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -15173,27 +15173,27 @@ export interface HalfWidthBannerBlockModelFilter {_createdAt?: (CreatedAtFilter 
 export interface HalfWidthBannerBlockRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allMobileCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15215,17 +15215,17 @@ export interface HalfWidthBannerBlockRecordGenqlSelection{
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     desktopImage?: FileFieldGenqlSelection
@@ -15234,7 +15234,7 @@ export interface HalfWidthBannerBlockRecordGenqlSelection{
     isTextBlockWide?: boolean | number
     mobileCopy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     mobileImage?: FileFieldGenqlSelection
@@ -15242,7 +15242,7 @@ export interface HalfWidthBannerBlockRecordGenqlSelection{
     textColor?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -15255,22 +15255,22 @@ export interface HalfWidthBannerBlockRecordGenqlSelection{
 export interface HeaderNavigationDynamicRecordGenqlSelection{
     _allIconsAltTextLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileAccordionOrderLocales?: (ModularAccordionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileLocalizationAccordionOrderLocales?: (ModularAccordionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSectionLocales?: (NavigationRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15291,23 +15291,23 @@ export interface HeaderNavigationDynamicRecordGenqlSelection{
     createdAt?: boolean | number
     iconsAltText?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
     mobileAccordionOrder?: (ModularAccordionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     mobileLocalizationAccordionOrder?: (ModularAccordionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     section?: (NavigationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     updatedAt?: boolean | number
@@ -15320,47 +15320,47 @@ export interface HeaderNavigationDynamicRecordGenqlSelection{
 export interface HeaderNavigationRecordGenqlSelection{
     _allAboutLocales?: (NavigationColumnRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopNavAboutTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopNavEngagementTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopNavJewelryTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allFineJewelryLocales?: (NavigationColumnRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allIconsAltTextLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allLoveEngagementLocales?: (NavigationColumnRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileAccordionOrderLocales?: (ModularAccordionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileLocalizationAccordionOrderLocales?: (ModularAccordionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15381,49 +15381,49 @@ export interface HeaderNavigationRecordGenqlSelection{
     _updatedAt?: boolean | number
     about?: (NavigationColumnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     desktopNavAboutTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopNavEngagementTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopNavJewelryTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     fineJewelry?: (NavigationColumnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     iconsAltText?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     id?: boolean | number
     loveEngagement?: (NavigationColumnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     mobileAccordionOrder?: (ModularAccordionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     mobileLocalizationAccordionOrder?: (ModularAccordionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     updatedAt?: boolean | number
@@ -15515,7 +15515,7 @@ export interface HomePageModelContentFieldListListNonNullMultiLocaleFieldGenqlSe
 export interface HomePageRecordGenqlSelection{
     _allContentLocales?: (HomePageModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15536,7 +15536,7 @@ export interface HomePageRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: (HomePageModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -15554,7 +15554,7 @@ export interface HumanNamesMapperModelFilter {_createdAt?: (CreatedAtFilter | nu
 export interface HumanNamesMapperRecordGenqlSelection{
     _allMapLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -15576,7 +15576,7 @@ export interface HumanNamesMapperRecordGenqlSelection{
     id?: boolean | number
     map?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     title?: boolean | number
@@ -15646,1233 +15646,1233 @@ export interface Image9x7RecordGenqlSelection{
 export interface ImgixParams {
 /**
  * Aspect Ratio
- * 
+ *
  * Specifies an aspect ratio to maintain when resizing and cropping the image
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/ar)
  */
 ar?: (Scalars['String'] | null),
 /**
  * Automatic
- * 
+ *
  * Applies automatic enhancements to images.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/auto)
  */
 auto?: (ImgixParamsAuto[] | null),
 /**
  * Background Removal
- * 
+ *
  * Removes background from image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/rendering/background-removal/bg-remove)
  */
 bgRemove?: (Scalars['BooleanType'] | null),
 /**
  * Background Color
- * 
+ *
  * Colors the background of padded and partially-transparent images.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/bg)
  */
 bg?: (Scalars['String'] | null),
 /**
  * Blend Align
- * 
+ *
  * Changes the blend alignment relative to the parent image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-align)
  */
 blendAlign?: (ImgixParamsBlendAlign[] | null),
 /**
  * Blend Alpha
- * 
+ *
  * Changes the alpha of the blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-alpha)
  */
 blendAlpha?: (Scalars['IntType'] | null),
 /**
  * Blend Color
- * 
+ *
  * Specifies a color to use when applying the blend.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-color)
  */
 blendColor?: (Scalars['String'] | null),
 /**
  * Blend Crop
- * 
+ *
  * Specifies the type of crop for blend images.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-crop)
  */
 blendCrop?: (ImgixParamsBlendCrop[] | null),
 /**
  * Blend Fit
- * 
+ *
  * Specifies the fit mode for blend images.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-fit)
  */
 blendFit?: (ImgixParamsBlendFit | null),
 /**
  * Blend Height
- * 
+ *
  * Adjusts the height of the blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-h)
  */
 blendH?: (Scalars['FloatType'] | null),
 /**
  * Blend Mode
- * 
+ *
  * Sets the blend mode for a blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-mode)
  */
 blendMode?: (ImgixParamsBlendMode | null),
 /**
  * Blend Padding
- * 
+ *
  * Applies padding to the blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-pad)
  */
 blendPad?: (Scalars['IntType'] | null),
 /**
  * Blend Size
- * 
+ *
  * Adjusts the size of the blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-size)
  */
 blendSize?: (ImgixParamsBlendSize | null),
 /**
  * Blend Width
- * 
+ *
  * Adjusts the width of the blend image.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-w)
  */
 blendW?: (Scalars['FloatType'] | null),
 /**
  * Blend X Position
- * 
+ *
  * Adjusts the x-offset of the blend image relative to its parent.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-x)
  */
 blendX?: (Scalars['IntType'] | null),
 /**
  * Blend Y Position
- * 
+ *
  * Adjusts the y-offset of the blend image relative to its parent.
- * 
+ *
  * Depends on: `blend`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend-y)
  */
 blendY?: (Scalars['IntType'] | null),
 /**
  * Blend
- * 
+ *
  * Specifies the location of the blend image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/blending/blend)
  */
 blend?: (Scalars['String'] | null),
 /**
  * Gaussian Blur
- * 
+ *
  * Applies a gaussian blur to an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/blur)
  */
 blur?: (Scalars['IntType'] | null),
 /**
  * Border Bottom
- * 
+ *
  * Sets bottom border of an image.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-bottom)
  */
 borderBottom?: (Scalars['IntType'] | null),
 /**
  * Border Left
- * 
+ *
  * Sets left border of an image.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-left)
  */
 borderLeft?: (Scalars['IntType'] | null),
 /**
  * Inner Border Radius
- * 
+ *
  * Sets the inner radius of the image's border in pixels.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-radius-inner)
  */
 borderRadiusInner?: (Scalars['String'] | null),
 /**
  * Outer Border Radius
- * 
+ *
  * Sets the outer radius of the image's border in pixels.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-radius)
  */
 borderRadius?: (Scalars['String'] | null),
 /**
  * Border Right
- * 
+ *
  * Sets right border of an image.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-right)
  */
 borderRight?: (Scalars['IntType'] | null),
 /**
  * Border Top
- * 
+ *
  * Sets top border of an image.
- * 
+ *
  * Depends on: `border`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border-top)
  */
 borderTop?: (Scalars['IntType'] | null),
 /**
  * Border Size & Color
- * 
+ *
  * Applies a border to an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/border)
  */
 border?: (Scalars['String'] | null),
 /**
  * Brightness
- * 
+ *
  * Adjusts the brightness of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/bri)
  */
 bri?: (Scalars['IntType'] | null),
 /**
  * Client Hints
- * 
+ *
  * Sets one or more Client-Hints headers
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/ch)
  */
 ch?: (ImgixParamsCh[] | null),
 /**
  * Chroma Subsampling
- * 
+ *
  * Specifies the output chroma subsampling rate.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/chromasub)
  */
 chromasub?: (Scalars['IntType'] | null),
 /**
  * Color Quantization
- * 
+ *
  * Limits the number of unique colors in an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/colorquant)
  */
 colorquant?: (Scalars['IntType'] | null),
 /**
  * Palette Color Count
- * 
+ *
  * Specifies how many colors to include in a palette-extraction response.
- * 
+ *
  * Depends on: `palette`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/color-palette/colors)
  */
 colors?: (Scalars['IntType'] | null),
 /**
  * Contrast
- * 
+ *
  * Adjusts the contrast of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/con)
  */
 con?: (Scalars['IntType'] | null),
 /**
  * Mask Corner Radius
- * 
+ *
  * Specifies the radius value for a rounded corner mask.
- * 
+ *
  * Depends on: `mask=corners`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/mask/corner-radius)
  */
 cornerRadius?: (Scalars['String'] | null),
 /**
  * Crop Mode
- * 
+ *
  * Specifies how to crop an image.
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/crop)
  */
 crop?: (ImgixParamsCrop[] | null),
 /**
  * Color Space
- * 
+ *
  * Specifies the color space of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/cs)
  */
 cs?: (ImgixParamsCs | null),
 /**
  * Download
- * 
+ *
  * Forces a URL to use send-file in its response.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/dl)
  */
 dl?: (Scalars['String'] | null),
 /**
  * Dots Per Inch
- * 
+ *
  * Sets the DPI value in the EXIF header.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/dpi)
  */
 dpi?: (Scalars['IntType'] | null),
 /**
  * Device Pixel Ratio
- * 
+ *
  * Adjusts the device-pixel ratio of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/dpr)
  */
 dpr?: (Scalars['FloatType'] | null),
 /**
  * Duotone Alpha
- * 
+ *
  * Changes the alpha of the duotone effect atop the source image.
- * 
+ *
  * Depends on: `duotone`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/duotone-alpha)
  */
 duotoneAlpha?: (Scalars['IntType'] | null),
 /**
  * Duotone
- * 
+ *
  * Applies a duotone effect to the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/duotone)
  */
 duotone?: (Scalars['String'] | null),
 /**
  * Exposure
- * 
+ *
  * Adjusts the exposure of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/exp)
  */
 exp?: (Scalars['IntType'] | null),
 /**
  * Url Expiration Timestamp
- * 
+ *
  * A Unix timestamp specifying a UTC time. Requests made to this URL after that time will output a 404 status code.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/expires)
  */
 expires?: (Scalars['IntType'] | null),
 /**
  * Face Index
- * 
+ *
  * Selects a face to crop to.
- * 
+ *
  * Depends on: `fit=facearea`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/face-detection/faceindex)
  */
 faceindex?: (Scalars['IntType'] | null),
 /**
  * Face Padding
- * 
+ *
  * Adjusts padding around a selected face.
- * 
+ *
  * Depends on: `fit=facearea`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/face-detection/facepad)
  */
 facepad?: (Scalars['FloatType'] | null),
 /**
  * Json Face Data
- * 
+ *
  * Specifies that face data should be included in output when combined with `fm=json`.
- * 
+ *
  * Depends on: `fm=json`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/face-detection/faces)
  */
 faces?: (Scalars['IntType'] | null),
 /**
  * Fill Color
- * 
+ *
  * Sets the fill color for images with additional space created by the fit setting
- * 
+ *
  * Depends on: `fill=solid`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/fill/fill-color)
  */
 fillColor?: (Scalars['String'] | null),
 /**
  * Fill Mode
- * 
+ *
  * Determines how to fill in additional space created by the fit setting
- * 
+ *
  * Depends on: `fit`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/fill/fill)
  */
 fill?: (ImgixParamsFill | null),
 /**
  * Resize Fit Mode
- * 
+ *
  * Specifies how to map the source image to the output image dimensions.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/fit)
  */
 fit?: (ImgixParamsFit | null),
 /**
  * Flip Axis
- * 
+ *
  * Flips an image on a specified axis.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/rotation/flip)
  */
 flip?: (ImgixParamsFlip | null),
 /**
  * Output Format
- * 
+ *
  * Changes the format of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/fm)
  */
 fm?: (ImgixParamsFm | null),
 /**
  * Focal Point Debug
- * 
+ *
  * Displays crosshairs identifying the location of the set focal point
- * 
+ *
  * Depends on: `fit=crop`, `crop=focalpoint`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/focalpoint-crop/fp-debug)
  */
 fpDebug?: (Scalars['BooleanType'] | null),
 /**
  * Focal Point X Position
- * 
+ *
  * Sets the relative horizontal value for the focal point of an image
- * 
+ *
  * Depends on: `fit=crop`, `crop=focalpoint`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/focalpoint-crop/fp-x)
  */
 fpX?: (Scalars['FloatType'] | null),
 /**
  * Focal Point Y Position
- * 
+ *
  * Sets the relative vertical value for the focal point of an image
- * 
+ *
  * Depends on: `fit=crop`, `crop=focalpoint`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/focalpoint-crop/fp-y)
  */
 fpY?: (Scalars['FloatType'] | null),
 /**
  * Focal Point Zoom
- * 
+ *
  * Sets the relative zoom value for the focal point of an image
- * 
+ *
  * Depends on: `fit=crop`, `crop=focalpoint`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/focalpoint-crop/fp-z)
  */
 fpZ?: (Scalars['FloatType'] | null),
 /**
  * Frames Per Second
- * 
+ *
  * Specifies the framerate of the generated image.
  */
 fps?: (Scalars['IntType'] | null),
 /**
  * Frame Selection
- * 
+ *
  * Specifies the frame of an animated image to use.
  */
 frame?: (Scalars['String'] | null),
 /**
  * Gamma
- * 
+ *
  * Adjusts the gamma of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/gam)
  */
 gam?: (Scalars['IntType'] | null),
 /**
  * Animated Gif Quality
- * 
+ *
  * Depends on: `fm=gif`
  */
 gifQ?: (Scalars['IntType'] | null),
 /**
  * Grid Colors
- * 
+ *
  * Sets grid colors for the transparency checkerboard grid.
- * 
+ *
  * Depends on: `transparency`
  */
 gridColors?: (Scalars['String'] | null),
 /**
  * Grid Size
- * 
+ *
  * Sets grid size for the transparency checkerboard grid.
- * 
+ *
  * Depends on: `transparency`
  */
 gridSize?: (Scalars['IntType'] | null),
 /**
  * Image Height
- * 
+ *
  * Adjusts the height of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/h)
  */
 h?: (Scalars['FloatType'] | null),
 /**
  * Highlight
- * 
+ *
  * Adjusts the highlights of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/high)
  */
 high?: (Scalars['IntType'] | null),
 /**
  * Halftone
- * 
+ *
  * Applies a half-tone effect to the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/htn)
  */
 htn?: (Scalars['IntType'] | null),
 /**
  * Hue Shift
- * 
+ *
  * Adjusts the hue of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/hue)
  */
 hue?: (Scalars['IntType'] | null),
 /**
  * Frame Interval
- * 
+ *
  * Displays every Nth frame starting with the first frame.
  */
 interval?: (Scalars['IntType'] | null),
 /**
  * Invert
- * 
+ *
  * Inverts the colors on the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/invert)
  */
 invert?: (Scalars['BooleanType'] | null),
 /**
  * Iptc Passthrough
- * 
+ *
  * Determine if IPTC data should be passed for JPEG images.
  */
 iptc?: (ImgixParamsIptc | null),
 /**
  * Animation Loop Count
- * 
+ *
  * Specifies the number of times an animated image should repeat. A value of 0 means infinite looping.
  */
 loop?: (Scalars['IntType'] | null),
 /**
  * Lossless Compression
- * 
+ *
  * Specifies that the output image should be a lossless variant.
- * 
+ *
  * Depends on: `fm=webp`, `fm=jxr`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/lossless)
  */
 lossless?: (Scalars['BooleanType'] | null),
 /**
  * Watermark Alignment Mode
- * 
+ *
  * Changes the watermark alignment relative to the parent image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-align)
  */
 markAlign?: (ImgixParamsMarkAlign[] | null),
 /**
  * Watermark Alpha
- * 
+ *
  * Changes the alpha of the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-alpha)
  */
 markAlpha?: (Scalars['IntType'] | null),
 /**
  * Watermark Base Url
- * 
+ *
  * Changes base URL of the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-base)
  */
 markBase?: (Scalars['String'] | null),
 /**
  * Watermark Fit Mode
- * 
+ *
  * Specifies the fit mode for watermark images.
- * 
+ *
  * Depends on: `mark`, `markw`, `markh`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-fit)
  */
 markFit?: (ImgixParamsMarkFit | null),
 /**
  * Watermark Height
- * 
+ *
  * Adjusts the height of the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-h)
  */
 markH?: (Scalars['FloatType'] | null),
 /**
  * Watermark Padding
- * 
+ *
  * Applies padding to the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-pad)
  */
 markPad?: (Scalars['IntType'] | null),
 /**
  * Watermark Rotation
- * 
+ *
  * Rotates a watermark or tiled watermarks by a specified number of degrees.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-rot)
  */
 markRot?: (Scalars['FloatType'] | null),
 /**
  * Watermark Scale
- * 
+ *
  * Adjusts the scale of the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-scale)
  */
 markScale?: (Scalars['IntType'] | null),
 /**
  * Watermark Tile
- * 
+ *
  * Adds tiled watermark.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-tile)
  */
 markTile?: (ImgixParamsMarkTile | null),
 /**
  * Watermark Width
- * 
+ *
  * Adjusts the width of the watermark image.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-w)
  */
 markW?: (Scalars['FloatType'] | null),
 /**
  * Watermark X Position
- * 
+ *
  * Adjusts the x-offset of the watermark image relative to its parent.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-x)
  */
 markX?: (Scalars['IntType'] | null),
 /**
  * Watermark Y Position
- * 
+ *
  * Adjusts the y-offset of the watermark image relative to its parent.
- * 
+ *
  * Depends on: `mark`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark-y)
  */
 markY?: (Scalars['IntType'] | null),
 /**
  * Watermark Image Url
- * 
+ *
  * Specifies the location of the watermark image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/watermark/mark)
  */
 mark?: (Scalars['String'] | null),
 /**
  * Mask Background Color
- * 
+ *
  * Colors the background of the transparent mask area of images
- * 
+ *
  * Depends on: `mask`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/mask/mask-bg)
  */
 maskBg?: (Scalars['String'] | null),
 /**
  * Mask Type
- * 
+ *
  * Defines the type of mask and specifies the URL if that type is selected.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/mask)
  */
 mask?: (Scalars['String'] | null),
 /**
  * Maximum Height
- * 
+ *
  * Specifies the maximum height of the output image in pixels.
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/max-height)
  */
 maxH?: (Scalars['IntType'] | null),
 /**
  * Maximum Width
- * 
+ *
  * Specifies the maximum width of the output image in pixels.
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/max-width)
  */
 maxW?: (Scalars['IntType'] | null),
 /**
  * Minimum Height
- * 
+ *
  * Specifies the minimum height of the output image in pixels.
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/min-height)
  */
 minH?: (Scalars['IntType'] | null),
 /**
  * Minimum Width
- * 
+ *
  * Specifies the minimum width of the output image in pixels.
- * 
+ *
  * Depends on: `fit=crop`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/min-width)
  */
 minW?: (Scalars['IntType'] | null),
 /**
  * Monochrome
- * 
+ *
  * Applies a monochrome effect to the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/monochrome)
  */
 monochrome?: (Scalars['String'] | null),
 /**
  * Noise Reduction Bound
- * 
+ *
  * Reduces the noise in an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/noise-reduction/nr)
  */
 nr?: (Scalars['IntType'] | null),
 /**
  * Noise Reduction Sharpen
- * 
+ *
  * Provides a threshold by which to sharpen an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/noise-reduction/nrs)
  */
 nrs?: (Scalars['IntType'] | null),
 /**
  * Orientation
- * 
+ *
  * Changes the image orientation.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/rotation/orient)
  */
 orient?: (Scalars['IntType'] | null),
 /**
  * Padding Bottom
- * 
+ *
  * Sets bottom padding of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-bottom)
  */
 padBottom?: (Scalars['IntType'] | null),
 /**
  * Padding Left
- * 
+ *
  * Sets left padding of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-left)
  */
 padLeft?: (Scalars['IntType'] | null),
 /**
  * Padding Right
- * 
+ *
  * Sets right padding of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-right)
  */
 padRight?: (Scalars['IntType'] | null),
 /**
  * Padding Top
- * 
+ *
  * Sets top padding of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad-top)
  */
 padTop?: (Scalars['IntType'] | null),
 /**
  * Padding
- * 
+ *
  * Pads an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/border-and-padding/pad)
  */
 pad?: (Scalars['IntType'] | null),
 /**
  * Pdf Page Number
- * 
+ *
  * Selects a page from a PDF for display.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/pdf/page)
  */
 page?: (Scalars['IntType'] | null),
 /**
  * Color Palette Extraction
- * 
+ *
  * Specifies an output format for palette-extraction.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/color-palette/palette)
  */
 palette?: (ImgixParamsPalette | null),
 /**
  * Pdf Annotation
- * 
+ *
  * Enables or disables PDF annotation.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/pdf/pdf-annotation)
  */
 pdfAnnotation?: (Scalars['BooleanType'] | null),
 /**
  * Css Prefix
- * 
+ *
  * Specifies a CSS prefix for all classes in palette-extraction.
- * 
+ *
  * Depends on: `palette=css`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/color-palette/prefix)
  */
 prefix?: (Scalars['String'] | null),
 /**
  * Pixellate
- * 
+ *
  * Applies a pixelation effect to an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/px)
  */
 px?: (Scalars['IntType'] | null),
 /**
  * Output Quality
- * 
+ *
  * Adjusts the quality of an output image.
- * 
+ *
  * Depends on: `fm=jpg`, `fm=pjpg`, `fm=webp`, `fm=jxr`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/format/q)
  */
 q?: (Scalars['IntType'] | null),
 /**
  * Source Rectangle Region
- * 
+ *
  * Crops an image to a specified rectangle.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/rect)
  */
 rect?: (Scalars['String'] | null),
 /**
  * Reverse
- * 
+ *
  * Reverses the frame order on the source animation.
  */
 reverse?: (Scalars['BooleanType'] | null),
 /**
  * Rotation
- * 
+ *
  * Rotates an image by a specified number of degrees.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/rotation/rot)
  */
 rot?: (Scalars['FloatType'] | null),
 /**
  * Saturation
- * 
+ *
  * Adjusts the saturation of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/sat)
  */
 sat?: (Scalars['IntType'] | null),
 /**
  * Sepia Tone
- * 
+ *
  * Applies a sepia effect to an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/stylize/sepia)
  */
 sepia?: (Scalars['IntType'] | null),
 /**
  * Shadow
- * 
+ *
  * Adjusts the highlights of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/shad)
  */
 shad?: (Scalars['FloatType'] | null),
 /**
  * Sharpen
- * 
+ *
  * Adjusts the sharpness of the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/sharp)
  */
 sharp?: (Scalars['FloatType'] | null),
 /**
  * Frame Skip
- * 
+ *
  * Skips every Nth frame starting with the first frame.
  */
 skip?: (Scalars['IntType'] | null),
 /**
  * Transparency
- * 
+ *
  * Adds checkerboard behind images which support transparency.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/fill/transparency)
  */
 transparency?: (ImgixParamsTransparency | null),
 /**
  * Trim Color
- * 
+ *
  * Specifies a trim color on a trim operation.
- * 
+ *
  * Depends on: `trim=color`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim-color)
  */
 trimColor?: (Scalars['String'] | null),
 /**
  * Trim Mean Difference
- * 
+ *
  * Specifies the mean difference on a trim operation.
- * 
+ *
  * Depends on: `trim=auto`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim-md)
  */
 trimMd?: (Scalars['FloatType'] | null),
 /**
  * Trim Padding
- * 
+ *
  * Pads the area of the source image before trimming.
- * 
+ *
  * Depends on: `trim`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim-pad)
  */
 trimPad?: (Scalars['IntType'] | null),
 /**
  * Trim Standard Deviation
- * 
+ *
  * Specifies the standard deviation on a trim operation.
- * 
+ *
  * Depends on: `trim=auto`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim-sd)
  */
 trimSd?: (Scalars['FloatType'] | null),
 /**
  * Trim Tolerance
- * 
+ *
  * Specifies the tolerance on a trim operation.
- * 
+ *
  * Depends on: `trim=color`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim-tol)
  */
 trimTol?: (Scalars['FloatType'] | null),
 /**
  * Trim Image
- * 
+ *
  * Trims the source image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/trim/trim)
  */
 trim?: (ImgixParamsTrim | null),
 /**
  * Text Align
- * 
+ *
  * Sets the vertical and horizontal alignment of rendered text relative to the base image.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-align)
  */
 txtAlign?: (ImgixParamsTxtAlign[] | null),
 /**
  * Text Clipping Mode
- * 
+ *
  * Sets the clipping properties of rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-clip)
  */
 txtClip?: (ImgixParamsTxtClip[] | null),
 /**
  * Text Color
- * 
+ *
  * Specifies the color of rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-color)
  */
 txtColor?: (Scalars['String'] | null),
 /**
  * Text Fit Mode
- * 
+ *
  * Specifies the fit approach for rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-fit)
  */
 txtFit?: (ImgixParamsTxtFit | null),
 /**
  * Text Font
- * 
+ *
  * Selects a font for rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-font)
  */
 txtFont?: (Scalars['String'] | null),
 /**
  * Text Leading
- * 
+ *
  * Sets the leading (line spacing) for rendered text. Only works on the multi-line text endpoint.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/typesetting/txt-lead)
  */
 txtLead?: (Scalars['IntType'] | null),
 /**
  * Text Ligatures
- * 
+ *
  * Controls the level of ligature substitution
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-lig)
  */
 txtLig?: (Scalars['IntType'] | null),
 /**
  * Text Outline Color
- * 
+ *
  * Specifies a text outline color.
- * 
+ *
  * Depends on: `txt`, `txtline`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-line-color)
  */
 txtLineColor?: (Scalars['String'] | null),
 /**
  * Text Outline
- * 
+ *
  * Outlines the rendered text with a specified color.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-line)
  */
 txtLine?: (Scalars['IntType'] | null),
 /**
  * Text Padding
- * 
+ *
  * Specifies the padding (in device-independent pixels) between a textbox and the edges of the base image.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-pad)
  */
 txtPad?: (Scalars['IntType'] | null),
 /**
  * Text Shadow
- * 
+ *
  * Applies a shadow to rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-shad)
  */
 txtShad?: (Scalars['FloatType'] | null),
 /**
  * Text Font Size
- * 
+ *
  * Sets the font size of rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-size)
  */
 txtSize?: (Scalars['IntType'] | null),
 /**
  * Text Tracking
- * 
+ *
  * Sets the tracking (letter spacing) for rendered text. Only works on the multi-line text endpoint.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/typesetting/txt-track)
  */
 txtTrack?: (Scalars['IntType'] | null),
 /**
  * Text Width
- * 
+ *
  * Sets the width of rendered text.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-width)
  */
 txtWidth?: (Scalars['IntType'] | null),
 /**
  * Text X Position
- * 
+ *
  * Sets the horizontal (x) position of the text in pixels relative to the left edge of the base image.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-x)
  */
 txtX?: (Scalars['IntType'] | null),
 /**
  * Text Y Position
- * 
+ *
  * Sets the vertical (y) position of the text in pixels relative to the top edge of the base image.
- * 
+ *
  * Depends on: `txt`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt-y)
  */
 txtY?: (Scalars['IntType'] | null),
 /**
  * Text String
- * 
+ *
  * Sets the text string to render.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/text/txt)
  */
 txt?: (Scalars['String'] | null),
 /**
  * Unsharp Mask
- * 
+ *
  * Sharpens the source image using an unsharp mask.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/usm)
  */
 usm?: (Scalars['IntType'] | null),
 /**
  * Unsharp Mask Radius
- * 
+ *
  * Specifies the radius for an unsharp mask operation.
- * 
+ *
  * Depends on: `usm`
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/usmrad)
  */
 usmrad?: (Scalars['FloatType'] | null),
 /**
  * Vibrance
- * 
+ *
  * Adjusts the vibrance of an image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/vib)
  */
 vib?: (Scalars['IntType'] | null),
 /**
  * Image Width
- * 
+ *
  * Adjusts the width of the output image.
- * 
+ *
  * [Open Imgix reference »](https://docs.imgix.com/apis/url/size/w)
  */
 w?: (Scalars['FloatType'] | null)}
@@ -16890,7 +16890,7 @@ export interface InstagramReelBlockModelFilter {_createdAt?: (CreatedAtFilter | 
 export interface InstagramReelBlockRecordGenqlSelection{
     _allContentLocales?: (ModularInstagramReelBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -16910,7 +16910,7 @@ export interface InstagramReelBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: (ModularInstagramReelBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -16985,7 +16985,7 @@ export interface JeweleryProductSubCategoryModelFilter {_createdAt?: (CreatedAtF
 export interface JeweleryProductSubCategoryRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17009,7 +17009,7 @@ export interface JeweleryProductSubCategoryRecordGenqlSelection{
     slug?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -17046,32 +17046,32 @@ export interface JewelryOmegaProductModelFilter {_createdAt?: (CreatedAtFilter |
 export interface JewelryOmegaProductRecordGenqlSelection{
     _allContentLocales?: (JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allExtraOptionsLocales?: (OptionsHeaderRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductSpecificationsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17093,38 +17093,38 @@ export interface JewelryOmegaProductRecordGenqlSelection{
     category?: boolean | number
     content?: (JewelryOmegaProductModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     ctaCopy?: JewelryPdpCtaRecordGenqlSelection
     extraOptions?: (OptionsHeaderRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     hasOnlyOnePrice?: boolean | number
     id?: boolean | number
     plpTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productAccordionSpecsLabel?: ProductSpecLabelCollectionRecordGenqlSelection
     productDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     productSpecifications?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     products?: ConfiguredProductOptionRecordGenqlSelection
@@ -17146,22 +17146,22 @@ export interface JewelryPdpCtaModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface JewelryPdpCtaRecordGenqlSelection{
     _allAddToBagCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondPageFlowCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondPairFlowCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOutOfStockCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17182,24 +17182,24 @@ export interface JewelryPdpCtaRecordGenqlSelection{
     _updatedAt?: boolean | number
     addToBagCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     diamondPageFlowCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     diamondPairFlowCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     outOfStockCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -17257,37 +17257,37 @@ export interface JewelryProductModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface JewelryProductRecordGenqlSelection{
     _allAccordionBlocksLocales?: (ModularAccordionBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBottomDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allContentLocales?: (JewelryProductModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allExtraOptionsLocales?: (OptionsHeaderRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17308,13 +17308,13 @@ export interface JewelryProductRecordGenqlSelection{
     _updatedAt?: boolean | number
     accordionBlocks?: (ModularAccordionBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     belowBannerBlocks?: JewelryProductModelBelowBannerBlocksFieldGenqlSelection
     bottomDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     caratWeight?: boolean | number
@@ -17322,7 +17322,7 @@ export interface JewelryProductRecordGenqlSelection{
     configurations?: ConfigurationRecordGenqlSelection
     content?: (JewelryProductModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -17330,12 +17330,12 @@ export interface JewelryProductRecordGenqlSelection{
     defaultVariant?: boolean | number
     diamondDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     extraOptions?: (OptionsHeaderRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     hasOnlyOnePrice?: boolean | number
@@ -17344,14 +17344,14 @@ export interface JewelryProductRecordGenqlSelection{
     productAccordionSpecsLabel?: ProductSpecLabelCollectionRecordGenqlSelection
     productDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     productLabel?: ProductLabelRecordGenqlSelection
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoFields?: PageSeoRecordGenqlSelection
@@ -17568,17 +17568,17 @@ export interface ListPageModelFilterAndSortFieldListListNonNullMultiLocaleFieldG
 export interface ListPageRecordGenqlSelection{
     _allBelowBannerBlocksLocales?: (ListPageModelBelowBannerBlocksFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allFilterAndSortLocales?: (ListPageModelFilterAndSortFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShowAllCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17600,7 +17600,7 @@ export interface ListPageRecordGenqlSelection{
     bannerBlocks?: ListPageModelBannerBlocksFieldGenqlSelection
     belowBannerBlocks?: (ListPageModelBelowBannerBlocksFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     bestSellersInOrder?: ListPageModelBestSellersInOrderFieldGenqlSelection
@@ -17615,7 +17615,7 @@ export interface ListPageRecordGenqlSelection{
     diamondPlpDataConfig?: DiamondsQueryConfigRecordGenqlSelection
     filterAndSort?: (ListPageModelFilterAndSortFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     hero?: ListpageHeroBannerRecordGenqlSelection
@@ -17628,7 +17628,7 @@ export interface ListPageRecordGenqlSelection{
     shouldDisplayPreviouslyViewed?: boolean | number
     showAllCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     showAllCtaLink?: boolean | number
@@ -17648,22 +17648,22 @@ export interface ListpageHeroBannerModelFilter {_createdAt?: (CreatedAtFilter | 
 export interface ListpageHeroBannerRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -17684,7 +17684,7 @@ export interface ListpageHeroBannerRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     copyPrices?: PricingByCurrencyRecordGenqlSelection
@@ -17692,12 +17692,12 @@ export interface ListpageHeroBannerRecordGenqlSelection{
     ctaButtonType?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopImage?: FileFieldGenqlSelection
@@ -17706,7 +17706,7 @@ export interface ListpageHeroBannerRecordGenqlSelection{
     textColor?: ColorFieldGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -19967,12 +19967,12 @@ export interface NavigationLinkModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface NavigationLinkRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -19993,7 +19993,7 @@ export interface NavigationLinkRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
@@ -20004,7 +20004,7 @@ export interface NavigationLinkRecordGenqlSelection{
     nestedLinks?: NavigationLinkRecordGenqlSelection
     route?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     supportedCountries?: CountryRecordGenqlSelection
@@ -20027,12 +20027,12 @@ export interface NavigationModelFilter {_createdAt?: (CreatedAtFilter | null),cr
 export interface NavigationRecordGenqlSelection{
     _allColumnsLocales?: (NavigationColumnRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20052,7 +20052,7 @@ export interface NavigationRecordGenqlSelection{
     _updatedAt?: boolean | number
     columns?: (NavigationColumnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -20061,7 +20061,7 @@ export interface NavigationRecordGenqlSelection{
     route?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -20156,77 +20156,77 @@ export interface OmegaProductModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface OmegaProductRecordGenqlSelection{
     _allBandWidthOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBelowBannerBlocksLocales?: (OmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allClarityLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allColorLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCutLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDescriptionOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDiamondDescriptionOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allDimensionsLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMetalWeightOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOriginLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPaveCaratWeightOverrideLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPdpSubTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShapeLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShownWithCtwLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20247,87 +20247,87 @@ export interface OmegaProductRecordGenqlSelection{
     assetStack?: FileFieldGenqlSelection
     bandWidthOverride?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     belowBannerBlocks?: (OmegaProductModelBelowBannerBlocksFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     caratWeightOverride?: boolean | number
     clarity?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     collection?: OmegaProductModelCollectionFieldGenqlSelection
     color?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     countrySpecificPrices?: boolean | number
     createdAt?: boolean | number
     cut?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     descriptionOverride?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondDescriptionOverride?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     dimensions?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     metalWeightOverride?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     origin?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     paveCaratWeightOverride?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pdpSubTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     plpImage?: FileFieldGenqlSelection
     plpImageHover?: FileFieldGenqlSelection
     plpTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productIconList?: ProductIconListRecordGenqlSelection
     productSuggestionQuadBlock?: ProductSuggestionQuadBlockRecordGenqlSelection
     shape?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shopifyProductHandle?: boolean | number
     shownWithCtw?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -20432,7 +20432,7 @@ export interface OurDiamondModelFilter {_createdAt?: (CreatedAtFilter | null),cr
 export interface OurDiamondRecordGenqlSelection{
     _allContentLocales?: (OurDiamondModelContentFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20452,7 +20452,7 @@ export interface OurDiamondRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: (OurDiamondModelContentFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -20497,12 +20497,12 @@ export interface PageSeoModelFilter {_createdAt?: (CreatedAtFilter | null),creat
 export interface PageSeoRecordGenqlSelection{
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20525,12 +20525,12 @@ export interface PageSeoRecordGenqlSelection{
     id?: boolean | number
     seoDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -20572,17 +20572,17 @@ export interface PayLaterOptionModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface PayLaterOptionRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allEmbeddedLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20602,13 +20602,13 @@ export interface PayLaterOptionRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
     embedded?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
@@ -20618,7 +20618,7 @@ export interface PayLaterOptionRecordGenqlSelection{
     paypalSupportedCountries?: CountryRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -20752,7 +20752,7 @@ export interface PlpPromoCardModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface PlpPromoCardRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20781,7 +20781,7 @@ export interface PlpPromoCardRecordGenqlSelection{
     textColor?: ColorFieldGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -20945,7 +20945,7 @@ export interface ProductIconListModelItemsFieldListListNonNullMultiLocaleFieldGe
 export interface ProductIconListRecordGenqlSelection{
     _allItemsLocales?: (ProductIconListModelItemsFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -20968,7 +20968,7 @@ export interface ProductIconListRecordGenqlSelection{
     id?: boolean | number
     items?: (ProductIconListModelItemsFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     productType?: boolean | number
@@ -20984,7 +20984,7 @@ export interface ProductLabelModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface ProductLabelRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21006,7 +21006,7 @@ export interface ProductLabelRecordGenqlSelection{
     id?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -21028,7 +21028,7 @@ export interface ProductListItemModelFilter {_createdAt?: (CreatedAtFilter | nul
 export interface ProductListItemRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21052,7 +21052,7 @@ export interface ProductListItemRecordGenqlSelection{
     link?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -21102,7 +21102,7 @@ export interface ProductShippingAndReturnModelFilter {_createdAt?: (CreatedAtFil
 export interface ProductShippingAndReturnRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _createdAt?: boolean | number
@@ -21123,7 +21123,7 @@ export interface ProductShippingAndReturnRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     createdAt?: boolean | number
@@ -21194,7 +21194,7 @@ export interface ProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiL
 export interface ProductSpecLabelCollectionRecordGenqlSelection{
     _allLabelsLocales?: (ProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21217,7 +21217,7 @@ export interface ProductSpecLabelCollectionRecordGenqlSelection{
     id?: boolean | number
     labels?: (ProductSpecLabelCollectionModelLabelsFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     productType?: boolean | number
@@ -21233,7 +21233,7 @@ export interface ProductSuggestionQuadBlockModelFilter {_createdAt?: (CreatedAtF
 export interface ProductSuggestionQuadBlockRecordGenqlSelection{
     _allContentLocales?: (ModularProductSuggestionQuadBlockRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21254,7 +21254,7 @@ export interface ProductSuggestionQuadBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     content?: (ModularProductSuggestionQuadBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
@@ -21272,7 +21272,7 @@ export interface ProductTypeFaqModelFilter {_createdAt?: (CreatedAtFilter | null
 export interface ProductTypeFaqRecordGenqlSelection{
     _allFaqTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21295,7 +21295,7 @@ export interface ProductTypeFaqRecordGenqlSelection{
     faqEntries?: FaqAccordionContentRecordGenqlSelection
     faqTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
@@ -21313,12 +21313,12 @@ export interface ProductWaitlistModelFilter {_createdAt?: (CreatedAtFilter | nul
 export interface ProductWaitlistRecordGenqlSelection{
     _allWaitlistCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allWaitlistCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21342,12 +21342,12 @@ export interface ProductWaitlistRecordGenqlSelection{
     updatedAt?: boolean | number
     waitlistCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     waitlistCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     __typename?: boolean | number
@@ -21379,17 +21379,17 @@ export interface QuadGridItemModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface QuadGridItemRecordGenqlSelection{
     _allItemCaptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allItemTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allItemUrlLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -21411,18 +21411,18 @@ export interface QuadGridItemRecordGenqlSelection{
     id?: boolean | number
     itemCaption?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     itemImage?: FileFieldGenqlSelection
     itemTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     itemUrl?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -21436,379 +21436,379 @@ export interface QueryGenqlSelection{
     /** Returns meta information regarding a record collection */
     _allAccordionItemsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (AccordionItemModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (AccordionItemModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allAdditionalInfosMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (AdditionalInfoModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (AdditionalInfoModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allAnnouncementBarInfosMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (AnnouncementBarInfoModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (AnnouncementBarInfoModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allBlogCategoriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (BlogCategoryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (BlogCategoryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allBlogPostsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (BlogPostModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (BlogPostModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allBlogSubcategoriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (BlogSubcategoryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (BlogSubcategoryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allBreadcrumbsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (BreadcrumbModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (BreadcrumbModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCarouselHoverBlockItemsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CarouselHoverBlockItemModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CarouselHoverBlockItemModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCelebrityBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CelebrityBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CelebrityBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCelebrityJewelriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CelebrityJewelryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CelebrityJewelryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allConfigurationsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ConfigurationModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ConfigurationModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allConfiguredProductOptionsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ConfiguredProductOptionModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ConfiguredProductOptionModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCountriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CountryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CountryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCreativeBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CreativeBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CreativeBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allCustomProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (CustomProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (CustomProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allDiamondContentBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (DiamondContentBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (DiamondContentBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allDiamondShapeDescriptionsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (DiamondShapeDescriptionModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (DiamondShapeDescriptionModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allDiamondShapeSpecsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (DiamondShapeSpecModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (DiamondShapeSpecModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allEngagementRingProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (EngagementRingProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (EngagementRingProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allFaqAccordionContentsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (FaqAccordionContentModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (FaqAccordionContentModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allFullWidthBannerBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (FullWidthBannerBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (FullWidthBannerBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allGridCarouselBlockItemsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (GridCarouselBlockItemModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (GridCarouselBlockItemModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allHalfWidthBannerBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (HalfWidthBannerBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (HalfWidthBannerBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allHumanNamesMappersMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (HumanNamesMapperModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (HumanNamesMapperModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allImage1x1sMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (Image1x1ModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (Image1x1ModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allImage9x7sMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (Image9x7ModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (Image9x7ModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allInstagramReelBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (InstagramReelBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (InstagramReelBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allJeweleryProductSubCategoriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (JeweleryProductSubCategoryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (JeweleryProductSubCategoryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allJewelryOmegaProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (JewelryOmegaProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (JewelryOmegaProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allJewelryPdpCtasMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (JewelryPdpCtaModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (JewelryPdpCtaModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allJewelryProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (JewelryProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (JewelryProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allJewelrySubcategoriesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (JewelrySubcategoryModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (JewelrySubcategoryModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allListPagesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ListPageModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ListPageModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allListpageHeroBannersMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ListpageHeroBannerModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ListpageHeroBannerModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allNavigationLinksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (NavigationLinkModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (NavigationLinkModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allNavigationsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (NavigationModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (NavigationModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allOmegaAssetStacksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (OmegaAssetStackModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (OmegaAssetStackModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allOmegaProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (OmegaProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (OmegaProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allOurDiamondsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (OurDiamondModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (OurDiamondModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allPageSeosMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (PageSeoModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (PageSeoModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allPayLaterOptionsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (PayLaterOptionModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (PayLaterOptionModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allPlpPromoCardCollectionsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (PlpPromoCardCollectionModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (PlpPromoCardCollectionModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allPlpPromoCardsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (PlpPromoCardModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (PlpPromoCardModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allPricingByCurrenciesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (PricingByCurrencyModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (PricingByCurrencyModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductIconListsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductIconListModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductIconListModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductLabelsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductLabelModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductLabelModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductListItemsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductListItemModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductListItemModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductShippingAndReturnsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductShippingAndReturnModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductShippingAndReturnModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductSpecLabelCollectionsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductSpecLabelCollectionModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductSpecLabelCollectionModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductSuggestionQuadBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductSuggestionQuadBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductSuggestionQuadBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductTypeFaqsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductTypeFaqModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductTypeFaqModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allProductWaitlistsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ProductWaitlistModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ProductWaitlistModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allQuadGridItemsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (QuadGridItemModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (QuadGridItemModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allQuoteBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (QuoteBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (QuoteBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allShowroomLinksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ShowroomLinkModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ShowroomLinkModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allShowroomsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (ShowroomModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (ShowroomModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allSingleMediaBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (SingleMediaBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (SingleMediaBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allSlickCarouselBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (SlickCarouselBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (SlickCarouselBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allSocialMediaContentsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (SocialMediaContentModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (SocialMediaContentModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allStandardPagesMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (StandardPageModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (StandardPageModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allSvgAssetsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (SvgAssetModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (SvgAssetModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allTextOnlyBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (TextOnlyBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (TextOnlyBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allTrioBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (TrioBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (TrioBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding an assets collection */
@@ -21818,1277 +21818,1277 @@ export interface QueryGenqlSelection{
     /** Returns meta information regarding a record collection */
     _allVatsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (VatModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (VatModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allVideoBlocksMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (VideoBlockModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (VideoBlockModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns meta information regarding a record collection */
     _allWeddingBandProductsMeta?: (CollectionMetadataGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), filter?: (WeddingBandProductModelFilter | null), 
+    locale?: (SiteLocale | null), filter?: (WeddingBandProductModelFilter | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     _site?: (SiteGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     accordionItem?: (AccordionItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (AccordionItemModelFilter | null), orderBy?: ((AccordionItemModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     accountReminderForm?: (AccountReminderFormRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     accountRemindersList?: (AccountRemindersListRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     accountSubscriptionForm?: (AccountSubscriptionFormRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     accountSubscriptionsList?: (AccountSubscriptionsListRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     additionalInfo?: (AdditionalInfoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (AdditionalInfoModelFilter | null), orderBy?: ((AdditionalInfoModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allAccordionItems?: (AccordionItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (AccordionItemModelFilter | null), orderBy?: ((AccordionItemModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allAdditionalInfos?: (AdditionalInfoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (AdditionalInfoModelFilter | null), orderBy?: ((AdditionalInfoModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allAnnouncementBarInfos?: (AnnouncementBarInfoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (AnnouncementBarInfoModelFilter | null), orderBy?: ((AnnouncementBarInfoModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allBlogCategories?: (BlogCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (BlogCategoryModelFilter | null), orderBy?: ((BlogCategoryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allBlogPosts?: (BlogPostRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (BlogPostModelFilter | null), orderBy?: ((BlogPostModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allBlogSubcategories?: (BlogSubcategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (BlogSubcategoryModelFilter | null), orderBy?: ((BlogSubcategoryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allBreadcrumbs?: (BreadcrumbRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (BreadcrumbModelFilter | null), orderBy?: ((BreadcrumbModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCarouselHoverBlockItems?: (CarouselHoverBlockItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CarouselHoverBlockItemModelFilter | null), orderBy?: ((CarouselHoverBlockItemModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCelebrityBlocks?: (CelebrityBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CelebrityBlockModelFilter | null), orderBy?: ((CelebrityBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCelebrityJewelries?: (CelebrityJewelryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CelebrityJewelryModelFilter | null), orderBy?: ((CelebrityJewelryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allConfigurations?: (ConfigurationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ConfigurationModelFilter | null), orderBy?: ((ConfigurationModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allConfiguredProductOptions?: (ConfiguredProductOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ConfiguredProductOptionModelFilter | null), orderBy?: ((ConfiguredProductOptionModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCountries?: (CountryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CountryModelFilter | null), orderBy?: ((CountryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCreativeBlocks?: (CreativeBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CreativeBlockModelFilter | null), orderBy?: ((CreativeBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allCustomProducts?: (CustomProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (CustomProductModelFilter | null), orderBy?: ((CustomProductModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allDiamondContentBlocks?: (DiamondContentBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (DiamondContentBlockModelFilter | null), orderBy?: ((DiamondContentBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allDiamondShapeDescriptions?: (DiamondShapeDescriptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (DiamondShapeDescriptionModelFilter | null), orderBy?: ((DiamondShapeDescriptionModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allDiamondShapeSpecs?: (DiamondShapeSpecRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (DiamondShapeSpecModelFilter | null), orderBy?: ((DiamondShapeSpecModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allEngagementRingProducts?: (EngagementRingProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (EngagementRingProductModelFilter | null), orderBy?: ((EngagementRingProductModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allFaqAccordionContents?: (FaqAccordionContentRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (FaqAccordionContentModelFilter | null), orderBy?: ((FaqAccordionContentModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allFullWidthBannerBlocks?: (FullWidthBannerBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (FullWidthBannerBlockModelFilter | null), orderBy?: ((FullWidthBannerBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allGridCarouselBlockItems?: (GridCarouselBlockItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (GridCarouselBlockItemModelFilter | null), orderBy?: ((GridCarouselBlockItemModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allHalfWidthBannerBlocks?: (HalfWidthBannerBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (HalfWidthBannerBlockModelFilter | null), orderBy?: ((HalfWidthBannerBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allHumanNamesMappers?: (HumanNamesMapperRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (HumanNamesMapperModelFilter | null), orderBy?: ((HumanNamesMapperModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allImage1x1s?: (Image1x1RecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (Image1x1ModelFilter | null), orderBy?: ((Image1x1ModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allImage9x7s?: (Image9x7RecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (Image9x7ModelFilter | null), orderBy?: ((Image9x7ModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allInstagramReelBlocks?: (InstagramReelBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (InstagramReelBlockModelFilter | null), orderBy?: ((InstagramReelBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allJeweleryProductSubCategories?: (JeweleryProductSubCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (JeweleryProductSubCategoryModelFilter | null), orderBy?: ((JeweleryProductSubCategoryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allJewelryOmegaProducts?: (JewelryOmegaProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (JewelryOmegaProductModelFilter | null), orderBy?: ((JewelryOmegaProductModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allJewelryPdpCtas?: (JewelryPdpCtaRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (JewelryPdpCtaModelFilter | null), orderBy?: ((JewelryPdpCtaModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allJewelryProducts?: (JewelryProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (JewelryProductModelFilter | null), orderBy?: ((JewelryProductModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allJewelrySubcategories?: (JewelrySubcategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (JewelrySubcategoryModelFilter | null), orderBy?: ((JewelrySubcategoryModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allListPages?: (ListPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ListPageModelFilter | null), orderBy?: ((ListPageModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allListpageHeroBanners?: (ListpageHeroBannerRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ListpageHeroBannerModelFilter | null), orderBy?: ((ListpageHeroBannerModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allNavigationLinks?: (NavigationLinkRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (NavigationLinkModelFilter | null), orderBy?: ((NavigationLinkModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allNavigations?: (NavigationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (NavigationModelFilter | null), orderBy?: ((NavigationModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allOmegaAssetStacks?: (OmegaAssetStackRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (OmegaAssetStackModelFilter | null), orderBy?: ((OmegaAssetStackModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allOmegaProducts?: (OmegaProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (OmegaProductModelFilter | null), orderBy?: ((OmegaProductModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allOurDiamonds?: (OurDiamondRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (OurDiamondModelFilter | null), orderBy?: ((OurDiamondModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allPageSeos?: (PageSeoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (PageSeoModelFilter | null), orderBy?: ((PageSeoModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allPayLaterOptions?: (PayLaterOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (PayLaterOptionModelFilter | null), orderBy?: ((PayLaterOptionModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allPlpPromoCardCollections?: (PlpPromoCardCollectionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (PlpPromoCardCollectionModelFilter | null), orderBy?: ((PlpPromoCardCollectionModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allPlpPromoCards?: (PlpPromoCardRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (PlpPromoCardModelFilter | null), orderBy?: ((PlpPromoCardModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allPricingByCurrencies?: (PricingByCurrencyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (PricingByCurrencyModelFilter | null), orderBy?: ((PricingByCurrencyModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductIconLists?: (ProductIconListRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductIconListModelFilter | null), orderBy?: ((ProductIconListModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductLabels?: (ProductLabelRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductLabelModelFilter | null), orderBy?: ((ProductLabelModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductListItems?: (ProductListItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductListItemModelFilter | null), orderBy?: ((ProductListItemModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductShippingAndReturns?: (ProductShippingAndReturnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductShippingAndReturnModelFilter | null), orderBy?: ((ProductShippingAndReturnModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductSpecLabelCollections?: (ProductSpecLabelCollectionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductSpecLabelCollectionModelFilter | null), orderBy?: ((ProductSpecLabelCollectionModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductSuggestionQuadBlocks?: (ProductSuggestionQuadBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductSuggestionQuadBlockModelFilter | null), orderBy?: ((ProductSuggestionQuadBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductTypeFaqs?: (ProductTypeFaqRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductTypeFaqModelFilter | null), orderBy?: ((ProductTypeFaqModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allProductWaitlists?: (ProductWaitlistRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ProductWaitlistModelFilter | null), orderBy?: ((ProductWaitlistModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allQuadGridItems?: (QuadGridItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (QuadGridItemModelFilter | null), orderBy?: ((QuadGridItemModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allQuoteBlocks?: (QuoteBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (QuoteBlockModelFilter | null), orderBy?: ((QuoteBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allShowroomLinks?: (ShowroomLinkRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ShowroomLinkModelFilter | null), orderBy?: ((ShowroomLinkModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allShowrooms?: (ShowroomRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (ShowroomModelFilter | null), orderBy?: ((ShowroomModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allSingleMediaBlocks?: (SingleMediaBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (SingleMediaBlockModelFilter | null), orderBy?: ((SingleMediaBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allSlickCarouselBlocks?: (SlickCarouselBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (SlickCarouselBlockModelFilter | null), orderBy?: ((SlickCarouselBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allSocialMediaContents?: (SocialMediaContentRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (SocialMediaContentModelFilter | null), orderBy?: ((SocialMediaContentModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allStandardPages?: (StandardPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (StandardPageModelFilter | null), orderBy?: ((StandardPageModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allSvgAssets?: (SvgAssetRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (SvgAssetModelFilter | null), orderBy?: ((SvgAssetModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allTextOnlyBlocks?: (TextOnlyBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (TextOnlyBlockModelFilter | null), orderBy?: ((TextOnlyBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allTrioBlocks?: (TrioBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (TrioBlockModelFilter | null), orderBy?: ((TrioBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of assets */
     allUploads?: (FileFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (UploadFilter | null), orderBy?: ((UploadOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allVats?: (VatRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (VatModelFilter | null), orderBy?: ((VatModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allVideoBlocks?: (VideoBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (VideoBlockModelFilter | null), orderBy?: ((VideoBlockModelOrderBy | null)[] | null)} })
     /** Returns a collection of records */
     allWeddingBandProducts?: (WeddingBandProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
-    fallbackLocales?: (SiteLocale[] | null), 
+    fallbackLocales?: (SiteLocale[] | null),
     /** Skip the first results */
-    skip?: (Scalars['IntType'] | null), 
+    skip?: (Scalars['IntType'] | null),
     /** Limit the number of results */
     first?: (Scalars['IntType'] | null), filter?: (WeddingBandProductModelFilter | null), orderBy?: ((WeddingBandProductModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     announcementBar?: (AnnouncementBarRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     announcementBarInfo?: (AnnouncementBarInfoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (AnnouncementBarInfoModelFilter | null), orderBy?: ((AnnouncementBarInfoModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     annualGiftForm?: (AnnualGiftFormRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     annualGifting?: (AnnualGiftingRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     blogCategory?: (BlogCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (BlogCategoryModelFilter | null), orderBy?: ((BlogCategoryModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     blogConfiguration?: (BlogConfigurationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     blogHeader?: (BlogHeaderRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     blogPost?: (BlogPostRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (BlogPostModelFilter | null), orderBy?: ((BlogPostModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     blogSubcategory?: (BlogSubcategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (BlogSubcategoryModelFilter | null), orderBy?: ((BlogSubcategoryModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     breadcrumb?: (BreadcrumbRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (BreadcrumbModelFilter | null), orderBy?: ((BreadcrumbModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     carouselHoverBlockItem?: (CarouselHoverBlockItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CarouselHoverBlockItemModelFilter | null), orderBy?: ((CarouselHoverBlockItemModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     cart?: (CartRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     celebrityBlock?: (CelebrityBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CelebrityBlockModelFilter | null), orderBy?: ((CelebrityBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     celebrityJewelry?: (CelebrityJewelryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CelebrityJewelryModelFilter | null), orderBy?: ((CelebrityJewelryModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     configuration?: (ConfigurationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ConfigurationModelFilter | null), orderBy?: ((ConfigurationModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     configuredProductOption?: (ConfiguredProductOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ConfiguredProductOptionModelFilter | null), orderBy?: ((ConfiguredProductOptionModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     cookieBanner?: (CookieBannerRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     country?: (CountryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CountryModelFilter | null), orderBy?: ((CountryModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     creativeBlock?: (CreativeBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CreativeBlockModelFilter | null), orderBy?: ((CreativeBlockModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     ctoDiamondTable?: (CtoDiamondTableRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     customProduct?: (CustomProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (CustomProductModelFilter | null), orderBy?: ((CustomProductModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     diamondContentBlock?: (DiamondContentBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (DiamondContentBlockModelFilter | null), orderBy?: ((DiamondContentBlockModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     diamondNotifierPage?: (DiamondNotifierPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     diamondPage?: (DiamondPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     diamondProduct?: (DiamondProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     diamondShapeDescription?: (DiamondShapeDescriptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (DiamondShapeDescriptionModelFilter | null), orderBy?: ((DiamondShapeDescriptionModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     diamondShapeSpec?: (DiamondShapeSpecRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (DiamondShapeSpecModelFilter | null), orderBy?: ((DiamondShapeSpecModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     diamondTable?: (DiamondTableRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     emailPopup?: (EmailPopupRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     engagementRingPdpCta?: (EngagementRingPdpCtaRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     engagementRingProduct?: (EngagementRingProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (EngagementRingProductModelFilter | null), orderBy?: ((EngagementRingProductModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     engagementRingSummaryPage?: (EngagementRingSummaryPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     engravingOptionCopy?: (EngravingOptionCopyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     faqAccordionContent?: (FaqAccordionContentRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (FaqAccordionContentModelFilter | null), orderBy?: ((FaqAccordionContentModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     footerNavigation?: (FooterNavigationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     fullWidthBannerBlock?: (FullWidthBannerBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (FullWidthBannerBlockModelFilter | null), orderBy?: ((FullWidthBannerBlockModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     giftWithPurchase?: (GiftWithPurchaseRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     gridCarouselBlockItem?: (GridCarouselBlockItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (GridCarouselBlockItemModelFilter | null), orderBy?: ((GridCarouselBlockItemModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     halfWidthBannerBlock?: (HalfWidthBannerBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (HalfWidthBannerBlockModelFilter | null), orderBy?: ((HalfWidthBannerBlockModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     headerNavigation?: (HeaderNavigationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     headerNavigationDynamic?: (HeaderNavigationDynamicRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     homePage?: (HomePageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     humanNamesMapper?: (HumanNamesMapperRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (HumanNamesMapperModelFilter | null), orderBy?: ((HumanNamesMapperModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     image1x1?: (Image1x1RecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (Image1x1ModelFilter | null), orderBy?: ((Image1x1ModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     image9x7?: (Image9x7RecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (Image9x7ModelFilter | null), orderBy?: ((Image9x7ModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     instagramReelBlock?: (InstagramReelBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (InstagramReelBlockModelFilter | null), orderBy?: ((InstagramReelBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     jeweleryProductSubCategory?: (JeweleryProductSubCategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (JeweleryProductSubCategoryModelFilter | null), orderBy?: ((JeweleryProductSubCategoryModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     jewelryOmegaProduct?: (JewelryOmegaProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (JewelryOmegaProductModelFilter | null), orderBy?: ((JewelryOmegaProductModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     jewelryPdpCta?: (JewelryPdpCtaRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (JewelryPdpCtaModelFilter | null), orderBy?: ((JewelryPdpCtaModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     jewelryProduct?: (JewelryProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (JewelryProductModelFilter | null), orderBy?: ((JewelryProductModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     jewelrySubcategory?: (JewelrySubcategoryRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (JewelrySubcategoryModelFilter | null), orderBy?: ((JewelrySubcategoryModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     listPage?: (ListPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ListPageModelFilter | null), orderBy?: ((ListPageModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     listpageHeroBanner?: (ListpageHeroBannerRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ListpageHeroBannerModelFilter | null), orderBy?: ((ListpageHeroBannerModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     navigation?: (NavigationRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (NavigationModelFilter | null), orderBy?: ((NavigationModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     navigationLink?: (NavigationLinkRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (NavigationLinkModelFilter | null), orderBy?: ((NavigationLinkModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     omegaAssetStack?: (OmegaAssetStackRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (OmegaAssetStackModelFilter | null), orderBy?: ((OmegaAssetStackModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     omegaProduct?: (OmegaProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (OmegaProductModelFilter | null), orderBy?: ((OmegaProductModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     ourDiamond?: (OurDiamondRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (OurDiamondModelFilter | null), orderBy?: ((OurDiamondModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     pageSeo?: (PageSeoRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (PageSeoModelFilter | null), orderBy?: ((PageSeoModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     payLater?: (PayLaterRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     payLaterOption?: (PayLaterOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (PayLaterOptionModelFilter | null), orderBy?: ((PayLaterOptionModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     plpPromoCard?: (PlpPromoCardRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (PlpPromoCardModelFilter | null), orderBy?: ((PlpPromoCardModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     plpPromoCardCollection?: (PlpPromoCardCollectionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (PlpPromoCardCollectionModelFilter | null), orderBy?: ((PlpPromoCardCollectionModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     pricingByCurrency?: (PricingByCurrencyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (PricingByCurrencyModelFilter | null), orderBy?: ((PricingByCurrencyModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productIconList?: (ProductIconListRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductIconListModelFilter | null), orderBy?: ((ProductIconListModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productLabel?: (ProductLabelRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductLabelModelFilter | null), orderBy?: ((ProductLabelModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productListItem?: (ProductListItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductListItemModelFilter | null), orderBy?: ((ProductListItemModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productShippingAndReturn?: (ProductShippingAndReturnRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductShippingAndReturnModelFilter | null), orderBy?: ((ProductShippingAndReturnModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productSpecLabelCollection?: (ProductSpecLabelCollectionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductSpecLabelCollectionModelFilter | null), orderBy?: ((ProductSpecLabelCollectionModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productSuggestionQuadBlock?: (ProductSuggestionQuadBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductSuggestionQuadBlockModelFilter | null), orderBy?: ((ProductSuggestionQuadBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productTypeFaq?: (ProductTypeFaqRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductTypeFaqModelFilter | null), orderBy?: ((ProductTypeFaqModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     productWaitlist?: (ProductWaitlistRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ProductWaitlistModelFilter | null), orderBy?: ((ProductWaitlistModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     quadGridItem?: (QuadGridItemRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (QuadGridItemModelFilter | null), orderBy?: ((QuadGridItemModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     quoteBlock?: (QuoteBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (QuoteBlockModelFilter | null), orderBy?: ((QuoteBlockModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     ringSizeOptionCopy?: (RingSizeOptionCopyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns the single instance record */
     shipsInTime?: (ShipsInTimeRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     showroom?: (ShowroomRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ShowroomModelFilter | null), orderBy?: ((ShowroomModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     showroomLink?: (ShowroomLinkRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (ShowroomLinkModelFilter | null), orderBy?: ((ShowroomLinkModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     showroomNav?: (ShowroomNavRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     /** Returns a specific record */
     singleMediaBlock?: (SingleMediaBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (SingleMediaBlockModelFilter | null), orderBy?: ((SingleMediaBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     slickCarouselBlock?: (SlickCarouselBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (SlickCarouselBlockModelFilter | null), orderBy?: ((SlickCarouselBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     socialMediaContent?: (SocialMediaContentRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (SocialMediaContentModelFilter | null), orderBy?: ((SocialMediaContentModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     standardPage?: (StandardPageRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (StandardPageModelFilter | null), orderBy?: ((StandardPageModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     svgAsset?: (SvgAssetRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (SvgAssetModelFilter | null), orderBy?: ((SvgAssetModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     textOnlyBlock?: (TextOnlyBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (TextOnlyBlockModelFilter | null), orderBy?: ((TextOnlyBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     trioBlock?: (TrioBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (TrioBlockModelFilter | null), orderBy?: ((TrioBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific asset */
     upload?: (FileFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (UploadFilter | null), orderBy?: ((UploadOrderBy | null)[] | null)} })
     /** Returns a specific record */
     vat?: (VatRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (VatModelFilter | null), orderBy?: ((VatModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     videoBlock?: (VideoBlockRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (VideoBlockModelFilter | null), orderBy?: ((VideoBlockModelOrderBy | null)[] | null)} })
     /** Returns a specific record */
     weddingBandProduct?: (WeddingBandProductRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null), filter?: (WeddingBandProductModelFilter | null), orderBy?: ((WeddingBandProductModelOrderBy | null)[] | null)} })
     /** Returns the single instance record */
     wishlist?: (WishlistRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     __typename?: boolean | number
@@ -23102,12 +23102,12 @@ export interface QuoteBlockModelFilter {_createdAt?: (CreatedAtFilter | null),cr
 export interface QuoteBlockRecordGenqlSelection{
     _allAttributionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allQuoteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -23128,7 +23128,7 @@ export interface QuoteBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     attribution?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     attributionFont?: boolean | number
@@ -23138,7 +23138,7 @@ export interface QuoteBlockRecordGenqlSelection{
     quotationMarksImage?: FileFieldGenqlSelection
     quote?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     quoteFont?: boolean | number
@@ -23477,17 +23477,17 @@ export interface RingSizeLabelRecordGenqlSelection{
 export interface RingSizeOptionCopyRecordGenqlSelection{
     _allRingSizeOptionCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRingSizeOptionCtaLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -23509,17 +23509,17 @@ export interface RingSizeOptionCopyRecordGenqlSelection{
     id?: boolean | number
     ringSizeOptionCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ringSizeOptionCta?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -23656,37 +23656,37 @@ export interface ShippingAndReturnsLabelRecordGenqlSelection{
 export interface ShipsInTimeRecordGenqlSelection{
     _allBulkShippingTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpBannerTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpFilterButtonTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPlpMobileBannerTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShippingTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allStaticTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -23710,7 +23710,7 @@ export interface ShipsInTimeRecordGenqlSelection{
     bulkShippingBusinessDays?: boolean | number
     bulkShippingText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     countrySpecificEndDate?: CountrySpecificDateSelectorRecordGenqlSelection
@@ -23723,36 +23723,36 @@ export interface ShipsInTimeRecordGenqlSelection{
     mtoShippingBusinessDays?: boolean | number
     plpBannerText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     plpFilterButtonText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     plpIcon?: FileFieldGenqlSelection
     plpMobileBannerText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shippingText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     startDate?: boolean | number
     staticText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     supportedCountries?: CountryRecordGenqlSelection
     textColor?: ColorFieldGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -23795,17 +23795,17 @@ export interface ShowroomLinkModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface ShowroomLinkRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCountryLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -23826,12 +23826,12 @@ export interface ShowroomLinkRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     country?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
@@ -23842,7 +23842,7 @@ export interface ShowroomLinkRecordGenqlSelection{
     nestedLinks?: NavigationLinkRecordGenqlSelection
     route?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     supportedCountries?: CountryRecordGenqlSelection
@@ -23858,7 +23858,7 @@ export interface ShowroomModelFilter {_createdAt?: (CreatedAtFilter | null),crea
 export interface ShowroomNavRecordGenqlSelection{
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -23882,7 +23882,7 @@ export interface ShowroomNavRecordGenqlSelection{
     links?: ShowroomLinkRecordGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -23895,102 +23895,102 @@ export interface ShowroomNavRecordGenqlSelection{
 export interface ShowroomRecordGenqlSelection{
     _allAddressLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allAppointmentCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allAppointmentMarkdownLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allContactLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDetailCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDirectionsCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allEmailTextLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHoursOfOperationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allHoursOfOperationLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allLocationLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPhoneLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPhoneLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allServicesLabelLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allServicesLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSlugLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24010,65 +24010,65 @@ export interface ShowroomRecordGenqlSelection{
     _updatedAt?: boolean | number
     address?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     appointmentCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     appointmentCtaLink?: boolean | number
     appointmentMarkdown?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     contactLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     detailCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     detailCtaLink?: boolean | number
     directionsCtaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     directionsCtaLink?: boolean | number
     directionsImage?: FileFieldGenqlSelection
     email?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     emailCtaStyle?: boolean | number
     emailLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     emailText?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     headingAdditionalClass?: boolean | number
     headingType?: boolean | number
     hoursOfOperation?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     hoursOfOperationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
@@ -24076,47 +24076,47 @@ export interface ShowroomRecordGenqlSelection{
     images?: FileFieldGenqlSelection
     locationLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     phone?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     phoneLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     services?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     servicesLabel?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     slug?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -24173,22 +24173,22 @@ export interface SingleMediaBlockModelMediaFieldGenqlSelection{
 export interface SingleMediaBlockRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24209,18 +24209,18 @@ export interface SingleMediaBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
@@ -24228,7 +24228,7 @@ export interface SingleMediaBlockRecordGenqlSelection{
     media?: SingleMediaBlockModelMediaFieldGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -24243,7 +24243,7 @@ export interface SiteGenqlSelection{
     variants?: ((FaviconType | null)[] | null)} })
     globalSeo?: (GlobalSeoFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     locales?: boolean | number
@@ -24258,12 +24258,12 @@ export interface SlickCarouselBlockModelFilter {_createdAt?: (CreatedAtFilter | 
 export interface SlickCarouselBlockRecordGenqlSelection{
     _allItemNameLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allUrlLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24287,13 +24287,13 @@ export interface SlickCarouselBlockRecordGenqlSelection{
     image?: FileFieldGenqlSelection
     itemName?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
     url?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     __typename?: boolean | number
@@ -24512,17 +24512,17 @@ export interface StandardPageModelFilter {_createdAt?: (CreatedAtFilter | null),
 export interface StandardPageRecordGenqlSelection{
     _allContent1Locales?: (StandardPageModelContent1FieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allContent2Locales?: (StandardPageModelContent2FieldListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMapLocales?: (JsonKeyRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24543,19 +24543,19 @@ export interface StandardPageRecordGenqlSelection{
     breadcrumb?: BreadcrumbRecordGenqlSelection
     content1?: (StandardPageModelContent1FieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     content2?: (StandardPageModelContent2FieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     createdAt?: boolean | number
     id?: boolean | number
     map?: (JsonKeyRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     position?: boolean | number
@@ -24746,27 +24746,27 @@ export interface TextOnlyBlockModelFilter {_createdAt?: (CreatedAtFilter | null)
 export interface TextOnlyBlockRecordGenqlSelection{
     _allCtaCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allCtaRouteLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDesktopCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allMobileCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24788,28 +24788,28 @@ export interface TextOnlyBlockRecordGenqlSelection{
     createdAt?: boolean | number
     ctaCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     ctaRoute?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     desktopCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     id?: boolean | number
     mobileCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -24851,17 +24851,17 @@ export interface TrioBlockModelFilter {_createdAt?: (CreatedAtFilter | null),cre
 export interface TrioBlockRecordGenqlSelection{
     _allAboveCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBelowCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -24882,12 +24882,12 @@ export interface TrioBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     aboveCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     belowCopy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     blocks?: SingleMediaBlockRecordGenqlSelection
@@ -24897,7 +24897,7 @@ export interface TrioBlockRecordGenqlSelection{
     id?: boolean | number
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -25168,7 +25168,7 @@ export interface UploadVideoFieldGenqlSelection{
     framerate?: boolean | number
     mp4Url?: { __args: {
     /** Pick highest resolution available up to the specified argument */
-    res?: (VideoMp4Res | null), 
+    res?: (VideoMp4Res | null),
     /** Pick the exact resolution quality specified in the argument */
     exactRes?: (VideoMp4Res | null)} } | boolean | number
     muxAssetId?: boolean | number
@@ -25232,17 +25232,17 @@ export interface VideoBlockModelFilter {_createdAt?: (CreatedAtFilter | null),cr
 export interface VideoBlockRecordGenqlSelection{
     _allCopyLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allVideoLocales?: (FileFieldMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -25263,7 +25263,7 @@ export interface VideoBlockRecordGenqlSelection{
     _updatedAt?: boolean | number
     copy?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
@@ -25271,13 +25271,13 @@ export interface VideoBlockRecordGenqlSelection{
     thumbnail?: FileFieldGenqlSelection
     title?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
     video?: (FileFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     videoSources?: FileFieldGenqlSelection
@@ -25362,57 +25362,57 @@ export interface WeddingBandProductModelPageCopyFieldGenqlSelection{
 export interface WeddingBandProductRecordGenqlSelection{
     _allBandDepthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allBandWidthLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allDiamondDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allMetalWeightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allOptionListLocales?: (ModularProductOptionRecordListListNonNullMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPaveCaratWeightLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allProductDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allProductTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSpecBlockTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -25433,12 +25433,12 @@ export interface WeddingBandProductRecordGenqlSelection{
     _updatedAt?: boolean | number
     bandDepth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     bandWidth?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     belowBannerBlocks?: WeddingBandProductModelBelowBannerBlocksFieldGenqlSelection
@@ -25447,7 +25447,7 @@ export interface WeddingBandProductRecordGenqlSelection{
     diamondContentBlock?: DiamondContentBlockRecordGenqlSelection
     diamondDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     diamondVideoBlock?: VideoBlockRecordGenqlSelection
@@ -25456,23 +25456,23 @@ export interface WeddingBandProductRecordGenqlSelection{
     isPromoIconEnabled?: boolean | number
     metalWeight?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     optionList?: (ModularProductOptionRecordGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     pageCopy?: WeddingBandProductModelPageCopyFieldGenqlSelection
     paveCaratWeight?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     productFaqBlock?: ProductTypeFaqRecordGenqlSelection
@@ -25480,19 +25480,19 @@ export interface WeddingBandProductRecordGenqlSelection{
     productLabel?: ProductLabelRecordGenqlSelection
     productTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     productType?: boolean | number
     products?: OmegaProductRecordGenqlSelection
     seoDescription?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     seoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shouldUseDefaultPrice?: boolean | number
@@ -25500,7 +25500,7 @@ export interface WeddingBandProductRecordGenqlSelection{
     slug?: boolean | number
     specBlockTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     specImage?: boolean | number
@@ -25517,112 +25517,112 @@ export interface WeddingBandProductRecordGenqlSelection{
 export interface WishlistRecordGenqlSelection{
     _allButtonRemoveLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allButtonShareLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allButtonShopLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allButtonViewLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allModalSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allModalSubtitleLoggedInLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allModalTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allNoResultLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPageSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPageSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allPageSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPageSubtitleLoggedInLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allPageTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allShareWishlistModalSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allShareWishlistModalTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSharedWishlistPageSeoDescriptionLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSharedWishlistPageSeoTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allSharedWishlistPageSubtitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} })
     _allSharedWishlistPageTitleLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTabAllLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTabEngagementLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _allTabJewelryLocales?: (StringMultiLocaleFieldGenqlSelection & { __args?: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} })
     _createdAt?: boolean | number
@@ -25642,114 +25642,114 @@ export interface WishlistRecordGenqlSelection{
     _updatedAt?: boolean | number
     buttonRemove?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     buttonShare?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     buttonShop?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     buttonView?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     createdAt?: boolean | number
     id?: boolean | number
     modalSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     modalSubtitleLoggedIn?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     modalTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     noResult?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pageSeoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pageSeoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     pageSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     pageSubtitleLoggedIn?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     pageTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     shareWishlistModalSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     shareWishlistModalTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     sharedWishlistPageSeoDescription?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     sharedWishlistPageSeoTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     sharedWishlistPageSubtitle?: { __args: {
     /** Process content as markdown */
-    markdown?: (Scalars['Boolean'] | null), 
+    markdown?: (Scalars['Boolean'] | null),
     /** The locale to use to fetch the field's content */
     locale?: (SiteLocale | null)} } | boolean | number
     sharedWishlistPageTitle?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     tabAll?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     tabEngagement?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     tabJewelry?: { __args: {
     /** The locale to use to fetch the field's content */
-    locale?: (SiteLocale | null), 
+    locale?: (SiteLocale | null),
     /** If you want to fallback to a default translation when a translation has not been found */
     fallbackLocales?: (SiteLocale[] | null)} } | boolean | number
     updatedAt?: boolean | number
@@ -25770,7 +25770,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAccordionItemRecord"')
       return AccordionItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AccountReminderFormRecord_possibleTypes: string[] = ['AccountReminderFormRecord']
@@ -25778,7 +25778,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAccountReminderFormRecord"')
       return AccountReminderFormRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AccountRemindersListRecord_possibleTypes: string[] = ['AccountRemindersListRecord']
@@ -25786,7 +25786,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAccountRemindersListRecord"')
       return AccountRemindersListRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AccountSubscriptionFormRecord_possibleTypes: string[] = ['AccountSubscriptionFormRecord']
@@ -25794,7 +25794,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAccountSubscriptionFormRecord"')
       return AccountSubscriptionFormRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AccountSubscriptionsListRecord_possibleTypes: string[] = ['AccountSubscriptionsListRecord']
@@ -25802,7 +25802,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAccountSubscriptionsListRecord"')
       return AccountSubscriptionsListRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AdditionalInfoRecord_possibleTypes: string[] = ['AdditionalInfoRecord']
@@ -25810,7 +25810,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAdditionalInfoRecord"')
       return AdditionalInfoRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AnnouncementBarInfoRecord_possibleTypes: string[] = ['AnnouncementBarInfoRecord']
@@ -25818,7 +25818,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAnnouncementBarInfoRecord"')
       return AnnouncementBarInfoRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AnnouncementBarRecord_possibleTypes: string[] = ['AnnouncementBarRecord']
@@ -25826,7 +25826,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAnnouncementBarRecord"')
       return AnnouncementBarRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AnnualGiftFormRecord_possibleTypes: string[] = ['AnnualGiftFormRecord']
@@ -25834,7 +25834,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAnnualGiftFormRecord"')
       return AnnualGiftFormRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AnnualGiftingRecord_possibleTypes: string[] = ['AnnualGiftingRecord']
@@ -25842,7 +25842,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAnnualGiftingRecord"')
       return AnnualGiftingRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const AssembledToOrderProductRecord_possibleTypes: string[] = ['AssembledToOrderProductRecord']
@@ -25850,7 +25850,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isAssembledToOrderProductRecord"')
       return AssembledToOrderProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BandDepthLabelRecord_possibleTypes: string[] = ['BandDepthLabelRecord']
@@ -25858,7 +25858,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBandDepthLabelRecord"')
       return BandDepthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BandHeightLabelRecord_possibleTypes: string[] = ['BandHeightLabelRecord']
@@ -25866,7 +25866,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBandHeightLabelRecord"')
       return BandHeightLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BandWidthLabelRecord_possibleTypes: string[] = ['BandWidthLabelRecord']
@@ -25874,7 +25874,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBandWidthLabelRecord"')
       return BandWidthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BasicTextLabelRecord_possibleTypes: string[] = ['BasicTextLabelRecord']
@@ -25882,7 +25882,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBasicTextLabelRecord"')
       return BasicTextLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogCategoryRecord_possibleTypes: string[] = ['BlogCategoryRecord']
@@ -25890,7 +25890,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogCategoryRecord"')
       return BlogCategoryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogCategoryRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['BlogCategoryRecordListListNonNullMultiLocaleField']
@@ -25898,7 +25898,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogCategoryRecordListListNonNullMultiLocaleField"')
       return BlogCategoryRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogCategoryRecordMultiLocaleField_possibleTypes: string[] = ['BlogCategoryRecordMultiLocaleField']
@@ -25906,7 +25906,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogCategoryRecordMultiLocaleField"')
       return BlogCategoryRecordMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogConfigurationRecord_possibleTypes: string[] = ['BlogConfigurationRecord']
@@ -25914,7 +25914,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogConfigurationRecord"')
       return BlogConfigurationRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogHeaderRecord_possibleTypes: string[] = ['BlogHeaderRecord']
@@ -25922,7 +25922,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogHeaderRecord"')
       return BlogHeaderRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogPostModelContentField_possibleTypes: string[] = ['ModularAccordionBlockRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularHorizontalLineBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','SocialMediaSectionRecord']
@@ -25930,7 +25930,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogPostModelContentField"')
       return BlogPostModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogPostModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['BlogPostModelContentFieldListListNonNullMultiLocaleField']
@@ -25938,7 +25938,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogPostModelContentFieldListListNonNullMultiLocaleField"')
       return BlogPostModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogPostRecord_possibleTypes: string[] = ['BlogPostRecord']
@@ -25946,7 +25946,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogPostRecord"')
       return BlogPostRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogPostRecordMultiLocaleField_possibleTypes: string[] = ['BlogPostRecordMultiLocaleField']
@@ -25954,7 +25954,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogPostRecordMultiLocaleField"')
       return BlogPostRecordMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogSubcategoryRecord_possibleTypes: string[] = ['BlogSubcategoryRecord']
@@ -25962,7 +25962,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogSubcategoryRecord"')
       return BlogSubcategoryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BlogSubcategoryRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['BlogSubcategoryRecordListListNonNullMultiLocaleField']
@@ -25970,7 +25970,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBlogSubcategoryRecordListListNonNullMultiLocaleField"')
       return BlogSubcategoryRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BooleanTypeMultiLocaleField_possibleTypes: string[] = ['BooleanTypeMultiLocaleField']
@@ -25978,7 +25978,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBooleanTypeMultiLocaleField"')
       return BooleanTypeMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BreadcrumbModelLinkField_possibleTypes: string[] = ['AccountRemindersListRecord','BlogCategoryRecord','BlogPostRecord','BlogSubcategoryRecord','CelebrityJewelryRecord','DiamondNotifierPageRecord','DiamondProductRecord','EngagementRingPdpCtaRecord','EngagementRingProductRecord','EngagementRingSummaryPageRecord','EngravingOptionCopyRecord','JeweleryProductSubCategoryRecord','JewelryOmegaProductRecord','JewelryPdpCtaRecord','JewelryProductRecord','ListPageRecord','OmegaProductRecord','OurDiamondRecord','PageSeoRecord','ProductListItemRecord','RingSizeOptionCopyRecord','StandardPageRecord','WeddingBandProductRecord']
@@ -25986,7 +25986,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBreadcrumbModelLinkField"')
       return BreadcrumbModelLinkField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const BreadcrumbRecord_possibleTypes: string[] = ['BreadcrumbRecord']
@@ -25994,7 +25994,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isBreadcrumbRecord"')
       return BreadcrumbRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CaratLabelRecord_possibleTypes: string[] = ['CaratLabelRecord']
@@ -26002,7 +26002,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCaratLabelRecord"')
       return CaratLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CarouselHoverBlockItemRecord_possibleTypes: string[] = ['CarouselHoverBlockItemRecord']
@@ -26010,7 +26010,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCarouselHoverBlockItemRecord"')
       return CarouselHoverBlockItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CartCertificateRecord_possibleTypes: string[] = ['CartCertificateRecord']
@@ -26018,7 +26018,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCartCertificateRecord"')
       return CartCertificateRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CartCertificateRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['CartCertificateRecordListListNonNullMultiLocaleField']
@@ -26026,7 +26026,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCartCertificateRecordListListNonNullMultiLocaleField"')
       return CartCertificateRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CartPageCopyRecord_possibleTypes: string[] = ['CartPageCopyRecord']
@@ -26034,7 +26034,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCartPageCopyRecord"')
       return CartPageCopyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CartPageCopyRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['CartPageCopyRecordListListNonNullMultiLocaleField']
@@ -26042,7 +26042,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCartPageCopyRecordListListNonNullMultiLocaleField"')
       return CartPageCopyRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CartRecord_possibleTypes: string[] = ['CartRecord']
@@ -26050,7 +26050,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCartRecord"')
       return CartRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CelebrityBlockRecord_possibleTypes: string[] = ['CelebrityBlockRecord']
@@ -26058,7 +26058,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCelebrityBlockRecord"')
       return CelebrityBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CelebrityGalleryRecord_possibleTypes: string[] = ['CelebrityGalleryRecord']
@@ -26066,7 +26066,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCelebrityGalleryRecord"')
       return CelebrityGalleryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CelebrityJewelryRecord_possibleTypes: string[] = ['CelebrityJewelryRecord']
@@ -26074,7 +26074,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCelebrityJewelryRecord"')
       return CelebrityJewelryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CertificateLabelRecord_possibleTypes: string[] = ['CertificateLabelRecord']
@@ -26082,7 +26082,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCertificateLabelRecord"')
       return CertificateLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ChainLengthLabelRecord_possibleTypes: string[] = ['ChainLengthLabelRecord']
@@ -26090,7 +26090,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isChainLengthLabelRecord"')
       return ChainLengthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ChainWidthLabelRecord_possibleTypes: string[] = ['ChainWidthLabelRecord']
@@ -26098,7 +26098,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isChainWidthLabelRecord"')
       return ChainWidthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CharmLabelRecord_possibleTypes: string[] = ['CharmLabelRecord']
@@ -26106,7 +26106,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCharmLabelRecord"')
       return CharmLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ClarityLabelRecord_possibleTypes: string[] = ['ClarityLabelRecord']
@@ -26114,7 +26114,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isClarityLabelRecord"')
       return ClarityLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ClosureLabelRecord_possibleTypes: string[] = ['ClosureLabelRecord']
@@ -26122,7 +26122,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isClosureLabelRecord"')
       return ClosureLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CollectionMetadata_possibleTypes: string[] = ['CollectionMetadata']
@@ -26130,7 +26130,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCollectionMetadata"')
       return CollectionMetadata_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ColorField_possibleTypes: string[] = ['ColorField']
@@ -26138,7 +26138,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isColorField"')
       return ColorField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ColorLabelRecord_possibleTypes: string[] = ['ColorLabelRecord']
@@ -26146,7 +26146,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isColorLabelRecord"')
       return ColorLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ColumnRecord_possibleTypes: string[] = ['ColumnRecord']
@@ -26154,7 +26154,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isColumnRecord"')
       return ColumnRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ColumnRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ColumnRecordListListNonNullMultiLocaleField']
@@ -26162,7 +26162,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isColumnRecordListListNonNullMultiLocaleField"')
       return ColumnRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ConfigurationModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthQuadBlockRecord','ModularInstagramReelBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','SocialMediaSectionRecord']
@@ -26170,7 +26170,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isConfigurationModelBelowBannerBlocksField"')
       return ConfigurationModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ConfigurationRecord_possibleTypes: string[] = ['ConfigurationRecord']
@@ -26178,7 +26178,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isConfigurationRecord"')
       return ConfigurationRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ConfiguredProductOptionRecord_possibleTypes: string[] = ['ConfiguredProductOptionRecord']
@@ -26186,7 +26186,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isConfiguredProductOptionRecord"')
       return ConfiguredProductOptionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CookieBannerRecord_possibleTypes: string[] = ['CookieBannerRecord']
@@ -26194,7 +26194,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCookieBannerRecord"')
       return CookieBannerRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CopyWithCtaRecord_possibleTypes: string[] = ['CopyWithCtaRecord']
@@ -26202,7 +26202,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCopyWithCtaRecord"')
       return CopyWithCtaRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CopyWithCtaRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['CopyWithCtaRecordListListNonNullMultiLocaleField']
@@ -26210,7 +26210,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCopyWithCtaRecordListListNonNullMultiLocaleField"')
       return CopyWithCtaRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CordWidthLabelRecord_possibleTypes: string[] = ['CordWidthLabelRecord']
@@ -26218,7 +26218,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCordWidthLabelRecord"')
       return CordWidthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CountryPickerColumnRecord_possibleTypes: string[] = ['CountryPickerColumnRecord']
@@ -26226,7 +26226,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCountryPickerColumnRecord"')
       return CountryPickerColumnRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CountryRecord_possibleTypes: string[] = ['CountryRecord']
@@ -26234,7 +26234,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCountryRecord"')
       return CountryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CountrySpecificDateSelectorRecord_possibleTypes: string[] = ['CountrySpecificDateSelectorRecord']
@@ -26242,7 +26242,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCountrySpecificDateSelectorRecord"')
       return CountrySpecificDateSelectorRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CreativeBlockModelConfigurationsInOrderField_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -26250,7 +26250,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCreativeBlockModelConfigurationsInOrderField"')
       return CreativeBlockModelConfigurationsInOrderField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CreativeBlockRecord_possibleTypes: string[] = ['CreativeBlockRecord']
@@ -26258,7 +26258,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCreativeBlockRecord"')
       return CreativeBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CtoDiamondTableRecord_possibleTypes: string[] = ['CtoDiamondTableRecord']
@@ -26266,7 +26266,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCtoDiamondTableRecord"')
       return CtoDiamondTableRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CurrencyPriceRecord_possibleTypes: string[] = ['CurrencyPriceRecord']
@@ -26274,7 +26274,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCurrencyPriceRecord"')
       return CurrencyPriceRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CustomProductRecord_possibleTypes: string[] = ['CustomProductRecord']
@@ -26282,7 +26282,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCustomProductRecord"')
       return CustomProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CutLabelRecord_possibleTypes: string[] = ['CutLabelRecord']
@@ -26290,7 +26290,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCutLabelRecord"')
       return CutLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const CutletLabelRecord_possibleTypes: string[] = ['CutletLabelRecord']
@@ -26298,7 +26298,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isCutletLabelRecord"')
       return CutletLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DarksideButtonRecord_possibleTypes: string[] = ['DarksideButtonRecord']
@@ -26306,7 +26306,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDarksideButtonRecord"')
       return DarksideButtonRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DarksideButtonRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['DarksideButtonRecordListListNonNullMultiLocaleField']
@@ -26314,7 +26314,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDarksideButtonRecordListListNonNullMultiLocaleField"')
       return DarksideButtonRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DepthLabelRecord_possibleTypes: string[] = ['DepthLabelRecord']
@@ -26322,7 +26322,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDepthLabelRecord"')
       return DepthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DescriptionLabelRecord_possibleTypes: string[] = ['DescriptionLabelRecord']
@@ -26330,7 +26330,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDescriptionLabelRecord"')
       return DescriptionLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DesktopImageRecord_possibleTypes: string[] = ['DesktopImageRecord']
@@ -26338,7 +26338,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDesktopImageRecord"')
       return DesktopImageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondClarityLabelRecord_possibleTypes: string[] = ['DiamondClarityLabelRecord']
@@ -26346,7 +26346,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondClarityLabelRecord"')
       return DiamondClarityLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondColorLabelRecord_possibleTypes: string[] = ['DiamondColorLabelRecord']
@@ -26354,7 +26354,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondColorLabelRecord"')
       return DiamondColorLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondContentBlockRecord_possibleTypes: string[] = ['DiamondContentBlockRecord']
@@ -26362,7 +26362,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondContentBlockRecord"')
       return DiamondContentBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondCountLabelRecord_possibleTypes: string[] = ['DiamondCountLabelRecord']
@@ -26370,7 +26370,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondCountLabelRecord"')
       return DiamondCountLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondNotifierPageRecord_possibleTypes: string[] = ['DiamondNotifierPageRecord']
@@ -26378,7 +26378,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondNotifierPageRecord"')
       return DiamondNotifierPageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondPageRecord_possibleTypes: string[] = ['DiamondPageRecord']
@@ -26386,7 +26386,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondPageRecord"')
       return DiamondPageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondProductModelContentField_possibleTypes: string[] = ['ModularFullWidthBannerBlockRecord','ModularTrio1x1BlockRecord']
@@ -26394,7 +26394,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondProductModelContentField"')
       return DiamondProductModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['DiamondProductModelContentFieldListListNonNullMultiLocaleField']
@@ -26402,7 +26402,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondProductModelContentFieldListListNonNullMultiLocaleField"')
       return DiamondProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondProductRecord_possibleTypes: string[] = ['DiamondProductRecord']
@@ -26410,7 +26410,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondProductRecord"')
       return DiamondProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondShapeDescriptionRecord_possibleTypes: string[] = ['DiamondShapeDescriptionRecord']
@@ -26418,7 +26418,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondShapeDescriptionRecord"')
       return DiamondShapeDescriptionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondShapeSpecRecord_possibleTypes: string[] = ['DiamondShapeSpecRecord']
@@ -26426,7 +26426,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondShapeSpecRecord"')
       return DiamondShapeSpecRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondSizeLabelRecord_possibleTypes: string[] = ['DiamondSizeLabelRecord']
@@ -26434,7 +26434,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondSizeLabelRecord"')
       return DiamondSizeLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondTableRecord_possibleTypes: string[] = ['DiamondTableRecord']
@@ -26442,7 +26442,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondTableRecord"')
       return DiamondTableRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const DiamondsQueryConfigRecord_possibleTypes: string[] = ['DiamondsQueryConfigRecord']
@@ -26450,7 +26450,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isDiamondsQueryConfigRecord"')
       return DiamondsQueryConfigRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EmailPopupRecord_possibleTypes: string[] = ['EmailPopupRecord']
@@ -26458,7 +26458,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEmailPopupRecord"')
       return EmailPopupRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EmailSignupPageCopyRecord_possibleTypes: string[] = ['EmailSignupPageCopyRecord']
@@ -26466,7 +26466,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEmailSignupPageCopyRecord"')
       return EmailSignupPageCopyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EmailSignupPageCopyRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['EmailSignupPageCopyRecordListListNonNullMultiLocaleField']
@@ -26474,7 +26474,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEmailSignupPageCopyRecordListListNonNullMultiLocaleField"')
       return EmailSignupPageCopyRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingPdpCtaRecord_possibleTypes: string[] = ['EngagementRingPdpCtaRecord']
@@ -26482,7 +26482,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingPdpCtaRecord"')
       return EngagementRingPdpCtaRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingProductModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthQuadBlockRecord','ModularInstagramReelBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','SocialMediaSectionRecord']
@@ -26490,7 +26490,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingProductModelBelowBannerBlocksField"')
       return EngagementRingProductModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingProductModelPageCopyField_possibleTypes: string[] = ['EngagementRingPdpCtaRecord','EngravingOptionCopyRecord','RingSizeOptionCopyRecord']
@@ -26498,7 +26498,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingProductModelPageCopyField"')
       return EngagementRingProductModelPageCopyField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingProductRecord_possibleTypes: string[] = ['EngagementRingProductRecord']
@@ -26506,7 +26506,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingProductRecord"')
       return EngagementRingProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingSummaryPageModelPageCopyField_possibleTypes: string[] = ['EngravingOptionCopyRecord','RingSizeOptionCopyRecord']
@@ -26514,7 +26514,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingSummaryPageModelPageCopyField"')
       return EngagementRingSummaryPageModelPageCopyField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngagementRingSummaryPageRecord_possibleTypes: string[] = ['EngagementRingSummaryPageRecord']
@@ -26522,7 +26522,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngagementRingSummaryPageRecord"')
       return EngagementRingSummaryPageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const EngravingOptionCopyRecord_possibleTypes: string[] = ['EngravingOptionCopyRecord']
@@ -26530,7 +26530,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isEngravingOptionCopyRecord"')
       return EngravingOptionCopyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FaqAccordionContentRecord_possibleTypes: string[] = ['FaqAccordionContentRecord']
@@ -26538,7 +26538,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFaqAccordionContentRecord"')
       return FaqAccordionContentRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FileField_possibleTypes: string[] = ['FileField']
@@ -26546,7 +26546,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFileField"')
       return FileField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FileFieldInterface_possibleTypes: string[] = ['FileField']
@@ -26554,7 +26554,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFileFieldInterface"')
       return FileFieldInterface_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FileFieldMultiLocaleField_possibleTypes: string[] = ['FileFieldMultiLocaleField']
@@ -26562,7 +26562,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFileFieldMultiLocaleField"')
       return FileFieldMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FluorescenceLabelRecord_possibleTypes: string[] = ['FluorescenceLabelRecord']
@@ -26570,7 +26570,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFluorescenceLabelRecord"')
       return FluorescenceLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FooterNavigationModelCountryPickerField_possibleTypes: string[] = ['BasicTextLabelRecord','CountryPickerColumnRecord']
@@ -26578,7 +26578,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFooterNavigationModelCountryPickerField"')
       return FooterNavigationModelCountryPickerField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FooterNavigationRecord_possibleTypes: string[] = ['FooterNavigationRecord']
@@ -26586,7 +26586,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFooterNavigationRecord"')
       return FooterNavigationRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const FullWidthBannerBlockRecord_possibleTypes: string[] = ['FullWidthBannerBlockRecord']
@@ -26594,7 +26594,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isFullWidthBannerBlockRecord"')
       return FullWidthBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const GiftWithPurchaseRecord_possibleTypes: string[] = ['GiftWithPurchaseRecord']
@@ -26602,7 +26602,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isGiftWithPurchaseRecord"')
       return GiftWithPurchaseRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const GirdleLabelRecord_possibleTypes: string[] = ['GirdleLabelRecord']
@@ -26610,7 +26610,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isGirdleLabelRecord"')
       return GirdleLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const GlobalSeoField_possibleTypes: string[] = ['GlobalSeoField']
@@ -26618,7 +26618,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isGlobalSeoField"')
       return GlobalSeoField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const GridCarouselBlockItemRecord_possibleTypes: string[] = ['GridCarouselBlockItemRecord']
@@ -26626,7 +26626,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isGridCarouselBlockItemRecord"')
       return GridCarouselBlockItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HalfWidthBannerBlockRecord_possibleTypes: string[] = ['HalfWidthBannerBlockRecord']
@@ -26634,7 +26634,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHalfWidthBannerBlockRecord"')
       return HalfWidthBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HeaderNavigationDynamicRecord_possibleTypes: string[] = ['HeaderNavigationDynamicRecord']
@@ -26642,7 +26642,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHeaderNavigationDynamicRecord"')
       return HeaderNavigationDynamicRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HeaderNavigationRecord_possibleTypes: string[] = ['HeaderNavigationRecord']
@@ -26650,7 +26650,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHeaderNavigationRecord"')
       return HeaderNavigationRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HeroBlockRecord_possibleTypes: string[] = ['HeroBlockRecord']
@@ -26658,7 +26658,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHeroBlockRecord"')
       return HeroBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HomePageModelContentField_possibleTypes: string[] = ['ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuoteBlockRecord','ModularRandomBannerBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','SocialMediaSectionRecord']
@@ -26666,7 +26666,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHomePageModelContentField"')
       return HomePageModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HomePageModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['HomePageModelContentFieldListListNonNullMultiLocaleField']
@@ -26674,7 +26674,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHomePageModelContentFieldListListNonNullMultiLocaleField"')
       return HomePageModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HomePageRecord_possibleTypes: string[] = ['HomePageRecord']
@@ -26682,7 +26682,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHomePageRecord"')
       return HomePageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const HumanNamesMapperRecord_possibleTypes: string[] = ['HumanNamesMapperRecord']
@@ -26690,7 +26690,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isHumanNamesMapperRecord"')
       return HumanNamesMapperRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const Image1x1Record_possibleTypes: string[] = ['Image1x1Record']
@@ -26698,7 +26698,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isImage1x1Record"')
       return Image1x1Record_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const Image9x7Record_possibleTypes: string[] = ['Image9x7Record']
@@ -26706,7 +26706,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isImage9x7Record"')
       return Image9x7Record_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const InstagramReelBlockRecord_possibleTypes: string[] = ['InstagramReelBlockRecord']
@@ -26714,7 +26714,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isInstagramReelBlockRecord"')
       return InstagramReelBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JacketLengthLabelRecord_possibleTypes: string[] = ['JacketLengthLabelRecord']
@@ -26722,7 +26722,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJacketLengthLabelRecord"')
       return JacketLengthLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JeweleryProductSubCategoryRecord_possibleTypes: string[] = ['JeweleryProductSubCategoryRecord']
@@ -26730,7 +26730,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJeweleryProductSubCategoryRecord"')
       return JeweleryProductSubCategoryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryOmegaProductModelBelowBannerBlocksField_possibleTypes: string[] = ['FullWidthBannerBlockRecord','HalfWidthBannerBlockRecord','TrioBlockRecord']
@@ -26738,7 +26738,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryOmegaProductModelBelowBannerBlocksField"')
       return JewelryOmegaProductModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryOmegaProductModelContentField_possibleTypes: string[] = ['ModularFullWidthBannerBlockRecord','ModularTrio1x1BlockRecord']
@@ -26746,7 +26746,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryOmegaProductModelContentField"')
       return JewelryOmegaProductModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleField']
@@ -26754,7 +26754,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryOmegaProductModelContentFieldListListNonNullMultiLocaleField"')
       return JewelryOmegaProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryOmegaProductRecord_possibleTypes: string[] = ['JewelryOmegaProductRecord']
@@ -26762,7 +26762,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryOmegaProductRecord"')
       return JewelryOmegaProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryPdpCtaRecord_possibleTypes: string[] = ['JewelryPdpCtaRecord']
@@ -26770,7 +26770,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryPdpCtaRecord"')
       return JewelryPdpCtaRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryProductModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularAccordionBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthQuadBlockRecord','ModularInstagramReelBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','SocialMediaSectionRecord']
@@ -26778,7 +26778,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryProductModelBelowBannerBlocksField"')
       return JewelryProductModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryProductModelContentField_possibleTypes: string[] = ['ModularGridCarouselBlockRecord','ModularTrio1x1BlockRecord']
@@ -26786,7 +26786,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryProductModelContentField"')
       return JewelryProductModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['JewelryProductModelContentFieldListListNonNullMultiLocaleField']
@@ -26794,7 +26794,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryProductModelContentFieldListListNonNullMultiLocaleField"')
       return JewelryProductModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelryProductRecord_possibleTypes: string[] = ['JewelryProductRecord']
@@ -26802,7 +26802,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelryProductRecord"')
       return JewelryProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JewelrySubcategoryRecord_possibleTypes: string[] = ['JewelrySubcategoryRecord']
@@ -26810,7 +26810,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJewelrySubcategoryRecord"')
       return JewelrySubcategoryRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JsonKeyRecord_possibleTypes: string[] = ['JsonKeyRecord']
@@ -26818,7 +26818,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJsonKeyRecord"')
       return JsonKeyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const JsonKeyRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['JsonKeyRecordListListNonNullMultiLocaleField']
@@ -26826,7 +26826,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isJsonKeyRecordListListNonNullMultiLocaleField"')
       return JsonKeyRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelBannerBlocksField_possibleTypes: string[] = ['FullWidthBannerBlockRecord','HalfWidthBannerBlockRecord']
@@ -26834,7 +26834,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelBannerBlocksField"')
       return ListPageModelBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularAccordionBlockRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','SocialMediaSectionRecord']
@@ -26842,7 +26842,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelBelowBannerBlocksField"')
       return ListPageModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelBelowBannerBlocksFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['ListPageModelBelowBannerBlocksFieldListListNonNullMultiLocaleField']
@@ -26850,7 +26850,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelBelowBannerBlocksFieldListListNonNullMultiLocaleField"')
       return ListPageModelBelowBannerBlocksFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelBestSellersInOrderField_possibleTypes: string[] = ['ConfigurationRecord','ConfiguredProductOptionRecord','OmegaProductRecord']
@@ -26858,7 +26858,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelBestSellersInOrderField"')
       return ListPageModelBestSellersInOrderField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelCollectionsInOrderField_possibleTypes: string[] = ['EngagementRingProductRecord','JewelryProductRecord','WeddingBandProductRecord']
@@ -26866,7 +26866,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelCollectionsInOrderField"')
       return ListPageModelCollectionsInOrderField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelConfigurationsInOrderField_possibleTypes: string[] = ['ConfigurationRecord','ConfiguredProductOptionRecord','OmegaProductRecord']
@@ -26874,7 +26874,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelConfigurationsInOrderField"')
       return ListPageModelConfigurationsInOrderField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelFilterAndSortField_possibleTypes: string[] = ['PlpFilterRecord','PlpSortRecord']
@@ -26882,7 +26882,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelFilterAndSortField"')
       return ListPageModelFilterAndSortField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageModelFilterAndSortFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['ListPageModelFilterAndSortFieldListListNonNullMultiLocaleField']
@@ -26890,7 +26890,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageModelFilterAndSortFieldListListNonNullMultiLocaleField"')
       return ListPageModelFilterAndSortFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListPageRecord_possibleTypes: string[] = ['ListPageRecord']
@@ -26898,7 +26898,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListPageRecord"')
       return ListPageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ListpageHeroBannerRecord_possibleTypes: string[] = ['ListpageHeroBannerRecord']
@@ -26906,7 +26906,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isListpageHeroBannerRecord"')
       return ListpageHeroBannerRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const MeasurementsLabelRecord_possibleTypes: string[] = ['MeasurementsLabelRecord']
@@ -26914,7 +26914,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isMeasurementsLabelRecord"')
       return MeasurementsLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const MetalLabelRecord_possibleTypes: string[] = ['MetalLabelRecord']
@@ -26922,7 +26922,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isMetalLabelRecord"')
       return MetalLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const MetalWeightLabelRecord_possibleTypes: string[] = ['MetalWeightLabelRecord']
@@ -26930,7 +26930,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isMetalWeightLabelRecord"')
       return MetalWeightLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularAccordionBlockRecord_possibleTypes: string[] = ['ModularAccordionBlockRecord']
@@ -26938,7 +26938,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularAccordionBlockRecord"')
       return ModularAccordionBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularAccordionBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularAccordionBlockRecordListListNonNullMultiLocaleField']
@@ -26946,7 +26946,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularAccordionBlockRecordListListNonNullMultiLocaleField"')
       return ModularAccordionBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularAccordionRecord_possibleTypes: string[] = ['ModularAccordionRecord']
@@ -26954,7 +26954,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularAccordionRecord"')
       return ModularAccordionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularAccordionRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularAccordionRecordListListNonNullMultiLocaleField']
@@ -26962,7 +26962,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularAccordionRecordListListNonNullMultiLocaleField"')
       return ModularAccordionRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularBlockWrapperModelContentBlocksField_possibleTypes: string[] = ['ModularQuoteBlockRecord','ModularSingleMediaBlockRecord']
@@ -26970,7 +26970,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularBlockWrapperModelContentBlocksField"')
       return ModularBlockWrapperModelContentBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularBlockWrapperModelContentField_possibleTypes: string[] = ['ModularBlockWrapperModelContentField']
@@ -26978,7 +26978,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularBlockWrapperModelContentField"')
       return ModularBlockWrapperModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularBlockWrapperRecord_possibleTypes: string[] = ['ModularBlockWrapperRecord']
@@ -26986,7 +26986,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularBlockWrapperRecord"')
       return ModularBlockWrapperRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularBlockWrapperRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularBlockWrapperRecordListListNonNullMultiLocaleField']
@@ -26994,7 +26994,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularBlockWrapperRecordListListNonNullMultiLocaleField"')
       return ModularBlockWrapperRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularBlogListTrioBlockRecord_possibleTypes: string[] = ['ModularBlogListTrioBlockRecord']
@@ -27002,7 +27002,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularBlogListTrioBlockRecord"')
       return ModularBlogListTrioBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCarouselBlockModelBlocksField_possibleTypes: string[] = ['FullWidthBannerBlockRecord','HalfWidthBannerBlockRecord','QuoteBlockRecord','TextOnlyBlockRecord','TrioBlockRecord']
@@ -27010,7 +27010,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCarouselBlockModelBlocksField"')
       return ModularCarouselBlockModelBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCarouselBlockRecord_possibleTypes: string[] = ['ModularCarouselBlockRecord']
@@ -27018,7 +27018,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCarouselBlockRecord"')
       return ModularCarouselBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCarouselHoverBlockRecord_possibleTypes: string[] = ['ModularCarouselHoverBlockRecord']
@@ -27026,7 +27026,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCarouselHoverBlockRecord"')
       return ModularCarouselHoverBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCelebrityCarouselBlockRecord_possibleTypes: string[] = ['ModularCelebrityCarouselBlockRecord']
@@ -27034,7 +27034,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCelebrityCarouselBlockRecord"')
       return ModularCelebrityCarouselBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCelebrityReelBlockRecord_possibleTypes: string[] = ['ModularCelebrityReelBlockRecord']
@@ -27042,7 +27042,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCelebrityReelBlockRecord"')
       return ModularCelebrityReelBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCelebrityWDetailCarouselRecord_possibleTypes: string[] = ['ModularCelebrityWDetailCarouselRecord']
@@ -27050,7 +27050,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCelebrityWDetailCarouselRecord"')
       return ModularCelebrityWDetailCarouselRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularCollectionHeroBlockRecord_possibleTypes: string[] = ['ModularCollectionHeroBlockRecord']
@@ -27058,7 +27058,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularCollectionHeroBlockRecord"')
       return ModularCollectionHeroBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularDuoBlockRecord_possibleTypes: string[] = ['ModularDuoBlockRecord']
@@ -27066,7 +27066,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularDuoBlockRecord"')
       return ModularDuoBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularEmailPopupOverrideRecord_possibleTypes: string[] = ['ModularEmailPopupOverrideRecord']
@@ -27074,7 +27074,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularEmailPopupOverrideRecord"')
       return ModularEmailPopupOverrideRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularEmailPopupOverrideRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularEmailPopupOverrideRecordListListNonNullMultiLocaleField']
@@ -27082,7 +27082,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularEmailPopupOverrideRecordListListNonNullMultiLocaleField"')
       return ModularEmailPopupOverrideRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularEmailSignupBlockRecord_possibleTypes: string[] = ['ModularEmailSignupBlockRecord']
@@ -27090,7 +27090,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularEmailSignupBlockRecord"')
       return ModularEmailSignupBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularFullWidthBannerBlockRecord_possibleTypes: string[] = ['ModularFullWidthBannerBlockRecord']
@@ -27098,7 +27098,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularFullWidthBannerBlockRecord"')
       return ModularFullWidthBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularFullWidthBannerBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularFullWidthBannerBlockRecordListListNonNullMultiLocaleField']
@@ -27106,7 +27106,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularFullWidthBannerBlockRecordListListNonNullMultiLocaleField"')
       return ModularFullWidthBannerBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularGridCarouselBlockRecord_possibleTypes: string[] = ['ModularGridCarouselBlockRecord']
@@ -27114,7 +27114,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularGridCarouselBlockRecord"')
       return ModularGridCarouselBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularHalfWidthBannerBlockRecord_possibleTypes: string[] = ['ModularHalfWidthBannerBlockRecord']
@@ -27122,7 +27122,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularHalfWidthBannerBlockRecord"')
       return ModularHalfWidthBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularHalfWidthBlogSummaryBlockRecord_possibleTypes: string[] = ['ModularHalfWidthBlogSummaryBlockRecord']
@@ -27130,7 +27130,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularHalfWidthBlogSummaryBlockRecord"')
       return ModularHalfWidthBlogSummaryBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularHalfWidthQuadBlockRecord_possibleTypes: string[] = ['ModularHalfWidthQuadBlockRecord']
@@ -27138,7 +27138,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularHalfWidthQuadBlockRecord"')
       return ModularHalfWidthQuadBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularHeroBannerBlockRecord_possibleTypes: string[] = ['ModularHeroBannerBlockRecord']
@@ -27146,7 +27146,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularHeroBannerBlockRecord"')
       return ModularHeroBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularHorizontalLineBlockRecord_possibleTypes: string[] = ['ModularHorizontalLineBlockRecord']
@@ -27154,7 +27154,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularHorizontalLineBlockRecord"')
       return ModularHorizontalLineBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularInstagramReelBlockRecord_possibleTypes: string[] = ['ModularInstagramReelBlockRecord']
@@ -27162,7 +27162,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularInstagramReelBlockRecord"')
       return ModularInstagramReelBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularInstagramReelBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularInstagramReelBlockRecordListListNonNullMultiLocaleField']
@@ -27170,7 +27170,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularInstagramReelBlockRecordListListNonNullMultiLocaleField"')
       return ModularInstagramReelBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularLeoBlockRecord_possibleTypes: string[] = ['ModularLeoBlockRecord']
@@ -27178,7 +27178,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularLeoBlockRecord"')
       return ModularLeoBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularListTitleBlockRecord_possibleTypes: string[] = ['ModularListTitleBlockRecord']
@@ -27186,7 +27186,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularListTitleBlockRecord"')
       return ModularListTitleBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularLogoBannerBlockRecord_possibleTypes: string[] = ['ModularLogoBannerBlockRecord']
@@ -27194,7 +27194,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularLogoBannerBlockRecord"')
       return ModularLogoBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularMiniBannerBlockRecord_possibleTypes: string[] = ['ModularMiniBannerBlockRecord']
@@ -27202,7 +27202,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularMiniBannerBlockRecord"')
       return ModularMiniBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductIconListItemRecord_possibleTypes: string[] = ['ModularProductIconListItemRecord']
@@ -27210,7 +27210,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductIconListItemRecord"')
       return ModularProductIconListItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductOptionRecord_possibleTypes: string[] = ['ModularProductOptionRecord']
@@ -27218,7 +27218,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductOptionRecord"')
       return ModularProductOptionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductOptionRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularProductOptionRecordListListNonNullMultiLocaleField']
@@ -27226,7 +27226,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductOptionRecordListListNonNullMultiLocaleField"')
       return ModularProductOptionRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSliderBlockRecord_possibleTypes: string[] = ['ModularProductSliderBlockRecord']
@@ -27234,7 +27234,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSliderBlockRecord"')
       return ModularProductSliderBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockModelConfiguration1Field_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -27242,7 +27242,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockModelConfiguration1Field"')
       return ModularProductSuggestionQuadBlockModelConfiguration1Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockModelConfiguration2Field_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -27250,7 +27250,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockModelConfiguration2Field"')
       return ModularProductSuggestionQuadBlockModelConfiguration2Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockModelConfiguration3Field_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -27258,7 +27258,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockModelConfiguration3Field"')
       return ModularProductSuggestionQuadBlockModelConfiguration3Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockModelConfiguration4Field_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -27266,7 +27266,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockModelConfiguration4Field"')
       return ModularProductSuggestionQuadBlockModelConfiguration4Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockModelConfigurationsInOrderField_possibleTypes: string[] = ['ConfigurationRecord','ConfiguredProductOptionRecord','OmegaProductRecord']
@@ -27274,7 +27274,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockModelConfigurationsInOrderField"')
       return ModularProductSuggestionQuadBlockModelConfigurationsInOrderField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockRecord_possibleTypes: string[] = ['ModularProductSuggestionQuadBlockRecord']
@@ -27282,7 +27282,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockRecord"')
       return ModularProductSuggestionQuadBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularProductSuggestionQuadBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularProductSuggestionQuadBlockRecordListListNonNullMultiLocaleField']
@@ -27290,7 +27290,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularProductSuggestionQuadBlockRecordListListNonNullMultiLocaleField"')
       return ModularProductSuggestionQuadBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularQuadBlockRecord_possibleTypes: string[] = ['ModularQuadBlockRecord']
@@ -27298,7 +27298,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularQuadBlockRecord"')
       return ModularQuadBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularQuadGridRecord_possibleTypes: string[] = ['ModularQuadGridRecord']
@@ -27306,7 +27306,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularQuadGridRecord"')
       return ModularQuadGridRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularQuadLogoBlockRecord_possibleTypes: string[] = ['ModularQuadLogoBlockRecord']
@@ -27314,7 +27314,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularQuadLogoBlockRecord"')
       return ModularQuadLogoBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularQuadStatisticsBlockRecord_possibleTypes: string[] = ['ModularQuadStatisticsBlockRecord']
@@ -27322,7 +27322,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularQuadStatisticsBlockRecord"')
       return ModularQuadStatisticsBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularQuoteBlockRecord_possibleTypes: string[] = ['ModularQuoteBlockRecord']
@@ -27330,7 +27330,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularQuoteBlockRecord"')
       return ModularQuoteBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularRadioFieldRecord_possibleTypes: string[] = ['ModularRadioFieldRecord']
@@ -27338,7 +27338,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularRadioFieldRecord"')
       return ModularRadioFieldRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularRandomBannerBlockRecord_possibleTypes: string[] = ['ModularRandomBannerBlockRecord']
@@ -27346,7 +27346,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularRandomBannerBlockRecord"')
       return ModularRandomBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularShippingProductIconListItemRecord_possibleTypes: string[] = ['ModularShippingProductIconListItemRecord']
@@ -27354,7 +27354,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularShippingProductIconListItemRecord"')
       return ModularShippingProductIconListItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularShowroomBlockRecord_possibleTypes: string[] = ['ModularShowroomBlockRecord']
@@ -27362,7 +27362,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularShowroomBlockRecord"')
       return ModularShowroomBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSideBySideBlockRecord_possibleTypes: string[] = ['ModularSideBySideBlockRecord']
@@ -27370,7 +27370,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSideBySideBlockRecord"')
       return ModularSideBySideBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSingleMediaBlockRecord_possibleTypes: string[] = ['ModularSingleMediaBlockRecord']
@@ -27378,7 +27378,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSingleMediaBlockRecord"')
       return ModularSingleMediaBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSingleMediaBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularSingleMediaBlockRecordListListNonNullMultiLocaleField']
@@ -27386,7 +27386,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSingleMediaBlockRecordListListNonNullMultiLocaleField"')
       return ModularSingleMediaBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSingleVideoBlockRecord_possibleTypes: string[] = ['ModularSingleVideoBlockRecord']
@@ -27394,7 +27394,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSingleVideoBlockRecord"')
       return ModularSingleVideoBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSinglesvgBlockRecord_possibleTypes: string[] = ['ModularSinglesvgBlockRecord']
@@ -27402,7 +27402,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSinglesvgBlockRecord"')
       return ModularSinglesvgBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSinglesvgBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularSinglesvgBlockRecordListListNonNullMultiLocaleField']
@@ -27410,7 +27410,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSinglesvgBlockRecordListListNonNullMultiLocaleField"')
       return ModularSinglesvgBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSkinnyHeroBannerBlockRecord_possibleTypes: string[] = ['ModularSkinnyHeroBannerBlockRecord']
@@ -27418,7 +27418,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSkinnyHeroBannerBlockRecord"')
       return ModularSkinnyHeroBannerBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularSlickCarouselBlockRecord_possibleTypes: string[] = ['ModularSlickCarouselBlockRecord']
@@ -27426,7 +27426,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularSlickCarouselBlockRecord"')
       return ModularSlickCarouselBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTallHalfWidthBlockLocationCtaRecord_possibleTypes: string[] = ['ModularTallHalfWidthBlockLocationCtaRecord']
@@ -27434,7 +27434,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTallHalfWidthBlockLocationCtaRecord"')
       return ModularTallHalfWidthBlockLocationCtaRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTallHalfWidthBlockRecord_possibleTypes: string[] = ['ModularTallHalfWidthBlockRecord']
@@ -27442,7 +27442,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTallHalfWidthBlockRecord"')
       return ModularTallHalfWidthBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTextInputFieldRecord_possibleTypes: string[] = ['ModularTextInputFieldRecord']
@@ -27450,7 +27450,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTextInputFieldRecord"')
       return ModularTextInputFieldRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTextOnlyBlockRecord_possibleTypes: string[] = ['ModularTextOnlyBlockRecord']
@@ -27458,7 +27458,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTextOnlyBlockRecord"')
       return ModularTextOnlyBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTextOnlyBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ModularTextOnlyBlockRecordListListNonNullMultiLocaleField']
@@ -27466,7 +27466,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTextOnlyBlockRecordListListNonNullMultiLocaleField"')
       return ModularTextOnlyBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTitleOnlyBlockRecord_possibleTypes: string[] = ['ModularTitleOnlyBlockRecord']
@@ -27474,7 +27474,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTitleOnlyBlockRecord"')
       return ModularTitleOnlyBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTriGridWithOrderTrackingRecord_possibleTypes: string[] = ['ModularTriGridWithOrderTrackingRecord']
@@ -27482,7 +27482,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTriGridWithOrderTrackingRecord"')
       return ModularTriGridWithOrderTrackingRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTrio1x1BlockRecord_possibleTypes: string[] = ['ModularTrio1x1BlockRecord']
@@ -27490,7 +27490,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTrio1x1BlockRecord"')
       return ModularTrio1x1BlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTrio9x7BlockRecord_possibleTypes: string[] = ['ModularTrio9x7BlockRecord']
@@ -27498,7 +27498,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTrio9x7BlockRecord"')
       return ModularTrio9x7BlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTrioSlide9x7BlockRecord_possibleTypes: string[] = ['ModularTrioSlide9x7BlockRecord']
@@ -27506,7 +27506,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTrioSlide9x7BlockRecord"')
       return ModularTrioSlide9x7BlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTrioStaggered9x7BlockRecord_possibleTypes: string[] = ['ModularTrioStaggered9x7BlockRecord']
@@ -27514,7 +27514,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTrioStaggered9x7BlockRecord"')
       return ModularTrioStaggered9x7BlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ModularTriosvgBlockRecord_possibleTypes: string[] = ['ModularTriosvgBlockRecord']
@@ -27522,7 +27522,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isModularTriosvgBlockRecord"')
       return ModularTriosvgBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const MoneyRadioOptionRecord_possibleTypes: string[] = ['MoneyRadioOptionRecord']
@@ -27530,7 +27530,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isMoneyRadioOptionRecord"')
       return MoneyRadioOptionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const MoneyRadioOptionRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['MoneyRadioOptionRecordListListNonNullMultiLocaleField']
@@ -27538,7 +27538,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isMoneyRadioOptionRecordListListNonNullMultiLocaleField"')
       return MoneyRadioOptionRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationColumnRecord_possibleTypes: string[] = ['NavigationColumnRecord']
@@ -27546,7 +27546,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationColumnRecord"')
       return NavigationColumnRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationColumnRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['NavigationColumnRecordListListNonNullMultiLocaleField']
@@ -27554,7 +27554,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationColumnRecordListListNonNullMultiLocaleField"')
       return NavigationColumnRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationLinkRecord_possibleTypes: string[] = ['NavigationLinkRecord']
@@ -27562,7 +27562,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationLinkRecord"')
       return NavigationLinkRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationLinkRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['NavigationLinkRecordListListNonNullMultiLocaleField']
@@ -27570,7 +27570,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationLinkRecordListListNonNullMultiLocaleField"')
       return NavigationLinkRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationRecord_possibleTypes: string[] = ['NavigationRecord']
@@ -27578,7 +27578,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationRecord"')
       return NavigationRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const NavigationRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['NavigationRecordListListNonNullMultiLocaleField']
@@ -27586,7 +27586,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isNavigationRecordListListNonNullMultiLocaleField"')
       return NavigationRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OmegaAssetStackRecord_possibleTypes: string[] = ['OmegaAssetStackRecord']
@@ -27594,7 +27594,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOmegaAssetStackRecord"')
       return OmegaAssetStackRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OmegaProductModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularAccordionBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthQuadBlockRecord','ModularInstagramReelBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','SocialMediaSectionRecord']
@@ -27602,7 +27602,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOmegaProductModelBelowBannerBlocksField"')
       return OmegaProductModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['OmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLocaleField']
@@ -27610,7 +27610,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLocaleField"')
       return OmegaProductModelBelowBannerBlocksFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OmegaProductModelCollectionField_possibleTypes: string[] = ['EngagementRingProductRecord','WeddingBandProductRecord']
@@ -27618,7 +27618,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOmegaProductModelCollectionField"')
       return OmegaProductModelCollectionField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OmegaProductRecord_possibleTypes: string[] = ['OmegaProductRecord']
@@ -27626,7 +27626,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOmegaProductRecord"')
       return OmegaProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OptionsHeaderRecord_possibleTypes: string[] = ['OptionsHeaderRecord']
@@ -27634,7 +27634,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOptionsHeaderRecord"')
       return OptionsHeaderRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OptionsHeaderRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['OptionsHeaderRecordListListNonNullMultiLocaleField']
@@ -27642,7 +27642,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOptionsHeaderRecordListListNonNullMultiLocaleField"')
       return OptionsHeaderRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OriginLabelRecord_possibleTypes: string[] = ['OriginLabelRecord']
@@ -27650,7 +27650,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOriginLabelRecord"')
       return OriginLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OurDiamondModelContentField_possibleTypes: string[] = ['ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHeroBannerBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularTextOnlyBlockRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTriosvgBlockRecord']
@@ -27658,7 +27658,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOurDiamondModelContentField"')
       return OurDiamondModelContentField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OurDiamondModelContentFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['OurDiamondModelContentFieldListListNonNullMultiLocaleField']
@@ -27666,7 +27666,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOurDiamondModelContentFieldListListNonNullMultiLocaleField"')
       return OurDiamondModelContentFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OurDiamondRecord_possibleTypes: string[] = ['OurDiamondRecord']
@@ -27674,7 +27674,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOurDiamondRecord"')
       return OurDiamondRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const OuterDiameterLabelRecord_possibleTypes: string[] = ['OuterDiameterLabelRecord']
@@ -27682,7 +27682,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isOuterDiameterLabelRecord"')
       return OuterDiameterLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PageSeoRecord_possibleTypes: string[] = ['PageSeoRecord']
@@ -27690,7 +27690,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPageSeoRecord"')
       return PageSeoRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PaveCaratWeightLabelRecord_possibleTypes: string[] = ['PaveCaratWeightLabelRecord']
@@ -27698,7 +27698,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPaveCaratWeightLabelRecord"')
       return PaveCaratWeightLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PayLaterOptionRecord_possibleTypes: string[] = ['PayLaterOptionRecord']
@@ -27706,7 +27706,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPayLaterOptionRecord"')
       return PayLaterOptionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PayLaterRecord_possibleTypes: string[] = ['PayLaterRecord']
@@ -27714,7 +27714,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPayLaterRecord"')
       return PayLaterRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PlpContentBlockRecord_possibleTypes: string[] = ['PlpContentBlockRecord']
@@ -27722,7 +27722,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPlpContentBlockRecord"')
       return PlpContentBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PlpFilterRecord_possibleTypes: string[] = ['PlpFilterRecord']
@@ -27730,7 +27730,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPlpFilterRecord"')
       return PlpFilterRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PlpPromoCardCollectionRecord_possibleTypes: string[] = ['PlpPromoCardCollectionRecord']
@@ -27738,7 +27738,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPlpPromoCardCollectionRecord"')
       return PlpPromoCardCollectionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PlpPromoCardRecord_possibleTypes: string[] = ['PlpPromoCardRecord']
@@ -27746,7 +27746,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPlpPromoCardRecord"')
       return PlpPromoCardRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PlpSortRecord_possibleTypes: string[] = ['PlpSortRecord']
@@ -27754,7 +27754,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPlpSortRecord"')
       return PlpSortRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PolishLabelRecord_possibleTypes: string[] = ['PolishLabelRecord']
@@ -27762,7 +27762,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPolishLabelRecord"')
       return PolishLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PostsLabelRecord_possibleTypes: string[] = ['PostsLabelRecord']
@@ -27770,7 +27770,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPostsLabelRecord"')
       return PostsLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PricingByCurrencyRecord_possibleTypes: string[] = ['PricingByCurrencyRecord']
@@ -27778,7 +27778,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPricingByCurrencyRecord"')
       return PricingByCurrencyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const PricingByCurrencyRecordMultiLocaleField_possibleTypes: string[] = ['PricingByCurrencyRecordMultiLocaleField']
@@ -27786,7 +27786,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isPricingByCurrencyRecordMultiLocaleField"')
       return PricingByCurrencyRecordMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductIconListModelItemsField_possibleTypes: string[] = ['ModularProductIconListItemRecord','ModularShippingProductIconListItemRecord']
@@ -27794,7 +27794,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductIconListModelItemsField"')
       return ProductIconListModelItemsField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductIconListModelItemsFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['ProductIconListModelItemsFieldListListNonNullMultiLocaleField']
@@ -27802,7 +27802,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductIconListModelItemsFieldListListNonNullMultiLocaleField"')
       return ProductIconListModelItemsFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductIconListRecord_possibleTypes: string[] = ['ProductIconListRecord']
@@ -27810,7 +27810,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductIconListRecord"')
       return ProductIconListRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductLabelRecord_possibleTypes: string[] = ['ProductLabelRecord']
@@ -27818,7 +27818,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductLabelRecord"')
       return ProductLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductListItemModelConfigurationField_possibleTypes: string[] = ['ConfigurationRecord','OmegaProductRecord']
@@ -27826,7 +27826,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductListItemModelConfigurationField"')
       return ProductListItemModelConfigurationField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductListItemRecord_possibleTypes: string[] = ['ProductListItemRecord']
@@ -27834,7 +27834,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductListItemRecord"')
       return ProductListItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductOptionLabelRecord_possibleTypes: string[] = ['ProductOptionLabelRecord']
@@ -27842,7 +27842,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductOptionLabelRecord"')
       return ProductOptionLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductOptionLabelRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['ProductOptionLabelRecordListListNonNullMultiLocaleField']
@@ -27850,7 +27850,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductOptionLabelRecordListListNonNullMultiLocaleField"')
       return ProductOptionLabelRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductShippingAndReturnRecord_possibleTypes: string[] = ['ProductShippingAndReturnRecord']
@@ -27858,7 +27858,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductShippingAndReturnRecord"')
       return ProductShippingAndReturnRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductSpecLabelCollectionModelLabelsField_possibleTypes: string[] = ['BandDepthLabelRecord','BandHeightLabelRecord','BandWidthLabelRecord','CaratLabelRecord','CertificateLabelRecord','ChainLengthLabelRecord','ChainWidthLabelRecord','CharmLabelRecord','ClarityLabelRecord','ClosureLabelRecord','ColorLabelRecord','CordWidthLabelRecord','CutLabelRecord','CutletLabelRecord','DepthLabelRecord','DescriptionLabelRecord','DiamondClarityLabelRecord','DiamondColorLabelRecord','DiamondCountLabelRecord','DiamondSizeLabelRecord','FluorescenceLabelRecord','GirdleLabelRecord','JacketLengthLabelRecord','MeasurementsLabelRecord','MetalLabelRecord','MetalWeightLabelRecord','OriginLabelRecord','OuterDiameterLabelRecord','PaveCaratWeightLabelRecord','PolishLabelRecord','PostsLabelRecord','RingFaceLabelRecord','RingSizeLabelRecord','SettingHeightLabelRecord','SettingLabelRecord','ShapeLabelRecord','ShippingAndReturnsLabelRecord','ShownWithCenterStoneLabelRecord','SpecificationsLabelRecord','SymmetryLabelRecord','TableLabelRecord']
@@ -27866,7 +27866,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductSpecLabelCollectionModelLabelsField"')
       return ProductSpecLabelCollectionModelLabelsField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['ProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiLocaleField']
@@ -27874,7 +27874,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiLocaleField"')
       return ProductSpecLabelCollectionModelLabelsFieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductSpecLabelCollectionRecord_possibleTypes: string[] = ['ProductSpecLabelCollectionRecord']
@@ -27882,7 +27882,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductSpecLabelCollectionRecord"')
       return ProductSpecLabelCollectionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductSuggestionQuadBlockRecord_possibleTypes: string[] = ['ProductSuggestionQuadBlockRecord']
@@ -27890,7 +27890,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductSuggestionQuadBlockRecord"')
       return ProductSuggestionQuadBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductTypeFaqRecord_possibleTypes: string[] = ['ProductTypeFaqRecord']
@@ -27898,7 +27898,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductTypeFaqRecord"')
       return ProductTypeFaqRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ProductWaitlistRecord_possibleTypes: string[] = ['ProductWaitlistRecord']
@@ -27906,7 +27906,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isProductWaitlistRecord"')
       return ProductWaitlistRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const QuadGridItemRecord_possibleTypes: string[] = ['QuadGridItemRecord']
@@ -27914,7 +27914,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isQuadGridItemRecord"')
       return QuadGridItemRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const Query_possibleTypes: string[] = ['Query']
@@ -27922,7 +27922,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isQuery"')
       return Query_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const QuoteBlockRecord_possibleTypes: string[] = ['QuoteBlockRecord']
@@ -27930,7 +27930,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isQuoteBlockRecord"')
       return QuoteBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const RecordInterface_possibleTypes: string[] = ['AccordionItemRecord','AccountReminderFormRecord','AccountRemindersListRecord','AccountSubscriptionFormRecord','AccountSubscriptionsListRecord','AdditionalInfoRecord','AnnouncementBarInfoRecord','AnnouncementBarRecord','AnnualGiftFormRecord','AnnualGiftingRecord','AssembledToOrderProductRecord','BandDepthLabelRecord','BandHeightLabelRecord','BandWidthLabelRecord','BasicTextLabelRecord','BlogCategoryRecord','BlogConfigurationRecord','BlogHeaderRecord','BlogPostRecord','BlogSubcategoryRecord','BreadcrumbRecord','CaratLabelRecord','CarouselHoverBlockItemRecord','CartCertificateRecord','CartPageCopyRecord','CartRecord','CelebrityBlockRecord','CelebrityGalleryRecord','CelebrityJewelryRecord','CertificateLabelRecord','ChainLengthLabelRecord','ChainWidthLabelRecord','CharmLabelRecord','ClarityLabelRecord','ClosureLabelRecord','ColorLabelRecord','ColumnRecord','ConfigurationRecord','ConfiguredProductOptionRecord','CookieBannerRecord','CopyWithCtaRecord','CordWidthLabelRecord','CountryPickerColumnRecord','CountryRecord','CountrySpecificDateSelectorRecord','CreativeBlockRecord','CtoDiamondTableRecord','CurrencyPriceRecord','CustomProductRecord','CutLabelRecord','CutletLabelRecord','DarksideButtonRecord','DepthLabelRecord','DescriptionLabelRecord','DesktopImageRecord','DiamondClarityLabelRecord','DiamondColorLabelRecord','DiamondContentBlockRecord','DiamondCountLabelRecord','DiamondNotifierPageRecord','DiamondPageRecord','DiamondProductRecord','DiamondShapeDescriptionRecord','DiamondShapeSpecRecord','DiamondSizeLabelRecord','DiamondTableRecord','DiamondsQueryConfigRecord','EmailPopupRecord','EmailSignupPageCopyRecord','EngagementRingPdpCtaRecord','EngagementRingProductRecord','EngagementRingSummaryPageRecord','EngravingOptionCopyRecord','FaqAccordionContentRecord','FluorescenceLabelRecord','FooterNavigationRecord','FullWidthBannerBlockRecord','GiftWithPurchaseRecord','GirdleLabelRecord','GridCarouselBlockItemRecord','HalfWidthBannerBlockRecord','HeaderNavigationDynamicRecord','HeaderNavigationRecord','HeroBlockRecord','HomePageRecord','HumanNamesMapperRecord','Image1x1Record','Image9x7Record','InstagramReelBlockRecord','JacketLengthLabelRecord','JeweleryProductSubCategoryRecord','JewelryOmegaProductRecord','JewelryPdpCtaRecord','JewelryProductRecord','JewelrySubcategoryRecord','JsonKeyRecord','ListPageRecord','ListpageHeroBannerRecord','MeasurementsLabelRecord','MetalLabelRecord','MetalWeightLabelRecord','ModularAccordionBlockRecord','ModularAccordionRecord','ModularBlockWrapperRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCelebrityWDetailCarouselRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailPopupOverrideRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularHorizontalLineBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductIconListItemRecord','ModularProductOptionRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularRadioFieldRecord','ModularRandomBannerBlockRecord','ModularShippingProductIconListItemRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleMediaBlockRecord','ModularSingleVideoBlockRecord','ModularSinglesvgBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextInputFieldRecord','ModularTextOnlyBlockRecord','ModularTitleOnlyBlockRecord','ModularTriGridWithOrderTrackingRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','MoneyRadioOptionRecord','NavigationColumnRecord','NavigationLinkRecord','NavigationRecord','OmegaAssetStackRecord','OmegaProductRecord','OptionsHeaderRecord','OriginLabelRecord','OurDiamondRecord','OuterDiameterLabelRecord','PageSeoRecord','PaveCaratWeightLabelRecord','PayLaterOptionRecord','PayLaterRecord','PlpContentBlockRecord','PlpFilterRecord','PlpPromoCardCollectionRecord','PlpPromoCardRecord','PlpSortRecord','PolishLabelRecord','PostsLabelRecord','PricingByCurrencyRecord','ProductIconListRecord','ProductLabelRecord','ProductListItemRecord','ProductOptionLabelRecord','ProductShippingAndReturnRecord','ProductSpecLabelCollectionRecord','ProductSuggestionQuadBlockRecord','ProductTypeFaqRecord','ProductWaitlistRecord','QuadGridItemRecord','QuoteBlockRecord','RingFaceLabelRecord','RingSizeLabelRecord','RingSizeOptionCopyRecord','SettingHeightLabelRecord','SettingLabelRecord','ShapeLabelRecord','ShippingAndReturnsLabelRecord','ShipsInTimeRecord','ShownWithCenterStoneLabelRecord','ShowroomLinkRecord','ShowroomNavRecord','ShowroomRecord','SidebarTextBlockRecord','SingleMediaBlockRecord','SlickCarouselBlockRecord','SocialMediaContentRecord','SocialMediaSectionRecord','SpecificationsLabelRecord','StandardPageRecord','SvgAssetRecord','SymmetryLabelRecord','TableLabelRecord','TesteRecord','TextOnlyBlockRecord','TotalCaratWeightLabelRecord','TrioBlockRecord','VatRecord','VideoBlockRecord','WaitlistPageCopyRecord','WeddingBandProductRecord','WishlistRecord']
@@ -27938,7 +27938,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isRecordInterface"')
       return RecordInterface_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ResponsiveImage_possibleTypes: string[] = ['ResponsiveImage']
@@ -27946,7 +27946,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isResponsiveImage"')
       return ResponsiveImage_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const RingFaceLabelRecord_possibleTypes: string[] = ['RingFaceLabelRecord']
@@ -27954,7 +27954,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isRingFaceLabelRecord"')
       return RingFaceLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const RingSizeLabelRecord_possibleTypes: string[] = ['RingSizeLabelRecord']
@@ -27962,7 +27962,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isRingSizeLabelRecord"')
       return RingSizeLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const RingSizeOptionCopyRecord_possibleTypes: string[] = ['RingSizeOptionCopyRecord']
@@ -27970,7 +27970,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isRingSizeOptionCopyRecord"')
       return RingSizeOptionCopyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SeoField_possibleTypes: string[] = ['SeoField']
@@ -27978,7 +27978,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSeoField"')
       return SeoField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SeoFieldMultiLocaleField_possibleTypes: string[] = ['SeoFieldMultiLocaleField']
@@ -27986,7 +27986,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSeoFieldMultiLocaleField"')
       return SeoFieldMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SettingHeightLabelRecord_possibleTypes: string[] = ['SettingHeightLabelRecord']
@@ -27994,7 +27994,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSettingHeightLabelRecord"')
       return SettingHeightLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SettingLabelRecord_possibleTypes: string[] = ['SettingLabelRecord']
@@ -28002,7 +28002,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSettingLabelRecord"')
       return SettingLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShapeLabelRecord_possibleTypes: string[] = ['ShapeLabelRecord']
@@ -28010,7 +28010,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShapeLabelRecord"')
       return ShapeLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShippingAndReturnsLabelRecord_possibleTypes: string[] = ['ShippingAndReturnsLabelRecord']
@@ -28018,7 +28018,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShippingAndReturnsLabelRecord"')
       return ShippingAndReturnsLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShipsInTimeRecord_possibleTypes: string[] = ['ShipsInTimeRecord']
@@ -28026,7 +28026,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShipsInTimeRecord"')
       return ShipsInTimeRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShownWithCenterStoneLabelRecord_possibleTypes: string[] = ['ShownWithCenterStoneLabelRecord']
@@ -28034,7 +28034,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShownWithCenterStoneLabelRecord"')
       return ShownWithCenterStoneLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShowroomLinkRecord_possibleTypes: string[] = ['ShowroomLinkRecord']
@@ -28042,7 +28042,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShowroomLinkRecord"')
       return ShowroomLinkRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShowroomNavRecord_possibleTypes: string[] = ['ShowroomNavRecord']
@@ -28050,7 +28050,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShowroomNavRecord"')
       return ShowroomNavRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const ShowroomRecord_possibleTypes: string[] = ['ShowroomRecord']
@@ -28058,7 +28058,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isShowroomRecord"')
       return ShowroomRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SidebarTextBlockRecord_possibleTypes: string[] = ['SidebarTextBlockRecord']
@@ -28066,7 +28066,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSidebarTextBlockRecord"')
       return SidebarTextBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SidebarTextBlockRecordListListNonNullMultiLocaleField_possibleTypes: string[] = ['SidebarTextBlockRecordListListNonNullMultiLocaleField']
@@ -28074,7 +28074,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSidebarTextBlockRecordListListNonNullMultiLocaleField"')
       return SidebarTextBlockRecordListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SingleMediaBlockModelMediaField_possibleTypes: string[] = ['Image1x1Record','Image9x7Record','SvgAssetRecord']
@@ -28082,7 +28082,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSingleMediaBlockModelMediaField"')
       return SingleMediaBlockModelMediaField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SingleMediaBlockRecord_possibleTypes: string[] = ['SingleMediaBlockRecord']
@@ -28090,7 +28090,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSingleMediaBlockRecord"')
       return SingleMediaBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const Site_possibleTypes: string[] = ['Site']
@@ -28098,7 +28098,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSite"')
       return Site_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SlickCarouselBlockRecord_possibleTypes: string[] = ['SlickCarouselBlockRecord']
@@ -28106,7 +28106,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSlickCarouselBlockRecord"')
       return SlickCarouselBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SocialMediaContentRecord_possibleTypes: string[] = ['SocialMediaContentRecord']
@@ -28114,7 +28114,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSocialMediaContentRecord"')
       return SocialMediaContentRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SocialMediaSectionRecord_possibleTypes: string[] = ['SocialMediaSectionRecord']
@@ -28122,7 +28122,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSocialMediaSectionRecord"')
       return SocialMediaSectionRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SpecificationsLabelRecord_possibleTypes: string[] = ['SpecificationsLabelRecord']
@@ -28130,7 +28130,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSpecificationsLabelRecord"')
       return SpecificationsLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StandardPageModelContent1Field_possibleTypes: string[] = ['CelebrityGalleryRecord','ModularAccordionBlockRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuadLogoBlockRecord','ModularQuadStatisticsBlockRecord','ModularQuoteBlockRecord','ModularRadioFieldRecord','ModularRandomBannerBlockRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextInputFieldRecord','ModularTextOnlyBlockRecord','ModularTitleOnlyBlockRecord','ModularTriGridWithOrderTrackingRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','SocialMediaSectionRecord']
@@ -28138,7 +28138,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStandardPageModelContent1Field"')
       return StandardPageModelContent1Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StandardPageModelContent1FieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['StandardPageModelContent1FieldListListNonNullMultiLocaleField']
@@ -28146,7 +28146,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStandardPageModelContent1FieldListListNonNullMultiLocaleField"')
       return StandardPageModelContent1FieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StandardPageModelContent2Field_possibleTypes: string[] = ['CelebrityGalleryRecord','ModularAccordionBlockRecord','ModularBlogListTrioBlockRecord','ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularCollectionHeroBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthBannerBlockRecord','ModularHalfWidthBlogSummaryBlockRecord','ModularHalfWidthQuadBlockRecord','ModularHeroBannerBlockRecord','ModularInstagramReelBlockRecord','ModularLeoBlockRecord','ModularListTitleBlockRecord','ModularLogoBannerBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularProductSuggestionQuadBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularQuoteBlockRecord','ModularRadioFieldRecord','ModularRandomBannerBlockRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularSkinnyHeroBannerBlockRecord','ModularSlickCarouselBlockRecord','ModularTallHalfWidthBlockLocationCtaRecord','ModularTallHalfWidthBlockRecord','ModularTextInputFieldRecord','ModularTextOnlyBlockRecord','ModularTitleOnlyBlockRecord','ModularTriGridWithOrderTrackingRecord','ModularTrio1x1BlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','ModularTriosvgBlockRecord','SocialMediaSectionRecord']
@@ -28154,7 +28154,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStandardPageModelContent2Field"')
       return StandardPageModelContent2Field_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StandardPageModelContent2FieldListListNonNullMultiLocaleField_possibleTypes: string[] = ['StandardPageModelContent2FieldListListNonNullMultiLocaleField']
@@ -28162,7 +28162,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStandardPageModelContent2FieldListListNonNullMultiLocaleField"')
       return StandardPageModelContent2FieldListListNonNullMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StandardPageRecord_possibleTypes: string[] = ['StandardPageRecord']
@@ -28170,7 +28170,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStandardPageRecord"')
       return StandardPageRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const StringMultiLocaleField_possibleTypes: string[] = ['StringMultiLocaleField']
@@ -28178,7 +28178,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isStringMultiLocaleField"')
       return StringMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SvgAssetRecord_possibleTypes: string[] = ['SvgAssetRecord']
@@ -28186,7 +28186,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSvgAssetRecord"')
       return SvgAssetRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const SymmetryLabelRecord_possibleTypes: string[] = ['SymmetryLabelRecord']
@@ -28194,7 +28194,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isSymmetryLabelRecord"')
       return SymmetryLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const TableLabelRecord_possibleTypes: string[] = ['TableLabelRecord']
@@ -28202,7 +28202,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTableLabelRecord"')
       return TableLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const Tag_possibleTypes: string[] = ['Tag']
@@ -28210,7 +28210,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTag"')
       return Tag_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const TesteRecord_possibleTypes: string[] = ['TesteRecord']
@@ -28218,7 +28218,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTesteRecord"')
       return TesteRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const TextOnlyBlockRecord_possibleTypes: string[] = ['TextOnlyBlockRecord']
@@ -28226,7 +28226,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTextOnlyBlockRecord"')
       return TextOnlyBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const TotalCaratWeightLabelRecord_possibleTypes: string[] = ['TotalCaratWeightLabelRecord']
@@ -28234,7 +28234,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTotalCaratWeightLabelRecord"')
       return TotalCaratWeightLabelRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const TrioBlockRecord_possibleTypes: string[] = ['TrioBlockRecord']
@@ -28242,7 +28242,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isTrioBlockRecord"')
       return TrioBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const UploadVideoField_possibleTypes: string[] = ['UploadVideoField']
@@ -28250,7 +28250,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isUploadVideoField"')
       return UploadVideoField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const VatRecord_possibleTypes: string[] = ['VatRecord']
@@ -28258,7 +28258,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isVatRecord"')
       return VatRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const VideoBlockRecord_possibleTypes: string[] = ['VideoBlockRecord']
@@ -28266,7 +28266,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isVideoBlockRecord"')
       return VideoBlockRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const VideoBlockRecordMultiLocaleField_possibleTypes: string[] = ['VideoBlockRecordMultiLocaleField']
@@ -28274,7 +28274,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isVideoBlockRecordMultiLocaleField"')
       return VideoBlockRecordMultiLocaleField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const WaitlistPageCopyRecord_possibleTypes: string[] = ['WaitlistPageCopyRecord']
@@ -28282,7 +28282,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isWaitlistPageCopyRecord"')
       return WaitlistPageCopyRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const WeddingBandProductModelBelowBannerBlocksField_possibleTypes: string[] = ['ModularCarouselBlockRecord','ModularCarouselHoverBlockRecord','ModularCelebrityCarouselBlockRecord','ModularCelebrityReelBlockRecord','ModularDuoBlockRecord','ModularEmailSignupBlockRecord','ModularFullWidthBannerBlockRecord','ModularGridCarouselBlockRecord','ModularHalfWidthQuadBlockRecord','ModularInstagramReelBlockRecord','ModularMiniBannerBlockRecord','ModularProductSliderBlockRecord','ModularQuadBlockRecord','ModularQuadGridRecord','ModularShowroomBlockRecord','ModularSideBySideBlockRecord','ModularSingleVideoBlockRecord','ModularTallHalfWidthBlockRecord','ModularTextOnlyBlockRecord','ModularTrio9x7BlockRecord','ModularTrioSlide9x7BlockRecord','ModularTrioStaggered9x7BlockRecord','SocialMediaSectionRecord']
@@ -28290,7 +28290,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isWeddingBandProductModelBelowBannerBlocksField"')
       return WeddingBandProductModelBelowBannerBlocksField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const WeddingBandProductModelPageCopyField_possibleTypes: string[] = ['EngagementRingPdpCtaRecord','EngravingOptionCopyRecord','RingSizeOptionCopyRecord']
@@ -28298,7 +28298,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isWeddingBandProductModelPageCopyField"')
       return WeddingBandProductModelPageCopyField_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const WeddingBandProductRecord_possibleTypes: string[] = ['WeddingBandProductRecord']
@@ -28306,7 +28306,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isWeddingBandProductRecord"')
       return WeddingBandProductRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const WishlistRecord_possibleTypes: string[] = ['WishlistRecord']
@@ -28314,7 +28314,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isWishlistRecord"')
       return WishlistRecord_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 
     const focalPoint_possibleTypes: string[] = ['focalPoint']
@@ -28322,7 +28322,7 @@ export interface focalPointGenqlSelection{
       if (!obj?.__typename) throw new Error('__typename is missing in "isfocalPoint"')
       return focalPoint_possibleTypes.includes(obj.__typename)
     }
-    
+
 
 export const enumAccordionItemModelOrderBy = {
    _createdAt_ASC: '_createdAt_ASC' as const,

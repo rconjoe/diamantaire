@@ -55,7 +55,7 @@ const Cart = ({ closeCart }) => {
     addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
-    emptyCartMainCtaLink,
+    emptyCartMainCtaRoute,
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
@@ -195,7 +195,9 @@ const Cart = ({ closeCart }) => {
                 <div className="cart-empty-message">
                   <p>
                     {emptyCartMainCopy} <br />
-                    {emptyCartMainCtaLink && <Link href={getRelativeUrl(emptyCartMainCtaLink)}>{emptyCartMainCtaCopy}</Link>}
+                    {emptyCartMainCtaRoute && (
+                      <Link href={getRelativeUrl(emptyCartMainCtaRoute)}>{emptyCartMainCtaCopy}</Link>
+                    )}
                   </p>
                 </div>
               ) : (
