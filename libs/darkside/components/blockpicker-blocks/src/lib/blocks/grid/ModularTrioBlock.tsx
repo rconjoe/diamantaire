@@ -7,9 +7,10 @@ Handles: MODULAR_TRIO_9x7_BLOCK, MODULAR_BLOG_LIST_TRIO_BLOCK
 
 import { Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
+
 import { ModularTrioBlockContainer } from './ModularTrioBlock.style';
 
 type ModularTrioBlockProps = {
@@ -25,33 +26,9 @@ type ModularTrioBlockProps = {
   darksideButtons1: DatoDarksideButtonProps[];
   darksideButtons2: DatoDarksideButtonProps[];
   darksideButtons3: DatoDarksideButtonProps[];
-  image1?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
-  image2?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
-  image3?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
+  image1?: DatoImageType;
+  image2?: DatoImageType;
+  image3?: DatoImageType;
   blogPosts?: Array<{
     title: string;
     slug: string;
