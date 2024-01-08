@@ -18,13 +18,16 @@ const PairSelector = ({
   setShouldDoublePrice,
   selectedConfiguration,
 }) => {
+  console.log('selectedConfiguration', selectedConfiguration);
   const { locale } = useRouter();
   const pairSelector = useMemo(() => {
     if (isSoldAsPairOnly) {
       return [
         {
           id: 'pair',
-          value: 'Pair <span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale),
+          value:
+            `Pair ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
+            getFormattedPrice(variantPrice, locale),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -33,17 +36,25 @@ const PairSelector = ({
       return [
         {
           id: 'single',
-          value: 'Single <span class="em-dash"></span> ' + getFormattedPrice(variantPrice / 2, locale),
+          value: `Single ${
+            selectedConfiguration.caratWeight !== 'other'
+              ? '<span class="em-dash"></span>' + getFormattedPrice(variantPrice / 2, locale)
+              : ''
+          } `,
           valueLabel: 'Single',
         },
         {
           id: 'pair',
-          value: 'Pair <span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale),
+          value: `Pair ${
+            selectedConfiguration.caratWeight !== 'other'
+              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale)
+              : ''
+          } `,
           valueLabel: 'Pair',
         },
       ];
     }
-  }, [isSoldAsPairOnly]);
+  }, [isSoldAsPairOnly, selectedConfiguration]);
 
   const handlePairChange = useCallback(
     (option: OptionItemProps) => {

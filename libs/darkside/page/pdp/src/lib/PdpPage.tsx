@@ -127,6 +127,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     router.locale,
   );
 
+  const variantId = shopifyProductData?.shopifyVariantId;
+
   const productIconListTypeOverride =
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
@@ -164,6 +166,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = datoParentProductData?.productTitle;
+
     additionalVariantData.price = price;
     additionalVariantData.image = {
       src: assetStack[0].url,
@@ -191,7 +194,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     styles: shopifyProductData?.styles,
     productType: shopifyProductData.productType,
   };
-  const variantId = shopifyProductData?.shopifyVariantId;
 
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;

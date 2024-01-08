@@ -106,7 +106,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function playSpinner() {
-    const api = spinnerEl?.current?.spritespin('api');
+    const api = spinnerEl?.current?.spritespin?.('api');
 
     if (api?.data?.animate !== true) {
       api.toggleAnimation();
@@ -114,7 +114,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function pauseSpinner() {
-    const api = spinnerEl?.current?.spritespin('api');
+    const api = spinnerEl?.current?.spritespin?.('api');
 
     if (api?.data?.animate === true) {
       api.toggleAnimation();

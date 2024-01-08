@@ -21,7 +21,7 @@ export async function getDiamondByLotId(options) {
 
   let productData = await response.json();
 
-  productData = productData.filter((item) => item.hidden === true);
+  productData = productData.filter((item) => item.hidden !== true);
 
   return productData;
 }

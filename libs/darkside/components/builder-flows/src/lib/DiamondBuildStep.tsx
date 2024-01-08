@@ -66,8 +66,13 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
 
   let isToiMoiOrPair = false;
 
+  console.log('asPath', asPath);
+
   if (asPath.includes('toi-moi')) {
     initialOptions['view'] = 'toi-moi';
+    isToiMoiOrPair = true;
+  } else if (asPath.includes('pair')) {
+    initialOptions['view'] = 'pairs';
     isToiMoiOrPair = true;
   }
 

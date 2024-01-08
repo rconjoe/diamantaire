@@ -214,7 +214,7 @@ function ProductConfigurator({
       </AnimatePresence>
 
       {/* Pair Products */}
-      {isSoldAsDouble && isConfigurationComplete && (
+      {isSoldAsDouble && (
         <PairSelector
           isSoldAsDouble={isSoldAsDouble}
           isSoldAsPairOnly={isSoldAsPairOnly}
@@ -288,6 +288,7 @@ function ProductConfigurator({
           additionalVariantIds={additionalVariantIds}
           engravingText={engravingText}
           productIconListType={productIconListType}
+          selectedPair={selectedPair}
         />
       ) : (
         ''
@@ -315,6 +316,7 @@ type CtaButtonProps = {
   additionalVariantIds?: string[];
   engravingText?: string;
   productIconListType?: string;
+  selectedPair?: 'pair' | 'single';
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -342,6 +344,7 @@ function AddToCartButton({
   isSoldAsDouble,
   engravingText,
   productIconListType,
+  selectedPair,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -581,7 +584,11 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
-            router.push(`/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}`);
+            router.push(
+              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${
+                isSoldAsDouble && selectedPair === 'pair' ? '?pair=true' : ''
+              }`,
+            );
           }
         }}
       >

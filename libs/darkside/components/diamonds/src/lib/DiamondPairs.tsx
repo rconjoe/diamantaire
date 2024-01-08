@@ -55,9 +55,14 @@ export const DiamondPairActiveRow = ({
     // updateUrlParameter('lotId', product.lotId);
     updateFlowData('ADD_DIAMOND', diamonds);
 
+    // By pair, we mean two diamonds with the same lotId
+    const isPair = router?.asPath.includes('pair');
+    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/') + isPair ? '?pair=true' : '';
+
+    console.log('lotIdSlug', lotIdSlug);
+
     router.push(
-      `/customize/setting-to-diamond/summary/${builderProduct?.product?.collectionSlug}/${builderProduct?.product
-        ?.productSlug}/${diamonds?.map((diamond) => diamond?.lotId).join('/')}`,
+      `/customize/setting-to-diamond/summary/${builderProduct?.product?.collectionSlug}/${builderProduct?.product?.productSlug}/`,
     );
   };
 

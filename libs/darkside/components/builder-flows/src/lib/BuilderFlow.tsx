@@ -1,7 +1,11 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { HUBSPOT_ER_SUMMARY_LISTDATA, PdpTypePlural } from '@diamantaire/shared/constants';
+import {
+  HUBSPOT_ER_SUMMARY_LISTDATA,
+  JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS,
+  PdpTypePlural,
+} from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getCurrentUrl, isEmptyObject } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
@@ -91,15 +95,17 @@ const BuilderFlow = ({
     router.locale,
   );
 
+  console.log('additionalVariantData', additionalVariantData, productContent);
+
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
-    if (!additionalVariantData) {
+    if (!additionalVariantData || additionalVariantData?.configuration) {
       additionalVariantData = productContent;
     } else {
       // Add Shopify Product Data to Dato Product Data
       additionalVariantData = additionalVariantData?.omegaProduct;
-      additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
-      additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+      additionalVariantData['goldPurity'] = shopifyProductData?.options?.goldPurity;
+      additionalVariantData['bandAccent'] = shopifyProductData?.options?.bandAccent;
       additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
 
@@ -126,15 +132,12 @@ const BuilderFlow = ({
   }
 
   async function getDiamond() {
-    console.log('initialLotIds', initialLotIds);
     const qParams = new URLSearchParams({
       lotIds: initialLotIds,
     }).toString();
     const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
       .then((res) => res.json())
       .then((res) => res);
-
-    console.log('diamondResponse', diamondResponse);
 
     updateFlowData('ADD_DIAMOND', diamondResponse);
   }
@@ -191,7 +194,10 @@ const BuilderFlow = ({
 
     console.log('configure step running', builderProduct);
 
-    if (router.asPath.includes('toi-moi-ring')) {
+    if (
+      router.asPath.includes('toi-moi-ring') ||
+      JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS.some((item) => router.asPath.includes(item))
+    ) {
       if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
       } else {
@@ -267,24 +273,24 @@ const BuilderFlow = ({
         console.log('initialLotIdsyyy', initialLotIds);
         console.log('other lot ids', builderProduct?.diamonds);
 
-        if (router.query.flowType === 'setting-to-diamond') {
-          router.push(
-            `/customize/setting-to-diamond/summary/${initialCollectionSlug}/${newProductSlug}/${
-              initialLotIds ? initialLotIds?.join('/') : builderProduct?.diamonds?.map((diamond) => diamond.lotId).join('/')
-            }`,
-          );
-        } else {
-          router.push(
-            `/customize/diamond-to-setting/summary/${initialLotIds?.split('/')}/${initialCollectionSlug}/${newProductSlug}`,
-          );
-        }
+        // if (router.query.flowType === 'setting-to-diamond') {
+        //   router.push(
+        //     `/customize/setting-to-diamond/summary/${initialCollectionSlug}/${newProductSlug}/${
+        //       initialLotIds ? initialLotIds?.join('/') : builderProduct?.diamonds?.map((diamond) => diamond.lotId).join('/')
+        //     }`,
+        //   );
+        // } else {
+        //   router.push(
+        //     `/customize/diamond-to-setting/summary/${initialLotIds?.split('/')}/${initialCollectionSlug}/${newProductSlug}`,
+        //   );
+        // }
       }
     }
   }, [
     // additionalVariantData,
     // selectedConfiguration,
     // shopifyProductData,
-    // builderProduct.diamond,
+    builderProduct.diamonds,
     settingSlugs?.collectionSlug,
     // shopifyProductData?.optionConfigs?.['diamondType'],
   ]);
@@ -379,6 +385,7 @@ const BuilderFlow = ({
           selectedConfiguration={selectedConfiguration}
           variantProductTitle={shopifyProductData?.productTitle}
           additionalVariantData={additionalVariantData}
+          shopifySettingVariantId={variantId}
         />
       )}
     </BuilderFlowStyles>

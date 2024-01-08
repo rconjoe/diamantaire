@@ -300,7 +300,9 @@ const ReviewBuildStepStyles = styled(motion.div)`
     }
 
     .atc-button {
-      font-size: var(--font-size-xxsmall);
+      button {
+        font-size: var(--font-size-xxsmall);
+      }
     }
 
     .review-atc {
@@ -345,6 +347,7 @@ const ReviewBuildStep = ({
   selectedConfiguration,
   updateSettingSlugs,
   additionalVariantData,
+  shopifySettingVariantId,
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
@@ -464,14 +467,16 @@ const ReviewBuildStep = ({
     const productGroupKey = uuidv4();
     // 1. Get the product variant ID for the setting. Need fallback for non-ER custom products
     const settingType = selectedSize?.id ? 'engagement-ring' : 'jewelry';
-    const settingVariantId = selectedSize?.id || product?.variantId;
+    const settingVariantId = selectedSize?.id || product?.variantId || shopifySettingVariantId;
+
+    console.log('settingVariantId', product);
 
     // 2. Get the product variant ID for the diamond
     // TODO: Add support for multiple diamonds
-    const diamondVariantId = createShopifyVariantId(diamonds[0]?.dangerousInternalShopifyVariantId);
+    const diamondVariantIds = diamonds.map((diamond) => createShopifyVariantId(diamond?.dangerousInternalShopifyVariantId));
 
     // 2.5 Check if diamond ID is already in cart (there can only be one of each custom diamond)
-    const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === diamondVariantId);
+    const isDiamondInCart = checkout?.lines?.some((line) => diamondVariantIds.includes(line.merchandise.id));
 
     if (isDiamondInCart) {
       return toast.error(ToastError, {
@@ -528,6 +533,7 @@ const ReviewBuildStep = ({
     };
 
     // 4. Create custom attributes for the diamond
+    const isPair = router?.asPath.includes('pair');
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
@@ -728,6 +734,9 @@ const ReviewBuildStep = ({
         routerSlug: router.query.productSlug,
         productSlug: product.productSlug,
       });
+
+    console.log('adding it up', additionalVariantData);
+
     updateFlowData('ADD_PRODUCT', {
       ...additionalVariantData,
       ...selectedConfiguration,

@@ -27,6 +27,8 @@ const ProductKlarna = ({ title, currentPrice }) => {
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
 
+  console.log('currentPrice', currentPrice);
+
   const isWithinKlarnaPriceRange = (price) => {
     const minKlarnaPrice = 200 * 100;
     const maxKlarnaPrice = 10000 * 100;
@@ -39,6 +41,8 @@ const ProductKlarna = ({ title, currentPrice }) => {
   }, [currentPrice]);
 
   if (!isWithinKlarnaPriceRange(currentPrice)) {
+    console.log('not within klarna price range');
+
     return null;
   }
 
