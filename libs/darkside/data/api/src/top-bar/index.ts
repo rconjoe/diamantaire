@@ -12,6 +12,7 @@ export const TOP_BAR_QUERY = gql`
         geoCopy
         enableGeoCopy
         link
+        route
         shouldShowDynamicBookAnAppointment
         enableGwp
         supportedCountries {
