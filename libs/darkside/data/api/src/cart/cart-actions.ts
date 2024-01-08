@@ -492,8 +492,7 @@ export const updateMultipleItemsQuantity = async ({
 export async function addERProductToCart({
   settingVariantId,
   settingAttributes,
-  diamondVariantId,
-  diamondAttributes,
+  diamonds,
   hasEngraving,
   engravingText,
   locale,
@@ -512,7 +511,7 @@ export async function addERProductToCart({
     .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
   // If no custom diamond, add the setting
-  if (!diamondVariantId) {
+  if (!diamonds) {
     // If engraving, update the setting attributes + add the engraving variant
     if (hasEngraving) {
       // Add engraving text to setting attributes - in this case the engraving is the only child product
@@ -571,30 +570,32 @@ export async function addERProductToCart({
     }
   } else {
     // If there is a custom diamond, add the setting and the diamond
-    const refinedDiamondAttributes = Object.keys(diamondAttributes)
-      .map((key) => {
-        return {
-          key,
-          value: diamondAttributes[key],
-        };
-      })
-      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    // Remove centerstone + diamond shape from seting
-    refinedSettingAttributes = refinedSettingAttributes.filter(
-      (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
-    );
+    const groupedItems = diamonds.map((diamond) => {
+      const refinedDiamondAttributes = Object.keys(diamond.attributes)
+        .map((key) => {
+          return {
+            key,
+            value: diamond?.attributes[key],
+          };
+        })
+        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    const groupedItems = [
-      {
-        variantId: diamondVariantId,
+      // Remove centerstone + diamond shape from seting
+      refinedSettingAttributes = refinedSettingAttributes.filter(
+        (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
+      );
+
+      return {
+        variantId: diamond?.variantId,
         customAttributes: refinedDiamondAttributes,
-      },
-      {
-        variantId: settingVariantId,
-        customAttributes: refinedSettingAttributes,
-      },
-    ];
+      };
+    });
+
+    groupedItems.push({
+      variantId: settingVariantId,
+      customAttributes: refinedSettingAttributes,
+    });
 
     if (hasEngraving) {
       refinedSettingAttributes.push({

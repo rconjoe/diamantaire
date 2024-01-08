@@ -1,11 +1,17 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondTableData, useInfiniteDiamondsData, useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
+import {
+  useDiamondTableData,
+  useInfiniteDiamondsData,
+  useTranslations,
+  humanNamesMapperType,
+} from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
 import { PaginationState, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { DiamondPairActiveRow, DiamondPairCell } from './DiamondPairs';
@@ -65,6 +71,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const loadTrigger = useRef<HTMLDivElement>(null);
   const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
+  const { asPath } = useRouter();
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -86,6 +93,10 @@ const DiamondTable = (props: DiamondTableProps) => {
     page: initialPagination?.currentPage,
     limit: initialPagination?.perPage || 20,
   };
+
+  if (asPath.includes('toimoi')) {
+    options['view'] = 'toi-moi';
+  }
 
   // DIAMONDS
   const queryDiamond = useInfiniteDiamondsData(options);

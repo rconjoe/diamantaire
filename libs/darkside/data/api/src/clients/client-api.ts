@@ -5,10 +5,12 @@ export function queryClientApi() {
 
   base = typeof window === 'undefined' ? base : window?.location?.origin;
 
-  return axios.create({
+  const axiosLink = axios.create({
     baseURL: base + '/api',
     headers: {
       'Content-type': 'application/json',
     },
   });
+
+  return axiosLink;
 }

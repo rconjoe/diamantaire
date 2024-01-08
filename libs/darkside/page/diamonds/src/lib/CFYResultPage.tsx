@@ -31,7 +31,7 @@ import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy } from '@diamantaire/shared/helpers';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
@@ -161,7 +161,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
   }, []);
 
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',

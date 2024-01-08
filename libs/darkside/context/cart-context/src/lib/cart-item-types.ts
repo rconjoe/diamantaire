@@ -24,7 +24,7 @@ export type ERProductCartItemProps = {
 
     // Item specific stuff
     diamondShape: string;
-    centerStone: string;
+    centerStone?: string;
     bandAccent: string;
     _dateAdded: string;
     ringSize: string;

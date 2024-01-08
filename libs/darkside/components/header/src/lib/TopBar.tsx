@@ -10,7 +10,7 @@ import {
 import { XIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Autoplay from 'embla-carousel-autoplay';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
@@ -128,7 +128,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
 
   const showroomLocation = isUserCloseToShowroom();
 
-  const options: EmblaOptionsType = { loop: true };
+  const options: any = { loop: true };
   const [emblaRef] = useEmblaCarousel(options, [
     Autoplay({
       delay: 7000,
