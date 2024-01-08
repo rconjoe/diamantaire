@@ -142,7 +142,7 @@ function ConfigurationSelector({
     updateFlowData('UPDATE_STEP', { step: 'review-build' });
 
     router.push(
-      `/customize/diamond-to-setting/${builderProduct?.diamond?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
+      `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
     );
   }
 
