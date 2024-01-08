@@ -14,25 +14,25 @@ const Trio1x1 = `
     image1 {
       ${responsiveImage()}
     }
-    ctaCopy1
-    ctaRoute1
+    darksideButtons1 {
+      ${ButtonFragment}
+    }
     title2
     copy2
     image2 {
       ${responsiveImage()}
     }
-    ctaCopy2
-    ctaRoute2
+    darksideButtons2{
+      ${ButtonFragment}
+    }
     title3
     copy3
     image3 {
       ${responsiveImage()}
     }
-    ctaCopy3
-    ctaRoute3
-    darksideButtons {
-        ${ButtonFragment}
-      }
+    darksideButtons3 {
+      ${ButtonFragment}
+    }
   }
 `;
 
