@@ -14,16 +14,18 @@ const TrioStaggered9x7 = `
       url
       alt
     }
-    ctaCopy1
-    ctaRoute1
+    darksideButtons1 {
+     ${ButtonFragment}
+    }
     title2
     copy2
     image2 {
       url
       alt
     }
-    ctaCopy2
-    ctaRoute2
+    darksideButtons2 {
+     ${ButtonFragment}
+    }
     title3
     copy3
     image3 {
@@ -32,7 +34,7 @@ const TrioStaggered9x7 = `
     }
     ctaCopy3
     ctaRoute3
-    darksideButtons {
+    darksideButtons3 {
       ${ButtonFragment}
     }
   }
