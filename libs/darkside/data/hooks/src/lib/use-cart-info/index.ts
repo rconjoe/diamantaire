@@ -23,7 +23,7 @@ export type CartCopyProps = {
   euSubtotalCopy: string;
   cartCtaCopy: string;
   termsAndConditionsCtaCopy: string;
-  termsAndConditionsCtaLink: string;
+  termsAndConditionsCtaRoute: string;
   addNoteOptionCta: string;
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;

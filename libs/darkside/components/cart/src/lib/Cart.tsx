@@ -51,7 +51,7 @@ const Cart = ({ closeCart }) => {
     euSubtotalCopy,
     cartCtaCopy,
     termsAndConditionsCtaCopy,
-    termsAndConditionsCtaLink,
+    termsAndConditionsCtaRoute,
     addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
@@ -195,9 +195,7 @@ const Cart = ({ closeCart }) => {
                 <div className="cart-empty-message">
                   <p>
                     {emptyCartMainCopy} <br />
-                    {emptyCartMainCtaRoute && (
-                      <Link href={getRelativeUrl(emptyCartMainCtaRoute)}>{emptyCartMainCtaCopy}</Link>
-                    )}
+                    {emptyCartMainCtaRoute && <Link href={emptyCartMainCtaRoute}>{emptyCartMainCtaCopy}</Link>}
                   </p>
                 </div>
               ) : (
@@ -227,7 +225,7 @@ const Cart = ({ closeCart }) => {
               checkout={checkout}
               checkoutCta={cartCtaCopy}
               termsCta={termsAndConditionsCtaCopy}
-              termsCtaLink={termsAndConditionsCtaLink}
+              termsCtaLink={termsAndConditionsCtaRoute}
             />
           )}
         </div>

@@ -35,7 +35,7 @@ const CART_QUERY = `
               euSubtotalCopy
               cartCtaCopy
               termsAndConditionsCtaCopy
-              termsAndConditionsCtaLink
+              termsAndConditionsCtaRoute
               addNoteOptionCta
               emptyCartMainCopy
               emptyCartMainCtaCopy
