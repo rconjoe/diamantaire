@@ -48,23 +48,17 @@ const MediaSliderContainer = styled.div`
       padding: 0;
       list-style: none;
       justify-content: center;
-
+      gap: 1rem;
       li {
-        margin-right: 5px;
-
-        &:last-child {
-          margin-right: 0px;
-        }
-
         button {
-          height: 0.8rem;
-          width: 0.8rem;
+          height: 0.5rem;
+          width: 0.5rem;
           background-color: var(--color-black);
           border: none;
           border-radius: 50%;
           line-height: 1;
           padding: 0;
-          opacity: 0.3;
+          opacity: 0.1;
 
           &.active {
             opacity: 0.75;
@@ -81,8 +75,13 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
   const hasPagination = totalSlides > 1;
 
   useEffect(() => {
-    // Calculate the total number of slides
-    const slidesCount = assets?.length + (shouldDisplayDiamondHand ? 1 : 0);
+    // Calculate the total number of slides, excluding assets with bunny set to true
+    const slidesCount = assets?.reduce(
+      (count, asset) => {
+        return asset.customData?.bunny === 'true' ? count : count + 1;
+      },
+      shouldDisplayDiamondHand ? 1 : 0,
+    );
 
     setTotalSlides(slidesCount);
   }, [assets, shouldDisplayDiamondHand]);
@@ -91,6 +90,12 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
     loop: false,
     dragFree: false,
     align: 'center',
+    watchDrag: (_emblaApi, event) => {
+      const target = event.target as Element;
+      // Return false to cancel dragging on specific elements
+
+      return !target.closest('.no-swiping');
+    },
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
 
@@ -118,19 +123,19 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {assets?.map((asset, index) => {
-            const { mimeType } = asset || {};
+            const { mimeType, customData } = asset || {};
+
+            if (customData?.bunny === 'true') return null;
 
             switch (mimeType) {
               case MimeTypes.ImageJpeg: {
-                if (asset.customData?.bunny === 'true' || asset.customData?.sprite === 'true') {
-                  if (asset.customData?.mobile !== 'true') return null;
-
+                if (customData?.sprite) {
                   return (
                     <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
                       <SpriteSpinnerBlock
                         sprite={asset}
                         options={options}
-                        srcType={asset.customData?.sprite === 'true' ? 'legacy' : 'bunny'}
+                        srcType="legacy"
                         mobile={asset.customData?.mobile === 'true'}
                       />
                     </div>
@@ -143,7 +148,6 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
                   </div>
                 );
               }
-
               case MimeTypes.VideoMP4:
               case MimeTypes.VideoMov:
               case MimeTypes.QuicktimeVideo: {
@@ -170,17 +174,11 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
 
       <div className="slider-dots">
         <ul>
-          {assets?.map((asset, index) => {
-            if (asset.customData?.bunny === 'true' || asset.customData?.sprite === 'true') {
-              if (asset.customData?.mobile !== 'true') return null;
-            }
-
-            return (
-              <li key={`review-build-dot-${index}`}>
-                <button className={activeSlide === index ? 'active' : ''} onClick={() => emblaApi?.scrollTo(index)}></button>
-              </li>
-            );
-          })}
+          {[...Array(totalSlides).keys()].map((index) => (
+            <li key={`slider-dot-${index}`}>
+              <button className={activeSlide === index ? 'active' : ''} onClick={() => emblaApi?.scrollTo(index)} />
+            </li>
+          ))}
         </ul>
       </div>
     </MediaSliderContainer>
