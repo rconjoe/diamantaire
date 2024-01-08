@@ -147,8 +147,6 @@ const Header: FC<HeaderProps> = ({
 
   const isHome = router.pathname === '/';
 
-  console.log('isHome', isHome);
-
   useEffect(() => {
     setIsLoaded(true);
 

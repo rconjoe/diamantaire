@@ -124,8 +124,6 @@ const PlpPreviouslyViewed = () => {
   // if they haven't seen anything, hide the block
   if (handles.length === 0) return null;
 
-  console.log('product shape', data);
-
   return (
     <PlpPreviouslyViewedStyles className="container-wrapper">
       <div className="title-container text-center">

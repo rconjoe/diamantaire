@@ -187,12 +187,13 @@ export class ProductsService {
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
 
     // generate query for product content by product type
-    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring'];
+    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Accessory']; //
     const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
     const contentIdsByProductType = products.reduce(
       (acc, plpItem) => {
+        
         const idList = plpItem.variants.map((v) => v.contentId);
-        const productType = plpItem.variants?.[0]?.productType;
+        const productType = plpItem?.variants?.[0]?.productType;
 
         if (!productType || !plpItem.variants.length){
           Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
@@ -206,7 +207,7 @@ export class ProductsService {
         } else if (productHandleProductTypes.includes(productType)) {
           acc.productHandles.push(...idList);
         } else {
-          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem.product.productType);
+          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem);
         }
 
         return acc;
@@ -244,8 +245,16 @@ export class ProductsService {
       }, {}) || {};
 
     const generatePlpItem = (product, variantContent) => {
-      if (!variantContent || !product) {
-        return {};
+      if (!product) {
+        this.logger.warn("Missing product data.  Skipping", product, variantContent);
+
+        return null;
+      }
+
+      if (!variantContent) {
+        this.logger.warn("Missing product content.  Skipping.", product, variantContent);
+
+        return null;
       }
 
       const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
@@ -295,14 +304,20 @@ export class ProductsService {
           ...(useLowestPrice && { useLowestPrice }),
           variants: plpItem.variants.reduce((acc, v) => {
             const variantContent = productContentMap[v.contentId];
+            const plpVariant = generatePlpItem(v, variantContent);
 
-            acc[v.contentId] = generatePlpItem(v, variantContent);
+            // skip if data is missing
+            if (!plpVariant){
+              return acc;
+            }
+
+            acc[v.contentId] = plpVariant;
 
             return acc;
           }, {}),
         };
       })
-      .filter(Boolean);
+      .filter(i => (i?.variants && Object.keys(i?.variants)?.length && Boolean(i))); // remove any items w/o variants
 
     return {
       category,
