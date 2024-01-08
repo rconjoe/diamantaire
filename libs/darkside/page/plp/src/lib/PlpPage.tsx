@@ -23,7 +23,7 @@ import {
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -48,7 +48,7 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
+function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
   const router = useRouter();
   const { ref: pageEndRef, inView } = useInView({
@@ -292,7 +292,7 @@ const createStaticProps = (category: string) => {
 };
 
 // JEWELRY
-const jewelryGetServerSideProps = createStaticProps('jewelry');
+const jewelryGetStaticProps = createStaticProps('jewelry');
 const jewelryGetStaticPaths = createGetStaticPaths('jewelry');
 // ER
 const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
@@ -305,7 +305,7 @@ export {
   PlpPage,
   engagementRingsGetStaticProps,
   engagementRingsGetStaticPaths,
-  jewelryGetServerSideProps,
+  jewelryGetStaticProps,
   jewelryGetStaticPaths,
   weddingRingsGetStaticProps,
   weddingRingsGetStaticPaths,
