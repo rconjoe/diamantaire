@@ -60,6 +60,9 @@ const SideBySide = `
     ctaCopy
     ctaButtonType
     ctaRoute
+    darksideButtons {
+      ${ButtonFragment}
+    }
     additionalClass
     textBlockAlignment
     ctaCopy2
@@ -70,9 +73,6 @@ const SideBySide = `
       code
       name
     }
-    darksideButtons {
-        ${ButtonFragment}
-      }
   }
 `;
 
