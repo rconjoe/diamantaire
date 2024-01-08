@@ -42,8 +42,6 @@ const SkinnyHeroBanner = `
             width
         }
     }
-    ctaCopy
-    ctaRoute
     additionalClass
     darksideButtons {
         ${ButtonFragment}
