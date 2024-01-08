@@ -107,8 +107,8 @@ export class ProductsService {
     // Supports multiselect
     const filterQuery = {
       ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
-      ...(styles && { 'configuration.style': { $in: styles }}),
-      ...(subStyles && { 'configuration.subStyle': { $in: subStyles }}),
+      ...(styles && { 'configuration.styles': { $in: styles }}),
+      ...(subStyles && { 'configuration.subStyles': { $in: subStyles }}),
       ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
@@ -176,10 +176,6 @@ export class ProductsService {
       ];
 
       productResponse = await Promise.all(productPromises);
-
-      if (!productResponse[0] || productResponse[0].length === 0) {
-        throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
-      }
       
       this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
     }
@@ -337,6 +333,11 @@ export class ProductsService {
       return cachedData;
     } else {
       const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });
+
+      if (!plpResponse) {
+        throw new NotFoundException(`PLP not found :: ${plpSlug}`);
+      }
+
       const filterData = plpResponse['filters'];
       const { diamondType, metal, styles, subStyles } = filterData;
 
