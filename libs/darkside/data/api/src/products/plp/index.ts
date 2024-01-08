@@ -239,6 +239,7 @@ const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
         data {
           title
           link
+          route
           textColor {
             hex
           }
