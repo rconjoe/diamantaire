@@ -144,8 +144,6 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
     },
   ];
 
-  console.log('linezzzz', checkout?.lines);
-
   const lineItemCount = useMemo(() => {
     const count = checkout?.lines?.filter(
       (line) =>

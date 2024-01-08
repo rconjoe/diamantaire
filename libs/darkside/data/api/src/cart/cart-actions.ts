@@ -665,8 +665,6 @@ const addCustomizedItem = async (
     attributes: item.customAttributes,
   }));
 
-  console.log('custom refinedItems', refinedItems);
-
   let cartId = localStorage.getItem('cartId');
   let cart;
 

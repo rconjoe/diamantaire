@@ -1,3 +1,4 @@
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { useRouter } from 'next/router';
@@ -18,15 +19,15 @@ const PairSelector = ({
   setShouldDoublePrice,
   selectedConfiguration,
 }) => {
-  console.log('selectedConfiguration', selectedConfiguration);
   const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
   const pairSelector = useMemo(() => {
     if (isSoldAsPairOnly) {
       return [
         {
           id: 'pair',
           value:
-            `Pair ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
+            `${_t('Pair')} ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
             getFormattedPrice(variantPrice, locale),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
@@ -36,7 +37,7 @@ const PairSelector = ({
       return [
         {
           id: 'single',
-          value: `Single ${
+          value: `${_t('Single')} ${
             selectedConfiguration.caratWeight !== 'other'
               ? '<span class="em-dash"></span>' + getFormattedPrice(variantPrice / 2, locale)
               : ''
@@ -45,7 +46,7 @@ const PairSelector = ({
         },
         {
           id: 'pair',
-          value: `Pair ${
+          value: `${_t('Pair')} ${
             selectedConfiguration.caratWeight !== 'other'
               ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale)
               : ''

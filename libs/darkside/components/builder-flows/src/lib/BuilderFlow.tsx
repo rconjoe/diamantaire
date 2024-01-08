@@ -269,29 +269,14 @@ const BuilderFlow = ({
         updateSettingSlugs({
           productSlug: newProductSlug,
         });
-
-        console.log('initialLotIdsyyy', initialLotIds);
-        console.log('other lot ids', builderProduct?.diamonds);
-
-        // if (router.query.flowType === 'setting-to-diamond') {
-        //   router.push(
-        //     `/customize/setting-to-diamond/summary/${initialCollectionSlug}/${newProductSlug}/${
-        //       initialLotIds ? initialLotIds?.join('/') : builderProduct?.diamonds?.map((diamond) => diamond.lotId).join('/')
-        //     }`,
-        //   );
-        // } else {
-        //   router.push(
-        //     `/customize/diamond-to-setting/summary/${initialLotIds?.split('/')}/${initialCollectionSlug}/${newProductSlug}`,
-        //   );
-        // }
       }
     }
   }, [
+    builderProduct.diamonds,
+    settingSlugs?.collectionSlug,
     // additionalVariantData,
     // selectedConfiguration,
     // shopifyProductData,
-    builderProduct.diamonds,
-    settingSlugs?.collectionSlug,
     // shopifyProductData?.optionConfigs?.['diamondType'],
   ]);
 
@@ -326,10 +311,6 @@ const BuilderFlow = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
-
-  useEffect(() => {
-    console.log('builderproduct', builderProduct);
-  }, [builderProduct]);
 
   return (
     <BuilderFlowStyles>

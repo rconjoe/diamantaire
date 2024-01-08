@@ -75,7 +75,6 @@ const CartNote = ({ actions }) => {
   const noteVariantId = createShopifyVariantId(40638483660893);
 
   async function toggleGiftNote() {
-    console.log('toggleGiftNote running');
     setGiftNoteText(giftNoteInputText);
     setIsGiftNoteOpen(false);
     const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
@@ -87,7 +86,6 @@ const CartNote = ({ actions }) => {
     }
 
     if (doesUserHaveNoteInCart && giftNoteStatus !== actions?.remove) {
-      console.log('updating git note');
       const updatedAttributes = {
         _hiddenProduct: 'true',
         note: giftNoteInputText,
@@ -113,8 +111,6 @@ const CartNote = ({ actions }) => {
         ],
       }).then(() => refetch());
     } else if (doesUserHaveNoteInCart && giftNoteStatus === actions?.remove) {
-      console.log('removing gift note');
-
       return await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
     }
   }

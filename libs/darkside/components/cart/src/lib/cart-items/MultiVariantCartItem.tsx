@@ -154,10 +154,6 @@ const MultiVariantCartItem = ({
     );
   }, [item]);
 
-  console.log('childProducts', childProducts);
-
-  // console.log('childProduct', childProduct);
-
   const engravingProduct = useMemo(() => {
     return checkout?.lines?.find(
       (item) =>
