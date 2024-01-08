@@ -1,11 +1,4 @@
-import {
-  setSpace,
-  tabletAndUp,
-  XXLDesktopAndUp,
-  desktopAndUp,
-  makeTealLink,
-  media,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, XXLDesktopAndUp, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularSkinnyBannerBlockContainer = styled.div`
@@ -83,7 +76,11 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
   }
 
   .skinny-banner__cta {
-    ${makeTealLink()};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xsmall);
+    color: var(--color-teal);
+    font-family: var(--font-family-main);
+    text-decoration: underline;
     margin: ${setSpace(2.5)} 0;
 
     ${tabletAndUp(`

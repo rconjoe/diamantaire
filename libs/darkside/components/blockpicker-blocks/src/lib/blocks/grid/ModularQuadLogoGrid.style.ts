@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, tabletAndUp, desktopAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, tabletAndUp, desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularLogoGridContainer = styled.div`
@@ -22,7 +22,7 @@ export const ModularLogoGridContainer = styled.div`
     line-height: 0.62;
     font-size: 42px;
     font-weight: normal;
-    font-family: ${MAIN_FONT};
+    font-family: var(--font-family-main);
     box-sizing: border-box;
 
     ${tabletAndUp(`
