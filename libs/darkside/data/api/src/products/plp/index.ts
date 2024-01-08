@@ -4,8 +4,6 @@ import { gql } from 'graphql-request';
 import { queryDatoGQL } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
-// import { createQueryKeys } from '@lukemorales/query-key-factory';
-
 export * from './getAllPlpSlugs';
 
 type SortedRequestOptions = {
