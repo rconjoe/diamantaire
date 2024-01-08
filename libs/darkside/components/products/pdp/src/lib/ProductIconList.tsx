@@ -64,8 +64,7 @@ const ProductIconListContainer = styled.div`
         }
       }
     }
-
-    .slideout__title {
+    .f .slideout__title {
       font-size: var(--font-size-small);
     }
   }
@@ -164,7 +163,9 @@ const ShippingListItem = ({ item }) => {
       <span className="icon">
         {icon && <DatoImage image={icon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />}
       </span>
-      {shippingText} {shippingDate}
+      <span className="font-medium">
+        {shippingText} {shippingDate}
+      </span>
     </li>
   );
 };
