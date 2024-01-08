@@ -40,6 +40,7 @@ type ModularTrioBlockProps = {
 };
 
 const ModularTrioBlock = (props: ModularTrioBlockProps) => {
+  console.log('ModularTrioBlock');
   const { id, belowCopy, aboveCopy, headingType, headingAdditionalClass, blogPosts, blogPostCtaCopy, _modelApiKey } = props;
   const [trioBlocks, setTrioBlocks] = useState([]);
 
