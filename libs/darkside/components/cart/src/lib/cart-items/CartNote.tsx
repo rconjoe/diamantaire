@@ -165,7 +165,7 @@ const CartNote = ({ actions }) => {
 
         await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
       } else if (!orderHasNote && doesUserHaveNoteInCart) {
-        await removeNoteFromOrder(doesUserHaveNoteInCart);
+        await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
       }
     }
 
