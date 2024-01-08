@@ -127,6 +127,8 @@ const PlpProductGrid = ({
 
   const useProductTitleOnly = asPath === '/engagement-rings/settings';
 
+  const includeStylesFilter = asPath.includes('/engagement-rings/');
+
   const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
@@ -175,6 +177,8 @@ const PlpProductGrid = ({
 
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
+  if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
+
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
       <div className="grid-controls-container">
@@ -191,6 +195,7 @@ const PlpProductGrid = ({
               subcategoryFilter={subcategoryFilter}
             />
           </div>
+
           <div className="sort">
             {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
           </div>

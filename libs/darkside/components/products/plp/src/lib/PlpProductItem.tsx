@@ -1,7 +1,7 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { ListPageItemWithConfigurationVariants } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
@@ -29,10 +29,6 @@ const PlpProductItem = (props: PlpProductItemProps) => {
   const router = useRouter();
 
   const { locale } = router || {};
-
-  const { countryCode } = parseValidLocale(locale);
-
-  const currencyCode = getCurrency(countryCode);
 
   const { _t } = useTranslations(locale, [
     humanNamesMapperType.DIAMOND_SHAPES,
