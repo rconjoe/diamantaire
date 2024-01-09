@@ -143,7 +143,7 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const { productTitle } = content;
 
-  const price = getFormattedPrice(productPrice, locale, true);
+  const price = getFormattedPrice(productPrice, locale, true).replace(/\s/g, '');
 
   const imageData = {
     url: content?.plpImage?.responsiveImage?.url,
@@ -173,7 +173,6 @@ const CardProduct: React.FC<CardProductProps> = ({
         <div className="action">
           <div className="price">
             {price}
-            {locale !== 'en-US' && ' '}
             {requiresCustomDiamond && '+'}
           </div>
 

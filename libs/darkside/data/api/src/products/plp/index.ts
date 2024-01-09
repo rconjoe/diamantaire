@@ -24,6 +24,7 @@ export async function getVRAIServerPlpData(
   slug: string,
   filterOptions = {},
   { page = 1, limit = 12 }: PaginatedRequestOptions,
+  locale,
 ) {
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
@@ -41,20 +42,19 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
 
-  
   const qParams = new URLSearchParams({
     category,
     slug,
     ...optionsQuery,
     page: page?.toString() || '1',
     limit: limit?.toString(),
+    locale,
   });
 
-  
   const isServer = typeof window === 'undefined';
   let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
-  if (!isServer){
+  if (!isServer) {
     reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
   }
 
@@ -63,7 +63,7 @@ export async function getVRAIServerPlpData(
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY })
+        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY }),
       },
     })
       .then((res) => {
@@ -71,12 +71,12 @@ export async function getVRAIServerPlpData(
       })
       .then((res) => res);
 
-      return response;
-    } catch (err){
-      console.log("Cannot fetch plp products", err);
+    return response;
+  } catch (err) {
+    console.log('Cannot fetch plp products', err);
 
-      return null;
-    }
+    return null;
+  }
 }
 
 type DiamondPlpRequestOptions = SortedRequestOptions & PaginatedRequestOptions;
@@ -104,10 +104,10 @@ export async function getVRAIServerDiamondPlpData(
   return response;
 }
 
-export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
+export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions, locale) {
   const { data, fetchNextPage, isFetching, hasNextPage, error } = useInfiniteQuery(
-    [`plp`, category, slug, JSON.stringify(filterOptions || {})],
-    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
+    [`plp`, category, slug, JSON.stringify(filterOptions || {}), locale],
+    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }, locale),
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
@@ -184,6 +184,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             }
           }
           slug
+          link
         }
       }
       hero {
@@ -228,10 +229,10 @@ export async function fetchPlpDatoServerData(locale: string, slug: string, categ
     const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
     return response;
-  } catch(error) {
-    console.log("Error retrieving list page ssr data", error);
+  } catch (error) {
+    console.log('Error retrieving list page ssr data', error);
 
-    return {}
+    return {};
   }
 }
 
@@ -282,7 +283,7 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     id
     enableGwp
     desktopImage {
-      responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 636, h: 804, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment
       }
     }
@@ -298,6 +299,15 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     ctaRoute
     darksideButtons {
       ${ButtonFragment}
+    }
+    additionalClass
+    configurationsInOrder {
+      ... on OmegaProductRecord {
+        shopifyProductHandle
+      }
+      ... on ConfigurationRecord {
+        variantId
+      }
     }
   }
 }
