@@ -219,7 +219,6 @@ export const CarouselSliderContainer = styled.div`
   &.modular_product_slider_block,
   &.modular_celebrity_carousel_block,
   &.modular_instagram_reel_block,
-  &.modular_slick_carousel_block,
   &.modular_grid_carousel_block {
     .embla__slide {
       padding: 0 10px;
