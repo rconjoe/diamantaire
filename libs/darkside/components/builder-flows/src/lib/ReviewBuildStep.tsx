@@ -837,7 +837,9 @@ const ReviewBuildStep = ({
                     Object.keys(configurations)?.map((key, index) => {
                       console.log('keyyy', key, configurations[key]);
 
-                      if (key === 'ringSize' || key === 'diamondType' || configurations[key].length < 2) return null;
+                      const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight'];
+
+                      if (selectorsToIgnore.includes(key) || configurations[key].length < 2) return null;
 
                       return (
                         <ReviewVariantSelector

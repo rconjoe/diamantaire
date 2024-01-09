@@ -31,6 +31,7 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     clarity,
     ringSize,
     goldPurity,
+    hiddenHalo,
   } = configuration || {};
 
   console.log('specGenerator', configuration);
@@ -89,6 +90,10 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     specArray.push(
       `${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent.replace('pave-twisted', 'double-pave'))}`,
     );
+  }
+
+  if (hiddenHalo === 'yes') {
+    specArray.push(`${_t('Hidden Halo')}: ${_t('yes')}`);
   }
 
   if (chainLength) {
