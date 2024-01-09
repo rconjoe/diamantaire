@@ -26,7 +26,7 @@ const PlpMobileFilterStyles = styled.div`
 
   .close-filter {
     position: fixed;
-    right: 2rem;
+    right: 1.25rem;
     top: calc(${({ headerHeight }) => headerHeight}px + 1rem);
 
     button {
@@ -63,11 +63,13 @@ const PlpMobileFilterStyles = styled.div`
           li {
             margin-right: 2rem;
             margin-bottom: 1rem;
+
             button {
               background-color: transparent;
               padding: 0;
               display: block;
             }
+
             .remove-filter {
               svg {
                 height: 15px;
@@ -129,6 +131,8 @@ const PlpMobileFilter = ({ filterTypes, filterValue, updateFilter, handleSliderU
       <div className="stacked-filters">
         {filterTypes &&
           sortedFilterTypes?.map((filterType, index) => {
+            console.log(filterType);
+
             const filter = filterTypes[filterType];
 
             // If subcategories on jewelry products, override the subStyle filter
