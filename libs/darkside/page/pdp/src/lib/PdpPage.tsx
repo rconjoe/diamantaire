@@ -93,8 +93,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    // paveCaratWeight,
-    // metalWeight,
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
@@ -113,8 +111,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
-
+  const { shopifyCollectionId, productContent, configuration, price, collectionContent } = shopifyProductData;
+  console.log({ collectionContent });
   const configurations = shopifyProductData?.optionConfigs;
 
   const assetStack = productContent?.assetStack; // flatten array in normalization

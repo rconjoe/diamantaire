@@ -223,7 +223,7 @@ const ProductDescription = ({
         </div>
 
         {/* Diamond section usually for Jewelry */}
-        {variantAttributes?.shape && variantAttributes?.shape !== 'Shape' && (
+        {diamondSpecs?.some((spec) => spec.value) && (
           <div className="description__variant-details">
             <Heading type="h4" className="primary">
               {title ? 'VRAI created diamond for ' + title : 'VRAI created diamond'}
