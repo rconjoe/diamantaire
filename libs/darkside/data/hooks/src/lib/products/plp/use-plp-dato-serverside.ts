@@ -40,6 +40,7 @@ type PlpDatoServersideProps = {
           responsiveImage: DatoImageType;
         };
         slug: string;
+        link: string;
       }[];
     }[];
     hero: {

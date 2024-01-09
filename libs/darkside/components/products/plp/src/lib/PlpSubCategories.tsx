@@ -1,5 +1,6 @@
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const PlpSubCategoriesStyles = styled.div`
@@ -36,28 +37,31 @@ const PlpSubCategoriesStyles = styled.div`
 const PlpSubCategories = ({ subcategoryFilter, filterValue, setFilterValues }) => {
   const { data: blocks } = subcategoryFilter?.[0] || {};
 
+  console.log(`PlpSubCategories`, blocks);
+
   return (
     <PlpSubCategoriesStyles className="container-wrapper">
       {blocks?.map((block) => {
+        const content = (
+          <>
+            <div className="subcategory-image">
+              <DatoImage image={block?.image} enableDpr={true} />
+            </div>
+            <div className="subcategory-content">
+              <Heading type="h3" className="subcategory-title">
+                {block?.title}
+              </Heading>
+            </div>
+          </>
+        );
+
         return (
           <div className="subcategory-block" key={`subcategory-${block?.slug}`}>
-            <button
-              onClick={() =>
-                setFilterValues({
-                  ...filterValue,
-                  subStyle: [block?.slug],
-                })
-              }
-            >
-              <div className="subcategory-image">
-                <DatoImage image={block?.image} enableDpr={true} />
-              </div>
-              <div className="subcategory-content">
-                <Heading type="h3" className="subcategory-title">
-                  {block?.title}
-                </Heading>
-              </div>
-            </button>
+            {block.link ? (
+              <Link href={block.link}>{content}</Link>
+            ) : (
+              <button onClick={() => setFilterValues({ ...filterValue, subStyle: [block?.slug] })}>{content}</button>
+            )}
           </div>
         );
       })}
