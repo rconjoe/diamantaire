@@ -21,7 +21,7 @@ type ImageTilePropTypes = {
   subtitle?: string;
   forceAspectRatio?: boolean;
   shouldLazyLoad?: boolean;
-  darksideButtons: DatoDarksideButtonProps[];
+  darksideButtons?: DatoDarksideButtonProps[];
 };
 
 const ImageTile = ({
