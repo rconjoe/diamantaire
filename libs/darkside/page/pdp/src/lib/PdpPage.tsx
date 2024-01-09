@@ -111,8 +111,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
   // Variant Specific Data
-  const { shopifyCollectionId, productContent, configuration, price, collectionContent } = shopifyProductData;
-  console.log({ collectionContent });
+  const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
+
   const configurations = shopifyProductData?.optionConfigs;
 
   const assetStack = productContent?.assetStack; // flatten array in normalization
@@ -151,7 +151,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     // console.log('v2 additionalVariantData', additionalVariantData);
 
-    // use parent product carat if none provided on the variant in Dato
+    // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {
     //     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
