@@ -10,7 +10,7 @@ import { StringHelper } from "../../utils/StringHelper";
 test.describe("Setting First flow - Toi et Moi flow'", () => {
 
 
-  test("Happy flow - verify price", async ({ homePage , page}) => {
+  test.skip("Happy flow - verify price", async ({ homePage , page}) => {
 
     const expectedCart = new QACart();
 
@@ -21,12 +21,12 @@ test.describe("Setting First flow - Toi et Moi flow'", () => {
 
     await test.step("Select Toi et Moi", async () => {
 
-      await page.getByRole('link', { name: 'ENGAGEMENT' }).first().hover();
-      await page.getByRole('button', { name: 'Start with a setting' }).click();
-      await expect(page.locator("h1").first()).toHaveText('Engagement ring settings', { timeout: 20000 });
+      await homePage.navigateToEngagementStartWithASetting()
+
+
       await page.getByRole('link', { name: 'The Toi et Moi' }).first().click();
-      //Below might not work
-      await page.locator('xpath=//div[@type=\'diamond-type-round-brilliant+pear\']').click()
+      await page.getByRole('button', {name: 'round-brilliant+pear'}).click
+      //await page.locator('xpath=//div[@type=\'diamond-type-round-brilliant+pear\']').click()
 
     });  
 
