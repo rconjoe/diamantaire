@@ -18,8 +18,8 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
-  // const { _t } = useTranslations(locale);
-  const { data: checkout, refetch } = useCartData(locale);
+
+  const { data: checkout, refetch, isFetching } = useCartData(locale);
 
   console.log('checkout', checkout);
 
@@ -43,6 +43,7 @@ const Cart = ({ closeCart }) => {
     'Diamond',
     'Ring',
     'Gift Card',
+    'Ring Sizer',
   ];
 
   const {
@@ -52,10 +53,12 @@ const Cart = ({ closeCart }) => {
     cartCtaCopy,
     termsAndConditionsCtaCopy,
     termsAndConditionsCtaLink,
-    addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
     emptyCartMainCtaLink,
+    addNoteOptionCta,
+    updateNoteOptionCta,
+    removeNoteOptionCta,
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
@@ -201,11 +204,6 @@ const Cart = ({ closeCart }) => {
               ) : (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
-                    {/* they prob mean this.... */}
-                    {/* {parseFloat(checkout?.cost?.subtotalAmount?.amount) > 500 && (
-                      <UIString>Orders over $500 require a signature upon delivery.</UIString>
-                    )} */}
-
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
                   </p>
                   <hr />
@@ -215,7 +213,13 @@ const Cart = ({ closeCart }) => {
                     </p>
                     <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
-                  <CartNote addNoteOptionCta={addNoteOptionCta} />
+                  <CartNote
+                    actions={{
+                      add: addNoteOptionCta,
+                      update: updateNoteOptionCta,
+                      remove: removeNoteOptionCta,
+                    }}
+                  />
                 </div>
               )}
             </div>

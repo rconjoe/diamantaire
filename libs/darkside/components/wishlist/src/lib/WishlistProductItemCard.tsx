@@ -5,7 +5,7 @@ import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondTy
 import { DropHintIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { useEffect, useState, useMemo } from 'react';
 
@@ -143,7 +143,7 @@ const CardProduct: React.FC<CardProductProps> = ({
 
   const { productTitle } = content;
 
-  const price = getFormattedPrice(productPrice, locale, true);
+  const price = getFormattedPrice(productPrice, locale, true).replace(/\s/g, '');
 
   const imageData = {
     url: content?.plpImage?.responsiveImage?.url,
@@ -173,7 +173,6 @@ const CardProduct: React.FC<CardProductProps> = ({
         <div className="action">
           <div className="price">
             {price}
-            {locale !== 'en-US' && ' '}
             {requiresCustomDiamond && '+'}
           </div>
 
@@ -211,7 +210,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
 
   const [loadPagination, setLoadPagination] = useState(0);
 
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',

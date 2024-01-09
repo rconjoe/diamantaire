@@ -252,4 +252,39 @@ export const diamondIconsMap = {
     slug: 'tapered-baguette',
     icon: TaperedBaguetteIcon,
   },
+  'marquise+trillion': {
+    slug: 'marquise+trillion',
+    icon: MarquiseIcon,
+    icon2: TrillionIcon,
+  },
+  'marquise+baguette': {
+    slug: 'marquise+baguette',
+    icon: MarquiseIcon,
+    icon2: BaguetteIcon,
+  },
+  'marquise+round-brilliant': {
+    slug: 'marquise+round-brilliant',
+    icon: MarquiseIcon,
+    icon2: RoundBrilliantIcon,
+  },
+  'oval+trillion': {
+    slug: 'oval+trillion',
+    icon: OvalIcon,
+    icon2: TrillionIcon,
+  },
+  'baguette+oval': {
+    slug: 'baguette+oval',
+    icon: BaguetteIcon,
+    icon2: OvalIcon,
+  },
+  'baguette+trillion': {
+    slug: 'baguette+trillion',
+    icon: BaguetteIcon,
+    icon2: TrillionIcon,
+  },
+  'baguette+marquise': {
+    slug: 'baguette+marquise',
+    icon: BaguetteIcon,
+    icon2: MarquiseIcon,
+  },
 };

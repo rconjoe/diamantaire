@@ -10,6 +10,7 @@ export * from './InfoIcon';
 export * from './LoveIcon';
 export * from './LoveIconActive';
 export * from './MailIcon';
+export * from './RotateIcon';
 export * from './SearchIcon';
 export * from './ShoppingBagIcon';
 export * from './TableIcon';

@@ -40,11 +40,12 @@ export type DarksideButtonProps = {
   href?: string;
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   buttonType?: 'button' | 'submit' | 'reset';
   type?: 'solid' | 'outline' | 'underline' | 'text-underline';
   colorTheme?: 'black' | 'teal' | 'white' | 'grey';
   mobileColorTheme?: 'desktop' | 'black' | 'teal' | 'white';
   openUrlInNewWindow?: boolean;
   disabled?: boolean;
+  style?: object;
 };

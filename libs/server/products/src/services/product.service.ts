@@ -106,10 +106,10 @@ export class ProductsService {
 
     // Supports multiselect
     const filterQuery = {
-      ...(metals && { 'configuration.metal': { $in: metals } }),
-      ...(styles && { 'configuration.style': { $in: styles } }),
-      ...(subStyles && { 'configuration.subStyle': { $in: subStyles } }),
-      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes } }),
+      ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
+      ...(styles && { 'configuration.styles': { $in: styles }}),
+      ...(subStyles && { 'configuration.subStyles': { $in: subStyles }}),
+      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
       ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
       ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
     };
@@ -117,7 +117,7 @@ export class ProductsService {
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
-    const cachedData = await this.utils.memGet(cacheKey);
+    const cachedData = await this.cacheManager.get(cacheKey);
     let productResponse;
 
     if (cachedData) {
@@ -176,30 +176,34 @@ export class ProductsService {
       ];
 
       productResponse = await Promise.all(productPromises);
-
-      if (!productResponse[0] || productResponse[0].length === 0) {
-        throw new NotFoundException(`PLP not found :: error stack : ${productResponse}`);
-      }
-
-      this.utils.memSet(cacheKey, productResponse, PLP_DATA_TTL);
+      
+      this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
     }
     const [products, totalDocumentsQuery] = productResponse;
     const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
 
     // generate query for product content by product type
-    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring'];
+    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Accessory']; //
     const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
     const contentIdsByProductType = products.reduce(
       (acc, plpItem) => {
+        
         const idList = plpItem.variants.map((v) => v.contentId);
-        const productType = plpItem.variants?.[0].productType;
+        const productType = plpItem?.variants?.[0]?.productType;
+
+        if (!productType || !plpItem.variants.length){
+          Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+          this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+
+          return acc;
+        }
 
         if (variantIdProductTypes.includes(productType)) {
           acc.variantIds.push(...idList);
         } else if (productHandleProductTypes.includes(productType)) {
           acc.productHandles.push(...idList);
         } else {
-          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem.product.productType);
+          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem);
         }
 
         return acc;
@@ -237,8 +241,16 @@ export class ProductsService {
       }, {}) || {};
 
     const generatePlpItem = (product, variantContent) => {
-      if (!variantContent || !product) {
-        return {};
+      if (!product) {
+        this.logger.warn("Missing product data.  Skipping", product, variantContent);
+
+        return null;
+      }
+
+      if (!variantContent) {
+        this.logger.warn("Missing product content.  Skipping.", product, variantContent);
+
+        return null;
       }
 
       const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
@@ -261,10 +273,16 @@ export class ProductsService {
     };
 
     // Merge product data with content
-    const plpProducts = products
-      .map((plpItem) => {
-        const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
-        const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
+    const plpProducts = products.map(plpItem => {
+      const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
+
+      if (!product){
+        this.logger.warn(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        Sentry.captureMessage(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+        
+        return undefined;
+      }
+      const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
 
         const mainProductContent = productContentMap[product.contentId];
         const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
@@ -282,14 +300,20 @@ export class ProductsService {
           ...(useLowestPrice && { useLowestPrice }),
           variants: plpItem.variants.reduce((acc, v) => {
             const variantContent = productContentMap[v.contentId];
+            const plpVariant = generatePlpItem(v, variantContent);
 
-            acc[v.contentId] = generatePlpItem(v, variantContent);
+            // skip if data is missing
+            if (!plpVariant){
+              return acc;
+            }
+
+            acc[v.contentId] = plpVariant;
 
             return acc;
           }, {}),
         };
       })
-      .filter(Boolean);
+      .filter(i => (i?.variants && Object.keys(i?.variants)?.length && Boolean(i))); // remove any items w/o variants
 
     return {
       category,
@@ -309,6 +333,11 @@ export class ProductsService {
       return cachedData;
     } else {
       const plpResponse = await this.plpRepository.findOne({ slug: plpSlug });
+
+      if (!plpResponse) {
+        throw new NotFoundException(`PLP not found :: ${plpSlug}`);
+      }
+
       const filterData = plpResponse['filters'];
       const { diamondType, metal, styles, subStyles } = filterData;
 
@@ -512,7 +541,7 @@ export class ProductsService {
         'variants.shopifyVariantId': shopifyVariantGid,
         ...getDraftQuery(),
       };
-      const product: VraiProduct = await this.productRepository.find(query);
+      const product = await this.productRepository.findOne<VraiProduct>(query);
 
       return {
         product,
@@ -755,42 +784,68 @@ export class ProductsService {
       }
     }
 
-    // Ensure all diamondTypes have a variant
-    // figure out which diamond types still need products
-    const missingDiamondTypes =
-      allOptions?.[ProductOption.DiamondType]?.filter((diamondType) => {
-        return !altConfigs[ProductOption.DiamondType][diamondType];
-      }) || [];
+    // options which are always included
+    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
+    
+    // options which are always included as long as the "parent" option matches
+    const MATCHING_PARENT_OPTION_MAP = {
+      [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
+      [ProductOption.Metal]: [ProductOption.DiamondType],
+    }
 
-    const diamondTypeMatchers = { ...productOptionsToMatch };
-    const diamondTypeVariants = products.sort((a, b) => {
-      for (const optionTypeKey of Object.keys(diamondTypeMatchers)) {
-        const variantOptionsValue = productOptionsToMatch[optionTypeKey];
+    OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {
+      if (!altConfigs[optionType]) {
+        return
+      }
+      // Ensure all options of this type are represented
+      const missingOptions = allOptions?.[optionType]?.filter((value) => {
+        return !altConfigs[optionType][value];
+      }).filter(Boolean);
 
-        if (optionTypeKey !== ProductOption.DiamondType) {
-          if (a.configuration[optionTypeKey] !== b.configuration[optionTypeKey]) {
-            if (a.configuration[optionTypeKey] === variantOptionsValue) {
-              return -1;
-            } else if (b.configuration[optionTypeKey] === variantOptionsValue) {
-              return 1;
-            } else {
-              return compareProductConfigurations(a, b, optionTypeKey);
+      const optionMatchers = { ...productOptionsToMatch };
+      const optionTypeTypeVariants = products.sort((a, b) => {
+        for (const optionTypeKey of Object.keys(optionMatchers)) {
+          const variantOptionsValue = productOptionsToMatch[optionTypeKey];
+  
+          if (optionTypeKey !== optionType) {
+            if (a.configuration[optionTypeKey] !== b.configuration[optionTypeKey]) {
+              if (a.configuration[optionTypeKey] === variantOptionsValue) {
+                return -1;
+              } else if (b.configuration[optionTypeKey] === variantOptionsValue) {
+                return 1;
+              } else {
+                return compareProductConfigurations(a, b, optionTypeKey);
+              }
             }
           }
         }
-      }
+  
+        return 0;
+      });
 
-      return 0;
-    });
+      missingOptions.forEach((optionValue) => {
+        const result = optionTypeTypeVariants.find((v) => {
+          const reqMatchingOptions = MATCHING_PARENT_OPTION_MAP[optionType];
 
-    missingDiamondTypes.forEach((diamondType) => {
-      const result = diamondTypeVariants.find((v) => v.configuration?.[ProductOption.DiamondType] === diamondType);
+          if (reqMatchingOptions) {
+            return v.configuration?.[optionType] === optionValue && reqMatchingOptions.every((reqOptionType) => {
+              if (!optionMatchers[reqOptionType] || !v.configuration?.[reqOptionType]){
+                return true;
+              }
 
-      if (result) {
-        addToConfigObj(ProductOption.DiamondType, result);
-      }
-    });
+              return v.configuration?.[reqOptionType] === optionMatchers[reqOptionType];
+            });
+          }
 
+          return v.configuration?.[optionType] === optionValue
+        });
+  
+        if (result) {
+          addToConfigObj(optionType, result);
+        }
+      });
+    })
+    
     // Match for ringSize from parent product
     const ringSizeConfigs = productToMatch?.variants
       ?.filter((variant) => {
@@ -1021,7 +1076,7 @@ export class ProductsService {
       if (collectionsInOrder.length > 0) {
         const collectionSlugsInOrder = collectionsInOrder.map((collection) => collection.slug);
 
-        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, {
+        plpReturnData = await this.getCollectionInOrderPlpProducts(slug, collectionSlugsInOrder, locale,{
           metals,
           diamondTypes,
           page,
@@ -1304,7 +1359,7 @@ export class ProductsService {
       // TODO: may need paginated request but most likely not since we limit to ~12 items per page
       // request all contentIds from Mongo and DB
       const variantPromises: [Promise<object[]>, Promise<VraiProduct[]>] = [
-        this.datoConfigurationsAndProducts({ slug, variantIds: variantContentIds, productHandles: productHandles }),
+        this.datoConfigurationsAndProducts({ slug, locale, variantIds: variantContentIds, productHandles: productHandles }),
         this.productRepository.find({ contentId: { $in: variantContentIds } }),
       ];
       const [variantContentData, variantProducts] = await Promise.all(variantPromises);
@@ -1434,6 +1489,7 @@ export class ProductsService {
   async getCollectionInOrderPlpProducts(
     slug: string,
     collectionSlugsInOrder: string[],
+    locale: string,
     {
       metals,
       diamondTypes,
@@ -1584,7 +1640,7 @@ export class ProductsService {
 
       // get matching dato data for er products
       const productHandles = collectionsProduct.map((product) => product.contentId);
-      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles });
+      const productContent = await this.datoConfigurationsAndProducts({ slug, productHandles, locale });
       const lowestPricesByCollection = await this.getLowestPricesByCollection();
 
       const products = collectionsProduct.reduce((productsArray: ListPageItemWithConfigurationVariants[], product) => {
@@ -1830,17 +1886,19 @@ export class ProductsService {
     productHandles = [],
     first = 100,
     skip = 0,
+    locale,
   }: {
     slug: string;
     variantIds?: string[];
     productHandles?: string[];
     first?: number;
     skip?: number;
+    locale: string;
   }): Promise<any> {
     const ids = [...variantIds, ...productHandles].sort();
 
     this.logger.verbose(`Getting Dato configurations & products for ${slug}`);
-    const cachedKey = `plp-configurations-${slug}-${ids.join('-')}-${first}-${skip}`;
+    const cachedKey = `plp-configurations-${slug}:${locale}:${ids.join('-')}-${first}-${skip}`;
     let response = await this.utils.memGet<any>(cachedKey); // return the cached result if there's a key
 
     const queryVars = {
@@ -1848,6 +1906,7 @@ export class ProductsService {
       variantIds,
       first,
       skip,
+      locale: getDatoRequestLocale(locale),
     };
 
     try {

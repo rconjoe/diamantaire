@@ -14,16 +14,16 @@ type BuilderPageQueryParams = {
 export type BuilderPageProps = {
   collectionSlug: string | null;
   productSlug: string | null;
-  lotId: string | null;
+  lotIds: string[] | null;
   type: 'setting-to-diamond' | 'diamond-to-setting';
 };
 
-const BuilderPage = ({ collectionSlug, productSlug, type, lotId }: BuilderPageProps) => {
+const BuilderPage = ({ collectionSlug, productSlug, type, lotIds }: BuilderPageProps) => {
   return (
     <>
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
-      <BuilderFlow collectionSlug={collectionSlug} type={type} lotId={lotId} productSlug={productSlug} />
+      <BuilderFlow collectionSlug={collectionSlug} type={type} lotIds={lotIds} productSlug={productSlug} />
     </>
   );
 };
@@ -50,12 +50,20 @@ export async function getServerSideProps(
     const collectionSlug = flowParams[0 + urlIndex];
     const productSlug = flowParams[1 + urlIndex];
     const diamondLotId = flowParams[2 + urlIndex];
+    // Toimoi/
+    const secondDiamondLotId = flowParams?.[3 + urlIndex];
+
+    const lotIds = diamondLotId ? [diamondLotId] : null;
+
+    if (secondDiamondLotId) {
+      lotIds.push(secondDiamondLotId);
+    }
 
     return {
       props: {
         collectionSlug: collectionSlug || null,
         productSlug: productSlug || null,
-        lotId: diamondLotId || null,
+        lotIds: lotIds || null,
         type: flowType || null,
       },
     };
@@ -68,7 +76,7 @@ export async function getServerSideProps(
       props: {
         collectionSlug: collectionSlug || null,
         productSlug: productSlug || null,
-        lotId: diamondLotId || null,
+        lotIds: [diamondLotId] || null,
         type: flowType || null,
       },
     };

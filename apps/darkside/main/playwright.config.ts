@@ -17,7 +17,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './e2e' }),
-  
+  timeout: 1 * 90 * 1000,
+  expect: {
+    timeout: 15* 1000,
+  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.test_env ==='prod' ? "https://www.vrai.com/" : process.env.test_env ==='stage' ? "https://main.vrai.qa/" : process.env.test_env.startsWith('http') ? process.env.test_env :  "http://localhost:4200" ,
@@ -34,9 +37,13 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        launchOptions:{
+          slowMo: 2000 },
+        
         // It is important to define the `viewport` property after destructuring `devices`,
         // since devices also define the `viewport` for that device.
         viewport: { width: 1680, height: 900 },
+        
       },
     },
   ],

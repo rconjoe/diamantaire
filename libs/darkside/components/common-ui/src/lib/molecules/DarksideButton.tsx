@@ -194,6 +194,7 @@ const DarksideButton = ({
   mobileColorTheme,
   openUrlInNewWindow = false,
   disabled = false,
+  style,
 }: DarksideButtonProps) => {
   return (
     <DarksideButtonStyles
@@ -205,15 +206,15 @@ const DarksideButton = ({
       )}
     >
       {href && openUrlInNewWindow ? (
-        <a href={href} target="_blank">
+        <a href={href} target="_blank" style={style}>
           <button>{children}</button>
         </a>
       ) : href ? (
-        <Link href={href}>
+        <Link href={href} style={style}>
           <button>{children}</button>
         </Link>
       ) : (
-        <button disabled={disabled} type={buttonType} onClick={onClick}>
+        <button style={style} disabled={disabled} type={buttonType} onClick={onClick}>
           {children}
         </button>
       )}

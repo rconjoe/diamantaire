@@ -9,7 +9,7 @@ export interface UseProducts {
 }
 
 export function useProduct({ collectionSlug, productSlug }: UseProducts) {
-  return useQuery({ ...queries.products.variant(collectionSlug, productSlug), staleTime: Infinity });
+  return useQuery({ ...queries.products.variant(collectionSlug, productSlug), staleTime: Infinity, keepPreviousData: true });
 }
 
 export default useProduct;

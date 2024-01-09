@@ -1,9 +1,13 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
-import { HUBSPOT_ER_SUMMARY_LISTDATA, PdpTypePlural } from '@diamantaire/shared/constants';
+import {
+  HUBSPOT_ER_SUMMARY_LISTDATA,
+  JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS,
+  PdpTypePlural,
+} from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { isEmptyObject, getCurrentUrl } from '@diamantaire/shared/helpers';
+import { getCurrentUrl, isEmptyObject } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -20,12 +24,11 @@ const BuilderFlowStyles = styled.div``;
 const BuilderFlow = ({
   collectionSlug: initialCollectionSlug,
   productSlug: initialProductSlug,
-  lotId: initialLotId,
+  lotIds: initialLotIds,
   type,
 }) => {
   // These act as flags to prevent the flow from running multiple times when the page loads. Pre-poulates setting + diamond data on page load, and that should only happen once.
   const [initDiamond, setInitDiamond] = useState(false);
-  const [initProduct, setInitProduct] = useState(false);
   const [shopifyProductData, setShopifyProductData] = useState(null);
 
   const [settingSlugs, setSettingSlugs] = useState({
@@ -60,8 +63,6 @@ const BuilderFlow = ({
 
   const { data }: { data: any } = useProductDato(shopifyProductData?.collectionSlug as string, router.locale, pdpType);
 
-  console.log('variant query', shopifyProductData?.collectionSlug as string, router.locale, pdpType);
-
   const datoParentProductData: any = data?.engagementRingProduct;
 
   const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
@@ -93,15 +94,17 @@ const BuilderFlow = ({
     router.locale,
   );
 
+  console.log('additionalVariantData', additionalVariantData, productContent);
+
   if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
     // Fallback for Jewelry Products
-    if (!additionalVariantData) {
+    if (!additionalVariantData || additionalVariantData?.configuration) {
       additionalVariantData = productContent;
     } else {
       // Add Shopify Product Data to Dato Product Data
       additionalVariantData = additionalVariantData?.omegaProduct;
-      additionalVariantData.goldPurity = shopifyProductData?.options?.goldPurity;
-      additionalVariantData.bandAccent = shopifyProductData?.options?.bandAccent;
+      additionalVariantData['goldPurity'] = shopifyProductData?.options?.goldPurity;
+      additionalVariantData['bandAccent'] = shopifyProductData?.options?.bandAccent;
       additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
 
@@ -129,7 +132,7 @@ const BuilderFlow = ({
 
   async function getDiamond() {
     const qParams = new URLSearchParams({
-      lotId: initialLotId,
+      lotIds: initialLotIds,
     }).toString();
     const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
       .then((res) => res.json())
@@ -139,7 +142,7 @@ const BuilderFlow = ({
   }
 
   async function getSettingProduct() {
-    console.log('getSettingProduct', settingSlugs);
+    console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
       slug: settingSlugs?.collectionSlug,
       id: settingSlugs?.productSlug,
@@ -159,46 +162,59 @@ const BuilderFlow = ({
 
     setShopifyProductData(response);
 
+    updateFlowData('ADD_PRODUCT', response);
+
     return response;
   }
 
   async function fetchProductAndDiamond() {
-    if (
-      (settingSlugs?.collectionSlug && settingSlugs?.productSlug) ||
-      (initialCollectionSlug && initialProductSlug && !initProduct)
-    ) {
+    if ((settingSlugs?.collectionSlug && settingSlugs?.productSlug) || (initialCollectionSlug && initialProductSlug)) {
       //  setInitProduct(true) has to be set after the variant data loads
       await getSettingProduct();
     }
 
     // Only run on load
-    if (initialLotId && !initDiamond) {
-      console.log("is this running when it shouldn't");
+    if (initialLotIds && !initDiamond) {
       setInitDiamond(true);
       await getDiamond();
     }
   }
 
   function configureCurrentStep() {
-    // Overrides both - is triggered by clicking modify
+    // EDGE CASES
+    // Overrides all scenarios to edit the diamond selected - is triggered by clicking modify diamond on review build step
     if (router.asPath.includes('edit-diamond')) {
       return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     }
 
+    console.log('configure step running', builderProduct);
+
+    if (
+      router.asPath.includes('toi-moi-ring') ||
+      JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS.some((item) => router.asPath.includes(item))
+    ) {
+      if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+      } else {
+        updateFlowData('UPDATE_STEP', { step: 'review-build' });
+      }
+    }
+
+    // STANDARD CASES
     // S2D - Select Diamond
     if (
       type === 'setting-to-diamond' &&
       settingSlugs?.productSlug &&
       settingSlugs?.collectionSlug &&
-      !initialLotId &&
-      !builderProduct?.diamond
+      !initialLotIds &&
+      !builderProduct?.diamonds
     ) {
       updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-    } else if (type === 'setting-to-diamond' && settingSlugs?.productSlug && settingSlugs?.collectionSlug && initialLotId) {
+    } else if (type === 'setting-to-diamond' && settingSlugs?.productSlug && settingSlugs?.collectionSlug && initialLotIds) {
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else if (
       type === 'diamond-to-setting' &&
-      initialLotId &&
+      initialLotIds &&
       !router.asPath.includes(settingSlugs?.productSlug) &&
       !router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
@@ -207,7 +223,7 @@ const BuilderFlow = ({
       updateFlowData('UPDATE_STEP', { step: 'select-setting' });
     } else if (
       type === 'diamond-to-setting' &&
-      initialLotId &&
+      initialLotIds &&
       router.asPath.includes(settingSlugs?.productSlug) &&
       router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
@@ -223,49 +239,7 @@ const BuilderFlow = ({
     configureCurrentStep();
   }, [settingSlugs]);
 
-  // This pulls in a pre-existing product if it exists on the initial URL - only for setting-to-diamond
   useEffect(() => {
-    if (additionalVariantData && selectedConfiguration && builderProduct?.diamond) {
-      setInitProduct(true);
-      console.log('values here', selectedConfiguration, builderProduct?.diamond);
-      if (selectedConfiguration?.diamondType === builderProduct?.diamond?.diamondType) {
-        updateFlowData('ADD_PRODUCT', {
-          ...additionalVariantData,
-          ...selectedConfiguration,
-          variantId,
-
-          allDiamondTypes: shopifyProductData?.optionConfigs['diamondType'],
-          collectionSlug: initialCollectionSlug,
-          productSlug: initialProductSlug,
-        });
-      } else {
-        const newProductSlug = shopifyProductData?.optionConfigs?.diamondType.find(
-          (item) => item.value === builderProduct?.diamond?.diamondType,
-        )?.id;
-
-        updateSettingSlugs({
-          productSlug: newProductSlug,
-        });
-
-        if (router.query.flowType === 'setting-to-diamond') {
-          router.push(`/customize/setting-to-diamond/summary/${initialCollectionSlug}/${newProductSlug}/${initialLotId}`);
-        } else {
-          router.push(`/customize/diamond-to-setting/summary/${initialLotId}/${initialCollectionSlug}/${newProductSlug}`);
-        }
-      }
-    }
-  }, [
-    additionalVariantData,
-    selectedConfiguration,
-    shopifyProductData,
-    builderProduct.diamond,
-    settingSlugs?.collectionSlug,
-    shopifyProductData?.optionConfigs?.['diamondType'],
-  ]);
-
-  useEffect(() => {
-    console.log('path changed', router.asPath);
-
     configureCurrentStep();
 
     const isSummaryPage = router.asPath.includes('/summary');
@@ -302,7 +276,7 @@ const BuilderFlow = ({
       {/* Setting to Diamond */}
       {builderProduct?.step === 'select-diamond' && (
         <DiamondBuildStep
-          diamondTypeToShow={builderProduct?.diamond?.diamondType || selectedConfiguration?.diamondType}
+          diamondTypeToShow={builderProduct?.diamonds?.[0]?.diamondType || selectedConfiguration?.diamondType}
           availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
           settingSlugs={{ collectionSlug: settingSlugs?.collectionSlug, productSlug: settingSlugs?.productSlug }}
         />
@@ -312,7 +286,7 @@ const BuilderFlow = ({
       {builderProduct?.step === 'select-setting' && (
         <SettingSelectStep
           updateSettingSlugs={updateSettingSlugs}
-          settingTypeToShow={builderProduct?.diamond?.diamondType}
+          settingTypeToShow={builderProduct?.diamonds?.[0]?.diamondType}
         />
       )}
 
@@ -339,7 +313,7 @@ const BuilderFlow = ({
       )}
 
       {/* Both flows */}
-      {builderProduct?.step === 'review-build' && builderProduct.product && builderProduct.diamond && (
+      {builderProduct?.step === 'review-build' && builderProduct.product && builderProduct.diamonds && (
         <ReviewBuildStep
           settingSlugs={{
             collectionSlug: settingSlugs?.collectionSlug,
@@ -351,6 +325,7 @@ const BuilderFlow = ({
           selectedConfiguration={selectedConfiguration}
           variantProductTitle={shopifyProductData?.productTitle}
           additionalVariantData={additionalVariantData}
+          shopifySettingVariantId={variantId}
         />
       )}
     </BuilderFlowStyles>

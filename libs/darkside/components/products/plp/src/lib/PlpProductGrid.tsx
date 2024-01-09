@@ -22,15 +22,15 @@ const PlpProductGridStyles = styled.div`
 
   .grid-controls-container {
     position: sticky;
-    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
+    top: ${({ headerHeight, isSettingSelect }) => (isSettingSelect ? 0 : headerHeight - 1 + 'px')};
 
     .grid-controls {
       display: flex;
+      padding: 0 1rem;
       align-items: start;
       justify-content: space-between;
-      padding: 0 1rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         padding: 0;
@@ -79,7 +79,6 @@ type PlpProductGridProps = {
   availableFilters?: {
     [key in FilterTypeProps]: string[];
   };
-
   plpTitle?: string;
   plpSlug: string;
   // This is a temporary override to allow the builder to ignore rules we use to handle the server-side stuff
@@ -123,14 +122,21 @@ const PlpProductGrid = ({
   subcategoryFilter,
 }: PlpProductGridProps) => {
   const router = useRouter();
+
+  const { asPath, locale } = router || {};
+
+  const useProductTitleOnly = asPath === '/engagement-rings/settings';
+
+  const includeStylesFilter = asPath.includes('/engagement-rings/');
+
   const { headerHeight } = useGlobalContext();
 
   const { data: { plpPromoCardCollection: { data: cardCollection } = {} } = {} } = usePlpDatoPromoCardCollection(
-    router.locale,
+    locale,
     promoCardCollectionId,
   );
 
-  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(router.locale, creativeBlockIds);
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds);
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
@@ -168,7 +174,10 @@ const PlpProductGrid = ({
   }, [cardCollection]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+
   const products = data?.pages?.map((page) => page.products).flat() || [];
+
+  if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
@@ -186,6 +195,7 @@ const PlpProductGrid = ({
               subcategoryFilter={subcategoryFilter}
             />
           </div>
+
           <div className="sort">
             {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
           </div>
@@ -196,7 +206,6 @@ const PlpProductGrid = ({
         <div className="product-grid__row ">
           {products?.length > 0 &&
             products?.map((product, gridItemIndex) => {
-
               if (!product) {
                 return null;
               }
@@ -217,8 +226,8 @@ const PlpProductGrid = ({
                     <div>
                       <PlpProductItem
                         product={product}
-                        position={gridItemIndex}
                         plpTitle={plpTitle}
+                        position={gridItemIndex}
                         selectSettingForBuilderFlow={() => {
                           return selectSetting({
                             collectionSlug: product.variants[product.defaultId]?.collectionSlug,
@@ -226,12 +235,14 @@ const PlpProductGrid = ({
                           });
                         }}
                         builderFlowOverride={builderFlowOverride}
+                        useProductTitleOnly={useProductTitleOnly}
                       />
                     </div>
                   )}
                 </Fragment>
               );
             })}
+
           {products.length === 0 && !isFetching && (
             <div className="no-items-message">
               <p>No items match your selection</p>

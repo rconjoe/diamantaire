@@ -3,6 +3,7 @@ import { DiamondFilter, DiamondTable } from '@diamantaire/darkside/components/di
 import { useDiamondsData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE, DIAMOND_TABLE_FACETED_NAV } from '@diamantaire/shared/constants';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -53,6 +54,7 @@ type DiamondBuildStepProps = {
 };
 
 const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
+  const { asPath } = useRouter();
   const initialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -62,6 +64,18 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
     sortOrder: 'desc',
   };
 
+  let isToiMoiOrPair = false;
+
+  console.log('asPath', asPath);
+
+  if (asPath.includes('toi-moi')) {
+    initialOptions['view'] = 'toi-moi';
+    isToiMoiOrPair = true;
+  } else if (asPath.includes('pair')) {
+    initialOptions['view'] = 'pairs';
+    isToiMoiOrPair = true;
+  }
+
   const [loading, setLoading] = useState(true);
   // const [isTableView, setIsTableView] = useState(true);
   const { headerHeight } = useGlobalContext();
@@ -69,7 +83,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
-  const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
+  const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options, view: 'toimoi' });
 
   const updateLoading = (newState) => {
     setLoading(newState);
@@ -177,6 +191,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
                 clearOptions={() => null}
                 ranges={ranges}
                 settingSlugs={settingSlugs}
+                isDiamondPairs={isToiMoiOrPair}
               />
             </div>
           </div>

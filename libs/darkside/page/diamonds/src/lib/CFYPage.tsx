@@ -141,6 +141,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
                 handleSelectCarat={handleSelectCarat}
                 caratSliderTooltip={caratSliderTooltip}
               />
+
               <UniLink route={productRoute}>
                 <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
                   {checkAvailabilityLabel}

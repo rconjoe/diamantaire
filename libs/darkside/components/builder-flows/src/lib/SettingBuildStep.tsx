@@ -24,7 +24,7 @@ import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 const SettingBuildStepStyles = styled(motion.div)`
@@ -97,6 +97,10 @@ const SettingBuildStep = ({
   productIconListType,
   settingSlugs,
 }: SettingBuildStepProps) => {
+  const { builderProduct } = useContext(BuilderProductContext);
+
+  const [totalPrice, setTotalPrice] = useState(null);
+
   const product = useMemo(() => {
     return {
       title: productTitle,
@@ -107,7 +111,26 @@ const SettingBuildStep = ({
   const router = useRouter();
 
   const { _t } = useTranslations(router.locale);
-  const { builderProduct } = useContext(BuilderProductContext);
+
+  useEffect(() => {
+    if (!builderProduct?.diamonds) return null;
+    // Calculate the total price
+    let total = builderProduct?.diamonds?.reduce((sum, item) => sum + item.price, 0);
+
+    total = total + parseFloat(product.price);
+
+    setTotalPrice(total);
+  }, [builderProduct?.diamonds]); // Recalculate if items change
+
+  const sliderHandCaption = useMemo(() => {
+    const textArray = builderProduct?.diamonds?.map((diamond) => {
+      const { carat } = diamond;
+
+      return `${carat}ct`;
+    });
+
+    return textArray?.join(' | ');
+  }, [builderProduct?.diamonds]);
 
   // Need this here to not interefere with hooks
   if (isEmptyObject(shopifyProductData)) return null;
@@ -142,7 +165,7 @@ const SettingBuildStep = ({
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={selectedConfiguration?.diamondType}
               disableHandSliderControls={true}
-              presetHandSliderValue={parseFloat(builderProduct.diamond?.carat)}
+              presetHandSliderValue={parseFloat(sliderHandCaption)}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
@@ -164,7 +187,7 @@ const SettingBuildStep = ({
               override={productTitleOverride}
             />
 
-            <ProductPrice isBuilderProduct={true} price={parseFloat(product.price)} engravingText={null} />
+            <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />
             <ProductConfigurator
               configurations={configurations}
               selectedConfiguration={selectedConfiguration}
@@ -178,6 +201,7 @@ const SettingBuildStep = ({
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
               productIconListType={productIconListType}
+              setProductSlug={(val) => updateSettingSlugs({ productSlug: val })}
             />
 
             {/* <ProductKlarna title={productTitle} currentPrice={price} /> */}

@@ -26,7 +26,7 @@ import { ProductsService } from '../services/product.service';
 export class ProductController {
   constructor(private readonly productService: ProductsService) {}
 
-  @Get('/plp')
+  @Get('plp')
   @ApiOperation({ summary: 'Get product variant' })
   @ApiQuery({ name: 'slug', required: true, description: 'Plp slug' })
   @ApiQuery({ name: 'category', required: true, description: 'Plp category' })

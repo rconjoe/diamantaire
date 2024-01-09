@@ -1,15 +1,22 @@
+import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
   padding-bottom: calc(var(--gutter) / 4);
+
+  ${mobileOnly(`
+    padding-left: 1rem;
+    padding-right: 1rem;
+  `)}
+
   ul {
     li {
       a {
         font-size: var(--font-size-xxxsmall);
       }
       span {
-        margin: 0 0.8rem;
+        margin: 0 0.25rem;
         font-size: var(--font-size-xxxsmall);
       }
     }

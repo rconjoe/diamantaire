@@ -1,6 +1,6 @@
 import { queries } from '@diamantaire/darkside/data/queries';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
 export const humanNamesMapperType = {
@@ -26,6 +26,16 @@ export const humanNamesMapperType = {
   DIAMOND_CUTS: 'DIAMOND_CUTS',
 } as const;
 
+type HumanNameMapperResponse = {
+  allHumanNamesMappers: {
+    map: {
+      key: string;
+      value: string;
+    }[];
+    title: typeof humanNamesMapperType[keyof typeof humanNamesMapperType];
+  }[];
+};
+
 export default useTranslations;
 
 const replacementRegExp = new RegExp('%%(.*?)%%', 'g');
@@ -41,7 +51,7 @@ export function useTranslations(
   locale = DEFAULT_LOCALE,
   category?: (typeof humanNamesMapperType)[keyof typeof humanNamesMapperType][],
 ) {
-  const { data } = useQuery({ ...queries.template.global(locale) });
+  const { data }: UseQueryResult<HumanNameMapperResponse, unknown> = useQuery({ ...queries.template.global(locale) });
 
   const { allHumanNamesMappers = [] } = data || {};
 

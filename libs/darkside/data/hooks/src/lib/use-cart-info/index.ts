@@ -24,10 +24,13 @@ export type CartCopyProps = {
   cartCtaCopy: string;
   termsAndConditionsCtaCopy: string;
   termsAndConditionsCtaLink: string;
-  addNoteOptionCta: string;
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;
   emptyCartMainCtaLink: string;
+  addNoteOptionCta: string;
+  updateNoteOptionCta: string;
+  removeNoteOptionCta: string;
+  uniqueDiamondAlreadyInCartErrorMessage: string;
 };
 
 export function useCartInfo(locale: string): UseQueryResult<CartProps, unknown> {

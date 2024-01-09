@@ -43,6 +43,9 @@ export type SubMenuChildLink = {
     isBold: boolean;
     route: string;
     newRoute?: string;
+    supportedCountries: {
+      code: string;
+    }[];
   }>;
   supportedCountries: {
     code: string;

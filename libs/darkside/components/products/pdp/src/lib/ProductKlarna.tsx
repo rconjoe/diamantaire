@@ -9,6 +9,7 @@ const ProductKlarnaStyles = styled.div`
   min-height: 24px;
   #klarna-placement::part(osm-message) {
     font-family: var(--font-family-main);
+    font-size: var(--font-size-xxxsmall);
   }
 `;
 

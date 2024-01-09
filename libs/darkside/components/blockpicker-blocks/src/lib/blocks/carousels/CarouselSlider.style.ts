@@ -219,7 +219,6 @@ export const CarouselSliderContainer = styled.div`
   &.modular_product_slider_block,
   &.modular_celebrity_carousel_block,
   &.modular_instagram_reel_block,
-  &.modular_slick_carousel_block,
   &.modular_grid_carousel_block {
     .embla__slide {
       padding: 0 10px;
@@ -234,8 +233,15 @@ export const CarouselSliderContainer = styled.div`
 
   &.modular_slick_carousel_block {
     .embla__slide {
-      flex: 0 0 20%;
-      padding: 0 40px;
+      padding: 0 20px;
+      max-width: 200px;
+      margin: 0 auto;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        flex: 0 0 20%;
+        padding: 0 40px;
+        max-width: 100%;
+      }
     }
   }
 `;

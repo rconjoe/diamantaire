@@ -48,6 +48,13 @@ export const SlideOutWrapper = styled(motion.aside)`
     font-size: var(--font-size-medium);
   }
 
+  &.slideout--shop-the-look .title {
+    text-align: center;
+    * {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
   .body {
     font-size: var(--font-size-xxsmall);
 

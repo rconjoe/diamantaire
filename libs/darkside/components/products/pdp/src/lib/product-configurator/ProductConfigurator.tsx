@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
-import { DarksideButton, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
+import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
@@ -61,6 +61,7 @@ type ProductConfiguratorProps = {
     collectionSlug: string;
     productSlug: string;
   };
+  setProductSlug: (_value: string) => void;
 };
 
 function ProductConfigurator({
@@ -92,6 +93,7 @@ function ProductConfigurator({
   setEngravingText,
   productIconListType,
   settingSlugs,
+  setProductSlug,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -172,6 +174,7 @@ function ProductConfigurator({
               color: additionalVariantData?.color,
               clarity: additionalVariantData?.clarity,
             }}
+            setProductSlug={setProductSlug}
           />
 
           {/* Ring Size */}
@@ -190,6 +193,8 @@ function ProductConfigurator({
                 isWeddingBandProduct={additionalVariantData?.productType === 'Wedding Band'}
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
                 productType={additionalVariantData?.productType}
+                selectedConfiguration={selectedConfiguration}
+                areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
               />
             )}
         </>
@@ -209,7 +214,7 @@ function ProductConfigurator({
       </AnimatePresence>
 
       {/* Pair Products */}
-      {isSoldAsDouble && isConfigurationComplete && (
+      {isSoldAsDouble && (
         <PairSelector
           isSoldAsDouble={isSoldAsDouble}
           isSoldAsPairOnly={isSoldAsPairOnly}
@@ -217,12 +222,14 @@ function ProductConfigurator({
           selectedPair={selectedPair}
           variantPrice={variantPrice}
           setShouldDoublePrice={setShouldDoublePrice}
+          selectedConfiguration={selectedConfiguration}
         />
       )}
 
       {/* Left/Right Products */}
       {isSoldAsLeftRight && (
         <LeftRightSelector
+          selectedConfiguration={selectedConfiguration}
           selectedEarringOrientation={selectedEarringOrientation}
           setSelectedEarringOrientation={setSelectedEarringOrientation}
           setShouldDoublePrice={setShouldDoublePrice}
@@ -257,14 +264,14 @@ function ProductConfigurator({
               );
 
               router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds?.[0]?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
               );
             }}
           >
             <UIString>Complete & Review Your Ring</UIString>
           </DarksideButton>
         </div>
-      ) : (
+      ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
@@ -281,7 +288,20 @@ function ProductConfigurator({
           additionalVariantIds={additionalVariantIds}
           engravingText={engravingText}
           productIconListType={productIconListType}
+          selectedPair={selectedPair}
         />
+      ) : (
+        <div
+          style={{
+            margin: '1rem 0',
+            backgroundColor: '#000',
+            minHeight: '4.9rem',
+          }}
+        >
+          <DarksideButton type="solid">
+            <Loader color="#fff" />
+          </DarksideButton>
+        </div>
       )}
     </>
   );
@@ -306,6 +326,7 @@ type CtaButtonProps = {
   additionalVariantIds?: string[];
   engravingText?: string;
   productIconListType?: string;
+  selectedPair?: 'pair' | 'single';
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -333,6 +354,7 @@ function AddToCartButton({
   isSoldAsDouble,
   engravingText,
   productIconListType,
+  selectedPair,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -354,7 +376,7 @@ function AddToCartButton({
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
 
   const { countryCode } = parseValidLocale(locale);
   const shippingTime =
@@ -384,7 +406,7 @@ function AddToCartButton({
       // Keep product in english for now
       _productType: productType,
       _productTypeTranslated: _t(productType),
-      shippingText: _t('Made-to-order. Ships by'),
+      shippingText: _t(shippingText),
       productGroupKey,
     };
 
@@ -444,7 +466,7 @@ function AddToCartButton({
     });
 
     const metal = _t(
-      (selectedConfiguration.goldPurity ? selectedConfiguration.goldPurity + ' ' : '') + selectedConfiguration?.metal,
+      `${selectedConfiguration?.goldPurity ? `${selectedConfiguration.goldPurity} ` : ''}${selectedConfiguration?.metal}`,
     );
     const pickBandAccent = bandAccent || selectedConfiguration?.bandAccent;
     const refinedBandAccent = pickBandAccent
@@ -460,6 +482,7 @@ function AddToCartButton({
         pdpUrl: window.location.href,
         feedId: variantId,
         _specs: specs,
+        // This gets overwritten by updateShippingTimes in cart-actions
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
@@ -540,10 +563,27 @@ function AddToCartButton({
         childProduct: '',
       };
 
-      // Assuming you have a function to handle adding a gift card to the cart
-      addJewelryProductToCart({
+      addMiscProductToCart({
         variantId: variantId,
         attributes: giftCardAttributes,
+        locale,
+      }).then(() => refetch());
+    } else if (productType === 'Ring Sizer') {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { shippingText, ...otherAttributes } = defaultAttributes;
+      const ringSizerAttributes = {
+        ...otherAttributes,
+        pdpUrl: window.location.href,
+        feedId: variantId,
+        // Ring Sizer specific attributes
+        productIconListShippingCopy: '',
+        shippingBusinessDays: shippingTime.toString(),
+        shippingText: _t('Ships by'),
+      };
+
+      addMiscProductToCart({
+        variantId: variantId,
+        attributes: ringSizerAttributes,
         locale,
       }).then(() => refetch());
     }
@@ -572,7 +612,11 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
-            router.push(`/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}`);
+            router.push(
+              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${
+                isSoldAsDouble && selectedPair === 'pair' ? '?pair=true' : ''
+              }`,
+            );
           }
         }}
       >

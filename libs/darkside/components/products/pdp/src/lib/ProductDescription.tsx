@@ -177,6 +177,7 @@ const ProductDescription = ({
           </ul>
         );
 
+
       default: // jewelry
         return <ul>{renderSpecs(jewelryProductSpecs)}</ul>;
     }

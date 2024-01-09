@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon-business-days';
 
 import { toBCP47LocaleTag } from './currency';
+import { getLanguage } from './getLanguage';
 
 export const LOCALES = {
   en_US: 'English',
@@ -91,15 +92,17 @@ export const getShipByDate = (shippingBusinessDays, currentDateTime = DateTime.l
 
 // In separate module so that it can be mocked in index.test.js
 export const getFormattedShipByDate = (shippingBusinessDays, _locale = 'en-us', currentDateTime = DateTime.local()) => {
-  const normalizeLocale = (locale) => {
-    if (LOCALE_KEYS.includes(_locale)) {
-      return toBCP47LocaleTag(locale);
+  const language = getLanguage(_locale);
+
+  const normalizeLocale = (_language: string) => {
+    if (LOCALE_KEYS.includes(_language)) {
+      return toBCP47LocaleTag(_language);
     }
 
     return 'en-us';
   };
 
-  const locale = normalizeLocale(_locale);
+  const locale = normalizeLocale(language);
 
   const shipByDate = getShipByDate(shippingBusinessDays, currentDateTime);
 
