@@ -70,11 +70,20 @@ const HeaderActionsNavContainer = styled.nav`
 
           .cart-count {
             position: absolute;
-            left: 8px;
-            bottom: 7px;
+            left: 10px;
+            bottom: 9px;
             color: var(--color-white);
             font-size: 12px;
             font-weight: bold;
+
+            @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+              bottom: 8px;
+            }
+
+            @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+              left: 8px;
+              bottom: 7px;
+            }
           }
         }
 

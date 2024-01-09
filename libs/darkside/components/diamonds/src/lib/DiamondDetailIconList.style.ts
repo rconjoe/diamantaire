@@ -1,4 +1,3 @@
-import { MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailIconList = styled.div`
@@ -51,7 +50,7 @@ const StyledDiamondDetailIconList = styled.div`
 
     * {
       font-size: var(--font-size-xxxxxsmall);
-      font-family: ${MAIN_FONT};
+      font-family: var(--font-family-main);
       text-transform: none;
       color: var(--color-teal);
     }

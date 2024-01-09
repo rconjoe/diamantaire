@@ -37,12 +37,11 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')};
   padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
   min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
-    padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
+    padding-top: ${({ distanceFromTop, $isHome }) => ($isHome ? 0 : distanceFromTop ? `${distanceFromTop}px` : '0')};
     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
   `}
 `;
@@ -107,7 +106,7 @@ export const GlobalTemplate = ({ children }) => {
         />
       )}
 
-      <MainContainer $isHome={isHome} distanceFromTop={isHome ? 0 : headerHeight}>
+      <MainContainer $isHome={isHome} distanceFromTop={headerHeight}>
         {children}
       </MainContainer>
 

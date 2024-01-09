@@ -1,4 +1,4 @@
-import { setSpace, desktopAndUp, tabletAndUp, MAIN_FONT, makeTealLink } from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularShowroomBlockStyles = styled.div`
@@ -65,7 +65,7 @@ export const ModularShowroomBlockStyles = styled.div`
     margin-bottom: ${setSpace(1)} !important;
     font-weight: var(--font-weight-medium);
     font-size: 2.2rem;
-    font-family: ${MAIN_FONT};
+    font-family: var(--font-family-main);
     text-align: left;
 
     ${desktopAndUp(`
@@ -77,7 +77,11 @@ export const ModularShowroomBlockStyles = styled.div`
 
   .showroom__cta {
     line-height: 2.4rem;
-    ${makeTealLink()};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xsmall);
+    color: var(--color-teal);
+    font-family: var(--font-family-main);
+    text-decoration: underline;
   }
 
   .showroom__side-direction-image {

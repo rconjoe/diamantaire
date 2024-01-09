@@ -23,9 +23,15 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   }
 
   .menu-container {
-    justify-content: center;
+    justify-content: start;
     margin: 0 -4rem;
     padding-top: 2rem;
+    flex-wrap: wrap;
+
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+      flex-wrap: nowrap;
+      justify-content: center;
+    }
 
     &.VRAIcreatedDiamond,
     &.Gifts,
@@ -36,6 +42,11 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
     .menu-container__col {
       padding: 0 6rem;
+      flex: 0 0 50%;
+      margin-bottom: 4rem;
+      @media (min-width: ${({ theme }) => theme.sizes.xl}) {
+        flex: 1;
+      }
 
       &.byRecipient {
         .col__inner {

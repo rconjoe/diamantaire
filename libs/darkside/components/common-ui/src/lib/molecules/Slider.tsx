@@ -61,14 +61,8 @@ const Slider = (props: SliderProps) => {
 
       sliderInstanceRef.current = slider;
 
-      // slider.on('change', () => {
-      //   if (handleChange) handleChange(getSliderValue());
-      // });
-
-      slider.on('slide', (value: (string | number)[]) => {
-        const valueAsNumber = value.map((v) => Number(v));
-
-        if (handleChange) handleChange(valueAsNumber);
+      slider.on('change', () => {
+        if (handleChange) handleChange(getSliderValue());
       });
 
       slider.on('update', (values: (string | number)[]) => {

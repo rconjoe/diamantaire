@@ -47,6 +47,8 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import ReviewVariantSelector from './ReviewVariantSelector';
+
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 2rem 2rem 14rem;
 
@@ -95,32 +97,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
               max-height: 608px;
             }
           }
-        }
-      }
-
-      .image-diamond {
-        top: 53%;
-        left: 20.5%;
-
-        @media (min-width: ${({ theme }) => theme.sizes.xl}) {
-          left: 25%;
-        }
-
-        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-          left: 20%;
-        }
-
-        @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
-          left: 21%;
-        }
-        @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
-          left: 21%;
-        }
-        @media (min-width: 1700px) {
-          left: 22%;
-        }
-        @media (min-width: 1800px) {
-          left: 23%;
         }
       }
 
@@ -356,8 +332,6 @@ const ReviewBuildStep = ({
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
-  const [isBandSelectorOpen, setIsBandSelectorOpen] = useState(false);
-  const [isMetalSelectorOpen, setIsMetalSelectorOpen] = useState(false);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -453,7 +427,7 @@ const ReviewBuildStep = ({
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
 
   const shippingTime =
     countryCode === 'US'
@@ -510,7 +484,7 @@ const ReviewBuildStep = ({
       _productTitle: productTitle,
       productIconListShippingCopy: 'temp',
       pdpUrl: window.location.href,
-      shippingText: _t('Made-to-order. Ships by'),
+      shippingText: _t(shippingText),
       feedId: settingVariantId,
       // engraving
       _EngravingBack: engravingText,
@@ -533,7 +507,7 @@ const ReviewBuildStep = ({
     };
 
     // 4. Create custom attributes for the diamond
-    const isPair = router?.asPath.includes('pair');
+    // const isPair = router?.asPath.includes('pair');
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
@@ -670,32 +644,22 @@ const ReviewBuildStep = ({
   }
 
   const summaryItems = [
-    // {
-    //   label: _t('diamondType'),
-    //   value: _t(diamond?.diamondType),
-    //   onClick: () => {
-    //     updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-    //     router.push(router.asPath + '/edit-diamond');
-    //   },
-    //   slug: 'diamondType',
-    // },
-    // {
-    //   label: 'Centerstone',
-    //   value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
-    //   onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
-    //   slug: 'centerstone',
-    // },
     {
-      label: _t('Band'),
-      value: _t(product?.bandAccent),
-      onClick: () => setIsBandSelectorOpen(!isBandSelectorOpen),
-      slug: 'band',
+      label: _t('diamondType'),
+      value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      onClick: () => {
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+        router.push(router.asPath + '/edit-diamond');
+      },
+      slug: 'diamondType',
     },
     {
-      label: 'Metal',
-      value: _t(product.metal),
-      onClick: () => setIsMetalSelectorOpen(!isMetalSelectorOpen),
-      slug: 'metal',
+      label: 'Centerstone',
+      value: diamonds
+        .map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
+        .join(' + '),
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      slug: 'centerstone',
     },
   ];
 
@@ -709,7 +673,7 @@ const ReviewBuildStep = ({
     if (type === 'setting-to-diamond') {
       const newUrl = `/customize/setting-to-diamond/summary/${
         settingSlugs.collectionSlug
-      }/${option?.id}/${builderProduct?.diamonds.map((diamond) => diamond?.lotId).join('/')}`;
+      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
       return router.push(newUrl);
     } else {
@@ -742,9 +706,6 @@ const ReviewBuildStep = ({
       ...selectedConfiguration,
       variantId: router.query.productSlug,
     });
-
-    setIsBandSelectorOpen(false);
-    setIsMetalSelectorOpen(false);
   }, [additionalVariantData]);
 
   useEffect(() => {
@@ -770,6 +731,10 @@ const ReviewBuildStep = ({
 
   const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
+  const diamondHandCaption = builderProduct.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
+
+  console.log('builderProduct', builderProduct);
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -790,8 +755,8 @@ const ReviewBuildStep = ({
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
       <div className="review-wrapper">
-        <div className="product-images ">
-          <div className="embla" ref={emblaRef}>
+        <div className="product-images">
+          <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>
             <div className="embla__container">
               <div className={clsx('image setting-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
@@ -810,7 +775,7 @@ const ReviewBuildStep = ({
                   range={[0.5, 8]}
                   initValue={parseFloat(diamonds?.[0]?.carat)}
                   disableControls={true}
-                  prefix={builderProduct.diamonds?.[0]?.carat.toString() + 'ct'}
+                  prefix={diamondHandCaption}
                 />
               </div>
             </div>
@@ -856,60 +821,35 @@ const ReviewBuildStep = ({
                 <ul className="list-unstyled">
                   {summaryItems?.map((item, index) => {
                     return (
-                      <li key={`summary-${index}`}>
-                        <span className="label">{item.label}:</span>
-                        <span className="value">{item.value}</span>
+                      <li key={`summary-1-${index}`}>
+                        <span className="label">{_t(item.label)}:</span>
+                        <span className="value">{_t(item.value)}</span>
                         <span className="toggle">
                           <button onClick={() => item.onClick()}>Modify</button>
                         </span>
-                        <AnimatePresence>
-                          {item.slug === 'metal'
-                            ? isMetalSelectorOpen && (
-                                <div className="acc-container">
-                                  <OptionSelector
-                                    optionType={'metal'}
-                                    productType={'Engagement Ring'}
-                                    label={'metal'}
-                                    options={configurations.metal}
-                                    selectedOptionValue={selectedConfiguration['metal']}
-                                    onChange={(option) => {
-                                      // console.log('option', val);
-                                      handleOptionChange('metal', option);
-                                      handleBuilderFlowVariantChange(option, 'metal');
-                                    }}
-                                    renderItemAsLink={false}
-                                    hideSelectorLabel={true}
-                                    selectedConfiguration={selectedConfiguration}
-                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
-                                  />
-                                </div>
-                              )
-                            : item.slug === 'band'
-                            ? isBandSelectorOpen && (
-                                <div className="acc-container">
-                                  <OptionSelector
-                                    optionType={'bandAccent'}
-                                    productType={'Engagement Ring'}
-                                    label={'metal'}
-                                    options={configurations.bandAccent}
-                                    selectedOptionValue={selectedConfiguration['bandAccent']}
-                                    onChange={(option) => {
-                                      // console.log('option', val);
-                                      handleOptionChange('bandAccent', option);
-                                      handleBuilderFlowVariantChange(option, 'bandAccent');
-                                    }}
-                                    renderItemAsLink={false}
-                                    hideSelectorLabel={true}
-                                    selectedConfiguration={selectedConfiguration}
-                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
-                                  />
-                                </div>
-                              )
-                            : ''}
-                        </AnimatePresence>
                       </li>
                     );
                   })}
+
+                  {configurations &&
+                    Object.keys(configurations)?.map((key, index) => {
+                      console.log('keyyy', key, configurations[key]);
+
+                      const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight'];
+
+                      if (selectorsToIgnore.includes(key) || configurations[key].length < 2) return null;
+
+                      return (
+                        <ReviewVariantSelector
+                          key={`summary-${index}`}
+                          selector={key}
+                          selectedConfiguration={selectedConfiguration}
+                          configurations={configurations}
+                          handleOptionChange={handleOptionChange}
+                          handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
+                        />
+                      );
+                    })}
                 </ul>
               </div>
             </div>
