@@ -388,6 +388,7 @@ const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = gql`
           }
           postLink
           productLink
+          productRoute
           shouldLinkToVraiInstagram
         }
       }

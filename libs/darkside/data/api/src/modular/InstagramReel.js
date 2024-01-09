@@ -30,10 +30,8 @@ const InstagramReel = `
         credit
         postLink
         productLink
+        productRoute
         shouldLinkToVraiInstagram
-        darksideButtons {
-            ${ButtonFragment}
-          }
       }
     }
   }
