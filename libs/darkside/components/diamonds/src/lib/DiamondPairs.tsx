@@ -1,6 +1,9 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 
 import Diamond360 from './Diamond360';
 import { StyledDiamondPairActiveRow, StyledDiamondPairCell } from './DiamondPairs.style';
@@ -33,6 +36,8 @@ export const DiamondPairActiveRow = ({
   diamonds: DiamondDataTypes[];
   isBuilderFlowOpen: boolean;
 }) => {
+  console.log('pair active');
+
   const [diamond1, diamond2] = diamonds;
 
   const { data: { diamondTable: { specs, origin: originValue } = {} } = {} } = useDiamondTableData(locale);
@@ -41,11 +46,24 @@ export const DiamondPairActiveRow = ({
 
   const { diamondType } = diamond1;
 
+  const { updateFlowData, builderProduct } = useContext(BuilderProductContext);
+  const router = useRouter();
+
   const handleSelectDiamond = () => {
     // TODO: add handler
     console.log(`handleSelectDiamond`, diamonds);
     // updateUrlParameter('lotId', product.lotId);
-    // updateFlowData('ADD_DIAMOND', product, builderProduct.step + 1);
+    updateFlowData('ADD_DIAMOND', diamonds);
+
+    // By pair, we mean two diamonds with the same lotId
+    const isPair = router?.asPath.includes('pair');
+    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/') + isPair ? '?pair=true' : '';
+
+    console.log('lotIdSlug', lotIdSlug);
+
+    router.push(
+      `/customize/setting-to-diamond/summary/${builderProduct?.product?.collectionSlug}/${builderProduct?.product?.productSlug}/`,
+    );
   };
 
   return (
@@ -73,7 +91,7 @@ export const DiamondPairActiveRow = ({
 
           <div className="row-cta">
             {isBuilderFlowOpen ? (
-              <DarksideButton>Select</DarksideButton>
+              <DarksideButton onClick={() => handleSelectDiamond()}>Select</DarksideButton>
             ) : (
               <DarksideButton type="solid" colorTheme="black" className="button-select" onClick={handleSelectDiamond}>
                 <UIString>Select</UIString>

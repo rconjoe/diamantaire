@@ -37,8 +37,6 @@ const PlpSubCategoriesStyles = styled.div`
 const PlpSubCategories = ({ subcategoryFilter, filterValue, setFilterValues }) => {
   const { data: blocks } = subcategoryFilter?.[0] || {};
 
-  console.log(`PlpSubCategories`, blocks);
-
   return (
     <PlpSubCategoriesStyles className="container-wrapper">
       {blocks?.map((block) => {

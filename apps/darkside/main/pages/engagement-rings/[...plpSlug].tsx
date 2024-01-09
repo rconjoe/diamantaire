@@ -1,7 +1,12 @@
-import { PlpPage, createStaticProps, getStaticPaths } from '@diamantaire/darkside/page/plp';
+import { 
+  PlpPage,  
+  engagementRingsGetStaticPaths as getStaticPaths,
+  engagementRingsGetStaticProps as getStaticProps, 
+} from '@diamantaire/darkside/page/plp';
 
 export default PlpPage;
 
-const getStaticProps = createStaticProps('engagement-rings');
-
-export { getStaticProps, getStaticPaths };
+export {
+  getStaticPaths,
+  getStaticProps
+};

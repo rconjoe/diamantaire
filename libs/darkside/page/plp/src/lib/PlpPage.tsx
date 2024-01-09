@@ -7,7 +7,7 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { getAllPlpSlugs, getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { getAllPlpSlugs, usePlpVRAIProducts, getVRAIServerPlpData } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -23,7 +23,7 @@ import {
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -48,7 +48,7 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
+function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
 
   const router = useRouter();
@@ -111,7 +111,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
-    // console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -144,7 +143,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
-      path: '/' + crumb.link.slug,
+      path: crumb?.link?.slug ? '/' + crumb.link.slug : '',
     };
   });
 
@@ -186,36 +185,40 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
 PlpPage.getTemplate = getStandardTemplate;
 
-async function getStaticPaths() {
-  const pageSlugs = await getAllPlpSlugs();
+const createGetStaticPaths = (category: string) => {
+  const getStaticPaths = async function getStaticPaths() {
+    const excludedSlugs = [];
+    const pageSlugs = await getAllPlpSlugs();
 
-  // Define the locales you want to include
-  const includedLocales = ['en-US'];
+    // Define the locales you want to include
+    const includedLocales = ['en-US'];
 
-  // Filter the locales and generate paths
-  const paths = pageSlugs.flatMap(({ slug, category }) => {
-    // Skip if slug is not defined or empty
-    if (!slug || slug === '') return [];
+    // Filter the locales and generate paths
+    const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category && !excludedSlugs.includes(p.slug))).flatMap(({ slug }) => {
+      // Skip if slug is not defined or empty
+      if (!slug || slug === '') return [];
 
-    return includedLocales.map((locale) => ({
-      locale,
-      params: { plpSlug: [category, slug] },
-    }));
-  });
+      return includedLocales.map((locale) => ({
+        locale,
+        params: { plpSlug: [slug] },
+      }));
+    });
 
-  return {
-    paths,
-    fallback: true,
-  };
+
+    return {
+      paths,
+      fallback: true
+    }
+    
+  }
+
+  return getStaticPaths;
 }
 
 const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
-    // context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
     const { params, locale } = context;
-
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
-
     const { plpSlug, ...qParams } = params;
 
     //Render 404 if no plpSlug
@@ -235,7 +238,7 @@ const createStaticProps = (category: string) => {
     let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
-    if (!initialFilterValues) {
+    if (!initialFilterValues || !slug) {
       return {
         notFound: true,
       };
@@ -274,6 +277,7 @@ const createStaticProps = (category: string) => {
       ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
+    // Render 404 if no content is returned
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
       return {
         notFound: true,
@@ -289,15 +293,32 @@ const createStaticProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
+      revalidate: 60 * 60 // revalidate every 60 minutes // TODO: control per environment
     };
   };
 
   return getStaticProps;
 };
 
-const jewelryGetServerSideProps = createStaticProps('jewelry');
+// JEWELRY
+const jewelryGetStaticProps = createStaticProps('jewelry');
+const jewelryGetStaticPaths = createGetStaticPaths('jewelry');
+// ER
+const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
+const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
+// WB
+const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
+const weddingRingsGetStaticPaths = createGetStaticPaths('wedding-rings');
 
-export { PlpPage, createStaticProps, getStaticPaths };
+export { 
+  PlpPage,
+  engagementRingsGetStaticProps,
+  engagementRingsGetStaticPaths,
+  jewelryGetStaticProps,
+  jewelryGetStaticPaths,
+  weddingRingsGetStaticProps,
+  weddingRingsGetStaticPaths,
+};
 
 /**
  * Takes the params from the URL and the query params and returns the filter options.

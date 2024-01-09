@@ -18,7 +18,7 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
-  // const { _t } = useTranslations(locale);
+
   const { data: checkout, refetch } = useCartData(locale);
 
   console.log('checkout', checkout);
@@ -52,10 +52,12 @@ const Cart = ({ closeCart }) => {
     cartCtaCopy,
     termsAndConditionsCtaCopy,
     termsAndConditionsCtaLink,
-    addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
     emptyCartMainCtaLink,
+    addNoteOptionCta,
+    updateNoteOptionCta,
+    removeNoteOptionCta,
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
@@ -215,7 +217,13 @@ const Cart = ({ closeCart }) => {
                     </p>
                     <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
                   </div>
-                  <CartNote addNoteOptionCta={addNoteOptionCta} />
+                  <CartNote
+                    actions={{
+                      add: addNoteOptionCta,
+                      update: updateNoteOptionCta,
+                      remove: removeNoteOptionCta,
+                    }}
+                  />
                 </div>
               )}
             </div>

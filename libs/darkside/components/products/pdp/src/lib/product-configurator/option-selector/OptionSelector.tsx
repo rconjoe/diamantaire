@@ -10,7 +10,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -37,6 +37,8 @@ interface OptionSelectorProps {
   selectedConfiguration: {
     [key: string]: string;
   };
+  setProductSlug?: (_value: string) => void;
+  areDiamondShapesHorizontal?: boolean;
 }
 
 const StyledOptionSelector = styled.div`
@@ -174,10 +176,6 @@ const StyledOptionSelector = styled.div`
         }
       }
 
-      .swiper-wrapper {
-        display: flex;
-      }
-
       a {
         display: inline-block;
       }
@@ -188,6 +186,18 @@ const StyledOptionSelector = styled.div`
         background-color: transparent;
         right: -3rem;
         ${media.medium`right: -4rem;`}
+      }
+
+      svg {
+        transition: 0.25s;
+      }
+
+      &.isRotated {
+        .canRotate {
+          svg {
+            transform: rotate(90deg);
+          }
+        }
       }
     }
 
@@ -234,7 +244,10 @@ function OptionSelector({
   productType,
   diamondSpecs,
   selectedOptionIndex = 0,
+
   selectedConfiguration,
+  setProductSlug,
+  areDiamondShapesHorizontal,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -246,7 +259,7 @@ function OptionSelector({
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
   const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
-  const diamondSliderOptions: EmblaOptionsType = {
+  const diamondSliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',
@@ -415,6 +428,7 @@ function OptionSelector({
           <div
             className={clsx('option-list', label, {
               'space-between-items': options.length < 8,
+              isRotated: areDiamondShapesHorizontal,
             })}
           >
             {options.length > 7 ? (
@@ -437,6 +451,7 @@ function OptionSelector({
                               isSelected={isSelected}
                               onClick={() => handleOptionClick(option)}
                               isLink={renderItemAsLink}
+                              setProductSlug={setProductSlug}
                             />
                           </div>
                         );
@@ -479,6 +494,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -504,6 +520,7 @@ function OptionSelector({
                         isSelected={isSelected}
                         onClick={() => handleOptionClick(option)}
                         isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                        setProductSlug={setProductSlug}
                       />
                     );
                   })}
@@ -534,6 +551,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -570,6 +588,7 @@ function OptionSelector({
                   isSelected={isSelected}
                   onClick={() => handleOptionClick(option)}
                   isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                  setProductSlug={setProductSlug}
                 />
               );
             })}
