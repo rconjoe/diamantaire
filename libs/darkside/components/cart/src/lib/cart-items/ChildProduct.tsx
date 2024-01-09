@@ -57,7 +57,7 @@ const ChildProductStyles = styled.div`
 `;
 
 const ChildProduct = ({ lineItem }) => {
-  const { attributes, merchandise, cost, id } = lineItem || {};
+  const { attributes, cost, id } = lineItem || {};
 
   console.log('lineItem', lineItem);
 
