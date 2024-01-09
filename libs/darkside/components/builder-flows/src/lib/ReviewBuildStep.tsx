@@ -395,8 +395,10 @@ const ReviewBuildStep = ({
     setSelectedSize(option);
   }, []);
 
-  const { productTitle, productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
+  const { productType, goldPurity, bandAccent, shopifyProductHandle, image, configuredProductOptionsInOrder } =
     product || {};
+
+  const { productTitle } = datoParentProductData || {};
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
@@ -803,7 +805,7 @@ const ReviewBuildStep = ({
             />
 
             <Heading type="h1" className="secondary no-margin">
-              {product?.productTitle}
+              {productTitle}
             </Heading>
 
             <div className="total-price">

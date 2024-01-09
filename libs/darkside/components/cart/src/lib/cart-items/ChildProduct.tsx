@@ -57,7 +57,9 @@ const ChildProductStyles = styled.div`
 `;
 
 const ChildProduct = ({ lineItem }) => {
-  const { attributes, merchandise, id } = lineItem || {};
+  const { attributes, merchandise, cost, id } = lineItem || {};
+
+  console.log('lineItem', lineItem);
 
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
@@ -105,7 +107,7 @@ const ChildProduct = ({ lineItem }) => {
         <div className="cart-item__content">
           <p>
             <strong>{_t(productType)}</strong>
-            {isProductDiamond && <span>{getFormattedPrice(parseFloat(merchandise?.price?.amount) * 100, locale)}</span>}
+            {isProductDiamond && <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>}
           </p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
