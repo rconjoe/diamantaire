@@ -5,31 +5,29 @@ config:
         x-api-key: "9a508cb5bd527bap332330AK1b4bd9b25b9a508cb5"
   target: http://vrai-server-development.up.railway.app
   phases:
-    # - duration: 60
-    #   arrivalRate: 1
-    #   rampTo: 5
-    #   name: Warm up phase
-    - duration: 5
+    - duration: 2
       arrivalCount: 1
-      name: API phase
-
+      name: Sample Soak Test Phase
   plugins:
-      ensure: {}
-      apdex: {}
-      metrics-by-endpoint: {}
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+  ensure:
+      thresholds:
+        - http.response_time.p99: 2000
+        - http.response_time.p95: 1500
 scenarios:
   - flow:
       - loop:
+        # - get:
+        #     url: "/v1/products/catalog?diamondType=oval&metal=yellow-gold&slug=three-stone"
         - get:
-            url: "/v1/products/catalog?diamondType=oval&metal=yellow-gold&slug=three-stone"
-        count: 2
-
-
-
-
-
-
-
-
-
-    
+            url: "/v1/diamonds?diamondType=pear&limit=10&page=1"
+        - get:
+            url: "/v1/diamonds/lowestpriced/radiant"
+        - get:
+            url: "/v1/products/collection/diamondtypes/three-stone"
+        count: 1
+        
