@@ -40,6 +40,10 @@ const CART_QUERY = `
               emptyCartMainCopy
               emptyCartMainCtaCopy
               emptyCartMainCtaRoute
+              addNoteOptionCta
+              updateNoteOptionCta
+              removeNoteOptionCta
+              uniqueDiamondAlreadyInCartErrorMessage
             }
           }
     }

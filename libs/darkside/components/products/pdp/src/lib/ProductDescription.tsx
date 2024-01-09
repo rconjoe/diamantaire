@@ -202,6 +202,10 @@ const ProductDescription = ({
         value: closure,
       },
       {
+        title: 'cordWidth',
+        value: closure,
+      },
+      {
         title: 'chainWidth',
         value: chainWidth,
       },

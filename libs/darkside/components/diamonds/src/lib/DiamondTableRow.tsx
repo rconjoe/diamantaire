@@ -3,15 +3,15 @@ import { DarksideButton, UIString } from '@diamantaire/darkside/components/commo
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
+import { useCartData, useCartInfo, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_VIDEO_BASE_URL, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { specGenerator } from '@diamantaire/shared/helpers';
 import { diamondRouteAppointment, diamondRoutePdp } from '@diamantaire/shared/routes';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,7 +35,11 @@ const DiamondTableRow = ({
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
   const { handle, lotId, diamondType } = product;
-  const { data: checkout } = useCartData(locale);
+
+  const { data: { cart: cartData } = {} } = useCartInfo(router.locale);
+
+  const { pageCopy: cartCopy } = cartData || {};
+  const { uniqueDiamondAlreadyInCartErrorMessage } = cartCopy?.[0] || {};
 
   const { updateFlowData } = useContext(BuilderProductContext);
 
@@ -47,8 +51,6 @@ const DiamondTableRow = ({
 
   const { isMobile } = useContext(GlobalContext);
   const { builderProduct } = useContext(BuilderProductContext);
-
-  console.log('builderProduct?.product', settingSlugs);
 
   const diamondDetailRoute = `${diamondRoutePdp}/${handle}${
     settingSlugs?.collectionSlug ? '?collectionSlug=' + settingSlugs?.collectionSlug : ''
@@ -65,7 +67,7 @@ const DiamondTableRow = ({
   const ToastError = () => {
     return (
       <ToastErrorStyles>
-        <p>This diamond is already in your cart</p>
+        <p>{uniqueDiamondAlreadyInCartErrorMessage}</p>
       </ToastErrorStyles>
     );
   };
@@ -95,7 +97,7 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    updateFlowData('ADD_DIAMOND', product);
+    updateFlowData('ADD_DIAMOND', [product]);
 
     if (!router.query.flowType) {
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
@@ -118,50 +120,55 @@ const DiamondTableRow = ({
     handleSelectDiamond();
   };
 
-  const handlePurchase = () => {
-    // TODO: add handler
-    console.log(`handlePurchase`, product);
+  function handleAddLooseDiamondToCart() {
+    const mutatedLotId = lotId && getNumericalLotId(lotId);
+    const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+    const { color, clarity, cut, carat } = product || {};
 
-    // Check if diamond is in the cart
-    const isDiamondInCart = checkout?.lines?.find((item) => item.merchandise.id === product?.variantId);
-
-    if (isDiamondInCart) {
-      return toast.error(ToastError, {
-        autoClose: 3000,
-      });
-    }
-
-    const mutatedLotId = getNumericalLotId(product?.lotId);
-
-    const diamondImage = JSON.stringify({
-      src: `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`,
-      alt: product?.productTitle,
-      width: 150,
-      height: 150,
+    const specGen = specGenerator({
+      configuration: {
+        color,
+        clarity,
+        cut,
+        caratWeight: carat,
+      },
+      productType: 'Diamond',
+      _t,
     });
 
-    const diamondAttributes = {
-      _productTitle: `Loose Diamond (${_t(product?.diamondType)})`,
+    const diamondAttributes: LooseDiamondAttributeProps = {
+      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
       productAsset: diamondImage,
-      _dateAdded: Date.now().toString(),
-      caratWeight: product.carat.toString(),
-      clarity: product.clarity,
-      cut: product.cut,
-      color: product.color,
-      // feedId: settingVariantId,
-      lotId: product.lotId,
+      _productAssetObject: JSON.stringify({
+        src: diamondImage,
+        width: 200,
+        height: 200,
+      }),
+      _dateAdded: Date.now().toString() + 100,
+      caratWeight: carat.toString(),
+      clarity,
+      cut,
+      color,
+      feedId: lotId,
+      lotId,
       productGroupKey: uuidv4(),
+      _specs: specGen,
       _productType: 'Diamond',
-      shippingText: _t('Made-to-order. Ships by'),
-      productIconListShippingCopy: 'temp',
-      shippingBusinessDays: 'temp',
+      _productTypeTranslated: _t('Diamond'),
       pdpUrl: window.location.href,
     };
 
-    addLooseDiamondToCart({ diamondVariantId: product?.variantId, diamondAttributes, locale }).then(() => refetch());
-
-    updateGlobalContext({ isCartOpen: true });
-  };
+    addLooseDiamondToCart({
+      diamondVariantId: product?.variantId,
+      diamondAttributes,
+    })
+      .then(() => refetch())
+      .then(() =>
+        updateGlobalContext({
+          isCartOpen: true,
+        }),
+      );
+  }
 
   return (
     <StyledDiamondTableRow>
@@ -193,7 +200,12 @@ const DiamondTableRow = ({
               <UIString>Speak to a diamond expert</UIString>
             </DarksideButton>
 
-            <DarksideButton type="underline" colorTheme="teal" className="button-purchase" onClick={handlePurchase}>
+            <DarksideButton
+              type="underline"
+              colorTheme="teal"
+              className="button-purchase"
+              onClick={handleAddLooseDiamondToCart}
+            >
               <UIString>Purchase without setting</UIString>
             </DarksideButton>
           </div>
@@ -206,6 +218,8 @@ const DiamondTableRow = ({
                 <UIString>View More Details</UIString>
               </DarksideButton>
             )}
+
+            {false && <ToastError />}
           </div>
         </div>
       </div>

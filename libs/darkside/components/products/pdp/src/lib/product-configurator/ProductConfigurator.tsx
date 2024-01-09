@@ -61,6 +61,7 @@ type ProductConfiguratorProps = {
     collectionSlug: string;
     productSlug: string;
   };
+  setProductSlug: (_value: string) => void;
 };
 
 function ProductConfigurator({
@@ -92,6 +93,7 @@ function ProductConfigurator({
   setEngravingText,
   productIconListType,
   settingSlugs,
+  setProductSlug,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -172,6 +174,7 @@ function ProductConfigurator({
               color: additionalVariantData?.color,
               clarity: additionalVariantData?.clarity,
             }}
+            setProductSlug={setProductSlug}
           />
 
           {/* Ring Size */}
@@ -191,6 +194,7 @@ function ProductConfigurator({
                 setIsWeddingBandSizeGuideOpen={setIsWeddingBandSizeGuideOpen}
                 productType={additionalVariantData?.productType}
                 selectedConfiguration={selectedConfiguration}
+                areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
               />
             )}
         </>
@@ -210,7 +214,7 @@ function ProductConfigurator({
       </AnimatePresence>
 
       {/* Pair Products */}
-      {isSoldAsDouble && isConfigurationComplete && (
+      {isSoldAsDouble && (
         <PairSelector
           isSoldAsDouble={isSoldAsDouble}
           isSoldAsPairOnly={isSoldAsPairOnly}
@@ -260,14 +264,14 @@ function ProductConfigurator({
               );
 
               router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamond?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds?.[0]?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
               );
             }}
           >
             <UIString>Complete & Review Your Ring</UIString>
           </DarksideButton>
         </div>
-      ) : (
+      ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
           isReadyForCart={isConfigurationComplete}
@@ -284,7 +288,10 @@ function ProductConfigurator({
           additionalVariantIds={additionalVariantIds}
           engravingText={engravingText}
           productIconListType={productIconListType}
+          selectedPair={selectedPair}
         />
+      ) : (
+        ''
       )}
     </>
   );
@@ -309,6 +316,7 @@ type CtaButtonProps = {
   additionalVariantIds?: string[];
   engravingText?: string;
   productIconListType?: string;
+  selectedPair?: 'pair' | 'single';
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -336,6 +344,7 @@ function AddToCartButton({
   isSoldAsDouble,
   engravingText,
   productIconListType,
+  selectedPair,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -575,7 +584,11 @@ function AddToCartButton({
               select_shape: diamondType,
               diamond_type: diamondType,
             });
-            router.push(`/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}`);
+            router.push(
+              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${
+                isSoldAsDouble && selectedPair === 'pair' ? '?pair=true' : ''
+              }`,
+            );
           }
         }}
       >

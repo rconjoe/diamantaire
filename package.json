@@ -13,6 +13,7 @@
     "start:prod:pm2": "yarn deploy",
     "start:dev:server": "nx serve server --watch",
     "build:server": "nx build server --prod",
+    "build:journal": "nx build darkside-journal --prod",
     "build": "nx run-many -t build -p server darkside-main",
     "clean": "rimraf dist",
     "test": "nx run-many -t test",

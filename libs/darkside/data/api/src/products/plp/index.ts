@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { queryDatoGQL, queryClientApi } from '../../clients';
+import { queryDatoGQL } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
 
 export * from './getAllPlpSlugs';
@@ -41,7 +41,7 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
 
-  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+  
   const qParams = new URLSearchParams({
     category,
     slug,
@@ -50,20 +50,33 @@ export async function getVRAIServerPlpData(
     limit: limit?.toString(),
   });
 
-  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  
+  const isServer = typeof window === 'undefined';
+  let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
-  const response = await fetch(reqUrl, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((res) => {
-      return res.json();
+  if (!isServer){
+    reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  }
+
+  try {
+    const response = await fetch(reqUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY })
+      },
     })
-    .then((res) => res);
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => res);
 
-  return response;
+      return response;
+    } catch (err){
+      console.log("Cannot fetch plp products", err);
+
+      return null;
+    }
 }
 
 type DiamondPlpRequestOptions = SortedRequestOptions & PaginatedRequestOptions;
@@ -72,7 +85,6 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
-  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -217,17 +229,14 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
 
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
-  const qParams = new URLSearchParams({ slug, category, locale });
-  const reqUrl = `/page/plpssr?${qParams.toString()}`;
-
   try {
-    const response = await queryClientApi().request({ url: reqUrl });
+    const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
-    return response.data;
-  } catch (e) {
-    console.log(e);
+    return response;
+  } catch(error) {
+    console.log("Error retrieving list page ssr data", error);
 
-    return null;
+    return {}
   }
 }
 

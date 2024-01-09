@@ -1,8 +1,11 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 
@@ -254,13 +257,18 @@ const MobileSubMenu = ({
 }) => {
   const { columnTitle, links }: NavColumn = col;
 
+  const { locale } = useRouter();
+
+  const { countryCode } = parseValidLocale(locale);
+
   return (
     <div className="mobile-submenu__container">
       <div className="mobile-submenu__inner">
         <h4 className="submenu__title">{columnTitle}</h4>
         <ul className="submenu__list">
           {links?.map((link, index) => {
-            const { linkKey, nestedLinks, route, newRoute, copy, isBold }: Partial<SubMenuChildLink> = link;
+            const { linkKey, nestedLinks, route, newRoute, copy, isBold, supportedCountries }: Partial<SubMenuChildLink> =
+              link;
 
             const iconType = diamondShapesWithIcon?.[linkKey as keyof typeof diamondShapesWithIcon]
               ? 'diamond'
@@ -269,43 +277,45 @@ const MobileSubMenu = ({
               : '';
 
             return (
-              <li key={index}>
-                {route && (
-                  <Link
-                    href={newRoute || route}
-                    className={iconType ? 'has-icon' : ''}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <>
-                      {linkKey && (
-                        <span className={iconType}>
-                          {diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]
-                            ? diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]?.['icon']
-                            : ringStylesWithIcon
-                            ? ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]?.['icon']
-                            : ''}
-                        </span>
-                      )}
-                      <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
-                    </>
-                  </Link>
-                )}
-                {nestedLinks && nestedLinks?.length > 0 && (
-                  <ul className="grandchildren-links">
-                    {nestedLinks?.map((link, nestedLinkIndex: number) => {
-                      const { route, newRoute, copy } = link;
+              isCountrySupported(supportedCountries, countryCode) && (
+                <li key={index}>
+                  {route && (
+                    <Link
+                      href={newRoute || route}
+                      className={iconType ? 'has-icon' : ''}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <>
+                        {linkKey && (
+                          <span className={iconType}>
+                            {diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]
+                              ? diamondShapesWithIcon[linkKey as keyof typeof diamondShapesWithIcon]?.['icon']
+                              : ringStylesWithIcon
+                              ? ringStylesWithIcon[linkKey as keyof typeof ringStylesWithIcon]?.['icon']
+                              : ''}
+                          </span>
+                        )}
+                        <span className="link-text">{isBold ? <strong>{copy}</strong> : copy}</span>
+                      </>
+                    </Link>
+                  )}
+                  {nestedLinks && nestedLinks?.length > 0 && (
+                    <ul className="grandchildren-links">
+                      {nestedLinks?.map((link, nestedLinkIndex: number) => {
+                        const { route, newRoute, copy } = link;
 
-                      return (
-                        <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
-                          <Link href={newRoute || route} onClick={() => setIsMobileMenuOpen(false)}>
-                            <span className="link-text">{copy}</span>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </li>
+                        return (
+                          <li key={`nested-link-menu-${colIndex}-item-${nestedLinkIndex}`}>
+                            <Link href={newRoute || route} onClick={() => setIsMobileMenuOpen(false)}>
+                              <span className="link-text">{copy}</span>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+              )
             );
           })}
         </ul>

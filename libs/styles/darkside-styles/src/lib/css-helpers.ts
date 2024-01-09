@@ -58,6 +58,10 @@ export const CssHelpers = styled.createGlobalStyle`
     margin: 0;
   }
 
+  .font-medium {
+    font-weight: var(--font-weight-medium);
+  }
+
   .container-wrapper {
     width: ${LAYOUT_WIDTH_SM};
     padding-left: ${setSpace(3)};

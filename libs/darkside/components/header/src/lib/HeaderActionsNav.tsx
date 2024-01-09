@@ -1,8 +1,11 @@
 import { WishlistSlideOutButton } from '@diamantaire/darkside/components/wishlist';
+import { useCartData } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { AccountIcon, LoveIcon, ShoppingBagIcon } from '@diamantaire/shared/icons';
 import { media } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 const HeaderActionsNavContainer = styled.nav`
@@ -55,6 +58,26 @@ const HeaderActionsNavContainer = styled.nav`
       }
 
       &.cart {
+        button {
+          position: relative;
+          &.cart-icon--filled {
+            svg {
+              rect {
+                fill: var(--color-black);
+              }
+            }
+          }
+
+          .cart-count {
+            position: absolute;
+            left: 8px;
+            bottom: 7px;
+            color: var(--color-white);
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+
         svg {
           width: 2.4rem;
           height: auto;
@@ -86,6 +109,9 @@ const HeaderActionsNavContainer = styled.nav`
 `;
 
 const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
+  const { locale } = useRouter();
+  const { data: checkout } = useCartData(locale);
+
   const links = [
     // {
     //   title: 'Search',
@@ -118,6 +144,16 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
     },
   ];
 
+  const lineItemCount = useMemo(() => {
+    const count = checkout?.lines?.filter(
+      (line) =>
+        !line.attributes.find((attr) => attr.key === 'isChildProduct' && attr.value === 'true') &&
+        !line.attributes.find((attr) => attr.key === '_hiddenProduct'),
+    )?.length;
+
+    return count;
+  }, [checkout?.lines]);
+
   return (
     <HeaderActionsNavContainer>
       <ul>
@@ -138,8 +174,19 @@ const HeaderActionsNav = ({ toggleCart }: { toggleCart: () => void }) => {
             return (
               <li key={`header-action-${index}`} className={link.title.toLowerCase()}>
                 {(title === 'Wishlist' && <WishlistSlideOutButton />) || (
-                  <button onClick={onClick} aria-label={alt}>
+                  <button
+                    onClick={onClick}
+                    aria-label={alt}
+                    className={
+                      title === 'Cart' && checkout?.lines?.length > 0
+                        ? 'cart-icon--filled'
+                        : title === 'Cart'
+                        ? 'cart-icon'
+                        : ''
+                    }
+                  >
                     {icon}
+                    {title === 'Cart' && checkout?.lines?.length > 0 && <span className="cart-count">{lineItemCount}</span>}
                   </button>
                 )}
               </li>
