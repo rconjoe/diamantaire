@@ -34,7 +34,7 @@ interface OptionSelectorProps {
     clarity: string;
   };
   selectedOptionIndex?: number;
-  selectedConfiguration: {
+  selectedConfiguration?: {
     [key: string]: string;
   };
   setProductSlug?: (_value: string) => void;
