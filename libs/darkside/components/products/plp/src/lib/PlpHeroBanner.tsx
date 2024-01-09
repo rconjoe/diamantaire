@@ -12,7 +12,7 @@ type PlpHeroBannerProps = {
     textColor?: {
       hex: string;
     };
-    darksideButtons: DatoDarksideButtonProps[];
+    darksideButtons?: DatoDarksideButtonProps[];
   };
   showHeroWithBanner: boolean;
 };
