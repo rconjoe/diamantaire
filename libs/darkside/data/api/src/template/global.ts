@@ -21,6 +21,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         title
         key
         route
+        newRoute
         columns {
           columnTitle
           route
