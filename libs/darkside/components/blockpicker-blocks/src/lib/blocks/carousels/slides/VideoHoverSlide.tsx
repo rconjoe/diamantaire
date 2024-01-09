@@ -8,14 +8,14 @@ import { VideoSlideContainer } from './VideoHoverSlide.style';
 const ReactPlayer = dynamic(() => import('react-player'));
 
 const VideoHoverSlide = (props) => {
-  const { title, image, hover, url, isMobile } = props;
+  const { title, image, hover, url, route, isMobile } = props;
 
   const video = hover?.video;
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <VideoSlideContainer>
-      <UniLink route={getRelativeUrl(url)}>
+      <UniLink route={route || getRelativeUrl(url)}>
         <div
           onMouseLeave={() => setIsHovered(false)}
           onMouseEnter={() => setIsHovered(true)}
