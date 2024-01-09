@@ -261,7 +261,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

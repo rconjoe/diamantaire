@@ -57,7 +57,7 @@ const BuilderFlow = ({
   const isValidToSendHubSpotEvent =
     email && (!isUserInEu || (isUserInEu && didAcceptPrivacy && consent?.marketing && consent?.statistics));
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   const pdpType: PdpTypePlural = shopifyProductData?.productType?.replace('Engagement Ring', 'Engagement Rings');
 
