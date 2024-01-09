@@ -3,7 +3,6 @@ import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-contex
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -56,7 +55,6 @@ const Cart = ({ closeCart }) => {
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
     emptyCartMainCtaRoute,
-    addNoteOptionCta,
     updateNoteOptionCta,
     removeNoteOptionCta,
   } = cartCopy?.[0] || {};
