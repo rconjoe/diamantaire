@@ -1,4 +1,5 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
+//
 
 type SpecGenerator = {
   configuration: {
@@ -32,6 +33,8 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     goldPurity,
   } = configuration || {};
 
+  console.log('specGenerator', configuration);
+
   const specArray = [];
 
   const isEngagementRing = productType === 'Engagement Ring';
@@ -58,7 +61,7 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   if (metal) {
     const metalWithGoldPurity = _t(`${goldPurity ? `${goldPurity} ` : ''}${metal}`);
 
-    specArray.push(metalWithGoldPurity);
+    specArray.push(`${_t('metal')}: ${metalWithGoldPurity}`);
   }
 
   if (diamondSize) {
@@ -75,6 +78,11 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
 
   if (diamondCount) {
     specArray.push(`${_t('diamondCount')}: ${diamondCount}`);
+  }
+
+  // ER specific
+  if (isEngagementRing || configuration?.diamondOrientation === 'horizontal') {
+    specArray.push(`${_t('diamondOrientation')}: ${_t('horizontal')}`);
   }
 
   if (bandAccent) {

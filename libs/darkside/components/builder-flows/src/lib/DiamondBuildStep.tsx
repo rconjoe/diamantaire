@@ -83,7 +83,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
 
-  const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options });
+  const { data: { diamonds, pagination, ranges } = {} } = useDiamondsData({ ...options, view: 'toimoi' });
 
   const updateLoading = (newState) => {
     setLoading(newState);

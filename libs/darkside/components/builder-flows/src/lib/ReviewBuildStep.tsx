@@ -98,32 +98,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
         }
       }
 
-      .image-diamond {
-        top: 53%;
-        left: 20.5%;
-
-        @media (min-width: ${({ theme }) => theme.sizes.xl}) {
-          left: 25%;
-        }
-
-        @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-          left: 20%;
-        }
-
-        @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
-          left: 21%;
-        }
-        @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
-          left: 21%;
-        }
-        @media (min-width: 1700px) {
-          left: 22%;
-        }
-        @media (min-width: 1800px) {
-          left: 23%;
-        }
-      }
-
       .slider-dots {
         flex: 1 1 100%;
         padding-top: 20px;
@@ -453,7 +427,7 @@ const ReviewBuildStep = ({
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
 
   const shippingTime =
     countryCode === 'US'
@@ -510,7 +484,7 @@ const ReviewBuildStep = ({
       _productTitle: productTitle,
       productIconListShippingCopy: 'temp',
       pdpUrl: window.location.href,
-      shippingText: _t('Made-to-order. Ships by'),
+      shippingText: _t(shippingText),
       feedId: settingVariantId,
       // engraving
       _EngravingBack: engravingText,
@@ -533,7 +507,7 @@ const ReviewBuildStep = ({
     };
 
     // 4. Create custom attributes for the diamond
-    const isPair = router?.asPath.includes('pair');
+    // const isPair = router?.asPath.includes('pair');
 
     const diamondsToAdd = diamonds.map((diamond, index) => {
       const diamondSpecs = specGenerator({
@@ -709,7 +683,7 @@ const ReviewBuildStep = ({
     if (type === 'setting-to-diamond') {
       const newUrl = `/customize/setting-to-diamond/summary/${
         settingSlugs.collectionSlug
-      }/${option?.id}/${builderProduct?.diamonds.map((diamond) => diamond?.lotId).join('/')}`;
+      }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
       return router.push(newUrl);
     } else {
@@ -770,6 +744,8 @@ const ReviewBuildStep = ({
 
   const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
+  const diamondHandCaption = builderProduct.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -790,8 +766,8 @@ const ReviewBuildStep = ({
         data-client-id="4b79b0e8-c6d3-59da-a96b-2eca27025e8e"
       ></Script>
       <div className="review-wrapper">
-        <div className="product-images ">
-          <div className="embla" ref={emblaRef}>
+        <div className="product-images">
+          <div className="embla" ref={isWindowDefined && window.innerWidth < 767 ? emblaRef : null}>
             <div className="embla__container">
               <div className={clsx('image setting-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
@@ -810,7 +786,7 @@ const ReviewBuildStep = ({
                   range={[0.5, 8]}
                   initValue={parseFloat(diamonds?.[0]?.carat)}
                   disableControls={true}
-                  prefix={builderProduct.diamonds?.[0]?.carat.toString() + 'ct'}
+                  prefix={diamondHandCaption}
                 />
               </div>
             </div>

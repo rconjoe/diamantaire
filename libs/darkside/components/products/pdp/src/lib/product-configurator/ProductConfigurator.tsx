@@ -3,7 +3,7 @@ import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
 import { DarksideButton, Loader, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
+import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
 import { useCartData, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
@@ -372,11 +372,13 @@ function AddToCartButton({
 
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
 
+  console.log('productIconList', productIconList);
+
   const shipTimeParent = productIconList?.items?.find(
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap } = shipTimeParent || {};
+  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
 
   const { countryCode } = parseValidLocale(locale);
   const shippingTime =
@@ -406,7 +408,7 @@ function AddToCartButton({
       // Keep product in english for now
       _productType: productType,
       _productTypeTranslated: _t(productType),
-      shippingText: _t('Made-to-order. Ships by'),
+      shippingText: _t(shippingText),
       productGroupKey,
     };
 
@@ -482,6 +484,7 @@ function AddToCartButton({
         pdpUrl: window.location.href,
         feedId: variantId,
         _specs: specs,
+        // This gets overwritten by updateShippingTimes in cart-actions
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
@@ -562,10 +565,29 @@ function AddToCartButton({
         childProduct: '',
       };
 
-      // Assuming you have a function to handle adding a gift card to the cart
-      addJewelryProductToCart({
+      addMiscProductToCart({
         variantId: variantId,
         attributes: giftCardAttributes,
+        locale,
+      }).then(() => refetch());
+    } else if (productType === 'Ring Sizer') {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { shippingText, ...otherAttributes } = defaultAttributes;
+      const ringSizerAttributes = {
+        ...otherAttributes,
+        pdpUrl: window.location.href,
+        feedId: variantId,
+        // Ring Sizer specific attributes
+        productIconListShippingCopy: '',
+        shippingBusinessDays: shippingTime.toString(),
+        shippingText: _t('Ships by'),
+      };
+
+      console.log('ringSizerAttributes', ringSizerAttributes);
+
+      addMiscProductToCart({
+        variantId: variantId,
+        attributes: ringSizerAttributes,
         locale,
       }).then(() => refetch());
     }

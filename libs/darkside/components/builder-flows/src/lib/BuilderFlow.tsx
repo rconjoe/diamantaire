@@ -169,10 +169,7 @@ const BuilderFlow = ({
   }
 
   async function fetchProductAndDiamond() {
-    if (
-      (settingSlugs?.collectionSlug && settingSlugs?.productSlug) ||
-      (initialCollectionSlug && initialProductSlug && !initProduct)
-    ) {
+    if ((settingSlugs?.collectionSlug && settingSlugs?.productSlug) || (initialCollectionSlug && initialProductSlug)) {
       //  setInitProduct(true) has to be set after the variant data loads
       await getSettingProduct();
     }
@@ -245,40 +242,40 @@ const BuilderFlow = ({
   }, [settingSlugs]);
 
   // This pulls in a pre-existing product if it exists on the initial URL - only for setting-to-diamond
-  useEffect(() => {
-    console.log('effect running');
-    if (additionalVariantData && selectedConfiguration && builderProduct?.diamonds) {
-      setInitProduct(true);
-      console.log('values here', selectedConfiguration, builderProduct?.diamonds);
-      if (selectedConfiguration?.diamondType === builderProduct?.diamonds?.[0]?.diamondType) {
-        updateFlowData('ADD_PRODUCT', {
-          ...additionalVariantData,
-          ...selectedConfiguration,
-          variantId,
+  // useEffect(() => {
+  //   console.log('effect running');
+  //   if (additionalVariantData && selectedConfiguration && builderProduct?.diamonds) {
+  //     setInitProduct(true);
+  //     console.log('values here', selectedConfiguration, builderProduct?.diamonds);
+  //     if (selectedConfiguration?.diamondType === builderProduct?.diamonds?.[0]?.diamondType) {
+  //       updateFlowData('ADD_PRODUCT', {
+  //         ...additionalVariantData,
+  //         ...selectedConfiguration,
+  //         variantId,
 
-          allDiamondTypes: shopifyProductData?.optionConfigs['diamondType'],
-          collectionSlug: initialCollectionSlug,
-          productSlug: initialProductSlug,
-        });
-      } else {
-        const newProductSlug =
-          shopifyProductData?.optionConfigs?.diamondType.find(
-            (item) => item.value === builderProduct?.diamonds?.[0]?.diamondType,
-          )?.id || shopifyProductData?.productSlug;
+  //         allDiamondTypes: shopifyProductData?.optionConfigs['diamondType'],
+  //         collectionSlug: initialCollectionSlug,
+  //         productSlug: initialProductSlug,
+  //       });
+  //     } else {
+  //       const newProductSlug =
+  //         shopifyProductData?.optionConfigs?.diamondType.find(
+  //           (item) => item.value === builderProduct?.diamonds?.[0]?.diamondType,
+  //         )?.id || shopifyProductData?.productSlug;
 
-        updateSettingSlugs({
-          productSlug: newProductSlug,
-        });
-      }
-    }
-  }, [
-    builderProduct.diamonds,
-    settingSlugs?.collectionSlug,
-    // additionalVariantData,
-    // selectedConfiguration,
-    // shopifyProductData,
-    // shopifyProductData?.optionConfigs?.['diamondType'],
-  ]);
+  //       updateSettingSlugs({
+  //         productSlug: newProductSlug,
+  //       });
+  //     }
+  //   }
+  // }, [
+  //   builderProduct.diamonds,
+  //   settingSlugs?.collectionSlug,
+  //   // selectedConfiguration,
+  //   // additionalVariantData,
+  //   // shopifyProductData,
+  //   // shopifyProductData?.optionConfigs?.['diamondType'],
+  // ]);
 
   useEffect(() => {
     configureCurrentStep();
