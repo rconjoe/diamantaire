@@ -19,7 +19,7 @@ import CartGWP from './CartGWP';
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
 
-  const { data: checkout, refetch, isFetching } = useCartData(locale);
+  const { data: checkout, refetch } = useCartData(locale);
 
   console.log('checkout', checkout);
 
