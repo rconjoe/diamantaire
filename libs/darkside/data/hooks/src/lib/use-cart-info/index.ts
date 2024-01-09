@@ -28,7 +28,6 @@ export type CartCopyProps = {
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;
   emptyCartMainCtaRoute: string;
-  addNoteOptionCta: string;
   updateNoteOptionCta: string;
   removeNoteOptionCta: string;
   uniqueDiamondAlreadyInCartErrorMessage: string;
