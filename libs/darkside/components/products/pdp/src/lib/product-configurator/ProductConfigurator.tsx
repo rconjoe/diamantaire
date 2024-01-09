@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useAnalytics, GTM_EVENTS } from '@diamantaire/analytics';
-import { DarksideButton, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Loader, RingSizeGuide, SlideOut, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart } from '@diamantaire/darkside/data/api';
@@ -291,7 +291,17 @@ function ProductConfigurator({
           selectedPair={selectedPair}
         />
       ) : (
-        ''
+        <div
+          style={{
+            margin: '1rem 0',
+            backgroundColor: '#000',
+            minHeight: '4.9rem',
+          }}
+        >
+          <DarksideButton type="solid">
+            <Loader color="#fff" />
+          </DarksideButton>
+        </div>
       )}
     </>
   );

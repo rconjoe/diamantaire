@@ -47,4 +47,5 @@ export type DarksideButtonProps = {
   mobileColorTheme?: 'desktop' | 'black' | 'teal' | 'white';
   openUrlInNewWindow?: boolean;
   disabled?: boolean;
+  style?: object;
 };
