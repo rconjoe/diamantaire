@@ -108,8 +108,10 @@ export const PlpProductFilterStyles = styled.div`
     max-width: 37rem;
     padding-top: 2rem;
   }
+
   .filter-option-set {
     padding-top: 1rem;
+
     ul {
       overflow-x: auto;
       overflow-y: visible;
@@ -117,6 +119,7 @@ export const PlpProductFilterStyles = styled.div`
       max-width: 90vw;
       margin: 0 auto;
       padding-left: 0.4rem;
+
       li {
         margin-right: 1.5rem;
 
@@ -125,6 +128,7 @@ export const PlpProductFilterStyles = styled.div`
           padding: 0;
           text-transform: capitalize;
         }
+
         svg {
           height: 3.15rem;
           width: auto;
@@ -138,6 +142,7 @@ export const PlpProductFilterStyles = styled.div`
       ul {
         padding-left: 0.4rem;
       }
+
       button {
         border-bottom: 0.2rem solid transparent;
         transition: 0.25s;
@@ -165,6 +170,7 @@ export const PlpProductFilterStyles = styled.div`
           top: 0.1rem;
         }
       }
+
       span {
         font-size: var(--font-size-xxxsmall);
       }
@@ -244,6 +250,7 @@ export const PlpProductFilterStyles = styled.div`
         }
       }
     }
+
     &.priceRange {
       button.active {
         font-weight: bold;
@@ -254,14 +261,19 @@ export const PlpProductFilterStyles = styled.div`
         font-size: var(--font-size-xxxsmall);
       }
     }
+
     /* mobile filter */
+
     &.stacked {
-      border-bottom: 1px solid #eaeaea;
+      border-top: 1px solid #eaeaea;
+
       padding: 20px 0;
 
       &:first-child {
+        border-top: 0;
         padding-top: 0;
       }
+
       &:last-child {
         border-bottom: none;
       }
@@ -278,14 +290,15 @@ export const PlpProductFilterStyles = styled.div`
           &:last-child {
             margin-bottom: 0px;
           }
+
           button {
             background-color: transparent;
             padding: 0;
             display: block;
           }
+
           svg {
             height: 27px;
-
             width: auto;
             display: inline-block;
             overflow: visible;
@@ -297,6 +310,7 @@ export const PlpProductFilterStyles = styled.div`
         li {
           margin-bottom: 1rem;
         }
+
         button {
           border-bottom: 2px solid transparent;
           transition: 0.25s;
@@ -430,6 +444,7 @@ export const PlpProductFilterStyles = styled.div`
           }
         }
       }
+
       &.priceRange {
         ul {
           display: block;
@@ -449,6 +464,7 @@ export const PlpProductFilterStyles = styled.div`
           }
         }
       }
+
       &.diamondType {
         ul {
           display: block;
@@ -459,6 +475,7 @@ export const PlpProductFilterStyles = styled.div`
           }
         }
       }
+
       .filter-slider {
         padding: 10px 0 30px;
       }
@@ -467,11 +484,14 @@ export const PlpProductFilterStyles = styled.div`
 
   .active-filters {
     padding: 1.2rem 0 0;
+
     ul {
       flex-wrap: wrap;
     }
+
     li {
       margin-right: 1rem;
+
       button {
         background-color: transparent;
         border: none;
@@ -488,6 +508,7 @@ export const PlpProductFilterStyles = styled.div`
           .close {
             margin-right: 0.3rem;
           }
+
           .hyphen {
             margin: 0 0.3rem 0 0.3rem;
           }
@@ -499,6 +520,7 @@ export const PlpProductFilterStyles = styled.div`
   .specific-filter-options {
     .filter-option-set {
       padding-right: 5rem;
+
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         h3,
         .diamond-text {

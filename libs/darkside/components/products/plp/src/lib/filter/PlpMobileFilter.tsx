@@ -10,16 +10,16 @@ import PlpFilterOption from '../PlpFilterOptionSet';
 
 const PlpMobileFilterStyles = styled.div`
   position: fixed;
-  top: 0;
+  top: ${({ headerHeight }) => headerHeight}px;
   left: 0;
   width: 100%;
   height: calc(100vh - ${({ headerHeight }) => headerHeight}px);
-  background-color: #f8f8f8;
+  background-color: var(--color-lightest-grey);
   z-index: 5000;
-  /* top: ${({ headerHeight }) => headerHeight}px; */
-  padding: 2rem 1.5rem;
-  padding-bottom: 250px;
+
+  padding: 2rem 1.5rem 15rem;
   overflow-y: scroll;
+
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     display: none;
   }
