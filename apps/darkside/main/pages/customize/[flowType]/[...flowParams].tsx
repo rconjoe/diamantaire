@@ -58,7 +58,6 @@ export async function getServerSideProps(
     if (secondDiamondLotId) {
       lotIds.push(secondDiamondLotId);
     }
-    console.log('lotIdsxxx', lotIds);
 
     return {
       props: {

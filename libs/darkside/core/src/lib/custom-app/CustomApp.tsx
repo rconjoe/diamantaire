@@ -8,7 +8,7 @@ import { CookieConsentProvider } from '@use-cookie-consent/react';
 import type { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 import 'node_modules/react-toastify/dist/ReactToastify.css';
 
@@ -20,11 +20,6 @@ export type AppPropsWithTemplate = AppProps & {
   Component: PageComponentWithTemplate;
   dehydratedState: DehydratedState;
 };
-
-const R = styled.div`
-  @media (min-width: ${({ theme }) => theme.sizes.ta}) {
-  }
-`;
 
 export function CustomApp({ Component, pageProps }: AppPropsWithTemplate) {
   const getTemplate = Component.getTemplate ?? ((page) => page);

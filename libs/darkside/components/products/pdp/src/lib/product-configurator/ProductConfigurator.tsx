@@ -372,8 +372,6 @@ function AddToCartButton({
 
   const { data: { productIconList } = {} } = useProductIconList(productIconListType, locale);
 
-  console.log('productIconList', productIconList);
-
   const shipTimeParent = productIconList?.items?.find(
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
@@ -582,8 +580,6 @@ function AddToCartButton({
         shippingBusinessDays: shippingTime.toString(),
         shippingText: _t('Ships by'),
       };
-
-      console.log('ringSizerAttributes', ringSizerAttributes);
 
       addMiscProductToCart({
         variantId: variantId,

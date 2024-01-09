@@ -663,8 +663,6 @@ const ReviewBuildStep = ({
     },
   ];
 
-  console.log('summaryItems', summaryItems);
-
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
 

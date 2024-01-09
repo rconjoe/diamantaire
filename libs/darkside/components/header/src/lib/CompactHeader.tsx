@@ -57,7 +57,7 @@ const CompactHeaderStyles = styled.div`
           }
         }
 
-        &.center {
+        &--center {
           flex: 2;
 
           .compact-header__nav {
@@ -131,7 +131,7 @@ const CompactHeader: FC<CompactHeaderTypes> = ({
             </div>
           </div>
 
-          <div className="nav__col center">
+          <div className="nav__col--center">
             <nav className="compact-header__nav">
               <ul>
                 {Array.isArray(navItems) &&

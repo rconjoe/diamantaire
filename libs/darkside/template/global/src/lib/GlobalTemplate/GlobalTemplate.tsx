@@ -37,7 +37,6 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  /* padding-top: ${({ $isHome }) => ($isHome ? '12.5rem' : '9.5rem')}; */
   padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
   min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
