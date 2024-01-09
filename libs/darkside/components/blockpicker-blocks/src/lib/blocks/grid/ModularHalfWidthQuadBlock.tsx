@@ -11,13 +11,14 @@ type ModularHalfWidthQuadBlockProps = {
   mobileImage: DatoImageType;
   imageAlignment: string;
   ctaRoute?: string;
+  route?: string;
   blocks: unknown[];
   shouldLazyLoad?: boolean;
   darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
-  const { id, desktopImage, mobileImage, imageAlignment, ctaRoute } = props;
+  const { id, desktopImage, mobileImage, imageAlignment, ctaRoute, route } = props;
 
   const arrayOfAttributes = ['copy', 'image', 'title', 'darksideButtons'];
   const blocks = normalizeDatoNumberedContent(props, arrayOfAttributes);
@@ -34,9 +35,9 @@ const ModularHalfWidthQuadBlock = (props: ModularHalfWidthQuadBlockProps) => {
   return (
     <ModularHalfWidthQuadBlockContainer className="container-wrapper" $imageAlignment={imageAlignment}>
       <div className={clsx('quad__image-quad-container')}>
-        {!ctaRoute && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />}
-        {ctaRoute && (
-          <UniLink route={ctaRoute}>
+        {!(route || ctaRoute) && <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />}
+        {(route || ctaRoute) && (
+          <UniLink route={route || ctaRoute}>
             <MobileDesktopImage desktopImage={desktopImage} mobileImage={mobileImage} alt={alt} />
           </UniLink>
         )}

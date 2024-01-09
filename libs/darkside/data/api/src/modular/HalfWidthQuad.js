@@ -40,6 +40,7 @@ const HalfWidthQuad = `
     }
     imageAlignment
     ctaRoute
+    route
     image1 {
       url
       alt

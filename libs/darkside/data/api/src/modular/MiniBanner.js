@@ -47,6 +47,7 @@ const MiniBanner = `
     }
     additionalClass
     ctaRoute
+    route
   }
 `;
 
