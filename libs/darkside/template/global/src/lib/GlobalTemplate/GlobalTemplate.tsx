@@ -66,8 +66,6 @@ export const GlobalTemplate = ({ children }) => {
     // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
     const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
 
-    console.log('fullHeaderHeight', fullHeaderHeight);
-
     setHeaderHeight(fullHeaderHeight);
   }, [isTopbarShowing]);
 
@@ -78,8 +76,6 @@ export const GlobalTemplate = ({ children }) => {
       // Use entries to get the new height
       if (entries[0].target instanceof HTMLElement) {
         const newHeight = entries[0].target.offsetHeight;
-
-        console.log('neeeee', newHeight);
 
         setHeaderHeight(newHeight);
 

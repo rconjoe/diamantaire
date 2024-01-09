@@ -81,12 +81,14 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   }
 
   // ER specific
-  if (isEngagementRing || configuration?.diamondOrientation === 'horizontal') {
+  if (isEngagementRing && configuration?.diamondOrientation === 'horizontal') {
     specArray.push(`${_t('diamondOrientation')}: ${_t('horizontal')}`);
   }
 
   if (bandAccent) {
-    specArray.push(`${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent)}`);
+    specArray.push(
+      `${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent.replace('pave-twisted', 'double-pave'))}`,
+    );
   }
 
   if (chainLength) {

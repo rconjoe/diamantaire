@@ -47,6 +47,8 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import ReviewVariantSelector from './ReviewVariantSelector';
+
 const ReviewBuildStepStyles = styled(motion.div)`
   padding: 2rem 2rem 14rem;
 
@@ -330,8 +332,6 @@ const ReviewBuildStep = ({
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
-  const [isBandSelectorOpen, setIsBandSelectorOpen] = useState(false);
-  const [isMetalSelectorOpen, setIsMetalSelectorOpen] = useState(false);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -644,34 +644,26 @@ const ReviewBuildStep = ({
   }
 
   const summaryItems = [
-    // {
-    //   label: _t('diamondType'),
-    //   value: _t(diamond?.diamondType),
-    //   onClick: () => {
-    //     updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-    //     router.push(router.asPath + '/edit-diamond');
-    //   },
-    //   slug: 'diamondType',
-    // },
-    // {
-    //   label: 'Centerstone',
-    //   value: diamond?.carat + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity,
-    //   onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
-    //   slug: 'centerstone',
-    // },
     {
-      label: _t('Band'),
-      value: _t(product?.bandAccent),
-      onClick: () => setIsBandSelectorOpen(!isBandSelectorOpen),
-      slug: 'band',
+      label: _t('diamondType'),
+      value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
+      onClick: () => {
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+        router.push(router.asPath + '/edit-diamond');
+      },
+      slug: 'diamondType',
     },
     {
-      label: 'Metal',
-      value: _t(product.metal),
-      onClick: () => setIsMetalSelectorOpen(!isMetalSelectorOpen),
-      slug: 'metal',
+      label: 'Centerstone',
+      value: diamonds
+        .map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
+        .join(' + '),
+      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      slug: 'centerstone',
     },
   ];
+
+  console.log('summaryItems', summaryItems);
 
   function handleBuilderFlowVariantChange(option: OptionItemProps, configurationType) {
     console.log({ configurationType, option });
@@ -716,9 +708,6 @@ const ReviewBuildStep = ({
       ...selectedConfiguration,
       variantId: router.query.productSlug,
     });
-
-    setIsBandSelectorOpen(false);
-    setIsMetalSelectorOpen(false);
   }, [additionalVariantData]);
 
   useEffect(() => {
@@ -745,6 +734,8 @@ const ReviewBuildStep = ({
   const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
   const diamondHandCaption = builderProduct.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
+
+  console.log('builderProduct', builderProduct);
 
   return (
     <ReviewBuildStepStyles
@@ -832,60 +823,33 @@ const ReviewBuildStep = ({
                 <ul className="list-unstyled">
                   {summaryItems?.map((item, index) => {
                     return (
-                      <li key={`summary-${index}`}>
-                        <span className="label">{item.label}:</span>
-                        <span className="value">{item.value}</span>
+                      <li key={`summary-1-${index}`}>
+                        <span className="label">{_t(item.label)}:</span>
+                        <span className="value">{_t(item.value)}</span>
                         <span className="toggle">
                           <button onClick={() => item.onClick()}>Modify</button>
                         </span>
-                        <AnimatePresence>
-                          {item.slug === 'metal'
-                            ? isMetalSelectorOpen && (
-                                <div className="acc-container">
-                                  <OptionSelector
-                                    optionType={'metal'}
-                                    productType={'Engagement Ring'}
-                                    label={'metal'}
-                                    options={configurations.metal}
-                                    selectedOptionValue={selectedConfiguration['metal']}
-                                    onChange={(option) => {
-                                      // console.log('option', val);
-                                      handleOptionChange('metal', option);
-                                      handleBuilderFlowVariantChange(option, 'metal');
-                                    }}
-                                    renderItemAsLink={false}
-                                    hideSelectorLabel={true}
-                                    selectedConfiguration={selectedConfiguration}
-                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
-                                  />
-                                </div>
-                              )
-                            : item.slug === 'band'
-                            ? isBandSelectorOpen && (
-                                <div className="acc-container">
-                                  <OptionSelector
-                                    optionType={'bandAccent'}
-                                    productType={'Engagement Ring'}
-                                    label={'metal'}
-                                    options={configurations.bandAccent}
-                                    selectedOptionValue={selectedConfiguration['bandAccent']}
-                                    onChange={(option) => {
-                                      // console.log('option', val);
-                                      handleOptionChange('bandAccent', option);
-                                      handleBuilderFlowVariantChange(option, 'bandAccent');
-                                    }}
-                                    renderItemAsLink={false}
-                                    hideSelectorLabel={true}
-                                    selectedConfiguration={selectedConfiguration}
-                                    areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
-                                  />
-                                </div>
-                              )
-                            : ''}
-                        </AnimatePresence>
                       </li>
                     );
                   })}
+
+                  {configurations &&
+                    Object.keys(configurations)?.map((key, index) => {
+                      console.log('keyyy', key, configurations[key]);
+
+                      if (key === 'ringSize' || key === 'diamondType' || configurations[key].length < 2) return null;
+
+                      return (
+                        <ReviewVariantSelector
+                          key={`summary-${index}`}
+                          selector={key}
+                          selectedConfiguration={selectedConfiguration}
+                          configurations={configurations}
+                          handleOptionChange={handleOptionChange}
+                          handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
+                        />
+                      );
+                    })}
                 </ul>
               </div>
             </div>
