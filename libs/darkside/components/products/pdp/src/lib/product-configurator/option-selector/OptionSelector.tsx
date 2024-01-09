@@ -589,6 +589,7 @@ function OptionSelector({
                   onClick={() => handleOptionClick(option)}
                   isLink={isBuilderFlowOpen ? false : renderItemAsLink}
                   setProductSlug={setProductSlug}
+                  selectedConfiguration={selectedConfiguration}
                 />
               );
             })}
