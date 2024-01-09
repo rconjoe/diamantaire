@@ -141,7 +141,7 @@ const ProductDescription = ({
 
       return (
         <li key={`${productType}-spec-${index}`}>
-          {spec.label}: {_t(spec.value)}
+          {spec.label}: {spec.value}
         </li>
       );
     });
