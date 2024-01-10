@@ -123,13 +123,13 @@ const SettingBuildStep = ({
   }, [builderProduct?.diamonds]); // Recalculate if items change
 
   const sliderHandCaption = useMemo(() => {
-    const textArray = builderProduct?.diamonds.map((diamond) => {
+    const textArray = builderProduct?.diamonds?.map((diamond) => {
       const { carat } = diamond;
 
       return `${carat}ct`;
     });
 
-    return textArray.join(' | ');
+    return textArray?.join(' | ');
   }, [builderProduct?.diamonds]);
 
   // Need this here to not interefere with hooks

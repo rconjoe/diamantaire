@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 function JournalIndex(props) {
   const { locale } = props;
 
-  const { data: { blogConfiguration } = {} } = useJournalConfig('en_US');
+  const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { blogHomeSeoTitle, blogHomeSeoDescription, categoriesToDisplay, heroPost, latestStoriesTitle, postsPerPage } =
     blogConfiguration || {};
@@ -75,11 +75,11 @@ export async function getStaticProps({ locale }: GetStaticPropsContext<undefined
   });
 
   await queryClient.prefetchQuery({
-    ...queries.journal.config('en_US'),
+    ...queries.journal.config(locale),
   });
 
   await queryClient.prefetchQuery({
-    ...queries.journal.journalsByMostRecent(locale || 'en_US', 3, 0),
+    ...queries.journal.journalsByMostRecent(locale, 3, 0),
   });
 
   return {

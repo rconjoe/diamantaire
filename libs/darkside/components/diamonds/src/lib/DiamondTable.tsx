@@ -94,8 +94,8 @@ const DiamondTable = (props: DiamondTableProps) => {
     limit: initialPagination?.perPage || 20,
   };
 
-  if (asPath.includes('toimoi')) {
-    options['view'] = 'toi-moi';
+  if (asPath.includes('toi-moi')) {
+    options['view'] = 'toimoi';
   }
 
   // DIAMONDS

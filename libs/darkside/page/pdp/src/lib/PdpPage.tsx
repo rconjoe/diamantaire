@@ -93,8 +93,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
@@ -153,16 +151,16 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     // console.log('v2 additionalVariantData', additionalVariantData);
 
-    // use parent product carat if none provided on the variant in Dato
-    if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
-      if (additionalVariantData?.caratWeightOverride) {
-        additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-      } else {
-        additionalVariantData.carat = datoParentProductData?.caratWeight || '';
-      }
-    } else {
-      additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-    }
+    // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
+    // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
+    //   if (additionalVariantData?.caratWeightOverride) {
+    //     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    //   } else {
+    //     additionalVariantData.carat = datoParentProductData?.caratWeight || '';
+    //   }
+    // } else {
+    //   additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    // }
 
     additionalVariantData.productType = shopifyProductData.productType;
     additionalVariantData.productTitle = datoParentProductData?.productTitle;
@@ -187,8 +185,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
+    paveCaratWeight: shopifyProductData?.collectionContent?.paveCaratWeight,
+    metalWeight: shopifyProductData?.collectionContent?.metalWeight,
+    caratWeight: shopifyProductData?.collectionContent?.caratWeight,
     shownWithCtwLabel,
     diamondDescription,
     styles: shopifyProductData?.styles,
@@ -261,7 +260,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
-  console.log('shopifyProductData', shopifyProductData);
+  // console.log('shopifyProductData', shopifyProductData);
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };

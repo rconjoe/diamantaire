@@ -1,4 +1,4 @@
-import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
@@ -97,7 +97,7 @@ const StyledCFYResultPage = styled.div`
       overflow: hidden;
 
       &.active {
-        border: 0.1rem solid ${TEAL_MED};
+        border: 0.1rem solid #516868;
       }
 
       .caption {

@@ -1,4 +1,3 @@
-import { BP_LG, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const StackedHeaderStylesContainer = styled.div`
@@ -9,7 +8,7 @@ export const StackedHeaderStylesContainer = styled.div`
   width: 100%;
   background-color: #fff;
 
-  @media (min-width: ${BP_LG}) {
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     display: block;
   }
 
@@ -174,10 +173,10 @@ export const StackedHeaderStylesContainer = styled.div`
 
     li {
       margin: 0 1.5rem;
-      font-family: ${MAIN_FONT};
+      font-family: var(--font-family-main);
 
       a {
-        font-family: ${MAIN_FONT};
+        font-family: var(--font-family-main);
         letter-spacing: 0.03rem;
         font-size: 1.4rem;
         text-decoration: none;

@@ -18,23 +18,33 @@ import {
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import {
   humanNamesMapperType,
+  useCartData,
   useDiamondCfyData,
   useDiamondCtoData,
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_VIDEO_BASE_URL,
+  POPULAR_CFY_DIAMOND_TYPES,
+  getFormattedCarat,
+  getFormattedPrice,
+} from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy } from '@diamantaire/shared/helpers';
+import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy, specGenerator } from '@diamantaire/shared/helpers';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { StyledCFYResultPage } from './CFYResultPage.style';
 
@@ -188,6 +198,62 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     };
   }, [emblaApi]);
 
+  const { refetch } = useCartData(locale);
+
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  console.log('product', product);
+
+  function handleAddLooseDiamondToCart() {
+    const { color, clarity, cut, carat, lotId } = product || {};
+    const mutatedLotId = lotId && getNumericalLotId(lotId);
+    const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+
+    const specGen = specGenerator({
+      configuration: {
+        color,
+        clarity,
+        cut,
+        caratWeight: carat,
+      },
+      productType: 'Diamond',
+      _t,
+    });
+
+    const diamondAttributes: LooseDiamondAttributeProps = {
+      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
+      productAsset: diamondImage,
+      _productAssetObject: JSON.stringify({
+        src: diamondImage,
+        width: 200,
+        height: 200,
+      }),
+      _dateAdded: Date.now().toString() + 100,
+      caratWeight: product.carat.toString(),
+      clarity: product.clarity,
+      cut: product.cut,
+      color: product.color,
+      feedId: product.lotId,
+      lotId: product.lotId,
+      productGroupKey: uuidv4(),
+      _specs: specGen,
+      _productType: 'Diamond',
+      _productTypeTranslated: _t('Diamond'),
+      pdpUrl: window.location.href,
+    };
+
+    addLooseDiamondToCart({
+      diamondVariantId: product?.variants?.[0]?.variantId,
+      diamondAttributes,
+    })
+      .then(() => refetch())
+      .then(() =>
+        updateGlobalContext({
+          isCartOpen: true,
+        }),
+      );
+  }
+
   return (
     <>
       <HideTopBar />
@@ -321,7 +387,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
                   </DarksideButton>
                 </StickyElementWrapper>
 
-                <DarksideButton type="outline">
+                <DarksideButton type="outline" onClick={() => handleAddLooseDiamondToCart()}>
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
               </div>

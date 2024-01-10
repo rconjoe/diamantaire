@@ -11,4 +11,6 @@ const ButtonFragment = `
 
 `;
 
+export { ButtonFragment };
+
 export default ButtonFragment;

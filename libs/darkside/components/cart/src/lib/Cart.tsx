@@ -42,6 +42,7 @@ const Cart = ({ closeCart }) => {
     'Diamond',
     'Ring',
     'Gift Card',
+    'Ring Sizer',
   ];
 
   const {
@@ -202,11 +203,6 @@ const Cart = ({ closeCart }) => {
               ) : (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
-                    {/* they prob mean this.... */}
-                    {/* {parseFloat(checkout?.cost?.subtotalAmount?.amount) > 500 && (
-                      <UIString>Orders over $500 require a signature upon delivery.</UIString>
-                    )} */}
-
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
                   </p>
                   <hr />

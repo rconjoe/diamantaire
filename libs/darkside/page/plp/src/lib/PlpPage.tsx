@@ -50,16 +50,20 @@ type FilterQueryValues = {
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
+
   const router = useRouter();
-  const { ref: pageEndRef, inView } = useInView({
-    rootMargin: '800px',
-  });
+
+  const { locale } = router || {};
+
+  const { ref: pageEndRef, inView } = useInView({ rootMargin: '800px' });
+
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
+
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
 
   const {
     breadcrumb,
@@ -72,14 +76,19 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     sortOptions,
     filterOptions: filterOptionsOverride,
   } = plpData || {};
+
   const { seoTitle, seoDescription } = seo || {};
+
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(
     category,
     plpSlug,
     { ...filterValue, ...activeSortOptions },
     {},
+    locale,
   );
+
   const availableFilters = data?.pages[0]?.availableFilters;
+
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
@@ -256,8 +265,8 @@ const createStaticProps = (category: string) => {
 
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
-      queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
-      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
+      queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {}), locale],
+      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }, locale),
     });
 
     await queryClient.prefetchQuery({

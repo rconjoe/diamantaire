@@ -284,36 +284,36 @@ export class ProductsService {
       }
       const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
 
-        const mainProductContent = productContentMap[product.contentId];
-        const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
-        const productLabel = collectionContent?.productLabel;
-        const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
-        const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
+      const mainProductContent = productContentMap[product.contentId];
+      const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
+      const productLabel = collectionContent?.productLabel;
+      const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
+      const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
 
-        return {
-          defaultId: product.contentId,
-          productType: product.productType,
-          metal: metalOptions.sort((a, b) => sortMetalTypes(a.value, b.value)),
-          ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug] }),
-          ...(productLabel && { productLabel }),
-          ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
-          ...(useLowestPrice && { useLowestPrice }),
-          variants: plpItem.variants.reduce((acc, v) => {
-            const variantContent = productContentMap[v.contentId];
-            const plpVariant = generatePlpItem(v, variantContent);
+      return {
+        defaultId: product.contentId,
+        productType: product.productType,
+        metal: metalOptions.sort((a, b) => sortMetalTypes(a.value, b.value)),
+        ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug] }),
+        ...(productLabel && { productLabel }),
+        ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+        ...(useLowestPrice && { useLowestPrice }),
+        variants: plpItem.variants.reduce((acc, v) => {
+          const variantContent = productContentMap[v.contentId];
+          const plpVariant = generatePlpItem(v, variantContent);
 
-            // skip if data is missing
-            if (!plpVariant){
-              return acc;
-            }
-
-            acc[v.contentId] = plpVariant;
-
+          // skip if data is missing
+          if (!plpVariant){
             return acc;
-          }, {}),
-        };
-      })
-      .filter(i => (i?.variants && Object.keys(i?.variants)?.length && Boolean(i))); // remove any items w/o variants
+          }
+
+          acc[v.contentId] = plpVariant;
+
+          return acc;
+        }, {}),
+      };
+    })
+    .filter(i => (i?.variants && Object.keys(i?.variants)?.length && Boolean(i))); // remove any items w/o variants
 
     return {
       category,
@@ -429,6 +429,118 @@ export class ProductsService {
         error: error.message,
       });
     }
+  }
+
+  async getListProductsByIds(contentIds: string[], locale: string){
+
+    let products;
+
+    try {
+      products = await this.productRepository.find({ contentId: { $in: contentIds}});
+    } catch (err){
+      Sentry.captureException('Failed to get products by content Id');
+
+      return {
+        products: []
+      }
+    }
+
+    // generate query for product content by product type
+    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Accessory']; //
+    const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
+    const contentIdsByProductType = products.reduce(
+      (acc, product) => {
+        
+        const productType = product.productType;
+
+        if (variantIdProductTypes.includes(productType)) {
+          acc.variantIds.push(product.contentId);
+        } else if (productHandleProductTypes.includes(productType)) {
+          acc.productHandles.push(product.contentId);
+        } else {
+          this.logger.verbose('Unknown product type.  Cannot add to ID list', product);
+        }
+
+        return acc;
+      },
+      { variantIds: [], productHandles: [] },
+    );
+
+    const dataPromises = [
+      this.datoConfigurationsAndProducts({ ...contentIdsByProductType, locale }),
+      this.getLowestPricesByCollection(),
+    ];
+    const [productContent, collectionLowestPrices ] = await Promise.all(dataPromises);
+
+    // Create content map to merge with product data
+    const productContentMap =
+      productContent?.reduce((acc, content) => {
+        const contentId = content.variantId || content.shopifyProductHandle;
+
+        acc[contentId] = content;
+
+        return acc;
+      }, {}
+    ) || {};
+
+    const generatePlpItem = (product, variantContent) => {
+      if (!product) {
+        this.logger.warn("Missing product data.  Skipping", product, variantContent);
+
+        return null;
+      }
+
+      if (!variantContent) {
+        this.logger.warn("Missing product content.  Skipping.", product, variantContent);
+
+        return null;
+      }
+
+      const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
+
+      if (!collectionContent) {
+        this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
+      }
+
+      return {
+        productType: product.productType,
+        productSlug: product.productSlug,
+        collectionSlug: product.collectionSlug,
+        configuration: product.configuration,
+        productTitle: collectionContent?.productTitle,
+        plpTitle: variantContent.plpTitle,
+        primaryImage: variantContent['plpImage']?.responsiveImage,
+        hoverImage: variantContent['plpImageHover']?.responsiveImage,
+        price: product.price,
+      };
+    };
+
+    // Merge product data with content
+    const plpProducts = products.map(product => {
+      const mainProductContent = productContentMap[product.contentId];
+      const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
+      const productLabel = collectionContent?.productLabel;
+      const hasOnlyOnePrice = collectionContent?.hasOnlyOnePrice;
+      const useLowestPrice = !collectionContent?.shouldUseDefaultPrice;
+
+      return {
+        defaultId: product.contentId,
+        productType: product.productType,
+        ...(collectionLowestPrices && { lowestPrice: collectionLowestPrices[product?.collectionSlug] }),
+        ...(productLabel && { productLabel }),
+        ...(hasOnlyOnePrice && { hasOnlyOnePrice }),
+        ...(useLowestPrice && { useLowestPrice }),
+        variants: {
+          [product.contentId]: generatePlpItem(product, productContentMap[product.contentId])
+        }
+      };
+    })
+    .filter(Boolean); // remove any items w/o variants
+
+    return {
+      products: plpProducts
+    }
+    
   }
 
   async findProductsByProductSlugs(productSlugs: string[]): Promise<VraiProduct[]> {
@@ -790,7 +902,7 @@ export class ProductsService {
     // options which are always included as long as the "parent" option matches
     const MATCHING_PARENT_OPTION_MAP = {
       [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
-      [ProductOption.Metal]: [ProductOption.DiamondType],
+      [ProductOption.Metal]: [ProductOption.DiamondType, ProductOption.DiamondOrientation],
     }
 
     OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {

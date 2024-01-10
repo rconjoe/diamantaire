@@ -1,6 +1,7 @@
+
 import { DatoImage, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { media, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import styled from 'styled-components';
 
@@ -19,6 +20,11 @@ type PlpHeroBannerProps = {
 
 const PlpHeroBannerStyles = styled.div`
   position: relative;
+
+  ${mobileOnly(`
+    padding-left: .5rem;
+    padding-right: .5rem;
+  `)}
 
   .hero__image {
     display: none;
