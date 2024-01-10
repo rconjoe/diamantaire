@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { isMobile } from 'react-device-detect';
 
 export interface GlobalContextInterface {
   headerHeight?: number;
@@ -17,7 +16,7 @@ export const GlobalUpdateContext = createContext<(data: Partial<GlobalContextInt
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [globalContext, setGlobalContext] = useState({
-    isMobile,
+    isMobile: false,
     headerHeight: 0,
     isCartOpen: false,
     isWishlistOpen: false,

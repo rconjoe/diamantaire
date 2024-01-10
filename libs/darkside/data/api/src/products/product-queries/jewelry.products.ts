@@ -100,8 +100,8 @@ export const JEWELRYPRODUCT = `
         diamondPageFlowCtaCopy
         diamondPairFlowCtaCopy
       }
-      specLabels {	
-        labels {	
+      specLabels {
+        labels {
           ... on MetalLabelRecord {
             specName
             copy
@@ -191,7 +191,7 @@ export const JEWELRYPRODUCT = `
             specName
           }
         }
-      }	
+      }
       caratWeight
       configurations {
         diamondDescriptionOverride(markdown: false)
@@ -426,6 +426,9 @@ export const JEWELRYPRODUCT = `
       setting
       closure
       depth
+      charm
+      bandWidth
+      ringFace
       chainLength
       chainWidth
       posts

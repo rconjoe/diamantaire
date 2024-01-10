@@ -259,6 +259,7 @@ function OptionSelector({
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
   const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
+
   const diamondSliderOptions: any = {
     loop: false,
     dragFree: false,
@@ -383,8 +384,7 @@ function OptionSelector({
         if (selectedOptionValue !== 'other') {
           return (
             <>
-              <UIString>{selectedOptionValue}</UIString>
-              {'ct'}
+              {selectedOptionValue}
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
@@ -412,6 +412,200 @@ function OptionSelector({
 
   const labelName = getOptionHeaderName({ label, productType });
 
+  function renderDiamondTypeOptions() {
+    const isCarousel = options.length > 7;
+
+    const renderCarousel = () => (
+      <>
+        <div className="embla diamond-shape__slider" ref={emblaRef}>
+          <div className="embla__container">
+            {DIAMOND_SHAPES_MAP &&
+              options.map((option, index) => {
+                const isSelected = selectedOptionValue === option.value;
+                const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+
+                return (
+                  <div className="embla__slide" key={`diamondType-${index}`}>
+                    <OptionItemContainer
+                      key={option.id}
+                      optionType={optionType}
+                      option={option}
+                      valueLabel={valueLabel}
+                      isSelected={isSelected}
+                      onClick={() => handleOptionClick(option)}
+                      isLink={renderItemAsLink}
+                      setProductSlug={setProductSlug}
+                      selectedConfiguration={selectedConfiguration}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+        <button
+          className="carousel-arrow arrow-left"
+          style={{ display: isLastSlide ? 'block' : 'none' }}
+          onClick={() => emblaApi?.scrollPrev()}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <button
+          className="carousel-arrow arrow-right"
+          style={{ display: isLastSlide ? 'none' : 'block' }}
+          onClick={() => emblaApi?.scrollNext()}
+        >
+          <ArrowRightIcon />
+        </button>
+      </>
+    );
+
+    const renderList = () =>
+      DIAMOND_SHAPES_MAP &&
+      options.map((option) => {
+        const isSelected = selectedOptionValue === option.value;
+        const valueLabel = option.value;
+
+        return (
+          <OptionItemContainer
+            key={option.id}
+            optionType={optionType}
+            option={option}
+            valueLabel={valueLabel}
+            isSelected={isSelected}
+            onClick={() => handleOptionClick(option)}
+            isLink={renderItemAsLink}
+            setProductSlug={setProductSlug}
+            selectedConfiguration={selectedConfiguration}
+          />
+        );
+      });
+
+    return (
+      <div
+        className={clsx('option-list diamondType', {
+          'space-between-items': options.length < 8,
+          isRotated: areDiamondShapesHorizontal,
+        })}
+      >
+        {isCarousel ? renderCarousel() : renderList()}
+      </div>
+    );
+  }
+
+  function renderRingSizeOptions() {
+    const renderRingSizes = () => {
+      const visibleOptions = showingAllRingSizes
+        ? options
+        : options.filter((option) => presetRingSizes.includes(option.value));
+
+      return visibleOptions.map((option) => {
+        const isSelected = selectedOptionValue === option.value;
+        const valueLabel = option.value;
+
+        return (
+          <OptionItemContainer
+            key={option.id}
+            optionType={optionType}
+            option={option}
+            valueLabel={valueLabel}
+            isSelected={isSelected}
+            onClick={() => handleOptionClick(option)}
+            isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+            setProductSlug={setProductSlug}
+            selectedConfiguration={selectedConfiguration}
+          />
+        );
+      });
+    };
+
+    const renderShowMoreSizesButton = () => {
+      return (
+        !showingAllRingSizes && (
+          <DarksideButton
+            className="show-more-sizes-button"
+            type="underline"
+            colorTheme="teal"
+            onClick={() => setShowingAllRingSizes(true)}
+          >
+            <UIString>Show more sizes</UIString>
+          </DarksideButton>
+        )
+      );
+    };
+
+    const renderSizeGuideButton = () => {
+      return (
+        (isWeddingBandProduct || productType === 'Ring') && (
+          <div className="size-guide-button">
+            <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
+              <UIString>Size Guide</UIString>
+            </DarksideButton>
+          </div>
+        )
+      );
+    };
+
+    return (
+      <div className={clsx('option-list ringSize')}>
+        {renderRingSizes()}
+        {renderShowMoreSizesButton()}
+        {renderSizeGuideButton()}
+      </div>
+    );
+  }
+
+  function renderCaratWeightOptions() {
+    return (
+      <div className={clsx('option-list caratWeight')}>
+        {options.map((option) => {
+          const isSelected = selectedOptionValue === option.value;
+          // caratWeight we remove the 'ct' from the value assuming this is size
+          const valueLabel = option.value.replace(/[a-zA-Z]+/, '');
+
+          return (
+            <OptionItemContainer
+              key={option.id}
+              optionType={optionType}
+              option={option}
+              valueLabel={valueLabel}
+              isSelected={isSelected}
+              onClick={() => handleOptionClick(option)}
+              isLink={renderItemAsLink}
+              setProductSlug={setProductSlug}
+              selectedConfiguration={selectedConfiguration}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+
+  function renderDefaultOptions() {
+    // Default rendering logic for other types
+    return (
+      <div className={clsx('option-list', label)}>
+        {handleOptionValueSort(options, optionType).map((option) => {
+          const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
+          const valueLabel = option.value;
+
+          return (
+            <OptionItemContainer
+              key={option.id}
+              optionType={optionType}
+              option={option}
+              valueLabel={valueLabel}
+              isSelected={isSelected}
+              onClick={() => handleOptionClick(option)}
+              isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+              setProductSlug={setProductSlug}
+              selectedConfiguration={selectedConfiguration}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
@@ -424,177 +618,10 @@ function OptionSelector({
       )}
 
       <div>
-        {label === 'diamondType' ? (
-          <div
-            className={clsx('option-list', label, {
-              'space-between-items': options.length < 8,
-              isRotated: areDiamondShapesHorizontal,
-            })}
-          >
-            {options.length > 7 ? (
-              <>
-                <div className="embla diamond-shape__slider" ref={emblaRef}>
-                  <div className="embla__container">
-                    {DIAMOND_SHAPES_MAP &&
-                      options.map((option, index) => {
-                        const isSelected = selectedOptionValue === option.value;
-                        // human readable value
-                        const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
-
-                        return (
-                          <div className="embla__slide" key={label + '-' + index}>
-                            <OptionItemContainer
-                              key={option.id}
-                              optionType={optionType}
-                              option={option}
-                              valueLabel={valueLabel}
-                              isSelected={isSelected}
-                              onClick={() => handleOptionClick(option)}
-                              isLink={renderItemAsLink}
-                              setProductSlug={setProductSlug}
-                            />
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-                <button
-                  className="carousel-arrow arrow-left"
-                  style={{
-                    display: isLastSlide ? 'block' : 'none',
-                  }}
-                  onClick={() => emblaApi?.scrollPrev()}
-                >
-                  <ArrowLeftIcon />
-                </button>
-
-                <button
-                  className="carousel-arrow arrow-right"
-                  style={{
-                    display: isLastSlide ? 'none' : 'block',
-                  }}
-                  onClick={() => emblaApi?.scrollNext()}
-                >
-                  <ArrowRightIcon />
-                </button>
-              </>
-            ) : (
-              DIAMOND_SHAPES_MAP &&
-              options.map((option) => {
-                const isSelected = selectedOptionValue === option.value;
-
-                const valueLabel = option.value;
-
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={renderItemAsLink}
-                    setProductSlug={setProductSlug}
-                  />
-                );
-              })
-            )}
-          </div>
-        ) : label === 'ringSize' ? (
-          <div className={clsx('option-list', label)}>
-            {!showingAllRingSizes ? (
-              <>
-                {options
-                  .filter((option) => presetRingSizes.includes(option.value))
-                  .map((option) => {
-                    const isSelected = selectedOptionValue === option.value;
-
-                    const valueLabel = option.value;
-
-                    return (
-                      <OptionItemContainer
-                        key={option.id}
-                        optionType={optionType}
-                        option={option}
-                        valueLabel={valueLabel}
-                        isSelected={isSelected}
-                        onClick={() => handleOptionClick(option)}
-                        isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                        setProductSlug={setProductSlug}
-                      />
-                    );
-                  })}
-                {!showingAllRingSizes && (
-                  <DarksideButton
-                    className="show-more-sizes-button"
-                    type="underline"
-                    colorTheme="teal"
-                    onClick={() => setShowingAllRingSizes(true)}
-                  >
-                    <UIString>Show more sizes</UIString>
-                  </DarksideButton>
-                )}
-              </>
-            ) : (
-              handleOptionValueSort(options, optionType)?.map((option) => {
-                const isSelected = selectedOptionValue === option.value;
-
-                // human readable value
-                const valueLabel = option.value;
-
-                return (
-                  <OptionItemContainer
-                    key={option.id}
-                    optionType={optionType}
-                    option={option}
-                    valueLabel={valueLabel}
-                    isSelected={isSelected}
-                    onClick={() => handleOptionClick(option)}
-                    isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                    setProductSlug={setProductSlug}
-                  />
-                );
-              })
-            )}
-
-            {(isWeddingBandProduct || productType === 'Ring') && (
-              <div className="size-guide-button">
-                <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsWeddingBandSizeGuideOpen(true)}>
-                  <UIString>Size Guide</UIString>
-                </DarksideButton>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className={clsx('option-list', label)}>
-            {handleOptionValueSort(options, optionType).map((option) => {
-              const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
-
-              // if (optionType === 'soldAsDouble') {
-              //   console.log('selectedOptionValue', selectedOptionValue);
-              //   console.log('option.value', option.id);
-              //   console.log('isSelected', isSelected);
-              // }
-
-              // human readable value
-              const valueLabel = option.value;
-
-              return (
-                <OptionItemContainer
-                  key={option.id}
-                  optionType={optionType}
-                  option={option}
-                  valueLabel={valueLabel}
-                  isSelected={isSelected}
-                  onClick={() => handleOptionClick(option)}
-                  isLink={isBuilderFlowOpen ? false : renderItemAsLink}
-                  setProductSlug={setProductSlug}
-                  selectedConfiguration={selectedConfiguration}
-                />
-              );
-            })}
-          </div>
-        )}
+        {label === 'diamondType' && renderDiamondTypeOptions()}
+        {label === 'ringSize' && renderRingSizeOptions()}
+        {label === 'caratWeight' && renderCaratWeightOptions()}
+        {label !== 'diamondType' && label !== 'ringSize' && label !== 'caratWeight' && renderDefaultOptions()}
       </div>
     </StyledOptionSelector>
   );

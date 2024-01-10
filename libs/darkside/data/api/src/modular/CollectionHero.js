@@ -37,7 +37,7 @@ const CollectionHero = `
           streamingUrl
         }
       alt
-      responsiveImage(imgixParams: {w: 1125, h: 1800, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
+      responsiveImage(imgixParams: {w: 1125, q: 30, auto: format, fit: crop, crop: focalpoint }, sizes:"100vw") {
             src
             alt
             aspectRatio

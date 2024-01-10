@@ -161,6 +161,15 @@ export const MOCK_COLOR_DISPLAY_NAMING_MAP = {
 
 export const EAST_WEST_SIDE_STONE_SHAPES = ['pear', 'trillion', 'tapered-baguette'];
 
-export const EAST_WEST_SHAPES = ['oval', 'trillion', 'pear', 'radiant', 'cushion', 'marquise'];
+export const EAST_WEST_SHAPES = ['oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise'];
 
-export const JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS = ['solitaire-diamond-studs'];
+export const JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS = [
+  'solitaire-diamond-studs',
+  'halo-diamond-stud',
+  'bezel-solitaire-stud',
+  'solitaire-diamond-necklace',
+  'solitaire-diamond-pendant',
+  'halo-diamond-necklace',
+  'bezel-solitaire-necklace',
+  'halo-diamond-pendant',
+];

@@ -351,7 +351,7 @@ const MultiVariantCartItem = ({
           ],
         },
       });
-      updateItemQuantity({
+      await updateItemQuantity({
         lineId: item.id,
         variantId: merchandise.id,
         quantity: item.quantity - 1,

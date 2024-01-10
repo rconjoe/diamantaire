@@ -790,7 +790,7 @@ export class ProductsService {
     // options which are always included as long as the "parent" option matches
     const MATCHING_PARENT_OPTION_MAP = {
       [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
-      [ProductOption.Metal]: [ProductOption.DiamondType],
+      [ProductOption.Metal]: [ProductOption.DiamondType, ProductOption.DiamondOrientation],
     }
 
     OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {

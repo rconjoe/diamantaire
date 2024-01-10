@@ -11,7 +11,6 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, isCountrySupported, replaceMoneyByCurrency } from '@diamantaire/shared/helpers';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -158,7 +157,7 @@ const ModularBannerBlock = (props) => {
             <SubTitle
               className={clsx(
                 {
-                  '-white': textColor === WHITE,
+                  '-white': textColor === '#FFFFFF',
                 },
                 subtitleAdditionalClass,
               )}

@@ -7,7 +7,7 @@ import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { MenuLink, NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
@@ -41,7 +41,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
 
   const { _t } = useTranslations(locale);
 
-  const showroomLocation = isUserCloseToShowroom();
+  const [showroomLocation, setShowroomLocation] = useState(null);
 
   const { countryCode: selectedCountryCode } = parseValidLocale(locale);
 
@@ -75,6 +75,12 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   function toggleChat() {
     addHashToURL();
   }
+
+  useEffect(() => {
+    const showroomLocationTemp = isUserCloseToShowroom();
+
+    setShowroomLocation(showroomLocationTemp);
+  }, []);
 
   return (
     <StackedHeaderStylesContainer>

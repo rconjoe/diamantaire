@@ -90,6 +90,23 @@ export type ProductAddonDiamond = {
   };
 };
 
+export type MiscCartItemProps = {
+  variantId: string;
+  locale?: string;
+  attributes: {
+    // Fulfillment
+    _productType: 'Gift Card' | 'Ring Sizer';
+    productAsset: string;
+    _productTitle: string;
+    shippingBusinessDays: string;
+    productIconListShippingCopy: string;
+    productGroupKey: string;
+    pdpUrl: string;
+    feedId: string;
+    shippingText: string;
+  };
+};
+
 export type JewelryCartItemProps = {
   variantId: string;
   engravingText?: string;
