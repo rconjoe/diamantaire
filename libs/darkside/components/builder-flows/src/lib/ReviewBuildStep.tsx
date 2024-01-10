@@ -33,7 +33,11 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle, specGenerator } from '@diamantaire/shared/helpers';
+import {
+  extractMetalTypeFromShopifyHandle,
+  generateCfyDiamondSpriteThumbUrl,
+  specGenerator,
+} from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -360,13 +364,18 @@ const ReviewBuildStep = ({
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
-  const diamondImages =
-    (Array.isArray(mutatedLotIds) &&
-      mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
-    [];
+  const isDiamondCFY = diamonds.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
-  console.log('diamondImages', diamondImages);
-  console.log('mutatedLotIds', mutatedLotIds);
+  //
+  const diamondImages = isDiamondCFY
+    ? diamonds.map((diamond) => {
+        const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+
+        return spriteImageUrl;
+      })
+    : (Array.isArray(mutatedLotIds) &&
+        mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
+      [];
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -379,8 +388,16 @@ const ReviewBuildStep = ({
     setIsEngravingInputVisible(false);
   }
 
-  const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
+  const customJewelryPdpTypes = ['Necklace', 'Earrings'];
+  const pdpType: PdpTypePlural = customJewelryPdpTypes.includes(product?.productType)
+    ? 'Jewelry'
+    : pdpTypeSingleToPluralAsConst[product?.productType];
+
   const { data }: { data: any } = useProductDato(collectionSlug, locale, pdpType);
+
+  console.log('dataxx', data);
+  console.log('pdpTypexx', pdpType);
+  console.log('product?.productType', product?.productType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
   const productIconListType = datoParentProductData?.productIconList?.productType;
@@ -398,6 +415,8 @@ const ReviewBuildStep = ({
     product || {};
 
   const { productTitle } = datoParentProductData || {};
+
+  console.log('datoParentProductData', datoParentProductData);
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
@@ -736,6 +755,8 @@ const ReviewBuildStep = ({
 
   console.log('builderProduct', builderProduct);
 
+  const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -834,25 +855,25 @@ const ReviewBuildStep = ({
                     );
                   })}
 
-                  {configurations &&
-                    Object.keys(configurations)?.map((key, index) => {
-                      console.log('keyyy', key, configurations[key]);
+                  {reviewVariantOrder.map((key, index) => {
+                    const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight', 'diamondOrientation'];
 
-                      const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight'];
+                    console.log('configurations?.[key]', configurations?.[key]);
 
-                      if (selectorsToIgnore.includes(key) || configurations[key].length < 2) return null;
+                    if (selectorsToIgnore.includes(key) || !configurations?.[key] || configurations?.[key]?.length === 0)
+                      return null;
 
-                      return (
-                        <ReviewVariantSelector
-                          key={`summary-${index}`}
-                          selector={key}
-                          selectedConfiguration={selectedConfiguration}
-                          configurations={configurations}
-                          handleOptionChange={handleOptionChange}
-                          handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
-                        />
-                      );
-                    })}
+                    return (
+                      <ReviewVariantSelector
+                        key={`summary-${index}`}
+                        selector={key}
+                        selectedConfiguration={selectedConfiguration}
+                        configurations={configurations}
+                        handleOptionChange={handleOptionChange}
+                        handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
+                      />
+                    );
+                  })}
                 </ul>
               </div>
             </div>
