@@ -7,7 +7,7 @@ import {
   PlpProductGrid,
   PlpSubCategories,
 } from '@diamantaire/darkside/components/products/plp';
-import { getVRAIServerPlpData, usePlpVRAIProducts } from '@diamantaire/darkside/data/api';
+import { getAllPlpSlugs, usePlpVRAIProducts, getVRAIServerPlpData } from '@diamantaire/darkside/data/api';
 import { usePlpDatoServerside } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
@@ -23,7 +23,7 @@ import {
 import { isEmptyObject } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -48,18 +48,22 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
-function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideProps>) {
+function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
+
   const router = useRouter();
-  const { ref: pageEndRef, inView } = useInView({
-    rootMargin: '800px',
-  });
+
+  const { locale } = router || {};
+
+  const { ref: pageEndRef, inView } = useInView({ rootMargin: '800px' });
+
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
-  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(router.locale, plpSlug, category);
+
+  const { data: { listPage: plpData } = {} } = usePlpDatoServerside(locale, plpSlug, category);
 
   const {
     breadcrumb,
@@ -72,14 +76,19 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
     sortOptions,
     filterOptions: filterOptionsOverride,
   } = plpData || {};
+
   const { seoTitle, seoDescription } = seo || {};
+
   const { data, fetchNextPage, isFetching, hasNextPage } = usePlpVRAIProducts(
     category,
     plpSlug,
     { ...filterValue, ...activeSortOptions },
     {},
+    locale,
   );
+
   const availableFilters = data?.pages[0]?.availableFilters;
+
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
@@ -102,7 +111,6 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   }, [inView, fetchNextPage, hasNextPage]);
 
   const onFilterChange = (filters) => {
-    // console.log('filter changed', filters);
     setFilterValues(filters);
     handleFilterEvent(filters);
   };
@@ -135,7 +143,7 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
       title: crumb.name,
-      path: '/' + crumb.link.slug,
+      path: crumb?.link?.slug ? '/' + crumb.link.slug : '',
     };
   });
 
@@ -177,14 +185,41 @@ function PlpPage(props: InferGetServerSidePropsType<typeof jewelryGetServerSideP
 
 PlpPage.getTemplate = getStandardTemplate;
 
-const createPlpServerSideProps = (category: string) => {
-  const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PlpPageProps>> => {
-    context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
-    const { query, locale } = context;
+const createGetStaticPaths = (category: string) => {
+  const getStaticPaths = async function getStaticPaths() {
+    const excludedSlugs = [];
+    const pageSlugs = await getAllPlpSlugs();
 
+    // Define the locales you want to include
+    const includedLocales = ['en-US'];
+
+    // Filter the locales and generate paths
+    const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category && !excludedSlugs.includes(p.slug))).flatMap(({ slug }) => {
+      // Skip if slug is not defined or empty
+      if (!slug || slug === '') return [];
+
+      return includedLocales.map((locale) => ({
+        locale,
+        params: { plpSlug: [slug] },
+      }));
+    });
+
+
+    return {
+      paths,
+      fallback: true
+    }
+    
+  }
+
+  return getStaticPaths;
+}
+
+const createStaticProps = (category: string) => {
+  const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
+    const { params, locale } = context;
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
-
-    const { plpSlug, ...qParams } = query;
+    const { plpSlug, ...qParams } = params;
 
     //Render 404 if no plpSlug
     if (!plpSlug) {
@@ -193,17 +228,17 @@ const createPlpServerSideProps = (category: string) => {
       };
     }
 
-    const [slug, ...params] = plpSlug;
+    const [slug, ...plpParams] = plpSlug;
 
     // All ER PLPs use faceted nav
     if (category === 'engagement-rings') {
       urlFilterMethod = 'facet';
     }
 
-    let initialFilterValues = getValidFiltersFromFacetedNav(params, qParams);
+    let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
-    if (!initialFilterValues) {
+    if (!initialFilterValues || !slug) {
       return {
         notFound: true,
       };
@@ -230,8 +265,8 @@ const createPlpServerSideProps = (category: string) => {
 
     // Todo: fix pattern of using predefined query
     await queryClient.prefetchInfiniteQuery({
-      queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {})],
-      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }),
+      queryKey: [`plp`, category, slug, JSON.stringify(initialFilterValues || {}), locale],
+      queryFn: ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, initialFilterValues, { page: pageParam }, locale),
     });
 
     await queryClient.prefetchQuery({
@@ -242,6 +277,7 @@ const createPlpServerSideProps = (category: string) => {
       ...queries.plp.plpBlockPickerBlocks(locale, slug, category),
     });
 
+    // Render 404 if no content is returned
     if (!queryClient.getQueryData(contentQuery.queryKey)?.['listPage']) {
       return {
         notFound: true,
@@ -257,15 +293,32 @@ const createPlpServerSideProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
+      revalidate: 60 * 60 // revalidate every 60 minutes // TODO: control per environment
     };
   };
 
-  return getServerSideProps;
+  return getStaticProps;
 };
 
-const jewelryGetServerSideProps = createPlpServerSideProps('jewelry');
+// JEWELRY
+const jewelryGetStaticProps = createStaticProps('jewelry');
+const jewelryGetStaticPaths = createGetStaticPaths('jewelry');
+// ER
+const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
+const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
+// WB
+const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
+const weddingRingsGetStaticPaths = createGetStaticPaths('wedding-rings');
 
-export { PlpPage, createPlpServerSideProps };
+export { 
+  PlpPage,
+  engagementRingsGetStaticProps,
+  engagementRingsGetStaticPaths,
+  jewelryGetStaticProps,
+  jewelryGetStaticPaths,
+  weddingRingsGetStaticProps,
+  weddingRingsGetStaticPaths,
+};
 
 /**
  * Takes the params from the URL and the query params and returns the filter options.
@@ -303,9 +356,7 @@ function getValidFiltersFromFacetedNav(
     .map((diamondTypeString) => Object.values(DiamondTypes).find((diamondType) => diamondType === diamondTypeString))
     .filter(Boolean);
 
-  const styleParamIndex = params.findIndex(
-    (param) => STYLE_SLUGS.includes(param),
-  );
+  const styleParamIndex = params.findIndex((param) => STYLE_SLUGS.includes(param));
 
   // For when style is a param (not faceted)
   const styleFromQuery = style

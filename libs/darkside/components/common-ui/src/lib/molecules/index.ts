@@ -33,3 +33,4 @@ export * from './CookieBanner';
 export * from './UIString';
 export * from './UniLink';
 export * from './EmailPopup';
+export * from './NeedTimeToThinkEmailForm';

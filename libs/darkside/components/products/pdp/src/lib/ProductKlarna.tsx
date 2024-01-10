@@ -7,6 +7,10 @@ const ProductKlarnaStyles = styled.div`
   position: relative;
   left: -1rem;
   min-height: 24px;
+  #klarna-placement::part(osm-message) {
+    font-family: var(--font-family-main);
+    font-size: var(--font-size-xxxsmall);
+  }
 `;
 
 declare global {
@@ -27,11 +31,7 @@ const ProductKlarna = ({ title, currentPrice }) => {
     const minKlarnaPrice = 200 * 100;
     const maxKlarnaPrice = 10000 * 100;
 
-    if (price < minKlarnaPrice || price > maxKlarnaPrice) {
-      return false;
-    }
-
-    return true;
+    return price >= minKlarnaPrice && price <= maxKlarnaPrice;
   };
 
   useEffect(() => {

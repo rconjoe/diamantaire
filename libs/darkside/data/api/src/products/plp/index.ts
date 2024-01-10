@@ -1,8 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { queryDatoGQL, queryClientApi } from '../../clients';
+import { queryDatoGQL } from '../../clients';
 import { ButtonFragment, ResponsiveImageFragment } from '../../fragments';
+
+export * from './getAllPlpSlugs';
 
 type SortedRequestOptions = {
   sortBy?: string;
@@ -22,6 +24,7 @@ export async function getVRAIServerPlpData(
   slug: string,
   filterOptions = {},
   { page = 1, limit = 12 }: PaginatedRequestOptions,
+  locale,
 ) {
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
@@ -39,30 +42,41 @@ export async function getVRAIServerPlpData(
     return acc;
   }, {});
 
-
-  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const qParams = new URLSearchParams({
     category,
     slug,
     ...optionsQuery,
     page: page?.toString() || '1',
     limit: limit?.toString(),
+    locale,
   });
 
-  const reqUrl = `${baseUrl}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  const isServer = typeof window === 'undefined';
+  let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
-  const response = await fetch(reqUrl, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((res) => {
-      return res.json();
+  if (!isServer) {
+    reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
+  }
+
+  try {
+    const response = await fetch(reqUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(isServer && { 'x-api-key': process.env.VRAI_SERVER_API_KEY }),
+      },
     })
-    .then((res) => res);
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => res);
 
-  return response;
+    return response;
+  } catch (err) {
+    console.log('Cannot fetch plp products', err);
+
+    return null;
+  }
 }
 
 type DiamondPlpRequestOptions = SortedRequestOptions & PaginatedRequestOptions;
@@ -71,7 +85,6 @@ export async function getVRAIServerDiamondPlpData(
   slug: string,
   { page = 1, limit = 12, sortBy, sortOrder }: DiamondPlpRequestOptions,
 ) {
-  console.log('getVRAIServerDiamondPlpData', sortBy, sortOrder);
   const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
   const pageParams = new URLSearchParams({ page: page?.toString(), limit: limit.toString(), sortBy, sortOrder });
   const qParams = new URLSearchParams({ slug });
@@ -91,10 +104,10 @@ export async function getVRAIServerDiamondPlpData(
   return response;
 }
 
-export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions) {
+export function usePlpVRAIProducts(category, slug, filterOptions, pageOptions, locale) {
   const { data, fetchNextPage, isFetching, hasNextPage, error } = useInfiniteQuery(
-    [`plp`, category, slug, JSON.stringify(filterOptions || {})],
-    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }),
+    [`plp`, category, slug, JSON.stringify(filterOptions || {}), locale],
+    ({ pageParam = 1 }) => getVRAIServerPlpData(category, slug, filterOptions, { ...pageOptions, page: pageParam }, locale),
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
@@ -171,6 +184,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             }
           }
           slug
+          link
         }
       }
       hero {
@@ -211,17 +225,14 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
 
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
-  const qParams = new URLSearchParams({ slug, category, locale });
-  const reqUrl = `/page/plpssr?${qParams.toString()}`;
-
   try {
-    const response = await queryClientApi().request({ url: reqUrl });
+    const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
-    return response.data;
-  } catch (e) {
-    console.log(e);
+    return response;
+  } catch (error) {
+    console.log('Error retrieving list page ssr data', error);
 
-    return null;
+    return {};
   }
 }
 
@@ -272,7 +283,7 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     id
     enableGwp
     desktopImage {
-      responsiveImage(imgixParams: {w: 666, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+      responsiveImage(imgixParams: {w: 636, h: 804, q: 60, auto: format, fit: crop, crop: focalpoint }) {
         ...responsiveImageFragment
       }
     }
@@ -288,6 +299,15 @@ query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
     ctaRoute
     darksideButtons {
       ${ButtonFragment}
+    }
+    additionalClass
+    configurationsInOrder {
+      ... on OmegaProductRecord {
+        shopifyProductHandle
+      }
+      ... on ConfigurationRecord {
+        variantId
+      }
     }
   }
 }

@@ -22,18 +22,9 @@ interface DropHintModalProps {
   onClose: () => void;
   productLink: string;
   productImage: string;
-  errorMessage: string;
 }
 
-const DropHintModal: React.FC<DropHintModalProps> = ({
-  title,
-  subtitle,
-  onClose,
-  locale,
-  productImage,
-  productLink,
-  errorMessage,
-}) => {
+const DropHintModal: React.FC<DropHintModalProps> = ({ title, subtitle, onClose, locale, productImage, productLink }) => {
   const { _t } = useTranslations(locale);
 
   const defaultData = {
@@ -81,7 +72,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
       recipientEmail: userEmail,
       name: userName,
       email: recipientEmail,
-      productLink: `${baseUrl}${productLink}`,
+      productImageUrl: `${baseUrl}${productLink}`,
       productImage: productImage,
     };
 
@@ -132,7 +123,7 @@ const DropHintModal: React.FC<DropHintModalProps> = ({
 
       setFormData(defaultData);
     } else {
-      setResponse(errorMessage);
+      setResponse(_t('Drop Hint Error Messsage'));
     }
 
     setTimeout(() => {

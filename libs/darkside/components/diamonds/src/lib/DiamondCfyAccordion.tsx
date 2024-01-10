@@ -47,6 +47,7 @@ const DiamondCfyAccordion = ({
     );
   };
   const getColorContent = () => {
+    const title = getInfo(specs, 'color')?.value;
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
     const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
@@ -72,7 +73,9 @@ const DiamondCfyAccordion = ({
 
     return (
       <div className="description">
-        <Markdown withStyles={false}>{desc}</Markdown>
+        <Markdown withStyles={false} imageConfig={{ w: 350, h: 126, alt: title }}>
+          {desc}
+        </Markdown>
 
         {upgrade && (
           <div className="upgrade">
@@ -204,7 +207,7 @@ const DiamondCfyAccordion = ({
   };
   const getCutContent = () => {
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
-    const { cutDetails } = DiamondCfyData || {};
+    const { cutDetails, cutDetailsRoundBrilliant } = DiamondCfyData || {};
     const upgrade = diamondCtoData?.diamondCutUpgrade;
 
     if (product && upgrade) {
@@ -222,6 +225,9 @@ const DiamondCfyAccordion = ({
     return (
       <div className="description">
         <Markdown withStyles={false}>{cutDetails}</Markdown>
+        {product?.diamondType === 'round-brilliant' && cutDetailsRoundBrilliant ? (
+          <Markdown withStyles={false}>{cutDetailsRoundBrilliant}</Markdown>
+        ) : null}
 
         {upgrade && (
           <div className="upgrade">
@@ -236,7 +242,9 @@ const DiamondCfyAccordion = ({
                 }
                 onChange={() => handleUpgradeClick('diamondCutUpgrade')}
               />
-              <div className="label">{upgradeLabel}</div>
+              <div className="label">
+                <UIString>{upgradeLabel}</UIString>
+              </div>
               <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">

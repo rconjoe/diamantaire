@@ -8,7 +8,7 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { countries, languagesByCode, parseValidLocale, HUBSPOT_FOOTER_LIST } from '@diamantaire/shared/constants';
-import { getIsUserInEu, getIsUserInUs } from '@diamantaire/shared/geolocation';
+import { getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { FacebookIcon, InstagramIcon, PinterestIcon, TiktokIcon } from '@diamantaire/shared/icons';
 import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
@@ -66,7 +66,7 @@ const FooterStyles = styled.footer`
 
       &__inner {
         p.col-heading {
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           margin: 0 0 1rem;
           font-weight: var(--font-weight-bold);
         }

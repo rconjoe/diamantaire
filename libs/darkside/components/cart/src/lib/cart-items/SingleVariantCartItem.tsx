@@ -118,8 +118,8 @@ const SingleVariantCartItem = ({
   }) => Promise<string | undefined>;
 }) => {
   const { productRemoved } = useAnalytics();
-  const { attributes, merchandise, quantity } = item;
-  const price = merchandise?.price?.amount;
+  const { attributes, merchandise, cost, quantity } = item;
+  const price = cost?.totalAmount?.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
 
@@ -137,7 +137,7 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productType = useMemo(() => {
-    let matchingAttribute = attributes?.find((attr) => attr.key === '_productType')?.value;
+    let matchingAttribute = attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
 
     if (matchingAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair
@@ -175,6 +175,14 @@ const SingleVariantCartItem = ({
 
     return matchingAttribute;
   }, [attributes]);
+
+  const specs = useMemo(() => {
+    const matchingAttribute = attributes?.find((attr) => attr.key === '_specs')?.value;
+
+    return matchingAttribute;
+  }, []);
+
+  console.log('specs', specs);
 
   const itemAttributes = useMemo(() => {
     const initAttributes = [
@@ -237,6 +245,8 @@ const SingleVariantCartItem = ({
     return initAttributes;
   }, [refinedCartItemDetails, info]);
 
+  console.log('itemAttributes', itemAttributes);
+
   useEffect(() => {
     const tempRefinedCartItemDetails: { [key: string]: string }[] = [{}];
 
@@ -298,7 +308,7 @@ const SingleVariantCartItem = ({
 
   // The price needs to be combined in the case of two identical earrings
   const totalPrice = useMemo(() => {
-    return info?.totalPriceOverride || parseFloat(price) * 100;
+    return getFormattedPrice(parseFloat(price) * 100, locale);
   }, [info]);
 
   return (
@@ -319,23 +329,19 @@ const SingleVariantCartItem = ({
             {productTitle}
           </Heading>
         </div>
-        <div className="cart-item__price">{totalPrice && <p>{getFormattedPrice(totalPrice, locale)}</p>}</div>
+        <div className="cart-item__price">{totalPrice && <p>{totalPrice}</p>}</div>
       </div>
       <div className="cart-item__body">
         <div className="cart-item__image">{image && <Image {...image} placeholder="empty" alt={info?.pdpTitle} />}</div>
         <div className="cart-item__content">
           <p className="setting-text">{productType}</p>
-          {itemAttributes?.map((specItem, index) => {
-            if (!specItem.value || specItem.value === '') {
-              return null;
-            }
 
-            return (
-              <p className={specItem?.label?.toLowerCase()} key={`${item.id}-${index}`}>
-                {specItem.label !== '' ? specItem.label + ':' : ''} <span>{specItem.value}</span>
-              </p>
-            );
-          })}
+          {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
+          {engraving && (
+            <p className="engraving">
+              {_t('Engraving')}: <span>{engraving}</span>
+            </p>
+          )}
         </div>
       </div>
       {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}

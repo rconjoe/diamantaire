@@ -1,0 +1,48 @@
+name: Playwright Tests
+on:
+  push:
+    branches:
+      - qa
+  # workflow_dispatch:
+  #   inputs:
+  #     # environment:
+  #     #   type: environment
+  #     #   description: Select the environment
+  #     # choice:
+  #     #   type: choice
+  #     #   description: Make a choice
+  #     #   options:
+  #     #   - qa
+  #     #   - prod
+  #     environment:
+  #       description: 'Specify environment or url to test'
+  #       default: 'qa'
+  #       required: true
+  #       type: string
+
+jobs:
+  test_e2e:
+    name: Playwright tests
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare testing env
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install --product
+      - run: pnpm add @nx/playwright --ignore-scripts
+      - run: npx playwright install --with-deps
+      - name: Run tests
+        run:  cd apps/darkside/main && npx playwright test e2e/tests/  --workers=2
+        env:
+          test_env: stage
+          # PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: apps/darkside/main/e2e/output/
+          retention-days: 30
+      

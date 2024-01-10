@@ -26,6 +26,31 @@ import { ProductsService } from '../services/product.service';
 export class ProductController {
   constructor(private readonly productService: ProductsService) {}
 
+  @Get('plp')
+  @ApiOperation({ summary: 'Get product variant' })
+  @ApiQuery({ name: 'slug', required: true, description: 'Plp slug' })
+  @ApiQuery({ name: 'category', required: true, description: 'Plp category' })
+  @ApiQuery({ name: 'locale', required: false, description: 'Content locale' })
+  async function(@Query() { category, slug, locale, metal, diamondType, priceMin, priceMax, style, subStyle, sortBy, sortOrder, limit, page }: PlpInput) {
+
+    // Support for multiselect filters
+    const diamondTypes = diamondType ? diamondType.split(',').map((s:string) => s.trim()) : undefined;
+    const styles = style ? style.split(',').map((s:string) => s.trim()) : undefined;
+    const subStyles = subStyle ? subStyle.split(',').map((s:string) => s.trim()) : undefined;
+    const metals = metal ? metal.split(',').map((s:string) => s.trim()) : undefined;
+
+    const filters = {
+      diamondTypes,
+      metals,
+      styles,
+      subStyles,
+      priceMin,
+      priceMax
+    };
+
+    return await this.productService.getPlpProducts({ slug, category, locale, filters, sortBy, sortOrder, limit, page });
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get product variant' })
   @ApiQuery({ name: 'slug', required: true, description: 'collection slug' })
@@ -149,7 +174,7 @@ export class ProductController {
     return await this.productService.findProductByVariantId({ variantId });
   }
 
-  @Get('plp')
+  @Get('plp-old')
   @ApiOperation({ summary: 'Get product list page data' })
   @ApiQuery({ name: 'slug', required: true, description: 'PLP slug' })
   @ApiQuery({ name: 'category', required: true, description: 'PLP category' })

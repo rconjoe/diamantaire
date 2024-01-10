@@ -1,7 +1,5 @@
-import { PlpPage, createPlpServerSideProps } from '@diamantaire/darkside/page/plp';
+import { PlpPage, jewelryGetStaticProps as getStaticProps, jewelryGetStaticPaths as getStaticPaths } from '@diamantaire/darkside/page/plp';
 
 export default PlpPage;
 
-const getServerSideProps = createPlpServerSideProps('jewelry');
-
-export { getServerSideProps };
+export { getStaticProps, getStaticPaths };

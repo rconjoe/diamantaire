@@ -190,3 +190,5 @@ export const SHOWROOM_LOCATIONS = [
     ],
   },
 ];
+
+export const ALL_SHOWROOMS = [...SHOWROOM_LOCATIONS, VIRTUAL_SHOWROOM];

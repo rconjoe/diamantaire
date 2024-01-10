@@ -1,7 +1,9 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondImage } from '@diamantaire/darkside/components/diamonds';
 import { IMAGE_BASE_URL } from '@diamantaire/shared/constants';
+import { formatNumber } from '@diamantaire/shared/helpers';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ReactSlider from 'react-slider';
 import styled from 'styled-components';
@@ -12,6 +14,7 @@ const offset = '2rem';
 const ProductDiamondHandStyles = styled.div`
   min-height: 20rem;
   background-color: #fff;
+  display: block;
 
   .hand-image-container {
     margin-bottom: ${offset};
@@ -26,20 +29,6 @@ const ProductDiamondHandStyles = styled.div`
       display: block;
       aspect-ratio: 1/1;
       position: relative;
-      max-height: 330px;
-      max-height: 360px;
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        max-height: 360px;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        max-height: 460px;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-        max-height: 520px;
-      }
-
       margin: 0 auto;
 
       .shown-on-text {
@@ -57,29 +46,8 @@ const ProductDiamondHandStyles = styled.div`
       width: 25%;
       height: 25%;
       top: 50%;
-      left: 24%;
-
-      @media (min-width: ${({ theme }) => theme.sizes.small}) {
-        left: 20.5%;
-        top: 53%;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-        left: 22%;
-      }
-
-      @media (min-width: ${({ theme }) => theme.sizes.xxxl}) {
-        left: 21.5%;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.xxxxl}) {
-        left: 21%;
-      }
-      @media (min-width: 1700px) {
-        left: 22%;
-      }
-      @media (min-width: 1800px) {
-        left: 24%;
-      }
+      left: 50%;
+      transform: translate(-118%, 20%);
     }
   }
 
@@ -120,6 +88,9 @@ const ProductDiamondHandStyles = styled.div`
         background-color: var(--color-teal);
         border-radius: 50%;
         cursor: pointer;
+        &:focus {
+          outline: none;
+        }
         button {
           position: absolute;
           top: -${offset};
@@ -134,6 +105,8 @@ const ProductDiamondHandStyles = styled.div`
           text-align: center;
           min-width: 7rem;
           background-color: transparent;
+          white-space: nowrap;
+          text-transform: lowercase;
         }
       }
     }
@@ -149,9 +122,17 @@ const ProductDiamondHandStyles = styled.div`
   }
 `;
 
-const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false }) => {
-  const [sliderValue, setSliderValue] = useState(Number(initValue));
+type ProductDiamondHandProps = {
+  range: number[];
+  diamondType: string;
+  initValue: number;
+  disableControls?: boolean;
+  prefix?: string;
+};
 
+const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = false, prefix }: ProductDiamondHandProps) => {
+  const [sliderValue, setSliderValue] = useState(Number(initValue));
+  const { locale } = useRouter();
   const pickDiamondWidth = (carat) => {
     const powerFn = powerFnPicker();
     const widthInMillimeter = powerFn(carat);
@@ -297,6 +278,12 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
         <div className="image-hand">
           <Image className="bg" alt="Hand" src={handImageSource} width={0} height={0} sizes="100vw" />
           <p className="shown-on-text text-center">
+            {prefix && disableControls ? (
+              <>
+                <UIString>{prefix}</UIString>
+                {' | '}
+              </>
+            ) : null}
             <UIString>Shown on ring size 6</UIString>
           </p>
         </div>
@@ -309,11 +296,19 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
       </div>
       {!disableControls && (
         <div className="slider-outer-container">
-          <div className="slider swiper-no-swiping">
+          <div className="slider no-swiping">
             <div className="slider-container">
               <div className="slider-grid">
                 <div className="min">
-                  <span>{range[0]}ct</span>
+                  <span>
+                    {range?.[0]
+                      ? formatNumber(Number(range?.[0]), locale, {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })
+                      : null}
+                    ct
+                  </span>
                 </div>
                 <div className="slider">
                   <ReactSlider
@@ -327,13 +322,23 @@ const ProductDiamondHand = ({ range, diamondType, initValue, disableControls = f
                     onChange={(v) => setSliderValue(v)}
                     renderThumb={(props, state) => (
                       <div {...props}>
-                        <button>{state.valueNow} carat</button>
+                        <button>
+                          {state.valueNow} <UIString>carat</UIString>
+                        </button>
                       </div>
                     )}
                   />
                 </div>
                 <div className="max">
-                  <span>{range[1]}ct</span>
+                  <span>
+                    {range?.[1]
+                      ? formatNumber(Number(range?.[1]), locale, {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                        })
+                      : null}
+                    ct
+                  </span>
                 </div>
               </div>
             </div>

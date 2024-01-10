@@ -1,9 +1,10 @@
 import { useCookieBanner } from '@diamantaire/darkside/data/hooks';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { CheckSquare, DarksideButton, Heading, Markdown } from './';
@@ -13,12 +14,13 @@ const CookieBannerStyles = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--color-header-bg);
   color: var(--color-black);
   width: 100%;
-  border-top: 0.1rem solid var(--color-dark-grey);
-  z-index: var(--z-index-nav);
+  z-index: var(--z-index-modal);
+
   .container {
+    background: var(--color-header-bg);
+    border-top: 0.1rem solid var(--color-dark-grey);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,6 +74,7 @@ const CookieBannerStyles = styled.div`
 
 const CookieBanner = () => {
   const router = useRouter();
+  const banner = useRef(null);
   const selectedLocale = router.locale;
   const { acceptCookies, consent, acceptAllCookies } = useCookieConsentContext();
   const { data: { cookieBanner: cookieBannerContent } = {} } = useCookieBanner(selectedLocale);
@@ -116,6 +119,7 @@ const CookieBanner = () => {
     acceptCookies(selectedOptions);
     handleAcceptPrivacy();
   };
+
   const handleAcceptAllCookies = () => {
     acceptAllCookies();
     handleAcceptPrivacy();
@@ -132,7 +136,10 @@ const CookieBanner = () => {
         marketing: consent.marketing || false,
         preferences: consent.preferences || false,
       });
-      setShowBanner(true);
+
+      setTimeout(() => {
+        setShowBanner(true);
+      }, 5000);
     }
   }, [consent]);
 
@@ -142,47 +149,56 @@ const CookieBanner = () => {
 
   return (
     <CookieBannerStyles>
-      <div className="container">
-        <div className="col col-left">
-          {title && <Heading className="title">{title}</Heading>}
-          {text && <Markdown extraClass="copy">{text}</Markdown>}
-          <div className="checkbox-container">
-            <CheckSquare checkSquareId="chk-essential" checked={true}>
-              {essentialCookiesCategoryName}
-            </CheckSquare>
+      <AnimatePresence>
+        <motion.div
+          initial={{ y: '100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '100%' }}
+          transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+        >
+          <div className="container" ref={banner}>
+            <div className="col col-left">
+              {title && <Heading className="title">{title}</Heading>}
+              {text && <Markdown extraClass="copy">{text}</Markdown>}
+              <div className="checkbox-container">
+                <CheckSquare checkSquareId="chk-essential" checked={true}>
+                  {essentialCookiesCategoryName}
+                </CheckSquare>
 
-            <CheckSquare
-              checkSquareId="statistics"
-              onCheckSquareClick={() => handleOptionClick('statistics')}
-              checked={cookieConsentOptions.statistics}
-            >
-              {statisticsCookiesCategoryName}
-            </CheckSquare>
+                <CheckSquare
+                  checkSquareId="statistics"
+                  onCheckSquareClick={() => handleOptionClick('statistics')}
+                  checked={cookieConsentOptions.statistics}
+                >
+                  {statisticsCookiesCategoryName}
+                </CheckSquare>
 
-            <CheckSquare
-              checkSquareId="chk-marketing"
-              onCheckSquareClick={() => handleOptionClick('marketing')}
-              checked={cookieConsentOptions.marketing}
-            >
-              {marketingCookiesCategoryName}
-            </CheckSquare>
+                <CheckSquare
+                  checkSquareId="chk-marketing"
+                  onCheckSquareClick={() => handleOptionClick('marketing')}
+                  checked={cookieConsentOptions.marketing}
+                >
+                  {marketingCookiesCategoryName}
+                </CheckSquare>
 
-            <CheckSquare
-              checkSquareId="chk-customerSupport"
-              onCheckSquareClick={() => handleOptionClick('preferences')}
-              checked={cookieConsentOptions.preferences}
-            >
-              {customerSupportCookiesCategoryName}
-            </CheckSquare>
+                <CheckSquare
+                  checkSquareId="chk-customerSupport"
+                  onCheckSquareClick={() => handleOptionClick('preferences')}
+                  checked={cookieConsentOptions.preferences}
+                >
+                  {customerSupportCookiesCategoryName}
+                </CheckSquare>
+              </div>
+            </div>
+            <div className="col col-right">
+              <DarksideButton onClick={handleAcceptAllCookies}>{acceptAllCtaText}</DarksideButton>
+              <DarksideButton type="text-underline" className="button-select" onClick={handleAcceptSelectedCookieOptions}>
+                {acceptSelectionCtaText}
+              </DarksideButton>
+            </div>
           </div>
-        </div>
-        <div className="col col-right">
-          <DarksideButton onClick={handleAcceptAllCookies}>{acceptAllCtaText}</DarksideButton>
-          <DarksideButton type="text-underline" className="button-select" onClick={handleAcceptSelectedCookieOptions}>
-            {acceptSelectionCtaText}
-          </DarksideButton>
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </CookieBannerStyles>
   );
 };

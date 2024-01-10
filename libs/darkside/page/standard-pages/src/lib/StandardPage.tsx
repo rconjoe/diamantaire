@@ -1,10 +1,11 @@
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
+import { getAllStandardPageSlugs } from '@diamantaire/darkside/data/api';
 import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSidePropsContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -14,14 +15,17 @@ export interface StandardPageProps {
   isMobile: boolean;
   countryCode: string;
   currencyCode: string;
+  pageSlug: string;
 }
 
 const StandardPage = (props: StandardPageProps) => {
   const router = useRouter();
 
+  const { pageSlug: pageSlugFromProps } = props; // for static page slugs
   const { pageSlug } = router.query;
+  const pageSlugMerge = pageSlug || pageSlugFromProps;
 
-  const { data }: any = useStandardPage(pageSlug.toString(), router.locale);
+  const { data }: any = useStandardPage(pageSlugMerge?.toString(), router.locale);
   const page = data?.standardPage;
 
   const { seo } = page || {};
@@ -48,56 +52,27 @@ export interface GetStaticPropsRequest extends NextRequest {
   };
 }
 
-// async function getStaticPaths({ locales }) {
-//   const pageSlugs = await getAllStandardPageSlugs();
-//   const paths = pageSlugs.flatMap((slug) => {
-//     return locales.map((locale) => ({ locale, params: { pageSlug: slug } }));
-//   });
+async function getStaticPaths() {
+  const pageSlugs = await getAllStandardPageSlugs();
 
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
+  // Define the locales you want to include
+  const includedLocales = ['en-US'];
 
-// async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string }>) {
-//   // device:
-//   const isMobile = false;
+  // Filter the locales and generate paths
+  const paths = pageSlugs.flatMap((slug) => {
+    return includedLocales.map((locale) => ({ locale, params: { pageSlug: slug } }));
+  });
 
-//   const { countryCode } = parseValidLocale(locale);
-//   const currencyCode = getCurrency(countryCode);
+  return {
+    paths,
+    fallback: true,
+  };
+}
 
-//   // dato
-//   const queryClient = new QueryClient();
-
-//   await queryClient.prefetchQuery({
-//     ...queries.header.content(locale),
-//   });
-
-//   await queryClient.prefetchQuery({
-//     ...queries.footer.content(locale),
-//   });
-
-//   await queryClient.prefetchQuery({
-//     ...queries['standard-page'].content(params.pageSlug, locale),
-//   });
-
-//   return {
-//     props: {
-//       isMobile,
-//       currencyCode,
-//       countryCode,
-//       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
-//       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//     },
-//   };
-// }
-
-async function getServerSideProps({ locale, params, res }: GetServerSidePropsContext<{ pageSlug: string }>) {
-  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1800');
-  // device:
+async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
   const isMobile = false;
-  const { pageSlug } = params || {};
+  const { pageSlug, location } = params || {};
+
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
@@ -113,11 +88,14 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
     ...standardPageContentQuery,
   });
 
-  if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
-    return {
-      notFound: true,
-    };
-  }
+  // Need to refine - in prog - Sam D.
+  // if (!queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']) {
+  //   console.log('404 caseeeee', queryClient.getQueryData(standardPageContentQuery.queryKey)?.['standardPage']);
+
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
   return {
     props: {
@@ -125,10 +103,12 @@ async function getServerSideProps({ locale, params, res }: GetServerSidePropsCon
       isMobile,
       currencyCode,
       countryCode,
+      locale,
+      ...(location && { location }),
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }
 
-export { StandardPage, getServerSideProps };
+export { StandardPage, getStaticProps, getStaticPaths };

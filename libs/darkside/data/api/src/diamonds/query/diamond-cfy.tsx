@@ -132,6 +132,10 @@ query ctoDiamondTable($locale: SiteLocale) {
       }
     }
     ctoDiamondResultShapeAndWeightTitle
+    ctoDiamondResultRoughImageCaption
+    ctoDiamondResultPolishingPlanImageCaption
+    ctoDiamondResultPolishedDiamondImageCaption
+    ctoDiamondResultPolishedByDateCopy
     diamondsNote
     notesAdditionalInfo
     diamondNotesImages {

@@ -8,7 +8,6 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, isCountrySupported } from '@diamantaire/shared/helpers';
 import { DatoDarksideButtonProps, DatoImageType } from '@diamantaire/shared/types';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -81,7 +80,7 @@ const ModularTallHalfWidthBlock = ({
           '-left': textBlockAlignment !== 'right',
           '-right': textBlockAlignment === 'right',
           '-wide': isTextBlockWide,
-          '-white': textColor === WHITE,
+          '-white': textColor === '#FFFFFF',
           [additionalClass]: additionalClass,
         })}
       >
@@ -91,7 +90,7 @@ const ModularTallHalfWidthBlock = ({
               <Heading
                 type={headingType}
                 className={clsx(headingAdditionalClass, 'content__title primary', {
-                  '-white': textColor === WHITE,
+                  '-white': textColor === '#FFFFFF',
                 })}
               >
                 <Markdown options={{ forceInline: true }}>{title}</Markdown>
@@ -102,7 +101,7 @@ const ModularTallHalfWidthBlock = ({
               <Heading
                 type={headingType}
                 className={clsx(headingAdditionalClass, 'content__title primary', {
-                  '-white': textColor === WHITE,
+                  '-white': textColor === '#FFFFFF',
                 })}
               >
                 <Markdown options={{ forceInline: true }}>{mobileTitle}</Markdown>
@@ -116,7 +115,7 @@ const ModularTallHalfWidthBlock = ({
               <Heading
                 type={headingType}
                 className={clsx(headingAdditionalClass, 'content__title primary', '-no-margin', {
-                  '-white': textColor === WHITE,
+                  '-white': textColor === '#FFFFFF',
                 })}
               >
                 <Markdown options={{ forceInline: true }}>{title}</Markdown>
@@ -134,7 +133,7 @@ const ModularTallHalfWidthBlock = ({
             <Heading
               type={headingType}
               className={clsx(headingAdditionalClass, 'content__title primary', {
-                '-white': textColor === WHITE,
+                '-white': textColor === '#FFFFFF',
               })}
             >
               <Markdown options={{ forceInline: true }}>{title}</Markdown>

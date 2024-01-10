@@ -12,7 +12,7 @@ export const StyledWishlistSlideoutProductList = styled.div`
 
     .list {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       gap: 2rem;
     }
   }

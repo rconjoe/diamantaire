@@ -64,13 +64,13 @@ export const StyledWishlistLikeButton = styled.div`
   }
 
   &.plp {
-    bottom: 0;
-    right: 1rem;
+    position: relative;
+    right: auto;
     top: auto;
+    height: 2rem;
 
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      bottom: 0.5rem;
-      right: 1.5rem;
+    svg {
+      height: 2rem;
     }
   }
 

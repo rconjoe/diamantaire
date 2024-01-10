@@ -45,6 +45,7 @@ export const JEWELRYPRODUCT = `
         name
       }
       productIconList {
+        id
         items {
           ... on ModularShippingProductIconListItemRecord {
             id

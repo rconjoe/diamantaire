@@ -57,7 +57,7 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
 
   const { sortOptions } = plpData || {};
 
-  const productData = usePlpVRAIProducts(category, plpSlug, { ...filterValue, ...activeSortOptions }, { page: 1 });
+  const productData = usePlpVRAIProducts(category, plpSlug, { ...filterValue, ...activeSortOptions }, { page: 1 }, locale);
 
   const { data, fetchNextPage, isFetching, hasNextPage } = productData;
 
@@ -90,10 +90,6 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
     <SettingSelectStepStyles>
       <PlpHeroBanner showHeroWithBanner={true} data={hero} />
       <div className="wrapper" ref={containerRef}>
-        <div className="title-container">
-          <h1>Setting Select</h1>
-        </div>
-
         {(data?.pages?.length === 0 || data?.pages?.[0].message) && (
           <div className="loader-container">
             <Loader color={'#719093'} />

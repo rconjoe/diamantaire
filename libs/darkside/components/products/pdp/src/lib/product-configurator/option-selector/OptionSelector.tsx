@@ -1,15 +1,19 @@
-import { DarksideButton, SwiperStyles, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
-import { useHumanNameMapper, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { DarksideButton, UIString, Heading } from '@diamantaire/darkside/components/common-ui';
+import {
+  useHumanNameMapper,
+  useSingleHumanNameMapper,
+  useTranslations,
+  humanNamesMapperType,
+} from '@diamantaire/darkside/data/hooks';
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Keyboard, Lazy, Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { OptionItemContainer } from '../option-item/OptionItem';
 
@@ -29,6 +33,12 @@ interface OptionSelectorProps {
     color: string;
     clarity: string;
   };
+  selectedOptionIndex?: number;
+  selectedConfiguration: {
+    [key: string]: string;
+  };
+  setProductSlug?: (_value: string) => void;
+  areDiamondShapesHorizontal?: boolean;
 }
 
 const StyledOptionSelector = styled.div`
@@ -106,6 +116,13 @@ const StyledOptionSelector = styled.div`
       }
     }
 
+    &.bandWidth {
+      button {
+        max-width: 3.8rem;
+        max-height: 3.8rem;
+      }
+    }
+
     &.sideStoneShape {
       button {
         margin-right: 2rem;
@@ -142,7 +159,7 @@ const StyledOptionSelector = styled.div`
       max-width: 100%;
       gap: 1.5rem;
       min-height: 4.4rem;
-      ${media.medium`max-width: 80%;`}
+      ${media.medium`max-width: 66%;`}
 
       .swiper {
         width: 100%;
@@ -159,10 +176,6 @@ const StyledOptionSelector = styled.div`
         }
       }
 
-      .swiper-wrapper {
-        display: flex;
-      }
-
       a {
         display: inline-block;
       }
@@ -174,11 +187,22 @@ const StyledOptionSelector = styled.div`
         right: -3rem;
         ${media.medium`right: -4rem;`}
       }
+
+      svg {
+        transition: 0.25s;
+      }
+
+      &.isRotated {
+        .canRotate {
+          svg {
+            transform: rotate(90deg);
+          }
+        }
+      }
     }
 
     /* For selectors with medium sized buttons */
     &.prongStyle,
-    &.bandWidth,
     &.stoneSetting,
     &.bandVersion,
     &.bandStyle {
@@ -192,6 +216,16 @@ const StyledOptionSelector = styled.div`
       max-width: 100%;
       gap: 2rem;
       min-height: 0;
+    }
+  }
+
+  .diamond-shape__slider {
+    .embla__slide {
+      flex: 0 0 50px;
+      justify-content: center;
+      text-align: center;
+      flex: 0 0 auto;
+      margin-right: 25px;
     }
   }
 `;
@@ -209,28 +243,75 @@ function OptionSelector({
   hideSelectorLabel = false,
   productType,
   diamondSpecs,
+  selectedOptionIndex = 0,
+
+  selectedConfiguration,
+  setProductSlug,
+  areDiamondShapesHorizontal,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
-  const [swiper, setSwiper] = useState<any>();
   const [isLastSlide, setIsLastSlide] = useState(false);
-  const nextButtonRef = useRef(null);
-  const prevButtonRef = useRef(null);
 
   const { _t } = useTranslations(locale);
+  const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
+  const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
+  const diamondSliderOptions: any = {
+    loop: false,
+    dragFree: false,
+    align: 'start',
+    slidesToScroll: 4,
+  };
+  const [emblaRef, emblaApi] = useEmblaCarousel(diamondSliderOptions);
 
+  // Track if next/prev button should show on diamondType slider
   useEffect(() => {
-    // TODO: Resolve error
-    if (swiper && swiper?.params?.navigation) {
-      swiper.params.navigation.prevEl = prevButtonRef.current;
-      swiper.params.navigation.nextEl = nextButtonRef.current;
-      swiper.navigation.init();
-      swiper.navigation.update();
-    }
-  }, [swiper, isLastSlide, selectedOptionValue]);
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      const selectedSlide = emblaApi.selectedScrollSnap();
+
+      // Check if the current slide is the last slide
+      const isLastSlide = selectedSlide === emblaApi.scrollSnapList().length - 1;
+
+      // If it's the last slide, do something (you can call a function or set state here)
+      if (isLastSlide) {
+        // You can set state or call a function here to handle being on the last slide
+        setIsLastSlide(true);
+      } else {
+        setIsLastSlide(false);
+      }
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // scroll to init slide
+    const setInitSlide = () => {
+      if (selectedOptionIndex > 6) {
+        emblaApi.scrollTo(selectedOptionIndex);
+        setIsLastSlide(true);
+      }
+    };
+
+    setInitSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+    emblaApi.on('reInit', () => {
+      setInitSlide();
+      updateActiveSlide();
+    });
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+      emblaApi.off('reInit', setInitSlide);
+    };
+  }, [emblaApi, selectedOptionIndex]);
 
   if (!options) {
     return null;
@@ -241,10 +322,6 @@ function OptionSelector({
       onChange(option);
     }
   };
-
-  function handleSlideChange(swiper) {
-    setIsLastSlide(swiper.isEnd);
-  }
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
@@ -277,6 +354,10 @@ function OptionSelector({
     );
   }
 
+  const metal = _t(
+    `${selectedConfiguration?.goldPurity ? `${selectedConfiguration.goldPurity} ` : ''}${selectedConfiguration?.metal}`,
+  );
+
   function renderOptionValue() {
     switch (optionType) {
       case 'eternityStyle':
@@ -291,18 +372,28 @@ function OptionSelector({
         );
 
       case 'sideStoneCarat':
+        return (
+          <>
+            <UIString>{selectedOptionValue}</UIString>
+            {'ct x 2'}
+          </>
+        );
+
       case 'caratWeight':
         if (selectedOptionValue !== 'other') {
           return (
             <>
               <UIString>{selectedOptionValue}</UIString>
-              {' ct'}
-              {productType === 'Engagement Ring' && optionType !== 'sideStoneCarat' && renderDiamondSpecs()}
+              {'ct'}
+              {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
         }
         break;
-
+      case 'bandWidth':
+        return translateBandwidthValues(selectedOptionValue);
+      case 'metal':
+        return metal;
       case 'value': // used for US only digital-gift-card
         return `$${selectedOptionValue}`;
 
@@ -311,12 +402,22 @@ function OptionSelector({
     }
   }
 
+  function getOptionHeaderName({ label, productType }) {
+    if (label === 'caratWeight' && productType === 'Engagement Ring') {
+      return 'centerstone';
+    }
+
+    return label;
+  }
+
+  const labelName = getOptionHeaderName({ label, productType });
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
         <div className="selector-label">
           <Heading type="h2" className="selector-title">
-            <UIString>{label.replace('caratWeight', 'centerstone')}</UIString>:
+            {translateOptionNames(labelName)}:
           </Heading>
           <span>{renderOptionValue()}</span>
         </div>
@@ -327,74 +428,56 @@ function OptionSelector({
           <div
             className={clsx('option-list', label, {
               'space-between-items': options.length < 8,
+              isRotated: areDiamondShapesHorizontal,
             })}
           >
             {options.length > 7 ? (
-              <SwiperStyles>
-                <Swiper
-                  slidesPerView={7}
-                  slidesPerGroup={8}
-                  loop={false}
-                  spaceBetween={25}
-                  modules={[Navigation, Keyboard, Lazy]}
-                  navigation={{
-                    prevEl: prevButtonRef.current,
-                    nextEl: nextButtonRef.current,
-                  }}
-                  preventClicksPropagation={true}
-                  preventClicks={true}
-                  draggable={false}
-                  onSwiper={setSwiper}
-                  allowSlideNext={true}
-                  allowSlidePrev={true}
-                  keyboard={true}
-                  height={40}
-                  watchSlidesProgress={true}
-                  onSlideChange={handleSlideChange}
-                  allowTouchMove={false}
-                >
-                  {DIAMOND_SHAPES_MAP &&
-                    options.map((option, index) => {
-                      const isSelected = selectedOptionValue === option.value;
-                      // human readable value
-                      const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
+              <>
+                <div className="embla diamond-shape__slider" ref={emblaRef}>
+                  <div className="embla__container">
+                    {DIAMOND_SHAPES_MAP &&
+                      options.map((option, index) => {
+                        const isSelected = selectedOptionValue === option.value;
+                        // human readable value
+                        const valueLabel = DIAMOND_SHAPES_MAP[option.value]?.value;
 
-                      return (
-                        <SwiperSlide key={label + '-' + index}>
-                          <OptionItemContainer
-                            key={option.id}
-                            optionType={optionType}
-                            option={option}
-                            valueLabel={valueLabel}
-                            isSelected={isSelected}
-                            onClick={() => handleOptionClick(option)}
-                            isLink={renderItemAsLink}
-                          />
-                        </SwiperSlide>
-                      );
-                    })}
-                </Swiper>
-
+                        return (
+                          <div className="embla__slide" key={label + '-' + index}>
+                            <OptionItemContainer
+                              key={option.id}
+                              optionType={optionType}
+                              option={option}
+                              valueLabel={valueLabel}
+                              isSelected={isSelected}
+                              onClick={() => handleOptionClick(option)}
+                              isLink={renderItemAsLink}
+                              setProductSlug={setProductSlug}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
                 <button
-                  ref={prevButtonRef}
                   className="carousel-arrow arrow-left"
                   style={{
                     display: isLastSlide ? 'block' : 'none',
                   }}
+                  onClick={() => emblaApi?.scrollPrev()}
                 >
                   <ArrowLeftIcon />
                 </button>
 
                 <button
-                  ref={nextButtonRef}
                   className="carousel-arrow arrow-right"
                   style={{
                     display: isLastSlide ? 'none' : 'block',
                   }}
+                  onClick={() => emblaApi?.scrollNext()}
                 >
                   <ArrowRightIcon />
                 </button>
-              </SwiperStyles>
+              </>
             ) : (
               DIAMOND_SHAPES_MAP &&
               options.map((option) => {
@@ -411,6 +494,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -436,6 +520,7 @@ function OptionSelector({
                         isSelected={isSelected}
                         onClick={() => handleOptionClick(option)}
                         isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                        setProductSlug={setProductSlug}
                       />
                     );
                   })}
@@ -466,6 +551,7 @@ function OptionSelector({
                     isSelected={isSelected}
                     onClick={() => handleOptionClick(option)}
                     isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                    setProductSlug={setProductSlug}
                   />
                 );
               })
@@ -502,6 +588,7 @@ function OptionSelector({
                   isSelected={isSelected}
                   onClick={() => handleOptionClick(option)}
                   isLink={isBuilderFlowOpen ? false : renderItemAsLink}
+                  setProductSlug={setProductSlug}
                 />
               );
             })}

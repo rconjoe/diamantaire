@@ -1,4 +1,3 @@
-import { colorMap } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
@@ -165,6 +164,9 @@ export const PlpProductFilterStyles = styled.div`
           top: 0.1rem;
         }
       }
+      span {
+        font-size: var(--font-size-xxxsmall);
+      }
     }
 
     &.metal {
@@ -191,6 +193,7 @@ export const PlpProductFilterStyles = styled.div`
 
       .metal-text {
         white-space: nowrap;
+        font-size: var(--font-size-xxxsmall);
       }
 
       .metal-swatch {
@@ -216,7 +219,7 @@ export const PlpProductFilterStyles = styled.div`
 
         /* TODO - refine to css variables */
         &.yellow-gold {
-          background-color: ${colorMap['yellow-gold']};
+          background-color: var(--metal-yellow-gold);
         }
 
         &.white-gold {
@@ -224,7 +227,7 @@ export const PlpProductFilterStyles = styled.div`
         }
 
         &.rose-gold {
-          background-color: ${colorMap['rose-gold']};
+          background-color: var(--metal-rose-gold);
         }
 
         &.sterling-silver {
@@ -320,7 +323,8 @@ export const PlpProductFilterStyles = styled.div`
         }
       }
 
-      &.styles {
+      &.styles,
+      &.subStyles {
         button {
           border-bottom: 2px solid transparent;
           transition: 0.25s;
@@ -382,9 +386,8 @@ export const PlpProductFilterStyles = styled.div`
             transform: scale(1.35);
           }
 
-          /* TODO - refine to css variables */
           &.yellow-gold {
-            background-color: ${colorMap['yellow-gold']};
+            background-color: var(--metal-yellow-gold);
           }
 
           &.white-gold {
@@ -392,7 +395,7 @@ export const PlpProductFilterStyles = styled.div`
           }
 
           &.rose-gold {
-            background-color: ${colorMap['rose-gold']};
+            background-color: var(--metal-rose-gold);
           }
 
           &.sterling-silver {
@@ -400,7 +403,7 @@ export const PlpProductFilterStyles = styled.div`
           }
 
           &.platinum {
-            background: #c8c8c8;
+            background-color: var(--metal-platinum);
           }
         }
       }

@@ -1,7 +1,5 @@
-import { PlpPage, createPlpServerSideProps } from '@diamantaire/darkside/page/plp';
+import { PlpPage, weddingRingsGetStaticProps as getStaticProps, weddingRingsGetStaticPaths as getStaticPaths } from '@diamantaire/darkside/page/plp';
 
 export default PlpPage;
 
-const getServerSideProps = createPlpServerSideProps('wedding-rings');
-
-export { getServerSideProps };
+export { getStaticProps, getStaticPaths };

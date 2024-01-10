@@ -1,4 +1,5 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -6,7 +7,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 /**
@@ -20,11 +21,12 @@ export function OptionItemContainer({
   onClick,
   isLink,
   valueLabel,
+  setProductSlug,
 }: OptionItemContainerProps) {
   const OptionItemComponent = getOptionItemComponentByType(optionType);
 
   return isLink ? (
-    <OptionItemLink {...option}>
+    <OptionItemLink {...option} setProductSlug={setProductSlug}>
       <OptionItemComponent
         valueLabel={valueLabel}
         isSelected={isSelected}
@@ -40,24 +42,33 @@ export function OptionItemContainer({
 
 interface OptionItemLinkProps extends OptionItemProps {
   children?: React.ReactNode;
+  setProductSlug: (_value: string) => void;
 }
 
-function OptionItemLink({ value, id, children }: OptionItemLinkProps) {
+function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkProps) {
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
 
-  const url = {
-    pathname: router.pathname,
-    query: {
-      collectionSlug,
-      productSlug: id,
-      ...(jewelryCategory && { jewelryCategory }),
-    },
-  };
+  // Memoize the URL computation to prevent recalculations unless dependencies change
+  const url = useMemo(() => {
+    return {
+      pathname: router.pathname,
+      query: {
+        collectionSlug,
+        productSlug: id,
+        ...(jewelryCategory && { jewelryCategory }),
+      },
+    };
+  }, [router.pathname, collectionSlug, jewelryCategory, id]);
+
+  // useCallback to memoize the click handler
+  const handleClick = useCallback(() => {
+    setProductSlug(id);
+  }, [id, setProductSlug]);
 
   return (
-    <Link href={url} scroll={false}>
+    <Link href={url} shallow={true} scroll={false} onClick={handleClick}>
       {children || value}
     </Link>
   );
@@ -82,6 +93,13 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
     case 'value': {
       return ValueOptionItem;
     }
+    case 'bandWidth': {
+      return BandWidthOptionItem;
+    }
+    case 'hiddenHalo': {
+      return HiddenHaloOptionItem;
+    }
+
     default: {
       return BasicOptionItem;
     }
@@ -115,35 +133,65 @@ interface OptionItemComponent extends OptionItemProps {
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
+  .icon {
+    transition: 0.25s;
+    &.isRotated {
+      transform: rotate(90deg) !important;
+    }
+  }
   &.selected {
     border-bottom: 0.2rem solid var(--color-teal);
     padding-bottom: 0.5rem;
   }
 
   .icon {
+    gap: ${(props) => props.gap};
+    display: flex;
     svg {
       height: 3.2rem;
       width: auto;
       margin: 0 auto;
+      transform: ${(props) => (props.isRotated ? 'rotate(90deg)' : 'none')};
+      overflow: visible;
     }
   }
 `;
 
-export function DiamondIconOptionItem({ value, valueLabel, isSelected, onClick }: OptionItemComponent) {
-  const DiamondIcon = diamondIconsMap[value]?.icon;
+export function DiamondIconOptionItem({ optionType, value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+  const selectedDiamond = diamondIconsMap?.[value];
+  const DiamondIcon = selectedDiamond?.icon;
+  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const isEastWest = selectedDiamond?.isEastWest;
+
+  function getDiamondTypeGap(diamondType, isRotated) {
+    if (diamondType === 'round-brilliant+pear' && isRotated) {
+      return '1.8rem';
+    }
+
+    return isRotated ? '1.5rem' : '0.5rem';
+  }
 
   if (!DiamondIcon) {
     return null;
   }
 
+  const gap = getDiamondTypeGap(value, isEastWest);
+  const isRotated = isEastWest || (optionType === 'sideStoneShape' && EAST_WEST_SIDE_STONE_SHAPES.includes(value));
+
   return (
     <StyledDiamondIconOptionItem
-      className={clsx('option-item diamond-shape', value, { selected: isSelected })}
+      className={clsx('option-item diamond-shape', value, {
+        selected: isSelected,
+        canRotate: EAST_WEST_SHAPES.includes(value),
+      })}
       title={valueLabel}
       onClick={onClick}
+      isRotated={isRotated}
+      gap={gap}
     >
       <span className="icon">
         <DiamondIcon />
+        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
       </span>
     </StyledDiamondIconOptionItem>
   );
@@ -204,6 +252,16 @@ const StyledMetalDiamondIconOption = styled(StyledRoundOptionItem)`
       background-color: #e9d540;
     }
   }
+  &.yellow-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #c8ab6e 50%, #c8c8c8 50%);
+    }
+  }
+  &.rose-gold-and-platinum {
+    .inner {
+      background: linear-gradient(45deg, #ceac8b 50%, #c8c8c8 50%);
+    }
+  }
 `;
 
 export function MetalOptionItem({ value, isSelected, onClick }: OptionItemComponent) {
@@ -215,10 +273,9 @@ export function MetalOptionItem({ value, isSelected, onClick }: OptionItemCompon
 }
 
 const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 3.8rem;
+  width: 3.8rem;
   position: relative;
-  left: -3px;
 
   .inner {
     justify-content: center;
@@ -227,9 +284,8 @@ const StyledImageIconOptionItem = styled(StyledRoundOptionItem)`
 
     img {
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      transform: scale(0.8);
+      width: 30px;
+      height: 30px;
     }
   }
 `;
@@ -246,6 +302,18 @@ function ImageIconOptionItem({ value, isSelected, imgSrc, onClick }: OptionItemC
 
 export function BandAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+export function BandWidthOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+
+export function HiddenHaloOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`hiddenHalo-${props.value}`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }

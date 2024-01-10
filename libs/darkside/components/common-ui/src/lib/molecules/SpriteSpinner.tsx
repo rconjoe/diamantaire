@@ -1,24 +1,22 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { SpriteSpinnerInit } from './SpriteSpinnerInit';
 import { UIString } from './UIString';
 
 declare const window: any;
 
 const SpritSpinnerContainer = styled.div`
   position: relative;
-  max-width: 65.7rem;
-
-  display: ${({ mobile }) => (mobile ? 'block' : 'none')};
-
-  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-    display: ${({ mobile }) => (mobile ? 'none' : 'block')};
-  }
+  width: 100%;
+  height: 100%;
 
   .spritespin-canvas {
     width: 100%;
     height: 100%;
+  }
+
+  .spritespin-instance {
+    position: static;
   }
 
   span {
@@ -89,7 +87,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
       const url = spriteImage;
 
       if (typeof spinnerEl?.current?.spritespin === 'function') {
-        spinnerEl?.current.spritespin({
+        spinnerEl?.current?.spritespin({
           source: url,
           frames: 100,
           framesX: 6,
@@ -108,7 +106,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function playSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+    const api = spinnerEl?.current?.spritespin?.('api');
 
     if (api?.data?.animate !== true) {
       api.toggleAnimation();
@@ -116,7 +114,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function pauseSpinner() {
-    const api = spinnerEl.current.spritespin('api');
+    const api = spinnerEl?.current?.spritespin?.('api');
 
     if (api?.data?.animate === true) {
       api.toggleAnimation();
@@ -124,14 +122,13 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function stopSpinner() {
-    if (typeof spinnerEl.current?.spritespin === 'function') {
+    if (typeof spinnerEl?.current?.spritespin === 'function') {
       spinnerEl?.current?.spritespin('destroy');
     }
   }
 
   return (
     <SpritSpinnerContainer mobile={mobile}>
-      <SpriteSpinnerInit />
       <div
         onMouseEnter={() => playSpinner()}
         onMouseLeave={() => pauseSpinner()}

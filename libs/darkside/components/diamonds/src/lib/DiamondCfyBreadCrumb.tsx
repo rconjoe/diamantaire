@@ -1,5 +1,5 @@
 import { DarksideButton, Tooltip, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useDiamondCfyData, useTranslations } from '@diamantaire/darkside/data/hooks';
 
 import StyledDiamondCfyBreadCrumb from './DiamondCfyBreadCrumb.style';
 
@@ -8,7 +8,7 @@ const DiamondCfyBreadCrumb = (props) => {
     props;
   const { data: { ctoDiamondTable, allDiamondShapeDescriptions } = {} } = useDiamondCfyData(locale);
   const { carat: caratLabel, modify: modifyLabel } = ctoDiamondTable;
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const selectedDiamondTypeSlug = selectedDiamondType?.slug;
   const shapeData =
     selectedDiamondTypeSlug && allDiamondShapeDescriptions.find((v) => v.diamondType === selectedDiamondTypeSlug);

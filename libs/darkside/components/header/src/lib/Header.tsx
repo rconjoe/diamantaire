@@ -29,16 +29,6 @@ type HeaderProps = {
 };
 
 const FullHeaderStyles = styled.header`
-  z-index: 5000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--color-white);
-  box-shadow: 0 0.1rem 0 var(--color-white);
-
-  ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
-
   .slide-in-header {
     position: fixed;
     top: 0;
@@ -49,9 +39,19 @@ const FullHeaderStyles = styled.header`
   }
 `;
 
+const HeaderWrapper = styled.div`
+  z-index: 5000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-white);
+  box-shadow: 0 0.1rem 0 var(--color-white);
+  ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
+`;
+
 const Header: FC<HeaderProps> = ({
   headerData,
-  isHome = false,
   headerRef,
   headerHeight,
   isTopbarShowing,
@@ -145,6 +145,8 @@ const Header: FC<HeaderProps> = ({
     return setMegaMenuIndex(-1);
   }
 
+  const isHome = router.pathname === '/';
+
   useEffect(() => {
     setIsLoaded(true);
 
@@ -160,69 +162,66 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   return (
-    <>
-      <FullHeaderStyles id="primary-navigation" $isHome={isHome}>
-        <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
+    <HeaderWrapper $isHome={isHome}>
+      <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
+        <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
           {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-          {isHome ? (
-            <>
-              <StackedHeader
-                navItems={section}
-                toggleMegaMenuOpen={toggleMegaMenuOpen}
-                menuIndex={megaMenuIndex}
-                toggleCart={toggleCart}
-                toggleCountrySelector={toggleCountrySelector}
-                toggleLanguageSelector={toggleLanguageSelector}
-                selectedCountry={countries[selectedCountryCode].name}
-                selectedLanguage={languagesByCode[selectedLanguageCode].name}
-                isLanguageSelectorOpen={isLanguageSelectorOpen}
-              />
-              <AnimatePresence>
-                <motion.div
-                  key="slide-in-header"
-                  initial="collapsed"
-                  animate={isStickyNavShowing ? 'open' : 'collapsed'}
-                  exit="collapsed"
-                  variants={{
-                    open: { y: 0, opacity: 1 },
-                    collapsed: { y: -300, opacity: 0 },
-                  }}
-                  transition={{
-                    duration: 0.5,
-                  }}
-                  className="slide-in-header"
-                >
-                  <div>
-                    <CompactHeader
-                      navItems={section}
-                      toggleMegaMenuOpen={toggleMegaMenuOpen}
-                      menuIndex={megaMenuIndex}
-                      compactHeaderRef={compactHeaderRef}
-                      toggleCart={toggleCart}
-                    />
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </>
-          ) : (
-            <CompactHeader
+          {isHome && (
+            <StackedHeader
               navItems={section}
               toggleMegaMenuOpen={toggleMegaMenuOpen}
               menuIndex={megaMenuIndex}
               toggleCart={toggleCart}
+              toggleCountrySelector={toggleCountrySelector}
+              toggleLanguageSelector={toggleLanguageSelector}
+              selectedCountry={countries[selectedCountryCode].name}
+              selectedLanguage={languagesByCode[selectedLanguageCode].name}
+              isLanguageSelectorOpen={isLanguageSelectorOpen}
             />
           )}
-          <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
-          {isLoaded && (
-            <MegaMenu
-              navItems={section}
-              megaMenuIndex={megaMenuIndex}
-              headerHeight={headerHeight}
-              isCompactMenuVisible={isCompactMenuVisible}
-            />
-          )}
-        </div>
-      </FullHeaderStyles>
+          <AnimatePresence>
+            <motion.div
+              key="slide-in-header"
+              initial={isHome ? 'collapsed' : 'open'}
+              animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+              exit="collapsed"
+              variants={{
+                open: { y: 0, opacity: 1 },
+                collapsed: { y: -300, opacity: 0 },
+              }}
+              transition={{
+                duration: 0.5,
+              }}
+              style={{
+                position: isHome ? 'fixed' : 'relative',
+              }}
+              className="slide-in-header"
+            >
+              <div ref={compactHeaderRef}>
+                <CompactHeader
+                  navItems={section}
+                  toggleMegaMenuOpen={toggleMegaMenuOpen}
+                  menuIndex={megaMenuIndex}
+                  compactHeaderRef={compactHeaderRef}
+                  toggleCart={toggleCart}
+                />
+              </div>
+            </motion.div>
+
+            {isLoaded && (
+              <MegaMenu
+                navItems={section}
+                megaMenuIndex={megaMenuIndex}
+                headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                isCompactMenuVisible={isCompactMenuVisible}
+              />
+            )}
+          </AnimatePresence>
+        </FullHeaderStyles>
+
+        <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
+      </div>
+
       {isCountrySelectorOpen && (
         <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
           <CountrySelector toggleCountrySelector={toggleCountrySelector} />
@@ -239,7 +238,7 @@ const Header: FC<HeaderProps> = ({
           />
         )}
       </AnimatePresence>
-    </>
+    </HeaderWrapper>
   );
 };
 

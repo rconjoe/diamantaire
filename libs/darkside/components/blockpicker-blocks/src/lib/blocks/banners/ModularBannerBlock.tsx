@@ -11,7 +11,6 @@ import {
 } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt, isCountrySupported, replaceMoneyByCurrency } from '@diamantaire/shared/helpers';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
-import { WHITE } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import Markdown from 'markdown-to-jsx';
 
@@ -117,11 +116,15 @@ const ModularBannerBlock = (props) => {
   return (
     <BannerWrapper>
       <div
-        className={clsx(additionalClass, {
-          '-vertical-margins': !isFullWidth,
-        })}
+        className={clsx(
+          {
+            '-vertical-margins': !isFullWidth,
+          },
+          'modular-banner-container',
+          additionalClass,
+        )}
       >
-        <FullWidthImageContainer>
+        <FullWidthImageContainer className="full-width-image-container">
           <MobileDesktopImage
             desktopImage={desktopImage}
             mobileImage={mobileImage}
@@ -139,6 +142,7 @@ const ModularBannerBlock = (props) => {
               '-white': textColor?.toLowerCase() === 'white',
               '-wide': isTextBlockWide,
             },
+            'text-container',
             additionalClass,
           )}
         >
@@ -153,7 +157,7 @@ const ModularBannerBlock = (props) => {
             <SubTitle
               className={clsx(
                 {
-                  '-white': textColor === WHITE,
+                  '-white': textColor === '#FFFFFF',
                 },
                 subtitleAdditionalClass,
               )}

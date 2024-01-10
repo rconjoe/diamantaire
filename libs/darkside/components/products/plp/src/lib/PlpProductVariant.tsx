@@ -1,13 +1,11 @@
 /* eslint-disable camelcase */
 import { useAnalytics, normalizeVariantConfigurationForGTM } from '@diamantaire/analytics';
 import { DatoImage } from '@diamantaire/darkside/components/common-ui';
-import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, parseValidLocale, getFormattedPrice, metalTypeAsConst } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
 import { ProductLink, ListPageItemConfiguration } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
@@ -17,6 +15,7 @@ const PlpProductVariantStyles = styled.div`
     padding: 0;
     text-align: left;
   }
+
   .plp-variant__image {
     position: relative;
 
@@ -42,11 +41,87 @@ const PlpProductVariantStyles = styled.div`
       border-radius: 0.2rem;
     }
   }
-  .plp-variant__content {
-    padding: calc(var(--gutter) / 10) 0;
-    h3 {
-      font-size: var(--font-size-xxxsmall);
-      font-weight: var(--font-weight-normal);
+
+  .row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+
+    &.nav {
+      margin: 1.25rem 0 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &.with-hidden-swatches {
+      background: green;
+      justify-content: flex-end;
+      padding-right: 1.25rem;
+      margin: -3rem 0 2rem 0;
+    }
+  }
+
+  .product-title {
+    display: block;
+    font-size: var(--font-size-xxxsmall);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .metal-selector {
+    ul {
+      li {
+        margin-right: 0.5rem;
+
+        &:last-child {
+          margin-right: 0px;
+        }
+
+        button {
+          height: 2rem;
+          width: 2rem;
+          border-radius: 50%;
+          border: 0.1rem solid #d2dbde;
+          position: relative;
+          overflow: hidden;
+          background-color: transparent;
+          cursor: pointer;
+
+          &.selected {
+            border: 0.1rem solid var(--color-teal);
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transform: scale(0.75);
+            border-radius: 50%;
+          }
+
+          &.sterling-silver::after {
+            background: linear-gradient(138deg, #d2d2d0 0%, #f7f7f7 50%, #c9cac8 100%);
+          }
+
+          &.yellow-gold::after {
+            background-color: #c8ab6e;
+          }
+
+          &.white-gold::after {
+            background: linear-gradient(135deg, #fefefe, #cecece);
+          }
+
+          &.rose-gold::after {
+            background: #ceac8b;
+          }
+
+          &.platinum::after {
+            background-color: rgb(200, 200, 200);
+          }
+        }
+      }
     }
   }
 `;
@@ -55,11 +130,10 @@ const PlpProductVariant = ({
   variant,
   position,
   plpTitle,
-  lowestPrice,
-  useLowestPrice,
   label,
   builderFlow = false,
   selectSettingForBuilderFlow,
+  children,
 }: {
   variant: ListPageItemConfiguration;
   position: number;
@@ -69,15 +143,24 @@ const PlpProductVariant = ({
   label: string | null;
   builderFlow?: boolean;
   selectSettingForBuilderFlow?: () => void;
+  children: ReactNode;
 }) => {
   const { productClicked } = useAnalytics();
+
   const router = useRouter();
 
   const { countryCode } = parseValidLocale(router?.locale);
-  const { _t } = useTranslations(router?.locale);
+
+  const { _t } = useTranslations(router?.locale, [
+    humanNamesMapperType.DIAMOND_SHAPES,
+    humanNamesMapperType.METALS_IN_HUMAN_NAMES,
+    humanNamesMapperType.UI_STRINGS_2,
+  ]);
 
   const currencyCode = getCurrency(countryCode);
+
   const [isPrimaryImage, setIsPrimaryImage] = useState(true);
+
   const { productType, collectionSlug, productSlug, title, primaryImage, hoverImage, price } = variant || {};
 
   const configuration = normalizeVariantConfigurationForGTM(variant?.configuration);
@@ -93,8 +176,11 @@ const PlpProductVariant = ({
 
   const handleClick = () => {
     const { primaryImage: { src } = { src: '' } } = variant || {};
+
     const id = productSlug.split('-').pop();
+
     const formattedPrice = getFormattedPrice(price, router?.locale, true, true);
+
     const brand = 'VRAI';
 
     productClicked({
@@ -194,18 +280,9 @@ const PlpProductVariant = ({
                     )}
               </button>
 
-              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
-
               {label && <span className="plp-variant__label">{label}</span>}
             </div>
-            <div className="plp-variant__content">
-              <h3>
-                {productTitleWithProperties} |{' '}
-                {useLowestPrice
-                  ? makeCurrency(lowestPrice, router?.locale, currencyCode) + '+'
-                  : makeCurrency(price, router?.locale, currencyCode)}
-              </h3>
-            </div>
+            <div className="plp-variant__footer">{children}</div>
           </div>
         </button>
       ) : (
@@ -251,18 +328,9 @@ const PlpProductVariant = ({
                     )}
               </button>
 
-              <WishlistLikeButton extraClass="plp" productId={`product-${variant?.productSlug}`} />
-
               {label && <span className="plp-variant__label">{label}</span>}
             </div>
-            <div className="plp-variant__content">
-              <h3>
-                {productTitleWithProperties} |{' '}
-                {useLowestPrice
-                  ? makeCurrency(lowestPrice, router.locale, currencyCode) + '+'
-                  : makeCurrency(price, router.locale, currencyCode)}
-              </h3>
-            </div>
+            <div className="plp-variant__footer">{children}</div>
           </div>
         </ProductLink>
       )}

@@ -1,4 +1,4 @@
-import { TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondFilter = styled.aside`
@@ -44,7 +44,7 @@ const StyledDiamondFilter = styled.aside`
 
   .vo-slider-value-start,
   .vo-slider-value-end {
-    color: ${TEAL_MED};
+    color: #516868;
     font-size: var(--font-size-xxxsmall);
   }
 
@@ -73,6 +73,7 @@ const StyledDiamondFilter = styled.aside`
     justify-content: center;
     border: 0.1rem solid transparent;
     background: transparent;
+    font-size: var(--font-size-xxxsmall);
   }
 
   .vo-filter-list-item a:hover,

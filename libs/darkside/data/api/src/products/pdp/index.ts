@@ -16,12 +16,31 @@ export async function getProductDiamondTypes(productSlug) {
 
 // PDP Shopify Data - VRAI Server
 export async function getProductPage(productSlug, variantSlug) {
-  const searchParams = new URLSearchParams({ slug: productSlug, id: variantSlug });
-  const apiUrl = `/v1/products?${searchParams.toString()}`;
+  const qParams = new URLSearchParams({
+    slug: productSlug,
+    id: variantSlug,
+  }).toString();
 
-  const response = await vraiApiClient.get(apiUrl);
+  const response = await fetch(
+    typeof window !== 'undefined'
+      ? window.location.origin + `/api/pdp/getPdpProduct?${qParams}`
+      : `${
+          process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:4200`
+        }/api/pdp/getPdpProduct?${qParams}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  )
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((e) => {
+      console.log('getPdpProduct error', e);
+    });
 
-  return response.data;
+  return response;
 }
 
 // PDP - ENGAGEMENT RING DATA - DatoCMS - TODO: What should be prefetched (prob this)
@@ -414,6 +433,24 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
   }
 `;
 
+const DATO_JEWELRY_VARIANT_QUERY = gql`
+  query datoJewelryVariantQuery($locale: SiteLocale, $slug: String!) {
+    configuration(filter: { configuredProductOptionsInOrder: { eq: $slug } }, locale: $locale) {
+      id
+      productIconList {
+        productType
+      }
+      cut
+      carat
+      color
+      clarity
+      closure
+      chainWidth
+      outerDiameter
+    }
+  }
+`;
+
 const DATO_VARIANT_QUERY = gql`
   query datoVariantQuery($locale: SiteLocale, $slug: String!) {
     omegaProduct(filter: { shopifyProductHandle: { eq: $slug } }, locale: $locale) {
@@ -433,6 +470,9 @@ const DATO_VARIANT_QUERY = gql`
       pdpSubTitle
       productSuggestionQuadBlock {
         id
+      }
+      productIconList {
+        productType
       }
     }
   }
@@ -672,14 +712,10 @@ export async function fetchDatoProductVideoBlock(id: string, locale: string) {
   return datoData;
 }
 
-export async function fetchDatoVariant(slug: string, locale: string) {
-  console.log('fetchDatoVariant', {
-    slug,
-    locale,
-  });
-
+export async function fetchDatoVariant(slug: string, productType: string, locale: string) {
   const datoData = await queryDatoGQL({
-    query: DATO_VARIANT_QUERY,
+    query:
+      productType === 'Engagement Ring' || productType === 'Wedding Band' ? DATO_VARIANT_QUERY : DATO_JEWELRY_VARIANT_QUERY,
     variables: { slug, locale },
   });
 

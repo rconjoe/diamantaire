@@ -4,45 +4,38 @@ const StyledDiamond360 = styled.div`
   display: block;
   aspect-ratio: 1/1;
   position: relative;
-  border: 0.1rem solid transparent;
   overflow: hidden;
   background: var(--color-lightest-grey);
 
-  > div {
-    transform: scale(1.05);
-  }
-
-  .diamond-image-only {
-    display: block;
-    margin: auto;
+  .img {
     width: 100%;
-    max-height: 100%;
-    transform: scale(0.9);
+    height: 100%;
 
-    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-      transform: scale(0.75);
-      width: auto;
-      max-width: 17rem;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 
-  .spritespin-progress-label {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background: rgba(0, 0, 0, 0.25);
-    transform: translate(-50%, -50%);
+  .vid {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 5rem;
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    > div > div,
+    > div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
 
   .caption {
-    font-size: var(--font-size-xxxsmall);
+    font-size: var(--font-size-xxsmall);
     position: absolute;
     color: var(--color-black);
     display: block;

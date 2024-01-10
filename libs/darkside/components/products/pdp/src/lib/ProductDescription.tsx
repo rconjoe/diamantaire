@@ -97,7 +97,7 @@ const ProductDescription = ({
     dimensions,
     shape,
     shownWithCtw,
-    caratWeightOverride,
+    //caratWeightOverride,
     pdpSubTitle,
 
     // Jewelry
@@ -106,11 +106,13 @@ const ProductDescription = ({
     closure,
     chainWidth,
     chainLength,
-
+    outerDiameter,
     // Wedding Bands
     bandWidthOverride: variantBandWidth,
     metalWeightOverride,
     paveCaratWeightOverride,
+    diamondCount,
+    carat,
   } = variantAttributes || {};
 
   // Product Spec - These are the locale-based labels for the product
@@ -126,6 +128,7 @@ const ProductDescription = ({
 
   const diamondLabels = useMemo(
     () => [
+      { title: 'diamondCount', value: diamondCount },
       {
         title: 'origin',
         value: origin,
@@ -148,10 +151,10 @@ const ProductDescription = ({
       },
       {
         title: 'carat',
-        value: caratWeightOverride,
+        value: carat,
       },
     ],
-    [color, shape, clarity, dimensions, caratWeightOverride, origin],
+    [color, shape, clarity, dimensions, carat, origin, diamondCount],
   );
 
   const engagementRingLabels = useMemo(
@@ -199,6 +202,10 @@ const ProductDescription = ({
         value: closure,
       },
       {
+        title: 'cordWidth',
+        value: closure,
+      },
+      {
         title: 'chainWidth',
         value: chainWidth,
       },
@@ -206,8 +213,9 @@ const ProductDescription = ({
         title: 'chainLength',
         value: chainLength,
       },
+      { title: 'outerDiameter', value: outerDiameter },
     ],
-    [metal, setting, closure, chainWidth, chainLength],
+    [metal, setting, closure, chainWidth, chainLength, outerDiameter],
   );
 
   const weddingBandLabels = useMemo(() => {
@@ -231,7 +239,7 @@ const ProductDescription = ({
     ];
   }, [variantBandWidth, parentProductBandWidth, parentProductBandDepth, metalWeight]);
 
-  const jewelryProductTypes = ['Necklace', 'Bracelet'];
+  const jewelryProductTypes = ['Necklace', 'Bracelet', 'Earrings'];
 
   const generatedSubTitle =
     title +

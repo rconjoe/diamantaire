@@ -198,10 +198,11 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
     const {
       productSlug,
       productType,
-      primaryImage: { src },
+      primaryImage,
       price,
       title,
     } = variant;
+    const  { src } = primaryImage || {};
     const variantId = productSlug.split('-').pop();
     const formattedPrice = getFormattedPrice(price, locale, true, true);
     const brand = 'VRAI';

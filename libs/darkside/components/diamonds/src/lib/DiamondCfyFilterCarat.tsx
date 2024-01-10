@@ -191,9 +191,6 @@ function getSliderValueFromCaratRange(selectedCarat, minCarat, maxCarat) {
   return value;
 }
 
-// TODO:
-// carat price info only works in USD
-
 function getPriceFromCaratWeight(carat) {
   const calculatedPrice = 1400 * Math.pow(carat, 1.3);
 

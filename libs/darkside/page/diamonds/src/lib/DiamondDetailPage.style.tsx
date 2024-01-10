@@ -1,3 +1,4 @@
+import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondDetailPage = styled.div`
@@ -12,6 +13,22 @@ const StyledDiamondDetailPage = styled.div`
       font-weight: var(--font-weight-medium);
       text-align: center;
       line-height: 1.2;
+      min-height: 2.2rem;
+    }
+  }
+
+  .modular-banner-container {
+    .full-width-image-container {
+      ${mobileOnly(`
+        min-height: auto;
+        margin-bottom: 2rem;
+      `)}
+    }
+    .text-container {
+      ${mobileOnly(`
+        max-width: 100% !important;
+        margin: 0 auto 4rem;
+    `)}
     }
   }
 `;

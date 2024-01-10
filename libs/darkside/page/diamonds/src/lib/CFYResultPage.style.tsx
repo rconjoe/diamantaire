@@ -1,4 +1,4 @@
-import { TEAL, TEAL_MED, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const pageGap = '5rem';
@@ -29,6 +29,14 @@ const StyledCFYResultPage = styled.div`
     text-align: center;
     margin-bottom: 2rem;
 
+    &.mobile-only {
+      height: 2.7rem;
+
+      ${tabletAndUp(`
+        display: none;
+      `)}
+    }
+
     * {
       font-size: var(--font-size-xsmall);
     }
@@ -58,6 +66,7 @@ const StyledCFYResultPage = styled.div`
       .swiper {
         width: 100%;
         padding: 0 0 8rem;
+        height: calc(100vw + 8rem);
 
         ${desktopAndUp(`
           padding: 0;
@@ -88,7 +97,7 @@ const StyledCFYResultPage = styled.div`
       overflow: hidden;
 
       &.active {
-        border: 0.1rem solid ${TEAL_MED};
+        border: 0.1rem solid #516868;
       }
 
       .caption {
@@ -167,7 +176,8 @@ const StyledCFYResultPage = styled.div`
     }
 
     .date {
-      margin: 2rem 0 0;
+      min-height: 24px;
+      margin: 2rem 0 0.5rem;
     }
 
     .date,
@@ -179,8 +189,8 @@ const StyledCFYResultPage = styled.div`
     .policy,
     .policy * {
       padding: 0;
-      margin: 0.25rem 0 0;
-      font-size: var(--font-size-xxxsmall);
+      margin: 0;
+      font-size: var(--font-size-xxsmall);
 
       a {
         color: var(--color-teal);
@@ -188,6 +198,8 @@ const StyledCFYResultPage = styled.div`
     }
 
     .links * {
+      margin: 0;
+      padding: 0;
       font-size: var(--font-size-xxsmall);
     }
 
@@ -198,12 +210,50 @@ const StyledCFYResultPage = styled.div`
     .cta {
       display: flex;
       flex-direction: column;
+      margin: 2rem 0;
       gap: 1rem;
 
       ${desktopAndUp(`
         flex-direction: row;
       `)}
     }
+  }
+
+  .pagination {
+    padding-top: 20px;
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+      li {
+        padding: 0 0.5rem;
+        button {
+          padding: 0;
+
+          &.active {
+            > div {
+              border: 0.1rem solid rgb(81, 104, 104);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .desktop-only {
+    display: none;
+
+    ${desktopAndUp(`
+      display: block;
+    `)}
+  }
+
+  .mobile-only {
+    ${desktopAndUp(`
+      display: none;
+    `)}
   }
 `;
 

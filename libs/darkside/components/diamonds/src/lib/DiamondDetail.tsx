@@ -1,14 +1,23 @@
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { DarksideButton, Form, Heading, SwiperStyles, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { DarksideButton, Form, Heading, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useDiamondPdpData, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
+import {
+  useCartData,
+  useDiamondPdpData,
+  useDiamondTableData,
+  useDiamondsData,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
+import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getDiamondType } from '@diamantaire/shared/helpers';
-import { Fragment, useContext } from 'react';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
+import useEmblaCarousel from 'embla-carousel-react';
+import { useRouter } from 'next/router';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import Diamond360 from './Diamond360';
 import StyledDiamondDetail from './DiamondDetail.style';
@@ -26,7 +35,8 @@ interface DiamondDetailDataTypes {
 }
 
 const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode }: DiamondDetailDataTypes) => {
-  const { isMobile, headerHeight } = useContext(GlobalContext);
+  const { headerHeight } = useContext(GlobalContext);
+  const { refetch } = useCartData(locale);
   const { _t } = useTranslations(locale);
   const { data: { diamond: product } = {} } = useDiamondsData({ handle, withAdditionalInfo: true });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
@@ -38,11 +48,99 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const price = productPrice ? getFormattedPrice(productPrice, locale, true) : null;
   const diamondTitle = _t(getDiamondType(diamondType)?.slug);
   const formattedCarat = getFormattedCarat(productCarat, locale);
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const media = [
     <Diamond360 key="0" className="media-content-item" diamondType={diamondType} diamond={product} />,
     <DiamondHand key="1" className="media-content-item" diamond={product} />,
   ];
+
+  const { color, clarity, carat, cut } = product || {};
+
+  const specGen = specGenerator({
+    configuration: {
+      color,
+      clarity,
+      cut,
+      caratWeight: carat,
+    },
+    productType: 'Diamond',
+    _t,
+  });
+
+  function handleAddLooseDiamondToCart() {
+    const mutatedLotId = lotId && getNumericalLotId(lotId);
+    const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+
+    const diamondAttributes: LooseDiamondAttributeProps = {
+      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
+      productAsset: diamondImage,
+      _productAssetObject: JSON.stringify({
+        src: diamondImage,
+        width: 200,
+        height: 200,
+      }),
+      _dateAdded: Date.now().toString() + 100,
+      caratWeight: product.carat.toString(),
+      clarity: product.clarity,
+      cut: product.cut,
+      color: product.color,
+      feedId: product.lotId,
+      lotId: product.lotId,
+      productGroupKey: uuidv4(),
+      _specs: specGen,
+      _productType: 'Diamond',
+      _productTypeTranslated: _t('Diamond'),
+      pdpUrl: window.location.href,
+    };
+
+    addLooseDiamondToCart({
+      diamondVariantId: product?.variantId,
+      diamondAttributes,
+    })
+      .then(() => refetch())
+      .then(() =>
+        updateGlobalContext({
+          isCartOpen: true,
+        }),
+      );
+  }
+
+  const { query } = useRouter();
+
+  const selectYourSettingLink =
+    query?.collectionSlug && query.productSlug
+      ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
+      : `/customize/diamond-to-setting/${lotId}`;
+  const sliderOptions: any = {
+    loop: false,
+    dragFree: false,
+    align: 'center',
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(sliderOptions);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateActiveSlide = () => {
+      setActiveSlide(emblaApi.selectedScrollSnap());
+    };
+
+    // Initialize the active slide
+    updateActiveSlide();
+
+    // Add event listeners to track the active slide
+    emblaApi.on('select', updateActiveSlide);
+
+    // Clean up the event listeners when the component unmounts
+    return () => {
+      emblaApi.off('select', updateActiveSlide);
+    };
+  }, [emblaApi]);
+
+  const isBuilderFlowInProgress = query?.collectionSlug && query.productSlug;
 
   return (
     <StyledDiamondDetail headerHeight={headerHeight}>
@@ -51,18 +149,40 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           {product?.lotId && (
             <div className="media">
               <div className="media-content">
-                {(isMobile && (
-                  <SwiperStyles className="carousel">
-                    <Swiper pagination={{ clickable: true }} modules={[Pagination]}>
+                <div className="desktop-media-slider">{media.map((v) => v)}</div>
+
+                <div className="mobile-media-slider">
+                  <div className="embla carousel" ref={emblaRef}>
+                    <div className="embla__container">
                       {media.map((v, i) => {
-                        return <SwiperSlide key={`media${i}`}>{v}</SwiperSlide>;
+                        return (
+                          <div className="embla__slide" key={`media${i}`}>
+                            {v}
+                          </div>
+                        );
                       })}
-                    </Swiper>
-                  </SwiperStyles>
-                )) ||
-                  media.map((v) => v)}
+                    </div>
+                  </div>
+                  <div className="slider-dots">
+                    <ul>
+                      {media?.map((_asset, index) => {
+                        return (
+                          <li key={`review-build-dot-${index}`}>
+                            <button
+                              className={activeSlide === index ? 'active' : ''}
+                              onClick={() => emblaApi?.scrollTo(index)}
+                            ></button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              {isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+
+              <div className="wishlist-button--mobile">
+                <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />
+              </div>
             </div>
           )}
         </div>
@@ -86,13 +206,13 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
           {lotId && <DiamondDetailAccordion lotId={lotId} locale={locale} />}
 
           <div className="cta">
-            {(product?.available_inventory && (
+            {(product?.availableForSale && (
               <>
-                <DarksideButton type="solid" colorTheme="black">
-                  {buttonTextDiamondFlow}
+                <DarksideButton type="solid" colorTheme="black" href={selectYourSettingLink}>
+                  {isBuilderFlowInProgress ? <UIString>Complete & Review Your Ring</UIString> : buttonTextDiamondFlow}
                 </DarksideButton>
 
-                <DarksideButton type="underline" colorTheme="teal">
+                <DarksideButton onClick={() => handleAddLooseDiamondToCart()} type="underline" colorTheme="teal">
                   {quickCheckoutText}
                 </DarksideButton>
               </>
@@ -125,7 +245,9 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
 
           <DiamondDetailSpecs handle={handle} locale={locale} />
 
-          {!isMobile && <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />}
+          <div className="wishlist-button--desktop">
+            <WishlistLikeButton extraClass="diamond-detail" productId={`diamond-${lotId}`} />
+          </div>
         </div>
       </div>
 
