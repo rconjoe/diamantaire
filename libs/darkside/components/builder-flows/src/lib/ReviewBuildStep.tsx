@@ -17,7 +17,6 @@ import {
   ProductKlarna,
   ProductPrice,
 } from '@diamantaire/darkside/components/products/pdp';
-import { MediaSliderContainer } from '@diamantaire/darkside/components/products/pdp/src/lib/media-slider/MediaSlider.tsx';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -51,7 +50,10 @@ import { v4 as uuidv4 } from 'uuid';
 import ReviewVariantSelector from './ReviewVariantSelector';
 
 const ReviewBuildStepStyles = styled(motion.div)`
-  padding: 2rem 2rem 14rem;
+  padding: 0rem 2rem 14rem;
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+    padding: 2rem 2rem 14rem;
+  }
 
   .review-wrapper {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
@@ -105,7 +107,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .slider-dots {
         flex: 1 1 100%;
-        padding: 20px 0;
+        padding: 20px 0 0;
         @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
