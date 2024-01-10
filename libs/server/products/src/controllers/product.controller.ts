@@ -70,7 +70,7 @@ export class ProductController {
   }
 
   @Get('/list-items')
-  @ApiOperation({ summary: 'Get products by content IDs' })
+  @ApiOperation({ summary: 'Get plp schema items by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
   async getListProductsByIds(@Query() { ids, locale }: ProductByContentIdsInput) {
     const contentIds = ids.split(',').map((s) => s.trim());
