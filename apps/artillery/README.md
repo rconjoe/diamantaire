@@ -4,4 +4,4 @@ To Run Artillery Test
 artillery run load-test.yml          
 
 
-artillery run load-test.yml -o perf-test-result.json
+artillery run -o perf-test-result.json load-test.yml 

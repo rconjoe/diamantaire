@@ -29,5 +29,7 @@ scenarios:
             url: "/v1/diamonds/lowestpriced/radiant"
         - get:
             url: "/v1/products/collection/diamondtypes/three-stone"
+        - get:
+            url: "v1/diamonds/cfy?diamondType=oval&limit=25"
         count: 1
         
