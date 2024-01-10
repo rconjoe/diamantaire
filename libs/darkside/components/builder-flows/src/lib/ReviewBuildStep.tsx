@@ -409,10 +409,6 @@ const ReviewBuildStep = ({
 
   const { data }: { data: any } = useProductDato(collectionSlug, locale, pdpType);
 
-  console.log('dataxx', data);
-  console.log('pdpTypexx', pdpType);
-  console.log('product?.productType', product?.productType);
-
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
@@ -429,8 +425,6 @@ const ReviewBuildStep = ({
     product || {};
 
   const { productTitle } = datoParentProductData || {};
-
-  console.log('datoParentProductData', datoParentProductData);
 
   function configOptionsReducer(state, action: any) {
     const { payload, type } = action;
@@ -576,8 +570,6 @@ const ReviewBuildStep = ({
         quantity: 1,
       };
     });
-
-    console.log('diamondsToAdd', diamondsToAdd);
 
     await addERProductToCart({
       settingVariantId,
