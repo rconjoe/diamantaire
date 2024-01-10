@@ -1,7 +1,12 @@
 import { BuilderFlow } from '@diamantaire/darkside/components/builder-flows';
+import { useBuilderFlowSeo } from '@diamantaire/darkside/data/hooks';
+import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
+import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 
 type BuilderPageQueryParams = {
   collectionSlug?: string | null;
@@ -16,11 +21,17 @@ export type BuilderPageProps = {
   productSlug: string | null;
   lotIds: string[] | null;
   type: 'setting-to-diamond' | 'diamond-to-setting';
+  dehydratedState: DehydratedState;
 };
 
 const BuilderPage = ({ collectionSlug, productSlug, type, lotIds }: BuilderPageProps) => {
+  const { locale } = useRouter();
+  const { data: seoData } = useBuilderFlowSeo(locale);
+  const { seoTitle, seoDescription, addNoindexNofollow } = seoData?.builderFlow?.seoFields || {};
+
   return (
     <>
+      <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
       <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
       <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
       <BuilderFlow collectionSlug={collectionSlug} type={type} lotIds={lotIds} productSlug={productSlug} />
@@ -35,7 +46,13 @@ export default BuilderPage;
 export async function getServerSideProps(
   context: GetServerSidePropsContext<BuilderPageQueryParams>,
 ): Promise<GetServerSidePropsResult<BuilderPageProps>> {
-  const { query, resolvedUrl } = context;
+  const { query, resolvedUrl, locale } = context;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    ...queries['builder-flow'].seo(locale),
+  });
 
   // 1. Identify flow type based flowType
   const flowType = query.flowType as 'setting-to-diamond' | 'diamond-to-setting';
@@ -65,6 +82,7 @@ export async function getServerSideProps(
         productSlug: productSlug || null,
         lotIds: lotIds || null,
         type: flowType || null,
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
     };
   } else {
@@ -78,6 +96,7 @@ export async function getServerSideProps(
         productSlug: productSlug || null,
         lotIds: [diamondLotId] || null,
         type: flowType || null,
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
     };
   }

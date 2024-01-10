@@ -2,6 +2,7 @@ export * from './diamonds';
 export * from './top-bar';
 export * from './clients';
 export * from './gwp';
+export * from './builder-flow';
 export * from './journal';
 export * from './human-names-mapper';
 export * from './cart';
