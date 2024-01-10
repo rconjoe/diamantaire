@@ -1,4 +1,4 @@
-import { tabletAndUp, MAIN_FONT } from '@diamantaire/styles/darkside-styles';
+import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularSwiperCarouselBlockContainer = styled.div``;
@@ -21,7 +21,7 @@ export const SlideContainer = styled.div`
   }
 
   .mobile-slide__text {
-    font-family: ${MAIN_FONT};
+    font-family: var(--font-family-main);
     font-size: 2rem;
     font-weight: 500;
     line-height: 1.3;

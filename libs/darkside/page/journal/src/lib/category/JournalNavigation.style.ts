@@ -48,7 +48,6 @@ export const JournalNavigationStyles = styled.div`
     .blog-navigation__item {
       font-size: 1.4rem;
       font-weight: 500;
-      letter-spacing: 0.7rem;
 
       white-space: nowrap;
 

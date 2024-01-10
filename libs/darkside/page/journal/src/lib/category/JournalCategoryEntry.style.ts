@@ -1,4 +1,4 @@
-import { setSpace, tabletAndUp, BORDER_GRAY } from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }>`
@@ -76,8 +76,8 @@ export const JournalCategoryEntryContainer = styled.div<{ headerHeight: number }
       gap: 2rem;
       padding: 1.5rem 2.4rem;
       margin: 1rem 0 2rem;
-      border-top: 0.5rem solid ${BORDER_GRAY};
-      border-bottom: 0.5rem solid ${BORDER_GRAY};
+      border-top: 0.5rem solid var(--color-gray);
+      border-bottom: 0.5rem solid var(--color-gray);
       ${tabletAndUp(`
         overflow-x: unset;
         align-items: center;

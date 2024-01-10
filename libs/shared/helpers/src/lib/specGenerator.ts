@@ -1,4 +1,5 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
+//
 
 type SpecGenerator = {
   configuration: {
@@ -30,7 +31,10 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     clarity,
     ringSize,
     goldPurity,
+    hiddenHalo,
   } = configuration || {};
+
+  console.log('specGenerator', configuration);
 
   const specArray = [];
 
@@ -58,7 +62,7 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   if (metal) {
     const metalWithGoldPurity = _t(`${goldPurity ? `${goldPurity} ` : ''}${metal}`);
 
-    specArray.push(metalWithGoldPurity);
+    specArray.push(`${_t('metal')}: ${metalWithGoldPurity}`);
   }
 
   if (diamondSize) {
@@ -77,8 +81,19 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     specArray.push(`${_t('diamondCount')}: ${diamondCount}`);
   }
 
+  // ER specific
+  if (isEngagementRing && configuration?.diamondOrientation === 'horizontal') {
+    specArray.push(`${_t('diamondOrientation')}: ${_t('horizontal')}`);
+  }
+
   if (bandAccent) {
-    specArray.push(`${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent)}`);
+    specArray.push(
+      `${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent.replace('pave-twisted', 'double-pave'))}`,
+    );
+  }
+
+  if (hiddenHalo === 'yes') {
+    specArray.push(`${_t('Hidden Halo')}: ${_t('yes')}`);
   }
 
   if (chainLength) {

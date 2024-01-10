@@ -1,12 +1,4 @@
-import {
-  setSpace,
-  makeTealLink,
-  desktopAndUp,
-  mobileOnly,
-  tabletAndUp,
-  MAIN_FONT,
-  media,
-} from '@diamantaire/styles/darkside-styles';
+import { setSpace, desktopAndUp, mobileOnly, tabletAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularSideBySideBlockStyles = styled.div`
@@ -96,7 +88,7 @@ export const ModularSideBySideBlockStyles = styled.div`
     margin: 0;
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-xsmall);
-    font-family: ${MAIN_FONT};
+    font-family: var(--font-family-main);
     text-align: left;
 
     ${desktopAndUp(`
@@ -122,7 +114,7 @@ export const ModularSideBySideBlockStyles = styled.div`
     margin: ${setSpace(1.5)} 0;
     font-weight: var(--font-weight-normal);
     font-size: var(--font-size-xsmall);
-    font-family: ${MAIN_FONT};
+    font-family: var(--font-family-main);
     line-height: 2rem;
 
     p {
@@ -143,6 +135,10 @@ export const ModularSideBySideBlockStyles = styled.div`
   .side-by-side__cta {
     text-align: left;
     margin: ${setSpace(1.5)} 0;
-    ${makeTealLink()};
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xsmall);
+    color: var(--color-teal);
+    font-family: var(--font-family-main);
+    text-decoration: underline;
   }
 `;
