@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 
 import { useAnalytics } from '@diamantaire/analytics';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   DarksideButton,
   DatoImage,
   Heading,
+  NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
@@ -16,12 +18,19 @@ import {
   ProductIconList,
   ProductKlarna,
   ProductPrice,
+  ProductReviews,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { ERProductCartItemProps, ProductAddonDiamond, addERProductToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useProductDato, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  useCartData,
+  useProductDato,
+  useProductIconList,
+  useStandardPage,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -327,6 +336,7 @@ const ReviewBuildStep = ({
   updateSettingSlugs,
   additionalVariantData,
   shopifySettingVariantId,
+  shopifyProductData,
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
@@ -365,6 +375,10 @@ const ReviewBuildStep = ({
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
   const isDiamondCFY = diamonds.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
+
+  const { data: blockpickerData }: any = useStandardPage('engagement_ring_summary_page', router.locale);
+
+  console.log('blockpickerData', blockpickerData);
 
   //
   const diamondImages = isDiamondCFY
@@ -757,6 +771,8 @@ const ReviewBuildStep = ({
 
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
+  const productData = { ...shopifyProductData, cms: additionalVariantData };
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -979,10 +995,32 @@ const ReviewBuildStep = ({
                   />
                 </div>
               )}
+
+              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
             </div>
           </div>
         </div>
       </div>
+
+      {blockpickerData &&
+        blockpickerData?.standardPage?.content1?.map((contentBlockData) => {
+          const { _modelApiKey } = contentBlockData;
+
+          return (
+            <BlockPicker
+              key={`review-${_modelApiKey}`}
+              _modelApiKey={_modelApiKey}
+              modularBlockData={contentBlockData}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+              shouldLazyLoad={true}
+            />
+          );
+        })}
+
+      {shopifyProductData?.shopifyCollectionId && (
+        <ProductReviews reviewsId={shopifyProductData?.shopifyCollectionId?.replace('gid://shopify/Collection/', '')} />
+      )}
 
       <AnimatePresence>
         {isSizeGuideOpen && (

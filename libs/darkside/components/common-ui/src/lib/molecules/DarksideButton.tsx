@@ -116,7 +116,7 @@ const DarksideButtonStyles = styled.div`
       }
     }
     &.m-color-theme--black {
-      @media (max-width: 76.7rem) {
+      @media (max-width: 767px) {
         button {
           border: 0.2rem solid var(--color-black);
           color: var(--color-black);

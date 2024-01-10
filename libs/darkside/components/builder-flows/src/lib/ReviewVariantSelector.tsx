@@ -23,8 +23,6 @@ const ReviewVariantSelector = ({
     humanNamesMapperType.CARAT_WEIGHT_HUMAN_NAMES,
   ]);
 
-  console.log('selector', selector);
-
   return (
     <li>
       <span className="label">{_t(selector)}:</span>
