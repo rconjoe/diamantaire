@@ -17,6 +17,7 @@ import {
   ProductKlarna,
   ProductPrice,
 } from '@diamantaire/darkside/components/products/pdp';
+import { MediaSliderContainer } from '@diamantaire/darkside/components/products/pdp/src/lib/media-slider/MediaSlider.tsx';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
@@ -60,10 +61,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
     .product-images {
       flex: 2;
-      margin: 0 -1rem;
+      margin: 0 -2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         padding-right: 2rem;
+        margin: 0;
       }
 
       .embla {
@@ -80,21 +82,22 @@ const ReviewBuildStepStyles = styled(motion.div)`
               flex: 0 0 50%;
             }
           }
-          > .image {
-            padding: 0 1rem;
 
-            @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-              flex: 0 0 50%;
+          .embla__slide {
+            display: flex;
+
+            > * {
+              flex: 1;
               display: flex;
-            }
 
-            > div {
-              display: flex;
+              img {
+                flex: 1;
+                object-fit: cover;
+                max-height: 608px;
+              }
             }
-
-            img {
-              object-fit: cover;
-              max-height: 608px;
+            .hand {
+              display: block;
             }
           }
         }
@@ -102,7 +105,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .slider-dots {
         flex: 1 1 100%;
-        padding-top: 20px;
+        padding: 20px 0;
         @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
@@ -112,23 +115,17 @@ const ReviewBuildStepStyles = styled(motion.div)`
           padding: 0;
           list-style: none;
           justify-content: center;
-
+          gap: 1rem;
           li {
-            margin-right: 5px;
-
-            &:last-child {
-              margin-right: 0px;
-            }
-
             button {
-              height: 10px;
-              width: 10px;
+              height: 0.5rem;
+              width: 0.5rem;
               background-color: var(--color-black);
               border: none;
               border-radius: 50%;
               line-height: 1;
               padding: 0;
-              opacity: 0.3;
+              opacity: 0.1;
 
               &.active {
                 opacity: 0.75;
@@ -766,7 +763,9 @@ const ReviewBuildStep = ({
               {diamondImages?.map((image) => (
                 <div
                   key={image}
-                  className={clsx('image diamond-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}
+                  className={clsx('image diamond-image embla__slide', {
+                    embla__slide: isWindowDefined && window.innerWidth < 767,
+                  })}
                 >
                   {image && <img src={image} alt="" />}
                 </div>
