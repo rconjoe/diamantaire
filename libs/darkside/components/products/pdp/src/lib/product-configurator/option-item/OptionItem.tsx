@@ -22,6 +22,7 @@ export function OptionItemContainer({
   isLink,
   valueLabel,
   setProductSlug,
+  selectedConfiguration,
 }: OptionItemContainerProps) {
   const OptionItemComponent = getOptionItemComponentByType(optionType);
 
@@ -33,6 +34,7 @@ export function OptionItemContainer({
         {...option}
         optionType={optionType}
         onClick={onClick}
+        selectedConfiguration={selectedConfiguration}
       />
     </OptionItemLink>
   ) : (
@@ -130,6 +132,7 @@ const StyledRoundOptionItem = styled(StyledOptionItem)`
 interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
   optionType: string;
+  selectedConfiguration?: { [key: string]: string };
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -157,11 +160,18 @@ const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function DiamondIconOptionItem({ optionType, value, valueLabel, isSelected, onClick }: OptionItemComponent) {
+export function DiamondIconOptionItem({
+  optionType,
+  value,
+  valueLabel,
+  isSelected,
+  onClick,
+  selectedConfiguration,
+}: OptionItemComponent) {
   const selectedDiamond = diamondIconsMap?.[value];
   const DiamondIcon = selectedDiamond?.icon;
   const DiamondPairedIcon = selectedDiamond?.icon2;
-  const isEastWest = selectedDiamond?.isEastWest;
+  const { sideStoneOrientation } = selectedConfiguration || {};
 
   function getDiamondTypeGap(diamondType, isRotated) {
     if (diamondType === 'round-brilliant+pear' && isRotated) {
@@ -175,8 +185,8 @@ export function DiamondIconOptionItem({ optionType, value, valueLabel, isSelecte
     return null;
   }
 
-  const gap = getDiamondTypeGap(value, isEastWest);
-  const isRotated = isEastWest || (optionType === 'sideStoneShape' && EAST_WEST_SIDE_STONE_SHAPES.includes(value));
+  const isRotated = optionType === 'sideStoneShape' && sideStoneOrientation === 'horizontal';
+  const gap = getDiamondTypeGap(value, isRotated);
 
   return (
     <StyledDiamondIconOptionItem

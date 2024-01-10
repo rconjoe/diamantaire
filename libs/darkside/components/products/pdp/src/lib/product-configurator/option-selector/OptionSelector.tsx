@@ -34,7 +34,7 @@ interface OptionSelectorProps {
     clarity: string;
   };
   selectedOptionIndex?: number;
-  selectedConfiguration: {
+  selectedConfiguration?: {
     [key: string]: string;
   };
   setProductSlug?: (_value: string) => void;
@@ -435,6 +435,7 @@ function OptionSelector({
                       onClick={() => handleOptionClick(option)}
                       isLink={renderItemAsLink}
                       setProductSlug={setProductSlug}
+                      selectedConfiguration={selectedConfiguration}
                     />
                   </div>
                 );
@@ -474,6 +475,7 @@ function OptionSelector({
             onClick={() => handleOptionClick(option)}
             isLink={renderItemAsLink}
             setProductSlug={setProductSlug}
+            selectedConfiguration={selectedConfiguration}
           />
         );
       });
@@ -510,6 +512,7 @@ function OptionSelector({
             onClick={() => handleOptionClick(option)}
             isLink={isBuilderFlowOpen ? false : renderItemAsLink}
             setProductSlug={setProductSlug}
+            selectedConfiguration={selectedConfiguration}
           />
         );
       });
@@ -569,6 +572,7 @@ function OptionSelector({
               onClick={() => handleOptionClick(option)}
               isLink={renderItemAsLink}
               setProductSlug={setProductSlug}
+              selectedConfiguration={selectedConfiguration}
             />
           );
         })}
@@ -594,6 +598,7 @@ function OptionSelector({
               onClick={() => handleOptionClick(option)}
               isLink={isBuilderFlowOpen ? false : renderItemAsLink}
               setProductSlug={setProductSlug}
+              selectedConfiguration={selectedConfiguration}
             />
           );
         })}
