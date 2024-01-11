@@ -882,15 +882,6 @@ export async function fetchDatoProductVideoBlock(id: string, locale: string) {
   return datoData;
 }
 
-export async function fetchJewelryProductDatoBlocksBySlug(slug: string, locale: string) {
-  const datoData = await queryDatoGQL({
-    query: JEWELRY_PRODUCT_BELOW_BANNER_BLOCKS_QUERY,
-    variables: { slug, locale },
-  });
-
-  return datoData;
-}
-
 export async function fetchDatoVariant(slug: string, productType: string, locale: string) {
   const datoData = await queryDatoGQL({
     query:
