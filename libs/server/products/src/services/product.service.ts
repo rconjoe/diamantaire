@@ -110,8 +110,8 @@ export class ProductsService {
       ...(styles && { 'configuration.styles': { $in: styles }}),
       ...(subStyles && { 'configuration.subStyles': { $in: subStyles }}),
       ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
-      ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
-      ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
+      ...(priceMin && { 'price': { $gte: priceMin } }),
+      ...(priceMax && { 'price': { $lte: priceMax } }),
     };
 
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
@@ -673,7 +673,7 @@ export class ProductsService {
         ...getDraftQuery(),
       };
       // create unique cacheKey for each prodyct variant
-      const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
+      const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
       // check for cached data
       const cachedData = await this.cacheManager.get(cachedKey);
 

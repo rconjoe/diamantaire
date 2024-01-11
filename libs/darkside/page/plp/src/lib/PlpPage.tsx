@@ -20,7 +20,7 @@ import {
   SUBSTYLE_SLUGS,
   STYLE_SLUGS,
 } from '@diamantaire/shared/constants';
-import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
@@ -319,7 +319,8 @@ const createStaticProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
-      revalidate: 60 * 60, // revalidate every 60 minutes // TODO: control per environment
+
+      revalidate: getSwrRevalidateConfig() || 60 * 60,
     };
   };
 
