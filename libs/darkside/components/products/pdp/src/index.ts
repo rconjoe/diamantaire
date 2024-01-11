@@ -11,4 +11,5 @@ export * from './lib/ProductReviews';
 export * from './lib/ProductKlarna';
 export * from './lib/ProductGWP';
 export * from './lib/ProductSuggestionBlock';
+export * from './lib/ProductBlockPicker';
 export { default as OptionSelector } from './lib/product-configurator/option-selector/OptionSelector';

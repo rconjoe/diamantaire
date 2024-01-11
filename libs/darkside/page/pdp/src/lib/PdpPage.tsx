@@ -20,6 +20,7 @@ import {
   ProductGWP,
   ProductSeo,
   ProductReviews,
+  ProductBlockPicker,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -109,6 +110,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Product Video Clock - Clientside
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
+
+  // Product Block Picker - Clientside pulls if __typename exists
+  const hasBelowBannerBlocks = datoParentProductData?.belowBannerBlocks?.length > 0;
 
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
@@ -427,6 +431,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             productImage={dropHintData?.image}
           />
         )}
+        {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
       </PageContainerStyles>
     );
   }
