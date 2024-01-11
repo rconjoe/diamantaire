@@ -13,13 +13,11 @@ const ProductBlockPicker = ({ slug, pdpType }: ProductBlockPickerProps) => {
   const { locale } = useRouter();
   const { data } = useProductBelowBannerBlocks(slug, locale, pdpType);
 
-  const belowBannerBlocks = data?.belowBannerBlocks || [];
-
-  if (belowBannerBlocks.length === 0) {
+  if (!Array.isArray(data) || data.length === 0) {
     return null;
   }
 
-  return belowBannerBlocks?.map((contentBlockData, idx) => {
+  return data?.map((contentBlockData, idx) => {
     const { _modelApiKey } = contentBlockData;
 
     return (
