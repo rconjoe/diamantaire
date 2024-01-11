@@ -326,6 +326,7 @@ const BuilderFlow = ({
           variantProductTitle={shopifyProductData?.productTitle}
           additionalVariantData={additionalVariantData}
           shopifySettingVariantId={variantId}
+          shopifyProductData={shopifyProductData}
         />
       )}
     </BuilderFlowStyles>

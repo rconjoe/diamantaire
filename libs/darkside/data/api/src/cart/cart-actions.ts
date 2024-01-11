@@ -556,10 +556,6 @@ export async function addERProductToCart({
       return addCustomizedItem(
         [
           {
-            variantId: settingVariantId,
-            customAttributes: refinedSettingAttributes,
-          },
-          {
             variantId: engravingVariantId,
             customAttributes: [
               {
@@ -583,6 +579,10 @@ export async function addERProductToCart({
                 value: 'true',
               },
             ],
+          },
+          {
+            variantId: settingVariantId,
+            customAttributes: refinedSettingAttributes,
           },
         ],
         locale,
@@ -634,7 +634,7 @@ export async function addERProductToCart({
         value: engravingText,
       });
 
-      groupedItems.push({
+      groupedItems.unshift({
         variantId: engravingVariantId,
         customAttributes: [
           {

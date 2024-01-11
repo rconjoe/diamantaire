@@ -70,7 +70,6 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: true,
   },
-  basePath: process.env['NODE_ENV'] === 'development' ? '' : '/journal',
 };
 
 module.exports = withNx(nextConfig);

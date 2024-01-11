@@ -19,6 +19,7 @@ import {
   ProductSuggestionBlock,
   ProductGWP,
   ProductSeo,
+  ProductReviews,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -41,7 +42,6 @@ import Script from 'next/script';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductReviews from './pdp-blocks/ProductReviews';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 

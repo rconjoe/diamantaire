@@ -12,6 +12,7 @@ type BuilderDiamond = {
   color: string;
   dangerousInternalShopifyVariantId: string;
   productTitle: string;
+  slug?: string;
 };
 
 type BuilderProduct = {

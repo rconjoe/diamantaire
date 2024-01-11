@@ -403,7 +403,7 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
-            {productType === 'Engagement Ring' && (
+            {(productType === 'Engagement Ring' || hasChildProduct) && (
               <span>
                 {getFormattedPrice(
                   ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +

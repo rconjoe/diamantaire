@@ -59,8 +59,6 @@ const ChildProductStyles = styled.div`
 const ChildProduct = ({ lineItem }) => {
   const { attributes, cost, id } = lineItem || {};
 
-  console.log('lineItem', lineItem);
-
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 

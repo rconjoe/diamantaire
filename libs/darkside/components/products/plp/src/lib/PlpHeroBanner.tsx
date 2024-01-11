@@ -8,6 +8,7 @@ import styled from 'styled-components';
 type PlpHeroBannerProps = {
   data: {
     desktopImage: DatoImageType;
+    mobileImage: DatoImageType;
     title: string;
     copy: string;
     textColor?: {
@@ -27,8 +28,14 @@ const PlpHeroBannerStyles = styled.div`
   `)}
 
   .hero__image {
-    display: none;
-    ${media.small`display: block;`}
+    &.desktop {
+      display: none;
+      ${media.small`display: block;`}
+    }
+    &.mobile {
+      padding-bottom: 1rem;
+      ${media.small`display: none;`}
+    }
   }
 
   &.hero-with-banner {
@@ -43,15 +50,22 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
-          color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          color: var(--color-black);
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          }
         }
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
           margin: 0 auto;
-          color: ${({ textColor }) => textColor || 'var(--color-black)'};
-          ${media.small`max-width: 55rem;`}
+          color: var(--color-black);
+
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            max-width: 55rem;
+            color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          }
         }
       }
     }
@@ -84,7 +98,8 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-  const { desktopImage, title, copy, textColor, darksideButtons } = data || {};
+
+  const { desktopImage, mobileImage, title, copy, textColor, darksideButtons } = data || {};
 
   return (
     <PlpHeroBannerStyles
@@ -94,9 +109,14 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
       })}
     >
       {showHeroWithBanner && (
-        <div className="hero__image">
-          <DatoImage image={desktopImage} />
-        </div>
+        <>
+          <div className="hero__image desktop">
+            <DatoImage image={desktopImage} />
+          </div>
+          <div className="hero__image mobile">
+            <DatoImage image={mobileImage} />
+          </div>
+        </>
       )}
       <div className="hero__content">
         <div className="hero__content-inner">
