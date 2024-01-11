@@ -90,7 +90,7 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
-  handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
+  onSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
   sortOptions: PlpBasicFieldSortOption[];
   filterOptionsOverride?: {
     filterLabel: string;
@@ -117,7 +117,7 @@ const PlpProductGrid = ({
   plpSlug,
   urlFilterMethod,
   sortOptions,
-  handleSortChange,
+  onSortChange,
   filterOptionsOverride,
   subcategoryFilter,
 }: PlpProductGridProps) => {
@@ -197,7 +197,7 @@ const PlpProductGrid = ({
           </div>
 
           <div className="sort">
-            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={onSortChange} />}
           </div>
         </div>
       </div>

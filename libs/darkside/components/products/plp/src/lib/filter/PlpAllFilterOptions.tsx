@@ -4,6 +4,7 @@ import {
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
   METALS_IN_HUMAN_NAMES,
   METAL_HUMAN_NAMES,
+  PLP_PRICE_RANGES,
   RING_STYLES_MAP,
   ringStylesWithIconMap,
 } from '@diamantaire/shared/constants';
@@ -16,33 +17,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const PlpAllFilterOptionsStyles = styled.div``;
-
-const priceRanges = [
-  {
-    title: 'Below $500',
-    min: undefined, //priceRange[0],
-    max: 50000,
-    slug: 'below-50000',
-  },
-  {
-    title: '$500-$1,500',
-    min: 50000,
-    max: 150000,
-    slug: '50000-150000',
-  },
-  {
-    title: '$1,500-$3000',
-    min: 150000,
-    max: 300000,
-    slug: '150000-300000',
-  },
-  {
-    title: '$3000+',
-    min: 300000,
-    max: undefined, // priceRange[1],
-    slug: '300000-plus',
-  },
-];
 
 const PlpAllFilterOptions = ({
   filterTypes,
@@ -70,9 +44,6 @@ const PlpAllFilterOptions = ({
     );
   };
 
-  // const isAnyFilterActive = useMemo(() => {
-  //   return filterValue && Object.values(filterValue).some((value) => value !== null);
-  // }, [filterValue]);
   const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
@@ -93,7 +64,11 @@ const PlpAllFilterOptions = ({
   };
 
   function handlePriceRangeReset() {
-    handleChange(priceRange);
+    const newFilters = { ...filterValue };
+
+    delete newFilters.price;
+
+    setFilterValues(newFilters);
   }
 
   const isDiamondFirstFlow = router.asPath.includes('diamond-to-setting');
@@ -210,13 +185,14 @@ const PlpAllFilterOptions = ({
           {filterOptionSetOpen === 'price' && (
             <div className="filter-option-set priceRange">
               <ul className="list-unstyled flex ">
-                {priceRanges?.map((price) => {
+                {PLP_PRICE_RANGES.map((price) => {
                   return (
                     <li key={`filter-${price.title}`}>
                       <button
                         className="flex align-center"
                         onClick={() => {
                           setIsCustomPriceRangeOpen(false);
+
                           updateFilter('price', {
                             min: price.min,
                             max: price.max,
@@ -239,6 +215,7 @@ const PlpAllFilterOptions = ({
                   </button>
                 </li>
               </ul>
+
               {isCustomPriceRangeOpen && (
                 <div className="filter-slider">
                   <Slider
@@ -329,7 +306,9 @@ const PlpAllFilterOptions = ({
                       ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                       : filterType;
 
-                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) return null;
+                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) {
+                      return null;
+                    }
 
                     if (isPrice) {
                       const price = filterValue[filterType];
@@ -338,9 +317,9 @@ const PlpAllFilterOptions = ({
 
                       if (priceRangeMatchesInitialState) return null;
 
-                      // generate slug to match predefined filters
                       const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
-                      const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
+
+                      const priceLabel = PLP_PRICE_RANGES.find((r) => r.slug === selectedPriceSlug)?.title;
 
                       return (
                         <li key={`${filterValue}-${text}`}>
