@@ -17,12 +17,12 @@ if (process.env.NODE_ENV.includes('preview')) {
 }
 
 export function getSWRPageCacheHeader(ttl = TTL, maxAge = MAX_AGE): [string, string]{
-  const maxAgeSeconds = parseInt(process.env.NEXT_SWR_MAX_AGE, 10) || maxAge;
-  const ttlSeconds = parseInt(process.env.NEXT_SWR_TTL, 10) || ttl;
+  const maxAgeSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_MAX_AGE, 10) || maxAge;
+  const ttlSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_TTL, 10) || ttl;
 
   return ['Cache-Control', `public, s-maxage=${maxAgeSeconds}, stale-while-revalidate=${ttlSeconds}`];
 }
 
 export function getSwrRevalidateConfig(){
-  return parseInt(process.env.NEXT_REVALIDATE_SECONDS, 10) || REVALIDATE;
+  return parseInt(process.env.NEXT_PUBLIC_REVALIDATE_SECONDS, 10) || REVALIDATE;
 }
