@@ -673,7 +673,7 @@ export class ProductsService {
         ...getDraftQuery(),
       };
       // create unique cacheKey for each prodyct variant
-      const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
+      const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
       // check for cached data
       const cachedData = await this.cacheManager.get(cachedKey);
 

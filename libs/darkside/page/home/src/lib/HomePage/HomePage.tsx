@@ -4,6 +4,7 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { StandardPageEntry } from '@diamantaire/darkside/page/standard-pages';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
+import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -65,6 +66,7 @@ async function getStaticProps({ locale }: GetStaticPropsContext<undefined>) {
       countryCode,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
+    revalidate: getSwrRevalidateConfig() || 60 * 60,
   };
 }
 
