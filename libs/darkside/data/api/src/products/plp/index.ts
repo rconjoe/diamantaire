@@ -188,30 +188,31 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         }
       }
       hero {
-             ...on ListpageHeroBannerRecord {
-        title
-        copy
-        textColor {
-          hex
-        }
-        desktopImage {
-          url
-          alt
-          mimeType
-          responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
-            ...responsiveImageFragment
+        ... on ListpageHeroBannerRecord {
+          title
+          copy
+          textColor {
+            hex
           }
-        }
-        mobileImage {
-          url
-          alt
-          mimeType
-          responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
+          desktopImage {
+            url
+            alt
+            mimeType
+            responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
+              ...responsiveImageFragment
+            }
           }
-        }
-        darksideButtons {
-          ${ButtonFragment}
+          mobileImage {
+            url
+            alt
+            mimeType
+            responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          darksideButtons {
+            ${ButtonFragment}
+          }
         }
       }
       sortOptions {
