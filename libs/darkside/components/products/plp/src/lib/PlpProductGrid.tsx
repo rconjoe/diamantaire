@@ -65,9 +65,14 @@ const PlpProductGridStyles = styled.div`
 
     ${media.medium`grid-template-columns: repeat(4, 1fr);`}
   }
+
   .loader-container {
     margin: 1rem 0;
     text-align: center;
+  }
+
+  .filter {
+    width: 100%;
   }
 `;
 

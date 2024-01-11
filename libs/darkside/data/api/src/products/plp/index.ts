@@ -52,6 +52,7 @@ export async function getVRAIServerPlpData(
   });
 
   const isServer = typeof window === 'undefined';
+
   let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
   if (!isServer) {

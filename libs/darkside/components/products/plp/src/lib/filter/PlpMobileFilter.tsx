@@ -25,7 +25,6 @@ const PlpMobileFilterStyles = styled.div`
   height: calc(100vh - ${({ headerHeight }) => headerHeight}px);
   background-color: var(--color-lightest-grey);
   z-index: 5000;
-
   padding: 2rem 1.5rem 15rem;
   overflow-y: scroll;
 
@@ -77,6 +76,17 @@ const PlpMobileFilterStyles = styled.div`
               background-color: transparent;
               padding: 0;
               display: block;
+
+              &:hover,
+              &:focus {
+                color: var(--color-teal);
+              }
+
+              .close {
+                font-size: var(--font-size-small);
+                color: var(--color-grey);
+                margin: 0 0.5rem 0 0;
+              }
             }
 
             .remove-filter {
@@ -96,6 +106,10 @@ const PlpMobileFilterStyles = styled.div`
       .clear-filters {
         flex: 1;
         text-align: right;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+
         button {
           background-color: transparent;
           border: none;
@@ -181,6 +195,8 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
   const handleResetFilterValues = () => {
     setLocalFilterValue({});
+
+    handleUpdateFilterValues();
   };
 
   return (
@@ -238,7 +254,12 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
       </div>
 
       <div className="close-filter">
-        <button onClick={() => close()}>
+        <button
+          onClick={() => {
+            handleUpdateFilterValues();
+            close();
+          }}
+        >
           <XIcon />
         </button>
       </div>

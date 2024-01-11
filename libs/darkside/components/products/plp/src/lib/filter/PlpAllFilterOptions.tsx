@@ -1,4 +1,4 @@
-import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
@@ -16,7 +16,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const PlpAllFilterOptionsStyles = styled.div``;
+const PlpAllFilterOptionsStyles = styled.div`
+  width: 100%;
+  .filter__body {
+    width: 100%;
+  }
+`;
 
 const PlpAllFilterOptions = ({
   filterTypes,
@@ -78,9 +83,9 @@ const PlpAllFilterOptions = ({
       <div className="filter">
         <div className="filter__header flex align-center">
           <div className="filter__title">
-            <h4>
+            <Heading type="h4">
               <UIString>Filter</UIString>:
-            </h4>
+            </Heading>
           </div>
           <div className="filter__icon">
             <button onClick={() => setIsMobileFilterOpen(true)}>
@@ -122,11 +127,12 @@ const PlpAllFilterOptions = ({
                   </li>
                 );
               })}
-            <li className="mobile-filter-toggle">
+
+            {/* <li className="mobile-filter-toggle">
               <button onClick={() => setIsMobileFilterOpen(true)}>
                 <UIString>more</UIString>
               </button>
-            </li>
+            </li> */}
           </ul>
         </div>
 

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
-  background-color: #fff;
-  padding: calc(var(--gutter) / 3) 0;
+  background-color: var(--color-white);
+  padding: 1rem 0 2rem;
+  width: 100%;
 
   .filter__wrapper {
     display: flex;
@@ -15,9 +16,11 @@ export const PlpProductFilterStyles = styled.div`
     .filter__title {
       margin-right: 1rem;
       display: none;
+
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         display: block;
       }
+
       h4 {
         margin: 0;
         font-size: var(--font-size-xxxsmall);
@@ -25,15 +28,16 @@ export const PlpProductFilterStyles = styled.div`
         color: var(--color-dark-grey);
       }
     }
+
     .filter__icon {
-      position: relative;
       top: 0.1rem;
+      position: relative;
       margin-right: 0.5rem;
 
       button {
+        padding: 0;
         border: none;
         background-color: transparent;
-        padding: 0;
         font-size: var(--font-size-xxxsmall);
       }
 
@@ -50,7 +54,8 @@ export const PlpProductFilterStyles = styled.div`
 
     .filter__option-selector {
       button {
-        transition: 0.25s;
+        min-width: 60px;
+
         &.active {
           font-weight: bold;
         }
@@ -59,30 +64,24 @@ export const PlpProductFilterStyles = styled.div`
 
     .filter__options {
       li {
-        margin-right: calc(var(--gutter) / 3);
-
-        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-          &:nth-child(n + 3) {
-            display: none;
-          }
-        }
-
         &:last-child {
           margin-right: 0px;
         }
 
         &.mobile-filter-toggle {
           display: block;
+
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             display: none;
           }
         }
 
         button {
+          padding: 0;
           border: none;
           background-color: transparent;
-          padding: 0;
           font-size: var(--font-size-xxxsmall);
+
           &.active {
             .arrow-up {
               transform: rotate(0deg);
@@ -103,6 +102,7 @@ export const PlpProductFilterStyles = styled.div`
       }
     }
   }
+
   .filter-slider {
     max-width: 37rem;
     padding-top: 2rem;
@@ -112,12 +112,13 @@ export const PlpProductFilterStyles = styled.div`
     padding-top: 1rem;
 
     ul {
-      overflow-x: auto;
-      overflow-y: visible;
+      display: flex;
+      flex-wrap: wrap;
       padding: 1rem 0;
       max-width: 90vw;
       margin: 0 auto;
       padding-left: 0.4rem;
+      gap: 1rem 0;
 
       li {
         margin-right: 1.5rem;
@@ -138,6 +139,10 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.diamondType {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        width: 100%;
+      }
+
       ul {
         padding-left: 0.4rem;
       }
@@ -183,10 +188,12 @@ export const PlpProductFilterStyles = styled.div`
           padding-left: 0.4rem;
         }
       }
+
       button {
-        width: 100%;
         background-color: transparent;
         transition: 0.25s;
+        min-width: 120px;
+        width: 100%;
 
         &.active {
           .metal-swatch {
@@ -203,13 +210,13 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       .metal-swatch {
-        height: 3rem;
         width: 3rem;
+        height: 3rem;
         display: inline-block;
         flex: 0 0 3rem;
         border: 0.1rem solid transparent;
         border-radius: 50%;
-        margin-right: 0.7rem;
+        margin-right: 1rem;
         position: relative;
 
         &::before {
@@ -307,7 +314,7 @@ export const PlpProductFilterStyles = styled.div`
 
       &.diamondType {
         li {
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
         }
 
         button {
@@ -362,8 +369,10 @@ export const PlpProductFilterStyles = styled.div`
 
           button {
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
             background-color: transparent;
-            transition: 0.25s;
 
             &.active {
               .metal-swatch {
@@ -387,7 +396,6 @@ export const PlpProductFilterStyles = styled.div`
           border: 1px solid transparent;
           border-radius: 50%;
           position: relative;
-          margin: 0 auto;
 
           &::before {
             content: '';
@@ -434,7 +442,7 @@ export const PlpProductFilterStyles = styled.div`
 
           li {
             display: block;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
 
             span {
               font-size: var(--font-size-xxsmall);
@@ -447,10 +455,10 @@ export const PlpProductFilterStyles = styled.div`
         ul {
           display: block;
           margin: 0;
-          padding: 10px 0 0 10px;
+          padding: 1rem 0 0 1rem;
 
           li {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
 
             &:last-child {
               margin-bottom: 0px;
@@ -491,15 +499,21 @@ export const PlpProductFilterStyles = styled.div`
       margin-right: 1rem;
 
       button {
-        background-color: transparent;
-        border: none;
-        transition: 0.25s;
         font-size: var(--font-size-xxxsmall);
+        background-color: transparent;
+        color: var(--color-black);
+        border: none;
 
-        span {
-          color: #777;
+        &:hover,
+        &:focus {
+          color: var(--color-teal);
+        }
+
+        .close {
+          font-size: var(--font-size-small);
+          color: var(--color-grey);
+          margin-right: 1rem;
           transition: 0.25s;
-          margin-right: 0.2rem;
         }
 
         &.price-filter-tab {
@@ -519,9 +533,9 @@ export const PlpProductFilterStyles = styled.div`
     .filter-option-set {
       padding-right: 5rem;
 
-      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-        h3,
-        .diamond-text {
+      h3,
+      .diamond-text {
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
       }

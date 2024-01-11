@@ -231,6 +231,7 @@ const PlpProductFilter = ({
                 setIsMobileFilterOpen={setIsMobileFilterOpen}
               />
             )}
+
             {isMobileFilterOpen && (
               <PlpMobileFilter
                 filterTypes={filterTypes}
