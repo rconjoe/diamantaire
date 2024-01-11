@@ -62,7 +62,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   } = props;
 
   const [productSlug, setProductSlug] = useState(initialProductSlug);
-
   const { isMobile } = useContext(GlobalContext);
 
   // General Data - Serverside
@@ -180,6 +179,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
   const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
+  // Can this item go Out Of Stock?
+  const trackInventory = Boolean(shopifyProductData?.trackInventory);
 
   const parentProductAttributes = {
     bandWidth,
@@ -264,7 +265,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
-
     const productMediaAltDescription =
       additionalVariantData && generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
 
@@ -362,6 +362,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                trackInventory={trackInventory}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />

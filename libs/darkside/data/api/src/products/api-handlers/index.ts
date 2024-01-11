@@ -1,7 +1,7 @@
 // import { createLogger } from '@diamantaire/darkside/core';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { vraiApiClient } from '../../clients';
+import { vraiApiClient, shopifyAdminRestApi } from '../../clients';
 
 export const productsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { endpoint } = req.query;
@@ -21,6 +21,11 @@ export const productsHandler = async (req: NextApiRequest, res: NextApiResponse)
     }
     case 'contentids': {
       productsByContentIdsHandler(req, res);
+
+      return;
+    }
+    case 'inventory': {
+      productVariantInventoryHandler(req, res);
 
       return;
     }
@@ -52,6 +57,20 @@ export const productsByListHandler = async (req: NextApiRequest, res: NextApiRes
 
   await fetchVraiServerData('/v1/products/list', query as any, res);
 };
+
+export const productVariantInventoryHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { variantId } = req.query;
+
+  try {
+    const inventoryResponse = await shopifyAdminRestApi(`/variants/${variantId}.json?fields=inventory_quantity`);
+
+    res.status(200).json({ inventoryQuantity: inventoryResponse?.variant?.inventory_quantity || 1});
+  } catch {
+
+    // Assume it is in stock if request fails
+    res.status(200).json({ inventoryQuantity: 1 });
+  }
+}
 
 async function fetchVraiServerData(
   url: string,
