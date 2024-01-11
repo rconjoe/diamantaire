@@ -36,7 +36,13 @@ import {
   getFormattedPrice,
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy, specGenerator } from '@diamantaire/shared/helpers';
+import {
+  generateCfyDiamondSpriteThumbUrl,
+  getCFYResultOptionsFromUrl,
+  getDiamondType,
+  getShipByDateCopy,
+  specGenerator,
+} from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -79,7 +85,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
 
-  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+  const { _t } = useTranslations(locale, [
+    humanNamesMapperType.DIAMOND_SHAPES,
+    humanNamesMapperType.DIAMOND_SPECS,
+    humanNamesMapperType.OPTION_NAMES,
+  ]);
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
@@ -220,11 +230,13 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       _t,
     });
 
+    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+
     const diamondAttributes: LooseDiamondAttributeProps = {
       _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
       productAsset: diamondImage,
       _productAssetObject: JSON.stringify({
-        src: diamondImage,
+        src: spriteImageUrl,
         width: 200,
         height: 200,
       }),
@@ -242,8 +254,10 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       pdpUrl: window.location.href,
     };
 
+    console.log('diamondAttributes', diamondAttributes);
+
     addLooseDiamondToCart({
-      diamondVariantId: product?.variants?.[0]?.variantId,
+      diamondVariantId: product?.variantId,
       diamondAttributes,
     })
       .then(() => refetch())
@@ -382,7 +396,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="cta">
                 <StickyElementWrapper>
-                  <DarksideButton>
+                  <DarksideButton href={`/customize/diamond-to-setting/${product.lotId}`}>
                     <UIString>Select and add a setting</UIString>
                   </DarksideButton>
                 </StickyElementWrapper>

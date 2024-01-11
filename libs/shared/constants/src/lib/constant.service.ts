@@ -163,6 +163,7 @@ export const EAST_WEST_SIDE_STONE_SHAPES = ['pear', 'trillion', 'tapered-baguett
 
 export const EAST_WEST_SHAPES = ['oval', 'emerald', 'pear', 'radiant', 'cushion', 'marquise'];
 
+// Source of truth - Sam D.
 export const JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS = [
   'solitaire-diamond-studs',
   'halo-diamond-stud',

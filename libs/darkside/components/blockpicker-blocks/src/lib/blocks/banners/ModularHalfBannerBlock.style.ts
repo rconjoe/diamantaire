@@ -207,7 +207,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
     `)};
 
       ${XXLDesktopAndUp(`
-      max-width: ${setSpace(70)};
+      max-width: 63rem;
       padding: ${setSpace(12)};
     `)};
     }

@@ -201,6 +201,14 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
             ...responsiveImageFragment
           }
         }
+        mobileImage {
+          url
+          alt
+          mimeType
+          responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+            ...responsiveImageFragment
+          }
+        }
       }
       sortOptions {
         field

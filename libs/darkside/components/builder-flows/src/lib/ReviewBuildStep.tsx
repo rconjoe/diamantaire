@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 
 import { useAnalytics } from '@diamantaire/analytics';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   DarksideButton,
   DatoImage,
   Heading,
+  NeedTimeToThinkForm,
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
@@ -16,12 +18,19 @@ import {
   ProductIconList,
   ProductKlarna,
   ProductPrice,
+  ProductReviews,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { ERProductCartItemProps, ProductAddonDiamond, addERProductToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useProductDato, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  useCartData,
+  useProductDato,
+  useProductIconList,
+  useStandardPage,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   DIAMOND_VIDEO_BASE_URL,
@@ -33,7 +42,11 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { extractMetalTypeFromShopifyHandle, specGenerator } from '@diamantaire/shared/helpers';
+import {
+  extractMetalTypeFromShopifyHandle,
+  generateCfyDiamondSpriteThumbUrl,
+  specGenerator,
+} from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -50,7 +63,10 @@ import { v4 as uuidv4 } from 'uuid';
 import ReviewVariantSelector from './ReviewVariantSelector';
 
 const ReviewBuildStepStyles = styled(motion.div)`
-  padding: 2rem 2rem 14rem;
+  padding: 0rem 2rem 14rem;
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+    padding: 2rem 2rem 14rem;
+  }
 
   .review-wrapper {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
@@ -60,10 +76,11 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
     .product-images {
       flex: 2;
-      margin: 0 -1rem;
+      margin: 0 -2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         padding-right: 2rem;
+        margin: 0;
       }
 
       .embla {
@@ -80,21 +97,22 @@ const ReviewBuildStepStyles = styled(motion.div)`
               flex: 0 0 50%;
             }
           }
-          > .image {
-            padding: 0 1rem;
 
-            @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-              flex: 0 0 50%;
+          .embla__slide {
+            display: flex;
+
+            > * {
+              flex: 1;
               display: flex;
-            }
 
-            > div {
-              display: flex;
+              img {
+                flex: 1;
+                object-fit: cover;
+                max-height: 608px;
+              }
             }
-
-            img {
-              object-fit: cover;
-              max-height: 608px;
+            .hand {
+              display: block;
             }
           }
         }
@@ -102,7 +120,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
 
       .slider-dots {
         flex: 1 1 100%;
-        padding-top: 20px;
+        padding: 20px 0 0;
         @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
           display: none;
         }
@@ -112,23 +130,17 @@ const ReviewBuildStepStyles = styled(motion.div)`
           padding: 0;
           list-style: none;
           justify-content: center;
-
+          gap: 1rem;
           li {
-            margin-right: 5px;
-
-            &:last-child {
-              margin-right: 0px;
-            }
-
             button {
-              height: 10px;
-              width: 10px;
+              height: 0.5rem;
+              width: 0.5rem;
               background-color: var(--color-black);
               border: none;
               border-radius: 50%;
               line-height: 1;
               padding: 0;
-              opacity: 0.3;
+              opacity: 0.1;
 
               &.active {
                 opacity: 0.75;
@@ -324,6 +336,7 @@ const ReviewBuildStep = ({
   updateSettingSlugs,
   additionalVariantData,
   shopifySettingVariantId,
+  shopifyProductData,
 }) => {
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
@@ -361,13 +374,22 @@ const ReviewBuildStep = ({
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
-  const diamondImages =
-    (Array.isArray(mutatedLotIds) &&
-      mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
-    [];
+  const isDiamondCFY = diamonds.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
-  console.log('diamondImages', diamondImages);
-  console.log('mutatedLotIds', mutatedLotIds);
+  const { data: blockpickerData }: any = useStandardPage('engagement_ring_summary_page', router.locale);
+
+  console.log('blockpickerData', blockpickerData);
+
+  //
+  const diamondImages = isDiamondCFY
+    ? diamonds.map((diamond) => {
+        const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+
+        return spriteImageUrl;
+      })
+    : (Array.isArray(mutatedLotIds) &&
+        mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
+      [];
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -380,7 +402,11 @@ const ReviewBuildStep = ({
     setIsEngravingInputVisible(false);
   }
 
-  const pdpType: PdpTypePlural = pdpTypeSingleToPluralAsConst[product?.productType];
+  const customJewelryPdpTypes = ['Necklace', 'Earrings'];
+  const pdpType: PdpTypePlural = customJewelryPdpTypes.includes(product?.productType)
+    ? 'Jewelry'
+    : pdpTypeSingleToPluralAsConst[product?.productType];
+
   const { data }: { data: any } = useProductDato(collectionSlug, locale, pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct;
@@ -544,8 +570,6 @@ const ReviewBuildStep = ({
         quantity: 1,
       };
     });
-
-    console.log('diamondsToAdd', diamondsToAdd);
 
     await addERProductToCart({
       settingVariantId,
@@ -737,6 +761,10 @@ const ReviewBuildStep = ({
 
   console.log('builderProduct', builderProduct);
 
+  const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
+
+  const productData = { ...shopifyProductData, cms: additionalVariantData };
+
   return (
     <ReviewBuildStepStyles
       key="diamond-step-container"
@@ -766,7 +794,9 @@ const ReviewBuildStep = ({
               {diamondImages?.map((image) => (
                 <div
                   key={image}
-                  className={clsx('image diamond-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}
+                  className={clsx('image diamond-image embla__slide', {
+                    embla__slide: isWindowDefined && window.innerWidth < 767,
+                  })}
                 >
                   {image && <img src={image} alt="" />}
                 </div>
@@ -833,25 +863,25 @@ const ReviewBuildStep = ({
                     );
                   })}
 
-                  {configurations &&
-                    Object.keys(configurations)?.map((key, index) => {
-                      console.log('keyyy', key, configurations[key]);
+                  {reviewVariantOrder.map((key, index) => {
+                    const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight', 'diamondOrientation'];
 
-                      const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight'];
+                    console.log('configurations?.[key]', configurations?.[key]);
 
-                      if (selectorsToIgnore.includes(key) || configurations[key].length < 2) return null;
+                    if (selectorsToIgnore.includes(key) || !configurations?.[key] || configurations?.[key]?.length === 0)
+                      return null;
 
-                      return (
-                        <ReviewVariantSelector
-                          key={`summary-${index}`}
-                          selector={key}
-                          selectedConfiguration={selectedConfiguration}
-                          configurations={configurations}
-                          handleOptionChange={handleOptionChange}
-                          handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
-                        />
-                      );
-                    })}
+                    return (
+                      <ReviewVariantSelector
+                        key={`summary-${index}`}
+                        selector={key}
+                        selectedConfiguration={selectedConfiguration}
+                        configurations={configurations}
+                        handleOptionChange={handleOptionChange}
+                        handleBuilderFlowVariantChange={handleBuilderFlowVariantChange}
+                      />
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -957,10 +987,32 @@ const ReviewBuildStep = ({
                   />
                 </div>
               )}
+
+              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
             </div>
           </div>
         </div>
       </div>
+
+      {blockpickerData &&
+        blockpickerData?.standardPage?.content1?.map((contentBlockData) => {
+          const { _modelApiKey } = contentBlockData;
+
+          return (
+            <BlockPicker
+              key={`review-${_modelApiKey}`}
+              _modelApiKey={_modelApiKey}
+              modularBlockData={contentBlockData}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+              shouldLazyLoad={true}
+            />
+          );
+        })}
+
+      {shopifyProductData?.shopifyCollectionId && (
+        <ProductReviews reviewsId={shopifyProductData?.shopifyCollectionId?.replace('gid://shopify/Collection/', '')} />
+      )}
 
       <AnimatePresence>
         {isSizeGuideOpen && (
