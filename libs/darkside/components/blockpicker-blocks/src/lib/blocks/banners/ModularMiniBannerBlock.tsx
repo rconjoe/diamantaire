@@ -76,7 +76,7 @@ const ModularMiniBannerBlockStyles = styled.div`
 type ModularMiniBannerBlockProps = {
   title: string;
   copy: string;
-  ctaRoute: string;
+  route: string;
   copyTerms: string;
   mobileImage: DatoImageType;
   desktopImage: DatoImageType;
@@ -93,8 +93,7 @@ type ModularMiniBannerBlockProps = {
 };
 
 const ModularMiniBannerBlock = (props: ModularMiniBannerBlockProps) => {
-  const { title, copy, copyTerms, mobileImage, desktopImage, textColor, additionalClass, supportedCountries, ctaRoute } =
-    props;
+  const { title, copy, copyTerms, mobileImage, desktopImage, textColor, additionalClass, supportedCountries, route } = props;
   const { hex } = textColor;
 
   const { locale } = useRouter();
@@ -107,8 +106,8 @@ const ModularMiniBannerBlock = (props: ModularMiniBannerBlockProps) => {
 
   return (
     <ModularMiniBannerBlockStyles>
-      {ctaRoute ? (
-        <Link href={ctaRoute}>
+      {route ? (
+        <Link href={route}>
           <MobileDesktopImage
             className="image-container"
             desktopImage={desktopImage}

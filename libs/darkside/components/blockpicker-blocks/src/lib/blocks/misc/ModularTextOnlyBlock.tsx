@@ -78,7 +78,7 @@ const ModularTextOnlyBlock = ({
             </ShowMobileOnly>
           )}
           {copy && <Markdown extraClass={'-textOnlyBlock ' + additionalClass}>{copy}</Markdown>}
-          {darksideButtons.length > 0 ? (
+          {darksideButtons?.length > 0 ? (
             <div
               className={clsx('text-block__button-wrapper', additionalClass, {
                 '-has-smaller-margin': darksideButtons.length > 1,

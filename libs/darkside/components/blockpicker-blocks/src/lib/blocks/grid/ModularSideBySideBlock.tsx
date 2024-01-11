@@ -1,6 +1,6 @@
-import { Markdown, Heading, DatoImage, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { Markdown, Heading, DatoImage, UniLink, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { getBlockPictureAlt } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 
 import { ModularSideBySideBlockStyles } from './ModularSideBySideBlock.style';
@@ -10,10 +10,12 @@ type ModularSideBySideBlockProps = {
   copy?: string;
   ctaCopy?: string;
   ctaRoute?: string;
+  darksideButtons: DatoDarksideButtonProps[];
   additionalClass?: string;
   textBlockAlignment: string;
   ctaCopy2?: string;
   ctaRoute2?: string;
+  darksideButtons2?: DatoDarksideButtonProps[];
   headingType?: string;
   headingAdditionalClass?: string;
   supportedCountries?: Array<string>;
@@ -39,6 +41,7 @@ const ModularSideBySideBlock = ({
   countryCode,
   imageInline,
   imageMobile,
+  darksideButtons,
 }: ModularSideBySideBlockProps) => {
   // If there are supported countries listed, check to see if its supported.
   if (supportedCountries?.length && !supportedCountries.includes(countryCode)) {
@@ -99,6 +102,20 @@ const ModularSideBySideBlock = ({
               {ctaCopy2}
             </UniLink>
           )}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                className="side-by-side__cta"
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
         </div>
       </div>
     </ModularSideBySideBlockStyles>

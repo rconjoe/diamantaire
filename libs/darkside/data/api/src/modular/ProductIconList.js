@@ -1,3 +1,4 @@
+import { ButtonFragment } from '../fragments';
 const ProductIconList = `
 ... on ModularProductIconListItemRecord {
     _modelApiKey
@@ -8,6 +9,7 @@ const ProductIconList = `
     copy
     ctaCopy
     ctaRoute
+    newRoute
     additionalInfo {
         text
         title
@@ -22,6 +24,9 @@ const ProductIconList = `
     supportedCountries {
       code
       name
+    }
+    darksideButtons {
+      ${ButtonFragment}
     }
 }
 `;

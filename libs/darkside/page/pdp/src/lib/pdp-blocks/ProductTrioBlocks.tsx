@@ -21,7 +21,7 @@ const ProductTrioBlocks = ({ trioBlocksId }) => {
   return (
     <ProductTrioBlocksContainer className="container-wrapper">
       {blocks?.map((item, index) => {
-        const { title, copy, image, ctaCopy, ctaRoute } = item || {};
+        const { title, copy, image, ctaCopy, ctaRoute, darksideButtons } = item || {};
 
         return (
           <ImageTile
@@ -30,6 +30,7 @@ const ProductTrioBlocks = ({ trioBlocksId }) => {
             image={image}
             ctaCopy={ctaCopy}
             ctaRoute={ctaRoute}
+            darksideButtons={darksideButtons}
             key={`trio-block-${index}`}
           />
         );

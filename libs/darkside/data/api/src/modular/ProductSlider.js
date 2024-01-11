@@ -7,9 +7,10 @@ const ProductSlider = `
     id
     title
     link
+    route
     _modelApiKey
     configuration {
-      
+
       ... on OmegaProductRecord {
         id
         _modelApiKey

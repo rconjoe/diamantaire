@@ -172,12 +172,12 @@ const ShippingListItem = ({ item }) => {
 
 // Standard Icon List Item
 const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
-  const { copy, ctaRoute, ctaCopy, icon, additionalInfo } = item || {};
+  const { copy, ctaRoute, newRoute,ctaCopy, icon, additionalInfo } = item || {};
 
   return (
     <li>
       <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy || copy} />}</span> {copy}{' '}
-      {ctaRoute && <Link href={ctaRoute}>{ctaCopy} </Link>}
+      {newRoute && <Link href={(newRoute || ctaRoute)}>{ctaCopy} </Link>}
       {additionalInfo ? (
         <button className="diamond-info-toggle" onClick={() => setIsDiamondSlideoutOpen(true)}>
           <InfoIcon />

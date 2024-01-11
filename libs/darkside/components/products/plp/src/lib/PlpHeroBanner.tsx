@@ -1,5 +1,6 @@
-import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
-import { DatoImageType } from '@diamantaire/shared/types';
+
+import { DatoImage, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { media, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import styled from 'styled-components';
@@ -13,6 +14,7 @@ type PlpHeroBannerProps = {
     textColor?: {
       hex: string;
     };
+    darksideButtons?: DatoDarksideButtonProps[];
   };
   showHeroWithBanner: boolean;
 };
@@ -83,6 +85,9 @@ const PlpHeroBannerStyles = styled.div`
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         padding: 1rem 0 2.5rem;
       }
+      > div {
+        padding-top: 1rem;
+      }
     }
 
     p {
@@ -93,8 +98,8 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-  console.log('PlpHeroBanner', data);
-  const { desktopImage, mobileImage, title, copy, textColor } = data || {};
+
+  const { desktopImage, mobileImage, title, copy, textColor, darksideButtons } = data || {};
 
   return (
     <PlpHeroBannerStyles
@@ -119,6 +124,19 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
             {title}
           </Heading>
           <p>{copy}</p>
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
         </div>
       </div>
     </PlpHeroBannerStyles>
