@@ -34,7 +34,7 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
+import { getSWRPageCacheHeader , fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -470,7 +470,9 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+
+  context.res.setHeader(cachePolicy, cacheSettings);
   const mergedContext = {
     ...context,
     params: {
