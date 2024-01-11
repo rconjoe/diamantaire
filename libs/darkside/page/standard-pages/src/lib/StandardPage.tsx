@@ -6,7 +6,7 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -70,7 +70,7 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>): Promise<GetStaticPropsResult<object>> {
+async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
   const isMobile = false;
   const { pageSlug, location } = params || {};
 
