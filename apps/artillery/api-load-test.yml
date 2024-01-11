@@ -30,6 +30,42 @@ scenarios:
         - get:
             url: "/v1/products/collection/diamondtypes/three-stone"
         - get:
-            url: "v1/diamonds/cfy?diamondType=oval&limit=25"
+            url: "/v1/diamonds/cfy?diamondType=oval&limit=25"
+        - get:
+            url: "/v1/diamonds/cfy?diamondType=oval&limit=25"
+        - get:
+            url: "/v1/diamonds/toimoi?limit=25"
+        - get:
+            url: "/v1/products/plp?slug=graduation-gifts&category=jewelry&page=1&limit=12"
+        - get:
+            url: "/v1/diamonds/pairs?limit=12"
+        - get:
+            url: "/v1/diamonds/:lotId"
+        - get:
+            url: "/v1/diamonds/handle/oval-0-75-excellent-i-vs1-f509441"
+        - get:
+            url: "/v1/products/list?slugs=round-brilliant-white-gold-40832354386013,round-brilliant-white-gold-40323740663901"
+        - get:
+           url: "/v1/diamonds/list/:lotIds"
+        - get:
+           url: "/v1/diamonds/available/:lotId"
+        - get:
+            url: "/v1/diamonds/inventory/:id"
+        - get:
+           url: "/v1/diamonds/lowestpriced/radiant"
+        - get:
+            url: "/v1/diamonds?limit=1&page=1&sortBy=carat&sortOrder=desc&isCto=true"
+        - get:
+             url: "/v1/products/collection/diamondtypes/three-stone"
+        - get:
+            url: "/v1/products/collection/diamondtypes/three-stone"
+        - get:
+            url: "/v1/products/catalog?diamondType=oval&metal=yellow-gold&slug=three-stone"
+        - get:
+            url: "/v1/products/collection/tree/signature-prong"
+        - get:
+            url: "/v1/products/options?collectionSlug=signature-prong&productSlug=round-brilliant-yellow-gold-41180126969949"
+        - get:
+            url: "/v1/products/contentids?ids=signature-prong-oval-plain-yellow-gold-faux,signature-prong-marquise-pave-yellow-gold-faux"
         count: 1
         
