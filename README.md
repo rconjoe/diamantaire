@@ -36,3 +36,15 @@ sudo su
 nvm use
 pnpm start
 ```
+
+## Run Swagger Locally
+To run swagger locally, make sure
+```
+SWAGGER_PASSWORD=<password> 
+``````
+is added into .env file
+
+Swagger URL is http://localhost:3333/docs
+
+** On pnpm start, a most current swagger-spec.json will be generated on root folder. We can import this file into postman
+

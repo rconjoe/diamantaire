@@ -462,7 +462,7 @@ function AddToCartButton({
       configuration: { ...selectedConfiguration, caratWeightOverride, color, clarity, ringSize: selectedSize },
       productType,
       _t,
-      earring_t,
+      alt_t: earring_t,
     });
 
     const metal = _t(

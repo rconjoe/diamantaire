@@ -1,5 +1,5 @@
 import { OptionSelector } from '@diamantaire/darkside/components/products/pdp';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -13,12 +13,23 @@ const ReviewVariantSelector = ({
 }) => {
   const [isOptionSelectorOpen, setIsOptionSelectorOpen] = useState(false);
   const { locale } = useRouter();
-  const { _t } = useTranslations(locale);
+  const { _t } = useTranslations(locale, [
+    humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES,
+    humanNamesMapperType.METALS_IN_HUMAN_NAMES_WITH_DEFAULT_GOLD_PURITIES,
+    humanNamesMapperType.BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES,
+    humanNamesMapperType.OPTION_NAMES,
+    humanNamesMapperType.HIDDEN_HALO_HUMAN_NAMES,
+    humanNamesMapperType.DIAMOND_SHAPES,
+    humanNamesMapperType.CARAT_WEIGHT_HUMAN_NAMES,
+  ]);
 
   return (
     <li>
       <span className="label">{_t(selector)}:</span>
-      <span className="value">{_t(selectedConfiguration[selector])}</span>
+      <span className="value">
+        {_t(selectedConfiguration[selector])}
+        {selector === 'sideStoneCarat' ? 'ct' : ''}
+      </span>
       <span className="toggle">
         <button onClick={() => setIsOptionSelectorOpen(!isOptionSelectorOpen)}>Modify</button>
       </span>

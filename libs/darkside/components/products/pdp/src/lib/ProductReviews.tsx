@@ -61,7 +61,7 @@ const ProductReviews = ({ reviewsId, shouldUseProductId, isReviewsPage }: Produc
   );
 };
 
-export default ProductReviews;
+export { ProductReviews };
 
 function getReviewType(isReviewsPage, shouldUseProductId, reviewsId) {
   switch (true) {
