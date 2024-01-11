@@ -1,4 +1,3 @@
-import { ButtonFragment } from '../fragments';
 const ProductIconList = `
 ... on ModularProductIconListItemRecord {
     _modelApiKey
@@ -24,9 +23,6 @@ const ProductIconList = `
     supportedCountries {
       code
       name
-    }
-    darksideButtons {
-      ${ButtonFragment}
     }
 }
 `;
