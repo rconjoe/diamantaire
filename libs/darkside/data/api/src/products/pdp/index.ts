@@ -168,9 +168,6 @@ const PRODUCT_ICON_LIST_QUERY = gql`
             code
             name
           }
-          darksideButtons {
-            ${ButtonFragment}
-          }
         }
         ... on ModularShippingProductIconListItemRecord {
           _modelApiKey
