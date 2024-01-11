@@ -6,7 +6,7 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
 import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetStaticPropsContext } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 import type { NextRequest } from 'next/server';
 
@@ -70,7 +70,7 @@ async function getStaticPaths() {
   };
 }
 
-async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>) {
+async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSlug: string; location: string }>): Promise<GetStaticPropsResult<object>> {
   const isMobile = false;
   const { pageSlug, location } = params || {};
 
@@ -109,7 +109,7 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
-    revalivate: getSwrRevalidateConfig() || 60 * 60,
+    revalidate: getSwrRevalidateConfig() || 60 * 60,
   };
 }
 
