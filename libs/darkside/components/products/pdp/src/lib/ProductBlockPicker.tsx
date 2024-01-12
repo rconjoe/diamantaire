@@ -1,24 +1,26 @@
-// This is just how we can use the blockpicker in the plp, it is not a replacement - Davidoff
-
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
-import { usePlpBlockPickerBlocks } from '@diamantaire/darkside/data/hooks';
-import { getCurrency } from '@diamantaire/shared/constants';
+import { useProductBelowBannerBlocks } from '@diamantaire/darkside/data/hooks';
+import { PdpTypePlural, getCurrency } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
-type PlpBlockPickerProps = {
-  plpSlug: string;
-  category: string;
+type ProductBlockPickerProps = {
+  slug: string;
+  pdpType: PdpTypePlural;
 };
 
-const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
+const ProductBlockPicker = ({ slug, pdpType }: ProductBlockPickerProps) => {
   const { locale } = useRouter();
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
-  const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug, category);
+  const { data } = useProductBelowBannerBlocks(slug, locale, pdpType);
 
-  return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    return null;
+  }
+
+  return data?.map((contentBlockData, idx) => {
     const { _modelApiKey } = contentBlockData;
 
     return (
@@ -35,4 +37,4 @@ const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
   });
 };
 
-export { PlpBlockPicker };
+export { ProductBlockPicker };

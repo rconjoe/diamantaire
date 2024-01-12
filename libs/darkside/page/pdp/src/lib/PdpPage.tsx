@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   Breadcrumb,
   DropHintModal,
@@ -20,6 +21,7 @@ import {
   ProductGWP,
   ProductSeo,
   ProductReviews,
+  ProductBlockPicker,
   ProductContentBlocks,
   ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
@@ -30,13 +32,16 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
+  getCurrency,
   jewelryTypes,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { getSWRPageCacheHeader, fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
+
+import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
+
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -73,7 +78,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter();
 
   const { locale } = router || {};
-
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
   const { _t } = useTranslations(locale);
 
   // Jewelry | ER | Wedding Band
@@ -98,7 +104,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     diamondDescription,
     productTitle,
     productTitleOverride,
-    trioBlocks: { id: trioBlocksId = '' } = {},
+    trioBlocks,
+    accordionBlocks,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -110,6 +117,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Product Video Clock - Clientside
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
+  // Product Block Picker - Clientside pulls if __typename exists
+  const hasBelowBannerBlocks = datoParentProductData?.belowBannerBlocks?.length > 0;
+
+  // Trio Blocks - Clientside
+  let trioBlocksId = trioBlocks?.id;
+
+  let accordionBlocksOverride = accordionBlocks;
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
@@ -151,8 +165,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
 
-    // console.log('v2 additionalVariantData', additionalVariantData);
+    if (additionalVariantData?.trioBlocks) {
+      trioBlocksId = additionalVariantData?.trioBlocks?.id;
+    }
+    if (additionalVariantData?.accordionBlocks?.length > 0) {
+      accordionBlocksOverride = additionalVariantData?.accordionBlocks;
+    }
 
+    console.log('v2 additionalVariantData', additionalVariantData);
+    console.log({ trioBlocksId, suggestion: additionalVariantData?.productSuggestionQuadBlock?.id });
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {
@@ -326,7 +347,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
-                diamondType={configuration.diamondType}
+                diamondType={configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
               <ProductPrice
@@ -429,6 +450,24 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             productImage={dropHintData?.image}
           />
         )}
+
+        {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
+
+        {accordionBlocksOverride?.length > 0 &&
+          accordionBlocksOverride.map((block, index) => {
+            const { _modelApiKey } = block;
+
+            return (
+              <BlockPicker
+                _modelApiKey={_modelApiKey}
+                modularBlockData={{ ...block }}
+                shouldLazyLoad={true}
+                key={index}
+                countryCode={countryCode}
+                currencyCode={currencyCode}
+              />
+            );
+          })}
       </PageContainerStyles>
     );
   }

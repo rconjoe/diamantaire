@@ -3,7 +3,35 @@ import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
+import {
+  Carousel,
+  CarouselHover,
+  CelebrityCarousel,
+  CelebrityReel,
+  Duo,
+  EmailSignup,
+  FullWidthBanner,
+  GridCarousel,
+  HalfWidthQuad,
+  InstagramReel,
+  MiniBanner,
+  ProductSlider,
+  Quad,
+  ModularQuadGrid,
+  Showroom,
+  SideBySide,
+  SingleVideo,
+  TallHalfWidthBlock,
+  TextOnly,
+  Trio9x7,
+  TrioSlide9x7,
+  TrioStaggered9x7,
+  SocialMediaSection,
+  Accordion,
+} from '../../modular';
+
 import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
+
 
 // Get associated DiamondTypes from Product slug
 export async function getProductDiamondTypes(productSlug) {
@@ -79,6 +107,9 @@ const ENGAGEMENT_RING_QUERY = gql`
       diamondContentBlock {
         id
       }
+      belowBannerBlocks {
+        __typename
+      }
     }
   }
 `;
@@ -105,6 +136,12 @@ const JEWELRY_QUERY = gql`
         name
       }
       diamondDescription
+      belowBannerBlocks {
+        __typename
+      }
+      accordionBlocks {
+        ${Accordion}
+      }
     }
   }
 `;
@@ -134,6 +171,9 @@ const WEDDING_BAND_QUERY = gql`
       diamondDescription
       bandWidth
       bandDepth
+      belowBannerBlocks {
+        __typename
+      }
     }
   }
 `;
@@ -438,6 +478,102 @@ const DATO_PRODUCT_VIDEO_BLOCK_QUERY = gql`
   }
 `;
 
+const JEWELRY_PRODUCT_BELOW_BANNER_BLOCKS_QUERY = gql`
+query jewelryProductBelowBannerBlocksQuery($locale: SiteLocale, $slug: String!) {
+    jewelryProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      belowBannerBlocks {
+        ${Carousel}
+        ${CarouselHover}
+        ${CelebrityCarousel}
+        ${CelebrityReel}
+        ${Duo}
+        ${EmailSignup}
+        ${FullWidthBanner}
+        ${GridCarousel}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${MiniBanner}
+        ${ProductSlider}
+        ${Quad}
+        ${ModularQuadGrid}
+        ${Showroom}
+        ${SideBySide}
+        ${SingleVideo}
+        ${TallHalfWidthBlock}
+        ${TextOnly}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${SocialMediaSection}
+      }
+    }
+  }
+   ${ResponsiveImageFragment}
+`;
+const ENGAGEMENT_RING_BELOW_BANNER_BLOCKS_QUERY = gql`
+query engagementRingProductBelowBannerBlocksQuery($locale: SiteLocale, $slug: String!) {
+    engagementRingProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      belowBannerBlocks {
+        ${Carousel}
+        ${CarouselHover}
+        ${CelebrityCarousel}
+        ${CelebrityReel}
+        ${Duo}
+        ${EmailSignup}
+        ${FullWidthBanner}
+        ${GridCarousel}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${MiniBanner}
+        ${ProductSlider}
+        ${Quad}
+        ${ModularQuadGrid}
+        ${Showroom}
+        ${SideBySide}
+        ${SingleVideo}
+        ${TallHalfWidthBlock}
+        ${TextOnly}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${SocialMediaSection}
+      }
+    }
+  }
+   ${ResponsiveImageFragment}
+`;
+const WEDDING_BAND_BELOW_BANNER_BLOCKS_QUERY = gql`
+query weddingBandProductBelowBannerBlocksQuery($locale: SiteLocale, $slug: String!) {
+    weddingBandProduct(filter: { slug: { eq: $slug } }, locale: $locale) {
+      belowBannerBlocks {
+        ${Carousel}
+        ${CarouselHover}
+        ${CelebrityCarousel}
+        ${CelebrityReel}
+        ${Duo}
+        ${EmailSignup}
+        ${FullWidthBanner}
+        ${GridCarousel}
+        ${HalfWidthQuad}
+        ${InstagramReel}
+        ${MiniBanner}
+        ${ProductSlider}
+        ${Quad}
+        ${ModularQuadGrid}
+        ${Showroom}
+        ${SideBySide}
+        ${SingleVideo}
+        ${TallHalfWidthBlock}
+        ${TextOnly}
+        ${Trio9x7}
+        ${TrioSlide9x7}
+        ${TrioStaggered9x7}
+        ${SocialMediaSection}
+      }
+    }
+  }
+   ${ResponsiveImageFragment}
+`;
 const DATO_JEWELRY_VARIANT_QUERY = gql`
   query datoJewelryVariantQuery($locale: SiteLocale, $slug: String!) {
     configuration(filter: { configuredProductOptionsInOrder: { eq: $slug } }, locale: $locale) {
@@ -452,6 +588,15 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       closure
       chainWidth
       outerDiameter
+      trioBlocks {
+        id
+      }
+      productSuggestionQuadBlock {
+        id
+      }
+      accordionBlocks {
+        ${Accordion}
+      }
       assetStack {
         id
         alt
@@ -531,6 +676,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title1
@@ -559,6 +709,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title2
@@ -587,6 +742,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title3
@@ -615,6 +775,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title4
@@ -643,6 +808,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
       }
@@ -679,6 +849,46 @@ export async function fetchDatoProductInfo(slug: string, locale: string, product
     });
 
     return datoData;
+  } catch (e) {
+    console.log('Error fetching PDP content', e);
+  }
+}
+
+export async function fetchDatoProductBelowBannerBlocks(
+  slug: string,
+  locale: string,
+  productType: PdpTypePlural | 'Engagement Ring',
+) {
+  let query = null;
+  let productKey = '';
+
+  if (productType === pdpTypePluralAsConst['Engagement Rings'] || productType === 'Engagement Ring') {
+    query = ENGAGEMENT_RING_BELOW_BANNER_BLOCKS_QUERY;
+    productKey = 'engagementRingProduct';
+  } else if (
+    productType === pdpTypePluralAsConst['Jewelry'] ||
+    productType === (pdpTypePluralAsConst['Accessories'] as PdpTypePlural) ||
+    productType === (pdpTypePluralAsConst['Gift Cards'] as PdpTypePlural) ||
+    productType === (pdpTypePluralAsConst['Ring Sizer'] as PdpTypePlural)
+  ) {
+    query = JEWELRY_PRODUCT_BELOW_BANNER_BLOCKS_QUERY;
+    productKey = 'jewelryProduct';
+  } else if (productType === pdpTypePluralAsConst['Wedding Bands']) {
+    query = WEDDING_BAND_BELOW_BANNER_BLOCKS_QUERY;
+    productKey = 'weddingBandProduct';
+  } else {
+    console.log('Unknown productType');
+
+    return null;
+  }
+
+  try {
+    const datoData = await queryDatoGQL({
+      query,
+      variables: { slug, locale },
+    });
+
+    return datoData[productKey]?.belowBannerBlocks || [];
   } catch (e) {
     console.log('Error fetching PDP content', e);
   }
