@@ -86,8 +86,6 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     } else {
       const url = spriteImage;
 
-      console.log('generating', url);
-
       if (typeof spinnerEl?.current?.spritespin === 'function') {
         spinnerEl?.current?.spritespin({
           source: url,

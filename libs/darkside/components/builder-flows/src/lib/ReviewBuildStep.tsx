@@ -1085,7 +1085,7 @@ const SpriteSpinnerBlock = ({ id }) => {
     async (diamondID) => {
       const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
 
-      console.log('webpSprite', webpSprite);
+
       const webp = await fetch(webpSprite, { method: 'HEAD' });
 
       const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
@@ -1115,8 +1115,6 @@ const SpriteSpinnerBlock = ({ id }) => {
         const videoDataTemp = await fetchVideoType(id);
 
         setVideoData(videoDataTemp);
-
-        console.log('videoxxx', videoData);
       }
     }
 
@@ -1130,7 +1128,6 @@ const SpriteSpinnerBlock = ({ id }) => {
         shouldStartSpinner={true}
         spriteImage={videoData?.spriteImage}
         bunnyBaseURL={videoData?.spriteImage}
-        spriteSource="bu"
       />
     )
   );

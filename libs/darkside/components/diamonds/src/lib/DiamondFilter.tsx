@@ -105,8 +105,6 @@ const RadioFilter = (props) => {
 
   const isFancyShape = optionsDiamondType.length > 0 && !optionsDiamondType.includes('round-brilliant');
 
-  console.log('availableDiamonds', availableDiamonds);
-
   switch (type) {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
@@ -115,8 +113,6 @@ const RadioFilter = (props) => {
       if (availableDiamonds) {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
-
-      console.log('shapeHandles', shapeHandles);
 
       optionsUI = shapeHandles
         .filter((handle) => {

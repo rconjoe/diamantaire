@@ -288,8 +288,6 @@ export const getCFYShallowRoute = (options, page, router) => {
 
   const { collectionSlug, productSlug } = router.query;
 
-  console.log('collectionSlug', collectionSlug);
-
   const route = `${base}/${segments.join('/')}${showQueryInUrl ? query : ''}${
     collectionSlug ? `&collectionSlug=${collectionSlug}` : ''
   }${productSlug ? `&productSlug=${productSlug}` : ''}`;

@@ -62,8 +62,6 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
   const router = useRouter();
   const { asPath, query } = router;
 
-  console.log();
-
   const defaultInitialOptions = {
     caratMin: 1,
     diamondType: diamondTypeToShow,
@@ -199,12 +197,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
   };
 
   const clearOptions = () => {
-    console.log('xxx', options);
     updateOptions({ ...defaultInitialOptions, diamondType: diamondTypeToShow });
-    // setOptions({
-    //   ...defaultInitialOptions,
-    //   diamondType: diamondTypeToShow,
-    // });
   };
 
   useEffect(() => {

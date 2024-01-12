@@ -48,7 +48,6 @@ interface DiamondPageProps {
 }
 
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log('propsxxx', props);
   const router = useRouter();
 
   const { isMobile } = useContext(GlobalContext);

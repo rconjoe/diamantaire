@@ -271,9 +271,6 @@ const BuilderFlow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
 
-  console.log('all dia shapes', shopifyProductData?.allAvailableOptions?.diamondType);
-  console.log('builderProduct?.diamonds', builderProduct?.diamonds);
-
   const allDiamonds = shopifyProductData?.allAvailableOptions?.diamondType;
 
   function getMatchingDiamondTypesInAllDiamonds(diamonds, allDiamonds) {
@@ -288,8 +285,6 @@ const BuilderFlow = ({
   }
 
   const matchingDiamondType = getMatchingDiamondTypesInAllDiamonds(builderProduct?.diamonds, allDiamonds);
-
-  console.log('matchingDiamondType', matchingDiamondType);
 
   return (
     <BuilderFlowStyles>

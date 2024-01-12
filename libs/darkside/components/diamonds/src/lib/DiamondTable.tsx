@@ -295,7 +295,6 @@ const DiamondTable = (props: DiamondTableProps) => {
   };
 
   const onHeaderClick = (header) => {
-    console.log('headerxxx', header, queryDiamond);
     const currentSortOrder = options.sortOrder || 'asc';
     const newSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
     const newSortBy = header.id;
