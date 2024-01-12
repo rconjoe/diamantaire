@@ -43,9 +43,12 @@ interface Props {
     category: string;
     productData: any;
   };
+  builderProduct?: {
+    builderState: string;
+  };
 }
 
-const PageViewTracker = ({ productData, listPageData }: Props) => {
+const PageViewTracker = ({ productData, listPageData, builderProduct }: Props) => {
   const { viewPage, productViewed, productListViewed } = useAnalytics();
 
   const router = useRouter();
@@ -57,8 +60,8 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
     const segments = router?.pathname.split('/').filter(Boolean);
 
     const productSlugSegmentPath = segments[segments.length - 1];
-
-    const isSummaryPage = router.asPath.includes('/summary');
+    const { builderState } = builderProduct || {};
+    const isSummaryPage = builderState === 'Complete';
 
     const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
     const isListPageSlug = productSlugSegmentPath === '[...plpSlug]';
