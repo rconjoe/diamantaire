@@ -115,8 +115,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const configurations = shopifyProductData?.optionConfigs;
 
-  const assetStack = productContent?.assetStack; // flatten array in normalization
-
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
   let { data: additionalVariantData }: any = useProductVariant(
@@ -124,6 +122,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     shopifyProductData?.productType,
     router.locale,
   );
+  let assetStack = productContent?.assetStack; // flatten array in normalization
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
@@ -141,6 +140,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     } else if (additionalVariantData?.configuration) {
       // Jewelry
       additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
+      if (additionalVariantData?.assetStack) {
+        assetStack = additionalVariantData?.assetStack;
+      }
     } else {
       // Add Shopify Product Data to Dato Product Data
       additionalVariantData = productContent;
