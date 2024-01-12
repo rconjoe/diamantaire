@@ -347,7 +347,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
-                diamondType={configuration.diamondType}
+                diamondType={configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
               <ProductPrice

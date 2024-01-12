@@ -676,6 +676,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title1
@@ -704,6 +709,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title2
@@ -732,6 +742,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title3
@@ -760,6 +775,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
         title4
@@ -788,6 +808,11 @@ const DATO_PRODUCT_SUGGESTION_BLOCK_QUERY = gql`
             _modelApiKey
             configuredProductOptionsInOrder
             variantId
+            plpImage {
+              responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+                ...responsiveImageFragment
+              }
+            }
           }
         }
       }

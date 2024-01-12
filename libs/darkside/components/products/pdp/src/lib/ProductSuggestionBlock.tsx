@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductSuggestionBlockStyles = styled.div`
+  &.container-wrapper {
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin-top: 9.6rem;
+    }
+  }
   .title-container {
     padding-bottom: 6rem;
   }
@@ -49,8 +54,8 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const productHandles = refinedConfigurations.map((configurationNode) => {
     // Check if the jewelryProduct slug exists
-    return configurationNode?.configuration?.configuredProductOptionsInOrder
-      ? configurationNode.configuration.configuredProductOptionsInOrder
+    return configurationNode?.configuration?.variantId
+      ? configurationNode.configuration.variantId
       : configurationNode?.configuration?.shopifyProductHandle;
   });
 
