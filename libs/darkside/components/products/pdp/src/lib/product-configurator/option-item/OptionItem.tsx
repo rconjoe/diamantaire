@@ -79,7 +79,8 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
 function getOptionItemComponentByType(type: string): FunctionComponent<OptionItemComponent> {
   switch (type) {
     case 'diamondType':
-    case 'sideStoneShape': {
+    case 'sideStoneShape':
+    case 'bandStoneShape': {
       return DiamondIconOptionItem;
     }
     case 'ceramicColor':

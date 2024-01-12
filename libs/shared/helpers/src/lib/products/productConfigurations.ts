@@ -4,6 +4,8 @@ const CONFIG_TYPE_ORDER = [
   'bandWidth',
   'sideStoneShape',
   'sideStoneCarat',
+  'bandStoneShape',
+  'bandStoneStyle',
   'prongStyle',
   'metal',
   'ceramicColor',
