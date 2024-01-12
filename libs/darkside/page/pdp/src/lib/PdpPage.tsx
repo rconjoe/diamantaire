@@ -20,6 +20,8 @@ import {
   ProductGWP,
   ProductSeo,
   ProductReviews,
+  ProductContentBlocks,
+  ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -34,15 +36,13 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { getSWRPageCacheHeader , fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
+import { getSWRPageCacheHeader, fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
 export interface PdpPageParams extends ParsedUrlQuery {

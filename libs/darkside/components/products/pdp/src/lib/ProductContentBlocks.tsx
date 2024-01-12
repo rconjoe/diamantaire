@@ -69,4 +69,4 @@ const ProductContentBlocks = ({ instagramReelId, videoBlockId }) => {
   );
 };
 
-export default ProductContentBlocks;
+export { ProductContentBlocks };

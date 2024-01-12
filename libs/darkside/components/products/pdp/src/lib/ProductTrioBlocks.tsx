@@ -39,4 +39,4 @@ const ProductTrioBlocks = ({ trioBlocksId }) => {
   );
 };
 
-export default ProductTrioBlocks;
+export { ProductTrioBlocks };

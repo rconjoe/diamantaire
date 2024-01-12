@@ -126,7 +126,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 overflow: hidden;
 
                 .spritespin-instance {
-                  height: 610px !important;
+                  max-height: 610px !important;
                 }
               }
             }
@@ -1084,7 +1084,6 @@ const SpriteSpinnerBlock = ({ id }) => {
   const fetchVideoType = useCallback(
     async (diamondID) => {
       const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
 
       const webp = await fetch(webpSprite, { method: 'HEAD' });
 

@@ -50,6 +50,8 @@ interface DiamondPageProps {
 const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
+  console.log('props.options', props.options);
+
   const { isMobile } = useContext(GlobalContext);
 
   const { locale, currencyCode } = props;

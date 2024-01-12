@@ -168,7 +168,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   }
 };
 
-export const getDiamondShallowRoute = (options: { diamondType?: string }, overrideUrl?: string) => {
+export const getDiamondShallowRoute = (options: { diamondType?: string }, overrideUrl?: string, pathsAsParams?: boolean) => {
   const segments = DIAMOND_TABLE_FACETED_NAV.reduce((arr: string[], value: string) => {
     if (options[value]) {
       if (value === 'diamondType') {
@@ -188,7 +188,15 @@ export const getDiamondShallowRoute = (options: { diamondType?: string }, overri
     return [...arr];
   }, []);
 
-  const queries = DIAMOND_VALID_QUERIES.reduce((obj: Record<string, string>, qry: string) => {
+  const defaultQueries = [...DIAMOND_VALID_QUERIES];
+
+  if (pathsAsParams) {
+    defaultQueries.push('cut');
+    defaultQueries.push('clarity');
+    defaultQueries.push('color');
+  }
+
+  const queries = defaultQueries.reduce((obj: Record<string, string>, qry: string) => {
     if (options[qry]) {
       return {
         ...obj,
@@ -202,6 +210,8 @@ export const getDiamondShallowRoute = (options: { diamondType?: string }, overri
   const queryURL = new URLSearchParams(queries).toString();
 
   const query = queryURL ? '?' + queryURL : '';
+
+  console.log('segments', segments);
 
   const showQueryInUrl = true;
 
