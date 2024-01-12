@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const HalfWidthQuad = `
   ... on ModularHalfWidthQuadBlockRecord {
     id
@@ -38,6 +40,7 @@ const HalfWidthQuad = `
     }
     imageAlignment
     ctaRoute
+    route
     image1 {
       url
       alt
@@ -55,10 +58,13 @@ const HalfWidthQuad = `
               width
         }
     }
-    title1  
+    title1
     copy1
     ctaCopy1
     ctaRoute1
+    darksideButtons1 {
+      ${ButtonFragment}
+    }
     image2 {
       url
       alt
@@ -80,6 +86,9 @@ const HalfWidthQuad = `
     copy2
     ctaCopy2
     ctaRoute2
+    darksideButtons2 {
+      ${ButtonFragment}
+    }
     image3 {
       url
       alt
@@ -101,6 +110,9 @@ const HalfWidthQuad = `
     copy3
     ctaCopy3
     ctaRoute3
+    darksideButtons3 {
+      ${ButtonFragment}
+    }
     image4 {
       url
       alt
@@ -121,7 +133,10 @@ const HalfWidthQuad = `
     title4
     copy4
     ctaCopy4
-    ctaRoute4          
+    ctaRoute4
+    darksideButtons4 {
+      ${ButtonFragment}
+    }
   }
 `;
 

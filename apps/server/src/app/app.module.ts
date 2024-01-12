@@ -16,20 +16,17 @@ import { redisStore } from 'cache-manager-redis-yet';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import appConfig from 'libs/server/common/configs/src/app.config';
 
+const redisUrl = process.env.REDIS_PRIVATE_URL || process.env.REDIS_URL;
+
 import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [appConfig], validationSchema: JoiSchemaValidation }),
-    process.env.REDISHOST ? CacheModule.registerAsync({  
+    redisUrl ? CacheModule.registerAsync({  
       isGlobal: true,  
       useFactory: async () => ({  
-        store: await redisStore({  
-          username: process.env.REDIS_USERNAME,
-          password: process.env.REDIS_PASSWORD,
-          socket: {  
-            host: process.env.REDISHOST,  
-            port: parseInt(process.env.REDISPORT, 10) || 6379,  
-          },        
+        store: await redisStore({
+          url: redisUrl,  
         }),      
       }),    
     }) : CacheModule.register({ isGlobal: true }),

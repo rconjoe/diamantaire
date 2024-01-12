@@ -12,7 +12,7 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
     max-width: 144rem;
     height: auto;
     min-height: calc(100vw / 375 * 180);
-    ${tabletAndUp(`
+    ${desktopAndUp(`
     min-height: calc(100vw / 1440 * 338);
   `)};
     ${XXLDesktopAndUp(`
@@ -24,18 +24,19 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: ${setSpace(2.5)} auto;
+    gap: ${setSpace(1)};
     text-align: center;
-    max-width: ${setSpace(40)};
-
+    align-items: center;
+    height: 100%;
+    margin: ${setSpace(2.5)} 0;
     ${media.small`
       color: ${(props) => props.$textColor};
       margin: 0 auto;
       text-align: left;
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: ${setSpace(15)};
+      top:0;
+      left: 0;
+      right:0;
 
       // additional class
       &.-center-copy {
@@ -49,28 +50,26 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
         text-align: center !important;
         top: 85% !important;
       }
-    
     `}
 
     ${desktopAndUp(`
       max-width: ${setSpace(59)};
+      gap: ${setSpace(2.5)};
+      margin: 0 auto;
     `)}
   }
 
   .skinny-banner__title {
-    margin-bottom: ${setSpace(2)};
-
-    ${tabletAndUp(`
+    ${desktopAndUp(`
       &.-center-bottom {
         margin-bottom: 1rem !important;
       }
-      margin-bottom: ${setSpace(2.5)};
     `)};
   }
+
   .skinny-banner__subtitle {
-    ${tabletAndUp(`
+    ${desktopAndUp(`
       max-width: ${setSpace(63)};
-      padding-bottom: ${setSpace(2.5)};
       margin: unset;
     `)};
   }
@@ -83,7 +82,7 @@ export const ModularSkinnyBannerBlockContainer = styled.div`
     text-decoration: underline;
     margin: ${setSpace(2.5)} 0;
 
-    ${tabletAndUp(`
+    ${desktopAndUp(`
       color: var(--color-white);
       margin-top ${setSpace(0.5)}
   `)};

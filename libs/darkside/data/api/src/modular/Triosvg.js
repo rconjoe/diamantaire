@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Triosvg = `
   ... on ModularTriosvgBlockRecord {
     id
@@ -12,24 +14,27 @@ const Triosvg = `
       url
       alt
     }
-    ctaCopy1
-    ctaRoute1
+    darksideButtons1 {
+     ${ButtonFragment}
+    }
     title2
     copy2
     image2 {
       url
       alt
     }
-    ctaCopy2
-    ctaRoute2
+    darksideButtons2 {
+     ${ButtonFragment}
+    }
     title3
     copy3
     image3 {
       url
       alt
     }
-    ctaCopy3
-    ctaRoute3
+    darksideButtons3 {
+     ${ButtonFragment}
+    }
     backgroundColor {
       alpha
       red

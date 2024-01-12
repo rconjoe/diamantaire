@@ -1,4 +1,5 @@
-import { Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { Markdown, UniLink, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { AccordionButton, AccordionItem, AccordionPanel } from '@reach/accordion';
 import clsx from 'clsx';
 
@@ -13,9 +14,10 @@ export interface ModularAccordionItemProps {
     code: string;
   }>;
   className?: string;
+  darksideButtons: DatoDarksideButtonProps[];
 }
 
-const ModularAccordionItem = ({ title, copy, ctacopy, ctaroute }: ModularAccordionItemProps) => {
+const ModularAccordionItem = ({ title, copy, ctacopy, ctaroute, darksideButtons }: ModularAccordionItemProps) => {
   return (
     <ModularAccordionItemContainer>
       <AccordionItem className="acc-item__container">
@@ -27,6 +29,20 @@ const ModularAccordionItem = ({ title, copy, ctacopy, ctaroute }: ModularAccordi
         <AccordionPanel className="slide-down">
           <div className="acc-item__icon-header-copy">
             <Markdown>{copy}</Markdown>
+            {darksideButtons?.map((button) => {
+              return (
+                <DarksideButton
+                  colorTheme={button.ctaButtonColorTheme}
+                  mobileColorTheme={button.ctaButtonMobileColorTheme}
+                  href={button.ctaLinkUrl}
+                  key={button.id}
+                  type={button.ctaButtonType}
+                >
+                  {button.ctaCopy}
+                </DarksideButton>
+              );
+            })}
+
             {ctacopy && ctaroute && (
               <UniLink route={ctaroute} className="acc-item__cta-link">
                 {ctacopy}

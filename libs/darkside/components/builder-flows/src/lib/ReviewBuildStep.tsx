@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { useAnalytics } from '@diamantaire/analytics';
+import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   DarksideButton,
@@ -10,6 +10,7 @@ import {
   ProductAppointmentCTA,
   RingSizeGuide,
   SlideOut,
+  SpriteSpinner,
   UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
@@ -45,6 +46,7 @@ import {
 import {
   extractMetalTypeFromShopifyHandle,
   generateCfyDiamondSpriteThumbUrl,
+  generateDiamondSpriteUrl,
   specGenerator,
 } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -93,6 +95,8 @@ const ReviewBuildStepStyles = styled(motion.div)`
           }
 
           > div {
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
             @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
               flex: 0 0 50%;
             }
@@ -114,7 +118,32 @@ const ReviewBuildStepStyles = styled(motion.div)`
             .hand {
               display: block;
             }
+
+            &.spritespinner {
+              display: block;
+              > div {
+                display: block;
+                overflow: hidden;
+
+                .spritespin-instance {
+                  max-height: 610px !important;
+                }
+              }
+            }
           }
+        }
+      }
+
+      .setting-image {
+        position: relative;
+
+        p {
+          position: absolute;
+          bottom: 1.5rem;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          font-size: var(--font-size-xxsmall);
         }
       }
 
@@ -345,6 +374,7 @@ const ReviewBuildStep = ({
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [spriteSpinnerIds, setSpriteSpinnerIds] = useState([]);
 
   const [isEngravingInputVisible, setIsEngravingInputVisible] = useState(false);
   const [engravingInputText, setEngravingInputText] = useState('');
@@ -374,7 +404,7 @@ const ReviewBuildStep = ({
 
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
-  const isDiamondCFY = diamonds.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
+  const isDiamondCFY = diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
   const { data: blockpickerData }: any = useStandardPage('engagement_ring_summary_page', router.locale);
 
@@ -494,7 +524,7 @@ const ReviewBuildStep = ({
         ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
         : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)]);
     const refinedBandAccent =
-      settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
+      settingType === 'engagement-ring' && bandAccent ? bandAccent.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
@@ -757,13 +787,30 @@ const ReviewBuildStep = ({
 
   const totalPriceInCents = product?.price + diamondPrice + (engravingText ? ENGRAVING_PRICE_CENTS : 0);
 
-  const diamondHandCaption = builderProduct.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
+  const diamondHandCaption = builderProduct?.diamonds?.map((diamond) => diamond?.carat?.toString() + 'ct').join(' | ');
 
   console.log('builderProduct', builderProduct);
+  console.log('spriteSpinnerIds', spriteSpinnerIds);
 
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
   const productData = { ...shopifyProductData, cms: additionalVariantData };
+
+  useEffect(() => {
+    const ids = builderProduct?.diamonds?.map((diamond) => {
+      const diamondID = diamond?.lotId;
+      const id = diamondID.includes('cfy-')
+        ? diamondID
+        : diamondID
+            .split('')
+            .filter((v) => !isNaN(Number(v)))
+            .join('');
+
+      return id;
+    });
+
+    setSpriteSpinnerIds(ids);
+  }, [builderProduct?.diamonds]);
 
   return (
     <ReviewBuildStepStyles
@@ -790,17 +837,18 @@ const ReviewBuildStep = ({
             <div className="embla__container">
               <div className={clsx('image setting-image', { embla__slide: isWindowDefined && window.innerWidth < 767 })}>
                 {product?.image && <DatoImage image={product?.image} />}
+                {product?.productType === 'Engagement Ring' && (
+                  <p>
+                    <UIString>Shown with</UIString> 1.5ct
+                  </p>
+                )}
               </div>
-              {diamondImages?.map((image) => (
-                <div
-                  key={image}
-                  className={clsx('image diamond-image embla__slide', {
-                    embla__slide: isWindowDefined && window.innerWidth < 767,
-                  })}
-                >
-                  {image && <img src={image} alt="" />}
+              {spriteSpinnerIds?.map((id) => (
+                <div className="spritespinner embla__slide" key={id}>
+                  <SpriteSpinnerBlock id={id} />
                 </div>
               ))}
+
               <div className={clsx('diamond-hand embla__slide')}>
                 <ProductDiamondHand
                   diamondType={selectedConfiguration?.diamondType}
@@ -857,7 +905,7 @@ const ReviewBuildStep = ({
                         <span className="label">{_t(item.label)}:</span>
                         <span className="value">{_t(item.value)}</span>
                         <span className="toggle">
-                          <button onClick={() => item.onClick()}>Modify</button>
+                          <button onClick={() => item.onClick()}>{_t('Modify')}</button>
                         </span>
                       </li>
                     );
@@ -865,8 +913,6 @@ const ReviewBuildStep = ({
 
                   {reviewVariantOrder.map((key, index) => {
                     const selectorsToIgnore = ['ringSize', 'diamondType', 'caratWeight', 'diamondOrientation'];
-
-                    console.log('configurations?.[key]', configurations?.[key]);
 
                     if (selectorsToIgnore.includes(key) || !configurations?.[key] || configurations?.[key]?.length === 0)
                       return null;
@@ -1026,8 +1072,63 @@ const ReviewBuildStep = ({
           </SlideOut>
         )}
       </AnimatePresence>
+      <PageViewTracker productData={productData} />
     </ReviewBuildStepStyles>
   );
 };
 
 export default ReviewBuildStep;
+
+const SpriteSpinnerBlock = ({ id }) => {
+  const [videoData, setVideoData] = useState(null);
+
+  const fetchVideoType = useCallback(
+    async (diamondID) => {
+      const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
+
+      const webp = await fetch(webpSprite, { method: 'HEAD' });
+
+      const jpgSprite = generateDiamondSpriteUrl(diamondID, 'jpg');
+      const jpg = await fetch(jpgSprite, { method: 'HEAD' });
+
+      if (webp.ok) {
+        return {
+          type: 'webp',
+          spriteImage: webpSprite,
+        };
+      } else {
+        if (jpg.ok) {
+          return {
+            type: 'jpg',
+            spriteImage: jpgSprite,
+          };
+        }
+      }
+    },
+    [id],
+  );
+
+  useEffect(() => {
+    async function getVideo() {
+      if (id) {
+        // webp or jpg
+        const videoDataTemp = await fetchVideoType(id);
+
+        setVideoData(videoDataTemp);
+      }
+    }
+
+    getVideo();
+  }, [id]);
+
+  return (
+    videoData && (
+      <SpriteSpinner
+        disableCaption={true}
+        shouldStartSpinner={true}
+        spriteImage={videoData?.spriteImage}
+        bunnyBaseURL={videoData?.spriteImage}
+      />
+    )
+  );
+};

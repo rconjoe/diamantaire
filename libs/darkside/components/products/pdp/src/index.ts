@@ -8,6 +8,8 @@ export * from './lib/ProductPrice';
 export * from './lib/ProductIconList';
 export * from './lib/ProductSeo';
 export * from './lib/ProductReviews';
+export * from './lib/ProductContentBlocks';
+export * from './lib/ProductTrioBlocks';
 export * from './lib/ProductKlarna';
 export * from './lib/ProductGWP';
 export * from './lib/ProductSuggestionBlock';

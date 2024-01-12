@@ -22,6 +22,8 @@ import {
   ProductSeo,
   ProductReviews,
   ProductBlockPicker,
+  ProductContentBlocks,
+  ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -37,15 +39,15 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { fetchAndTrackPreviouslyViewed, getCountry } from '@diamantaire/shared/helpers';
+
+import { fetchAndTrackPreviouslyViewed, getCountry,getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
+
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
 export interface PdpPageParams extends ParsedUrlQuery {
@@ -127,8 +129,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const configurations = shopifyProductData?.optionConfigs;
 
-  const assetStack = productContent?.assetStack; // flatten array in normalization
-
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
   let { data: additionalVariantData }: any = useProductVariant(
@@ -136,6 +136,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     shopifyProductData?.productType,
     router.locale,
   );
+  let assetStack = productContent?.assetStack; // flatten array in normalization
 
   const variantId = shopifyProductData?.shopifyVariantId;
 
@@ -153,6 +154,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     } else if (additionalVariantData?.configuration) {
       // Jewelry
       additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
+      if (additionalVariantData?.assetStack) {
+        assetStack = additionalVariantData?.assetStack;
+      }
     } else {
       // Add Shopify Product Data to Dato Product Data
       additionalVariantData = productContent;
@@ -507,7 +511,9 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+
+  context.res.setHeader(cachePolicy, cacheSettings);
   const mergedContext = {
     ...context,
     params: {

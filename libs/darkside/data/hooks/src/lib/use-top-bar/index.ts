@@ -10,6 +10,7 @@ type TopBarData = {
       geoCopy: string;
       enableGeoCopy: boolean;
       link: string;
+      route: string;
       shouldShowDynamicBookAnAppointment: boolean;
       enableGwp: boolean;
       supportedCountries: {

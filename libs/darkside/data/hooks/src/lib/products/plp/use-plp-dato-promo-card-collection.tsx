@@ -10,6 +10,7 @@ type PlpDatoPromoCardCollectionProps = {
     data: {
       title: string;
       link: string;
+      route: string;
       image: DatoImageType;
       plpPosition: number;
       plpPositionMobile: number;

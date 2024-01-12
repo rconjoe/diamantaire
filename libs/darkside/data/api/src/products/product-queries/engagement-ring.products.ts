@@ -26,6 +26,7 @@ export const ERPDP = `
               ctaCopy
               copy
               ctaRoute
+              newRoute
             }
             ... on ModularShippingProductIconListItemRecord {
               id
@@ -65,5 +66,5 @@ export const ERPDP = `
           }
         }
       }
-    }    
+    }
 `;

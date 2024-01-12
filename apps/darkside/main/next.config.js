@@ -8,7 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 const { withNx, composePlugins } = require('@nx/next');
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs');
 
 const DEFAULT_LOCALE = 'en-US';
 
@@ -109,11 +109,11 @@ const nextConfig = {
     return [
       {
         source: '/journal',
-        destination: `${process.env.JOURNAL_SITE}/`,
+        destination: `${process.env.JOURNAL_SITE}/journal`,
       },
       {
         source: '/journal/:path*',
-        destination: `${process.env.JOURNAL_SITE}/:path*`,
+        destination: `${process.env.JOURNAL_SITE}/journal/:path*`,
       },
     ];
   },
@@ -130,8 +130,8 @@ const projectConfig = withSentryConfig(
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "vrai-oro",
-    project: "darkside-main",
+    org: 'vrai-oro',
+    project: 'darkside-main',
   },
   {
     // For all available options, see:
@@ -144,7 +144,7 @@ const projectConfig = withSentryConfig(
     transpileClientSDK: true,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-    tunnelRoute: "/monitoring",
+    tunnelRoute: '/monitoring',
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,
@@ -157,13 +157,9 @@ const projectConfig = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
-  }
-)
+  },
+);
 
-const plugins = [
-  withNx,
-  withBundleAnalyzer,
-];
+const plugins = [withNx, withBundleAnalyzer];
 
-module.exports = composePlugins(...plugins)(projectConfig); 
-
+module.exports = composePlugins(...plugins)(projectConfig);
