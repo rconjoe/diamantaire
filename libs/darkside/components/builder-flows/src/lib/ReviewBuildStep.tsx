@@ -524,7 +524,7 @@ const ReviewBuildStep = ({
         ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
         : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)]);
     const refinedBandAccent =
-      settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
+      settingType === 'engagement-ring' && bandAccent ? bandAccent.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
@@ -1085,7 +1085,6 @@ const SpriteSpinnerBlock = ({ id }) => {
   const fetchVideoType = useCallback(
     async (diamondID) => {
       const webpSprite = generateDiamondSpriteUrl(diamondID, 'webp');
-
 
       const webp = await fetch(webpSprite, { method: 'HEAD' });
 
