@@ -119,7 +119,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         urlFilterMethod="param"
         plpSlug={plpSlug}
         sortOptions={sortOptions}
-        handleSortChange={handleSortChange}
+        onSortChange={handleSortChange}
       />
 
       <p className="pag-count-text">{showingText}</p>
