@@ -40,7 +40,7 @@ import {
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
 
-import { fetchAndTrackPreviouslyViewed, getCountry,getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
+import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
 
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -453,7 +453,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
         {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
 
-        {accordionBlocksOverride.length > 0 &&
+        {accordionBlocksOverride?.length > 0 &&
           accordionBlocksOverride.map((block, index) => {
             const { _modelApiKey } = block;
 
