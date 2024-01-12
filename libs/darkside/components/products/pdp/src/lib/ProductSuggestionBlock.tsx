@@ -58,6 +58,8 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const { products, lowestPricesByCollection } = data || {};
 
+  if (products?.length === 0) return null;
+
   return (
     <ProductSuggestionBlockStyles className="container-wrapper">
       <div className="title-container text-center">
