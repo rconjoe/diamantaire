@@ -452,6 +452,27 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       closure
       chainWidth
       outerDiameter
+      assetStack {
+        id
+        alt
+        url
+        mimeType
+        size
+        height
+        width
+        mimeType
+        title
+        customData
+        video {
+          streamingUrl
+          thumbnailUrl
+        }
+        responsiveImage {
+          base64
+          height
+          width
+        }
+      }
     }
   }
 `;
