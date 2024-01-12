@@ -237,6 +237,35 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
   ${ResponsiveImageFragment}
 `;
 
+export async function fetchPlpShopTheLook(productIds: string[], locale: string) {
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
+  const ids = productIds.join(',');
+
+  const qParams = new URLSearchParams({ ids, locale });
+
+  const endpoint = `${baseUrl}/api/plp/getPlpProductsByIds?${qParams?.toString()}}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => res);
+
+    return response;
+  } catch (error) {
+    console.log('Error retrieving shop the look data', error);
+
+    return {};
+  }
+}
+
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
   try {

@@ -3,6 +3,7 @@ import {
   fetchPlpDatoCreativeBlocks,
   fetchPlpDatoPromoCardCollection,
   fetchPlpDatoServerData,
+  fetchPlpShopTheLook,
   fetchPlpGwpData,
 } from '@diamantaire/darkside/data/api';
 import { createQueryKeys } from '@lukemorales/query-key-factory';
@@ -27,5 +28,9 @@ export const plpListPage = createQueryKeys('plp', {
   gwp: (locale: string) => ({
     queryKey: [locale],
     queryFn: () => fetchPlpGwpData(locale),
+  }),
+  plpShopTheLook: (productIds: string[], locale) => ({
+    queryKey: [productIds, locale],
+    queryFn: () => fetchPlpShopTheLook(productIds, locale),
   }),
 });

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
   background-color: var(--color-white);
-  padding: 1rem 0 2rem;
+  padding: 1rem 0;
   width: 100%;
 
   .filter__wrapper {
@@ -486,10 +486,13 @@ export const PlpProductFilterStyles = styled.div`
   }
 
   .active-filters {
-    padding: 1.2rem 0 0;
-
     ul {
+      padding: 1.2rem 0 0;
       flex-wrap: wrap;
+
+      &:empty {
+        display: none;
+      }
     }
 
     li {

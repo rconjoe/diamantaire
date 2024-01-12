@@ -1,4 +1,4 @@
-import { Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -182,6 +182,8 @@ const PlpProductGrid = ({
 
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
+  console.log(`productsPage`, products);
+
   if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
 
   return (
@@ -222,7 +224,11 @@ const PlpProductGrid = ({
                   )}
 
                   {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                    <PlpCreativeBlock
+                      block={creativeBlockObject[gridItemIndex + 1]}
+                      plpTitle={plpTitle}
+                      selectSetting={selectSetting}
+                    />
                   )}
 
                   {product?.productType === 'diamonds' ? (
@@ -250,7 +256,9 @@ const PlpProductGrid = ({
 
           {products.length === 0 && !isFetching && (
             <div className="no-items-message">
-              <p>No items match your selection</p>
+              <p>
+                <UIString>noresult</UIString>
+              </p>
             </div>
           )}
         </div>

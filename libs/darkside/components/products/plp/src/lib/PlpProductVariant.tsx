@@ -54,7 +54,6 @@ const PlpProductVariantStyles = styled.div`
     }
 
     &.with-hidden-swatches {
-      background: green;
       justify-content: flex-end;
       padding-right: 1.25rem;
       margin: -3rem 0 2rem 0;

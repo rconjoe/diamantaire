@@ -1,6 +1,6 @@
 import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useBlockProducts, useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, usePlpGWP, useProductShopTheLook, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+
+import { PlpProductItem } from './PlpProductItem';
 
 const PlpCreativeBlockStyles = styled.div`
   grid-column: 1/3;
@@ -78,7 +80,21 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block }) => {
+const ShopTheLookSlideOutStyles = styled.div`
+  .product-list {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 2rem 0;
+    padding: 0;
+  }
+
+  .plp-variant__image {
+    min-height: auto;
+  }
+`;
+
+const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -220,7 +236,12 @@ const PlpCreativeBlock = ({ block }) => {
                       onClose={handleCloseShopTheLook}
                       width={isMobile ? '100%' : '55rem'}
                     >
-                      <PlpCreativeSlideOutContent configurationsInOrder={configurationsInOrder} />
+                      <PlpCreativeSlideOutContent
+                        configurationsInOrder={configurationsInOrder}
+                        locale={locale}
+                        plpTitle={plpTitle}
+                        selectSetting={selectSetting}
+                      />
                     </SlideOut>,
                     document.body,
                   )}
@@ -233,19 +254,46 @@ const PlpCreativeBlock = ({ block }) => {
   );
 };
 
-const PlpCreativeSlideOutContent = ({ configurationsInOrder }) => {
+const PlpCreativeSlideOutContent = ({ configurationsInOrder, locale, plpTitle, selectSetting }) => {
   const ids = useMemo(
     () => configurationsInOrder.reduce((a, v) => [...a, v.variantId || v.shopifyProductHandle], []),
     [configurationsInOrder],
   );
 
-  const { data: { products } = {} } = useBlockProducts(ids);
+  const { data: { products } = {} } = useProductShopTheLook(ids, locale);
 
-  console.log(`products`, products);
+  console.log(`PlpCreativeSlideOutContent:`, products);
 
   // create new endpoint to get valid data that can be used in PlpProductGrid.tsx
 
-  return <div>{JSON.stringify(ids)}</div>;
+  return (
+    <ShopTheLookSlideOutStyles>
+      <ul className="product-list">
+        {products?.length > 0 &&
+          products?.map((product, gridItemIndex) => {
+            if (!product) {
+              return null;
+            }
+
+            return (
+              <PlpProductItem
+                key={`${gridItemIndex}-${product.productTitle}`}
+                product={product}
+                plpTitle={plpTitle}
+                position={gridItemIndex}
+                selectSettingForBuilderFlow={() => {
+                  return selectSetting({
+                    collectionSlug: product.variants[product.defaultId]?.collectionSlug,
+                    productSlug: product.variants[product.defaultId]?.productSlug,
+                  });
+                }}
+                useProductTitleOnly={true}
+              />
+            );
+          })}
+      </ul>
+    </ShopTheLookSlideOutStyles>
+  );
 };
 
 export default PlpCreativeBlock;
