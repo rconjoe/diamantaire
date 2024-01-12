@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { useAnalytics } from '@diamantaire/analytics';
+import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   DarksideButton,
@@ -1072,6 +1072,7 @@ const ReviewBuildStep = ({
           </SlideOut>
         )}
       </AnimatePresence>
+      <PageViewTracker productData={productData} />
     </ReviewBuildStepStyles>
   );
 };
