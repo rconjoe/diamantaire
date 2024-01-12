@@ -272,7 +272,6 @@ export const PlpProductFilterStyles = styled.div`
 
     &.stacked {
       border-top: 1px solid #eaeaea;
-
       padding: 20px 0;
 
       &:first-child {
@@ -285,8 +284,6 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       ul {
-        overflow-x: hidden;
-        overflow-y: visible;
         padding: 10px 0;
         max-width: 90vw;
         margin: 0;
