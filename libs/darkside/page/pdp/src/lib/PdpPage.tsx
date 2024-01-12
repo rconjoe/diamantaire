@@ -45,6 +45,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
+import { add } from 'date-fns';
 
 export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
@@ -99,7 +100,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     diamondDescription,
     productTitle,
     productTitleOverride,
-    trioBlocks: { id: trioBlocksId = '' } = {},
+    trioBlocks,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -113,6 +114,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Product Block Picker - Clientside pulls if __typename exists
   const hasBelowBannerBlocks = datoParentProductData?.belowBannerBlocks?.length > 0;
+
+  // Trio Blocks - Clientside
+  let trioBlocksId = trioBlocks?.id;
 
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
@@ -153,8 +157,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
 
-    // console.log('v2 additionalVariantData', additionalVariantData);
+    if (additionalVariantData?.trioBlocks) {
+      trioBlocksId = additionalVariantData?.trioBlocks?.id;
+    }
 
+    console.log('v2 additionalVariantData', additionalVariantData);
+    console.log({ trioBlocksId, suggestion: additionalVariantData?.productSuggestionQuadBlock?.id });
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {

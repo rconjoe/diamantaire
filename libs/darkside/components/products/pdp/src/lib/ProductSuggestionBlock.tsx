@@ -44,11 +44,15 @@ const ProductSuggestionBlock = ({ id }) => {
   const { aboveCopy } = content || {};
 
   const refinedConfigurations = normalizeDatoNumberedContent(content, ['configuration']);
+
   const refinedTitles = normalizeDatoNumberedContent(content, ['title']);
 
-  const productHandles = refinedConfigurations.map(
-    (configurationNode) => configurationNode?.configuration?.shopifyProductHandle,
-  );
+  const productHandles = refinedConfigurations.map((configurationNode) => {
+    // Check if the jewelryProduct slug exists
+    return configurationNode?.configuration?.configuredProductOptionsInOrder
+      ? configurationNode.configuration.configuredProductOptionsInOrder
+      : configurationNode?.configuration?.shopifyProductHandle;
+  });
 
   const { data } = useBlockProducts(productHandles);
 

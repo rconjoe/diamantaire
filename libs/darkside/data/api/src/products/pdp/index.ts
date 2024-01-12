@@ -577,6 +577,12 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       closure
       chainWidth
       outerDiameter
+      trioBlocks {
+        id
+      }
+      productSuggestionQuadBlock {
+        id
+      }
     }
   }
 `;
