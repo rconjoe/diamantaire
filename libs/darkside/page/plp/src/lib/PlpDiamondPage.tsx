@@ -108,7 +108,9 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
   return (
     <StyledPlpDiamondPage>
       <NextSeo title={seoTitle} description={seoDescription} />
+
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
+
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
       <PlpProductGrid

@@ -108,7 +108,7 @@ const SettingSelectStep = ({ updateSettingSlugs, settingTypeToShow }) => {
             selectSetting={selectSetting}
             plpSlug={plpSlug}
             urlFilterMethod={'none'}
-            handleSortChange={handleSortChange}
+            onSortChange={handleSortChange}
             sortOptions={sortOptions}
             builderFlowOverride={true}
           />
