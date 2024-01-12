@@ -105,6 +105,8 @@ const RadioFilter = (props) => {
 
   const isFancyShape = optionsDiamondType.length > 0 && !optionsDiamondType.includes('round-brilliant');
 
+  console.log('availableDiamonds', availableDiamonds);
+
   switch (type) {
     case 'diamondType':
       rangeTypes = ranges?.diamondType;
@@ -113,6 +115,8 @@ const RadioFilter = (props) => {
       if (availableDiamonds) {
         shapeHandles = shapeHandles.filter((handle) => availableDiamonds.includes(handle));
       }
+
+      console.log('shapeHandles', shapeHandles);
 
       optionsUI = shapeHandles
         .filter((handle) => {
@@ -294,6 +298,8 @@ const DiamondFilter = (props: DiamondFilterProps) => {
   const { locale, options, ranges, loading, handleRadioFilterChange, handleSliderFilterChange, availableDiamonds } = props;
   const { data: diamondTableData } = useDiamondTableData(locale);
   const { diamondTable } = diamondTableData || {};
+
+  console.log('diamondTable', diamondTable);
   const { colorFilterBelowCopy, color, cut, clarity, carat } = diamondTable || {};
   const { data: humanNameMapperData } = useHumanNameMapper(locale);
   const { DIAMOND_CUTS } = humanNameMapperData || {};
@@ -351,6 +357,8 @@ const DiamondFilter = (props: DiamondFilterProps) => {
     <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
         const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
+
+        console.log('belowCopy', belowCopy);
 
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>

@@ -48,6 +48,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -268,6 +269,17 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       );
   }
 
+  const router = useRouter();
+  const isSettingFirstFlow = router.query.collectionSlug && router.query.productSlug;
+
+  const continueLink = {
+    url: isSettingFirstFlow
+      ? `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}`
+      : `/customize/diamond-to-setting/${product.lotId}`,
+
+    text: isSettingFirstFlow ? 'Complete your ring' : 'Select and add a setting',
+  };
+
   return (
     <>
       <HideTopBar />
@@ -396,8 +408,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="cta">
                 <StickyElementWrapper>
-                  <DarksideButton href={`/customize/diamond-to-setting/${product.lotId}`}>
-                    <UIString>Select and add a setting</UIString>
+                  <DarksideButton href={continueLink?.url}>
+                    <UIString>{continueLink?.text}</UIString>
                   </DarksideButton>
                 </StickyElementWrapper>
 

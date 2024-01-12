@@ -109,11 +109,11 @@ const nextConfig = {
     return [
       {
         source: '/journal',
-        destination: `${process.env.JOURNAL_SITE}/`,
+        destination: `${process.env.JOURNAL_SITE}/journal`,
       },
       {
         source: '/journal/:path*',
-        destination: `${process.env.JOURNAL_SITE}/:path*`,
+        destination: `${process.env.JOURNAL_SITE}/journal/:path*`,
       },
     ];
   },

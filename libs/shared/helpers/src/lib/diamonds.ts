@@ -168,7 +168,7 @@ export const getDiamondOptionsFromUrl = (query, page) => {
   }
 };
 
-export const getDiamondShallowRoute = (options) => {
+export const getDiamondShallowRoute = (options: { diamondType?: string }, overrideUrl?: string) => {
   const segments = DIAMOND_TABLE_FACETED_NAV.reduce((arr: string[], value: string) => {
     if (options[value]) {
       if (value === 'diamondType') {
@@ -205,7 +205,9 @@ export const getDiamondShallowRoute = (options) => {
 
   const showQueryInUrl = true;
 
-  const route = `${diamondRoutePlp}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
+  const route = `${overrideUrl ? overrideUrl : diamondRoutePlp}/${overrideUrl ? '' : segments.join('/')}${
+    showQueryInUrl ? query : ''
+  }`;
 
   return route;
 };
@@ -243,7 +245,9 @@ export const getCFYOptionsFromUrl = (query) => {
   };
 };
 
-export const getCFYShallowRoute = (options, page) => {
+export const getCFYShallowRoute = (options, page, router) => {
+  console.log('pagexxx', page);
+  console.log('optionsxxx', options);
   const segments = DIAMOND_CFY_FACETED_NAV.reduce((arr: string[], value: string) => {
     if (options[value]) {
       if (value === 'diamondType') {
@@ -282,7 +286,13 @@ export const getCFYShallowRoute = (options, page) => {
 
   const showQueryInUrl = true;
 
-  const route = `${base}/${segments.join('/')}${showQueryInUrl ? query : ''}`;
+  const { collectionSlug, productSlug } = router.query;
+
+  console.log('collectionSlug', collectionSlug);
+
+  const route = `${base}/${segments.join('/')}${showQueryInUrl ? query : ''}${
+    collectionSlug ? `&collectionSlug=${collectionSlug}` : ''
+  }${productSlug ? `&productSlug=${productSlug}` : ''}`;
 
   return route;
 };

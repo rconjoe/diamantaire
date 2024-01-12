@@ -271,12 +271,32 @@ const BuilderFlow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
 
+  console.log('all dia shapes', shopifyProductData?.allAvailableOptions?.diamondType);
+  console.log('builderProduct?.diamonds', builderProduct?.diamonds);
+
+  const allDiamonds = shopifyProductData?.allAvailableOptions?.diamondType;
+
+  function getMatchingDiamondTypesInAllDiamonds(diamonds, allDiamonds) {
+    if (!diamonds || !allDiamonds) return null;
+    // Create an array of all diamond types in the diamonds array
+    const diamondTypes = diamonds.map((diamond) => diamond.diamondType);
+
+    // Filter the allDiamonds array to include only those types that are in the diamondTypes array
+    const matchedTypes = allDiamonds.filter((type) => diamondTypes.every((diamondType) => type.includes(diamondType)));
+
+    return matchedTypes?.[0];
+  }
+
+  const matchingDiamondType = getMatchingDiamondTypesInAllDiamonds(builderProduct?.diamonds, allDiamonds);
+
+  console.log('matchingDiamondType', matchingDiamondType);
+
   return (
     <BuilderFlowStyles>
       {/* Setting to Diamond */}
       {builderProduct?.step === 'select-diamond' && (
         <DiamondBuildStep
-          diamondTypeToShow={builderProduct?.diamonds?.[0]?.diamondType || selectedConfiguration?.diamondType}
+          diamondTypeToShow={matchingDiamondType || selectedConfiguration?.diamondType}
           availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
           settingSlugs={{ collectionSlug: settingSlugs?.collectionSlug, productSlug: settingSlugs?.productSlug }}
         />
