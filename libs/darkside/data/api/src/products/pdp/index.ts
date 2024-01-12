@@ -28,6 +28,7 @@ import {
   TrioSlide9x7,
   TrioStaggered9x7,
   SocialMediaSection,
+  Accordion,
 } from '../../modular';
 
 // Get associated DiamondTypes from Product slug
@@ -135,6 +136,9 @@ const JEWELRY_QUERY = gql`
       diamondDescription
       belowBannerBlocks {
         __typename
+      }
+      accordionBlocks {
+        ${Accordion}
       }
     }
   }
@@ -582,6 +586,9 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       }
       productSuggestionQuadBlock {
         id
+      }
+      accordionBlocks {
+        ${Accordion}
       }
     }
   }

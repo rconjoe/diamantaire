@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   Breadcrumb,
   DropHintModal,
@@ -29,13 +30,14 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
+  getCurrency,
   jewelryTypes,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
+import { fetchAndTrackPreviouslyViewed, getCountry } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -45,7 +47,6 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
 import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
-import { add } from 'date-fns';
 
 export interface PdpPageParams extends ParsedUrlQuery {
   collectionSlug: string;
@@ -75,7 +76,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter();
 
   const { locale } = router || {};
-
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
   const { _t } = useTranslations(locale);
 
   // Jewelry | ER | Wedding Band
@@ -101,6 +103,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     productTitle,
     productTitleOverride,
     trioBlocks,
+    accordionBlocks,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -118,6 +121,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Trio Blocks - Clientside
   let trioBlocksId = trioBlocks?.id;
 
+  let accordionBlocksOverride = accordionBlocks;
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
@@ -159,6 +163,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
     if (additionalVariantData?.trioBlocks) {
       trioBlocksId = additionalVariantData?.trioBlocks?.id;
+    }
+    if (additionalVariantData?.accordionBlocks?.length > 0) {
+      accordionBlocksOverride = additionalVariantData?.accordionBlocks;
     }
 
     console.log('v2 additionalVariantData', additionalVariantData);
@@ -439,7 +446,24 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             productImage={dropHintData?.image}
           />
         )}
+
         {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
+
+        {accordionBlocksOverride.length > 0 &&
+          accordionBlocksOverride.map((block, index) => {
+            const { _modelApiKey } = block;
+
+            return (
+              <BlockPicker
+                _modelApiKey={_modelApiKey}
+                modularBlockData={{ ...block }}
+                shouldLazyLoad={true}
+                key={index}
+                countryCode={countryCode}
+                currencyCode={currencyCode}
+              />
+            );
+          })}
       </PageContainerStyles>
     );
   }
