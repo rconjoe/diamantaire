@@ -65,11 +65,21 @@ const BuilderFlow = ({
 
   const datoParentProductData: any = data?.engagementRingProduct;
 
-  const { productDescription, bandWidth, bandDepth, settingHeight, paveCaratWeight, metalWeight, shownWithCtwLabel } =
-    datoParentProductData || {};
+  const {
+    productDescription,
+    bandWidth,
+    bandDepth,
+    settingHeight,
+    paveCaratWeight,
+    metalWeight,
+    shownWithCtwLabel,
+    trioBlocks: { id: trioBlocksId = '' } = {},
+  } = datoParentProductData || {};
 
   const productSpecId = datoParentProductData?.specLabels?.id;
   const productIconListType = datoParentProductData?.productIconList?.productType;
+  const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
+  const instagramReelId = datoParentProductData?.instagramReelBlock?.id;
 
   const parentProductAttributes = {
     bandWidth,
@@ -89,6 +99,11 @@ const BuilderFlow = ({
   const variantHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
   let { data: additionalVariantData }: any = useProductVariant(
+    variantHandle,
+    shopifyProductData?.productType,
+    router.locale,
+  );
+  const { isFetching: isVariantDataBeingFetched }: any = useProductVariant(
     variantHandle,
     shopifyProductData?.productType,
     router.locale,
@@ -240,6 +255,7 @@ const BuilderFlow = ({
   }, [settingSlugs]);
 
   useEffect(() => {
+    if (isVariantDataBeingFetched) return;
     configureCurrentStep();
 
     const isSummaryPage = router.asPath.includes('/summary');
@@ -324,6 +340,13 @@ const BuilderFlow = ({
           disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
           productTitleOverride={productTitleOverride}
           productIconListType={productIconListType}
+          contentIds={{
+            trioBlocksId,
+            productSuggestionBlockId: additionalVariantData?.productSuggestionQuadBlock?.id,
+            videoBlockId,
+            instagramReelId,
+            shopifyCollectionId: shopifyProductData?.shopifyCollectionId,
+          }}
         />
       )}
 

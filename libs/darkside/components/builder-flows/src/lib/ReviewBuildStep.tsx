@@ -126,7 +126,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 overflow: hidden;
 
                 .spritespin-instance {
-                  height: 610px !important;
+                  max-height: 610px !important;
                 }
               }
             }

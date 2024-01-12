@@ -1,3 +1,4 @@
+import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { OptionSelector } from '@diamantaire/darkside/components/products/pdp';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -31,7 +32,10 @@ const ReviewVariantSelector = ({
         {selector === 'sideStoneCarat' ? 'ct' : ''}
       </span>
       <span className="toggle">
-        <button onClick={() => setIsOptionSelectorOpen(!isOptionSelectorOpen)}>Modify</button>
+        <button onClick={() => setIsOptionSelectorOpen(!isOptionSelectorOpen)}>
+          {' '}
+          <UIString>Modify</UIString>{' '}
+        </button>
       </span>
       <AnimatePresence>
         {isOptionSelectorOpen && (

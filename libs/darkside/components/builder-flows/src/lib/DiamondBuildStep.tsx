@@ -76,7 +76,18 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
     diamondType: diamondTypeToShow,
   };
 
-  const acceptedParams = ['caratMin', 'caratMax', 'page', 'sortBy', 'sortOrder', 'limit', 'diamondType'];
+  const acceptedParams = [
+    'caratMin',
+    'caratMax',
+    'page',
+    'sortBy',
+    'sortOrder',
+    'limit',
+    'diamondType',
+    'cut',
+    'clarity',
+    'color',
+  ];
 
   routerInitialOptions = Object.keys(routerInitialOptions).reduce((acc, key) => {
     if (acceptedParams.includes(key)) {
@@ -205,7 +216,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    router.push(getDiamondShallowRoute(options, window.location.origin + window.location.pathname), undefined, {
+    router.push(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
       shallow: true,
     });
   }, [options]);
