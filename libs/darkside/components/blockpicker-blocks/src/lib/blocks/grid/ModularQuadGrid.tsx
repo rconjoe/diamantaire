@@ -22,12 +22,12 @@ const ModularQuadGrid = ({ title, gridItems, darksideButtons }: ModularQuadGridP
 
       <div className="grid__container">
         {gridItems?.map((item) => {
-          const { itemTitle, itemImage, itemUrl, itemCaption } = item || {};
+          const { itemTitle, itemImage, itemUrl, itemCaption, route } = item || {};
 
           return (
             <div className="item__container" key={uuidv4()}>
               <div className="item__inner">
-                <UniLink route={itemUrl}>
+                <UniLink route={route || itemUrl}>
                   <ImageTile isProductImage={false} image={itemImage} extraClass="no-bottom-padding" />
                 </UniLink>
                 <div className="item__content">

@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
-import { ResponsiveImageFragment } from '../../fragments';
+import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
 
 // Get associated DiamondTypes from Product slug
 export async function getProductDiamondTypes(productSlug) {
@@ -146,6 +146,7 @@ const PRODUCT_ICON_LIST_QUERY = gql`
         ... on ModularProductIconListItemRecord {
           _modelApiKey
           ctaRoute
+          newRoute
           ctaCopy
           copy
           icon {
@@ -373,6 +374,9 @@ const DATO_PRODUCT_TRIO_BLOCK_QUERY = gql`
             ...responsiveImageFragment
           }
         }
+        darksideButtons {
+          ${ButtonFragment}
+        }
       }
     }
   }
@@ -400,6 +404,7 @@ const DATO_PRODUCT_INSTAGRAM_REEL_QUERY = gql`
           }
           postLink
           productLink
+          productRoute
           shouldLinkToVraiInstagram
         }
       }

@@ -189,25 +189,30 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         }
       }
       hero {
-        title
-        copy
-        textColor {
-          hex
-        }
-        desktopImage {
-          url
-          alt
-          mimeType
-          responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
-            ...responsiveImageFragment
+        ... on ListpageHeroBannerRecord {
+          title
+          copy
+          textColor {
+            hex
           }
-        }
-        mobileImage {
-          url
-          alt
-          mimeType
-          responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-            ...responsiveImageFragment
+          desktopImage {
+            url
+            alt
+            mimeType
+            responsiveImage(imgixParams: { w: 1440, h: 338, q: 60, auto: format, fit: crop, crop: focalpoint, dpr: 2 }) {
+              ...responsiveImageFragment
+            }
+          }
+          mobileImage {
+            url
+            alt
+            mimeType
+            responsiveImage(imgixParams: { w: 375, h: 180, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+          }
+          darksideButtons {
+            ${ButtonFragment}
           }
         }
       }
@@ -253,6 +258,7 @@ const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
         data {
           title
           link
+          route
           textColor {
             hex
           }

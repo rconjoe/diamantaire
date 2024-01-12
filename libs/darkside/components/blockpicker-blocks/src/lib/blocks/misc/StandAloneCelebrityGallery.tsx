@@ -186,7 +186,7 @@ const StandAloneCelebrityGallery = (props) => {
                   {modalContent?.jewelry?.map((item) => {
                     return (
                       <li key={item.id}>
-                        <a href={item?.ctaRoute} target="_blank">
+                        <a href={item?.newRoute || item?.ctaRoute} target="_blank">
                           <span className="image">
                             <DatoImage image={item?.image} />
                           </span>

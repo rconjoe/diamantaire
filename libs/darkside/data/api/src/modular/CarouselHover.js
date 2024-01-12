@@ -9,6 +9,7 @@ const CarouselHover = `
       id
       title
       url
+      route
       image {
         url
         alt

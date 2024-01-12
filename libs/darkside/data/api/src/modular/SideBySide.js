@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const SideBySide = `
   ... on ModularSideBySideBlockRecord {
     id
@@ -58,6 +60,9 @@ const SideBySide = `
     ctaCopy
     ctaButtonType
     ctaRoute
+    darksideButtons {
+      ${ButtonFragment}
+    }
     additionalClass
     textBlockAlignment
     ctaCopy2

@@ -15,6 +15,7 @@ export type MenuLink = {
   title?: string;
   key?: string;
   route?: string;
+  newRoute?: string;
   columns?: Array<SubMenuParentLink>;
 };
 

@@ -300,6 +300,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     const newSortBy = header.id;
 
     if (!queryDiamond.isFetching) {
+      console.log('setting newnew');
       updateOptions({
         sortBy: newSortBy,
         sortOrder: newSortOrder,
