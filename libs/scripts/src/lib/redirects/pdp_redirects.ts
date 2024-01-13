@@ -3,7 +3,20 @@ import axios from 'axios';
 import 'dotenv/config';
 // goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&flow=setting
 // goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&caratWeight=1.0ct&flow=setting
-const ORDERED_CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'goldPurity', 'bandAccent', 'bandWidth', 'hiddenHalo', 'caratWeight', 'sideStoneShape', 'sideStoneCarat'];
+const ORDERED_CONFIGURATION_PROPERTIES = [
+  'diamondType',
+  'metal',
+  'goldPurity',
+  'bandAccent',
+  'bandWidth',
+  'hiddenHalo',
+  'caratWeight',
+  'sideStoneShape',
+  'sideStoneCarat',
+  'bandStyle',
+  'ceramicColor',
+  'diamondSize'
+];
 
 async function getProducts(page = 1) {
   const response = await axios({
@@ -177,13 +190,17 @@ function generateToUrl(product, baseUrl = 'https://diamantaire.vercel.app') {
   return urlArr.join('/');
 }
 
-function isCanonicalConfiguration(configuration){
+function isCanonicalConfiguration(configuration: Record<string, string>, productType: string){
   return Object.entries(configuration).every(([type, value]) => {
-    if(['diamondType','metal', 'goldPurity'].includes(type)){
+    if(productType === 'Engagement Ring' && ['diamondType','metal', 'goldPurity'].includes(type)){
+      return true;
+    } else if (['goldPurity'].includes(type)){
       return true;
     }
 
     const canonicalValues = {
+      diamondType: ['round-brilliant'],
+      metal: ['yellow-gold'],
       bandAccent: ['plain'],
       bandWidth: ['standard'],
       hiddenHalo: ['no'],
@@ -191,6 +208,9 @@ function isCanonicalConfiguration(configuration){
       sideStoneShape: ['round-brilliant'],
       diamondOrientation: ['vertical'],
       sideStoneCarat: ['0.1ct'],
+      bandStyle: ['full'],
+      ceramicColor: ['black'],
+      diamondSize: ['medium','original'],
     }
 
     if (!canonicalValues[type]){
@@ -221,7 +241,7 @@ function generateRedirects(products, fromBaseUrl, toBaseUrl) {
       return r;
     }
 
-    const isCanonical = isCanonicalConfiguration(current.configuration);
+    const isCanonical = isCanonicalConfiguration(current.configuration, current.productType);
     const source = generateFromUrl(current, fromBaseUrl);
     const destination = generateToUrl(current, toBaseUrl);
     const isPermanent = true;

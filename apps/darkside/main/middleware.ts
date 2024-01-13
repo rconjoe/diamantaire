@@ -4,7 +4,20 @@ import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-const ORDERED_CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'goldPurity', 'bandAccent', 'bandWidth', 'hiddenHalo', 'caratWeight', 'sideStoneShape', 'sideStoneCarat', 'diamondOrientation'];
+const ORDERED_CONFIGURATION_PROPERTIES = [
+  'diamondType',
+  'metal',
+  'goldPurity',
+  'bandAccent',
+  'bandWidth',
+  'hiddenHalo',
+  'caratWeight',
+  'sideStoneShape',
+  'sideStoneCarat',
+  'bandStyle',
+  'ceramicColor',
+  'diamondSize'
+];
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
   // Use authMiddleware
