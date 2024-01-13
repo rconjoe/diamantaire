@@ -8,7 +8,6 @@ import {
 import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -42,6 +41,9 @@ interface OptionSelectorProps {
 }
 
 const StyledOptionSelector = styled.div`
+  &.diamondType {
+    width: 100%;
+  }
   .selector-label {
     display: flex;
     flex-direction: row;
@@ -66,7 +68,7 @@ const StyledOptionSelector = styled.div`
   .option-list {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
     gap: 0.5rem;
     list-style: none;
     padding: 0;
@@ -160,22 +162,19 @@ const StyledOptionSelector = styled.div`
       margin-top: 1rem;
       position: relative;
       max-width: 100%;
-      gap: 1.5rem;
       min-height: 4.4rem;
-      ${media.medium`max-width: 66%;`}
 
-      .swiper {
+      .diamond-shape__slider {
         width: 100%;
         max-width: 100%;
-        position: absolute;
-
-        .swiper-slide {
-          width: fit-content !important;
-          margin-right: 2.5rem;
-          ${media.medium`margin-right: 3rem;`}
-          &:last-child {
-            margin-right: 10rem;
-          }
+        .embla__container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          gap: 25px;
+        }
+        .embla__slide {
+          flex: 0 0 auto;
         }
       }
 
@@ -186,11 +185,21 @@ const StyledOptionSelector = styled.div`
       .carousel-arrow {
         position: absolute;
         top: 1rem;
-        background-color: transparent;
-        right: -3rem;
-        ${media.medium`right: -4rem;`}
-      }
+        background-color: white;
+        top: -3px;
+        height: 100%;
+        &:disabled {
+          opacity: 0;
+          cursor: default; /* Optional: Changes the cursor to indicate the button is not clickable */
+        }
+        &.arrow-left {
+          left: -15px;
+        }
 
+        &.arrow-right {
+          right: -15px;
+        }
+      }
       svg {
         transition: 0.25s;
       }
@@ -222,16 +231,6 @@ const StyledOptionSelector = styled.div`
       min-height: 0;
     }
   }
-
-  .diamond-shape__slider {
-    .embla__slide {
-      flex: 0 0 50px;
-      justify-content: center;
-      text-align: center;
-      flex: 0 0 auto;
-      margin-right: 25px;
-    }
-  }
 `;
 
 function OptionSelector({
@@ -247,8 +246,6 @@ function OptionSelector({
   hideSelectorLabel = false,
   productType,
   diamondSpecs,
-  selectedOptionIndex = 0,
-
   selectedConfiguration,
   setProductSlug,
   areDiamondShapesHorizontal,
@@ -258,7 +255,8 @@ function OptionSelector({
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
-  const [isLastSlide, setIsLastSlide] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+  const [_, setUpdateFlag] = useState(false);
 
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
@@ -266,57 +264,42 @@ function OptionSelector({
 
   const diamondSliderOptions: any = {
     loop: false,
-    dragFree: false,
-    align: 'start',
-    slidesToScroll: 4,
+    dragFree: true,
+    containScroll: 'trimSnaps',
+    align: 'center',
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(diamondSliderOptions);
 
-  // Track if next/prev button should show on diamondType slider
   useEffect(() => {
     if (!emblaApi) return;
 
-    const updateActiveSlide = () => {
-      const selectedSlide = emblaApi.selectedScrollSnap();
+    const initialIndex = options.findIndex((option) => option.value === selectedOptionValue);
 
-      // Check if the current slide is the last slide
-      const isLastSlide = selectedSlide === emblaApi.scrollSnapList().length - 1;
+    if (initialIndex > -1) {
+      setTimeout(() => {
+        emblaApi.scrollTo(initialIndex);
+      }, 300);
+    }
+  }, [emblaApi, options, selectedOptionValue]);
 
-      // If it's the last slide, do something (you can call a function or set state here)
-      if (isLastSlide) {
-        // You can set state or call a function here to handle being on the last slide
-        setIsLastSlide(true);
-      } else {
-        setIsLastSlide(false);
-      }
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const updateArrowVisibility = () => {
+      // triggers a re-render
+      setUpdateFlag((prevFlag) => !prevFlag);
     };
 
-    // Initialize the active slide
-    updateActiveSlide();
+    emblaApi.on('select', updateArrowVisibility);
+    emblaApi.on('scroll', updateArrowVisibility);
 
-    // scroll to init slide
-    const setInitSlide = () => {
-      if (selectedOptionIndex > 6) {
-        emblaApi.scrollTo(selectedOptionIndex);
-        setIsLastSlide(true);
-      }
-    };
+    updateArrowVisibility(); // Initial update
 
-    setInitSlide();
-
-    // Add event listeners to track the active slide
-    emblaApi.on('select', updateActiveSlide);
-    emblaApi.on('reInit', () => {
-      setInitSlide();
-      updateActiveSlide();
-    });
-
-    // Clean up the event listeners when the component unmounts
     return () => {
-      emblaApi.off('select', updateActiveSlide);
-      emblaApi.off('reInit', setInitSlide);
+      emblaApi.off('select', updateArrowVisibility);
+      emblaApi.off('scroll', updateArrowVisibility);
     };
-  }, [emblaApi, selectedOptionIndex]);
+  }, [emblaApi]);
 
   if (!options) {
     return null;
@@ -421,7 +404,7 @@ function OptionSelector({
 
     const renderCarousel = () => (
       <>
-        <div className="embla diamond-shape__slider" ref={emblaRef}>
+        <div className={clsx('embla diamond-shape__slider')} ref={emblaRef}>
           <div className="embla__container">
             {DIAMOND_SHAPES_MAP &&
               options.map((option, index) => {
@@ -448,14 +431,14 @@ function OptionSelector({
         </div>
         <button
           className="carousel-arrow arrow-left"
-          style={{ display: isLastSlide ? 'block' : 'none' }}
+          disabled={!emblaApi?.canScrollPrev()}
           onClick={() => emblaApi?.scrollPrev()}
         >
           <ArrowLeftIcon />
         </button>
         <button
           className="carousel-arrow arrow-right"
-          style={{ display: isLastSlide ? 'none' : 'block' }}
+          disabled={!emblaApi?.canScrollNext()}
           onClick={() => emblaApi?.scrollNext()}
         >
           <ArrowRightIcon />
