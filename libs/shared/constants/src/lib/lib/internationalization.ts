@@ -560,7 +560,11 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
 
   const convertedPrice = priceInCents / 100;
 
-  const numberFormat = new Intl.NumberFormat(locale, {
+  console.log('currencycurrency', currency);
+
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
     currencyDisplay: 'narrowSymbol',
@@ -570,6 +574,8 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(convertedPrice);
+
+  console.log('v1 formattedPrice', formattedPrice);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 

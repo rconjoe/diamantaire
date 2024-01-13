@@ -29,6 +29,11 @@ const ProductIconListContainer = styled.div`
           position: relative;
           top: 5px;
         }
+
+        /* need to standardize with new style guide - Sam D. */
+        .text {
+          font-size: 1.7rem;
+        }
       }
 
       a {
