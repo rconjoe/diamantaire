@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { useAnalytics } from '@diamantaire/analytics';
+import { PageViewTracker, useAnalytics } from '@diamantaire/analytics';
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   DarksideButton,
@@ -413,9 +413,6 @@ const ReviewBuildStep = ({
     router.locale,
   );
 
-  console.log('blockpickerData', blockpickerData);
-
-  //
   const diamondImages = isDiamondCFY
     ? diamonds.map((diamond) => {
         const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
@@ -529,7 +526,7 @@ const ReviewBuildStep = ({
         ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
         : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)]);
     const refinedBandAccent =
-      settingType === 'engagement-ring' ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
+      settingType === 'engagement-ring' && bandAccent ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
@@ -1084,6 +1081,7 @@ const ReviewBuildStep = ({
           </SlideOut>
         )}
       </AnimatePresence>
+      <PageViewTracker productData={productData} />
     </ReviewBuildStepStyles>
   );
 };

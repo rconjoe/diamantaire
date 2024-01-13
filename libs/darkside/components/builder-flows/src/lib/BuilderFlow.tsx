@@ -202,8 +202,6 @@ const BuilderFlow = ({
       return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     }
 
-    console.log('configure step running', builderProduct);
-
     // ToiMoi
     if (
       router.asPath.includes('toi-moi-ring') ||
