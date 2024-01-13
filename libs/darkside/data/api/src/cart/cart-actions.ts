@@ -401,8 +401,7 @@ export function addJewelryProductToCart({
         },
       ];
 
-      //   return addCustomizedItem(items);
-      console.log('items', items);
+      return addCustomizedItem(items, locale);
     }
   }
 

@@ -3,6 +3,7 @@ import { gql } from 'graphql-request';
 
 import { queryDatoGQL } from '../../clients';
 import { vraiApiClient } from '../../clients/vraiApiClient';
+import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
 import {
   Carousel,
   CarouselHover,
@@ -29,9 +30,6 @@ import {
   SocialMediaSection,
   Accordion,
 } from '../../modular';
-
-import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
-
 
 // Get associated DiamondTypes from Product slug
 export async function getProductDiamondTypes(productSlug) {
@@ -214,6 +212,17 @@ const PRODUCT_ICON_LIST_QUERY = gql`
           shippingBusinessDays
           shippingBusinessDaysCountryMap
           shippingText
+          cutForYouShippingBusinessDays
+          cutForYouShippingBusinessDaysCountryMap
+          cutForYouShippingText
+          cutForYouShippingDetails
+          cutForYouReturnPolicyTitle
+          cutForYouReturnPolicyDetails
+          cutForYouReturnPolicyIcon {
+            width
+            height
+            url
+          }
           icon {
             width
             height

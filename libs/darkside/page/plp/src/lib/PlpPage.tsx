@@ -149,7 +149,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   return (
     <div>
-      <NextSeo title={seoTitle} description={seoDescription} />
+      <NextSeo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
       <PageViewTracker listPageData={listPageData} />
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
@@ -194,26 +198,26 @@ const createGetStaticPaths = (category: string) => {
     const includedLocales = ['en-US'];
 
     // Filter the locales and generate paths
-    const paths = pageSlugs.filter(p => (p.category && p.slug && p.category === category && !excludedSlugs.includes(p.slug))).flatMap(({ slug }) => {
-      // Skip if slug is not defined or empty
-      if (!slug || slug === '') return [];
+    const paths = pageSlugs
+      .filter((p) => p.category && p.slug && p.category === category && !excludedSlugs.includes(p.slug))
+      .flatMap(({ slug }) => {
+        // Skip if slug is not defined or empty
+        if (!slug || slug === '') return [];
 
-      return includedLocales.map((locale) => ({
-        locale,
-        params: { plpSlug: [slug] },
-      }));
-    });
-
+        return includedLocales.map((locale) => ({
+          locale,
+          params: { plpSlug: [slug] },
+        }));
+      });
 
     return {
       paths,
-      fallback: true
-    }
-    
-  }
+      fallback: true,
+    };
+  };
 
   return getStaticPaths;
-}
+};
 
 const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
@@ -293,7 +297,7 @@ const createStaticProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
-      revalidate: getSwrRevalidateConfig() || 60 * 60
+      revalidate: getSwrRevalidateConfig() || 60 * 60,
     };
   };
 
@@ -310,7 +314,7 @@ const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
 const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
 const weddingRingsGetStaticPaths = createGetStaticPaths('wedding-rings');
 
-export { 
+export {
   PlpPage,
   engagementRingsGetStaticProps,
   engagementRingsGetStaticPaths,
