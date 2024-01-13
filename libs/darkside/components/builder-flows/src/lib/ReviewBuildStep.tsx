@@ -1115,7 +1115,7 @@ const ReviewBuildStep = ({
           </SlideOut>
         )}
       </AnimatePresence>
-      <PageViewTracker productData={productData} />
+      <PageViewTracker productData={productData} isSummaryPage={true} />
     </ReviewBuildStepStyles>
   );
 };
