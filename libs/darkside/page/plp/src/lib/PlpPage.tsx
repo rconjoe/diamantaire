@@ -177,7 +177,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
-      {JSON.stringify(filterValue)}
+      {/* {JSON.stringify(filterValue)} */}
 
       {subcategoryFilter?.length > 0 && (
         <PlpSubCategories
