@@ -48,7 +48,13 @@ const SingleJournalEntry = () => {
 
   return (
     <SingleJournalEntryStyles>
-      {seoTitle && seoDescription && <NextSeo title={seoTitle} description={seoDescription} />}
+      {seoTitle && seoDescription && (
+        <NextSeo
+          title={seoTitle}
+          description={seoDescription}
+          canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+        />
+      )}
 
       <div className="journal-entry__crumbs">{crumbs && <Breadcrumb breadcrumb={crumbs} simple={true} />}</div>
 

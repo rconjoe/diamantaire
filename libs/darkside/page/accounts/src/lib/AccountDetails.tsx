@@ -229,7 +229,10 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
 
   return (
     <AccountDetailsStyles>
-      <NextSeo title="Customer Details" />
+      <NextSeo
+        title="Customer Details"
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
 
       <div className="container-wrapper">
         {customer?.id && (

@@ -361,7 +361,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   });
 
   const shouldShowCFYPromo =
-    settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs');
+    !settingProductType ||
+    (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
@@ -469,7 +470,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {!isBuilderFlowOpen && shouldShowCFYPromo && cfyPromoCard}
+          {(!isBuilderFlowOpen || shouldShowCFYPromo) && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">

@@ -33,7 +33,13 @@ const ProductSeo = ({ seoFields, legacySeoFields, productType, productTitle, met
   metaDescription = replacePlaceholders(metaDescription, ['%%product_type%%'], [productType]).toString();
   metaDescription = replacePlaceholders(metaDescription, ['%%diamond_type%%'], [diamondType]).toString();
 
-  return <NextSeo title={metaTitle} description={metaDescription} />;
+  return (
+    <NextSeo
+      title={metaTitle}
+      description={metaDescription}
+      canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+    />
+  );
 };
 
 export { ProductSeo };
