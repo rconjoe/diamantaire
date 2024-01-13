@@ -179,7 +179,6 @@ const PlpProductGrid = ({
 
   if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
   if (availableFilters && availableFilters['price']) delete availableFilters.price;
-  console.log('availableFilters', availableFilters);
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>

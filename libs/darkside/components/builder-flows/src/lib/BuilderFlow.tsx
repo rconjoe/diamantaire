@@ -146,7 +146,6 @@ const BuilderFlow = ({
   }
 
   async function getDiamond() {
-    console.log('initialLotIds', initialLotIds);
     const qParams = new URLSearchParams({
       lotIds: initialLotIds,
     }).toString();
