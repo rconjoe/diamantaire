@@ -243,7 +243,7 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
                         selectSetting={selectSetting}
                       />
                     </SlideOut>,
-                    document.body,
+                    document.getElementById('vrai-site'),
                   )}
               </>
             )}
