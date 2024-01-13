@@ -165,7 +165,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   return (
     <div>
-      <NextSeo title={seoTitle} description={seoDescription} />
+      <NextSeo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
 
       <PageViewTracker listPageData={listPageData} />
 

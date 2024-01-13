@@ -22,10 +22,29 @@ const ProductIconListContainer = styled.div`
       font-size: 1.7rem;
       margin-bottom: 0.5rem;
 
+      &.cfy {
+        align-items: flex-start;
+
+        .icon {
+          position: relative;
+          top: 5px;
+        }
+      }
+
       a {
         display: flex;
         color: var(--color-teal);
         text-decoration: underline;
+      }
+
+      span {
+        &.details {
+          display: block;
+          font-weight: 400;
+          color: var(--color-dark-grey);
+          line-height: 1.3;
+          font-size: var(--font-size-xxsmall);
+        }
       }
 
       .share {
@@ -46,6 +65,7 @@ const ProductIconListContainer = styled.div`
 
       span.icon {
         margin-right: 1rem;
+        flex: 0 0 14px;
       }
 
       img {
@@ -79,6 +99,8 @@ interface ProductIconListProps {
   collectionSlug?: string;
   productSlug?: string;
   productType?: string;
+  isCfy?: boolean;
+  isCaratLessThanFive?: boolean;
 }
 
 const ProductIconList = ({
@@ -90,6 +112,8 @@ const ProductIconList = ({
   productImageUrl,
   withDropHint = false,
   handleOpenDropHintModal,
+  isCfy = false,
+  isCaratLessThanFive = true,
 }: ProductIconListProps) => {
   const [isDiamondSlideoutOpen, setIsDiamondSlideoutOpen] = useState(false);
 
@@ -106,7 +130,14 @@ const ProductIconList = ({
       <ul>
         {items?.map((item, index) => {
           if (item._modelApiKey === 'modular_shipping_product_icon_list_item') {
-            return <ShippingListItem item={item} key={`product-icon-li-${index}`} />;
+            return (
+              <ShippingListItem
+                item={item}
+                isCfy={isCfy}
+                isCaratLessThanFive={isCaratLessThanFive}
+                key={`product-icon-li-${index}`}
+              />
+            );
           } else {
             return (
               <IconListItem
@@ -143,8 +174,20 @@ const ProductIconList = ({
 export { ProductIconList };
 
 // Single Icon List Item
-const ShippingListItem = ({ item }) => {
-  const { shippingText, shippingBusinessDays, shippingBusinessDaysCountryMap, icon } = item || {};
+const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
+  const {
+    shippingText,
+    shippingBusinessDays,
+    shippingBusinessDaysCountryMap,
+    icon,
+    cutForYouShippingBusinessDaysCountryMap,
+    cutForYouShippingBusinessDays,
+    cutForYouShippingText,
+    cutForYouShippingDetails,
+    cutForYouReturnPolicyTitle,
+    cutForYouReturnPolicyDetails,
+    cutForYouReturnPolicyIcon,
+  } = item || {};
 
   const { locale } = useRouter();
   const { countryCode } = parseValidLocale(locale);
@@ -156,28 +199,59 @@ const ShippingListItem = ({ item }) => {
       ? shippingBusinessDaysCountryMap?.[countryCode]
       : shippingBusinessDaysCountryMap?.['International'];
 
-  const shippingDate = getFormattedShipByDate(businessDays, locale);
+  const businessDaysCfy =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDays
+      : cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      ? cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      : cutForYouShippingBusinessDaysCountryMap?.['International'];
+
+  const shippingDate = getFormattedShipByDate(isCfy ? businessDaysCfy : businessDays, locale);
 
   return (
-    <li>
-      <span className="icon">
-        {icon && <DatoImage image={icon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />}
-      </span>
-      <span className="font-medium">
-        {shippingText} {shippingDate}
-      </span>
-    </li>
+    <>
+      {/* Shipping */}
+      <li className={isCfy ? 'cfy' : ''}>
+        <span className="icon">
+          {icon && (
+            <DatoImage
+              image={icon}
+              isSVG={true}
+              overrideAlt={(isCfy ? cutForYouShippingText : shippingText) + ' ' + shippingDate}
+            />
+          )}
+        </span>
+        <span className="text font-medium">
+          {isCfy ? cutForYouShippingText : shippingText} {shippingDate}
+          {isCfy && <span className="details">{cutForYouShippingDetails}</span>}
+        </span>
+      </li>
+      {/* CFY only - Returns */}
+      {isCfy && !isCaratLessThanFive && (
+        <li className={isCfy ? 'cfy' : ''}>
+          <span className="icon">
+            {icon && (
+              <DatoImage image={cutForYouReturnPolicyIcon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />
+            )}
+          </span>
+          <span className="text font-medium">
+            {cutForYouReturnPolicyTitle}
+            {isCfy && <span className="details">{cutForYouReturnPolicyDetails}</span>}
+          </span>
+        </li>
+      )}
+    </>
   );
 };
 
 // Standard Icon List Item
 const IconListItem = ({ item, setIsDiamondSlideoutOpen }) => {
-  const { copy, ctaRoute, newRoute,ctaCopy, icon, additionalInfo } = item || {};
+  const { copy, ctaRoute, newRoute, ctaCopy, icon, additionalInfo } = item || {};
 
   return (
     <li>
-      <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy || copy} />}</span> {copy}{' '}
-      {newRoute && <Link href={(newRoute || ctaRoute)}>{ctaCopy} </Link>}
+      <span className="icon">{icon && <DatoImage image={icon} isSVG={true} overrideAlt={ctaCopy || copy} />}</span>{' '}
+      {newRoute || ctaRoute ? <Link href={newRoute || ctaRoute}>{ctaCopy || copy} </Link> : copy}
       {additionalInfo ? (
         <button className="diamond-info-toggle" onClick={() => setIsDiamondSlideoutOpen(true)}>
           <InfoIcon />

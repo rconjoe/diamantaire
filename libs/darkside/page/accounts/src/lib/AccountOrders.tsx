@@ -122,7 +122,10 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
 
   return (
     <AccountOrdersStyles>
-      <NextSeo title={`${_t('Account Orders')} | VRAI`} />
+      <NextSeo
+        title={`${_t('Account Orders')} | VRAI`}
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
       {ordersLoaded && (
         <div className="table container-wrapper">
           {orders?.length !== 0 ? (

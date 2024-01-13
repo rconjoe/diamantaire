@@ -107,7 +107,11 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   return (
     <StyledPlpDiamondPage>
-      <NextSeo title={seoTitle} description={seoDescription} />
+      <NextSeo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
 
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
 

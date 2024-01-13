@@ -50,7 +50,11 @@ const JournalHomeEntry = ({
 
   return (
     <JournalHomeEntryStyles>
-      <NextSeo title={blogHomeSeo?.seoTitle} description={blogHomeSeo?.seoDescription} />
+      <NextSeo
+        title={blogHomeSeo?.seoTitle}
+        description={blogHomeSeo?.seoDescription}
+        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      />
       <JournalHeader showTitle={true} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
       <div>
         {/* ------ LATEST STORIES list title block ------ */}

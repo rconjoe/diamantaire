@@ -118,7 +118,13 @@ const JournalCategoryEntry = (props: JournalCategoryEntryProps) => {
 
   return (
     <JournalCategoryEntryContainer>
-      {seoTitle && seoDescription && <NextSeo title={seoTitle} description={seoDescription} />}
+      {seoTitle && seoDescription && (
+        <NextSeo
+          title={seoTitle}
+          description={seoDescription}
+          canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+        />
+      )}
 
       <JournalHeader showTitle={false} showNavLogo={true} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
 
