@@ -185,7 +185,9 @@ const StyledOptionSelector = styled.div`
       .carousel-arrow {
         position: absolute;
         top: 1rem;
-        background-color: transparent;
+        background-color: white;
+        top: -3px;
+        height: 100%;
         &:disabled {
           opacity: 0;
           cursor: default; /* Optional: Changes the cursor to indicate the button is not clickable */
