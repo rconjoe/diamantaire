@@ -72,6 +72,9 @@ const StyledOptionSelector = styled.div`
     padding: 0;
     margin: 0;
 
+    &.bandStoneShape {
+      gap: 25px;
+    }
     &.ringSize {
       align-items: center;
       margin-bottom: 2rem;
@@ -205,6 +208,7 @@ const StyledOptionSelector = styled.div`
     &.prongStyle,
     &.stoneSetting,
     &.bandVersion,
+    &.bandStoneStyle,
     &.bandStyle {
       button {
         min-width: 11.5rem;
@@ -606,6 +610,12 @@ function OptionSelector({
     );
   }
 
+  const renderOptionsMap = {
+    diamondType: renderDiamondTypeOptions,
+    ringSize: renderRingSizeOptions,
+    caratWeight: renderCaratWeightOptions,
+  };
+
   return (
     <StyledOptionSelector className={optionType}>
       {!hideSelectorLabel && label && (
@@ -617,12 +627,7 @@ function OptionSelector({
         </div>
       )}
 
-      <div>
-        {label === 'diamondType' && renderDiamondTypeOptions()}
-        {label === 'ringSize' && renderRingSizeOptions()}
-        {label === 'caratWeight' && renderCaratWeightOptions()}
-        {label !== 'diamondType' && label !== 'ringSize' && label !== 'caratWeight' && renderDefaultOptions()}
-      </div>
+      <div>{renderOptionsMap[label] ? renderOptionsMap[label]() : renderDefaultOptions()}</div>
     </StyledOptionSelector>
   );
 }

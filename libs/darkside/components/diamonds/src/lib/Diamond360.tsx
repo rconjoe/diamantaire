@@ -74,7 +74,7 @@ const Diamond360 = ({
   );
 
   useEffect(() => {
-    const id = diamondID.includes('cfy-')
+    const id = diamondID?.includes('cfy-')
       ? diamondID
       : diamondID
           .split('')

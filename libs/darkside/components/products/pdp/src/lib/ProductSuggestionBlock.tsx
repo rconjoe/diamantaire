@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductSuggestionBlockStyles = styled.div`
+  &.container-wrapper {
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin-top: 9.6rem;
+    }
+  }
   .title-container {
     padding-bottom: 6rem;
   }
@@ -44,15 +49,21 @@ const ProductSuggestionBlock = ({ id }) => {
   const { aboveCopy } = content || {};
 
   const refinedConfigurations = normalizeDatoNumberedContent(content, ['configuration']);
+
   const refinedTitles = normalizeDatoNumberedContent(content, ['title']);
 
-  const productHandles = refinedConfigurations.map(
-    (configurationNode) => configurationNode?.configuration?.shopifyProductHandle,
-  );
+  const productHandles = refinedConfigurations.map((configurationNode) => {
+    // Check if the jewelryProduct slug exists
+    return configurationNode?.configuration?.variantId
+      ? configurationNode.configuration.variantId
+      : configurationNode?.configuration?.shopifyProductHandle;
+  });
 
   const { data } = useBlockProducts(productHandles);
 
   const { products, lowestPricesByCollection } = data || {};
+
+  if (products?.length === 0) return null;
 
   return (
     <ProductSuggestionBlockStyles className="container-wrapper">
