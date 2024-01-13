@@ -51,6 +51,8 @@ type FilterQueryValues = {
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
 
+  const [pageLoaded, setPageLoaded] = useState(false);
+
   const [prevQuery, setPrevQuery] = useState(null);
 
   const router = useRouter();
@@ -60,8 +62,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { ref: pageEndRef, inView } = useInView({ rootMargin: '800px' });
 
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
-
-  console.log(`initialFilterValues`, initialFilterValues);
 
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
 
@@ -152,20 +152,16 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   }, [inView, fetchNextPage, hasNextPage]);
 
   useEffect(() => {
-    if (!deepEqual(prevQuery, query)) {
+    if (pageLoaded && !deepEqual(prevQuery, query)) {
       setFilterValues(getFiltersFromQueryParams(query));
     }
 
     return () => {
       setPrevQuery(query);
+
+      setPageLoaded(true);
     };
   }, [query]);
-
-  useEffect(() => {
-    if (filterValue && Object.keys(filterValue).length === 0) {
-      setFilterValues({ metal: ['yellow-gold'], diamondType: ['round-brilliant'] });
-    }
-  }, []);
 
   return (
     <div>
@@ -254,7 +250,7 @@ const createStaticProps = (category: string) => {
 
     const { plpSlug, ...qParams } = params;
 
-    //Render 404 if no plpSlug
+    // Render 404 if no plpSlug
     if (!plpSlug) {
       return {
         notFound: true,
