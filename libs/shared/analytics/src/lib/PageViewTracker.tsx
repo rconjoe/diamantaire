@@ -55,8 +55,12 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
 
   function emitViewPageEvent(pageName: string) {
     const segments = router?.pathname.split('/').filter(Boolean);
+
     const productSlugSegmentPath = segments[segments.length - 1];
-    const isProductSlug = productSlugSegmentPath === '[productSlug]';
+
+    const isSummaryPage = router.asPath.includes('/summary');
+
+    const isProductSlug = productSlugSegmentPath === '[productSlug]' || isSummaryPage;
     const isListPageSlug = productSlugSegmentPath === '[...plpSlug]';
 
     if (isListPageSlug) {
@@ -78,7 +82,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
       }).slice(0, 3);
       const variantIds = firstThreeProducts.map(({ id }) => id);
 
-      productListViewed({
+      return productListViewed({
         listName,
         category,
         variantIds,
@@ -111,7 +115,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
       const variant = productTitle;
       const configuration = normalizeVariantConfigurationForGTM(productConfiguration);
 
-      productViewed({
+      return productViewed({
         // rudderstack base ecommerce keys
         id,
         product_id,
@@ -134,6 +138,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
         value: price,
         product: name,
         countryCode,
+        isSummaryPage,
         ecommerce: {
           detail: {
             products: [
@@ -165,7 +170,7 @@ const PageViewTracker = ({ productData, listPageData }: Props) => {
         },
       });
     } else {
-      viewPage(pageName);
+      return viewPage(pageName);
     }
   }
   useEffect(() => {
@@ -187,22 +192,16 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
 
   const allProducts = productData.pages.flatMap((page) => page.products);
   const normalizedProducts = allProducts.map((product, idx) => {
-    if (!product){
+    if (!product) {
       return null;
     }
-    const { defaultId, variants } = product;
-    const variant = variants[defaultId];
+    const { defaultId, variants } = product || {};
+    const variant = variants?.[defaultId];
 
     if (!variant) return null;
 
-    const {
-      productSlug,
-      productType,
-      primaryImage,
-      price,
-      title,
-    } = variant;
-    const  { src } = primaryImage || {};
+    const { productSlug, productType, primaryImage, price, title } = variant;
+    const { src } = primaryImage || {};
     const variantId = productSlug.split('-').pop();
     const formattedPrice = getFormattedPrice(price, locale, true, true);
     const brand = 'VRAI';
@@ -234,8 +233,8 @@ function getGTMNormalizedListPageItems({ productData, locale, currencyCode, list
   const allProducts = productData.pages.flatMap((page) => page.products);
 
   const normalizedProducts = allProducts.map((product, idx) => {
-    const { defaultId, variants } = product;
-    const variant = variants[defaultId];
+    const { defaultId, variants } = product || {};
+    const variant = variants?.[defaultId];
 
     if (!variant) return null;
 

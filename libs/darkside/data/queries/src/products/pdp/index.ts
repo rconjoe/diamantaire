@@ -8,6 +8,7 @@ import {
   fetchDatoProductVideoBlock,
   fetchDatoVariant,
   fetchPDPGwpData,
+  fetchDatoProductBelowBannerBlocks,
   getProductDiamondTypes,
   getProductPage,
 } from '@diamantaire/darkside/data/api';
@@ -63,5 +64,9 @@ export const productPage = createQueryKeys('products', {
   gwp: (locale: string) => ({
     queryKey: [locale],
     queryFn: () => fetchPDPGwpData(locale),
+  }),
+  productBelowBannerBlocks: (productSlug: string, locale: string, productType: PdpTypePlural) => ({
+    queryKey: [productSlug, locale, productType],
+    queryFn: () => fetchDatoProductBelowBannerBlocks(productSlug, locale, productType),
   }),
 });

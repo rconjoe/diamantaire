@@ -42,7 +42,7 @@ const PlpPromoItemStyles = styled.div`
 `;
 
 const PlpPromoItem = ({ block }) => {
-  const { image, imageMobile, title, link, textColor, enableGwp } = block || {};
+  const { image, imageMobile, title, route, textColor, enableGwp } = block || {};
   const { locale } = useRouter();
 
   const { data: gwp } = usePlpGWP(locale);
@@ -89,7 +89,7 @@ const PlpPromoItem = ({ block }) => {
 
   return (
     <PlpPromoItemStyles>
-      <Link href={link && getRelativeUrl(link)}>
+      <Link href={route && route}>
         <div className="promo__image">
           <MobileDesktopImage alt={title} desktopImage={image} mobileImage={imageMobile} quality={100} />
           <div className="promo__content">

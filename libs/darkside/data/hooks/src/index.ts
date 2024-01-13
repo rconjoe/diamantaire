@@ -36,6 +36,7 @@ export * from './lib/products/use-product-video';
 export * from './lib/products/use-block-products';
 export * from './lib/products/use-product-suggestions';
 export * from './lib/products/use-pdp-gwp';
+export * from './lib/products/use-product-below-banner-blocks';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';

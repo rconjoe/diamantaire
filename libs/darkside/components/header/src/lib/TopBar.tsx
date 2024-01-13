@@ -164,7 +164,8 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
             <div className="embla__container">
               {data?.announcementBar?.data?.map((slide, index) => {
                 const {
-                  link,
+                  // link,
+                  route,
                   copy: defaultCopy,
                   enableGeoCopy,
                   nonGeoCopy,
@@ -218,7 +219,7 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                     ) : enableGeoCopy && showroomLocation ? (
                       <p>
                         {/* If there is a location, and the slide has geo on it 🪄 */}
-                        <Link href={link}>
+                        <Link href={route}>
                           {replacePlaceholders(geoCopy, ['%%location-name%%'], [showroomLocation?.location])
                             .toString()
                             .trim()}{' '}

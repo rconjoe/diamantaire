@@ -10,11 +10,15 @@ import {
   MediaGallery,
   MediaSlider,
   ProductConfigurator,
+  ProductContentBlocks,
   ProductDescription,
   ProductGWP,
   ProductIconList,
   ProductPrice,
+  ProductReviews,
+  ProductSuggestionBlock,
   ProductTitle,
+  ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
@@ -76,6 +80,13 @@ type SettingBuildStepProps = {
     collectionSlug: string;
     productSlug: string;
   };
+  contentIds: {
+    productSuggestionBlockId: string;
+    trioBlocksId: string;
+    videoBlockId: string;
+    instagramReelId: string;
+    shopifyCollectionId: string;
+  };
 };
 
 const SettingBuildStep = ({
@@ -96,8 +107,11 @@ const SettingBuildStep = ({
   productTitleOverride,
   productIconListType,
   settingSlugs,
+  contentIds,
 }: SettingBuildStepProps) => {
   const { builderProduct } = useContext(BuilderProductContext);
+
+  const { productSuggestionBlockId, trioBlocksId, shopifyCollectionId, instagramReelId, videoBlockId } = contentIds || {};
 
   const [totalPrice, setTotalPrice] = useState(null);
 
@@ -113,7 +127,7 @@ const SettingBuildStep = ({
   const { _t } = useTranslations(router.locale);
 
   useEffect(() => {
-    if (!builderProduct?.diamonds) return null;
+    if (!builderProduct?.diamonds) return;
     // Calculate the total price
     let total = builderProduct?.diamonds?.reduce((sum, item) => sum + item.price, 0);
 
@@ -230,6 +244,16 @@ const SettingBuildStep = ({
           </div>
         </div>
       </div>
+
+      {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+
+      {productSuggestionBlockId && <ProductSuggestionBlock id={productSuggestionBlockId} />}
+
+      {shopifyProductData?.productType === 'Engagement Ring' && (
+        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+      )}
+
+      {shopifyCollectionId && <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />}
     </SettingBuildStepStyles>
   );
 };

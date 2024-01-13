@@ -1,8 +1,8 @@
-import { MobileDesktopImage, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { MobileDesktopImage, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { useCartData, usePlpGWP } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getBlockPictureAlt, getCountry, replacePlaceholders } from '@diamantaire/shared/helpers';
-import { DatoImageType } from '@diamantaire/shared/types';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
@@ -19,10 +19,11 @@ type ModularSkinnyBannerBlockProps = {
   ctaCopy?: string;
   ctaRoute?: string;
   additionalClass?: string;
+  darksideButtons: DatoDarksideButtonProps[];
 };
 
 const ModularSkinnyBannerBlock = (props: ModularSkinnyBannerBlockProps) => {
-  const { title, copy, mobileImage, desktopImage, textColor, ctaCopy, ctaRoute, additionalClass } = props || {};
+  const { title, copy, mobileImage, desktopImage, textColor, additionalClass, darksideButtons } = props || {};
 
   const alt = getBlockPictureAlt({
     desktopImage,
@@ -65,7 +66,7 @@ const ModularSkinnyBannerBlock = (props: ModularSkinnyBannerBlockProps) => {
         alt={alt}
       />
 
-      {(title || (ctaRoute && ctaCopy)) && (
+      {/* {(title || (ctaRoute && ctaCopy)) && (
         <div className={clsx('skinny-banner__title-copy-wrapper -center-copy', additionalClass)}>
           {title && <h1 className={clsx('skinny-banner__title primary', additionalClass)}>{title}</h1>}
           {refinedCopy && <p className="skinny-banner__subtitle">{refinedCopy}</p>}
@@ -75,7 +76,27 @@ const ModularSkinnyBannerBlock = (props: ModularSkinnyBannerBlockProps) => {
             </UniLink>
           )}
         </div>
-      )}
+      )} */}
+
+      {title || darksideButtons?.length > 0 ? (
+        <div className={clsx('skinny-banner__title-copy-wrapper -center-copy', additionalClass)}>
+          {title && <h1 className={clsx('skinny-banner__title primary', additionalClass)}>{title}</h1>}
+          {refinedCopy && <p className="skinny-banner__subtitle">{refinedCopy}</p>}
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
+        </div>
+      ) : null}
     </ModularSkinnyBannerBlockContainer>
   );
 };

@@ -13,7 +13,7 @@ type ProductTitleProps = {
 // takes a string, and capitalizes the first letter of each word
 export function capitalizeFirstLetter(string) {
   // split the string into an array of words
-  const words = string.split(' ');
+  const words = string?.split(' ');
 
   // iterate through the array of words
   for (let i = 0; i < words.length; i++) {
@@ -31,7 +31,7 @@ export function capitalizeFirstLetter(string) {
   return words.join(' ');
 }
 
-export function createLongProductTitle(props: ProductTitleProps) {
+export function createLongProductTitle(props: ProductTitleProps): string {
   const { title, diamondType, productType, metal, enableMetal = false, selectedLanguageCode, _t } = props;
   let longTitle = title;
 

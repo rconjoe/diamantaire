@@ -8,7 +8,7 @@ type InstagramThumnailSlideProps = {
   extraClass?: string;
   shouldLinkToVraiInstagram?: boolean;
   postLink?: string;
-  productLink?: string;
+  productRoute?: string;
 };
 
 const VRAI_INSTAGRAM_URL = 'https://www.instagram.com/vraiofficial/';
@@ -18,9 +18,9 @@ const InstagramThumnailSlide = ({
   extraClass,
   shouldLinkToVraiInstagram: _shouldLinkToInstagram,
   postLink,
-  productLink,
+  productRoute,
 }: InstagramThumnailSlideProps) => {
-  const shouldLinkToVraiInstagram = _shouldLinkToInstagram || (!postLink && !productLink);
+  const shouldLinkToVraiInstagram = _shouldLinkToInstagram || (!postLink && !productRoute);
 
   const getLink = () => {
     if (shouldLinkToVraiInstagram) {
@@ -29,9 +29,9 @@ const InstagramThumnailSlide = ({
 
     /**
      * May need extra field or way of handling priority of
-     * postLink vs. productLink, though for now these will likely go unused
+     * postLink vs. productRoute, though for now these will likely go unused
      */
-    return postLink || productLink || '';
+    return postLink || productRoute || '';
   };
 
   const link = getLink();

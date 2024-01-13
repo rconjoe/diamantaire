@@ -68,9 +68,6 @@ interface DiamondTableDataProps {
 export function useDiamondTableData(locale: string): UseQueryResult<DiamondTableDataProps, unknown> {
   return useQuery({
     ...queries.diamondTable.content(locale),
-    meta: {
-      locale,
-    },
     staleTime: 300000, // Set the stale time to 5 minutes
   });
 }

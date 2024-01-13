@@ -16,9 +16,6 @@ export default async function getPlpProducts(options: plpProductsOptionsProps, r
 
   const reqUrl = `/v1/products/plp?${qParams}`;
 
-  console.log(`😀 getPlpProducts:options`, options);
-  console.log(`😀 getPlpProducts:`, reqUrl);
-
   try {
     response = await vraiApiClient.get(reqUrl);
   } catch (error) {

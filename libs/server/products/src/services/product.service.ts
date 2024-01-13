@@ -110,8 +110,8 @@ export class ProductsService {
       ...(styles && { 'configuration.styles': { $in: styles }}),
       ...(subStyles && { 'configuration.subStyles': { $in: subStyles }}),
       ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
-      ...(priceMin && { 'configuration.price': { $gte: priceMin } }),
-      ...(priceMax && { 'configuration.price': { $lte: priceMax } }),
+      ...(priceMin && { 'price': { $gte: priceMin } }),
+      ...(priceMax && { 'price': { $lte: priceMax } }),
     };
 
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
@@ -667,13 +667,18 @@ export class ProductsService {
   async findProductBySlug(input: ProductSlugInput) {
     this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
     try {
+      const findProductBySlugStart: number = performance.now();
+
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
         ...getDraftQuery(),
       };
+
+      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + `:` + (query.isDraft ? `draft` : ``);
+
       // create unique cacheKey for each prodyct variant
-      const cachedKey = `productVariant-${input?.slug}-${input?.id}-${setLocal}`;
+      const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
       // check for cached data
       const cachedData = await this.cacheManager.get(cachedKey);
 
@@ -683,7 +688,24 @@ export class ProductsService {
         return cachedData; // return the entire cached data including dato content
       }
 
-      const collection: VraiProduct[] = await this.productRepository.find(query);
+      let collection: VraiProduct[];
+
+      const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
+
+      const preProductsReq: number = performance.now();
+
+      if (productsCollectionCacheValue) {
+        this.logger.verbose(`findProductBySlug :: From Cache`);
+        collection = productsCollectionCacheValue as VraiProduct[];
+      } else {
+        this.logger.verbose(`findProductBySlug :: From DB`);
+        collection = await this.productRepository.find(query);
+        this.cacheManager.set(redisKey, collection);
+      }
+
+      const postProductsReq: number = performance.now();
+
+      this.logger.verbose(`findProductBySlug :: Products request :: ${postProductsReq - preProductsReq}ms (total: ${postProductsReq - findProductBySlugStart}ms)`);
 
       // Get variant data based on requested ID
       const requestedProduct = collection.find((product) => product.productSlug === input.id);
@@ -897,12 +919,13 @@ export class ProductsService {
     }
 
     // options which are always included
-    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
+    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape, ProductOption.BandStoneShape];
     
     // options which are always included as long as the "parent" option matches
     const MATCHING_PARENT_OPTION_MAP = {
       [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
       [ProductOption.Metal]: [ProductOption.DiamondType, ProductOption.DiamondOrientation],
+      //[ProductOption.BandStoneShape]: [ProductOption.DiamondType]
     }
 
     OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {

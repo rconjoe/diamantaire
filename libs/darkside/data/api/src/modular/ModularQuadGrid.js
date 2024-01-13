@@ -14,6 +14,7 @@ const ModularQuadGrid = `
       itemTitle
       itemCaption
       itemUrl
+      route
       itemImage {
         url
         alt

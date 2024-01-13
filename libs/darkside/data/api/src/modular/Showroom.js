@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const Showroom = `
   ... on ModularShowroomBlockRecord {
     id
@@ -23,6 +25,9 @@ const Showroom = `
       locationLabel
       emailText
       emailCtaStyle
+      darksideButtons {
+        ${ButtonFragment}
+      }
     }
     image {
       url

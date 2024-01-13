@@ -2,6 +2,8 @@
 
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import { usePlpBlockPickerBlocks } from '@diamantaire/darkside/data/hooks';
+import { getCurrency } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
@@ -12,6 +14,8 @@ type PlpBlockPickerProps = {
 
 const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
   const { locale } = useRouter();
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
   const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug, category);
 
   return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
@@ -22,8 +26,8 @@ const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
         <BlockPicker
           _modelApiKey={_modelApiKey}
           modularBlockData={{ ...contentBlockData }}
-          countryCode={'US'}
-          currencyCode={'USD'}
+          countryCode={countryCode}
+          currencyCode={currencyCode}
           shouldLazyLoad={true}
         />
       </Fragment>
