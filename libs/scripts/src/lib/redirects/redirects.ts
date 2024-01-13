@@ -43,17 +43,20 @@ async function generateRedirects() {
 
   // Export to CSV
   if (exportType === '-csv') {
+    console.log('generating csv...')
     const headers = ['from', 'to'];
 
-    generateCSVfromObj(dataObj, headers, filePath);
-  }
+    const csvDataObj = Object.entries(dataObj).map(([from, redirect]) => ({ from, to: redirect.destination}))
+
+    generateCSVfromObj(csvDataObj, headers, filePath);
+  } else 
   // Export to JSON
   if (exportType === '-json') {
     generateJSONfromObj(dataObj, filePath);
   }
   else {
     console.log('Publishing redirects...');
-    publishRedirects(dataObj);
+    publishRedirects(dataObj as any);
   }
 
   console.log('Generating redirects with the following options', {

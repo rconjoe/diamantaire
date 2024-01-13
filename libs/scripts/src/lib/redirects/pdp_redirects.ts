@@ -1,8 +1,9 @@
 import { kv } from '@vercel/kv';
 import axios from 'axios';
 import 'dotenv/config';
-
-const CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'caratWeight', 'bandAccent', 'sideStoneShape', 'sideStoneCarat'];
+// goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&flow=setting
+// goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&caratWeight=1.0ct&flow=setting
+const ORDERED_CONFIGURATION_PROPERTIES = ['diamondType', 'metal', 'goldPurity', 'bandAccent', 'bandWidth', 'hiddenHalo', 'caratWeight', 'sideStoneShape', 'sideStoneCarat'];
 
 async function getProducts(page = 1) {
   const response = await axios({
@@ -92,7 +93,7 @@ function getConfigurationType(productType): { subpath: string[]; query: string[]
 
       return {
         subpath: subpathProperties,
-        query: CONFIGURATION_PROPERTIES.filter((prop) => !subpathProperties.includes(prop)),
+        query: ORDERED_CONFIGURATION_PROPERTIES.filter((prop) => !subpathProperties.includes(prop)),
       };
     }
     case 'Wedding Band': {
@@ -100,7 +101,7 @@ function getConfigurationType(productType): { subpath: string[]; query: string[]
 
       return {
         subpath: [],
-        query: CONFIGURATION_PROPERTIES.filter((prop) => !excludedProperties.includes(prop)),
+        query: ORDERED_CONFIGURATION_PROPERTIES.filter((prop) => !excludedProperties.includes(prop)),
       };
     }
     case 'Accessory':
@@ -112,7 +113,7 @@ function getConfigurationType(productType): { subpath: string[]; query: string[]
     case 'Bracelet': {
       return {
         subpath: [],
-        query: CONFIGURATION_PROPERTIES,
+        query: ORDERED_CONFIGURATION_PROPERTIES,
       };
     }
     default: {
@@ -152,11 +153,15 @@ function getUrlSubPathAndQueryParams(configuration, productType) {
 
 function generateFromUrl(product, baseUrl = 'https://www.vrai.com') {
   const { configuration, productType, collectionSlug } = product;
+  // get category and collection url segment
   const urlArr = [baseUrl, getProductTypeFromUrlPath(productType), collectionSlug];
+  // get configuration URL segment
   const { subPath, queryParams } = getUrlSubPathAndQueryParams(configuration, productType);
 
   let toUrl = urlArr.concat(subPath).join('/');
   const searchParams = new URLSearchParams(queryParams);
+
+  searchParams.sort();
 
   if (Array.from(searchParams).length > 0) {
     toUrl = `${toUrl}?${searchParams.toString()}`;
@@ -172,24 +177,68 @@ function generateToUrl(product, baseUrl = 'https://diamantaire.vercel.app') {
   return urlArr.join('/');
 }
 
+function isCanonicalConfiguration(configuration){
+  return Object.entries(configuration).every(([type, value]) => {
+    if(['diamondType','metal', 'goldPurity'].includes(type)){
+      return true;
+    }
+
+    const canonicalValues = {
+      bandAccent: ['plain'],
+      bandWidth: ['standard'],
+      hiddenHalo: ['no'],
+      caratWeight: ['other'],
+      sideStoneShape: ['round-brilliant'],
+      diamondOrientation: ['vertical'],
+      sideStoneCarat: ['0.1ct'],
+    }
+
+    if (!canonicalValues[type]){
+      return true
+    }
+
+    if(canonicalValues[type] && canonicalValues[type].includes(value)){
+      return true
+    }
+
+  });
+}
+
+type RedirectData = {
+  destination: string;
+  isPermanent: boolean;
+}
+
 function generateRedirects(products, fromBaseUrl, toBaseUrl) {
   if (!products) {
     console.log('No products provided');
 
     return;
   }
-  const redirects = products.reduce((redirects, current) => {
-    
+  const redirects = products.reduce((r: RedirectData[], current) => {
+
+    if (current.configuration.diamondOrientation === "horizontal"){
+      return r;
+    }
+
+    const isCanonical = isCanonicalConfiguration(current.configuration);
     const source = generateFromUrl(current, fromBaseUrl);
     const destination = generateToUrl(current, toBaseUrl);
     const isPermanent = true;
 
-    redirects[source] = {
+    r[source] = {
       destination,
       permanent: isPermanent,
     };
 
-    return redirects;
+    if (isCanonical){
+      r[source.split('?')?.[0] || source] = {
+        destination,
+        permanent: isPermanent,
+      }
+    }
+
+    return r;
   }, {});
 
   return redirects;
@@ -204,12 +253,12 @@ export function publishRedirects(redirects: Record<string, { destination: string
   });
 }
 
-export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200') {
+export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200'): Promise<Record<string, RedirectData>> {
   let data;
   let hasNextPage;
 
   let page = 1;
-  let redirects = [];
+  let redirects = {};
 
   do {
     console.log('requesting page', page);
@@ -218,7 +267,7 @@ export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', ta
     hasNextPage = data?.paginator?.hasNextPage;
     page += 1;
 
-    redirects = redirects.concat(generateRedirects(data.items, sourceBaseUrl, targetBaseUrl));
+    redirects = {...redirects, ...generateRedirects(data.items, sourceBaseUrl, targetBaseUrl)};
   } while (hasNextPage);
 
   return redirects;
