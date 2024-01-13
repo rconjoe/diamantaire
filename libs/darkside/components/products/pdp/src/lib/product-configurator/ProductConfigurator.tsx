@@ -62,6 +62,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  isProductFeedUrl?: boolean;
 };
 
 function ProductConfigurator({
@@ -94,6 +95,7 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  isProductFeedUrl,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -149,6 +151,37 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
+
+  const CompleteYourRingButton = () => (
+    <div
+      style={{
+        marginTop: '2rem',
+      }}
+    >
+      <DarksideButton
+        onClick={() => {
+          updateFlowData(
+            'ADD_PRODUCT',
+            {
+              ...additionalVariantData,
+              ...selectedConfiguration,
+              variantId: selectedVariantId,
+              collectionSlug: builderProduct?.product?.collectionSlug,
+            },
+            null,
+          );
+
+          router.push(
+            `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+              .map((diamond) => diamond?.lotId)
+              .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+          );
+        }}
+      >
+        <UIString>Complete & Review Your Ring</UIString>
+      </DarksideButton>
+    </div>
+  );
 
   return (
     <>
@@ -244,35 +277,10 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {isBuilderFlowOpen ? (
-        <div
-          style={{
-            marginTop: '2rem',
-          }}
-        >
-          <DarksideButton
-            onClick={() => {
-              updateFlowData(
-                'ADD_PRODUCT',
-                {
-                  ...additionalVariantData,
-                  ...selectedConfiguration,
-                  variantId: selectedVariantId,
-                  collectionSlug: builderProduct?.product?.collectionSlug,
-                },
-                null,
-              );
+      {isProductFeedUrl && <CompleteYourRingButton />}
 
-              router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
-                  .map((diamond) => diamond?.lotId)
-                  .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-              );
-            }}
-          >
-            <UIString>Complete & Review Your Ring</UIString>
-          </DarksideButton>
-        </div>
+      {isBuilderFlowOpen ? (
+        <CompleteYourRingButton />
       ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}

@@ -7,6 +7,8 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
+  DarksideButton,
+  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -39,9 +41,7 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-
 import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
-
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -63,9 +63,9 @@ export interface PdpPageProps {
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
-    params: { collectionSlug, productSlug: initialProductSlug },
+    params: { collectionSlug, productSlug: initialProductSlug, diamondData },
   } = props;
-
+  console.log('diamondData', diamondData);
   const [productSlug, setProductSlug] = useState(initialProductSlug);
 
   const { isMobile } = useContext(GlobalContext);
@@ -172,8 +172,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       accordionBlocksOverride = additionalVariantData?.accordionBlocks;
     }
 
-    console.log('v2 additionalVariantData', additionalVariantData);
-    console.log({ trioBlocksId, suggestion: additionalVariantData?.productSuggestionQuadBlock?.id });
+    // console.log('v2 additionalVariantData', additionalVariantData);
+
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {
@@ -199,10 +199,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
-
+  const diamondFeedPrice = diamondData?.[0]?.price;
+  const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
+  const isProductFeedUrl = Boolean(diamondFeedPrice);
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
-  const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
+  const isBuilderProduct = isProductFeedUrl ? false : shopifyProductData?.requiresCustomDiamond;
 
   const parentProductAttributes = {
     bandWidth,
@@ -352,7 +354,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               />
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
-                price={price}
+                price={totalPrice}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
@@ -385,6 +387,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                isProductFeedUrl={isProductFeedUrl}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
@@ -524,7 +527,10 @@ export async function getServerSideProps(
 
   const { params, locale } = mergedContext;
 
-  const { collectionSlug, productSlug } = mergedContext.params;
+  const { collectionSlug, productSlug, productParams } = mergedContext.params;
+  const diamondLotId = productParams?.[0];
+  const lotIds = diamondLotId ? [diamondLotId] : null;
+  const diamondData = lotIds ? await getDiamond(lotIds) : null;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
@@ -540,10 +546,12 @@ export async function getServerSideProps(
     };
   }
 
+  const mergedParams = { ...params, ...({ diamondData } || {}) };
+
   return {
     props: {
       key: productSlug,
-      params,
+      params: mergedParams,
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -552,3 +560,18 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
+
+async function getDiamond(lotIds) {
+  const qParams = new URLSearchParams({ lotIds }).toString();
+
+  const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
+  const reqUrl = `${baseUrl}/api/diamonds/getDiamondByLotId?${qParams}`;
+
+  const diamondResponse = await fetch(reqUrl)
+    .then((res) => res.json())
+    .then((data) => data);
+
+  return diamondResponse;
+}
