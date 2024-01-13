@@ -39,9 +39,7 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-
 import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
-
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -110,6 +108,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   // Icon List - Clientside
   const productIconListType = datoParentProductData?.productIconList?.productType;
+
+  console.log('productIconListType', productIconListType);
 
   // Product Instagram Reel - Clientside
   const instagramReelId = datoParentProductData?.instagramReelBlock?.id;

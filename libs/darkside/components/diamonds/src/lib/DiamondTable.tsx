@@ -72,6 +72,7 @@ const DiamondTable = (props: DiamondTableProps) => {
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
   const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+  const { _t } = useTranslations(locale);
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
   const { asPath } = useRouter();
 
@@ -133,9 +134,9 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const shape = info.getValue();
 
-          const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
+          const diamondTypeHandle = shape || (shape && getDiamondType(shape)?.slug) || info.getValue();
 
-          return _diamondType(diamondTypeHandle);
+          return <UIString>{diamondTypeHandle}</UIString>;
         },
         header: () => <UIString>shape</UIString>,
       },

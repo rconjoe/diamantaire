@@ -145,6 +145,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
           width: 100%;
           text-align: center;
           font-size: var(--font-size-xxsmall);
+          justify-content: center;
         }
       }
 
@@ -413,15 +414,17 @@ const ReviewBuildStep = ({
     router.locale,
   );
 
-  const diamondImages = isDiamondCFY
-    ? diamonds.map((diamond) => {
-        const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+  const diamondImages = useMemo(() => {
+    return isDiamondCFY
+      ? diamonds.map((diamond) => {
+          const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
 
-        return spriteImageUrl;
-      })
-    : (Array.isArray(mutatedLotIds) &&
-        mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
-      [];
+          return spriteImageUrl;
+        })
+      : (Array.isArray(mutatedLotIds) &&
+          mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
+          [];
+  }, [isDiamondCFY]);
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -487,7 +490,14 @@ const ReviewBuildStep = ({
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
+  const {
+    shippingBusinessDays,
+    shippingBusinessDaysCountryMap,
+    shippingText,
+    cutForYouShippingBusinessDaysCountryMap,
+    cutForYouShippingBusinessDays,
+    cutForYouShippingText,
+  } = shipTimeParent || {};
 
   const shippingTime =
     countryCode === 'US'
@@ -495,6 +505,13 @@ const ReviewBuildStep = ({
       : shippingBusinessDaysCountryMap?.[countryCode]
       ? shippingBusinessDaysCountryMap?.[countryCode]
       : shippingBusinessDaysCountryMap?.['International'];
+
+  const cfyShippingTime =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDays
+      : cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      ? cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      : cutForYouShippingBusinessDaysCountryMap?.['International'];
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -557,7 +574,7 @@ const ReviewBuildStep = ({
       totalPrice: (product.price + diamondPrice).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
-      shippingBusinessDays: shippingTime?.toString(),
+      shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
 
       // Diamond Sync
       childProduct: JSON.stringify({
@@ -590,10 +607,10 @@ const ReviewBuildStep = ({
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: _t('Made-to-order. Ships by'),
+        shippingText: isDiamondCFY ? cutForYouShippingText : _t('Made-to-order. Ships by'),
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
-        shippingBusinessDays: shippingTime?.toString(),
+        shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
       };
 
       return {
@@ -846,11 +863,24 @@ const ReviewBuildStep = ({
                   </p>
                 )}
               </div>
-              {spriteSpinnerIds?.map((id) => (
-                <div className="spritespinner embla__slide" key={id}>
-                  <SpriteSpinnerBlock id={id} />
-                </div>
-              ))}
+              {!isDiamondCFY &&
+                spriteSpinnerIds?.map((id) => (
+                  <div className="spritespinner embla__slide" key={id}>
+                    <SpriteSpinnerBlock id={id} />
+                  </div>
+                ))}
+
+              {isDiamondCFY &&
+                diamondImages?.map((image) => (
+                  <div
+                    key={image}
+                    className={clsx('image diamond-image embla__slide', {
+                      embla__slide: isWindowDefined && window.innerWidth < 767,
+                    })}
+                  >
+                    {image && <img src={image} alt="" />}
+                  </div>
+                ))}
 
               {isER && (
                 <div className={clsx('diamond-hand embla__slide')}>
@@ -1038,6 +1068,8 @@ const ReviewBuildStep = ({
                 <div className="product-icon-list-container">
                   <ProductIconList
                     productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
+                    isCfy={isDiamondCFY}
+                    isCaratLessThanFive={parseFloat(diamonds?.[0]?.carat) < 5.1}
                     locale={locale}
                   />
                 </div>
