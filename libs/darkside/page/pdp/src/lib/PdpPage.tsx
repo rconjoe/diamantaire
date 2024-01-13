@@ -65,7 +65,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const {
     params: { collectionSlug, productSlug: initialProductSlug, diamondData },
   } = props;
-  console.log('diamondData', diamondData);
+
   const [productSlug, setProductSlug] = useState(initialProductSlug);
 
   const { isMobile } = useContext(GlobalContext);
