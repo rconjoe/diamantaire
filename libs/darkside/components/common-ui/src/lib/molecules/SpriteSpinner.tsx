@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { UIString } from './UIString';
@@ -45,15 +45,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   const spinnerEl = useRef(null);
 
-  useEffect(() => {
-    if (shouldStartSpinner) {
-      startSpinner();
-    }
-
-    return () => stopSpinner();
-  }, [shouldStartSpinner]);
-
-  async function startSpinner() {
+  const startSpinner = useCallback(async () => {
     if (spriteSource === 'bunny') {
       const SpriteSpin = window.SpriteSpin;
 
@@ -86,7 +78,7 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     } else {
       const url = spriteImage;
 
-      if (typeof spinnerEl?.current?.spritespin === 'function') {
+      if (typeof spinnerEl?.current?.spritespin === 'function' && spriteImage) {
         spinnerEl?.current?.spritespin({
           source: url,
           frames: 100,
@@ -103,29 +95,41 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
         });
       }
     }
-  }
+  }, [spriteSource, spriteImage, spinnerEl, bunnyBaseURL, onSpriteLoad]);
 
-  function playSpinner() {
+  const playSpinner = useCallback(() => {
     const api = spinnerEl?.current?.spritespin?.('api');
 
-    if (api?.data?.animate !== true) {
-      api.toggleAnimation();
+    if (api) {
+      if (api?.data?.animate !== true) {
+        api.toggleAnimation();
+      }
+    } else {
+      console.error('Spritespin is not available or not initialized.');
     }
-  }
+  }, []);
 
-  function pauseSpinner() {
+  const pauseSpinner = useCallback(() => {
     const api = spinnerEl?.current?.spritespin?.('api');
 
     if (api?.data?.animate === true) {
       api.toggleAnimation();
     }
-  }
+  }, []);
 
-  function stopSpinner() {
+  const stopSpinner = useCallback(() => {
     if (typeof spinnerEl?.current?.spritespin === 'function') {
       spinnerEl?.current?.spritespin('destroy');
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    if (shouldStartSpinner) {
+      startSpinner();
+    }
+
+    return () => stopSpinner();
+  }, [shouldStartSpinner, startSpinner, stopSpinner]);
 
   return (
     <SpritSpinnerContainer mobile={mobile}>
