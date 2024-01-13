@@ -121,8 +121,6 @@ const ProductIconList = ({
 
   const { items } = productIconList || {};
 
-  console.log('items', items);
-
   const slideoutContent = items?.find((item) => item.additionalInfo)?.additionalInfo;
 
   const link = generateProductUrl(productType, collectionSlug, productSlug);

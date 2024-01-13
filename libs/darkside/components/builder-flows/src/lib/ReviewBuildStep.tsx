@@ -816,6 +816,8 @@ const ReviewBuildStep = ({
 
   const productData = { ...shopifyProductData, cms: additionalVariantData };
 
+  const CFY_RETURN_THRESHOLD = 5.1;
+
   useEffect(() => {
     const ids = builderProduct?.diamonds?.map((diamond) => {
       const diamondID = diamond?.lotId;
@@ -1069,7 +1071,7 @@ const ReviewBuildStep = ({
                   <ProductIconList
                     productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                     isCfy={isDiamondCFY}
-                    isCaratLessThanFive={parseFloat(diamonds?.[0]?.carat) < 5.1}
+                    isCaratLessThanFive={parseFloat(diamonds?.[0]?.carat) < CFY_RETURN_THRESHOLD}
                     locale={locale}
                   />
                 </div>

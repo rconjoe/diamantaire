@@ -143,7 +143,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.configuration?.productIconList?.productType;
 
   // console.log('additionalVariantData v1', additionalVariantData);
-  // console.log('productContent v1', productContent);
+  console.log('shopify', shopifyProductData);
 
   if (additionalVariantData) {
     // ER/WB
@@ -301,6 +301,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           diamondType={configuration?.diamondType}
           productTitle={productTitle}
           metal={configuration?.metal}
+          canonicalVars={shopifyProductData?.canonicalVariant}
         />
 
         <Script
