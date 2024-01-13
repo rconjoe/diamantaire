@@ -63,21 +63,16 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     let localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
     
     if (localRedirectDestination) {
-      console.log("Found redirect", localRedirectDestination)
       // If its a PDP, try to get more specific redirect
       if (url.pathname.startsWith('/engagement-ring') || url.pathname.startsWith('/jewelry')){
-        console.log("PDP", { path: url.pathname, search: url.search})
         // First reduce search to known values and order 
         const reducedSearch = url.search // TODO
         const localRedirectSourceWithQuery = url.pathname + reducedSearch;
         const redirectWithQuery = await kv.hget<string>('redirects', localRedirectSourceWithQuery);
 
         if (redirectWithQuery) {
-          console.log("Found PDP url with query");
           localRedirectDestination = redirectWithQuery;
-        } else {
-          console.log("Found PDP path only redirect");
-        }
+        } 
       }
 
       url.pathname = localRedirectDestination;
