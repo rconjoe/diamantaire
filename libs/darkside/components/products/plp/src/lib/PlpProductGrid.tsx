@@ -178,6 +178,8 @@ const PlpProductGrid = ({
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
   if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
+  if (availableFilters && router?.asPath?.includes('/customize/') && availableFilters['price'])
+    delete availableFilters.price;
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>

@@ -17,7 +17,15 @@ type StandardPageSeoProps = {
 };
 
 const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false }: StandardPageSeoProps) => {
-  return <NextSeo title={title} description={description} noindex={noIndex} nofollow={noFollow} />;
+  return (
+    <NextSeo
+      title={title}
+      description={description}
+      noindex={noIndex}
+      nofollow={noFollow}
+      canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+    />
+  );
 };
 
 export { StandardPageSeo };

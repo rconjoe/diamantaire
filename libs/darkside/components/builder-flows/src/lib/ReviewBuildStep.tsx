@@ -126,7 +126,8 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 overflow: hidden;
 
                 .spritespin-instance {
-                  max-height: 610px !important;
+                  width: 100% !important;
+                  height: 100% !important;
                 }
               }
             }
@@ -144,6 +145,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
           width: 100%;
           text-align: center;
           font-size: var(--font-size-xxsmall);
+          justify-content: center;
         }
       }
 
@@ -405,21 +407,24 @@ const ReviewBuildStep = ({
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
   const isDiamondCFY = diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
+  const isER = shopifyProductData?.productType === 'Engagement Ring';
 
-  const { data: blockpickerData }: any = useStandardPage('engagement_ring_summary_page', router.locale);
+  const { data: blockpickerData }: any = useStandardPage(
+    isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
+    router.locale,
+  );
 
-  console.log('blockpickerData', blockpickerData);
+  const diamondImages = useMemo(() => {
+    return isDiamondCFY
+      ? diamonds.map((diamond) => {
+          const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
 
-  //
-  const diamondImages = isDiamondCFY
-    ? diamonds.map((diamond) => {
-        const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
-
-        return spriteImageUrl;
-      })
-    : (Array.isArray(mutatedLotIds) &&
-        mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
-      [];
+          return spriteImageUrl;
+        })
+      : (Array.isArray(mutatedLotIds) &&
+          mutatedLotIds.map((mutatedLotId) => `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`)) ||
+          [];
+  }, [isDiamondCFY]);
 
   function confirmEngraving() {
     setEngravingText(engravingInputText);
@@ -485,7 +490,14 @@ const ReviewBuildStep = ({
     (item) => item._modelApiKey === 'modular_shipping_product_icon_list_item',
   );
 
-  const { shippingBusinessDays, shippingBusinessDaysCountryMap, shippingText } = shipTimeParent || {};
+  const {
+    shippingBusinessDays,
+    shippingBusinessDaysCountryMap,
+    shippingText,
+    cutForYouShippingBusinessDaysCountryMap,
+    cutForYouShippingBusinessDays,
+    cutForYouShippingText,
+  } = shipTimeParent || {};
 
   const shippingTime =
     countryCode === 'US'
@@ -493,6 +505,13 @@ const ReviewBuildStep = ({
       : shippingBusinessDaysCountryMap?.[countryCode]
       ? shippingBusinessDaysCountryMap?.[countryCode]
       : shippingBusinessDaysCountryMap?.['International'];
+
+  const cfyShippingTime =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDays
+      : cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      ? cutForYouShippingBusinessDaysCountryMap?.[countryCode]
+      : cutForYouShippingBusinessDaysCountryMap?.['International'];
 
   // Need the ring size
   async function addCustomProductToCart() {
@@ -524,7 +543,7 @@ const ReviewBuildStep = ({
         ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
         : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)]);
     const refinedBandAccent =
-      settingType === 'engagement-ring' && bandAccent ? bandAccent.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
+      settingType === 'engagement-ring' && bandAccent ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
@@ -548,14 +567,14 @@ const ReviewBuildStep = ({
       _EngravingBack: engravingText,
       _specs: settingSpecs,
       productGroupKey,
-      diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamonds?.[0]?.diamondType],
+      diamondShape: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
       // centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
       totalPrice: (product.price + diamondPrice).toString(),
       productCategory: settingType === 'engagement-ring' ? 'Setting' : productType ? productType : 'Setting',
       _dateAdded: Date.now().toString(),
-      shippingBusinessDays: shippingTime?.toString(),
+      shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
 
       // Diamond Sync
       childProduct: JSON.stringify({
@@ -588,10 +607,10 @@ const ReviewBuildStep = ({
         _specs: diamondSpecs,
         _productType: 'Diamond',
         _productTypeTranslated: _t('Diamond'),
-        shippingText: _t('Made-to-order. Ships by'),
+        shippingText: isDiamondCFY ? cutForYouShippingText : _t('Made-to-order. Ships by'),
         productIconListShippingCopy: 'temp',
         pdpUrl: window.location.href,
-        shippingBusinessDays: shippingTime?.toString(),
+        shippingBusinessDays: isDiamondCFY ? cfyShippingTime?.toString() : shippingTime?.toString(),
       };
 
       return {
@@ -705,7 +724,7 @@ const ReviewBuildStep = ({
       value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-        router.push(router.asPath + '/edit-diamond');
+        router.push(router.asPath + '?edit-diamond');
       },
       slug: 'diamondType',
     },
@@ -791,10 +810,13 @@ const ReviewBuildStep = ({
 
   console.log('builderProduct', builderProduct);
   console.log('spriteSpinnerIds', spriteSpinnerIds);
+  console.log('router query', router);
 
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
   const productData = { ...shopifyProductData, cms: additionalVariantData };
+
+  const CFY_RETURN_THRESHOLD = 5.1;
 
   useEffect(() => {
     const ids = builderProduct?.diamonds?.map((diamond) => {
@@ -843,21 +865,36 @@ const ReviewBuildStep = ({
                   </p>
                 )}
               </div>
-              {spriteSpinnerIds?.map((id) => (
-                <div className="spritespinner embla__slide" key={id}>
-                  <SpriteSpinnerBlock id={id} />
-                </div>
-              ))}
+              {!isDiamondCFY &&
+                spriteSpinnerIds?.map((id) => (
+                  <div className="spritespinner embla__slide" key={id}>
+                    <SpriteSpinnerBlock id={id} />
+                  </div>
+                ))}
 
-              <div className={clsx('diamond-hand embla__slide')}>
-                <ProductDiamondHand
-                  diamondType={selectedConfiguration?.diamondType}
-                  range={[0.5, 8]}
-                  initValue={parseFloat(diamonds?.[0]?.carat)}
-                  disableControls={true}
-                  prefix={diamondHandCaption}
-                />
-              </div>
+              {isDiamondCFY &&
+                diamondImages?.map((image) => (
+                  <div
+                    key={image}
+                    className={clsx('image diamond-image embla__slide', {
+                      embla__slide: isWindowDefined && window.innerWidth < 767,
+                    })}
+                  >
+                    {image && <img src={image} alt="" />}
+                  </div>
+                ))}
+
+              {isER && (
+                <div className={clsx('diamond-hand embla__slide')}>
+                  <ProductDiamondHand
+                    diamondType={selectedConfiguration?.diamondType}
+                    range={[0.5, 8]}
+                    initValue={parseFloat(diamonds?.[0]?.carat)}
+                    disableControls={true}
+                    prefix={diamondHandCaption}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="slider-dots">
@@ -952,34 +989,38 @@ const ReviewBuildStep = ({
             )}
 
             <div className="engraving-container">
-              {!engravingText ? (
-                <div className="engraving-prompt-text">
-                  <DarksideButton
-                    onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
-                    type="underline"
-                    colorTheme="teal"
-                  >
-                    <UIString>Add engraving</UIString>
-                  </DarksideButton>
-                  <p>
-                    (<UIString>optional</UIString>)
-                  </p>
-                </div>
-              ) : (
-                <div className="engraving-result-text">
-                  <p className="result-text">
-                    <span>
-                      <UIString>Your Engraving</UIString>:
-                    </span>
-                    {engravingText}
-                  </p>
-                  <DarksideButton
-                    onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
-                    type="underline"
-                    colorTheme="teal"
-                  >
-                    <UIString>Modify</UIString>
-                  </DarksideButton>
+              {isER && (
+                <div className="engraving">
+                  {!engravingText ? (
+                    <div className="engraving-prompt-text">
+                      <DarksideButton
+                        onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
+                        type="underline"
+                        colorTheme="teal"
+                      >
+                        <UIString>Add engraving</UIString>
+                      </DarksideButton>
+                      <p>
+                        (<UIString>optional</UIString>)
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="engraving-result-text">
+                      <p className="result-text">
+                        <span>
+                          <UIString>Your Engraving</UIString>:
+                        </span>
+                        {engravingText}
+                      </p>
+                      <DarksideButton
+                        onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
+                        type="underline"
+                        colorTheme="teal"
+                      >
+                        <UIString>Modify</UIString>
+                      </DarksideButton>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1029,6 +1070,8 @@ const ReviewBuildStep = ({
                 <div className="product-icon-list-container">
                   <ProductIconList
                     productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
+                    isCfy={isDiamondCFY}
+                    isCaratLessThanFive={parseFloat(diamonds?.[0]?.carat) < CFY_RETURN_THRESHOLD}
                     locale={locale}
                   />
                 </div>

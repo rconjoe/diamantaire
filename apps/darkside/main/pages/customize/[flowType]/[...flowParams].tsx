@@ -60,7 +60,11 @@ export async function getServerSideProps(
   let urlIndex = 0;
 
   if (resolvedUrl.includes('/summary/')) {
-    urlIndex = 1;
+    urlIndex += 1;
+  }
+
+  if (resolvedUrl.includes('/pair/')) {
+    urlIndex += 1;
   }
 
   if (flowType === 'setting-to-diamond') {

@@ -56,7 +56,7 @@ const PlpAllFilterOptions = ({
 }) => {
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
 
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const router = useRouter();
 

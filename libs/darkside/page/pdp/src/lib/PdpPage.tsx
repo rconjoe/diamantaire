@@ -39,9 +39,7 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-
 import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
-
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -145,7 +143,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.configuration?.productIconList?.productType;
 
   // console.log('additionalVariantData v1', additionalVariantData);
-  // console.log('productContent v1', productContent);
+  console.log('shopify', shopifyProductData);
 
   if (additionalVariantData) {
     // ER/WB
@@ -173,7 +171,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     }
 
     console.log('v2 additionalVariantData', additionalVariantData);
-    console.log({ trioBlocksId, suggestion: additionalVariantData?.productSuggestionQuadBlock?.id });
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {
@@ -303,6 +300,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           diamondType={configuration?.diamondType}
           productTitle={productTitle}
           metal={configuration?.metal}
+          canonicalVars={shopifyProductData?.canonicalVariant}
         />
 
         <Script
