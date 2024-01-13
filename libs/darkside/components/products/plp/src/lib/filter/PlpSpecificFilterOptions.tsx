@@ -8,6 +8,7 @@ import PlpFilterOption from '../PlpFilterOptionSet';
 
 const PlpSpecificFilterOptionsStyles = styled.div`
   flex: 1;
+  max-width: 100%;
 
   .selection-container {
     display: flex;
@@ -24,12 +25,14 @@ const PlpSpecificFilterOptionsStyles = styled.div`
       list-style: none;
       margin: 0;
       padding: 0;
+
       li {
         font-size: var(--font-size-xxxsmall);
         margin-right: 0.5rem;
       }
     }
   }
+
   .flex-row {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
@@ -44,9 +47,6 @@ const PlpSpecificFilterOptionsStyles = styled.div`
 
     &.metal {
       padding-top: 0px;
-      ul {
-        padding-left: 0.6rem;
-      }
     }
   }
 

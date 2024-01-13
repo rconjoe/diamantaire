@@ -9,7 +9,12 @@ export const PlpProductFilterStyles = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 100%;
     padding: 0;
+
+    .flex-row {
+      max-width: 100%;
+    }
   }
 
   .filter__header {
@@ -109,16 +114,24 @@ export const PlpProductFilterStyles = styled.div`
   }
 
   .filter-option-set {
-    padding-top: 1rem;
+    padding: 1rem 0.4rem 0;
+    overflow-x: auto;
+    max-width: 100%;
 
     ul {
+      flex: 1;
       display: flex;
-      flex-wrap: wrap;
+      justify-content: flex-start;
       padding: 1rem 0;
-      max-width: 90vw;
+      width: 100%;
       margin: 0 auto;
-      padding-left: 0.4rem;
       gap: 1rem 0;
+      overflow-x: auto;
+
+      ::-webkit-scrollbar {
+        opacity: 0;
+        height: 0;
+      }
 
       li {
         margin-right: 1.5rem;
@@ -141,10 +154,6 @@ export const PlpProductFilterStyles = styled.div`
     &.diamondType {
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         width: 100%;
-      }
-
-      ul {
-        //padding-left: 0.4rem;
       }
 
       button {
@@ -188,7 +197,6 @@ export const PlpProductFilterStyles = styled.div`
       button {
         background-color: transparent;
         transition: 0.25s;
-        // min-width: 120px;
         width: 100%;
 
         &.active {
@@ -280,7 +288,9 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       ul {
-        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
         max-width: 90vw;
         margin: 0;
         padding-left: 0;
@@ -307,7 +317,7 @@ export const PlpProductFilterStyles = styled.div`
 
       &.diamondType {
         li {
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.25rem;
         }
 
         button {
@@ -318,7 +328,7 @@ export const PlpProductFilterStyles = styled.div`
           max-width: 170px;
           text-align: left;
           border: 1px solid transparent;
-          padding: 0.5rem 0.7rem 0.3rem;
+          padding: 0.5rem 0.7rem 0rem;
 
           .diamond-icon {
             flex: 0 0 30px;
@@ -342,9 +352,11 @@ export const PlpProductFilterStyles = styled.div`
         button {
           border-bottom: 2px solid transparent;
           transition: 0.25s;
+
           &:hover {
             border-bottom: 2px solid var(--color-teal);
           }
+
           .setting-icon {
             margin-right: 10px;
             position: relative;
@@ -500,8 +512,7 @@ export const PlpProductFilterStyles = styled.div`
         color: var(--color-black);
         border: none;
 
-        &:hover,
-        &:focus {
+        &:hover {
           color: var(--color-teal);
         }
 
@@ -527,7 +538,9 @@ export const PlpProductFilterStyles = styled.div`
 
   .specific-filter-options {
     .filter-option-set {
-      padding-right: 5rem;
+      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+        padding-right: 5rem;
+      }
 
       h3,
       .diamond-text {

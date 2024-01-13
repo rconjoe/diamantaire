@@ -141,7 +141,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
     return filterOrder.indexOf(a) - filterOrder.indexOf(b);
   });
 
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const { headerHeight } = useGlobalContext();
 

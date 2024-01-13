@@ -182,8 +182,6 @@ const PlpProductGrid = ({
 
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
-  console.log(`productsPage`, products);
-
   if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
   if (availableFilters && availableFilters['price']) delete availableFilters.price;
 
