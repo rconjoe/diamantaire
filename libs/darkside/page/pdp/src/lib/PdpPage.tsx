@@ -109,8 +109,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Icon List - Clientside
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
-  console.log('productIconListType', productIconListType);
-
   // Product Instagram Reel - Clientside
   const instagramReelId = datoParentProductData?.instagramReelBlock?.id;
 
