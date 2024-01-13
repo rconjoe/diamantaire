@@ -61,6 +61,8 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
+  console.log(`initialFilterValues`, initialFilterValues);
+
   const [filterValue, setFilterValues] = useState<FilterQueryValues>(initialFilterValues);
 
   const [activeSortOptions, setActiveSortOptions] = useState({});
@@ -151,13 +153,19 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   useEffect(() => {
     if (!deepEqual(prevQuery, query)) {
-      setFilterValues(getQueryFilterValues(query));
+      setFilterValues(getFiltersFromQueryParams(query));
     }
 
     return () => {
       setPrevQuery(query);
     };
   }, [query]);
+
+  useEffect(() => {
+    if (filterValue && Object.keys(filterValue).length === 0) {
+      setFilterValues({ metal: ['yellow-gold'], diamondType: ['round-brilliant'] });
+    }
+  }, []);
 
   return (
     <div>
@@ -169,7 +177,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
-      {/* {JSON.stringify(filterValue)} */}
+      {JSON.stringify(filterValue)}
 
       {subcategoryFilter?.length > 0 && (
         <PlpSubCategories
@@ -260,7 +268,7 @@ const createStaticProps = (category: string) => {
       urlFilterMethod = 'facet';
     }
 
-    let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
+    let initialFilterValues = getFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues || !slug) {
@@ -358,7 +366,7 @@ export {
  * @returns {object | undefined} - filter options or undefined
  */
 
-function getValidFiltersFromFacetedNav(
+function getFiltersFromFacetedNav(
   params: string[],
   query: Record<string, string | string[]>,
 ): Record<string, string[]> | undefined {
@@ -481,7 +489,7 @@ function getValidFiltersFromFacetedNav(
   return filterOptions;
 }
 
-function getQueryFilterValues(query) {
+function getFiltersFromQueryParams(query) {
   const initialQueryValues = {};
 
   Object.keys(query).forEach((key) => {

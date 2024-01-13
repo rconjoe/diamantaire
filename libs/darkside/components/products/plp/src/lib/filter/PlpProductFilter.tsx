@@ -76,22 +76,6 @@ const PlpProductFilter = ({
   };
 
   const updateFilter = (filterType: string, value) => {
-    // if (filterType === 'all') {
-    //   setFilterValues({});
-
-    //   if (urlFilterMethod === 'param') {
-    //     return router.push({
-    //       pathname: router.query.plpSlug.toString(),
-    //       query: {},
-    //     });
-    //   } else {
-    //     // for facet nav, give us the path without the filters
-    //     return router.push({
-    //       pathname: router.query.plpSlug[0],
-    //     });
-    //   }
-    // }
-
     let newFilterValue = filterValue[filterType];
 
     // ALL FILTERS EXCEPT PRICE
@@ -140,61 +124,63 @@ const PlpProductFilter = ({
   };
 
   const updateURL = useCallback(() => {
-    const sortedQParams = Object.entries(filterValue)
-      .sort(([k1], [k2]) => (k1 > k2 ? 1 : 0))
-      .reduce((acc: Record<string, string | number>, [k, v]: [string, string[] | { min?: number; max?: number }]) => {
-        if (k === 'price' && typeof v === 'object') {
-          const { min, max } = (v as PriceType) || {};
+    if (filterValue) {
+      const sortedQParams = Object.entries(filterValue)
+        .sort(([k1], [k2]) => (k1 > k2 ? 1 : 0))
+        .reduce((acc: Record<string, string | number>, [k, v]: [string, string[] | { min?: number; max?: number }]) => {
+          if (k === 'price' && typeof v === 'object') {
+            const { min, max } = (v as PriceType) || {};
 
-          if (min) acc['priceMin'] = min;
-          if (max) acc['priceMax'] = max;
-        } else if (
-          FACETED_NAV_ORDER.includes(k) &&
-          Array.isArray(v) &&
-          v.every((item: string) => typeof item === 'string') &&
-          v.length > 0
-        ) {
-          acc[k] = v.join(',');
-        }
+            if (min) acc['priceMin'] = min;
+            if (max) acc['priceMax'] = max;
+          } else if (
+            FACETED_NAV_ORDER.includes(k) &&
+            Array.isArray(v) &&
+            v.every((item: string) => typeof item === 'string') &&
+            v.length > 0
+          ) {
+            acc[k] = v.join(',');
+          }
 
-        return acc;
-      }, {});
+          return acc;
+        }, {});
 
-    if (urlFilterMethod === 'param') {
-      router.push(
-        {
-          pathname: router.pathname,
-          query: { plpSlug: plpSlug[0], ...sortedQParams },
-        },
-        undefined,
-        { shallow: true },
-      );
-    }
-
-    if (urlFilterMethod === 'facet') {
-      const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, filterValue[key]])
-        .filter(([key, v]) => v !== null && key in filterValue)
-        .map(([, v]) => v)
-        .flat();
-
-      router.push(
-        {
-          pathname: router.pathname,
-          query: {
-            plpSlug: [plpSlug?.[0], ...sortedPathEntries],
-            ...sortedQParams,
+      if (urlFilterMethod === 'param') {
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { plpSlug: plpSlug[0], ...sortedQParams },
           },
-        },
-        undefined,
-        {
-          shallow: true,
-        },
-      );
-    }
+          undefined,
+          { shallow: true },
+        );
+      }
 
-    if (urlFilterMethod === 'none') {
-      if (filterValue?.price) {
-        handleSliderURLUpdate(filterValue?.price?.min, filterValue?.price?.max);
+      if (urlFilterMethod === 'facet') {
+        const sortedPathEntries = FACETED_NAV_ORDER.map((key) => [key, filterValue[key]])
+          .filter(([key, v]) => v !== null && key in filterValue)
+          .map(([, v]) => v)
+          .flat();
+
+        router.push(
+          {
+            pathname: router.pathname,
+            query: {
+              plpSlug: [plpSlug?.[0], ...sortedPathEntries],
+              ...sortedQParams,
+            },
+          },
+          undefined,
+          {
+            shallow: true,
+          },
+        );
+      }
+
+      if (urlFilterMethod === 'none') {
+        if (filterValue?.price) {
+          handleSliderURLUpdate(filterValue?.price?.min, filterValue?.price?.max);
+        }
       }
     }
   }, [router, plpSlug, filterValue, urlFilterMethod, handleSliderURLUpdate]);
