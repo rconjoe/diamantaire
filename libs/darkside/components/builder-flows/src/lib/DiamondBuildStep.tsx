@@ -56,9 +56,15 @@ type DiamondBuildStepProps = {
   settingSlugs?: {
     [key: string]: string;
   };
+  settingProductType?: string;
 };
 
-const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }: DiamondBuildStepProps) => {
+const DiamondBuildStep = ({
+  diamondTypeToShow,
+  availableDiamonds,
+  settingSlugs,
+  settingProductType,
+}: DiamondBuildStepProps) => {
   const router = useRouter();
   const { asPath, query } = router;
 
@@ -283,6 +289,7 @@ const DiamondBuildStep = ({ diamondTypeToShow, availableDiamonds, settingSlugs }
                 ranges={ranges}
                 settingSlugs={settingSlugs}
                 isDiamondPairs={isToiMoiOrPair}
+                settingProductType={settingProductType}
               />
             </div>
           </div>

@@ -52,7 +52,7 @@ const ProductPrice = ({
 
   const refinedPrice = getFormattedPrice(
     productType === 'Earrings' && !shouldDoublePrice
-      ? price / 2
+      ? price
       : price + (engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving ? ENGRAVING_PRICE_CENTS : 0),
     locale,
   );

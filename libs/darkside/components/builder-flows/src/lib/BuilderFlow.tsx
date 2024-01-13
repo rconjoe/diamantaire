@@ -12,7 +12,7 @@ import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import DiamondBuildStep from './DiamondBuildStep';
 import ReviewBuildStep from './ReviewBuildStep';
@@ -146,6 +146,7 @@ const BuilderFlow = ({
   }
 
   async function getDiamond() {
+    console.log('initialLotIds', initialLotIds);
     const qParams = new URLSearchParams({
       lotIds: initialLotIds,
     }).toString();
@@ -204,6 +205,7 @@ const BuilderFlow = ({
 
     console.log('configure step running', builderProduct);
 
+    // ToiMoi
     if (
       router.asPath.includes('toi-moi-ring') ||
       JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS.some((item) => router.asPath.includes(item))
@@ -302,14 +304,22 @@ const BuilderFlow = ({
 
   const matchingDiamondType = getMatchingDiamondTypesInAllDiamonds(builderProduct?.diamonds, allDiamonds);
 
+  const HideTopBar = createGlobalStyle`
+  #top-bar {
+    display: none;
+  }
+`;
+
   return (
     <BuilderFlowStyles>
+      <HideTopBar />
       {/* Setting to Diamond */}
       {builderProduct?.step === 'select-diamond' && (
         <DiamondBuildStep
           diamondTypeToShow={matchingDiamondType || selectedConfiguration?.diamondType}
           availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
           settingSlugs={{ collectionSlug: settingSlugs?.collectionSlug, productSlug: settingSlugs?.productSlug }}
+          settingProductType={shopifyProductData?.productType}
         />
       )}
 

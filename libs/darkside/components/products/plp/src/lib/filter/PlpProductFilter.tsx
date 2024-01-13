@@ -38,7 +38,7 @@ const PlpProductFilter = ({
 }) => {
   const router = useRouter();
   const filterTypes = availableFilters;
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
