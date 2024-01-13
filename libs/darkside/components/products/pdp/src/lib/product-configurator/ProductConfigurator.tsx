@@ -264,7 +264,9 @@ function ProductConfigurator({
               );
 
               router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds?.[0]?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+                  .map((diamond) => diamond?.lotId)
+                  .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
               );
             }}
           >
@@ -613,9 +615,9 @@ function AddToCartButton({
               diamond_type: diamondType,
             });
             router.push(
-              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${
-                isSoldAsDouble && selectedPair === 'pair' ? '?pair=true' : ''
-              }`,
+              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pair/' : ''}${
+                router.query.collectionSlug
+              }/${router.query.productSlug}/`,
             );
           }
         }}
