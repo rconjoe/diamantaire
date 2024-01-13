@@ -77,7 +77,7 @@ export function specGenerator({ configuration, productType, _t, alt_t, hasChildD
     specArray.push(`${_t('diamondSize')}: ${_t(diamondSize)}`);
   }
 
-  if (caratWeight && !isEngagementRing) {
+  if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
     specArray.push(`${_t('carat weight')}: ${_t(caratWeight)}ct`);
   }
 

@@ -49,6 +49,7 @@ type DiamondTableProps = {
   settingSlugs?: {
     [key: string]: string;
   };
+  settingProductType?: string;
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
@@ -64,6 +65,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     isTableView = true,
     isDiamondPairs,
     settingSlugs,
+    settingProductType,
   } = props;
 
   const tableHead = useRef<HTMLDivElement>(null);
@@ -358,6 +360,9 @@ const DiamondTable = (props: DiamondTableProps) => {
     };
   });
 
+  const shouldShowCFYPromo =
+    settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs');
+
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
   const tableHeadHeight = tableHead?.current?.offsetHeight || 0;
@@ -428,7 +433,7 @@ const DiamondTable = (props: DiamondTableProps) => {
 
             return (
               <Fragment key={row.id}>
-                {idx === 10 && cfyPromoCard}
+                {idx === 10 && shouldShowCFYPromo && cfyPromoCard}
 
                 <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
@@ -464,7 +469,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {!isBuilderFlowOpen && cfyPromoCard}
+          {!isBuilderFlowOpen && shouldShowCFYPromo && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">

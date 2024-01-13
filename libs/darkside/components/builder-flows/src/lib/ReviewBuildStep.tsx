@@ -126,7 +126,8 @@ const ReviewBuildStepStyles = styled(motion.div)`
                 overflow: hidden;
 
                 .spritespin-instance {
-                  max-height: 610px !important;
+                  width: 100% !important;
+                  height: 100% !important;
                 }
               }
             }
@@ -405,12 +406,13 @@ const ReviewBuildStep = ({
   const mutatedLotIds = Array.isArray(diamonds) ? diamonds?.map((diamond) => getNumericalLotId(diamond?.lotId)) : [];
 
   const isDiamondCFY = diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
+  const isER = shopifyProductData?.productType === 'Engagement Ring';
 
-  const { data: blockpickerData }: any = useStandardPage('engagement_ring_summary_page', router.locale);
+  const { data: blockpickerData }: any = useStandardPage(
+    isER ? 'engagement_ring_summary_page' : 'jewelry_summary_page',
+    router.locale,
+  );
 
-  console.log('blockpickerData', blockpickerData);
-
-  //
   const diamondImages = isDiamondCFY
     ? diamonds.map((diamond) => {
         const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
@@ -524,7 +526,7 @@ const ReviewBuildStep = ({
         ? metalTypeAsConst[extractMetalTypeFromShopifyHandle(shopifyProductHandle)]
         : metalTypeAsConst[extractMetalTypeFromShopifyHandle(configuredProductOptionsInOrder)]);
     const refinedBandAccent =
-      settingType === 'engagement-ring' && bandAccent ? bandAccent.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
+      settingType === 'engagement-ring' && bandAccent ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
       configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
@@ -548,7 +550,7 @@ const ReviewBuildStep = ({
       _EngravingBack: engravingText,
       _specs: settingSpecs,
       productGroupKey,
-      diamondShape: DIAMOND_TYPE_HUMAN_NAMES[diamonds?.[0]?.diamondType],
+      diamondShape: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
       // centerStone: diamond?.carat + ', ' + diamond?.color + ', ' + diamond?.clarity,
       ringSize: selectedSize?.value,
       bandAccent: refinedBandAccent,
@@ -705,7 +707,7 @@ const ReviewBuildStep = ({
       value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
       onClick: () => {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-        router.push(router.asPath + '/edit-diamond');
+        router.push(router.asPath + '?edit-diamond');
       },
       slug: 'diamondType',
     },
@@ -791,6 +793,7 @@ const ReviewBuildStep = ({
 
   console.log('builderProduct', builderProduct);
   console.log('spriteSpinnerIds', spriteSpinnerIds);
+  console.log('router query', router);
 
   const reviewVariantOrder = ['sideStoneShape', 'sideStoneCarat', 'bandAccent', 'hiddenHalo', 'bandWidth', 'metal'];
 
@@ -849,15 +852,17 @@ const ReviewBuildStep = ({
                 </div>
               ))}
 
-              <div className={clsx('diamond-hand embla__slide')}>
-                <ProductDiamondHand
-                  diamondType={selectedConfiguration?.diamondType}
-                  range={[0.5, 8]}
-                  initValue={parseFloat(diamonds?.[0]?.carat)}
-                  disableControls={true}
-                  prefix={diamondHandCaption}
-                />
-              </div>
+              {isER && (
+                <div className={clsx('diamond-hand embla__slide')}>
+                  <ProductDiamondHand
+                    diamondType={selectedConfiguration?.diamondType}
+                    range={[0.5, 8]}
+                    initValue={parseFloat(diamonds?.[0]?.carat)}
+                    disableControls={true}
+                    prefix={diamondHandCaption}
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="slider-dots">
@@ -952,34 +957,38 @@ const ReviewBuildStep = ({
             )}
 
             <div className="engraving-container">
-              {!engravingText ? (
-                <div className="engraving-prompt-text">
-                  <DarksideButton
-                    onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
-                    type="underline"
-                    colorTheme="teal"
-                  >
-                    <UIString>Add engraving</UIString>
-                  </DarksideButton>
-                  <p>
-                    (<UIString>optional</UIString>)
-                  </p>
-                </div>
-              ) : (
-                <div className="engraving-result-text">
-                  <p className="result-text">
-                    <span>
-                      <UIString>Your Engraving</UIString>:
-                    </span>
-                    {engravingText}
-                  </p>
-                  <DarksideButton
-                    onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
-                    type="underline"
-                    colorTheme="teal"
-                  >
-                    <UIString>Modify</UIString>
-                  </DarksideButton>
+              {isER && (
+                <div className="engraving">
+                  {!engravingText ? (
+                    <div className="engraving-prompt-text">
+                      <DarksideButton
+                        onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
+                        type="underline"
+                        colorTheme="teal"
+                      >
+                        <UIString>Add engraving</UIString>
+                      </DarksideButton>
+                      <p>
+                        (<UIString>optional</UIString>)
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="engraving-result-text">
+                      <p className="result-text">
+                        <span>
+                          <UIString>Your Engraving</UIString>:
+                        </span>
+                        {engravingText}
+                      </p>
+                      <DarksideButton
+                        onClick={() => setIsEngravingInputVisible(!isEngravingInputVisible)}
+                        type="underline"
+                        colorTheme="teal"
+                      >
+                        <UIString>Modify</UIString>
+                      </DarksideButton>
+                    </div>
+                  )}
                 </div>
               )}
 

@@ -41,7 +41,7 @@ const PlpProductFilter = ({
   const filterTypes = availableFilters;
 
   const calculatePriceRange = useCallback(() => {
-    return filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+    return filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
   }, [filterTypes]);
 
   const priceRange: number[] = calculatePriceRange();
