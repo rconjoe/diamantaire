@@ -667,11 +667,16 @@ export class ProductsService {
   async findProductBySlug(input: ProductSlugInput) {
     this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
     try {
+      const findProductBySlugStart: number = performance.now();
+
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
       const query = {
         collectionSlug: input.slug,
         ...getDraftQuery(),
       };
+
+      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + `:` + (query.isDraft ? `draft` : ``);
+
       // create unique cacheKey for each prodyct variant
       const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
       // check for cached data
@@ -683,7 +688,24 @@ export class ProductsService {
         return cachedData; // return the entire cached data including dato content
       }
 
-      const collection: VraiProduct[] = await this.productRepository.find(query);
+      let collection: VraiProduct[];
+
+      const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
+
+      const preProductsReq: number = performance.now();
+
+      if (productsCollectionCacheValue) {
+        this.logger.verbose(`findProductBySlug :: From Cache`);
+        collection = productsCollectionCacheValue as VraiProduct[];
+      } else {
+        this.logger.verbose(`findProductBySlug :: From DB`);
+        collection = await this.productRepository.find(query);
+        this.cacheManager.set(redisKey, collection);
+      }
+
+      const postProductsReq: number = performance.now();
+
+      this.logger.verbose(`findProductBySlug :: Products request :: ${postProductsReq - preProductsReq}ms (total: ${postProductsReq - findProductBySlugStart}ms)`);
 
       // Get variant data based on requested ID
       const requestedProduct = collection.find((product) => product.productSlug === input.id);
