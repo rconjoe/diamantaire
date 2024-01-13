@@ -244,8 +244,6 @@ function OptionSelector({
   hideSelectorLabel = false,
   productType,
   diamondSpecs,
-  selectedOptionIndex = 0,
-
   selectedConfiguration,
   setProductSlug,
   areDiamondShapesHorizontal,
@@ -255,8 +253,8 @@ function OptionSelector({
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
-  const [isLastSlide, setIsLastSlide] = useState(false);
-  const [isFirstSlide, setIsFirstSlide] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+  const [_, setUpdateFlag] = useState(false);
 
   const { _t } = useTranslations(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
@@ -278,7 +276,7 @@ function OptionSelector({
     if (initialIndex > -1) {
       setTimeout(() => {
         emblaApi.scrollTo(initialIndex);
-      }, 300); // Adjust the delay as needed
+      }, 300);
     }
   }, [emblaApi, options, selectedOptionValue]);
 
@@ -286,8 +284,8 @@ function OptionSelector({
     if (!emblaApi) return;
 
     const updateArrowVisibility = () => {
-      setIsLastSlide(emblaApi.canScrollNext() === false);
-      setIsFirstSlide(emblaApi.canScrollPrev() === false);
+      // triggers a re-render
+      setUpdateFlag((prevFlag) => !prevFlag);
     };
 
     emblaApi.on('select', updateArrowVisibility);
@@ -404,7 +402,7 @@ function OptionSelector({
 
     const renderCarousel = () => (
       <>
-        <div className={clsx('embla diamond-shape__slider', { '-is-last': isLastSlide })} ref={emblaRef}>
+        <div className={clsx('embla diamond-shape__slider')} ref={emblaRef}>
           <div className="embla__container">
             {DIAMOND_SHAPES_MAP &&
               options.map((option, index) => {
