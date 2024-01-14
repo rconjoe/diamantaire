@@ -21,6 +21,7 @@ interface ConfigurationSelectorProps {
     color: string;
     clarity: string;
   };
+  selectedDiamond?: object;
 }
 
 interface ConfigurationSelectorAction {

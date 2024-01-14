@@ -39,6 +39,7 @@ interface OptionSelectorProps {
   };
   setProductSlug?: (_value: string) => void;
   areDiamondShapesHorizontal?: boolean;
+  selectedDiamond?: any;
 }
 
 const StyledOptionSelector = styled.div`
@@ -396,7 +397,9 @@ function OptionSelector({
         } else {
           const [diamond] = selectedDiamond || [{}];
           const { carat, diamondType, color, clarity } = diamond;
+
           return (
+            // eslint-disable-next-line react/jsx-no-useless-fragment
             <>
               {productType === 'Engagement Ring' &&
                 `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}

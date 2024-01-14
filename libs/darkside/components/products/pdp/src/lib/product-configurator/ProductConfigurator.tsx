@@ -66,6 +66,8 @@ type ProductConfiguratorProps = {
   ctaCopy?: {
     purchaseWithThisDiamondCopy?: string;
     settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+    buyButtonCopy?: string;
   };
   selectedDiamond?: {
     diamondType: string;
@@ -113,7 +115,7 @@ function ProductConfigurator({
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
-  console.log({ selectedDiamond });
+
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
@@ -163,7 +165,7 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
-  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
+  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
 
   const CompleteYourRingButton = ({ ctaText }) => (
     <div
