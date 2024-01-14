@@ -14,7 +14,7 @@ const JournalNavigation = ({ links, showNavLogo }: JournalNavigationProps) => {
       <div className="blog-navigation">
         <div className="blog-navigation__logo">
           {showNavLogo && (
-            <UniLink route={`/`}>
+            <UniLink route={`/journal`}>
               <Heading type="h2">
                 <UIString>VRAI Journal</UIString>
               </Heading>
@@ -26,7 +26,7 @@ const JournalNavigation = ({ links, showNavLogo }: JournalNavigationProps) => {
             const { route, copy } = navLink;
 
             return (
-              <UniLink key={route} route={getRelativeUrl(route, '/journal')} className="blog-navigation__item">
+              <UniLink key={route} route={getRelativeUrl(route)} className="blog-navigation__item">
                 {copy}
               </UniLink>
             );
