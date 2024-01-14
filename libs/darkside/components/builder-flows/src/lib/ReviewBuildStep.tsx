@@ -352,22 +352,20 @@ const ToastError = () => {
 
 const MAX_CHAR_LIMIT = 16;
 
-const ReviewBuildStep = ({
-  settingSlugs,
-  type,
-  configurations,
-  variantProductTitle,
-  selectedConfiguration,
-  updateSettingSlugs,
-  additionalVariantData,
-  shopifySettingVariantId,
-  shopifyProductData,
-}) => {
+const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData }) => {
+  const {
+    configuration: selectedConfiguration,
+    optionConfigs: configurations,
+    shopifyVariantId: shopifySettingVariantId,
+    productTitle: variantProductTitle,
+    variantDetails: additionalVariantData,
+  } = shopifyProductData || {};
+
   const sizeOptionKey = 'ringSize';
   const router = useRouter();
   const { locale } = router;
   const { data: checkout, refetch } = useCartData(locale);
-  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [spriteSpinnerIds, setSpriteSpinnerIds] = useState([]);
@@ -546,7 +544,11 @@ const ReviewBuildStep = ({
       settingType === 'engagement-ring' && bandAccent ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
 
     const settingSpecs = specGenerator({
-      configuration: { ...selectedConfiguration, ringSize: selectedSize?.value },
+      configuration: {
+        ...shopifyProductData?.configuration,
+        diamondType: diamonds.map((diamond) => DIAMOND_TYPE_HUMAN_NAMES[diamond?.diamondType]).join(' + '),
+        ringSize: selectedSize?.value,
+      },
       productType,
       _t,
       hasChildDiamond: true,
@@ -726,7 +728,6 @@ const ReviewBuildStep = ({
         router.push(router.asPath + '/edit-diamond', null, {
           shallow: true,
         });
-        // updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
       },
       slug: 'diamondType',
     },
@@ -735,7 +736,11 @@ const ReviewBuildStep = ({
       value: diamonds
         .map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
         .join(' + '),
-      onClick: () => updateFlowData('UPDATE_STEP', { step: 'select-diamond' }),
+      onClick: () => {
+        router.push(router.asPath + '/edit-diamond', null, {
+          shallow: true,
+        });
+      },
       slug: 'centerstone',
     },
   ];
@@ -747,7 +752,7 @@ const ReviewBuildStep = ({
       productSlug: option?.id,
     });
 
-    if (type === 'setting-to-diamond') {
+    if (router.query.flowType === 'setting-to-diamond') {
       const newUrl = `/customize/setting-to-diamond/summary/${
         settingSlugs.collectionSlug
       }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
@@ -771,7 +776,6 @@ const ReviewBuildStep = ({
 
   // Last sec check to confirm diamond + setting shapes match
   useEffect(() => {
-    console.log('does this keep running');
     // Single Diamond
     if (diamonds.length === 1) {
       if (diamonds?.[0]?.diamondType !== product?.configuration?.diamondType) {
@@ -783,8 +787,6 @@ const ReviewBuildStep = ({
         const newProductSlug = builderProduct?.product?.optionConfigs?.diamondType.find(
           (type) => type.value === diamonds?.[0]?.diamondType,
         );
-
-        console.log('router?.query?.flowType', router?.query?.flowType);
 
         if (router?.query?.flowType === 'setting-to-diamond') {
           router.push(
@@ -799,20 +801,6 @@ const ReviewBuildStep = ({
         });
       }
     }
-
-    if (!router.query.productSlug && !product.productSlug && router.query.productSlug !== product.productSlug)
-      console.log('isssue is this', {
-        routerSlug: router.query.productSlug,
-        productSlug: product.productSlug,
-      });
-
-    console.log('adding it up', additionalVariantData);
-
-    // updateFlowData('ADD_PRODUCT', {
-    //   ...additionalVariantData,
-    //   ...selectedConfiguration,
-    //   variantId: router.query.productSlug,
-    // });
   }, [builderProduct.diamonds?.[0]?.diamondType]);
 
   useEffect(() => {
@@ -1167,6 +1155,22 @@ const ReviewBuildStep = ({
     </ReviewBuildStepStyles>
   );
 };
+
+// const areEqual = (prevProps, nextProps) => {
+//   /*
+//     return true if passing nextProps to render would return
+//     the same result as passing prevProps to render,
+//     otherwise return false
+//   */
+
+//   const doDiamondShapeMatch =
+//     nextProps?.builderProduct?.product?.configuration?.diamondType === nextProps?.builderProduct?.diamonds?.[0]?.diamondType;
+
+//   console.log('areEqual', { prevProps, nextProps });
+//   console.log('doDiamondShapeMatch', doDiamondShapeMatch);
+
+//   return doDiamondShapeMatch;
+// };
 
 export default ReviewBuildStep;
 

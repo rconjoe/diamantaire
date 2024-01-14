@@ -105,8 +105,9 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     }
   }
 
+  const hasSpriteSpinnerRendered = typeof window !== 'undefined' && window?.SpriteSpin?.Api();
+
   function playSpinner() {
-    const hasSpriteSpinnerRendered = typeof window !== 'undefined' && window?.SpriteSpin?.Api();
     const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
 
     if (hasSpriteSpinnerRendered && api?.data?.animate !== true) {
@@ -115,9 +116,9 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }
 
   function pauseSpinner() {
-    const api = spinnerEl?.current?.spritespin?.('api');
+    const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
 
-    if (api?.data?.animate === true) {
+    if (hasSpriteSpinnerRendered && api?.data?.animate === true) {
       api.toggleAnimation();
     }
   }

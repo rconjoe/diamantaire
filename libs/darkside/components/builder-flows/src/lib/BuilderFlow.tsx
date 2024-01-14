@@ -247,7 +247,7 @@ const BuilderFlow = ({
 
   useEffect(() => {
     fetchProductAndDiamond();
-    configureCurrentStep();
+    // configureCurrentStep();
     console.log('settingSlugs', settingSlugs);
   }, [settingSlugs]);
 
@@ -370,12 +370,6 @@ const BuilderFlow = ({
             productSlug: settingSlugs?.productSlug,
           }}
           updateSettingSlugs={updateSettingSlugs}
-          type={type}
-          configurations={configurations}
-          selectedConfiguration={selectedConfiguration}
-          variantProductTitle={shopifyProductData?.productTitle}
-          additionalVariantData={shopifyProductData?.variantDetails}
-          shopifySettingVariantId={variantId}
           shopifyProductData={shopifyProductData}
         />
       )}
