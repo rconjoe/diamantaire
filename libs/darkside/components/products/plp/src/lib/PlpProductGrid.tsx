@@ -130,7 +130,7 @@ const PlpProductGrid = ({
 
   const { asPath, locale } = router || {};
 
-  const useProductTitleOnly = asPath === '/engagement-rings/settings';
+  const useProductTitleOnly = asPath.includes('/engagement-rings/settings');
 
   const includeStylesFilter = asPath.includes('/engagement-rings/');
 
@@ -182,9 +182,15 @@ const PlpProductGrid = ({
 
   const products = data?.pages?.map((page) => page.products).flat() || [];
 
-  if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
-  if (availableFilters && router?.asPath?.includes('/customize/') && availableFilters['price'])
+  if (availableFilters && !includeStylesFilter) {
+    delete availableFilters.subStyles;
+  }
+
+  if (availableFilters && router?.asPath?.includes('/customize/') && availableFilters['price']) {
     delete availableFilters.price;
+  }
+
+  console.log(`creativeBlockObject`, creativeBlockObject);
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
@@ -219,13 +225,13 @@ const PlpProductGrid = ({
 
               return (
                 <Fragment key={product?.defaultId}>
-                  {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                  {cardCollectionObject[gridItemIndex] !== undefined && (
+                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}
 
-                  {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
+                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
                     <PlpCreativeBlock
-                      block={creativeBlockObject[gridItemIndex + 1]}
+                      block={creativeBlockObject[gridItemIndex]}
                       plpTitle={plpTitle}
                       selectSetting={selectSetting}
                     />

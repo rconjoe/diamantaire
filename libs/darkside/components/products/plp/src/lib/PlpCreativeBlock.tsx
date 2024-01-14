@@ -17,8 +17,14 @@ import styled from 'styled-components';
 import { PlpProductItem } from './PlpProductItem';
 
 const PlpCreativeBlockStyles = styled.div`
-  grid-column: 1/3;
   border: 0.1rem solid var(--color-light-grey);
+  grid-column: 1/3;
+
+  @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+    margin: 0 -1rem;
+    display: block;
+    border: 0;
+  }
 
   ${media.medium`
     grid-column: 1/3; grid-area: 2 / 1 / 4 / 3;
@@ -38,6 +44,8 @@ const PlpCreativeBlockStyles = styled.div`
     position: relative;
 
     .creative-block__content {
+      border: 0;
+
       .creative-block__content-inner {
         position: absolute;
         bottom: 4rem;
@@ -52,12 +60,20 @@ const PlpCreativeBlockStyles = styled.div`
         flex-direction: column;
         background-color: var(--color-white);
         gap: 1rem;
-        position: absolute;
-        max-width: 42rem;
-        right: -0.1rem;
-        bottom: 4rem;
-        padding: 2rem;
-        left: auto;
+        position: relative;
+        max-width: 31rem;
+        padding: 2.4rem 2.8rem;
+        margin: -8rem auto 0;
+        bottom: auto;
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          max-width: 42rem;
+          position: absolute;
+          margin: auto;
+          right: -0.1rem;
+          bottom: 4rem;
+          left: auto;
+        }
       }
 
       &.with-shop-the-look .creative-block__content-inner {
@@ -205,9 +221,9 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
                   </Heading>
                 )}
 
-                {desktopCopy && <p>{desktopCopy}</p>}
+                {desktopCopy && <p className="tablet-and-up">{desktopCopy}</p>}
 
-                {mobileCopy && <p>{mobileCopy}</p>}
+                {mobileCopy && <p className="mobile-only">{mobileCopy}</p>}
 
                 {darksideButtons?.map((button) => {
                   return (

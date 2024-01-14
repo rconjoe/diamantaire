@@ -391,3 +391,33 @@ summary svg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.mobile-only {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .mobile-only {
+    display: block;
+  }
+}
+
+.tablet-and-up {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .tablet-and-up {
+    display: block;
+  }
+}
+
+.desktop-and-up {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) {
+  .desktop-and-up {
+    display: auto;
+  }
+}
