@@ -79,14 +79,15 @@ const PlpProductVariantStyles = styled.div`
           height: 2rem;
           width: 2rem;
           border-radius: 50%;
-          border: 0.1rem solid #d2dbde;
+          border: 0.1rem solid var(--color-light-grey);
           position: relative;
           overflow: hidden;
           background-color: transparent;
           cursor: pointer;
+          padding: 0;
 
           &.selected {
-            border: 0.1rem solid var(--color-teal);
+            border-color: var(--color-teal);
           }
 
           &::after {
