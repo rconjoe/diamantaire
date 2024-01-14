@@ -57,8 +57,6 @@ const ProductPrice = ({
     locale,
   );
 
-  console.log('price', price);
-
   const translatedText = _t('Starting at %%price%%');
 
   return (
