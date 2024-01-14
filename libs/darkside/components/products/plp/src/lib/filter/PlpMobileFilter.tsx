@@ -49,14 +49,14 @@ const PlpMobileFilterStyles = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 150px;
-    padding: 0 15px;
+    min-height: 15rem;
+    padding: 0 1.5rem;
     background-color: var(--color-white);
 
     .mobile-active-filters__inner {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 20px;
+      padding-top: 1rem;
 
       .mobile-active-filters {
         flex: 0 0 80%;
@@ -70,7 +70,7 @@ const PlpMobileFilterStyles = styled.div`
 
           li {
             margin-right: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
 
             button {
               background-color: transparent;
@@ -106,9 +106,9 @@ const PlpMobileFilterStyles = styled.div`
       .clear-filters {
         flex: 1;
         text-align: right;
-        margin-bottom: 1rem;
+        margin: 0.75rem 0 1rem 0;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
 
         button {
           background-color: transparent;
@@ -174,7 +174,11 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
       if (updatedFilterValue[filterType] === undefined && filterType !== 'price') {
         updatedFilterValue[filterType] = [value];
       } else if (filterType === 'price') {
-        updatedFilterValue[filterType] = value;
+        if (value.min === localFilterValue?.price?.min && value.max === localFilterValue?.price?.max) {
+          handlePriceRangeReset();
+        } else {
+          updatedFilterValue[filterType] = value;
+        }
       } else {
         const existingArray = updatedFilterValue[filterType];
 

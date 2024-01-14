@@ -158,7 +158,6 @@ export const PlpProductFilterStyles = styled.div`
 
       button {
         border-bottom: 0.2rem solid transparent;
-        transition: 0.25s;
 
         &:hover,
         &.active {
@@ -170,7 +169,6 @@ export const PlpProductFilterStyles = styled.div`
     &.styles {
       button {
         border-bottom: 0.2rem solid transparent;
-        transition: 0.25s;
 
         &:hover,
         &.active {
@@ -196,7 +194,6 @@ export const PlpProductFilterStyles = styled.div`
 
       button {
         background-color: transparent;
-        transition: 0.25s;
         width: 100%;
 
         &.active {
@@ -322,7 +319,6 @@ export const PlpProductFilterStyles = styled.div`
 
         button {
           border-bottom: 2px solid transparent;
-          transition: 0.25s;
           display: flex;
           width: 100%;
           max-width: 170px;
@@ -340,7 +336,6 @@ export const PlpProductFilterStyles = styled.div`
             flex: 0 110px;
           }
 
-          &:hover,
           &.active {
             border-color: var(--color-teal);
           }
@@ -351,9 +346,8 @@ export const PlpProductFilterStyles = styled.div`
       &.subStyles {
         button {
           border-bottom: 2px solid transparent;
-          transition: 0.25s;
 
-          &:hover {
+          &.active {
             border-bottom: 2px solid var(--color-teal);
           }
 
@@ -366,8 +360,13 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       &.metal {
+        ul {
+          padding-left: 1rem;
+        }
+
         li {
           margin-right: calc(var(--gutter) / 3);
+
           &:last-child {
             margin-right: 0px;
           }
@@ -434,11 +433,6 @@ export const PlpProductFilterStyles = styled.div`
           }
         }
       }
-
-      /* &.styles,
-      &.subStyles {
-        display: none;
-      } */
 
       &.styles,
       &.subStyles {

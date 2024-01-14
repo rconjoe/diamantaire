@@ -190,8 +190,6 @@ const PlpProductGrid = ({
     delete availableFilters.price;
   }
 
-  console.log(`creativeBlockObject`, creativeBlockObject);
-
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
       <div className="grid-controls-container">
