@@ -328,7 +328,6 @@ const BuilderFlow = ({
 
       {builderProduct?.step === 'customize-setting' && shopifyProductData?.variantDetails && (
         <SettingBuildStep
-          updateFlowData={updateFlowData}
           shopifyProductData={shopifyProductData}
           updateSettingSlugs={updateSettingSlugs}
           configurations={configurations}
