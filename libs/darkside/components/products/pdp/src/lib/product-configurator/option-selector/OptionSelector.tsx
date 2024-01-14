@@ -402,7 +402,12 @@ function OptionSelector({
           );
         } else {
           const [diamond] = selectedDiamond || [{}];
-          const { carat, diamondType, color, clarity } = diamond;
+          const {
+            carat,
+            diamondType,
+            color,
+            clarity,
+          }: { carat?: string; diamondType?: string; color?: string; clarity?: string } = diamond;
 
           return (
             // eslint-disable-next-line react/jsx-no-useless-fragment
