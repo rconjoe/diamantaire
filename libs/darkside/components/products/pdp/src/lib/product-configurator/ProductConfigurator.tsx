@@ -70,11 +70,11 @@ type ProductConfiguratorProps = {
     buyButtonCopy?: string;
   };
   selectedDiamond?: Array<{
-    diamondType: string;
-    carat: string;
-    color: string;
-    clarity: string;
-    price: number;
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
   }>;
 };
 

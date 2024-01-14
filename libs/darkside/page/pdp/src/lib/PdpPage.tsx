@@ -57,11 +57,11 @@ export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
   selectedDiamond?: Array<{
-    diamondType: string;
-    carat: string;
-    color: string;
-    clarity: string;
-    price: number;
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
   }>;
   dehydratedState: DehydratedState;
 }

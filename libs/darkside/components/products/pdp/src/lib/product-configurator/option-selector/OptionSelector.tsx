@@ -40,11 +40,11 @@ interface OptionSelectorProps {
   setProductSlug?: (_value: string) => void;
   areDiamondShapesHorizontal?: boolean;
   selectedDiamond?: Array<{
-    diamondType: string;
-    carat: string;
-    color: string;
-    clarity: string;
-    price: number;
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
   }>;
 }
 
