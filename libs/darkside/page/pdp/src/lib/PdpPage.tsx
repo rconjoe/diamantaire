@@ -7,8 +7,6 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
-  DarksideButton,
-  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -58,12 +56,14 @@ export interface PdpPageParams extends ParsedUrlQuery {
 export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
+  diamondData?: Array<{ price: number }>;
   dehydratedState: DehydratedState;
 }
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
-    params: { collectionSlug, productSlug: initialProductSlug, diamondData },
+    params: { collectionSlug, productSlug: initialProductSlug },
+    diamondData,
   } = props;
 
   const [productSlug, setProductSlug] = useState(initialProductSlug);
@@ -546,12 +546,11 @@ export async function getServerSideProps(
     };
   }
 
-  const mergedParams = { ...params, ...({ diamondData } || {}) };
-
   return {
     props: {
       key: productSlug,
-      params: mergedParams,
+      params,
+      diamondData,
       dehydratedState: dehydrate(queryClient),
     },
   };
