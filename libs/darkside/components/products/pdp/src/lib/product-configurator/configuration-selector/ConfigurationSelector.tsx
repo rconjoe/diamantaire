@@ -21,7 +21,13 @@ interface ConfigurationSelectorProps {
     color: string;
     clarity: string;
   };
-  selectedDiamond?: object;
+  selectedDiamond?: Array<{
+    diamondType: string;
+    carat: string;
+    color: string;
+    clarity: string;
+    price: number;
+  }>;
 }
 
 interface ConfigurationSelectorAction {

@@ -56,7 +56,13 @@ export interface PdpPageParams extends ParsedUrlQuery {
 export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
-  selectedDiamond?: Array<{ price: number }>;
+  selectedDiamond?: Array<{
+    diamondType: string;
+    carat: string;
+    color: string;
+    clarity: string;
+    price: number;
+  }>;
   dehydratedState: DehydratedState;
 }
 
@@ -108,7 +114,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     accordionBlocks,
     ctaCopy,
   } = datoParentProductData || {};
-  console.log({ ctaCopy });
+
   // Icon List - Clientside
   const productIconListType = datoParentProductData?.productIconList?.productType;
 

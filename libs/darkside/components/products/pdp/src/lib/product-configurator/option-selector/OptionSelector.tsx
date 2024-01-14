@@ -39,7 +39,13 @@ interface OptionSelectorProps {
   };
   setProductSlug?: (_value: string) => void;
   areDiamondShapesHorizontal?: boolean;
-  selectedDiamond?: any;
+  selectedDiamond?: Array<{
+    diamondType: string;
+    carat: string;
+    color: string;
+    clarity: string;
+    price: number;
+  }>;
 }
 
 const StyledOptionSelector = styled.div`

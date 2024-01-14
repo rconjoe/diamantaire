@@ -69,12 +69,13 @@ type ProductConfiguratorProps = {
     modifyYourDiamondCopy?: string;
     buyButtonCopy?: string;
   };
-  selectedDiamond?: {
+  selectedDiamond?: Array<{
     diamondType: string;
     carat: string;
     color: string;
     clarity: string;
-  };
+    price: number;
+  }>;
 };
 
 function ProductConfigurator({
