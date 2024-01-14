@@ -8,7 +8,7 @@ export default JournalSubCategoryEntry;
 export async function getStaticPaths() {
   const paths = await getAllJournalSubCategories();
   const updatedPaths = paths.map((path) => {
-    const newPath = path.route.replace('https://www.vrai.com', '');
+    const newPath = path.route.replace('https://www.vrai.com/journal/', '');
 
     return newPath;
   });

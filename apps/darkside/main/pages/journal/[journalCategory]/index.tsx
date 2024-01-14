@@ -9,7 +9,7 @@ export default JournalCategoryEntry;
 export async function getStaticPaths() {
   let paths = await getAllJournalCategories();
 
-  paths = paths.map((path) => path.replace('https://www.vrai.com', ''));
+  paths = paths.map((path) => path.replace('https://www.vrai.com/journal/', ''));
   paths = paths.filter((path) => !path.includes('in-the-media') && !path.includes('test-category'));
 
   const newPaths = paths.map((slug) => {
