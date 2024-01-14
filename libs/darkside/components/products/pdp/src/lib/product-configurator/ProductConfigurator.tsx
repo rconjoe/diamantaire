@@ -63,6 +63,10 @@ type ProductConfiguratorProps = {
   };
   setProductSlug: (_value: string) => void;
   isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+  };
 };
 
 function ProductConfigurator({
@@ -96,6 +100,7 @@ function ProductConfigurator({
   settingSlugs,
   setProductSlug,
   isProductFeedUrl,
+  ctaCopy,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -151,8 +156,9 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
+  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
 
-  const CompleteYourRingButton = () => (
+  const CompleteYourRingButton = ({ ctaText }) => (
     <div
       style={{
         marginTop: '2rem',
@@ -178,7 +184,7 @@ function ProductConfigurator({
           );
         }}
       >
-        <UIString>Complete & Review Your Ring</UIString>
+        {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
       </DarksideButton>
     </div>
   );
@@ -277,10 +283,10 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {isProductFeedUrl && <CompleteYourRingButton />}
+      {isProductFeedUrl && <CompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} />}
 
       {isBuilderFlowOpen ? (
-        <CompleteYourRingButton />
+        <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
       ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
@@ -365,6 +371,7 @@ function AddToCartButton({
   engravingText,
   productIconListType,
   selectedPair,
+  isProductFeedUrl,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -607,6 +614,8 @@ function AddToCartButton({
     <AddToCartButtonContainer>
       <DarksideButton
         className="atc-button"
+        colorTheme={isProductFeedUrl ? 'black' : 'white'}
+        type="outline"
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();

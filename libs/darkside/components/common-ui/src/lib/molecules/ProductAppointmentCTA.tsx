@@ -3,6 +3,7 @@ import { VIRTUAL_SHOWROOM } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,25 +13,41 @@ import { SlideOut } from './SlideOut';
 const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;
   .appointment-button {
-    width: 100%;
-    height: 4.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-black);
-    color: var(--color-black);
-    font-size: var(--font-size-xxsmall);
+    &.outline {
+      width: 100%;
+      height: 4.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-black);
+      color: var(--color-black);
+      font-size: var(--font-size-xxsmall);
+      span {
+        flex: 0 0 2.5rem;
+        position: relative;
+        top: 0.2rem;
+        margin-right: 0.2rem;
+      }
+    }
+    &.underline {
+      width: 100%;
 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-white);
+      border: none;
+      color: var(--color-teal);
+      text-decoration: underline;
+      font-size: var(--font-size-xxsmall);
+      font-weight: var(--font-weight-bold);
+      span {
+        display: none;
+      }
+    }
     &.with-hidden-button {
       display: none;
-    }
-
-    span {
-      flex: 0 0 2.5rem;
-      position: relative;
-      top: 0.2rem;
-      margin-right: 0.2rem;
     }
   }
 
@@ -46,7 +63,15 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?: string; withHiddenButton?: boolean }) => {
+const ProductAppointmentCTA = ({
+  productType,
+  withHiddenButton,
+  type = 'outline',
+}: {
+  productType?: string;
+  withHiddenButton?: boolean;
+  type?: string;
+}) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
@@ -177,7 +202,7 @@ const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?
   return (
     <ProductAppointmentCTAStyles>
       <button
-        className={`appointment-button${withHiddenButton ? ' with-hidden-button' : ''}`}
+        className={clsx('appointment-button', type, { 'with-hidden-button': withHiddenButton })}
         onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}
       >
         <span>

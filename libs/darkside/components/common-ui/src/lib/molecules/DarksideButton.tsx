@@ -97,8 +97,8 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--white {
       button {
-        border: 0.2rem solid var(--color-white);
-        color: var(--color-white);
+        border: 0.1rem solid var(--color-black);
+        color: var(--color-black);
         &:hover {
           background-color: var(--color-white);
           color: var(--color-black);

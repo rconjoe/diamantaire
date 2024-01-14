@@ -32,7 +32,6 @@ import {
 
 import { ResponsiveImageFragment, ButtonFragment } from '../../fragments';
 
-
 // Get associated DiamondTypes from Product slug
 export async function getProductDiamondTypes(productSlug) {
   const apiUrl = `/v1/products/collection/diamondtypes/${productSlug}`;
@@ -109,6 +108,15 @@ const ENGAGEMENT_RING_QUERY = gql`
       }
       belowBannerBlocks {
         __typename
+      }
+      ctaCopy {
+        buyButtonCopy
+        diamondFlowCtaCopy
+        settingFlowCtaCopy
+        settingFlowCtaPluralCopy
+        unavailableCtaCopy
+        belowOptionsCopy
+        purchaseWithThisDiamondCopy
       }
     }
   }

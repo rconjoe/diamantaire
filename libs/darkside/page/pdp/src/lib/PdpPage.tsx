@@ -106,6 +106,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     productTitleOverride,
     trioBlocks,
     accordionBlocks,
+    ctaCopy,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -388,11 +389,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
                 isProductFeedUrl={isProductFeedUrl}
+                ctaCopy={ctaCopy}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
 
-              <ProductAppointmentCTA productType={shopifyProductData?.productType} />
+              <ProductAppointmentCTA productType={shopifyProductData?.productType} type="underline" />
 
               <ProductGWP />
 
