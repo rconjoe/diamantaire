@@ -69,10 +69,11 @@ export interface PdpPageProps {
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     params: { collectionSlug, productSlug: initialProductSlug },
-    selectedDiamond,
+    selectedDiamond: initialSelectedDiamond,
   } = props;
 
   const [productSlug, setProductSlug] = useState(initialProductSlug);
+  const [selectedDiamond, setSelectedDiamond] = useState(initialSelectedDiamond);
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -82,6 +83,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { data: shopifyProductData = {} } = query;
 
   const router = useRouter();
+
+  useEffect(() => {
+    const hasProductParams = router.pathname.includes('productParams');
+
+    if (!hasProductParams) {
+      setSelectedDiamond(null);
+    }
+  }, [router.pathname]);
 
   const { locale } = router || {};
   const countryCode = getCountry(locale);
@@ -206,7 +215,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
-  const diamondFeedPrice = selectedDiamond?.[0]?.price;
+  const diamondFeedPrice = selectedDiamond?.reduce((total, diamond) => total + diamond.price, 0);
+
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
   // Can this product be added directly to cart?
@@ -540,8 +550,9 @@ export async function getServerSideProps(
   const { params, locale } = mergedContext;
 
   const { collectionSlug, productSlug, productParams } = mergedContext.params;
-  const diamondLotId = productParams?.[0];
-  const lotIds = diamondLotId ? [diamondLotId] : null;
+
+  const lotIds = productParams || null;
+
   const selectedDiamond = lotIds ? await getDiamond(lotIds) : null;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
