@@ -117,6 +117,7 @@ const ENGAGEMENT_RING_QUERY = gql`
         unavailableCtaCopy
         belowOptionsCopy
         purchaseWithThisDiamondCopy
+        modifyYourDiamondCopy
       }
     }
   }

@@ -108,6 +108,7 @@ function ConfigurationSelector({
   productType,
   diamondSpecs,
   setProductSlug,
+  selectedDiamond,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
@@ -211,6 +212,7 @@ function ConfigurationSelector({
             diamondSpecs={diamondSpecs}
             setProductSlug={setProductSlug}
             areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
+            selectedDiamond={selectedDiamond}
           />
         );
       })}

@@ -56,14 +56,14 @@ export interface PdpPageParams extends ParsedUrlQuery {
 export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
-  diamondData?: Array<{ price: number }>;
+  selectedDiamond?: Array<{ price: number }>;
   dehydratedState: DehydratedState;
 }
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     params: { collectionSlug, productSlug: initialProductSlug },
-    diamondData,
+    selectedDiamond,
   } = props;
 
   const [productSlug, setProductSlug] = useState(initialProductSlug);
@@ -108,7 +108,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     accordionBlocks,
     ctaCopy,
   } = datoParentProductData || {};
-
+  console.log({ ctaCopy });
   // Icon List - Clientside
   const productIconListType = datoParentProductData?.productIconList?.productType;
 
@@ -200,7 +200,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
-  const diamondFeedPrice = diamondData?.[0]?.price;
+  const diamondFeedPrice = selectedDiamond?.[0]?.price;
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
   // Can this product be added directly to cart?
@@ -390,6 +390,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setProductSlug={setProductSlug}
                 isProductFeedUrl={isProductFeedUrl}
                 ctaCopy={ctaCopy}
+                selectedDiamond={selectedDiamond}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
@@ -532,7 +533,7 @@ export async function getServerSideProps(
   const { collectionSlug, productSlug, productParams } = mergedContext.params;
   const diamondLotId = productParams?.[0];
   const lotIds = diamondLotId ? [diamondLotId] : null;
-  const diamondData = lotIds ? await getDiamond(lotIds) : null;
+  const selectedDiamond = lotIds ? await getDiamond(lotIds) : null;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
@@ -552,7 +553,7 @@ export async function getServerSideProps(
     props: {
       key: productSlug,
       params,
-      diamondData,
+      selectedDiamond,
       dehydratedState: dehydrate(queryClient),
     },
   };

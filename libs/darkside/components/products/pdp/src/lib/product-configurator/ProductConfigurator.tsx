@@ -67,6 +67,12 @@ type ProductConfiguratorProps = {
     purchaseWithThisDiamondCopy?: string;
     settingFlowCtaCopy?: string;
   };
+  selectedDiamond?: {
+    diamondType: string;
+    carat: string;
+    color: string;
+    clarity: string;
+  };
 };
 
 function ProductConfigurator({
@@ -101,12 +107,13 @@ function ProductConfigurator({
   setProductSlug,
   isProductFeedUrl,
   ctaCopy,
+  selectedDiamond,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
-
+  console.log({ selectedDiamond });
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
@@ -156,7 +163,7 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
-  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
+  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
 
   const CompleteYourRingButton = ({ ctaText }) => (
     <div
@@ -214,6 +221,7 @@ function ProductConfigurator({
               clarity: additionalVariantData?.clarity,
             }}
             setProductSlug={setProductSlug}
+            selectedDiamond={selectedDiamond}
           />
 
           {/* Ring Size */}
@@ -305,6 +313,8 @@ function ProductConfigurator({
           engravingText={engravingText}
           productIconListType={productIconListType}
           selectedPair={selectedPair}
+          ctaCopy={ctaCopy}
+          isProductFeedUrl={isProductFeedUrl}
         />
       ) : (
         <div
@@ -343,6 +353,13 @@ type CtaButtonProps = {
   engravingText?: string;
   productIconListType?: string;
   selectedPair?: 'pair' | 'single';
+  isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+    buyButtonCopy?: string;
+  };
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -372,13 +389,14 @@ function AddToCartButton({
   productIconListType,
   selectedPair,
   isProductFeedUrl,
+  ctaCopy,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-
-  const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
+  const { settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? buyButtonCopy : isProductFeedUrl ? modifyYourDiamondCopy : settingFlowCtaCopy;
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -639,7 +657,7 @@ function AddToCartButton({
           }
         }}
       >
-        <UIString>{ctaText}</UIString>
+        {ctaText}
       </DarksideButton>
     </AddToCartButtonContainer>
   );

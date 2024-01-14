@@ -5,7 +5,7 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
+import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
@@ -252,6 +252,7 @@ function OptionSelector({
   selectedConfiguration,
   setProductSlug,
   areDiamondShapesHorizontal,
+  selectedDiamond,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -392,7 +393,17 @@ function OptionSelector({
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
+        } else {
+          const [diamond] = selectedDiamond || [{}];
+          const { carat, diamondType, color, clarity } = diamond;
+          return (
+            <>
+              {productType === 'Engagement Ring' &&
+                `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}
+            </>
+          );
         }
+
         break;
       case 'bandWidth':
         return translateBandwidthValues(selectedOptionValue);
@@ -559,6 +570,10 @@ function OptionSelector({
   }
 
   function renderCaratWeightOptions() {
+    if (selectedDiamond?.length > 0) {
+      return null;
+    }
+
     return (
       <div className={clsx('option-list caratWeight')}>
         {options.map((option) => {
