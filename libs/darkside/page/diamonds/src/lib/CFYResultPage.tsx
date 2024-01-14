@@ -272,8 +272,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       shippingText: shippingText,
     };
 
-    console.log('diamondAttributes', diamondAttributes);
-
     addLooseDiamondToCart({
       diamondVariantId: product?.variantId,
       diamondAttributes,
