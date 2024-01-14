@@ -1,7 +1,15 @@
 import Document, { Html, Main, NextScript, DocumentContext, Head } from 'next/document';
+import Script from 'next/script';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoaded: false,
+    };
+  }
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -26,7 +34,15 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy="beforeInteractive" />
+
+          {/* Load SpriteSpin after jQuery */}
+          <Script
+            src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js"
+            strategy="afterInteractive"
+          />
+        </Head>
 
         <body>
           <Main />

@@ -71,7 +71,6 @@ function ProductConfigurator({
   variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
-  updateFlowData,
   updateSettingSlugs,
   disableVariantType = [],
   hasMoreThanOneVariant = true,

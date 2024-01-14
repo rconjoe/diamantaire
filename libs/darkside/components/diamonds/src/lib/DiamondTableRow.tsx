@@ -102,16 +102,23 @@ const DiamondTableRow = ({
     if (!router.query.flowType) {
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {
-      updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
         `/customize/setting-to-diamond/summary/${`/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
+        null,
+        {
+          shallow: true,
+        },
       );
     } else {
-      updateFlowData('UPDATE_STEP', { step: 'review-build' });
+      // updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
         `/customize/diamond-to-setting/${router.asPath.includes('/summary/') ? '/summary/' : ''}${product.lotId}${
           builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''
         }`,
+        null,
+        {
+          shallow: true,
+        },
       );
     }
   };

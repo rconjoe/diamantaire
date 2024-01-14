@@ -1,13 +1,13 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { fetchDatoVariant, getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
-import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
+import { useProductDato } from '@diamantaire/darkside/data/hooks';
 import {
   HUBSPOT_ER_SUMMARY_LISTDATA,
   JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS,
   PdpTypePlural,
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCurrentUrl, isEmptyObject } from '@diamantaire/shared/helpers';
+import { getCurrentUrl } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -45,7 +45,7 @@ const BuilderFlow = ({
     collectionContent,
     configuration: selectedConfiguration,
     price,
-    defaultRingSize,
+    // defaultRingSize,
   } = shopifyProductData || {};
   const { productTitle, productTitleOverride } = collectionContent || {};
 
@@ -98,47 +98,6 @@ const BuilderFlow = ({
 
   const variantHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
-  let { data: additionalVariantData }: any = useProductVariant(
-    variantHandle,
-    shopifyProductData?.productType,
-    router.locale,
-  );
-
-  const { isFetching: isVariantDataBeingFetched }: any = useProductVariant(
-    variantHandle,
-    shopifyProductData?.productType,
-    router.locale,
-  );
-
-  console.log('additionalVariantData', additionalVariantData, productContent);
-
-  if (!isEmptyObject(shopifyProductData) && shopifyProductData !== null && !shopifyProductData.error) {
-    // Fallback for Jewelry Products
-    if (!additionalVariantData || additionalVariantData?.configuration) {
-      additionalVariantData = productContent;
-    } else {
-      // Add Shopify Product Data to Dato Product Data
-      additionalVariantData = additionalVariantData?.omegaProduct;
-      additionalVariantData['goldPurity'] = shopifyProductData?.options?.goldPurity;
-      additionalVariantData['bandAccent'] = shopifyProductData?.options?.bandAccent;
-      additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
-    }
-
-    additionalVariantData.productType = shopifyProductData.productType;
-    additionalVariantData.productTitle = productTitle;
-    additionalVariantData.price = price;
-    additionalVariantData.defaultRingSize = defaultRingSize;
-    additionalVariantData.image = {
-      src: assetStack[0].url,
-      width: assetStack[0].width,
-      height: assetStack[0].width,
-      responsiveImage: {
-        src: assetStack?.[0]?.url,
-        ...assetStack[0].responsiveImage,
-      },
-    };
-  }
-
   function updateSettingSlugs(value: object) {
     setSettingSlugs({
       ...settingSlugs,
@@ -153,6 +112,8 @@ const BuilderFlow = ({
     const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
       .then((res) => res.json())
       .then((res) => res);
+
+    console.log('diamondResponse', diamondResponse);
 
     updateFlowData('ADD_DIAMOND', diamondResponse);
   }
@@ -178,7 +139,7 @@ const BuilderFlow = ({
         console.log('getPdpProduct error', e);
       });
 
-    const variantResponse =
+    const variantResponse: any =
       variantHandle && (await fetchDatoVariant(variantHandle, shopifyProductData?.productType, router.locale));
 
     console.log('variantResponse', variantResponse);
@@ -243,7 +204,13 @@ const BuilderFlow = ({
     ) {
       console.log('case d');
       updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
-    } else if (type === 'setting-to-diamond' && settingSlugs?.productSlug && settingSlugs?.collectionSlug && initialLotIds) {
+    } else if (
+      type === 'setting-to-diamond' &&
+      settingSlugs?.productSlug &&
+      settingSlugs?.collectionSlug &&
+      initialLotIds &&
+      !router.asPath.includes('edit-diamond')
+    ) {
       console.log('case e');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else if (
@@ -265,7 +232,11 @@ const BuilderFlow = ({
     ) {
       console.log('case g');
       updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
-    } else if (type === 'diamond-to-setting' && router.asPath.includes('/summary')) {
+    } else if (
+      type === 'diamond-to-setting' &&
+      router.asPath.includes('/summary') &&
+      !router.asPath.includes('edit-diamond')
+    ) {
       console.log('case h');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     }
@@ -282,7 +253,6 @@ const BuilderFlow = ({
   }, [router.asPath]);
 
   useEffect(() => {
-    if (isVariantDataBeingFetched) return;
     // configureCurrentStep();
 
     const isSummaryPage = router.asPath.includes('/summary');
@@ -356,7 +326,7 @@ const BuilderFlow = ({
         />
       )}
 
-      {builderProduct?.step === 'customize-setting' && shopifyProductData && (
+      {builderProduct?.step === 'customize-setting' && shopifyProductData?.variantDetails && (
         <SettingBuildStep
           updateFlowData={updateFlowData}
           shopifyProductData={shopifyProductData}
@@ -365,7 +335,6 @@ const BuilderFlow = ({
           assetStack={assetStack}
           variantId={variantId}
           selectedConfiguration={selectedConfiguration}
-          additionalVariantData={additionalVariantData}
           productDescription={productDescription}
           productTitle={productTitle}
           price={price}
@@ -375,9 +344,10 @@ const BuilderFlow = ({
           disableVariantType={['diamondType', 'ringSize', 'caratWeight']}
           productTitleOverride={productTitleOverride}
           productIconListType={productIconListType}
+          additionalVariantData={shopifyProductData?.variantDetails}
           contentIds={{
             trioBlocksId,
-            productSuggestionBlockId: additionalVariantData?.productSuggestionQuadBlock?.id,
+            productSuggestionBlockId: shopifyProductData?.variantDetails?.productSuggestionQuadBlock?.id,
             videoBlockId,
             instagramReelId,
             shopifyCollectionId: shopifyProductData?.shopifyCollectionId,
@@ -397,7 +367,7 @@ const BuilderFlow = ({
           configurations={configurations}
           selectedConfiguration={selectedConfiguration}
           variantProductTitle={shopifyProductData?.productTitle}
-          additionalVariantData={additionalVariantData}
+          additionalVariantData={shopifyProductData?.variantDetails}
           shopifySettingVariantId={variantId}
           shopifyProductData={shopifyProductData}
         />

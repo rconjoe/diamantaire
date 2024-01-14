@@ -2,7 +2,6 @@ import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamant
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { useDiamondsData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
-import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -222,9 +221,7 @@ const DiamondBuildStep = ({
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    router.push(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
-      shallow: true,
-    });
+    // router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 
   return (
