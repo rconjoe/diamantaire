@@ -141,7 +141,7 @@ const PlpProductGrid = ({
     promoCardCollectionId,
   );
 
-  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds);
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds, useProductTitleOnly);
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy

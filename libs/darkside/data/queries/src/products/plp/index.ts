@@ -17,9 +17,9 @@ export const plpListPage = createQueryKeys('plp', {
     queryKey: [locale, id],
     queryFn: () => fetchPlpDatoPromoCardCollection(locale, id),
   }),
-  creativeBlocks: (locale: string, ids: string[]) => ({
+  creativeBlocks: (locale: string, ids: string[], useProductTitleOnly: boolean) => ({
     queryKey: [locale, ids],
-    queryFn: () => fetchPlpDatoCreativeBlocks(locale, ids),
+    queryFn: () => fetchPlpDatoCreativeBlocks(locale, ids, useProductTitleOnly),
   }),
   plpBlockPickerBlocks: (locale: string, slug: string, category: string) => ({
     queryKey: [locale, slug, category],

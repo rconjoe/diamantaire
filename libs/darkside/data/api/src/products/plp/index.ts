@@ -321,51 +321,56 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const LIST_PAGE_CREATIVE_BLOCK_QUERY = gql`
-query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
-  allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
-    id
-    enableGwp
-    desktopImage {
-      responsiveImage(imgixParams: {w: 636, h: 804, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-        ...responsiveImageFragment
+const getPlpCreativeBlockQuery = (useProductTitleOnly) => {
+  const desktopImageHeight = useProductTitleOnly ? 700 : 804;
+
+  return gql`
+  query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
+    allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
+      id
+      enableGwp
+      desktopImage {
+        responsiveImage(imgixParams: {w: 636, h: ${desktopImageHeight}, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
       }
-    }
-    mobileImage {
-      responsiveImage(imgixParams: {w: 375, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-        ...responsiveImageFragment
+      mobileImage {
+        responsiveImage(imgixParams: {w: 375, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
       }
-    }
-    desktopCopy
-    mobileCopy
-    title
-    ctaCopy
-    ctaRoute
-    darksideButtons {
-      ${ButtonFragment}
-    }
-    additionalClass
-    configurationsInOrder {
-      ... on OmegaProductRecord {
-        shopifyProductHandle
+      desktopCopy
+      mobileCopy
+      title
+      ctaCopy
+      ctaRoute
+      darksideButtons {
+        ${ButtonFragment}
       }
-      ... on ConfigurationRecord {
-        variantId
+      additionalClass
+      configurationsInOrder {
+        ... on OmegaProductRecord {
+          shopifyProductHandle
+        }
+        ... on ConfigurationRecord {
+          variantId
+        }
       }
     }
   }
-}
-${ResponsiveImageFragment}
-`;
+  ${ResponsiveImageFragment}
+  `;
+};
 
 type FetchCreativeBlocksProps = {
   allCreativeBlocks: object[];
 };
 
-export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[]) {
+export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[], useProductTitleOnly: boolean) {
   if (!ids) return {};
+
   const datoData = (await queryDatoGQL({
-    query: LIST_PAGE_CREATIVE_BLOCK_QUERY,
+    query: getPlpCreativeBlockQuery(useProductTitleOnly),
     variables: { locale, ids },
   })) as FetchCreativeBlocksProps;
 
