@@ -1,5 +1,5 @@
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
-import { getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
+import { fetchDatoVariant, getEmailFromCookies, sendHubspotForm } from '@diamantaire/darkside/data/api';
 import { useProductDato, useProductVariant } from '@diamantaire/darkside/data/hooks';
 import {
   HUBSPOT_ER_SUMMARY_LISTDATA,
@@ -103,6 +103,7 @@ const BuilderFlow = ({
     shopifyProductData?.productType,
     router.locale,
   );
+
   const { isFetching: isVariantDataBeingFetched }: any = useProductVariant(
     variantHandle,
     shopifyProductData?.productType,
@@ -156,6 +157,7 @@ const BuilderFlow = ({
     updateFlowData('ADD_DIAMOND', diamondResponse);
   }
 
+  // This function keeps setting in sync
   async function getSettingProduct() {
     console.log('settingSlugs', settingSlugs);
     const qParams = new URLSearchParams({
@@ -163,7 +165,8 @@ const BuilderFlow = ({
       id: settingSlugs?.productSlug,
     }).toString();
 
-    const response = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
+    // Product Data
+    const parentProductResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -175,11 +178,22 @@ const BuilderFlow = ({
         console.log('getPdpProduct error', e);
       });
 
-    setShopifyProductData(response);
+    const variantResponse =
+      variantHandle && (await fetchDatoVariant(variantHandle, shopifyProductData?.productType, router.locale));
 
-    updateFlowData('ADD_PRODUCT', response);
+    console.log('variantResponse', variantResponse);
+    console.log('parentProductResponse', parentProductResponse);
 
-    return response;
+    const settingData = {
+      ...parentProductResponse,
+      variantDetails: variantResponse?.omegaProduct,
+    };
+
+    setShopifyProductData(settingData);
+
+    updateFlowData('ADD_PRODUCT', settingData);
+
+    return settingData;
   }
 
   async function fetchProductAndDiamond() {
@@ -199,6 +213,8 @@ const BuilderFlow = ({
     // EDGE CASES
     // Overrides all scenarios to edit the diamond selected - is triggered by clicking modify diamond on review build step
     if (router.asPath.includes('edit-diamond')) {
+      console.log('case a');
+
       return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     }
 
@@ -209,7 +225,9 @@ const BuilderFlow = ({
     ) {
       if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+        console.log('case b');
       } else {
+        console.log('case c');
         updateFlowData('UPDATE_STEP', { step: 'review-build' });
       }
     }
@@ -223,8 +241,10 @@ const BuilderFlow = ({
       !initialLotIds &&
       !builderProduct?.diamonds
     ) {
+      console.log('case d');
       updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     } else if (type === 'setting-to-diamond' && settingSlugs?.productSlug && settingSlugs?.collectionSlug && initialLotIds) {
+      console.log('case e');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else if (
       type === 'diamond-to-setting' &&
@@ -233,6 +253,7 @@ const BuilderFlow = ({
       !router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
     ) {
+      console.log('case f');
       // D2S - Select Setting
       updateFlowData('UPDATE_STEP', { step: 'select-setting' });
     } else if (
@@ -242,8 +263,10 @@ const BuilderFlow = ({
       router.asPath.includes(settingSlugs?.collectionSlug) &&
       !router.asPath.includes('/summary')
     ) {
+      console.log('case g');
       updateFlowData('UPDATE_STEP', { step: 'customize-setting' });
     } else if (type === 'diamond-to-setting' && router.asPath.includes('/summary')) {
+      console.log('case h');
       updateFlowData('UPDATE_STEP', { step: 'review-build' });
     }
   }
@@ -251,11 +274,16 @@ const BuilderFlow = ({
   useEffect(() => {
     fetchProductAndDiamond();
     configureCurrentStep();
-  }, [settingSlugs]);
+    console.log('settingSlugs', settingSlugs);
+  }, [settingSlugs, variantHandle]);
+
+  useEffect(() => {
+    configureCurrentStep();
+  }, [router.asPath]);
 
   useEffect(() => {
     if (isVariantDataBeingFetched) return;
-    configureCurrentStep();
+    // configureCurrentStep();
 
     const isSummaryPage = router.asPath.includes('/summary');
 

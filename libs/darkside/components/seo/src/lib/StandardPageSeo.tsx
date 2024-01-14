@@ -7,6 +7,7 @@ We should update the dato seo component to includes custom meta images, and twit
 https://github.com/garmeeh/next-seo
 */
 
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 type StandardPageSeoProps = {
@@ -17,13 +18,17 @@ type StandardPageSeoProps = {
 };
 
 const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false }: StandardPageSeoProps) => {
+  const router = useRouter();
+
   return (
     <NextSeo
       title={title}
       description={description}
       noindex={noIndex}
       nofollow={noFollow}
-      canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+      canonical={
+        (process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${router.locale}` + router.asPath
+      }
     />
   );
 };

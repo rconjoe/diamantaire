@@ -252,16 +252,16 @@ function ProductConfigurator({
         >
           <DarksideButton
             onClick={() => {
-              updateFlowData(
-                'ADD_PRODUCT',
-                {
-                  ...additionalVariantData,
-                  ...selectedConfiguration,
-                  variantId: selectedVariantId,
-                  collectionSlug: builderProduct?.product?.collectionSlug,
-                },
-                null,
-              );
+              // updateFlowData(
+              //   'ADD_PRODUCT',
+              //   {
+              //     ...additionalVariantData,
+              //     ...selectedConfiguration,
+              //     variantId: selectedVariantId,
+              //     collectionSlug: builderProduct?.product?.collectionSlug,
+              //   },
+              //   null,
+              // );
 
               router.push(
                 `/customize/diamond-to-setting/summary/${builderProduct?.diamonds

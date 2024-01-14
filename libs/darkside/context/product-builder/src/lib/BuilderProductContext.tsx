@@ -101,6 +101,8 @@ type BuilderAction =
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
     case 'ADD_DIAMOND': {
+      console.log('ADDING DIAMOND', action, state.product);
+
       const newState = {
         ...state,
         diamonds: action.payload,

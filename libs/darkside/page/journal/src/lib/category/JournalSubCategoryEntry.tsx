@@ -18,14 +18,14 @@ type JournalSubCategoryEntryProps = {
   blogConfiguration: object;
   blogHeader: object;
   categoryPosts: Array<object>;
-  locale: string;
   count: number;
   getTemplate?: (page: ReactElement | ReactElement[]) => ReactNode[];
   parentCategorySlug: string;
   isSubCategory: boolean;
 };
 
-const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
+const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
+  const { asPath, locale } = useRouter();
   const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { categoriesToDisplay, postsPerPage } = blogConfiguration || {};
@@ -122,15 +122,13 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
     }
   }, [init]);
 
-  const { asPath } = useRouter();
-
   return (
     <JournalCategoryEntryContainer>
       {seoTitle && seoDescription && (
         <NextSeo
           title={seoTitle}
           description={seoDescription}
-          canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+          canonical={(process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
         />
       )}
 

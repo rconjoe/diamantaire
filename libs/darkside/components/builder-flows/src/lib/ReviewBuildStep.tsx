@@ -767,21 +767,21 @@ const ReviewBuildStep = ({
   const [emblaRef, emblaApi] = useEmblaCarousel();
   const [activeSlide, setActiveSlide] = useState(0);
 
-  useEffect(() => {
-    if (!router.query.productSlug && !product.productSlug && router.query.productSlug !== product.productSlug)
-      console.log('isssue is this', {
-        routerSlug: router.query.productSlug,
-        productSlug: product.productSlug,
-      });
+  // useEffect(() => {
+  //   if (!router.query.productSlug && !product.productSlug && router.query.productSlug !== product.productSlug)
+  //     console.log('isssue is this', {
+  //       routerSlug: router.query.productSlug,
+  //       productSlug: product.productSlug,
+  //     });
 
-    console.log('adding it up', additionalVariantData);
+  //   console.log('adding it up', additionalVariantData);
 
-    updateFlowData('ADD_PRODUCT', {
-      ...additionalVariantData,
-      ...selectedConfiguration,
-      variantId: router.query.productSlug,
-    });
-  }, [additionalVariantData]);
+  //   updateFlowData('ADD_PRODUCT', {
+  //     ...additionalVariantData,
+  //     ...selectedConfiguration,
+  //     variantId: router.query.productSlug,
+  //   });
+  // }, [additionalVariantData]);
 
   useEffect(() => {
     if (!emblaApi) return;
