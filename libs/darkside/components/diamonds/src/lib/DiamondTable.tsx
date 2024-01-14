@@ -27,7 +27,6 @@ type Info =
 type DiamondTableProps = {
   activeRow?: DiamondDataTypes | DiamondPairDataTypes;
   setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
-  locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
     currentPage?: number;
@@ -49,7 +48,6 @@ type DiamondTableProps = {
 
 const DiamondTable = (props: DiamondTableProps) => {
   const {
-    locale,
     initialDiamonds,
     initialPagination,
     initialOptions,
@@ -63,12 +61,13 @@ const DiamondTable = (props: DiamondTableProps) => {
     settingProductType,
   } = props;
 
+  const { asPath, locale } = useRouter();
+
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
 
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
-  const { asPath } = useRouter();
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
