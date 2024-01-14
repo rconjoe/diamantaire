@@ -171,7 +171,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     }
 
     console.log('v2 additionalVariantData', additionalVariantData);
-    console.log({ trioBlocksId, suggestion: additionalVariantData?.productSuggestionQuadBlock?.id });
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {

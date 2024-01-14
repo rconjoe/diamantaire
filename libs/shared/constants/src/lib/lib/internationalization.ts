@@ -560,7 +560,9 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
 
   const convertedPrice = priceInCents / 100;
 
-  const numberFormat = new Intl.NumberFormat(locale, {
+  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
+
+  const numberFormat = new Intl.NumberFormat(customLocale, {
     currency,
     style: 'currency',
     currencyDisplay: 'narrowSymbol',

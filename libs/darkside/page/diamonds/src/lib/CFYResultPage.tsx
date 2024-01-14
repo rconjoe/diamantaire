@@ -34,6 +34,7 @@ import {
   POPULAR_CFY_DIAMOND_TYPES,
   getFormattedCarat,
   getFormattedPrice,
+  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import {
@@ -63,13 +64,14 @@ interface CFYResultPageQueryParams extends ParsedUrlQuery {
 
 interface CFYResultPageProps {
   dehydratedState: DehydratedState;
-  locale: string;
-  countryCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, countryCode, options = {} } = props;
+  const { options = {} } = props;
+  const router = useRouter();
+  const { locale } = router;
+  const { countryCode } = parseValidLocale(locale);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -167,6 +169,19 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
+  const {
+    cutForYouShippingBusinessDays: cutForYouShippingBusinessDaysUS,
+    cutForYouShippingBusinessDaysCountryMap: cutForYouShippingBusinessDaysEverywhereElse,
+    shippingText,
+  } = productIconList?.items?.[0] || {};
+
+  const businessDaysCfy =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDaysUS
+      : cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      ? cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      : cutForYouShippingBusinessDaysEverywhereElse?.['International'];
+
   const formattedDate = getFormattedShipppingDate(
     locale,
     productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
@@ -253,9 +268,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       _productType: 'Diamond',
       _productTypeTranslated: _t('Diamond'),
       pdpUrl: window.location.href,
+      shippingBusinessDays: businessDaysCfy?.toString(),
+      shippingText: shippingText,
     };
-
-    console.log('diamondAttributes', diamondAttributes);
 
     addLooseDiamondToCart({
       diamondVariantId: product?.variantId,
@@ -269,7 +284,6 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       );
   }
 
-  const router = useRouter();
   const isSettingFirstFlow = router.query.collectionSlug && router.query.productSlug;
 
   const continueLink = {
@@ -446,12 +460,6 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const { geo } = context.req.cookies;
-
-  const geoCookieData = JSON.parse(geo);
-
-  const countryCode = geoCookieData?.country || 'US';
-
   const options = getCFYResultOptionsFromUrl(query || {});
 
   const globalQuery = queries.template.global(locale);
@@ -484,9 +492,7 @@ async function getServerSideProps(
 
   return {
     props: {
-      locale,
       options,
-      countryCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

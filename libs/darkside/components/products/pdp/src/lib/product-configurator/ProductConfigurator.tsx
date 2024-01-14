@@ -488,7 +488,7 @@ function AddToCartButton({
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
 
         // Cart specific info
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
@@ -530,7 +530,7 @@ function AddToCartButton({
             : null,
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
       };
 
@@ -579,7 +579,7 @@ function AddToCartButton({
         feedId: variantId,
         // Ring Sizer specific attributes
         productIconListShippingCopy: '',
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
         shippingText: _t('Ships by'),
       };
 
