@@ -635,8 +635,7 @@ function AddToCartButton({
     <AddToCartButtonContainer>
       <DarksideButton
         className="atc-button"
-        colorTheme={isProductFeedUrl ? 'black' : 'white'}
-        type="outline"
+        type={isProductFeedUrl ? 'outline' : 'solid'}
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();

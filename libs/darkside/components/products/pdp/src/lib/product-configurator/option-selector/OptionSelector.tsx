@@ -400,7 +400,7 @@ function OptionSelector({
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
-        } else {
+        } else if (selectedDiamond?.length > 0) {
           const [diamond] = selectedDiamond || [{}];
           const {
             carat,

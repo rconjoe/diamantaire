@@ -401,7 +401,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
 
-              <ProductAppointmentCTA productType={shopifyProductData?.productType} type="underline" />
+              <ProductAppointmentCTA
+                productType={shopifyProductData?.productType}
+                type={isProductFeedUrl ? 'underline' : 'outline'}
+              />
 
               <ProductGWP />
 
