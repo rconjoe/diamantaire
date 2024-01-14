@@ -34,6 +34,7 @@ const BuilderFlow = ({
   const [settingSlugs, setSettingSlugs] = useState({
     collectionSlug: initialCollectionSlug,
     productSlug: initialProductSlug,
+    lotIds: initialLotIds,
   });
 
   const router = useRouter();
@@ -171,6 +172,7 @@ const BuilderFlow = ({
   }
 
   function configureCurrentStep() {
+    console.log('configureCurrentStep');
     // EDGE CASES
     // Overrides all scenarios to edit the diamond selected - is triggered by clicking modify diamond on review build step
     if (router.asPath.includes('edit-diamond')) {
@@ -199,6 +201,7 @@ const BuilderFlow = ({
       type === 'setting-to-diamond' &&
       settingSlugs?.productSlug &&
       settingSlugs?.collectionSlug &&
+      !asPath.includes(settingSlugs?.lotIds?.map((id) => id).join()) &&
       !initialLotIds &&
       !builderProduct?.diamonds
     ) {
@@ -246,7 +249,7 @@ const BuilderFlow = ({
     fetchProductAndDiamond();
     configureCurrentStep();
     console.log('settingSlugs', settingSlugs);
-  }, [settingSlugs, variantHandle]);
+  }, [settingSlugs]);
 
   useEffect(() => {
     configureCurrentStep();
@@ -284,6 +287,10 @@ const BuilderFlow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
 
+  useEffect(() => {
+    console.log('PATHxx', router.asPath);
+  }, [router.asPath]);
+
   const allDiamonds = shopifyProductData?.allAvailableOptions?.diamondType;
 
   function getMatchingDiamondTypesInAllDiamonds(diamonds, allDiamonds) {
@@ -315,6 +322,7 @@ const BuilderFlow = ({
           availableDiamonds={shopifyProductData?.allAvailableOptions?.diamondType}
           settingSlugs={{ collectionSlug: settingSlugs?.collectionSlug, productSlug: settingSlugs?.productSlug }}
           settingProductType={shopifyProductData?.productType}
+          updateSettingSlugs={updateSettingSlugs}
         />
       )}
 

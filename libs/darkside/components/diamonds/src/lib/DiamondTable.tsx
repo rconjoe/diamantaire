@@ -44,6 +44,7 @@ type DiamondTableProps = {
     [key: string]: string;
   };
   settingProductType?: string;
+  updateSettingSlugs?: (_obj) => void;
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
@@ -59,6 +60,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     isDiamondPairs,
     settingSlugs,
     settingProductType,
+    updateSettingSlugs,
   } = props;
 
   const { asPath, locale } = useRouter();
@@ -450,6 +452,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                           product={row?.original}
                           locale={locale}
                           settingSlugs={settingSlugs}
+                          updateSettingSlugs={updateSettingSlugs}
                         />
                       )}
                     </div>

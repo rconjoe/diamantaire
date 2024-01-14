@@ -24,6 +24,7 @@ const DiamondTableRow = ({
   locale,
   isBuilderFlowOpen = false,
   settingSlugs,
+  updateSettingSlugs,
 }: {
   product?: DiamondDataTypes;
   locale: string;
@@ -31,6 +32,7 @@ const DiamondTableRow = ({
   settingSlugs?: {
     [key: string]: string;
   };
+  updateSettingSlugs?: (_obj) => void;
 }) => {
   const { emitDataLayer } = useAnalytics();
   const router = useRouter();
@@ -99,16 +101,20 @@ const DiamondTableRow = ({
 
     updateFlowData('ADD_DIAMOND', [product]);
 
+    updateSettingSlugs({
+      lotIds: [product.lotId],
+    });
+
+    console.log('flow type', router.query.flowType);
+
     if (!router.query.flowType) {
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {
       router.push(
-        `/customize/setting-to-diamond/summary/${`/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
+        `/customize/setting-to-diamond/summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
         null,
-        {
-          shallow: true,
-        },
       );
+      // updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else {
       // updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
