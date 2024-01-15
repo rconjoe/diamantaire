@@ -1,6 +1,11 @@
 import { kv } from '@vercel/kv';
 import axios from 'axios';
+
+// eslint-disable-next-line import/order
+import { optionTypeOrder, configurationOptionValues } from './configurations';
 import 'dotenv/config';
+
+import productsData from './data/pdp_collection_data.json';
 // goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&flow=setting
 // goldPurity=18k&bandAccent=pave&ringSize=5&bandWidth=standard&hiddenHalo=no&caratWeight=1.0ct&flow=setting
 const ORDERED_CONFIGURATION_PROPERTIES = [
@@ -164,10 +169,10 @@ function getUrlSubPathAndQueryParams(configuration, productType) {
   };
 }
 
-function generateFromUrl(product, baseUrl = 'https://www.vrai.com') {
+function generateFromUrl(product) {
   const { configuration, productType, collectionSlug } = product;
   // get category and collection url segment
-  const urlArr = [baseUrl, getProductTypeFromUrlPath(productType), collectionSlug];
+  const urlArr = [getProductTypeFromUrlPath(productType), collectionSlug];
   // get configuration URL segment
   const { subPath, queryParams } = getUrlSubPathAndQueryParams(configuration, productType);
 
@@ -180,105 +185,123 @@ function generateFromUrl(product, baseUrl = 'https://www.vrai.com') {
     toUrl = `${toUrl}?${searchParams.toString()}`;
   }
 
-  return toUrl;
+  return '/'+toUrl;
 }
 
-function generateToUrl(product, baseUrl = 'https://diamantaire.vercel.app') {
+function generateToUrl(product) {
   const { productType, collectionSlug, productSlug } = product;
-  const urlArr = [baseUrl, getProductTypeToUrlPath(productType), collectionSlug, productSlug];
+  const urlArr = [getProductTypeToUrlPath(productType), collectionSlug, productSlug];
 
-  return urlArr.join('/');
-}
-
-function isCanonicalConfiguration(configuration: Record<string, string>, productType: string){
-  return Object.entries(configuration).every(([type, value]) => {
-    if(productType === 'Engagement Ring' && ['diamondType','metal', 'goldPurity'].includes(type)){
-      return true;
-    } else if (['goldPurity'].includes(type)){
-      return true;
-    }
-
-    const canonicalValues = {
-      diamondType: ['round-brilliant'],
-      metal: ['yellow-gold'],
-      bandAccent: ['plain'],
-      bandWidth: ['standard'],
-      hiddenHalo: ['no'],
-      caratWeight: ['other'],
-      sideStoneShape: ['round-brilliant'],
-      diamondOrientation: ['vertical'],
-      sideStoneCarat: ['0.1ct'],
-      bandStyle: ['full'],
-      ceramicColor: ['black'],
-      diamondSize: ['medium','original'],
-    }
-
-    if (!canonicalValues[type]){
-      return true
-    }
-
-    if(canonicalValues[type] && canonicalValues[type].includes(value)){
-      return true
-    }
-
-  });
+  return '/' + urlArr.join('/');
 }
 
 type RedirectData = {
+  source: string;
   destination: string;
   isPermanent: boolean;
 }
 
-function generateRedirects(products, fromBaseUrl, toBaseUrl) {
-  if (!products) {
-    console.log('No products provided');
+export function publishRedirects(redirects: RedirectData[]) {
+  redirects.forEach(async (redirect, i) => {
+    const { source, destination, isPermanent } = redirect;
 
-    return;
-  }
-  const redirects = products.reduce((r: RedirectData[], current) => {
+    const redirectRecord = { [source]: destination };
+    const result = await kv.hset('redirects', redirectRecord);
 
-    if (current.configuration.diamondOrientation === "horizontal"){
-      return r;
-    }
+    console.log(`${i}) Added redirects: ${source} -> ${destination} : ${result}`);
+    if (isPermanent) await kv.sadd(source, 'permanent_redirects');
 
-    const isCanonical = isCanonicalConfiguration(current.configuration, current.productType);
-    const source = generateFromUrl(current, fromBaseUrl);
-    const destination = generateToUrl(current, toBaseUrl);
-    const isPermanent = true;
-
-    r[source] = {
-      destination,
-      permanent: isPermanent,
-    };
-
-    if (isCanonical){
-      r[source.split('?')?.[0] || source] = {
-        destination,
-        permanent: isPermanent,
-      }
-    }
-
-    return r;
-  }, {});
-
-  return redirects;
-}
-
-export function publishRedirects(redirects: Record<string, { destination: string; permanent: boolean }>[]) {
-  Object.keys(redirects).forEach((source) => {
-    const { destination, permanent } = redirects[source];
-
-    kv.hset('redirects', { [source]: destination });
-    if (permanent) kv.sadd(source, 'permanent_redirects');
   });
 }
 
-export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', targetBaseUrl = 'http://localhost:4200'): Promise<Record<string, RedirectData>> {
+
+
+type ProductsData = {
+  productType: string;
+  // collectionSlug: string,
+  productSlug: string;
+  configuration: Record<string, string>
+}
+
+export function getPdpRedirects(): RedirectData[] {
+  return Object.entries(productsData).reduce((acc, [collectionSlug, products]: [string, ProductsData[]]) => {
+    const pWc = products.map(p => ({ ...p, collectionSlug}));
+
+    const sortedProducts = pWc.sort(sortConfiguration);
+
+    // Collection Level Redirect
+    const primaryProduct = sortedProducts[0];
+
+    acc.push({
+      source: generateCollectionUrl(primaryProduct),
+      destination: generateToUrl(primaryProduct),
+      isPermanent: true,
+    });
+
+    // Products w/o queries
+    if (primaryProduct.productType === 'Engagement Ring'){
+      configurationOptionValues['diamondType'].forEach( diamondType => {
+        configurationOptionValues['metal'].forEach( metal => {
+          const canonicalProduct = sortedProducts.find(p => (
+            p.configuration.diamondType === diamondType &&
+            p.configuration.metal === metal 
+          ));
+
+          if (canonicalProduct){
+            const source = generateFromUrl(canonicalProduct).split('?')[0];
+            const destination = generateToUrl(canonicalProduct);
+
+            acc.push({
+              source,
+              destination,
+              isPermanent: true,
+            });
+          }
+        });
+      });
+    }
+
+    // Variant Level Redirect
+    sortedProducts.forEach(product => {
+      if (product.configuration.diamondOrientation !== 'horizontal') {
+        const source = generateFromUrl(product);
+        const destination = generateToUrl(product);
+
+        acc.push({
+          source,
+          destination,
+          isPermanent: true,
+        });
+      }
+    });
+
+    return acc;
+  }, []);
+}
+
+function sortConfiguration(a: any, b){
+  for(const type of optionTypeOrder){
+    const valuesInOrder = configurationOptionValues[type] as string[];
+    const aPos = valuesInOrder.indexOf( a.configuration[type]);
+    const bPos = valuesInOrder.indexOf(b.configuration[type]);
+
+    if(aPos !== bPos){
+      return aPos - bPos;
+    }
+  }
+
+  return 0;
+}
+
+export async function getPdpRedirectData(): Promise<any> {
   let data;
   let hasNextPage;
 
   let page = 1;
-  let redirects = {};
+  // let redirects = [];
+
+  // let collectionCanonicals = []
+  const productsData = {}
 
   do {
     console.log('requesting page', page);
@@ -287,8 +310,43 @@ export async function getPdpRedirects(sourceBaseUrl = 'https://www.vrai.com', ta
     hasNextPage = data?.paginator?.hasNextPage;
     page += 1;
 
-    redirects = {...redirects, ...generateRedirects(data.items, sourceBaseUrl, targetBaseUrl)};
-  } while (hasNextPage);
+    // redirects = [...redirects, ...generateRedirects(data.items)];
+    // collectionCanonicals = [ ...collectionCanonicals, ...generateCollectionRedirects(data.items) ];
+    data.items.forEach(p => {
+      const { configuration, productType, productSlug } = p;
+      const reducedP = {
+        configuration, productType, productSlug
+      }
 
-  return redirects;
+      if (!productsData[p.collectionSlug]){
+        productsData[p.collectionSlug] = [reducedP];
+      } else {
+        productsData[p.collectionSlug].push(reducedP)
+      }
+    })
+  } while (hasNextPage && page <= 1);
+
+  return productsData;
+  // return [ ...redirects, ...collectionCanonicals ];
+}
+
+export function generateCollectionRedirects(products){
+  const collectionProducts = products.reduce((acc: Record<string, object>, product) => {
+    if(!acc[product.collectionSlug]){
+      acc[product.collectionSlug] = product;
+    }
+
+    return acc;
+  }, {});
+
+  return Object.values(collectionProducts).reduce((acc: RedirectData[], product) => {
+    // console.log(product)
+    acc.push({ source: generateCollectionUrl(product), destination: generateToUrl(product), isPermanent: true });
+
+    return acc;
+  },[])
+}
+
+function generateCollectionUrl(product){
+  return `/${getProductTypeFromUrlPath(product.productType)}/${product.collectionSlug}/`;
 }

@@ -79,7 +79,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     
     if (localRedirectDestination) {
       // If its a PDP, try to get more specific redirect
-      if (Boolean(url.search) && (url.pathname.startsWith('/engagement-ring') || url.pathname.startsWith('/jewelry'))){
+      if (Boolean(url.search) && (url.pathname.startsWith('/engagement-rings') || url.pathname.startsWith('/jewelry'))){
         // First reduce search to known values and order 
         const reducedSearch = url.search.split('&').reduce((acc, current) => {
           const [k,v] = current.split('=');

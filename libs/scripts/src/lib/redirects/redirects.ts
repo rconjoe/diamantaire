@@ -1,5 +1,4 @@
 import { getPdpRedirects, publishRedirects } from './pdp_redirects';
-import { getPlpRedirects } from './plp_redirects';
 import { generateCSVfromObj } from '../utils/to_csv';
 import { generateJSONfromObj } from '../utils/to_json';
 
@@ -24,29 +23,31 @@ if (!['-csv', '-json'].includes(exportType)) {
 }
 /** PARAM CHECK END */
 
-async function getDataObj() {
+function getDataObj() {
   if (type === '-pdp') {
     console.log('Getting PDP data...');
 
-    return await getPdpRedirects(source, target);
+    return getPdpRedirects();
   }
   // Get PLP data
-  else if (type === '-plp') {
-    console.log('Getting PLP data...');
+  // else if (type === '-plp') {
+  //   console.log('Getting PLP data...');
 
-    return await getPlpRedirects(source, target);
-  }
+  //   return await getPlpRedirects();
+  // }
 }
 
 async function generateRedirects() {
-  const dataObj = await getDataObj();
+  const sourceBaseUrl = source || 'https://www.vrai.com'; 
+  const targetBaseUrl = target || 'http://localhost:4200';
+  const dataObj = getDataObj();
 
   // Export to CSV
   if (exportType === '-csv') {
     console.log('generating csv...')
     const headers = ['from', 'to'];
 
-    const csvDataObj = Object.entries(dataObj).map(([from, redirect]) => ({ from, to: redirect.destination}))
+    const csvDataObj = dataObj.map((redirect) => ({ from: `${sourceBaseUrl}${redirect.source}`, to: `${targetBaseUrl}${redirect.destination}`}))
 
     generateCSVfromObj(csvDataObj, headers, filePath);
   } else 
@@ -56,7 +57,7 @@ async function generateRedirects() {
   }
   else {
     console.log('Publishing redirects...');
-    publishRedirects(dataObj as any);
+    publishRedirects(dataObj);
   }
 
   console.log('Generating redirects with the following options', {
