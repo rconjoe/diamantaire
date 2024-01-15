@@ -225,7 +225,8 @@ const StyledOptionSelector = styled.div`
     &.stoneSetting,
     &.bandVersion,
     &.bandStoneStyle,
-    &.bandStyle {
+    &.bandStyle,
+    &.haloSize {
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
