@@ -4,6 +4,21 @@ import { kv } from '@vercel/kv';
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
+const ORDERED_CONFIGURATION_PROPERTIES = [
+  'diamondType',
+  'metal',
+  'goldPurity',
+  'bandAccent',
+  'bandWidth',
+  'hiddenHalo',
+  'caratWeight',
+  'sideStoneShape',
+  'sideStoneCarat',
+  'bandStyle',
+  'ceramicColor',
+  'diamondSize'
+];
+
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
   // Use authMiddleware
   const authResult = authMiddleware({
@@ -60,13 +75,47 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
-    const localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
-
+    let localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
+    
     if (localRedirectDestination) {
-      url.pathname = localRedirectDestination;
-      // const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
+      // If its a PDP, try to get more specific redirect
+      if (Boolean(url.search) && (url.pathname.startsWith('/engagement-rings') || url.pathname.startsWith('/jewelry'))){
+        // First reduce search to known values and order 
+        const reducedSearch = url.search.split('&').reduce((acc, current) => {
+          const [k,v] = current.split('=');
 
-      return NextResponse.redirect(url);
+          if(ORDERED_CONFIGURATION_PROPERTIES.includes(k)){
+            acc += `&${k}=${v}`;
+          }
+
+          return acc;
+        },'')
+
+        const sanitizedSearch = new URLSearchParams(reducedSearch);
+        
+        sanitizedSearch.sort();
+
+        const localRedirectSourceWithQuery = url.pathname + '?' + sanitizedSearch.toString();
+        const redirectWithQuery = await kv.hget<string>('redirects', localRedirectSourceWithQuery);
+
+        if (redirectWithQuery) {
+          localRedirectDestination = redirectWithQuery;
+        } 
+      }
+
+      url.pathname = localRedirectDestination;
+
+      const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
+
+      return NextResponse.redirect(url, isPermanent ? 301 : 302);
+    } 
+
+    const localRewriteDestination = await kv.hget<string>('rewrites', url.pathname);
+
+    if (localRewriteDestination) {
+      url.pathname = localRewriteDestination;
+
+      return NextResponse.rewrite(url);
     }
   }
 
