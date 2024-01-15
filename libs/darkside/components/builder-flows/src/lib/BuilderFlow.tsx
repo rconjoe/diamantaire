@@ -127,28 +127,37 @@ const BuilderFlow = ({
     }).toString();
 
     // Product Data
-    const parentProductResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
+    const productResponse = await fetch(`/api/pdp/getPdpProduct?${qParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then((res) => res.json())
-      .then((res) => res)
+      .then(async (res) => {
+        console.log('getPdpProduct res', res);
+        const handle = res?.productContent?.shopifyProductHandle;
+        const category = res?.productType;
+
+        const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
+
+        console.log('getPdpVariant handle', handle);
+        console.log('getPdpVariant res', variant);
+
+        return {
+          ...res,
+          variantDetails: variant?.omegaProduct,
+        };
+      })
       .catch((e) => {
         console.log('getPdpProduct error', e);
       });
 
-    const variantResponse: any =
-      variantHandle && (await fetchDatoVariant(variantHandle, shopifyProductData?.productType, router.locale));
-
-    console.log('variantResponse', variantResponse);
-    console.log('parentProductResponse', parentProductResponse);
-
     const settingData = {
-      ...parentProductResponse,
-      variantDetails: variantResponse?.omegaProduct,
+      ...productResponse,
     };
+
+    console.log('settingData', settingData);
 
     setShopifyProductData(settingData);
 
@@ -188,7 +197,7 @@ const BuilderFlow = ({
       if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
         console.log('case b');
-      } else {
+      } else if (builderProduct?.diamonds) {
         console.log('case c');
         updateFlowData('UPDATE_STEP', { step: 'review-build' });
       }
