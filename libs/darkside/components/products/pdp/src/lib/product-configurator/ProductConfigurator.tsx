@@ -20,6 +20,7 @@ import OptionSelector from './option-selector/OptionSelector';
 import PairSelector from './option-selector/PairSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
+import { ProductKlarna } from '../ProductKlarna';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 
 type ProductConfiguratorProps = {
@@ -76,6 +77,7 @@ type ProductConfiguratorProps = {
     clarity?: string;
     price?: number;
   }>;
+  productTitle?: string;
 };
 
 function ProductConfigurator({
@@ -111,6 +113,7 @@ function ProductConfigurator({
   isProductFeedUrl,
   ctaCopy,
   selectedDiamond,
+  productTitle,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -209,6 +212,7 @@ function ProductConfigurator({
         }}
       >
         <DarksideButton
+          textSize="medium"
           onClick={() => {
             router.push(
               `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
@@ -318,9 +322,12 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {isProductFeedUrl && (
-        <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
-      )}
+      {isProductFeedUrl ? (
+        <>
+          <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
+          <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+        </>
+      ) : null}
 
       {isBuilderFlowOpen ? (
         <CompleteYourRingButton ctaText={settingFlowCtaCopy} />

@@ -219,6 +219,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
+
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
   const isBuilderProduct = isProductFeedUrl ? false : shopifyProductData?.requiresCustomDiamond;
@@ -407,10 +408,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 isProductFeedUrl={isProductFeedUrl}
                 ctaCopy={ctaCopy}
                 selectedDiamond={selectedDiamond}
+                productTitle={productTitle}
               />
-
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
-
+              {!isProductFeedUrl ? (
+                <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              ) : null}
               <ProductAppointmentCTA
                 productType={shopifyProductData?.productType}
                 type={isProductFeedUrl ? 'underline' : 'outline'}
