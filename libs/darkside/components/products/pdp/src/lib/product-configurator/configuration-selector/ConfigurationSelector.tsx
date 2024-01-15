@@ -21,6 +21,13 @@ interface ConfigurationSelectorProps {
     color: string;
     clarity: string;
   };
+  selectedDiamond?: Array<{
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
+  }>;
 }
 
 interface ConfigurationSelectorAction {
@@ -108,6 +115,7 @@ function ConfigurationSelector({
   productType,
   diamondSpecs,
   setProductSlug,
+  selectedDiamond,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
   const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
@@ -211,6 +219,7 @@ function ConfigurationSelector({
             diamondSpecs={diamondSpecs}
             setProductSlug={setProductSlug}
             areDiamondShapesHorizontal={selectedConfiguration?.diamondOrientation === 'horizontal'}
+            selectedDiamond={selectedDiamond}
           />
         );
       })}

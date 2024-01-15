@@ -16,6 +16,8 @@ export const ERPDP = `
           settingFlowCtaPluralCopy
           unavailableCtaCopy
           belowOptionsCopy
+          purchaseWithThisDiamondCopy
+          modifyYourDiamondCopy
         }
         metalWeight
         shownWithCtwLabel

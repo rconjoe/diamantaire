@@ -56,15 +56,25 @@ export interface PdpPageParams extends ParsedUrlQuery {
 export interface PdpPageProps {
   key: string;
   params: PdpPageParams;
+  selectedDiamond?: Array<{
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
+    availableForSale?: boolean;
+  }>;
   dehydratedState: DehydratedState;
 }
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     params: { collectionSlug, productSlug: initialProductSlug },
+    selectedDiamond: initialSelectedDiamond,
   } = props;
 
   const [productSlug, setProductSlug] = useState(initialProductSlug);
+  const [selectedDiamond, setSelectedDiamond] = useState(initialSelectedDiamond);
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -74,6 +84,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { data: shopifyProductData = {} } = query;
 
   const router = useRouter();
+
+  useEffect(() => {
+    const hasProductParams = router.pathname.includes('productParams');
+    const isAnyDiamondUnavailable = selectedDiamond && selectedDiamond.some((diamond) => !diamond.availableForSale);
+
+    if (!hasProductParams || isAnyDiamondUnavailable) {
+      setSelectedDiamond(null);
+    }
+  }, [router.pathname, selectedDiamond]);
 
   const { locale } = router || {};
   const countryCode = getCountry(locale);
@@ -104,6 +123,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     productTitleOverride,
     trioBlocks,
     accordionBlocks,
+    ctaCopy,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -170,7 +190,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       accordionBlocksOverride = additionalVariantData?.accordionBlocks;
     }
 
-    console.log('v2 additionalVariantData', additionalVariantData);
+    // console.log('v2 additionalVariantData', additionalVariantData);
+
     // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
     // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
     //   if (additionalVariantData?.caratWeightOverride) {
@@ -196,10 +217,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
+  const diamondFeedPrice = selectedDiamond?.reduce((total, diamond) => total + diamond.price, 0);
+
+  const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
+  const isProductFeedUrl = Boolean(diamondFeedPrice);
 
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
-  const isBuilderProduct = shopifyProductData?.requiresCustomDiamond;
+  const isBuilderProduct = isProductFeedUrl ? false : shopifyProductData?.requiresCustomDiamond;
 
   const parentProductAttributes = {
     bandWidth,
@@ -350,7 +375,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               />
               <ProductPrice
                 isBuilderProduct={isBuilderProduct}
-                price={price}
+                price={totalPrice}
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
@@ -383,11 +408,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                isProductFeedUrl={isProductFeedUrl}
+                ctaCopy={ctaCopy}
+                selectedDiamond={selectedDiamond}
+                productTitle={productTitle}
               />
-
-              <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
-
-              <ProductAppointmentCTA productType={shopifyProductData?.productType} />
+              {!isProductFeedUrl ? (
+                <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+              ) : null}
+              <ProductAppointmentCTA
+                productType={shopifyProductData?.productType}
+                type={isProductFeedUrl ? 'underline' : 'outline'}
+              />
 
               <ProductGWP />
 
@@ -522,7 +554,11 @@ export async function getServerSideProps(
 
   const { params, locale } = mergedContext;
 
-  const { collectionSlug, productSlug } = mergedContext.params;
+  const { collectionSlug, productSlug, productParams } = mergedContext.params;
+
+  const lotIds = productParams || null;
+
+  const selectedDiamond = lotIds ? await getDiamond(lotIds) : null;
   const queryClient = new QueryClient();
   const dataQuery = queries.products.variant(collectionSlug, productSlug);
 
@@ -542,6 +578,7 @@ export async function getServerSideProps(
     props: {
       key: productSlug,
       params,
+      selectedDiamond,
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -550,3 +587,18 @@ export async function getServerSideProps(
 PdpPage.getTemplate = getStandardTemplate;
 
 export default PdpPage;
+
+async function getDiamond(lotIds) {
+  const qParams = new URLSearchParams({ lotIds }).toString();
+
+  const BASE_URL = `${process.env['NEXT_PUBLIC_PROTOCOL']}${process.env['NEXT_PUBLIC_VERCEL_URL']}`;
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
+  const reqUrl = `${baseUrl}/api/diamonds/getDiamondByLotId?${qParams}`;
+
+  const diamondResponse = await fetch(reqUrl)
+    .then((res) => res.json())
+    .then((data) => data);
+
+  return diamondResponse;
+}

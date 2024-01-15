@@ -1,7 +1,7 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsMap } from '@diamantaire/shared/icons';
+import { diamondIconsMap, getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -51,17 +51,19 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
-
+  // google marketing pdp url we set
+  const newPathname = router.pathname.replace('/[...productParams]', '');
   // Memoize the URL computation to prevent recalculations unless dependencies change
   const url = useMemo(() => {
     return {
-      pathname: router.pathname,
+      pathname: newPathname,
       query: {
         collectionSlug,
         productSlug: id,
         ...(jewelryCategory && { jewelryCategory }),
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname, collectionSlug, jewelryCategory, id]);
 
   // useCallback to memoize the click handler
@@ -169,9 +171,8 @@ export function DiamondIconOptionItem({
   onClick,
   selectedConfiguration,
 }: OptionItemComponent) {
-  const selectedDiamond = diamondIconsMap?.[value];
-  const DiamondIcon = selectedDiamond?.icon;
-  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const icons = getIconsForDiamondType(value);
+
   const { sideStoneOrientation } = selectedConfiguration || {};
 
   function getDiamondTypeGap(diamondType, isRotated) {
@@ -182,10 +183,9 @@ export function DiamondIconOptionItem({
     return isRotated ? '1.5rem' : '0.5rem';
   }
 
-  if (!DiamondIcon) {
+  if (icons.length === 0) {
     return null;
   }
-
   const isRotated = optionType === 'sideStoneShape' && sideStoneOrientation === 'horizontal';
   const gap = getDiamondTypeGap(value, isRotated);
 
@@ -201,8 +201,9 @@ export function DiamondIconOptionItem({
       gap={gap}
     >
       <span className="icon">
-        <DiamondIcon />
-        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
+        {icons.map((Icon, index) => (
+          <Icon key={index} />
+        ))}
       </span>
     </StyledDiamondIconOptionItem>
   );
