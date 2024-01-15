@@ -196,6 +196,7 @@ export const PlpProductFilterStyles = styled.div`
     &.metal {
       ul {
         margin: 0;
+        padding-left: 0.5rem;
       }
 
       button {

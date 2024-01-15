@@ -23,7 +23,7 @@ const PlpSubCategoriesStyles = styled.div`
   `}
 
   > .subcategory-block {
-    flex: 0 0 15rem;
+    flex: 0 0 16rem;
     padding: 0 0.5rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {

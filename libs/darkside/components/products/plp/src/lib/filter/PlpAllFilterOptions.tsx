@@ -88,6 +88,7 @@ const PlpAllFilterOptions = ({
               <UIString>Filter</UIString>:
             </Heading>
           </div>
+
           <div className="filter__icon">
             <button onClick={() => setIsMobileFilterOpen(true)}>
               <FilterIcon />
@@ -257,7 +258,9 @@ const PlpAllFilterOptions = ({
                         <span className="setting-icon">
                           <Icon />
                         </span>
-                        <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
+                        <span className="diamond-text">
+                          <UIString>{RING_STYLES_MAP[ringStyle]}</UIString>
+                        </span>
                       </button>
                     </li>
                   );
@@ -277,7 +280,9 @@ const PlpAllFilterOptions = ({
                       })}
                       onClick={() => updateFilter('subStyle', style)}
                     >
-                      <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
+                      <span className="subStyle-text">
+                        <UIString>{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style}</UIString>
+                      </span>
                     </button>
                   </li>
                 ))}
