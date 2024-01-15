@@ -108,6 +108,16 @@ const ENGAGEMENT_RING_QUERY = gql`
       belowBannerBlocks {
         __typename
       }
+      ctaCopy {
+        buyButtonCopy
+        diamondFlowCtaCopy
+        settingFlowCtaCopy
+        settingFlowCtaPluralCopy
+        unavailableCtaCopy
+        belowOptionsCopy
+        purchaseWithThisDiamondCopy
+        modifyYourDiamondCopy
+      }
     }
   }
 `;

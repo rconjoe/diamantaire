@@ -5,7 +5,7 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
+import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -38,6 +38,13 @@ interface OptionSelectorProps {
   };
   setProductSlug?: (_value: string) => void;
   areDiamondShapesHorizontal?: boolean;
+  selectedDiamond?: Array<{
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
+  }>;
 }
 
 const StyledOptionSelector = styled.div`
@@ -249,6 +256,7 @@ function OptionSelector({
   selectedConfiguration,
   setProductSlug,
   areDiamondShapesHorizontal,
+  selectedDiamond,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const { locale } = useRouter();
@@ -375,7 +383,24 @@ function OptionSelector({
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
+        } else if (selectedDiamond?.length > 0) {
+          const [diamond] = selectedDiamond || [{}];
+          const {
+            carat,
+            diamondType,
+            color,
+            clarity,
+          }: { carat?: string; diamondType?: string; color?: string; clarity?: string } = diamond;
+
+          return (
+            // eslint-disable-next-line react/jsx-no-useless-fragment
+            <>
+              {productType === 'Engagement Ring' &&
+                `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}
+            </>
+          );
         }
+
         break;
       case 'bandWidth':
         return translateBandwidthValues(selectedOptionValue);
@@ -542,6 +567,10 @@ function OptionSelector({
   }
 
   function renderCaratWeightOptions() {
+    if (selectedDiamond?.length > 0) {
+      return null;
+    }
+
     return (
       <div className={clsx('option-list caratWeight')}>
         {options.map((option) => {

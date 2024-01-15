@@ -51,17 +51,19 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
-
+  // google marketing pdp url we set
+  const newPathname = router.pathname.replace('/[...productParams]', '');
   // Memoize the URL computation to prevent recalculations unless dependencies change
   const url = useMemo(() => {
     return {
-      pathname: router.pathname,
+      pathname: newPathname,
       query: {
         collectionSlug,
         productSlug: id,
         ...(jewelryCategory && { jewelryCategory }),
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname, collectionSlug, jewelryCategory, id]);
 
   // useCallback to memoize the click handler
