@@ -191,7 +191,7 @@ function ConfigurationSelector({
         if (disableVariantType?.includes(configurationType)) return null;
 
         // These are three-stone configurations that only have one option
-        const allowedSingleOptionTypes = ['sideStoneCarat', 'sideStoneShape'];
+        const allowedSingleOptionTypes = ['sideStoneCarat', 'sideStoneShape', 'hiddenHalo', 'bandWidth'];
 
         if (!options || (options.length <= 1 && !allowedSingleOptionTypes.includes(configurationType))) {
           return null;
