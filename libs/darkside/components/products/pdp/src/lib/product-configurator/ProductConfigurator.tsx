@@ -168,36 +168,60 @@ function ProductConfigurator({
   const router = useRouter();
   const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
 
-  const CompleteYourRingButton = ({ ctaText }) => (
-    <div
-      style={{
-        marginTop: '2rem',
-      }}
-    >
-      <DarksideButton
-        onClick={() => {
-          updateFlowData(
-            'ADD_PRODUCT',
-            {
-              ...additionalVariantData,
-              ...selectedConfiguration,
-              variantId: selectedVariantId,
-              collectionSlug: builderProduct?.product?.collectionSlug,
-            },
-            null,
-          );
-
-          router.push(
-            `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
-              .map((diamond) => diamond?.lotId)
-              .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-          );
+  const CompleteYourRingButton = ({ ctaText }) => {
+    return (
+      <div
+        style={{
+          marginTop: '2rem',
         }}
       >
-        {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
-      </DarksideButton>
-    </div>
-  );
+        <DarksideButton
+          onClick={() => {
+            updateFlowData(
+              'ADD_PRODUCT',
+              {
+                ...additionalVariantData,
+                ...selectedConfiguration,
+                variantId: selectedVariantId,
+                collectionSlug: builderProduct?.product?.collectionSlug,
+              },
+              null,
+            );
+
+            router.push(
+              `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+                .map((diamond) => diamond?.lotId)
+                .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+            );
+          }}
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
+
+  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    return (
+      <div
+        style={{
+          marginTop: '2rem',
+        }}
+      >
+        <DarksideButton
+          onClick={() => {
+            router.push(
+              `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
+                router.query.productSlug
+              }/${diamondsOverride.map((diamond) => diamond?.lotId).join('/')}`,
+            );
+          }}
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -294,7 +318,9 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {isProductFeedUrl && <CompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} />}
+      {isProductFeedUrl && (
+        <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
+      )}
 
       {isBuilderFlowOpen ? (
         <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
