@@ -1,5 +1,5 @@
 import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
-import { useGlobalContext } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
@@ -321,14 +321,20 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                     ? localFilterValue[filterType]
                     : [localFilterValue[filterType]];
 
-                  return filterValueArray.map((val, index) => (
-                    <li className="active-filter" key={`${localFilterValue}-${text}-${index}`}>
-                      <button onClick={() => handleUpdateLocalFilterValue(filterType, val)}>
-                        <span className="close">x</span>
-                        {val && (METALS_IN_HUMAN_NAMES[val] || <UIString>{val}</UIString> || val)}
-                      </button>
-                    </li>
-                  ));
+                  return filterValueArray.map((val, index) => {
+                    return (
+                      <li className="active-filter" key={`${localFilterValue}-${text}-${index}`}>
+                        <button onClick={() => handleUpdateLocalFilterValue(filterType, val)}>
+                          <span className="close">x</span>
+                          {val &&
+                            (METALS_IN_HUMAN_NAMES[val] || (
+                                <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>
+                              ) || <UIString>{val}</UIString> ||
+                              val)}
+                        </button>
+                      </li>
+                    );
+                  });
                 }
               })}
             </ul>

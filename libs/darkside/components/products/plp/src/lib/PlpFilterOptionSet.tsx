@@ -1,4 +1,5 @@
 import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
+import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { JEWELRY_SUB_CATEGORY_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
@@ -38,7 +39,7 @@ const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilter
           <Icon />
         </span>
         <span className="diamond-text">
-          <UIString>{diamondType}</UIString>
+          <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{diamondType}</UIString>
         </span>
       </button>
     </li>

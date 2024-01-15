@@ -1,4 +1,5 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
@@ -127,12 +128,6 @@ const PlpAllFilterOptions = ({
                   </li>
                 );
               })}
-
-            {/* <li className="mobile-filter-toggle">
-              <button onClick={() => setIsMobileFilterOpen(true)}>
-                <UIString>more</UIString>
-              </button>
-            </li> */}
           </ul>
         </div>
 
@@ -143,7 +138,9 @@ const PlpAllFilterOptions = ({
                 {filterTypes['diamondType']?.map((diamondType) => {
                   const Icon = diamondIconsMap[diamondType]?.icon;
 
-                  if (diamondType.includes('+')) return null;
+                  if (diamondType.includes('+')) {
+                    return null;
+                  }
 
                   return (
                     <li key={`filter-${diamondType}`}>
@@ -272,20 +269,18 @@ const PlpAllFilterOptions = ({
           {filterOptionSetOpen === 'subStyles' && (
             <div className="filter-option-set styles ">
               <ul className="list-unstyled flex">
-                {filterTypes['subStyles']?.map((style) => {
-                  return (
-                    <li key={`filter-${style}`}>
-                      <button
-                        className={clsx('flex align-center', {
-                          active: filterValue['subStyle']?.includes(style.toLowerCase()),
-                        })}
-                        onClick={() => updateFilter('subStyle', style)}
-                      >
-                        <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
-                      </button>
-                    </li>
-                  );
-                })}
+                {filterTypes['subStyles']?.map((style) => (
+                  <li key={`filter-${style}`}>
+                    <button
+                      className={clsx('flex align-center', {
+                        active: filterValue['subStyle']?.includes(style.toLowerCase()),
+                      })}
+                      onClick={() => updateFilter('subStyle', style)}
+                    >
+                      <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -321,7 +316,9 @@ const PlpAllFilterOptions = ({
 
                       const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
 
-                      if (priceRangeMatchesInitialState) return null;
+                      if (priceRangeMatchesInitialState) {
+                        return null;
+                      }
 
                       const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
 
@@ -340,16 +337,18 @@ const PlpAllFilterOptions = ({
                         ? filterValue[filterType]
                         : [filterValue[filterType]];
 
-                      return filterValueArray.map((val, index) => {
-                        return (
-                          <li key={`${filterValue}-${text}-${index}`}>
-                            <button onClick={() => updateFilter(filterType, val)}>
-                              <span className="close">x</span>
-                              {val && (METALS_IN_HUMAN_NAMES[val] || <UIString>{val}</UIString> || val)}
-                            </button>
-                          </li>
-                        );
-                      });
+                      return filterValueArray.map((val, index) => (
+                        <li key={`${filterValue}-${text}-${index}`}>
+                          <button onClick={() => updateFilter(filterType, val)}>
+                            <span className="close">x</span>
+                            {val &&
+                              (METALS_IN_HUMAN_NAMES[val] || (
+                                  <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>
+                                ) ||
+                                val)}
+                          </button>
+                        </li>
+                      ));
                     }
                   })}
               </ul>
