@@ -23,12 +23,9 @@ type PlpResponse = { data: { allListPages: PlpData[] } };
 // type RedirectData = { source: string; destination: string };
 
 type LocalRedirects = {
-  [k: string]:
-    | {
-        destination: string;
-        permanent: boolean;
-      }
-    | undefined;
+  source: string;
+  destination: string;
+  isPermanent: boolean;
 };
 
 async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
@@ -59,8 +56,8 @@ async function getPlpData(page = 1, limit = 100): Promise<PlpResponse> {
   }
 }
 
-function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
-  return plpDataArr.reduce((redirects: LocalRedirects, plpData) => {
+function generatePLPRedirects(plpDataArr: PlpData[]) {
+  return plpDataArr.reduce((redirects: LocalRedirects[], plpData) => {
     const { slug, category, slugNew } = plpData;
 
     if (!slugNew || !category) {
@@ -69,24 +66,25 @@ function generatePLPRedirects(plpDataArr: PlpData[], fromUrl = '', toUrl = '') {
       return redirects;
     }
 
-    const source = `${fromUrl}/${slug}`;
-    const destination = `${toUrl}/${category}/${slugNew}`;
+    const source = `${slug}`;
+    const destination = `${category}/${slugNew}`;
     const isPermanent = true;
 
-    redirects[source] = {
+    redirects.push({
+      source,
       destination,
-      permanent: isPermanent,
-    };
+      isPermanent,
+    });
 
     kv.hset('redirects', { [source]: destination });
     if (isPermanent) kv.sadd(source, 'permanent_redirects');
 
     return redirects;
-  }, {});
+  }, []);
 }
 
 // : Promise<{ data: { allListPages: RedirectData } } | undefined> ??
-export async function getPlpRedirects(sourceBaseUrl = '', targetBaseUrl = '') {
+export async function getPlpRedirects() {
   const limit = 100;
   let page = 0;
   let allListPages;
@@ -98,7 +96,7 @@ export async function getPlpRedirects(sourceBaseUrl = '', targetBaseUrl = '') {
     const plpData = await getPlpData(page, limit);
 
     allListPages = plpData?.data?.allListPages;
-    const pageRedirects = generatePLPRedirects(allListPages, sourceBaseUrl, targetBaseUrl);
+    const pageRedirects = generatePLPRedirects(allListPages);
 
     console.log('requesting page', page, allListPages.length);
     redirects = {

@@ -6,7 +6,7 @@ export const haloSizeValues = ['original', 'large'] as const;
 export const sideStoneCaratValues = ['0.10ct', '0.25ct', '0.50ct'] as const;
 export const ceramicColorValues = ['black', 'dark-green', 'turquoise', 'white', 'yellow'] as const;
 export const diamondCountValues = ['3', '4', '5', '6'] as const;
-export const diamondOrientationValues = ['horizontal', 'vertical'] as const;
+export const diamondOrientationValues = ['vertical','horizontal'] as const;
 export const sizeValues = ['Large', 'Medium'] as const;
 export const bandWidthValues = [
   '0.01ct',
@@ -236,6 +236,7 @@ export const configurationOptionValues = {
 
 export const optionTypeOrder = [
   configurationTypes.diamondType,
+  configurationTypes.diamondOrientation,
   configurationTypes.metal,
   configurationTypes.sideStoneShape,
   configurationTypes.sideStoneCarat,
@@ -259,7 +260,6 @@ export const optionTypeOrder = [
   configurationTypes.earringSize,
   configurationTypes.caratWeight,
   configurationTypes.chainLength,
-  configurationTypes.diamondOrientation,
 ] as const;
 
 export type prongStyle = (typeof prongStyleValues)[number];
