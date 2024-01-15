@@ -3,12 +3,11 @@ import { test, expect } from "../../pages/page-fixture";
 
 /**
  * Setting First flow - Signature Halo setting and Emerald 
- * ISSUE : DIA-1231
  */
 
 test.describe("Setting First flow - Happy flow", () => {
 
-  test.skip("Happy flow - verify price", async ({ homePage ,settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage , checkoutPage}) => {
+  test("Happy flow - verify price", async ({ homePage ,settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage , checkoutPage}) => {
 
     const expectedCart = new QACart();
 

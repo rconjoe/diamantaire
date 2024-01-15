@@ -17,6 +17,7 @@ export default class DiamondToSettingPage extends HomePage {
   readonly priceFilter : Locator;
   readonly stylesFilter : Locator;
   readonly nextBtn : Locator;
+  readonly completeYourRingBtn : Locator;
 
   constructor( page: Page){
     super(page);
@@ -25,6 +26,7 @@ export default class DiamondToSettingPage extends HomePage {
     this.priceFilter = this.page.getByRole('button', { name: 'Price' });
     this.stylesFilter = this.page.getByRole('button', { name: 'Styles' });
     this.nextBtn = this.page.getByRole('button', { name: 'Next' });
+    this.completeYourRingBtn = this.page.getByRole('button', { name: 'Complete your ring' });
 
   }
 
@@ -36,12 +38,13 @@ export default class DiamondToSettingPage extends HomePage {
   }
 
   async selectSettingBySettingName(settingName){
-
     await this.page.getByRole('button', { name: `${settingName}` }).first().click();
   }
 
   async clickNext(){
     await this.nextBtn.click();
   }
-  
+  async clickCompleteYourRing(){
+    await this.completeYourRingBtn.click();
+  }
 }
