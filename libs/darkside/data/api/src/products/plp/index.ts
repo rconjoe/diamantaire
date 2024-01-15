@@ -323,6 +323,7 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
 
 const getPlpCreativeBlockQuery = (useProductTitleOnly) => {
   const desktopImageHeight = useProductTitleOnly ? 700 : 804;
+  const mobileImageHeight = 600;
 
   return gql`
   query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
@@ -335,7 +336,7 @@ const getPlpCreativeBlockQuery = (useProductTitleOnly) => {
         }
       }
       mobileImage {
-        responsiveImage(imgixParams: {w: 375, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+        responsiveImage(imgixParams: {w: 375, h: ${mobileImageHeight}, q: 55, auto: format, fit: crop, crop: focalpoint }) {
           ...responsiveImageFragment
         }
       }
