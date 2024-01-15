@@ -110,7 +110,13 @@ export const PlpProductFilterStyles = styled.div`
 
   .filter-slider {
     max-width: 37rem;
-    padding-top: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    * {
+      font-size: var(--font-size-xxxsmall);
+      color: var(--color-teal);
+    }
   }
 
   .filter-option-set {
