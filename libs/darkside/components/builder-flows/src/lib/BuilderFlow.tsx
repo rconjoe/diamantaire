@@ -110,11 +110,10 @@ const BuilderFlow = ({
     const qParams = new URLSearchParams({
       lotIds: initialLotIds,
     }).toString();
+
     const diamondResponse = await fetch(`/api/diamonds/getDiamondByLotId?${qParams}`, {})
       .then((res) => res.json())
       .then((res) => res);
-
-    console.log('diamondResponse', diamondResponse);
 
     updateFlowData('ADD_DIAMOND', diamondResponse);
   }

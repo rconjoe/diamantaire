@@ -1,16 +1,8 @@
 import { getCountry } from '@diamantaire/shared/helpers';
 
-import { updateCartBuyerIdentity } from './cart-actions';
-import {
-  Cart,
-  ExtractVariables,
-  ShopifyCartOperation,
-  Connection,
-  ShopifyCart,
-  ShopifyCreateCartOperation,
-} from './cart-types';
+import { getCart, updateCartBuyerIdentity } from './cart-actions';
+import { Cart, ExtractVariables, Connection, ShopifyCart, ShopifyCreateCartOperation } from './cart-types';
 import { createCartMutation } from './mutations/cart';
-import { getCartQuery } from './queries/cart';
 import { queryDatoGQL } from '../clients';
 
 export * from './cart-actions';
@@ -159,23 +151,25 @@ const removeEdgesAndNodes = (array: Connection<any>) => {
   return nodes;
 };
 
-async function getCart(_cartId: string): Promise<Cart | undefined> {
-  const cartId = _cartId || localStorage.getItem('cartId');
-  const res = await shopifyFetch<ShopifyCartOperation>({
-    query: getCartQuery,
-    variables: { cartId },
-    cache: 'no-store',
-  });
+// duplicate of getCart in cart-actions
+// async function getCart(_cartId: string): Promise<Cart | undefined> {
+//   const cartId = _cartId || localStorage.getItem('cartId');
 
-  if (!res) return;
+//   const res = await shopifyFetch<ShopifyCartOperation>({
+//     query: getCartQuery,
+//     variables: { cartId },
+//     cache: 'no-store',
+//   });
 
-  // Old carts becomes `null` when you checkout.
-  if (!res.body.data.cart) {
-    return undefined;
-  }
+//   if (!res) return;
 
-  return reshapeCart(res.body.data.cart);
-}
+//   // Old carts becomes `null` when you checkout.
+//   if (!res.body.data.cart) {
+//     return undefined;
+//   }
+
+//   return reshapeCart(res.body.data.cart);
+// }
 
 export async function fetchCartShopifyData(locale) {
   let cartId = localStorage.getItem('cartId');
@@ -183,16 +177,17 @@ export async function fetchCartShopifyData(locale) {
   if (!cartId) {
     const newCart = await createCart();
 
+    localStorage.setItem('cartId', newCart.id);
     cartId = newCart.id;
   }
 
-  let cartData = await getCart(cartId);
+  let cartData = await getCart(cartId, locale);
   const countryCode = getCountry(locale);
 
   if (cartData && cartData?.buyerIdentity && cartData.buyerIdentity?.countryCode !== countryCode) {
     await updateCartBuyerIdentity({ locale });
 
-    cartData = await getCart(cartId);
+    cartData = await getCart(cartId, locale);
 
     return cartData;
   }
