@@ -1,11 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import {
-  useDiamondTableData,
-  useInfiniteDiamondsData,
-  useTranslations,
-  humanNamesMapperType,
-} from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -32,7 +27,6 @@ type Info =
 type DiamondTableProps = {
   activeRow?: DiamondDataTypes | DiamondPairDataTypes;
   setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
-  locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
     currentPage?: number;
@@ -54,7 +48,6 @@ type DiamondTableProps = {
 
 const DiamondTable = (props: DiamondTableProps) => {
   const {
-    locale,
     initialDiamonds,
     initialPagination,
     initialOptions,
@@ -68,12 +61,13 @@ const DiamondTable = (props: DiamondTableProps) => {
     settingProductType,
   } = props;
 
+  const { asPath, locale } = useRouter();
+
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
-  const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
-  const { asPath } = useRouter();
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -133,9 +127,9 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const shape = info.getValue();
 
-          const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
+          const diamondTypeHandle = shape || (shape && getDiamondType(shape)?.slug) || info.getValue();
 
-          return _diamondType(diamondTypeHandle);
+          return <UIString>{diamondTypeHandle}</UIString>;
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -361,7 +355,8 @@ const DiamondTable = (props: DiamondTableProps) => {
   });
 
   const shouldShowCFYPromo =
-    settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs');
+    !settingProductType ||
+    (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
@@ -469,7 +464,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {!isBuilderFlowOpen && shouldShowCFYPromo && cfyPromoCard}
+          {(!isBuilderFlowOpen || shouldShowCFYPromo) && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">

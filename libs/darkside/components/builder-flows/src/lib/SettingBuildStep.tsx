@@ -124,7 +124,10 @@ const SettingBuildStep = ({
 
   const router = useRouter();
 
+  const CFY_RETURN_THRESHOLD = 5.1;
+
   const { _t } = useTranslations(router.locale);
+  const isDiamondCFY = builderProduct?.diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
   useEffect(() => {
     if (!builderProduct?.diamonds) return;
@@ -224,7 +227,15 @@ const SettingBuildStep = ({
 
             <ProductGWP />
 
-            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+            {productIconListType && (
+              <ProductIconList
+                productIconListType={productIconListType}
+                locale={router?.locale}
+                isCfy={isDiamondCFY}
+                isCaratLessThanFive={parseFloat(builderProduct?.diamonds?.[0]?.carat) < CFY_RETURN_THRESHOLD}
+              />
+            )}
+
             <Form
               title={_t('Need more time to think?')}
               caption={_t('Email this customized ring to yourself or drop a hint.')}

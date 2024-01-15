@@ -1,8 +1,8 @@
 import fs from 'fs';
 
 export async function generateJSONfromObj(dataObj, filename) {
-  const csvfile = fs.createWriteStream(filename);
+  const jsonFile = fs.createWriteStream(filename);
 
-  csvfile.write(JSON.stringify(dataObj));
-  csvfile.end();
+  jsonFile.write(JSON.stringify(dataObj));
+  jsonFile.end();
 }
