@@ -9,13 +9,12 @@ import {
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
-const PlpCreativeSlideOut = dynamic(() => import('./PlpCreativeSlideOut'), { ssr: false });
+import PlpCreativeSlideOut from './PlpCreativeSlideout';
 
 const PlpCreativeBlockStyles = styled.div`
   border: 0.1rem solid var(--color-light-grey);
