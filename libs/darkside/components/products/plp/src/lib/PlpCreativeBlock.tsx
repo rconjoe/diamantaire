@@ -1,6 +1,6 @@
 import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useCartData, usePlpGWP, useProductShopTheLook, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
@@ -9,12 +9,13 @@ import {
   replacePlaceholders,
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
-import { PlpProductItem } from './PlpProductItem';
+const PlpCreativeSlideOut = dynamic(() => import('./PlpCreativeSlideOut'), { ssr: false });
 
 const PlpCreativeBlockStyles = styled.div`
   border: 0.1rem solid var(--color-light-grey);
@@ -93,20 +94,6 @@ const PlpCreativeBlockStyles = styled.div`
         }
       }
     }
-  }
-`;
-
-const ShopTheLookSlideOutStyles = styled.div`
-  .product-list {
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
-    margin: 2rem 0;
-    padding: 0;
-  }
-
-  .plp-variant__image {
-    min-height: auto;
   }
 `;
 
@@ -252,7 +239,7 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
                       onClose={handleCloseShopTheLook}
                       width={isMobile ? '100%' : '55rem'}
                     >
-                      <PlpCreativeSlideOutContent
+                      <PlpCreativeSlideOut
                         configurationsInOrder={configurationsInOrder}
                         locale={locale}
                         plpTitle={plpTitle}
@@ -267,48 +254,6 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
         </div>
       </div>
     </PlpCreativeBlockStyles>
-  );
-};
-
-const PlpCreativeSlideOutContent = ({ configurationsInOrder, locale, plpTitle, selectSetting }) => {
-  const ids = useMemo(
-    () => configurationsInOrder.reduce((a, v) => [...a, v.variantId || v.shopifyProductHandle], []),
-    [configurationsInOrder],
-  );
-
-  const { data: { products } = {} } = useProductShopTheLook(ids, locale);
-
-  console.log(`PlpCreativeSlideOutContent:`, products);
-
-  // create new endpoint to get valid data that can be used in PlpProductGrid.tsx
-
-  return (
-    <ShopTheLookSlideOutStyles>
-      <ul className="product-list">
-        {products?.length > 0 &&
-          products?.map((product, gridItemIndex) => {
-            if (!product) {
-              return null;
-            }
-
-            return (
-              <PlpProductItem
-                key={`${gridItemIndex}-${product.productTitle}`}
-                product={product}
-                plpTitle={plpTitle}
-                position={gridItemIndex}
-                selectSettingForBuilderFlow={() => {
-                  return selectSetting({
-                    collectionSlug: product.variants[product.defaultId]?.collectionSlug,
-                    productSlug: product.variants[product.defaultId]?.productSlug,
-                  });
-                }}
-                useProductTitleOnly={true}
-              />
-            );
-          })}
-      </ul>
-    </ShopTheLookSlideOutStyles>
   );
 };
 
