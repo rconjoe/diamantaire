@@ -62,6 +62,7 @@ export interface PdpPageProps {
     color?: string;
     clarity?: string;
     price?: number;
+    availableForSale?: boolean;
   }>;
   dehydratedState: DehydratedState;
 }
@@ -86,11 +87,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   useEffect(() => {
     const hasProductParams = router.pathname.includes('productParams');
+    const isAnyDiamondUnavailable = selectedDiamond && selectedDiamond.some((diamond) => !diamond.availableForSale);
 
-    if (!hasProductParams) {
+    if (!hasProductParams || isAnyDiamondUnavailable) {
       setSelectedDiamond(null);
     }
-  }, [router.pathname]);
+  }, [router.pathname, selectedDiamond]);
 
   const { locale } = router || {};
   const countryCode = getCountry(locale);

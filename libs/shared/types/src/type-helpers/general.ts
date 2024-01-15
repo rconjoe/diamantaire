@@ -49,4 +49,5 @@ export type DarksideButtonProps = {
   disabled?: boolean;
   style?: object;
   textSize?: 'normal' | 'medium';
+  fontWeight?: 'normal' | 'medium' | 'bold';
 };

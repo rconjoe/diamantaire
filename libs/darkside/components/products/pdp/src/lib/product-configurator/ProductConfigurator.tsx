@@ -208,7 +208,8 @@ function ProductConfigurator({
     return (
       <div
         style={{
-          marginTop: '2rem',
+          margin: '2rem 0 1rem',
+          minHeight: '4.9rem',
         }}
       >
         <DarksideButton
@@ -402,7 +403,6 @@ const AddToCartButtonContainer = styled.div`
   margin: 1rem 0;
 
   .atc-button button {
-    font-size: var(--font-size-xxsmall);
     min-height: 4.9rem;
   }
 `;
@@ -669,6 +669,8 @@ function AddToCartButton({
       <DarksideButton
         className="atc-button"
         type={isProductFeedUrl ? 'outline' : 'solid'}
+        textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();
