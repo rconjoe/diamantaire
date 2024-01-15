@@ -12,6 +12,8 @@ config:
     ensure: {}
     apdex: {}
     metrics-by-endpoint: {}
+
+    
   apdex:
     threshold: 100
   ensure:
@@ -69,3 +71,22 @@ scenarios:
             url: "/v1/products/contentids?ids=signature-prong-oval-plain-yellow-gold-faux,signature-prong-marquise-pave-yellow-gold-faux"
         count: 1
         
+publish-metrics:
+  - type: "open-telemetry"
+    serviceName: "{{ $env.SERVICE_NAME }}"
+    metrics:
+      exporter: "otlp-http"
+      endpoint: "{{ $env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT }}"
+      headers:
+        Api-Key: "{{ $env.API_KEY }}"
+      attributes:
+        environment: "test"
+    traces:
+      exporter: "otlp-proto"
+      endpoint: "{{ $env.OTEL_EXPORTER_OTLP_TRACES_ENDPOINT }}"
+      headers:
+        Authorization: "{{ $env.API_KEY }}"
+      useRequestNames: true
+      attributes:
+        environment: "test"
+        tool: "Artillery"
