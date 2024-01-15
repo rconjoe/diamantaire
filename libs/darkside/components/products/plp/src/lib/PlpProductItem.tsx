@@ -114,42 +114,45 @@ type ProductConfiguration = {
 
 // https://diamondfoundry.atlassian.net/wiki/spaces/DGT/pages/971407413/Product+Titles+on+PLPs
 
+function isMixedDiamondType(diamondType: string): boolean {
+  const regex = /\w+(\+\w+)/;
+
+  return regex.test(diamondType);
+}
+
 function generatePlpTitle(
-  placeholderString,
+  placeholderString: string,
   productTitle: string,
   plpTitle: string,
   { metal, diamondType }: ProductConfiguration,
   isMultiShape: boolean,
   useProductTitleOnly: boolean,
-) {
+): string {
   let genTitle = productTitle;
 
-  // console.log(`productTitle`, productTitle);
-  // console.log(`plpTitle`, plpTitle || 'x');
-  // console.log(`isMultiShape`, isMultiShape);
-  // console.log(`isEngRingSettingPage`, isEngRingSettingPage);
+  if (useProductTitleOnly) return plpTitle || productTitle;
 
-  if (useProductTitleOnly) return plpTitle ? plpTitle : productTitle;
+  let placeholderResult: string | string[];
 
   if (plpTitle) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, ''])} ${metal}`;
+    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [plpTitle, '']);
   } else if (diamondType && !isMixedDiamondType(diamondType) && !isMultiShape) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType])} ${metal}`;
-  } else if (isMultiShape && !useProductTitleOnly) {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%'], [productTitle])
-      .toString()
-      .replace('%%shape%%', '')} ${metal}`;
+    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, diamondType]);
+  } else if (isMultiShape) {
+    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%'], [productTitle]);
+    placeholderResult =
+      typeof placeholderResult === 'string'
+        ? placeholderResult.replace('%%shape%%', '')
+        : placeholderResult.join('').replace('%%shape%%', '');
   } else {
-    genTitle = `${replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, ''])} ${metal}`;
+    placeholderResult = replacePlaceholders(placeholderString, ['%%title%%', '%%shape%%'], [productTitle, '']);
   }
 
-  // console.log(`**`, genTitle);
+  genTitle = typeof placeholderResult === 'string' ? placeholderResult : placeholderResult.join('');
+  genTitle += ` ${metal}`;
+
+  // Clean up the resulting string to remove extra spaces or commas
+  genTitle = genTitle.replace(/,+/g, ',').replace(/ ,/g, ' ').trim();
 
   return genTitle;
-}
-
-function isMixedDiamondType(diamondType: string) {
-  const regex = /\w+(\+\w+)/;
-
-  return regex.test(diamondType);
 }
