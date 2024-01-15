@@ -432,7 +432,13 @@ const DiamondTable = (props: DiamondTableProps) => {
               <Fragment key={row.id}>
                 {idx === 10 && shouldShowCFYPromo && cfyPromoCard}
 
-                <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                <div
+                  className={clsx('vo-table-row', {
+                    active: active,
+                    'pair-row': isDiamondPairs,
+                  })}
+                  data-id={row.id}
+                >
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
                     {row.getVisibleCells().map((cell) => (
                       <div key={cell.id} className="vo-table-cell">
