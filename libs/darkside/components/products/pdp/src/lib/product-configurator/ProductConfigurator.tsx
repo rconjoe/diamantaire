@@ -62,6 +62,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  parentProductAttributes?: Record<string, string>;
 };
 
 function ProductConfigurator({
@@ -94,6 +95,7 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations[sizeOptionKey];
@@ -154,6 +156,7 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
@@ -488,7 +491,7 @@ function AddToCartButton({
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
-        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
+        shippingBusinessDays: shippingTime.toString(),
 
         // Cart specific info
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
@@ -530,7 +533,7 @@ function AddToCartButton({
             : null,
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
-        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
+        shippingBusinessDays: shippingTime.toString(),
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
       };
 
@@ -579,7 +582,7 @@ function AddToCartButton({
         feedId: variantId,
         // Ring Sizer specific attributes
         productIconListShippingCopy: '',
-        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
+        shippingBusinessDays: shippingTime.toString(),
         shippingText: _t('Ships by'),
       };
 

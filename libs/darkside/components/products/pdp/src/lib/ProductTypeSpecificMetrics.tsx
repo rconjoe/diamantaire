@@ -19,9 +19,9 @@ const ProductTypeSpecificMetricsStyles = styled.div`
   }
 `;
 
-const ProductTypeSpecificMetrics = ({ additionalVariantData, productType, shouldDoublePrice }) => {
+const ProductTypeSpecificMetrics = ({ parentProductAttributes, additionalVariantData, productType, shouldDoublePrice }) => {
   const { locale } = useRouter();
-  const caratWeight = additionalVariantData?.caratWeightOverride;
+  const caratWeight = additionalVariantData?.caratWeightOverride || parentProductAttributes?.caratWeight;
 
   const acceptableProductTypes = ['Necklace', 'Bracelet', 'Wedding Band', 'Earrings', 'Ring'];
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);

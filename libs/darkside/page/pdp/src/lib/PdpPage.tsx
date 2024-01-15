@@ -383,6 +383,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                parentProductAttributes={parentProductAttributes}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
