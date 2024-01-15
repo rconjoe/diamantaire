@@ -342,18 +342,26 @@ const PlpAllFilterOptions = ({
                         ? filterValue[filterType]
                         : [filterValue[filterType]];
 
-                      return filterValueArray.map((val, index) => (
-                        <li key={`${filterValue}-${text}-${index}`}>
-                          <button onClick={() => updateFilter(filterType, val)}>
-                            <span className="close">x</span>
-                            {val &&
-                              (METALS_IN_HUMAN_NAMES[val] || (
-                                  <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>
-                                ) ||
-                                val)}
-                          </button>
-                        </li>
-                      ));
+                      return filterValueArray.map((val, index) => {
+                        let title;
+
+                        if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
+                          title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
+                        } else if (METALS_IN_HUMAN_NAMES[val]) {
+                          title = <UIString>{METALS_IN_HUMAN_NAMES[val]}</UIString>;
+                        } else {
+                          title = <UIString>{val}</UIString>;
+                        }
+
+                        return (
+                          <li key={`${filterValue}-${text}-${index}`}>
+                            <button onClick={() => updateFilter(filterType, val)}>
+                              <span className="close">x</span>
+                              {title}
+                            </button>
+                          </li>
+                        );
+                      });
                     }
                   })}
               </ul>

@@ -319,6 +319,8 @@ export const PlpProductFilterStyles = styled.div`
         }
       }
 
+      &.styles,
+      &.subStyles,
       &.diamondType {
         li {
           margin-bottom: 0.25rem;
@@ -352,11 +354,7 @@ export const PlpProductFilterStyles = styled.div`
       &.styles,
       &.subStyles {
         button {
-          border-bottom: 2px solid transparent;
-
-          &.active {
-            border-bottom: 2px solid var(--color-teal);
-          }
+          padding-bottom: 0.5rem;
 
           .setting-icon {
             margin-right: 10px;

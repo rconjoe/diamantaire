@@ -85,10 +85,15 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
 //   );
 // };
 
-const renderSubStyles = ({ optionVal: style, updateFilter }) => {
+const renderSubStyles = ({ optionVal: style, updateFilter, currentFilters }) => {
   return (
     <li key={`filter-${style}`}>
-      <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
+      <button
+        className={clsx('flex align-center', {
+          active: currentFilters['subStyle']?.includes(style),
+        })}
+        onClick={() => updateFilter('subStyle', style)}
+      >
         <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
       </button>
     </li>

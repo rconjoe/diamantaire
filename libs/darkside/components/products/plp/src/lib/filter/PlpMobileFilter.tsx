@@ -322,15 +322,21 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                     : [localFilterValue[filterType]];
 
                   return filterValueArray.map((val, index) => {
+                    let title;
+
+                    if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
+                      title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
+                    } else if (METALS_IN_HUMAN_NAMES[val]) {
+                      title = <UIString>{METALS_IN_HUMAN_NAMES[val]}</UIString>;
+                    } else {
+                      title = <UIString>{val}</UIString>;
+                    }
+
                     return (
                       <li className="active-filter" key={`${localFilterValue}-${text}-${index}`}>
                         <button onClick={() => handleUpdateLocalFilterValue(filterType, val)}>
                           <span className="close">x</span>
-                          {val &&
-                            (METALS_IN_HUMAN_NAMES[val] || (
-                                <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>
-                              ) || <UIString>{val}</UIString> ||
-                              val)}
+                          {title}
                         </button>
                       </li>
                     );
