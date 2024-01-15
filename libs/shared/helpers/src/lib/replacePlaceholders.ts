@@ -6,46 +6,33 @@
  * @returns {array} - returns array of strings and replaced values which can be rendered as JSX. If all values in valuesArr are strings, it will return a string
  */
 
-export function replacePlaceholders(
-  string: string,
-  placeHoldersArr: string[],
-  valuesArr: string[],
-): string | (object | string)[] {
+export function replacePlaceholders(string, placeHoldersArr, valuesArr) {
   if (!string) {
     return '';
   }
-  if (!placeHoldersArr || !valuesArr) {
+
+  if (!placeHoldersArr || !valuesArr || !Array.isArray(placeHoldersArr) || !Array.isArray(valuesArr)) {
     return string;
   }
-  const strArr = [];
-  const placeholderIndexArr = [0];
 
-  // find index of where to slice string
-  placeHoldersArr.forEach((placeholder) => {
-    if (string) {
-      const i = string.indexOf(placeholder);
+  let resultArray = [string];
 
-      placeholderIndexArr.push(i);
-      placeholderIndexArr.push(i + placeholder.length);
-    }
+  placeHoldersArr.forEach((placeholder, index) => {
+    const value = valuesArr[index];
+
+    resultArray = resultArray.reduce((acc, part) => {
+      if (typeof part === 'string') {
+        const splitParts = part.split(placeholder);
+        const newParts = splitParts.flatMap((item, idx) => (idx < splitParts.length - 1 ? [item, value] : item));
+
+        acc.push(...newParts);
+      } else {
+        acc.push(part);
+      }
+
+      return acc;
+    }, []);
   });
 
-  // sort index then slice string
-  placeholderIndexArr
-    .sort((a, b) => a - b)
-    .forEach((index, i) => {
-      const start = index;
-      const end = placeholderIndexArr[i + 1];
-
-      strArr.push(string.slice(start, end));
-    });
-
-  // replace placeholder indexes with values
-  placeHoldersArr.forEach((placeholder, i) => {
-    const index = strArr.indexOf(placeholder);
-
-    strArr[index] = valuesArr[i];
-  });
-
-  return valuesArr.every((s) => typeof s == 'string') ? (strArr.join('') as string) : strArr;
+  return resultArray.length === 1 && typeof resultArray[0] === 'string' ? resultArray[0] : resultArray;
 }
