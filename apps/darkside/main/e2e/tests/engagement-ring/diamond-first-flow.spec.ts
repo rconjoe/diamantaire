@@ -3,14 +3,14 @@ import { test, expect } from "../../pages/page-fixture";
 
 /**
  * Engagement ring - Diamond First flow with Price validation
- * OPEN ISSUE DIA-1211
  */
 
 test.describe("Engagement ring - Diamond First flow", () => {
 
     const expectedCart = new QACart();
+    let diamondPrice ;
 
-  test.skip("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
+  test("Happy Path", async ({ homePage ,diamondTablePage,diamondToSettingPage,productDetailedPage, checkoutSlidePage, checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
@@ -20,7 +20,7 @@ test.describe("Engagement ring - Diamond First flow", () => {
 
       await homePage.navigateToEngagementStartWithAVRAICreatedDiamond();
       await diamondTablePage.selectDiamondShape('Round Brilliant')
-      const diamondPrice = await diamondTablePage.getDiamondPriceByRow(2)
+      diamondPrice = await diamondTablePage.getDiamondPriceByRow(2)
 
       console.log('Diamond price -> ' + diamondPrice)
       expectedCart.addItem(1, "diamonds", diamondPrice ,1);
@@ -31,12 +31,16 @@ test.describe("Engagement ring - Diamond First flow", () => {
 
       await diamondToSettingPage.selectMetalFilter('White Gold');
       await diamondToSettingPage.page.keyboard.press('PageDown');
-      await diamondToSettingPage.selectSettingBySettingName('V Engagement Ring')
+
+      await diamondToSettingPage.selectSettingBySettingName('The V Round')
+
       const itemPrice = await productDetailedPage.getItemPrice();
 
       console.log('Item price ->' + itemPrice)
-      expectedCart.addItem(2,"Setting", itemPrice ,1);
-      await diamondToSettingPage.clickNext();
+      const settingPrice = itemPrice - diamondPrice;
+
+      expectedCart.addItem(2,"Setting", settingPrice ,1);
+      await diamondToSettingPage.clickCompleteYourRing();
       await productDetailedPage.clickAddToBag()
     });
 

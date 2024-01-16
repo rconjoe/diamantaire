@@ -9,14 +9,17 @@ test.describe("Fine Jewerly Basic flow", () => {
     const expectedCart = new QACart();
 
     
-  test("Open Home Page", async ({ homePage , jewerlyPage,productDetailedPage,checkoutSlidePage,checkoutPage}) => {
+  test("Open Home Page", async ({ homePage ,page, jewerlyPage,productDetailedPage,checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
     });
 
     await test.step("Select Jewerly > Necklace ", async () => {
+
         await homePage.navigateToJewery('Necklaces');
+        await page.waitForTimeout(3000); // for stability
+
         await jewerlyPage.selectJewerlyByName('North Star Medallion')
 
         const itemPrice = await productDetailedPage.getItemPrice();
@@ -24,6 +27,7 @@ test.describe("Fine Jewerly Basic flow", () => {
         console.log('Item price ->' + itemPrice)
 
         await expectedCart.addItem(1, 'North Star Medallion', itemPrice);
+        await page.waitForTimeout(3000); // for stability
         await productDetailedPage.clickAddToBag();
     
     });
