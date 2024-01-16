@@ -116,7 +116,6 @@ function ProductConfigurator({
   ctaCopy,
   selectedDiamond,
   productTitle,
-
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -126,7 +125,7 @@ function ProductConfigurator({
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
+    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
 
   // Ring size

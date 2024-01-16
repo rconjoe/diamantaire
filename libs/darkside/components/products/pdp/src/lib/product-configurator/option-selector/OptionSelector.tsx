@@ -8,6 +8,7 @@ import {
 import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { getOptionValueSorterByType } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -15,7 +16,6 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { OptionItemContainer } from '../option-item/OptionItem';
-import { getOptionValueSorterByType } from '@diamantaire/shared-product';
 
 interface OptionSelectorProps {
   optionType: string;
