@@ -266,7 +266,7 @@ function OptionSelector({
   const { locale } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [_, setUpdateFlag] = useState(false);
 
@@ -393,7 +393,7 @@ function OptionSelector({
         if (selectedOptionValue !== 'other') {
           return (
             <>
-              {selectedOptionValue}
+              {CARAT_WEIGHT_HUMAN_NAMES?.[selectedOptionValue].value} ct
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
