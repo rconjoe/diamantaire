@@ -18,6 +18,8 @@ export type LooseDiamondAttributeProps = {
   lotId: string;
   isChildProduct?: string;
   _dateAdded: string;
+  shippingBusinessDays?: string;
+  shippingText?: string;
 };
 
 export type ERProductCartItemProps = {

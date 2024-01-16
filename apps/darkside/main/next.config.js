@@ -105,18 +105,6 @@ const nextConfig = {
     // imageSizes: [576, 768, 992, 1200, 1440],
   },
 
-  async rewrites() {
-    return [
-      {
-        source: '/journal',
-        destination: `${process.env.JOURNAL_SITE}/`,
-      },
-      {
-        source: '/journal/:path*',
-        destination: `${process.env.JOURNAL_SITE}/:path*`,
-      },
-    ];
-  },
   env: {
     GATEWAY_URL: process.env.GATEWAY_URL || 'http://localhost:3333',
   },

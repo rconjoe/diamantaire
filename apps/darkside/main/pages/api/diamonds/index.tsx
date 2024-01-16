@@ -45,9 +45,13 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
       vraiApiClientURL = `${vraiApiClientURL}${getApiRouteFromViewParam(view) ?? ''}?` + (arr.length ? search : '');
     }
 
-    const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
+    try {
+      const vraiApiClientResponse = await vraiApiClient.request({ method: 'GET', url: vraiApiClientURL });
 
-    vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
+      vraiApiClientPayload = vraiApiClientResponse.status === 200 ? vraiApiClientResponse?.data : {};
+    } catch {
+      vraiApiClientPayload = {}
+    }
 
     // Get additional Data from DF-DIAMOND-API
 
@@ -58,9 +62,13 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 
       dfApiClientURL += '/' + sanitizedDfApiDiamondId;
 
-      const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
+      try {
+        const dfApiClientResponse = await dfApiClient.request({ method: 'GET', url: dfApiClientURL });
 
-      dfApiClientPayload = dfApiClientResponse.status === 200 ? dfApiClientResponse?.data : {};
+        dfApiClientPayload = dfApiClientResponse.status === 200 ? dfApiClientResponse?.data : {};
+      } catch {
+        dfApiClientPayload = {};
+      }
     }
 
     // Payload
