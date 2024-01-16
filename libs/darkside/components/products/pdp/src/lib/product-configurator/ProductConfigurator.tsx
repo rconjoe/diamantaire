@@ -63,6 +63,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  parentProductAttributes?: Record<string, string>;
   isProductFeedUrl?: boolean;
   ctaCopy?: {
     purchaseWithThisDiamondCopy?: string;
@@ -110,10 +111,12 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
   isProductFeedUrl,
   ctaCopy,
   selectedDiamond,
   productTitle,
+
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -232,6 +235,7 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
