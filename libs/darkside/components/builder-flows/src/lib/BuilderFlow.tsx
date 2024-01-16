@@ -133,7 +133,6 @@ const BuilderFlow = ({
     })
       .then((res) => res.json())
       .then(async (res) => {
-        console.log('getPdpProduct res', res);
         const handle = res?.productContent?.shopifyProductHandle || res?.productContent?.configuredProductOptionsInOrder;
         const category = res?.productType;
 
@@ -151,17 +150,11 @@ const BuilderFlow = ({
         console.log('getPdpProduct error', e);
       });
 
-    const settingData = {
-      ...productResponse,
-    };
+    setShopifyProductData(productResponse);
 
-    console.log('settingData', settingData);
+    updateFlowData('ADD_PRODUCT', productResponse);
 
-    setShopifyProductData(settingData);
-
-    updateFlowData('ADD_PRODUCT', settingData);
-
-    return settingData;
+    return productResponse;
   }
 
   async function fetchProductAndDiamond() {
