@@ -129,9 +129,10 @@ const StyledOptionSelector = styled.div`
     }
 
     &.bandWidth {
-      button {
+      .image-item {
         max-width: 3.8rem;
         max-height: 3.8rem;
+        min-width: unset;
       }
     }
 
@@ -225,7 +226,9 @@ const StyledOptionSelector = styled.div`
     &.stoneSetting,
     &.bandVersion,
     &.bandStoneStyle,
-    &.bandStyle {
+    &.bandStyle,
+    &.haloSize,
+    &.bandWidth {
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);

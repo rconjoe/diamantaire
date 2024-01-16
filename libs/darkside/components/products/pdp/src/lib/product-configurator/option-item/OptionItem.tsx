@@ -24,7 +24,11 @@ export function OptionItemContainer({
   setProductSlug,
   selectedConfiguration,
 }: OptionItemContainerProps) {
-  const OptionItemComponent = getOptionItemComponentByType(optionType);
+  const {
+    query: { collectionSlug },
+  } = useRouter();
+  const collectionSlugString = collectionSlug as string;
+  const OptionItemComponent = getOptionItemComponentByType(optionType, collectionSlugString);
 
   return isLink ? (
     <OptionItemLink {...option} setProductSlug={setProductSlug}>
@@ -78,7 +82,7 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   );
 }
 
-function getOptionItemComponentByType(type: string): FunctionComponent<OptionItemComponent> {
+function getOptionItemComponentByType(type: string, collectionSlug: string): FunctionComponent<OptionItemComponent> {
   switch (type) {
     case 'diamondType':
     case 'sideStoneShape':
@@ -99,7 +103,11 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
       return ValueOptionItem;
     }
     case 'bandWidth': {
-      return BandWidthOptionItem;
+      if (getShouldRenderImageButtons(collectionSlug)) {
+        return BandWidthOptionItem;
+      } else {
+        return BasicOptionItem;
+      }
     }
     case 'hiddenHalo': {
       return HiddenHaloOptionItem;
@@ -386,12 +394,16 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
   const { locale } = useRouter();
 
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
+  const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
+
   const { _t } = useTranslations(locale);
 
   let valueLabel;
 
   if (optionType === 'eternityStyle') {
     valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+  } else if (optionType === 'bandWidth') {
+    valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
   } else if (optionType === 'earringSize') {
     valueLabel = value.replace('mm', '');
   } else if (optionType === 'chainLength') {
@@ -405,4 +417,8 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
       {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
     </StyledBasicOptionItem>
   );
+}
+
+export function getShouldRenderImageButtons(slug) {
+  return ['signature-prong', 'classic-4-prong-dome'].includes(slug);
 }

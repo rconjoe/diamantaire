@@ -7,6 +7,7 @@ const CONFIG_TYPE_ORDER = [
   'bandStoneShape',
   'bandStoneStyle',
   'prongStyle',
+  'haloSize',
   'metal',
   'ceramicColor',
   'bandAccent',
