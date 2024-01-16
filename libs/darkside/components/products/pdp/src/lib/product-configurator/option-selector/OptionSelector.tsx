@@ -326,7 +326,6 @@ function OptionSelector({
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function handleOptionValueSort(options, optionType) {
-    console.log({ options, optionType });
     if (optionType === 'bandWidth') {
       return sortBandWidth(options);
     } else if (optionType === 'ringSize') {
