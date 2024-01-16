@@ -321,9 +321,9 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const getPlpCreativeBlockQuery = (useProductTitleOnly) => {
-  const desktopImageHeight = useProductTitleOnly ? 700 : 804;
-  const mobileImageHeight = 600;
+const getPlpCreativeBlockQuery = (useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile) => {
+  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 700;
+  const mobileImageHeight = useLargeCreativeImageInMobile ? 500 : 350;
 
   return gql`
   query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
@@ -367,11 +367,16 @@ type FetchCreativeBlocksProps = {
   allCreativeBlocks: object[];
 };
 
-export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[], useProductTitleOnly: boolean) {
+export async function fetchPlpDatoCreativeBlocks(
+  locale: string,
+  ids: string[],
+  useLargeCreativeImageInDesktop: boolean,
+  useLargeCreativeImageInMobile: boolean,
+) {
   if (!ids) return {};
 
   const datoData = (await queryDatoGQL({
-    query: getPlpCreativeBlockQuery(useProductTitleOnly),
+    query: getPlpCreativeBlockQuery(useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile),
     variables: { locale, ids },
   })) as FetchCreativeBlocksProps;
 

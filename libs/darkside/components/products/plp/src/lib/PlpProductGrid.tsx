@@ -139,7 +139,16 @@ const PlpProductGrid = ({
     promoCardCollectionId,
   );
 
-  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds, useProductTitleOnly);
+  const useLargeCreativeImageInDesktop = !useProductTitleOnly;
+
+  const useLargeCreativeImageInMobile = asPath.includes('/jewelry');
+
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(
+    locale,
+    creativeBlockIds,
+    useLargeCreativeImageInDesktop,
+    useLargeCreativeImageInMobile,
+  );
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
