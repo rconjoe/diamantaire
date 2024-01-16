@@ -2,6 +2,8 @@ import { mobileOnly } from '@diamantaire/styles/darkside-styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 
+import { UIString } from './UIString';
+
 const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
   padding-bottom: calc(var(--gutter) / 4);
 
@@ -49,7 +51,9 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: Bread
       ) : (
         <ul className="list-unstyled flex">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/">
+              <UIString>Home</UIString>
+            </Link>
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
