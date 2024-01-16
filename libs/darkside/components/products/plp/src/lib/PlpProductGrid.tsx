@@ -190,7 +190,7 @@ const PlpProductGrid = ({
 
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const products = data?.pages?.map((page) => page.products).flat() || [];
+  const products = data?.pages?.map((page) => page?.products).flat() || [];
 
   if (availableFilters && !includeStylesFilter) {
     delete availableFilters.subStyles;
