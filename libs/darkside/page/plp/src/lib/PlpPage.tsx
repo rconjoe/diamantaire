@@ -93,12 +93,12 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const availableFilters = data?.pages[0]?.availableFilters;
 
-  if (category === 'engagement-rings') {
+  if (typeof category !== undefined && category === 'engagement-rings') {
     delete availableFilters.price;
     delete availableFilters.subStyles;
   }
 
-  if (plpSlug) {
+  if (typeof plpSlug !== undefined) {
     if (plpSlug.includes('-setting')) {
       delete availableFilters.styles;
     }
@@ -191,8 +191,6 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
 
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
-
-      {/* {JSON.stringify(filterValue)} */}
 
       {subcategoryFilter?.length > 0 && (
         <PlpSubCategories
