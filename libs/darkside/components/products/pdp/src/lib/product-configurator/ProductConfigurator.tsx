@@ -20,6 +20,7 @@ import OptionSelector from './option-selector/OptionSelector';
 import PairSelector from './option-selector/PairSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
+import { ProductKlarna } from '../ProductKlarna';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 
 type ProductConfiguratorProps = {
@@ -62,6 +63,22 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  parentProductAttributes?: Record<string, string>;
+  isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+    buyButtonCopy?: string;
+  };
+  selectedDiamond?: Array<{
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
+  }>;
+  productTitle?: string;
 };
 
 function ProductConfigurator({
@@ -93,9 +110,15 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
+  isProductFeedUrl,
+  ctaCopy,
+  selectedDiamond,
+  productTitle,
+
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
 
@@ -148,11 +171,70 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
+  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
+
+  const CompleteYourRingButton = ({ ctaText }) => {
+    return (
+      <div
+        style={{
+          marginTop: '2rem',
+        }}
+      >
+        <DarksideButton
+          onClick={() => {
+            updateFlowData(
+              'ADD_PRODUCT',
+              {
+                ...additionalVariantData,
+                ...selectedConfiguration,
+                variantId: selectedVariantId,
+                collectionSlug: builderProduct?.product?.collectionSlug,
+              },
+              null,
+            );
+
+            router.push(
+              `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+                .map((diamond) => diamond?.lotId)
+                .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+            );
+          }}
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
+
+  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    return (
+      <div
+        style={{
+          margin: '2rem 0 1rem',
+          minHeight: '4.9rem',
+        }}
+      >
+        <DarksideButton
+          textSize="medium"
+          onClick={() => {
+            router.push(
+              `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
+                router.query.productSlug
+              }/${diamondsOverride.map((diamond) => diamond?.lotId).join('/')}`,
+            );
+          }}
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
 
   return (
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
@@ -174,6 +256,7 @@ function ProductConfigurator({
               clarity: additionalVariantData?.clarity,
             }}
             setProductSlug={setProductSlug}
+            selectedDiamond={selectedDiamond}
           />
 
           {/* Ring Size */}
@@ -243,35 +326,17 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {isBuilderFlowOpen ? (
-        <div
-          style={{
-            marginTop: '2rem',
-          }}
-        >
-          <DarksideButton
-            onClick={() => {
-              // updateFlowData(
-              //   'ADD_PRODUCT',
-              //   {
-              //     ...additionalVariantData,
-              //     ...selectedConfiguration,
-              //     variantId: selectedVariantId,
-              //     collectionSlug: builderProduct?.product?.collectionSlug,
-              //   },
-              //   null,
-              // );
+      {isProductFeedUrl ? (
+        <>
+          <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
+          <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+        </>
+      ) : null}
 
-              router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
-                  .map((diamond) => diamond?.lotId)
-                  .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-              );
-            }}
-          >
-            <UIString>Complete & Review Your Ring</UIString>
-          </DarksideButton>
-        </div>
+      {isBuilderFlowOpen ? (
+
+        <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
+
       ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
@@ -290,6 +355,8 @@ function ProductConfigurator({
           engravingText={engravingText}
           productIconListType={productIconListType}
           selectedPair={selectedPair}
+          ctaCopy={ctaCopy}
+          isProductFeedUrl={isProductFeedUrl}
         />
       ) : (
         <div
@@ -328,13 +395,18 @@ type CtaButtonProps = {
   engravingText?: string;
   productIconListType?: string;
   selectedPair?: 'pair' | 'single';
+  isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+  };
 };
 
 const AddToCartButtonContainer = styled.div`
   margin: 1rem 0;
 
   .atc-button button {
-    font-size: var(--font-size-xxsmall);
     min-height: 4.9rem;
   }
 `;
@@ -356,13 +428,15 @@ function AddToCartButton({
   engravingText,
   productIconListType,
   selectedPair,
+  isProductFeedUrl,
+  ctaCopy,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-
-  const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
+  const { modifyYourDiamondCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? 'Add To Bag' : isProductFeedUrl ? modifyYourDiamondCopy : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -598,6 +672,9 @@ function AddToCartButton({
     <AddToCartButtonContainer>
       <DarksideButton
         className="atc-button"
+        type={isProductFeedUrl ? 'outline' : 'solid'}
+        textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();
@@ -621,7 +698,7 @@ function AddToCartButton({
           }
         }}
       >
-        <UIString>{ctaText}</UIString>
+        {isProductFeedUrl ? ctaText : <UIString>{ctaText}</UIString>}
       </DarksideButton>
     </AddToCartButtonContainer>
   );

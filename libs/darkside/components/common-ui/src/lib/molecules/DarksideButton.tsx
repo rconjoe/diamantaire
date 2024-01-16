@@ -9,7 +9,7 @@ const DarksideButtonStyles = styled.div`
     text-align: center;
     width: 100%;
     padding: 1rem 2rem;
-    font-size: 1.8rem;
+    font-size: var(font-size-xsmall);
     transition: 0.25s;
     font-weight: 500;
 
@@ -87,7 +87,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--black {
       button {
-        border: 0.2rem solid var(--color-black);
+        border: 0.1rem solid var(--color-black);
         color: var(--color-black);
         &:hover {
           background-color: var(--color-black);
@@ -97,7 +97,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.color-theme--white {
       button {
-        border: 0.2rem solid var(--color-white);
+        border: 0.1rem solid var(--color-white);
         color: var(--color-white);
         &:hover {
           background-color: var(--color-white);
@@ -107,7 +107,7 @@ const DarksideButtonStyles = styled.div`
     }
     &.m-color-theme--white {
       button {
-        border: 0.2rem solid var(--color-white);
+        border: 0.1rem solid var(--color-white);
         color: var(--color-white);
         &:hover {
           background-color: var(--color-white);
@@ -118,7 +118,7 @@ const DarksideButtonStyles = styled.div`
     &.m-color-theme--black {
       @media (max-width: 767px) {
         button {
-          border: 0.2rem solid var(--color-black);
+          border: 0.1rem solid var(--color-black);
           color: var(--color-black);
           &:hover {
             background-color: var(--color-black);
@@ -181,6 +181,31 @@ const DarksideButtonStyles = styled.div`
       }
     }
   }
+  &.text-size--normal {
+    button {
+      font-size: var(--font-size-xsmall);
+    }
+  }
+  &.text-size--medium {
+    button {
+      font-size: var(--font-size-xxsmall);
+    }
+  }
+  &.font-weight--normal {
+    button {
+      font-weight: var(--font-weight-normal);
+    }
+  }
+  &.font-weight--medium {
+    button {
+      font-weight: var(--font-weight-medium);
+    }
+  }
+  &.font-weight--bold {
+    button {
+      font-weight: var(--font-weight-bold);
+    }
+  }
 `;
 
 const DarksideButton = ({
@@ -191,6 +216,8 @@ const DarksideButton = ({
   buttonType = 'button',
   type = 'solid',
   colorTheme = 'black',
+  textSize = 'normal',
+  fontWeight = 'medium',
   mobileColorTheme,
   openUrlInNewWindow = false,
   disabled = false,
@@ -203,6 +230,8 @@ const DarksideButton = ({
         `button-style--${type}`,
         `color-theme--${colorTheme}`,
         `${mobileColorTheme ? `m-color-theme--${mobileColorTheme}` : ''}`,
+        `text-size--${textSize}`,
+        `font-weight--${fontWeight}`,
       )}
     >
       {href && openUrlInNewWindow ? (

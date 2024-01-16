@@ -14,6 +14,7 @@ import {
 import { createDisplayOrderFromOptionNames } from '../constant.helpers';
 
 export enum ProductOption {
+  HoopAccent = 'hoopAccent',
   BandAccent = 'bandAccent',
   CaratWeight = 'caratWeight',
   DiamondType = 'diamondType',

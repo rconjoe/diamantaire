@@ -1,7 +1,7 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsMap } from '@diamantaire/shared/icons';
+import { diamondIconsMap, getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -24,7 +24,11 @@ export function OptionItemContainer({
   setProductSlug,
   selectedConfiguration,
 }: OptionItemContainerProps) {
-  const OptionItemComponent = getOptionItemComponentByType(optionType);
+  const {
+    query: { collectionSlug },
+  } = useRouter();
+  const collectionSlugString = collectionSlug as string;
+  const OptionItemComponent = getOptionItemComponentByType(optionType, collectionSlugString);
 
   return isLink ? (
     <OptionItemLink {...option} setProductSlug={setProductSlug}>
@@ -51,17 +55,19 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   const router = useRouter();
 
   const { collectionSlug, jewelryCategory } = router.query;
-
+  // google marketing pdp url we set
+  const newPathname = router.pathname.replace('/[...productParams]', '');
   // Memoize the URL computation to prevent recalculations unless dependencies change
   const url = useMemo(() => {
     return {
-      pathname: router.pathname,
+      pathname: newPathname,
       query: {
         collectionSlug,
         productSlug: id,
         ...(jewelryCategory && { jewelryCategory }),
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname, collectionSlug, jewelryCategory, id]);
 
   // useCallback to memoize the click handler
@@ -76,7 +82,7 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   );
 }
 
-function getOptionItemComponentByType(type: string): FunctionComponent<OptionItemComponent> {
+function getOptionItemComponentByType(type: string, collectionSlug: string): FunctionComponent<OptionItemComponent> {
   switch (type) {
     case 'diamondType':
     case 'sideStoneShape':
@@ -97,7 +103,11 @@ function getOptionItemComponentByType(type: string): FunctionComponent<OptionIte
       return ValueOptionItem;
     }
     case 'bandWidth': {
-      return BandWidthOptionItem;
+      if (getShouldRenderImageButtons(collectionSlug)) {
+        return BandWidthOptionItem;
+      } else {
+        return BasicOptionItem;
+      }
     }
     case 'hiddenHalo': {
       return HiddenHaloOptionItem;
@@ -169,9 +179,8 @@ export function DiamondIconOptionItem({
   onClick,
   selectedConfiguration,
 }: OptionItemComponent) {
-  const selectedDiamond = diamondIconsMap?.[value];
-  const DiamondIcon = selectedDiamond?.icon;
-  const DiamondPairedIcon = selectedDiamond?.icon2;
+  const icons = getIconsForDiamondType(value);
+
   const { sideStoneOrientation } = selectedConfiguration || {};
 
   function getDiamondTypeGap(diamondType, isRotated) {
@@ -182,10 +191,9 @@ export function DiamondIconOptionItem({
     return isRotated ? '1.5rem' : '0.5rem';
   }
 
-  if (!DiamondIcon) {
+  if (icons.length === 0) {
     return null;
   }
-
   const isRotated = optionType === 'sideStoneShape' && sideStoneOrientation === 'horizontal';
   const gap = getDiamondTypeGap(value, isRotated);
 
@@ -201,8 +209,9 @@ export function DiamondIconOptionItem({
       gap={gap}
     >
       <span className="icon">
-        <DiamondIcon />
-        {DiamondPairedIcon ? <DiamondPairedIcon /> : null}
+        {icons.map((Icon, index) => (
+          <Icon key={index} />
+        ))}
       </span>
     </StyledDiamondIconOptionItem>
   );
@@ -385,12 +394,16 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
   const { locale } = useRouter();
 
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
+  const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
+
   const { _t } = useTranslations(locale);
 
   let valueLabel;
 
   if (optionType === 'eternityStyle') {
     valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+  } else if (optionType === 'bandWidth') {
+    valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
   } else if (optionType === 'earringSize') {
     valueLabel = value.replace('mm', '');
   } else if (optionType === 'chainLength') {
@@ -404,4 +417,8 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
       {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
     </StyledBasicOptionItem>
   );
+}
+
+export function getShouldRenderImageButtons(slug) {
+  return ['signature-prong', 'classic-4-prong-dome'].includes(slug);
 }

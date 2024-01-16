@@ -76,6 +76,7 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
 
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
+
   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
 
   // dato

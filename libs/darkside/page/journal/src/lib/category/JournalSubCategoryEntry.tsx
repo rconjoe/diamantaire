@@ -159,10 +159,10 @@ const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: Jo
           <div className="journal-category__subnav">
             {subcategories.length > 1 &&
               subcategories.map((s, i) => {
-                const isActive = asPath === getRelativeUrl(s.route, '/journal');
+                const isActive = asPath === getRelativeUrl(s.route);
 
                 return (
-                  <UniLink key={i} route={getRelativeUrl(s.route, '/journal')}>
+                  <UniLink key={i} route={getRelativeUrl(s.route)}>
                     <span
                       key={i}
                       className={clsx('journal-category__subnav-link', {
@@ -187,7 +187,7 @@ const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: Jo
                 {...p}
                 copy={p?.excerpt}
                 ctaCopy="Read More"
-                ctaRoute={`/post/${p?.slug}`}
+                ctaRoute={`/journal/post/${p?.slug}`}
                 image={p?.featuredImage}
                 extraClass="journal-item"
               />
