@@ -93,6 +93,21 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const availableFilters = data?.pages[0]?.availableFilters;
 
+  if (category === 'engagement-rings') {
+    delete availableFilters.price;
+    delete availableFilters.subStyles;
+  }
+
+  if (plpSlug) {
+    if (plpSlug.includes('-setting')) {
+      delete availableFilters.styles;
+    }
+
+    if (plpSlug.includes('-cut')) {
+      delete availableFilters.diamondType;
+    }
+  }
+
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
   const listPageData = { productData: data, hero, category };
