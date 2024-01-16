@@ -99,11 +99,11 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   }
 
   if (typeof plpSlug !== undefined) {
-    if (plpSlug.includes('-setting')) {
+    if (plpSlug && plpSlug.includes('-setting')) {
       delete availableFilters.styles;
     }
 
-    if (plpSlug.includes('-cut')) {
+    if (plpSlug && plpSlug.includes('-cut')) {
       delete availableFilters.diamondType;
     }
   }
