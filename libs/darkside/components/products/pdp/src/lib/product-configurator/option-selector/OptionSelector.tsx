@@ -262,7 +262,10 @@ function OptionSelector({
   selectedDiamond,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
-  const { locale } = useRouter();
+  const {
+    locale,
+    query: { collectionSlug },
+  } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
 
@@ -417,15 +420,22 @@ function OptionSelector({
     }
   }
 
-  function getOptionHeaderName({ label, productType }) {
+  function getOptionHeaderName({ label, productType, collectionSlug }) {
     if (label === 'caratWeight' && productType === 'Engagement Ring') {
       return 'centerstone';
+    }
+
+    if (
+      label === 'caratWeight' &&
+      ['signature-duo-drop-earring', 'solitaire-stud-ear-jacket-set'].includes(collectionSlug)
+    ) {
+      return 'Carat weight per earring';
     }
 
     return label;
   }
 
-  const labelName = getOptionHeaderName({ label, productType });
+  const labelName = getOptionHeaderName({ label, productType, collectionSlug });
 
   function renderDiamondTypeOptions() {
     const isCarousel = options.length > 7;
@@ -627,6 +637,8 @@ function OptionSelector({
 
   const renderOptionsMap = {
     diamondType: renderDiamondTypeOptions,
+    topDiamondShape: renderDiamondTypeOptions,
+    bottomDiamondShape: renderDiamondTypeOptions,
     ringSize: renderRingSizeOptions,
     caratWeight: renderCaratWeightOptions,
   };

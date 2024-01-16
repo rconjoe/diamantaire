@@ -8,6 +8,8 @@ const CONFIG_TYPE_ORDER = [
   'bandStoneStyle',
   'prongStyle',
   'haloSize',
+  'topDiamondShape',
+  'bottomDiamondShape',
   'metal',
   'ceramicColor',
   'bandAccent',
