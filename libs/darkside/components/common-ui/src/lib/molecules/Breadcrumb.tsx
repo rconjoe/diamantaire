@@ -8,14 +8,25 @@ const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
   padding-bottom: calc(var(--gutter) / 4);
 
   ${mobileOnly(`
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0;
+    padding-right: 0;
   `)}
 
   ul {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    ${mobileOnly(`
+    padding-left: 1rem;
+    padding-right:1rem;
+  `)}
     li {
+      flex-shrink: 0;
       a {
         font-size: var(--font-size-xxxsmall);
+        white-space: nowrap;
       }
       span {
         margin: 0 0.25rem;
