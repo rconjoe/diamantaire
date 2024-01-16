@@ -395,7 +395,6 @@ type CtaButtonProps = {
     purchaseWithThisDiamondCopy?: string;
     settingFlowCtaCopy?: string;
     modifyYourDiamondCopy?: string;
-    buyButtonCopy?: string;
   };
 };
 
@@ -431,8 +430,8 @@ function AddToCartButton({
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-  const { settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
-  const ctaText = isReadyForCart ? buyButtonCopy : isProductFeedUrl ? modifyYourDiamondCopy : settingFlowCtaCopy;
+  const { modifyYourDiamondCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? 'Add To Bag' : isProductFeedUrl ? modifyYourDiamondCopy : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -694,7 +693,7 @@ function AddToCartButton({
           }
         }}
       >
-        {ctaText}
+        {isProductFeedUrl ? ctaText : <UIString>{ctaText}</UIString>}
       </DarksideButton>
     </AddToCartButtonContainer>
   );
