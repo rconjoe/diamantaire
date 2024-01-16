@@ -42,7 +42,10 @@ const PlpProductGridStyles = styled.div`
         position: absolute;
         cursor: pointer;
         right: 5px;
-        top: 0;
+        top: 1px;
+      }
+      * {
+        cursor: pointer;
       }
     }
   }

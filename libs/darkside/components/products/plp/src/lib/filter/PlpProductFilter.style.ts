@@ -266,6 +266,18 @@ export const PlpProductFilterStyles = styled.div`
     }
 
     &.priceRange {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        overflow-x: hidden;
+        padding-right: 2rem;
+      }
+
+      ul {
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+
       button.active {
         font-weight: bold;
         border-bottom: 0.2rem solid var(--color-teal);
@@ -394,6 +406,7 @@ export const PlpProductFilterStyles = styled.div`
         }
 
         .metal-text {
+          font-size: var(--font-size-xxsmall);
           white-space: nowrap;
         }
 

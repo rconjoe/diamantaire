@@ -120,6 +120,14 @@ const PlpProductVariantStyles = styled.div`
           &.platinum::after {
             background-color: rgb(200, 200, 200);
           }
+
+          &.yellow-gold-and-platinum::after {
+            background: linear-gradient(-45deg, #c8ab6e 0%, #c8ab6e 40%, #c8c8c8 60%, #c8c8c8 100%);
+          }
+
+          &.rose-gold-and-platinum::after {
+            background: linear-gradient(-45deg, #ceac8b 0%, #ceac8b 40%, #c8c8c8 60%, #c8c8c8 100%);
+          }
         }
       }
     }
