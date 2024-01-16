@@ -111,7 +111,9 @@ const DiamondTableRow = ({
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {
       router.push(
-        `/customize/setting-to-diamond/summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
+        `/customize/setting-to-diamond/${
+          router.asPath.includes('/pair/') ? '/pair/' : ''
+        }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
         null,
       );
       // updateFlowData('UPDATE_STEP', { step: 'review-build' });

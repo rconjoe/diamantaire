@@ -97,8 +97,6 @@ const BuilderFlow = ({
   const assetStack = productContent?.assetStack; // flatten array in normalization
   const variantId = shopifyProductData?.shopifyVariantId;
 
-  const variantHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
-
   function updateSettingSlugs(value: object) {
     setSettingSlugs({
       ...settingSlugs,
@@ -136,7 +134,7 @@ const BuilderFlow = ({
       .then((res) => res.json())
       .then(async (res) => {
         console.log('getPdpProduct res', res);
-        const handle = res?.productContent?.shopifyProductHandle;
+        const handle = res?.productContent?.shopifyProductHandle || res?.productContent?.configuredProductOptionsInOrder;
         const category = res?.productType;
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
@@ -189,7 +187,7 @@ const BuilderFlow = ({
       return updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
     }
 
-    // ToiMoi
+    // ToiMoi + Earring pairs
     if (
       router.asPath.includes('toi-moi-ring') ||
       JEWELRY_THAT_CAN_TAKE_CUSTOM_DIAMONDS.some((item) => router.asPath.includes(item))
@@ -197,9 +195,12 @@ const BuilderFlow = ({
       if (builderProduct?.product?.collectionSlug && !builderProduct?.diamonds) {
         updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
         console.log('case b');
-      } else if (builderProduct?.diamonds) {
+      } else if (!settingSlugs?.lotIds) {
         console.log('case c');
-        updateFlowData('UPDATE_STEP', { step: 'review-build' });
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
+      } else {
+        console.log('case cccc');
+        updateFlowData('UPDATE_STEP', { step: 'select-diamond' });
       }
     }
 

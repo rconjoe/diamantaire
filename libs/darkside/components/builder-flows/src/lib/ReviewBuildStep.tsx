@@ -56,6 +56,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import { confirmDiamondsMatchSettingType } from './helpers/confirmDiamondsMatchSettingType';
 import ReviewVariantSelector from './ReviewVariantSelector';
 
 const ReviewBuildStepStyles = styled(motion.div)`
@@ -118,11 +119,6 @@ const ReviewBuildStepStyles = styled(motion.div)`
               > div {
                 display: block;
                 overflow: hidden;
-
-                .spritespin-instance {
-                  width: 100% !important;
-                  height: 100% !important;
-                }
               }
             }
           }
@@ -725,7 +721,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
       label: _t('diamondType'),
       value: diamonds.map((diamond) => _t(diamond?.diamondType)).join(' + '),
       onClick: () => {
-        router.push(router.asPath + '/edit-diamond', null, {
+        router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {
           shallow: true,
         });
       },
@@ -737,7 +733,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         .map((diamond) => diamond?.carat.toString() + 'ct' + ', ' + diamond?.color + ', ' + diamond?.clarity)
         .join(' + '),
       onClick: () => {
-        router.push(router.asPath + '/edit-diamond', null, {
+        router.push(router.asPath + (router.asPath.includes('/pair/') ? '/pair' : '') + '/edit-diamond', null, {
           shallow: true,
         });
       },
@@ -776,31 +772,13 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
   // Last sec check to confirm diamond + setting shapes match
   useEffect(() => {
-    // Single Diamond
-    if (diamonds.length === 1) {
-      if (diamonds?.[0]?.diamondType !== product?.configuration?.diamondType) {
-        console.log('diamonds dont match', {
-          diamond: diamonds?.[0]?.diamondType,
-          setting: product?.configuration?.diamondType,
-        });
-
-        const newProductSlug = builderProduct?.product?.optionConfigs?.diamondType.find(
-          (type) => type.value === diamonds?.[0]?.diamondType,
-        );
-
-        if (router?.query?.flowType === 'setting-to-diamond') {
-          router.push(
-            `/customize/setting-to-diamond/summary/${settingSlugs.collectionSlug}/${newProductSlug?.id}/${diamonds?.[0]?.lotId}`,
-            null,
-            { shallow: true },
-          );
-        }
-
-        updateSettingSlugs({
-          productSlug: newProductSlug?.id,
-        });
-      }
-    }
+    confirmDiamondsMatchSettingType(
+      builderProduct?.diamonds,
+      builderProduct?.product,
+      settingSlugs,
+      updateSettingSlugs,
+      router,
+    );
   }, [builderProduct.diamonds?.[0]?.diamondType]);
 
   useEffect(() => {
@@ -856,6 +834,8 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
       return id;
     });
+
+    console.log('ids', ids);
 
     setSpriteSpinnerIds(ids);
   }, [builderProduct?.diamonds]);

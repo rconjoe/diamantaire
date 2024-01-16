@@ -57,12 +57,13 @@ export const DiamondPairActiveRow = ({
 
     // By pair, we mean two diamonds with the same lotId
     const isPair = router?.asPath.includes('pair');
-    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/') + (isPair ? '?pair=true' : '');
+    const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/');
 
     console.log('lotIdSlug', lotIdSlug);
 
     router.push(
-      `/customize/setting-to-diamond/summary/${builderProduct?.product?.collectionSlug}/${builderProduct?.product?.productSlug}/${lotIdSlug}`,
+      `/customize/setting-to-diamond${isPair ? '/pair' : ''}/summary/${builderProduct?.product
+        ?.collectionSlug}/${builderProduct?.product?.productSlug}/${lotIdSlug}`,
     );
   };
 
