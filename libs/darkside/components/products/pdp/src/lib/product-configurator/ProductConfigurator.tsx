@@ -63,6 +63,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  parentProductAttributes?: Record<string, string>;
   isProductFeedUrl?: boolean;
   ctaCopy?: {
     purchaseWithThisDiamondCopy?: string;
@@ -110,13 +111,15 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
   isProductFeedUrl,
   ctaCopy,
   selectedDiamond,
   productTitle,
+
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
 
@@ -232,6 +235,7 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
@@ -395,7 +399,6 @@ type CtaButtonProps = {
     purchaseWithThisDiamondCopy?: string;
     settingFlowCtaCopy?: string;
     modifyYourDiamondCopy?: string;
-    buyButtonCopy?: string;
   };
 };
 
@@ -431,8 +434,8 @@ function AddToCartButton({
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-  const { settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
-  const ctaText = isReadyForCart ? buyButtonCopy : isProductFeedUrl ? modifyYourDiamondCopy : settingFlowCtaCopy;
+  const { modifyYourDiamondCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? 'Add To Bag' : isProductFeedUrl ? modifyYourDiamondCopy : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -694,7 +697,7 @@ function AddToCartButton({
           }
         }}
       >
-        {ctaText}
+        {isProductFeedUrl ? ctaText : <UIString>{ctaText}</UIString>}
       </DarksideButton>
     </AddToCartButtonContainer>
   );

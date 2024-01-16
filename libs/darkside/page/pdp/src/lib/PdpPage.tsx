@@ -217,7 +217,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
-  const diamondFeedPrice = selectedDiamond?.reduce((total, diamond) => total + diamond.price, 0);
+  const diamondFeedPrice = Array.isArray(selectedDiamond)
+    ? selectedDiamond.reduce((total, diamond) => total + (diamond?.price || 0), 0)
+    : 0;
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
@@ -408,6 +410,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                parentProductAttributes={parentProductAttributes}
                 isProductFeedUrl={isProductFeedUrl}
                 ctaCopy={ctaCopy}
                 selectedDiamond={selectedDiamond}
