@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { OptionItemContainer } from '../option-item/OptionItem';
+import { getOptionValueSorterByType } from '@diamantaire/shared-product';
 
 interface OptionSelectorProps {
   optionType: string;
@@ -325,10 +326,21 @@ function OptionSelector({
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function handleOptionValueSort(options, optionType) {
+    console.log({ options, optionType });
     if (optionType === 'bandWidth') {
       return sortBandWidth(options);
     } else if (optionType === 'ringSize') {
       return sortRingSize(options);
+    } else if (optionType === 'size') {
+      const sortSizeOptions = getOptionValueSorterByType('size');
+      const sortSize = options.sort(sortSizeOptions);
+
+      return sortSize;
+    } else if (optionType === 'caratWeight') {
+      const sortCaratWeightOptions = getOptionValueSorterByType('caratWeight');
+      const sortCaratWeight = options.sort(sortCaratWeightOptions);
+
+      return sortCaratWeight;
     } else {
       return options;
     }
@@ -576,8 +588,9 @@ function OptionSelector({
 
     return (
       <div className={clsx('option-list caratWeight')}>
-        {options.map((option) => {
+        {handleOptionValueSort(options, optionType).map((option) => {
           const isSelected = selectedOptionValue === option.value;
+
           // caratWeight we remove the 'ct' from the value assuming this is size
           const valueLabel = option.value.replace(/[a-zA-Z]+/, '');
 
