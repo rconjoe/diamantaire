@@ -99,6 +99,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
     case 'bandAccent': {
       return BandAccentStyleOptionItem;
     }
+    case 'hoopAccent': {
+      return HoopAccentStyleOptionItem;
+    }
     case 'value': {
       return ValueOptionItem;
     }
@@ -322,6 +325,11 @@ function ImageIconOptionItem({ value, isSelected, imgSrc, onClick }: OptionItemC
 
 export function BandAccentStyleOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`category-filters-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
+export function HoopAccentStyleOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`category-filters-hoop-${props.value}`);
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
