@@ -56,7 +56,7 @@ export const DiamondPairActiveRow = ({
     updateFlowData('ADD_DIAMOND', diamonds);
 
     // By pair, we mean two diamonds with the same lotId
-    const isPair = router?.asPath.includes('pair');
+    const isPair = router?.asPath.includes('/pair');
     const lotIdSlug = diamonds?.map((diamond) => diamond?.lotId).join('/');
 
     console.log('lotIdSlug', lotIdSlug);
