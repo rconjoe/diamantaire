@@ -91,7 +91,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     locale,
   );
 
-  const availableFilters = data?.pages[0]?.availableFilters;
+  const availableFilters = data?.pages[0]?.availableFilters || {};
 
   if (typeof category !== undefined && category === 'engagement-rings') {
     delete availableFilters.price;
@@ -462,6 +462,7 @@ function getFiltersFromFacetedNav(
 
   if (priceMin || priceMax) {
     filterOptions['price'] = {};
+
     if (priceMin) {
       filterOptions['price'].min = parseFloat(priceMin);
     }
