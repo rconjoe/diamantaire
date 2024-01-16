@@ -402,6 +402,8 @@ function OptionSelector({
                 `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}
             </>
           );
+        } else if (selectedOptionValue === 'other' && productType !== 'Engagement Ring') {
+          return _t('Select diamond');
         }
 
         break;
@@ -451,6 +453,7 @@ function OptionSelector({
                       isLink={renderItemAsLink}
                       setProductSlug={setProductSlug}
                       selectedConfiguration={selectedConfiguration}
+                      productType={productType}
                     />
                   </div>
                 );
@@ -491,6 +494,7 @@ function OptionSelector({
             isLink={renderItemAsLink}
             setProductSlug={setProductSlug}
             selectedConfiguration={selectedConfiguration}
+            productType={productType}
           />
         );
       });
@@ -528,6 +532,7 @@ function OptionSelector({
             isLink={isBuilderFlowOpen ? false : renderItemAsLink}
             setProductSlug={setProductSlug}
             selectedConfiguration={selectedConfiguration}
+            productType={productType}
           />
         );
       });
@@ -592,6 +597,7 @@ function OptionSelector({
               isLink={renderItemAsLink}
               setProductSlug={setProductSlug}
               selectedConfiguration={selectedConfiguration}
+              productType={productType}
             />
           );
         })}
@@ -618,6 +624,7 @@ function OptionSelector({
               isLink={isBuilderFlowOpen ? false : renderItemAsLink}
               setProductSlug={setProductSlug}
               selectedConfiguration={selectedConfiguration}
+              productType={productType}
             />
           );
         })}

@@ -1,7 +1,7 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
+import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsMap, getIconsForDiamondType } from '@diamantaire/shared/icons';
+import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -23,6 +23,7 @@ export function OptionItemContainer({
   valueLabel,
   setProductSlug,
   selectedConfiguration,
+  productType,
 }: OptionItemContainerProps) {
   const {
     query: { collectionSlug },
@@ -39,10 +40,17 @@ export function OptionItemContainer({
         optionType={optionType}
         onClick={onClick}
         selectedConfiguration={selectedConfiguration}
+        productType={productType}
       />
     </OptionItemLink>
   ) : (
-    <OptionItemComponent isSelected={isSelected} {...option} optionType={optionType} onClick={onClick} />
+    <OptionItemComponent
+      isSelected={isSelected}
+      {...option}
+      optionType={optionType}
+      onClick={onClick}
+      productType={productType}
+    />
   );
 }
 
@@ -144,6 +152,7 @@ interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
   optionType: string;
   selectedConfiguration?: { [key: string]: string };
+  productType?: string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -393,7 +402,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
+export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
   const { locale } = useRouter();
 
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
@@ -420,7 +429,13 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
       className={clsx('option-item', { selected: isSelected, '-other': value === 'other' })}
       onClick={onClick}
     >
-      {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
+      {optionType === 'soldAsDouble' ? (
+        <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span>
+      ) : value === 'other' && productType !== 'Engagement Ring' ? (
+        _t('Select diamond') // fine jewelry shows "Select diamond" instead of "see full inventory"
+      ) : (
+        valueLabel
+      )}
     </StyledBasicOptionItem>
   );
 }
