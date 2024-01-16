@@ -124,7 +124,9 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
     <AccountOrdersStyles>
       <NextSeo
         title={`${_t('Account Orders')} | VRAI`}
-        canonical={(process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}/order-history`}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}/order-history`
+        }
       />
       {ordersLoaded && (
         <div className="table container-wrapper">

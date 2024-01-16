@@ -27,7 +27,9 @@ const StandardPageSeo = ({ title, description, noIndex = false, noFollow = false
       noindex={noIndex}
       nofollow={noFollow}
       canonical={
-        (process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${router.locale}` + router.asPath
+        (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+        `/${router.locale}` +
+        router.asPath
       }
     />
   );

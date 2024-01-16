@@ -452,8 +452,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     height: product?.productContent?.assetStack?.[0]?.height,
   };
 
-  console.log('image', image);
-
   const { productTitle } = datoParentProductData || {};
 
   const productType = shopifyProductData?.productType;
@@ -534,7 +532,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
     // 3. Create custom attributes for the setting
 
-    const erMetal = (goldPurity ? goldPurity + ' ' : '') + builderProduct?.product?.configuration?.metal;
+    const erMetal = (goldPurity ? goldPurity + ' ' : '') + _t(builderProduct?.product?.configuration?.metal);
 
     const refinedBandAccent =
       settingType === 'engagement-ring' && bandAccent ? bandAccent?.charAt(0)?.toUpperCase() + bandAccent.slice(1) : '';
@@ -834,8 +832,6 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
       return id;
     });
-
-    console.log('ids', ids);
 
     setSpriteSpinnerIds(ids);
   }, [builderProduct?.diamonds]);

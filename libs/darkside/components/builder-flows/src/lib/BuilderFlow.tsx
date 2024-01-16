@@ -138,9 +138,6 @@ const BuilderFlow = ({
 
         const variant: any = handle && (await fetchDatoVariant(handle, category, router.locale));
 
-        console.log('getPdpVariant handle', handle);
-        console.log('getPdpVariant res', variant);
-
         return {
           ...res,
           variantDetails: variant?.omegaProduct,
@@ -288,10 +285,6 @@ const BuilderFlow = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath, assetStack, isValidToSendHubSpotEvent]);
-
-  useEffect(() => {
-    console.log('PATHxx', router.asPath);
-  }, [router.asPath]);
 
   const allDiamonds = shopifyProductData?.allAvailableOptions?.diamondType;
 

@@ -153,7 +153,9 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         title={seoTitle}
         description={seoDescription}
         canonical={
-          (process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${router.locale}` + router.asPath
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+          `/${router.locale}` +
+          router.asPath
         }
       />
       <PageViewTracker listPageData={listPageData} />

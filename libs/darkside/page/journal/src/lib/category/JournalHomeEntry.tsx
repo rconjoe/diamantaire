@@ -56,7 +56,9 @@ const JournalHomeEntry = ({
       <NextSeo
         title={blogHomeSeo?.seoTitle}
         description={blogHomeSeo?.seoDescription}
-        canonical={(process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath
+        }
       />
       <JournalHeader showTitle={true} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
       <div>

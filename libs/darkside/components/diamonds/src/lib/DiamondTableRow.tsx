@@ -105,8 +105,6 @@ const DiamondTableRow = ({
       lotIds: [product.lotId],
     });
 
-    console.log('flow type', router.query.flowType);
-
     if (!router.query.flowType) {
       router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {

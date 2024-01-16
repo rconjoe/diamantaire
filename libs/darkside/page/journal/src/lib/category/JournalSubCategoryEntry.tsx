@@ -128,7 +128,7 @@ const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: Jo
         <NextSeo
           title={seoTitle}
           description={seoDescription}
-          canonical={(process.env.VERCEL_URL ? process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
+          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
         />
       )}
 
