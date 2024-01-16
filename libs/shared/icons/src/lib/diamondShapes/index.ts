@@ -277,3 +277,9 @@ export const diamondIconsMap = {
     icon2: MarquiseIcon,
   },
 };
+
+export function getIconsForDiamondType(diamondType) {
+  const diamondTypes = diamondType.split('+');
+
+  return diamondTypes.map((type) => diamondIconsMap[type]?.icon).filter(Boolean);
+}
