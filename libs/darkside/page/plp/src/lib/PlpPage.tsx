@@ -505,14 +505,16 @@ function getFiltersFromFacetedNav(
 function getFiltersFromQueryParams(query) {
   const initialQueryValues = {};
 
-  Object.keys(query).forEach((key) => {
-    if (!['priceMin', 'priceMax'].includes(key) && key !== 'plpSlug') {
-      initialQueryValues[key] = query[key].toString().split(',');
-    }
-  });
+  if (query) {
+    Object.keys(query).forEach((key) => {
+      if (!['priceMin', 'priceMax'].includes(key) && key !== 'plpSlug') {
+        initialQueryValues[key] = query[key].toString().split(',');
+      }
+    });
 
-  if (query.priceMin || query.priceMax) {
-    initialQueryValues['price'] = { min: query.priceMin, max: query.priceMax };
+    if (query.priceMin || query.priceMax) {
+      initialQueryValues['price'] = { min: query.priceMin, max: query.priceMax };
+    }
   }
 
   return initialQueryValues;
