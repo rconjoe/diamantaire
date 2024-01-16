@@ -367,7 +367,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
     border-color: var(--color-teal);
   }
   &.-other {
-    width: max-content;
+    white-space: nowrap;
   }
 
   span.em-dash {
