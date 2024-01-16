@@ -366,6 +366,9 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   &.selected {
     border-color: var(--color-teal);
   }
+  &.-other {
+    width: max-content;
+  }
 
   span.em-dash {
     font-family:
@@ -413,7 +416,10 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
   }
 
   return (
-    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
+    <StyledBasicOptionItem
+      className={clsx('option-item', { selected: isSelected, '-other': value === 'other' })}
+      onClick={onClick}
+    >
       {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
     </StyledBasicOptionItem>
   );
