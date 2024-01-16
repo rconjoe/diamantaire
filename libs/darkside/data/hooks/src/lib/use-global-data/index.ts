@@ -20,6 +20,7 @@ export function useGlobalData(locale: string): UseQueryResult<GlobalDataResponse
   return useQuery({
     ...queries.template.global(locale),
     keepPreviousData: true,
+    staleTime: Infinity,
   });
 }
 

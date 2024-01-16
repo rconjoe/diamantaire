@@ -151,26 +151,6 @@ const removeEdgesAndNodes = (array: Connection<any>) => {
   return nodes;
 };
 
-// duplicate of getCart in cart-actions
-// async function getCart(_cartId: string): Promise<Cart | undefined> {
-//   const cartId = _cartId || localStorage.getItem('cartId');
-
-//   const res = await shopifyFetch<ShopifyCartOperation>({
-//     query: getCartQuery,
-//     variables: { cartId },
-//     cache: 'no-store',
-//   });
-
-//   if (!res) return;
-
-//   // Old carts becomes `null` when you checkout.
-//   if (!res.body.data.cart) {
-//     return undefined;
-//   }
-
-//   return reshapeCart(res.body.data.cart);
-// }
-
 export async function fetchCartShopifyData(locale) {
   let cartId = localStorage.getItem('cartId');
 
