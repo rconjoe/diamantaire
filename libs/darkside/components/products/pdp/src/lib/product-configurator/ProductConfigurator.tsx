@@ -116,7 +116,7 @@ function ProductConfigurator({
   productTitle,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
 
