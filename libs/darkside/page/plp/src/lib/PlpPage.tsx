@@ -508,7 +508,7 @@ function getFiltersFromQueryParams(query) {
   if (query) {
     Object.keys(query).forEach((key) => {
       if (!['priceMin', 'priceMax'].includes(key) && key !== 'plpSlug') {
-        initialQueryValues[key] = query[key].toString().split(',');
+        initialQueryValues[key] = query[key]?.toString().split(',');
       }
     });
 
