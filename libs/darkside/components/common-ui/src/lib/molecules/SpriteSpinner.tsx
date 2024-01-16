@@ -105,18 +105,20 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
     }
   }
 
-  function playSpinner() {
-    const api = spinnerEl?.current?.spritespin?.('api');
+  const hasSpriteSpinnerRendered = typeof window !== 'undefined' && window?.SpriteSpin?.Api();
 
-    if (api?.data?.animate !== true) {
+  function playSpinner() {
+    const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
+
+    if (hasSpriteSpinnerRendered && api?.data?.animate !== true) {
       api.toggleAnimation();
     }
   }
 
   function pauseSpinner() {
-    const api = spinnerEl?.current?.spritespin?.('api');
+    const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
 
-    if (api?.data?.animate === true) {
+    if (hasSpriteSpinnerRendered && api?.data?.animate === true) {
       api.toggleAnimation();
     }
   }

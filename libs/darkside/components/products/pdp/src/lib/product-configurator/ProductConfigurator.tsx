@@ -88,7 +88,6 @@ function ProductConfigurator({
   variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
-  updateFlowData,
   updateSettingSlugs,
   disableVariantType = [],
   hasMoreThanOneVariant = true,
@@ -116,7 +115,6 @@ function ProductConfigurator({
   ctaCopy,
   selectedDiamond,
   productTitle,
-
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -182,24 +180,13 @@ function ProductConfigurator({
         }}
       >
         <DarksideButton
-          onClick={() => {
-            updateFlowData(
-              'ADD_PRODUCT',
-              {
-                ...additionalVariantData,
-                ...selectedConfiguration,
-                variantId: selectedVariantId,
-                collectionSlug: builderProduct?.product?.collectionSlug,
-              },
-              null,
-            );
-
+          onClick={() =>
             router.push(
               `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
                 .map((diamond) => diamond?.lotId)
                 .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-            );
-          }}
+            )
+          }
         >
           {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
         </DarksideButton>
