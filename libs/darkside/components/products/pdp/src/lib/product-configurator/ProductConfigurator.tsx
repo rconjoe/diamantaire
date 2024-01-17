@@ -160,7 +160,7 @@ function ProductConfigurator({
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
-    return configurations.caratWeight?.length > 1;
+    return configurations?.caratWeight?.length > 1;
   }, [configurations]);
 
   const additionalVariantIds = useMemo(() => {
