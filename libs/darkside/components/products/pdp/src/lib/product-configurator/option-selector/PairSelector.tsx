@@ -28,7 +28,7 @@ const PairSelector = ({
           id: 'pair',
           value:
             `${_t('Pair')} ${selectedConfiguration.caratWeight !== 'other' && '<span class="em-dash"></span>'}` +
-            getFormattedPrice(variantPrice, locale),
+            getFormattedPrice(variantPrice * 2, locale),
           valueLabel: 'Pair',
           isSelected: selectedPair === 'pair',
         },
@@ -39,7 +39,7 @@ const PairSelector = ({
           id: 'single',
           value: `${_t('Single')} ${
             selectedConfiguration.caratWeight !== 'other'
-              ? '<span class="em-dash"></span>' + getFormattedPrice(variantPrice / 2, locale)
+              ? '<span class="em-dash"></span>' + getFormattedPrice(variantPrice, locale)
               : ''
           } `,
           valueLabel: 'Single',
@@ -48,7 +48,7 @@ const PairSelector = ({
           id: 'pair',
           value: `${_t('Pair')} ${
             selectedConfiguration.caratWeight !== 'other'
-              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice, locale)
+              ? '<span class="em-dash"></span> ' + getFormattedPrice(variantPrice * 2, locale)
               : ''
           } `,
           valueLabel: 'Pair',
