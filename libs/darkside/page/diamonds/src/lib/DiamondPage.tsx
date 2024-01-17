@@ -54,6 +54,8 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const { locale, currencyCode } = props;
 
+  console.log(locale);
+
   const [options, setOptions] = useState(props.options);
 
   const [loading, setLoading] = useState(true);
@@ -187,7 +189,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const title = (
     <div className="page-title">
-      <Heading className="title">{options?.diamondType ? pageDynamicTitle : pageTitle}</Heading>
+      <Heading className="title">{options?.diamondType && locale === 'en-US' ? pageDynamicTitle : pageTitle}</Heading>
     </div>
   );
 

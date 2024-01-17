@@ -74,6 +74,10 @@ const PlpProductGridStyles = styled.div`
 
   .filter {
     width: 100%;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding-top: 1rem;
+    }
   }
 `;
 
