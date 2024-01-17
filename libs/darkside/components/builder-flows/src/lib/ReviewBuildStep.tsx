@@ -339,9 +339,7 @@ const ToastErrorStyles = styled.div`
   }
 `;
 
-const ToastError = () => {
-  const { locale } = useRouter();
-
+const ToastError = ({ locale }) => {
   const { data: { cart: cartData } = {} } = useCartInfo(locale);
 
   const { pageCopy: cartCopy } = cartData || {};
@@ -533,7 +531,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     const isDiamondInCart = checkout?.lines?.some((line) => diamondVariantIds.includes(line.merchandise.id));
 
     if (isDiamondInCart) {
-      return toast.error(ToastError, {
+      return toast.error(<ToastError locale={locale} />, {
         autoClose: 3000,
       });
     }
