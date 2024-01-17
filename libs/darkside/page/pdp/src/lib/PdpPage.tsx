@@ -441,14 +441,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
 
-              {/* <Form
-                title={_t('Need more time to think?')}
-                caption={_t('Email this customized ring to yourself or drop a hint.')}
-                onSubmit={(e) => e.preventDefault()}
-                stackedSubmit={false}
-                headingType={'h2'}
-              /> */}
-
               <ProductDescription
                 title={productTitle}
                 description={productDescription}

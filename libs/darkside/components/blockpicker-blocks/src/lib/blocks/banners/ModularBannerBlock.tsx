@@ -4,8 +4,8 @@
 
 import {
   DarksideButton,
+  DatoImage,
   Heading,
-  MobileDesktopImage,
   ShowMobileOnly,
   ShowTabletAndUpOnly,
 } from '@diamantaire/darkside/components/common-ui';
@@ -125,12 +125,12 @@ const ModularBannerBlock = (props) => {
         )}
       >
         <FullWidthImageContainer className="full-width-image-container">
-          <MobileDesktopImage
-            desktopImage={desktopImage}
-            mobileImage={mobileImage}
-            alt={alt}
-            shouldLazyLoad={shouldLazyLoad}
-          />
+          <ShowTabletAndUpOnly>
+            <DatoImage image={desktopImage} overrideAlt={alt || ''} shouldLazyLoad={shouldLazyLoad} />
+          </ShowTabletAndUpOnly>
+          <ShowMobileOnly>
+            <DatoImage image={mobileImage} overrideAlt={alt || ''} shouldLazyLoad={shouldLazyLoad} />
+          </ShowMobileOnly>
         </FullWidthImageContainer>
 
         <BannerTextContainer

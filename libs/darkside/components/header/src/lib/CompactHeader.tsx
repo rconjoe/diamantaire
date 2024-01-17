@@ -136,13 +136,13 @@ const CompactHeader: FC<CompactHeaderTypes> = ({
               <ul>
                 {Array.isArray(navItems) &&
                   navItems?.map((link: MenuLink, index: number) => {
-                    const { title, route }: Partial<MenuLink> = link;
+                    const { title, route, newRoute }: Partial<MenuLink> = link;
 
                     return (
                       <li key={`stacked-link-${index}`}>
-                        {route && (
+                        {(route || newRoute) && (
                           <Link
-                            href={getRelativeUrl(route)}
+                            href={newRoute ? newRoute : getRelativeUrl(route)}
                             className={menuIndex === index ? 'active' : ''}
                             onMouseOver={() => toggleMegaMenuOpen(index)}
                             onFocus={() => toggleMegaMenuOpen(index)}

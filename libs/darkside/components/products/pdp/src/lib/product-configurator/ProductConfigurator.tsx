@@ -659,7 +659,8 @@ function AddToCartButton({
       <DarksideButton
         className="atc-button"
         type={isProductFeedUrl ? 'outline' : 'solid'}
-        textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        // textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        textSize="small"
         fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {

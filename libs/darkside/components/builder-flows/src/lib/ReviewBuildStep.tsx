@@ -27,6 +27,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { ERProductCartItemProps, ProductAddonDiamond, addERProductToCart } from '@diamantaire/darkside/data/api';
 import {
   useCartData,
+  useCartInfo,
   useProductDato,
   useProductIconList,
   useStandardPage,
@@ -339,9 +340,16 @@ const ToastErrorStyles = styled.div`
 `;
 
 const ToastError = () => {
+  const { locale } = useRouter();
+
+  const { data: { cart: cartData } = {} } = useCartInfo(locale);
+
+  const { pageCopy: cartCopy } = cartData || {};
+  const { uniqueDiamondAlreadyInCartErrorMessage } = cartCopy?.[0] || {};
+
   return (
     <ToastErrorStyles>
-      <p>This diamond is already in your cart</p>
+      <p>{uniqueDiamondAlreadyInCartErrorMessage}</p>
     </ToastErrorStyles>
   );
 };

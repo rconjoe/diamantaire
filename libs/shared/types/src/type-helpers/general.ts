@@ -48,6 +48,6 @@ export type DarksideButtonProps = {
   openUrlInNewWindow?: boolean;
   disabled?: boolean;
   style?: object;
-  textSize?: 'normal' | 'medium';
+  textSize?: 'small' | 'normal' | 'medium';
   fontWeight?: 'normal' | 'medium' | 'bold';
 };
