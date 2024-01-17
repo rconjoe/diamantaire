@@ -122,11 +122,11 @@ const PlpProductVariantStyles = styled.div`
           }
 
           &.yellow-gold-and-platinum::after {
-            background: linear-gradient(-45deg, #c8ab6e 0%, #c8ab6e 40%, #c8c8c8 60%, #c8c8c8 100%);
+            background: linear-gradient(45deg, #c8ab6e 50%, #c8c8c8 50%);
           }
 
           &.rose-gold-and-platinum::after {
-            background: linear-gradient(-45deg, #ceac8b 0%, #ceac8b 40%, #c8c8c8 60%, #c8c8c8 100%);
+            background: linear-gradient(45deg, #ceac8b 50%, #c8c8c8 50%);
           }
         }
       }
