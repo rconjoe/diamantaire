@@ -94,7 +94,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
   switch (type) {
     case 'diamondType':
     case 'sideStoneShape':
-    case 'bandStoneShape': {
+    case 'bandStoneShape':
+    case 'topDiamondShape':
+    case 'bottomDiamondShape': {
       return DiamondIconOptionItem;
     }
     case 'ceramicColor':
@@ -106,6 +108,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
     }
     case 'bandAccent': {
       return BandAccentStyleOptionItem;
+    }
+    case 'hoopAccent': {
+      return HoopAccentStyleOptionItem;
     }
     case 'value': {
       return ValueOptionItem;
@@ -334,6 +339,11 @@ export function BandAccentStyleOptionItem(props: OptionItemComponent) {
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
+export function HoopAccentStyleOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`category-filters-hoop-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
 
 export function BandWidthOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
@@ -407,7 +417,7 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType, produc
 
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
   const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   const { _t } = useTranslations(locale);
 
   let valueLabel;
@@ -420,6 +430,8 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType, produc
     valueLabel = value.replace('mm', '');
   } else if (optionType === 'chainLength') {
     valueLabel = value + '"';
+  } else if (optionType === 'caratWeight') {
+    valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
   } else {
     valueLabel = _t(value.toLowerCase());
   }

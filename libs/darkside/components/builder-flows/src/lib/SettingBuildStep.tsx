@@ -60,7 +60,6 @@ const SettingBuildStepStyles = styled(motion.div)`
 type SettingBuildStepProps = {
   updateSettingSlugs;
   shopifyProductData;
-  updateFlowData;
   parentProductAttributes: object;
   assetStack: MediaAsset[];
   selectedConfiguration: {
@@ -92,7 +91,6 @@ type SettingBuildStepProps = {
 const SettingBuildStep = ({
   updateSettingSlugs,
   shopifyProductData,
-  updateFlowData,
   parentProductAttributes,
   assetStack,
   selectedConfiguration,
@@ -213,7 +211,6 @@ const SettingBuildStep = ({
               isBuilderFlowOpen={true}
               updateSettingSlugs={updateSettingSlugs}
               settingSlugs={settingSlugs}
-              updateFlowData={updateFlowData}
               disableVariantType={disableVariantType}
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}

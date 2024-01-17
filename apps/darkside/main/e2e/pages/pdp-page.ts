@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 import HomePage from "./home-page";
-import { diamondList,metalList, prongStyle, bandStyle } from "../model/filterLists";
+import { diamondList,metalList, prongStyle, bandStyle ,diamondPairList} from "../model/filterLists";
 import { StringHelper } from "../utils/StringHelper";
 
 export default class ProductDetailedPage extends HomePage {
@@ -81,15 +81,15 @@ export default class ProductDetailedPage extends HomePage {
 
   async selectDiamondShape(diamond : diamondList){
     await this.page.getByRole('button', { name: `${diamond}` }).click();
-   //await this.page.locator('button').filter({ hasText: `${diamond}` }).click(); 
+  }
+  async selectToiEtMoiDiamondShape(diamond : diamondPairList){
+    await this.page.getByRole('button', { name: `${diamond}` }).click();
   }
   async nextDiamondShapeList(){
     await this.page.locator('button:nth-child(3)').click();
-
   }
   async selectMetalType(metal : metalList){
     await this.page.getByRole('radio', { name: `${metal}` }).click();
-
   }
 
   async selectProngStyle(prong : prongStyle){
@@ -103,8 +103,7 @@ export default class ProductDetailedPage extends HomePage {
   async getItemPrice(){
 
     let price = await this.itemPrice.first().textContent();
-
-    //price =  Number(price.replace('$','')).toFixed(2)
+    
     price = StringHelper.extractPrice(price).toFixed(2)
 
     return +price
@@ -121,6 +120,7 @@ export default class ProductDetailedPage extends HomePage {
     await this.selectYourVraiCreatedDiamond.click();
 
   }
+
   async addEngraving( engravingNotes) {
     
     const engravingLength = String(engravingNotes).length;

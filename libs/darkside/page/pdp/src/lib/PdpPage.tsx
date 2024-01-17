@@ -7,6 +7,7 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
+  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -256,16 +257,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
   const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
-
+  const breadcrumbTitle = pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType;
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
     {
-      title: isProductJewelry ? 'Jewelry' : null,
+      title: isProductJewelry ? _t('Jewelry') : null,
       path: isProductJewelry ? '/jewelry' : null,
     },
-
     {
-      title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
+      title: _t(breadcrumbTitle),
       path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
         pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,

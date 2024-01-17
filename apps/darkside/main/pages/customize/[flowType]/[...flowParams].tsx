@@ -5,7 +5,6 @@ import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/templa
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 import { NextSeo } from 'next-seo';
 
 type BuilderPageQueryParams = {
@@ -32,8 +31,6 @@ const BuilderPage = ({ collectionSlug, productSlug, type, lotIds }: BuilderPageP
   return (
     <>
       <NextSeo title={seoTitle} description={seoDescription} nofollow={addNoindexNofollow} noindex={addNoindexNofollow} />
-      <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy={'beforeInteractive'} />
-      <Script src="https://cdn.jsdelivr.net/npm/spritespin@4.1.0/release/spritespin.min.js" strategy={'beforeInteractive'} />
       <BuilderFlow collectionSlug={collectionSlug} type={type} lotIds={lotIds} productSlug={productSlug} />
     </>
   );

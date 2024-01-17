@@ -1,4 +1,4 @@
-import { DatoImageType } from '@diamantaire/shared/types';
+import { ProductVariantPDPData } from '@diamantaire/server/products';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
 
 type BuilderDiamond = {
@@ -15,23 +15,15 @@ type BuilderDiamond = {
   slug?: string;
 };
 
-type BuilderProduct = {
-  productType: string;
-  collectionSlug: string;
-  productSlug: string;
-  variantId: string;
-  diamondType: string;
-  configuration: Record<string, string>;
-  productTitle?: string;
-  price?: number;
-  image?: DatoImageType;
-  goldPurity: string;
-  bandAccent: string;
-  metal: string;
-  shopifyProductHandle: string;
-  configuredProductOptionsInOrder: string;
-  allDiamondTypes: string[];
-};
+interface BuilderProduct extends ProductVariantPDPData {
+  productContent: {
+    assetStack: any[];
+  };
+  image: any;
+  variantDetails: {
+    [key: string]: string;
+  }[];
+}
 
 type StepType = 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build';
 
@@ -101,6 +93,8 @@ type BuilderAction =
 const builderReducer = (state: BuilderProductState, action: BuilderAction): BuilderProductState => {
   switch (action.type) {
     case 'ADD_DIAMOND': {
+      console.log('ADDING DIAMOND', action, state.product);
+
       const newState = {
         ...state,
         diamonds: action.payload,
