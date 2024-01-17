@@ -15,7 +15,7 @@ const WishlistSlideOut: React.FC = () => {
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
-  const { isWishlistOpen, isMobile } = useContext(GlobalContext);
+  const { isWishlistOpen } = useContext(GlobalContext);
 
   const [wishlistProductData, setWishlistProductData] = useState<any>(null);
 
