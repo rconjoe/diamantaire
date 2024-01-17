@@ -412,9 +412,8 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
+export const DynamicValueLabel = ({ value, optionType, productType }) => {
   const { locale } = useRouter();
-
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
   const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
   const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
@@ -422,32 +421,43 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType, produc
 
   let valueLabel;
 
-  if (optionType === 'eternityStyle') {
-    valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'bandWidth') {
-    valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'earringSize') {
-    valueLabel = value.replace('mm', '');
-  } else if (optionType === 'chainLength') {
-    valueLabel = value + '"';
-  } else if (optionType === 'caratWeight') {
-    valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
-  } else {
-    valueLabel = _t(value.toLowerCase());
+  if (optionType === 'soldAsDouble') {
+    return <span dangerouslySetInnerHTML={{ __html: valueLabel }} />;
   }
 
+  // Special case handling for 'other' value
+  if (value === 'other' && productType !== 'Engagement Ring') {
+    return _t('Select diamond');
+  }
+
+  // Handling based on optionType
+  switch (optionType) {
+    case 'eternityStyle':
+      valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'bandWidth':
+      valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'earringSize':
+      valueLabel = value.replace('mm', '');
+      break;
+    case 'chainLength':
+      valueLabel = value + '"';
+      break;
+    case 'caratWeight':
+      valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
+      break;
+    default:
+      valueLabel = _t(value.toLowerCase());
+  }
+
+  return valueLabel;
+};
+
+export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
   return (
-    <StyledBasicOptionItem
-      className={clsx('option-item', { selected: isSelected, '-other': value === 'other' })}
-      onClick={onClick}
-    >
-      {optionType === 'soldAsDouble' ? (
-        <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span>
-      ) : value === 'other' && productType !== 'Engagement Ring' ? (
-        _t('Select diamond') // fine jewelry shows "Select diamond" instead of "see full inventory"
-      ) : (
-        valueLabel
-      )}
+    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
+      <DynamicValueLabel value={value} optionType={optionType} productType={productType} />
     </StyledBasicOptionItem>
   );
 }
