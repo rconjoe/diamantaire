@@ -1,5 +1,5 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
+import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
 import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
@@ -23,6 +23,7 @@ export function OptionItemContainer({
   valueLabel,
   setProductSlug,
   selectedConfiguration,
+  productType,
 }: OptionItemContainerProps) {
   const {
     query: { collectionSlug },
@@ -39,10 +40,17 @@ export function OptionItemContainer({
         optionType={optionType}
         onClick={onClick}
         selectedConfiguration={selectedConfiguration}
+        productType={productType}
       />
     </OptionItemLink>
   ) : (
-    <OptionItemComponent isSelected={isSelected} {...option} optionType={optionType} onClick={onClick} />
+    <OptionItemComponent
+      isSelected={isSelected}
+      {...option}
+      optionType={optionType}
+      onClick={onClick}
+      productType={productType}
+    />
   );
 }
 
@@ -149,6 +157,7 @@ interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
   optionType: string;
   selectedConfiguration?: { [key: string]: string };
+  productType?: string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -376,6 +385,9 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   &.selected {
     border-color: var(--color-teal);
   }
+  &.-other {
+    white-space: nowrap;
+  }
 
   span.em-dash {
     font-family:
@@ -400,9 +412,8 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
+export const DynamicValueLabel = ({ value, optionType, productType }) => {
   const { locale } = useRouter();
-
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
   const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
   const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
@@ -410,23 +421,43 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
 
   let valueLabel;
 
-  if (optionType === 'eternityStyle') {
-    valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'bandWidth') {
-    valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'earringSize') {
-    valueLabel = value.replace('mm', '');
-  } else if (optionType === 'chainLength') {
-    valueLabel = value + '"';
-  } else if (optionType === 'caratWeight') {
-    valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
-  } else {
-    valueLabel = _t(value.toLowerCase());
+  // Special case handling for 'other' value
+  if (value === 'other' && productType !== 'Engagement Ring') {
+    return _t('Select diamond');
   }
 
+  // Handling based on optionType
+  switch (optionType) {
+    case 'eternityStyle':
+      valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'bandWidth':
+      valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'earringSize':
+      valueLabel = value.replace('mm', '');
+      break;
+    case 'chainLength':
+      valueLabel = value + '"';
+      break;
+    case 'caratWeight':
+      valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
+      break;
+    default:
+      valueLabel = _t(value.toLowerCase());
+  }
+
+  if (optionType === 'soldAsDouble') {
+    return <span dangerouslySetInnerHTML={{ __html: valueLabel }} />;
+  }
+
+  return valueLabel;
+};
+
+export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
   return (
     <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
+      <DynamicValueLabel value={value} optionType={optionType} productType={productType} />
     </StyledBasicOptionItem>
   );
 }
