@@ -274,7 +274,6 @@ function ProductConfigurator({
         {isWeddingBandSizeGuideOpen && (
           <SlideOut
             title={_t('Size Guide')}
-            width="30%"
             onClose={() => setIsWeddingBandSizeGuideOpen(false)}
             className="extra-side-padding"
           >
