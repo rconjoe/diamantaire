@@ -8,7 +8,7 @@ import {
 import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { getOptionValueSorterByType } from '@diamantaire/shared-product';
+import { getOptionValueSorterByType, configurationOptionValues } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -325,23 +325,30 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
+  function sortWithOptions(options, optionType, optionValues = configurationOptionValues) {
+    // Check if the optionType is in the configurationOptionValues and has a sorter function
+    if (optionType in optionValues) {
+      const sorterFunction = getOptionValueSorterByType(optionType);
+      // Check if sorterFunction is indeed a function before sorting
+
+      if (typeof sorterFunction === 'function') {
+        return options.sort(sorterFunction);
+      }
+    }
+
+    // Return the options as is if the type is not in the configuration or if no valid sorter function is found
+    return options;
+  }
+
   function handleOptionValueSort(options, optionType) {
-    if (optionType === 'bandWidth') {
-      return sortBandWidth(options);
-    } else if (optionType === 'ringSize') {
-      return sortRingSize(options);
-    } else if (optionType === 'size') {
-      const sortSizeOptions = getOptionValueSorterByType('size');
-      const sortSize = options.sort(sortSizeOptions);
-
-      return sortSize;
-    } else if (optionType === 'caratWeight') {
-      const sortCaratWeightOptions = getOptionValueSorterByType('caratWeight');
-      const sortCaratWeight = options.sort(sortCaratWeightOptions);
-
-      return sortCaratWeight;
-    } else {
-      return options;
+    // Specific sorting logic for certain types
+    switch (optionType) {
+      case 'bandWidth':
+        return sortBandWidth(options);
+      case 'ringSize':
+        return sortRingSize(options);
+      default:
+        return sortWithOptions(options, optionType); // or default options if no match
     }
   }
 
