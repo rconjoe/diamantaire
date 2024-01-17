@@ -88,18 +88,12 @@ const ModularProductSuggestionQuadGrid = (props) => {
   const refinedConfigurations = normalizeDatoNumberedContent(props, ['configuration']);
   const refinedTitles = normalizeDatoNumberedContent(props, ['title']);
 
-  console.log('all props', props);
-  console.log('refinedConfigurations', refinedConfigurations);
-
   const variantIds = refinedConfigurations.map((configurationNode) => configurationNode?.configuration?.variantId);
 
   // Expects variantIds to be an array of strings
   const { data } = useBlockProducts(variantIds);
 
   const { products, lowestPricesByCollection } = data || {};
-
-  console.log('productHandles', variantIds);
-  console.log('data', data);
 
   return (
     <ModularProductSuggestionQuadGridStyles>
