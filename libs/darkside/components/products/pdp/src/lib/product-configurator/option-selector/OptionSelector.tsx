@@ -329,32 +329,6 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
-  function sortWithOptions(options, optionType, optionValues = configurationOptionValues) {
-    // Check if the optionType is in the configurationOptionValues and has a sorter function
-    if (optionType in optionValues) {
-      const sorterFunction = getOptionValueSorterByType(optionType);
-
-      if (typeof sorterFunction === 'function') {
-        return options.sort(sorterFunction);
-      }
-    }
-
-    // Return the options as is if the type is not in the configuration or if no valid sorter function is found
-    return options;
-  }
-
-  function handleOptionValueSort(options, optionType) {
-    // Specific sorting logic for certain types
-    switch (optionType) {
-      case 'bandWidth':
-        return sortBandWidth(options);
-      case 'ringSize':
-        return sortRingSize(options);
-      default:
-        return sortWithOptions(options, optionType); // or default options if no match
-    }
-  }
-
   function renderDiamondSpecs() {
     return (
       <>
@@ -609,7 +583,7 @@ function OptionSelector({
 
     return (
       <div className={clsx('option-list caratWeight')}>
-        {handleOptionValueSort(options, optionType).map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value;
 
           // caratWeight we remove the 'ct' from the value assuming this is size
@@ -638,7 +612,7 @@ function OptionSelector({
     // Default rendering logic for other types
     return (
       <div className={clsx('option-list', label)}>
-        {handleOptionValueSort(options, optionType).map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
           const valueLabel = option.value;
 
