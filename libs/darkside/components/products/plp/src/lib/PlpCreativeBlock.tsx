@@ -218,7 +218,6 @@ const PlpCreativeBlock = ({ block }) => {
                       title={_t('Shop the look')}
                       scrollPosition={scrollPosition}
                       onClose={handleCloseShopTheLook}
-                      width={isMobile ? '100%' : '55rem'}
                     >
                       <PlpCreativeSlideOutContent configurationsInOrder={configurationsInOrder} />
                     </SlideOut>,

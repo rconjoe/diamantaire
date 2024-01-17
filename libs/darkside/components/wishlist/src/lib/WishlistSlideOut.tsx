@@ -59,13 +59,7 @@ const WishlistSlideOut: React.FC = () => {
     <StyledWishlistSlideOut>
       <AnimatePresence>
         {isWishlistOpen && (
-          <SlideOut
-            title={content?.modalTitle}
-            onClose={handleClose}
-            width={isMobile ? '100%' : '40rem'}
-            className="slideout"
-            scrollPosition={scrollPosition}
-          >
+          <SlideOut title={content?.modalTitle} onClose={handleClose} className="slideout" scrollPosition={scrollPosition}>
             <div className="wishlist-slide-out">
               <WishlistProductList products={wishlistProductData} content={content} />
             </div>
