@@ -45,6 +45,8 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
 
   const spinnerEl = useRef(null);
 
+  const hasSpriteSpinnerRendered = typeof window !== 'undefined' && window?.SpriteSpin?.Api();
+
   const startSpinner = useCallback(async () => {
     if (spriteSource === 'bunny') {
       const SpriteSpin = window.SpriteSpin;
@@ -98,24 +100,20 @@ const SpriteSpinner = (props: SpriteSpinnerProps) => {
   }, [spriteSource, spriteImage, spinnerEl, bunnyBaseURL, onSpriteLoad]);
 
   const playSpinner = useCallback(() => {
-    const api = spinnerEl?.current?.spritespin?.('api');
+    const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
 
-    if (api) {
-      if (api?.data?.animate !== true) {
-        api.toggleAnimation();
-      }
-    } else {
-      console.error('Spritespin is not available or not initialized.');
-    }
-  }, []);
-
-  const pauseSpinner = useCallback(() => {
-    const api = spinnerEl?.current?.spritespin?.('api');
-
-    if (api?.data?.animate === true) {
+    if (hasSpriteSpinnerRendered && api?.data?.animate !== true) {
       api.toggleAnimation();
     }
-  }, []);
+  }, [hasSpriteSpinnerRendered]);
+
+  const pauseSpinner = useCallback(() => {
+    const api = hasSpriteSpinnerRendered && spinnerEl?.current?.spritespin?.('api');
+
+    if (hasSpriteSpinnerRendered && api?.data?.animate === true) {
+      api.toggleAnimation();
+    }
+  }, [hasSpriteSpinnerRendered]);
 
   const stopSpinner = useCallback(() => {
     if (typeof spinnerEl?.current?.spritespin === 'function') {

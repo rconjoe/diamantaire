@@ -236,7 +236,11 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
     <AccountDetailsStyles>
       <NextSeo
         title={`${_t('Account Details')} | VRAI`}
-        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+          `/${locale}` +
+          '/account/details'
+        }
       />
 
       <div className="container-wrapper">

@@ -57,6 +57,7 @@ type DiamondBuildStepProps = {
     [key: string]: string;
   };
   settingProductType?: string;
+  updateSettingSlugs?: (_obj) => void;
 };
 
 const DiamondBuildStep = ({
@@ -64,6 +65,7 @@ const DiamondBuildStep = ({
   availableDiamonds,
   settingSlugs,
   settingProductType,
+  updateSettingSlugs,
 }: DiamondBuildStepProps) => {
   const router = useRouter();
   const { asPath, query } = router;
@@ -222,9 +224,7 @@ const DiamondBuildStep = ({
   }, [diamondTypeToShow]);
 
   useEffect(() => {
-    router.push(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {
-      shallow: true,
-    });
+    router.replace(getDiamondShallowRoute(options, window.location.origin + window.location.pathname, true), undefined, {});
   }, [options]);
 
   return (
@@ -290,6 +290,7 @@ const DiamondBuildStep = ({
                 settingSlugs={settingSlugs}
                 isDiamondPairs={isToiMoiOrPair}
                 settingProductType={settingProductType}
+                updateSettingSlugs={updateSettingSlugs}
               />
             </div>
           </div>

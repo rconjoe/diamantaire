@@ -2,20 +2,19 @@ import { test } from "../../pages/page-fixture";
 
 /**
  * Verify engraving and Gift note are showing at checkout
- * ISSUE : DIA-1231
  */
 
 test.describe("Engagement ring - Setting First flow", () => {
 
 
       // eslint-disable-next-line playwright/expect-expect
-  test.skip("Happy Path with engraving and gift note", async ({ homePage , settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage,checkoutPage}) => {
+  test("Happy Path with engraving and gift note", async ({ homePage , settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
     });
 
-    await test.step("Select Engagement ring", async () => {
+    await test.step("Select Engagement ring and diamond", async () => {
 
       await homePage.navigateToEngagementStartWithASetting()
 
@@ -24,8 +23,7 @@ test.describe("Engagement ring - Setting First flow", () => {
     
       await productDetailedPage.clickSelectYourVRAICreatedDiamond();
 
-      
-
+    
     });  
 
     await test.step("Select VRAI created diamond for type Asscher", async () => {
