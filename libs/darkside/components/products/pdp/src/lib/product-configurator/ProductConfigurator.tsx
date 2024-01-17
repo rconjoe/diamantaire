@@ -124,7 +124,7 @@ function ProductConfigurator({
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
+    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
 
   // Ring size

@@ -39,18 +39,28 @@ export function getOptionValueType(optionValue: string) {
 }
 
 export function getOptionValueSorterByType(optionType: string) {
-  return (a: string, b: string) => {
-    const order: string[] = configurationOptionValues[optionType];
+  return (a, b) => {
+    const order = configurationOptionValues[optionType];
 
-    if (order) {
-      return order.indexOf(a) > order.indexOf(b) ? 1 : -1;
+    const indexA = order.indexOf(a);
+    const indexB = order.indexOf(b);
+
+    // If both values are in the array, sort based on their indexes
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
     }
 
-    if (!isNaN(Number(a)) && !isNaN(Number(b))) {
-      return Number(a) > Number(b) ? 1 : -1;
+    // Extract numeric part for comparison
+    const numericA = parseFloat(a);
+    const numericB = parseFloat(b);
+
+    // If both are numbers, sort numerically
+    if (!isNaN(numericA) && !isNaN(numericB)) {
+      return numericA - numericB;
     }
 
-    return a > b ? 1 : -1;
+    // Convert to string and default to alphabetical comparison
+    return a.toString().localeCompare(b.toString());
   };
 }
 
