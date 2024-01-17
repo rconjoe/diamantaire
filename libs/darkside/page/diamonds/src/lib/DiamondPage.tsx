@@ -54,8 +54,6 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const { locale, currencyCode } = props;
 
-  console.log(locale);
-
   const [options, setOptions] = useState(props.options);
 
   const [loading, setLoading] = useState(true);
