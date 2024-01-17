@@ -2,8 +2,11 @@
  * and a centered slider on mobile */
 
 import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { ModularQuadImageGridContainer } from './ModularQuadImageGrid.style';
 import ModularCarouselBlock from '../carousels/ModularCarouselBlock';
@@ -18,7 +21,6 @@ type ModularGridCarouselBlockProps = {
   isMobile?: boolean;
   headingAdditionalClass?: string;
   headingType?: string;
-  countryCode: string;
   shouldLazyLoad?: boolean;
   _modelApiKey?: string;
 };
@@ -29,10 +31,12 @@ const ModularQuadImageGrid = ({
   title,
   subtitle,
   blocks,
-  countryCode,
   _modelApiKey,
   shouldLazyLoad,
 }: ModularGridCarouselBlockProps) => {
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
+
   return (
     <ModularQuadImageGridContainer>
       <div className="title__container text-center">
@@ -45,9 +49,7 @@ const ModularQuadImageGrid = ({
 
       <div className="blocks__grid">
         {blocks.map((block) => {
-          if (countryCode === 'US' && block.supportedCountries.length > 0) {
-            return null;
-          }
+          if (!isCountrySupported(block?.supportedCountries, countryCode)) return null;
 
           const { desktopImage, id, title: blockTitle, link } = block;
 

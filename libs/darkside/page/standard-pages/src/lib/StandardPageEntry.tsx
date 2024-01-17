@@ -21,6 +21,7 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
 
   return (
     <div className={clsx('content-one-container', gtmClass)}>
+      {/* <Breadcrumb /> */}
       {page?.content1?.map((contentBlockData, idx) => {
         const { _modelApiKey } = contentBlockData;
 

@@ -63,6 +63,9 @@ const ProductSuggestionBlock = ({ id }) => {
 
   const { products, lowestPricesByCollection } = data || {};
 
+  console.log('productHandles', productHandles);
+  console.log('productsxxx', products);
+
   if (products?.length === 0) return null;
 
   return (
@@ -73,31 +76,36 @@ const ProductSuggestionBlock = ({ id }) => {
         </Heading>
       </div>
       <div className="products">
-        {products?.map((productNode, index) => {
-          const product = productNode?.product;
+        {products &&
+          productHandles?.map((handle, index) => {
+            const productNode = products?.find(
+              (p) => p?.content?.variantId === handle || p?.content?.shopifyProductHandle === handle,
+            );
 
-          return (
-            <div className="product-suggestion__container" key={product?._id}>
-              <div className="product-suggestion__inner">
-                <ProductLink
-                  productType={product?.productType}
-                  productSlug={product?.productSlug}
-                  collectionSlug={product?.collectionSlug}
-                >
-                  <div className="product-suggestion__image">
-                    <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
-                  </div>
-                  <div className="product-suggestion__content">
-                    <Heading type="h3" className="secondary product-suggestion__title">
-                      {refinedTitles?.[index]?.title}
-                    </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
-                  </div>
-                </ProductLink>
+            const product = productNode?.product;
+
+            return (
+              <div className="product-suggestion__container" key={product?._id}>
+                <div className="product-suggestion__inner">
+                  <ProductLink
+                    productType={product?.productType}
+                    productSlug={product?.productSlug}
+                    collectionSlug={product?.collectionSlug}
+                  >
+                    <div className="product-suggestion__image">
+                      <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
+                    </div>
+                    <div className="product-suggestion__content">
+                      <Heading type="h3" className="secondary product-suggestion__title">
+                        {refinedTitles?.[index]?.title}
+                      </Heading>
+                      <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
+                    </div>
+                  </ProductLink>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </ProductSuggestionBlockStyles>
   );
