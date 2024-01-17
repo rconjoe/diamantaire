@@ -7,7 +7,6 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
-  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -536,9 +535,14 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+  const cacheSettings = getSWRPageCacheHeader();
 
-  context.res.setHeader(cachePolicy, cacheSettings);
+  context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('Cache-Control', cacheSettings);
+
+  console.log(cacheSettings);
+  
   const mergedContext = {
     ...context,
     params: {
