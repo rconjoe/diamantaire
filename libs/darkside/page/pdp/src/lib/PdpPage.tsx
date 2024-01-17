@@ -540,8 +540,6 @@ export async function getServerSideProps(
   context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
   context.res.setHeader('CDN-Cache-Control', cacheSettings);
   context.res.setHeader('Cache-Control', cacheSettings);
-
-  console.log(cacheSettings);
   
   const mergedContext = {
     ...context,
