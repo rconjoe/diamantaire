@@ -8,6 +8,7 @@ import {
 import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
+import { getOptionValueSorterByType, configurationOptionValues } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -228,7 +229,8 @@ const StyledOptionSelector = styled.div`
     &.bandStoneStyle,
     &.bandStyle,
     &.haloSize,
-    &.bandWidth {
+    &.bandWidth,
+    &.size {
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
@@ -265,7 +267,7 @@ function OptionSelector({
   const { locale } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [_, setUpdateFlag] = useState(false);
 
@@ -324,13 +326,29 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
+  function sortWithOptions(options, optionType, optionValues = configurationOptionValues) {
+    // Check if the optionType is in the configurationOptionValues and has a sorter function
+    if (optionType in optionValues) {
+      const sorterFunction = getOptionValueSorterByType(optionType);
+
+      if (typeof sorterFunction === 'function') {
+        return options.sort(sorterFunction);
+      }
+    }
+
+    // Return the options as is if the type is not in the configuration or if no valid sorter function is found
+    return options;
+  }
+
   function handleOptionValueSort(options, optionType) {
-    if (optionType === 'bandWidth') {
-      return sortBandWidth(options);
-    } else if (optionType === 'ringSize') {
-      return sortRingSize(options);
-    } else {
-      return options;
+    // Specific sorting logic for certain types
+    switch (optionType) {
+      case 'bandWidth':
+        return sortBandWidth(options);
+      case 'ringSize':
+        return sortRingSize(options);
+      default:
+        return sortWithOptions(options, optionType); // or default options if no match
     }
   }
 
@@ -382,7 +400,7 @@ function OptionSelector({
         if (selectedOptionValue !== 'other') {
           return (
             <>
-              {selectedOptionValue}
+              {CARAT_WEIGHT_HUMAN_NAMES?.[selectedOptionValue].value} ct
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
@@ -576,8 +594,9 @@ function OptionSelector({
 
     return (
       <div className={clsx('option-list caratWeight')}>
-        {options.map((option) => {
+        {handleOptionValueSort(options, optionType).map((option) => {
           const isSelected = selectedOptionValue === option.value;
+
           // caratWeight we remove the 'ct' from the value assuming this is size
           const valueLabel = option.value.replace(/[a-zA-Z]+/, '');
 

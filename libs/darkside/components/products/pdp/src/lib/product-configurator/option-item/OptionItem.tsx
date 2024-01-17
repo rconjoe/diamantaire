@@ -395,7 +395,7 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
 
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
   const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   const { _t } = useTranslations(locale);
 
   let valueLabel;
@@ -408,6 +408,8 @@ export function BasicOptionItem({ value, isSelected, onClick, optionType }: Opti
     valueLabel = value.replace('mm', '');
   } else if (optionType === 'chainLength') {
     valueLabel = value + '"';
+  } else if (optionType === 'caratWeight') {
+    valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
   } else {
     valueLabel = _t(value.toLowerCase());
   }
