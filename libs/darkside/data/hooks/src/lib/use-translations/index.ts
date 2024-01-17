@@ -32,7 +32,7 @@ type HumanNameMapperResponse = {
       key: string;
       value: string;
     }[];
-    title: typeof humanNamesMapperType[keyof typeof humanNamesMapperType];
+    title: (typeof humanNamesMapperType)[keyof typeof humanNamesMapperType];
   }[];
 };
 

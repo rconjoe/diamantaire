@@ -60,6 +60,7 @@ function PlpSortOptions({ sortOptions, onSortOptionChange }: PlpSortOptionsProps
   return (
     <PlpSortOptionStyle>
       <span className="sort-label">{_t('Sort')}:</span>
+
       <Select
         options={options}
         onChange={(val) => handleSortOptionChange(val)}
@@ -94,21 +95,30 @@ const PlpSortOptionStyle = styled.div`
 
   .sort-dropdown__control {
     border: none;
-  }
-  .sort-dropdown__menu {
-    min-width: 15.5rem;
-    left: -3rem;
 
-    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      left: -6rem;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      min-width: 8rem;
     }
   }
+
+  .sort-dropdown__menu {
+    min-width: 15rem;
+    left: auto;
+    top: 3.75rem;
+    right: 0.5rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      right: 0.5rem;
+    }
+  }
+
   .sort-dropdown__value-container {
     font-size: var(--font-size-xxxsmall);
     color: var(--color-black);
     font-weight: bold;
     padding-left: 0;
     padding-right: 0;
+    width: auto;
   }
 
   .sort-dropdown__single-value {
@@ -122,9 +132,8 @@ const PlpSortOptionStyle = styled.div`
   .sort-dropdown__option {
     font-size: var(--font-size-xxxsmall);
 
-    &:focus,
     &:active {
-      background-color: var(--color-black);
+      background-color: var(--color-grey);
       color: var(--color-white);
     }
   }
@@ -135,8 +144,8 @@ const PlpSortOptionStyle = styled.div`
   }
 
   .sort-dropdown__option--is-focused {
-    background-color: var(--color-black);
-    color: var(--color-white);
+    background-color: var(--color-lighter-grey);
+    color: var(--color-black);
   }
 
   .sort-dropdown__option--is-selected {

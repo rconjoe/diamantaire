@@ -18,15 +18,28 @@ const StyledDiamondTableRowAccordion = styled.div`
         }
       }
     }
-    &.color,
-    &.clarity {
-      .accordion-content {
-        img {
-          display: block;
-          margin: 1rem 0;
+
+    &.color {
+      img {
+        margin-bottom: 1rem;
+        object-fit: cover;
+        height: 110px;
+        display: block;
+        width: 100%;
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          height: 100px;
         }
       }
     }
+
+    &.clarity {
+      img {
+        margin-top: 1rem;
+        display: block;
+      }
+    }
+
     &.certificate {
       .tooltip-trigger {
         transform: translateY(0.75rem);
