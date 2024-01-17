@@ -421,10 +421,6 @@ export const DynamicValueLabel = ({ value, optionType, productType }) => {
 
   let valueLabel;
 
-  if (optionType === 'soldAsDouble') {
-    return <span dangerouslySetInnerHTML={{ __html: valueLabel }} />;
-  }
-
   // Special case handling for 'other' value
   if (value === 'other' && productType !== 'Engagement Ring') {
     return _t('Select diamond');
@@ -449,6 +445,10 @@ export const DynamicValueLabel = ({ value, optionType, productType }) => {
       break;
     default:
       valueLabel = _t(value.toLowerCase());
+  }
+
+  if (optionType === 'soldAsDouble') {
+    return <span dangerouslySetInnerHTML={{ __html: valueLabel }} />;
   }
 
   return valueLabel;
