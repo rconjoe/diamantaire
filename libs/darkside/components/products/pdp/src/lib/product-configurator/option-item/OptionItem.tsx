@@ -1,7 +1,7 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsMap, getIconsForDiamondType } from '@diamantaire/shared/icons';
+import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -86,7 +86,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
   switch (type) {
     case 'diamondType':
     case 'sideStoneShape':
-    case 'bandStoneShape': {
+    case 'bandStoneShape':
+    case 'topDiamondShape':
+    case 'bottomDiamondShape': {
       return DiamondIconOptionItem;
     }
     case 'ceramicColor':
