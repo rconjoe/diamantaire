@@ -330,7 +330,6 @@ function OptionSelector({
     // Check if the optionType is in the configurationOptionValues and has a sorter function
     if (optionType in optionValues) {
       const sorterFunction = getOptionValueSorterByType(optionType);
-      // Check if sorterFunction is indeed a function before sorting
 
       if (typeof sorterFunction === 'function') {
         return options.sort(sorterFunction);
