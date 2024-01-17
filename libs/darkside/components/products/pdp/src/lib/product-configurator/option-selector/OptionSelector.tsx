@@ -5,10 +5,9 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { getOptionValueSorterByType, configurationOptionValues } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
