@@ -1,6 +1,8 @@
-import { Form, Heading } from '@diamantaire/darkside/components/common-ui';
+import { Form, FormSchemaType, Heading } from '@diamantaire/darkside/components/common-ui';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { isCountrySupported } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 import { ModularEmailSignupBlockContainer } from './ModularEmailSignup.style';
 
@@ -14,6 +16,7 @@ type ModularEmailSignupBlockProps = {
   headingType?: string;
   headingAdditionalClass?: string;
   additionalClass?: string;
+  enablePhoneField?: boolean;
   supportedCountries: Array<{
     code: string;
   }>;
@@ -24,18 +27,39 @@ const ModularEmailSignupBlock = ({
   copy,
   //   listData,
   //   ctaCopy,
-  //   enablePhoneField,
-  //   enablePhoneFieldTitle,
+  // enablePhoneFieldTitle,
   //   enableStackedView,
+  enablePhoneField,
   supportedCountries,
   countryCode,
   additionalClass,
   headingType,
   headingAdditionalClass,
 }: ModularEmailSignupBlockProps) => {
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
+
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
+  }
+
+  const formSchema: FormSchemaType[] = [
+    {
+      name: 'email',
+      inputType: 'email',
+      defaultValue: '',
+      placeholder: _t('Enter your email'),
+    },
+  ];
+
+  if (enablePhoneField) {
+    formSchema.push({
+      name: 'phone',
+      inputType: 'phone',
+      defaultValue: '',
+      placeholder: _t('Enter your phone number'),
+    });
   }
 
   return (
@@ -55,16 +79,11 @@ const ModularEmailSignupBlock = ({
       </div>
       <div className="email-signup__form-container">
         <div className="email-signup__form-wrapper">
-          {/* TODO - implement form - https://diamondfoundry.atlassian.net/jira/software/projects/DIA/boards/99/backlog?selectedIssue=DIA-127 */}
-          {/* <HubspotEmailForm
-            ctaCopy={ctaCopy}
-            listData={listData}
-            gtmLabel={EMAIL_FORM_GTM_LABELS.contentBlockMailingList}
-            shouldIncludePhoneField={enablePhoneField}
-            shouldIncludePhoneFieldTitle={enablePhoneFieldTitle}
-            emailFormType={enableStackedView ? 'stacked' : null}
-          /> */}
-          <Form onSubmit={(e) => e.preventDefault()} />
+          <Form
+            flexDirection={formSchema?.length > 1 ? 'column' : 'row'}
+            schema={formSchema}
+            onSubmit={(e) => e.preventDefault()}
+          />
         </div>
       </div>
     </ModularEmailSignupBlockContainer>

@@ -7,7 +7,6 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
-  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,

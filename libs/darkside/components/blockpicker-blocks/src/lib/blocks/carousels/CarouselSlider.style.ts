@@ -244,4 +244,33 @@ export const CarouselSliderContainer = styled.div`
       }
     }
   }
+
+  .slider-dots {
+    position: relative;
+    top: -50px;
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+      gap: 1rem;
+      li {
+        button {
+          height: 0.5rem;
+          width: 0.5rem;
+          background-color: var(--color-black);
+          border: none;
+          border-radius: 50%;
+          line-height: 1;
+          padding: 0;
+          opacity: 0.1;
+
+          &.active {
+            opacity: 0.75;
+          }
+        }
+      }
+    }
+  }
 `;

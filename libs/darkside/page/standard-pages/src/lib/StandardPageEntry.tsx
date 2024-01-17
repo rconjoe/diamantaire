@@ -3,12 +3,23 @@
 * */
 
 import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
+import { Breadcrumb } from '@diamantaire/darkside/components/common-ui';
 import clsx from 'clsx';
 import React, { Suspense } from 'react';
 
 type StandardPageEntryProps = {
   page?: {
     content1?: Array<any>;
+    breadcrumb: {
+      title?: string;
+      name?: string;
+      path: string;
+      link?: {
+        slug: string;
+        category: string;
+        slugNew: string;
+      };
+    }[];
   };
   isMobile?: boolean;
   countryCode?: string;
@@ -18,10 +29,11 @@ type StandardPageEntryProps = {
 
 const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
+  console.log('page', page);
 
   return (
     <div className={clsx('content-one-container', gtmClass)}>
-      {/* <Breadcrumb /> */}
+      <Breadcrumb breadcrumb={page?.breadcrumb} />
       {page?.content1?.map((contentBlockData, idx) => {
         const { _modelApiKey } = contentBlockData;
 

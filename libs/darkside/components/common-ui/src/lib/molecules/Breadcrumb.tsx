@@ -38,8 +38,14 @@ const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
 
 type BreadcrumbProps = {
   breadcrumb: {
-    title: string;
+    title?: string;
+    name?: string;
     path: string;
+    link?: {
+      slug: string;
+      category: string;
+      slugNew: string;
+    };
   }[];
   lastItemBolded?: boolean;
   simple?: boolean;
@@ -68,15 +74,24 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: Bread
             <span>/</span>
           </li>
           {breadcrumb?.map((item, index) => {
-            if (!item.path) {
+            const isLastItem = breadcrumb.length - 1 === index;
+
+            const link =
+              '/' +
+              (item?.link?.category && item?.link?.slugNew
+                ? `${item?.link?.category}/${item.link.slugNew}`
+                : item?.link?.slug || item?.path);
+            const name = item?.title?.trim() || item.name;
+
+            console.log('link', link);
+
+            if (!link) {
               return null;
             }
 
-            const isLastItem = breadcrumb.length - 1 === index;
-
             return (
               <li key={item.path}>
-                <Link href={isLastItem ? '#' : item?.path}>{item?.title?.trim()}</Link>
+                <Link href={isLastItem ? '#' : link}>{name}</Link>
                 {!isLastItem && <span>/</span>}
               </li>
             );
