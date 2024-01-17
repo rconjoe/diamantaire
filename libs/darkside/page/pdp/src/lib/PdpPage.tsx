@@ -358,6 +358,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               diamondType={configuration?.diamondType}
             />
             <MediaSlider
+              title={productMediaAltDescription}
               assets={assetStack}
               options={configuration}
               diamondType={configuration?.diamondType}

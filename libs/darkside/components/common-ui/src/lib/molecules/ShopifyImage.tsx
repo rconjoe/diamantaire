@@ -8,6 +8,7 @@ type ShopifyImageProps = {
   overrideAlt?: string;
   shouldLazyLoad?: boolean;
   image: DatoImageType;
+  defaultAlt?: string;
 };
 
 const ShopifyImageContainer = styled.div`
@@ -25,7 +26,7 @@ const ShopifyImageContainer = styled.div`
   }
 `;
 
-const ShopifyImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: ShopifyImageProps) => {
+const ShopifyImage = ({ image, className, overrideAlt, defaultAlt = '', shouldLazyLoad = true }: ShopifyImageProps) => {
   const { url, alt, responsiveImage } = image || {};
   const { aspectRatio } = responsiveImage || {};
 
@@ -46,7 +47,7 @@ const ShopifyImage = ({ image, className, overrideAlt, shouldLazyLoad = true }: 
   return (
     <ShopifyImageContainer>
       <Image
-        alt={overrideAlt ? overrideAlt : alt ? alt : ''}
+        alt={overrideAlt ? overrideAlt : alt ? alt : defaultAlt}
         src={url}
         placeholder="blur"
         blurDataURL={responsiveImage?.base64}
