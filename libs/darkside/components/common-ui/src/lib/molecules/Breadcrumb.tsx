@@ -83,8 +83,6 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: Bread
                 : item?.link?.slug || item?.path);
             const name = item?.title?.trim() || item.name;
 
-            console.log('link', link);
-
             if (!link) {
               return null;
             }
