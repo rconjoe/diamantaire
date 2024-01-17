@@ -4,6 +4,7 @@ import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
+import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -210,16 +211,17 @@ const ProductAppointmentCTA = ({
         </span>
         {ctaTitle}
       </button>
-
-      {isAppointmentSlideoutShowing && (
-        <SlideOut
-          title="Schedule your appointment"
-          className="appointment-slideout"
-          onClose={() => setIsAppointmentSlideoutShowing(false)}
-        >
-          <iframe src={appointmentLink} title="Schedule Appointment" width="100%" height="450" frameBorder="0"></iframe>
-        </SlideOut>
-      )}
+      <AnimatePresence>
+        {isAppointmentSlideoutShowing && (
+          <SlideOut
+            title="Schedule your appointment"
+            className="appointment-slideout"
+            onClose={() => setIsAppointmentSlideoutShowing(false)}
+          >
+            <iframe src={appointmentLink} title="Schedule Appointment" width="100%" height="450" frameBorder="0"></iframe>
+          </SlideOut>
+        )}
+      </AnimatePresence>
     </ProductAppointmentCTAStyles>
   );
 };

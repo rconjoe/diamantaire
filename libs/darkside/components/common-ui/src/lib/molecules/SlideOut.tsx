@@ -28,7 +28,8 @@ const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className
           collapsed: { opacity: 0 },
         }}
         transition={{
-          duration: 0.25,
+          duration: 0.2,
+          ease: [0.42, 0, 0.58, 1], // Cubic bezier for ease-in-out
         }}
         onClick={() => onClose()}
       />
@@ -39,11 +40,12 @@ const SlideOut: React.FC<SlideOutProps> = ({ children, title, onClose, className
         animate="open"
         exit="collapsed"
         variants={{
-          open: { x: 0, opacity: 1 },
-          collapsed: { x: 300, opacity: 0 },
+          open: { x: '0%', opacity: 1 },
+          collapsed: { x: '100%', opacity: 0 },
         }}
         transition={{
-          duration: 0.5,
+          duration: 0.4,
+          ease: 'easeInOut',
         }}
         className={className}
         width={width}
