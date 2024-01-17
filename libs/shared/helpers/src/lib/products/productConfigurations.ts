@@ -22,6 +22,7 @@ const CONFIG_TYPE_ORDER = [
   'bandStyle',
   'bandVersion',
   'value',
+  'hoopAccent',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {
