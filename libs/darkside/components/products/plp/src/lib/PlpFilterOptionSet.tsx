@@ -10,6 +10,14 @@ import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
 const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, updateFilter, currentFilters, format }) => {
+  let title = filterType;
+
+  console.log(title);
+
+  if (['styles', 'subStyles'].includes(filterType)) {
+    title = 'style';
+  }
+
   return (
     <div
       className={clsx(`filter-option-set ${filterType}`, {
@@ -17,7 +25,7 @@ const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, update
       })}
     >
       <Heading type="h3" className="h1 secondary">
-        <UIString>{filterType.replace('subStyles', 'style')}</UIString>
+        <UIString>{title}</UIString>
       </Heading>
 
       <ul className="list-unstyled flex">
