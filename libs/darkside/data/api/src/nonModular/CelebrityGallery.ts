@@ -1,5 +1,3 @@
-import { ButtonFragment } from '../fragments';
-
 const CelebrityGallery = `
 ... on CelebrityGalleryRecord {
     _modelApiKey
@@ -9,6 +7,7 @@ const CelebrityGallery = `
       id
       title
       copy
+      disableProductCtas
       desktopImage {
         url
         alt

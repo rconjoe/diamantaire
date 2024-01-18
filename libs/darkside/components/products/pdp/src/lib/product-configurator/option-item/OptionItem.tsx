@@ -375,7 +375,6 @@ export function ValueOptionItem({ value, isSelected, onClick }: OptionItemCompon
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 0.1rem solid #d8d6d1;
-  padding: 0.5rem;
   min-width: 3.6rem;
   min-height: 3.6rem;
   text-align: center;
@@ -387,6 +386,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
   &.-other {
     white-space: nowrap;
+    padding: 0.5rem;
   }
 
   span.em-dash {
@@ -456,7 +456,10 @@ export const DynamicValueLabel = ({ value, optionType, productType }) => {
 
 export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
   return (
-    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
+    <StyledBasicOptionItem
+      className={clsx('option-item', { selected: isSelected, '-other': value === 'other' })}
+      onClick={onClick}
+    >
       <DynamicValueLabel value={value} optionType={optionType} productType={productType} />
     </StyledBasicOptionItem>
   );

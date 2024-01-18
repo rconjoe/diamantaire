@@ -7,7 +7,6 @@ import {
   DropHintModal,
   NeedTimeToThinkForm,
   ProductAppointmentCTA,
-  UIString,
 } from '@diamantaire/darkside/components/common-ui';
 import {
   MediaGallery,
@@ -441,14 +440,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
               {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
 
-              {/* <Form
-                title={_t('Need more time to think?')}
-                caption={_t('Email this customized ring to yourself or drop a hint.')}
-                onSubmit={(e) => e.preventDefault()}
-                stackedSubmit={false}
-                headingType={'h2'}
-              /> */}
-
               <ProductDescription
                 title={productTitle}
                 description={productDescription}
@@ -544,9 +535,12 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+  const cacheSettings = getSWRPageCacheHeader();
 
-  context.res.setHeader(cachePolicy, cacheSettings);
+  context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('Cache-Control', cacheSettings);
+  
   const mergedContext = {
     ...context,
     params: {

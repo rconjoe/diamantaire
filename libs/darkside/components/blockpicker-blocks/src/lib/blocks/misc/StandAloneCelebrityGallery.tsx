@@ -1,7 +1,9 @@
-import { DarksideButton, DatoImage, Heading, Modal } from '@diamantaire/darkside/components/common-ui';
+import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useState } from 'react';
 import styled from 'styled-components';
+
+import CelebrityModal from '../carousels/CelebrityModal';
 
 const StandAloneCelebrityGalleryStyles = styled.div`
   padding-top: 4rem;
@@ -169,41 +171,7 @@ const StandAloneCelebrityGallery = (props) => {
         })}
       </div>
 
-      {isModalOpen && (
-        <Modal title={false} onClose={() => toggleModal(null)} className="modal--sm">
-          <div className="modal-celeb-wrapper">
-            <div className="celeb-image">
-              <DatoImage image={modalContent?.desktopImage} />
-            </div>
-            <div className="celeb-content">
-              <div className="celeb-content__inner">
-                <Heading type="h2" className="h1 primary">
-                  {modalContent?.title}
-                </Heading>
-                <p>{modalContent?.copy}</p>
-
-                <ul className="products list-unstyled">
-                  {modalContent?.jewelry?.map((item) => {
-                    return (
-                      <li key={item.id}>
-                        <a href={item?.newRoute || item?.ctaRoute} target="_blank">
-                          <span className="image">
-                            <DatoImage image={item?.image} />
-                          </span>
-                          <span className="content">
-                            <span className="text">{item?.itemName}</span>
-                            <DarksideButton>View</DarksideButton>
-                          </span>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
+      {isModalOpen && <CelebrityModal modalContent={modalContent} toggleModal={toggleModal} />}
     </StandAloneCelebrityGalleryStyles>
   );
 };

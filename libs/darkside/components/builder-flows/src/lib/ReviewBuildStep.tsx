@@ -27,6 +27,7 @@ import { BuilderProductContext } from '@diamantaire/darkside/context/product-bui
 import { ERProductCartItemProps, ProductAddonDiamond, addERProductToCart } from '@diamantaire/darkside/data/api';
 import {
   useCartData,
+  useCartInfo,
   useProductDato,
   useProductIconList,
   useStandardPage,
@@ -181,7 +182,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
         margin: 0 auto;
 
         @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-          padding: 2rem 4rem;
+          padding: 2rem 5rem;
         }
 
         .total-price {
@@ -338,10 +339,15 @@ const ToastErrorStyles = styled.div`
   }
 `;
 
-const ToastError = () => {
+const ToastError = ({ locale }) => {
+  const { data: { cart: cartData } = {} } = useCartInfo(locale);
+
+  const { pageCopy: cartCopy } = cartData || {};
+  const { uniqueDiamondAlreadyInCartErrorMessage } = cartCopy?.[0] || {};
+
   return (
     <ToastErrorStyles>
-      <p>This diamond is already in your cart</p>
+      <p>{uniqueDiamondAlreadyInCartErrorMessage}</p>
     </ToastErrorStyles>
   );
 };
@@ -525,7 +531,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
     const isDiamondInCart = checkout?.lines?.some((line) => diamondVariantIds.includes(line.merchandise.id));
 
     if (isDiamondInCart) {
-      return toast.error(ToastError, {
+      return toast.error(<ToastError locale={locale} />, {
         autoClose: 3000,
       });
     }

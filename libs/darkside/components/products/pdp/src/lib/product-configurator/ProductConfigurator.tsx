@@ -160,7 +160,7 @@ function ProductConfigurator({
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
-    return configurations.caratWeight?.length > 1;
+    return configurations?.caratWeight?.length > 1;
   }, [configurations]);
 
   const additionalVariantIds = useMemo(() => {
@@ -658,7 +658,7 @@ function AddToCartButton({
       <DarksideButton
         className="atc-button"
         type={isProductFeedUrl ? 'outline' : 'solid'}
-        textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        textSize="small"
         fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {

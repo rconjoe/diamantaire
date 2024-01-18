@@ -109,6 +109,7 @@ const MobileHeaderContainer = styled.div`
 
         li.wishlist {
           svg {
+            top: 0.5rem;
             height: 2.4rem;
           }
         }

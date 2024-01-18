@@ -88,7 +88,7 @@ type configProps = {
   [key: string]: any;
 };
 
-const config: configProps = {
+export const blockConfig: configProps = {
   // CAROUSELS
   [MODULAR_CAROUSEL_HOVER_BLOCK]: DynamicModularCarouselBlock,
   [MODULAR_CELEBRITY_CAROUSEL_BLOCK]: DynamicModularCarouselBlock,
@@ -155,7 +155,7 @@ type BlockPickerProps = {
 };
 
 const BlockPicker = ({ _modelApiKey, modularBlockData, countryCode, currencyCode, shouldLazyLoad }: BlockPickerProps) => {
-  const BlockComponent = config?.[_modelApiKey];
+  const BlockComponent = blockConfig?.[_modelApiKey];
 
   forceVisible();
 

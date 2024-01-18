@@ -5,10 +5,9 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
-import { getOptionValueSorterByType, configurationOptionValues } from '@diamantaire/shared-product';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
@@ -86,6 +85,7 @@ const StyledOptionSelector = styled.div`
       gap: 25px;
     }
     &.ringSize {
+      flex-wrap: wrap;
       align-items: center;
       margin-bottom: 2rem;
       .show-more-sizes-button button {
@@ -329,32 +329,6 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
-  function sortWithOptions(options, optionType, optionValues = configurationOptionValues) {
-    // Check if the optionType is in the configurationOptionValues and has a sorter function
-    if (optionType in optionValues) {
-      const sorterFunction = getOptionValueSorterByType(optionType);
-
-      if (typeof sorterFunction === 'function') {
-        return options.sort(sorterFunction);
-      }
-    }
-
-    // Return the options as is if the type is not in the configuration or if no valid sorter function is found
-    return options;
-  }
-
-  function handleOptionValueSort(options, optionType) {
-    // Specific sorting logic for certain types
-    switch (optionType) {
-      case 'bandWidth':
-        return sortBandWidth(options);
-      case 'ringSize':
-        return sortRingSize(options);
-      default:
-        return sortWithOptions(options, optionType); // or default options if no match
-    }
-  }
-
   function renderDiamondSpecs() {
     return (
       <>
@@ -567,8 +541,11 @@ function OptionSelector({
     };
 
     const renderShowMoreSizesButton = () => {
+      const shouldShowButton = options?.length > 5;
+
       return (
-        !showingAllRingSizes && (
+        !showingAllRingSizes &&
+        shouldShowButton && (
           <DarksideButton
             className="show-more-sizes-button"
             type="underline"
@@ -609,7 +586,7 @@ function OptionSelector({
 
     return (
       <div className={clsx('option-list caratWeight')}>
-        {handleOptionValueSort(options, optionType).map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value;
 
           // caratWeight we remove the 'ct' from the value assuming this is size
@@ -638,7 +615,7 @@ function OptionSelector({
     // Default rendering logic for other types
     return (
       <div className={clsx('option-list', label)}>
-        {handleOptionValueSort(options, optionType).map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
           const valueLabel = option.value;
 

@@ -17,23 +17,15 @@ type CelebrityThumnailSlideProps = {
   showBottomCarouselOnly: boolean;
   shouldLazyLoad?: boolean;
   bottomCarouselImage: DatoImageType;
+  toggleModal: (celebrity: any) => void;
 };
 
-const CelebrityThumbnailSlide = ({
-  desktopImage,
-  onClick,
-  slideIndex,
-  extraClass,
-  title,
-  shouldLazyLoad,
-}: CelebrityThumnailSlideProps) => {
+const CelebrityThumbnailSlide = (props: CelebrityThumnailSlideProps) => {
+  const { desktopImage, extraClass, title, shouldLazyLoad, toggleModal } = props;
   const alt = getBlockPictureAlt({ desktopImage, title });
-  const handleClick = () => {
-    onClick(slideIndex);
-  };
 
   return (
-    <CelebrityThumbnailSlideContainer className={extraClass} onClick={handleClick}>
+    <CelebrityThumbnailSlideContainer className={extraClass} onClick={() => toggleModal(props)}>
       <div className="slide__image-container">
         <DatoImage image={desktopImage} overrideAlt={alt} shouldLazyLoad={shouldLazyLoad} />
       </div>

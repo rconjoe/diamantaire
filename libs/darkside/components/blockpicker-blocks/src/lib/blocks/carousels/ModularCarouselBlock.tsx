@@ -11,9 +11,10 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 
 import CarouselSlider from './CarouselSlider';
+import CelebrityModal from './CelebrityModal';
 import { ModularCarouselBlockContainer } from './ModularCarouselBlock.style';
 import ModularCarouselBlockOptions from './ModularCarouselBlockOptions';
 import CelebrityThumbnailSlide from './slides/CelebrityThumbnailSlide';
@@ -24,13 +25,29 @@ import StandardSlide from './slides/StandardSlide';
 import VideoHoverSlide from './slides/VideoHoverSlide';
 
 const ModularCarouselBlock = (props) => {
-  const { _modelApiKey, blocks, darksideButtons } = props;
+  const { _modelApiKey, blocks, darksideButtons, showDots, id } = props;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
+  function toggleModal(celebrity) {
+    if (isModalOpen) {
+      setModalContent(null);
+      setIsModalOpen(false);
+    } else {
+      setModalContent(celebrity);
+      setIsModalOpen(true);
+    }
+  }
 
   const sliderTypes = [
     {
       type: 'modular_celebrity_carousel_block',
       title: props.thumbnailCarouselTitle,
       slide: CelebrityThumbnailSlide,
+      additionalProps: {
+        toggleModal,
+      },
     },
     {
       type: 'modular_instagram_reel_block',
@@ -90,6 +107,9 @@ const ModularCarouselBlock = (props) => {
           className={_modelApiKey}
           hasPagination={_modelApiKey === 'modular_carousel_block'}
           darksideButtons={darksideButtons}
+          blocksCount={blocks?.length}
+          showDots={showDots}
+          id={id}
         >
           {blocks?.map((slide) => {
             const productData =
@@ -100,14 +120,17 @@ const ModularCarouselBlock = (props) => {
               );
 
             return (
-              <div className={clsx('embla__slide', _modelApiKey)} key={`slide-${uuidv4()}`}>
-                <SelectedSliderSlide {...slide} productData={productData} />
+              <div className={clsx('embla__slide', _modelApiKey)} key={slide?.id}>
+                <SelectedSliderSlide {...slide} {...sliderType?.additionalProps} productData={productData} />
               </div>
             );
           })}
         </CarouselSlider>
       ) : (
         <p>No slide found for {_modelApiKey}</p>
+      )}
+      {_modelApiKey === 'modular_celebrity_carousel_block' && isModalOpen && (
+        <CelebrityModal toggleModal={toggleModal} modalContent={modalContent} />
       )}
     </ModularCarouselBlockContainer>
   );

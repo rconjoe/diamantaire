@@ -94,7 +94,7 @@ export const GlobalTemplate = ({ children }) => {
   }, [headerData, isTopbarShowing]);
 
   return (
-    <div className={`${vraiFont.className} ${vraiFont.variable}`}>
+    <div id="vrai-site" className={`${vraiFont.className} ${vraiFont.variable}`}>
       {headerData && (
         <Header
           headerData={headerData}

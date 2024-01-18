@@ -1014,12 +1014,21 @@ export class ProductsService {
     }
 
     const pipeline: PipelineStage[] = [
-      {
-        $group: {
-          _id: '$collectionSlug',
-          minPrice: { $min: '$price' },
-        },
-      },
+      // non ER which take custom diamonds should not be included in min price
+      { $match: { $or: [{ productType: ProductType.EngagementRing },{ requiresCustomDiamond: { $exists: false }}]}},
+      { $group: {
+          _id: "$collectionSlug",
+          minPrice: { 
+              $min: {
+                  // If sold only as pair, double the price for min cost calc
+                  $cond: [
+                      { $and: { $eq: ["$isSoldAsPairOnly", true] }}, 
+                      { $multiply: ["$price", 2] },
+                      "$price",
+                  ]
+              }
+          }
+      }},
       {
         $project: {
           _id: 0,

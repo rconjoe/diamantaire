@@ -155,6 +155,19 @@ const DarksideButtonStyles = styled.div`
         border-bottom: 0.1rem solid var(--color-white);
       }
     }
+
+    &.m-color-theme--teal {
+      @media (max-width: 767px) {
+        button {
+          border-bottom: 0.1rem solid var(--color-teal);
+          color: var(--color-teal);
+          &:hover {
+            background-color: var(--color-black);
+            color: var(--color-white);
+          }
+        }
+      }
+    }
   }
   &.button-style--text-underline {
     width: auto;
@@ -179,6 +192,11 @@ const DarksideButtonStyles = styled.div`
       button {
         color: var(--color-white);
       }
+    }
+  }
+  &.text-size--small {
+    button {
+      font-size: var(--font-size-xxsmall);
     }
   }
   &.text-size--normal {
