@@ -316,9 +316,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
-    const productMediaAltDescription =
-      additionalVariantData &&
-      generatePdpAssetAltTag({ productTitle, productConfiguration: shopifyProductData?.configuration, _t });
+    const productMediaAltDescription = generatePdpAssetAltTag({
+      productTitle,
+      productConfiguration: shopifyProductData?.configuration,
+      _t,
+    });
 
     return (
       <PageContainerStyles>
