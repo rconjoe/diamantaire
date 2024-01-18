@@ -505,7 +505,6 @@ export function getFormattedPrice(
   hideZeroCents = true,
   excludeCurrency = false,
 ): string {
-  debugger;
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
 
