@@ -357,13 +357,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <MediaGallery
               assets={assetStack}
               options={configuration}
-              title={productMediaAltDescription}
+              title={productMediaAltDescription || productTitle}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration?.diamondType}
             />
             <MediaSlider
-              title={productMediaAltDescription}
+              title={productMediaAltDescription || productTitle}
               assets={assetStack}
               options={configuration}
               diamondType={configuration?.diamondType}
