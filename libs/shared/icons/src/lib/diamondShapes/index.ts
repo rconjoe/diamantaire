@@ -278,8 +278,27 @@ export const diamondIconsMap = {
   },
 };
 
-export function getIconsForDiamondType(diamondType) {
+export const paveClusterIconsMap = {
+  round: {
+    slug: 'round',
+    icon: RoundBrilliantIcon,
+  },
+  marquise: {
+    slug: 'marquise',
+    icon: MarquiseIcon,
+  },
+  cushion: {
+    slug: 'cushion',
+    icon: CushionIcon,
+  },
+};
+
+export function getIconsForDiamondType(diamondType, optionType) {
   const diamondTypes = diamondType.split('+');
+
+  if (optionType === 'paveCluster') {
+    return diamondTypes.map((type) => paveClusterIconsMap[type]?.icon).filter(Boolean);
+  }
 
   return diamondTypes.map((type) => diamondIconsMap[type]?.icon).filter(Boolean);
 }

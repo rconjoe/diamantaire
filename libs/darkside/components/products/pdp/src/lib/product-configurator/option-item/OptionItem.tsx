@@ -96,7 +96,8 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
     case 'sideStoneShape':
     case 'bandStoneShape':
     case 'topDiamondShape':
-    case 'bottomDiamondShape': {
+    case 'bottomDiamondShape':
+    case 'paveCluster': {
       return DiamondIconOptionItem;
     }
     case 'ceramicColor':
@@ -193,7 +194,7 @@ export function DiamondIconOptionItem({
   onClick,
   selectedConfiguration,
 }: OptionItemComponent) {
-  const icons = getIconsForDiamondType(value);
+  const icons = getIconsForDiamondType(value, optionType);
 
   const { sideStoneOrientation } = selectedConfiguration || {};
 

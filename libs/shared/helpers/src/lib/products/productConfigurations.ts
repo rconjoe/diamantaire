@@ -10,6 +10,7 @@ const CONFIG_TYPE_ORDER = [
   'haloSize',
   'topDiamondShape',
   'bottomDiamondShape',
+  'paveCluster',
   'metal',
   'ceramicColor',
   'bandAccent',
