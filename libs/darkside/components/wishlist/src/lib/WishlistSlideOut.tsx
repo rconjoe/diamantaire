@@ -15,7 +15,7 @@ const WishlistSlideOut: React.FC = () => {
 
   const updateGlobalContext = useContext(GlobalUpdateContext);
 
-  const { isWishlistOpen, isMobile } = useContext(GlobalContext);
+  const { isWishlistOpen } = useContext(GlobalContext);
 
   const [wishlistProductData, setWishlistProductData] = useState<any>(null);
 
@@ -59,13 +59,7 @@ const WishlistSlideOut: React.FC = () => {
     <StyledWishlistSlideOut>
       <AnimatePresence>
         {isWishlistOpen && (
-          <SlideOut
-            title={content?.modalTitle}
-            onClose={handleClose}
-            width={isMobile ? '100%' : '40rem'}
-            className="slideout"
-            scrollPosition={scrollPosition}
-          >
+          <SlideOut title={content?.modalTitle} onClose={handleClose} className="slideout" scrollPosition={scrollPosition}>
             <div className="wishlist-slide-out">
               <WishlistProductList products={wishlistProductData} content={content} />
             </div>
