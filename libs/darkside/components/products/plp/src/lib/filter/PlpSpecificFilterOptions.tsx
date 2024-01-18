@@ -1,5 +1,5 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
-import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import PlpFilterOption from '../PlpFilterOptionSet';
 
 const PlpSpecificFilterOptionsStyles = styled.div`
   flex: 1;
+  max-width: 100%;
 
   .selection-container {
     display: flex;
@@ -24,12 +25,14 @@ const PlpSpecificFilterOptionsStyles = styled.div`
       list-style: none;
       margin: 0;
       padding: 0;
+
       li {
         font-size: var(--font-size-xxxsmall);
         margin-right: 0.5rem;
       }
     }
   }
+
   .flex-row {
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       display: flex;
@@ -44,9 +47,6 @@ const PlpSpecificFilterOptionsStyles = styled.div`
 
     &.metal {
       padding-top: 0px;
-      ul {
-        padding-left: 0.6rem;
-      }
     }
   }
 
@@ -60,6 +60,7 @@ const PlpSpecificFilterOptionsStyles = styled.div`
 
 const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFilter, filterValue }) => {
   const { locale } = useRouter();
+
   const { _t } = useTranslations(locale);
 
   const { data: { METALS_IN_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'METALS_IN_HUMAN_NAMES');
@@ -86,9 +87,19 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
           {filterTextArray?.map((filterOption, index) => {
             const value = filterValue[filterOption];
 
+            let title;
+
+            if (filterOption === 'metal') {
+              title = <UIString>{METALS_IN_HUMAN_NAMES?.[value]?.value}</UIString>;
+            } else if (filterOption === 'diamondType') {
+              title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{value[0]}</UIString>;
+            } else {
+              title = <UIString>{value}</UIString>;
+            }
+
             return (
               <React.Fragment key={`sfo-${value}`}>
-                <li>{filterOption === 'metal' ? METALS_IN_HUMAN_NAMES?.[value]?.value : _t(value)}</li>
+                <li>{title}</li>
                 {index < Object.keys(filterValue).filter((val) => filterValue[val] !== null).length - 1 ? <li>|</li> : ''}
               </React.Fragment>
             );
@@ -107,8 +118,6 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
               allFilterTypes={filterTypes}
               updateFilter={updateFilter}
               currentFilters={filterValue}
-
-              // handleSliderURLUpdate={handleSliderURLUpdate}
             />
           );
         })}

@@ -20,9 +20,11 @@ type PlpDatoCreativeBlocksProps = {
 export function usePlpDatoCreativeBlocks(
   locale: string,
   ids: string[],
+  useLargeCreativeImageInDesktop: boolean,
+  useLargeCreativeImageInMobile: boolean,
 ): UseQueryResult<PlpDatoCreativeBlocksProps, unknown> {
   return useQuery({
-    ...queries.plp.creativeBlocks(locale, ids),
+    ...queries.plp.creativeBlocks(locale, ids, useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile),
   });
 }
 

@@ -1,9 +1,23 @@
 import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
-import { JEWELRY_SUB_CATEGORY_HUMAN_NAMES, METALS_IN_HUMAN_NAMES } from '@diamantaire/shared/constants';
+import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
+import {
+  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
+  METALS_IN_HUMAN_NAMES,
+  RING_STYLES_MAP,
+  ringStylesWithIconMap,
+} from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
 const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, updateFilter, currentFilters, format }) => {
+  let title = filterType;
+
+  console.log(title);
+
+  if (['styles', 'subStyles'].includes(filterType)) {
+    title = 'style';
+  }
+
   return (
     <div
       className={clsx(`filter-option-set ${filterType}`, {
@@ -11,7 +25,7 @@ const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, update
       })}
     >
       <Heading type="h3" className="h1 secondary">
-        <UIString>{filterType.replace('subStyles', 'style')}</UIString>
+        <UIString>{title}</UIString>
       </Heading>
 
       <ul className="list-unstyled flex">
@@ -38,7 +52,7 @@ const renderDiamondType = ({ optionVal: diamondType, updateFilter, currentFilter
           <Icon />
         </span>
         <span className="diamond-text">
-          <UIString>{diamondType}</UIString>
+          <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{diamondType}</UIString>
         </span>
       </button>
     </li>
@@ -59,36 +73,50 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
         onClick={() => updateFilter('metal', metal)}
       >
         <span className={clsx('metal-swatch', metal)}></span>
-        <span className="metal-text">{METALS_IN_HUMAN_NAMES[metal]}</span>
+        <span className="metal-text">
+          <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{METALS_IN_HUMAN_NAMES[metal]}</UIString>
+        </span>
       </button>
     </li>
   );
 };
 
-// Need to finish +
-// const renderStyles = (ringStyle) => {
-//   const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
+const renderRingStyles = ({ optionVal: ringStyle, updateFilter, currentFilters }) => {
+  const Icon = ringStylesWithIconMap?.[ringStyle]?.icon;
 
-//   if (ringStyle.includes('+')) return null;
-//   if (!Icon) return <p>icon missing for {ringStyle}</p>;
+  if (ringStyle.includes('+')) return null;
 
-//   return (
-//     <li key={`filter-${ringStyle}`}>
-//       <button className="flex align-center" onClick={() => updateFilter('style', ringStyle)}>
-//         <span className="setting-icon">
-//           <Icon />
-//         </span>
-//         <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
-//       </button>
-//     </li>
-//   );
-// };
+  return (
+    <li key={`filter-${ringStyle}`}>
+      <button
+        className={clsx('flex align-center', {
+          active: currentFilters['style']?.includes(ringStyle),
+        })}
+        onClick={() => updateFilter('style', ringStyle)}
+      >
+        <span className="setting-icon">
+          <Icon />
+        </span>
+        <span className="diamond-text">
+          <UIString types={[humanNamesMapperType.BAND_WIDTH_HUMAN_NAMES]}>{RING_STYLES_MAP[ringStyle]}</UIString>
+        </span>
+      </button>
+    </li>
+  );
+};
 
-const renderSubStyles = ({ optionVal: style, updateFilter }) => {
+const renderSubStyles = ({ optionVal: style, updateFilter, currentFilters }) => {
   return (
     <li key={`filter-${style}`}>
-      <button className="flex align-center" onClick={() => updateFilter('subStyle', style)}>
-        <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
+      <button
+        className={clsx('flex align-center', {
+          active: currentFilters['subStyle']?.includes(style),
+        })}
+        onClick={() => updateFilter('subStyle', style)}
+      >
+        <span className="subStyle-text">
+          <UIString>{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style}</UIString>
+        </span>
       </button>
     </li>
   );
@@ -108,8 +136,10 @@ const PlpFilterOption = ({ filterType, allFilterTypes, updateFilter, currentFilt
       {renderFilterOptionSet({
         filterType: filterType,
         mapFunction:
-          filterType === 'subStyles' || filterType === 'style'
+          filterType === 'subStyles'
             ? renderSubStyles
+            : filterType === 'styles'
+            ? renderRingStyles
             : filterType === 'diamondType'
             ? renderDiamondType
             : renderMetal,
