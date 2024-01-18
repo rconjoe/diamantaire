@@ -506,9 +506,11 @@ export function getFormattedPrice(
   excludeCurrency = false,
 ): string {
   const { countryCode } = parseValidLocale(locale);
+
   const currency = getCurrency(countryCode);
 
   const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
+
   const convertedPrice = applyExchangeRate(priceInDollars, currency);
 
   if (excludeCurrency) {
@@ -556,6 +558,7 @@ export function getFormattedPrice(
 
 export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
   const { countryCode } = parseValidLocale(locale);
+
   const currency = getCurrency(countryCode);
 
   const convertedPrice = priceInCents / 100;

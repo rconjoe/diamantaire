@@ -145,7 +145,6 @@ export const PlpProductFilterStyles = styled.div`
         button {
           background-color: transparent;
           padding: 0;
-          text-transform: capitalize;
         }
 
         svg {
