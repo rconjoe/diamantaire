@@ -16,11 +16,11 @@ if (process.env.NODE_ENV.includes('preview')) {
   REVALIDATE = 60 * 60;
 }
 
-export function getSWRPageCacheHeader(ttl = TTL, maxAge = MAX_AGE): [string, string]{
+export function getSWRPageCacheHeader(ttl = TTL, maxAge = MAX_AGE): string{
   const maxAgeSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_MAX_AGE, 10) || maxAge;
   const ttlSeconds = parseInt(process.env.NEXT_PUBLIC_SWR_TTL, 10) || ttl;
 
-  return ['Cache-Control', `public, s-maxage=${maxAgeSeconds}, stale-while-revalidate=${ttlSeconds}`];
+  return `s-maxage=${maxAgeSeconds}, stale-while-revalidate=${ttlSeconds}`;
 }
 
 export function getSwrRevalidateConfig(){

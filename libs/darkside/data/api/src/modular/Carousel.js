@@ -5,6 +5,7 @@ const Carousel = `
     id
     _modelApiKey
     additionalClass
+    showDots
     blocks {
       ... on HalfWidthBannerBlockRecord {
         id

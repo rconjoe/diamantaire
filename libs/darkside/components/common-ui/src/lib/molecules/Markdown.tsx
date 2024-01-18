@@ -9,6 +9,7 @@ type imageConfig = {
   alt?: string;
   h?: number;
   w?: number;
+  loading?: string;
 };
 
 type MarkdownProps = {
@@ -28,7 +29,13 @@ const Markdown = ({ children, options, extraClass, withStyles = true, imageConfi
   const imgOverride = {
     component: (props) => {
       return imageConfig ? (
-        <Image {...props} alt={imageConfig?.alt} width={imageConfig?.w} height={imageConfig?.h} />
+        <Image
+          {...props}
+          alt={imageConfig?.alt}
+          width={imageConfig?.w}
+          height={imageConfig?.h}
+          loading={imageConfig?.loading || 'eager'}
+        />
       ) : (
         <img {...props} />
       );

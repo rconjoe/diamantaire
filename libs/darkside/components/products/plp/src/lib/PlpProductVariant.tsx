@@ -54,7 +54,6 @@ const PlpProductVariantStyles = styled.div`
     }
 
     &.with-hidden-swatches {
-      background: green;
       justify-content: flex-end;
       padding-right: 1.25rem;
       margin: -3rem 0 2rem 0;
@@ -80,14 +79,15 @@ const PlpProductVariantStyles = styled.div`
           height: 2rem;
           width: 2rem;
           border-radius: 50%;
-          border: 0.1rem solid #d2dbde;
+          border: 0.1rem solid var(--color-light-grey);
           position: relative;
           overflow: hidden;
           background-color: transparent;
           cursor: pointer;
+          padding: 0;
 
           &.selected {
-            border: 0.1rem solid var(--color-teal);
+            border-color: var(--color-teal);
           }
 
           &::after {
@@ -119,6 +119,14 @@ const PlpProductVariantStyles = styled.div`
 
           &.platinum::after {
             background-color: rgb(200, 200, 200);
+          }
+
+          &.yellow-gold-and-platinum::after {
+            background: linear-gradient(45deg, #c8ab6e 50%, #c8c8c8 50%);
+          }
+
+          &.rose-gold-and-platinum::after {
+            background: linear-gradient(45deg, #ceac8b 50%, #c8c8c8 50%);
           }
         }
       }

@@ -1,4 +1,3 @@
-
 import { DatoImage, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { media, mobileOnly } from '@diamantaire/styles/darkside-styles';
@@ -47,7 +46,9 @@ const PlpHeroBannerStyles = styled.div`
 
       .hero__content-inner {
         padding: 0;
+
         ${media.small`padding: 0 var(--gutter);`}
+
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
           color: var(--color-black);
@@ -55,6 +56,7 @@ const PlpHeroBannerStyles = styled.div`
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
           }
         }
+
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
@@ -78,6 +80,7 @@ const PlpHeroBannerStyles = styled.div`
     }
 
     .hero-title {
+      height: 4.8rem;
       margin-bottom: 2rem;
     }
 
@@ -98,7 +101,6 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-
   const { desktopImage, mobileImage, title, copy, textColor, darksideButtons } = data || {};
 
   return (
@@ -113,6 +115,7 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
           <div className="hero__image desktop">
             <DatoImage image={desktopImage} />
           </div>
+
           <div className="hero__image mobile">
             <DatoImage image={mobileImage} />
           </div>
@@ -120,10 +123,10 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
       )}
       <div className="hero__content">
         <div className="hero__content-inner">
-          <Heading className="primary hero-title" type="h1">
-            {title}
-          </Heading>
+          <Heading className="primary hero-title">{title}</Heading>
+
           <p>{copy}</p>
+
           {darksideButtons?.map((button) => {
             return (
               <DarksideButton

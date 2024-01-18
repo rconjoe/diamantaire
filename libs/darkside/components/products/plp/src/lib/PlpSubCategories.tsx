@@ -5,15 +5,32 @@ import styled from 'styled-components';
 
 const PlpSubCategoriesStyles = styled.div`
   display: flex;
-  padding: 0 0 1rem;
+  padding: 0 0.5rem 1rem;
   justify-content: center;
   overflow-x: auto;
   justify-content: start;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 
-  ${media.medium`justify-content: center;padding: 0 0 1rem; padding-left: 0;`}
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  ${media.medium`
+    justify-content: center;
+    padding: 0 0 1rem; 
+    padding-left: 0;
+  `}
+
   > .subcategory-block {
-    flex: 0 0 22rem;
-    padding: 0 1.2rem;
+    flex: 0 0 16rem;
+    padding: 0 0.5rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      flex: 0 0 22rem;
+      padding: 0 1.2rem;
+    }
+
     > button {
       width: 100%;
       padding: 0;

@@ -1,6 +1,6 @@
 import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useBlockProducts, useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
@@ -10,13 +10,21 @@ import {
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
+import PlpCreativeSlideOut from './PlpCreativeSlideout';
+
 const PlpCreativeBlockStyles = styled.div`
-  grid-column: 1/3;
   border: 0.1rem solid var(--color-light-grey);
+  grid-column: 1/3;
+
+  @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+    margin: 0 -1rem;
+    display: block;
+    border: 0;
+  }
 
   ${media.medium`
     grid-column: 1/3; grid-area: 2 / 1 / 4 / 3;
@@ -36,6 +44,8 @@ const PlpCreativeBlockStyles = styled.div`
     position: relative;
 
     .creative-block__content {
+      border: 0;
+
       .creative-block__content-inner {
         position: absolute;
         bottom: 4rem;
@@ -50,12 +60,20 @@ const PlpCreativeBlockStyles = styled.div`
         flex-direction: column;
         background-color: var(--color-white);
         gap: 1rem;
-        position: absolute;
-        max-width: 42rem;
-        right: -0.1rem;
-        bottom: 4rem;
-        padding: 2rem;
-        left: auto;
+        position: relative;
+        max-width: 31rem;
+        padding: 2.4rem 2.8rem;
+        margin: -8rem auto 0;
+        bottom: auto;
+
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          max-width: 42rem;
+          position: absolute;
+          margin: auto;
+          right: -0.1rem;
+          bottom: 4rem;
+          left: auto;
+        }
       }
 
       &.with-shop-the-look .creative-block__content-inner {
@@ -78,7 +96,7 @@ const PlpCreativeBlockStyles = styled.div`
   }
 `;
 
-const PlpCreativeBlock = ({ block }) => {
+const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
   const {
     configurationsInOrder,
     desktopImage,
@@ -189,9 +207,9 @@ const PlpCreativeBlock = ({ block }) => {
                   </Heading>
                 )}
 
-                {desktopCopy && <p>{desktopCopy}</p>}
+                {desktopCopy && <p className="tablet-and-up">{desktopCopy}</p>}
 
-                {mobileCopy && <p>{mobileCopy}</p>}
+                {mobileCopy && <p className="mobile-only">{mobileCopy}</p>}
 
                 {darksideButtons?.map((button) => {
                   return (
@@ -220,9 +238,14 @@ const PlpCreativeBlock = ({ block }) => {
                       onClose={handleCloseShopTheLook}
                       width={isMobile ? '100%' : '55rem'}
                     >
-                      <PlpCreativeSlideOutContent configurationsInOrder={configurationsInOrder} />
+                      <PlpCreativeSlideOut
+                        configurationsInOrder={configurationsInOrder}
+                        locale={locale}
+                        plpTitle={plpTitle}
+                        selectSetting={selectSetting}
+                      />
                     </SlideOut>,
-                    document.body,
+                    document.getElementById('vrai-site'),
                   )}
               </>
             )}
@@ -231,21 +254,6 @@ const PlpCreativeBlock = ({ block }) => {
       </div>
     </PlpCreativeBlockStyles>
   );
-};
-
-const PlpCreativeSlideOutContent = ({ configurationsInOrder }) => {
-  const ids = useMemo(
-    () => configurationsInOrder.reduce((a, v) => [...a, v.variantId || v.shopifyProductHandle], []),
-    [configurationsInOrder],
-  );
-
-  const { data: { products } = {} } = useBlockProducts(ids);
-
-  console.log(`products`, products);
-
-  // create new endpoint to get valid data that can be used in PlpProductGrid.tsx
-
-  return <div>{JSON.stringify(ids)}</div>;
 };
 
 export default PlpCreativeBlock;

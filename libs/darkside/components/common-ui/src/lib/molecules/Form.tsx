@@ -106,7 +106,6 @@ const FormContainer = styled.div<{
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
       margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` 1rem;`)};
-      flex: 1;
 
       &.submit {
         margin-bottom: 0px;
@@ -130,6 +129,7 @@ const FormContainer = styled.div<{
         height: 4.5rem;
         padding-left: 1rem;
         font-size: var(--font-size-xxsmall);
+        width: 100%;
       }
 
       .dropdown__single-value {
