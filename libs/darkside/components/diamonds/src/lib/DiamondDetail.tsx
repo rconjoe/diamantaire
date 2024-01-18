@@ -192,7 +192,9 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
 
         <div className="aside">
           <Heading className="title" type="h2">
-            {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle} {productTitle}
+            {formattedCarat} {getInfo(specs, 'carat')?.value} {diamondTitle}
+            <br />
+            {productTitle}
           </Heading>
           {price && (
             <div className="price">

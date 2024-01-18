@@ -35,7 +35,7 @@ const DiamondTableCfyPromoCard = (props) => {
 
   return (
     <StyledDiamondTableCfyPromoCard>
-      <Markdown withStyles={false}>{promoContent?.join('')}</Markdown>
+      <Markdown withStyles={false}>{Array.isArray(promoContent) ? promoContent?.join('') : promoContent}</Markdown>
 
       <div className="cta">
         <UniLink
