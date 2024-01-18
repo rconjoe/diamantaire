@@ -332,9 +332,7 @@ const PlpAllFilterOptions = ({
 
                       const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
 
-                      if (priceRangeMatchesInitialState) {
-                        return null;
-                      }
+                      if (priceRangeMatchesInitialState) return null;
 
                       const min = (price?.min && price?.min / 100) || 'below';
 
