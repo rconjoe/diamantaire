@@ -3,7 +3,7 @@ interface Options {
   productConfiguration: Record<string, string>;
   configurationsWithoutLabels?: string[];
   configurationSortOrder?: string[];
-  _t: (value: string) => string;
+  _t?: (value: string) => string;
 }
 
 export function generatePdpAssetAltTag({
@@ -11,7 +11,7 @@ export function generatePdpAssetAltTag({
   productConfiguration,
   configurationsWithoutLabels = ['metal', 'diamondType', 'goldPurity'],
   configurationSortOrder = ['diamondType', 'goldPurity', 'metal'],
-  _t,
+  _t = null, // _t is optional and defaults to null
 }: Options) {
   const sortedConfigurations = Object.entries(productConfiguration).sort(([a], [b]) => {
     const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
@@ -25,11 +25,15 @@ export function generatePdpAssetAltTag({
   });
 
   const configurationDescriptionArr = sortedConfigurations.map(([type, value]) => {
+    // Apply translation if _t is provided, otherwise use the value as is
+    const translatedType = _t ? _t(type) : type;
+    const translatedValue = _t ? _t(value) : value;
+
     if (configurationsWithoutLabels.includes(type)) {
-      return _t(value);
+      return translatedValue;
     }
 
-    return `${_t(type)}: ${_t(value)}`;
+    return `${translatedType}: ${translatedValue}`;
   });
 
   return `${productTitle} | ${configurationDescriptionArr.join(' | ')}`;
