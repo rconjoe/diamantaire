@@ -23,6 +23,9 @@ import { OctaviaIcon } from './OctaviaIcon';
 import { OvalIcon } from './OvalIcon';
 import { OvalRoseIcon } from './OvalRoseIcon';
 import { PassionIcon } from './PassionIcon';
+import { PaveClusterCushionIcon } from './PaveClusterCushionIcon';
+import { PaveClusterMarquiseIcon } from './PaveClusterMarquiseIcon';
+import { PaveClusterRoundBrilliantIcon } from './PaveClusterRoundBrilliantIcon';
 import { PearIcon } from './PearIcon';
 import { PrincessIcon } from './PrincessIcon';
 import { RadiantIcon } from './RadiantIcon';
@@ -281,15 +284,15 @@ export const diamondIconsMap = {
 export const paveClusterIconsMap = {
   round: {
     slug: 'round',
-    icon: RoundBrilliantIcon,
+    icon: PaveClusterRoundBrilliantIcon,
   },
   marquise: {
     slug: 'marquise',
-    icon: MarquiseIcon,
+    icon: PaveClusterMarquiseIcon,
   },
   cushion: {
     slug: 'cushion',
-    icon: CushionIcon,
+    icon: PaveClusterCushionIcon,
   },
 };
 

@@ -665,6 +665,7 @@ function OptionSelector({
     diamondType: renderDiamondTypeOptions,
     topDiamondShape: renderDiamondTypeOptions,
     bottomDiamondShape: renderDiamondTypeOptions,
+    paveCluster: renderDiamondTypeOptions,
     ringSize: renderRingSizeOptions,
     caratWeight: renderCaratWeightOptions,
   };
