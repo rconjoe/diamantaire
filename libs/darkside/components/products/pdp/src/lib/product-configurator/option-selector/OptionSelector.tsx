@@ -85,6 +85,7 @@ const StyledOptionSelector = styled.div`
       gap: 25px;
     }
     &.ringSize {
+      flex-wrap: wrap;
       align-items: center;
       margin-bottom: 2rem;
       .show-more-sizes-button button {
@@ -540,8 +541,11 @@ function OptionSelector({
     };
 
     const renderShowMoreSizesButton = () => {
+      const shouldShowButton = options?.length > 5;
+
       return (
-        !showingAllRingSizes && (
+        !showingAllRingSizes &&
+        shouldShowButton && (
           <DarksideButton
             className="show-more-sizes-button"
             type="underline"

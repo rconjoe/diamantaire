@@ -182,7 +182,7 @@ const ReviewBuildStepStyles = styled(motion.div)`
         margin: 0 auto;
 
         @media (min-width: ${({ theme }) => theme.sizes.xxl}) {
-          padding: 2rem 4rem;
+          padding: 2rem 5rem;
         }
 
         .total-price {

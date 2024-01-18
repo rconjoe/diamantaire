@@ -1,5 +1,8 @@
 import { GoogleTagManagerContainer } from '@diamantaire/analytics';
-import { CookieBanner, EmailPopUp } from '@diamantaire/darkside/components/common-ui';
+import {
+  CookieBanner,
+  // EmailPopUp
+} from '@diamantaire/darkside/components/common-ui';
 import { BuilderProductContextProvider } from '@diamantaire/darkside/context/product-builder';
 import { PageLoadProgressBar } from '@diamantaire/darkside/core';
 import { getTemplate as getGlobalTemplate } from '@diamantaire/darkside/template/global';
@@ -25,7 +28,7 @@ export const getTemplate = (page: ReactElement) =>
         <PageLoadProgressBar />
         {page}
         <CookieBanner />
-        <EmailPopUp />
+        {/* <EmailPopUp /> */}
         <ToastContainer position="bottom-center" autoClose={10000} />
       </BuilderProductContextProvider>
     </StandardTemplate>,
