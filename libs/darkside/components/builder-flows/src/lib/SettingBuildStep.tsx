@@ -125,9 +125,11 @@ const SettingBuildStep = ({
   const CFY_RETURN_THRESHOLD = 5.1;
 
   const { _t } = useTranslations(router.locale);
-  const productMediaAltDescription =
-    additionalVariantData &&
-    generatePdpAssetAltTag({ productTitle, productConfiguration: shopifyProductData?.configuration, _t });
+  const productMediaAltDescription = generatePdpAssetAltTag({
+    productTitle,
+    productConfiguration: shopifyProductData?.configuration,
+    _t,
+  });
 
   const isDiamondCFY = builderProduct?.diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
@@ -185,12 +187,12 @@ const SettingBuildStep = ({
               diamondType={selectedConfiguration?.diamondType}
               disableHandSliderControls={true}
               presetHandSliderValue={parseFloat(sliderHandCaption)}
-              title={productMediaAltDescription}
+              title={productMediaAltDescription || productTitle || ''}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
             <MediaSlider
-              title={productMediaAltDescription}
+              title={productMediaAltDescription || productTitle}
               assets={assetStack}
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}
