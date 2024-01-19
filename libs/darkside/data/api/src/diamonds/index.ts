@@ -292,3 +292,25 @@ export const fetchDiamondCtoData = async (options) => {
     console.log(error);
   }
 };
+
+export async function fetchLowestPriceByDiamondType(diamondType) {
+  if (!diamondType || typeof diamondType !== 'string') {
+    throw new Error('Invalid diamondType provided');
+  }
+
+  const queryString = new URLSearchParams({ diamondType }).toString();
+  const url = `/diamondLowestPriceByDiamondType?${queryString}`;
+
+  try {
+    const response = await queryClientApi().request({ method: 'GET', url });
+
+    if (response.status !== 200) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching lowest priced diamond for type ${diamondType}:`, error);
+    throw error;
+  }
+}

@@ -5,7 +5,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   const diamondType = _req.query.diamondType as string;
 
   if (!diamondType) {
-    return res.status(400).json({ error: 'Diamond type is required' });
+    return res.status(400).json('Diamond type is required');
   }
 
   const vraiApiClientURL = `/v1/diamonds/lowestpriced/${encodeURIComponent(diamondType)}`;
@@ -19,7 +19,7 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
   } catch (err) {
     console.error(err);
 
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json('Internal Server Error');
   }
 
   return res.status(200).json(vraiApiClientPayload);

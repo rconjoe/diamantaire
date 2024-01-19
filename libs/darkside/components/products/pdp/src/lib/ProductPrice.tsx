@@ -1,5 +1,5 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { DiamondLowestPriceDataProps, useTranslations } from '@diamantaire/darkside/data/hooks';
 import {
   DEFAULT_LOCALE,
   ENGRAVEABLE_JEWELRY_SLUGS,
@@ -32,6 +32,7 @@ type ProductPriceProps = {
   isBuilderProduct: boolean;
   engravingText: string;
   productType?: string;
+  lowestPricedDiamond?: DiamondLowestPriceDataProps;
 };
 
 const ProductPrice = ({
@@ -40,6 +41,7 @@ const ProductPrice = ({
   isBuilderProduct,
   productType,
   engravingText,
+  lowestPricedDiamond,
 }: ProductPriceProps) => {
   const { locale, query } = useRouter();
 
@@ -50,12 +52,13 @@ const ProductPrice = ({
   const doesProductQualifyForFreeEngraving =
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
-  const refinedPrice = getFormattedPrice(
-    productType === 'Earrings' && shouldDoublePrice
-      ? price * 2
-      : price + (engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving ? ENGRAVING_PRICE_CENTS : 0),
-    locale,
-  );
+  // lowestPricedDiamond if FJ and caratWeight is `other`
+  const basePrice = lowestPricedDiamond ? lowestPricedDiamond.price + price : price;
+  const shouldAddEngravingCost = engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving;
+
+  const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
+
+  const refinedPrice = getFormattedPrice(finalPrice, locale);
 
   const translatedText = _t('Starting at %%price%%');
 
@@ -75,3 +78,15 @@ const ProductPrice = ({
 };
 
 export { ProductPrice };
+
+export const calculateFinalPrice = (basePrice, productType, shouldDoublePrice, shouldAddEngravingCost) => {
+  if (productType === 'Earrings' && shouldDoublePrice) {
+    return basePrice * 2;
+  }
+
+  if (shouldAddEngravingCost) {
+    return basePrice + ENGRAVING_PRICE_CENTS;
+  }
+
+  return basePrice;
+};
