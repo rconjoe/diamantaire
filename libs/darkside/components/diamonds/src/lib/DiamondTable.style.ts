@@ -29,6 +29,15 @@ const StyledDiamondTable = styled.div`
     &:nth-child(2n) {
       background-color: var(--color-lightest-grey);
     }
+
+    &.pair-row {
+      .vo-table-cell {
+        text-align: center;
+        @media (min-width: 992px) {
+          padding: 1rem 2rem;
+        }
+      }
+    }
   }
 
   .vo-table-cell {

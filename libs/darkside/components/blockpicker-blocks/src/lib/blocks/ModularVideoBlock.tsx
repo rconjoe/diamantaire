@@ -33,18 +33,20 @@ type ModularVideoBlockProps = {
   shouldLazyLoad?: boolean;
 };
 
-const ModularVideoBlock = ({
-  shouldAutoplay,
-  video,
-  mobileVideo,
-  showControls,
-  title,
-  shouldLoop,
-  additionalClass,
-  titleColor,
-  titleFont,
-  titleStyle,
-}: ModularVideoBlockProps) => {
+const ModularVideoBlock = (props: ModularVideoBlockProps) => {
+  console.log('ModularVideoBlockProps', props);
+  const {
+    shouldAutoplay,
+    video,
+    mobileVideo,
+    showControls,
+    title,
+    shouldLoop,
+    additionalClass,
+    titleColor,
+    titleFont,
+    titleStyle,
+  } = props || {};
   const [isVideoPlaying, setIsVideoPlaying] = useState(shouldAutoplay || false);
 
   const { streamingUrl } = video.video;
@@ -74,7 +76,7 @@ const ModularVideoBlock = ({
       <ShowTabletAndUpOnly>
         <ReactPlayer
           url={streamingUrl}
-          playing={isVideoPlaying}
+          playing={true}
           playsinline
           height="100%"
           width="100%"

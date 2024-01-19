@@ -37,7 +37,6 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  padding-top: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop}px` : '0')};
   min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
@@ -94,7 +93,7 @@ export const GlobalTemplate = ({ children }) => {
   }, [headerData, isTopbarShowing]);
 
   return (
-    <div className={`${vraiFont.className} ${vraiFont.variable}`}>
+    <div id="vrai-site" className={`${vraiFont.className} ${vraiFont.variable}`}>
       {headerData && (
         <Header
           headerData={headerData}

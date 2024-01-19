@@ -1,7 +1,7 @@
 import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { EAST_WEST_SHAPES, EAST_WEST_SIDE_STONE_SHAPES } from '@diamantaire/shared/constants';
+import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
 import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
-import { diamondIconsMap, getIconsForDiamondType } from '@diamantaire/shared/icons';
+import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -23,6 +23,7 @@ export function OptionItemContainer({
   valueLabel,
   setProductSlug,
   selectedConfiguration,
+  productType,
 }: OptionItemContainerProps) {
   const {
     query: { collectionSlug },
@@ -39,10 +40,17 @@ export function OptionItemContainer({
         optionType={optionType}
         onClick={onClick}
         selectedConfiguration={selectedConfiguration}
+        productType={productType}
       />
     </OptionItemLink>
   ) : (
-    <OptionItemComponent isSelected={isSelected} {...option} optionType={optionType} onClick={onClick} />
+    <OptionItemComponent
+      isSelected={isSelected}
+      {...option}
+      optionType={optionType}
+      onClick={onClick}
+      productType={productType}
+    />
   );
 }
 
@@ -86,7 +94,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
   switch (type) {
     case 'diamondType':
     case 'sideStoneShape':
-    case 'bandStoneShape': {
+    case 'bandStoneShape':
+    case 'topDiamondShape':
+    case 'bottomDiamondShape': {
       return DiamondIconOptionItem;
     }
     case 'ceramicColor':
@@ -98,6 +108,9 @@ function getOptionItemComponentByType(type: string, collectionSlug: string): Fun
     }
     case 'bandAccent': {
       return BandAccentStyleOptionItem;
+    }
+    case 'hoopAccent': {
+      return HoopAccentStyleOptionItem;
     }
     case 'value': {
       return ValueOptionItem;
@@ -144,6 +157,7 @@ interface OptionItemComponent extends OptionItemProps {
   onClick: () => void;
   optionType: string;
   selectedConfiguration?: { [key: string]: string };
+  productType?: string;
 }
 
 const StyledDiamondIconOptionItem = styled(StyledOptionItem)`
@@ -325,6 +339,11 @@ export function BandAccentStyleOptionItem(props: OptionItemComponent) {
 
   return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
 }
+export function HoopAccentStyleOptionItem(props: OptionItemComponent) {
+  const imgSrc = generateIconImageUrl(`category-filters-hoop-${props.value}`);
+
+  return <ImageIconOptionItem {...props} imgSrc={imgSrc} />;
+}
 
 export function BandWidthOptionItem(props: OptionItemComponent) {
   const imgSrc = generateIconImageUrl(`bandWidth-${props.value}-placeholder`);
@@ -356,7 +375,6 @@ export function ValueOptionItem({ value, isSelected, onClick }: OptionItemCompon
 
 const StyledBasicOptionItem = styled(StyledOptionItem)`
   border: 0.1rem solid #d8d6d1;
-  padding: 0.5rem;
   min-width: 3.6rem;
   min-height: 3.6rem;
   text-align: center;
@@ -365,6 +383,10 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   cursor: pointer;
   &.selected {
     border-color: var(--color-teal);
+  }
+  &.-other {
+    white-space: nowrap;
+    padding: 0.5rem;
   }
 
   span.em-dash {
@@ -390,31 +412,55 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
   }
 `;
 
-export function BasicOptionItem({ value, isSelected, onClick, optionType }: OptionItemComponent) {
+export const DynamicValueLabel = ({ value, optionType, productType }) => {
   const { locale } = useRouter();
-
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
   const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   const { _t } = useTranslations(locale);
 
   let valueLabel;
 
-  if (optionType === 'eternityStyle') {
-    valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'bandWidth') {
-    valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
-  } else if (optionType === 'earringSize') {
-    valueLabel = value.replace('mm', '');
-  } else if (optionType === 'chainLength') {
-    valueLabel = value + '"';
-  } else {
-    valueLabel = _t(value.toLowerCase());
+  // Special case handling for 'other' value
+  if (value === 'other' && productType !== 'Engagement Ring') {
+    return _t('Select diamond');
   }
 
+  // Handling based on optionType
+  switch (optionType) {
+    case 'eternityStyle':
+      valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'bandWidth':
+      valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
+      break;
+    case 'earringSize':
+      valueLabel = value.replace('mm', '');
+      break;
+    case 'chainLength':
+      valueLabel = value + '"';
+      break;
+    case 'caratWeight':
+      valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
+      break;
+    default:
+      valueLabel = _t(value.toLowerCase());
+  }
+
+  if (optionType === 'soldAsDouble') {
+    return <span dangerouslySetInnerHTML={{ __html: valueLabel }} />;
+  }
+
+  return valueLabel;
+};
+
+export function BasicOptionItem({ value, isSelected, onClick, optionType, productType }: OptionItemComponent) {
   return (
-    <StyledBasicOptionItem className={clsx('option-item', { selected: isSelected })} onClick={onClick}>
-      {optionType === 'soldAsDouble' ? <span dangerouslySetInnerHTML={{ __html: valueLabel }}></span> : valueLabel}
+    <StyledBasicOptionItem
+      className={clsx('option-item', { selected: isSelected, '-other': value === 'other' })}
+      onClick={onClick}
+    >
+      <DynamicValueLabel value={value} optionType={optionType} productType={productType} />
     </StyledBasicOptionItem>
   );
 }

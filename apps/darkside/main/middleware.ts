@@ -16,7 +16,7 @@ const ORDERED_CONFIGURATION_PROPERTIES = [
   'sideStoneCarat',
   'bandStyle',
   'ceramicColor',
-  'diamondSize'
+  'diamondSize',
 ];
 
 export default async function middleware(request: NextRequest, _event: NextFetchEvent): Promise<NextMiddlewareResult> {
@@ -48,6 +48,14 @@ export default async function middleware(request: NextRequest, _event: NextFetch
     const UK_GEO = { city: 'London', country: 'UK', latitude: '51.5074', longitude: '-0.1278', region: 'Europe' };
     const ES_GEO = { city: 'Madrid', country: 'ES', latitude: '40.4168', longitude: '-3.7038', region: 'Europe' };
 
+    // const VIRTUAL_GEO = {
+    //   city: 'Decatur',
+    //   country: 'US',
+    //   latitude: '33.7748',
+    //   longitude: '-84.2963',
+    //   region: 'North America',
+    // };
+
     let selectedGeo = US_GEO; // default to US
 
     const parsedUrl = new URL(url);
@@ -76,23 +84,23 @@ export default async function middleware(request: NextRequest, _event: NextFetch
   // exclude API and Next.js internal routes
   if (!url.pathname.startsWith('/api') && !url.pathname.startsWith('/_next')) {
     let localRedirectDestination = await kv.hget<string>('redirects', url.pathname);
-    
+
     if (localRedirectDestination) {
       // If its a PDP, try to get more specific redirect
-      if (Boolean(url.search) && (url.pathname.startsWith('/engagement-rings') || url.pathname.startsWith('/jewelry'))){
-        // First reduce search to known values and order 
+      if (Boolean(url.search) && (url.pathname.startsWith('/engagement-rings') || url.pathname.startsWith('/jewelry'))) {
+        // First reduce search to known values and order
         const reducedSearch = url.search.split('&').reduce((acc, current) => {
-          const [k,v] = current.split('=');
+          const [k, v] = current.split('=');
 
-          if(ORDERED_CONFIGURATION_PROPERTIES.includes(k)){
+          if (ORDERED_CONFIGURATION_PROPERTIES.includes(k)) {
             acc += `&${k}=${v}`;
           }
 
           return acc;
-        },'')
+        }, '');
 
         const sanitizedSearch = new URLSearchParams(reducedSearch);
-        
+
         sanitizedSearch.sort();
 
         const localRedirectSourceWithQuery = url.pathname + '?' + sanitizedSearch.toString();
@@ -100,7 +108,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
 
         if (redirectWithQuery) {
           localRedirectDestination = redirectWithQuery;
-        } 
+        }
       }
 
       url.pathname = localRedirectDestination;
@@ -108,7 +116,7 @@ export default async function middleware(request: NextRequest, _event: NextFetch
       const isPermanent = await kv.sismember('permanent_redirects', url.pathname);
 
       return NextResponse.redirect(url, isPermanent ? 301 : 302);
-    } 
+    }
 
     const localRewriteDestination = await kv.hget<string>('rewrites', url.pathname);
 

@@ -1,8 +1,8 @@
-import { Accordion, CertificateThumb, Tooltip } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, CertificateThumb, Tooltip, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
-import Markdown from 'markdown-to-jsx';
+// import Markdown from 'markdown-to-jsx';
 import { useContext } from 'react';
 
 import StyledDiamondTableRowAccordion from './DiamondTableRowAccordion.style';
@@ -55,7 +55,11 @@ const DiamondDetailRowAccordion = ({
           </div>
         </>
       ),
-      children: <Markdown>{cutContent}</Markdown>,
+      children: (
+        <Markdown withStyles={false} imageConfig={{ w: 86, h: 77, alt: titleCut?.value }}>
+          {cutContent}
+        </Markdown>
+      ),
       className: 'cut',
     },
     {
@@ -67,7 +71,11 @@ const DiamondDetailRowAccordion = ({
           </div>
         </>
       ),
-      children: <Markdown>{colorContent}</Markdown>,
+      children: (
+        <Markdown withStyles={false} imageConfig={{ w: 431, h: 171, alt: titleColor?.value }}>
+          {colorContent}
+        </Markdown>
+      ),
       className: 'color',
     },
     {
@@ -79,7 +87,11 @@ const DiamondDetailRowAccordion = ({
           </div>
         </>
       ),
-      children: <Markdown>{clarityContent}</Markdown>,
+      children: (
+        <Markdown withStyles={false} imageConfig={{ w: 431, h: 166, alt: titleClarity?.value }}>
+          {clarityContent}
+        </Markdown>
+      ),
       className: 'clarity',
     },
     {

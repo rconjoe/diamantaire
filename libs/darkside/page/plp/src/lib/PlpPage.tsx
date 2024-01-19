@@ -51,9 +51,13 @@ type FilterQueryValues = {
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
 
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  const [prevQuery, setPrevQuery] = useState(null);
+
   const router = useRouter();
 
-  const { locale } = router || {};
+  const { locale, query } = router || {};
 
   const { ref: pageEndRef, inView } = useInView({ rootMargin: '800px' });
 
@@ -87,11 +91,28 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     locale,
   );
 
-  const availableFilters = data?.pages[0]?.availableFilters;
+  const availableFilters = data?.pages[0]?.availableFilters || {};
+
+  if (category && category === 'engagement-rings') {
+    delete availableFilters.price;
+    delete availableFilters.subStyles;
+  }
+
+  if (plpSlug) {
+    if (plpSlug.includes('-setting')) {
+      delete availableFilters.styles;
+    }
+
+    if (plpSlug.includes('-cut')) {
+      delete availableFilters.diamondType;
+    }
+  }
 
   const creativeBlockIds = creativeBlocks && Array.from(creativeBlocks)?.map((block) => block.id);
 
-  const handleSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
+  const listPageData = { productData: data, hero, category };
+
+  const onSortChange = ({ sortBy, sortOrder }: { id: string; sortBy: string; sortOrder: 'asc' | 'desc' }) => {
     // If null is passed, reset the sort options
     if (!sortBy) {
       return setActiveSortOptions({});
@@ -103,21 +124,13 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     });
   };
 
-  // Handle pagination
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
-
   const onFilterChange = (filters) => {
     setFilterValues(filters);
+
     handleFilterEvent(filters);
   };
 
-  const listPageData = { productData: data, hero, category };
-
-  function handleFilterEvent(filters) {
+  const handleFilterEvent = (filters) => {
     if (window.location.search !== '') {
       const { price } = filters || {};
       const formattedMinPrice = price?.min && getFormattedPrice(price.min);
@@ -138,7 +151,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       productListFiltered(filterEvent);
     }
-  }
+  };
 
   const refinedBreadcrumb = breadcrumb?.map((crumb) => {
     return {
@@ -147,16 +160,42 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
     };
   });
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
+
+  useEffect(() => {
+    if (pageLoaded && !deepEqual(prevQuery, query)) {
+      setFilterValues(getFiltersFromQueryParams(query));
+    }
+
+    return () => {
+      setPrevQuery(query);
+
+      setPageLoaded(true);
+    };
+  }, [query]);
+
   return (
     <div>
       <NextSeo
         title={seoTitle}
         description={seoDescription}
-        canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+          `/${router.locale}` +
+          router.asPath
+        }
       />
+
       <PageViewTracker listPageData={listPageData} />
+
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
+
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
+
       {subcategoryFilter?.length > 0 && (
         <PlpSubCategories
           subcategoryFilter={subcategoryFilter}
@@ -164,6 +203,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
           filterValue={filterValue}
         />
       )}
+
       <PlpProductGrid
         data={data}
         plpTitle={hero?.title}
@@ -177,11 +217,14 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         plpSlug={router.query.plpSlug as string}
         sortOptions={sortOptions}
         filterOptionsOverride={filterOptionsOverride}
-        handleSortChange={handleSortChange}
+        onSortChange={onSortChange}
         subcategoryFilter={subcategoryFilter}
       />
+
       <div ref={pageEndRef} />
+
       <PlpPreviouslyViewed />
+
       <PlpBlockPicker category={category} plpSlug={plpSlug} />
     </div>
   );
@@ -192,6 +235,7 @@ PlpPage.getTemplate = getStandardTemplate;
 const createGetStaticPaths = (category: string) => {
   const getStaticPaths = async function getStaticPaths() {
     const excludedSlugs = [];
+
     const pageSlugs = await getAllPlpSlugs();
 
     // Define the locales you want to include
@@ -222,10 +266,12 @@ const createGetStaticPaths = (category: string) => {
 const createStaticProps = (category: string) => {
   const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<PlpPageProps>> => {
     const { params, locale } = context;
+
     let urlFilterMethod: 'facet' | 'param' | 'none' = 'param';
+
     const { plpSlug, ...qParams } = params;
 
-    //Render 404 if no plpSlug
+    // Render 404 if no plpSlug
     if (!plpSlug) {
       return {
         notFound: true,
@@ -239,7 +285,7 @@ const createStaticProps = (category: string) => {
       urlFilterMethod = 'facet';
     }
 
-    let initialFilterValues = getValidFiltersFromFacetedNav(plpParams, qParams);
+    let initialFilterValues = getFiltersFromFacetedNav(plpParams, qParams);
 
     // Render 404 if the filter options are not valid / in valid order
     if (!initialFilterValues || !slug) {
@@ -249,6 +295,7 @@ const createStaticProps = (category: string) => {
     }
 
     const queryClient = new QueryClient();
+
     const contentQuery = queries.plp.serverSideDato(locale, slug, category);
 
     await queryClient.prefetchQuery({ ...contentQuery });
@@ -297,6 +344,7 @@ const createStaticProps = (category: string) => {
         urlFilterMethod,
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
+
       revalidate: getSwrRevalidateConfig() || 60 * 60,
     };
   };
@@ -307,9 +355,11 @@ const createStaticProps = (category: string) => {
 // JEWELRY
 const jewelryGetStaticProps = createStaticProps('jewelry');
 const jewelryGetStaticPaths = createGetStaticPaths('jewelry');
+
 // ER
 const engagementRingsGetStaticProps = createStaticProps('engagement-rings');
 const engagementRingsGetStaticPaths = createGetStaticPaths('engagement-rings');
+
 // WB
 const weddingRingsGetStaticProps = createStaticProps('wedding-rings');
 const weddingRingsGetStaticPaths = createGetStaticPaths('wedding-rings');
@@ -333,7 +383,7 @@ export {
  * @returns {object | undefined} - filter options or undefined
  */
 
-function getValidFiltersFromFacetedNav(
+function getFiltersFromFacetedNav(
   params: string[],
   query: Record<string, string | string[]>,
 ): Record<string, string[]> | undefined {
@@ -416,6 +466,7 @@ function getValidFiltersFromFacetedNav(
 
   if (priceMin || priceMax) {
     filterOptions['price'] = {};
+
     if (priceMin) {
       filterOptions['price'].min = parseFloat(priceMin);
     }
@@ -454,4 +505,47 @@ function getValidFiltersFromFacetedNav(
   }
 
   return filterOptions;
+}
+
+function getFiltersFromQueryParams(query) {
+  const initialQueryValues = {};
+
+  if (query) {
+    Object.keys(query).forEach((key) => {
+      if (!['priceMin', 'priceMax'].includes(key) && key !== 'plpSlug') {
+        initialQueryValues[key] = query[key]?.toString().split(',');
+      }
+    });
+
+    if (query.priceMin || query.priceMax) {
+      initialQueryValues['price'] = { min: query.priceMin, max: query.priceMax };
+    }
+  }
+
+  return initialQueryValues;
+}
+
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) {
+    return true;
+  }
+
+  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
 }

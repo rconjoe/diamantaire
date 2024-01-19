@@ -52,6 +52,7 @@ export async function getVRAIServerPlpData(
   });
 
   const isServer = typeof window === 'undefined';
+
   let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
   if (!isServer) {
@@ -167,6 +168,7 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
         link {
           ... on ListPageRecord {
             slug
+            
           }
           ... on StandardPageRecord {
             slug
@@ -236,6 +238,35 @@ export const LIST_PAGE_DATO_SERVER_QUERY = gql`
   ${ResponsiveImageFragment}
 `;
 
+export async function fetchPlpShopTheLook(productIds: string[], locale: string) {
+  const baseUrl = typeof window === 'undefined' ? BASE_URL : window.location.origin;
+
+  const ids = productIds.join(',');
+
+  const qParams = new URLSearchParams({ ids, locale });
+
+  const endpoint = `${baseUrl}/api/plp/getPlpProductsByIds?${qParams?.toString()}}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => res);
+
+    return response;
+  } catch (error) {
+    console.log('Error retrieving shop the look data', error);
+
+    return {};
+  }
+}
+
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
   try {
@@ -291,51 +322,62 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
   return datoData;
 }
 
-const LIST_PAGE_CREATIVE_BLOCK_QUERY = gql`
-query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
-  allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
-    id
-    enableGwp
-    desktopImage {
-      responsiveImage(imgixParams: {w: 636, h: 804, q: 60, auto: format, fit: crop, crop: focalpoint }) {
-        ...responsiveImageFragment
+const getPlpCreativeBlockQuery = (useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile) => {
+  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 700;
+  const mobileImageHeight = useLargeCreativeImageInMobile ? 500 : 350;
+
+  return gql`
+  query listPageCreativeBlocksQuery($locale: SiteLocale, $ids: [ItemId!]) {
+    allCreativeBlocks(locale: $locale, filter: {id: {in: $ids}} orderBy: id_ASC) {
+      id
+      enableGwp
+      desktopImage {
+        responsiveImage(imgixParams: {w: 636, h: ${desktopImageHeight}, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
       }
-    }
-    mobileImage {
-      responsiveImage(imgixParams: {w: 375, q: 55, auto: format, fit: crop, crop: focalpoint }) {
-        ...responsiveImageFragment
+      mobileImage {
+        responsiveImage(imgixParams: {w: 375, h: ${mobileImageHeight}, q: 55, auto: format, fit: crop, crop: focalpoint }) {
+          ...responsiveImageFragment
+        }
       }
-    }
-    desktopCopy
-    mobileCopy
-    title
-    ctaCopy
-    ctaRoute
-    darksideButtons {
-      ${ButtonFragment}
-    }
-    additionalClass
-    configurationsInOrder {
-      ... on OmegaProductRecord {
-        shopifyProductHandle
+      desktopCopy
+      mobileCopy
+      title
+      ctaCopy
+      ctaRoute
+      darksideButtons {
+        ${ButtonFragment}
       }
-      ... on ConfigurationRecord {
-        variantId
+      additionalClass
+      configurationsInOrder {
+        ... on OmegaProductRecord {
+          shopifyProductHandle
+        }
+        ... on ConfigurationRecord {
+          variantId
+        }
       }
     }
   }
-}
-${ResponsiveImageFragment}
-`;
+  ${ResponsiveImageFragment}
+  `;
+};
 
 type FetchCreativeBlocksProps = {
   allCreativeBlocks: object[];
 };
 
-export async function fetchPlpDatoCreativeBlocks(locale: string, ids: string[]) {
+export async function fetchPlpDatoCreativeBlocks(
+  locale: string,
+  ids: string[],
+  useLargeCreativeImageInDesktop: boolean,
+  useLargeCreativeImageInMobile: boolean,
+) {
   if (!ids) return {};
+
   const datoData = (await queryDatoGQL({
-    query: LIST_PAGE_CREATIVE_BLOCK_QUERY,
+    query: getPlpCreativeBlockQuery(useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile),
     variables: { locale, ids },
   })) as FetchCreativeBlocksProps;
 

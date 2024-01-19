@@ -63,6 +63,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  parentProductAttributes?: Record<string, string>;
   isProductFeedUrl?: boolean;
   ctaCopy?: {
     purchaseWithThisDiamondCopy?: string;
@@ -87,7 +88,6 @@ function ProductConfigurator({
   variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
-  updateFlowData,
   updateSettingSlugs,
   disableVariantType = [],
   hasMoreThanOneVariant = true,
@@ -110,20 +110,21 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
   isProductFeedUrl,
   ctaCopy,
   selectedDiamond,
   productTitle,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const sizeOptions = configurations[sizeOptionKey];
+  const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
+    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
 
   // Ring size
@@ -159,7 +160,7 @@ function ProductConfigurator({
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
-    return configurations.caratWeight?.length > 1;
+    return configurations?.caratWeight?.length > 1;
   }, [configurations]);
 
   const additionalVariantIds = useMemo(() => {
@@ -179,24 +180,13 @@ function ProductConfigurator({
         }}
       >
         <DarksideButton
-          onClick={() => {
-            updateFlowData(
-              'ADD_PRODUCT',
-              {
-                ...additionalVariantData,
-                ...selectedConfiguration,
-                variantId: selectedVariantId,
-                collectionSlug: builderProduct?.product?.collectionSlug,
-              },
-              null,
-            );
-
+          onClick={() =>
             router.push(
               `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
                 .map((diamond) => diamond?.lotId)
                 .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-            );
-          }}
+            )
+          }
         >
           {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
         </DarksideButton>
@@ -232,6 +222,7 @@ function ProductConfigurator({
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
@@ -283,7 +274,6 @@ function ProductConfigurator({
         {isWeddingBandSizeGuideOpen && (
           <SlideOut
             title={_t('Size Guide')}
-            width="30%"
             onClose={() => setIsWeddingBandSizeGuideOpen(false)}
             className="extra-side-padding"
           >
@@ -395,7 +385,6 @@ type CtaButtonProps = {
     purchaseWithThisDiamondCopy?: string;
     settingFlowCtaCopy?: string;
     modifyYourDiamondCopy?: string;
-    buyButtonCopy?: string;
   };
 };
 
@@ -431,8 +420,8 @@ function AddToCartButton({
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-  const { settingFlowCtaCopy, modifyYourDiamondCopy, buyButtonCopy } = ctaCopy || {};
-  const ctaText = isReadyForCart ? buyButtonCopy : isProductFeedUrl ? modifyYourDiamondCopy : settingFlowCtaCopy;
+  const { modifyYourDiamondCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? 'Add To Bag' : isProductFeedUrl ? modifyYourDiamondCopy : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -669,7 +658,7 @@ function AddToCartButton({
       <DarksideButton
         className="atc-button"
         type={isProductFeedUrl ? 'outline' : 'solid'}
-        textSize={isProductFeedUrl ? 'medium' : 'normal'}
+        textSize="small"
         fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {
@@ -694,7 +683,7 @@ function AddToCartButton({
           }
         }}
       >
-        {ctaText}
+        {isProductFeedUrl ? ctaText : <UIString>{ctaText}</UIString>}
       </DarksideButton>
     </AddToCartButtonContainer>
   );

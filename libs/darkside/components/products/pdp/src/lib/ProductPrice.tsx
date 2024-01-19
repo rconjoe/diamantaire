@@ -51,8 +51,8 @@ const ProductPrice = ({
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
   const refinedPrice = getFormattedPrice(
-    productType === 'Earrings' && !shouldDoublePrice
-      ? price / 2
+    productType === 'Earrings' && shouldDoublePrice
+      ? price * 2
       : price + (engravingText && productType !== 'Ring' && !doesProductQualifyForFreeEngraving ? ENGRAVING_PRICE_CENTS : 0),
     locale,
   );

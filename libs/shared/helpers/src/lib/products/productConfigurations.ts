@@ -8,6 +8,8 @@ const CONFIG_TYPE_ORDER = [
   'bandStoneStyle',
   'prongStyle',
   'haloSize',
+  'topDiamondShape',
+  'bottomDiamondShape',
   'metal',
   'ceramicColor',
   'bandAccent',
@@ -22,6 +24,7 @@ const CONFIG_TYPE_ORDER = [
   'bandStyle',
   'bandVersion',
   'value',
+  'hoopAccent',
 ];
 
 function getConfigTypeOrderPosition(configType, order = CONFIG_TYPE_ORDER) {

@@ -91,7 +91,7 @@ export const CarouselSliderContainer = styled.div`
     position: absolute;
     z-index: 1;
     right: 0;
-    top: 0;
+    top: -10px;
 
     button {
       padding: 0;
@@ -194,7 +194,7 @@ export const CarouselSliderContainer = styled.div`
   }
 
   .carousel-footer {
-    margin-top: 4rem;
+    margin-top: 2rem;
   }
 
   .swiper-slide.modular_slick_carousel_block {
@@ -241,6 +241,46 @@ export const CarouselSliderContainer = styled.div`
         flex: 0 0 20%;
         padding: 0 40px;
         max-width: 100%;
+      }
+    }
+  }
+
+  &.modular_instagram_reel_block {
+    .content-block__title {
+      h2 {
+        font-size: 2.7rem;
+      }
+    }
+  }
+
+  .slider-dots {
+    position: relative;
+    top: -10px;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      top: -50px;
+    }
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      justify-content: center;
+      gap: 1rem;
+      li {
+        button {
+          height: 0.5rem;
+          width: 0.5rem;
+          background-color: var(--color-black);
+          border: none;
+          border-radius: 50%;
+          line-height: 1;
+          padding: 0;
+          opacity: 0.1;
+
+          &.active {
+            opacity: 0.75;
+          }
+        }
       }
     }
   }

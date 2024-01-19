@@ -1,15 +1,17 @@
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useTranslations, humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
 type UIStringProps = {
   children: string | string[];
   replacements?: ReactNode[];
+  types?: (keyof typeof humanNamesMapperType)[] | undefined;
 };
 
-const UIString = ({ children, replacements }: UIStringProps) => {
+const UIString = ({ children, replacements, types = Object.values(humanNamesMapperType) }: UIStringProps) => {
   const router = useRouter();
-  const { _t } = useTranslations(router.locale);
+
+  const { _t } = useTranslations(router.locale, types);
 
   // return _t(children.toString(), replacements);
 

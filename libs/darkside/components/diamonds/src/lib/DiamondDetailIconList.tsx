@@ -65,13 +65,7 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
 
       <AnimatePresence>
         {isSlideOutOpen && (
-          <SlideOut
-            title={productTitle}
-            onClose={handleCloseSlideOut}
-            width={isMobile ? '100%' : '560px'}
-            className="slideout"
-            scrollPosition={scrollPosition}
-          >
+          <SlideOut title={productTitle} onClose={handleCloseSlideOut} className="slideout" scrollPosition={scrollPosition}>
             <div
               style={{
                 width: '100%',

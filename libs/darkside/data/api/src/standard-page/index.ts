@@ -73,6 +73,8 @@ export const STANDARD_PAGE_BY_SLUG = gql`
 
             ... on ListPageRecord{
               slug
+              slugNew
+            category
             }
         }
       }

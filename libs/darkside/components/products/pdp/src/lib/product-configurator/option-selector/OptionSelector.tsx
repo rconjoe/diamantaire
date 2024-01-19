@@ -5,7 +5,7 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, sortBandWidth, sortRingSize } from '@diamantaire/shared/helpers';
+import { getDiamondType } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -76,7 +76,7 @@ const StyledOptionSelector = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: no-wrap;
-    gap: 0.5rem;
+    gap: 0.25rem;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -85,6 +85,7 @@ const StyledOptionSelector = styled.div`
       gap: 25px;
     }
     &.ringSize {
+      flex-wrap: wrap;
       align-items: center;
       margin-bottom: 2rem;
       .show-more-sizes-button button {
@@ -228,7 +229,8 @@ const StyledOptionSelector = styled.div`
     &.bandStoneStyle,
     &.bandStyle,
     &.haloSize,
-    &.bandWidth {
+    &.bandWidth,
+    &.size {
       button {
         min-width: 11.5rem;
         font-size: var(--font-size-xxxsmall);
@@ -262,10 +264,13 @@ function OptionSelector({
   selectedDiamond,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
-  const { locale } = useRouter();
+  const {
+    locale,
+    query: { collectionSlug },
+  } = useRouter();
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
   const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
-
+  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [_, setUpdateFlag] = useState(false);
 
@@ -324,16 +329,6 @@ function OptionSelector({
 
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
-  function handleOptionValueSort(options, optionType) {
-    if (optionType === 'bandWidth') {
-      return sortBandWidth(options);
-    } else if (optionType === 'ringSize') {
-      return sortRingSize(options);
-    } else {
-      return options;
-    }
-  }
-
   function renderDiamondSpecs() {
     return (
       <>
@@ -382,7 +377,7 @@ function OptionSelector({
         if (selectedOptionValue !== 'other') {
           return (
             <>
-              {selectedOptionValue}
+              {CARAT_WEIGHT_HUMAN_NAMES?.[selectedOptionValue].value} ct
               {productType === 'Engagement Ring' && renderDiamondSpecs()}
             </>
           );
@@ -402,6 +397,8 @@ function OptionSelector({
                 `${_t(getDiamondType(diamondType)?.slug)}, ${carat}ct, ${color}, ${clarity}`}
             </>
           );
+        } else if (selectedOptionValue === 'other' && productType !== 'Engagement Ring') {
+          return _t('Select diamond');
         }
 
         break;
@@ -417,15 +414,22 @@ function OptionSelector({
     }
   }
 
-  function getOptionHeaderName({ label, productType }) {
+  function getOptionHeaderName({ label, productType, collectionSlug }) {
     if (label === 'caratWeight' && productType === 'Engagement Ring') {
       return 'centerstone';
+    }
+
+    if (
+      label === 'caratWeight' &&
+      ['signature-duo-drop-earring', 'solitaire-stud-ear-jacket-set'].includes(collectionSlug)
+    ) {
+      return 'Carat weight per earring';
     }
 
     return label;
   }
 
-  const labelName = getOptionHeaderName({ label, productType });
+  const labelName = getOptionHeaderName({ label, productType, collectionSlug });
 
   function renderDiamondTypeOptions() {
     const isCarousel = options.length > 7;
@@ -451,6 +455,7 @@ function OptionSelector({
                       isLink={renderItemAsLink}
                       setProductSlug={setProductSlug}
                       selectedConfiguration={selectedConfiguration}
+                      productType={productType}
                     />
                   </div>
                 );
@@ -491,6 +496,7 @@ function OptionSelector({
             isLink={renderItemAsLink}
             setProductSlug={setProductSlug}
             selectedConfiguration={selectedConfiguration}
+            productType={productType}
           />
         );
       });
@@ -528,14 +534,18 @@ function OptionSelector({
             isLink={isBuilderFlowOpen ? false : renderItemAsLink}
             setProductSlug={setProductSlug}
             selectedConfiguration={selectedConfiguration}
+            productType={productType}
           />
         );
       });
     };
 
     const renderShowMoreSizesButton = () => {
+      const shouldShowButton = options?.length > 5;
+
       return (
-        !showingAllRingSizes && (
+        !showingAllRingSizes &&
+        shouldShowButton && (
           <DarksideButton
             className="show-more-sizes-button"
             type="underline"
@@ -576,8 +586,9 @@ function OptionSelector({
 
     return (
       <div className={clsx('option-list caratWeight')}>
-        {options.map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value;
+
           // caratWeight we remove the 'ct' from the value assuming this is size
           const valueLabel = option.value.replace(/[a-zA-Z]+/, '');
 
@@ -592,6 +603,7 @@ function OptionSelector({
               isLink={renderItemAsLink}
               setProductSlug={setProductSlug}
               selectedConfiguration={selectedConfiguration}
+              productType={productType}
             />
           );
         })}
@@ -603,7 +615,7 @@ function OptionSelector({
     // Default rendering logic for other types
     return (
       <div className={clsx('option-list', label)}>
-        {handleOptionValueSort(options, optionType).map((option) => {
+        {options?.map((option) => {
           const isSelected = selectedOptionValue === option.value || selectedOptionValue === option.id;
           const valueLabel = option.value;
 
@@ -618,6 +630,7 @@ function OptionSelector({
               isLink={isBuilderFlowOpen ? false : renderItemAsLink}
               setProductSlug={setProductSlug}
               selectedConfiguration={selectedConfiguration}
+              productType={productType}
             />
           );
         })}
@@ -627,6 +640,8 @@ function OptionSelector({
 
   const renderOptionsMap = {
     diamondType: renderDiamondTypeOptions,
+    topDiamondShape: renderDiamondTypeOptions,
+    bottomDiamondShape: renderDiamondTypeOptions,
     ringSize: renderRingSizeOptions,
     caratWeight: renderCaratWeightOptions,
   };

@@ -1,4 +1,4 @@
-import { Loader } from '@diamantaire/darkside/components/common-ui';
+import { Loader, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useGlobalContext, usePlpDatoCreativeBlocks, usePlpDatoPromoCardCollection } from '@diamantaire/darkside/data/hooks';
 import { PlpBasicFieldSortOption } from '@diamantaire/shared/types';
 import { FilterTypeProps, FilterValueProps } from '@diamantaire/shared-product';
@@ -38,13 +38,14 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
-      padding-top: 0.8rem;
-
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding-top: 0px;
         position: absolute;
-        right: 10px;
-        top: 9px;
+        cursor: pointer;
+        right: 5px;
+        top: 1px;
+      }
+      * {
+        cursor: pointer;
       }
     }
   }
@@ -61,13 +62,22 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1.5rem 1rem;
 
-    ${media.medium`grid-template-columns: repeat(4, 1fr);`}
+    ${media.medium`grid-template-columns: repeat(4, 1fr);gap: 2rem 1rem;`}
   }
+
   .loader-container {
     margin: 1rem 0;
     text-align: center;
+  }
+
+  .filter {
+    width: 100%;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding-top: 1rem;
+    }
   }
 `;
 
@@ -90,7 +100,7 @@ type PlpProductGridProps = {
     [key in FilterTypeProps]: string;
   };
   urlFilterMethod: 'facet' | 'param' | 'none';
-  handleSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
+  onSortChange: ({ sortBy, sortOrder }: SortProperties) => void;
   sortOptions: PlpBasicFieldSortOption[];
   filterOptionsOverride?: {
     filterLabel: string;
@@ -117,7 +127,7 @@ const PlpProductGrid = ({
   plpSlug,
   urlFilterMethod,
   sortOptions,
-  handleSortChange,
+  onSortChange,
   filterOptionsOverride,
   subcategoryFilter,
 }: PlpProductGridProps) => {
@@ -125,7 +135,7 @@ const PlpProductGrid = ({
 
   const { asPath, locale } = router || {};
 
-  const useProductTitleOnly = asPath === '/engagement-rings/settings';
+  const useProductTitleOnly = asPath.includes('/engagement-rings/settings');
 
   const includeStylesFilter = asPath.includes('/engagement-rings/');
 
@@ -136,7 +146,16 @@ const PlpProductGrid = ({
     promoCardCollectionId,
   );
 
-  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(locale, creativeBlockIds);
+  const useLargeCreativeImageInDesktop = !useProductTitleOnly;
+
+  const useLargeCreativeImageInMobile = asPath.includes('/jewelry');
+
+  const { data: creativeBlockParentData } = usePlpDatoCreativeBlocks(
+    locale,
+    creativeBlockIds,
+    useLargeCreativeImageInDesktop,
+    useLargeCreativeImageInMobile,
+  );
 
   const creativeBlockObject = useMemo(() => {
     if (!creativeBlockIds) return {}; // Return an empty object if cardCollection is falsy
@@ -175,11 +194,15 @@ const PlpProductGrid = ({
 
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const products = data?.pages?.map((page) => page.products).flat() || [];
+  const products = data?.pages?.map((page) => page?.products).flat() || [];
 
-  if (availableFilters && !includeStylesFilter) delete availableFilters.subStyles;
-  if (availableFilters && router?.asPath?.includes('/customize/') && availableFilters['price'])
+  if (availableFilters && !includeStylesFilter) {
+    delete availableFilters.subStyles;
+  }
+
+  if (availableFilters && router?.asPath?.includes('/customize/') && availableFilters['price']) {
     delete availableFilters.price;
+  }
 
   return (
     <PlpProductGridStyles ref={gridRef} headerHeight={headerHeight}>
@@ -199,7 +222,7 @@ const PlpProductGrid = ({
           </div>
 
           <div className="sort">
-            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={handleSortChange} />}
+            {sortOptions && <PlpSortOptions sortOptions={sortOptions} onSortOptionChange={onSortChange} />}
           </div>
         </div>
       </div>
@@ -214,12 +237,16 @@ const PlpProductGrid = ({
 
               return (
                 <Fragment key={product?.defaultId}>
-                  {cardCollectionObject[gridItemIndex + 1] !== undefined && (
-                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex + 1]]} />
+                  {cardCollectionObject[gridItemIndex] !== undefined && (
+                    <PlpPromoItem block={cardCollection[cardCollectionObject[gridItemIndex]]} />
                   )}
 
-                  {creativeBlockObject[gridItemIndex + 1] !== undefined && products.length > 8 && (
-                    <PlpCreativeBlock block={creativeBlockObject[gridItemIndex + 1]} />
+                  {creativeBlockObject[gridItemIndex] !== undefined && products.length > 8 && (
+                    <PlpCreativeBlock
+                      block={creativeBlockObject[gridItemIndex]}
+                      plpTitle={plpTitle}
+                      selectSetting={selectSetting}
+                    />
                   )}
 
                   {product?.productType === 'diamonds' ? (
@@ -247,7 +274,9 @@ const PlpProductGrid = ({
 
           {products.length === 0 && !isFetching && (
             <div className="no-items-message">
-              <p>No items match your selection</p>
+              <p>
+                <UIString>noresult</UIString>
+              </p>
             </div>
           )}
         </div>

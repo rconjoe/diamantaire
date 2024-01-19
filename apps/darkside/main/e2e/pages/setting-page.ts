@@ -68,14 +68,9 @@ export default class SettingPage extends HomePage {
 
   async selectSettingBySettingName(settingName){
     console.log(`Select Setting ${settingName}`);
-    
+    // eslint-disable-next-line playwright/no-wait-for-timeout
     await this.page.waitForTimeout(2000); // for stability
-    // await this.page.getByRole('link', { name: `${settingName}` }).click();
     await this.page.getByRole('link').filter({ hasText: `${settingName}`}).getByRole('button').first().click();
-
-    // await page.goto('https://darkside-main-jy5ehhfj0.vrai.qa/engagement-rings/settings');
-    // await page.getByRole('link', { name: 'undefined Round Brilliant | Yellow Gold The Classic Hidden Halo Round Brilliant in Yellow gold | $1,100+' }).getByRole('button').first().click();
-
   }
   
 }

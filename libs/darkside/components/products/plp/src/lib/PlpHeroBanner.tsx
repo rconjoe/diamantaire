@@ -1,4 +1,3 @@
-
 import { DatoImage, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import { media, mobileOnly } from '@diamantaire/styles/darkside-styles';
@@ -47,7 +46,9 @@ const PlpHeroBannerStyles = styled.div`
 
       .hero__content-inner {
         padding: 0;
+
         ${media.small`padding: 0 var(--gutter);`}
+
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
           color: var(--color-black);
@@ -55,12 +56,14 @@ const PlpHeroBannerStyles = styled.div`
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
           }
         }
+
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
           margin: 0 auto;
           color: var(--color-black);
+          line-height: 1.3;
 
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             max-width: 55rem;
@@ -78,12 +81,16 @@ const PlpHeroBannerStyles = styled.div`
     }
 
     .hero-title {
-      margin-bottom: 2rem;
+      height: 4.8rem;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        margin-bottom: 2rem;
+      }
     }
 
     .hero__content-inner {
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding: 1rem 0 2.5rem;
+        padding: 1rem 0 1rem;
       }
       > div {
         padding-top: 1rem;
@@ -98,7 +105,6 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-
   const { desktopImage, mobileImage, title, copy, textColor, darksideButtons } = data || {};
 
   return (
@@ -113,6 +119,7 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
           <div className="hero__image desktop">
             <DatoImage image={desktopImage} />
           </div>
+
           <div className="hero__image mobile">
             <DatoImage image={mobileImage} />
           </div>
@@ -120,10 +127,10 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
       )}
       <div className="hero__content">
         <div className="hero__content-inner">
-          <Heading className="primary hero-title" type="h1">
-            {title}
-          </Heading>
+          <Heading className="primary hero-title">{title}</Heading>
+
           <p>{copy}</p>
+
           {darksideButtons?.map((button) => {
             return (
               <DarksideButton

@@ -2,7 +2,7 @@ import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
 import styled, { createGlobalStyle } from 'styled-components';
 
-const defaultWidth = '30%';
+const defaultWidth = '55rem';
 
 const gap = '2rem';
 

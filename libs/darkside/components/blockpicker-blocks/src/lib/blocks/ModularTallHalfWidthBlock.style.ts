@@ -207,20 +207,26 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
       }
     }
 
-    button {
-      border-width: 0.1rem !important;
-      width: 99% !important;
-      margin-top: var(--space-gutter);
+    .cta__button {
+      > .button-style--outline {
+        width: 99% !important;
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          width: 60% !important;
+        }
+      }
 
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        font-size: 1.6rem !important;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      button {
         margin-top: var(--space-gutter);
-        width: 60% !important;
-      }
-      @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
-        margin-top: calc(var(--space-gutter) * 3);
+
+        @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+          font-size: 1.6rem !important;
+        }
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          margin-top: var(--space-gutter);
+        }
+        @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+          margin-top: calc(var(--space-gutter) * 3);
+        }
       }
     }
   }

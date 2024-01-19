@@ -29,9 +29,13 @@ const DiamondTableCfyPromoCard = (props) => {
     [getDiamondType(options?.diamondType)?.title],
   );
 
-  const promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
+  let promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
 
   if (!promoContent) return;
+
+  if (Array.isArray(promoContent)){
+    promoContent = promoContent.join('');
+  }
 
   return (
     <StyledDiamondTableCfyPromoCard>

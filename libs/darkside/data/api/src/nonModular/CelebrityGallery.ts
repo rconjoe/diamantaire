@@ -1,6 +1,6 @@
-import { ButtonFragment } from '../fragments';
+import { gql } from 'graphql-request';
 
-const CelebrityGallery = `
+const CelebrityGallery = gql`
 ... on CelebrityGalleryRecord {
     _modelApiKey
     title
@@ -9,6 +9,7 @@ const CelebrityGallery = `
       id
       title
       copy
+      disableProductCtas
       desktopImage {
         url
         alt
@@ -58,6 +59,22 @@ const CelebrityGallery = `
             }
           }
         }
+      }
+      darksideCelebrityJewelryConfigurations {
+          id
+          _modelApiKey
+          variantId
+          plpImage {
+            url
+            alt
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          jewelryProduct {
+              productTitle
+            }
       }
     }
   }

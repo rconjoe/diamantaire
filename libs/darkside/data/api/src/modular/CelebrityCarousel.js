@@ -7,8 +7,12 @@ const CelebrityCarousel = `
     additionalClass
     thumbnailCarouselTitle
     showBottomCarouselOnly
+    darksideButtons {
+      ${ButtonFragment}
+    }
     blocks {
       ... on CelebrityBlockRecord {
+        disableProductCtas
         id
         _modelApiKey
         title
@@ -48,6 +52,7 @@ const CelebrityCarousel = `
               width
             }
         }
+        
         jewelry {
           ... on CelebrityJewelryRecord {
             id

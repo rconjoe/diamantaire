@@ -39,7 +39,12 @@ import {
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
+import {
+  fetchAndTrackPreviouslyViewed,
+  getCountry,
+  getSWRPageCacheHeader,
+  generatePdpAssetAltTag,
+} from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
@@ -217,7 +222,9 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       },
     };
   }
-  const diamondFeedPrice = selectedDiamond?.reduce((total, diamond) => total + diamond.price, 0);
+  const diamondFeedPrice = Array.isArray(selectedDiamond)
+    ? selectedDiamond.reduce((total, diamond) => total + (diamond?.price || 0), 0)
+    : 0;
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
@@ -254,16 +261,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
   const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
-
+  const breadcrumbTitle = pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType;
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
     {
-      title: isProductJewelry ? 'Jewelry' : null,
+      title: isProductJewelry ? _t('Jewelry') : null,
       path: isProductJewelry ? '/jewelry' : null,
     },
-
     {
-      title: pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType,
+      title: _t(breadcrumbTitle),
       path: `/${isProductJewelry ? 'jewelry/' : isWeddingBand ? 'wedding-rings/' : ''}${
         pdpTypeTitleSingleToPluralHandleAsConst[shopifyProductData?.productType] || shopifyProductData?.productType
       }`,
@@ -310,8 +316,11 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
-    const productMediaAltDescription =
-      additionalVariantData && generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
+    const productMediaAltDescription = generatePdpAssetAltTag({
+      productTitle,
+      productConfiguration: shopifyProductData?.configuration,
+      _t,
+    });
 
     return (
       <PageContainerStyles>
@@ -350,16 +359,19 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             <MediaGallery
               assets={assetStack}
               options={configuration}
-              title={productMediaAltDescription}
+              title={productMediaAltDescription || productTitle}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration?.diamondType}
             />
             <MediaSlider
+              title={productMediaAltDescription || productTitle}
               assets={assetStack}
               options={configuration}
               diamondType={configuration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
             />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
@@ -408,6 +420,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
                 setProductSlug={setProductSlug}
+                parentProductAttributes={parentProductAttributes}
                 isProductFeedUrl={isProductFeedUrl}
                 ctaCopy={ctaCopy}
                 selectedDiamond={selectedDiamond}
@@ -437,14 +450,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               )}
 
               {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
-
-              {/* <Form
-                title={_t('Need more time to think?')}
-                caption={_t('Email this customized ring to yourself or drop a hint.')}
-                onSubmit={(e) => e.preventDefault()}
-                stackedSubmit={false}
-                headingType={'h2'}
-              /> */}
 
               <ProductDescription
                 title={productTitle}
@@ -507,43 +512,18 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
       No data found for product page: {collectionSlug} {productSlug}{' '}
     </h1>
   );
-
-  function generatePdpAssetAltTag(
-    producttitle: string,
-    productConfiguration: Record<string, string>,
-    configurationsWithouLabels = ['metal', 'diamondType', 'goldPurity'],
-    configurationSortOrder = ['diamondType', 'goldPurity', 'metal'],
-  ) {
-    const sortedConfigurations = Object.entries(productConfiguration).sort(([a], [b]) => {
-      const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
-      const posB = configurationSortOrder.includes(b) ? configurationSortOrder.indexOf(b) : 99;
-
-      if (posA < posB) {
-        return -1;
-      }
-
-      return 1;
-    });
-
-    const configurationDescriptionArr = sortedConfigurations.map(([type, value]) => {
-      if (configurationsWithouLabels.includes(type)) {
-        return _t(value);
-      }
-
-      return `${_t(type)}: ${_t(value)}`;
-    });
-
-    return `${producttitle} | ${configurationDescriptionArr.join(' | ')}`;
-  }
 }
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+  const cacheSettings = getSWRPageCacheHeader();
 
-  context.res.setHeader(cachePolicy, cacheSettings);
+  context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('CDN-Cache-Control', cacheSettings);
+  context.res.setHeader('Cache-Control', cacheSettings);
+
   const mergedContext = {
     ...context,
     params: {

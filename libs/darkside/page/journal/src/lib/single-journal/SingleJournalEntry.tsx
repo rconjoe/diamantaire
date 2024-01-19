@@ -52,7 +52,7 @@ const SingleJournalEntry = () => {
         <NextSeo
           title={seoTitle}
           description={seoDescription}
-          canonical={typeof window !== 'undefined' && window.location.origin + window.location.pathname}
+          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + router?.asPath}
         />
       )}
 

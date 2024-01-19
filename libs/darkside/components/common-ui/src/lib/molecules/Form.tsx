@@ -130,6 +130,7 @@ const FormContainer = styled.div<{
         height: 4.5rem;
         padding-left: 1rem;
         font-size: var(--font-size-xxsmall);
+        width: 100%;
       }
 
       .dropdown__single-value {
