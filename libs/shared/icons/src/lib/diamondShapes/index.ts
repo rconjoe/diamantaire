@@ -23,6 +23,9 @@ import { OctaviaIcon } from './OctaviaIcon';
 import { OvalIcon } from './OvalIcon';
 import { OvalRoseIcon } from './OvalRoseIcon';
 import { PassionIcon } from './PassionIcon';
+import { PaveClusterCushionIcon } from './PaveClusterCushionIcon';
+import { PaveClusterMarquiseIcon } from './PaveClusterMarquiseIcon';
+import { PaveClusterRoundBrilliantIcon } from './PaveClusterRoundBrilliantIcon';
 import { PearIcon } from './PearIcon';
 import { PrincessIcon } from './PrincessIcon';
 import { RadiantIcon } from './RadiantIcon';
@@ -278,8 +281,27 @@ export const diamondIconsMap = {
   },
 };
 
-export function getIconsForDiamondType(diamondType) {
+export const paveClusterIconsMap = {
+  round: {
+    slug: 'round',
+    icon: PaveClusterRoundBrilliantIcon,
+  },
+  marquise: {
+    slug: 'marquise',
+    icon: PaveClusterMarquiseIcon,
+  },
+  cushion: {
+    slug: 'cushion',
+    icon: PaveClusterCushionIcon,
+  },
+};
+
+export function getIconsForDiamondType(diamondType, optionType) {
   const diamondTypes = diamondType.split('+');
+
+  if (optionType === 'paveCluster') {
+    return diamondTypes.map((type) => paveClusterIconsMap[type]?.icon).filter(Boolean);
+  }
 
   return diamondTypes.map((type) => diamondIconsMap[type]?.icon).filter(Boolean);
 }
