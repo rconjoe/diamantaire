@@ -8,9 +8,9 @@ import {
   PLP_PRICE_RANGES,
   RING_STYLES_MAP,
   formatPrice,
+  getFormattedPrice,
   ringStylesWithIconMap,
 } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
 import { FilterIcon, diamondIconsMap } from '@diamantaire/shared/icons';
 import { FilterTypeProps } from '@diamantaire/shared-product';
 import clsx from 'clsx';
@@ -46,9 +46,9 @@ const PlpAllFilterOptions = ({
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
-        {price.min && formatPrice(price?.min, locale)}
+        {price.min && getFormattedPrice(price?.min, locale)}
         {price.min && price.max && <span className="hyphen">-</span>}
-        {price && formatPrice(price?.max, locale)}
+        {price && getFormattedPrice(price?.max, locale)}
       </>
     );
   };
@@ -56,7 +56,9 @@ const PlpAllFilterOptions = ({
   const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
-    return makeCurrency(value);
+    const num = Number(value);
+
+    return getFormattedPrice(num, locale);
   };
 
   const handleChange = (value: number[]) => {
@@ -102,18 +104,22 @@ const PlpAllFilterOptions = ({
             {filterTypes &&
               Object.keys(filterTypes)?.map((optionSet, index) => {
                 // Hide filters with no options
-                if (filterTypes[optionSet]?.length < 2) return null;
+                if (filterTypes[optionSet]?.length < 2) {
+                  return null;
+                }
 
                 // Check diamondType count as + diamonds are removed
                 if (
                   (optionSet === 'diamondType' &&
                     filterTypes[optionSet]?.filter((item) => !item.includes('+')).length < 2) ||
                   (optionSet === 'diamondType' && isDiamondFirstFlow)
-                )
+                ) {
                   return null;
+                }
 
-                if ((optionSet === 'styles' && pathname.includes('/jewelry/')) || pathname.includes('/wedding-bands/'))
+                if ((optionSet === 'styles' && pathname.includes('/jewelry/')) || pathname.includes('/wedding-bands/')) {
                   return null;
+                }
 
                 return (
                   <li className={clsx('filter__option-selector', optionSet)} key={`option-set-${optionSet}-${index}`}>
@@ -222,7 +228,10 @@ const PlpAllFilterOptions = ({
                     className={clsx('flex align-center', {
                       active: isCustomPriceRangeOpen,
                     })}
-                    onClick={() => setIsCustomPriceRangeOpen(!isCustomPriceRangeOpen)}
+                    onClick={() => {
+                      handlePriceRangeReset();
+                      setIsCustomPriceRangeOpen(!isCustomPriceRangeOpen);
+                    }}
                   >
                     <span className="price-text">
                       <UIString>custom</UIString>

@@ -8,6 +8,7 @@ import {
   PLP_PRICE_RANGES,
   RING_STYLES_MAP,
   formatPrice,
+  getFormattedPrice,
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
@@ -156,9 +157,9 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
-        {price.min && formatPrice(price?.min, locale)}
+        {price.min && getFormattedPrice(price?.min, locale)}
         {price.min && price.max && <span className="hyphen">-</span>}
-        {price && formatPrice(price?.max, locale)}
+        {price && getFormattedPrice(price?.max, locale)}
       </>
     );
   };

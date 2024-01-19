@@ -1,6 +1,5 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { PLP_PRICE_RANGES, formatPrice } from '@diamantaire/shared/constants';
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { PLP_PRICE_RANGES, formatPrice, getFormattedPrice } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -28,9 +27,9 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
   const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const handleFormat = (value: number | string) => {
-    return formatCurrency({
-      amount: parseFloat(value.toString()) / 100,
-    });
+    const num = Number(value);
+
+    return getFormattedPrice(num, locale);
   };
 
   const handleChange = (value: number[]) => {
