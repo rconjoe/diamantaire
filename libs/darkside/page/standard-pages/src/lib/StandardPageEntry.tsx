@@ -29,7 +29,7 @@ type StandardPageEntryProps = {
 
 const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: StandardPageEntryProps) => {
   // const { content1 } = page || [];
-  console.log('page', page);
+  // console.log('page', page);
 
   return (
     <div className={clsx('content-one-container', gtmClass)}>

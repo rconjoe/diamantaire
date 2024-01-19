@@ -52,8 +52,6 @@ type BreadcrumbProps = {
 };
 
 const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: BreadcrumbProps) => {
-  console.log('breadcrumb', breadcrumb);
-
   return (
     <BreadcrumbStyles id="breadcrumb" className="container-wrapper" lastItemBolded={lastItemBolded}>
       {simple ? (
