@@ -131,6 +131,7 @@ const JEWELRY_QUERY = gql`
         seoDescription
       }
       productTitle
+      productTitleOverride
       productDescription
       productIconList {
         productType
@@ -165,6 +166,7 @@ const WEDDING_BAND_QUERY = gql`
       seoTitle
       seoDescription
       productTitle
+      productTitleOverride
       productDescription
       productIconList {
         productType
