@@ -23,7 +23,7 @@ import {
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
-import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
 import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
@@ -125,6 +125,10 @@ const SettingBuildStep = ({
   const CFY_RETURN_THRESHOLD = 5.1;
 
   const { _t } = useTranslations(router.locale);
+  const productMediaAltDescription =
+    additionalVariantData &&
+    generatePdpAssetAltTag({ productTitle, productConfiguration: shopifyProductData?.configuration, _t });
+
   const isDiamondCFY = builderProduct?.diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
   useEffect(() => {
@@ -181,10 +185,12 @@ const SettingBuildStep = ({
               diamondType={selectedConfiguration?.diamondType}
               disableHandSliderControls={true}
               presetHandSliderValue={parseFloat(sliderHandCaption)}
+              title={productMediaAltDescription}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
             <MediaSlider
+              title={productMediaAltDescription}
               assets={assetStack}
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}

@@ -29,3 +29,4 @@ export * from './swapProductTypeWithHandle';
 export * from './goToCheckoutUrl';
 export * from './getCurrentUrl';
 export * from './cacheHelpers';
+export * from './generatePdpAssetAltTag';
