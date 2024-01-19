@@ -6,8 +6,15 @@ import * as EmailValidator from 'email-validator';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 
 import { Form } from './';
+
+const NeedTimeToThinkFormStyles = styled.div`
+  h4 {
+    font-size: 2rem;
+  }
+`;
 
 const NeedTimeToThinkForm = ({ productData }) => {
   const [pageTitle, setPageTitle] = useState('VRAI: Engagement Rings & Jewelry | Sustainable Diamonds');
@@ -76,13 +83,15 @@ const NeedTimeToThinkForm = ({ productData }) => {
   };
 
   return (
-    <Form
-      title={_t('Need more time to think?')}
-      onSubmit={handleSubmit}
-      ctaCopy={_t('Submit')}
-      isSuccessful={isSuccessful}
-      formSubmissionResult={formSubmissionResult}
-    />
+    <NeedTimeToThinkFormStyles>
+      <Form
+        title={_t('Need more time to think?')}
+        onSubmit={handleSubmit}
+        ctaCopy={_t('Submit')}
+        isSuccessful={isSuccessful}
+        formSubmissionResult={formSubmissionResult}
+      />
+    </NeedTimeToThinkFormStyles>
   );
 };
 

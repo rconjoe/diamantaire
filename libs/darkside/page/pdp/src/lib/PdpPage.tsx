@@ -361,6 +361,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               options={configuration}
               diamondType={configuration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
             />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
@@ -540,7 +542,7 @@ export async function getServerSideProps(
   context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
   context.res.setHeader('CDN-Cache-Control', cacheSettings);
   context.res.setHeader('Cache-Control', cacheSettings);
-  
+
   const mergedContext = {
     ...context,
     params: {

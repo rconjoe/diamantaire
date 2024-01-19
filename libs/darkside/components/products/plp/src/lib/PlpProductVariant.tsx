@@ -64,6 +64,7 @@ const PlpProductVariantStyles = styled.div`
     display: block;
     font-size: var(--font-size-xxxsmall);
     font-weight: var(--font-weight-normal);
+    line-height: 1.4;
   }
 
   .metal-selector {

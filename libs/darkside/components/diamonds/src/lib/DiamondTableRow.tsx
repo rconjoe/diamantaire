@@ -101,9 +101,11 @@ const DiamondTableRow = ({
 
     updateFlowData('ADD_DIAMOND', [product]);
 
-    updateSettingSlugs({
-      lotIds: [product.lotId],
-    });
+    if (updateSettingSlugs) {
+      updateSettingSlugs({
+        lotIds: [product.lotId],
+      });
+    }
 
     if (!router.query.flowType) {
       router.push(`/customize/diamond-to-setting/${product.lotId}`);

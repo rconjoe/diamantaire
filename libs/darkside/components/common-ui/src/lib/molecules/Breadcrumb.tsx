@@ -52,8 +52,10 @@ type BreadcrumbProps = {
 };
 
 const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: BreadcrumbProps) => {
+  console.log('breadcrumb', breadcrumb);
+
   return (
-    <BreadcrumbStyles className="container-wrapper" lastItemBolded={lastItemBolded}>
+    <BreadcrumbStyles id="breadcrumb" className="container-wrapper" lastItemBolded={lastItemBolded}>
       {simple ? (
         <ul className="list-unstyled flex">
           {breadcrumb?.map((item, index) => {
@@ -77,10 +79,9 @@ const Breadcrumb = ({ breadcrumb, simple = false, lastItemBolded = true }: Bread
             const isLastItem = breadcrumb.length - 1 === index;
 
             const link =
-              '/' +
-              (item?.link?.category && item?.link?.slugNew
-                ? `${item?.link?.category}/${item.link.slugNew}`
-                : item?.link?.slug || item?.path);
+              item?.link?.category && item?.link?.slugNew
+                ? `/${item?.link?.category}/${item.link.slugNew}`
+                : item?.link?.slug || item?.path;
             const name = item?.title?.trim() || item.name;
 
             if (!link) {

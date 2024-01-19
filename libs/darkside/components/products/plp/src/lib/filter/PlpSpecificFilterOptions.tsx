@@ -1,5 +1,5 @@
 import { UIString } from '@diamantaire/darkside/components/common-ui';
-import { humanNamesMapperType, useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { humanNamesMapperType, useSingleHumanNameMapper } from '@diamantaire/darkside/data/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
@@ -45,7 +45,8 @@ const PlpSpecificFilterOptionsStyles = styled.div`
       display: none;
     }
 
-    &.metal {
+    &.metal,
+    &.diamondType {
       padding-top: 0px;
     }
   }
@@ -60,8 +61,6 @@ const PlpSpecificFilterOptionsStyles = styled.div`
 
 const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFilter, filterValue }) => {
   const { locale } = useRouter();
-
-  const { _t } = useTranslations(locale);
 
   const { data: { METALS_IN_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'METALS_IN_HUMAN_NAMES');
 

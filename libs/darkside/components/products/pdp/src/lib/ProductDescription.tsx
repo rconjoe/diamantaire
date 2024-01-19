@@ -20,7 +20,7 @@ const ProductDescriptionContainer = styled.div`
   .details-title {
     margin: calc(var(--gutter) / 2) 0 calc(var(--gutter) / 6) 0;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xsmall);
+    font-size: 2rem;
     line-height: 1.5;
   }
 
@@ -176,7 +176,6 @@ const ProductDescription = ({
             )}
           </ul>
         );
-
 
       default: // jewelry
         return <ul>{renderSpecs(jewelryProductSpecs)}</ul>;

@@ -6,7 +6,7 @@ interface Props {
 
 export const MegaMenuStylesContainer = styled.div<Props>`
   border-bottom: 0.1rem solid #000;
-  padding-bottom: 4rem;
+  padding-bottom: 0;
   position: ${({ $isFixed }) => ($isFixed ? 'fixed' : 'absolute')};
   top: ${({ $headerHeight }) => $headerHeight + 'px'};
   left: 0;
@@ -25,7 +25,6 @@ export const MegaMenuStylesContainer = styled.div<Props>`
   .menu-container {
     justify-content: start;
     margin: 0 -4rem;
-    padding-top: 2rem;
     flex-wrap: wrap;
 
     @media (min-width: ${({ theme }) => theme.sizes.xl}) {
@@ -35,9 +34,15 @@ export const MegaMenuStylesContainer = styled.div<Props>`
 
     &.VRAIcreatedDiamond,
     &.Gifts,
-    &.about {
+    &.test4 {
       max-width: 100rem;
       margin: 0 auto;
+    }
+
+    &.four-col {
+      .menu-container__col {
+        padding: 0 3rem;
+      }
     }
 
     .menu-container__col {

@@ -62,9 +62,9 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1.5rem 1rem;
 
-    ${media.medium`grid-template-columns: repeat(4, 1fr);`}
+    ${media.medium`grid-template-columns: repeat(4, 1fr);gap: 2rem 1rem;`}
   }
 
   .loader-container {

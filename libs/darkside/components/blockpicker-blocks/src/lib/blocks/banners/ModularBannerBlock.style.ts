@@ -336,6 +336,7 @@ export const SubTitle = styled.div`
 export const Copy = styled.div`
   p {
     margin-bottom: 2rem !important;
+    font-size: var(--font-size-xsmall);
   }
 
   p:last-child {
