@@ -484,8 +484,8 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
   if (currency === 'USD') {
     return result;
   }
-  // round up for international currencies
 
+  // round up for international currencies
   return Math.ceil(result);
 }
 
@@ -508,11 +508,15 @@ export function getFormattedPrice(
   const { countryCode } = parseValidLocale(locale);
   const currency = getCurrency(countryCode);
 
-  const priceInDollars = getPriceWithAddedTax(priceInCents, countryCode) / 100;
-  const convertedPrice = applyExchangeRate(priceInDollars, currency);
+  const convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+  let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode) ;
+
+  if (currency !== Currency.USDollars){
+    finalPrice = Math.ceil(finalPrice);
+  }
 
   if (excludeCurrency) {
-    return Number(convertedPrice).toFixed(2);
+    return Number(finalPrice).toFixed(2);
   }
 
   // this is a hack to see proper CAD formatting
@@ -528,7 +532,7 @@ export function getFormattedPrice(
   });
 
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(convertedPrice);
+  let formattedPrice = numberFormat.format(finalPrice);
 
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 

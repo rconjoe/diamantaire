@@ -29,13 +29,17 @@ const DiamondTableCfyPromoCard = (props) => {
     [getDiamondType(options?.diamondType)?.title],
   );
 
-  const promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
+  let promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
 
   if (!promoContent) return;
 
+  if (Array.isArray(promoContent)){
+    promoContent = promoContent.join('');
+  }
+
   return (
     <StyledDiamondTableCfyPromoCard>
-      <Markdown withStyles={false}>{promoContent?.join('')}</Markdown>
+      <Markdown withStyles={false}>{promoContent}</Markdown>
 
       <div className="cta">
         <UniLink

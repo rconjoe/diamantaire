@@ -1123,12 +1123,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
 
       <AnimatePresence>
         {isSizeGuideOpen && (
-          <SlideOut
-            title={_t('Size Guide')}
-            width="30%"
-            onClose={() => setIsSizeGuideOpen(false)}
-            className="extra-side-padding"
-          >
+          <SlideOut title={_t('Size Guide')} onClose={() => setIsSizeGuideOpen(false)} className="extra-side-padding">
             <RingSizeGuide />
           </SlideOut>
         )}
