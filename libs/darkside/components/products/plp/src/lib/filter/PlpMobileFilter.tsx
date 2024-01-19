@@ -244,6 +244,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                   filterValue={localFilterValue}
                   handleSliderURLUpdate={handleSliderURLUpdate}
                   filterTypes={filterTypes}
+                  locale={locale}
                 />
               );
             } else {
@@ -277,15 +278,15 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
           <div className="mobile-active-filters">
             <ul>
               {Object.keys(localFilterValue).map((filterType) => {
-                const isMetal = filterType === 'metal';
-
                 const isDiamondType = filterType === 'diamondType';
+
+                const isSubStyle = filterType === 'subStyle';
+
+                const isMetal = filterType === 'metal';
 
                 const isPrice = filterType === 'price';
 
                 const isStyle = filterType === 'style';
-
-                const isSubStyle = filterType === 'subStyle';
 
                 const text = isMetal
                   ? METAL_HUMAN_NAMES[localFilterValue[filterType]]
@@ -344,7 +345,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                     if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
                       title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
                     } else if (METALS_IN_HUMAN_NAMES[val]) {
-                      title = <UIString>{METALS_IN_HUMAN_NAMES[val]}</UIString>;
+                      title = <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{val}</UIString>;
                     } else {
                       title = <UIString>{val}</UIString>;
                     }

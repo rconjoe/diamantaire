@@ -38,12 +38,16 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
+      padding-top: 1rem;
+
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         position: absolute;
         cursor: pointer;
-        right: 5px;
-        top: 1px;
+        padding-top: 0;
+        right: 0.5rem;
+        top: 0.1rem;
       }
+
       * {
         cursor: pointer;
       }
@@ -74,10 +78,7 @@ const PlpProductGridStyles = styled.div`
 
   .filter {
     width: 100%;
-
-    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding-top: 1rem;
-    }
+    padding: 1rem 0;
   }
 `;
 
