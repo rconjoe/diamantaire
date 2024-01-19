@@ -1,4 +1,6 @@
-const CelebrityGallery = `
+import { gql } from 'graphql-request';
+
+const CelebrityGallery = gql`
 ... on CelebrityGalleryRecord {
     _modelApiKey
     title
@@ -57,6 +59,22 @@ const CelebrityGallery = `
             }
           }
         }
+      }
+      darksideCelebrityJewelryConfigurations {
+          id
+          _modelApiKey
+          variantId
+          plpImage {
+            url
+            alt
+            responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
+              ...responsiveImageFragment
+            }
+            alt
+          }
+          jewelryProduct {
+              productTitle
+            }
       }
     }
   }

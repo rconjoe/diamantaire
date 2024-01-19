@@ -40,7 +40,7 @@ button:hover {
   font-weight: var(--font-weight-medium);
 }
 .container-wrapper {
-  width: 100;
+  width: 100%;
   padding-left: calc(var(--space-gutter) * 3);
   padding-right: calc(var(--space-gutter) * 3);
   margin-right: auto;

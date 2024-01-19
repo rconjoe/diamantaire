@@ -209,14 +209,13 @@ export const ModularTallHalfWidthBlockContainer = styled.div`
 
     .cta__button {
       > .button-style--outline {
+        width: 99% !important;
         @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
           width: 60% !important;
         }
       }
 
       button {
-        border-width: 0.1rem !important;
-        width: 99% !important;
         margin-top: var(--space-gutter);
 
         @media (max-width: ${({ theme }) => theme.sizes.tablet}) {

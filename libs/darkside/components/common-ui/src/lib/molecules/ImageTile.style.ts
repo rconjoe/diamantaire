@@ -47,7 +47,7 @@ export const ImageTileContainer = styled.div<Props>`
     }
     &.primary {
       font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-small);
+      font-size: 2rem;
       line-height: 1.3;
       ${tabletAndUp(`
         font-size: 2rem;
@@ -83,6 +83,10 @@ export const ImageTileContainer = styled.div<Props>`
 
   .image-tile__copy {
     margin: 0 0 0.4rem;
+    p {
+      line-height: 1.4;
+      font-size: var(--font-size-xsmall);
+    }
   }
 
   .image-tile__anchor {

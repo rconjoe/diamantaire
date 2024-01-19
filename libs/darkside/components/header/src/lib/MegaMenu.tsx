@@ -1,5 +1,6 @@
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { getRelativeUrl, isCountrySupported } from '@diamantaire/shared/helpers';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -34,7 +35,9 @@ const MegaMenu: FC<MegaMenuProps> = (props) => {
 
             return (
               <div
-                className={`menu-container ${key}`}
+                className={clsx(`menu-container ${key}`, {
+                  'four-col': columns?.length > 3,
+                })}
                 key={`mm-${menuIndex}`}
                 style={{
                   display: megaMenuIndex === menuIndex ? 'flex' : 'none',

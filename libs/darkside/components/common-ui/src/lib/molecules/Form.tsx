@@ -106,6 +106,7 @@ const FormContainer = styled.div<{
       display: flex;
       flex-wrap: ${({ stackedSubmit }) => (stackedSubmit ? 'wrap' : 'nowrap')};
       margin-bottom: ${({ fieldsLength }) => (fieldsLength === 1 ? 0 : ` 1rem;`)};
+      flex: 1;
 
       &.submit {
         margin-bottom: 0px;

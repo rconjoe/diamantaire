@@ -1,4 +1,6 @@
-import { DarksideButton, DatoImage, Heading, Modal } from '@diamantaire/darkside/components/common-ui';
+import { DatoImage, Heading, Modal } from '@diamantaire/darkside/components/common-ui';
+import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
+import { ProductLink } from '@diamantaire/shared-product';
 import { media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -63,11 +65,9 @@ const CelebrityModalStyles = styled.div`
 
               > .image {
                 flex: 0 0 10rem;
-                padding: 1rem;
                 img {
                   height: 100% !important;
                   max-height: 14rem;
-                  object-fit: contain;
                 }
               }
 
@@ -99,6 +99,11 @@ const CelebrityModalStyles = styled.div`
 `;
 
 const CelebrityModal = ({ modalContent, toggleModal }) => {
+  const ids = modalContent?.darksideCelebrityJewelryConfigurations.map((config) => config.variantId);
+
+  const { data } = useBlockProducts(ids);
+  const { products } = data || {};
+
   return (
     <CelebrityModalStyles>
       <Modal title={false} onClose={() => toggleModal(null)} className="modal--sm">
@@ -114,28 +119,35 @@ const CelebrityModal = ({ modalContent, toggleModal }) => {
               <p>{modalContent?.copy}</p>
 
               <ul className="products list-unstyled">
-                {modalContent?.jewelry?.map((item) => {
+                {modalContent?.darksideCelebrityJewelryConfigurations?.map((item) => {
+                  const matchingProduct = products?.find(({ product }) => product?.contentId === item?.variantId);
+
                   return (
                     <li key={item.id}>
                       {modalContent?.disableProductCtas === true ? (
                         <div className="no-link">
                           <span className="image">
-                            <DatoImage image={item?.image} />
+                            <DatoImage image={item?.plpImage} />
                           </span>
                           <span className="content">
-                            <span className="text">{item?.itemName}</span>
+                            <span className="text">{item?.jewelryProduct?.productTitle}</span>
                           </span>
                         </div>
                       ) : (
-                        <a href={item?.newRoute || item?.ctaRoute} target="_blank">
+                        <ProductLink
+                          collectionSlug={matchingProduct?.product?.collectionSlug}
+                          productSlug={matchingProduct?.product?.productSlug}
+                          productType={matchingProduct?.product?.productType}
+                          target="_blank"
+                        >
                           <span className="image">
-                            <DatoImage image={item?.image} />
+                            <DatoImage image={item?.plpImage} />
                           </span>
                           <span className="content">
-                            <span className="text">{item?.itemName}</span>
-                            <DarksideButton>View</DarksideButton>
+                            <span className="text">{item?.jewelryProduct?.productTitle}</span>
+                            {/* <DarksideButton>View</DarksideButton> */}
                           </span>
-                        </a>
+                        </ProductLink>
                       )}
                     </li>
                   );

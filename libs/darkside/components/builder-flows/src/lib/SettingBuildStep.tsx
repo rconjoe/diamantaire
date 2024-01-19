@@ -195,6 +195,8 @@ const SettingBuildStep = ({
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
             />
           </ShowMobileOnly>
         </div>

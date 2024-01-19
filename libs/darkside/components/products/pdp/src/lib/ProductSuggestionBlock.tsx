@@ -24,13 +24,14 @@ const ProductSuggestionBlockStyles = styled.div`
     .product-suggestion__container {
       padding: 0 1rem;
       flex: 0 0 50%;
+      margin-bottom: 2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 1;
       }
 
       .product-suggestion__title {
-        margin: 1rem 0;
+        margin: 1rem 0 0;
         font-weight: bold;
       }
 
@@ -62,9 +63,6 @@ const ProductSuggestionBlock = ({ id }) => {
   const { data } = useBlockProducts(productHandles);
 
   const { products, lowestPricesByCollection } = data || {};
-
-  console.log('productHandles', productHandles);
-  console.log('productsxxx', products);
 
   if (products?.length === 0) return null;
 

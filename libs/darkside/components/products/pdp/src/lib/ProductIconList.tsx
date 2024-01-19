@@ -20,7 +20,11 @@ const ProductIconListContainer = styled.div`
       display: flex;
       align-items: center;
       font-size: 1.7rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        margin-bottom: 0.5rem;
+      }
 
       &.cfy {
         align-items: flex-start;

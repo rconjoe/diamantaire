@@ -370,6 +370,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               options={configuration}
               diamondType={configuration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
             />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
           </div>
