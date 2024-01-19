@@ -79,11 +79,12 @@ const ProductAppointmentCTA = ({
   const [ctaTitle, setCtaTitle] = useState(_t(`Book an appointment`));
   const [appointmentLink, setAppointmentLink] = useState(getVirtualFallbackLink(productType, locale));
 
-  const showroomLocation = isUserCloseToShowroom();
+  // if user isn't near showroom, fallback to virtual showroom
+  const showroomLocation = isUserCloseToShowroom() || VIRTUAL_SHOWROOM;
 
   useEffect(() => {
     const getCtaTitle = ({ productType, location }) => {
-      if (location) {
+      if (location && location !== 'Virtual') {
         if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
           return _t(`Discover our rings at VRAI %%location%%`);
         }
@@ -128,11 +129,6 @@ const ProductAppointmentCTA = ({
   }, []);
 
   function generateAppointmentLink(matchingLocation, productType) {
-    if (!matchingLocation) {
-      console.log('No matching appointment options', matchingLocation, productType);
-
-      return 'https://vrai.as.me/schedule.php?appointmentType=Virtual';
-    }
     const fineJewelryTypes = ['Earrings', 'Bracelet', 'Necklace', 'Ring'];
     const { appointmentOptions } = matchingLocation;
 
