@@ -24,7 +24,7 @@ jobs:
   test_e2e:
     needs: test_setup
     name: Executing tests
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Prepare testing env

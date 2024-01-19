@@ -1,4 +1,5 @@
 import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
+
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
@@ -11,6 +12,7 @@ import {
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -121,8 +123,6 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
   const { data: checkout } = useCartData(locale);
 
   const gwpData = gwp?.allGwpDarksides?.[0]?.tiers?.[0];
-
-  const { isMobile } = useContext(GlobalContext);
 
   const {
     supportedCountries,
@@ -236,7 +236,6 @@ const PlpCreativeBlock = ({ block, plpTitle, selectSetting }) => {
                       title={_t('Shop the look')}
                       scrollPosition={scrollPosition}
                       onClose={handleCloseShopTheLook}
-                      width={isMobile ? '100%' : '55rem'}
                     >
                       <PlpCreativeSlideOut
                         configurationsInOrder={configurationsInOrder}
