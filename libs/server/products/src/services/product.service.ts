@@ -670,11 +670,15 @@ export class ProductsService {
       const findProductBySlugStart: number = performance.now();
 
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
+      const bigQuery = {
+        ...getDraftQuery(),
+      };
       const query = {
         collectionSlug: input.slug,
         ...getDraftQuery(),
       };
 
+      const bigRedisKey: string = `products::` + setLocal + `:` + (query.isDraft ? `draft` : ``);
       const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + `:` + (query.isDraft ? `draft` : ``);
 
       // create unique cacheKey for each prodyct variant
@@ -695,12 +699,27 @@ export class ProductsService {
       const preProductsReq: number = performance.now();
 
       if (productsCollectionCacheValue) {
-        this.logger.verbose(`findProductBySlug :: From Cache`);
+        this.logger.verbose(`findProductBySlug :: From Cache 1`);
         collection = productsCollectionCacheValue as VraiProduct[];
       } else {
-        this.logger.verbose(`findProductBySlug :: From DB`);
-        collection = await this.productRepository.find(query);
-        this.cacheManager.set(redisKey, collection);
+        this.logger.verbose(`findProductBySlug :: From DB 1`);
+        const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
+
+        if (bigProductsCollectionCacheValue) {
+          this.logger.verbose(`findProductBySlug :: From Cache 2`);
+          collection = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
+            return (item.collectionSlug === input.slug);
+          });
+          this.cacheManager.set(redisKey, collection);
+        } else {
+          this.logger.verbose(`findProductBySlug :: From DB 2`);
+          collection = await this.productRepository.find(bigQuery);
+          this.cacheManager.set(bigRedisKey, collection);
+          collection = collection.filter((item) => {
+            return (item.collectionSlug === input.slug);
+          });
+          this.cacheManager.set(redisKey, collection);
+        }
       }
 
       const postProductsReq: number = performance.now();
