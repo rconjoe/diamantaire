@@ -540,7 +540,7 @@ export async function getServerSideProps(
   context.res.setHeader('Vercel-CDN-Cache-Control', cacheSettings);
   context.res.setHeader('CDN-Cache-Control', cacheSettings);
   context.res.setHeader('Cache-Control', cacheSettings);
-  
+
   const mergedContext = {
     ...context,
     params: {
@@ -599,3 +599,35 @@ async function getDiamond(lotIds) {
 
   return diamondResponse;
 }
+
+// async function getLowestPriceDiamondByDiamondType(diamondType) {
+//   // Ensure diamondType is provided and is a string
+//   if (!diamondType || typeof diamondType !== 'string') {
+//     throw new Error('Invalid diamondType provided');
+//   }
+
+//   const qParams = new URLSearchParams({ diamondType }).toString();
+
+//   const baseUrl =
+//     typeof window === 'undefined'
+//       ? `${process.env.NEXT_PUBLIC_PROTOCOL}${process.env.NEXT_PUBLIC_VERCEL_URL}`
+//       : window.location.origin;
+
+//   const reqUrl = `${baseUrl}/api/diamondLowestPriceByDiamondType?${qParams}`;
+
+//   try {
+//     const response = await fetch(reqUrl);
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     const diamondData = await response.json();
+
+//     return diamondData;
+//   } catch (error) {
+//     console.error(`Error fetching lowest priced diamond for type ${diamondType}:`, error);
+
+//     return null;
+//   }
+// }
