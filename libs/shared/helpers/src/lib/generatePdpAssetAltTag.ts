@@ -13,6 +13,9 @@ export function generatePdpAssetAltTag({
   configurationSortOrder = ['diamondType', 'goldPurity', 'metal'],
   _t = null, // _t is optional and defaults to null
 }: Options) {
+  if (!productConfiguration || !configurationSortOrder) {
+    return [];
+  }
   const sortedConfigurations = Object.entries(productConfiguration).sort(([a], [b]) => {
     const posA = configurationSortOrder.includes(a) ? configurationSortOrder.indexOf(a) : 99;
     const posB = configurationSortOrder.includes(b) ? configurationSortOrder.indexOf(b) : 99;
