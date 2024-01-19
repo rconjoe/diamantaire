@@ -1,20 +1,27 @@
 config:
   target: https://main.vrai.qa
   phases:
-    # - duration: 60
-    #   arrivalRate: 1
-    #   rampTo: 5
+    # - duration: 5
+    #   arrivalCount: 1
     #   name: Warm up phase
-    - duration: 5
-      arrivalCount: 1
-      name: Warm up phase
+    # - duration: 600
+    #   arrivalCount: 100
+    #   name: Spike phase
+    - duration: 600
+      arrivalCount: 100
+      name: Spike phase
+  plugins:
+    ensure: {}
   # Load the Playwright engine:
   engines:
     playwright: 
-        launchOptions:
+        launchOptions: 
           headless: true
+          extendedMetrics: true
+          defaultNavigationTimeout: 8
+          defaultActionTimeout: 10000 
   # Path to JavaScript file that defines Playwright test functions
-  processor: "ui/flow.js"
+  processor: "ui/engagement-ring-flow.js"
 scenarios:
   - engine: playwright
-    testFunction: "simpleFlow"
+    testFunction: "settingFirstFlow"
