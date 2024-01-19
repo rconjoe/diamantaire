@@ -69,7 +69,7 @@ const MediaSliderContainer = styled.div`
   }
 `;
 
-const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = false }) => {
+const MediaSlider = ({ assets, options, diamondType, title, shouldDisplayDiamondHand = false }) => {
   const [totalSlides, setTotalSlides] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const hasPagination = totalSlides > 1;
@@ -144,7 +144,7 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
 
                 return (
                   <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
-                    <ShopifyImage image={asset} />
+                    <ShopifyImage image={asset} defaultAlt={title} />
                   </div>
                 );
               }
