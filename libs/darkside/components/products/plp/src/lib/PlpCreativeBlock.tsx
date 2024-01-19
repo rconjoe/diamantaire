@@ -1,6 +1,4 @@
 import { DarksideButton, Heading, MobileDesktopImage, SlideOut } from '@diamantaire/darkside/components/common-ui';
-
-import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, usePlpGWP, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
@@ -11,8 +9,7 @@ import {
 } from '@diamantaire/shared/helpers';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -84,14 +81,7 @@ const PlpCreativeBlockStyles = styled.div`
         margin-left: -12.5rem;
 
         button {
-          border: 0.1rem solid var(--color-white);
-          color: var(--color-white);
-
-          &:focus,
-          &:hover {
-            background: var(--color-black);
-            border: 0.1rem solid var(--color-black);
-          }
+          border-width: 0.2rem;
         }
       }
     }
