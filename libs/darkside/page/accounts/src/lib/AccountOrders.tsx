@@ -167,7 +167,9 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                       </a>
                     </div>
                     <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
-                    <div className="table-col status">{order.financial_status}</div>
+                    <div className="table-col status">
+                      <UIString>{order.financial_status}</UIString>
+                    </div>
                     <div className="table-col hide-md">{formatPrice(order.total_price * 100, locale)}</div>
                   </div>
                 ))}
