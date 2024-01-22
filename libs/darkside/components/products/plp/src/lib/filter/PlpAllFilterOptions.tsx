@@ -379,11 +379,7 @@ const PlpAllFilterOptions = ({
                         if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
                           title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
                         } else if (METALS_IN_HUMAN_NAMES[val]) {
-                          title = (
-                            <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>
-                              {METALS_IN_HUMAN_NAMES[val]}
-                            </UIString>
-                          );
+                          title = <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{val}</UIString>;
                         } else {
                           title = <UIString>{val}</UIString>;
                         }
