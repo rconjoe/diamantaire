@@ -149,14 +149,17 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
   const [isFixed, setIsFixed] = useState(false);
 
   const handleScroll = () => {
+    const topBarHeight = topBarRef?.current.getBoundingClientRect().height;
     const elementTop = mobileMenuRef.current.getBoundingClientRect().top + window.scrollY;
     const windowTop = window.scrollY;
 
-    const shouldBeFixed = windowTop > elementTop && windowTop >= topBarRef?.current.getBoundingClientRect().height;
+    // console.log('topBarHeight', topBarHeight);
+    // console.log('windowtop', windowTop);
 
-    if (isFixed !== shouldBeFixed) {
-      setIsFixed(shouldBeFixed);
-      console.log(`scroll case ${shouldBeFixed ? '1' : '2'}`);
+    if (windowTop >= elementTop && windowTop > topBarHeight) {
+      if (!isFixed) setIsFixed(true);
+    } else {
+      setIsFixed(false);
     }
   };
 
