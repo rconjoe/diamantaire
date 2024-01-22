@@ -1,12 +1,13 @@
 import { Form, FormSchemaType, Heading, Loader } from '@diamantaire/darkside/components/common-ui';
 import { sendHubspotForm } from '@diamantaire/darkside/data/api';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useTranslations, useEmailPopup } from '@diamantaire/darkside/data/hooks';
 import { HUBSPOT_CONTENT_BLOCK_LIST } from '@diamantaire/shared/constants';
 import { getIsUserInUs } from '@diamantaire/shared/geolocation';
 import { isCountrySupported, getUserCountry } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { ModularEmailSignupBlockContainer } from './ModularEmailSignup.style';
 
@@ -31,7 +32,7 @@ type ModularEmailSignupBlockProps = {
 const ModularEmailSignupBlock = ({
   title,
   copy,
-  listData = HUBSPOT_CONTENT_BLOCK_LIST,
+  listData = HUBSPOT_CONTENT_BLOCK_LIST, // TODO: add to dato if we need to customize
   ctaCopy,
   //optInCopy = 'Opt me in',
   // enablePhoneFieldTitle,
@@ -45,15 +46,38 @@ const ModularEmailSignupBlock = ({
 }: ModularEmailSignupBlockProps) => {
   const [loading, setLoading] = useState(false);
   const [showOptIn, setShowOptIn] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [isSuccessful, setIsSuccessful] = useState(false);
   const [isValid, setIsValid] = useState(true);
+  const [formSubmissionResult, setFormSubmissionResult] = useState(null);
+  const [phoneInputCountry, setPhoneInputCountry] = useState(null);
+
+  const router = useRouter();
+
+  const { locale } = router || {};
+
   const countryCode = getUserCountry();
 
-  useEffect(() => {
-    const isUserInUs = getIsUserInUs();
+  // Using translated email popup content
+  // TODO: Should we create a generic dato email content model
+  const { data: { emailPopup: emailPopUpContent } = {} } = useEmailPopup(locale);
+  const { errorCopy, successCopy, optInCopy } = emailPopUpContent || {};
 
-    setShowOptIn(!isUserInUs);
-    setLoading(false);
+  useEffect(() => {
+    const initializeData = async () => {
+      // Fetch user country
+      const userCountry = await getUserCountry();
+
+      setPhoneInputCountry(userCountry.toLowerCase());
+
+      // Determine if user is in the US
+      const isUserInUs = getIsUserInUs();
+
+      setShowOptIn(!isUserInUs);
+
+      setLoading(false);
+    };
+
+    initializeData();
   }, []);
 
   const onSubmit = async (e, formState) => {
@@ -69,23 +93,26 @@ const ModularEmailSignupBlock = ({
 
     try {
       if (!showOptIn || (showOptIn && isConsent)) {
-        const response = await sendHubspotForm({ email, listData, isConsent, countryCode, locale });
+        await sendHubspotForm({ email, listData, isConsent, countryCode, locale });
 
-        setMessage(response.inlineMessage);
+        setIsSuccessful(true);
+        setFormSubmissionResult(successCopy);
       }
     } catch (error) {
+      toast.error(errorCopy, {
+        autoClose: 3000,
+      });
       console.error('Error submitting form data to HubSpot:', error);
     }
   };
-  const { locale } = useRouter();
+
   const { _t } = useTranslations(locale);
 
   // If country is not supported, do not render
   if (!isCountrySupported(supportedCountries, countryCode)) {
     return null;
   }
-  const lowercaseUserCountryCode = countryCode?.toLowerCase();
-  const optInCopy = _t('optInCopy');
+
   const formSchema: FormSchemaType[] = [
     {
       name: 'email',
@@ -95,13 +122,13 @@ const ModularEmailSignupBlock = ({
     },
   ];
 
-  if (enablePhoneField) {
+  if (enablePhoneField && phoneInputCountry) {
     formSchema.push({
       name: 'phone',
       inputType: 'phone',
       defaultValue: '',
       placeholder: _t('Enter your phone number'),
-      defaultCountry: lowercaseUserCountryCode,
+      defaultCountry: phoneInputCountry,
       required: false,
     });
   }
@@ -127,23 +154,21 @@ const ModularEmailSignupBlock = ({
       </div>
       <div className="email-signup__form-container">
         <div className="email-signup__form-wrapper">
-          {message ? (
-            <div dangerouslySetInnerHTML={{ __html: message }}></div>
-          ) : (
-            <Form
-              formGridStyle="single"
-              flexDirection="column"
-              schema={formSchema}
-              onSubmit={onSubmit}
-              showOptIn={showOptIn}
-              ctaCopy={ctaCopy}
-              optInCopy={optInCopy}
-              isValid={isValid}
-              setIsValid={setIsValid}
-              extraClass="-modular-block"
-              stackedSubmit={true}
-            />
-          )}
+          <Form
+            formGridStyle="single"
+            flexDirection="column"
+            schema={formSchema}
+            onSubmit={onSubmit}
+            showOptIn={showOptIn}
+            ctaCopy={ctaCopy}
+            optInCopy={optInCopy}
+            isValid={isValid}
+            setIsValid={setIsValid}
+            extraClass="-modular-block"
+            stackedSubmit={true}
+            isSuccessful={isSuccessful}
+            formSubmissionResult={formSubmissionResult}
+          />
         </div>
       </div>
     </ModularEmailSignupBlockContainer>
