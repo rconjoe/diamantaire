@@ -13,7 +13,10 @@ const ProductSuggestionBlockStyles = styled.div`
     }
   }
   .title-container {
-    padding-bottom: 6rem;
+    padding-bottom: 3rem;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding-bottom: 6rem;
+    }
   }
   .products {
     display: flex;

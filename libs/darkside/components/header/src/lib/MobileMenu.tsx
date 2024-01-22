@@ -112,11 +112,12 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           a {
             display: block;
             font-size: 1.7rem;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
 
             &.has-icon {
               display: flex;
               align-items: center;
+              margin-top: 0rem;
             }
 
             &:hover,
