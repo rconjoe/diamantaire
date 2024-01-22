@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react';
 export function useVariantInventory(variantId: string, trackInventory: boolean) {
   const [isInStock, setInStock] = useState(true); // Default to true
   const [isFetching, setIsFetching] = useState(false);
+  let numericalVariantId = variantId;
+
+  if (numericalVariantId?.includes('gid')) {
+    numericalVariantId = variantId.split('/').pop();
+  }
 
   useEffect(() => {
     const fetchStockByVariant = async (id: string): Promise<void> => {
@@ -12,9 +17,9 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
           const variantStockQtyResponse = await fetch(
             `http://${window.location.host}/api/products/inventory?variantId=${id}`,
           );
-          const variantStockQty = await variantStockQtyResponse.json();
+          const variantStockJson = await variantStockQtyResponse.json();
 
-          setInStock(variantStockQty?.inventoryQuantity > 0);
+          setInStock(variantStockJson?.inventoryQuantity > 0);
         } catch (error) {
           console.error('Inventory fetch error:', error);
         } finally {
@@ -26,8 +31,8 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
       }
     };
 
-    fetchStockByVariant(variantId);
-  }, [variantId, trackInventory]);
+    fetchStockByVariant(numericalVariantId);
+  }, [numericalVariantId, trackInventory]);
 
   return { isFetching, isInStock };
 }

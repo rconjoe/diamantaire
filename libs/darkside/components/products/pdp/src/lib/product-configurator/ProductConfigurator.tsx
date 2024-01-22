@@ -128,7 +128,7 @@ function ProductConfigurator({
     sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
   const { isInStock } = useVariantInventory(selectedVariantId, trackInventory);
-  console.log({ isInStock });
+
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
