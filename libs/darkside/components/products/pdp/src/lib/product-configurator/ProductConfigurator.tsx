@@ -129,7 +129,6 @@ function ProductConfigurator({
   );
   const { isFetching: isFetchingStock, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
-  console.log({ isFetchingStock, isInStock, selectedVariantId, trackInventory });
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
