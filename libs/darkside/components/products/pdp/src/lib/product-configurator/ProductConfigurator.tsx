@@ -124,12 +124,12 @@ function ProductConfigurator({
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
-
   const [selectedVariantId, setSelectVariantId] = useState<string>(
     sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
   const { isFetching: isFetchingStock, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
+  console.log({ isFetchingStock, isInStock, selectedVariantId, trackInventory });
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
@@ -316,12 +316,12 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      {trackInventory && (
-        <>
-          {isFetchingStock && <span>The variant tracks inventory: Fetching Stock...</span>}
-          {!isFetchingStock && <span>{isInStock ? 'IN STOCK' : 'OUT OF STOCK'}</span>}
-        </>
-      )}
+
+      <>
+        {<span>The variant tracks inventory: Fetching Stock...</span>}
+        {<span>{isInStock ? 'IN STOCK' : 'OUT OF STOCK'}</span>}
+      </>
+
       {isProductFeedUrl ? (
         <>
           <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
@@ -704,13 +704,14 @@ function useVariantInventory(variantId: string, trackInventory: boolean) {
   const [isFetching, setIsFetching] = useState(false);
   let numericalVariantId = variantId;
 
-  if (numericalVariantId.includes('gid')) {
+  if (numericalVariantId?.includes('gid')) {
     numericalVariantId = variantId.split('/').pop();
   }
 
   useEffect(() => {
     const fetchStockByVariant = async (id: string): Promise<any> => {
       setIsFetching(true);
+
       const variantStockQtyResponse = await fetch(`http://${window.location.host}/api/products/inventory?variantId=${id}`);
       const variantStockQty = await variantStockQtyResponse.json();
 

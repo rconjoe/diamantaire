@@ -64,13 +64,12 @@ export const productVariantInventoryHandler = async (req: NextApiRequest, res: N
   try {
     const inventoryResponse = await shopifyAdminRestApi(`/variants/${variantId}.json?fields=inventory_quantity`);
 
-    res.status(200).json({ inventoryQuantity: inventoryResponse?.variant?.inventory_quantity || 1});
+    res.status(200).json({ inventoryQuantity: inventoryResponse?.variant?.inventory_quantity });
   } catch {
-
     // Assume it is in stock if request fails
     res.status(200).json({ inventoryQuantity: 1 });
   }
-}
+};
 
 async function fetchVraiServerData(
   url: string,

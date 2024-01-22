@@ -6,7 +6,7 @@ export async function shopifyAdminRestApi(path: string, method?: string, body?: 
     'X-Shopify-Access-Token': process.env['SHOPIFY_ADMIN_API_TOKEN'] || '',
   };
 
-  console.log("Fetching data....", process.env['SHOPIFY_ADMIN_API_TOKEN'], process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']);
+  // console.log("Fetching data....", process.env['SHOPIFY_ADMIN_API_TOKEN'], process.env['NEXT_PUBLIC_SHOPIFY_STORE_URL']);
 
   const response = await fetch(baseURL, {
     headers,
@@ -16,7 +16,7 @@ export async function shopifyAdminRestApi(path: string, method?: string, body?: 
     .then((res) => res.json())
     .then((json) => json);
 
-  console.log("Fetched data", response)
+  // console.log("Fetched data", response)
 
   return response;
 }
