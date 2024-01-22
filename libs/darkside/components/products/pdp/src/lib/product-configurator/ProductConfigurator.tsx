@@ -248,8 +248,6 @@ function ProductConfigurator({
             }}
             setProductSlug={setProductSlug}
             selectedDiamond={selectedDiamond}
-            trackInventory={trackInventory}
-            variantId={variantId}
           />
 
           {/* Ring Size */}
@@ -319,11 +317,6 @@ function ProductConfigurator({
         />
       )}
 
-      <>
-        {<span>The variant tracks inventory: Fetching Stock...</span>}
-        {<span>{isInStock ? 'IN STOCK' : 'OUT OF STOCK'}</span>}
-      </>
-
       {isProductFeedUrl ? (
         <>
           <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
@@ -353,6 +346,7 @@ function ProductConfigurator({
           selectedPair={selectedPair}
           ctaCopy={ctaCopy}
           isProductFeedUrl={isProductFeedUrl}
+          isInStock={isInStock}
         />
       ) : (
         <div
@@ -397,6 +391,7 @@ type CtaButtonProps = {
     settingFlowCtaCopy?: string;
     modifyYourDiamondCopy?: string;
   };
+  isInStock?: boolean;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -426,6 +421,7 @@ function AddToCartButton({
   selectedPair,
   isProductFeedUrl,
   ctaCopy,
+  isInStock,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -662,6 +658,23 @@ function AddToCartButton({
     updateGlobalContext({
       isCartOpen: true,
     });
+  }
+
+  if (!isInStock) {
+    return (
+      <AddToCartButtonContainer>
+        <DarksideButton
+          className="atc-button"
+          type="outline"
+          textSize="medium"
+          fontWeight={'medium'}
+          colorTheme="oos"
+          disabled={true}
+        >
+          <UIString>Out of stock</UIString>
+        </DarksideButton>
+      </AddToCartButtonContainer>
+    );
   }
 
   return (

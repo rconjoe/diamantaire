@@ -21,13 +21,10 @@ const DarksideButtonStyles = styled.div`
 
   &.disabled {
     button {
-      opacity: 0.4;
-
-      &:hover {
-        cursor: not-allowed;
-      }
+      cursor: not-allowed;
     }
   }
+
   &.button-style--solid {
     button {
       background-color: var(--color-black);
@@ -84,6 +81,15 @@ const DarksideButtonStyles = styled.div`
   &.button-style--outline {
     button {
       background-color: transparent;
+    }
+    &.color-theme--oos {
+      button {
+        border: 0.1rem solid rgb(216, 214, 209);
+        color: rgb(115, 115, 104);
+        &:hover {
+          color: rgb(115, 115, 104);
+        }
+      }
     }
     &.color-theme--black {
       button {

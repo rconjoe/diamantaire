@@ -62,9 +62,14 @@ export const productVariantInventoryHandler = async (req: NextApiRequest, res: N
   const { variantId } = req.query;
 
   try {
-    const inventoryResponse = await shopifyAdminRestApi(`/variants/${variantId}.json?fields=inventory_quantity`);
+    const inventoryResponse = await shopifyAdminRestApi(
+      `/variants/${variantId}.json?fields=inventory_quantity,inventory_policy`,
+    );
 
-    res.status(200).json({ inventoryQuantity: inventoryResponse?.variant?.inventory_quantity });
+    res.status(200).json({
+      inventoryQuantity: inventoryResponse?.variant?.inventory_quantity,
+      inventoryPolicy: inventoryResponse?.variant?.inventory_policy,
+    });
   } catch {
     // Assume it is in stock if request fails
     res.status(200).json({ inventoryQuantity: 1 });
