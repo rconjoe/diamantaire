@@ -153,10 +153,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
     const elementTop = mobileMenuRef.current.getBoundingClientRect().top + window.scrollY;
     const windowTop = window.scrollY;
 
-    // console.log('topBarHeight', topBarHeight);
-    // console.log('windowtop', windowTop);
-
-    if (windowTop >= elementTop && windowTop > topBarHeight) {
+    if (windowTop >= elementTop && windowTop >= topBarHeight) {
       if (!isFixed) setIsFixed(true);
     } else {
       setIsFixed(false);
