@@ -1,5 +1,8 @@
 import { UniLink } from '@diamantaire/darkside/components/common-ui';
+import { parseValidLocale } from '@diamantaire/shared/constants';
+import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon, MailIcon, ChatIcon } from '@diamantaire/shared/icons';
+import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ModularTriGridWithOrderTrackingContainer } from './ModularTriGridWithOrderTracking.style';
@@ -20,6 +23,9 @@ type ModularTriGridWithOrderTrackingProps = {
   col3Icon?: string;
   col3ButtonText?: string;
   col3ButtonUrl?: string;
+  supportedCountries?: Array<{
+    code: string;
+  }>;
 };
 
 const ModularTriGridWithOrderTracking = ({
@@ -38,6 +44,7 @@ const ModularTriGridWithOrderTracking = ({
   col3Icon,
   col3ButtonText,
   col3ButtonUrl,
+  supportedCountries,
 }: ModularTriGridWithOrderTrackingProps) => {
   const items = [
     {
@@ -62,6 +69,11 @@ const ModularTriGridWithOrderTracking = ({
       buttonURL: col3ButtonUrl,
     },
   ];
+
+  const { locale } = useRouter();
+  const { countryCode } = parseValidLocale(locale);
+
+  if (!isCountrySupported(supportedCountries, countryCode)) return;
 
   return (
     <ModularTriGridWithOrderTrackingContainer>

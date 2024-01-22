@@ -1,5 +1,7 @@
 import { DarksideButton, Markdown, UniLink } from '@diamantaire/darkside/components/common-ui';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { getDiamondType, replacePlaceholders } from '@diamantaire/shared/helpers';
+import { useContext } from 'react';
 
 import StyledDiamondTableCfyPromoCard from './DiamondTableCfyPromoCard.style';
 
@@ -16,6 +18,8 @@ const DiamondTableCfyPromoCard = (props) => {
     bottomPromoContent,
   } = content;
 
+  const { builderProduct } = useContext(BuilderProductContext);
+
   const bottomPromoContentWithShapeByCarat =
     options.caratMax && options.caratMax > 4 ? bottomPromoContentLargerCarat : bottomPromoContent;
 
@@ -25,16 +29,26 @@ const DiamondTableCfyPromoCard = (props) => {
     [getDiamondType(options?.diamondType)?.title],
   );
 
-  const promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
+  let promoContent = options?.diamondType ? bottomPromoContentWithShape : bottomPromoContentNoShape;
 
   if (!promoContent) return;
+
+  if (Array.isArray(promoContent)){
+    promoContent = promoContent.join('');
+  }
 
   return (
     <StyledDiamondTableCfyPromoCard>
       <Markdown withStyles={false}>{promoContent}</Markdown>
 
       <div className="cta">
-        <UniLink route={`/diamonds/${selectedDiamondType ? selectedDiamondType : ''}`}>
+        <UniLink
+          route={`/diamonds/${selectedDiamondType ? selectedDiamondType : ''}${
+            builderProduct?.product
+              ? `?collectionSlug=${builderProduct?.product?.collectionSlug}&productSlug=${builderProduct?.product?.productSlug}`
+              : ''
+          }`}
+        >
           <DarksideButton className="primary">{bottomPromoContentCtaCopy}</DarksideButton>
         </UniLink>
       </div>

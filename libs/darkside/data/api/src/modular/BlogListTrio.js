@@ -7,6 +7,7 @@ const BlogListTrio = `
     ctaRoute
     blogPostCtaCopy
     additionalClass
+
     blogPosts {
       ... on BlogPostRecord {
         id

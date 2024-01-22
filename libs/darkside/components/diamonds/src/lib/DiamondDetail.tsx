@@ -4,6 +4,7 @@ import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import {
+  humanNamesMapperType,
   useCartData,
   useDiamondPdpData,
   useDiamondTableData,
@@ -38,6 +39,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const { headerHeight } = useContext(GlobalContext);
   const { refetch } = useCartData(locale);
   const { _t } = useTranslations(locale);
+  const { _t: __t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
   const { data: { diamond: product } = {} } = useDiamondsData({ handle, withAdditionalInfo: true });
   const { data: { diamondTable: DiamondTableData } = {} } = useDiamondTableData(locale);
   const { data: { diamondProduct: DiamondPdpData } = {} } = useDiamondPdpData(locale);
@@ -46,7 +48,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
   const { carat: productCarat, price: productPrice, lotId } = product || {};
   const getInfo = (arr, v) => arr.find((x) => x.key === v);
   const price = productPrice ? getFormattedPrice(productPrice, locale, true) : null;
-  const diamondTitle = _t(getDiamondType(diamondType)?.slug);
+  const diamondTitle = __t(getDiamondType(diamondType)?.slug);
   const formattedCarat = getFormattedCarat(productCarat, locale);
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -113,6 +115,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     query?.collectionSlug && query.productSlug
       ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
       : `/customize/diamond-to-setting/${lotId}`;
+
   const sliderOptions: any = {
     loop: false,
     dragFree: false,

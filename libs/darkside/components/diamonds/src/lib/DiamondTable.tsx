@@ -1,11 +1,6 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import {
-  useDiamondTableData,
-  useInfiniteDiamondsData,
-  useTranslations,
-  humanNamesMapperType,
-} from '@diamantaire/darkside/data/hooks';
+import { useDiamondTableData, useInfiniteDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
 import { getDiamondType } from '@diamantaire/shared/helpers';
 import { DiamondDataTypes, DiamondPairDataTypes, isDiamondPairType } from '@diamantaire/shared/types';
@@ -32,7 +27,6 @@ type Info =
 type DiamondTableProps = {
   activeRow?: DiamondDataTypes | DiamondPairDataTypes;
   setActiveRow?: (item: DiamondDataTypes | DiamondPairDataTypes) => void;
-  locale: string;
   initialDiamonds: DiamondDataTypes[] | DiamondPairDataTypes[];
   initialPagination: {
     currentPage?: number;
@@ -49,11 +43,12 @@ type DiamondTableProps = {
   settingSlugs?: {
     [key: string]: string;
   };
+  settingProductType?: string;
+  updateSettingSlugs?: (_obj) => void;
 };
 
 const DiamondTable = (props: DiamondTableProps) => {
   const {
-    locale,
     initialDiamonds,
     initialPagination,
     initialOptions,
@@ -64,14 +59,17 @@ const DiamondTable = (props: DiamondTableProps) => {
     isTableView = true,
     isDiamondPairs,
     settingSlugs,
+    settingProductType,
+    updateSettingSlugs,
   } = props;
+
+  const { asPath, locale } = useRouter();
 
   const tableHead = useRef<HTMLDivElement>(null);
   const tableBody = useRef<HTMLDivElement>(null);
   const loadTrigger = useRef<HTMLDivElement>(null);
-  const { _t: _diamondType } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+
   const [activeRow, setActiveRow] = useState<DiamondDataTypes | null>(null);
-  const { asPath } = useRouter();
 
   // PAGINATION;
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -131,9 +129,9 @@ const DiamondTable = (props: DiamondTableProps) => {
         cell: (info: Info) => {
           const shape = info.getValue();
 
-          const diamondTypeHandle = (shape && getDiamondType(shape)?.slug) || info.getValue();
+          const diamondTypeHandle = shape || (shape && getDiamondType(shape)?.slug) || info.getValue();
 
-          return _diamondType(diamondTypeHandle);
+          return <UIString>{diamondTypeHandle}</UIString>;
         },
         header: () => <UIString>shape</UIString>,
       },
@@ -300,6 +298,7 @@ const DiamondTable = (props: DiamondTableProps) => {
     const newSortBy = header.id;
 
     if (!queryDiamond.isFetching) {
+      console.log('setting newnew');
       updateOptions({
         sortBy: newSortBy,
         sortOrder: newSortOrder,
@@ -356,6 +355,10 @@ const DiamondTable = (props: DiamondTableProps) => {
       window.removeEventListener('RESET_TABLE_PAGINATION', onPaginationReset);
     };
   });
+
+  const shouldShowCFYPromo =
+    !settingProductType ||
+    (settingProductType === 'Engagement Ring' && !asPath.includes('toi-moi') && !asPath.includes('pairs'));
 
   // ELEMENTS HEIGHT (used for sticky and scroll)
   const { headerHeight } = useContext(GlobalContext);
@@ -427,9 +430,15 @@ const DiamondTable = (props: DiamondTableProps) => {
 
             return (
               <Fragment key={row.id}>
-                {idx === 10 && cfyPromoCard}
+                {idx === 10 && shouldShowCFYPromo && cfyPromoCard}
 
-                <div className={`vo-table-row${active ? ' active' : ''}`} data-id={row.id}>
+                <div
+                  className={clsx('vo-table-row', {
+                    active: active,
+                    'pair-row': isDiamondPairs,
+                  })}
+                  data-id={row.id}
+                >
                   <div className="vo-table-row-head" onClick={() => onRowClick(row)}>
                     {row.getVisibleCells().map((cell) => (
                       <div key={cell.id} className="vo-table-cell">
@@ -449,6 +458,7 @@ const DiamondTable = (props: DiamondTableProps) => {
                           product={row?.original}
                           locale={locale}
                           settingSlugs={settingSlugs}
+                          updateSettingSlugs={updateSettingSlugs}
                         />
                       )}
                     </div>
@@ -463,7 +473,7 @@ const DiamondTable = (props: DiamondTableProps) => {
         <div className="vo-table-foot">
           <div className="vo-table-trigger" ref={loadTrigger} />
 
-          {!isBuilderFlowOpen && cfyPromoCard}
+          {(!isBuilderFlowOpen || shouldShowCFYPromo) && cfyPromoCard}
 
           {(table.getRowModel().rows.length === 0 && (
             <div className="vo-table-no-result">

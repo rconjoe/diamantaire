@@ -1,12 +1,13 @@
 /*
 
-This should be used for every 3 column content that utilizes ImageTile. 
+This should be used for every 3 column content that utilizes ImageTile.
 Handles: MODULAR_TRIO_9x7_BLOCK, MODULAR_BLOG_LIST_TRIO_BLOCK
 
 */
 
 import { Heading, ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -22,39 +23,12 @@ type ModularTrioBlockProps = {
   copy1?: string;
   copy2?: string;
   copy3?: string;
-  ctaCopy1?: string;
-  ctaCopy2?: string;
-  ctaCopy3?: string;
-  ctaRoute1?: string;
-  ctaRoute2?: string;
-  ctaRoute3?: string;
-  image1?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
-  image2?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
-  image3?: {
-    imageAlt?: string;
-    alt?: string;
-    url: string;
-    responsiveImage: {
-      width: number;
-      height: number;
-    };
-  };
+  darksideButtons1: DatoDarksideButtonProps[];
+  darksideButtons2: DatoDarksideButtonProps[];
+  darksideButtons3: DatoDarksideButtonProps[];
+  image1?: DatoImageType;
+  image2?: DatoImageType;
+  image3?: DatoImageType;
   blogPosts?: Array<{
     title: string;
     slug: string;
@@ -91,9 +65,9 @@ const ModularTrioBlock = (props: ModularTrioBlockProps) => {
 
       setTrioBlocks(trioBlocksTemp);
     } else {
-      const uniqueAttributes = ['copy', 'ctaCopy', 'ctaRoute', 'title', 'image'];
+      const arrayOfAttributes = ['copy', 'darksideButtons', 'title', 'image'];
 
-      const trioBlocksTemp = normalizeDatoNumberedContent(props, uniqueAttributes);
+      const trioBlocksTemp = normalizeDatoNumberedContent(props, arrayOfAttributes);
 
       setTrioBlocks(trioBlocksTemp);
     }

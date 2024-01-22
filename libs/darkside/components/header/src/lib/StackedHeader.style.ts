@@ -18,13 +18,13 @@ export const StackedHeaderStylesContainer = styled.div`
   }
 
   .stacked-header__container {
-    padding: 2.4rem 0;
+    padding: 2.4rem 0 1.4rem;
   }
 
   .stacked-header__top-level {
     color: text;
     margin: 0 auto;
-    padding: 0 0 2.4rem;
+    padding: 0 0 1.4rem;
     display: flex;
     align-items: center;
     max-width: 90vw;
@@ -177,7 +177,7 @@ export const StackedHeaderStylesContainer = styled.div`
 
       a {
         font-family: var(--font-family-main);
-        letter-spacing: 0.03rem;
+        letter-spacing: 0.1rem;
         font-size: 1.4rem;
         text-decoration: none;
         position: relative;

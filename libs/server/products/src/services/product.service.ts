@@ -106,10 +106,10 @@ export class ProductsService {
 
     // Supports multiselect
     const filterQuery = {
-      ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
-      ...(styles && { 'configuration.styles': { $in: styles }}),
-      ...(subStyles && { 'configuration.subStyles': { $in: subStyles }}),
       ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
+      ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
+      ...(styles && { 'styles': { $in: styles }}),
+      ...(subStyles && { 'subStyles': { $in: subStyles }}),
       ...(priceMin && { 'price': { $gte: priceMin } }),
       ...(priceMax && { 'price': { $lte: priceMax } }),
     };
@@ -667,11 +667,20 @@ export class ProductsService {
   async findProductBySlug(input: ProductSlugInput) {
     this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
     try {
+      const findProductBySlugStart: number = performance.now();
+
       const setLocal = input?.locale ? input?.locale : 'en_US'; // get locale from input or default to en_US
+      const bigQuery = {
+        ...getDraftQuery(),
+      };
       const query = {
         collectionSlug: input.slug,
         ...getDraftQuery(),
       };
+
+      const bigRedisKey: string = `products::` + setLocal + `:` + (query.isDraft ? `draft` : ``);
+      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + `:` + (query.isDraft ? `draft` : ``);
+
       // create unique cacheKey for each prodyct variant
       const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
       // check for cached data
@@ -683,7 +692,39 @@ export class ProductsService {
         return cachedData; // return the entire cached data including dato content
       }
 
-      const collection: VraiProduct[] = await this.productRepository.find(query);
+      let collection: VraiProduct[];
+
+      const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
+
+      const preProductsReq: number = performance.now();
+
+      if (productsCollectionCacheValue) {
+        this.logger.verbose(`findProductBySlug :: From Cache 1`);
+        collection = productsCollectionCacheValue as VraiProduct[];
+      } else {
+        this.logger.verbose(`findProductBySlug :: From DB 1`);
+        const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
+
+        if (bigProductsCollectionCacheValue) {
+          this.logger.verbose(`findProductBySlug :: From Cache 2`);
+          collection = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
+            return (item.collectionSlug === input.slug);
+          });
+          this.cacheManager.set(redisKey, collection);
+        } else {
+          this.logger.verbose(`findProductBySlug :: From DB 2`);
+          collection = await this.productRepository.find(bigQuery);
+          this.cacheManager.set(bigRedisKey, collection);
+          collection = collection.filter((item) => {
+            return (item.collectionSlug === input.slug);
+          });
+          this.cacheManager.set(redisKey, collection);
+        }
+      }
+
+      const postProductsReq: number = performance.now();
+
+      this.logger.verbose(`findProductBySlug :: Products request :: ${postProductsReq - preProductsReq}ms (total: ${postProductsReq - findProductBySlugStart}ms)`);
 
       // Get variant data based on requested ID
       const requestedProduct = collection.find((product) => product.productSlug === input.id);
@@ -897,12 +938,13 @@ export class ProductsService {
     }
 
     // options which are always included
-    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape];
+    const OPTION_TYPES_ALWAYS_INCLUDED = [ProductOption.Metal, ProductOption.DiamondType, ProductOption.BandStyle, ProductOption.SideStoneShape, ProductOption.BandStoneShape, ProductOption.HoopAccent];
     
-    // options which are always included as long as the "parent" option matches
+    // options which are always included as long as the "parent" option matches (make sure its also in OPTION_TYPES_ALWAYS_INCLUDED)
     const MATCHING_PARENT_OPTION_MAP = {
       [ProductOption.SideStoneShape]: [ProductOption.DiamondType],
       [ProductOption.Metal]: [ProductOption.DiamondType, ProductOption.DiamondOrientation],
+      [ProductOption.HoopAccent]: [ProductOption.Metal]
     }
 
     OPTION_TYPES_ALWAYS_INCLUDED.forEach((optionType) => {
@@ -991,12 +1033,21 @@ export class ProductsService {
     }
 
     const pipeline: PipelineStage[] = [
-      {
-        $group: {
-          _id: '$collectionSlug',
-          minPrice: { $min: '$price' },
-        },
-      },
+      // non ER which take custom diamonds should not be included in min price
+      { $match: { $or: [{ productType: ProductType.EngagementRing },{ requiresCustomDiamond: { $exists: false }}]}},
+      { $group: {
+          _id: "$collectionSlug",
+          minPrice: { 
+              $min: {
+                  // If sold only as pair, double the price for min cost calc
+                  $cond: [
+                      { $and: { $eq: ["$isSoldAsPairOnly", true] }}, 
+                      { $multiply: ["$price", 2] },
+                      "$price",
+                  ]
+              }
+          }
+      }},
       {
         $project: {
           _id: 0,

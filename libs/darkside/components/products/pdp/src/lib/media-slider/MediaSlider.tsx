@@ -1,4 +1,4 @@
-import { ShopifyImage } from '@diamantaire/darkside/components/common-ui';
+import { ShopifyImage, UIString } from '@diamantaire/darkside/components/common-ui';
 import { MimeTypes } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -23,9 +23,10 @@ const MediaSliderContainer = styled.div`
   .embla__slide {
     display: flex;
 
-    > * {
+    > div {
       flex: 1;
       display: flex;
+      max-height: 390px;
 
       img {
         flex: 1;
@@ -33,6 +34,15 @@ const MediaSliderContainer = styled.div`
     }
     .hand {
       display: block;
+    }
+
+    p {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: var(--font-size-xxsmall);
     }
   }
 
@@ -69,7 +79,7 @@ const MediaSliderContainer = styled.div`
   }
 `;
 
-const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = false }) => {
+const MediaSlider = ({ assets, options, diamondType, title, shouldDisplayDiamondHand = false, productType, shownWithCtw }) => {
   const [totalSlides, setTotalSlides] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const hasPagination = totalSlides > 1;
@@ -144,7 +154,15 @@ const MediaSlider = ({ assets, options, diamondType, shouldDisplayDiamondHand = 
 
                 return (
                   <div className="embla__slide" key={`mobile-pdp-slide-${index}`}>
-                    <ShopifyImage image={asset} />
+                    <ShopifyImage image={asset} defaultAlt={title} />
+
+                    {index === 0 && productType === 'Engagement Ring' && (
+                      <p>
+                        <UIString>Shown with </UIString>
+                        {shownWithCtw ? shownWithCtw : '1.5ct'}
+                      </p>
+                    )}
+
                   </div>
                 );
               }

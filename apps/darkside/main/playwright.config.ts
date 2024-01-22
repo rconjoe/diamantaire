@@ -24,9 +24,8 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.test_env ==='prod' ? "https://www.vrai.com/" : process.env.test_env ==='stage' ? "https://main.vrai.qa/" : process.env.test_env.startsWith('http') ? process.env.test_env :  "http://localhost:4200" ,
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     video: "retain-on-failure"
 
   },
@@ -38,7 +37,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         launchOptions:{
-          slowMo: 2000 },
+          slowMo: 1500 },
         
         // It is important to define the `viewport` property after destructuring `devices`,
         // since devices also define the `viewport` for that device.

@@ -1,3 +1,4 @@
+import { ButtonFragment } from '../fragments';
 const SkinnyHeroBanner = `
   ... on ModularSkinnyHeroBannerBlockRecord {
     id
@@ -41,9 +42,10 @@ const SkinnyHeroBanner = `
             width
         }
     }
-    ctaCopy
-    ctaRoute
     additionalClass
+    darksideButtons {
+        ${ButtonFragment}
+      }
   }
 `;
 

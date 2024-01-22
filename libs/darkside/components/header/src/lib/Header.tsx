@@ -41,7 +41,6 @@ const FullHeaderStyles = styled.header`
 
 const HeaderWrapper = styled.div`
   z-index: 5000;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -74,6 +73,8 @@ const Header: FC<HeaderProps> = ({
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
   const compactHeaderRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const topBarRef = useRef(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -162,83 +163,94 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   return (
-    <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
-      <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-        <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
-          {isTopbarShowing && <TopBar setIsTopbarShowing={setIsTopbarShowing} />}
-          {isHome && (
-            <StackedHeader
-              navItems={section}
-              toggleMegaMenuOpen={toggleMegaMenuOpen}
-              menuIndex={megaMenuIndex}
-              toggleCart={toggleCart}
-              toggleCountrySelector={toggleCountrySelector}
-              toggleLanguageSelector={toggleLanguageSelector}
-              selectedCountry={countries[selectedCountryCode].name}
-              selectedLanguage={languagesByCode[selectedLanguageCode].name}
-              isLanguageSelectorOpen={isLanguageSelectorOpen}
-            />
-          )}
-          <AnimatePresence>
-            <motion.div
-              key="slide-in-header"
-              initial={isHome ? 'collapsed' : 'open'}
-              animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
-              exit="collapsed"
-              variants={{
-                open: { y: 0, opacity: 1 },
-                collapsed: { y: -300, opacity: 0 },
-              }}
-              transition={{
-                duration: 0.5,
-              }}
-              style={{
-                position: isHome ? 'fixed' : 'relative',
-              }}
-              className="slide-in-header"
-            >
-              <div ref={compactHeaderRef}>
-                <CompactHeader
-                  navItems={section}
-                  toggleMegaMenuOpen={toggleMegaMenuOpen}
-                  menuIndex={megaMenuIndex}
-                  compactHeaderRef={compactHeaderRef}
-                  toggleCart={toggleCart}
-                />
+    <>
+      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
+        <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
+          <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
+            {isTopbarShowing && (
+              <div className="top-bar__outer-container" ref={topBarRef}>
+                <TopBar setIsTopbarShowing={setIsTopbarShowing} />
               </div>
-            </motion.div>
-
-            {isLoaded && (
-              <MegaMenu
+            )}
+            {isHome && (
+              <StackedHeader
                 navItems={section}
-                megaMenuIndex={megaMenuIndex}
-                headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                isCompactMenuVisible={isCompactMenuVisible}
+                toggleMegaMenuOpen={toggleMegaMenuOpen}
+                menuIndex={megaMenuIndex}
+                toggleCart={toggleCart}
+                toggleCountrySelector={toggleCountrySelector}
+                toggleLanguageSelector={toggleLanguageSelector}
+                selectedCountry={countries[selectedCountryCode].name}
+                selectedLanguage={languagesByCode[selectedLanguageCode].name}
+                isLanguageSelectorOpen={isLanguageSelectorOpen}
               />
             )}
-          </AnimatePresence>
-        </FullHeaderStyles>
+            <AnimatePresence>
+              <motion.div
+                key="slide-in-header"
+                initial={isHome ? 'collapsed' : 'open'}
+                animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+                exit="collapsed"
+                variants={{
+                  open: { y: 0, opacity: 1 },
+                  collapsed: { y: -300, opacity: 0 },
+                }}
+                transition={{
+                  duration: 0.5,
+                }}
+                style={{
+                  position: isHome ? 'fixed' : 'relative',
+                }}
+                className="slide-in-header"
+              >
+                <div ref={compactHeaderRef}>
+                  <CompactHeader
+                    navItems={section}
+                    toggleMegaMenuOpen={toggleMegaMenuOpen}
+                    menuIndex={megaMenuIndex}
+                    compactHeaderRef={compactHeaderRef}
+                    toggleCart={toggleCart}
+                  />
+                </div>
+              </motion.div>
 
-        <MobileHeader navItems={section} headerHeight={headerHeight} toggleCart={toggleCart} />
-      </div>
+              {isLoaded && (
+                <MegaMenu
+                  navItems={section}
+                  megaMenuIndex={megaMenuIndex}
+                  headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                  isCompactMenuVisible={isCompactMenuVisible}
+                />
+              )}
+            </AnimatePresence>
+          </FullHeaderStyles>
+        </div>
 
-      {isCountrySelectorOpen && (
-        <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
-          <CountrySelector toggleCountrySelector={toggleCountrySelector} />
-        </Modal>
-      )}
-      <AnimatePresence>
-        {isCartOpen && (
-          <Cart
-            closeCart={() =>
-              updateGlobalContext({
-                isCartOpen: false,
-              })
-            }
-          />
+        {isCountrySelectorOpen && (
+          <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
+            <CountrySelector toggleCountrySelector={toggleCountrySelector} />
+          </Modal>
         )}
-      </AnimatePresence>
-    </HeaderWrapper>
+        <AnimatePresence>
+          {isCartOpen && (
+            <Cart
+              closeCart={() =>
+                updateGlobalContext({
+                  isCartOpen: false,
+                })
+              }
+            />
+          )}
+        </AnimatePresence>
+      </HeaderWrapper>
+      <MobileHeader
+        navItems={section}
+        headerHeight={headerHeight}
+        toggleCart={toggleCart}
+        mobileMenuRef={mobileMenuRef}
+        topBarRef={topBarRef}
+      />
+    </>
   );
 };
 

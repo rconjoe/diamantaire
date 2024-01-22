@@ -10,7 +10,13 @@ import {
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { OptionsDataTypes, humanNamesMapperType, useDiamondTableData, useDiamondsData, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  OptionsDataTypes,
+  humanNamesMapperType,
+  useDiamondTableData,
+  useDiamondsData,
+  useTranslations,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
 import { DIAMOND_TABLE_DEFAULT_OPTIONS, getCurrencyFromLocale } from '@diamantaire/shared/constants';
@@ -181,7 +187,7 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
 
   const title = (
     <div className="page-title">
-      <Heading className="title">{options?.diamondType ? pageDynamicTitle : pageTitle}</Heading>
+      <Heading className="title">{options?.diamondType && locale === 'en-US' ? pageDynamicTitle : pageTitle}</Heading>
     </div>
   );
 
@@ -197,15 +203,16 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
         {isMobile && title}
 
         <div className="page-aside">
-          { ranges && (
-          <DiamondFilter
-            handleRadioFilterChange={handleRadioFilterChange}
-            handleSliderFilterChange={handleSliderFilterChange}
-            loading={loading}
-            options={options}
-            ranges={ranges}
-            locale={locale}
-          />)}
+          {ranges && (
+            <DiamondFilter
+              handleRadioFilterChange={handleRadioFilterChange}
+              handleSliderFilterChange={handleSliderFilterChange}
+              loading={loading}
+              options={options}
+              ranges={ranges}
+              locale={locale}
+            />
+          )}
 
           {isMobile && (
             <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>

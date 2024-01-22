@@ -10,6 +10,7 @@ type BlockProductProps = {
       productSlug: string;
       collectionSlug: string;
       collectionTitle: string;
+      contentId: string;
     };
     content: {
       plpImage: DatoImageType;

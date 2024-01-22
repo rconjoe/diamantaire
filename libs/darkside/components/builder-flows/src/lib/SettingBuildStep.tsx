@@ -10,16 +10,20 @@ import {
   MediaGallery,
   MediaSlider,
   ProductConfigurator,
+  ProductContentBlocks,
   ProductDescription,
   ProductGWP,
   ProductIconList,
   ProductPrice,
+  ProductReviews,
+  ProductSuggestionBlock,
   ProductTitle,
+  ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { ENGAGEMENT_RING_PRODUCT_TYPE } from '@diamantaire/shared/constants';
-import { isEmptyObject } from '@diamantaire/shared/helpers';
+import { generatePdpAssetAltTag, isEmptyObject } from '@diamantaire/shared/helpers';
 import { MediaAsset, OptionItemProps } from '@diamantaire/shared/types';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { motion } from 'framer-motion';
@@ -56,7 +60,6 @@ const SettingBuildStepStyles = styled(motion.div)`
 type SettingBuildStepProps = {
   updateSettingSlugs;
   shopifyProductData;
-  updateFlowData;
   parentProductAttributes: object;
   assetStack: MediaAsset[];
   selectedConfiguration: {
@@ -76,12 +79,18 @@ type SettingBuildStepProps = {
     collectionSlug: string;
     productSlug: string;
   };
+  contentIds: {
+    productSuggestionBlockId: string;
+    trioBlocksId: string;
+    videoBlockId: string;
+    instagramReelId: string;
+    shopifyCollectionId: string;
+  };
 };
 
 const SettingBuildStep = ({
   updateSettingSlugs,
   shopifyProductData,
-  updateFlowData,
   parentProductAttributes,
   assetStack,
   selectedConfiguration,
@@ -96,8 +105,11 @@ const SettingBuildStep = ({
   productTitleOverride,
   productIconListType,
   settingSlugs,
+  contentIds,
 }: SettingBuildStepProps) => {
   const { builderProduct } = useContext(BuilderProductContext);
+
+  const { productSuggestionBlockId, trioBlocksId, shopifyCollectionId, instagramReelId, videoBlockId } = contentIds || {};
 
   const [totalPrice, setTotalPrice] = useState(null);
 
@@ -110,10 +122,19 @@ const SettingBuildStep = ({
 
   const router = useRouter();
 
+  const CFY_RETURN_THRESHOLD = 5.1;
+
   const { _t } = useTranslations(router.locale);
+  const productMediaAltDescription = generatePdpAssetAltTag({
+    productTitle,
+    productConfiguration: shopifyProductData?.configuration,
+    _t,
+  });
+
+  const isDiamondCFY = builderProduct?.diamonds?.filter((diamond) => diamond?.slug === 'cto-diamonds').length > 0;
 
   useEffect(() => {
-    if (!builderProduct?.diamonds) return null;
+    if (!builderProduct?.diamonds) return;
     // Calculate the total price
     let total = builderProduct?.diamonds?.reduce((sum, item) => sum + item.price, 0);
 
@@ -166,14 +187,18 @@ const SettingBuildStep = ({
               diamondType={selectedConfiguration?.diamondType}
               disableHandSliderControls={true}
               presetHandSliderValue={parseFloat(sliderHandCaption)}
+              title={productMediaAltDescription || productTitle || ''}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
             <MediaSlider
+              title={productMediaAltDescription || productTitle}
               assets={assetStack}
               options={selectedConfiguration}
               diamondType={selectedConfiguration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
+              productType={shopifyProductData?.productType}
+              shownWithCtw={additionalVariantData?.shownWithCtw}
             />
           </ShowMobileOnly>
         </div>
@@ -196,7 +221,6 @@ const SettingBuildStep = ({
               isBuilderFlowOpen={true}
               updateSettingSlugs={updateSettingSlugs}
               settingSlugs={settingSlugs}
-              updateFlowData={updateFlowData}
               disableVariantType={disableVariantType}
               variantProductTitle={shopifyProductData?.productTitle}
               requiresCustomDiamond={false}
@@ -210,7 +234,15 @@ const SettingBuildStep = ({
 
             <ProductGWP />
 
-            {productIconListType && <ProductIconList productIconListType={productIconListType} locale={router?.locale} />}
+            {productIconListType && (
+              <ProductIconList
+                productIconListType={productIconListType}
+                locale={router?.locale}
+                isCfy={isDiamondCFY}
+                isCaratLessThanFive={parseFloat(builderProduct?.diamonds?.[0]?.carat) < CFY_RETURN_THRESHOLD}
+              />
+            )}
+
             <Form
               title={_t('Need more time to think?')}
               caption={_t('Email this customized ring to yourself or drop a hint.')}
@@ -230,6 +262,16 @@ const SettingBuildStep = ({
           </div>
         </div>
       </div>
+
+      {trioBlocksId && <ProductTrioBlocks trioBlocksId={trioBlocksId} />}
+
+      {productSuggestionBlockId && <ProductSuggestionBlock id={productSuggestionBlockId} />}
+
+      {shopifyProductData?.productType === 'Engagement Ring' && (
+        <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
+      )}
+
+      {shopifyCollectionId && <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />}
     </SettingBuildStepStyles>
   );
 };

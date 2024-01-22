@@ -34,6 +34,7 @@ import {
   POPULAR_CFY_DIAMOND_TYPES,
   getFormattedCarat,
   getFormattedPrice,
+  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import {
@@ -48,6 +49,7 @@ import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
 import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -62,13 +64,14 @@ interface CFYResultPageQueryParams extends ParsedUrlQuery {
 
 interface CFYResultPageProps {
   dehydratedState: DehydratedState;
-  locale: string;
-  countryCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, countryCode, options = {} } = props;
+  const { options = {} } = props;
+  const router = useRouter();
+  const { locale } = router;
+  const { countryCode } = parseValidLocale(locale);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -166,6 +169,19 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
+  const {
+    cutForYouShippingBusinessDays: cutForYouShippingBusinessDaysUS,
+    cutForYouShippingBusinessDaysCountryMap: cutForYouShippingBusinessDaysEverywhereElse,
+    shippingText,
+  } = productIconList?.items?.[0] || {};
+
+  const businessDaysCfy =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDaysUS
+      : cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      ? cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      : cutForYouShippingBusinessDaysEverywhereElse?.['International'];
+
   const formattedDate = getFormattedShipppingDate(
     locale,
     productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
@@ -252,9 +268,9 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       _productType: 'Diamond',
       _productTypeTranslated: _t('Diamond'),
       pdpUrl: window.location.href,
+      shippingBusinessDays: businessDaysCfy?.toString(),
+      shippingText: shippingText,
     };
-
-    console.log('diamondAttributes', diamondAttributes);
 
     addLooseDiamondToCart({
       diamondVariantId: product?.variantId,
@@ -267,6 +283,16 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
         }),
       );
   }
+
+  const isSettingFirstFlow = router.query.collectionSlug && router.query.productSlug;
+
+  const continueLink = {
+    url: isSettingFirstFlow
+      ? `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}`
+      : `/customize/diamond-to-setting/${product.lotId}`,
+
+    text: isSettingFirstFlow ? 'Complete your ring' : 'Select and add a setting',
+  };
 
   return (
     <>
@@ -396,8 +422,8 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="cta">
                 <StickyElementWrapper>
-                  <DarksideButton href={`/customize/diamond-to-setting/${product.lotId}`}>
-                    <UIString>Select and add a setting</UIString>
+                  <DarksideButton href={continueLink?.url}>
+                    <UIString>{continueLink?.text}</UIString>
                   </DarksideButton>
                 </StickyElementWrapper>
 
@@ -434,12 +460,6 @@ async function getServerSideProps(
 
   const { query, locale } = context;
 
-  const { geo } = context.req.cookies;
-
-  const geoCookieData = JSON.parse(geo);
-
-  const countryCode = geoCookieData?.country || 'US';
-
   const options = getCFYResultOptionsFromUrl(query || {});
 
   const globalQuery = queries.template.global(locale);
@@ -472,9 +492,7 @@ async function getServerSideProps(
 
   return {
     props: {
-      locale,
       options,
-      countryCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

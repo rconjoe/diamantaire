@@ -17,6 +17,11 @@ export type diamondList =
 | "Princess"
 | "Radiant";
 
+export type diamondPairList =
+| "round-brilliant+pear"
+| "round-brilliant+oval"
+| "emerald+pear"
+
 export type clarityList =
 | "VVS"
 | "VS"

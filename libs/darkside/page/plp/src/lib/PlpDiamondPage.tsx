@@ -107,8 +107,18 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
 
   return (
     <StyledPlpDiamondPage>
-      <NextSeo title={seoTitle} description={seoDescription} />
+      <NextSeo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+          `/${router.locale}` +
+          router.asPath
+        }
+      />
+
       <Breadcrumb breadcrumb={refinedBreadcrumb} />
+
       <PlpHeroBanner showHeroWithBanner={showHeroWithBanner} data={hero} />
 
       <PlpProductGrid
@@ -119,7 +129,7 @@ function PlpDiamondPage(props: InferGetServerSidePropsType<typeof getDiamondPlpS
         urlFilterMethod="param"
         plpSlug={plpSlug}
         sortOptions={sortOptions}
-        handleSortChange={handleSortChange}
+        onSortChange={handleSortChange}
       />
 
       <p className="pag-count-text">{showingText}</p>

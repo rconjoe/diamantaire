@@ -15,4 +15,5 @@ export interface OptionItemContainerProps {
   setProductSlug: (_value: string) => void;
   areDiamondShapesHorizontal?: boolean;
   selectedConfiguration?: { [key: string]: string };
+  productType?: string;
 }

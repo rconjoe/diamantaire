@@ -1,4 +1,4 @@
-import { UIString } from '@diamantaire/darkside/components/common-ui';
+import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui';
 import { parseValidLocale } from '@diamantaire/shared/constants';
 import { isCountrySupported } from '@diamantaire/shared/helpers';
 import { ChevronRightIcon } from '@diamantaire/shared/icons';
@@ -54,6 +54,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           text-transform: uppercase;
           font-weight: var(--font-weight-bold);
           font-size: var(--font-size-xxxsmall);
+          letter-spacing: 0.1rem;
 
           &.open {
             border-color: transparent;
@@ -98,12 +99,14 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
       .submenu__title {
         font-size: 1.4rem;
         margin: 0 0 1rem;
+        letter-spacing: 0.1rem;
       }
 
       .submenu__list {
         list-style: none;
         padding: 0;
         margin: 0;
+        padding-left: 1rem;
 
         li {
           a {
@@ -173,38 +176,41 @@ type MobileMenuProps = {
 
 const MobileMenu: FC<MobileMenuProps> = ({ navItems, headerHeight, setIsMobileMenuOpen }): JSX.Element => {
   return (
-    <MobileMenuContainer
-      $headerHeight={headerHeight ? headerHeight : 0}
-      key={`mobile-container`}
-      initial="closed"
-      animate="open"
-      exit="closed"
-      transition={{ duration: 0.5 }}
-      variants={{
-        open: { x: 0 },
-        closed: { x: '-100%' },
-      }}
-    >
-      <nav>
-        <ul className="mobile-top-level-links-container">
-          {Array.isArray(navItems) &&
-            navItems?.map((item, index) => {
-              return (
-                <MobileTopLevelLink
-                  item={item}
-                  key={`mobile-menu-parent-link-${index}`}
-                  setIsMobileMenuOpen={setIsMobileMenuOpen}
-                />
-              );
-            })}
-          <li>
-            <Link href="/account/sign-in" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
-              <UIString>Account</UIString>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </MobileMenuContainer>
+    <>
+      <FreezeBody />
+      <MobileMenuContainer
+        $headerHeight={headerHeight ? headerHeight : 0}
+        key={`mobile-container`}
+        initial="closed"
+        animate="open"
+        exit="closed"
+        transition={{ duration: 0.5 }}
+        variants={{
+          open: { x: 0 },
+          closed: { x: '-100%' },
+        }}
+      >
+        <nav>
+          <ul className="mobile-top-level-links-container">
+            {Array.isArray(navItems) &&
+              navItems?.map((item, index) => {
+                return (
+                  <MobileTopLevelLink
+                    item={item}
+                    key={`mobile-menu-parent-link-${index}`}
+                    setIsMobileMenuOpen={setIsMobileMenuOpen}
+                  />
+                );
+              })}
+            <li>
+              <Link href="/account/sign-in" className="top-level-link" onClick={() => setIsMobileMenuOpen(false)}>
+                <UIString>Account</UIString>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </MobileMenuContainer>
+    </>
   );
 };
 

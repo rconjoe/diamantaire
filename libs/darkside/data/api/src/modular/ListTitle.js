@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const ListTitle = `
   ... on ModularListTitleBlockRecord {
     id
@@ -7,6 +9,9 @@ const ListTitle = `
     linkRoute
     additionalClass
     showHorizontalLine
+    darksideButtons {
+      ${ButtonFragment}
+    }
   }
 `;
 

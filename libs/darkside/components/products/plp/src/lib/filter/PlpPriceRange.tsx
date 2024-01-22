@@ -1,41 +1,31 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { PLP_PRICE_RANGES } from '@diamantaire/shared/constants';
 import { formatCurrency } from '@diamantaire/shared/helpers';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const PlpPriceRangeStyles = styled.div``;
+const PlpPriceRangeStyles = styled.div`
+  ul.list {
+    padding-left: 0 !important;
+    list-style-type: none;
+  }
 
-const priceRanges = [
-  {
-    title: 'Below $500',
-    min: undefined, //priceRange[0],
-    max: 50000,
-    slug: 'below-50000',
-  },
-  {
-    title: '$500-$1,500',
-    min: 50000,
-    max: 150000,
-    slug: '50000-150000',
-  },
-  {
-    title: '$1,500-$3000',
-    min: 150000,
-    max: 300000,
-    slug: '150000-300000',
-  },
-  {
-    title: '$3000+',
-    min: 300000,
-    max: undefined, // priceRange[1],
-    slug: '300000-plus',
-  },
-];
+  ul.list li {
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    max-width: 170px;
+  }
+
+  ul.list li.selected {
+    border: 1px solid var(--color-teal);
+  }
+`;
 
 const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate, filterTypes }) => {
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const handleFormat = (value: number | string) => {
     return formatCurrency({
@@ -57,14 +47,18 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
         <Heading type="h3" className="h1 secondary">
           <UIString>Price</UIString>
         </Heading>
-        <ul className="list-unstyled flex ">
-          {priceRanges?.map((price) => {
+
+        <ul className="list">
+          {PLP_PRICE_RANGES?.map((price) => {
+            const isSelected = filterValue.price?.min === price.min && filterValue.price?.max === price.max;
+
             return (
-              <li key={`filter-${price.title}`}>
+              <li key={`filter-${price.title}`} className={isSelected ? 'selected' : ''}>
                 <button
                   className="flex align-center"
                   onClick={() => {
                     setIsCustomPriceRangeOpen(false);
+
                     updateFilter('price', {
                       min: price.min,
                       max: price.max,
@@ -76,6 +70,7 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
               </li>
             );
           })}
+
           <li>
             <button
               className={clsx('flex align-center', {
@@ -87,6 +82,7 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
             </button>
           </li>
         </ul>
+
         {isCustomPriceRangeOpen && (
           <div className="filter-slider">
             <Slider

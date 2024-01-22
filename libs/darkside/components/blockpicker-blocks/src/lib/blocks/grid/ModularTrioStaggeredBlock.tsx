@@ -10,7 +10,7 @@ const ModularTrioStaggeredBlock = (props) => {
   const [trioBlocks, setTrioBlocks] = useState([]);
 
   useEffect(() => {
-    const uniqueArray = ['copy', 'ctaCopy', 'ctaRoute', 'image', 'title'];
+    const uniqueArray = ['copy', 'darksideButtons', 'image', 'title'];
 
     const refinedData = normalizeDatoNumberedContent(props, uniqueArray);
 

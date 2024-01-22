@@ -1,6 +1,6 @@
 export const DIAMOND_TABLE_QUERY = `
 query diamondTableQuery($locale: SiteLocale) {
-  diamondTable(locale: $locale) {    
+  diamondTable(locale: $locale) {
     seo {
       seoTitle
       seoDescription
@@ -53,6 +53,7 @@ query diamondTableQuery($locale: SiteLocale) {
     bottomContent
     diamondNotifierCtaCopy
     diamondNotifierCtaLink
+    diamondNotifierCtaRoute
     clearFiltersButtonCopy
     diamondAdvisorIntroSubtitleLink
     diamondAdvisorIntroSubtitleText
@@ -71,8 +72,10 @@ query diamondTableQuery($locale: SiteLocale) {
     diamondAdvisorNoResultTitle
     diamondAdvisorPostSubmissionSubtitleText
     diamondAdvisorPostSubmissionSubtitleLink
+    diamondAdvisorPostSubmissionSubtitleRoute
     diamondAdvisorPostSubmissionSecondaryCtaCopy
     diamondAdvisorPostSubmissionSecondaryCtaRoute
+    diamondAdvisorPostSubmissionSecondaryCtaNewRoute
     diamondAdvisorQuizNextButtonCopy
     diamondAdvisorQuizFinalButtonCopy
     diamondAdvisorPostSubmissionConjunction
@@ -83,6 +86,7 @@ query diamondTableQuery($locale: SiteLocale) {
     bottomPromoContentNoShape
     bottomPromoContentCtaCopy
     bottomPromoContentCtaLink
+    bottomPromoContentCtaRoute
     bottomPromoContent
   }
 }`;

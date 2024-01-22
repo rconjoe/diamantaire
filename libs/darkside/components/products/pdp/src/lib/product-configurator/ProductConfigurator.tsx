@@ -20,6 +20,7 @@ import OptionSelector from './option-selector/OptionSelector';
 import PairSelector from './option-selector/PairSelector';
 import ProductEngraving from '../ProductEngraving';
 import ProductExtraInfo from '../ProductExtraInfo';
+import { ProductKlarna } from '../ProductKlarna';
 import ProductTypeSpecificMetrics from '../ProductTypeSpecificMetrics';
 
 type ProductConfiguratorProps = {
@@ -63,6 +64,22 @@ type ProductConfiguratorProps = {
   };
   setProductSlug: (_value: string) => void;
   trackInventory: boolean;
+  parentProductAttributes?: Record<string, string>;
+  isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+    buyButtonCopy?: string;
+  };
+  selectedDiamond?: Array<{
+    diamondType?: string;
+    carat?: string;
+    color?: string;
+    clarity?: string;
+    price?: number;
+  }>;
+  productTitle?: string;
 };
 
 function ProductConfigurator({
@@ -72,7 +89,6 @@ function ProductConfigurator({
   variantPrice,
   additionalVariantData,
   isBuilderFlowOpen = false,
-  updateFlowData,
   updateSettingSlugs,
   disableVariantType = [],
   hasMoreThanOneVariant = true,
@@ -95,18 +111,22 @@ function ProductConfigurator({
   productIconListType,
   settingSlugs,
   setProductSlug,
+  parentProductAttributes,
+  isProductFeedUrl,
+  ctaCopy,
+  selectedDiamond,
+  productTitle,
   trackInventory,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
-  const sizeOptions = configurations[sizeOptionKey];
-  
+  const sizeOptions = configurations?.[sizeOptionKey];
   const [isConfigurationComplete, setIsConfigurationComplete] = useState<boolean>(true);
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
 
   const [selectedVariantId, setSelectVariantId] = useState<string>(
-    sizeOptions.find((option) => option.value === defaultRingSize)?.id || variantId,
+    sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
   const { isFetching: isFetchingStock, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
@@ -143,7 +163,7 @@ function ProductConfigurator({
   }, [variantId]);
 
   const hasCaratWeightSelector = useMemo(() => {
-    return configurations.caratWeight?.length > 1;
+    return configurations?.caratWeight?.length > 1;
   }, [configurations]);
 
   const additionalVariantIds = useMemo(() => {
@@ -153,11 +173,59 @@ function ProductConfigurator({
   const { builderProduct } = useContext(BuilderProductContext);
 
   const router = useRouter();
+  const { purchaseWithThisDiamondCopy, settingFlowCtaCopy } = ctaCopy || {};
+
+  const CompleteYourRingButton = ({ ctaText }) => {
+    return (
+      <div
+        style={{
+          marginTop: '2rem',
+        }}
+      >
+        <DarksideButton
+          onClick={() =>
+            router.push(
+              `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
+                .map((diamond) => diamond?.lotId)
+                .join('/')}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
+            )
+          }
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
+
+  const ProductFeedCompleteYourRingButton = ({ ctaText, diamondsOverride }) => {
+    return (
+      <div
+        style={{
+          margin: '2rem 0 1rem',
+          minHeight: '4.9rem',
+        }}
+      >
+        <DarksideButton
+          textSize="medium"
+          onClick={() => {
+            router.push(
+              `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${
+                router.query.productSlug
+              }/${diamondsOverride.map((diamond) => diamond?.lotId).join('/')}`,
+            );
+          }}
+        >
+          {ctaText ? ctaText : <UIString>Complete & Review Your Ring</UIString>}
+        </DarksideButton>
+      </div>
+    );
+  };
 
   return (
     <>
       {!hasCaratWeightSelector && (
         <ProductTypeSpecificMetrics
+          parentProductAttributes={parentProductAttributes}
           additionalVariantData={additionalVariantData}
           productType={additionalVariantData?.productType}
           shouldDoublePrice={shouldDoublePrice}
@@ -179,6 +247,7 @@ function ProductConfigurator({
               clarity: additionalVariantData?.clarity,
             }}
             setProductSlug={setProductSlug}
+            selectedDiamond={selectedDiamond}
           />
 
           {/* Ring Size */}
@@ -208,7 +277,6 @@ function ProductConfigurator({
         {isWeddingBandSizeGuideOpen && (
           <SlideOut
             title={_t('Size Guide')}
-            width="30%"
             onClose={() => setIsWeddingBandSizeGuideOpen(false)}
             className="extra-side-padding"
           >
@@ -248,39 +316,21 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
-      { trackInventory && (
+      {trackInventory && (
         <>
-          { isFetchingStock && <span>The variant tracks inventory: Fetching Stock...</span>}
-          { !isFetchingStock && <span>{ isInStock ? "IN STOCK" : "OUT OF STOCK" }</span>}
+          {isFetchingStock && <span>The variant tracks inventory: Fetching Stock...</span>}
+          {!isFetchingStock && <span>{isInStock ? 'IN STOCK' : 'OUT OF STOCK'}</span>}
         </>
       )}
-      {isBuilderFlowOpen ? (
-        <div
-          style={{
-            marginTop: '2rem',
-          }}
-        >
-          <DarksideButton
-            onClick={() => {
-              updateFlowData(
-                'ADD_PRODUCT',
-                {
-                  ...additionalVariantData,
-                  ...selectedConfiguration,
-                  variantId: selectedVariantId,
-                  collectionSlug: builderProduct?.product?.collectionSlug,
-                },
-                null,
-              );
+      {isProductFeedUrl ? (
+        <>
+          <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
+          <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
+        </>
+      ) : null}
 
-              router.push(
-                `/customize/diamond-to-setting/summary/${builderProduct?.diamonds?.[0]?.lotId}/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`,
-              );
-            }}
-          >
-            <UIString>Complete & Review Your Ring</UIString>
-          </DarksideButton>
-        </div>
+      {isBuilderFlowOpen ? (
+        <CompleteYourRingButton ctaText={settingFlowCtaCopy} />
       ) : additionalVariantData ? (
         <AddToCartButton
           variantId={String(selectedVariantId)}
@@ -299,6 +349,8 @@ function ProductConfigurator({
           engravingText={engravingText}
           productIconListType={productIconListType}
           selectedPair={selectedPair}
+          ctaCopy={ctaCopy}
+          isProductFeedUrl={isProductFeedUrl}
         />
       ) : (
         <div
@@ -337,13 +389,18 @@ type CtaButtonProps = {
   engravingText?: string;
   productIconListType?: string;
   selectedPair?: 'pair' | 'single';
+  isProductFeedUrl?: boolean;
+  ctaCopy?: {
+    purchaseWithThisDiamondCopy?: string;
+    settingFlowCtaCopy?: string;
+    modifyYourDiamondCopy?: string;
+  };
 };
 
 const AddToCartButtonContainer = styled.div`
   margin: 1rem 0;
 
   .atc-button button {
-    font-size: var(--font-size-xxsmall);
     min-height: 4.9rem;
   }
 `;
@@ -365,13 +422,15 @@ function AddToCartButton({
   engravingText,
   productIconListType,
   selectedPair,
+  isProductFeedUrl,
+  ctaCopy,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
   const updateGlobalContext = useContext(GlobalUpdateContext);
   const { refetch } = useCartData(locale);
-
-  const ctaText = isReadyForCart ? 'Add To Bag' : 'Select Your Diamond';
+  const { modifyYourDiamondCopy } = ctaCopy || {};
+  const ctaText = isReadyForCart ? 'Add To Bag' : isProductFeedUrl ? modifyYourDiamondCopy : 'Select Your Diamond';
 
   const { emitDataLayer, productAdded } = useAnalytics();
   const { _t } = useTranslations(locale);
@@ -496,7 +555,7 @@ function AddToCartButton({
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
         productGroupKey,
         ringSize: selectedSize,
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
 
         // Cart specific info
         diamondShape: DIAMOND_TYPE_HUMAN_NAMES[selectedConfiguration?.diamondType],
@@ -538,7 +597,7 @@ function AddToCartButton({
             : null,
         totalPriceOverride: shouldDoublePrice ? price.toString() : null,
         pdpUrl: window.location.href,
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
         productIconListShippingCopy: 'Ready-to-ship. Ships by Fri, Dec 1',
       };
 
@@ -587,7 +646,7 @@ function AddToCartButton({
         feedId: variantId,
         // Ring Sizer specific attributes
         productIconListShippingCopy: '',
-        shippingBusinessDays: shippingTime.toString(),
+        shippingBusinessDays: shippingTime ? shippingTime.toString() : '',
         shippingText: _t('Ships by'),
       };
 
@@ -607,6 +666,9 @@ function AddToCartButton({
     <AddToCartButtonContainer>
       <DarksideButton
         className="atc-button"
+        type={isProductFeedUrl ? 'outline' : 'solid'}
+        textSize="small"
+        fontWeight={isProductFeedUrl ? 'normal' : 'medium'}
         onClick={() => {
           if (isConfigurationComplete) {
             addProductToCart();
@@ -623,53 +685,51 @@ function AddToCartButton({
               diamond_type: diamondType,
             });
             router.push(
-              `/customize/setting-to-diamond/${router.query.collectionSlug}/${router.query.productSlug}/${
-                isSoldAsDouble && selectedPair === 'pair' ? '?pair=true' : ''
-              }`,
+              `/customize/setting-to-diamond/${isSoldAsDouble && selectedPair === 'pair' ? 'pair/' : ''}${
+                router.query.collectionSlug
+              }/${router.query.productSlug}/`,
             );
           }
         }}
       >
-        <UIString>{ctaText}</UIString>
+        {isProductFeedUrl ? ctaText : <UIString>{ctaText}</UIString>}
       </DarksideButton>
     </AddToCartButtonContainer>
   );
 }
 
 // Hook for getting IN / OUT OF STOCK
-function useVariantInventory(variantId: string, trackInventory: boolean){
+function useVariantInventory(variantId: string, trackInventory: boolean) {
   const [isInStock, setInStock] = useState(!trackInventory);
   const [isFetching, setIsFetching] = useState(false);
   let numericalVariantId = variantId;
 
-  if(numericalVariantId.includes('gid')){
-    numericalVariantId = variantId.split('/').pop()
+  if (numericalVariantId.includes('gid')) {
+    numericalVariantId = variantId.split('/').pop();
   }
 
   useEffect(() => {
-    
-    const fetchStockByVariant = async (id:string): Promise<any> => {
+    const fetchStockByVariant = async (id: string): Promise<any> => {
       setIsFetching(true);
       const variantStockQtyResponse = await fetch(`http://${window.location.host}/api/products/inventory?variantId=${id}`);
       const variantStockQty = await variantStockQtyResponse.json();
 
       setIsFetching(false);
 
-      if(variantStockQty?.inventoryQuantity > 0) {
+      if (variantStockQty?.inventoryQuantity > 0) {
         setInStock(true);
       } else {
         setInStock(false);
       }
-    }
+    };
 
-    if(trackInventory){
+    if (trackInventory) {
       fetchStockByVariant(numericalVariantId);
     }
-
-  },[numericalVariantId, trackInventory])
+  }, [numericalVariantId, trackInventory]);
 
   return {
     isFetching,
-    isInStock
-  }
+    isInStock,
+  };
 }

@@ -86,6 +86,13 @@ const ModalStyles = styled.div`
         position: absolute;
         right: 0;
         padding: 0.5rem 1rem;
+        z-index: 100;
+
+        svg {
+          line {
+            stroke: #ccc;
+          }
+        }
       }
       button {
         background-color: transparent;

@@ -48,7 +48,13 @@ const SingleJournalEntry = () => {
 
   return (
     <SingleJournalEntryStyles>
-      {seoTitle && seoDescription && <NextSeo title={seoTitle} description={seoDescription} />}
+      {seoTitle && seoDescription && (
+        <NextSeo
+          title={seoTitle}
+          description={seoDescription}
+          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + router?.asPath}
+        />
+      )}
 
       <div className="journal-entry__crumbs">{crumbs && <Breadcrumb breadcrumb={crumbs} simple={true} />}</div>
 

@@ -1,7 +1,9 @@
+import { ButtonFragment } from '../fragments';
 import { queryDatoGQL } from '../clients';
 
 
 // fetch from API routes (unused)
+
 export async function fetchGlobalTemplateData(locale: string) {
   // TODO: need logic for this to work with journal
   let reqUrl = `api/template/global?locale=${locale}`;
@@ -37,6 +39,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         title
         key
         route
+        newRoute
         columns {
           columnTitle
           route
@@ -109,6 +112,9 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         gdprCtaRoute
         optInCopy
         phoneInputPlaceholder
+        darksideButtons {
+         ${ButtonFragment}
+        }
       }
       copyright
       countryPicker {

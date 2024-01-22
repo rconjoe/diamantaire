@@ -18,14 +18,14 @@ type JournalSubCategoryEntryProps = {
   blogConfiguration: object;
   blogHeader: object;
   categoryPosts: Array<object>;
-  locale: string;
   count: number;
   getTemplate?: (page: ReactElement | ReactElement[]) => ReactNode[];
   parentCategorySlug: string;
   isSubCategory: boolean;
 };
 
-const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
+const JournalSubCategoryEntry = ({ slug, isSubCategory, parentCategorySlug }: JournalSubCategoryEntryProps) => {
+  const { asPath, locale } = useRouter();
   const { data: { blogConfiguration } = {} } = useJournalConfig(locale);
 
   const { categoriesToDisplay, postsPerPage } = blogConfiguration || {};
@@ -122,11 +122,15 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
     }
   }, [init]);
 
-  const { asPath } = useRouter();
-
   return (
     <JournalCategoryEntryContainer>
-      {seoTitle && seoDescription && <NextSeo title={seoTitle} description={seoDescription} />}
+      {seoTitle && seoDescription && (
+        <NextSeo
+          title={seoTitle}
+          description={seoDescription}
+          canonical={(process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath}
+        />
+      )}
 
       <JournalHeader showTitle={false} showNavLogo={true} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
 
@@ -155,10 +159,10 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
           <div className="journal-category__subnav">
             {subcategories.length > 1 &&
               subcategories.map((s, i) => {
-                const isActive = asPath === getRelativeUrl(s.route, '/journal');
+                const isActive = asPath === getRelativeUrl(s.route);
 
                 return (
-                  <UniLink key={i} route={getRelativeUrl(s.route, '/journal')}>
+                  <UniLink key={i} route={getRelativeUrl(s.route)}>
                     <span
                       key={i}
                       className={clsx('journal-category__subnav-link', {
@@ -183,7 +187,7 @@ const JournalSubCategoryEntry = ({ slug, locale, isSubCategory, parentCategorySl
                 {...p}
                 copy={p?.excerpt}
                 ctaCopy="Read More"
-                ctaRoute={`/post/${p?.slug}`}
+                ctaRoute={`/journal/post/${p?.slug}`}
                 image={p?.featuredImage}
                 extraClass="journal-item"
               />

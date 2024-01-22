@@ -3,6 +3,8 @@ import { VIRTUAL_SHOWROOM } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { BookCalendarIcon } from '@diamantaire/shared/icons';
+import clsx from 'clsx';
+import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,25 +14,41 @@ import { SlideOut } from './SlideOut';
 const ProductAppointmentCTAStyles = styled.div`
   margin-top: 1rem;
   .appointment-button {
-    width: 100%;
-    height: 4.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-black);
-    color: var(--color-black);
-    font-size: var(--font-size-xxsmall);
+    &.outline {
+      width: 100%;
+      height: 4.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-black);
+      color: var(--color-black);
+      font-size: var(--font-size-xxsmall);
+      span {
+        flex: 0 0 2.5rem;
+        position: relative;
+        top: 0.2rem;
+        margin-right: 0.2rem;
+      }
+    }
+    &.underline {
+      width: 100%;
 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-white);
+      border: none;
+      color: var(--color-teal);
+      text-decoration: underline;
+      font-size: var(--font-size-xxsmall);
+      font-weight: var(--font-weight-bold);
+      span {
+        display: none;
+      }
+    }
     &.with-hidden-button {
       display: none;
-    }
-
-    span {
-      flex: 0 0 2.5rem;
-      position: relative;
-      top: 0.2rem;
-      margin-right: 0.2rem;
     }
   }
 
@@ -46,18 +64,27 @@ const ProductAppointmentCTAStyles = styled.div`
   }
 `;
 
-const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?: string; withHiddenButton?: boolean }) => {
+const ProductAppointmentCTA = ({
+  productType,
+  withHiddenButton,
+  type = 'outline',
+}: {
+  productType?: string;
+  withHiddenButton?: boolean;
+  type?: string;
+}) => {
   const { locale } = useRouter();
   const { _t } = useTranslations(locale);
   const [isAppointmentSlideoutShowing, setIsAppointmentSlideoutShowing] = useState(false);
   const [ctaTitle, setCtaTitle] = useState(_t(`Book an appointment`));
   const [appointmentLink, setAppointmentLink] = useState(getVirtualFallbackLink(productType, locale));
 
-  const showroomLocation = isUserCloseToShowroom();
+  // if user isn't near showroom, fallback to virtual showroom
+  const showroomLocation = isUserCloseToShowroom() || VIRTUAL_SHOWROOM;
 
   useEffect(() => {
     const getCtaTitle = ({ productType, location }) => {
-      if (location) {
+      if (location && location !== 'Virtual') {
         if (productType === 'Engagement Ring' || productType === 'Wedding Band') {
           return _t(`Discover our rings at VRAI %%location%%`);
         }
@@ -102,11 +129,6 @@ const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?
   }, []);
 
   function generateAppointmentLink(matchingLocation, productType) {
-    if (!matchingLocation) {
-      console.log('No matching appointment options', matchingLocation, productType);
-
-      return 'https://vrai.as.me/schedule.php?appointmentType=Virtual';
-    }
     const fineJewelryTypes = ['Earrings', 'Bracelet', 'Necklace', 'Ring'];
     const { appointmentOptions } = matchingLocation;
 
@@ -177,7 +199,7 @@ const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?
   return (
     <ProductAppointmentCTAStyles>
       <button
-        className={`appointment-button${withHiddenButton ? ' with-hidden-button' : ''}`}
+        className={clsx('appointment-button', type, { 'with-hidden-button': withHiddenButton })}
         onClick={() => setIsAppointmentSlideoutShowing(!isAppointmentSlideoutShowing)}
       >
         <span>
@@ -185,17 +207,17 @@ const ProductAppointmentCTA = ({ productType, withHiddenButton }: { productType?
         </span>
         {ctaTitle}
       </button>
-
-      {isAppointmentSlideoutShowing && (
-        <SlideOut
-          title="Schedule your appointment"
-          className="appointment-slideout"
-          onClose={() => setIsAppointmentSlideoutShowing(false)}
-          width="30%"
-        >
-          <iframe src={appointmentLink} title="Schedule Appointment" width="100%" height="450" frameBorder="0"></iframe>
-        </SlideOut>
-      )}
+      <AnimatePresence>
+        {isAppointmentSlideoutShowing && (
+          <SlideOut
+            title="Schedule your appointment"
+            className="appointment-slideout"
+            onClose={() => setIsAppointmentSlideoutShowing(false)}
+          >
+            <iframe src={appointmentLink} title="Schedule Appointment" width="100%" height="450" frameBorder="0"></iframe>
+          </SlideOut>
+        )}
+      </AnimatePresence>
     </ProductAppointmentCTAStyles>
   );
 };

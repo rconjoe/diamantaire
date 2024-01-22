@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CelebrityCarousel = `
   ... on ModularCelebrityCarouselBlockRecord {
     id
@@ -5,8 +7,12 @@ const CelebrityCarousel = `
     additionalClass
     thumbnailCarouselTitle
     showBottomCarouselOnly
+    darksideButtons {
+      ${ButtonFragment}
+    }
     blocks {
       ... on CelebrityBlockRecord {
+        disableProductCtas
         id
         _modelApiKey
         title
@@ -46,6 +52,7 @@ const CelebrityCarousel = `
               width
             }
         }
+        
         jewelry {
           ... on CelebrityJewelryRecord {
             id
@@ -53,6 +60,7 @@ const CelebrityCarousel = `
             itemName
             ctaCopy
             ctaRoute
+            newRoute
             image {
               url
               alt
@@ -68,12 +76,12 @@ const CelebrityCarousel = `
               title
               webpSrcSet
               width
-            }
+              }
             }
           }
         }
       }
-    }          
+    }
   }
 `;
 

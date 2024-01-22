@@ -7,7 +7,7 @@ export const sideStoneCaratValues = ['0.10ct', '0.25ct', '0.50ct'] as const;
 export const ceramicColorValues = ['black', 'dark-green', 'turquoise', 'white', 'yellow'] as const;
 export const diamondCountValues = ['3', '4', '5', '6'] as const;
 export const diamondOrientationValues = ['horizontal', 'vertical'] as const;
-export const sizeValues = ['Large', 'Medium'] as const;
+export const sizeValues = ['Medium', 'Large'] as const;
 export const bandWidthValues = [
   '0.01ct',
   '0.02ct',
@@ -46,8 +46,24 @@ export const sideStoneShapeValues = [
 ] as const;
 export const goldPurityValues = ['14k', '18k'] as const;
 export const bandAccentValues = ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'] as const;
-export const metalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver', 'yellow-gold-and-platinum', 'rose-gold-and-platinum'] as const;
-export const plpMetalValues = ['platinum', 'yellow-gold', 'white-gold', 'rose-gold', 'sterling-silver', 'yellow-gold-and-platinum', 'rose-gold-and-platinum'] as const;
+export const metalValues = [
+  'platinum',
+  'yellow-gold',
+  'white-gold',
+  'rose-gold',
+  'sterling-silver',
+  'yellow-gold-and-platinum',
+  'rose-gold-and-platinum',
+] as const;
+export const plpMetalValues = [
+  'platinum',
+  'yellow-gold',
+  'white-gold',
+  'rose-gold',
+  'sterling-silver',
+  'yellow-gold-and-platinum',
+  'rose-gold-and-platinum',
+] as const;
 export const stoneSettingValues = ['semi-bezel', 'full-bezel'] as const;
 export const eternityStyleValues = ['half', 'full'] as const;
 export const bandStyleValues = ['full', 'half'] as const;
@@ -143,6 +159,7 @@ export const caratWeightValues = [
   '0.75ct',
   '1.0ct',
   '1.5ct',
+  '1.50ct',
   '1.7ct',
   '1.85ct',
   '13.0ct',
@@ -235,11 +252,10 @@ export const configurationOptionValues = {
 } as const;
 
 export const optionTypeOrder = [
-  configurationTypes.diamondOrientation,
   configurationTypes.diamondType,
+  configurationTypes.metal,
   configurationTypes.sideStoneShape,
   configurationTypes.sideStoneCarat,
-  configurationTypes.metal,
   configurationTypes.bandAccent,
   configurationTypes.prongStyle,
   configurationTypes.bandVersion,
@@ -260,6 +276,7 @@ export const optionTypeOrder = [
   configurationTypes.earringSize,
   configurationTypes.caratWeight,
   configurationTypes.chainLength,
+  configurationTypes.diamondOrientation,
 ] as const;
 
 export type prongStyle = (typeof prongStyleValues)[number];

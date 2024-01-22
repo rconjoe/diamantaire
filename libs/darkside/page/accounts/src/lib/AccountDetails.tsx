@@ -1,5 +1,7 @@
 import { DarksideButton, Form, FormSchemaType, Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { fetchData } from '@diamantaire/darkside/data/api';
+import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -227,9 +229,19 @@ const AccountDetails = ({ customer }: { customer: AccountCustomer }) => {
     });
   }
 
+  const { locale } = useRouter();
+  const { _t } = useTranslations(locale);
+
   return (
     <AccountDetailsStyles>
-      <NextSeo title="Customer Details" />
+      <NextSeo
+        title={`${_t('Account Details')} | VRAI`}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') +
+          `/${locale}` +
+          '/account/details'
+        }
+      />
 
       <div className="container-wrapper">
         {customer?.id && (

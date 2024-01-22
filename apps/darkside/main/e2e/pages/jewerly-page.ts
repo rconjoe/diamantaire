@@ -27,9 +27,10 @@ export default class JewerlyPage extends HomePage {
 
   async selectJewerlyByName(settingName){
     console.log('Select Jewerly ' + settingName)
-   // await this.page.getByRole('button', { name: `${settingName}` }).click();
-    //await this.page.getByRole('button').filter({ hasText: `${settingName}` }).first().click();
+    // eslint-disable-next-line playwright/no-wait-for-timeout
+    await this.page.waitForTimeout(3000); // for stability
     await this.page.getByRole('link').filter({ hasText: `${settingName}`}).getByRole('button').first().click();
+
 
 
   }

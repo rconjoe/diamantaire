@@ -17,7 +17,7 @@ export default class CheckoutSlidePage extends BasePage {
         this.cancelBtn = page.getByRole('button', {name: 'Cancel'})
         this.checkoutBtn = page.getByRole('button', { name: 'Checkout |'})
         this.giftNoteBtn =page.getByRole('button', { name: 'Add gift note' });
-        this.addGiftNoteBtn = page.getByRole('button', {name: 'Add Gift Note', exact: true});
+        this.addGiftNoteBtn = page.locator('li').filter({ hasText: 'Add gift note' }).getByRole('button');
     }
 
     async addGiftNote(giftMessage){

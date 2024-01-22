@@ -23,11 +23,11 @@ export type CartCopyProps = {
   euSubtotalCopy: string;
   cartCtaCopy: string;
   termsAndConditionsCtaCopy: string;
-  termsAndConditionsCtaLink: string;
+  termsAndConditionsCtaRoute: string;
+  addNoteOptionCta: string;
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;
-  emptyCartMainCtaLink: string;
-  addNoteOptionCta: string;
+  emptyCartMainCtaRoute: string;
   updateNoteOptionCta: string;
   removeNoteOptionCta: string;
   uniqueDiamondAlreadyInCartErrorMessage: string;

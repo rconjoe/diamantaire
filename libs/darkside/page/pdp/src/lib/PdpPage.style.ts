@@ -9,20 +9,31 @@ export const PageContainerStyles = styled.div`
       flex: 1;
       overflow: hidden;
       max-width: 100%;
-      ${media.medium`padding: 0 2rem;`}
-      ${media.xl`padding: 0 3rem 0 2rem;`}
+      ${media.medium`padding: 0 0 0 2rem;`}
+      ${media.xl`padding: 0 1rem 0 2rem;`}
     }
     .info-container {
       padding: 0 2.4rem 0;
       overflow: hidden;
-      flex: 0 0 40rem;
+      flex: 0 0 43rem;
       ${media.xl`flex: 0 0 55rem;`}
 
       .info__inner {
         margin: 0 auto;
-        /* ${media.small`max-width: 25rem;`} */
-        ${media.medium`max-width: 35rem;`}
-        ${media.xl`max-width: 450px;`}
+      }
+    }
+  }
+  #breadcrumb {
+    max-width: 100%;
+    padding: 0 1.5rem;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 0 2rem;
+    }
+
+    ul {
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 0;
       }
     }
   }

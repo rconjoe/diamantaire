@@ -1,4 +1,6 @@
-const ProductSlider = `
+import { gql } from 'graphql-request';
+
+const ProductSlider = gql`
 ... on ModularProductSliderBlockRecord {
   id
   title
@@ -7,9 +9,10 @@ const ProductSlider = `
     id
     title
     link
+    route
     _modelApiKey
     configuration {
-      
+
       ... on OmegaProductRecord {
         id
         _modelApiKey

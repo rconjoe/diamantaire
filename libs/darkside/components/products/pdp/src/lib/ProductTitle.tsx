@@ -12,7 +12,7 @@ const ProductTitleStyles = styled.h1`
 
   @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
     font-size: 2.8rem;
-    padding: 0 2rem 0 0;
+    padding: 0 4.5rem 0 0;
   }
 `;
 

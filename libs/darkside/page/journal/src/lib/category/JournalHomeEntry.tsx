@@ -1,4 +1,5 @@
 import { ImageTile, Heading, DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
+import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
 import { JournalCategoryGridGroup } from './JournalCategoryGridGroup';
@@ -48,9 +49,17 @@ const JournalHomeEntry = ({
     updatedAt: _updatedAt,
   };
 
+  const { asPath, locale } = useRouter();
+
   return (
     <JournalHomeEntryStyles>
-      <NextSeo title={blogHomeSeo?.seoTitle} description={blogHomeSeo?.seoDescription} />
+      <NextSeo
+        title={blogHomeSeo?.seoTitle}
+        description={blogHomeSeo?.seoDescription}
+        canonical={
+          (process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http:localhost:4200') + `/${locale}` + asPath
+        }
+      />
       <JournalHeader showTitle={true} showNavLogo={false} categoriesToDisplay={blogConfiguration?.categoriesToDisplay} />
       <div>
         {/* ------ LATEST STORIES list title block ------ */}

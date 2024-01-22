@@ -20,6 +20,7 @@ export type InstagramReelProps = {
         postLink: string;
         productLink: string;
         shouldLinkToVraiInstagram: boolean;
+        productRoute: string;
       }[];
     };
   };

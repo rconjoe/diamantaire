@@ -174,8 +174,15 @@ const reshapeCart = (cart: ShopifyCart): Cart => {
   };
 };
 
-async function getCart(_cartId: string): Promise<Cart | undefined> {
-  const cartId = _cartId || localStorage.getItem('cartId');
+export async function getCart(_cartId: string, locale?: string): Promise<Cart | undefined> {
+  let cartId = _cartId || localStorage.getItem('cartId');
+
+  if (!cartId) {
+    const cart = await createCart({ locale, lineItems: [] });
+
+    cartId = cart.id;
+  }
+
   const res = await shopifyFetch<ShopifyCartOperation>({
     query: getCartQuery,
     variables: { cartId },
@@ -401,8 +408,7 @@ export function addJewelryProductToCart({
         },
       ];
 
-      //   return addCustomizedItem(items);
-      console.log('items', items);
+      return addCustomizedItem(items, locale);
     }
   }
 
@@ -692,7 +698,7 @@ const addCustomizedItem = async (
   let cart;
 
   if (cartId) {
-    cart = await getCart(cartId);
+    cart = await getCart(cartId, locale);
   }
 
   // Create a new cart with initial items if no cart exists
@@ -769,7 +775,7 @@ export async function updateGiftNote({
 // Specific to GWP
 export async function toggleCartAddonProduct({ variantId, locale }: { variantId: string; locale: string }) {
   const cartId = localStorage.getItem('cartId');
-  const cart = await getCart(cartId);
+  const cart = await getCart(cartId, locale);
 
   const line = cart.lines.find((line) => line.merchandise.id === variantId);
 
@@ -808,7 +814,7 @@ export async function updateCartBuyerIdentity({ locale }) {
 // Run this when the user goes to checkout to update the line item shipping text attribute
 export async function updateShippingTimes(locale) {
   const cartId = localStorage.getItem('cartId');
-  const cart = await getCart(cartId);
+  const cart = await getCart(cartId, locale);
 
   const updatedItems = cart?.lines?.map((cartItem) => {
     const updatedAttributes = [...cartItem.attributes];

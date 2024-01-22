@@ -1,4 +1,5 @@
 import { queryDatoGQL } from '../clients';
+import { ButtonFragment } from '../fragments';
 
 const EMAIL_POPUP_QUERY = `
 query emailPopup($locale: SiteLocale) {
@@ -30,6 +31,9 @@ query emailPopup($locale: SiteLocale) {
       supportedCountries {
         code
         name
+      }
+      darksideButtons {
+        ${ButtonFragment}
       }
     }
   }

@@ -2,8 +2,7 @@ import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { formatPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -52,11 +51,11 @@ const Cart = ({ closeCart }) => {
     euSubtotalCopy,
     cartCtaCopy,
     termsAndConditionsCtaCopy,
-    termsAndConditionsCtaLink,
+    termsAndConditionsCtaRoute,
+    addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
-    emptyCartMainCtaLink,
-    addNoteOptionCta,
+    emptyCartMainCtaRoute,
     updateNoteOptionCta,
     removeNoteOptionCta,
   } = cartCopy?.[0] || {};
@@ -67,6 +66,10 @@ const Cart = ({ closeCart }) => {
   }, []);
 
   const { countryCode } = parseValidLocale(locale);
+
+  const cartTotal = getVat(countryCode)
+    ? formatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale)
+    : formatPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
 
   return (
     <>
@@ -198,7 +201,7 @@ const Cart = ({ closeCart }) => {
                 <div className="cart-empty-message">
                   <p>
                     {emptyCartMainCopy} <br />
-                    {emptyCartMainCtaLink && <Link href={getRelativeUrl(emptyCartMainCtaLink)}>{emptyCartMainCtaCopy}</Link>}
+                    {emptyCartMainCtaRoute && <Link href={emptyCartMainCtaRoute}>{emptyCartMainCtaCopy}</Link>}
                   </p>
                 </div>
               ) : (
@@ -211,7 +214,7 @@ const Cart = ({ closeCart }) => {
                     <p>
                       {getVat(countryCode) ? euSubtotalCopy : subtotalCopy} <br />{' '}
                     </p>
-                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
+                    <p>{cartTotal}</p>
                   </div>
                   <CartNote
                     actions={{
@@ -226,10 +229,11 @@ const Cart = ({ closeCart }) => {
           </div>
           {!isCartEmpty && (
             <CartFooter
+              cartTotal={cartTotal}
               checkout={checkout}
               checkoutCta={cartCtaCopy}
               termsCta={termsAndConditionsCtaCopy}
-              termsCtaLink={termsAndConditionsCtaLink}
+              termsCtaLink={termsAndConditionsCtaRoute}
             />
           )}
         </div>

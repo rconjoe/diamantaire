@@ -1,8 +1,11 @@
+import { ButtonFragment } from '../fragments';
+
 const Carousel = `
   ... on ModularCarouselBlockRecord {
     id
     _modelApiKey
     additionalClass
+    showDots
     blocks {
       ... on HalfWidthBannerBlockRecord {
         id
@@ -22,7 +25,10 @@ const Carousel = `
         ctaRoute
         isTextBlockWide
         textColor
-        textBlockAlignment              
+        textBlockAlignment
+        darksideButtons {
+          ${ButtonFragment}
+        }
       }
       ... on TrioBlockRecord {
         id
@@ -77,6 +83,9 @@ const Carousel = `
         isTextBlockWide
         textColor
         textBlockAlignment
+        darksideButtons {
+          ${ButtonFragment}
+        }
       }
       ... on TextOnlyBlockRecord {
         title
@@ -84,6 +93,9 @@ const Carousel = `
         mobileCopy
         ctaCopy
         ctaRoute
+        darksideButtons {
+          ${ButtonFragment}
+        }
       }
       ... on QuoteBlockRecord {
             id

@@ -1,9 +1,11 @@
-import { Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
+import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
   JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
   METALS_IN_HUMAN_NAMES,
   METAL_HUMAN_NAMES,
+  PLP_PRICE_RANGES,
   RING_STYLES_MAP,
   ringStylesWithIconMap,
 } from '@diamantaire/shared/constants';
@@ -15,34 +17,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const PlpAllFilterOptionsStyles = styled.div``;
-
-const priceRanges = [
-  {
-    title: 'Below $500',
-    min: undefined, //priceRange[0],
-    max: 50000,
-    slug: 'below-50000',
-  },
-  {
-    title: '$500-$1,500',
-    min: 50000,
-    max: 150000,
-    slug: '50000-150000',
-  },
-  {
-    title: '$1,500-$3000',
-    min: 150000,
-    max: 300000,
-    slug: '150000-300000',
-  },
-  {
-    title: '$3000+',
-    min: 300000,
-    max: undefined, // priceRange[1],
-    slug: '300000-plus',
-  },
-];
+const PlpAllFilterOptionsStyles = styled.div`
+  width: 100%;
+  .filter__body {
+    width: 100%;
+  }
+`;
 
 const PlpAllFilterOptions = ({
   filterTypes,
@@ -56,7 +36,7 @@ const PlpAllFilterOptions = ({
 }) => {
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
 
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const router = useRouter();
 
@@ -70,9 +50,6 @@ const PlpAllFilterOptions = ({
     );
   };
 
-  // const isAnyFilterActive = useMemo(() => {
-  //   return filterValue && Object.values(filterValue).some((value) => value !== null);
-  // }, [filterValue]);
   const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
@@ -93,7 +70,11 @@ const PlpAllFilterOptions = ({
   };
 
   function handlePriceRangeReset() {
-    handleChange(priceRange);
+    const newFilters = { ...filterValue };
+
+    delete newFilters.price;
+
+    setFilterValues(newFilters);
   }
 
   const isDiamondFirstFlow = router.asPath.includes('diamond-to-setting');
@@ -103,10 +84,11 @@ const PlpAllFilterOptions = ({
       <div className="filter">
         <div className="filter__header flex align-center">
           <div className="filter__title">
-            <h4>
+            <Heading type="h4">
               <UIString>Filter</UIString>:
-            </h4>
+            </Heading>
           </div>
+
           <div className="filter__icon">
             <button onClick={() => setIsMobileFilterOpen(true)}>
               <FilterIcon />
@@ -147,11 +129,6 @@ const PlpAllFilterOptions = ({
                   </li>
                 );
               })}
-            <li className="mobile-filter-toggle">
-              <button onClick={() => setIsMobileFilterOpen(true)}>
-                <UIString>more</UIString>
-              </button>
-            </li>
           </ul>
         </div>
 
@@ -162,7 +139,9 @@ const PlpAllFilterOptions = ({
                 {filterTypes['diamondType']?.map((diamondType) => {
                   const Icon = diamondIconsMap[diamondType]?.icon;
 
-                  if (diamondType.includes('+')) return null;
+                  if (diamondType.includes('+')) {
+                    return null;
+                  }
 
                   return (
                     <li key={`filter-${diamondType}`}>
@@ -210,13 +189,14 @@ const PlpAllFilterOptions = ({
           {filterOptionSetOpen === 'price' && (
             <div className="filter-option-set priceRange">
               <ul className="list-unstyled flex ">
-                {priceRanges?.map((price) => {
+                {PLP_PRICE_RANGES.map((price) => {
                   return (
                     <li key={`filter-${price.title}`}>
                       <button
                         className="flex align-center"
                         onClick={() => {
                           setIsCustomPriceRangeOpen(false);
+
                           updateFilter('price', {
                             min: price.min,
                             max: price.max,
@@ -239,6 +219,7 @@ const PlpAllFilterOptions = ({
                   </button>
                 </li>
               </ul>
+
               {isCustomPriceRangeOpen && (
                 <div className="filter-slider">
                   <Slider
@@ -277,7 +258,9 @@ const PlpAllFilterOptions = ({
                         <span className="setting-icon">
                           <Icon />
                         </span>
-                        <span className="diamond-text">{RING_STYLES_MAP[ringStyle]} </span>
+                        <span className="diamond-text">
+                          <UIString>{RING_STYLES_MAP[ringStyle]}</UIString>
+                        </span>
                       </button>
                     </li>
                   );
@@ -289,20 +272,20 @@ const PlpAllFilterOptions = ({
           {filterOptionSetOpen === 'subStyles' && (
             <div className="filter-option-set styles ">
               <ul className="list-unstyled flex">
-                {filterTypes['subStyles']?.map((style) => {
-                  return (
-                    <li key={`filter-${style}`}>
-                      <button
-                        className={clsx('flex align-center', {
-                          active: filterValue['subStyle']?.includes(style.toLowerCase()),
-                        })}
-                        onClick={() => updateFilter('subStyle', style)}
-                      >
-                        <span className="subStyle-text">{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style} </span>
-                      </button>
-                    </li>
-                  );
-                })}
+                {filterTypes['subStyles']?.map((style) => (
+                  <li key={`filter-${style}`}>
+                    <button
+                      className={clsx('flex align-center', {
+                        active: filterValue['subStyle']?.includes(style.toLowerCase()),
+                      })}
+                      onClick={() => updateFilter('subStyle', style)}
+                    >
+                      <span className="subStyle-text">
+                        <UIString>{JEWELRY_SUB_CATEGORY_HUMAN_NAMES[style] || style}</UIString>
+                      </span>
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
@@ -329,18 +312,22 @@ const PlpAllFilterOptions = ({
                       ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[filterValue[filterType]]
                       : filterType;
 
-                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) return null;
+                    if (!filterValue[filterType] || filterValue[filterType]?.length === 0) {
+                      return null;
+                    }
 
                     if (isPrice) {
                       const price = filterValue[filterType];
 
                       const priceRangeMatchesInitialState = price?.min === priceRange[0] && price?.max === priceRange[1];
 
-                      if (priceRangeMatchesInitialState) return null;
+                      if (priceRangeMatchesInitialState) {
+                        return null;
+                      }
 
-                      // generate slug to match predefined filters
                       const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
-                      const priceLabel = priceRanges.find((r) => r.slug === selectedPriceSlug)?.title;
+
+                      const priceLabel = PLP_PRICE_RANGES.find((r) => r.slug === selectedPriceSlug)?.title;
 
                       return (
                         <li key={`${filterValue}-${text}`}>
@@ -356,11 +343,21 @@ const PlpAllFilterOptions = ({
                         : [filterValue[filterType]];
 
                       return filterValueArray.map((val, index) => {
+                        let title;
+
+                        if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
+                          title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
+                        } else if (METALS_IN_HUMAN_NAMES[val]) {
+                          title = <UIString>{METALS_IN_HUMAN_NAMES[val]}</UIString>;
+                        } else {
+                          title = <UIString>{val}</UIString>;
+                        }
+
                         return (
                           <li key={`${filterValue}-${text}-${index}`}>
                             <button onClick={() => updateFilter(filterType, val)}>
                               <span className="close">x</span>
-                              {val && (METALS_IN_HUMAN_NAMES[val] || <UIString>{val}</UIString> || val)}
+                              {title}
                             </button>
                           </li>
                         );

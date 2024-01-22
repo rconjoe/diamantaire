@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductSuggestionBlockStyles = styled.div`
+  &.container-wrapper {
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin-top: 9.6rem;
+    }
+  }
   .title-container {
     padding-bottom: 6rem;
   }
@@ -19,13 +24,14 @@ const ProductSuggestionBlockStyles = styled.div`
     .product-suggestion__container {
       padding: 0 1rem;
       flex: 0 0 50%;
+      margin-bottom: 2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 1;
       }
 
       .product-suggestion__title {
-        margin: 1rem 0;
+        margin: 1rem 0 0;
         font-weight: bold;
       }
 
@@ -44,15 +50,21 @@ const ProductSuggestionBlock = ({ id }) => {
   const { aboveCopy } = content || {};
 
   const refinedConfigurations = normalizeDatoNumberedContent(content, ['configuration']);
+
   const refinedTitles = normalizeDatoNumberedContent(content, ['title']);
 
-  const productHandles = refinedConfigurations.map(
-    (configurationNode) => configurationNode?.configuration?.shopifyProductHandle,
-  );
+  const productHandles = refinedConfigurations.map((configurationNode) => {
+    // Check if the jewelryProduct slug exists
+    return configurationNode?.configuration?.variantId
+      ? configurationNode.configuration.variantId
+      : configurationNode?.configuration?.shopifyProductHandle;
+  });
 
   const { data } = useBlockProducts(productHandles);
 
   const { products, lowestPricesByCollection } = data || {};
+
+  if (products?.length === 0) return null;
 
   return (
     <ProductSuggestionBlockStyles className="container-wrapper">
@@ -62,31 +74,36 @@ const ProductSuggestionBlock = ({ id }) => {
         </Heading>
       </div>
       <div className="products">
-        {products?.map((productNode, index) => {
-          const product = productNode?.product;
+        {products &&
+          productHandles?.map((handle, index) => {
+            const productNode = products?.find(
+              (p) => p?.content?.variantId === handle || p?.content?.shopifyProductHandle === handle,
+            );
 
-          return (
-            <div className="product-suggestion__container" key={product?._id}>
-              <div className="product-suggestion__inner">
-                <ProductLink
-                  productType={product?.productType}
-                  productSlug={product?.productSlug}
-                  collectionSlug={product?.collectionSlug}
-                >
-                  <div className="product-suggestion__image">
-                    <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
-                  </div>
-                  <div className="product-suggestion__content">
-                    <Heading type="h3" className="secondary product-suggestion__title">
-                      {refinedTitles?.[index]?.title}
-                    </Heading>
-                    <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
-                  </div>
-                </ProductLink>
+            const product = productNode?.product;
+
+            return (
+              <div className="product-suggestion__container" key={product?._id}>
+                <div className="product-suggestion__inner">
+                  <ProductLink
+                    productType={product?.productType}
+                    productSlug={product?.productSlug}
+                    collectionSlug={product?.collectionSlug}
+                  >
+                    <div className="product-suggestion__image">
+                      <DatoImage image={refinedConfigurations?.[index]?.configuration?.plpImage} />
+                    </div>
+                    <div className="product-suggestion__content">
+                      <Heading type="h3" className="secondary product-suggestion__title">
+                        {refinedTitles?.[index]?.title}
+                      </Heading>
+                      <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale).trim()}+</p>
+                    </div>
+                  </ProductLink>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </ProductSuggestionBlockStyles>
   );

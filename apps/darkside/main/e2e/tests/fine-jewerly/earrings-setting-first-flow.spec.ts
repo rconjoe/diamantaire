@@ -16,9 +16,8 @@ test.describe("Earrings Setting First flow with filter", () => {
     await test.step("Select Jewerly > Earrings ", async () => {
       await homePage.navigateToJewery('Earrings')
       await jewerlyPage.selectMetalFilter('Rose Gold')
-      await jewerlyPage.selectJewerlyByName('Solitaire Stud');
 
-    
+      await jewerlyPage.selectJewerlyByName('Halo Stud Oval');
     });
 
     await test.step("Confirm selection and add to bag ", async () => {
@@ -28,6 +27,7 @@ test.describe("Earrings Setting First flow with filter", () => {
       console.log(' Jewerly price -> ' + itemPrice);
 
       await productDetailedPage.clickAddToBag();
+
       
     
     });
