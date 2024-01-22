@@ -1,6 +1,5 @@
 import { Heading, Slider, UIString } from '@diamantaire/darkside/components/common-ui';
-import { PLP_PRICE_RANGES } from '@diamantaire/shared/constants';
-import { formatCurrency } from '@diamantaire/shared/helpers';
+import { PLP_PRICE_RANGES, formatPrice, getFormattedPrice } from '@diamantaire/shared/constants';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -22,15 +21,15 @@ const PlpPriceRangeStyles = styled.div`
   }
 `;
 
-const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate, filterTypes }) => {
+const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate, filterTypes, locale }) => {
   const [isCustomPriceRangeOpen, setIsCustomPriceRangeOpen] = useState(false);
 
   const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
 
   const handleFormat = (value: number | string) => {
-    return formatCurrency({
-      amount: parseFloat(value.toString()) / 100,
-    });
+    const num = Number(value);
+
+    return getFormattedPrice(num, locale);
   };
 
   const handleChange = (value: number[]) => {
@@ -49,8 +48,19 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
         </Heading>
 
         <ul className="list">
-          {PLP_PRICE_RANGES?.map((price) => {
-            const isSelected = filterValue.price?.min === price.min && filterValue.price?.max === price.max;
+          {PLP_PRICE_RANGES?.map((v) => {
+            const isSelected = filterValue.price?.min === v.min && filterValue.price?.max === v.max;
+
+            const min = (v?.min && v?.min / 100) || 'below';
+
+            const max = (v?.max && v?.max / 100) || 'plus';
+
+            const selectedPriceSlug = `${min}-${max}`;
+
+            const priceArray = [
+              ...(v.min ? [formatPrice(v.min, locale).trim()] : []),
+              ...(v.max ? [formatPrice(v.max, locale).trim()] : []),
+            ];
 
             return (
               <li key={`filter-${price.title}`} className={isSelected ? 'selected' : ''}>
@@ -60,12 +70,14 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
                     setIsCustomPriceRangeOpen(false);
 
                     updateFilter('price', {
-                      min: price.min,
-                      max: price.max,
+                      min: v.min,
+                      max: v.max,
                     });
                   }}
                 >
-                  <span className="price-text">{price.title}</span>
+                  <span className="price-text">
+                    <UIString replacements={priceArray}>{selectedPriceSlug}</UIString>
+                  </span>
                 </button>
               </li>
             );

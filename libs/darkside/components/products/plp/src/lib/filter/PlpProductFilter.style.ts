@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const PlpProductFilterStyles = styled.div`
   background-color: var(--color-white);
-  padding: 1rem 0;
+  padding: 0;
   width: 100%;
 
   .filter__wrapper {
@@ -145,7 +145,6 @@ export const PlpProductFilterStyles = styled.div`
         button {
           background-color: transparent;
           padding: 0;
-          text-transform: capitalize;
         }
 
         svg {

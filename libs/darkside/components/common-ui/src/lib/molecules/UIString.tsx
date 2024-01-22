@@ -13,8 +13,6 @@ const UIString = ({ children, replacements, types = Object.values(humanNamesMapp
 
   const { _t } = useTranslations(router.locale, types);
 
-  // return _t(children.toString(), replacements);
-
   // Ensure that children is a non-empty string or provide a default value
   const stringToTranslate = children && typeof children === 'string' ? children : '';
 

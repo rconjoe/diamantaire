@@ -1,18 +1,11 @@
 import { Heading, UIString } from '@diamantaire/darkside/components/common-ui';
 import { humanNamesMapperType } from '@diamantaire/darkside/data/hooks';
-import {
-  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
-  METALS_IN_HUMAN_NAMES,
-  RING_STYLES_MAP,
-  ringStylesWithIconMap,
-} from '@diamantaire/shared/constants';
+import { JEWELRY_SUB_CATEGORY_HUMAN_NAMES, RING_STYLES_MAP, ringStylesWithIconMap } from '@diamantaire/shared/constants';
 import { diamondIconsMap } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 
 const renderFilterOptionSet = ({ filterType, mapFunction, allFilterTypes, updateFilter, currentFilters, format }) => {
   let title = filterType;
-
-  console.log(title);
 
   if (['styles', 'subStyles'].includes(filterType)) {
     title = 'style';
@@ -74,7 +67,7 @@ const renderMetal = ({ optionVal: metal, updateFilter, currentFilters }) => {
       >
         <span className={clsx('metal-swatch', metal)}></span>
         <span className="metal-text">
-          <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{METALS_IN_HUMAN_NAMES[metal]}</UIString>
+          <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{metal}</UIString>
         </span>
       </button>
     </li>
