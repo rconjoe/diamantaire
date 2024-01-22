@@ -63,7 +63,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
-  trackInventory: boolean;
+  trackInventory?: boolean;
   parentProductAttributes?: Record<string, string>;
   isProductFeedUrl?: boolean;
   ctaCopy?: {
