@@ -115,10 +115,20 @@ const PlpProductFilter = ({
 
     // PRICE FILTER
     else {
-      const { min, max } = value || {};
+      const min = value?.min?.toString();
+
+      const max = value?.max?.toString();
 
       if (min || max) {
-        setFilterValues({ ...filterValue, [filterType]: { min, max } });
+        if (min === newFilterValue?.min && max === newFilterValue?.max) {
+          const { price, ...remainingFilters } = filterValue;
+
+          console.log(`removing ${price}`);
+
+          setFilterValues({ ...remainingFilters });
+        } else {
+          setFilterValues({ ...filterValue, [filterType]: { min, max } });
+        }
       }
     }
   };

@@ -278,7 +278,6 @@ export const PlpProductFilterStyles = styled.div`
       }
 
       button.active {
-        font-weight: bold;
         border-bottom: 0.2rem solid var(--color-teal);
       }
 

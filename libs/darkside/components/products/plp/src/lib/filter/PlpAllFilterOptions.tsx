@@ -203,10 +203,20 @@ const PlpAllFilterOptions = ({
                     ...(price.max ? [formatPrice(price.max, locale).trim()] : []),
                   ];
 
+                  const activeMin = filterValue?.price?.min;
+
+                  const activeMax = filterValue?.price?.max;
+
+                  const priceMin = price?.min?.toString();
+
+                  const priceMax = price?.max?.toString();
+
+                  const isActive = activeMin === priceMin && activeMax === priceMax;
+
                   return (
                     <li key={`filter-${price.title}`}>
                       <button
-                        className="flex align-center"
+                        className={clsx('flex align-center', { active: isActive })}
                         onClick={() => {
                           setIsCustomPriceRangeOpen(false);
 
