@@ -168,14 +168,6 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
 
   return (
     <>
-      {isFixed && (
-        <div
-          className="header-spacer"
-          style={{
-            height: isFixed ? `${mobileMenuRef.current.getBoundingClientRect().height}px` : 0,
-          }}
-        ></div>
-      )}
       <MobileHeaderContainer className={isFixed ? 'fixed' : ''}>
         <div className="mobile-header-outer-wrapper" ref={mobileMenuRef}>
           <div className="mobile-header-wrapper">
@@ -223,6 +215,14 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
           />
         )}
       </AnimatePresence>
+      {isFixed && (
+        <div
+          className="header-spacer"
+          style={{
+            height: isFixed ? `${mobileMenuRef.current.getBoundingClientRect().height}px` : 0,
+          }}
+        ></div>
+      )}
     </>
   );
 };

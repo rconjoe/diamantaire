@@ -50,6 +50,9 @@ type FilterQueryValues = {
 };
 
 const PlpStyles = styled.div`
+  #breadcrumb {
+    padding-top: 2rem;
+  }
   .container-wrapper {
     max-width: 90vw;
   }
