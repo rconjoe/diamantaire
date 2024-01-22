@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { PageViewTracker } from '@diamantaire/analytics';
+import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks';
 import {
   Breadcrumb,
   DropHintModal,
@@ -19,6 +20,10 @@ import {
   ProductSuggestionBlock,
   ProductGWP,
   ProductSeo,
+  ProductReviews,
+  ProductBlockPicker,
+  ProductContentBlocks,
+  ProductTrioBlocks,
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
@@ -27,22 +32,20 @@ import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
   ENGAGEMENT_RING_PRODUCT_TYPE,
+  getCurrency,
   jewelryTypes,
   pdpTypeHandleSingleToPluralAsConst,
   PdpTypePlural,
   pdpTypeSingleToPluralAsConst,
   pdpTypeTitleSingleToPluralHandleAsConst,
 } from '@diamantaire/shared/constants';
-import { fetchAndTrackPreviouslyViewed } from '@diamantaire/shared/helpers';
+import { fetchAndTrackPreviouslyViewed, getCountry, getSWRPageCacheHeader } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { InferGetServerSidePropsType, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import ProductContentBlocks from './pdp-blocks/ProductContentBlocks';
-import ProductReviews from './pdp-blocks/ProductReviews';
-import ProductTrioBlocks from './pdp-blocks/ProductTrioBlocks';
 import { PageContainerStyles } from './PdpPage.style';
 
 export interface PdpPageParams extends ParsedUrlQuery {
@@ -58,8 +61,10 @@ export interface PdpPageProps {
 
 export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
-    params: { collectionSlug, productSlug },
+    params: { collectionSlug, productSlug: initialProductSlug },
   } = props;
+
+  const [productSlug, setProductSlug] = useState(initialProductSlug);
 
   const { isMobile } = useContext(GlobalContext);
 
@@ -71,7 +76,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const router = useRouter();
 
   const { locale } = router || {};
-
+  const countryCode = getCountry(locale);
+  const currencyCode = getCurrency(countryCode);
   const { _t } = useTranslations(locale);
 
   // Jewelry | ER | Wedding Band
@@ -80,8 +86,6 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   const { data }: { data: any } = useProductDato(collectionSlug, router.locale, pdpType);
 
   const datoParentProductData: any = data?.engagementRingProduct || data?.jewelryProduct || data?.weddingBandProduct;
-
-  console.log('shopifyProductData', shopifyProductData);
 
   const {
     // ER + WB SEO
@@ -93,14 +97,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
     shownWithCtwLabel,
     extraOptions,
     diamondDescription,
     productTitle,
     productTitleOverride,
-    trioBlocks: { id: trioBlocksId = '' } = {},
+    trioBlocks,
+    accordionBlocks,
   } = datoParentProductData || {};
 
   // Icon List - Clientside
@@ -112,12 +115,17 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
   // Product Video Clock - Clientside
   const videoBlockId = datoParentProductData?.diamondContentBlock?.id;
 
+  // Product Block Picker - Clientside pulls if __typename exists
+  const hasBelowBannerBlocks = datoParentProductData?.belowBannerBlocks?.length > 0;
+
+  // Trio Blocks - Clientside
+  let trioBlocksId = trioBlocks?.id;
+
+  let accordionBlocksOverride = accordionBlocks;
   // Variant Specific Data
   const { shopifyCollectionId, productContent, configuration, price } = shopifyProductData;
 
   const configurations = shopifyProductData?.optionConfigs;
-
-  const assetStack = productContent?.assetStack; // flatten array in normalization
 
   const shopifyHandle = productContent?.shopifyProductHandle || productContent?.configuredProductOptionsInOrder;
 
@@ -126,53 +134,68 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     shopifyProductData?.productType,
     router.locale,
   );
+  let assetStack = productContent?.assetStack; // flatten array in normalization
+
+  const variantId = shopifyProductData?.shopifyVariantId;
 
   const productIconListTypeOverride =
     additionalVariantData?.omegaProduct?.productIconList?.productType ||
     additionalVariantData?.configuration?.productIconList?.productType;
 
   // console.log('additionalVariantData v1', additionalVariantData);
-  // console.log('productContent v1', productContent);
+  console.log('shopify', shopifyProductData);
 
-  // ER/WB
-  if (additionalVariantData?.omegaProduct) {
-    additionalVariantData = additionalVariantData?.omegaProduct;
-  } else if (additionalVariantData?.configuration) {
-    // Jewelry
-    additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
-  } else {
-    // Add Shopify Product Data to Dato Product Data
-    additionalVariantData = productContent;
-    additionalVariantData['goldPurity'] = shopifyProductData?.configuration?.goldPurity;
-    additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
-    additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
-  }
-
-  // console.log('v2 additionalVariantData', additionalVariantData);
-
-  // use parent product carat if none provided on the variant in Dato
-  if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
-    if (additionalVariantData?.caratWeightOverride) {
-      additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+  if (additionalVariantData) {
+    // ER/WB
+    if (additionalVariantData?.omegaProduct) {
+      additionalVariantData = additionalVariantData?.omegaProduct;
+    } else if (additionalVariantData?.configuration) {
+      // Jewelry
+      additionalVariantData = { ...productContent, ...additionalVariantData?.configuration };
+      if (additionalVariantData?.assetStack) {
+        assetStack = additionalVariantData?.assetStack;
+      }
     } else {
-      additionalVariantData.carat = datoParentProductData?.caratWeight || '';
+      // Add Shopify Product Data to Dato Product Data
+      additionalVariantData = productContent;
+      additionalVariantData['goldPurity'] = shopifyProductData?.configuration?.goldPurity;
+      additionalVariantData.bandAccent = shopifyProductData?.configuration?.bandAccent;
+      additionalVariantData.ringSize = shopifyProductData?.options?.ringSize;
     }
-  } else {
-    additionalVariantData.carat = additionalVariantData.caratWeightOverride;
-  }
 
-  additionalVariantData.productType = shopifyProductData.productType;
-  additionalVariantData.productTitle = datoParentProductData?.productTitle;
-  additionalVariantData.price = price;
-  additionalVariantData.image = {
-    src: assetStack[0].url,
-    width: assetStack[0].width,
-    height: assetStack[0].width,
-    responsiveImage: {
+    if (additionalVariantData?.trioBlocks) {
+      trioBlocksId = additionalVariantData?.trioBlocks?.id;
+    }
+    if (additionalVariantData?.accordionBlocks?.length > 0) {
+      accordionBlocksOverride = additionalVariantData?.accordionBlocks;
+    }
+
+    console.log('v2 additionalVariantData', additionalVariantData);
+    // use parent product carat if none provided on the variant in Dato TODO: remove if not needed
+    // if (!productContent?.carat || productContent?.carat === '' || !additionalVariantData?.caratWeightOverride) {
+    //   if (additionalVariantData?.caratWeightOverride) {
+    //     additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    //   } else {
+    //     additionalVariantData.carat = datoParentProductData?.caratWeight || '';
+    //   }
+    // } else {
+    //   additionalVariantData.carat = additionalVariantData.caratWeightOverride;
+    // }
+
+    additionalVariantData.productType = shopifyProductData.productType;
+    additionalVariantData.productTitle = datoParentProductData?.productTitle;
+
+    additionalVariantData.price = price;
+    additionalVariantData.image = {
       src: assetStack[0].url,
-      ...assetStack[0].responsiveImage,
-    },
-  };
+      width: assetStack[0].width,
+      height: assetStack[0].width,
+      responsiveImage: {
+        src: assetStack[0].url,
+        ...assetStack[0].responsiveImage,
+      },
+    };
+  }
 
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
@@ -182,14 +205,14 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     bandWidth,
     bandDepth,
     settingHeight,
-    paveCaratWeight,
-    metalWeight,
+    paveCaratWeight: shopifyProductData?.collectionContent?.paveCaratWeight,
+    metalWeight: shopifyProductData?.collectionContent?.metalWeight,
+    caratWeight: shopifyProductData?.collectionContent?.caratWeight,
     shownWithCtwLabel,
     diamondDescription,
     styles: shopifyProductData?.styles,
     productType: shopifyProductData.productType,
   };
-  const variantId = shopifyProductData?.shopifyVariantId;
 
   const hasMoreThanOneVariant = useMemo(() => {
     let hasMoreThanOne = false;
@@ -257,10 +280,13 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     setDropHintData(null);
   };
 
+  // console.log('shopifyProductData', shopifyProductData);
+
   if (shopifyProductData) {
     const productData = { ...shopifyProductData, cms: additionalVariantData };
 
-    const productMediaAltDescription = generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
+    const productMediaAltDescription =
+      additionalVariantData && generatePdpAssetAltTag(productTitle, shopifyProductData?.configuration);
 
     return (
       <PageContainerStyles>
@@ -271,9 +297,10 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             seoDescription,
           }}
           productType={shopifyProductData?.productType}
-          diamondType={configuration.diamondType}
+          diamondType={configuration?.diamondType}
           productTitle={productTitle}
-          metal={configuration.metal}
+          metal={configuration?.metal}
+          canonicalVars={shopifyProductData?.canonicalVariant}
         />
 
         <Script
@@ -301,12 +328,12 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               title={productMediaAltDescription}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
-              diamondType={configuration.diamondType}
+              diamondType={configuration?.diamondType}
             />
             <MediaSlider
               assets={assetStack}
               options={configuration}
-              diamondType={configuration.diamondType}
+              diamondType={configuration?.diamondType}
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
             />
             {isMobile && <WishlistLikeButton extraClass="pdp" productId={`product-${shopifyProductData.productSlug}`} />}
@@ -318,7 +345,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               <ProductTitle
                 title={productTitle}
                 override={productTitleOverride}
-                diamondType={configuration.diamondType}
+                diamondType={configuration?.diamondType}
                 productType={shopifyProductData?.productType}
               />
               <ProductPrice
@@ -328,6 +355,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
               />
+
               <ProductConfigurator
                 configurations={configurations}
                 selectedConfiguration={configuration}
@@ -354,6 +382,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 engravingText={engravingText}
                 setEngravingText={setEngravingText}
                 productIconListType={productIconListTypeOverride ? productIconListTypeOverride : productIconListType}
+                setProductSlug={setProductSlug}
               />
 
               <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />
@@ -375,7 +404,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 />
               )}
 
-              <NeedTimeToThinkForm productData={productData} />
+              {additionalVariantData && <NeedTimeToThinkForm productData={productData} />}
 
               {/* <Form
                 title={_t('Need more time to think?')}
@@ -407,7 +436,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
           <ProductContentBlocks videoBlockId={videoBlockId} instagramReelId={instagramReelId} />
         )}
 
-        <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />
+        {shopifyCollectionId && <ProductReviews reviewsId={shopifyCollectionId.replace('gid://shopify/Collection/', '')} />}
 
         {openDropHintModal && (
           <DropHintModal
@@ -419,6 +448,24 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
             productImage={dropHintData?.image}
           />
         )}
+
+        {hasBelowBannerBlocks && <ProductBlockPicker slug={collectionSlug} pdpType={pdpType} />}
+
+        {accordionBlocksOverride?.length > 0 &&
+          accordionBlocksOverride.map((block, index) => {
+            const { _modelApiKey } = block;
+
+            return (
+              <BlockPicker
+                _modelApiKey={_modelApiKey}
+                modularBlockData={{ ...block }}
+                shouldLazyLoad={true}
+                key={index}
+                countryCode={countryCode}
+                currencyCode={currencyCode}
+              />
+            );
+          })}
       </PageContainerStyles>
     );
   }
@@ -462,7 +509,9 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<PdpPageParams>,
   contextOverride?: Partial<GetServerSidePropsContext>,
 ): Promise<GetServerSidePropsResult<PdpPageProps>> {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+  const [cachePolicy, cacheSettings] = getSWRPageCacheHeader();
+
+  context.res.setHeader(cachePolicy, cacheSettings);
   const mergedContext = {
     ...context,
     params: {

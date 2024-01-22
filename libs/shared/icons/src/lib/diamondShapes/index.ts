@@ -111,12 +111,7 @@ export const diamondIconsMap = {
     icon: EmeraldIcon,
     icon2: RoundBrilliantIcon,
   },
-  'emerald+round-brilliant-east-west': {
-    slug: 'emerald+round-brilliant',
-    icon: EmeraldIcon,
-    icon2: RoundBrilliantIcon,
-    isEastWest: true,
-  },
+
   felix: {
     slug: 'felix',
     icon: FelixIcon,
@@ -237,12 +232,6 @@ export const diamondIconsMap = {
     icon: RoundBrilliantIcon,
     icon2: PearIcon,
   },
-  'round-brilliant+pear-east-west': {
-    slug: 'round-brilliant+pear',
-    icon: RoundBrilliantIcon,
-    icon2: PearIcon,
-    isEastWest: true,
-  },
   'round-brilliant+oval': {
     slug: 'round-brilliant+oval',
     icon: RoundBrilliantIcon,
@@ -251,5 +240,40 @@ export const diamondIconsMap = {
   'tapered-baguette': {
     slug: 'tapered-baguette',
     icon: TaperedBaguetteIcon,
+  },
+  'marquise+trillion': {
+    slug: 'marquise+trillion',
+    icon: MarquiseIcon,
+    icon2: TrillionIcon,
+  },
+  'marquise+baguette': {
+    slug: 'marquise+baguette',
+    icon: MarquiseIcon,
+    icon2: BaguetteIcon,
+  },
+  'marquise+round-brilliant': {
+    slug: 'marquise+round-brilliant',
+    icon: MarquiseIcon,
+    icon2: RoundBrilliantIcon,
+  },
+  'oval+trillion': {
+    slug: 'oval+trillion',
+    icon: OvalIcon,
+    icon2: TrillionIcon,
+  },
+  'baguette+oval': {
+    slug: 'baguette+oval',
+    icon: BaguetteIcon,
+    icon2: OvalIcon,
+  },
+  'baguette+trillion': {
+    slug: 'baguette+trillion',
+    icon: BaguetteIcon,
+    icon2: TrillionIcon,
+  },
+  'baguette+marquise': {
+    slug: 'baguette+marquise',
+    icon: BaguetteIcon,
+    icon2: MarquiseIcon,
   },
 };

@@ -2,8 +2,7 @@
 import { useAnalytics } from '@diamantaire/analytics';
 import { DarksideButton } from '@diamantaire/darkside/components/common-ui';
 import { getEmailFromCookies, updateShippingTimes } from '@diamantaire/darkside/data/api';
-import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
+import { parseValidLocale } from '@diamantaire/shared/constants';
 import { goToCheckoutUrl } from '@diamantaire/shared/helpers';
 import { useCookieConsentContext } from '@use-cookie-consent/react';
 import clsx from 'clsx';
@@ -140,9 +139,10 @@ type CartFooterProps = {
   checkoutCta: string;
   termsCta: string;
   termsCtaLink: string;
+  cartTotal: string;
 };
 
-const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFooterProps) => {
+const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }: CartFooterProps) => {
   const { locale } = useRouter();
   // Off by default in EU
   const { countryCode } = parseValidLocale(locale);
@@ -156,8 +156,6 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
       : false,
   );
   const { checkoutStarted } = useAnalytics();
-
-  const { _t } = useTranslations(locale);
 
   const { consent } = useCookieConsentContext();
   const handleCheckoutClick = () => {
@@ -272,9 +270,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
     };
 
     checkoutStarted(eventData);
-    updateShippingTimes(_t('Made-to-order. Ships by'), locale).then(() =>
-      goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }),
-    );
+    updateShippingTimes(locale).then(() => goToCheckoutUrl({ checkoutUrl, locale, consent, email: getEmailFromCookies() }));
   };
 
   function toggleConsent() {
@@ -291,7 +287,7 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink }: CartFoote
             disabled={!hasTermsConsent}
             onClick={handleCheckoutClick}
           >
-            {checkoutCta} | {getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}
+            {checkoutCta} | {cartTotal}
           </DarksideButton>
         </li>
         <li>

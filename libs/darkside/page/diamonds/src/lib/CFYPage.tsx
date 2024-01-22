@@ -9,6 +9,7 @@ import {
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
+import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { useDiamondCfyData, useProductDiamondTypes } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
@@ -87,12 +88,22 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
 
   const [productRoute, setProductRoute] = useState('');
 
+  const { builderProduct } = useContext(BuilderProductContext);
+
   useEffect(() => {
     const shape = selectedDiamondType?.slug || null;
 
     if (shape && productRoute !== `/diamonds/results/${shape}?carat=${selectedCarat}`) {
-      setProductRoute(`/diamonds/results/${shape}?carat=${selectedCarat}`);
-      router.push(getCFYShallowRoute({ carat: selectedCarat, diamondType: shape }, 'diamondCfy'), undefined, {
+      setProductRoute(
+        `/diamonds/results/${shape}?carat=${selectedCarat}${
+          router?.query?.collectionSlug && router?.query?.productSlug
+            ? `&collectionSlug=${builderProduct?.product?.collectionSlug || router?.query?.collectionSlug}&productSlug=${
+                builderProduct?.product?.productSlug || router?.query?.productSlug
+              }`
+            : ''
+        }`,
+      );
+      router.push(getCFYShallowRoute({ carat: selectedCarat, diamondType: shape }, 'diamondCfy', router), undefined, {
         shallow: true,
       });
     } else if (!shape) {
@@ -141,6 +152,7 @@ const CFYPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
                 handleSelectCarat={handleSelectCarat}
                 caratSliderTooltip={caratSliderTooltip}
               />
+
               <UniLink route={productRoute}>
                 <DarksideButton onClick={handleCheckAvailability} className="button-check-availability">
                   {checkAvailabilityLabel}

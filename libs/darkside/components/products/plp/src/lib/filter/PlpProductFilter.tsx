@@ -38,7 +38,7 @@ const PlpProductFilter = ({
 }) => {
   const router = useRouter();
   const filterTypes = availableFilters;
-  const priceRange: number[] = filterTypes?.price.map((val) => parseFloat(val)) || [0, 1000000];
+  const priceRange: number[] = filterTypes?.price?.map((val) => parseFloat(val)) || [0, 1000000];
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const [filterOptionSetOpen, setFilterOptionSetOpen] = useState<FilterTypeProps | null>(null);
@@ -165,14 +165,20 @@ const PlpProductFilter = ({
           );
 
         setFilterValues(newFilters);
-        router.push({
-          pathname: router.pathname,
-          query: {
-            // For faceted nav, we only want the base slug, not the full path
-            plpSlug: [plpSlug?.[0], ...sortedPathEntries],
-            ...sortedQParams,
+        router.push(
+          {
+            pathname: router.pathname,
+            query: {
+              // For faceted nav, we only want the base slug, not the full path
+              plpSlug: [plpSlug?.[0], ...sortedPathEntries],
+              ...sortedQParams,
+            },
           },
-        });
+          undefined,
+          {
+            shallow: true,
+          },
+        );
       } else {
         if (urlFilterMethod === 'none') {
           if (!newFilterValue || newFilterValue.length === 0) {

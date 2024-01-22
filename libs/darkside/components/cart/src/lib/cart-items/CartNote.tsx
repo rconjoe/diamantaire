@@ -1,5 +1,5 @@
 import { DarksideButton, UIString } from '@diamantaire/darkside/components/common-ui';
-import { addItemToCart, updateGiftNote, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
+import { addItemToCart, updateMultipleItemsQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData } from '@diamantaire/darkside/data/hooks';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
 import { useRouter } from 'next/router';
@@ -64,7 +64,7 @@ const CartNoteStyles = styled.div`
   }
 `;
 
-const CartNote = ({ addNoteOptionCta }) => {
+const CartNote = ({ actions }) => {
   const { locale } = useRouter();
   const { data: checkout, refetch } = useCartData(locale);
   const [isGiftNoteOpen, setIsGiftNoteOpen] = useState(false);
@@ -75,7 +75,6 @@ const CartNote = ({ addNoteOptionCta }) => {
   const noteVariantId = createShopifyVariantId(40638483660893);
 
   async function toggleGiftNote() {
-    console.log(giftNoteText);
     setGiftNoteText(giftNoteInputText);
     setIsGiftNoteOpen(false);
     const doesUserHaveNoteInCart = checkout?.lines?.find((line) => line?.merchandise?.id === noteVariantId);
@@ -86,8 +85,7 @@ const CartNote = ({ addNoteOptionCta }) => {
       setOrderHasNote(false);
     }
 
-    await updateGiftNote({ giftNote: giftNoteInputText, locale }).then(() => refetch());
-    if (doesUserHaveNoteInCart) {
+    if (doesUserHaveNoteInCart && giftNoteStatus !== actions?.remove) {
       const updatedAttributes = {
         _hiddenProduct: 'true',
         note: giftNoteInputText,
@@ -112,6 +110,8 @@ const CartNote = ({ addNoteOptionCta }) => {
           },
         ],
       }).then(() => refetch());
+    } else if (doesUserHaveNoteInCart && giftNoteStatus === actions?.remove) {
+      return await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
     }
   }
   const textAreaRef = useRef(null);
@@ -122,11 +122,11 @@ const CartNote = ({ addNoteOptionCta }) => {
 
   const giftNoteStatus =
     giftNoteInputText?.length > 0 && giftNoteText?.length > 0
-      ? 'Update Gift Note'
+      ? actions?.update
       : !giftNoteText
-      ? 'Add Gift Note'
+      ? actions?.add
       : giftNoteInputText?.length === 0 && giftNoteText?.length > 0
-      ? 'Remove Gift Note'
+      ? actions?.remove
       : '';
 
   async function removeNoteFromOrder(item) {
@@ -165,7 +165,7 @@ const CartNote = ({ addNoteOptionCta }) => {
 
         await addItemToCart({ variantId: noteVariantId, customAttributes: refinedAttributes }).then(() => refetch());
       } else if (!orderHasNote && doesUserHaveNoteInCart) {
-        await removeNoteFromOrder(doesUserHaveNoteInCart);
+        await removeNoteFromOrder(doesUserHaveNoteInCart).then(() => refetch());
       }
     }
 
@@ -192,7 +192,7 @@ const CartNote = ({ addNoteOptionCta }) => {
         <div className="cart-subtotal__gift-note">
           <div className="gift-note-toggle-text">
             <button className="gift-note-toggle" onClick={() => setIsGiftNoteOpen(!isGiftNoteOpen)}>
-              {addNoteOptionCta}
+              {giftNoteStatus}
             </button>{' '}
             <span>
               (<UIString>optional</UIString>)
@@ -210,7 +210,7 @@ const CartNote = ({ addNoteOptionCta }) => {
             </li>
             <li>
               <DarksideButton type="underline" colorTheme="teal" onClick={() => setIsGiftNoteOpen(false)}>
-                Cancel
+                <UIString>Cancel</UIString>
               </DarksideButton>
             </li>
           </ul>

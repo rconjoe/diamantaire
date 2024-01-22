@@ -1,5 +1,6 @@
 import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory';
 
+import { builderFlow } from './builder-flow';
 import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
 import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
@@ -34,6 +35,7 @@ export const queries = mergeQueryKeys(
   cookieBanner,
   emailPopup,
   wishlist,
+  builderFlow,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -45,6 +47,7 @@ export type DiamondTableKeys = inferQueryKeys<typeof diamondTable>;
 export type TopBarKeys = inferQueryKeys<typeof topBar>;
 export type JournalKeys = inferQueryKeys<typeof journal>;
 export type CartKeys = inferQueryKeys<typeof cart>;
+export type BuilderFlowKeys = inferQueryKeys<typeof builderFlow>;
 export type StandardPageKeys = inferQueryKeys<typeof standardPage>;
 export type ProductPageKeys = inferQueryKeys<typeof productPage>;
 export type ProductBlocksKeys = inferQueryKeys<typeof productBlocks>;

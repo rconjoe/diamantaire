@@ -1,4 +1,4 @@
-import { MAIN_FONT, mobileOnly, tabletAndUp, desktopAndUp, setSpace, media } from '@diamantaire/styles/darkside-styles';
+import { mobileOnly, tabletAndUp, desktopAndUp, setSpace, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTextOnlyBlockContainer = styled.div`
@@ -96,7 +96,7 @@ export const ModularTextOnlyBlockContainer = styled.div`
   }
 
   .text-block__title {
-    font-family: ${(props) => (props.titleFont ? props.titleFont : MAIN_FONT)};
+    font-family: ${(props) => (props.titleFont ? props.titleFont : 'var(--font-family-main)')};
     font-style: ${(props) => (props.fontStyle ? props.fontStyle : 'initial')};
     margin: ${setSpace(2)} 0 ${setSpace(1)} 0;
     text-align: center;

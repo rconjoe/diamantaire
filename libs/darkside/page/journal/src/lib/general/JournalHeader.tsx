@@ -30,7 +30,7 @@ const JournalHeader = ({ categoriesToDisplay, showTitle, showNavLogo }: JournalH
     <JournalHeaderStyles>
       {showTitle && (
         <Heading type="h1" className="title-container">
-          <Link href={'/'}>
+          <Link href={'/journal'}>
             <UIString>VRAI Journal</UIString>
           </Link>
         </Heading>

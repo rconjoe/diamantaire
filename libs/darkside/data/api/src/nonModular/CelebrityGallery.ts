@@ -1,3 +1,5 @@
+import { ButtonFragment } from '../fragments';
+
 const CelebrityGallery = `
 ... on CelebrityGalleryRecord {
     _modelApiKey
@@ -34,6 +36,7 @@ const CelebrityGallery = `
           itemName
           ctaCopy
           ctaRoute
+          newRoute
           image {
             url
             alt

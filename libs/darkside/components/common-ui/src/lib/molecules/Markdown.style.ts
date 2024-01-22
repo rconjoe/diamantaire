@@ -1,4 +1,4 @@
-import { setSpace, mobileOnly, desktopAndUp, MAIN_FONT, media } from '@diamantaire/styles/darkside-styles';
+import { setSpace, mobileOnly, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const MarkdownContainer = styled.div`
@@ -42,7 +42,7 @@ export const MarkdownContainer = styled.div`
     ol,
     ul {
       letter-spacing: 0px;
-      font-family: ${MAIN_FONT};
+      font-family: var(--font-family-main);
       font-style: normal;
       font-size: var(--font-size-xsmall);
       font-weight: 400;

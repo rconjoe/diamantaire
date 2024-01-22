@@ -1,21 +1,16 @@
-
-import { SiteLocale } from '@diamantaire/_generated/datocms';
-export type LooseDiamondProductCartItem = {
+export type LooseDiamondAttributeProps = {
   productAsset: string;
   _productAssetObject: string;
   _productTitle: string;
   _productType: string;
   _productTypeTranslated: string;
   _specs: string;
-  productIconListShippingCopy: string;
-  shippingBusinessDays: string;
   // This is the setting variant id
   feedId: string;
   // This unifies the setting with the custom diamond
   productGroupKey: string;
   // This refers to the setting url
   pdpUrl: string;
-  shippingText: string;
   caratWeight: string;
   clarity: string;
   cut: string;
@@ -23,6 +18,8 @@ export type LooseDiamondProductCartItem = {
   lotId: string;
   isChildProduct?: string;
   _dateAdded: string;
+  shippingBusinessDays?: string;
+  shippingText?: string;
 };
 
 export type ERProductCartItemProps = {
@@ -30,6 +27,8 @@ export type ERProductCartItemProps = {
   settingAttributes: {
     // Fulfillment
     _productType: string;
+    _productTypeTranslated: string;
+    _productAssetObject: string;
     metalType: string;
     productAsset: string;
     _productTitle: string;
@@ -47,7 +46,8 @@ export type ERProductCartItemProps = {
 
     // Item specific stuff
     diamondShape: string;
-    centerStone: string;
+    // Not sure if this has to be included
+    centerStone?: string;
     bandAccent: string;
     _dateAdded: string;
     ringSize: string;
@@ -56,12 +56,22 @@ export type ERProductCartItemProps = {
     productCategory?: string;
 
     childProduct: string;
+    shippingBusinessDays: string;
   };
-  diamondVariantId?: string;
-  diamondAttributes?: {
+  diamonds?: ProductAddonDiamond[];
+
+  hasEngraving: boolean;
+  engravingText?: string;
+  locale?: string;
+};
+
+export type ProductAddonDiamond = {
+  variantId: string;
+  attributes?: {
     productAsset: string;
     _productTitle: string;
     _productType: string;
+    _productTypeTranslated: string;
     productIconListShippingCopy: string;
     shippingBusinessDays: string;
     // This is the setting variant id
@@ -78,10 +88,25 @@ export type ERProductCartItemProps = {
     lotId: string;
     isChildProduct: string;
     _dateAdded: string;
+    _specs: string;
   };
-  hasEngraving: boolean;
-  engravingText?: string;
+};
+
+export type MiscCartItemProps = {
+  variantId: string;
   locale?: string;
+  attributes: {
+    // Fulfillment
+    _productType: 'Gift Card' | 'Ring Sizer';
+    productAsset: string;
+    _productTitle: string;
+    shippingBusinessDays: string;
+    productIconListShippingCopy: string;
+    productGroupKey: string;
+    pdpUrl: string;
+    feedId: string;
+    shippingText: string;
+  };
 };
 
 export type JewelryCartItemProps = {
@@ -117,27 +142,7 @@ export type JewelryCartItemProps = {
 export type LooseDiamondCartItemProps = {
   diamondVariantId?: string;
   // Fulfillment
-  diamondAttributes?: {
-    productAsset: string;
-    _productTitle: string;
-    _productType: string;
-    productIconListShippingCopy: string;
-    shippingBusinessDays: string;
-    // This is the diamond variant id - not sure if needed
-    // feedId: string;
-    // This unifies the setting with the custom diamond
-    productGroupKey: string;
-    // This refers to the setting url
-    pdpUrl: string;
-    shippingText: string;
-    caratWeight: string;
-    clarity: string;
-    cut: string;
-    color: string;
-    lotId: string;
-    // isChildProduct: string;
-    _dateAdded: string;
-  };
+  diamondAttributes?: LooseDiamondAttributeProps;
   locale?: string;
 };
 

@@ -18,23 +18,41 @@ import {
 } from '@diamantaire/darkside/components/diamonds';
 import { StandardPageSeo } from '@diamantaire/darkside/components/seo';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
+import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
+import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import {
   humanNamesMapperType,
+  useCartData,
   useDiamondCfyData,
   useDiamondCtoData,
   useTranslations,
 } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate } from '@diamantaire/darkside/template/standard';
-import { POPULAR_CFY_DIAMOND_TYPES, getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
+import {
+  DIAMOND_VIDEO_BASE_URL,
+  POPULAR_CFY_DIAMOND_TYPES,
+  getFormattedCarat,
+  getFormattedPrice,
+  parseValidLocale,
+} from '@diamantaire/shared/constants';
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
-import { getCFYResultOptionsFromUrl, getDiamondType, getShipByDateCopy } from '@diamantaire/shared/helpers';
+import {
+  generateCfyDiamondSpriteThumbUrl,
+  getCFYResultOptionsFromUrl,
+  getDiamondType,
+  getShipByDateCopy,
+  specGenerator,
+} from '@diamantaire/shared/helpers';
+import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import clsx from 'clsx';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { GetServerSidePropsContext, GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { StyledCFYResultPage } from './CFYResultPage.style';
 
@@ -46,13 +64,14 @@ interface CFYResultPageQueryParams extends ParsedUrlQuery {
 
 interface CFYResultPageProps {
   dehydratedState: DehydratedState;
-  locale: string;
-  countryCode: string;
   options?: CFYResultPageQueryParams;
 }
 
 const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { locale, countryCode, options = {} } = props;
+  const { options = {} } = props;
+  const router = useRouter();
+  const { locale } = router;
+  const { countryCode } = parseValidLocale(locale);
 
   const { data: { ctoDiamondTable: diamondCfyData } = {} } = useDiamondCfyData(locale);
 
@@ -69,7 +88,11 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const { title: seoTitle = '', description: seoDesc = '' } = diamondCfyData?.seo || {};
 
-  const { _t } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
+  const { _t } = useTranslations(locale, [
+    humanNamesMapperType.DIAMOND_SHAPES,
+    humanNamesMapperType.DIAMOND_SPECS,
+    humanNamesMapperType.OPTION_NAMES,
+  ]);
 
   const diamondCtoData = useDiamondCtoData(options)?.data;
 
@@ -146,6 +169,19 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
   const diamondTableInventoryLink = `/diamonds/inventory/` + (isStandardShape ? diamondType : '');
 
+  const {
+    cutForYouShippingBusinessDays: cutForYouShippingBusinessDaysUS,
+    cutForYouShippingBusinessDaysCountryMap: cutForYouShippingBusinessDaysEverywhereElse,
+    shippingText,
+  } = productIconList?.items?.[0] || {};
+
+  const businessDaysCfy =
+    countryCode === 'US'
+      ? cutForYouShippingBusinessDaysUS
+      : cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      ? cutForYouShippingBusinessDaysEverywhereElse?.[countryCode]
+      : cutForYouShippingBusinessDaysEverywhereElse?.['International'];
+
   const formattedDate = getFormattedShipppingDate(
     locale,
     productIconList?.items?.find((v) => v.cutForYouShippingBusinessDays) || {},
@@ -161,7 +197,7 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
     setTimeout(() => setLoadPagination(loadPagination + 1), 100);
   }, []);
 
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'start',
@@ -187,6 +223,76 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
       emblaApi.off('select', updateActiveSlide);
     };
   }, [emblaApi]);
+
+  const { refetch } = useCartData(locale);
+
+  const updateGlobalContext = useContext(GlobalUpdateContext);
+
+  console.log('product', product);
+
+  function handleAddLooseDiamondToCart() {
+    const { color, clarity, cut, carat, lotId } = product || {};
+    const mutatedLotId = lotId && getNumericalLotId(lotId);
+    const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
+
+    const specGen = specGenerator({
+      configuration: {
+        color,
+        clarity,
+        cut,
+        caratWeight: carat,
+      },
+      productType: 'Diamond',
+      _t,
+    });
+
+    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+
+    const diamondAttributes: LooseDiamondAttributeProps = {
+      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
+      productAsset: diamondImage,
+      _productAssetObject: JSON.stringify({
+        src: spriteImageUrl,
+        width: 200,
+        height: 200,
+      }),
+      _dateAdded: Date.now().toString() + 100,
+      caratWeight: product.carat.toString(),
+      clarity: product.clarity,
+      cut: product.cut,
+      color: product.color,
+      feedId: product.lotId,
+      lotId: product.lotId,
+      productGroupKey: uuidv4(),
+      _specs: specGen,
+      _productType: 'Diamond',
+      _productTypeTranslated: _t('Diamond'),
+      pdpUrl: window.location.href,
+      shippingBusinessDays: businessDaysCfy?.toString(),
+      shippingText: shippingText,
+    };
+
+    addLooseDiamondToCart({
+      diamondVariantId: product?.variantId,
+      diamondAttributes,
+    })
+      .then(() => refetch())
+      .then(() =>
+        updateGlobalContext({
+          isCartOpen: true,
+        }),
+      );
+  }
+
+  const isSettingFirstFlow = router.query.collectionSlug && router.query.productSlug;
+
+  const continueLink = {
+    url: isSettingFirstFlow
+      ? `/customize/setting-to-diamond/summary/${router.query.collectionSlug}/${router.query.productSlug}/${product.lotId}`
+      : `/customize/diamond-to-setting/${product.lotId}`,
+
+    text: isSettingFirstFlow ? 'Complete your ring' : 'Select and add a setting',
+  };
 
   return (
     <>
@@ -316,12 +422,12 @@ const CFYResultPage = (props: InferGetServerSidePropsType<typeof getServerSidePr
 
               <div className="cta">
                 <StickyElementWrapper>
-                  <DarksideButton>
-                    <UIString>Select and add a setting</UIString>
+                  <DarksideButton href={continueLink?.url}>
+                    <UIString>{continueLink?.text}</UIString>
                   </DarksideButton>
                 </StickyElementWrapper>
 
-                <DarksideButton type="outline">
+                <DarksideButton type="outline" onClick={() => handleAddLooseDiamondToCart()}>
                   <UIString>Purchase without setting</UIString>
                 </DarksideButton>
               </div>
@@ -353,12 +459,6 @@ async function getServerSideProps(
   context.res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
 
   const { query, locale } = context;
-
-  const { geo } = context.req.cookies;
-
-  const geoCookieData = JSON.parse(geo);
-
-  const countryCode = geoCookieData?.country || 'US';
 
   const options = getCFYResultOptionsFromUrl(query || {});
 
@@ -392,9 +492,7 @@ async function getServerSideProps(
 
   return {
     props: {
-      locale,
       options,
-      countryCode,
       dehydratedState: dehydrate(queryClient),
     },
   };

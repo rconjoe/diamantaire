@@ -1,4 +1,5 @@
 // The _spec attribute controls what details are shown on a per-line-item basis in cart + checkout
+//
 
 type SpecGenerator = {
   configuration: {
@@ -6,12 +7,12 @@ type SpecGenerator = {
   };
   productType: string;
   _t: (key: string) => string;
-  earring_t?: (key: string) => string;
+  alt_t?: (key: string) => string;
   // Builder flow product indicator
   hasChildDiamond?: boolean;
 };
 
-export function specGenerator({ configuration, productType, _t, earring_t, hasChildDiamond }: SpecGenerator) {
+export function specGenerator({ configuration, productType, _t, alt_t, hasChildDiamond }: SpecGenerator) {
   const {
     diamondShape,
     diamondSize,
@@ -29,24 +30,36 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     cut,
     clarity,
     ringSize,
+    goldPurity,
+    hiddenHalo,
+    sideStoneCarat,
+    sideStoneShape,
   } = configuration || {};
+
+  console.log('specGenerator', configuration);
 
   const specArray = [];
 
   const isEngagementRing = productType === 'Engagement Ring';
   const isDiamond = productType === 'Diamond';
 
+  // Three stone
+  if (sideStoneCarat) {
+    specArray.push(`${_t('sideStoneShape')}: ${sideStoneShape ? _t(sideStoneShape) : _t(diamondType)}`);
+    specArray.push(`${_t('sideStoneCarat')}: ${_t(sideStoneCarat)}ct`);
+  }
+
   // Need to duplicate next 2 to catch all cases
-  if (diamondShape) {
+  if (diamondShape && !sideStoneCarat) {
     specArray.push(`${_t('shape')}: ${_t(diamondShape)}`);
   }
 
-  if (diamondType) {
+  if (diamondType && !sideStoneCarat) {
     specArray.push(`${_t('shape')}: ${_t(diamondType)}`);
   }
 
   // ER specific
-  if (isEngagementRing && !hasChildDiamond) {
+  if (isEngagementRing && !hasChildDiamond && !sideStoneCarat) {
     specArray.push(`${_t('centerstone')}: ${caratWeightOverride + ', ' + color + ', ' + clarity}`);
   }
 
@@ -55,14 +68,16 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   }
 
   if (metal) {
-    specArray.push(`${_t('metal')}: ${_t(metal)}`);
+    const metalWithGoldPurity = _t(`${goldPurity ? `${goldPurity} ` : ''}${metal}`);
+
+    specArray.push(`${_t('metal')}: ${metalWithGoldPurity}`);
   }
 
   if (diamondSize) {
     specArray.push(`${_t('diamondSize')}: ${_t(diamondSize)}`);
   }
 
-  if (caratWeight && !isEngagementRing) {
+  if (caratWeight && !isEngagementRing && parseFloat(caratWeight)) {
     specArray.push(`${_t('carat weight')}: ${_t(caratWeight)}ct`);
   }
 
@@ -74,8 +89,21 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
     specArray.push(`${_t('diamondCount')}: ${diamondCount}`);
   }
 
+  // ER specific
+  if (isEngagementRing && configuration?.diamondOrientation === 'horizontal') {
+    specArray.push(`${_t('diamondOrientation')}: ${_t('horizontal')}`);
+  }
+
   if (bandAccent) {
-    specArray.push(`${_t(hasChildDiamond ? 'Hidden Halo' : 'bandAccent')}: ${_t(bandAccent)}`);
+    specArray.push(
+      `${_t(hasChildDiamond || bandAccent.includes('pave-twisted') ? 'Hidden Halo' : 'bandAccent')}: ${_t(
+        bandAccent.replace('pave-twisted', 'double-pave'),
+      )}`,
+    );
+  }
+
+  if (hiddenHalo === 'yes') {
+    specArray.push(`${_t('Hidden Halo')}: ${_t('yes')}`);
   }
 
   if (chainLength) {
@@ -83,7 +111,7 @@ export function specGenerator({ configuration, productType, _t, earring_t, hasCh
   }
 
   if (earringSize) {
-    specArray.push(`${_t('earringSize')}: ${earring_t(earringSize)}`);
+    specArray.push(`${_t('earringSize')}: ${alt_t(earringSize)}`);
   }
 
   if (productType === 'Necklace' && !chainLength) {

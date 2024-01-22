@@ -119,11 +119,11 @@ const SingleVariantCartItem = ({
 }) => {
   const { productRemoved } = useAnalytics();
   const { attributes, merchandise, cost, quantity } = item;
-  const price = cost?.totalAmount?.amount;
+  const { locale } = useRouter();
+  const price = locale === 'en-US' || locale === 'en-GB' ? cost?.totalAmount?.amount : merchandise?.price.amount;
   const currency = merchandise?.price?.currencyCode;
   const id = merchandise.id.split('/').pop();
 
-  const { locale } = useRouter();
   const { _t } = useTranslations(locale);
 
   const { refetch } = useCartData(locale);
@@ -137,7 +137,10 @@ const SingleVariantCartItem = ({
   }, [attributes]);
 
   const productType = useMemo(() => {
-    let matchingAttribute = attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
+    let matchingAttribute =
+      locale === 'en-US'
+        ? attributes?.find((attr) => attr.key === '_productType')?.value
+        : attributes?.find((attr) => attr.key === '_productTypeTranslated')?.value;
 
     if (matchingAttribute === 'Earrings') {
       // Check if Earrings product has child. If so, it's a pair
@@ -307,9 +310,7 @@ const SingleVariantCartItem = ({
   }
 
   // The price needs to be combined in the case of two identical earrings
-  const totalPrice = useMemo(() => {
-    return getFormattedPrice(parseFloat(price) * 100, locale);
-  }, [info]);
+  const totalPrice = getFormattedPrice(parseFloat(price) * 100, locale);
 
   return (
     <SingleVariantCartItemStyles>

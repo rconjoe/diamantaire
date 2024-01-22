@@ -1,17 +1,20 @@
-import { DatoImage, Heading } from '@diamantaire/darkside/components/common-ui';
-import { DatoImageType } from '@diamantaire/shared/types';
-import { media } from '@diamantaire/styles/darkside-styles';
+
+import { DatoImage, Heading, DarksideButton } from '@diamantaire/darkside/components/common-ui';
+import { DatoImageType, DatoDarksideButtonProps } from '@diamantaire/shared/types';
+import { media, mobileOnly } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import styled from 'styled-components';
 
 type PlpHeroBannerProps = {
   data: {
     desktopImage: DatoImageType;
+    mobileImage: DatoImageType;
     title: string;
     copy: string;
     textColor?: {
       hex: string;
     };
+    darksideButtons?: DatoDarksideButtonProps[];
   };
   showHeroWithBanner: boolean;
 };
@@ -19,9 +22,20 @@ type PlpHeroBannerProps = {
 const PlpHeroBannerStyles = styled.div`
   position: relative;
 
+  ${mobileOnly(`
+    padding-left: .5rem;
+    padding-right: .5rem;
+  `)}
+
   .hero__image {
-    display: none;
-    ${media.small`display: block;`}
+    &.desktop {
+      display: none;
+      ${media.small`display: block;`}
+    }
+    &.mobile {
+      padding-bottom: 1rem;
+      ${media.small`display: none;`}
+    }
   }
 
   &.hero-with-banner {
@@ -36,15 +50,22 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
         h1 {
           margin-bottom: calc(var(--gutter) / 6);
-          color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          color: var(--color-black);
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          }
         }
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
           margin: 0 auto;
-          color: ${({ textColor }) => textColor || 'var(--color-black)'};
-          ${media.small`max-width: 55rem;`}
+          color: var(--color-black);
+
+          @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+            max-width: 55rem;
+            color: ${({ textColor }) => textColor || 'var(--color-black)'};
+          }
         }
       }
     }
@@ -64,6 +85,9 @@ const PlpHeroBannerStyles = styled.div`
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         padding: 1rem 0 2.5rem;
       }
+      > div {
+        padding-top: 1rem;
+      }
     }
 
     p {
@@ -74,7 +98,8 @@ const PlpHeroBannerStyles = styled.div`
 `;
 
 const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
-  const { desktopImage, title, copy, textColor } = data || {};
+
+  const { desktopImage, mobileImage, title, copy, textColor, darksideButtons } = data || {};
 
   return (
     <PlpHeroBannerStyles
@@ -84,9 +109,14 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
       })}
     >
       {showHeroWithBanner && (
-        <div className="hero__image">
-          <DatoImage image={desktopImage} />
-        </div>
+        <>
+          <div className="hero__image desktop">
+            <DatoImage image={desktopImage} />
+          </div>
+          <div className="hero__image mobile">
+            <DatoImage image={mobileImage} />
+          </div>
+        </>
       )}
       <div className="hero__content">
         <div className="hero__content-inner">
@@ -94,6 +124,19 @@ const PlpHeroBanner = ({ data, showHeroWithBanner }: PlpHeroBannerProps) => {
             {title}
           </Heading>
           <p>{copy}</p>
+          {darksideButtons?.map((button) => {
+            return (
+              <DarksideButton
+                colorTheme={button.ctaButtonColorTheme}
+                mobileColorTheme={button.ctaButtonMobileColorTheme}
+                href={button.ctaLinkUrl}
+                key={button.id}
+                type={button.ctaButtonType}
+              >
+                {button.ctaCopy}
+              </DarksideButton>
+            );
+          })}
         </div>
       </div>
     </PlpHeroBannerStyles>

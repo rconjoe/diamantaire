@@ -23,11 +23,14 @@ export type CartCopyProps = {
   euSubtotalCopy: string;
   cartCtaCopy: string;
   termsAndConditionsCtaCopy: string;
-  termsAndConditionsCtaLink: string;
+  termsAndConditionsCtaRoute: string;
   addNoteOptionCta: string;
   emptyCartMainCopy: string;
   emptyCartMainCtaCopy: string;
-  emptyCartMainCtaLink: string;
+  emptyCartMainCtaRoute: string;
+  updateNoteOptionCta: string;
+  removeNoteOptionCta: string;
+  uniqueDiamondAlreadyInCartErrorMessage: string;
 };
 
 export function useCartInfo(locale: string): UseQueryResult<CartProps, unknown> {

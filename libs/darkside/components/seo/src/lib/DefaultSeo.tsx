@@ -9,41 +9,43 @@ TODO: Setup default data process in Dato and VRAI Server https://diamondfoundry.
 TODO: Fetch meta image from dato instead of locally
 */
 
+import { useRouter } from 'next/router';
 import { DefaultSeo as DefaultNextSeo } from 'next-seo';
 
 import defaultImage from '../public/default-seo.jpg';
 
-const config = {
-  title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
-  description: 'Modern engagement rings. Everyday fine jewelry. lab grown, lab created diamonds. Solid gold.',
-  canonical: 'https://vrai.com',
-  openGraph: {
-    type: 'website',
-    url: 'https://vrai.com',
+const DefaultSeo = () => {
+  const { locale } = useRouter();
+  const config = {
     title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
     description: 'Modern engagement rings. Everyday fine jewelry. lab grown, lab created diamonds. Solid gold.',
-    themeColor: '#fff',
-    // TODO: make locale dynamic
-    locale: 'en_US',
-    images: [
+    canonical: 'https://vrai.com',
+    openGraph: {
+      type: 'website',
+      url: 'https://vrai.com',
+      title: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
+      description: 'Modern engagement rings. Everyday fine jewelry. lab grown, lab created diamonds. Solid gold.',
+      themeColor: '#fff',
+      locale,
+      images: [
+        {
+          ...defaultImage,
+          alt: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
+          url:
+            process.env['NODE_ENV'] === 'production' || process.env['NODE_ENV'] === 'test'
+              ? 'https://' + process.env['NEXT_PUBLIC_VERCEL_URL'] + defaultImage.src
+              : 'http://localhost:4200' + defaultImage.src,
+        },
+      ],
+    },
+    additionalLinkTags: [
       {
-        ...defaultImage,
-        alt: 'VRAI: Engagement Rings & Jewelry | Lab Grown Diamonds',
-        url:
-          process.env['NODE_ENV'] === 'production' || process.env['NODE_ENV'] === 'test'
-            ? 'https://' + process.env['NEXT_PUBLIC_VERCEL_URL'] + defaultImage.src
-            : 'http://localhost:4200' + defaultImage.src,
+        rel: 'icon',
+        href: 'https://cdn.shopify.com/s/files/1/2119/7099/files/favicon.ico?v=1677790346',
       },
     ],
-  },
-  additionalLinkTags: [
-    {
-      rel: 'icon',
-      href: 'https://cdn.shopify.com/s/files/1/2119/7099/files/favicon.ico?v=1677790346',
-    },
-  ],
-};
-const DefaultSeo = () => {
+  };
+
   return <DefaultNextSeo {...config} />;
 };
 

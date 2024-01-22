@@ -23,17 +23,26 @@ export const bandWidthValues = [
   'large',
 ] as const;
 export const sideStoneShapeValues = [
-  'emerald',
-  'emerald+round-brilliant',
-  'marquise',
-  'oval',
-  'pear',
   'round-brilliant',
   'round-brilliant+emerald',
   'round-brilliant+pear',
-  'tapered-baguette',
+  'oval',
+  'emerald',
+  'marquise',
+  'cushion',
+  'pear',
   'trillion',
+  'baguette',
+  'tapered-baguette',
+  'asscher',
+  'princess',
+  'radiant',
   'half-moon',
+  'shield',
+  'lozenge',
+  'hexagon',
+  'keystone',
+  'kite',
 ] as const;
 export const goldPurityValues = ['14k', '18k'] as const;
 export const bandAccentValues = ['plain', 'pave', 'double-pave', 'pave-twisted', 'double-pave-twisted'] as const;
@@ -226,11 +235,10 @@ export const configurationOptionValues = {
 } as const;
 
 export const optionTypeOrder = [
-  configurationTypes.diamondOrientation,
   configurationTypes.diamondType,
+  configurationTypes.metal,
   configurationTypes.sideStoneShape,
   configurationTypes.sideStoneCarat,
-  configurationTypes.metal,
   configurationTypes.bandAccent,
   configurationTypes.prongStyle,
   configurationTypes.bandVersion,
@@ -251,6 +259,7 @@ export const optionTypeOrder = [
   configurationTypes.earringSize,
   configurationTypes.caratWeight,
   configurationTypes.chainLength,
+  configurationTypes.diamondOrientation,
 ] as const;
 
 export type prongStyle = (typeof prongStyleValues)[number];

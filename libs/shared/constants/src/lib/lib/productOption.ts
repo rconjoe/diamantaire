@@ -25,6 +25,8 @@ export enum ProductOption {
   SideStoneCarat = 'sideStoneCarat',
   SideStoneShape = 'sideStoneShape',
   BandStyle = 'bandStyle',
+  DiamondOrientation = 'diamondOrientation',
+  BandStoneShape = 'bandStoneShape',
 }
 export const PRODUCT_DEFAULT_OPTIONS = {
   [ProductOption.DiamondType]: DiamondTypes.RoundBrilliant,

@@ -142,8 +142,8 @@ const MultiVariantCartItem = ({
   const productGroupKey = attributes.find((attr) => attr.key === 'productGroupKey')?.value;
 
   // Engraving is considered an engraving product, not a child product
-  const childProduct = useMemo(() => {
-    return checkout?.lines?.find(
+  const childProducts = useMemo(() => {
+    return checkout?.lines?.filter(
       (item) =>
         item.attributes?.find(
           (attr) =>
@@ -166,11 +166,6 @@ const MultiVariantCartItem = ({
     );
   }, [item]);
 
-  // Handles engravings
-  const isChildProductHidden = useMemo(() => {
-    return childProduct?.attributes?.find((attr) => attr.key === '_hiddenProduct');
-  }, [item]);
-
   const { _t } = useTranslations(locale);
 
   const image = useMemo(() => {
@@ -190,7 +185,7 @@ const MultiVariantCartItem = ({
         const capitalizedDirection = isLeftOrRight.charAt(0).toUpperCase() + isLeftOrRight.slice(1);
 
         matchingAttribute += ' (' + _t(capitalizedDirection) + ')';
-      } else if (childProduct) {
+      } else if (childProducts?.length > 0) {
         matchingAttribute += ' (' + _t('Pair') + ')';
       } else {
         matchingAttribute += ' (' + _t('Single') + ')';
@@ -225,9 +220,23 @@ const MultiVariantCartItem = ({
   }, [attributes]);
 
   async function handleRemoveProduct() {
-    if (((hasChildProduct && childProduct) || engravingProduct) && checkout?.lines?.length > 1) {
-      const total = parseFloat(price) + parseFloat(childProduct?.cost?.totalAmount?.amount);
+    if (((hasChildProduct && childProducts.length > 0) || engravingProduct) && checkout?.lines?.length > 1) {
+      const total =
+        parseFloat(price) +
+        childProducts?.reduce((acc, curr) => acc + parseFloat(curr?.cost?.totalAmount?.amount), 0) +
+        parseFloat(engravingProduct?.cost?.totalAmount?.amount);
+
       const formattedTotal = total.toFixed(2);
+
+      const childProductsToRemove = childProducts?.map((childProduct) => ({
+        brand: 'VRAI',
+        category: childProduct?.merchandise?.product?.productType,
+        variant: childProduct?.merchandise?.product?.title,
+        id: childProduct?.merchandise.id.split('/').pop(),
+        name: childProduct?.merchandise?.product?.title,
+        price: childProduct?.cost?.totalAmount?.amount,
+        quantity: childProduct?.quantity,
+      }));
 
       productRemoved({
         name: productTitle,
@@ -253,15 +262,7 @@ const MultiVariantCartItem = ({
                 price,
                 quantity,
               },
-              {
-                brand: 'VRAI',
-                category: childProduct?.merchandise?.product?.productType,
-                variant: childProduct?.merchandise?.product?.title,
-                id: childProduct?.merchandise.id.split('/').pop(),
-                name: childProduct?.merchandise?.product?.title,
-                price: childProduct?.cost?.totalAmount?.amount,
-                quantity: childProduct?.quantity,
-              },
+              ...childProductsToRemove,
             ],
           },
           items: [
@@ -274,15 +275,7 @@ const MultiVariantCartItem = ({
               price,
               quantity,
             },
-            {
-              item_id: childProduct?.merchandise.id.split('/').pop(),
-              item_name: childProduct?.merchandise?.product?.title,
-              item_brand: 'VRAI',
-              currency,
-              item_category: childProduct?.merchandise?.product?.productType,
-              price: childProduct?.cost?.totalAmount?.amount,
-              quantity: childProduct?.quantity,
-            },
+            ...childProductsToRemove,
           ],
         },
       });
@@ -296,12 +289,14 @@ const MultiVariantCartItem = ({
         },
       ];
 
-      if (childProduct) {
-        itemsToRemove.push({
-          lineId: childProduct.id,
-          variantId: childProduct.merchandise.id,
-          quantity: childProduct.quantity - 1,
-          attributes: childProduct.attributes,
+      if (childProducts) {
+        childProducts.forEach((childProduct) => {
+          return itemsToRemove.push({
+            lineId: childProduct.id,
+            variantId: childProduct.merchandise.id,
+            quantity: childProduct.quantity - 1,
+            attributes: childProduct.attributes,
+          });
         });
       }
       if (engravingProduct) {
@@ -356,7 +351,7 @@ const MultiVariantCartItem = ({
           ],
         },
       });
-      updateItemQuantity({
+      await updateItemQuantity({
         lineId: item.id,
         variantId: merchandise.id,
         quantity: item.quantity - 1,
@@ -366,14 +361,15 @@ const MultiVariantCartItem = ({
   }
 
   const totalPrice =
-    (engraving && childProduct
+    (engraving && childProducts
       ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) +
-        parseFloat(childProduct?.cost?.totalAmount?.amount) +
+        childProducts?.reduce((acc, curr) => acc + parseFloat(curr?.cost?.totalAmount?.amount), 0) +
         parseFloat(merchandise?.price?.amount)
       : engraving
       ? parseFloat(merchandise?.price?.amount) + parseFloat(engravingProduct?.cost?.totalAmount?.amount)
-      : childProduct
-      ? parseFloat(cost?.totalAmount?.amount) + parseFloat(childProduct?.cost?.totalAmount?.amount)
+      : childProducts.length > 0
+      ? parseFloat(cost?.totalAmount?.amount) +
+        childProducts?.reduce((acc, curr) => acc + parseFloat(curr?.cost?.totalAmount?.amount), 0)
       : parseFloat(cost?.totalAmount?.amount)) * 100;
 
   return (
@@ -407,7 +403,7 @@ const MultiVariantCartItem = ({
         <div className="cart-item__content">
           <p className="setting-text">
             <strong>{info?.productCategory || productType}</strong>
-            {productType === 'Engagement Ring' && (
+            {(productType === 'Engagement Ring' || hasChildProduct) && (
               <span>
                 {getFormattedPrice(
                   ((engraving ? parseFloat(engravingProduct?.cost?.totalAmount?.amount) : 0) +
@@ -427,7 +423,14 @@ const MultiVariantCartItem = ({
         </div>
       </div>
 
-      {hasChildProduct && childProduct && !isChildProductHidden && <ChildProduct lineItem={childProduct} />}
+      {childProducts?.map((childProduct) => {
+        // Excludes engravings + gift notes
+        const isChildProductHidden = childProduct?.attributes?.find((attr) => attr.key === '_hiddenProduct');
+
+        if (isChildProductHidden) return null;
+
+        return <ChildProduct key={childProduct?.id} lineItem={childProduct} />;
+      })}
       {productType === 'Engagement Ring' && <CartDiamondCertificate certificate={certificate} />}
     </MultiVariantCartItemStyles>
   );

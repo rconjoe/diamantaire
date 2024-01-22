@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { HttpExceptionFilter, LoggingInterceptor, SentryInterceptor } from '@diamantaire/server/core';
 import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -70,6 +72,7 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, options);
 
+    fs.writeFileSync("./swagger-spec.json", JSON.stringify(document));
     SwaggerModule.setup('docs', app, document);
   }
 

@@ -3,7 +3,7 @@ import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { ProductLink } from '@diamantaire/shared-product';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -111,7 +111,7 @@ const PlpPreviouslyViewed = () => {
     fetchPreviouslyViewed();
   }, []);
 
-  const options: EmblaOptionsType = {
+  const options: any = {
     loop: true,
     dragFree: false,
     align: 'center',
@@ -123,8 +123,6 @@ const PlpPreviouslyViewed = () => {
 
   // if they haven't seen anything, hide the block
   if (handles.length === 0) return null;
-
-  console.log('product shape', data);
 
   return (
     <PlpPreviouslyViewedStyles className="container-wrapper">

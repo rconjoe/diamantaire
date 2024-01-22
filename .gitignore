@@ -151,3 +151,6 @@ docs/apps/darkside/main
 .vercel
 # Sentry Config File
 .sentryclirc
+
+#swagger
+swagger-spec.json

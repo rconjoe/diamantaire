@@ -15,6 +15,7 @@ export type MenuLink = {
   title?: string;
   key?: string;
   route?: string;
+  newRoute?: string;
   columns?: Array<SubMenuParentLink>;
 };
 
@@ -43,6 +44,9 @@ export type SubMenuChildLink = {
     isBold: boolean;
     route: string;
     newRoute?: string;
+    supportedCountries: {
+      code: string;
+    }[];
   }>;
   supportedCountries: {
     code: string;

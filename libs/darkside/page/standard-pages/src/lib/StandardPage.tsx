@@ -4,6 +4,7 @@ import { useStandardPage } from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import { parseValidLocale, getCurrency } from '@diamantaire/shared/constants';
+import { getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -75,6 +76,7 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
 
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrency(countryCode);
+
   const standardPageContentQuery = queries['standard-page'].content(pageSlug, locale);
 
   // dato
@@ -108,6 +110,7 @@ async function getStaticProps({ locale, params }: GetStaticPropsContext<{ pageSl
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
+    revalidate: getSwrRevalidateConfig() || 60 * 60,
   };
 }
 

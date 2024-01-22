@@ -7,7 +7,7 @@ import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { MenuLink, NavItemsProps } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
@@ -41,7 +41,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
 
   const { _t } = useTranslations(locale);
 
-  const showroomLocation = isUserCloseToShowroom();
+  const [showroomLocation, setShowroomLocation] = useState(null);
 
   const { countryCode: selectedCountryCode } = parseValidLocale(locale);
 
@@ -75,6 +75,12 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   function toggleChat() {
     addHashToURL();
   }
+
+  useEffect(() => {
+    const showroomLocationTemp = isUserCloseToShowroom();
+
+    setShowroomLocation(showroomLocationTemp);
+  }, []);
 
   return (
     <StackedHeaderStylesContainer>
@@ -146,13 +152,13 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
             <ul>
               {Array.isArray(navItems) &&
                 navItems?.map((link: MenuLink, index: number) => {
-                  const { title, route }: Partial<MenuLink> = link;
+                  const { title, route, newRoute }: Partial<MenuLink> = link;
 
                   return (
                     <li key={`stacked-link-${index}`}>
                       {route && title && (
                         <Link
-                          href={route}
+                          href={newRoute || route}
                           className={menuIndex === index ? 'active' : ''}
                           onMouseOver={() => toggleMegaMenuOpen(index)}
                           onFocus={() => toggleMegaMenuOpen(index)}

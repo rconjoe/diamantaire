@@ -26,7 +26,7 @@ import { ProductsService } from '../services/product.service';
 export class ProductController {
   constructor(private readonly productService: ProductsService) {}
 
-  @Get('/plp')
+  @Get('plp')
   @ApiOperation({ summary: 'Get product variant' })
   @ApiQuery({ name: 'slug', required: true, description: 'Plp slug' })
   @ApiQuery({ name: 'category', required: true, description: 'Plp category' })
@@ -63,10 +63,19 @@ export class ProductController {
   @Get('/contentids')
   @ApiOperation({ summary: 'Get products by content IDs' })
   @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
-  async getProductsByids(@Query() { ids, locale }: ProductByContentIdsInput) {
+  async getProductsByIds(@Query() { ids, locale }: ProductByContentIdsInput) {
     const contentIds = ids.split(',').map((s) => s.trim());
 
     return await this.productService.findProductsByContentIds(contentIds, locale);
+  }
+
+  @Get('/list-items')
+  @ApiOperation({ summary: 'Get plp schema items by content IDs' })
+  @ApiQuery({ name: 'contentids', required: true, description: 'Array of contentIds' })
+  async getListProductsByIds(@Query() { ids, locale }: ProductByContentIdsInput) {
+    const contentIds = ids.split(',').map((s) => s.trim());
+
+    return await this.productService.getListProductsByIds(contentIds, locale);
   }
 
   @Get('/slugs')

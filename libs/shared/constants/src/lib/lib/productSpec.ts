@@ -50,3 +50,33 @@ export const PRODUCT_TITLE_ATTRIBUTE_KEY = '_productTitle';
 export const PRODUCT_SPECS_ATTRIBUTE_KEY = '_specs';
 export const PRODUCT_ASSET_ATTRIBUTE_KEY = 'productAsset';
 export const PRODUCT_ICON_LIST_SHIPPING_COPY_ATTRIBUTE_KEY = 'productIconListShippingCopy';
+
+// Produce Description Specs for separating Product Specs and Diamond Specs for Jewelry
+export const PRODUCT_SPEC_NAMES = [
+  'metal',
+  'closure',
+  'chainLength',
+  'chainWidth',
+  'bandWidth',
+  'cordWidth',
+  'setting',
+  'jacketLength',
+  'posts',
+  'outerDiameter',
+  'ringFace',
+  'charm',
+  'depth',
+  'stoneSetting',
+];
+
+export const DIAMOND_SPEC_NAMES = [
+  'origin',
+  'carat',
+  'shape',
+  'color',
+  'clarity',
+  'cut',
+  'shownWithCenterStone',
+  'diamondSize',
+  'diamondCount',
+];

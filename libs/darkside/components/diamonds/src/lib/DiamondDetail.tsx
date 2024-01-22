@@ -2,7 +2,7 @@ import { BlockPicker } from '@diamantaire/darkside/components/blockpicker-blocks
 import { DarksideButton, Form, Heading, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext, GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
-import { LooseDiamondProductCartItem, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
+import { LooseDiamondAttributeProps, addLooseDiamondToCart } from '@diamantaire/darkside/data/api';
 import {
   useCartData,
   useDiamondPdpData,
@@ -14,7 +14,7 @@ import { DIAMOND_VIDEO_BASE_URL, getFormattedCarat, getFormattedPrice } from '@d
 import { getIsUserInEu } from '@diamantaire/shared/geolocation';
 import { getDiamondType, specGenerator } from '@diamantaire/shared/helpers';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -73,8 +73,8 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     const mutatedLotId = lotId && getNumericalLotId(lotId);
     const diamondImage = `${DIAMOND_VIDEO_BASE_URL}/${mutatedLotId}-thumb.jpg`;
 
-    const diamondAttributes: LooseDiamondProductCartItem = {
-      _productTitle: product?.productTitle,
+    const diamondAttributes: LooseDiamondAttributeProps = {
+      _productTitle: `${_t('Loose Diamond')} (${_t(diamondType)})`,
       productAsset: diamondImage,
       _productAssetObject: JSON.stringify({
         src: diamondImage,
@@ -92,9 +92,6 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
       _specs: specGen,
       _productType: 'Diamond',
       _productTypeTranslated: _t('Diamond'),
-      shippingText: _t('Made-to-order. Ships by'),
-      productIconListShippingCopy: 'temp',
-      shippingBusinessDays: 'temp',
       pdpUrl: window.location.href,
     };
 
@@ -116,7 +113,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
     query?.collectionSlug && query.productSlug
       ? `/customize/setting-to-diamond/summary/${query?.collectionSlug}/${query?.productSlug}/${lotId}`
       : `/customize/diamond-to-setting/${lotId}`;
-  const sliderOptions: EmblaOptionsType = {
+  const sliderOptions: any = {
     loop: false,
     dragFree: false,
     align: 'center',
@@ -142,6 +139,8 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
       emblaApi.off('select', updateActiveSlide);
     };
   }, [emblaApi]);
+
+  const isBuilderFlowInProgress = query?.collectionSlug && query.productSlug;
 
   return (
     <StyledDiamondDetail headerHeight={headerHeight}>
@@ -210,7 +209,7 @@ const DiamondDetail = ({ handle, diamondType, locale, countryCode, currencyCode 
             {(product?.availableForSale && (
               <>
                 <DarksideButton type="solid" colorTheme="black" href={selectYourSettingLink}>
-                  {buttonTextDiamondFlow}
+                  {isBuilderFlowInProgress ? <UIString>Complete & Review Your Ring</UIString> : buttonTextDiamondFlow}
                 </DarksideButton>
 
                 <DarksideButton onClick={() => handleAddLooseDiamondToCart()} type="underline" colorTheme="teal">

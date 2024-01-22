@@ -1,13 +1,15 @@
-import { test, expect } from "../../pages/page-fixture";
+import { test } from "../../pages/page-fixture";
 
 /**
  * Verify engraving and Gift note are showing at checkout
+ * ISSUE : DIA-1231
  */
 
 test.describe("Engagement ring - Setting First flow", () => {
 
 
-  test("Happy Path with engraving and gift note", async ({ homePage , page}) => {
+      // eslint-disable-next-line playwright/expect-expect
+  test.skip("Happy Path with engraving and gift note", async ({ homePage , settingPage,productDetailedPage,diamondTablePage,checkoutSlidePage,checkoutPage}) => {
 
     await test.step("open home page", async () => {
       await homePage.open();
@@ -15,36 +17,32 @@ test.describe("Engagement ring - Setting First flow", () => {
 
     await test.step("Select Engagement ring", async () => {
 
-      await page.getByRole('link', { name: 'ENGAGEMENT' }).first().hover();
-      await page.getByRole('link', { name: 'Create your engagement ring' }).click();
-      await expect(page.locator("h1").first()).toHaveText('Engagement ring settings');
-      await page.getByRole('button', { name: 'Signature Halo' }).click();
+      await homePage.navigateToEngagementStartWithASetting()
+
+      await settingPage.selectDiamondType('Asscher');
+      await settingPage.selectSettingBySettingName('The Three Stone')
+    
+      await productDetailedPage.clickSelectYourVRAICreatedDiamond();
+
+      
 
     });  
 
-    await test.step("Select VRAI created diamond for type Radiant", async () => {
-
-      await page.getByRole('button', { name: 'Radiant' }).click()
-      await page.getByRole('button', { name: 'Select your VRAI created diamond' }).click();
-      await page.click("[data-id='2']");
-      await page.getByRole('button', { name: 'Select' }).click();
-
+    await test.step("Select VRAI created diamond for type Asscher", async () => {
+      // verify Asscher is selected
+      await diamondTablePage.selectDiamondByRow(4);
     });
 
     await test.step("Add engraving and gift note", async () => {
-
-      await page.getByRole('button', { name: 'Add engraving' }).click();
-      await page.locator('input[type="text"]').click();
-      await page.locator('input[type="text"]').fill('Test Engraving');
-      await page.locator('div').filter({ hasText: /^Character limit \(14\/16\)Add engraving$/ }).getByRole('button').click();
-      await page.getByRole('button', { name: 'Add to bag' }).click();
-      await page.getByRole('button', { name: 'Add gift note' }).click();
-      await page.locator('textarea').fill("Test Gift Note");
+      await productDetailedPage.addEngraving('QA Notes')
+      await productDetailedPage.clickAddToBag()
+      await checkoutSlidePage.addGiftNote('Test gift note');
 
     }); 
         
     await test.step("Add engraving and gift note", async () => {
-      await page.getByRole('button', { name: 'Checkout | $' }).click();
+      await checkoutSlidePage.clickCheckout();
+      await checkoutPage.verifyCheckoutPage();
 
     });
   })

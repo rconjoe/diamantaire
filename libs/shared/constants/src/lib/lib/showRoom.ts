@@ -65,7 +65,15 @@ export const SHOWROOM_LOCATIONS = [
     appointmentOptions: [
       {
         productType: 'Engagement Ring',
-        appointmentId: 43281063,
+        appointmentId: 56206457,
+      },
+      {
+        productType: 'Wedding Band',
+        appointmentId: 56206493,
+      },
+      {
+        productType: 'Fine Jewelry',
+        appointmentId: 56206542,
       },
     ],
   },

@@ -1,3 +1,9 @@
+import { ButtonFragment } from '../fragments';
+import { queryDatoGQL } from '../clients';
+
+
+// fetch from API routes (unused)
+
 export async function fetchGlobalTemplateData(locale: string) {
   // TODO: need logic for this to work with journal
   let reqUrl = `api/template/global?locale=${locale}`;
@@ -12,6 +18,20 @@ export async function fetchGlobalTemplateData(locale: string) {
   return response.json();
 }
 
+// Gets data from DATO
+export async function getGlobalTemplateData(locale) {
+  try {
+    const response = await queryDatoGQL({ query: GLOBAL_TEMPLATE_QUERY, variables: { locale } });
+
+    return response;
+  } catch(error) {
+    console.log("Error retrieving global template data", error);
+
+    return null
+  }
+  
+}
+
 export const GLOBAL_TEMPLATE_QUERY = `
 query headerNavigationDynamicQuery($locale: SiteLocale) {
     headerNavigationDynamic(locale: $locale) {
@@ -19,6 +39,7 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         title
         key
         route
+        newRoute
         columns {
           columnTitle
           route
@@ -91,6 +112,9 @@ query headerNavigationDynamicQuery($locale: SiteLocale) {
         gdprCtaRoute
         optInCopy
         phoneInputPlaceholder
+        darksideButtons {
+         ${ButtonFragment}
+        }
       }
       copyright
       countryPicker {

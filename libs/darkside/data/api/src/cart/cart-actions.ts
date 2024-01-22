@@ -7,6 +7,7 @@ import {
   JewelryCartItemProps,
   LooseDiamondCartItemProps,
   CreateCartVariables,
+  MiscCartItemProps,
 } from './cart-item-types';
 import {
   Cart,
@@ -18,6 +19,7 @@ import {
   ShopifyCreateCartOperation,
   ShopifyUpdateCartOperation,
   CartBuyerIdentityUpdateResponse,
+  ShopifyRemoveFromCartOperation,
 } from './cart-types';
 import {
   addToCartMutation,
@@ -25,6 +27,7 @@ import {
   editCartItemsMutation,
   updateGiftNoteMutation,
   cartBuyerIdentityUpdateMutation,
+  removeFromCartMutation,
 } from './mutations/cart';
 import { getCartQuery } from './queries/cart';
 import { getEmailFromCookies } from '../clients';
@@ -96,6 +99,28 @@ async function createCart({ locale = '', lineItems = [] }): Promise<Cart> {
   return reshapeCart(res.body.data.cartCreate.cart);
 }
 
+async function removeFromCart(lineIds: string[]): Promise<Cart> {
+  let cartId = localStorage.getItem('cartId');
+  let cart;
+
+  if (cartId) {
+    cart = await getCart(cartId);
+    cartId = cart.id;
+    localStorage.setItem('cartId', cartId);
+  }
+
+  const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
+    query: removeFromCartMutation,
+    variables: {
+      cartId,
+      lineIds,
+    },
+    cache: 'no-store',
+  });
+
+  return reshapeCart(res.body.data.cartLinesRemove.cart);
+}
+
 const removeEdgesAndNodes = (array: Connection<any>) => {
   let nodes = [];
 
@@ -103,11 +128,11 @@ const removeEdgesAndNodes = (array: Connection<any>) => {
 
   array.edges.forEach((edge) => {
     const node = edge?.node;
-    // const quantity = node?.quantity;
+    const quantity = node?.quantity;
 
-    // if (quantity === 0) {
-    //   removeFromCart([node.id]);
-    // }
+    if (quantity === 0) {
+      removeFromCart([node.id]);
+    }
 
     nodes.push(node);
   });
@@ -163,8 +188,6 @@ async function getCart(_cartId: string): Promise<Cart | undefined> {
   if (!res.body.data.cart) {
     return undefined;
   }
-
-  console.log('get cart res', res);
 
   return reshapeCart(res.body.data.cart);
 }
@@ -378,8 +401,7 @@ export function addJewelryProductToCart({
         },
       ];
 
-      //   return addCustomizedItem(items);
-      console.log('items', items);
+      return addCustomizedItem(items, locale);
     }
   }
 
@@ -492,8 +514,7 @@ export const updateMultipleItemsQuantity = async ({
 export async function addERProductToCart({
   settingVariantId,
   settingAttributes,
-  diamondVariantId,
-  diamondAttributes,
+  diamonds,
   hasEngraving,
   engravingText,
   locale,
@@ -512,7 +533,7 @@ export async function addERProductToCart({
     .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
   // If no custom diamond, add the setting
-  if (!diamondVariantId) {
+  if (!diamonds) {
     // If engraving, update the setting attributes + add the engraving variant
     if (hasEngraving) {
       // Add engraving text to setting attributes - in this case the engraving is the only child product
@@ -533,10 +554,6 @@ export async function addERProductToCart({
 
       return addCustomizedItem(
         [
-          {
-            variantId: settingVariantId,
-            customAttributes: refinedSettingAttributes,
-          },
           {
             variantId: engravingVariantId,
             customAttributes: [
@@ -562,6 +579,10 @@ export async function addERProductToCart({
               },
             ],
           },
+          {
+            variantId: settingVariantId,
+            customAttributes: refinedSettingAttributes,
+          },
         ],
         locale,
       );
@@ -571,30 +592,32 @@ export async function addERProductToCart({
     }
   } else {
     // If there is a custom diamond, add the setting and the diamond
-    const refinedDiamondAttributes = Object.keys(diamondAttributes)
-      .map((key) => {
-        return {
-          key,
-          value: diamondAttributes[key],
-        };
-      })
-      .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    // Remove centerstone + diamond shape from seting
-    refinedSettingAttributes = refinedSettingAttributes.filter(
-      (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
-    );
+    const groupedItems = diamonds.map((diamond) => {
+      const refinedDiamondAttributes = Object.keys(diamond.attributes)
+        .map((key) => {
+          return {
+            key,
+            value: diamond?.attributes[key],
+          };
+        })
+        .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
 
-    const groupedItems = [
-      {
-        variantId: diamondVariantId,
+      // Remove centerstone + diamond shape from seting
+      refinedSettingAttributes = refinedSettingAttributes.filter(
+        (attr) => attr.key !== 'centerStone' && attr.key !== 'diamondShape',
+      );
+
+      return {
+        variantId: diamond?.variantId,
         customAttributes: refinedDiamondAttributes,
-      },
-      {
-        variantId: settingVariantId,
-        customAttributes: refinedSettingAttributes,
-      },
-    ];
+      };
+    });
+
+    groupedItems.push({
+      variantId: settingVariantId,
+      customAttributes: refinedSettingAttributes,
+    });
 
     if (hasEngraving) {
       refinedSettingAttributes.push({
@@ -610,7 +633,7 @@ export async function addERProductToCart({
         value: engravingText,
       });
 
-      groupedItems.push({
+      groupedItems.unshift({
         variantId: engravingVariantId,
         customAttributes: [
           {
@@ -694,6 +717,21 @@ const addCustomizedItem = async (
   }
 };
 
+// Gift Card / RingSizer
+export function addMiscProductToCart({ variantId, attributes, locale }: MiscCartItemProps) {
+  // shopify api won't ever take a product with an empty or null attribute value
+  const refinedAttributes = Object.keys(attributes)
+    .map((key) => {
+      return {
+        key,
+        value: attributes[key],
+      };
+    })
+    .filter((attr) => attr.value !== '' && attr.value !== null && attr.value !== undefined);
+
+  return addItemToCart({ variantId, customAttributes: refinedAttributes, locale });
+}
+
 // Gift Note
 export async function updateGiftNote({
   giftNote,
@@ -767,7 +805,7 @@ export async function updateCartBuyerIdentity({ locale }) {
 }
 
 // Run this when the user goes to checkout to update the line item shipping text attribute
-export async function updateShippingTimes(shippingText, locale) {
+export async function updateShippingTimes(locale) {
   const cartId = localStorage.getItem('cartId');
   const cart = await getCart(cartId);
 
@@ -777,13 +815,18 @@ export async function updateShippingTimes(shippingText, locale) {
     const shippingDaysInt =
       cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingBusinessDays')?.value);
 
-    cartItem.attributes.map((attr) => {
-      if (attr.key === 'productIconListShippingCopy') {
-        attr.value = shippingText + ' ' + getFormattedShipByDate(shippingDaysInt, locale);
-      }
+    const shippingText =
+      cartItem.attributes && parseFloat(cartItem.attributes.find((item) => item.key === 'shippingText')?.value);
 
-      return attr;
-    });
+    if (!shippingText) {
+      updatedAttributes.map((attr) => {
+        if (attr.key === 'productIconListShippingCopy') {
+          attr.value = shippingText + ' ' + getFormattedShipByDate(shippingDaysInt, locale);
+        }
+
+        return attr;
+      });
+    }
 
     const updatedItem = {
       lineId: cartItem.id,

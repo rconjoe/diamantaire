@@ -6,6 +6,10 @@ export const addToCartMutation = /* GraphQL */ `
       cart {
         ...cart
       }
+      userErrors {
+        field
+        message
+      }
     }
   }
   ${cartFragment}
@@ -48,6 +52,7 @@ export const removeFromCartMutation = /* GraphQL */ `
   ${cartFragment}
 `;
 
+// We will use this in the future.... Sam D.
 export const updateGiftNoteMutation = /* GraphQL */ `
   mutation cartNoteUpdate($cartId: ID!, $note: String) {
     cartNoteUpdate(cartId: $cartId, note: $note) {

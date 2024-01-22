@@ -3,7 +3,12 @@ import { useCallback, useMemo } from 'react';
 
 import OptionSelector from './OptionSelector';
 
-const LeftRightSelector = ({ selectedEarringOrientation, setSelectedEarringOrientation, setShouldDoublePrice }) => {
+const LeftRightSelector = ({
+  selectedEarringOrientation,
+  setSelectedEarringOrientation,
+  setShouldDoublePrice,
+  selectedConfiguration,
+}) => {
   const pairSelector = useMemo(() => {
     return [
       {
@@ -41,6 +46,7 @@ const LeftRightSelector = ({ selectedEarringOrientation, setSelectedEarringOrien
       selectedOptionValue={selectedEarringOrientation}
       onChange={handleOrientationChange}
       hideSelectorLabel={true}
+      selectedConfiguration={selectedConfiguration}
     />
   );
 };

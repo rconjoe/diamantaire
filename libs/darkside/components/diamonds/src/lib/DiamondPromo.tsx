@@ -10,10 +10,13 @@ export interface DiamondPromoProps {
 }
 
 export function DiamondPromo(props: DiamondPromoProps) {
-  const { locale = 'en_US', className } = props;
-  const DiamondTableContent = useDiamondTableData(locale);
-  const diamonTableData = DiamondTableContent.data.diamondTable;
-  const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent, blockquote: quotes } = diamonTableData;
+  const { className, locale } = props;
+
+  const diamondTableContent = useDiamondTableData(locale || 'en-US');
+  const diamonTableData = diamondTableContent?.data?.diamondTable;
+
+  if (!diamondTableContent?.data) return null;
+  const { sidebarTitle: diamondPromoTitle, sidebar: diamondPromoContent, blockquote: quotes } = diamonTableData || {};
   const leoQuote = quotes.find((v) => v.title === 'LEONARDO DICAPRIO');
 
   return (

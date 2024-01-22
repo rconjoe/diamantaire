@@ -2,8 +2,7 @@ import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
-import { getRelativeUrl } from '@diamantaire/shared/helpers';
+import { formatPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -18,7 +17,7 @@ import CartGWP from './CartGWP';
 
 const Cart = ({ closeCart }) => {
   const { locale } = useRouter();
-  // const { _t } = useTranslations(locale);
+
   const { data: checkout, refetch } = useCartData(locale);
 
   console.log('checkout', checkout);
@@ -43,6 +42,7 @@ const Cart = ({ closeCart }) => {
     'Diamond',
     'Ring',
     'Gift Card',
+    'Ring Sizer',
   ];
 
   const {
@@ -51,11 +51,13 @@ const Cart = ({ closeCart }) => {
     euSubtotalCopy,
     cartCtaCopy,
     termsAndConditionsCtaCopy,
-    termsAndConditionsCtaLink,
+    termsAndConditionsCtaRoute,
     addNoteOptionCta,
     emptyCartMainCopy,
     emptyCartMainCtaCopy,
-    emptyCartMainCtaLink,
+    emptyCartMainCtaRoute,
+    updateNoteOptionCta,
+    removeNoteOptionCta,
   } = cartCopy?.[0] || {};
 
   useEffect(() => {
@@ -64,6 +66,10 @@ const Cart = ({ closeCart }) => {
   }, []);
 
   const { countryCode } = parseValidLocale(locale);
+
+  const cartTotal = getVat(countryCode)
+    ? formatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale)
+    : formatPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
 
   return (
     <>
@@ -195,17 +201,12 @@ const Cart = ({ closeCart }) => {
                 <div className="cart-empty-message">
                   <p>
                     {emptyCartMainCopy} <br />
-                    {emptyCartMainCtaLink && <Link href={getRelativeUrl(emptyCartMainCtaLink)}>{emptyCartMainCtaCopy}</Link>}
+                    {emptyCartMainCtaRoute && <Link href={emptyCartMainCtaRoute}>{emptyCartMainCtaCopy}</Link>}
                   </p>
                 </div>
               ) : (
                 <div className="cart-subtotal">
                   <p className="cart-subtotal__sig-text">
-                    {/* they prob mean this.... */}
-                    {/* {parseFloat(checkout?.cost?.subtotalAmount?.amount) > 500 && (
-                      <UIString>Orders over $500 require a signature upon delivery.</UIString>
-                    )} */}
-
                     <UIString>Orders over $500 require a signature upon delivery.</UIString>
                   </p>
                   <hr />
@@ -213,19 +214,26 @@ const Cart = ({ closeCart }) => {
                     <p>
                       {getVat(countryCode) ? euSubtotalCopy : subtotalCopy} <br />{' '}
                     </p>
-                    <p>{getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale)}</p>
+                    <p>{cartTotal}</p>
                   </div>
-                  <CartNote addNoteOptionCta={addNoteOptionCta} />
+                  <CartNote
+                    actions={{
+                      add: addNoteOptionCta,
+                      update: updateNoteOptionCta,
+                      remove: removeNoteOptionCta,
+                    }}
+                  />
                 </div>
               )}
             </div>
           </div>
           {!isCartEmpty && (
             <CartFooter
+              cartTotal={cartTotal}
               checkout={checkout}
               checkoutCta={cartCtaCopy}
               termsCta={termsAndConditionsCtaCopy}
-              termsCtaLink={termsAndConditionsCtaLink}
+              termsCtaLink={termsAndConditionsCtaRoute}
             />
           )}
         </div>

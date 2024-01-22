@@ -250,7 +250,6 @@ export const ModularCollectionHeroBlockContainer = styled.div`
 
   .hero-block__image-wrapper {
     img {
-      min-height: 710px;
       ${media.medium`min-height: 576px;`}
     }
   }

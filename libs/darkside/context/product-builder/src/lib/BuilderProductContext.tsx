@@ -12,6 +12,7 @@ type BuilderDiamond = {
   color: string;
   dangerousInternalShopifyVariantId: string;
   productTitle: string;
+  slug?: string;
 };
 
 type BuilderProduct = {
@@ -55,14 +56,14 @@ const builderState = {
 
 interface BuilderProductState {
   product: BuilderProduct | null;
-  diamond: BuilderDiamond | null;
+  diamonds: BuilderDiamond[] | null;
   step: 'select-setting' | 'customize-setting' | 'select-diamond' | 'review-build';
   type: FlowType;
   builderState: (typeof builderState)[keyof typeof builderState];
 }
 
 const initialBuilderProductState: BuilderProductState = {
-  diamond: null,
+  diamonds: null,
   product: null,
   step: 'select-diamond',
   type: 'setting-to-diamond',
@@ -84,7 +85,7 @@ const BuilderProductContext = createContext<BuilderProductContextType>({
 });
 
 type BuilderAction =
-  | { type: 'ADD_DIAMOND'; payload: BuilderDiamond }
+  | { type: 'ADD_DIAMOND'; payload: BuilderDiamond[] }
   | { type: 'REMOVE_DIAMOND' }
   | { type: 'ADD_PRODUCT'; payload: BuilderProduct }
   | { type: 'REMOVE_PRODUCT' }
@@ -102,7 +103,7 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
     case 'ADD_DIAMOND': {
       const newState = {
         ...state,
-        diamond: action.payload,
+        diamonds: action.payload,
       };
 
       return {
@@ -113,7 +114,7 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
     case 'REMOVE_DIAMOND': {
       const newState = {
         ...state,
-        diamond: null,
+        diamonds: null,
       };
 
       return {
@@ -135,7 +136,7 @@ const builderReducer = (state: BuilderProductState, action: BuilderAction): Buil
     case 'REMOVE_PRODUCT': {
       const newState = {
         ...state,
-        diamond: null,
+        diamonds: null,
       };
 
       return {
@@ -212,9 +213,9 @@ const BuilderProductContextProvider = ({ children }: BuilderProductContextProvid
 };
 
 const getState = (state) => {
-  const { diamond, product } = state;
+  const { diamonds, product } = state;
 
-  if (diamond) {
+  if (diamonds) {
     if (product) {
       return builderState.Complete;
     } else {
