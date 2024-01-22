@@ -262,6 +262,8 @@ function OptionSelector({
   setProductSlug,
   areDiamondShapesHorizontal,
   selectedDiamond,
+  trackInventory,
+  variantId,
 }: OptionSelectorProps) {
   const [showingAllRingSizes, setShowingAllRingSizes] = useState(false);
   const {
