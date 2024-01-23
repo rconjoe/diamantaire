@@ -5,7 +5,6 @@ import {
   ENGRAVEABLE_JEWELRY_SLUGS,
   ENGRAVING_PRICE_CENTS,
   getFormattedPrice,
-  parseValidLocale,
 } from '@diamantaire/shared/constants';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
@@ -50,8 +49,6 @@ const ProductPrice = ({
 
   const isInUS = locale === DEFAULT_LOCALE;
 
-  const { countryCode } = parseValidLocale(locale);
-
   const doesProductQualifyForFreeEngraving =
     ENGRAVEABLE_JEWELRY_SLUGS.filter((slug) => slug === query.collectionSlug).length > 0;
 
@@ -63,13 +60,12 @@ const ProductPrice = ({
 
   console.log('finalPrice', finalPrice);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, countryCode === 'GB');
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false);
 
   const translatedText = _t('Starting at %%price%%');
 
   return (
     <ProductPriceStyles className="price">
-      <p>{price}</p>
       <p className="price-text">
         {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
       </p>

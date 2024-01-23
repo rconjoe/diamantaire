@@ -316,8 +316,6 @@ const SingleVariantCartItem = ({
   const { countryCode } = parseValidLocale(locale);
 
   // The price needs to be combined in the case of two identical earrings
-  // const totalPrice =
-  //   countryCode === 'GB' ? formatPrice(parseFloat(price) * 100, locale) : getFormattedPrice(parseFloat(price) * 100, locale);
 
   const totalPrice = getFormattedPrice(parseFloat(price) * 100, locale, true, false, countryCode === 'GB');
 
@@ -339,7 +337,6 @@ const SingleVariantCartItem = ({
             {productTitle}
           </Heading>
         </div>
-        <p>{price}</p>
         <div className="cart-item__price">{totalPrice && <p>{totalPrice}</p>}</div>
       </div>
       <div className="cart-item__body">
