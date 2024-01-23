@@ -132,7 +132,9 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
         ) : (
           <div className="engraving-result-text">
             <p className="result-text">
-              <span>Your Engraving:</span>
+              <span>
+                <UIString>Your Engraving</UIString>:
+              </span>
               {engravingText}
             </p>
             <DarksideButton
@@ -142,7 +144,7 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               type="underline"
               colorTheme="teal"
             >
-              Modify
+              <UIString>Modify</UIString>
             </DarksideButton>
           </div>
         )}
@@ -180,17 +182,19 @@ const ProductEngraving = ({ engravingText, setEngravingText, hasSingleInitialEng
               }}
             />
             <p className="limit-text">
-              Character Limit ({engravingInputText.length}/{MAX_CHAR_LIMIT})
+              <UIString>Character Limit</UIString> ({engravingInputText.length}/{MAX_CHAR_LIMIT})
             </p>
             <DarksideButton
               onClick={isEngravingInputEmpty ? () => removeEngraving() : () => confirmEngraving()}
               type="outline"
             >
-              {isEngravingInputEmpty && engravingText && isEngravingInputVisible
-                ? 'Delete engraving'
-                : !engravingText
-                ? 'Add engraving'
-                : 'Update engraving'}
+              <UIString>
+                {isEngravingInputEmpty && engravingText && isEngravingInputVisible
+                  ? 'Delete engraving'
+                  : !engravingText
+                  ? 'Add engraving'
+                  : 'Update engraving'}
+              </UIString>
             </DarksideButton>
           </div>
         )}

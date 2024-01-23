@@ -79,7 +79,15 @@ const MediaSliderContainer = styled.div`
   }
 `;
 
-const MediaSlider = ({ assets, options, diamondType, title, shouldDisplayDiamondHand = false, productType, shownWithCtw }) => {
+const MediaSlider = ({
+  assets,
+  options,
+  diamondType,
+  title,
+  shouldDisplayDiamondHand = false,
+  productType,
+  shownWithCtw,
+}) => {
   const [totalSlides, setTotalSlides] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const hasPagination = totalSlides > 1;
@@ -158,11 +166,9 @@ const MediaSlider = ({ assets, options, diamondType, title, shouldDisplayDiamond
 
                     {index === 0 && productType === 'Engagement Ring' && (
                       <p>
-                        <UIString>Shown with </UIString>
-                        {shownWithCtw ? shownWithCtw : '1.5ct'}
+                        <UIString>Shown with</UIString> {shownWithCtw ? shownWithCtw : '1.5ct'}
                       </p>
                     )}
-
                   </div>
                 );
               }

@@ -27,6 +27,7 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import styled from 'styled-components';
 
 type PlpPageProps = {
   key: string;
@@ -47,6 +48,15 @@ type FilterQueryValues = {
   subStyle?: string[];
 };
 
+const PlpStyles = styled.div`
+  #breadcrumb {
+    padding-top: 2rem;
+  }
+  .container-wrapper {
+    max-width: 90vw;
+  }
+`;
+
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const { productListFiltered } = useAnalytics();
 
@@ -58,7 +68,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   const { locale, query } = router || {};
 
-  const { ref: pageEndRef, inView } = useInView({ rootMargin: '800px' });
+  const { ref: pageEndRef, inView } = useInView({ rootMargin: '1600px' });
 
   const { plpSlug, category, initialFilterValues, urlFilterMethod } = props;
 
@@ -181,7 +191,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   }, [query]);
 
   return (
-    <div>
+    <PlpStyles>
       <NextSeo
         title={seoTitle}
         description={seoDescription}
@@ -228,7 +238,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
       <PlpPreviouslyViewed />
 
       <PlpBlockPicker category={category} plpSlug={plpSlug} />
-    </div>
+    </PlpStyles>
   );
 }
 

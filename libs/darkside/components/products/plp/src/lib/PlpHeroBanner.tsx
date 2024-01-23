@@ -61,7 +61,7 @@ const PlpHeroBannerStyles = styled.div`
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
-          margin: 0 auto;
+          margin: 0;
           color: var(--color-black);
           line-height: 1.3;
 
@@ -76,6 +76,7 @@ const PlpHeroBannerStyles = styled.div`
 
   .hero__content {
     text-align: center;
+
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       padding: 3rem 0 2.5rem;
     }
@@ -90,7 +91,7 @@ const PlpHeroBannerStyles = styled.div`
 
     .hero__content-inner {
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding: 1rem 0 1rem;
+        padding: 1rem 0 0;
       }
       > div {
         padding-top: 1rem;
@@ -99,6 +100,7 @@ const PlpHeroBannerStyles = styled.div`
 
     p {
       margin: 0;
+      line-height: 1.3;
       font-size: var(--font-size-xxsmall);
     }
   }
