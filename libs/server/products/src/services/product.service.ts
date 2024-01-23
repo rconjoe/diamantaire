@@ -50,6 +50,7 @@ import {
   compareProductConfigurations,
   optionTypesComparators,
   getDraftQuery,
+  includeDraftProducts,
 } from '../helper/product.helper';
 import { OptionsConfigurations, PLPResponse } from '../interface/product.interface';
 import { PlpRepository } from '../repository/plp.repository';
@@ -678,8 +679,8 @@ export class ProductsService {
         ...getDraftQuery(),
       };
 
-      const bigRedisKey: string = `products::` + setLocal + `:` + (query.isDraft ? `draft` : ``);
-      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + `:` + (query.isDraft ? `draft` : ``);
+      const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
 
       // create unique cacheKey for each prodyct variant
       const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;

@@ -211,13 +211,12 @@ export const getCurrencyCode = (countryCode: string): string => {
 };
 
 export function includeDraftProducts() {
-  // if (IS_PRODUCTION) {
-  //   return false;
-  // } else {
-  //   return true;
-  // }
-
-  return false;
+  // Do NOT include draft products in a production environment
+  if (process.env.NODE_ENV === 'production') {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 export function getDraftQuery(): FilterQuery<{ isDraft: boolean }> {
