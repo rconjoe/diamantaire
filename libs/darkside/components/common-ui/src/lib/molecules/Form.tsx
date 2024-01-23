@@ -91,6 +91,7 @@ const FormContainer = styled.div<{
   gridStyle?: string;
   stackedSubmit?: boolean;
   fieldsLength: number;
+  extraClass?: string;
 }>`
   p {
     margin-top: calc(var(--gutter) / 20);
@@ -201,6 +202,13 @@ const FormContainer = styled.div<{
       }
     }
   }
+  ${({ extraClass }) =>
+    extraClass === '-modular-block' &&
+    `
+     .input-opt-in {
+      text-align:left;
+     }
+      `}
 `;
 
 const Form = ({
@@ -273,6 +281,7 @@ const Form = ({
       stackedSubmit={stackedSubmit}
       flexDirection={flexDirection}
       fieldsLength={schema?.length | 1}
+      extraClass={extraClass}
     >
       {title && (
         <Heading type={headingType} className="primary">
@@ -399,7 +408,7 @@ const Form = ({
                 }}
               />
               <label htmlFor="optin">
-                <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+                <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                   {optInCopy}
                 </Markdown>
               </label>
@@ -430,7 +439,7 @@ const Form = ({
               }}
             />
             <label htmlFor="optin">
-              <Markdown options={{ forceBlock: false }} extraClass={extraClass}>
+              <Markdown options={{ forceBlock: false }} extraClass="-opt-in">
                 {optInCopy}
               </Markdown>
             </label>

@@ -104,7 +104,7 @@ export const ModularEmailSignupBlockContainer = styled.div`
   .input-container.submit {
     button {
       max-width: 20rem;
-      margin: 0 auto;
+      margin: 15px auto;
     }
   }
 `;
