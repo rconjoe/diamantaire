@@ -3,16 +3,15 @@ config:
   phases:
     # - duration: 5
     #   arrivalCount: 1
-    #   name: Warm up phase
-    # - duration: 600
-    #   arrivalCount: 100
-    #   name: Spike phase
+    #   name: Functional Test Phase. 
+    - duration: 120
+      arrivalCount: 1
+      name: Warm up phase
     - duration: 600
-      arrivalCount: 100
+      arrivalCount: 46
       name: Spike phase
   plugins:
     ensure: {}
-  # Load the Playwright engine:
   engines:
     playwright: 
         launchOptions: 
