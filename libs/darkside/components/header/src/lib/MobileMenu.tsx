@@ -21,7 +21,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
   max-height: 100vh;
   overflow-y: auto;
   position: fixed;
-  padding-bottom: 14rem;
+  padding-bottom: 30rem;
   top: ${(props) => props.$headerHeight + 'px'};
   left: 0;
   width: 100%;
