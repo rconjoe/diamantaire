@@ -1,4 +1,4 @@
-import { setSpace, tabletAndUp } from '@diamantaire/styles/darkside-styles';
+import { media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { stripIndent } from 'common-tags';
 import Script from 'next/script';
@@ -13,15 +13,16 @@ type ProductReviewsProps = {
 };
 
 const WidgetContainer = styled.div`
-  padding-top: ${setSpace(3)} !important;
-  padding-bottom: ${setSpace(4)} !important;
-  ${tabletAndUp(`
-      padding-top: ${setSpace(4)} !important;
-      padding-bottom: ${setSpace(6)} !important;
-    `)};
+  &.okeReviews-widget-holder {
+    margin: calc(var(--gutter) / 2) auto;
+    padding-bottom: 0 !important;
+    ${media.small`margin: 8rem auto;`}
+  }
   .okeReviews-reviewsAggregate-summary {
     display: none;
+    padding-top: 0 !important;
   }
+
   .okeReviews .okeReviews-review-response {
     display: table !important;
   }
