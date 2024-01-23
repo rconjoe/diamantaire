@@ -3,7 +3,7 @@ import { desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence } from 'framer-motion';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { NavItemsProps } from './header-types';
@@ -16,6 +16,7 @@ type MobileHeaderTypes = {
   toggleCart?: () => void;
   topBarRef: React.RefObject<HTMLDivElement>;
   mobileMenuRef: React.RefObject<HTMLDivElement>;
+  isTopBarVisible: boolean;
 };
 
 const MobileHeaderContainer = styled.div`
@@ -27,12 +28,8 @@ const MobileHeaderContainer = styled.div`
   backface-visibility: hidden;
   z-index: 5000;
   position: sticky;
-  top: -7px;
-  padding-top: 5px;
+  top: -1px;
 
-  /* &.fixed {
-    position: fixed;
-  } */
   .mobile-header-outer-wrapper {
     padding: 1.5rem 1rem 1.5rem 0;
     max-height: 5.6rem;
@@ -146,32 +143,21 @@ const MobileHeaderContainer = styled.div`
   }
 `;
 
-const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, mobileMenuRef }): JSX.Element => {
+const MobileHeader: FC<MobileHeaderTypes> = ({
+  navItems,
+  toggleCart,
+  topBarRef,
+  mobileMenuRef,
+  isTopBarVisible,
+}): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const [isFixed, setIsFixed] = useState(false);
-
-  const handleScroll = () => {
-    const topBarHeight = topBarRef?.current.getBoundingClientRect().height;
-    const elementTop = mobileMenuRef.current.getBoundingClientRect().top + window.scrollY;
-    const windowTop = window.scrollY;
-
-    if (windowTop >= elementTop && windowTop >= topBarHeight) {
-      if (!isFixed) setIsFixed(true);
-    } else {
-      setIsFixed(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const mobileMenuHeight = mobileMenuRef?.current?.getBoundingClientRect().height;
+  const topBarHeight = topBarRef?.current?.getBoundingClientRect().height;
 
   return (
     <>
-      <MobileHeaderContainer className={isFixed ? 'fixed' : ''}>
+      <MobileHeaderContainer>
         <div className="mobile-header-outer-wrapper" ref={mobileMenuRef}>
           <div className="mobile-header-wrapper">
             <div className="col col--left">
@@ -209,23 +195,11 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
         {isMobileMenuOpen && (
           <MobileMenu
             navItems={navItems}
-            headerHeight={
-              isFixed
-                ? mobileMenuRef?.current?.getBoundingClientRect().height
-                : mobileMenuRef?.current?.getBoundingClientRect().height + topBarRef?.current?.getBoundingClientRect().height
-            }
+            headerHeight={!isTopBarVisible ? mobileMenuHeight : topBarHeight + mobileMenuHeight}
             setIsMobileMenuOpen={setIsMobileMenuOpen}
           />
         )}
       </AnimatePresence>
-      {/* {isFixed && (
-        <div
-          className="header-spacer"
-          style={{
-            height: isFixed ? `${mobileMenuRef.current.getBoundingClientRect().height}px` : 0,
-          }}
-        ></div>
-      )} */}
     </>
   );
 };

@@ -60,6 +60,7 @@ const Header: FC<HeaderProps> = ({
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(false);
 
   const { cartViewed } = useAnalytics();
   const router = useRouter();
@@ -162,6 +163,40 @@ const Header: FC<HeaderProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // entries is an array of observed elements
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Element is visible in the viewport
+            console.log('Element is visible!');
+            setIsTopBarVisible(true);
+          } else {
+            console.log('Element is not visible!');
+            setIsTopBarVisible(false);
+          }
+        });
+      },
+      {
+        root: null, // observing for viewport
+        rootMargin: '0px',
+        threshold: 0.1, // adjust as per requirement
+      },
+    );
+
+    if (topBarRef.current) {
+      observer.observe(topBarRef.current);
+    }
+
+    // Clean up the observer on unmount
+    return () => {
+      if (topBarRef.current) {
+        observer.unobserve(topBarRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
@@ -249,6 +284,7 @@ const Header: FC<HeaderProps> = ({
         toggleCart={toggleCart}
         mobileMenuRef={mobileMenuRef}
         topBarRef={topBarRef}
+        isTopBarVisible={isTopBarVisible}
       />
     </>
   );
