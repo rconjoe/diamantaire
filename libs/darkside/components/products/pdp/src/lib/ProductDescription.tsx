@@ -226,7 +226,7 @@ const ProductDescription = ({
         {diamondSpecs?.some((spec) => spec.value) && (
           <div className="description__variant-details">
             <Heading type="h4" className="primary">
-              {title ? 'VRAI created diamond for ' + title : 'VRAI created diamond'}
+              <UIString>VRAI created diamond</UIString>
             </Heading>
             {diamondDescription && <Markdown withStyles={false}>{diamondDescription}</Markdown>}
             <ul>
