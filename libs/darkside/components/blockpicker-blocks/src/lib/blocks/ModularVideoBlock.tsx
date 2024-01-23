@@ -34,7 +34,6 @@ type ModularVideoBlockProps = {
 };
 
 const ModularVideoBlock = (props: ModularVideoBlockProps) => {
-  console.log('ModularVideoBlockProps', props);
   const {
     shouldAutoplay,
     video,

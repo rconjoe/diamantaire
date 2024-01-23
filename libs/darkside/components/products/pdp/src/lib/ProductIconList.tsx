@@ -22,8 +22,8 @@ const ProductIconListContainer = styled.div`
       font-size: 1.7rem;
       margin-bottom: 0;
 
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin-bottom: 0.5rem;
+      &:first-child {
+        margin-bottom: -7px;
       }
 
       &.cfy {
@@ -230,7 +230,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
             />
           )}
         </span>
-        <span className="text font-medium">
+        <span className="text">
           {isCfy ? cutForYouShippingText : shippingText} {shippingDate}
           {isCfy && <span className="details">{cutForYouShippingDetails}</span>}
         </span>
@@ -243,7 +243,7 @@ const ShippingListItem = ({ item, isCfy, isCaratLessThanFive }) => {
               <DatoImage image={cutForYouReturnPolicyIcon} isSVG={true} overrideAlt={shippingText + ' ' + shippingDate} />
             )}
           </span>
-          <span className="text font-medium">
+          <span className="text">
             {cutForYouReturnPolicyTitle}
             {isCfy && <span className="details">{cutForYouReturnPolicyDetails}</span>}
           </span>

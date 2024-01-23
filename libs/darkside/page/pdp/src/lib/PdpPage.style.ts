@@ -19,16 +19,17 @@ export const PageContainerStyles = styled.div`
       ${media.xl`flex: 0 0 55rem;`}
 
       .info__inner {
+        max-width: 450px;
         margin: 0 auto;
       }
     }
   }
   #breadcrumb {
     max-width: 100%;
-    padding: 0 1.5rem;
+    padding: 0 1.5rem 0.5rem;
 
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 0 2rem;
+      padding: 0 2rem 0.5rem;
     }
 
     ul {
