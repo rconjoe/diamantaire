@@ -26,10 +26,13 @@ const MobileHeaderContainer = styled.div`
   transform-style: preserve-3d;
   backface-visibility: hidden;
   z-index: 5000;
+  position: sticky;
+  top: -7px;
+  padding-top: 5px;
 
-  &.fixed {
+  /* &.fixed {
     position: fixed;
-  }
+  } */
   .mobile-header-outer-wrapper {
     padding: 1.5rem 1rem 1.5rem 0;
     max-height: 5.6rem;
@@ -215,14 +218,14 @@ const MobileHeader: FC<MobileHeaderTypes> = ({ navItems, toggleCart, topBarRef, 
           />
         )}
       </AnimatePresence>
-      {isFixed && (
+      {/* {isFixed && (
         <div
           className="header-spacer"
           style={{
             height: isFixed ? `${mobileMenuRef.current.getBoundingClientRect().height}px` : 0,
           }}
         ></div>
-      )}
+      )} */}
     </>
   );
 };
