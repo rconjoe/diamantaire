@@ -74,7 +74,7 @@ const StyledDiamondTable = styled.div`
     width: 100%;
     display: flex;
     position: sticky;
-    top: ${(props) => props.headerHeight}px;
+    top: 55px;
   }
 
   .vo-table-head .vo-table-row {
