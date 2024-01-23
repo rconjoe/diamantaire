@@ -60,9 +60,10 @@ const goToCheckoutUrl = ({ checkoutUrl, locale, consent, email }: CheckoutUrlPar
 
   const checkoutUrlString = url.toString();
 
-  console.log('checkoutUrlString', checkoutUrlString);
+  // For testing
+  // window.open(checkoutUrlString, '_blank');
 
-  // window.location = checkoutUrlString;
+  window.location = checkoutUrlString;
 };
 
 export default goToCheckoutUrl;
