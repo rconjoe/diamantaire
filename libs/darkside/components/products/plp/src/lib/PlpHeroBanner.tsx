@@ -82,10 +82,11 @@ const PlpHeroBannerStyles = styled.div`
     }
 
     .hero-title {
-      height: 4.8rem;
+      min-height: 4.8rem;
+      line-height: 1.3;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
       }
     }
 
@@ -99,9 +100,12 @@ const PlpHeroBannerStyles = styled.div`
     }
 
     p {
-      margin: 0;
       line-height: 1.3;
       font-size: var(--font-size-xxsmall);
+      margin: 0.5rem 0 0;
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        margin: 0;
+      }
     }
   }
 `;

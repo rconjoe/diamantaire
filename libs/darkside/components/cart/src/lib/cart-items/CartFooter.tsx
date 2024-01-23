@@ -18,7 +18,7 @@ const CartFooterStyles = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #f6f6f6;
+  background-color: #fdfbf8;
   text-align: center;
   padding: 4rem 0 2rem;
 
@@ -33,6 +33,14 @@ const CartFooterStyles = styled.div`
       &.checkout-button {
         max-width: 40rem;
         margin: 0 auto 3rem;
+
+        &.isUS {
+          margin: 0 auto 3rem;
+        }
+
+        &.isNonUS {
+          margin: 2rem auto;
+        }
 
         &.disabled {
           opacity: 0.5;
@@ -281,7 +289,31 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }
   return (
     <CartFooterStyles>
       <ul>
-        <li className="checkout-button">
+        {countryCode !== 'US' && (
+          <li>
+            <span
+              className={clsx('consent-container', {
+                error: !hasTermsConsent,
+              })}
+            >
+              <label className="checkbox" htmlFor="terms-consent">
+                <input type="checkbox" checked={hasTermsConsent} id="terms-consent" onClick={() => toggleConsent()} />
+                <span className="checkmark"></span>
+              </label>
+              <span className="consent-link">
+                <a target="_blank" href={termsCtaLink}>
+                  {termsCta}
+                </a>
+              </span>
+            </span>
+          </li>
+        )}
+        <li
+          className={clsx('checkout-button', {
+            isUS: countryCode === 'US',
+            isNonUS: countryCode !== 'US',
+          })}
+        >
           <DarksideButton
             className={!hasTermsConsent ? 'disabled' : ''}
             disabled={!hasTermsConsent}
@@ -290,23 +322,25 @@ const CartFooter = ({ checkout, checkoutCta, termsCta, termsCtaLink, cartTotal }
             {checkoutCta} | {cartTotal}
           </DarksideButton>
         </li>
-        <li>
-          <span
-            className={clsx('consent-container', {
-              error: !hasTermsConsent,
-            })}
-          >
-            <label className="checkbox" htmlFor="terms-consent">
-              <input type="checkbox" checked={hasTermsConsent} id="terms-consent" onClick={() => toggleConsent()} />
-              <span className="checkmark"></span>
-            </label>
-            <span className="consent-link">
-              <a target="_blank" href={termsCtaLink}>
-                {termsCta}
-              </a>
+        {countryCode === 'US' && (
+          <li>
+            <span
+              className={clsx('consent-container', {
+                error: !hasTermsConsent,
+              })}
+            >
+              <label className="checkbox" htmlFor="terms-consent">
+                <input type="checkbox" checked={hasTermsConsent} id="terms-consent" onClick={() => toggleConsent()} />
+                <span className="checkmark"></span>
+              </label>
+              <span className="consent-link">
+                <a target="_blank" href={termsCtaLink}>
+                  {termsCta}
+                </a>
+              </span>
             </span>
-          </span>
-        </li>
+          </li>
+        )}
       </ul>
     </CartFooterStyles>
   );

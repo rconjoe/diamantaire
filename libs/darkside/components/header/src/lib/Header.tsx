@@ -25,7 +25,7 @@ type HeaderProps = {
   headerHeight: number;
   isTopbarShowing: boolean;
   setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
-  headerRef: React.RefObject<HTMLDivElement>;
+  compactHeaderRef: React.RefObject<HTMLDivElement>;
 };
 
 const CompactHeaderWrapper = styled.div`
@@ -205,17 +205,15 @@ const Header: FC<HeaderProps> = ({
   const combinedHeight =
     isHome && isTopBarVisible
       ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
+      : isHome && !isTopBarVisible
+      ? headerHeight
       : isTopBarVisible
       ? headerHeight + topBarRef?.current?.offsetHeight
       : headerHeight;
 
-  console.log('combinedHeight', combinedHeight, {
-    satcked: stackedHeaderRef?.current,
-  });
-
   return (
     <>
-      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
+      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent" onMouseLeave={() => setMegaMenuIndex(-1)}>
         <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
           {isTopbarShowing && (
             <div className="top-bar__outer-container" ref={topBarRef}>
