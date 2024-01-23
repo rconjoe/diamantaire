@@ -72,7 +72,7 @@ const Cart = ({ closeCart }) => {
       ? getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale, true, false, true)
       : getVat(countryCode)
       ? simpleFormatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale, true)
-      : getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
+      : getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale, true, false, true);
 
   return (
     <>
