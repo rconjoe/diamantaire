@@ -34,5 +34,9 @@ export function replacePlaceholders(string, placeHoldersArr, valuesArr) {
     }, []);
   });
 
-  return resultArray.length === 1 && typeof resultArray[0] === 'string' ? resultArray[0] : resultArray;
+  // Check if the result array contains only strings
+  const allStrings = resultArray.every((part) => typeof part === 'string');
+
+  // Join the array elements with an empty string if all are strings, otherwise return array
+  return allStrings ? resultArray.join('') : resultArray;
 }
