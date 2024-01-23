@@ -61,12 +61,13 @@ const Header: FC<HeaderProps> = ({
   headerHeight,
   isTopbarShowing,
   setIsTopbarShowing,
+  compactHeaderRef,
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
-  const [isTopBarVisible, setIsTopBarVisible] = useState(false);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(true);
 
   const { cartViewed } = useAnalytics();
   const router = useRouter();
@@ -79,9 +80,9 @@ const Header: FC<HeaderProps> = ({
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
-  const compactHeaderRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
+  const stackedHeaderRef = useRef(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -176,10 +177,8 @@ const Header: FC<HeaderProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             // Element is visible in the viewport
-            console.log('Element is visible!');
             setIsTopBarVisible(true);
           } else {
-            console.log('Element is not visible!');
             setIsTopBarVisible(false);
           }
         });
@@ -203,6 +202,17 @@ const Header: FC<HeaderProps> = ({
     };
   }, []);
 
+  const combinedHeight =
+    isHome && isTopBarVisible
+      ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
+      : isTopBarVisible
+      ? headerHeight + topBarRef?.current?.offsetHeight
+      : headerHeight;
+
+  console.log('combinedHeight', combinedHeight, {
+    satcked: stackedHeaderRef?.current,
+  });
+
   return (
     <>
       <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
@@ -214,17 +224,19 @@ const Header: FC<HeaderProps> = ({
           )}
           {isHome && (
             <>
-              <StackedHeader
-                navItems={section}
-                toggleMegaMenuOpen={toggleMegaMenuOpen}
-                menuIndex={megaMenuIndex}
-                toggleCart={toggleCart}
-                toggleCountrySelector={toggleCountrySelector}
-                toggleLanguageSelector={toggleLanguageSelector}
-                selectedCountry={countries[selectedCountryCode].name}
-                selectedLanguage={languagesByCode[selectedLanguageCode].name}
-                isLanguageSelectorOpen={isLanguageSelectorOpen}
-              />
+              <div ref={stackedHeaderRef}>
+                <StackedHeader
+                  navItems={section}
+                  toggleMegaMenuOpen={toggleMegaMenuOpen}
+                  menuIndex={megaMenuIndex}
+                  toggleCart={toggleCart}
+                  toggleCountrySelector={toggleCountrySelector}
+                  toggleLanguageSelector={toggleLanguageSelector}
+                  selectedCountry={countries[selectedCountryCode].name}
+                  selectedLanguage={languagesByCode[selectedLanguageCode].name}
+                  isLanguageSelectorOpen={isLanguageSelectorOpen}
+                />
+              </div>
               <AnimatePresence>
                 <motion.div
                   key="slide-in-header"
@@ -255,11 +267,11 @@ const Header: FC<HeaderProps> = ({
                   </div>
                 </motion.div>
 
-                {isLoaded && (
+                {isHome && isLoaded && (
                   <MegaMenu
                     navItems={section}
                     megaMenuIndex={megaMenuIndex}
-                    headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                    headerHeight={combinedHeight}
                     isCompactMenuVisible={isCompactMenuVisible}
                   />
                 )}
@@ -286,28 +298,26 @@ const Header: FC<HeaderProps> = ({
         </AnimatePresence>
       </HeaderWrapper>
 
-      <CompactHeaderWrapper onMouseLeave={() => setMegaMenuIndex(-1)}>
-        <CompactHeader
-          ref={compactHeaderRef}
-          navItems={section}
-          toggleMegaMenuOpen={toggleMegaMenuOpen}
-          menuIndex={megaMenuIndex}
-          compactHeaderRef={compactHeaderRef}
-          toggleCart={toggleCart}
-        />
-        {isLoaded && (
-          <MegaMenu
+      {!isHome && (
+        <CompactHeaderWrapper onMouseLeave={() => setMegaMenuIndex(-1)}>
+          <CompactHeader
+            ref={compactHeaderRef}
             navItems={section}
-            megaMenuIndex={megaMenuIndex}
-            headerHeight={
-              !isTopBarVisible
-                ? compactHeaderRef?.current?.offsetHeight
-                : compactHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
-            }
-            isCompactMenuVisible={isCompactMenuVisible}
+            toggleMegaMenuOpen={toggleMegaMenuOpen}
+            menuIndex={megaMenuIndex}
+            compactHeaderRef={compactHeaderRef}
+            toggleCart={toggleCart}
           />
-        )}
-      </CompactHeaderWrapper>
+          {isLoaded && (
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={combinedHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
+          )}
+        </CompactHeaderWrapper>
+      )}
 
       <MobileHeader
         navItems={section}
