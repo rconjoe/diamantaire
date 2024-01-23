@@ -43,7 +43,7 @@ export type DarksideButtonProps = {
   onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   buttonType?: 'button' | 'submit' | 'reset';
   type?: 'solid' | 'outline' | 'underline' | 'text-underline';
-  colorTheme?: 'black' | 'teal' | 'white' | 'grey';
+  colorTheme?: 'black' | 'teal' | 'white' | 'grey' | 'oos';
   mobileColorTheme?: 'desktop' | 'black' | 'teal' | 'white';
   openUrlInNewWindow?: boolean;
   disabled?: boolean;

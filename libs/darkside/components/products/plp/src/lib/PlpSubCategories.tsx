@@ -11,6 +11,7 @@ const PlpSubCategoriesStyles = styled.div`
   justify-content: start;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  padding-top: 2rem;
 
   &::-webkit-scrollbar {
     display: none;

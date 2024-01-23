@@ -1,6 +1,5 @@
-import { ButtonFragment } from '../fragments';
 import { queryDatoGQL } from '../clients';
-
+import { ButtonFragment } from '../fragments';
 
 // fetch from API routes (unused)
 
@@ -24,12 +23,11 @@ export async function getGlobalTemplateData(locale) {
     const response = await queryDatoGQL({ query: GLOBAL_TEMPLATE_QUERY, variables: { locale } });
 
     return response;
-  } catch(error) {
-    console.log("Error retrieving global template data", error);
+  } catch (error) {
+    console.log('Error retrieving global template data', error);
 
-    return null
+    return null;
   }
-  
 }
 
 export const GLOBAL_TEMPLATE_QUERY = `
