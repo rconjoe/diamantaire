@@ -29,5 +29,6 @@ https://web.dev/articles/fid
 ## Future Todo:
 1) Integrate load test into CICD - etup github action to run on periodically https://www.artillery.io/docs/cicd/github-actions
 2) Setup external monitoring and observability systems  (AWS Cloudwatch / Datadog and etc)
-3) Use weight to improve soak test
-4) Add more workflows to ui-load-test
+3) Use better assertion on API load test 
+4) Use weight to improve soak test
+5) Add more workflows to ui-load-test
