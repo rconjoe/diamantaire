@@ -393,6 +393,8 @@ type CtaButtonProps = {
     modifyYourDiamondCopy?: string;
   };
   isInStock?: boolean;
+  isFetching?: boolean;
+  trackInventory?: boolean;
 };
 
 const AddToCartButtonContainer = styled.div`
