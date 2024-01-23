@@ -14,6 +14,7 @@ type CompactHeaderTypes = {
   menuIndex: number;
   compactHeaderRef?: React.RefObject<HTMLDivElement>;
   toggleCart?: () => void;
+  ref?: React.RefObject<HTMLDivElement>;
 };
 
 const CompactHeaderStyles = styled.div`

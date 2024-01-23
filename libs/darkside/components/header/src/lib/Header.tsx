@@ -57,7 +57,7 @@ const HeaderWrapper = styled.div`
 
 const Header: FC<HeaderProps> = ({
   headerData,
-  headerRef,
+  // headerRef,
   headerHeight,
   isTopbarShowing,
   setIsTopbarShowing,
