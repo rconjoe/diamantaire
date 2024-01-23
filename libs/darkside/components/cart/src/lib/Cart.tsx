@@ -2,7 +2,7 @@ import { FreezeBody, UIString } from '@diamantaire/darkside/components/common-ui
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { updateItemQuantity } from '@diamantaire/darkside/data/api';
 import { useCartData, useCartInfo } from '@diamantaire/darkside/data/hooks';
-import { formatPrice, getVat, parseValidLocale } from '@diamantaire/shared/constants';
+import { getFormattedPrice, getVat, parseValidLocale, simpleFormatPrice } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -68,9 +68,11 @@ const Cart = ({ closeCart }) => {
   const { countryCode } = parseValidLocale(locale);
 
   const cartTotal =
-    getVat(countryCode) || countryCode === 'GB'
-      ? formatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale)
-      : formatPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
+    countryCode === 'GB'
+      ? getFormattedPrice(parseFloat(checkout?.cost?.totalAmount?.amount) * 100, locale, true, false, true)
+      : getVat(countryCode)
+      ? simpleFormatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale, true)
+      : getFormattedPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
 
   return (
     <>

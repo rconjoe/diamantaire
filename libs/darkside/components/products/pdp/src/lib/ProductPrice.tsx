@@ -61,12 +61,15 @@ const ProductPrice = ({
 
   const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale);
+  console.log('finalPrice', finalPrice);
+
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, countryCode === 'GB');
 
   const translatedText = _t('Starting at %%price%%');
 
   return (
     <ProductPriceStyles className="price">
+      <p>{price}</p>
       <p className="price-text">
         {isBuilderProduct ? <>{replacePlaceholders(translatedText, ['%%price%%'], [refinedPrice])}</> : refinedPrice}
       </p>
