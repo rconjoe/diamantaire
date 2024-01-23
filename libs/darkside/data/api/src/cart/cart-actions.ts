@@ -124,8 +124,6 @@ async function removeFromCart(lineIds: string[]): Promise<Cart> {
 const removeEdgesAndNodes = (array: Connection<any>) => {
   let nodes = [];
 
-  console.log('array.edges', array.edges);
-
   array.edges.forEach((edge) => {
     const node = edge?.node;
     const quantity = node?.quantity;
