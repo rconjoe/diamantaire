@@ -28,6 +28,12 @@ type HeaderProps = {
   headerRef: React.RefObject<HTMLDivElement>;
 };
 
+const CompactHeaderWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 5000;
+`;
+
 const FullHeaderStyles = styled.header`
   .slide-in-header {
     position: fixed;
@@ -46,7 +52,7 @@ const HeaderWrapper = styled.div`
   width: 100%;
   background-color: var(--color-white);
   box-shadow: 0 0.1rem 0 var(--color-white);
-  ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
+  /* ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`} */
 `;
 
 const Header: FC<HeaderProps> = ({
@@ -200,14 +206,14 @@ const Header: FC<HeaderProps> = ({
   return (
     <>
       <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
-        <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-          <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
-            {isTopbarShowing && (
-              <div className="top-bar__outer-container" ref={topBarRef}>
-                <TopBar setIsTopbarShowing={setIsTopbarShowing} />
-              </div>
-            )}
-            {isHome && (
+        <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
+          {isTopbarShowing && (
+            <div className="top-bar__outer-container" ref={topBarRef}>
+              <TopBar setIsTopbarShowing={setIsTopbarShowing} />
+            </div>
+          )}
+          {isHome && (
+            <>
               <StackedHeader
                 navItems={section}
                 toggleMegaMenuOpen={toggleMegaMenuOpen}
@@ -219,47 +225,48 @@ const Header: FC<HeaderProps> = ({
                 selectedLanguage={languagesByCode[selectedLanguageCode].name}
                 isLanguageSelectorOpen={isLanguageSelectorOpen}
               />
-            )}
-            <AnimatePresence>
-              <motion.div
-                key="slide-in-header"
-                initial={isHome ? 'collapsed' : 'open'}
-                animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
-                exit="collapsed"
-                variants={{
-                  open: { y: 0, opacity: 1 },
-                  collapsed: { y: -300, opacity: 0 },
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                style={{
-                  position: isHome ? 'fixed' : 'relative',
-                }}
-                className="slide-in-header"
-              >
-                <div ref={compactHeaderRef}>
-                  <CompactHeader
-                    navItems={section}
-                    toggleMegaMenuOpen={toggleMegaMenuOpen}
-                    menuIndex={megaMenuIndex}
-                    compactHeaderRef={compactHeaderRef}
-                    toggleCart={toggleCart}
-                  />
-                </div>
-              </motion.div>
+              <AnimatePresence>
+                <motion.div
+                  key="slide-in-header"
+                  initial={isHome ? 'collapsed' : 'open'}
+                  animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+                  exit="collapsed"
+                  variants={{
+                    open: { y: 0, opacity: 1 },
+                    collapsed: { y: -300, opacity: 0 },
+                  }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  style={{
+                    position: isHome ? 'fixed' : 'sticky',
+                    top: 0,
+                  }}
+                  className="slide-in-header"
+                >
+                  <div ref={compactHeaderRef}>
+                    <CompactHeader
+                      navItems={section}
+                      toggleMegaMenuOpen={toggleMegaMenuOpen}
+                      menuIndex={megaMenuIndex}
+                      compactHeaderRef={compactHeaderRef}
+                      toggleCart={toggleCart}
+                    />
+                  </div>
+                </motion.div>
 
-              {isLoaded && (
-                <MegaMenu
-                  navItems={section}
-                  megaMenuIndex={megaMenuIndex}
-                  headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                  isCompactMenuVisible={isCompactMenuVisible}
-                />
-              )}
-            </AnimatePresence>
-          </FullHeaderStyles>
-        </div>
+                {isLoaded && (
+                  <MegaMenu
+                    navItems={section}
+                    megaMenuIndex={megaMenuIndex}
+                    headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
+                    isCompactMenuVisible={isCompactMenuVisible}
+                  />
+                )}
+              </AnimatePresence>
+            </>
+          )}
+        </FullHeaderStyles>
 
         {isCountrySelectorOpen && (
           <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
@@ -278,6 +285,30 @@ const Header: FC<HeaderProps> = ({
           )}
         </AnimatePresence>
       </HeaderWrapper>
+
+      <CompactHeaderWrapper onMouseLeave={() => setMegaMenuIndex(-1)}>
+        <CompactHeader
+          ref={compactHeaderRef}
+          navItems={section}
+          toggleMegaMenuOpen={toggleMegaMenuOpen}
+          menuIndex={megaMenuIndex}
+          compactHeaderRef={compactHeaderRef}
+          toggleCart={toggleCart}
+        />
+        {isLoaded && (
+          <MegaMenu
+            navItems={section}
+            megaMenuIndex={megaMenuIndex}
+            headerHeight={
+              !isTopBarVisible
+                ? compactHeaderRef?.current?.offsetHeight
+                : compactHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
+            }
+            isCompactMenuVisible={isCompactMenuVisible}
+          />
+        )}
+      </CompactHeaderWrapper>
+
       <MobileHeader
         navItems={section}
         headerHeight={headerHeight}

@@ -24,6 +24,8 @@ const CompactHeaderStyles = styled.div`
   left: 0;
   width: 100%;
   display: none;
+  position: sticky;
+  top: 0;
 
   @media (min-width: ${BP_LG}) {
     display: block;
