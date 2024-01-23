@@ -128,7 +128,7 @@ function ProductConfigurator({
     sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
   const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
-  console.log({ isFetching, isInStock });
+
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
 
@@ -346,6 +346,8 @@ function ProductConfigurator({
           ctaCopy={ctaCopy}
           isProductFeedUrl={isProductFeedUrl}
           isInStock={isInStock}
+          isFetching={isFetching}
+          trackInventory={trackInventory}
         />
       ) : (
         <div
@@ -421,6 +423,8 @@ function AddToCartButton({
   isProductFeedUrl,
   ctaCopy,
   isInStock,
+  isFetching,
+  trackInventory,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -659,6 +663,9 @@ function AddToCartButton({
     });
   }
 
+  if (isFetching && trackInventory) {
+    <Loader color="#000" />;
+  }
   if (!isInStock) {
     return (
       <AddToCartButtonContainer>
