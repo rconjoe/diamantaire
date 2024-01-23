@@ -24,6 +24,10 @@ const cartFragment = gql`
         amount
         currencyCode
       }
+      totalDutyAmount {
+        amount
+        currencyCode
+      }
     }
     lines(first: 100) {
       edges {

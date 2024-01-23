@@ -67,9 +67,10 @@ const Cart = ({ closeCart }) => {
 
   const { countryCode } = parseValidLocale(locale);
 
-  const cartTotal = getVat(countryCode)
-    ? formatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale)
-    : formatPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
+  const cartTotal =
+    getVat(countryCode) || countryCode === 'GB'
+      ? formatPrice(Math.ceil(parseFloat(checkout?.cost?.totalAmount?.amount)) * 100, locale)
+      : formatPrice(parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100, locale);
 
   return (
     <>

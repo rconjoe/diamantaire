@@ -481,7 +481,8 @@ export function hasCentsValues(amount: number) {
 export function applyExchangeRate(amount: number, currency = 'USD') {
   const result = amount * USDollarExchangeRates[currency];
 
-  if (currency === 'USD') {
+  console.log('currency', currency);
+  if (currency === 'USD' || currency === 'GBP') {
     return result;
   }
 
@@ -509,6 +510,7 @@ export function getFormattedPrice(
 
   const currency = getCurrency(countryCode);
 
+  console.log('priceInCents', priceInCents);
   const convertedPrice = applyExchangeRate(priceInCents / 100, currency);
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
@@ -564,7 +566,11 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
 
   const currency = getCurrency(countryCode);
 
-  const convertedPrice = priceInCents / 100;
+  // let convertedPrice = priceInCents / 100;
+
+  let convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+
+  convertedPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
   const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
 

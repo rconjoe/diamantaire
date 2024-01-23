@@ -2,7 +2,7 @@
 import { useAnalytics } from '@diamantaire/analytics';
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { CartCertProps, useCartData, useTranslations } from '@diamantaire/darkside/data/hooks';
-import { getFormattedPrice } from '@diamantaire/shared/constants';
+import { formatPrice, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -313,8 +313,11 @@ const SingleVariantCartItem = ({
     }).then(() => refetch());
   }
 
+  const { countryCode } = parseValidLocale(locale);
+
   // The price needs to be combined in the case of two identical earrings
-  const totalPrice = getFormattedPrice(parseFloat(price) * 100, locale);
+  const totalPrice =
+    countryCode === 'GB' ? formatPrice(parseFloat(price) * 100, locale) : getFormattedPrice(parseFloat(price) * 100, locale);
 
   return (
     <SingleVariantCartItemStyles>

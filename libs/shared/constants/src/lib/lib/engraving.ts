@@ -45,4 +45,9 @@ export const ENGRAVING_CHARACTER_LIMITS = {
 export const ENGRAVEABLE_JEWELRY_SLUGS = ['solitaire-bar-necklace', 'solitaire-bar-pendant'];
 
 // Wedding Bands
-export const NON_ENGRAVEABLE_WEDDING_BAND_SLUGS = ['baguette-bar-band', 'alternating-shapes-band', 'devotion-band'];
+export const NON_ENGRAVEABLE_WEDDING_BAND_SLUGS = [
+  'baguette-bar-band',
+  'alternating-shapes-band',
+  'devotion-band',
+  'eternity-band',
+];
