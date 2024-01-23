@@ -29,7 +29,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
 
       .grid-image {
         flex: 1;
-        padding-bottom: 3rem;
+        padding-bottom: 2rem;
         ${media.medium`padding-bottom: 0; padding-right: 2rem; padding-left: 0;`}
       }
 
