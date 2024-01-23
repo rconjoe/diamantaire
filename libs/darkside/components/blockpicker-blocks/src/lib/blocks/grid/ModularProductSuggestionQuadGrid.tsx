@@ -56,7 +56,6 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
     .product-container {
       display: flex;
       flex-wrap: wrap;
-      // padding: 0 1.5rem 3rem;
       justify-content: center;
       flex: 0 0 50%;
 
