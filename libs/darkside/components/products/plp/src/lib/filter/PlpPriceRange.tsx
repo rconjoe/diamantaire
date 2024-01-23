@@ -72,6 +72,7 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
                     updateFilter('price', {
                       min: v.min,
                       max: v.max,
+                      isPlpPriceRange: true,
                     });
                   }}
                 >

@@ -510,6 +510,7 @@ export function getFormattedPrice(
   const currency = getCurrency(countryCode);
 
   const convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
   if (currency !== Currency.USDollars) {
@@ -607,4 +608,10 @@ export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE
     minimumFractionDigits: digits ? digits : 2,
     maximumFractionDigits: digits ? digits : 2,
   }).format(carat);
+}
+
+export function convertPriceToUSD(amountInCents: number, currency: string) {
+  const rate = USDollarExchangeRates[currency];
+
+  return Math.ceil(amountInCents / rate);
 }

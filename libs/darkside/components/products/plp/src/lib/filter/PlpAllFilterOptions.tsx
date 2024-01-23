@@ -223,6 +223,7 @@ const PlpAllFilterOptions = ({
                           updateFilter('price', {
                             min: price.min,
                             max: price.max,
+                            isPlpPriceRange: true,
                           });
                         }}
                       >
@@ -233,6 +234,7 @@ const PlpAllFilterOptions = ({
                     </li>
                   );
                 })}
+
                 <li>
                   <button
                     className={clsx('flex align-center', {

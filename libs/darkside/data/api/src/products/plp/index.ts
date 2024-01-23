@@ -1,3 +1,5 @@
+import { convertPriceToUSD, getCurrencyFromLocale, getVat } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
@@ -29,10 +31,29 @@ export async function getVRAIServerPlpData(
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
-      const { min, max } = value;
+      const { min, max, isPlpPriceRange } = value;
 
-      if (min) acc['priceMin'] = min;
-      if (max) acc['priceMax'] = max;
+      const convertToUSD = locale !== 'en-US' && isPlpPriceRange;
+
+      const currency = getCurrencyFromLocale(locale);
+
+      const countryCode = getCountry(locale);
+
+      const amountMinusVat = (amountInCents) => {
+        const vat = getVat(countryCode);
+
+        const res = amountInCents / (1 + vat) / 100;
+
+        return Math.round(res) * 100;
+      };
+
+      if (min) {
+        acc['priceMin'] = convertToUSD ? amountMinusVat(convertPriceToUSD(min, currency)) + 1 : min;
+      }
+
+      if (max) {
+        acc['priceMax'] = convertToUSD ? amountMinusVat(convertPriceToUSD(max, currency)) - 1 : max;
+      }
     } else if (key === 'metal') {
       acc[key] = value?.join(',').toString() || value;
     } else {

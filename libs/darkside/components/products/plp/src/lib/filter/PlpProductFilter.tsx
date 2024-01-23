@@ -13,6 +13,7 @@ import PlpSpecificFilterOptions from './PlpSpecificFilterOptions';
 type PriceType = {
   min?: number;
   max?: number;
+  isPlpPriceRange?: boolean;
 };
 
 const PlpProductFilter = ({
@@ -119,15 +120,16 @@ const PlpProductFilter = ({
 
       const max = value?.max?.toString();
 
+      const isPlpPriceRange = value?.isPlpPriceRange;
+
       if (min || max) {
         if (min === newFilterValue?.min && max === newFilterValue?.max) {
+          // eslint-disable-next-line unused-imports/no-unused-vars
           const { price, ...remainingFilters } = filterValue;
-
-          console.log(`removing ${price}`);
 
           setFilterValues({ ...remainingFilters });
         } else {
-          setFilterValues({ ...filterValue, [filterType]: { min, max } });
+          setFilterValues({ ...filterValue, price: { min, max, isPlpPriceRange } });
         }
       }
     }
@@ -137,23 +139,32 @@ const PlpProductFilter = ({
     if (filterValue) {
       const sortedQParams = Object.entries(filterValue)
         .sort(([k1], [k2]) => (k1 > k2 ? 1 : 0))
-        .reduce((acc: Record<string, string | number>, [k, v]: [string, string[] | { min?: number; max?: number }]) => {
-          if (k === 'price' && typeof v === 'object') {
-            const { min, max } = (v as PriceType) || {};
+        .reduce(
+          (
+            acc: Record<string, string | number | boolean>,
+            [k, v]: [string, string[] | { min?: number; max?: number; isPlpPriceRange?: boolean }],
+          ) => {
+            if (k === 'price' && typeof v === 'object') {
+              const { min, max, isPlpPriceRange } = (v as PriceType) || {};
 
-            if (min) acc['priceMin'] = min;
-            if (max) acc['priceMax'] = max;
-          } else if (
-            FACETED_NAV_ORDER.includes(k) &&
-            Array.isArray(v) &&
-            v.every((item: string) => typeof item === 'string') &&
-            v.length > 0
-          ) {
-            acc[k] = v.join(',');
-          }
+              acc['isPlpPriceRange'] = isPlpPriceRange;
 
-          return acc;
-        }, {});
+              if (min) acc['priceMin'] = min;
+
+              if (max) acc['priceMax'] = max;
+            } else if (
+              FACETED_NAV_ORDER.includes(k) &&
+              Array.isArray(v) &&
+              v.every((item: string) => typeof item === 'string') &&
+              v.length > 0
+            ) {
+              acc[k] = v.join(',');
+            }
+
+            return acc;
+          },
+          {},
+        );
 
       if (urlFilterMethod === 'param') {
         router.push(
