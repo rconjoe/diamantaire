@@ -126,6 +126,8 @@ export class ProductsService {
       filterQuery['price'] = priceQuery;
     }
 
+    console.log(`🫥 filterQuery`, filterQuery);
+
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;

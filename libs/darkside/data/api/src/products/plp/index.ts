@@ -76,6 +76,8 @@ export async function getVRAIServerPlpData(
 
   let reqUrl = `${process.env.VRAI_SERVER_BASE_URL}/v1/products/plp?${qParams?.toString()}`;
 
+  console.log(`🫥 getVRAIServerPlpData: reqUrl`, reqUrl);
+
   if (!isServer) {
     reqUrl = `${window.location.origin}/api/plp/getPlpProducts?${qParams?.toString()}`;
   }
@@ -92,6 +94,8 @@ export async function getVRAIServerPlpData(
         return res.json();
       })
       .then((res) => res);
+
+    console.log(`🫥 getVRAIServerPlpData: response`, response);
 
     return response;
   } catch (err) {
