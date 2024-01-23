@@ -9,7 +9,13 @@ export const ModularTextOnlyBlockContainer = styled.div`
     max-width: 90vw;
     margin: 0.5rem auto;
 
-    ${media.medium`max-width: 714px`}
+    ${media.medium`max-width: 714px;`}
+
+    &.-vrai-created-diamond {
+      margin: 2.4rem auto;
+
+      ${media.medium`margin:0.5rem auto;`}
+    }
 
     &.--mobile-no-margin-top {
       ${mobileOnly(`
