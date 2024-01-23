@@ -560,10 +560,10 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
-export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true, cur?: string) {
   const { countryCode } = parseValidLocale(locale);
 
-  const currency = getCurrency(countryCode);
+  const currency = cur || getCurrency(countryCode);
 
   const convertedPrice = priceInCents / 100;
 

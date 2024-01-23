@@ -170,7 +170,9 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                     <div className="table-col status">
                       <UIString>{order.financial_status}</UIString>
                     </div>
-                    <div className="table-col hide-md">{formatPrice(order.total_price * 100, locale)}</div>
+                    <div className="table-col hide-md">
+                      {formatPrice(order.total_price * 100, locale, true, order.currency)}
+                    </div>
                   </div>
                 ))}
               </div>
