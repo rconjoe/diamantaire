@@ -109,6 +109,19 @@ export const ModularTextOnlyBlockContainer = styled.div`
       margin-bottom: 0;
     }
   `)};
+    &.-vrai-created-diamond {
+      margin-bottom: 0;
+      line-height: 1;
+
+      ${mobileOnly(`
+      line-height: 1.2;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+    `)}
+    }
 
     & {
       text-align: left;
