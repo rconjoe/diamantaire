@@ -17,10 +17,10 @@ export const ModularTrioBlockContainer = styled.div`
   }
   .content-block__container {
     display: grid;
-
+    gap: 1.6rem;
     ${tabletAndUp(`
       grid-template-columns: 1fr 1fr 1fr;
-      gap:1.6rem;
+
     `)};
   }
 
