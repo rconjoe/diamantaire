@@ -3,7 +3,7 @@ import { useBlockProducts, useProductSuggestions } from '@diamantaire/darkside/d
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { ProductLink } from '@diamantaire/shared-product';
-import { contentBlockMargin } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -18,19 +18,15 @@ const ProductSuggestionBlockStyles = styled.div`
     }
   }
   .products {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin: 0 -1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    ${media.medium`
+    gap: 1.6rem;
+    grid-template-columns: repeat(4, 1fr);
+  `}
 
     .product-suggestion__container {
-      padding: 0 1rem;
-      flex: 0 0 50%;
-
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        flex: 1;
-      }
-
       .product-suggestion__title {
         margin: 1rem 0 0;
         font-weight: bold;

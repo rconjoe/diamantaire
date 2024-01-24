@@ -4,7 +4,6 @@ import {
   desktopAndUp,
   XLDesktopAndUp,
   XXLDesktopAndUp,
-  media,
   contentBlockMargin,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
