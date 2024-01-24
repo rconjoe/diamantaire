@@ -49,9 +49,9 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
   .products {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.6rem;
+    gap: 2rem;
     ${media.medium`
-
+    gap: 1.6rem;
     grid-template-columns: repeat(4, 1fr);
 
   `}
