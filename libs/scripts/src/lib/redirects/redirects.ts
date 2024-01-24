@@ -1,4 +1,5 @@
 import { getPdpRedirects, publishRedirects } from './pdp_redirects';
+import { getPlpRedirects } from './plp_redirects';
 import { generateCSVfromObj } from '../utils/to_csv';
 import { generateJSONfromObj } from '../utils/to_json';
 
@@ -30,17 +31,18 @@ function getDataObj() {
     return getPdpRedirects();
   }
   // Get PLP data
-  // else if (type === '-plp') {
-  //   console.log('Getting PLP data...');
+  else if (type === '-plp') {
+    console.log('Getting PLP data...');
 
-  //   return await getPlpRedirects();
-  // }
+    return getPlpRedirects();
+  }
 }
 
 async function generateRedirects() {
   const sourceBaseUrl = source || 'https://www.vrai.com'; 
   const targetBaseUrl = target || 'http://localhost:4200';
-  const dataObj = getDataObj();
+  
+  const dataObj = await getDataObj();
 
   // Export to CSV
   if (exportType === '-csv') {
