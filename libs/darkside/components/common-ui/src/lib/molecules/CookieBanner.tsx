@@ -137,9 +137,7 @@ const CookieBanner = () => {
         preferences: consent.preferences || false,
       });
 
-      setTimeout(() => {
-        setShowBanner(true);
-      }, 5000);
+      setShowBanner(true);
     }
   }, [consent]);
 
