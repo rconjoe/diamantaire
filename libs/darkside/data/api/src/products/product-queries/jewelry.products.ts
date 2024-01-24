@@ -199,7 +199,6 @@ export const JEWELRYPRODUCT = `
         plpTitle
         configuredProductOptionsInOrder
         variantId
-        countrySpecificPrices
         assetStack {
           url
           mimeType
