@@ -25,12 +25,11 @@ export const ModularTrioBlockContainer = styled.div`
   }
 
   .above-copy {
-    padding: ${setSpace(4)} 0;
     text-align: center;
-
+    padding-bottom: ${setSpace(2)};
     ${tabletAndUp(`
     padding-bottom: ${setSpace(3)};
-    padding-top: ${setSpace(6)};
+
     margin: auto;
     max-width: ${setSpace(60)};
   `)};

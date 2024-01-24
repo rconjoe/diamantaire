@@ -3,18 +3,22 @@ import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { ArrowRightIcon } from '@diamantaire/shared/icons';
 import { ProductLink } from '@diamantaire/shared-product';
+import { contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const PlpPreviouslyViewedStyles = styled.section`
-  padding-bottom: 6rem;
+  ${contentBlockMargin}
 
   &.container-wrapper {
+    padding-left: 0;
+    padding-right: 0;
     @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
       max-width: 100%;
-      padding: 0 0 4rem;
+      padding-left: unset;
+      padding-right: unset;
     }
   }
 
@@ -113,7 +117,7 @@ const PlpPreviouslyViewed = () => {
 
   const options: any = {
     loop: true,
-    dragFree: false,
+    dragFree: true,
     align: 'center',
     breakpoints: {
       '(min-width: 76.8rem)': { align: 'start' },

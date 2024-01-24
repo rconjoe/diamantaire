@@ -71,15 +71,10 @@ export const ModularAccordionContainer = styled.div`
 
   .acc__accordion {
     flex: 1 1;
-    margin: 0 10%;
 
     &.-with-image {
       margin: 0 ${setSpace(2)};
     }
-
-    ${mobileOnly(`
-      margin: ${setSpace(1)} !important;
-    `)}
   }
 
   .accordion__title {
@@ -97,7 +92,7 @@ export const ModularAccordionContainer = styled.div`
     font-size: 2.7rem;
     line-height: 1;
     text-align: left;
-    margin-bottom: ${setSpace(5)};
+    margin-bottom: ${setSpace(2)};
   `)}
   }
 

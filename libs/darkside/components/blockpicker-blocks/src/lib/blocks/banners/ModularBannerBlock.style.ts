@@ -129,7 +129,7 @@ export const BannerTextContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   max-width: ${setSpace(40)};
-  margin: ${setSpace(3)} auto ${setSpace(5)};
+  margin: ${setSpace(3)} auto 0;
 
   ${tabletAndUp(`
     text-align: left;
