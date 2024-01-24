@@ -234,7 +234,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
-
+  // Can this item go Out Of Stock?
+  const trackInventory = Boolean(shopifyProductData?.trackInventory);
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
   const isBuilderProduct = isProductFeedUrl ? false : shopifyProductData?.requiresCustomDiamond;
@@ -441,6 +442,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 ctaCopy={ctaCopy}
                 selectedDiamond={selectedDiamond}
                 productTitle={productTitle}
+                trackInventory={trackInventory}
               />
               {!isProductFeedUrl ? (
                 <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />

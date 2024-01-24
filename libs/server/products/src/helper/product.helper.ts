@@ -211,12 +211,14 @@ export const getCurrencyCode = (countryCode: string): string => {
 };
 
 export function includeDraftProducts() {
-  // if (IS_PRODUCTION) {
+  // Do NOT include draft products in a production environment
+  // if (process.env.NODE_ENV === 'production') {
   //   return false;
   // } else {
   //   return true;
   // }
 
+  // Need to set PROD env var to enable this 
   return false;
 }
 

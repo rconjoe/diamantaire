@@ -9,9 +9,7 @@ const generateDiamondSpriteUrl = (lotId: string, format: string): string => {
 };
 
 const generateCfyDiamondSpriteThumbUrl = (diamondType: string): string => {
-  const date = new Date();
-
-  const url = `${DIAMOND_VIDEO_BASE_URL}/cfy-${diamondType}-thumb.jpg?timestamp=${date.toJSON()}`;
+  const url = `${DIAMOND_VIDEO_BASE_URL}/cfy-${diamondType}-thumb.jpg`;
 
   return url;
 };

@@ -4,7 +4,7 @@ import { DarksideButton, Loader, RingSizeGuide, SlideOut, UIString } from '@diam
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { BuilderProductContext } from '@diamantaire/darkside/context/product-builder';
 import { addERProductToCart, addJewelryProductToCart, addMiscProductToCart } from '@diamantaire/darkside/data/api';
-import { useCartData, useProductIconList, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useCartData, useProductIconList, useTranslations, useVariantInventory } from '@diamantaire/darkside/data/hooks';
 import { DIAMOND_TYPE_HUMAN_NAMES, getCurrency, getFormattedPrice, parseValidLocale } from '@diamantaire/shared/constants';
 import { specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
@@ -63,6 +63,7 @@ type ProductConfiguratorProps = {
     productSlug: string;
   };
   setProductSlug: (_value: string) => void;
+  trackInventory?: boolean;
   parentProductAttributes?: Record<string, string>;
   isProductFeedUrl?: boolean;
   ctaCopy?: {
@@ -115,6 +116,7 @@ function ProductConfigurator({
   ctaCopy,
   selectedDiamond,
   productTitle,
+  trackInventory,
 }: ProductConfiguratorProps) {
   const sizeOptionKey = 'ringSize'; // will only work for ER and Rings, needs to reference product type
   const sizeOptions = configurations?.[sizeOptionKey];
@@ -122,10 +124,10 @@ function ProductConfigurator({
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
-
   const [selectedVariantId, setSelectVariantId] = useState<string>(
     sizeOptions?.find((option) => option.value === defaultRingSize)?.id || variantId,
   );
+  const { isFetching, isInStock } = useVariantInventory(selectedVariantId, trackInventory);
 
   // Ring size
   const [selectedSize, setSelectedSize] = useState<string>(defaultRingSize || '5');
@@ -313,6 +315,7 @@ function ProductConfigurator({
           hasSingleInitialEngraving={hasSingleInitialEngraving}
         />
       )}
+
       {isProductFeedUrl ? (
         <>
           <ProductFeedCompleteYourRingButton ctaText={purchaseWithThisDiamondCopy} diamondsOverride={selectedDiamond} />
@@ -342,6 +345,9 @@ function ProductConfigurator({
           selectedPair={selectedPair}
           ctaCopy={ctaCopy}
           isProductFeedUrl={isProductFeedUrl}
+          isInStock={isInStock}
+          isFetching={isFetching}
+          trackInventory={trackInventory}
         />
       ) : (
         <div
@@ -386,6 +392,9 @@ type CtaButtonProps = {
     settingFlowCtaCopy?: string;
     modifyYourDiamondCopy?: string;
   };
+  isInStock?: boolean;
+  isFetching?: boolean;
+  trackInventory?: boolean;
 };
 
 const AddToCartButtonContainer = styled.div`
@@ -415,6 +424,9 @@ function AddToCartButton({
   selectedPair,
   isProductFeedUrl,
   ctaCopy,
+  isInStock,
+  isFetching,
+  trackInventory,
 }: CtaButtonProps) {
   const router = useRouter();
   const { locale } = router;
@@ -651,6 +663,26 @@ function AddToCartButton({
     updateGlobalContext({
       isCartOpen: true,
     });
+  }
+
+  if (isFetching && trackInventory) {
+    <Loader color="#000" />;
+  }
+  if (!isInStock) {
+    return (
+      <AddToCartButtonContainer>
+        <DarksideButton
+          className="atc-button"
+          type="outline"
+          textSize="medium"
+          fontWeight={'medium'}
+          colorTheme="oos"
+          disabled={true}
+        >
+          <UIString>Out of stock</UIString>
+        </DarksideButton>
+      </AddToCartButtonContainer>
+    );
   }
 
   return (

@@ -9,28 +9,39 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ModularProductSuggestionQuadGridStyles = styled.div`
+  margin-bottom: 2rem;
+  ${media.medium`margin-bottom: 4rem;`}
   .title-container {
     margin-bottom: 4rem;
   }
 
   .grid-container {
+    &.align-right {
+      ${media.medium`flex-direction: row-reverse; justify-content: space-between;`}
+    }
     &.with-image {
-      ${media.medium`display: flex;align-items: center;justify-content: space-between;padding-bottom: 4rem;`}
+      &.align-right {
+        .grid-image {
+          ${media.medium`padding-left: 2rem; padding-right: 0;`}
+        }
+      }
+      ${media.medium`display: flex;align-items: flex-start;justify-content: space-between;`}
 
       .grid-image {
         flex: 1;
-        padding-bottom: 3rem;
-        ${media.medium`padding-bottom: 0;padding-right: 2rem;`}
+        padding-bottom: 2rem;
+        ${media.medium`padding-bottom: 0; padding-right: 2rem; padding-left: 0;`}
       }
 
       .products {
         flex: 1;
         flex-wrap: wrap;
         justify-content: start;
+        gap: 1.5rem 2rem;
         ${media.medium`justify-content: center;`}
 
         > .product-container {
-          flex: 0 0 50%;
+          flex: 0 0 calc(50% - 1rem);
         }
       }
     }
@@ -45,7 +56,6 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
     .product-container {
       display: flex;
       flex-wrap: wrap;
-      padding: 0 1.5rem 3rem;
       justify-content: center;
       flex: 0 0 50%;
 
@@ -82,7 +92,7 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
 `;
 
 const ModularProductSuggestionQuadGrid = (props) => {
-  const { aboveCopy, halfWidthDesktopImage } = props;
+  const { aboveCopy, halfWidthDesktopImage, halfWidthImageAlignment } = props;
   const { locale } = useRouter();
 
   const refinedConfigurations = normalizeDatoNumberedContent(props, ['configuration']);
@@ -109,7 +119,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
         </div>
       )}
       <div
-        className={clsx('grid-container container-wrapper', {
+        className={clsx('grid-container container-wrapper', `align-${halfWidthImageAlignment}`, {
           'with-image': halfWidthDesktopImage,
         })}
       >
