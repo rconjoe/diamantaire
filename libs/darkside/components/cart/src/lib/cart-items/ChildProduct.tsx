@@ -105,7 +105,9 @@ const ChildProduct = ({ lineItem }) => {
         <div className="cart-item__content">
           <p>
             <strong>{_t(productType)}</strong>
-            {isProductDiamond && <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale)}</span>}
+            {isProductDiamond && (
+              <span>{getFormattedPrice(parseFloat(cost?.totalAmount?.amount) * 100, locale, true, false, true)}</span>
+            )}
           </p>
 
           {specs?.split(';').map((val) => <p key={id + `-${val}`}>{val}</p>)}
