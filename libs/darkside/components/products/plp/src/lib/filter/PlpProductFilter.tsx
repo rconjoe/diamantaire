@@ -188,7 +188,7 @@ const PlpProductFilter = ({
             pathname: router.pathname,
             query: {
               plpSlug: [plpSlug?.[0], ...sortedPathEntries],
-              ...sortedQParams,
+              // ...sortedQParams,
             },
           },
           undefined,

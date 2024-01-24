@@ -180,7 +180,9 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   useEffect(() => {
     if (pageLoaded && !deepEqual(prevQuery, query)) {
-      setFilterValues(getFiltersFromQueryParams(query));
+      if (urlFilterMethod === 'param') {
+        setFilterValues(getFiltersFromQueryParams(query));
+      }
     }
 
     return () => {
