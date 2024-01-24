@@ -348,7 +348,7 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
 }
 
 const getPlpCreativeBlockQuery = (useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile) => {
-  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 700;
+  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 705;
   const mobileImageHeight = useLargeCreativeImageInMobile ? 500 : 350;
 
   return gql`
