@@ -1,9 +1,10 @@
-import { media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const PageContainerStyles = styled.div`
   .product-container {
     position: relative;
+    ${contentBlockMargin}
     ${media.medium`display: flex;flex-direction: row;`}
     .media-container {
       flex: 1;

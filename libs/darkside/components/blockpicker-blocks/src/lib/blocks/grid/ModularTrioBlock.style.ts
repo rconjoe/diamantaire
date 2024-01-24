@@ -1,7 +1,8 @@
-import { setSpace, tabletAndUp, desktopAndUp, media } from '@diamantaire/styles/darkside-styles';
+import { setSpace, tabletAndUp, desktopAndUp, media, contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularTrioBlockContainer = styled.div`
+  ${contentBlockMargin}
   &.trio-svg {
     .content-block__container {
       img {
@@ -19,6 +20,7 @@ export const ModularTrioBlockContainer = styled.div`
 
     ${tabletAndUp(`
       grid-template-columns: 1fr 1fr 1fr;
+      gap:1.6rem;
     `)};
   }
 

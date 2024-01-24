@@ -8,11 +8,11 @@ import styled from 'styled-components';
 
 const ProductTrioBlocksContainer = styled.div`
   ${contentBlockMargin}
-  ${media.medium`display: flex; `}
-
-  > * {
-    flex: 0 0 33.33%;
-  }
+  ${media.medium`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+    `}
 `;
 
 const ProductTrioBlocks = ({ trioBlocksId }) => {

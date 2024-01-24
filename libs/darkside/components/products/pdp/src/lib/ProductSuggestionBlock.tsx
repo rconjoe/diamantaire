@@ -26,7 +26,6 @@ const ProductSuggestionBlockStyles = styled.div`
     .product-suggestion__container {
       padding: 0 1rem;
       flex: 0 0 50%;
-      margin-bottom: 2rem;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         flex: 1;

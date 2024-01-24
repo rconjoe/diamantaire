@@ -1,18 +1,16 @@
-import { mobileOnly, setSpace } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, mobileOnly, setSpace } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 export const ModularAccordionContainer = styled.div`
+  ${contentBlockMargin}
   .acc__container {
     width: 100vw;
     display: grid;
     text-align: center;
-    margin: ${setSpace(10)} auto;
-
     &.-with-image {
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
-      margin-bottom: ${setSpace(5)};
       text-align: left;
 
       ${mobileOnly(`
@@ -25,7 +23,6 @@ export const ModularAccordionContainer = styled.div`
     ${mobileOnly(`
       flex-direction: column;
       flex: 0;
-      margin: ${setSpace(3)} 0;
 
       & .title {
         font-size: ${setSpace(3.3)};
@@ -88,7 +85,7 @@ export const ModularAccordionContainer = styled.div`
   .accordion__title {
     margin-bottom: ${setSpace(6)};
     font-size: 4.2rem;
-    line-height: 2;
+    line-height: 1;
     font-weight: normal;
 
     &.-with-image {

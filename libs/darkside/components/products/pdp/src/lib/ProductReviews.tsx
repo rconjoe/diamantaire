@@ -16,7 +16,6 @@ const WidgetContainer = styled.div`
   &.okeReviews-widget-holder {
     ${contentBlockMargin}
     padding-bottom: 0 !important;
-    ${media.small`margin: 8rem auto;`}
   }
   .okeReviews-reviewsAggregate-summary {
     display: none;
