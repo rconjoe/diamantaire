@@ -3,14 +3,14 @@ import { useBlockProducts, useProductSuggestions } from '@diamantaire/darkside/d
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { ProductLink } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductSuggestionBlockStyles = styled.div`
   &.container-wrapper {
-    margin: calc(var(--gutter) / 2) auto;
-    ${media.small`margin: 8rem auto;`}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      margin-top: 9.6rem;
+    }
   }
   .title-container {
     padding-bottom: 3rem;
