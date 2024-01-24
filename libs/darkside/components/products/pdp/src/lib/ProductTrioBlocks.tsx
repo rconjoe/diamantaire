@@ -7,7 +7,9 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductTrioBlocksContainer = styled.div`
-  ${media.medium`display: flex; padding: calc(var(--gutter) * 1.3) 0 0;`}
+  margin: calc(var(--gutter) / 2) auto;
+  ${media.small`margin: 8rem auto;`}
+  ${media.medium`display: flex; `}
 
   > * {
     flex: 0 0 33.33%;
