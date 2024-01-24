@@ -476,13 +476,19 @@ export function hasCentsValues(amount: number) {
  * Applies exchange rate to the amount provided
  * @param {number} amount - amount to apply exchange rate to
  * @param {string} currency - currency to get exchange rate
+ * @param {boolean} excludeExchangeRate - should exclude exchange rate
  * @returns {number} - amount with exchange rate applied
  */
-export function applyExchangeRate(amount: number, currency = 'USD') {
+export function applyExchangeRate(amount: number, currency = 'USD', excludeExchangeRate = false) {
   const result = amount * USDollarExchangeRates[currency];
 
   if (currency === 'USD') {
     return result;
+  }
+
+  // We don't need to apply an exchange rate when shopify is providing the price in GBP
+  if (excludeExchangeRate === true) {
+    return amount;
   }
 
   // round up for international currencies
@@ -504,12 +510,14 @@ export function getFormattedPrice(
   locale: string = DEFAULT_LOCALE,
   hideZeroCents = true,
   excludeCurrency = false,
+  // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
+  excludeExchangeRate = false,
 ): string {
   const { countryCode } = parseValidLocale(locale);
 
   const currency = getCurrency(countryCode);
 
-  const convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+  const convertedPrice = applyExchangeRate(priceInCents / 100, currency, excludeExchangeRate);
 
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
@@ -565,7 +573,13 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
 
   const currency = cur || getCurrency(countryCode);
 
-  const convertedPrice = priceInCents / 100;
+  let convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+
+  convertedPrice = getPriceWithAddedTax(convertedPrice, countryCode);
+
+  if (currency !== Currency.USDollars) {
+    convertedPrice = Math.ceil(convertedPrice);
+  }
 
   const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
 
@@ -580,6 +594,46 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
   // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
   let formattedPrice = numberFormat.format(convertedPrice);
 
+  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
+
+  formattedPrice = formattedPrice.replace(currencySymbol, '');
+
+  // Manually adding period to first gap in price if currency is EUR
+  if (currency === 'EUR') {
+    formattedPrice = formattedPrice.replace(' ', '.');
+  }
+
+  // Canada symbol
+  if (countryCode === 'CA') {
+    currencySymbol = 'CA' + currencySymbol;
+  }
+  // Australia symbol
+  if (countryCode === 'AU') {
+    currencySymbol = 'A' + currencySymbol;
+  }
+
+  formattedPrice = `${currencySymbol}${formattedPrice}`;
+
+  return formattedPrice;
+}
+
+// This is just for adding a symbol to the price
+export function simpleFormatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+  const { countryCode } = parseValidLocale(locale);
+  const currency = getCurrency(countryCode);
+  const numberFormat = new Intl.NumberFormat(locale, {
+    currency,
+    style: 'currency',
+    currencyDisplay: 'narrowSymbol',
+    minimumFractionDigits: hideZeroCents ? 0 : 2,
+    maximumFractionDigits: hideZeroCents ? 0 : 2,
+  });
+
+  if (currency !== Currency.USDollars) {
+    priceInCents = Math.ceil(priceInCents);
+  }
+
+  let formattedPrice = numberFormat.format(priceInCents / 100);
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');

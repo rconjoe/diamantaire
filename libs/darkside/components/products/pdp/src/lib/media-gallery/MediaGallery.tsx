@@ -17,6 +17,7 @@ interface MediaGalleryProps {
   diamondType?: string;
   disableHandSliderControls?: boolean;
   presetHandSliderValue?: number;
+  shouldDisplayDiamondHand?: boolean;
 }
 
 const MediaGalleryStyles = styled.div`
@@ -44,6 +45,7 @@ function MediaGallery({
   diamondType,
   disableHandSliderControls = false,
   presetHandSliderValue,
+  shouldDisplayDiamondHand = false,
 }: MediaGalleryProps) {
   return (
     assets && (
@@ -61,7 +63,7 @@ function MediaGallery({
             shownWithCtw={shownWithCtw}
           />
         ))}
-        {productType === 'Engagement Ring' && (
+        {shouldDisplayDiamondHand && (
           <ProductDiamondHand
             disableControls={disableHandSliderControls}
             diamondType={diamondType}

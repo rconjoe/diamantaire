@@ -58,7 +58,7 @@ const ProductPrice = ({
 
   const finalPrice = calculateFinalPrice(basePrice, productType, shouldDoublePrice, shouldAddEngravingCost);
 
-  const refinedPrice = getFormattedPrice(finalPrice, locale);
+  const refinedPrice = getFormattedPrice(finalPrice, locale, true, false, false);
 
   const translatedText = _t('Starting at %%price%%');
 

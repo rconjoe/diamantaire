@@ -9,7 +9,13 @@ export const ModularTextOnlyBlockContainer = styled.div`
     max-width: 90vw;
     margin: 0.5rem auto;
 
-    ${media.medium`max-width: 714px`}
+    ${media.medium`max-width: 714px;`}
+
+    &.-vrai-created-diamond {
+      margin: 2.4rem auto;
+
+      ${media.medium`margin:0.5rem auto;`}
+    }
 
     &.--mobile-no-margin-top {
       ${mobileOnly(`
@@ -109,6 +115,19 @@ export const ModularTextOnlyBlockContainer = styled.div`
       margin-bottom: 0;
     }
   `)};
+    &.-vrai-created-diamond {
+      margin-bottom: 0;
+      line-height: 1;
+
+      ${mobileOnly(`
+      line-height: 1.2;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+    `)}
+    }
 
     & {
       text-align: left;

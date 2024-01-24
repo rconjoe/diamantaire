@@ -48,14 +48,6 @@ const StyledConfigurationSelector = styled.div`
 
   > * {
     flex: 1 1 100%;
-
-    &.metal {
-      flex: 1;
-    }
-
-    &.bandAccent {
-      flex: 0 0 auto;
-    }
   }
 
   .rotate-toggle {
@@ -80,14 +72,6 @@ const StyledConfigurationSelector = styled.div`
 
     > * {
       flex: 1 1 100%;
-      &.metal,
-      &.bandAccent {
-        flex: 1 1 100%;
-      }
-
-      &.bandAccent {
-        margin-left: 0px;
-      }
     }
   }
 `;

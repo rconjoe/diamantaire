@@ -26,14 +26,23 @@ const MediaSliderContainer = styled.div`
     > div {
       flex: 1;
       display: flex;
-      max-height: 390px;
-
+      aspect-ratio: 1; /* Maintain a square aspect ratio */
+      justify-content: center;
+      align-items: center;
       img {
         flex: 1;
+      }
+      .image {
+        object-fit: contain;
+        height: auto; /* or a specific height if required */
       }
     }
     .hand {
       display: block;
+      > div {
+        max-width: 84%;
+        margin: auto;
+      }
     }
 
     p {
@@ -85,6 +94,8 @@ const MediaSlider = ({
   diamondType,
   title,
   shouldDisplayDiamondHand = false,
+  disableHandSliderControls = false,
+  presetHandSliderValue = null,
   productType,
   shownWithCtw,
 }) => {
@@ -189,7 +200,13 @@ const MediaSlider = ({
           {shouldDisplayDiamondHand ? (
             <div className="embla__slide">
               <div className="hand">
-                <ProductDiamondHand range={[0.5, 8]} initValue={2} diamondType={diamondType} />
+                <ProductDiamondHand
+                  disableControls={disableHandSliderControls}
+                  diamondType={diamondType}
+                  range={[0.5, 8]}
+                  initValue={presetHandSliderValue || 2}
+                  prefix={presetHandSliderValue + 'ct'}
+                />
               </div>
             </div>
           ) : null}
