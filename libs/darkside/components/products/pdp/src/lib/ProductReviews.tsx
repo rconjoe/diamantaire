@@ -1,4 +1,4 @@
-import { media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { stripIndent } from 'common-tags';
 import Script from 'next/script';
@@ -14,7 +14,7 @@ type ProductReviewsProps = {
 
 const WidgetContainer = styled.div`
   &.okeReviews-widget-holder {
-    margin: calc(var(--gutter) / 2) auto;
+    ${contentBlockMargin}
     padding-bottom: 0 !important;
     ${media.small`margin: 8rem auto;`}
   }

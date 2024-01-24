@@ -5,6 +5,7 @@ import {
   XLDesktopAndUp,
   XXLDesktopAndUp,
   media,
+  contentBlockMargin,
 } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
@@ -68,8 +69,7 @@ export const BannerWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 144rem;
-  margin: calc(var(--gutter) / 2) auto;
-  ${media.small`margin: 8rem auto;`}
+  ${contentBlockMargin}
 
   &.-vertical-margins {
     margin-top: ${setSpace(1.5)};

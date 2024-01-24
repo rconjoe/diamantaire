@@ -2,13 +2,12 @@
 
 import { ImageTile } from '@diamantaire/darkside/components/common-ui';
 import { useProductTrioBlock } from '@diamantaire/darkside/data/hooks';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ProductTrioBlocksContainer = styled.div`
-  margin: calc(var(--gutter) / 2) auto;
-  ${media.small`margin: 8rem auto;`}
+  ${contentBlockMargin}
   ${media.medium`display: flex; `}
 
   > * {

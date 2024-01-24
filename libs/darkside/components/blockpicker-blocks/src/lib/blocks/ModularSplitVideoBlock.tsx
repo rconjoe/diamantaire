@@ -1,6 +1,6 @@
 import { Heading } from '@diamantaire/darkside/components/common-ui';
 import { PlayVideoTriangleIcon } from '@diamantaire/shared/icons';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { media, contentBlockMargin } from '@diamantaire/styles/darkside-styles';
 import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -8,8 +8,7 @@ import styled from 'styled-components';
 const ReactPlayer = dynamic(() => import('react-player/lazy'));
 
 const ModularSplitVideoBlockContainer = styled.div`
-  margin: calc(var(--gutter) / 2) auto;
-  ${media.small`margin: 8rem auto;`}
+  ${contentBlockMargin}
 
   .split-video__wrapper {
     ${media.medium`display: flex;align-items: flex-end;`}
