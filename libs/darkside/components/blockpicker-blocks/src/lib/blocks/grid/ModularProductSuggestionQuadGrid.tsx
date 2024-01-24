@@ -109,8 +109,6 @@ const ModularProductSuggestionQuadGrid = (props) => {
 
   const { products } = data || {};
 
-  console.log('productsxxx', products);
-
   return (
     <ModularProductSuggestionQuadGridStyles>
       {aboveCopy && (
