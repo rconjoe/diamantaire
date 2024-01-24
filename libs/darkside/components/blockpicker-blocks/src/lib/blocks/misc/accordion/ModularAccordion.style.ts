@@ -55,7 +55,7 @@ export const ModularAccordionContainer = styled.div`
   .acc__image-container {
     position: relative;
     flex: 1 1;
-    padding: 0 ${setSpace(3)};
+    padding-right: ${setSpace(3)};
 
     ${mobileOnly(`
         flex: 0;
