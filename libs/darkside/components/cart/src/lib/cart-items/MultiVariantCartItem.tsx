@@ -47,6 +47,7 @@ const MultiVariantCartItemStyles = styled.div`
       p {
         position: relative;
         top: 0.2rem;
+        font-size: var(--font-size-xsmall);
       }
     }
   }

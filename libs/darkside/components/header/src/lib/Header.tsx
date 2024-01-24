@@ -25,8 +25,14 @@ type HeaderProps = {
   headerHeight: number;
   isTopbarShowing: boolean;
   setIsTopbarShowing: React.Dispatch<React.SetStateAction<boolean>>;
-  headerRef: React.RefObject<HTMLDivElement>;
+  compactHeaderRef: React.RefObject<HTMLDivElement>;
 };
+
+const CompactHeaderWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 5000;
+`;
 
 const FullHeaderStyles = styled.header`
   .slide-in-header {
@@ -46,20 +52,22 @@ const HeaderWrapper = styled.div`
   width: 100%;
   background-color: var(--color-white);
   box-shadow: 0 0.1rem 0 var(--color-white);
-  ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`}
+  /* ${media.medium`${({ $isHome }) => ($isHome ? 'position: static;' : 'position: fixed;')}`} */
 `;
 
 const Header: FC<HeaderProps> = ({
   headerData,
-  headerRef,
+  // headerRef,
   headerHeight,
   isTopbarShowing,
   setIsTopbarShowing,
+  compactHeaderRef,
 }): JSX.Element => {
   const [isStickyNavShowing, setIsStickyNavShowing] = useState(false);
   const [isCompactMenuVisible, setIsCompactMenuVisible] = useState(true);
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
+  const [isTopBarVisible, setIsTopBarVisible] = useState(true);
 
   const { cartViewed } = useAnalytics();
   const router = useRouter();
@@ -72,9 +80,9 @@ const Header: FC<HeaderProps> = ({
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
 
-  const compactHeaderRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
+  const stackedHeaderRef = useRef(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -162,69 +170,113 @@ const Header: FC<HeaderProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // entries is an array of observed elements
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Element is visible in the viewport
+            setIsTopBarVisible(true);
+          } else {
+            setIsTopBarVisible(false);
+          }
+        });
+      },
+      {
+        root: null, // observing for viewport
+        rootMargin: '0px',
+        threshold: 0.1, // adjust as per requirement
+      },
+    );
+
+    if (topBarRef.current) {
+      observer.observe(topBarRef.current);
+    }
+
+    // Clean up the observer on unmount
+    return () => {
+      if (topBarRef.current) {
+        observer.unobserve(topBarRef.current);
+      }
+    };
+  }, []);
+
+  const combinedHeight =
+    isHome && isTopBarVisible
+      ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
+      : isHome && !isTopBarVisible
+      ? headerHeight
+      : isTopBarVisible
+      ? headerHeight + topBarRef?.current?.offsetHeight
+      : headerHeight;
+
   return (
     <>
-      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent">
-        <div ref={headerRef} onMouseLeave={() => toggleMegaMenuClose()}>
-          <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
-            {isTopbarShowing && (
-              <div className="top-bar__outer-container" ref={topBarRef}>
-                <TopBar setIsTopbarShowing={setIsTopbarShowing} />
-              </div>
-            )}
-            {isHome && (
-              <StackedHeader
-                navItems={section}
-                toggleMegaMenuOpen={toggleMegaMenuOpen}
-                menuIndex={megaMenuIndex}
-                toggleCart={toggleCart}
-                toggleCountrySelector={toggleCountrySelector}
-                toggleLanguageSelector={toggleLanguageSelector}
-                selectedCountry={countries[selectedCountryCode].name}
-                selectedLanguage={languagesByCode[selectedLanguageCode].name}
-                isLanguageSelectorOpen={isLanguageSelectorOpen}
-              />
-            )}
-            <AnimatePresence>
-              <motion.div
-                key="slide-in-header"
-                initial={isHome ? 'collapsed' : 'open'}
-                animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
-                exit="collapsed"
-                variants={{
-                  open: { y: 0, opacity: 1 },
-                  collapsed: { y: -300, opacity: 0 },
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                style={{
-                  position: isHome ? 'fixed' : 'relative',
-                }}
-                className="slide-in-header"
-              >
-                <div ref={compactHeaderRef}>
-                  <CompactHeader
-                    navItems={section}
-                    toggleMegaMenuOpen={toggleMegaMenuOpen}
-                    menuIndex={megaMenuIndex}
-                    compactHeaderRef={compactHeaderRef}
-                    toggleCart={toggleCart}
-                  />
-                </div>
-              </motion.div>
-
-              {isLoaded && (
-                <MegaMenu
+      <HeaderWrapper $isHome={isHome} id="primary-navigation--parent" onMouseLeave={() => setMegaMenuIndex(-1)}>
+        <FullHeaderStyles id="primary-navigation--stacked" $isHome={isHome}>
+          {isTopbarShowing && (
+            <div className="top-bar__outer-container" ref={topBarRef}>
+              <TopBar setIsTopbarShowing={setIsTopbarShowing} />
+            </div>
+          )}
+          {isHome && (
+            <>
+              <div ref={stackedHeaderRef}>
+                <StackedHeader
                   navItems={section}
-                  megaMenuIndex={megaMenuIndex}
-                  headerHeight={isStickyNavShowing ? compactHeaderRef?.current?.offsetHeight : headerHeight}
-                  isCompactMenuVisible={isCompactMenuVisible}
+                  toggleMegaMenuOpen={toggleMegaMenuOpen}
+                  menuIndex={megaMenuIndex}
+                  toggleCart={toggleCart}
+                  toggleCountrySelector={toggleCountrySelector}
+                  toggleLanguageSelector={toggleLanguageSelector}
+                  selectedCountry={countries[selectedCountryCode].name}
+                  selectedLanguage={languagesByCode[selectedLanguageCode].name}
+                  isLanguageSelectorOpen={isLanguageSelectorOpen}
                 />
-              )}
-            </AnimatePresence>
-          </FullHeaderStyles>
-        </div>
+              </div>
+              <AnimatePresence>
+                <motion.div
+                  key="slide-in-header"
+                  initial={isHome ? 'collapsed' : 'open'}
+                  animate={isStickyNavShowing || !isHome ? 'open' : 'collapsed'}
+                  exit="collapsed"
+                  variants={{
+                    open: { y: 0, opacity: 1 },
+                    collapsed: { y: -300, opacity: 0 },
+                  }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  style={{
+                    position: isHome ? 'fixed' : 'sticky',
+                    top: 0,
+                  }}
+                  className="slide-in-header"
+                >
+                  <div ref={compactHeaderRef}>
+                    <CompactHeader
+                      navItems={section}
+                      toggleMegaMenuOpen={toggleMegaMenuOpen}
+                      menuIndex={megaMenuIndex}
+                      compactHeaderRef={compactHeaderRef}
+                      toggleCart={toggleCart}
+                    />
+                  </div>
+                </motion.div>
+
+                {isHome && isLoaded && (
+                  <MegaMenu
+                    navItems={section}
+                    megaMenuIndex={megaMenuIndex}
+                    headerHeight={combinedHeight}
+                    isCompactMenuVisible={isCompactMenuVisible}
+                  />
+                )}
+              </AnimatePresence>
+            </>
+          )}
+        </FullHeaderStyles>
 
         {isCountrySelectorOpen && (
           <Modal title="Please select your location" className="modal--lg" onClose={() => setIsCountrySelectorOpen(false)}>
@@ -243,12 +295,35 @@ const Header: FC<HeaderProps> = ({
           )}
         </AnimatePresence>
       </HeaderWrapper>
+
+      {!isHome && (
+        <CompactHeaderWrapper onMouseLeave={() => setMegaMenuIndex(-1)}>
+          <CompactHeader
+            ref={compactHeaderRef}
+            navItems={section}
+            toggleMegaMenuOpen={toggleMegaMenuOpen}
+            menuIndex={megaMenuIndex}
+            compactHeaderRef={compactHeaderRef}
+            toggleCart={toggleCart}
+          />
+          {isLoaded && (
+            <MegaMenu
+              navItems={section}
+              megaMenuIndex={megaMenuIndex}
+              headerHeight={combinedHeight}
+              isCompactMenuVisible={isCompactMenuVisible}
+            />
+          )}
+        </CompactHeaderWrapper>
+      )}
+
       <MobileHeader
         navItems={section}
         headerHeight={headerHeight}
         toggleCart={toggleCart}
         mobileMenuRef={mobileMenuRef}
         topBarRef={topBarRef}
+        isTopBarVisible={isTopBarVisible}
       />
     </>
   );

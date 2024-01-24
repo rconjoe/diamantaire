@@ -82,6 +82,7 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
         <p>
           <UIString>Shown with</UIString>:
         </p>
+
         <ul>
           {filterTextArray?.map((filterOption, index) => {
             const value = filterValue[filterOption];
@@ -89,7 +90,11 @@ const PlpSpecificFilterOptions = ({ filterOptionsOverride, filterTypes, updateFi
             let title;
 
             if (filterOption === 'metal') {
-              title = <UIString>{METALS_IN_HUMAN_NAMES?.[value]?.value}</UIString>;
+              title = (
+                <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>
+                  {METALS_IN_HUMAN_NAMES?.[value]?.value}
+                </UIString>
+              );
             } else if (filterOption === 'diamondType') {
               title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{value[0]}</UIString>;
             } else {

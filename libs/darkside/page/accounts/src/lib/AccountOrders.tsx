@@ -1,8 +1,8 @@
 import { useClerk } from '@clerk/nextjs';
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
+import { formatPrice } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
-import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
@@ -120,6 +120,16 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
     }
   }, [customer]);
 
+  const getDate = (date: string) => {
+    const createdDate = new Date(date);
+
+    return createdDate.toLocaleDateString(locale, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
+
   return (
     <AccountOrdersStyles>
       <NextSeo
@@ -149,22 +159,20 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                 </div>
               </div>
               <div className="table-body">
-                {orders?.map((order) => {
-                  return (
-                    <div className="table-row" key={order?.id}>
-                      <div className="table-col">
-                        <a target="_blank" href={order?.order_status_url}>
-                          {order?.name}
-                        </a>
-                      </div>
-                      <div className="table-col">
-                        {order?.created_at && format(new Date(order?.created_at), 'MM/dd/yyyy')}
-                      </div>
-                      <div className="table-col status">{order.financial_status}</div>
-                      <div className="table-col hide-md">${order.total_price}</div>
+                {orders?.map((order) => (
+                  <div className="table-row" key={order?.id}>
+                    <div className="table-col">
+                      <a target="_blank" href={order?.order_status_url}>
+                        {order?.name}
+                      </a>
                     </div>
-                  );
-                })}
+                    <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
+                    <div className="table-col status">
+                      <UIString>{order.financial_status}</UIString>
+                    </div>
+                    <div className="table-col hide-md">{formatPrice(order.total_price * 100, locale)}</div>
+                  </div>
+                ))}
               </div>
             </>
           ) : (

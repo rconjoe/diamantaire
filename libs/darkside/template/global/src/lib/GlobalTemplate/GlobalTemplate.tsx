@@ -37,12 +37,12 @@ export const vraiFont = localFont({
 
 const MainContainer = styled.main`
   /* Fallback for padding before menu renders - will need to be changed once top bar becomes dynamic */
-  min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
+  /* min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
 
   ${media.medium`
     padding-top: ${({ distanceFromTop, $isHome }) => ($isHome ? 0 : distanceFromTop ? `${distanceFromTop}px` : '0')};
     min-height: ${({ distanceFromTop }) => (distanceFromTop ? `${distanceFromTop + 1}px` : '7rem')};
-  `}
+  `} */
 `;
 
 export type GlobalTemplateProps = {
@@ -54,7 +54,8 @@ export const GlobalTemplate = ({ children }) => {
   const globalTemplateData = useGlobalData(router.locale);
   const headerData = globalTemplateData.data?.headerNavigationDynamic;
   const footerData = globalTemplateData.data?.footerNavigation;
-  const headerRef = useRef<HTMLDivElement | null>(null);
+  // const headerRef = useRef<HTMLDivElement | null>(null);
+  const compactHeaderRef = useRef(null);
   const [isTopbarShowing, setIsTopbarShowing] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(56);
   const { pathname } = useRouter();
@@ -62,13 +63,13 @@ export const GlobalTemplate = ({ children }) => {
 
   useEffect(() => {
     // Use optional chaining to ensure headerRef.current exists before accessing offsetHeight
-    const fullHeaderHeight = headerRef?.current?.offsetHeight || 0;
+    const fullHeaderHeight = compactHeaderRef?.current?.offsetHeight || 0;
 
     setHeaderHeight(fullHeaderHeight);
   }, [isTopbarShowing]);
 
   useEffect(() => {
-    if (!headerRef.current) return;
+    if (!compactHeaderRef.current) return;
 
     const resizeObserver = new ResizeObserver((entries) => {
       // Use entries to get the new height
@@ -87,7 +88,7 @@ export const GlobalTemplate = ({ children }) => {
       }
     });
 
-    resizeObserver.observe(headerRef.current);
+    resizeObserver.observe(compactHeaderRef.current);
 
     return () => resizeObserver.disconnect();
   }, [headerData, isTopbarShowing]);
@@ -98,7 +99,8 @@ export const GlobalTemplate = ({ children }) => {
         <Header
           headerData={headerData}
           isHome={isHome}
-          headerRef={headerRef as React.MutableRefObject<HTMLDivElement>}
+          compactHeaderRef={compactHeaderRef}
+          // headerRef={headerRef as React.MutableRefObject<HTMLDivElement>}
           isTopbarShowing={isTopbarShowing}
           setIsTopbarShowing={setIsTopbarShowing}
           headerHeight={headerHeight}

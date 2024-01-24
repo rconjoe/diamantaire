@@ -112,6 +112,11 @@ const PlpSortOptionStyle = styled.div`
     }
   }
 
+  .sort-dropdown__control {
+    line-height: 1.2;
+    min-height: none;
+  }
+
   .sort-dropdown__value-container {
     font-size: var(--font-size-xxxsmall);
     color: var(--color-black);

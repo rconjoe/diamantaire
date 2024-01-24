@@ -3,7 +3,16 @@ import { inferQueryKeyStore, inferQueryKeys, mergeQueryKeys } from '@lukemorales
 import { builderFlow } from './builder-flow';
 import { cart } from './cart';
 import { cookieBanner } from './cookie-banner';
-import { diamondCfy, diamondCto, diamondInfo, diamondPdp, diamondTable, diamonds, infiniteDiamonds } from './diamonds';
+import {
+  diamondCfy,
+  diamondCto,
+  diamondInfo,
+  diamondPdp,
+  diamondTable,
+  diamonds,
+  infiniteDiamonds,
+  lowestPriceDiamond,
+} from './diamonds';
 import { emailPopup } from './email-popup';
 import { humanNameMappers } from './human-names-mapper';
 import { journal } from './journal';
@@ -36,6 +45,7 @@ export const queries = mergeQueryKeys(
   emailPopup,
   wishlist,
   builderFlow,
+  lowestPriceDiamond,
 );
 
 export type DiamondCtoKeys = inferQueryKeys<typeof diamondCto>;
@@ -59,3 +69,4 @@ export type TemplateKeys = inferQueryKeys<typeof template>;
 export type CookieBannerKeys = inferQueryKeys<typeof cookieBanner>;
 export type EmailPopupKeys = inferQueryKeys<typeof emailPopup>;
 export type wishlistKeys = inferQueryKeys<typeof wishlist>;
+export type LowestPriceDiamondKeys = inferQueryKeys<typeof lowestPriceDiamond>;

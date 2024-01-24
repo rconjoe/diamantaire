@@ -14,6 +14,7 @@ type CompactHeaderTypes = {
   menuIndex: number;
   compactHeaderRef?: React.RefObject<HTMLDivElement>;
   toggleCart?: () => void;
+  ref?: React.RefObject<HTMLDivElement>;
 };
 
 const CompactHeaderStyles = styled.div`
@@ -24,6 +25,8 @@ const CompactHeaderStyles = styled.div`
   left: 0;
   width: 100%;
   display: none;
+  position: sticky;
+  top: 0;
 
   @media (min-width: ${BP_LG}) {
     display: block;
@@ -73,7 +76,7 @@ const CompactHeaderStyles = styled.div`
                 margin: 0 1.5rem;
                 a {
                   font-size: 1.4rem;
-                  letter-spacing: 0.03rem;
+                  letter-spacing: 0.1rem;
                   text-decoration: none;
                   position: relative;
                   transition: 0.25s;

@@ -8,10 +8,8 @@ import styled from 'styled-components';
 const ReactPlayer = dynamic(() => import('react-player/lazy'));
 
 const ModularSplitVideoBlockContainer = styled.div`
-  padding-bottom: calc(var(--gutter) * 2) 0 1rem;
-  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-    padding-bottom: calc(var(--gutter) * 2);
-  }
+  margin: calc(var(--gutter) / 2) auto;
+  ${media.small`margin: 8rem auto;`}
 
   .split-video__wrapper {
     ${media.medium`display: flex;align-items: flex-end;`}

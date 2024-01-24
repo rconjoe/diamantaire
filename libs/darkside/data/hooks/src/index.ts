@@ -8,6 +8,7 @@ export * from './lib/use-diamond-info';
 export * from './lib/use-diamond-pdp';
 export * from './lib/use-diamond-table';
 export * from './lib/use-diamonds';
+export * from './lib/use-diamond-lowest-price-by-diamond-type';
 export * from './lib/use-top-bar';
 export * from './lib/use-global-context';
 export * from './lib/use-human-name-mapper';
@@ -38,6 +39,7 @@ export * from './lib/products/use-product-suggestions';
 export * from './lib/products/use-pdp-gwp';
 export * from './lib/products/use-product-shop-the-look';
 export * from './lib/products/use-product-below-banner-blocks';
+export * from './lib/products/use-variant-inventory';
 
 // plp
 export * from './lib/products/plp/use-plp-blockpicker-blocks';

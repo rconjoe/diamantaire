@@ -7,8 +7,9 @@ import {
   METAL_HUMAN_NAMES,
   PLP_PRICE_RANGES,
   RING_STYLES_MAP,
+  formatPrice,
+  getFormattedPrice,
 } from '@diamantaire/shared/constants';
-import { makeCurrency } from '@diamantaire/shared/helpers';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -135,6 +136,10 @@ const HideHeader = createGlobalStyle`
 `;
 
 const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, close, subcategoryFilter, setFilterValues }) => {
+  const router = useRouter();
+
+  const { locale } = router;
+
   const [localFilterValue, setLocalFilterValue] = useState(filterValue || {});
 
   const sortedFilterTypes = Object.keys(filterTypes).sort((a, b) => {
@@ -152,9 +157,9 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
-        {price.min && makeCurrency(price?.min)}
+        {price.min && getFormattedPrice(price?.min, locale)}
         {price.min && price.max && <span className="hyphen">-</span>}
-        {price && makeCurrency(price?.max)}
+        {price && getFormattedPrice(price?.max, locale)}
       </>
     );
   };
@@ -240,6 +245,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                   filterValue={localFilterValue}
                   handleSliderURLUpdate={handleSliderURLUpdate}
                   filterTypes={filterTypes}
+                  locale={locale}
                 />
               );
             } else {
@@ -273,15 +279,15 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
           <div className="mobile-active-filters">
             <ul>
               {Object.keys(localFilterValue).map((filterType) => {
-                const isMetal = filterType === 'metal';
-
                 const isDiamondType = filterType === 'diamondType';
+
+                const isSubStyle = filterType === 'subStyle';
+
+                const isMetal = filterType === 'metal';
 
                 const isPrice = filterType === 'price';
 
                 const isStyle = filterType === 'style';
-
-                const isSubStyle = filterType === 'subStyle';
 
                 const text = isMetal
                   ? METAL_HUMAN_NAMES[localFilterValue[filterType]]
@@ -304,15 +310,28 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
                   if (priceRangeMatchesInitialState) return null;
 
-                  const selectedPriceSlug = `${price?.min ? price.min : 'below'}-${price?.max ? price.max : 'plus'}`;
+                  const min = (price?.min && price?.min / 100) || 'below';
 
-                  const priceLabel = PLP_PRICE_RANGES.find((v) => v.slug === selectedPriceSlug)?.title;
+                  const max = (price?.max && price?.max / 100) || 'plus';
+
+                  const selectedPriceSlug = `${min}-${max}`;
+
+                  const selectedPrice = PLP_PRICE_RANGES.find((v) => v.slug === selectedPriceSlug);
+
+                  const priceArray = [
+                    ...(price.min ? [formatPrice(price.min, locale).trim()] : []),
+                    ...(price.max ? [formatPrice(price.max, locale).trim()] : []),
+                  ];
 
                   return (
                     <li className="active-filter" key={`${localFilterValue}-${text}`}>
                       <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
                         <span className="close">x</span>
-                        {priceLabel ? priceLabel : renderCustomPriceRange(price)}
+                        {selectedPrice ? (
+                          <UIString replacements={priceArray}>{selectedPriceSlug}</UIString>
+                        ) : (
+                          renderCustomPriceRange(price)
+                        )}
                       </button>
                     </li>
                   );
@@ -327,7 +346,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                     if (Object.keys(DIAMOND_TYPE_HUMAN_NAMES).includes(val)) {
                       title = <UIString types={[humanNamesMapperType.DIAMOND_SHAPES]}>{val}</UIString>;
                     } else if (METALS_IN_HUMAN_NAMES[val]) {
-                      title = <UIString>{METALS_IN_HUMAN_NAMES[val]}</UIString>;
+                      title = <UIString types={[humanNamesMapperType.METALS_IN_HUMAN_NAMES]}>{val}</UIString>;
                     } else {
                       title = <UIString>{val}</UIString>;
                     }

@@ -22,7 +22,7 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
   overflow-y: auto;
   position: fixed;
   padding-bottom: 14rem;
-  top: ${(props) => props.$headerHeight + 'px'};
+  top: ${(props) => props.$headerHeight - 1 + 'px'};
   left: 0;
   width: 100%;
   background-color: #fff;
@@ -112,11 +112,12 @@ const MobileMenuContainer = styled(motion.div)<MobileMenuContainerProps>`
           a {
             display: block;
             font-size: 1.7rem;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
 
             &.has-icon {
               display: flex;
               align-items: center;
+              margin-top: 0rem;
             }
 
             &:hover,

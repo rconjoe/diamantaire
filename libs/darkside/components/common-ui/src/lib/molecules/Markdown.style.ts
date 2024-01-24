@@ -84,7 +84,20 @@ export const MarkdownContainer = styled.div`
     &.-textOnlyBlock {
       max-width: 90vw;
       ${media.medium`max-width: 714px`}
+      &.-vrai-created-diamond {
+        margin: 0 auto;
+        p {
+          margin: 10px 0;
+        }
 
+        p:first-child {
+          margin: 20px 0 10px 0;
+        }
+
+        p:last-child {
+          margin: 10px 0 20px;
+        }
+      }
       &.-snug-center-copy {
         p {
           margin-top: 0;

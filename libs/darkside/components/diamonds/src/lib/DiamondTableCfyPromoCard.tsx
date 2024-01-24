@@ -33,7 +33,7 @@ const DiamondTableCfyPromoCard = (props) => {
 
   if (!promoContent) return;
 
-  if (Array.isArray(promoContent)){
+  if (Array.isArray(promoContent)) {
     promoContent = promoContent.join('');
   }
 

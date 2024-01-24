@@ -42,6 +42,10 @@ const SingleVariantCartItemStyles = styled.div`
     .cart-item__price {
       flex: 1;
       text-align: right;
+
+      p {
+        font-size: var(--font-size-xsmall);
+      }
     }
   }
   .cart-item__body {

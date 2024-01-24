@@ -24,6 +24,7 @@ export const humanNamesMapperType = {
   BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES: 'BAND_ACCENT_CATEGORY_SHORT_HUMAN_NAMES',
   DIAMOND_SPECS: 'DIAMOND_SPECS',
   DIAMOND_CUTS: 'DIAMOND_CUTS',
+  PRICE_RANGE_OPTIONS_HUMAN_NAMES: 'PRICE_RANGE_OPTIONS_HUMAN_NAMES',
 } as const;
 
 type HumanNameMapperResponse = {
@@ -55,6 +56,18 @@ export function useTranslations(
 
   const { allHumanNamesMappers = [] } = data || {};
 
+  const replaceElements = (arr1, arr2, arr3) => {
+    return arr3.map((elem) => {
+      const index = arr2.indexOf(elem);
+
+      if (index !== -1) {
+        return arr1[index];
+      }
+
+      return elem;
+    });
+  };
+
   const translations = category
     ? allHumanNamesMappers?.reduce((acc, v) => {
         const { map, title } = v;
@@ -77,33 +90,15 @@ export function useTranslations(
     if (!translations) {
       return key;
     }
+
     if (!replacements) {
-      if (translations[key]) {
-        return translations[key];
-      } else {
-        // console.warn('No translations found for key: ', key);\
-        return key;
-      }
+      return translations[key] || key;
     } else {
-      const matches = key.match(replacementRegExp);
+      const newStrArr: string[] = translations[key].split(replacementRegExp);
 
-      if (matches.length !== replacements.length) {
-        // console.warn('Number of replacements does not match number of placeholders');
-        return key;
-      } else {
-        const ouputArray: (string | ReactNode)[] = [];
-        const newStrArr: string[] = key.split(' ');
+      const matches = (translations[key].match(replacementRegExp) || []).map((match) => match.slice(2, -2));
 
-        for (let i = 0; i < newStrArr.length; i++) {
-          let match = 1;
-          const val = newStrArr[i];
-
-          if (replacementRegExp.test(val)) {
-            ouputArray.push(replacements[match]);
-            match++;
-          }
-        }
-      }
+      return replaceElements(replacements, matches, newStrArr).join('');
     }
   }
 

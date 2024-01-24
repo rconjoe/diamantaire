@@ -5,7 +5,7 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType } from '@diamantaire/shared/helpers';
+import { getDiamondType, getLanguage } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -275,6 +275,7 @@ function OptionSelector({
   const [_, setUpdateFlag] = useState(false);
 
   const { _t } = useTranslations(locale);
+  const language = getLanguage(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
   const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
 
@@ -330,18 +331,20 @@ function OptionSelector({
   const presetRingSizes = ['4.5', '5', '6', '7', '8'];
 
   function renderDiamondSpecs() {
+    const shouldLowercase = language !== 'de';
+
     return (
       <>
         {', '}
         {diamondSpecs.color && (
           <>
-            <UIString>{diamondSpecs.color}</UIString> {_t('color').toLowerCase()}
+            <UIString>{diamondSpecs.color}</UIString> {shouldLowercase ? _t('color').toLowerCase() : _t('color')}
             {', '}
           </>
         )}
         {diamondSpecs.clarity && (
           <>
-            <UIString>{diamondSpecs.clarity}</UIString> {_t('clarity').toLowerCase()}
+            <UIString>{diamondSpecs.clarity}</UIString> {shouldLowercase ? _t('clarity').toLowerCase() : _t('clarity')}{' '}
           </>
         )}
       </>
@@ -642,6 +645,7 @@ function OptionSelector({
     diamondType: renderDiamondTypeOptions,
     topDiamondShape: renderDiamondTypeOptions,
     bottomDiamondShape: renderDiamondTypeOptions,
+    paveCluster: renderDiamondTypeOptions,
     ringSize: renderRingSizeOptions,
     caratWeight: renderCaratWeightOptions,
   };

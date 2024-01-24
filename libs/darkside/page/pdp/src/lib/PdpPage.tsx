@@ -27,7 +27,13 @@ import {
 } from '@diamantaire/darkside/components/products/pdp';
 import { WishlistLikeButton } from '@diamantaire/darkside/components/wishlist';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
-import { useProduct, useProductDato, useProductVariant, useTranslations } from '@diamantaire/darkside/data/hooks';
+import {
+  useProduct,
+  useProductDato,
+  useProductVariant,
+  useTranslations,
+  useDiamondLowestPriceByDiamondType,
+} from '@diamantaire/darkside/data/hooks';
 import { queries } from '@diamantaire/darkside/data/queries';
 import { getTemplate as getStandardTemplate } from '@diamantaire/darkside/template/standard';
 import {
@@ -168,7 +174,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
     additionalVariantData?.configuration?.productIconList?.productType;
 
   // console.log('additionalVariantData v1', additionalVariantData);
-  console.log('shopify', shopifyProductData);
+  //console.log('shopify', shopifyProductData);
 
   if (additionalVariantData) {
     // ER/WB
@@ -228,7 +234,8 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const totalPrice = diamondFeedPrice ? diamondFeedPrice + price : price;
   const isProductFeedUrl = Boolean(diamondFeedPrice);
-
+  // Can this item go Out Of Stock?
+  const trackInventory = Boolean(shopifyProductData?.trackInventory);
   // Can this product be added directly to cart?
   // console.log('shopifyProductData', shopifyProductData);
   const isBuilderProduct = isProductFeedUrl ? false : shopifyProductData?.requiresCustomDiamond;
@@ -261,6 +268,15 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
 
   const isProductJewelry = jewelryTypes.includes(shopifyProductData?.productType);
   const isWeddingBand = shopifyProductData?.productType === 'Wedding Band';
+  const diamondTypeFromConfiguration = configuration?.diamondType;
+  const caratWeightFromConfiguration = configuration?.caratWeight;
+  const { data: lowestPricedDiamond } = useDiamondLowestPriceByDiamondType(
+    { diamondType: diamondTypeFromConfiguration },
+    {
+      enabled: !!diamondTypeFromConfiguration && isProductJewelry && caratWeightFromConfiguration === 'other',
+    },
+  );
+
   const breadcrumbTitle = pdpTypeSingleToPluralAsConst[shopifyProductData?.productType] || shopifyProductData?.productType;
   const breadcrumb = [
     // First option is just for jewelry, and it won't show title is null
@@ -391,6 +407,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 shouldDoublePrice={shouldDoublePrice}
                 productType={shopifyProductData?.productType}
                 engravingText={engravingText}
+                lowestPricedDiamond={lowestPricedDiamond}
               />
 
               <ProductConfigurator
@@ -425,6 +442,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
                 ctaCopy={ctaCopy}
                 selectedDiamond={selectedDiamond}
                 productTitle={productTitle}
+                trackInventory={trackInventory}
               />
               {!isProductFeedUrl ? (
                 <ProductKlarna title={productTitle} currentPrice={shouldDoublePrice ? price * 2 : price} />

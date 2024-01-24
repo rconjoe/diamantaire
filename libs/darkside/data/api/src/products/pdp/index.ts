@@ -131,6 +131,7 @@ const JEWELRY_QUERY = gql`
         seoDescription
       }
       productTitle
+      productTitleOverride
       productDescription
       productIconList {
         productType
@@ -165,6 +166,7 @@ const WEDDING_BAND_QUERY = gql`
       seoTitle
       seoDescription
       productTitle
+      productTitleOverride
       productDescription
       productIconList {
         productType
@@ -600,13 +602,28 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
       productIconList {
         productType
       }
-      cut
-      carat
+      shownWithCenterStone
+      shape
       color
       clarity
+      cut
+      carat
+      metal
+      setting
       closure
+      chainLength
       chainWidth
+      posts
+      diamondSize
+      jacketLength
+      bandWidth
       outerDiameter
+      ringFace
+      charm
+      cordWidth
+      depth
+      origin
+      caratWeightOverride
       trioBlocks {
         id
       }
@@ -620,7 +637,6 @@ const DATO_JEWELRY_VARIANT_QUERY = gql`
         id
         alt
         url
-        mimeType
         size
         height
         width

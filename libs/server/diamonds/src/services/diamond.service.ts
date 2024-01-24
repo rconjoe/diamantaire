@@ -77,7 +77,7 @@ export class DiamondsService {
 
     filteredQuery.availableForSale = true; // only return available diamonds
     filteredQuery.hidden = false;
-     // filter out pink diamonds
+    // filter out pink diamonds
 
     if (input?.isCto) {
       filteredQuery.slug = 'cto-diamonds';
@@ -142,15 +142,13 @@ export class DiamondsService {
     }
   }
 
-  
-
   /**
    * Fetch single diamond by lotId
    * @param {GetDiamondByHandleDto} input - diamond handle
    * @returns
    */
 
-  async diamondByHandle(input: GetDiamondByHandleDto): Promise<DiamondEntity | null > {
+  async diamondByHandle(input: GetDiamondByHandleDto): Promise<DiamondEntity | null> {
     const { handle } = input;
 
     this.Logger.verbose(`Fetching diamond by handle: ${handle}`);
@@ -193,8 +191,8 @@ export class DiamondsService {
    * @returns and Object
    */
 
-  optionalDiamondQuery(input): FilterQuery<DiamondEntity > {
-    const query = { };
+  optionalDiamondQuery(input): FilterQuery<DiamondEntity> {
+    const query = {};
 
     if (input?.diamondType) {
       const diamondTypes = input.diamondType.trim().split(',');
@@ -421,7 +419,10 @@ export class DiamondsService {
 
   async getLowestPricedDiamond(input: LowestPricedDto): Promise<IDiamondCollection> {
     try {
-      const result = await this.diamondRepository.find({ diamondType: input.diamondType }).sort({ price: 1 }).limit(1);
+      const result = await this.diamondRepository
+        .find({ diamondType: input.diamondType, availableForSale: true })
+        .sort({ price: 1 })
+        .limit(1);
 
       if (result) {
         return result[0];

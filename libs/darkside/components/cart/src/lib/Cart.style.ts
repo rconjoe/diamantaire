@@ -83,7 +83,7 @@ export const CartStyles = styled(motion.aside)`
 
       .cart-subtotal {
         .cart-subtotal__sig-text {
-          font-size: var(--font-size-xxxsmall);
+          font-size: var(--font-size-xsmall);
         }
         hr {
           background-color: #ccc;
@@ -94,6 +94,7 @@ export const CartStyles = styled(motion.aside)`
           display: flex;
           padding-top: 1rem;
           > p {
+            font-size: var(--font-size-xsmall);
             &:first-child {
               flex: 1;
             }
