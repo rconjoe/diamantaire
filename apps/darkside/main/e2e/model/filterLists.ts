@@ -1,8 +1,9 @@
 export type metalList = 
   | "Platinum" 
-  | "Rose Gold" 
-  | "White Gold" 
-  | "Yellow Gold";
+  | "Rose gold" 
+  | "White gold" 
+  | "Yellow gold"
+  | "Sterling silver";
 
 
 export type diamondList =

@@ -15,7 +15,7 @@ test.describe("Earrings Setting First flow with filter", () => {
 
     await test.step("Select Jewerly > Earrings ", async () => {
       await homePage.navigateToJewery('Earrings')
-      await jewerlyPage.selectMetalFilter('Rose Gold')
+      await jewerlyPage.selectMetalFilter('Rose gold')
 
       await jewerlyPage.selectJewerlyByName('Halo Stud Oval');
     });
