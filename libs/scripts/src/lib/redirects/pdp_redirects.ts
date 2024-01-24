@@ -208,7 +208,8 @@ export function publishRedirects(redirects: RedirectData[]) {
     const redirectRecord = { [source]: destination };
     const result = await kv.hset('redirects', redirectRecord);
 
-    console.log(`${i}) Added redirects: ${source} -> ${destination} : ${result}`);
+    console.log(`${i}) Added redirects: ${source} -> ${destination}`);
+    console.log(`Result:: ${result}`)
     if (isPermanent) await kv.sadd(source, 'permanent_redirects');
 
   });
