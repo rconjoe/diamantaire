@@ -37,7 +37,7 @@ export function useVariantInventory(variantId: string, trackInventory: boolean) 
     };
 
     // Extract numerical ID if variantId is in a URL format
-    const numericalVariantId = variantId.includes('gid') ? variantId.split('/').pop() : variantId;
+    const numericalVariantId = variantId?.includes('gid') ? variantId.split('/').pop() : variantId;
 
     // Reset isInStock based on trackInventory when variantId changes
     setInStock(!trackInventory);
