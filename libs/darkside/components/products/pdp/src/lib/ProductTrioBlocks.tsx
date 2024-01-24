@@ -12,7 +12,7 @@ const ProductTrioBlocksContainer = styled.div`
   gap: 2rem;
   ${media.medium`
     grid-template-columns: repeat(3, 1fr);
-      gap: 1.6rem;
+    gap: 2.5rem;
     `}
 `;
 

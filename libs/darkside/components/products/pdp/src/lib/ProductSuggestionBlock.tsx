@@ -13,16 +13,13 @@ const ProductSuggestionBlockStyles = styled.div`
   }
   .title-container {
     padding-bottom: 3rem;
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding-bottom: 6rem;
-    }
   }
   .products {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     ${media.medium`
-    gap: 1.6rem;
+    gap: 2.5rem;
     grid-template-columns: repeat(4, 1fr);
   `}
 

@@ -221,7 +221,7 @@ export const CarouselSliderContainer = styled.div`
   &.modular_instagram_reel_block,
   &.modular_grid_carousel_block {
     .embla__slide {
-      padding: 0 10px;
+      padding: 0 8px;
       max-width: 280px;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
