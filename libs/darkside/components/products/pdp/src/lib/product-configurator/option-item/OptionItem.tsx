@@ -1,6 +1,6 @@
-import { useSingleHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
+import { useHumanNameMapper, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { EAST_WEST_SHAPES } from '@diamantaire/shared/constants';
-import { generateIconImageUrl, iconLoader } from '@diamantaire/shared/helpers';
+import { generateIconImageUrl, getTranslatedName, iconLoader } from '@diamantaire/shared/helpers';
 import { getIconsForDiamondType } from '@diamantaire/shared/icons';
 import { OptionItemProps, OptionItemContainerProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -415,37 +415,32 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
 
 export const DynamicValueLabel = ({ value, optionType, productType }) => {
   const { locale } = useRouter();
-  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
-  const { data: { BAND_WIDTH_LABEL_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'BAND_WIDTH_LABEL_HUMAN_NAMES');
-  const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
-  const { _t } = useTranslations(locale);
 
-  let valueLabel;
+  const { data: translations } = useHumanNameMapper(locale);
+  const { _t } = useTranslations(locale);
 
   // Special case handling for 'other' value
   if (value === 'other' && productType !== 'Engagement Ring') {
     return _t('Select diamond');
   }
 
+  let valueLabel;
+
   // Handling based on optionType
   switch (optionType) {
-    case 'eternityStyle':
-      valueLabel = ETERNITY_STYLE_HUMAN_NAMES?.[value]?.value;
-      break;
-    case 'bandWidth':
-      valueLabel = BAND_WIDTH_LABEL_HUMAN_NAMES?.[value]?.value;
-      break;
     case 'earringSize':
       valueLabel = value.replace('mm', '');
       break;
     case 'chainLength':
       valueLabel = value + '"';
       break;
-    case 'caratWeight':
-      valueLabel = CARAT_WEIGHT_HUMAN_NAMES?.[value]?.value;
-      break;
     default:
-      valueLabel = _t(value.toLowerCase());
+      valueLabel = getTranslatedName({
+        optionType,
+        selectedOptionValue: value,
+        translations,
+        _t,
+      });
   }
 
   if (optionType === 'soldAsDouble') {
