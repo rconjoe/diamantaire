@@ -1,15 +1,14 @@
 import { LanguageSelector, UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
 import { countries, parseValidLocale } from '@diamantaire/shared/constants';
-import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { replacePlaceholders } from '@diamantaire/shared/helpers';
 import { ChatIcon, EmptyCalendarIcon, LocationPinIcon, Logo } from '@diamantaire/shared/icons';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
-import { MenuLink, NavItemsProps } from './header-types';
+import { MenuLink, NavItemsProps, ShowroomLocation } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
 import { StackedHeaderStylesContainer } from './StackedHeader.style';
 
@@ -23,6 +22,7 @@ type StackedHeaderTypes = {
   selectedCountry: string;
   selectedLanguage: string;
   isLanguageSelectorOpen: boolean;
+  showroomLocation: ShowroomLocation | null;
 };
 
 // This header only appears on the home page. Stacks logo ontop of nac
@@ -36,12 +36,11 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   selectedCountry,
   selectedLanguage,
   isLanguageSelectorOpen,
+  showroomLocation,
 }): JSX.Element => {
   const { locale } = useRouter();
 
   const { _t } = useTranslations(locale);
-
-  const [showroomLocation, setShowroomLocation] = useState(null);
 
   const { countryCode: selectedCountryCode } = parseValidLocale(locale);
 
@@ -75,12 +74,6 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
   function toggleChat() {
     addHashToURL();
   }
-
-  useEffect(() => {
-    const showroomLocationTemp = isUserCloseToShowroom();
-
-    setShowroomLocation(showroomLocationTemp);
-  }, []);
 
   return (
     <StackedHeaderStylesContainer>
@@ -116,9 +109,9 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                 </button>
               </li>
               <li className="calendar">
-                <EmptyCalendarIcon />
                 {showroomLocation ? (
-                  <Link href={`/diamond-appointments?location=${showroomLocation.handle}`}>
+                  <Link className="calendar__link" href={`/diamond-appointments?location=${showroomLocation.handle}`}>
+                    <EmptyCalendarIcon />
                     {replacePlaceholders(
                       _t('Visit our %%location%% location'),
                       ['%%location%%'],
@@ -126,7 +119,8 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                     ).toString()}
                   </Link>
                 ) : (
-                  <Link href="/diamond-appointments">
+                  <Link className="calendar__link" href="/diamond-appointments">
+                    <EmptyCalendarIcon />
                     <UIString>Book an appointment</UIString>
                   </Link>
                 )}
