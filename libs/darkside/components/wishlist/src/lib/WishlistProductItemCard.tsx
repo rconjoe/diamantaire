@@ -1,7 +1,7 @@
 import { DarksideButton, DatoImage, UIString, UniLink } from '@diamantaire/darkside/components/common-ui';
 import { humanNamesMapperType, useTranslations } from '@diamantaire/darkside/data/hooks';
 import { getFormattedCarat, getFormattedPrice } from '@diamantaire/shared/constants';
-import { generateCfyDiamondSpriteThumbUrl, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, generateDiamondImageUrl, getDiamondType } from '@diamantaire/shared/helpers';
 import { DropHintIcon } from '@diamantaire/shared/icons';
 import { generateProductUrl } from '@diamantaire/shared-product';
 import clsx from 'clsx';
@@ -58,6 +58,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
   handleOpenDropHintModal,
 }) => {
   const { _t } = useTranslations(locale);
+
   const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
 
   const { slug, handle, diamondType, carat, price, color, clarity, cut } = diamond || {};
@@ -82,7 +83,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
 
   const link = baseLink + (cto ? diamondType + '?carat=' + carat : handle);
 
-  const image = generateCfyDiamondSpriteThumbUrl(diamondType);
+  const image = generateDiamondSpriteImage({ diamondID: id, diamondType });
 
   return (
     <div className="card item-diamond">
@@ -272,10 +273,11 @@ const CardBundle: React.FC<CardBundleProps> = ({
   // slider
   const media = [
     <DatoImage key={0} quality={100} image={imageData} />,
+
     <Image
       key={1}
       alt={diamondType}
-      src={generateCfyDiamondSpriteThumbUrl(diamondType)}
+      src={generateDiamondSpriteImage({ diamondID: lotId, diamondType })}
       sizes="100vw"
       height={0}
       width={0}
@@ -320,7 +322,7 @@ const CardBundle: React.FC<CardBundleProps> = ({
                 <Image
                   key={1}
                   alt={diamondType}
-                  src={generateCfyDiamondSpriteThumbUrl(diamondType)}
+                  src={generateDiamondSpriteImage(diamondType)}
                   sizes="100vw"
                   height={0}
                   width={0}

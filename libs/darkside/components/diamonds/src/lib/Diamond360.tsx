@@ -1,5 +1,5 @@
 import { SpriteSpinner, UIString } from '@diamantaire/darkside/components/common-ui';
-import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, generateDiamondSpriteUrl } from '@diamantaire/shared/helpers';
 import { DiamondCtoDataTypes, DiamondDataTypes } from '@diamantaire/shared/types';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
@@ -87,7 +87,9 @@ const Diamond360 = ({
   }, [diamondID]);
 
   const img = () => {
-    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondID, diamondType);
+    const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
+
+    console.log(`spriteImageUrl`, spriteImageUrl);
 
     return <Image priority={priority} src={spriteImageUrl} alt={diamondType} width={width} height={height} />;
   };

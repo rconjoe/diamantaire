@@ -6,10 +6,20 @@ const generateDiamondSpriteUrl = (lotId: string, format: string): string => {
   return url;
 };
 
-const generateCfyDiamondSpriteThumbUrl = (diamondID: string, diamondType?: string): string => {
-  const url = diamondID?.includes('cfy-') ? `/cfy-${diamondType}` : `/${diamondID.replace(/[a-zA-Z]/g, '')}`;
+const generateDiamondSpriteImage = ({ diamondID, diamondType }: { diamondID?: string; diamondType: string }): string => {
+  let url = '';
+
+  if (!diamondID || diamondType) {
+    url = `/cfy-${diamondType}`;
+  }
+
+  if (diamondID) {
+    if (!diamondID?.includes('cfy-')) {
+      url = `/${diamondID.replace(/[a-zA-Z]/g, '')}`;
+    }
+  }
 
   return `${DIAMOND_VIDEO_BASE_URL}${url}-thumb.jpg`;
 };
 
-export { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl };
+export { generateDiamondSpriteImage, generateDiamondSpriteUrl };
