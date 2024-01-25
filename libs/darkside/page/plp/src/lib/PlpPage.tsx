@@ -53,7 +53,9 @@ const PlpStyles = styled.div`
     padding-top: 2rem;
   }
   .container-wrapper {
-    max-width: 90vw;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      max-width: 90vw;
+    }
   }
 `;
 

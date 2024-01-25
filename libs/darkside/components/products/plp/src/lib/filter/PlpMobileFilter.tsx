@@ -208,6 +208,8 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
     handleUpdateFilterValues();
   };
 
+  const localFilterValueKeys = Object.keys(localFilterValue);
+
   return (
     <PlpMobileFilterStyles headerHeight={headerHeight}>
       <FreezeBody />
@@ -278,7 +280,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
         <div className="mobile-active-filters__inner">
           <div className="mobile-active-filters">
             <ul>
-              {Object.keys(localFilterValue).map((filterType) => {
+              {localFilterValueKeys.map((filterType) => {
                 const isDiamondType = filterType === 'diamondType';
 
                 const isSubStyle = filterType === 'subStyle';
@@ -365,11 +367,13 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
             </ul>
           </div>
 
-          <div className="clear-filters">
-            <button onClick={handleResetFilterValues}>
-              <UIString>Clear all</UIString>
-            </button>
-          </div>
+          {localFilterValueKeys.length > 0 && (
+            <div className="clear-filters">
+              <button onClick={handleResetFilterValues}>
+                <UIString>Clear all</UIString>
+              </button>
+            </div>
+          )}
 
           <div className="cta">
             <DarksideButton
