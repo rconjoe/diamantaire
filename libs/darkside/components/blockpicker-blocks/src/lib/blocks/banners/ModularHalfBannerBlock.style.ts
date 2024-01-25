@@ -79,7 +79,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
 
       img {
         max-width: 600px;
-        
+
 
       }
     `)};
@@ -187,13 +187,14 @@ export const ModularHalfBannerBlockContainer = styled.div`
       margin: 0 auto -7rem;
       position: relative;
       bottom: 7rem;
-
+      gap: 1rem;
       ${tabletAndUp(`
       position: absolute;
       margin: unset;
       bottom: unset;
       max-width: ${setSpace(50)};
       padding: ${setSpace(4)} 0 ${setSpace(4)} ${setSpace(4)};
+      gap:1.75rem;
     `)};
 
       ${desktopAndUp(`
@@ -296,32 +297,15 @@ export const ModularHalfBannerBlockContainer = styled.div`
     }
 
     button {
-      margin-top: ${setSpace(2)};
-
-      ${tabletAndUp(`
-      margin-top: ${setSpace(1)};
-    `)};
-
       ${desktopAndUp(`
-      margin-top: ${setSpace(2.5)};
-
       &.-wide-cta {
-        margin-top: ${setSpace(5)};
         width: 80% !important;
       }
     `)};
     }
-
-    .primary,
-    .secondary {
-      margin-bottom: 2.5rem;
-    }
   }
 
   .half-width-banner__title {
-    margin-top: ${setSpace(2)};
-    margin-bottom: ${setSpace(2)};
-
     font-weight: 400;
 
     ${tabletAndUp(`
@@ -330,7 +314,7 @@ export const ModularHalfBannerBlockContainer = styled.div`
     }
   `)};
     ${tabletAndUp(`
-    
+
     margin-top: 0;
   `)};
 
