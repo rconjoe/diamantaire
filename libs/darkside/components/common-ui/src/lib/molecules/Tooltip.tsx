@@ -24,7 +24,7 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
         className={`tooltip-window ${className}`}
         classNameArrow="tooltip-arrow"
         data-tooltip-variant="light"
-        // openOnClick={true}
+        openOnClick={true}
       >
         {children}
       </ReactToolTip>

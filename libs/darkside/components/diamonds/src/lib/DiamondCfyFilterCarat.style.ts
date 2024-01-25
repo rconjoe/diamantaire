@@ -163,8 +163,11 @@ const StyledDiamondCfyFilterCarat = styled.div`
       right: 0;
       position: absolute;
       border-radius: 50%;
-      border: 0.3rem dashed #8c8c8c;
-      opacity: 0.2;
+      border: 0.1rem dashed #ccc;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        border: 0.3rem dashed #ccc;
+      }
     }
   }
 
