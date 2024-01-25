@@ -76,7 +76,6 @@ export function getTranslatedName({
   translationKeyMap = CONFIG_TYPE_TRANSLATION_MAP,
   _t,
 }) {
-  console.log({ optionType, selectedOptionValue, translations, translationKeyMap, _t });
   // Convert optionType from camelCase to SNAKE_UPPERCASE
   const defaultKey = camelToSnakeCase(optionType) + '_HUMAN_NAMES';
 
