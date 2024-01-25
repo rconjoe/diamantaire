@@ -87,7 +87,7 @@ const Diamond360 = ({
   }, [diamondID]);
 
   const img = () => {
-    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondType);
+    const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamondID, diamondType);
 
     return <Image priority={priority} src={spriteImageUrl} alt={diamondType} width={width} height={height} />;
   };
