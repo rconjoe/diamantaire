@@ -7,7 +7,6 @@ import {
   METAL_HUMAN_NAMES,
   PLP_PRICE_RANGES,
   RING_STYLES_MAP,
-  formatPrice,
   getFormattedPrice,
   ringStylesWithIconMap,
 } from '@diamantaire/shared/constants';
@@ -199,8 +198,8 @@ const PlpAllFilterOptions = ({
               <ul className="list-unstyled flex ">
                 {PLP_PRICE_RANGES.map((price) => {
                   const priceArray = [
-                    ...(price.min ? [formatPrice(price.min, locale).trim()] : []),
-                    ...(price.max ? [formatPrice(price.max, locale).trim()] : []),
+                    ...(price.min ? [getFormattedPrice(price.min, locale).trim()] : []),
+                    ...(price.max ? [getFormattedPrice(price.max, locale).trim()] : []),
                   ];
 
                   return (
@@ -352,8 +351,8 @@ const PlpAllFilterOptions = ({
                       const selectedPrice = PLP_PRICE_RANGES.find((v) => v.slug === selectedPriceSlug);
 
                       const priceArray = [
-                        ...(price.min ? [formatPrice(price.min, locale).trim()] : []),
-                        ...(price.max ? [formatPrice(price.max, locale).trim()] : []),
+                        ...(price.min ? [getFormattedPrice(price.min, locale).trim()] : []),
+                        ...(price.max ? [getFormattedPrice(price.max, locale).trim()] : []),
                       ];
 
                       return (

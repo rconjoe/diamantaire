@@ -19,7 +19,7 @@ export interface DiamondPairDataTypes {
 }
 
 export function isDiamondPairType(data: DiamondDataTypes | DiamondPairDataTypes): data is DiamondPairDataTypes {
-  return (data as DiamondPairDataTypes).diamonds !== undefined;
+  return (data as DiamondPairDataTypes)?.diamonds !== undefined;
 }
 
 export interface DiamondDataTypes {
