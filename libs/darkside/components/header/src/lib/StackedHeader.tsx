@@ -110,7 +110,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
               </li>
               <li className="calendar">
                 {showroomLocation ? (
-                  <Link className="calendar__link" href={`/diamond-appointments?location=${showroomLocation.handle}`}>
+                  <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
                     <EmptyCalendarIcon />
                     {replacePlaceholders(
                       _t('Visit our %%location%% location'),
@@ -119,7 +119,7 @@ const StackedHeader: FC<StackedHeaderTypes> = ({
                     ).toString()}
                   </Link>
                 ) : (
-                  <Link className="calendar__link" href="/diamond-appointments">
+                  <Link className="calendar__link" href="/book-appointment/virtual">
                     <EmptyCalendarIcon />
                     <UIString>Book an appointment</UIString>
                   </Link>

@@ -180,11 +180,11 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
                   </li>
                   <li className="calendar">
                     {showroomLocation ? (
-                      <Link className="calendar__link" href={`/diamond-appointments?location=${showroomLocation.handle}`}>
+                      <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
                         <EmptyCalendarIcon />
                       </Link>
                     ) : (
-                      <Link className="calendar__link" href="/diamond-appointments">
+                      <Link className="calendar__link" href="/book-appointment/virtual">
                         <EmptyCalendarIcon />
                       </Link>
                     )}
