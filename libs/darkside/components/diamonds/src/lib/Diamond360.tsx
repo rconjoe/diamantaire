@@ -89,8 +89,6 @@ const Diamond360 = ({
   const img = () => {
     const spriteImageUrl = generateDiamondSpriteImage({ diamondID, diamondType });
 
-    console.log(`spriteImageUrl`, spriteImageUrl);
-
     return <Image priority={priority} src={spriteImageUrl} alt={diamondType} width={width} height={height} />;
   };
 
