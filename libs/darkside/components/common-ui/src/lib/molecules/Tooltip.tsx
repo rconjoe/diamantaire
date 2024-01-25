@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Tooltip as ReactToolTip } from 'react-tooltip';
 
 import StyledTooltip from './Tooltip.style';
@@ -12,9 +12,19 @@ interface TooltipProps {
 }
 
 const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggleTooltip = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleCloseTooltip = () => {
+    setIsOpen(false);
+  };
+
   return (
     <StyledTooltip>
-      <button data-tooltip-id={id} className="tooltip-trigger">
+      <button data-tooltip-id={id} className="tooltip-trigger" onClick={handleToggleTooltip} onBlur={handleCloseTooltip}>
         <span>i</span>
       </button>
 
@@ -24,7 +34,7 @@ const Tooltip: React.FC<TooltipProps> = ({ id, children, className, place }) => 
         className={`tooltip-window ${className}`}
         classNameArrow="tooltip-arrow"
         data-tooltip-variant="light"
-        openOnClick={true}
+        isOpen={isOpen}
       >
         {children}
       </ReactToolTip>
