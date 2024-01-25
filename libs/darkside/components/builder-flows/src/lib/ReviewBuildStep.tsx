@@ -86,13 +86,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
         flex-wrap: wrap;
 
         .embla__container {
+          max-width: 100%;
+
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             flex-wrap: wrap;
           }
 
           > div {
             margin-bottom: 1rem;
-            padding: 0 0.5rem;
             @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
               flex: 0 0 50%;
             }
@@ -757,13 +758,13 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         settingSlugs.collectionSlug
       }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
-      return router.push(newUrl);
+      return router.replace(newUrl);
     } else {
       const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
         .join('/')}/${settingSlugs.collectionSlug}/${option?.id}`;
 
-      router.push(newUrl);
+      router.replace(newUrl);
     }
   }
 
