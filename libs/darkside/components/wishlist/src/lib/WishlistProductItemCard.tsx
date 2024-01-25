@@ -67,7 +67,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
     return {
       carat: `${getFormattedCarat(carat, locale)}${_tt('ct')}`,
       price: getFormattedPrice(price, locale, true),
-      type: _t(getDiamondType(diamondType)?.slug),
+      type: _tt(getDiamondType(diamondType)?.slug),
       cut: _t(cut),
       clarity: _t(clarity),
       color: _t(color),
