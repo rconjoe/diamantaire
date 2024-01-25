@@ -31,8 +31,9 @@ const MobileHeaderContainer = styled.div`
   top: -1px;
 
   .mobile-header-outer-wrapper {
-    padding: 1.5rem 1rem 1.5rem 0;
-    max-height: 5.6rem;
+    padding: 0;
+    height: 5.6rem;
+    display: flex;
     background-color: #fff;
     ${media.medium`display: none;`};
 
@@ -112,6 +113,9 @@ const MobileHeaderContainer = styled.div`
         }
 
         &.col--right {
+          nav {
+            margin-right: 7px;
+          }
           li {
             display: flex;
             align-items: center;
