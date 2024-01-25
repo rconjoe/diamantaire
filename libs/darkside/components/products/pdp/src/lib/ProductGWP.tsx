@@ -1,6 +1,6 @@
 import { DatoImage, Heading, Markdown, Modal } from '@diamantaire/darkside/components/common-ui';
 import { usePDPGwp } from '@diamantaire/darkside/data/hooks';
-import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
+import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import {
   getCountry,
   isCountrySupported,
@@ -130,7 +130,7 @@ const ProductGWP = () => {
 
   const isWithinTimeframe = isCurrentTimeWithinInterval(promotionDateRangeStart, promotionDateRangeEnd);
 
-  const minSpendValue = formatPrice(minSpendByCurrencyCode?.[currencyCode], locale);
+  const minSpendValue = getFormattedPrice(minSpendByCurrencyCode?.[currencyCode], locale);
 
   let refinedCopy = replacePlaceholders(pdpBannerBody, ['%%GWP_minimum_spend%%'], [minSpendValue?.toString()]).toString();
 

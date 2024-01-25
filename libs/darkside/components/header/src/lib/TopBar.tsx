@@ -1,5 +1,5 @@
 import { useCartData, useTopBar, useTopBarGWP } from '@diamantaire/darkside/data/hooks';
-import { formatPrice, getCurrency } from '@diamantaire/shared/constants';
+import { getCurrency, getFormattedPrice } from '@diamantaire/shared/constants';
 import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import {
   getCountry,
@@ -196,14 +196,14 @@ const TopBar: FC<TopBarTypes> = ({ setIsTopbarShowing }): JSX.Element => {
                 let replacedText = replacePlaceholders(
                   textVal,
                   ['%%GWP_minimum_spend%%'],
-                  [formatPrice(parseFloat(minSpendValue), locale).trim()],
+                  [getFormattedPrice(parseFloat(minSpendValue), locale).trim()],
                 ).toString();
 
                 replacedText = replacePlaceholders(
                   replacedText,
                   ['%%GWP_remaining_spend%%'],
                   [
-                    formatPrice(
+                    getFormattedPrice(
                       parseFloat(minSpendValue) - parseFloat(checkout?.cost?.subtotalAmount?.amount) * 100,
                       locale,
                     ).trim(),
