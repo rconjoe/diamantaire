@@ -172,11 +172,6 @@ export const MegaMenuStylesContainer = styled.div<Props>`
           margin-top: 1.5rem !important;
         }
       }
-      &.wedding {
-        .col__inner ul li:last-child {
-          font-weight: bold;
-        }
-      }
     }
   }
 `;
