@@ -166,7 +166,7 @@ const StyledDiamondCfyFilterCarat = styled.div`
       border: 0.1rem dashed #ccc;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        border: 0.3rem dashed #ccc;
+        border: 0.2rem dashed #ddd;
       }
     }
   }
