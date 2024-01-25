@@ -4,25 +4,26 @@ import styled from 'styled-components';
 export const ModularAccordionContainer = styled.div`
   ${contentBlockMargin}
   .acc__container {
-    width: 100vw;
     display: grid;
+    width: 100%; /* Use 100% instead of 100vw to avoid horizontal scroll */
+    grid-template-columns: 1fr; /* Default grid setting */
     text-align: center;
     &.-with-image {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
+      grid-template-columns: 1fr 1fr; /* Define two columns for larger screens */
       text-align: left;
-
+      text-align: left;
+      gap: ${setSpace(5)};
       ${mobileOnly(`
+        display: flex; /* Switch to flexbox for mobile */
         flex-direction: column;
-        flex: 0;
-        margin: 0;
+        align-items: stretch; /* Ensure children stretch to full width */
       `)}
     }
 
     ${mobileOnly(`
+     display: flex;
       flex-direction: column;
-      flex: 0;
+      align-items: stretch;
 
       & .title {
         font-size: ${setSpace(3.3)};
@@ -55,7 +56,6 @@ export const ModularAccordionContainer = styled.div`
   .acc__image-container {
     position: relative;
     flex: 1 1;
-    padding-right: ${setSpace(3)};
 
     ${mobileOnly(`
         flex: 0;
@@ -71,10 +71,6 @@ export const ModularAccordionContainer = styled.div`
 
   .acc__accordion {
     flex: 1 1;
-
-    &.-with-image {
-      margin: 0 ${setSpace(2)};
-    }
   }
 
   .accordion__title {
