@@ -411,7 +411,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
       ? diamonds.map((diamond) => {
-          const spriteImageUrl = generateDiamondSpriteImage(diamond?.diamondType);
+          const spriteImageUrl = generateDiamondSpriteImage({ diamondType: diamond?.diamondType });
 
           return spriteImageUrl;
         })

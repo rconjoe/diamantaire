@@ -9,9 +9,9 @@ const generateDiamondSpriteUrl = (lotId: string, format: string): string => {
 const generateDiamondSpriteImage = ({ diamondID, diamondType }: { diamondID?: string; diamondType: string }): string => {
   let url = '';
 
-  if (!diamondID || diamondType) {
-    url = `/cfy-${diamondType}`;
-  }
+  if (!diamondID && !diamondType) return url;
+
+  if (diamondType) url = `/cfy-${diamondType}`;
 
   if (diamondID) {
     if (!diamondID?.includes('cfy-')) {
