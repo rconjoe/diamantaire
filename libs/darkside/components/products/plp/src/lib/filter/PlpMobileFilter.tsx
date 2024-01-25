@@ -224,8 +224,6 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
     setMobileActiveFiltersHeight(mobileActiveFiltersContainer.current.offsetHeight);
   }, [localFilterValue]);
 
-  console.log(`mobileActiveFiltersHeight`, mobileActiveFiltersHeight);
-
   return (
     <PlpMobileFilterStyles headerHeight={headerHeight} mobileActiveFiltersHeight={mobileActiveFiltersHeight}>
       <FreezeBody />
