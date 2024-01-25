@@ -12,7 +12,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import PlpPriceRange from './PlpPriceRange';
@@ -23,10 +23,10 @@ const PlpMobileFilterStyles = styled.div`
   top: ${({ headerHeight }) => headerHeight}px;
   left: 0;
   width: 100%;
-  height: calc(100vh - ${({ headerHeight }) => headerHeight}px);
+  height: calc(100vh - ${({ headerHeight }) => headerHeight / 10}rem);
   background-color: var(--color-lightest-grey);
   z-index: 5000;
-  padding: 2rem 1.5rem 15rem;
+  padding: 2rem 1.5rem ${({ mobileActiveFiltersHeight }) => mobileActiveFiltersHeight / 10}rem;
   overflow-y: scroll;
 
   @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
@@ -50,14 +50,12 @@ const PlpMobileFilterStyles = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 15rem;
-    padding: 0 1.5rem;
+    padding: 2rem 1.5rem 0;
     background-color: var(--color-white);
 
     .mobile-active-filters__inner {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 1rem;
 
       .mobile-active-filters {
         flex: 0 0 80%;
@@ -65,9 +63,13 @@ const PlpMobileFilterStyles = styled.div`
         ul {
           display: flex;
           flex-wrap: wrap;
-          margin: 0;
-          padding: 0;
+          margin: -1rem 0 0;
           list-style: none;
+          padding: 0 0 1rem;
+
+          &:empty {
+            padding: 0;
+          }
 
           li {
             margin-right: 2rem;
@@ -107,7 +109,7 @@ const PlpMobileFilterStyles = styled.div`
       .clear-filters {
         flex: 1;
         text-align: right;
-        margin: 0.75rem 0 1rem 0;
+        margin: -0.25rem 0 1rem 0;
         display: flex;
         align-items: flex-start;
 
@@ -121,7 +123,7 @@ const PlpMobileFilterStyles = styled.div`
 
       .cta {
         flex: 0 0 100%;
-        padding: 2rem 0;
+        padding: 0 0 2rem 0;
       }
     }
   }
@@ -141,6 +143,10 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
   const { locale } = router;
 
   const [localFilterValue, setLocalFilterValue] = useState(filterValue || {});
+
+  const mobileActiveFiltersContainer = useRef(null);
+
+  const [mobileActiveFiltersHeight, setMobileActiveFiltersHeight] = useState(0);
 
   const sortedFilterTypes = Object.keys(filterTypes).sort((a, b) => {
     return filterOrder.indexOf(a) - filterOrder.indexOf(b);
@@ -210,8 +216,18 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
   const localFilterValueKeys = Object.keys(localFilterValue);
 
+  const localFilterValueLength = localFilterValueKeys.reduce((a, v) => {
+    return Array.isArray(localFilterValue[v]) ? a + localFilterValue[v].length : a;
+  }, 0);
+
+  useEffect(() => {
+    setMobileActiveFiltersHeight(mobileActiveFiltersContainer.current.offsetHeight);
+  }, [localFilterValue]);
+
+  console.log(`mobileActiveFiltersHeight`, mobileActiveFiltersHeight);
+
   return (
-    <PlpMobileFilterStyles headerHeight={headerHeight}>
+    <PlpMobileFilterStyles headerHeight={headerHeight} mobileActiveFiltersHeight={mobileActiveFiltersHeight}>
       <FreezeBody />
 
       <HideHeader />
@@ -276,7 +292,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
         </button>
       </div>
 
-      <div className="mobile-active-filters-container">
+      <div ref={mobileActiveFiltersContainer} className="mobile-active-filters-container">
         <div className="mobile-active-filters__inner">
           <div className="mobile-active-filters">
             <ul>
@@ -367,7 +383,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
             </ul>
           </div>
 
-          {localFilterValueKeys.length > 0 && (
+          {localFilterValueLength > 0 && (
             <div className="clear-filters">
               <button onClick={handleResetFilterValues}>
                 <UIString>Clear all</UIString>
