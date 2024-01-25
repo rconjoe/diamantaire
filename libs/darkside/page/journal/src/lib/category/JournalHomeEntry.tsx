@@ -91,7 +91,7 @@ const JournalHomeEntry = ({
               post.image.url = post.featuredImage.url;
 
               // link
-              post.ctaRoute = '/post/' + post.slug;
+              post.ctaRoute = '/journal/post/' + post.slug;
               post.ctaCopy = 'Learn More';
               post.copy = post.excerpt;
 

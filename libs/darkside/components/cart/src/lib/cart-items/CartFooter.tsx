@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import { Cart } from '../types';
 
 const CartFooterStyles = styled.div`
-  min-height: 150px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -21,6 +20,11 @@ const CartFooterStyles = styled.div`
   background-color: #fdfbf8;
   text-align: center;
   padding: 4rem 0 2rem;
+  min-height: 200px;
+
+  @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+    min-height: 150px;
+  }
 
   ul {
     margin: 0;

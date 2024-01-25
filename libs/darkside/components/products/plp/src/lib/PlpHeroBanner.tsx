@@ -61,12 +61,13 @@ const PlpHeroBannerStyles = styled.div`
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
           line-height: 1.6;
-          margin: 0;
+          margin: 0 auto;
           color: var(--color-black);
           line-height: 1.3;
 
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             max-width: 55rem;
+            margin: 0;
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
           }
         }

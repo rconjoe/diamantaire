@@ -90,7 +90,7 @@ const JournalFeaturedArticle = (props: JournalFeaturedArticleProps) => {
               {author} | {format(new Date(sortByDate), 'MMMM do, yyyy')}
             </p>
             <p>{desktopCopy}</p>
-            <DarksideButton href={ctaRoute} type="underline" colorTheme="teal">
+            <DarksideButton href={`/journal/post/${ctaRoute}`} type="underline" colorTheme="teal">
               {ctaCopy}
             </DarksideButton>
           </div>

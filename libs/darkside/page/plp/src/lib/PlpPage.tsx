@@ -51,7 +51,12 @@ type FilterQueryValues = {
 const PlpStyles = styled.div`
   #breadcrumb {
     padding-top: 2rem;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding-top: 1rem;
+    }
   }
+
   .container-wrapper {
     @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       max-width: 90vw;

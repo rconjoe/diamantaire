@@ -50,6 +50,7 @@ export default class DiamondTablePage extends HomePage {
   }
 
   async selectDiamondByRow(row){
+    await this.page.waitForLoadState('domcontentloaded'); 
     await this.page.click("[data-id='"+row+"']");
     await this.selectBtn.click();
   }

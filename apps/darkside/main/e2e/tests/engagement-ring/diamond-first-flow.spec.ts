@@ -29,7 +29,7 @@ test.describe("Engagement ring - Diamond First flow", () => {
 
     await test.step("Select an engagement ring setting", async () => {
 
-      await diamondToSettingPage.selectMetalFilter('White Gold');
+      await diamondToSettingPage.selectMetalFilter('White gold');
       await diamondToSettingPage.page.keyboard.press('PageDown');
 
       await diamondToSettingPage.selectSettingBySettingName('The V Round')

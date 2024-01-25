@@ -130,7 +130,7 @@ const PlpMobileFilterStyles = styled.div`
 const filterOrder = ['price', 'diamondType', 'metal', 'subStyles', 'styles'];
 
 const HideHeader = createGlobalStyle`
-  #primary-navigation--parent {
+  #primary-navigation--parent, #mobile-navigation--parent {
     display: none;
   }
 `;

@@ -157,7 +157,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
 
   return (
     <>
-      <MobileHeaderContainer>
+      <MobileHeaderContainer id="mobile-navigation--parent">
         <div className="mobile-header-outer-wrapper" ref={mobileMenuRef}>
           <div className="mobile-header-wrapper">
             <div className="col col--left">
