@@ -144,6 +144,14 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
   const [localFilterValue, setLocalFilterValue] = useState(filterValue || {});
 
+  const localFilterValueKeys = Object.keys(localFilterValue || {});
+
+  const localFilterValueLength = localFilterValueKeys.reduce((a, v) => {
+    if (v === 'price') return a + 1;
+
+    return Array.isArray(localFilterValue[v]) ? a + localFilterValue[v].length : a;
+  }, 0);
+
   const mobileActiveFiltersContainer = useRef(null);
 
   const [mobileActiveFiltersHeight, setMobileActiveFiltersHeight] = useState(0);
@@ -175,7 +183,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
     delete currentLocalFilterValue.price;
 
-    setLocalFilterValue({ ...currentLocalFilterValue });
+    setLocalFilterValue(currentLocalFilterValue);
   };
 
   const handleUpdateLocalFilterValue = (filterType, value) => {
@@ -186,7 +194,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
         updatedFilterValue[filterType] = [value];
       } else if (filterType === 'price') {
         if (value.min === localFilterValue?.price?.min && value.max === localFilterValue?.price?.max) {
-          handlePriceRangeReset();
+          delete updatedFilterValue.price;
         } else {
           updatedFilterValue[filterType] = value;
         }
@@ -213,12 +221,6 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
 
     handleUpdateFilterValues();
   };
-
-  const localFilterValueKeys = Object.keys(localFilterValue);
-
-  const localFilterValueLength = localFilterValueKeys.reduce((a, v) => {
-    return Array.isArray(localFilterValue[v]) ? a + localFilterValue[v].length : a;
-  }, 0);
 
   useEffect(() => {
     setMobileActiveFiltersHeight(mobileActiveFiltersContainer.current.offsetHeight);

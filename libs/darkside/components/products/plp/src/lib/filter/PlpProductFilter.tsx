@@ -208,6 +208,8 @@ const PlpProductFilter = ({
 
   useEffect(() => {
     updateURL();
+
+    window.scrollTo(0, 0);
   }, [filterValue]);
 
   return (

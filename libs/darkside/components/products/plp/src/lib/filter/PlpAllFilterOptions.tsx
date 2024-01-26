@@ -43,6 +43,10 @@ const PlpAllFilterOptions = ({
 
   const { locale, asPath, pathname } = router;
 
+  const isAnyFilterActive = true;
+
+  const isDiamondFirstFlow = asPath.includes('diamond-to-setting');
+
   const renderCustomPriceRange = (price: { min?: number; max?: number }) => {
     return (
       <>
@@ -52,8 +56,6 @@ const PlpAllFilterOptions = ({
       </>
     );
   };
-
-  const isAnyFilterActive = true;
 
   const handleFormat = (value: number | string) => {
     const num = Number(value);
@@ -81,8 +83,6 @@ const PlpAllFilterOptions = ({
 
     setFilterValues(newFilters);
   }
-
-  const isDiamondFirstFlow = asPath.includes('diamond-to-setting');
 
   return (
     <PlpAllFilterOptionsStyles>
