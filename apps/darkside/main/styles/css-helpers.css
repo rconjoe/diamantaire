@@ -39,6 +39,12 @@ button:hover {
 .font-medium {
   font-weight: var(--font-weight-medium);
 }
+
+.container-wrapper:not(:first-child) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .container-wrapper {
   width: 100%;
   padding-left: calc(var(--space-gutter) * 3);

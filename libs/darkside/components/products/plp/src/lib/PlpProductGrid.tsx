@@ -55,14 +55,6 @@ const PlpProductGridStyles = styled.div`
     }
   }
 
-  .product-grid {
-    padding: 0 1rem;
-
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 0;
-    }
-  }
-
   .product-grid__row {
     display: grid;
     flex-wrap: wrap;

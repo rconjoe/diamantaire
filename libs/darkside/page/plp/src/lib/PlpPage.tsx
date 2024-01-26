@@ -22,7 +22,6 @@ import {
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
