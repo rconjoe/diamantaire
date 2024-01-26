@@ -294,8 +294,8 @@ function OptionSelector({
 
     if (initialIndex > -1) {
       setTimeout(() => {
-        emblaApi.scrollTo(initialIndex);
-      }, 300);
+        emblaApi.scrollTo(initialIndex, true);
+      }, 0);
     }
   }, [emblaApi, options, selectedOptionValue]);
 
