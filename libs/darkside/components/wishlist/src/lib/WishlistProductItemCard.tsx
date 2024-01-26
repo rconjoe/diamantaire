@@ -59,7 +59,7 @@ const CardDiamond: React.FC<CardDiamondProps> = ({
 }) => {
   const { _t } = useTranslations(locale);
 
-  const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.UI_STRINGS]);
+  const { _t: _tt } = useTranslations(locale, [humanNamesMapperType.DIAMOND_SHAPES]);
 
   const { slug, handle, diamondType, carat, price, color, clarity, cut } = diamond || {};
 
