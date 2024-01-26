@@ -25,6 +25,7 @@ const PlpProductGridStyles = styled.div`
     z-index: var(--z-index-filter);
     background-color: var(--color-white);
     top: ${({ isSettingSelect }) => (isSettingSelect ? 0 : '55px')};
+    margin: 2rem 0;
 
     .grid-controls {
       display: flex;

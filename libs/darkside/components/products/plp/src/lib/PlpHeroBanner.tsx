@@ -77,34 +77,15 @@ const PlpHeroBannerStyles = styled.div`
   .hero__content {
     text-align: center;
 
-    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-      padding: 3rem 0 2.5rem;
-    }
-
     .hero-title {
       line-height: 1;
-
-      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin-bottom: 1rem;
-      }
-    }
-
-    .hero__content-inner {
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        padding: 1rem 0 0;
-      }
-      > div {
-        padding-top: 1rem;
-      }
+      margin-bottom: 1rem;
     }
 
     p {
       line-height: 1.3;
       font-size: var(--font-size-xxsmall);
-      margin: 0.5rem 0 0;
-      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
-        margin: 0;
-      }
+      ${media.small`margin:2rem 0;`}
     }
   }
 `;

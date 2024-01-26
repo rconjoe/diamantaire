@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 const PlpSubCategoriesStyles = styled.div`
   display: flex;
-  padding: 0 0.5rem 1rem;
+  padding: 0 0.5rem;
+  margin: 2rem auto;
   justify-content: center;
   overflow-x: auto;
   justify-content: start;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  padding-top: 2rem;
 
   &::-webkit-scrollbar {
     display: none;
@@ -19,7 +19,7 @@ const PlpSubCategoriesStyles = styled.div`
 
   ${media.medium`
     justify-content: center;
-    padding: 0 0 1rem; 
+    padding: 0 0 1rem;
     padding-left: 0;
   `}
 

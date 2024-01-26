@@ -4,7 +4,6 @@ export const PlpProductFilterStyles = styled.div`
   background-color: var(--color-white);
   padding: 0;
   width: 100%;
-  margin: 2rem 0;
 
   .filter__wrapper {
     display: flex;

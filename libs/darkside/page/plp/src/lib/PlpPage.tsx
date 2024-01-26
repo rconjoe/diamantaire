@@ -51,14 +51,8 @@ type FilterQueryValues = {
 };
 
 const PlpStyles = styled.div`
-  ${media.laptop`
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  `}
-  ${media.xl`
-  padding-left: 0;
-  padding-right: 0;
-  `}
 `;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
