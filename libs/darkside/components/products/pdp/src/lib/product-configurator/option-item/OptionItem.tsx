@@ -386,8 +386,7 @@ const StyledBasicOptionItem = styled(StyledOptionItem)`
     border-color: var(--color-teal);
   }
   &.-other {
-    white-space: nowrap;
-    padding: 0.5rem;
+    line-height: 1;
   }
 
   span.em-dash {
