@@ -246,7 +246,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PlpPreviouslyViewed />
 
-      <PlpBlockPicker category={category} plpSlug={plpSlug} />
+      {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
     </PlpStyles>
   );
 }
