@@ -8,6 +8,7 @@ import {
   PLP_PRICE_RANGES,
   RING_STYLES_MAP,
   getFormattedPrice,
+  simpleFormatPrice,
 } from '@diamantaire/shared/constants';
 import { XIcon } from '@diamantaire/shared/icons';
 import { useRouter } from 'next/router';
@@ -334,8 +335,8 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                   const selectedPrice = PLP_PRICE_RANGES.find((v) => v.slug === selectedPriceSlug);
 
                   const priceArray = [
-                    ...(price.min ? [getFormattedPrice(price.min, locale).trim()] : []),
-                    ...(price.max ? [getFormattedPrice(price.max, locale).trim()] : []),
+                    ...(price.min ? [simpleFormatPrice(price.min, locale).trim()] : []),
+                    ...(price.max ? [simpleFormatPrice(price.max, locale).trim()] : []),
                   ];
 
                   return (
