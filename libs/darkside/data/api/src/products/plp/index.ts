@@ -294,6 +294,8 @@ export async function fetchPlpShopTheLook(productIds: string[], locale: string) 
 
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
+  if (!category && !slug) return {};
+
   try {
     const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
@@ -339,6 +341,7 @@ const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
   if (!id) return {};
+
   const datoData = await queryDatoGQL({
     query: LIST_PAGE_PROMO_CARD_COLLECTION_QUERY,
     variables: { locale, id },
