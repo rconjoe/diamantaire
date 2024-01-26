@@ -28,6 +28,8 @@ export async function getVRAIServerPlpData(
   { page = 1, limit = 12 }: PaginatedRequestOptions,
   locale,
 ) {
+  if (!slug && !category) return {};
+
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
