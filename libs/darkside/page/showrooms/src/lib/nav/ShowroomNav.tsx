@@ -2,7 +2,7 @@ import { Heading, ShowMobileOnly, ShowTabletAndUpOnly, UniLink } from '@diamanta
 import { useShowroomNav } from '@diamantaire/darkside/data/hooks';
 import { getRelativeUrl } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ShowroomNavStyle } from './ShowroomNav.style';
 
@@ -21,6 +21,18 @@ const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
       linksSortedByCountry[link.country] = [link];
     }
   });
+
+  const handleRouteChange = () => {
+    setIsMobileNavOpen(false);
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
 
   return (
     <ShowroomNavStyle>
@@ -65,7 +77,8 @@ const ShowroomNavItems = ({ linksSortedByCountry, currentLocation }) => {
       {Object.keys(linksSortedByCountry).map((country) => {
         return (
           <div className="list__container" key={`showroom-${country}`}>
-            <h4>{country}</h4>
+            <Heading type="h4">{country}</Heading>
+
             <ul>
               {linksSortedByCountry[country].map((link) => {
                 const { copy, route } = link || {};
