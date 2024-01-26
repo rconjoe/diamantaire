@@ -426,6 +426,7 @@ export function getPrimaryLanguage(countryCode: string): string {
   if (!countries[countryCode]) {
     return Language.English;
   }
+
   const languages = countries[countryCode].languages;
 
   return languages[0] || Language.English;
@@ -503,8 +504,9 @@ export function applyExchangeRate(amount: number, currency = 'USD', excludeExcha
  * @param {boolean} excludeCurrency - should exclude currency symbol
  * @returns {string} - formatted price
  *
- * THIS IS THE MAIN CURRENCY FORMATTING METHOD, ANYTHING ELSE IS WRONG
+ * This is for when we want to add VAT + conversion
  */
+
 export function getFormattedPrice(
   priceInCents: number,
   locale: string = DEFAULT_LOCALE,
@@ -568,59 +570,15 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
-export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true, cur?: string) {
+// This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
+export function simpleFormatPrice(
+  priceInCents: number,
+  locale: string = DEFAULT_LOCALE,
+  hideZeroCents = true,
+  cur?: string, // sometime you want a different currency than locale currency so you have this.
+) {
   const { countryCode } = parseValidLocale(locale);
-
   const currency = cur || getCurrency(countryCode);
-
-  let convertedPrice = applyExchangeRate(priceInCents / 100, currency);
-
-  convertedPrice = getPriceWithAddedTax(convertedPrice, countryCode);
-
-  if (currency !== Currency.USDollars) {
-    convertedPrice = Math.ceil(convertedPrice);
-  }
-
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
-
-  const numberFormat = new Intl.NumberFormat(customLocale, {
-    currency,
-    style: 'currency',
-    currencyDisplay: 'narrowSymbol',
-    minimumFractionDigits: hideZeroCents ? 0 : 2,
-    maximumFractionDigits: hideZeroCents ? 0 : 2,
-  });
-
-  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(convertedPrice);
-
-  let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
-
-  formattedPrice = formattedPrice.replace(currencySymbol, '');
-
-  // Manually adding period to first gap in price if currency is EUR
-  if (currency === 'EUR') {
-    formattedPrice = formattedPrice.replace(' ', '.');
-  }
-
-  // Canada symbol
-  if (countryCode === 'CA') {
-    currencySymbol = 'CA' + currencySymbol;
-  }
-  // Australia symbol
-  if (countryCode === 'AU') {
-    currencySymbol = 'A' + currencySymbol;
-  }
-
-  formattedPrice = `${currencySymbol}${formattedPrice}`;
-
-  return formattedPrice;
-}
-
-// This is just for adding a symbol to the price
-export function simpleFormatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
-  const { countryCode } = parseValidLocale(locale);
-  const currency = getCurrency(countryCode);
   const numberFormat = new Intl.NumberFormat(locale, {
     currency,
     style: 'currency',

@@ -15,6 +15,7 @@ const StyledDiamondPage = styled.div`
     flex-wrap: wrap;
     display: flex;
     gap: 0 ${gapMD};
+    max-width: 90vw;
   `)}
 
   ${desktopAndUp(`
@@ -50,7 +51,8 @@ const StyledDiamondPage = styled.div`
       flex-direction: column;
       position: sticky;
       align-self: flex-start;
-      top: 12.5rem;
+      top: 55px;
+
     `)}
 
     ${desktopAndUp(`
@@ -72,7 +74,7 @@ const StyledDiamondPage = styled.div`
 
   .vo-filter-clear-button {
     margin: 2rem 0 0;
-    * {
+    button {
       font-size: var(--font-size-xxxsmall);
       font-weight: var(--font-weight-normal);
     }

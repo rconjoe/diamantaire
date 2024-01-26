@@ -94,7 +94,14 @@ export const GlobalTemplate = ({ children }) => {
   }, [headerData, isTopbarShowing]);
 
   return (
-    <div id="vrai-site" className={`${vraiFont.className} ${vraiFont.variable}`}>
+    <div
+      id="vrai-site"
+      // need for sticky nav
+      style={{
+        height: 'fit-content',
+      }}
+      className={`${vraiFont.className} ${vraiFont.variable}`}
+    >
       {headerData && (
         <Header
           headerData={headerData}

@@ -167,7 +167,7 @@ const PlpProductFilter = ({
         );
 
       if (urlFilterMethod === 'param') {
-        router.push(
+        router.replace(
           {
             pathname: router.pathname,
             query: { plpSlug: plpSlug[0], ...sortedQParams },
@@ -183,7 +183,7 @@ const PlpProductFilter = ({
           .map(([, v]) => v)
           .flat();
 
-        router.push(
+        router.replace(
           {
             pathname: router.pathname,
             query: {

@@ -12,6 +12,10 @@ const StyledDiamondFilter = styled.aside`
     display: flex;
     flex-wrap: wrap;
     position: relative;
+
+    &.vo-filter-clarity {
+      margin: -5px 0 -10px;
+    }
   }
 
   .vo-filter-title {
@@ -143,7 +147,11 @@ const StyledDiamondFilter = styled.aside`
       list-style: none;
       white-space: nowrap;
       padding: 1rem 0;
-      display: block;
+
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        display: block;
+        padding-left: 10px;
+      }
 
       ${tabletAndUp(`
         display: flex;
@@ -154,6 +162,11 @@ const StyledDiamondFilter = styled.aside`
 
     .vo-filter-list-item {
       display: inline-block;
+
+      @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+        left: -18px;
+        position: relative;
+      }
 
       .-pair {
         padding: 0 0 0 0.5rem;
@@ -200,7 +213,7 @@ const StyledDiamondFilter = styled.aside`
       left: 0;
       height: 5rem;
       width: 3rem;
-      background: rgba(255, 255, 255, 0.75);
+      background: var(--color-white);
       display: flex;
       justify-content: center;
       align-items: center;
