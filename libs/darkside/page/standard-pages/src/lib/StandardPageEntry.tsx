@@ -31,11 +31,12 @@ const StandardPageEntry = ({ page, countryCode, currencyCode, gtmClass }: Standa
   return (
     <div className={clsx('content-one-container', gtmClass)}>
       {page?.breadcrumb.length > 0 && <Breadcrumb breadcrumb={page?.breadcrumb} />}
+
       {page?.content1?.map((contentBlockData, idx) => {
         const { _modelApiKey } = contentBlockData;
 
-        // Desktop + Mobile, anything after the first two blocks should be lazy loaded
         const contentIsAboveFold = idx < 2;
+
         const shouldLazyLoad = contentIsAboveFold ? false : true;
 
         if (shouldLazyLoad) {

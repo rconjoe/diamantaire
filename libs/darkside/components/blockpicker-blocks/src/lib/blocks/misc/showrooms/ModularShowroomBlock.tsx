@@ -72,10 +72,12 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
           </div>
         )}
       </ShowMobileOnly>
+
       <div className="showroom__text-container">
         <Heading type="h2" className="showroom__title h1">
           {title}
         </Heading>
+
         <div className="showroom__text-inner-container">
           <div className="showroom__text-section">
             {directionsCtaLink && (
@@ -115,6 +117,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
               </p>
             </div>
           )}
+
           {appointmentCtaLink && appointmentCtaCopy && (
             <div className="showroom__text-section">
               <DarksideButton
@@ -127,6 +130,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
               </DarksideButton>
             </div>
           )}
+
           {darksideButtons?.map((button) => {
             return (
               <DarksideButton
@@ -140,11 +144,13 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
               </DarksideButton>
             );
           })}
+
           {detailCtaLink && detailCtaCopy && (
             <UniLink route={detailCtaLink} className="showroom__cta ">
               {detailCtaCopy}
             </UniLink>
           )}
+
           {servicesLabel && services && (
             <div className="showroom__text-section">
               <p className="p-copy -bold">{servicesLabel}</p>
@@ -153,6 +159,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
           )}
         </div>
       </div>
+
       <ShowTabletAndUpOnly>
         {image && (
           <div className="showroom__image-container">
@@ -165,6 +172,7 @@ const ModularShowroomBlock = ({ data, image }: ModularShowroomBlockProps) => {
           </div>
         )}
       </ShowTabletAndUpOnly>
+
       {directionsImage && (
         <ShowMobileOnly>
           <div className="showroom__bottom-direction-image">
