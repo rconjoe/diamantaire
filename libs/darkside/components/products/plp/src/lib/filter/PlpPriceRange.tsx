@@ -63,7 +63,7 @@ const PlpPriceRange = ({ price, updateFilter, filterValue, handleSliderURLUpdate
             ];
 
             return (
-              <li key={`filter-${price.title}`} className={isSelected ? 'selected' : ''}>
+              <li key={`filter-${selectedPriceSlug}`} className={isSelected ? 'selected' : ''}>
                 <button
                   className="flex align-center"
                   onClick={() => {

@@ -2,11 +2,8 @@ import { DarksideButton, FreezeBody, UIString } from '@diamantaire/darkside/comp
 import { humanNamesMapperType, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import {
   DIAMOND_TYPE_HUMAN_NAMES,
-  JEWELRY_SUB_CATEGORY_HUMAN_NAMES,
   METALS_IN_HUMAN_NAMES,
-  METAL_HUMAN_NAMES,
   PLP_PRICE_RANGES,
-  RING_STYLES_MAP,
   getFormattedPrice,
   simpleFormatPrice,
 } from '@diamantaire/shared/constants';
@@ -297,25 +294,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
           <div className="mobile-active-filters">
             <ul>
               {localFilterValueKeys.map((filterType) => {
-                const isDiamondType = filterType === 'diamondType';
-
-                const isSubStyle = filterType === 'subStyle';
-
-                const isMetal = filterType === 'metal';
-
                 const isPrice = filterType === 'price';
-
-                const isStyle = filterType === 'style';
-
-                const text = isMetal
-                  ? METAL_HUMAN_NAMES[localFilterValue[filterType]]
-                  : isDiamondType
-                  ? DIAMOND_TYPE_HUMAN_NAMES[localFilterValue[filterType]]
-                  : isStyle
-                  ? RING_STYLES_MAP[localFilterValue[filterType]]
-                  : isSubStyle
-                  ? JEWELRY_SUB_CATEGORY_HUMAN_NAMES[localFilterValue[filterType]]
-                  : filterType;
 
                 if (!localFilterValue[filterType] || localFilterValue[filterType]?.length === 0) {
                   return null;
@@ -342,7 +321,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                   ];
 
                   return (
-                    <li className="active-filter" key={`${localFilterValue}-${text}`}>
+                    <li className="active-filter" key={`price-${selectedPriceSlug}`}>
                       <button className="price-filter-tab" onClick={() => handlePriceRangeReset()}>
                         <span className="close">x</span>
                         {selectedPrice ? (
@@ -370,7 +349,7 @@ const PlpMobileFilter = ({ filterTypes, filterValue, handleSliderURLUpdate, clos
                     }
 
                     return (
-                      <li className="active-filter" key={`${localFilterValue}-${text}-${index}`}>
+                      <li className="active-filter" key={`${filterType}-${val}-${index}`}>
                         <button onClick={() => handleUpdateLocalFilterValue(filterType, val)}>
                           <span className="close">x</span>
                           {title}
