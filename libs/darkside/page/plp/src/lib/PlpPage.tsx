@@ -22,6 +22,7 @@ import {
 } from '@diamantaire/shared/constants';
 import { isEmptyObject, getSwrRevalidateConfig } from '@diamantaire/shared/helpers';
 import { FilterValueProps } from '@diamantaire/shared-product';
+import { media } from '@diamantaire/styles/darkside-styles';
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -57,10 +58,10 @@ const PlpStyles = styled.div`
       padding-top: 1rem;
     }
   }
-
-  .container-wrapper {
-    max-width: 90vw;
-  }
+  ${media.laptop`
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  `}
 `;
 
 function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
