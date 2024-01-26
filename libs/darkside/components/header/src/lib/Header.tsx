@@ -4,12 +4,12 @@ import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 // import Search from 'components/search/Search';
 
 import CompactHeader from './CompactHeader';
@@ -81,6 +81,7 @@ const Header: FC<HeaderProps> = ({
   const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
   const [isLoaded, setIsLoaded] = useState(false);
   const isHome = router.pathname === '/';
+  const [showroomLocation, setShowroomLocation] = useState(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -195,6 +196,12 @@ const Header: FC<HeaderProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    const showroomLocationTemp = isUserCloseToShowroom();
+
+    setShowroomLocation(showroomLocationTemp);
+  }, []);
+
   const combinedHeight =
     isHome && isTopBarVisible
       ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
@@ -226,6 +233,7 @@ const Header: FC<HeaderProps> = ({
                   selectedCountry={countries[selectedCountryCode].name}
                   selectedLanguage={languagesByCode[selectedLanguageCode].name}
                   isLanguageSelectorOpen={isLanguageSelectorOpen}
+                  showroomLocation={showroomLocation}
                 />
               </div>
               <AnimatePresence>
@@ -316,6 +324,7 @@ const Header: FC<HeaderProps> = ({
         mobileMenuRef={mobileMenuRef}
         topBarRef={topBarRef}
         isTopBarVisible={isTopBarVisible}
+        showroomLocation={showroomLocation}
       />
     </>
   );
