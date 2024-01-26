@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { UIString } from './UIString';
 
 const BreadcrumbStyles = styled.div<{ lastItemBolded?: boolean }>`
-  padding-bottom: calc(var(--gutter) / 4);
+  margin: 2rem 0;
 
   ${mobileOnly(`
     padding-left: 0;

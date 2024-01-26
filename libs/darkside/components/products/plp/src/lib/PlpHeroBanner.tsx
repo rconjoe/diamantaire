@@ -50,7 +50,7 @@ const PlpHeroBannerStyles = styled.div`
         ${media.small`padding: 0 var(--gutter);`}
 
         h1 {
-          margin-bottom: calc(var(--gutter) / 6);
+          margin-bottom: 2rem;
           color: var(--color-black);
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             color: ${({ textColor }) => textColor || 'var(--color-black)'};
@@ -60,7 +60,6 @@ const PlpHeroBannerStyles = styled.div`
         p {
           max-width: 32rem;
           font-size: var(--font-size-xsmall);
-          line-height: 1.6;
           margin: 0 auto;
           color: var(--color-black);
           line-height: 1.3;
@@ -83,8 +82,7 @@ const PlpHeroBannerStyles = styled.div`
     }
 
     .hero-title {
-      min-height: 4.8rem;
-      line-height: 1.3;
+      line-height: 1;
 
       @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         margin-bottom: 1rem;

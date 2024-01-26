@@ -66,7 +66,7 @@ const PlpProductGridStyles = styled.div`
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 1rem;
+    gap: 1.5rem 0.8rem;
 
     ${media.medium`
     grid-template-columns: repeat(4, 1fr);
@@ -81,7 +81,6 @@ const PlpProductGridStyles = styled.div`
 
   .filter {
     width: 100%;
-    padding: 1rem 0;
   }
 `;
 
