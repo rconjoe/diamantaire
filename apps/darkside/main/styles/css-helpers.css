@@ -114,3 +114,16 @@ iframe#kustomer-ui-sdk-iframe {
   -ms-transform: rotate(3deg) translate(0px, -0.4rem);
   transform: rotate(3deg) translate(0px, -0.4rem);
 }
+
+.hide-on-mobile {
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+.show-on-mobile {
+  display: block;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

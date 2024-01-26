@@ -29,7 +29,7 @@ const PlpProductGridStyles = styled.div`
 
     .grid-controls {
       display: flex;
-      padding: 0 1rem;
+      padding: 0;
       align-items: start;
       justify-content: space-between;
 
@@ -39,8 +39,6 @@ const PlpProductGridStyles = styled.div`
     }
 
     .sort {
-      padding-top: 1rem;
-
       @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
         position: absolute;
         cursor: pointer;
@@ -51,6 +49,7 @@ const PlpProductGridStyles = styled.div`
 
       * {
         cursor: pointer;
+        align-items: flex-start;
       }
     }
   }

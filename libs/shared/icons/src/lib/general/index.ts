@@ -15,3 +15,5 @@ export * from './SearchIcon';
 export * from './ShoppingBagIcon';
 export * from './TableIcon';
 export * from './XIcon';
+export * from './SortIcon';
+export * from './ChevronDown';
