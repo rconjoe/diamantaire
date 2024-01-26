@@ -15,7 +15,7 @@ const generateDiamondSpriteImage = ({ diamondID, diamondType }: { diamondID?: st
 
   if (diamondID) {
     if (!diamondID?.includes('cfy-')) {
-      url = `/${diamondID.replace(/[a-zA-Z]/g, '')}`;
+      url = `/${diamondID.replace(/[^0-9]/g, '')}`;
     }
   }
 
