@@ -15,11 +15,13 @@ export const ModularShowroomBlockStyles = styled.div`
   .showroom__image-container {
     display: block;
     width: 100%;
-    max-width: 600px;
-    margin: auto;
+    margin: 5.55rem auto 0;
+
     ${desktopAndUp(`
-    margin: 0 ${setSpace(2)};
-  `)};
+      width: 600px;
+      margin: 0 ${setSpace(2)};
+    `)};
+
     img {
       width: 100%;
       height: auto;

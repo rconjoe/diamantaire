@@ -8,8 +8,11 @@ import { ShowroomNavStyle } from './ShowroomNav.style';
 
 const ShowroomNav = ({ currentLocation }: { currentLocation: string }) => {
   const router = useRouter();
+
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
   const { data }: any = useShowroomNav(router.locale);
+
   const { title, links } = data.showroomNav;
 
   const linksSortedByCountry = {};
