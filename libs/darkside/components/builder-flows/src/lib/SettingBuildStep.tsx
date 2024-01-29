@@ -216,20 +216,22 @@ const SettingBuildStep = ({
             />
 
             <ProductPrice isBuilderProduct={false} price={parseFloat(totalPrice)} engravingText={null} />
-            <ProductConfigurator
-              configurations={configurations}
-              selectedConfiguration={selectedConfiguration}
-              variantId={variantId}
-              additionalVariantData={additionalVariantData}
-              isBuilderFlowOpen={true}
-              updateSettingSlugs={updateSettingSlugs}
-              settingSlugs={settingSlugs}
-              disableVariantType={disableVariantType}
-              variantProductTitle={shopifyProductData?.productTitle}
-              requiresCustomDiamond={false}
-              productIconListType={productIconListType}
-              setProductSlug={(val) => updateSettingSlugs({ productSlug: val })}
-            />
+            {shopifyProductData?.variantDetails && (
+              <ProductConfigurator
+                configurations={configurations}
+                selectedConfiguration={selectedConfiguration}
+                variantId={variantId}
+                additionalVariantData={additionalVariantData}
+                isBuilderFlowOpen={true}
+                updateSettingSlugs={updateSettingSlugs}
+                settingSlugs={settingSlugs}
+                disableVariantType={disableVariantType}
+                variantProductTitle={shopifyProductData?.productTitle}
+                requiresCustomDiamond={false}
+                productIconListType={productIconListType}
+                setProductSlug={(val) => updateSettingSlugs({ productSlug: val })}
+              />
+            )}
 
             {/* <ProductKlarna title={productTitle} currentPrice={price} /> */}
 

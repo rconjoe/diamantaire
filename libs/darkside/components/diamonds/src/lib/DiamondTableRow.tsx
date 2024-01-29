@@ -74,7 +74,7 @@ const DiamondTableRow = ({
     );
   };
 
-  const handleSelectDiamond = () => {
+  const handleSelectDiamond = async () => {
     const { carat, color, clarity, cut, price } = product;
 
     const { countryCode } = parseValidLocale(locale) || {};
@@ -99,7 +99,7 @@ const DiamondTableRow = ({
       currencyCode,
     });
 
-    updateFlowData('ADD_DIAMOND', [product]);
+    await updateFlowData('ADD_DIAMOND', [product]);
 
     if (updateSettingSlugs) {
       updateSettingSlugs({
@@ -108,21 +108,24 @@ const DiamondTableRow = ({
     }
 
     if (!router.query.flowType) {
-      router.push(`/customize/diamond-to-setting/${product.lotId}`);
+      console.log('case 001');
+      // router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {
-      router.push(
-        `/customize/setting-to-diamond/${
-          router.asPath.includes('/pair/') ? '/pair/' : ''
-        }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
-        null,
-      );
+      console.log('case 002');
+      // router.push(
+      //   `/customize/setting-to-diamond/${
+      //     router.asPath.includes('/pair/') ? '/pair/' : ''
+      //   }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
+      //   null,
+      // );
     } else {
-      router.push(
-        `/customize/diamond-to-setting/${router.asPath.includes('/summary/') ? '/summary/' : ''}${product.lotId}${
-          builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''
-        }`,
-        null,
-      );
+      const nextUrl = `/customize/diamond-to-setting/${router.asPath.includes('summary/') ? 'summary/' : ''}${
+        product.lotId
+      }${builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''}`;
+
+      console.log('case 003', nextUrl);
+
+      return router.replace(nextUrl, null, { shallow: true, scroll: true });
     }
   };
 

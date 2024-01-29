@@ -84,7 +84,7 @@ function OptionItemLink({ value, id, children, setProductSlug }: OptionItemLinkP
   }, [id, setProductSlug]);
 
   return (
-    <Link href={url} shallow={true} scroll={false} onClick={handleClick}>
+    <Link href={url} replace={true} shallow={true} scroll={false} onClick={handleClick}>
       {children || value}
     </Link>
   );

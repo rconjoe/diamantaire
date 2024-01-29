@@ -1,6 +1,6 @@
 import { DarksideButton, Heading, ShowTabletAndUpOnly, UIString } from '@diamantaire/darkside/components/common-ui';
 import { DiamondFilter, DiamondPromo, DiamondTable } from '@diamantaire/darkside/components/diamonds';
-import { useDiamondsData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
+import { useDiamondsData } from '@diamantaire/darkside/data/hooks';
 import { DEFAULT_LOCALE } from '@diamantaire/shared/constants';
 import { getDiamondShallowRoute } from '@diamantaire/shared/helpers';
 import { motion } from 'framer-motion';
@@ -30,15 +30,11 @@ const DiamondBuildStepStyles = styled(motion.div)`
       display: flex;
     }
 
-    .vo-table-head {
-      top: ${({ headerHeight }) => headerHeight}px;
-    }
-
     > aside {
       @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
         flex: 0 0 450px;
         padding-right: 5rem;
-        top: calc(${({ headerHeight }) => headerHeight}px + 4rem);
+        top: 55px;
         height: 100vh;
         position: sticky;
       }
@@ -146,7 +142,6 @@ const DiamondBuildStep = ({
 
   const [loading, setLoading] = useState(true);
   // const [isTableView, setIsTableView] = useState(true);
-  const { headerHeight } = useGlobalContext();
   const isTableView = true;
   const [options, setOptions] = useState(initialOptions);
   const [activeRow, setActiveRow] = useState(null);
@@ -266,7 +261,6 @@ const DiamondBuildStep = ({
       transition={{
         duration: 0.75,
       }}
-      headerHeight={headerHeight}
     >
       <div className="">
         {diamonds && (

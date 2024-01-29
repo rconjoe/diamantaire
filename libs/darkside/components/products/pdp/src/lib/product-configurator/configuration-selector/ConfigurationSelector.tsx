@@ -102,7 +102,7 @@ function ConfigurationSelector({
   selectedDiamond,
 }: ConfigurationSelectorProps) {
   const [configState, dispatch] = useReducer(configOptionsReducer, selectedConfiguration);
-  const { builderProduct, updateFlowData } = useContext(BuilderProductContext);
+  const { builderProduct } = useContext(BuilderProductContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -130,8 +130,6 @@ function ConfigurationSelector({
     updateSettingSlugs({
       productSlug: option?.id,
     });
-
-    updateFlowData('UPDATE_STEP', { step: 'review-build' });
 
     router.push(
       `/customize/diamond-to-setting/${builderProduct?.diamonds?.[0]?.lotId}/${builderProduct?.product?.collectionSlug}/${option?.id}`,
