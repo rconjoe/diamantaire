@@ -112,8 +112,8 @@ const PlpPreviouslyViewed = () => {
   }, []);
 
   const options: any = {
-    loop: true,
-    dragFree: false,
+    loop: false,
+    dragFree: true,
     align: 'center',
     breakpoints: {
       '(min-width: 76.8rem)': { align: 'start' },
@@ -147,7 +147,7 @@ const PlpPreviouslyViewed = () => {
             </button>
           </>
         )}
-        <div className="embla" ref={products?.length > 4 ? emblaRef : null}>
+        <div className="embla" ref={emblaRef}>
           <div className="products__container embla__container">
             {products &&
               handles?.map((handle) => {
