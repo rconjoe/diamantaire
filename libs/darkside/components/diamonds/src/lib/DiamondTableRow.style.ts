@@ -1,4 +1,3 @@
-import { XLDesktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const gap = '2rem';
@@ -15,11 +14,11 @@ const StyledDiamondTableRow = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       flex-direction: row;
       gap: ${gap};
       padding: ${gap} 0;
-    `)}
+    }
   }
 
   .row-media {
@@ -28,9 +27,9 @@ const StyledDiamondTableRow = styled.div`
     padding: 0;
     align-items: flex-start;
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       width: ${mediaWidth};
-    `)}
+    }
 
     .row-media-content {
       flex: 1;
@@ -61,9 +60,9 @@ const StyledDiamondTableRow = styled.div`
     padding: ${gap};
     margin-bottom: ${gap};
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       padding: 0;
-    `)}
+    }
   }
 
   .row-accordion {
@@ -75,10 +74,10 @@ const StyledDiamondTableRow = styled.div`
     padding: 0;
     order: 2;
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       order: 1;
       padding-right: ${gap};
-    `)}
+    }
   }
 
   .row-cta {
@@ -90,11 +89,11 @@ const StyledDiamondTableRow = styled.div`
     gap: ${gap};
     order: 1;
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       order: 2;
       padding: 0 0 ${gap};
       padding-right: ${gap};
-    `)}
+    }
 
     button {
       width: 100%;

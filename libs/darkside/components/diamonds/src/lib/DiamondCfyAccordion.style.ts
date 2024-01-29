@@ -1,14 +1,13 @@
-import { desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyAccordion = styled.div`
   border-top: 0.1rem solid var(--color-lighter-grey);
   margin: 2rem 0 0;
 
-  ${desktopAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     border-top: 0;
     margin: 0;
-  `)}
+  }
 
   .accordion-row {
     .row {
@@ -18,9 +17,9 @@ const StyledDiamondCfyAccordion = styled.div`
       margin: 2rem 0;
       gap: 1rem;
 
-      ${tabletAndUp(`
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
         gap: 2rem;
-      `)}
+      }
     }
   }
 

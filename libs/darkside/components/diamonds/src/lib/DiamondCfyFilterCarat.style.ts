@@ -1,4 +1,3 @@
-import { desktopAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const sliderCircle = 'https://images.vraiandoro.com/cto-diamonds/assets/slider_circle_upd.png';
@@ -12,11 +11,11 @@ const StyledDiamondCfyFilterCarat = styled.div`
     text-align: left;
     font-size: var(--font-size-xxsmall);
 
-    ${desktopAndUp(`
-    text-align: center;
-    margin: 2rem 0 0;
-    font-size: var(--font-size-xsmall);
-    `)};
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      text-align: center;
+      margin: 2rem 0 0;
+      font-size: var(--font-size-xsmall);
+    }
   }
 
   .graph {
@@ -25,9 +24,10 @@ const StyledDiamondCfyFilterCarat = styled.div`
     width: 100%;
     margin: 0 auto;
     padding: 5rem 2.4rem;
-    ${desktopAndUp(`
-    padding: 5rem 0.5rem;
-    `)}
+
+    @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
+      padding: 5rem 0.5rem;
+    }
   }
 
   .graph-wrapper {

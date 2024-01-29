@@ -1,4 +1,3 @@
-import { tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondTableCfyPromoCard = styled.div`
@@ -29,9 +28,9 @@ const StyledDiamondTableCfyPromoCard = styled.div`
     text-align: center;
     font-size: var(--font-size-xxsmall);
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       font-size: var(--font-size-xsmall);
-    `)}
+    }
   }
 
   .cta {

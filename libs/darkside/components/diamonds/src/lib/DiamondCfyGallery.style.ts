@@ -1,4 +1,3 @@
-import { XLDesktopAndUp, desktopAndUp, tabletAndUp } from '@diamantaire/styles/darkside-styles';
 import styled from 'styled-components';
 
 const StyledDiamondCfyGallery = styled.div`
@@ -7,9 +6,9 @@ const StyledDiamondCfyGallery = styled.div`
   background: #ccc;
   margin: 3rem 0 0;
 
-  ${desktopAndUp(`
+  @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
     margin: 4rem 0 2rem;
-  `)}
+  }
 
   .circularImage {
     border-radius: 100%;
@@ -43,9 +42,9 @@ const StyledDiamondCfyGallery = styled.div`
       text-align: center;
       padding: 4rem 0 0;
 
-      ${tabletAndUp(`
-      padding: 2rem 0;
-    `)}
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        padding: 2rem 0;
+      }
     }
   }
 
@@ -55,10 +54,10 @@ const StyledDiamondCfyGallery = styled.div`
     padding: 4rem;
     gap: 2rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       grid-template-columns: repeat(5, 1fr);
       padding: 0 4rem 4rem;
-    `)}
+    }
   }
 
   .howItWorksCard {
@@ -69,9 +68,9 @@ const StyledDiamondCfyGallery = styled.div`
     align-items: flex-start;
     gap: 2rem;
 
-    ${tabletAndUp(`
-    gap: 0;
-  `)}
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      gap: 0;
+    }
   }
 
   .inner {
@@ -80,32 +79,32 @@ const StyledDiamondCfyGallery = styled.div`
     flex-direction: row;
     gap: 2rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       align-items: center;
       flex-direction: column;
       gap: 0;
-    `)}
+    }
   }
 
   .arrow {
     display: none;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       display: flex;
       margin-top: 15%;
-    `)}
+    }
 
-    ${XLDesktopAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.xl}) {
       margin-top: 10%;
-    `)}
+    }
   }
 
   .mobile-arrow {
     margin-top: 2.5rem;
 
-    ${tabletAndUp(`
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
       display: none;
-    `)}
+    }
 
     svg {
       transform: rotate(90deg);
