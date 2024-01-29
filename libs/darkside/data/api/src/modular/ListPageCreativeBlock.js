@@ -46,7 +46,6 @@ creativeBlocks {
           }
           shopifyProductHandle
           _modelApiKey
-          countrySpecificPrices
           plpTitle
       }
       ... on ConfigurationRecord {
@@ -77,7 +76,6 @@ creativeBlocks {
           plpTitle
           configuredProductOptionsInOrder
           variantId
-          countrySpecificPrices
           _modelApiKey
       }
   }

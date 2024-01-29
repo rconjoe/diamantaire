@@ -1,4 +1,4 @@
-import { Accordion, CertificateThumb, Tooltip, Markdown } from '@diamantaire/darkside/components/common-ui';
+import { Accordion, CertificateThumb, Markdown } from '@diamantaire/darkside/components/common-ui';
 import { GlobalContext } from '@diamantaire/darkside/context/global-context';
 import { useDiamondTableData } from '@diamantaire/darkside/data/hooks';
 import { DiamondDataTypes } from '@diamantaire/shared/types';
@@ -32,7 +32,7 @@ const DiamondDetailRowAccordion = ({
     cut: cutContent,
     clarity: clarityContent,
     certificateLabel: labelCertificate,
-    certificate: certificateTooltip,
+    certificate: certificateContent,
   } = diamondTable || {};
 
   if (!specs) return;
@@ -98,13 +98,15 @@ const DiamondDetailRowAccordion = ({
       title: (
         <>
           <strong>{titleCertificate?.value}:</strong>
-          <strong>{labelCertificate}</strong>{' '}
-          <Tooltip id="tooltip-certificate" place="right">
-            {certificateTooltip}
-          </Tooltip>
+          <strong>{labelCertificate}</strong>
         </>
       ),
-      children: <CertificateThumb certificateUrl={dfCertificateUrl} productPair={productPair} />,
+      children: (
+        <>
+          <CertificateThumb certificateUrl={dfCertificateUrl} productPair={productPair} />
+          <Markdown withStyles={false}>{certificateContent}</Markdown>
+        </>
+      ),
       className: 'certificate product-pair',
     },
   ];

@@ -230,7 +230,7 @@ function ProductConfigurator({
           shouldDoublePrice={shouldDoublePrice}
         />
       )}
-      {hasMoreThanOneVariant && (
+      {(hasMoreThanOneVariant || sizeOptions?.length > 1) && (
         <>
           <ConfigurationSelector
             configurations={configurations}

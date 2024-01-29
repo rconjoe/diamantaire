@@ -1,17 +1,25 @@
 import { DIAMOND_VIDEO_BASE_URL } from '@diamantaire/shared/constants';
 
 const generateDiamondSpriteUrl = (lotId: string, format: string): string => {
-  const date = new Date();
-
-  const url = `${DIAMOND_VIDEO_BASE_URL}/${lotId}.${format}?timestamp=${date.toJSON()}`;
+  const url = `${DIAMOND_VIDEO_BASE_URL}/${lotId}.${format}`;
 
   return url;
 };
 
-const generateCfyDiamondSpriteThumbUrl = (diamondType: string): string => {
-  const url = `${DIAMOND_VIDEO_BASE_URL}/cfy-${diamondType}-thumb.jpg`;
+const generateDiamondSpriteImage = ({ diamondID, diamondType }: { diamondID?: string; diamondType: string }): string => {
+  let url = '';
 
-  return url;
+  if (!diamondID && !diamondType) return url;
+
+  if (diamondType) url = `/cfy-${diamondType}`;
+
+  if (diamondID) {
+    if (!diamondID?.includes('cfy-')) {
+      url = `/${diamondID.replace(/[^0-9]/g, '')}`;
+    }
+  }
+
+  return `${DIAMOND_VIDEO_BASE_URL}${url}-thumb.jpg`;
 };
 
-export { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl };
+export { generateDiamondSpriteImage, generateDiamondSpriteUrl };

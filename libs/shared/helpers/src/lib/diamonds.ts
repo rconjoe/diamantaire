@@ -211,8 +211,6 @@ export const getDiamondShallowRoute = (options: { diamondType?: string }, overri
 
   const query = queryURL ? '?' + queryURL : '';
 
-  console.log('segments', segments);
-
   const showQueryInUrl = true;
 
   const route = `${overrideUrl ? overrideUrl : diamondRoutePlp}/${overrideUrl ? '' : segments.join('/')}${

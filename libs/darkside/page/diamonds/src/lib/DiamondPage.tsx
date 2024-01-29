@@ -214,11 +214,9 @@ const DiamondPage = (props: InferGetServerSidePropsType<typeof getServerSideProp
             />
           )}
 
-          {isMobile && (
-            <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
-              <UIString>Clear filters</UIString>
-            </DarksideButton>
-          )}
+          <DarksideButton type="underline" colorTheme="teal" className="vo-filter-clear-button" onClick={clearOptions}>
+            <UIString>Clear filters</UIString>
+          </DarksideButton>
 
           <ShowTabletAndUpOnly>
             <DiamondPromo locale={locale} />

@@ -34,7 +34,12 @@ export const CONFIGURATIONS_LIST = gql`
         hasOnlyOnePrice
       }
     }
-    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip, locale: $locale) {
+    allOmegaProducts(
+      filter: { shopifyProductHandle: { in: $productHandles } }
+      first: $first
+      skip: $skip
+      locale: $locale
+    ) {
       shopifyProductHandle
       plpTitle
       plpImage {
@@ -108,7 +113,12 @@ export const PRODUCT_BRIEF_CONTENT = gql`
         productTitle
       }
     }
-    allOmegaProducts(filter: { shopifyProductHandle: { in: $productHandles } }, first: $first, skip: $skip, locale: $locale) {
+    allOmegaProducts(
+      filter: { shopifyProductHandle: { in: $productHandles } }
+      first: $first
+      skip: $skip
+      locale: $locale
+    ) {
       shopifyProductHandle
       plpTitle
       plpImage {
@@ -142,41 +152,41 @@ export const PRODUCT_BRIEF_CONTENT = gql`
 `;
 
 export const PLP_INIT_QUERY = gql`
-query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
-  listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
-    configurationsInOrder {
-      ... on OmegaProductRecord {
+  query PLP($slug: String!, $category: String!, $locale: SiteLocale) {
+    listPage(filter: { slugNew: { eq: $slug }, category: { eq: $category } }, locale: $locale) {
+      configurationsInOrder {
+        ... on OmegaProductRecord {
+          _modelApiKey
+          shopifyProductHandle
+        }
+        ... on ConfigurationRecord {
+          _modelApiKey
+          variantId
+        }
+      }
+      bestSellersInOrder {
+        ... on OmegaProductRecord {
+          _modelApiKey
+          shopifyProductHandle
+        }
+        ... on ConfigurationRecord {
+          _modelApiKey
+          variantId
+        }
+      }
+      productsInOrder {
         _modelApiKey
         shopifyProductHandle
       }
-      ... on ConfigurationRecord {
-        _modelApiKey
-        variantId
-      }
-    }
-    bestSellersInOrder {
-      ... on OmegaProductRecord {
-        _modelApiKey
-        shopifyProductHandle
-      }
-      ... on ConfigurationRecord {
-        _modelApiKey
-        variantId
-      }
-    }
-    productsInOrder {
-      _modelApiKey
-      shopifyProductHandle
-    }
-    collectionsInOrder {
-      ... on EngagementRingProductRecord {
-        id
-        _modelApiKey
-        slug
+      collectionsInOrder {
+        ... on EngagementRingProductRecord {
+          id
+          _modelApiKey
+          slug
+        }
       }
     }
   }
-}
 `;
 
 export const PLP_QUERY = gql`
@@ -215,7 +225,6 @@ export const PLP_QUERY = gql`
               shouldUseDefaultPrice
             }
           }
-          countrySpecificPrices
           plpImage {
             responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {
               ...responsiveImageFragment
@@ -294,7 +303,6 @@ export const PLP_QUERY = gql`
               shouldUseDefaultPrice
             }
           }
-          countrySpecificPrices
           plpTitle
           plpImage {
             responsiveImage(imgixParams: { w: 344, h: 344, q: 60, auto: format, fit: crop, crop: focalpoint }) {

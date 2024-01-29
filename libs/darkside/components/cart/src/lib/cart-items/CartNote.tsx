@@ -57,7 +57,7 @@ const CartNoteStyles = styled.div`
         }
 
         button {
-          font-size: 1.3rem;
+          font-size: var(--font-size-xsmall);
         }
       }
     }

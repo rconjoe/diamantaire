@@ -116,17 +116,12 @@ const DiamondTableRow = ({
         }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
         null,
       );
-      // updateFlowData('UPDATE_STEP', { step: 'review-build' });
     } else {
-      // updateFlowData('UPDATE_STEP', { step: 'review-build' });
       router.push(
         `/customize/diamond-to-setting/${router.asPath.includes('/summary/') ? '/summary/' : ''}${product.lotId}${
           builderProduct?.product ? `/${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}` : ''
         }`,
         null,
-        {
-          shallow: true,
-        },
       );
     }
   };

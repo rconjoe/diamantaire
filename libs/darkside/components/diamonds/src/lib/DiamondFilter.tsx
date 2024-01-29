@@ -350,7 +350,7 @@ const DiamondFilter = (props: DiamondFilterProps) => {
   return (
     <StyledDiamondFilter className="vo-filters">
       {DIAMOND_TABLE_FILTER_TITLES.map((filter: string) => {
-        const { type, name, tooltip, tooltipDefaultPlace, belowCopy } = stringMap?.[filter] || {};
+        const { type, name, tooltip, tooltipDefaultPlace } = stringMap?.[filter] || {};
 
         return (
           <div key={filter} className={'vo-filter vo-filter-' + filter}>
@@ -386,8 +386,6 @@ const DiamondFilter = (props: DiamondFilterProps) => {
                 availableDiamonds={availableDiamonds}
               />
             )}
-
-            {belowCopy && <div className="vo-below-copy">{belowCopy}</div>}
 
             {loading && <div className="vo-filter-loading" />}
           </div>

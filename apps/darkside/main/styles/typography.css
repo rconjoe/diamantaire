@@ -158,10 +158,12 @@ p,
   /* Body copy */
   font-weight: var(--font-weight-normal);
   font-size: 1.6rem;
+  line-height: 1.3;
 }
 @media (min-width: 767px) {
   p,
   .p-copy {
+    font-size: var(--font-size-xsmall);
     line-height: 1.3;
   }
 }

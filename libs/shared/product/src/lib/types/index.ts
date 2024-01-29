@@ -13,7 +13,7 @@ export type VraiProductContent = {
   };
   collection: {
     productTitle: string;
-  }
+  };
 };
 export type VraiProductData = { content: VraiProductContent; product: VraiProduct; metal?: Record<string, string> };
 
@@ -44,8 +44,7 @@ export type ListPageItemConfiguration = {
   hoverImage?: ProgressiveImage;
 };
 
-export type ListPageItemWithConfigurationVariants = 
-{
+export type ListPageItemWithConfigurationVariants = {
   defaultId: string;
   productType: string;
   productTitle: string;
@@ -69,6 +68,7 @@ export type FilterValueProps = {
   price?: {
     min?: number;
     max?: number;
+    isPlpPriceRange?: boolean;
   };
   styles?: string[];
   subStyles?: string[];
