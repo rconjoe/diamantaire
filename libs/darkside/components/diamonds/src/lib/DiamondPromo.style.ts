@@ -42,6 +42,7 @@ const StyledDiamondPromo = styled.div`
 
       h3 {
         font-size: var(--font-size-xsmall);
+        font-weight: 500;
       }
 
       p {
@@ -55,6 +56,7 @@ const StyledDiamondPromo = styled.div`
     padding: 2rem;
     text-align: center;
     background: var(--color-lightest-grey);
+    margin-bottom: 7.5rem;
 
     h2 {
       font-size: var(--font-size-xsmall);

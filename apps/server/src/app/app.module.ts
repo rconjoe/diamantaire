@@ -12,13 +12,15 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Sentry from '@sentry/node';
-import { redisStore } from 'cache-manager-redis-yet';
+
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import appConfig from 'libs/server/common/configs/src/app.config';
 
 const redisUrl = process.env.REDIS_PRIVATE_URL || process.env.REDIS_URL;
 
 import { AppService } from './app.service';
+import { redisStore } from './redisStore';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [appConfig], validationSchema: JoiSchemaValidation }),

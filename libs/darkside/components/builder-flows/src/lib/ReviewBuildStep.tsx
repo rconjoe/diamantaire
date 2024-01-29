@@ -43,7 +43,7 @@ import {
   parseValidLocale,
   pdpTypeSingleToPluralAsConst,
 } from '@diamantaire/shared/constants';
-import { generateCfyDiamondSpriteThumbUrl, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
+import { generateDiamondSpriteImage, generateDiamondSpriteUrl, specGenerator } from '@diamantaire/shared/helpers';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import { getNumericalLotId } from '@diamantaire/shared-diamond';
 import { createShopifyVariantId } from '@diamantaire/shared-product';
@@ -86,13 +86,14 @@ const ReviewBuildStepStyles = styled(motion.div)`
         flex-wrap: wrap;
 
         .embla__container {
+          max-width: 100%;
+
           @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
             flex-wrap: wrap;
           }
 
           > div {
             margin-bottom: 1rem;
-            padding: 0 0.5rem;
             @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
               flex: 0 0 50%;
             }
@@ -411,7 +412,7 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
   const diamondImages = useMemo(() => {
     return isDiamondCFY
       ? diamonds.map((diamond) => {
-          const spriteImageUrl = generateCfyDiamondSpriteThumbUrl(diamond?.diamondType);
+          const spriteImageUrl = generateDiamondSpriteImage({ diamondType: diamond?.diamondType });
 
           return spriteImageUrl;
         })
@@ -757,13 +758,13 @@ const ReviewBuildStep = ({ settingSlugs, updateSettingSlugs, shopifyProductData 
         settingSlugs.collectionSlug
       }/${option?.id}/${builderProduct?.diamonds?.map((diamond) => diamond?.lotId).join('/')}`;
 
-      return router.push(newUrl);
+      return router.replace(newUrl);
     } else {
       const newUrl = `/customize/diamond-to-setting/summary/${builderProduct?.diamonds
         ?.map((diamond) => diamond?.lotId)
         .join('/')}/${settingSlugs.collectionSlug}/${option?.id}`;
 
-      router.push(newUrl);
+      router.replace(newUrl);
     }
   }
 

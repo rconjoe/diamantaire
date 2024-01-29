@@ -30,11 +30,16 @@ const StyledTooltip = styled.div`
     border-left: 0;
   }
 
-  .react-tooltip__place-bottom .tooltip-arrow,
-  .react-tooltip__place-bottom-start .tooltip-arrow,
-  .react-tooltip__place-bottom-end .tooltip-arrow {
+  .react-tooltip__place-bottom-start .tooltip-arrow {
     border-bottom: 0;
     border-right: 0;
+  }
+
+  .react-tooltip__place-bottom .tooltip-arrow,
+  .react-tooltip__place-bottom-end .tooltip-arrow,
+  .react-tooltip__place-top-end .tooltip-arrow {
+    border-top: 0;
+    border-left: 0;
   }
 
   .react-tooltip__place-left .tooltip-arrow {
@@ -73,6 +78,14 @@ const StyledTooltip = styled.div`
       font-family: var(--font-family-main);
       text-transform: none;
       color: var(--color-grey);
+    }
+
+    &:hover {
+      border-color: var(--color-teal);
+
+      * {
+        color: var(--color-teal);
+      }
     }
   }
 

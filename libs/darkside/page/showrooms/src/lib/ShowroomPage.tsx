@@ -9,7 +9,7 @@ import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 
 import ShowroomNav from './nav/ShowroomNav';
-import { ShowroomContainer } from './ShowroomPage.style';
+import { ShowroomPageStyle } from './ShowroomPage.style';
 
 export interface ShowroomPageProps {
   isMobile: boolean;
@@ -37,28 +37,23 @@ const ShowroomPage = (props: ShowroomPageProps) => {
   showroomSeoTitle = title + ' Showroom | ' + showroomSeoTitle[showroomSeoTitle.length - 1];
 
   return (
-    <ShowroomContainer>
+    <ShowroomPageStyle>
       <StandardPageSeo title={showroomSeoTitle} description={seoDescription} />
+
       <div className="showroom__nav">
         <ShowroomNav currentLocation={title} />
       </div>
+
       <div className="showroom__content">
-        <StandardPageEntry
-          page={selectedShowroom}
-          isMobile={props?.isMobile}
-          countryCode={props?.countryCode}
-          currencyCode={props?.currencyCode}
-        />
+        <StandardPageEntry page={selectedShowroom} countryCode={props?.countryCode} currencyCode={props?.currencyCode} />
       </div>
-    </ShowroomContainer>
+    </ShowroomPageStyle>
   );
 };
 
 ShowroomPage.getTemplate = getStandardTemplate;
 
 async function getServerSideProps({ locale }: GetServerSidePropsContext<undefined>) {
-  const isMobile = false;
-
   // geo -dev
   const { countryCode } = parseValidLocale(locale);
   const currencyCode = getCurrencyFromLocale(locale);
@@ -78,9 +73,8 @@ async function getServerSideProps({ locale }: GetServerSidePropsContext<undefine
 
   return {
     props: {
-      isMobile,
-      currencyCode,
       countryCode,
+      currencyCode,
       // ran into a serializing issue - https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },

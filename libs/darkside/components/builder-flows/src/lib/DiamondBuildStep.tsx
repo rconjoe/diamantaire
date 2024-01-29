@@ -11,6 +11,10 @@ import styled from 'styled-components';
 const DiamondBuildStepStyles = styled(motion.div)`
   padding-bottom: 14rem;
 
+  @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+    padding: 0;
+  }
+
   .switch-container {
     text-align: right;
     padding-right: 1rem;
@@ -45,7 +49,28 @@ const DiamondBuildStepStyles = styled(motion.div)`
     }
 
     .nav-title {
-      margin-bottom: 6rem;
+      &.mobile {
+        margin-bottom: 3rem;
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          margin-bottom: 0;
+          display: none;
+        }
+      }
+      &.desktop {
+        display: none;
+        @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+          margin-bottom: 6rem;
+          display: block;
+        }
+      }
+    }
+  }
+
+  .vo-filter-clear-button {
+    margin: 2rem 0 0;
+    button {
+      font-size: var(--font-size-xxxsmall);
+      font-weight: var(--font-weight-normal);
     }
   }
 `;
@@ -247,6 +272,12 @@ const DiamondBuildStep = ({
         {diamonds && (
           <div className="table-container">
             <aside>
+              <div className="nav-title mobile container-wrapper">
+                <Heading type="h1" className="primary h2 text-center">
+                  <UIString>diamondTable</UIString>
+                </Heading>
+              </div>
+
               <DiamondFilter
                 handleRadioFilterChange={handleRadioFilterChange}
                 handleSliderFilterChange={handleSliderFilterChange}
@@ -272,7 +303,7 @@ const DiamondBuildStep = ({
                 <TableIcon />
               </div> */}
 
-              <div className="nav-title container-wrapper">
+              <div className="nav-title desktop container-wrapper">
                 <Heading type="h1" className="primary h2 text-center">
                   <UIString>diamondTable</UIString>
                 </Heading>

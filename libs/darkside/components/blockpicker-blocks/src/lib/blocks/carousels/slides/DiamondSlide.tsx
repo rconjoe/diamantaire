@@ -29,9 +29,11 @@ const DiamondSlide = ({ image, itemName, url }: DiamondSlideProps) => {
           )}
         </UniLink>
       </div>
-      <h3 key={`title-${itemName}`} className="mobile-slide__text">
-        <UniLink route={getRelativeUrl(url)}>{itemName}</UniLink>
-      </h3>
+      {itemName ? (
+        <h3 key={`title-${itemName}`} className="mobile-slide__text">
+          <UniLink route={getRelativeUrl(url)}>{itemName}</UniLink>
+        </h3>
+      ) : null}
     </SlideContainer>
   );
 };

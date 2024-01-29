@@ -52,3 +52,14 @@ export type SubMenuChildLink = {
     code: string;
   }[];
 };
+
+export type ShowroomLocation = {
+  title: string;
+  handle: string;
+  location: string;
+  coords: number[];
+  appointmentOptions: {
+    productType: string;
+    appointmentId: number;
+  }[];
+} | null;

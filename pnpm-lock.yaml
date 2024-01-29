@@ -71,6 +71,24 @@ dependencies:
   '@reach/accordion':
     specifier: ^0.18.0
     version: 0.18.0(react-dom@18.2.0)(react@18.2.0)
+  '@redis/bloom':
+    specifier: ^1.2.0
+    version: 1.2.0(@redis/client@1.5.13)
+  '@redis/client':
+    specifier: ^1.5.13
+    version: 1.5.13
+  '@redis/graph':
+    specifier: ^1.1.1
+    version: 1.1.1(@redis/client@1.5.13)
+  '@redis/json':
+    specifier: ^1.0.6
+    version: 1.0.6(@redis/client@1.5.13)
+  '@redis/search':
+    specifier: ^1.1.6
+    version: 1.1.6(@redis/client@1.5.13)
+  '@redis/time-series':
+    specifier: ^1.0.5
+    version: 1.0.5(@redis/client@1.5.13)
   '@sentry/nextjs':
     specifier: 7.56.0
     version: 7.56.0(next@13.5.6)(react@18.2.0)(webpack@5.88.2)
@@ -146,9 +164,6 @@ dependencies:
   cache-manager-redis-store:
     specifier: 3.0.1
     version: 3.0.1
-  cache-manager-redis-yet:
-    specifier: 4.1.2
-    version: 4.1.2
   class-transformer:
     specifier: ^0.5.1
     version: 0.5.1
@@ -7361,29 +7376,12 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@redis/bloom@1.2.0(@redis/client@1.5.12):
-    resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.5.12
-    dev: false
-
   /@redis/bloom@1.2.0(@redis/client@1.5.13):
     resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
       '@redis/client': 1.5.13
-    dev: false
-
-  /@redis/client@1.5.12:
-    resolution: {integrity: sha512-/ZjE18HRzMd80eXIIUIPcH81UoZpwulbo8FmbElrjPqH0QC0SeIKu1BOU49bO5trM5g895kAjhvalt5h77q+4A==}
-    engines: {node: '>=14'}
-    dependencies:
-      cluster-key-slot: 1.1.2
-      generic-pool: 3.9.0
-      yallist: 4.0.0
     dev: false
 
   /@redis/client@1.5.13:
@@ -7395,28 +7393,12 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /@redis/graph@1.1.1(@redis/client@1.5.12):
-    resolution: {integrity: sha512-FEMTcTHZozZciLRl6GiiIB4zGm5z5F3F6a6FZCyrfxdKOhFlGkiAqlexWMBzCi4DcRoyiOsuLfW+cjlGWyExOw==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.5.12
-    dev: false
-
   /@redis/graph@1.1.1(@redis/client@1.5.13):
     resolution: {integrity: sha512-FEMTcTHZozZciLRl6GiiIB4zGm5z5F3F6a6FZCyrfxdKOhFlGkiAqlexWMBzCi4DcRoyiOsuLfW+cjlGWyExOw==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
       '@redis/client': 1.5.13
-    dev: false
-
-  /@redis/json@1.0.6(@redis/client@1.5.12):
-    resolution: {integrity: sha512-rcZO3bfQbm2zPRpqo82XbW8zg4G/w4W3tI7X8Mqleq9goQjAGLL7q/1n1ZX4dXEAmORVZ4s1+uKLaUOg7LrUhw==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.5.12
     dev: false
 
   /@redis/json@1.0.6(@redis/client@1.5.13):
@@ -7427,28 +7409,12 @@ packages:
       '@redis/client': 1.5.13
     dev: false
 
-  /@redis/search@1.1.6(@redis/client@1.5.12):
-    resolution: {integrity: sha512-mZXCxbTYKBQ3M2lZnEddwEAks0Kc7nauire8q20oA0oA/LoA+E/b5Y5KZn232ztPb1FkIGqo12vh3Lf+Vw5iTw==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.5.12
-    dev: false
-
   /@redis/search@1.1.6(@redis/client@1.5.13):
     resolution: {integrity: sha512-mZXCxbTYKBQ3M2lZnEddwEAks0Kc7nauire8q20oA0oA/LoA+E/b5Y5KZn232ztPb1FkIGqo12vh3Lf+Vw5iTw==}
     peerDependencies:
       '@redis/client': ^1.0.0
     dependencies:
       '@redis/client': 1.5.13
-    dev: false
-
-  /@redis/time-series@1.0.5(@redis/client@1.5.12):
-    resolution: {integrity: sha512-IFjIgTusQym2B5IZJG3XKr5llka7ey84fw/NOYqESP5WUfQs9zz1ww/9+qoz4ka/S6KcGBodzlCeZ5UImKbscg==}
-    peerDependencies:
-      '@redis/client': ^1.0.0
-    dependencies:
-      '@redis/client': 1.5.12
     dev: false
 
   /@redis/time-series@1.0.5(@redis/client@1.5.13):
@@ -12605,12 +12571,12 @@ packages:
     resolution: {integrity: sha512-pM2K1ZlOv8gQpE1Z5mcDrfLj5CsNKVRiYua/SZ12j7LEDgfDeFVntI6JSgIw0siFSR/9P/FpG30scI3frHwibA==}
     engines: {node: '>= 16.17.0'}
     dependencies:
-      '@redis/bloom': 1.2.0(@redis/client@1.5.12)
-      '@redis/client': 1.5.12
-      '@redis/graph': 1.1.1(@redis/client@1.5.12)
-      '@redis/json': 1.0.6(@redis/client@1.5.12)
-      '@redis/search': 1.1.6(@redis/client@1.5.12)
-      '@redis/time-series': 1.0.5(@redis/client@1.5.12)
+      '@redis/bloom': 1.2.0(@redis/client@1.5.13)
+      '@redis/client': 1.5.13
+      '@redis/graph': 1.1.1(@redis/client@1.5.13)
+      '@redis/json': 1.0.6(@redis/client@1.5.13)
+      '@redis/search': 1.1.6(@redis/client@1.5.13)
+      '@redis/time-series': 1.0.5(@redis/client@1.5.13)
       cache-manager: 5.3.1
       redis: 4.6.12
     dev: false

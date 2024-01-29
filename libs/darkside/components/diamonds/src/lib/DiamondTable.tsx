@@ -109,7 +109,6 @@ const DiamondTable = (props: DiamondTableProps) => {
   const {
     data: {
       diamondTable: {
-        bottomContent,
         cannotFindDiamondSentence1,
         // cannotFindDiamondSentence2,
         bottomPromoContentLargerCarat,
@@ -340,8 +339,8 @@ const DiamondTable = (props: DiamondTableProps) => {
 
       const rowElement: HTMLDivElement = tableBody?.current?.querySelector(`[data-id="${id}"]`);
 
-      if (headerHeight && tableHeadHeight && rowElement) {
-        const rowElementPosition: number = rowElement?.offsetTop - headerHeight - tableHeadHeight || 0;
+      if (tableHeadHeight && rowElement) {
+        const rowElementPosition: number = rowElement?.offsetTop - 55 - tableHeadHeight || 0;
 
         window.scrollTo({ top: rowElementPosition });
       }
@@ -499,7 +498,6 @@ const DiamondTable = (props: DiamondTableProps) => {
           )) || (
             <div className="vo-table-no-result">
               <div className="vo-table-no-result-container">
-                <p>{bottomContent}</p>
                 <DarksideButton type="underline" colorTheme="teal" className="vo-table-clear-button" onClick={clearOptions}>
                   <UIString>Clear filters</UIString>
                 </DarksideButton>

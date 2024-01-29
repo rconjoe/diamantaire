@@ -189,7 +189,7 @@ function getNormalizedListPageProducts({ productData, locale, currencyCode }) {
     return [];
   }
 
-  const allProducts = productData.pages.flatMap((page) => page.products);
+  const allProducts = productData.pages.flatMap((page) => page?.products);
   const normalizedProducts = allProducts.map((product, idx) => {
     if (!product) {
       return null;
@@ -229,7 +229,7 @@ function getGTMNormalizedListPageItems({ productData, locale, currencyCode, list
     return [];
   }
 
-  const allProducts = productData.pages.flatMap((page) => page.products);
+  const allProducts = productData.pages.flatMap((page) => page?.products);
 
   const normalizedProducts = allProducts.map((product, idx) => {
     const { defaultId, variants } = product || {};

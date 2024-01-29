@@ -3,14 +3,13 @@ import { useBlockProducts } from '@diamantaire/darkside/data/hooks';
 import { getFormattedPrice } from '@diamantaire/shared/constants';
 import { normalizeDatoNumberedContent } from '@diamantaire/shared/helpers';
 import { ProductLink } from '@diamantaire/shared-product';
-import { media } from '@diamantaire/styles/darkside-styles';
+import { contentBlockMargin, media } from '@diamantaire/styles/darkside-styles';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const ModularProductSuggestionQuadGridStyles = styled.div`
-  margin-bottom: 2rem;
-  ${media.medium`margin-bottom: 4rem;`}
+  ${contentBlockMargin}
   .title-container {
     margin-bottom: 4rem;
   }
@@ -48,10 +47,14 @@ const ModularProductSuggestionQuadGridStyles = styled.div`
   }
 
   .products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    ${media.medium`flex: 1; flex-wrap: nowrap;`}
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    ${media.medium`
+    gap: 1.6rem;
+    grid-template-columns: repeat(4, 1fr);
+
+  `}
 
     .product-container {
       display: flex;
@@ -107,7 +110,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
   // Expects variantIds to be an array of strings
   const { data } = useBlockProducts(variantIds);
 
-  const { products, lowestPricesByCollection } = data || {};
+  const { products } = data || {};
 
   return (
     <ModularProductSuggestionQuadGridStyles>
@@ -156,7 +159,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
                         <Heading type="h3" className="secondary product-content__title">
                           {refinedTitles?.[index]?.title}
                         </Heading>
-                        <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                        <p>{getFormattedPrice(product?.price, locale)}+</p>
                       </div>
                     </ProductLink>
                   </div>

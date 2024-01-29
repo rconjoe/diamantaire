@@ -122,7 +122,10 @@ export const StackedHeaderStylesContainer = styled.div`
           &.calendar {
             display: flex;
             top: 0.3rem;
-
+            .calendar__link {
+              display: flex;
+              align-items: center;
+            }
             svg {
               height: 1.8rem;
               position: relative;

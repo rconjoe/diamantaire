@@ -4,12 +4,12 @@ import { CountrySelector, Modal } from '@diamantaire/darkside/components/common-
 import { GlobalUpdateContext } from '@diamantaire/darkside/context/global-context';
 import { useCartData, useGlobalContext } from '@diamantaire/darkside/data/hooks';
 import { countries, languagesByCode, parseValidLocale } from '@diamantaire/shared/constants';
+import { isUserCloseToShowroom } from '@diamantaire/shared/geolocation';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 // import Search from 'components/search/Search';
 
 import CompactHeader from './CompactHeader';
@@ -57,7 +57,6 @@ const HeaderWrapper = styled.div`
 
 const Header: FC<HeaderProps> = ({
   headerData,
-  // headerRef,
   headerHeight,
   isTopbarShowing,
   setIsTopbarShowing,
@@ -68,21 +67,21 @@ const Header: FC<HeaderProps> = ({
   const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [isLanguageSelectorOpen, setIsLanguageSelectorOpen] = useState(false);
   const [isTopBarVisible, setIsTopBarVisible] = useState(true);
-
   const { cartViewed } = useAnalytics();
   const router = useRouter();
-
   const { data: checkout } = useCartData(router?.locale);
   const { isCartOpen } = useGlobalContext();
   const updateGlobalContext = useContext(GlobalUpdateContext);
-
   const { section } = headerData;
   const { scrollY } = useScroll();
   const { countryCode: selectedCountryCode, languageCode: selectedLanguageCode } = parseValidLocale(router.locale);
-
   const mobileMenuRef = useRef(null);
   const topBarRef = useRef(null);
   const stackedHeaderRef = useRef(null);
+  const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isHome = router.pathname === '/';
+  const [showroomLocation, setShowroomLocation] = useState(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!isHome) {
@@ -98,9 +97,6 @@ const Header: FC<HeaderProps> = ({
       setMegaMenuIndex(-1);
     }
   });
-
-  const [megaMenuIndex, setMegaMenuIndex] = useState(-1);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   function toggleMegaMenuOpen(index: number) {
     return setMegaMenuIndex(index);
@@ -154,8 +150,6 @@ const Header: FC<HeaderProps> = ({
     return setMegaMenuIndex(-1);
   }
 
-  const isHome = router.pathname === '/';
-
   useEffect(() => {
     setIsLoaded(true);
 
@@ -202,6 +196,12 @@ const Header: FC<HeaderProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    const showroomLocationTemp = isUserCloseToShowroom();
+
+    setShowroomLocation(showroomLocationTemp);
+  }, []);
+
   const combinedHeight =
     isHome && isTopBarVisible
       ? stackedHeaderRef?.current?.offsetHeight + topBarRef?.current?.offsetHeight
@@ -233,6 +233,7 @@ const Header: FC<HeaderProps> = ({
                   selectedCountry={countries[selectedCountryCode].name}
                   selectedLanguage={languagesByCode[selectedLanguageCode].name}
                   isLanguageSelectorOpen={isLanguageSelectorOpen}
+                  showroomLocation={showroomLocation}
                 />
               </div>
               <AnimatePresence>
@@ -256,10 +257,10 @@ const Header: FC<HeaderProps> = ({
                 >
                   <div ref={compactHeaderRef}>
                     <CompactHeader
+                      ref={compactHeaderRef}
                       navItems={section}
                       toggleMegaMenuOpen={toggleMegaMenuOpen}
                       menuIndex={megaMenuIndex}
-                      compactHeaderRef={compactHeaderRef}
                       toggleCart={toggleCart}
                     />
                   </div>
@@ -303,7 +304,6 @@ const Header: FC<HeaderProps> = ({
             navItems={section}
             toggleMegaMenuOpen={toggleMegaMenuOpen}
             menuIndex={megaMenuIndex}
-            compactHeaderRef={compactHeaderRef}
             toggleCart={toggleCart}
           />
           {isLoaded && (
@@ -324,6 +324,7 @@ const Header: FC<HeaderProps> = ({
         mobileMenuRef={mobileMenuRef}
         topBarRef={topBarRef}
         isTopBarVisible={isTopBarVisible}
+        showroomLocation={showroomLocation}
       />
     </>
   );

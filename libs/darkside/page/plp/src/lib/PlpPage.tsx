@@ -15,7 +15,6 @@ import {
   FACETED_NAV_ORDER,
   MetalType,
   DiamondTypes,
-  getFormattedPrice,
   RING_STYLES_MAP,
   SUBSTYLE_SLUGS,
   STYLE_SLUGS,
@@ -52,9 +51,16 @@ type FilterQueryValues = {
 const PlpStyles = styled.div`
   #breadcrumb {
     padding-top: 2rem;
+
+    @media (max-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding-top: 1rem;
+    }
   }
+
   .container-wrapper {
-    max-width: 90vw;
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      max-width: 90vw;
+    }
   }
 `;
 
@@ -143,10 +149,13 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
   const handleFilterEvent = (filters) => {
     if (window.location.search !== '') {
       const { price } = filters || {};
-      const formattedMinPrice = price?.min && getFormattedPrice(price.min);
-      const formattedMaxPrice = price?.max && getFormattedPrice(price.max);
-      const priceRange = formattedMinPrice && formattedMaxPrice ? `${formattedMinPrice} - ${formattedMaxPrice}` : price;
+
+      const { isPlpPriceRange } = price || {};
+
+      const priceRange = price?.min && price?.max ? `${price?.min} - ${price?.max}` : price;
+
       const urlSearchParams = new URLSearchParams(window.location.search);
+
       const hasPriceFilter = urlSearchParams.has('priceMin') || urlSearchParams.has('priceMax');
 
       const filterEvent = {
@@ -154,7 +163,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
         list_id: hero?.title,
         filters: {
           ...filters,
-          price: hasPriceFilter ? priceRange : undefined,
+          price: hasPriceFilter ? { ...priceRange, isPlpPriceRange } : undefined,
         },
         // TODO: add sort_by data when ready
       };
@@ -178,7 +187,9 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
   useEffect(() => {
     if (pageLoaded && !deepEqual(prevQuery, query)) {
-      setFilterValues(getFiltersFromQueryParams(query));
+      if (urlFilterMethod === 'param') {
+        setFilterValues(getFiltersFromQueryParams(query));
+      }
     }
 
     return () => {
@@ -235,7 +246,7 @@ function PlpPage(props: InferGetStaticPropsType<typeof jewelryGetStaticProps>) {
 
       <PlpPreviouslyViewed />
 
-      <PlpBlockPicker category={category} plpSlug={plpSlug} />
+      {category && plpSlug && <PlpBlockPicker category={category} plpSlug={plpSlug} />}
     </PlpStyles>
   );
 }
@@ -399,6 +410,7 @@ function getFiltersFromFacetedNav(
 ): Record<string, string[]> | undefined {
   const priceMin = query.priceMin?.toString();
   const priceMax = query.priceMax?.toString();
+  const isPlpPriceRange = query.isPlpPriceRange;
   const style = query.style?.toString();
   const subStyle = query.subStyle?.toString();
 
@@ -428,8 +440,6 @@ function getFiltersFromFacetedNav(
     .split(',')
     .map((styleString) => STYLE_SLUGS.find((key) => key === styleString))
     .filter(Boolean);
-
-  // These are the same?
 
   const subStyleParamIndex = params.findIndex(
     (param) => SUBSTYLE_SLUGS.includes(param) || Object.keys(RING_STYLES_MAP).includes(param),
@@ -484,6 +494,8 @@ function getFiltersFromFacetedNav(
     if (priceMax) {
       filterOptions['price'].max = parseFloat(priceMax);
     }
+
+    filterOptions['price'].isPlpPriceRange = isPlpPriceRange;
   }
 
   if (styleFromQuery?.length > 0 || styleParamIndex !== -1) {
@@ -522,13 +534,17 @@ function getFiltersFromQueryParams(query) {
 
   if (query) {
     Object.keys(query).forEach((key) => {
-      if (!['priceMin', 'priceMax'].includes(key) && key !== 'plpSlug') {
+      if (!['priceMin', 'priceMax', 'isPlpPriceRange'].includes(key) && key !== 'plpSlug') {
         initialQueryValues[key] = query[key]?.toString().split(',');
       }
     });
 
     if (query.priceMin || query.priceMax) {
-      initialQueryValues['price'] = { min: query.priceMin, max: query.priceMax };
+      initialQueryValues['price'] = {
+        min: query.priceMin,
+        max: query.priceMax,
+        isPlpPriceRange: query.isPlpPriceRange ? JSON.parse(query.isPlpPriceRange) : false,
+      };
     }
   }
 
