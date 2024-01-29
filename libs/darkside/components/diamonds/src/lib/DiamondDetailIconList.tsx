@@ -70,6 +70,7 @@ const DiamondDetailIconList = ({ locale = DEFAULT_LOCALE }: { locale?: string })
               style={{
                 width: '100%',
                 position: 'relative',
+                marginTop: '1.5rem',
                 paddingBottom: `calc(${isMobile ? `223 / 335` : `347 / 520`} * 100%)`,
               }}
             >
