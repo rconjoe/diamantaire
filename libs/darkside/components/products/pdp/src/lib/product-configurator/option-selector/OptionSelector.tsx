@@ -5,7 +5,7 @@ import {
   useTranslations,
   humanNamesMapperType,
 } from '@diamantaire/darkside/data/hooks';
-import { getDiamondType, getLanguage } from '@diamantaire/shared/helpers';
+import { getDiamondType, getLanguage, getTranslatedName } from '@diamantaire/shared/helpers';
 import { ArrowLeftIcon, ArrowRightIcon } from '@diamantaire/shared/icons';
 import { OptionItemProps } from '@diamantaire/shared/types';
 import clsx from 'clsx';
@@ -268,8 +268,10 @@ function OptionSelector({
     locale,
     query: { collectionSlug },
   } = useRouter();
+  const { data: translations } = useHumanNameMapper(locale);
+
   const { data: { DIAMOND_SHAPES: DIAMOND_SHAPES_MAP } = {} } = useHumanNameMapper(locale);
-  const { data: { ETERNITY_STYLE_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'ETERNITY_STYLE_HUMAN_NAMES');
+
   const { data: { CARAT_WEIGHT_HUMAN_NAMES } = {} } = useSingleHumanNameMapper(locale, 'CARAT_WEIGHT_HUMAN_NAMES');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [_, setUpdateFlag] = useState(false);
@@ -277,7 +279,6 @@ function OptionSelector({
   const { _t } = useTranslations(locale);
   const language = getLanguage(locale);
   const { _t: translateOptionNames } = useTranslations(locale, [humanNamesMapperType.OPTION_NAMES]);
-  const { _t: translateBandwidthValues } = useTranslations(locale, [humanNamesMapperType.BAND_WIDTH_LABEL_HUMAN_NAMES]);
 
   const diamondSliderOptions: any = {
     loop: false,
@@ -356,10 +357,14 @@ function OptionSelector({
   );
 
   function renderOptionValue() {
-    switch (optionType) {
-      case 'eternityStyle':
-        return ETERNITY_STYLE_HUMAN_NAMES?.[selectedOptionValue]?.value;
+    const translatedValue = getTranslatedName({
+      optionType,
+      selectedOptionValue,
+      translations,
+      _t,
+    });
 
+    switch (optionType) {
       case 'chainLength':
         return (
           <>
@@ -405,15 +410,14 @@ function OptionSelector({
         }
 
         break;
-      case 'bandWidth':
-        return translateBandwidthValues(selectedOptionValue);
+
       case 'metal':
         return metal;
       case 'value': // used for US only digital-gift-card
         return `$${selectedOptionValue}`;
 
       default:
-        return <UIString>{selectedOptionValue}</UIString>;
+        return translatedValue;
     }
   }
 
