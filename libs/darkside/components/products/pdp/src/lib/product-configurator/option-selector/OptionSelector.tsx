@@ -289,13 +289,13 @@ function OptionSelector({
 
   useEffect(() => {
     if (!emblaApi) return;
-
+    emblaApi.reInit();
     const initialIndex = options.findIndex((option) => option.value === selectedOptionValue);
 
     if (initialIndex > -1) {
       setTimeout(() => {
         emblaApi.scrollTo(initialIndex);
-      }, 0);
+      }, 300);
     }
   }, [emblaApi, options, selectedOptionValue]);
 
