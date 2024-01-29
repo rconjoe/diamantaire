@@ -231,6 +231,12 @@ const CatalogPage = ({ title, data }: CatalogPageProps) => {
 export const getServerSideProps = async () => {
   const data = await getCollectionSlugsByProductType();
 
+  if (process.env.NODE_ENV !== 'development'){
+    return {
+      notFound: true
+    }
+  }
+
   return {
     props: {
       data,
