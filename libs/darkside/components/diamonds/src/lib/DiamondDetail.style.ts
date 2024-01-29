@@ -8,11 +8,15 @@ const StyledDiamondDetail = styled.div`
   position: relative;
 
   > .body {
+    gap: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: ${gap};
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      gap: ${gap};
+    }
 
     @media (min-width: ${({ theme }) => theme.sizes.desktop}) {
       flex-direction: row;
