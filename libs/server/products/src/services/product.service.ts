@@ -78,6 +78,33 @@ export class ProductsService {
     });
   }
 
+  async setSWRCacheData(key: string, value: unknown) {
+    await this.cacheManager.set(`${key}-data`, value);
+  };
+
+  async setSWRCacheRevalidate(key: string, ttl: number) {
+    await this.cacheManager.set(key, '1', ttl);
+  };
+
+  async setSWRCacheRefresh(key: string) {
+    await this.cacheManager.set(`${key}`, '0', 30000);
+  };
+
+  async setSWRCache(key: string, value: unknown, ttl: number) {
+    this.setSWRCacheData(key, value);
+    this.setSWRCacheRevalidate(key, ttl);
+  };
+
+  async getSWRCache(key: string,) {
+    const isFresh = await this.cacheManager.get(key);
+    const isRefreshing = isFresh === '0';
+    const cachedData = await this.cacheManager.get(`${key}-data`);
+
+    console.log('isFresh', isFresh, isRefreshing, key);
+
+    return [isFresh, cachedData];
+  }
+
   /**
    * Fetch PLP products
    *
@@ -104,206 +131,182 @@ export class ProductsService {
     const plpSlug = `${category}/${slug}`; // "jewelry/best-selling-gifts"
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
-
-    // Supports multiselect
-    const filterQuery = {
-      ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map((d) => new RegExp(d, 'i')) } }),
-      ...(metals && { 'configuration.metal': { $in: metals.map((m) => new RegExp(m, 'i')) } }),
-      ...(styles && { styles: { $in: styles } }),
-      ...(subStyles && { subStyles: { $in: subStyles } }),
-    };
-
-    const priceQuery = {};
-
-    if (priceMin) {
-      priceQuery['$gte'] = priceMin;
-    }
-
-    if (priceMax) {
-      priceQuery['$lte'] = priceMax;
-    }
-
-    if (priceMin || priceMax) {
-      filterQuery['price'] = priceQuery;
-    }
-
-    const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
-
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
-    const cachedData = await this.cacheManager.get(cacheKey);
-    let productResponse;
+    const dataTTL = 20000;
+    const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
-    if (cachedData) {
-      this.logger.verbose(`getPlpProducts :: cache HIT on key ${cacheKey}`);
-      productResponse = cachedData;
-    } else {
-      this.logger.verbose(`getPlpProducts :: cache MISS on key ${cacheKey}`);
+    const fetchPlpData = async () => {
+      console.log('fetching data.');
+      this.setSWRCacheRefresh(cacheKey);
+      
+      // Supports multiselect
+      const filterQuery = {
+        ...(diamondTypes && { 'configuration.diamondType': { $in: diamondTypes.map(d => new RegExp(d, 'i')) }}),
+        ...(metals && { 'configuration.metal': { $in: metals.map(m => new RegExp(m, 'i')) }}),
+        ...(styles && { 'styles': { $in: styles }}),
+        ...(subStyles && { 'subStyles': { $in: subStyles }}),
+        ...(priceMin && { 'price': { $gte: priceMin } }),
+        ...(priceMax && { 'price': { $lte: priceMax } }),
+      };
 
-      // Init pipeline stage
-      const pipeline: PipelineStage[] = [
-        { $match: { slug: plpSlug } }, // Get specific PLP item
-        { $unwind: '$products' }, // Unwind products array so that we are working only with the products
-        { $replaceRoot: { newRoot: '$products' } },
-      ];
+      const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
-      // Add filtering
-      if (Object.keys(filterQuery).length > 0) {
-        pipeline.push({ $match: filterQuery });
-      }
-
-      // Add sorting
-      if (sortBy) {
-        pipeline.push({ $sort: sortQuery });
-      }
-
-      pipeline.push(
-        { $skip: skip },
-        { $limit: limit },
-        {
-          // join products from the products collection
-          $lookup: {
-            from: 'products',
-            localField: 'variants',
-            foreignField: 'productSlug',
-            as: 'variants',
-          },
-        },
-        {
-          // reduce data returned
-          $project: {
-            primaryProductSlug: 1,
-            variants: '$variants',
-          },
-        },
-      );
-
-      const productPromises = [
-        this.plpRepository.aggregate(pipeline),
-        this.plpRepository.aggregate([
-          { $match: { slug: plpSlug } },
-          { $unwind: '$products' },
+        // Init pipeline stage
+        const pipeline: PipelineStage[] = [
+          { $match: { slug: plpSlug } }, // Get specific PLP item
+          { $unwind: '$products' }, // Unwind products array so that we are working only with the products
           { $replaceRoot: { newRoot: '$products' } },
-          { $match: filterQuery },
-          { $count: 'documentCount' },
-        ]),
-      ];
+        ];
 
-      productResponse = await Promise.all(productPromises);
+        // Add filtering
+        if (Object.keys(filterQuery).length > 0) {
+          pipeline.push({ $match: filterQuery });
+        }
 
-      this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
-    }
-    const [products, totalDocumentsQuery] = productResponse;
-    const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
+        // Add sorting
+        if (sortBy) {
+          pipeline.push({ $sort: sortQuery });
+        }
 
-    // generate query for product content by product type
-    const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Accessory']; //
-    const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
-    const contentIdsByProductType = products.reduce(
-      (acc, plpItem) => {
-        const idList = plpItem.variants.map((v) => v.contentId);
-        const productType = plpItem?.variants?.[0]?.productType;
+        pipeline.push(
+          { $skip: skip },
+          { $limit: limit },
+          {
+            // join products from the products collection
+            $lookup: {
+              from: 'products',
+              localField: 'variants',
+              foreignField: 'productSlug',
+              as: 'variants',
+            },
+          },
+          {
+            // reduce data returned
+            $project: {
+              primaryProductSlug: 1,
+              variants: '$variants',
+            },
+          },
+        );
 
-        if (!productType || !plpItem.variants.length) {
-          Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
-          this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+        const productPromises = [
+          this.plpRepository.aggregate(pipeline),
+          this.plpRepository.aggregate([
+            { $match: { slug: plpSlug } },
+            { $unwind: '$products' },
+            { $replaceRoot: { newRoot: '$products' } },
+            { $match: filterQuery },
+            { $count: 'documentCount' },
+          ]),
+        ];
+
+        const productResponse = await Promise.all(productPromises);
+        
+        // this.cacheManager.set(cacheKey, productResponse, PLP_DATA_TTL);
+      const [products, totalDocumentsQuery] = productResponse;
+      const totalDocuments = totalDocumentsQuery?.[0]?.documentCount || 0;
+
+      // generate query for product content by product type
+      const variantIdProductTypes = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Accessory']; //
+      const productHandleProductTypes = ['Engagement Ring', 'Wedding Band'];
+      const contentIdsByProductType = products.reduce(
+        (acc, plpItem) => {
+          
+          const idList = plpItem.variants.map((v) => v.contentId);
+          const productType = plpItem?.variants?.[0]?.productType;
+
+          if (!productType || !plpItem.variants.length){
+            Sentry.captureMessage(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+            this.logger.warn(`No variants found for PLP item ${plpItem.primaryProductSlug}`);
+
+            return acc;
+          }
+
+          if (variantIdProductTypes.includes(productType)) {
+            acc.variantIds.push(...idList);
+          } else if (productHandleProductTypes.includes(productType)) {
+            acc.productHandles.push(...idList);
+          } else {
+            this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem);
+          }
 
           return acc;
-        }
+        },
+        { variantIds: [], productHandles: [] },
+      );
 
-        if (variantIdProductTypes.includes(productType)) {
-          acc.variantIds.push(...idList);
-        } else if (productHandleProductTypes.includes(productType)) {
-          acc.productHandles.push(...idList);
-        } else {
-          this.logger.verbose('Unknown product type.  Cannot add to ID list', plpItem);
-        }
+      const dataPromises = [
+        this.datoConfigurationsAndProducts({ slug: plpSlug, ...contentIdsByProductType, locale }),
+        this.getLowestPricesByCollection(),
+        this.getPlpFilterData(plpSlug),
+      ];
+      const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
 
-        return acc;
-      },
-      { variantIds: [], productHandles: [] },
-    );
-
-    const dataPromises = [
-      this.datoConfigurationsAndProducts({ slug: plpSlug, ...contentIdsByProductType, locale }),
-      this.getLowestPricesByCollection(),
-      this.getPlpFilterData(plpSlug),
-    ];
-    const [productContent, collectionLowestPrices, availableFilters] = await Promise.all(dataPromises);
-
-    const paginator = {
-      totalDocs: totalDocuments,
-      limit,
-      page,
-      totalPages: Math.ceil(totalDocuments / limit),
-      pagingCounter: 1,
-      hasPrevPage: page > 1,
-      hasNextPage: page < Math.ceil(totalDocuments / limit),
-      prevPage: page - 1 < 1 ? null : page - 1,
-      nextPage: page + 1 > Math.ceil(totalDocuments / limit) ? null : page + 1,
-    };
-
-    // Create content map to merge with product data
-    const productContentMap =
-      productContent?.reduce((acc, content) => {
-        const contentId = content.variantId || content.shopifyProductHandle;
-
-        acc[contentId] = content;
-
-        return acc;
-      }, {}) || {};
-
-    const generatePlpItem = (product, variantContent) => {
-      if (!product) {
-        this.logger.warn('Missing product data.  Skipping', product, variantContent);
-
-        return null;
-      }
-
-      if (!variantContent) {
-        this.logger.warn('Missing product content.  Skipping.', product, variantContent);
-
-        return null;
-      }
-
-      const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
-
-      if (!collectionContent) {
-        this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
-      }
-
-      return {
-        productType: product.productType,
-        productSlug: product.productSlug,
-        collectionSlug: product.collectionSlug,
-        configuration: product.configuration,
-        productTitle: collectionContent?.productTitle,
-        plpTitle: variantContent.plpTitle,
-        primaryImage: variantContent['plpImage']?.responsiveImage,
-        hoverImage: variantContent['plpImageHover']?.responsiveImage,
-        price: product.price,
+      const paginator = {
+        totalDocs: totalDocuments,
+        limit,
+        page,
+        totalPages: Math.ceil(totalDocuments / limit),
+        pagingCounter: 1,
+        hasPrevPage: page > 1,
+        hasNextPage: page < Math.ceil(totalDocuments / limit),
+        prevPage: page - 1 < 1 ? null : page - 1,
+        nextPage: page + 1 > Math.ceil(totalDocuments / limit) ? null : page + 1,
       };
-    };
 
-    // Merge product data with content
-    const plpProducts = products
-      .map((plpItem) => {
-        const product = plpItem.variants.find((p) => p.productSlug === plpItem.primaryProductSlug);
+      // Create content map to merge with product data
+      const productContentMap =
+        productContent?.reduce((acc, content) => {
+          const contentId = content.variantId || content.shopifyProductHandle;
 
+          acc[contentId] = content;
+
+          return acc;
+        }, {}) || {};
+
+      const generatePlpItem = (product, variantContent) => {
         if (!product) {
-          this.logger.warn(
-            `No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants
-              .map((v) => v.contentId)
-              .join(', ')}`,
-          );
-          Sentry.captureMessage(
-            `No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants
-              .map((v) => v.contentId)
-              .join(', ')}`,
-          );
+          this.logger.warn("Missing product data.  Skipping", product, variantContent);
 
+          return null;
+        }
+
+        if (!variantContent) {
+          this.logger.warn("Missing product content.  Skipping.", product, variantContent);
+
+          return null;
+        }
+
+        const collectionContent = variantContent?.collection || variantContent?.jewelryProduct;
+
+        if (!collectionContent) {
+          this.logger.warn(`No collection content found for variant ${product.productType} : ${product.contentId}`);
+        }
+
+        return {
+          productType: product.productType,
+          productSlug: product.productSlug,
+          collectionSlug: product.collectionSlug,
+          configuration: product.configuration,
+          productTitle: collectionContent?.productTitle,
+          plpTitle: variantContent.plpTitle,
+          primaryImage: variantContent['plpImage']?.responsiveImage,
+          hoverImage: variantContent['plpImageHover']?.responsiveImage,
+          price: product.price,
+        };
+      };
+
+      // Merge product data with content
+      const plpProducts = products.map(plpItem => {
+        const product = plpItem.variants.find(p => p.productSlug === plpItem.primaryProductSlug);
+
+        if (!product){
+          this.logger.warn(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+          Sentry.captureMessage(`No primary product found for PLP item ${plpItem.primaryProductSlug}, found: ${plpItem.variants.map(v=>v.contentId).join(', ')}`);
+          
           return undefined;
         }
-        const metalOptions = plpItem.variants.map((v) => ({ value: v.configuration.metal, id: v.contentId }));
+        const metalOptions = plpItem.variants.map(v => ({ value: v.configuration.metal, id: v.contentId }));
 
         const mainProductContent = productContentMap[product.contentId];
         const collectionContent = mainProductContent?.collection || mainProductContent?.jewelryProduct;
@@ -324,7 +327,7 @@ export class ProductsService {
             const plpVariant = generatePlpItem(v, variantContent);
 
             // skip if data is missing
-            if (!plpVariant) {
+            if (!plpVariant){
               return acc;
             }
 
@@ -334,16 +337,28 @@ export class ProductsService {
           }, {}),
         };
       })
-      .filter((i) => i?.variants && Object.keys(i?.variants)?.length && Boolean(i)); // remove any items w/o variants
+      .filter(i => (i?.variants && Object.keys(i?.variants)?.length && Boolean(i))); // remove any items w/o variants
 
-    return {
-      category,
-      slug,
-      locale,
-      products: plpProducts,
-      availableFilters,
-      paginator,
-    };
+      const plpData = {
+        lastUpdated: new Date(),
+        category,
+        slug,
+        locale,
+        products: plpProducts,
+        availableFilters,
+        paginator,
+      };
+
+      this.setSWRCache(cacheKey, plpData, dataTTL);
+
+      return plpData
+    }
+
+    if (!isFresh) {
+      fetchPlpData();
+    }  
+
+    return cachedData;
   }
 
   async getPlpFilterData(plpSlug: string) {
@@ -2440,3 +2455,4 @@ function getDatoRequestLocale(locale = 'en_US'): string {
 interface CatalogProductInput {
   type: string;
 }
+
