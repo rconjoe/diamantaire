@@ -53,9 +53,13 @@ const StyledDiamondCfyAccordion = styled.div`
   .upgrade {
     background: var(--color-lightest-grey);
     justify-content: space-between;
-    padding: 1rem 2rem;
     margin: 2rem 0 0;
+    padding: 1rem;
     display: flex;
+
+    @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+      padding: 1rem 2rem;
+    }
 
     * {
       font-size: var(--font-size-xxxsmall) !important;
