@@ -57,8 +57,7 @@ import { PlpRepository } from '../repository/plp.repository';
 import { ProductRepository } from '../repository/product.repository';
 
 const OPTIONS_TO_SKIP = ['goldPurity'];
-const TTL_HOURS = 48;
-let PRODUCT_DATA_TTL = TTL_HOURS * 30 * 60 * 1000; // 30 min ttl in ms
+let PRODUCT_DATA_TTL = 30 * 60 * 1000; // 30 min ttl in ms
 let PLP_DATA_TTL = 30 * 60 * 1000; // 30 min ttl in ms
 
 if (process.env.NODE_ENV !== 'production') {
@@ -105,7 +104,7 @@ export class ProductsService {
     const isRefreshing = isFresh === '0';
     const cachedData = await this.cacheManager.get(`${key}-data`);
 
-    this.logger.debug(`SWR Cache Request: ${JSON.stringify({ isFresh, isRefreshing, key })}`, );
+    this.logger.debug(`SWR Cache Request: ${JSON.stringify({ isFresh, isRefreshing, key })}`);
 
     return [isFresh, cachedData];
   }

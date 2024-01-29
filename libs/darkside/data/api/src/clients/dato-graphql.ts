@@ -32,12 +32,12 @@ export function queryDatoGQL({
   }
 
   // Production
-  const client = new GraphQLClient('https://graphql.datocms.com', { headers });
+  // const client = new GraphQLClient('https://graphql.datocms.com', { headers });
 
   // Dev (includes drafts)
-  // const client = new GraphQLClient('https://graphql.datocms.com/preview', {
-  //   headers,
-  // });
+  const client = new GraphQLClient('https://graphql.datocms.com/preview', {
+    headers,
+  });
 
   return client.request(query, variables);
 }
