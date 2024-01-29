@@ -1,3 +1,5 @@
+import { convertPriceToUSD, getCurrencyFromLocale, getVat } from '@diamantaire/shared/constants';
+import { getCountry } from '@diamantaire/shared/helpers';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
@@ -26,13 +28,34 @@ export async function getVRAIServerPlpData(
   { page = 1, limit = 12 }: PaginatedRequestOptions,
   locale,
 ) {
+  if (!slug && !category) return {};
+
   // Convert price Obj to price Params
   const optionsQuery = Object.entries(filterOptions).reduce((acc, [key, value]: [string, any]) => {
     if (key === 'price') {
-      const { min, max } = value;
+      const { min, max, isPlpPriceRange } = value;
 
-      if (min) acc['priceMin'] = min;
-      if (max) acc['priceMax'] = max;
+      const convertToUSD = locale !== 'en-US' && isPlpPriceRange;
+
+      const currency = getCurrencyFromLocale(locale);
+
+      const countryCode = getCountry(locale);
+
+      const amountMinusVat = (amountInCents) => {
+        const vat = getVat(countryCode);
+
+        const res = amountInCents / (1 + vat) / 100;
+
+        return Math.round(res) * 100;
+      };
+
+      if (min) {
+        acc['priceMin'] = convertToUSD ? amountMinusVat(convertPriceToUSD(min, currency)) + 1 : min;
+      }
+
+      if (max) {
+        acc['priceMax'] = convertToUSD ? amountMinusVat(convertPriceToUSD(max, currency)) - 1 : max;
+      }
     } else if (key === 'metal') {
       acc[key] = value?.join(',').toString() || value;
     } else {
@@ -269,6 +292,8 @@ export async function fetchPlpShopTheLook(productIds: string[], locale: string) 
 
 // Gets the server-side Dato data for the PLP page
 export async function fetchPlpDatoServerData(locale: string, slug: string, category: string) {
+  if (!category && !slug) return {};
+
   try {
     const response = await queryDatoGQL({ query: LIST_PAGE_DATO_SERVER_QUERY, variables: { locale, category, slug } });
 
@@ -314,6 +339,7 @@ const LIST_PAGE_PROMO_CARD_COLLECTION_QUERY = gql`
 
 export async function fetchPlpDatoPromoCardCollection(locale: string, id: string) {
   if (!id) return {};
+
   const datoData = await queryDatoGQL({
     query: LIST_PAGE_PROMO_CARD_COLLECTION_QUERY,
     variables: { locale, id },
@@ -323,7 +349,7 @@ export async function fetchPlpDatoPromoCardCollection(locale: string, id: string
 }
 
 const getPlpCreativeBlockQuery = (useLargeCreativeImageInDesktop, useLargeCreativeImageInMobile) => {
-  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 700;
+  const desktopImageHeight = useLargeCreativeImageInDesktop ? 804 : 705;
   const mobileImageHeight = useLargeCreativeImageInMobile ? 500 : 350;
 
   return gql`

@@ -107,7 +107,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
   // Expects variantIds to be an array of strings
   const { data } = useBlockProducts(variantIds);
 
-  const { products, lowestPricesByCollection } = data || {};
+  const { products } = data || {};
 
   return (
     <ModularProductSuggestionQuadGridStyles>
@@ -156,7 +156,7 @@ const ModularProductSuggestionQuadGrid = (props) => {
                         <Heading type="h3" className="secondary product-content__title">
                           {refinedTitles?.[index]?.title}
                         </Heading>
-                        <p>{getFormattedPrice(lowestPricesByCollection[product?.collectionSlug], locale)}+</p>
+                        <p>{getFormattedPrice(product?.price, locale)}+</p>
                       </div>
                     </ProductLink>
                   </div>

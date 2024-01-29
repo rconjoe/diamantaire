@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 
-import { NavItemsProps } from './header-types';
+import { NavItemsProps, ShowroomLocation } from './header-types';
 import HeaderActionsNav from './HeaderActionsNav';
 import MobileMenu from './MobileMenu';
 
@@ -17,6 +17,7 @@ type MobileHeaderTypes = {
   topBarRef: React.RefObject<HTMLDivElement>;
   mobileMenuRef: React.RefObject<HTMLDivElement>;
   isTopBarVisible: boolean;
+  showroomLocation: ShowroomLocation | null;
 };
 
 const MobileHeaderContainer = styled.div`
@@ -31,8 +32,9 @@ const MobileHeaderContainer = styled.div`
   top: -1px;
 
   .mobile-header-outer-wrapper {
-    padding: 1.5rem 1rem 1.5rem 0;
-    max-height: 5.6rem;
+    padding: 0;
+    height: 5.6rem;
+    display: flex;
     background-color: #fff;
     ${media.medium`display: none;`};
 
@@ -78,7 +80,10 @@ const MobileHeaderContainer = styled.div`
 
                 &.calendar {
                   transform: translate(-0.5rem, 0);
-
+                  .calendar__link {
+                    display: flex;
+                    align-items: center;
+                  }
                   svg {
                     height: 2.4rem;
 
@@ -112,6 +117,9 @@ const MobileHeaderContainer = styled.div`
         }
 
         &.col--right {
+          nav {
+            margin-right: 7px;
+          }
           li {
             display: flex;
             align-items: center;
@@ -149,6 +157,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
   topBarRef,
   mobileMenuRef,
   isTopBarVisible,
+  showroomLocation,
 }): JSX.Element => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -157,7 +166,7 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
 
   return (
     <>
-      <MobileHeaderContainer>
+      <MobileHeaderContainer id="mobile-navigation--parent">
         <div className="mobile-header-outer-wrapper" ref={mobileMenuRef}>
           <div className="mobile-header-wrapper">
             <div className="col col--left">
@@ -174,7 +183,15 @@ const MobileHeader: FC<MobileHeaderTypes> = ({
                     />
                   </li>
                   <li className="calendar">
-                    <EmptyCalendarIcon />
+                    {showroomLocation ? (
+                      <Link className="calendar__link" href={`/book-appointment/${showroomLocation.handle}`}>
+                        <EmptyCalendarIcon />
+                      </Link>
+                    ) : (
+                      <Link className="calendar__link" href="/book-appointment/virtual">
+                        <EmptyCalendarIcon />
+                      </Link>
+                    )}
                   </li>
                 </ul>
               </nav>

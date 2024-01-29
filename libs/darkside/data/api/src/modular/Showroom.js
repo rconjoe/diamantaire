@@ -15,6 +15,21 @@ const Showroom = `
       detailCtaLink
       directionsCtaCopy
       directionsCtaLink
+      directionsImage {
+        url
+        alt
+        responsiveImage (imgixParams: { w: 338, q: 40, auto: format }, sizes: "(min-width: 769px) 600"){
+            src
+            alt
+            aspectRatio
+            base64
+            bgColor
+            height
+            sizes
+            title
+            width
+        }
+      }
       email
       hoursOfOperation
       phone
@@ -31,6 +46,18 @@ const Showroom = `
     }
     image {
       url
+      alt
+      responsiveImage (imgixParams: { w: 338, q: 40, auto: format }, sizes: "(min-width: 769px) 600"){
+        src
+        alt
+        aspectRatio
+        base64
+        bgColor
+        height
+        sizes
+        title
+        width
+      }
     }
   }
 `;

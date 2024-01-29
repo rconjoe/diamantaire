@@ -377,6 +377,7 @@ export function PdpPage(props: InferGetServerSidePropsType<typeof getServerSideP
               options={configuration}
               title={productMediaAltDescription || productTitle}
               productType={shopifyProductData?.productType}
+              shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
               shownWithCtw={additionalVariantData?.shownWithCtw}
               diamondType={configuration?.diamondType}
             />

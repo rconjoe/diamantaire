@@ -1,7 +1,7 @@
 import { useClerk } from '@clerk/nextjs';
 import { UIString } from '@diamantaire/darkside/components/common-ui';
 import { useTranslations } from '@diamantaire/darkside/data/hooks';
-import { formatPrice } from '@diamantaire/shared/constants';
+import { simpleFormatPrice } from '@diamantaire/shared/constants';
 import { media } from '@diamantaire/styles/darkside-styles';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
@@ -166,11 +166,13 @@ const AccountOrders = ({ customer }: { customer: AccountCustomer }) => {
                         {order?.name}
                       </a>
                     </div>
-                    <div className="table-col">{order?.created_at && getDate(order?.created_at)}</div>
+                    <div className="table-col">{order?.created_at && getDate(order?.total_net_amount)}</div>
                     <div className="table-col status">
                       <UIString>{order.financial_status}</UIString>
                     </div>
-                    <div className="table-col hide-md">{formatPrice(order.total_price * 100, locale)}</div>
+                    <div className="table-col hide-md">
+                      {simpleFormatPrice(order.total_price * 100, locale, true, order.currency)}
+                    </div>
                   </div>
                 ))}
               </div>

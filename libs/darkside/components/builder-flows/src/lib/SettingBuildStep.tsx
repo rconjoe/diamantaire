@@ -188,6 +188,7 @@ const SettingBuildStep = ({
               disableHandSliderControls={true}
               presetHandSliderValue={parseFloat(sliderHandCaption)}
               title={productMediaAltDescription || productTitle || ''}
+              shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
             />
           </ShowDesktopAndUpOnly>
           <ShowMobileOnly>
@@ -199,6 +200,8 @@ const SettingBuildStep = ({
               shouldDisplayDiamondHand={shopifyProductData?.productType === ENGAGEMENT_RING_PRODUCT_TYPE}
               productType={shopifyProductData?.productType}
               shownWithCtw={additionalVariantData?.shownWithCtw}
+              presetHandSliderValue={parseFloat(sliderHandCaption)}
+              disableHandSliderControls={true}
             />
           </ShowMobileOnly>
         </div>

@@ -9,7 +9,7 @@ import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
 const PlpProductVariantStyles = styled.div`
-  > button {
+  .plp-variant__inner > button {
     width: 100%;
     background-color: transparent;
     padding: 0;
@@ -242,18 +242,18 @@ const PlpProductVariant = ({
   return (
     <PlpProductVariantStyles>
       {builderFlow ? (
-        <button
-          onClick={() => {
-            selectSettingForBuilderFlow();
+        <div className="plp-variant__inner">
+          <button
+            onClick={() => {
+              selectSettingForBuilderFlow();
 
-            router.push(
-              `/customize/diamond-to-setting/${
-                Array.isArray(router.query.flowParams) && router.query.flowParams.join('/')
-              }/${collectionSlug}/${productSlug}`,
-            );
-          }}
-        >
-          <div className="plp-variant__inner">
+              router.push(
+                `/customize/diamond-to-setting/${
+                  Array.isArray(router.query.flowParams) && router.query.flowParams.join('/')
+                }/${collectionSlug}/${productSlug}`,
+              );
+            }}
+          >
             <div className="plp-variant__image">
               <button
                 onMouseEnter={handleImageChange}
@@ -291,9 +291,9 @@ const PlpProductVariant = ({
 
               {label && <span className="plp-variant__label">{label}</span>}
             </div>
-            <div className="plp-variant__footer">{children}</div>
-          </div>
-        </button>
+          </button>
+          <div className="plp-variant__footer">{children}</div>
+        </div>
       ) : (
         <ProductLink
           onClick={handleClick}

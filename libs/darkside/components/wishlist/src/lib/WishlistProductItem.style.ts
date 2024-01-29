@@ -27,6 +27,7 @@ export const StyledWishlistSlideoutProductItem = styled.div`
   }
 
   .title {
+    text-transform: capitalize;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-xxsmall);
   }
@@ -132,6 +133,7 @@ export const StyledWishlistPageProductItem = styled.div`
   }
 
   .title {
+    text-transform: capitalize;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-xxsmall);
   }

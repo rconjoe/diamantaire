@@ -426,6 +426,7 @@ export function getPrimaryLanguage(countryCode: string): string {
   if (!countries[countryCode]) {
     return Language.English;
   }
+
   const languages = countries[countryCode].languages;
 
   return languages[0] || Language.English;
@@ -476,13 +477,19 @@ export function hasCentsValues(amount: number) {
  * Applies exchange rate to the amount provided
  * @param {number} amount - amount to apply exchange rate to
  * @param {string} currency - currency to get exchange rate
+ * @param {boolean} excludeExchangeRate - should exclude exchange rate
  * @returns {number} - amount with exchange rate applied
  */
-export function applyExchangeRate(amount: number, currency = 'USD') {
+export function applyExchangeRate(amount: number, currency = 'USD', excludeExchangeRate = false) {
   const result = amount * USDollarExchangeRates[currency];
 
   if (currency === 'USD') {
     return result;
+  }
+
+  // We don't need to apply an exchange rate when shopify is providing the price in GBP
+  if (excludeExchangeRate === true) {
+    return amount;
   }
 
   // round up for international currencies
@@ -497,19 +504,23 @@ export function applyExchangeRate(amount: number, currency = 'USD') {
  * @param {boolean} excludeCurrency - should exclude currency symbol
  * @returns {string} - formatted price
  *
- * THIS IS THE MAIN CURRENCY FORMATTING METHOD, ANYTHING ELSE IS WRONG
+ * This is for when we want to add VAT + conversion
  */
+
 export function getFormattedPrice(
   priceInCents: number,
   locale: string = DEFAULT_LOCALE,
   hideZeroCents = true,
   excludeCurrency = false,
+  // When we return the item from VRAI server, we need the exchange rate. When shopify returns it in checkout, we don't
+  excludeExchangeRate = false,
 ): string {
   const { countryCode } = parseValidLocale(locale);
 
   const currency = getCurrency(countryCode);
 
-  const convertedPrice = applyExchangeRate(priceInCents / 100, currency);
+  const convertedPrice = applyExchangeRate(priceInCents / 100, currency, excludeExchangeRate);
+
   let finalPrice = getPriceWithAddedTax(convertedPrice, countryCode);
 
   if (currency !== Currency.USDollars) {
@@ -559,16 +570,16 @@ export function getFormattedPrice(
   return formattedPrice;
 }
 
-export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCALE, hideZeroCents = true) {
+// This is just for adding a symbol + decimals to the price. This does not add VAT or conversion rate!!!
+export function simpleFormatPrice(
+  priceInCents: number,
+  locale: string = DEFAULT_LOCALE,
+  hideZeroCents = true,
+  cur?: string, // sometime you want a different currency than locale currency so you have this.
+) {
   const { countryCode } = parseValidLocale(locale);
-
-  const currency = getCurrency(countryCode);
-
-  const convertedPrice = priceInCents / 100;
-
-  const customLocale = countryCode === 'ES' ? 'de-DE' : locale === 'en-CA' ? 'en-US' : locale;
-
-  const numberFormat = new Intl.NumberFormat(customLocale, {
+  const currency = cur || getCurrency(countryCode);
+  const numberFormat = new Intl.NumberFormat(locale, {
     currency,
     style: 'currency',
     currencyDisplay: 'narrowSymbol',
@@ -576,9 +587,11 @@ export function formatPrice(priceInCents: number, locale: string = DEFAULT_LOCAL
     maximumFractionDigits: hideZeroCents ? 0 : 2,
   });
 
-  // Intl.NumberFormat has no way to return the currency symbol in the right position, so we gotta do it
-  let formattedPrice = numberFormat.format(convertedPrice);
+  if (currency !== Currency.USDollars) {
+    priceInCents = Math.ceil(priceInCents);
+  }
 
+  let formattedPrice = numberFormat.format(priceInCents / 100);
   let currencySymbol = formattedPrice.replace(/[0-9.,\s]/g, '');
 
   formattedPrice = formattedPrice.replace(currencySymbol, '');
@@ -607,4 +620,10 @@ export function getFormattedCarat(carat: number, locale: string = DEFAULT_LOCALE
     minimumFractionDigits: digits ? digits : 2,
     maximumFractionDigits: digits ? digits : 2,
   }).format(carat);
+}
+
+export function convertPriceToUSD(amountInCents: number, currency: string) {
+  const rate = USDollarExchangeRates[currency];
+
+  return Math.ceil(amountInCents / rate);
 }

@@ -5,7 +5,7 @@ import { usePlpBlockPickerBlocks } from '@diamantaire/darkside/data/hooks';
 import { getCurrency } from '@diamantaire/shared/constants';
 import { getCountry } from '@diamantaire/shared/helpers';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 
 type PlpBlockPickerProps = {
   plpSlug: string;
@@ -16,23 +16,29 @@ const PlpBlockPicker = ({ plpSlug, category }: PlpBlockPickerProps) => {
   const { locale } = useRouter();
   const countryCode = getCountry(locale);
   const currencyCode = getCurrency(countryCode);
-  const { data: { listPage } = {} } = usePlpBlockPickerBlocks(locale, plpSlug, category);
+  const { data: { listPage: { belowBannerBlocks } = {} } = {} } = usePlpBlockPickerBlocks(locale, plpSlug, category);
 
-  return listPage?.belowBannerBlocks?.map((contentBlockData, idx) => {
-    const { _modelApiKey } = contentBlockData;
+  const renderBlocks = useMemo(
+    () =>
+      belowBannerBlocks?.map((contentBlockData, idx) => {
+        const { _modelApiKey } = contentBlockData;
 
-    return (
-      <Fragment key={`${_modelApiKey}_${idx}`}>
-        <BlockPicker
-          _modelApiKey={_modelApiKey}
-          modularBlockData={{ ...contentBlockData }}
-          countryCode={countryCode}
-          currencyCode={currencyCode}
-          shouldLazyLoad={true}
-        />
-      </Fragment>
-    );
-  });
+        return (
+          <Fragment key={`${_modelApiKey}_${idx}`}>
+            <BlockPicker
+              _modelApiKey={_modelApiKey}
+              modularBlockData={{ ...contentBlockData }}
+              countryCode={countryCode}
+              currencyCode={currencyCode}
+              shouldLazyLoad={true}
+            />
+          </Fragment>
+        );
+      }),
+    [belowBannerBlocks, countryCode, currencyCode],
+  );
+
+  return renderBlocks;
 };
 
 export { PlpBlockPicker };
