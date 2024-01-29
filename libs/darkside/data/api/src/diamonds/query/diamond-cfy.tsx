@@ -136,6 +136,9 @@ query ctoDiamondTable($locale: SiteLocale) {
     ctoDiamondResultPolishingPlanImageCaption
     ctoDiamondResultPolishedDiamondImageCaption
     ctoDiamondResultPolishedByDateCopy
+    clarityLearnMoreLink
+    cutLearnMoreLink
+    colorLearnMoreLink
     diamondsNote
     notesAdditionalInfo
     diamondNotesImages {

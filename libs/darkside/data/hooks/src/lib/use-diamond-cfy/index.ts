@@ -90,6 +90,9 @@ interface CtoDiamondTable {
   ctoDiamondResultPolishingPlanImageCaption: string;
   ctoDiamondResultPolishedDiamondImageCaption: string;
   ctoDiamondResultPolishedByDateCopy: string;
+  clarityLearnMoreLink: string;
+  cutLearnMoreLink: string;
+  colorLearnMoreLink: string;
   diamondsNote: string;
   notesAdditionalInfo: string;
   diamondNotesImages: { url: string; alt: string }[];

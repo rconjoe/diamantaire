@@ -50,7 +50,7 @@ const DiamondCfyAccordion = ({
     const title = getInfo(specs, 'color')?.value;
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { color } = product || {};
-    const { colorDetails, colorNearcolorlessDetails } = DiamondCfyData || {};
+    const { colorDetails, colorNearcolorlessDetails, colorLearnMoreLink } = DiamondCfyData || {};
     const desc = color === 'NearColorless' ? colorNearcolorlessDetails : colorDetails;
     const upgrade = diamondCtoData?.diamondColorUpgrade;
 
@@ -94,7 +94,7 @@ const DiamondCfyAccordion = ({
               <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
-              <UniLink route="/journal/post/diamond-color">
+              <UniLink route={colorLearnMoreLink}>
                 <DarksideButton type="underline" colorTheme="teal">
                   <UIString>Learn More</UIString>
                 </DarksideButton>
@@ -135,7 +135,7 @@ const DiamondCfyAccordion = ({
   const getClarityContent = () => {
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
     const { clarity, carat } = product || {};
-    const { clarityDetails, clarityDetailsVvsLg, clarityDetailsVvsSm } = DiamondCfyData || {};
+    const { clarityDetails, clarityDetailsVvsLg, clarityDetailsVvsSm, clarityLearnMoreLink } = DiamondCfyData || {};
     const clarityContent = clarity === 'VVS+' ? (carat > 4 ? clarityDetailsVvsLg : clarityDetailsVvsSm) : clarityDetails;
     const { diamondClarityUpgrade: upgrade } = diamondCtoData || {};
 
@@ -174,7 +174,7 @@ const DiamondCfyAccordion = ({
               <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
-              <UniLink route="/journal/post/diamond-clarity">
+              <UniLink route={clarityLearnMoreLink}>
                 <DarksideButton type="underline" colorTheme="teal">
                   <UIString>Learn More</UIString>
                 </DarksideButton>
@@ -207,7 +207,7 @@ const DiamondCfyAccordion = ({
   };
   const getCutContent = () => {
     let upgradeLabel, upgradePrice, upgradePriceHuman, upgradePriceSymbol;
-    const { cutDetails, cutDetailsRoundBrilliant } = DiamondCfyData || {};
+    const { cutDetails, cutDetailsRoundBrilliant, cutLearnMoreLink } = DiamondCfyData || {};
     const upgrade = diamondCtoData?.diamondCutUpgrade;
 
     if (product && upgrade) {
@@ -248,7 +248,7 @@ const DiamondCfyAccordion = ({
               <div className="price">{upgradePriceHuman}</div>
             </form>
             <div className="link">
-              <UniLink route="/journal/post/diamond-cut">
+              <UniLink route={cutLearnMoreLink}>
                 <DarksideButton type="underline" colorTheme="teal">
                   <UIString>Learn More</UIString>
                 </DarksideButton>
