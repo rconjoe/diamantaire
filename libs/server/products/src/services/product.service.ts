@@ -127,8 +127,6 @@ export class ProductsService {
       filterQuery['price'] = priceQuery;
     }
 
-    console.log(`🫥 filterQuery`, filterQuery);
-
     const sortQuery: Record<string, 1 | -1> = sortBy ? { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 } : {};
 
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
@@ -699,7 +697,8 @@ export class ProductsService {
       };
 
       const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
-      const redisKey: string = `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
+      const redisKey: string =
+        `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
 
       // create unique cacheKey for each prodyct variant
       const cachedKey = `pdp:${input?.slug}:${input?.id}:${setLocal}`;
