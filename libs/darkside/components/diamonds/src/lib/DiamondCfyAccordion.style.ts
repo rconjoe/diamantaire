@@ -58,7 +58,11 @@ const StyledDiamondCfyAccordion = styled.div`
     display: flex;
 
     * {
-      font-size: var(--font-size-xxsmall) !important;
+      font-size: var(--font-size-xxxsmall) !important;
+
+      @media (min-width: ${({ theme }) => theme.sizes.tablet}) {
+        font-size: var(--font-size-xxsmall) !important;
+      }
     }
 
     form {
