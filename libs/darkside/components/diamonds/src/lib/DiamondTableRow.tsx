@@ -109,15 +109,15 @@ const DiamondTableRow = ({
 
     if (!router.query.flowType) {
       console.log('case 001');
-      // router.push(`/customize/diamond-to-setting/${product.lotId}`);
+      router.push(`/customize/diamond-to-setting/${product.lotId}`);
     } else if (router.query.flowType === 'setting-to-diamond') {
       console.log('case 002');
-      // router.push(
-      //   `/customize/setting-to-diamond/${
-      //     router.asPath.includes('/pair/') ? '/pair/' : ''
-      //   }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
-      //   null,
-      // );
+      router.push(
+        `/customize/setting-to-diamond/${
+          router.asPath.includes('/pair/') ? '/pair/' : ''
+        }summary/${`${settingSlugs?.collectionSlug}/${settingSlugs?.productSlug}`}/${product?.lotId}`,
+        null,
+      );
     } else {
       const nextUrl = `/customize/diamond-to-setting/${router.asPath.includes('summary/') ? 'summary/' : ''}${
         product.lotId
