@@ -105,7 +105,7 @@ export class ProductsService {
     const isRefreshing = isFresh === '0';
     const cachedData = await this.cacheManager.get(`${key}-data`);
 
-    console.log('isFresh', isFresh, isRefreshing, key);
+    this.logger.debug(`SWR Cache Request: ${JSON.stringify({ isFresh, isRefreshing, key })}`, );
 
     return [isFresh, cachedData];
   }
@@ -137,7 +137,6 @@ export class ProductsService {
     const skip = (page - 1) * limit;
     const { metals, styles, diamondTypes, subStyles, priceMin, priceMax } = filters;
     const cacheKey = `plp-data:${plpSlug}:limit=${limit}-page=${page}:${this.generateQueryCacheKey(filters)}`;
-    const dataTTL = 20000;
     const [isFresh, cachedData] = await this.getSWRCache(cacheKey);
 
     const fetchPlpData = async () => {
@@ -359,6 +358,11 @@ export class ProductsService {
     }
 
     if (!isFresh) {
+      // If the data is not cached, wait for it and return it.
+      if (!cachedData){
+        return await fetchPlpData();
+      }
+      // Trigger an async process to update the data in place
       fetchPlpData();
     }  
 
@@ -710,14 +714,8 @@ export class ProductsService {
     const fetchPdpData = async () => {
       this.logger.verbose(`findProductVariant :: input : ${JSON.stringify(input)}`);
 
-<<<<<<< HEAD
-      const bigRedisKey: string = `products::` + setLocal + (includeDraftProducts() ? `:draft` : ``);
-      const redisKey: string =
-        `products:` + query.collectionSlug + `:` + setLocal + (includeDraftProducts() ? `:draft` : ``);
-=======
       try {
         const findProductBySlugStart: number = performance.now();
->>>>>>> 60f96a45 (Added SWR cache to PDP data)
 
         const bigQuery = {
           ...getDraftQuery(),
@@ -736,37 +734,7 @@ export class ProductsService {
         if (cachedData) {
           this.logger.verbose(`findProductVariant :: cache hit on key ${cachedKey}`);
 
-<<<<<<< HEAD
-      let collection: VraiProduct[];
-
-      const productsCollectionCacheValue = await this.cacheManager.get(redisKey);
-
-      const preProductsReq: number = performance.now();
-
-      if (productsCollectionCacheValue) {
-        this.logger.verbose(`findProductBySlug :: From Cache 1`);
-        collection = productsCollectionCacheValue as VraiProduct[];
-      } else {
-        this.logger.verbose(`findProductBySlug :: From DB 1`);
-        const bigProductsCollectionCacheValue = await this.cacheManager.get(bigRedisKey);
-
-        if (bigProductsCollectionCacheValue) {
-          this.logger.verbose(`findProductBySlug :: From Cache 2`);
-          collection = (bigProductsCollectionCacheValue as VraiProduct[]).filter((item) => {
-            return item.collectionSlug === input.slug;
-          });
-          this.cacheManager.set(redisKey, collection);
-        } else {
-          this.logger.verbose(`findProductBySlug :: From DB 2`);
-          collection = await this.productRepository.find(bigQuery);
-          this.cacheManager.set(bigRedisKey, collection);
-          collection = collection.filter((item) => {
-            return item.collectionSlug === input.slug;
-          });
-          this.cacheManager.set(redisKey, collection);
-=======
           return cachedData; // return the entire cached data including dato content
->>>>>>> 60f96a45 (Added SWR cache to PDP data)
         }
 
         let collection: VraiProduct[];
@@ -901,119 +869,14 @@ export class ProductsService {
         this.logger.error(`findProductVariant :: error : ${error.message}`);
         throw new NotFoundException(`Product not found :: error stack : ${error.message}`);
       }
-<<<<<<< HEAD
-
-      const postProductsReq: number = performance.now();
-
-      this.logger.verbose(
-        `findProductBySlug :: Products request :: ${postProductsReq - preProductsReq}ms (total: ${
-          postProductsReq - findProductBySlugStart
-        }ms)`,
-      );
-
-      // Get variant data based on requested ID
-      const requestedProduct = collection.find((product) => product.productSlug === input.id);
-
-      if (!requestedProduct) {
-        return null;
-      }
-
-      const requestedContentId = requestedProduct.contentId;
-
-      let collectionContent, productContent;
-
-      if ([ProductType.EngagementRing as string].includes(requestedProduct.productType)) {
-        // dato ER query
-        const queryVars = {
-          collectionSlug: input.slug,
-          productHandle: requestedContentId,
-          locale: setLocal,
-        };
-
-        // TODO: Add Dato types
-        const datoEngagementRingPDP: object = await this.datoContentForEngagementRings(queryVars); // return dato engagement ring pdp content
-
-        collectionContent = datoEngagementRingPDP?.['engagementRingProduct'];
-        productContent = datoEngagementRingPDP?.['variantContent'];
-      } else if ([ProductType.WeddingBand as string].includes(requestedProduct.productType)) {
-        const queryVars = {
-          collectionSlug: input.slug,
-          productHandle: requestedContentId,
-          locale: setLocal,
-        };
-
-        // TODO: Add Dato types
-        const datoEngagementRingPDP: object = await this.datoContentForWeddingBands(queryVars); // return dato engagement ring pdp content
-
-        collectionContent = datoEngagementRingPDP?.['weddingBandProduct'];
-        productContent = datoEngagementRingPDP?.['variantContent'];
-      } else {
-        // dato ER query
-        const queryVars = {
-          slug: input.slug,
-          variantId: requestedContentId,
-          locale: setLocal,
-        };
-
-        // TODO: Add Dato types
-        const datoJewelryPDP: object = await this.datoContentForJewelry(queryVars); // return dato engagement ring pdp content
-
-        collectionContent = datoJewelryPDP?.['jewelryProduct'];
-        productContent = datoJewelryPDP?.['configuration'];
-      }
-
-      if (collection && requestedProduct) {
-        const { productType } = requestedProduct;
-
-        const allAvailableOptions = this.getAllAvailableOptions(collection);
-        const sortedAllAvailableOptions = Object.entries(allAvailableOptions).reduce((map, [type, values]) => {
-          map[type] = values.sort(getOptionValueSorterByType(type));
-
-          return map;
-        }, {});
-        const optionConfigs = this.getOptionsConfigurations(collection, requestedProduct);
-        const sortedOptionConfigs = Object.entries(optionConfigs).reduce((map, [type, values]) => {
-          const optionSorter = getOptionValueSorterByType(type);
-
-          map[type] = values.sort((objA, objB) => optionSorter(objA.value, objB.value));
-
-          return map;
-        }, {});
-
-        const canonicalVariant = findCanonivalVariant(collection, requestedProduct);
-        const reducedCanonicalVariant = {
-          productType: canonicalVariant.productType,
-          productSlug: canonicalVariant.productSlug,
-          collectionSlug: canonicalVariant.collectionSlug,
-        };
-
-        const pdpProductData = {
-          productType,
-          ...requestedProduct,
-          allAvailableOptions: sortedAllAvailableOptions,
-          optionConfigs: sortedOptionConfigs,
-          collectionContent, // dato er collection content
-          productContent, // dato er variant content
-          canonicalVariant: reducedCanonicalVariant,
-        };
-
-        //await this.cacheService.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
-        this.cacheManager.set(cachedKey, pdpProductData, PRODUCT_DATA_TTL);
-
-        return pdpProductData;
-      } else {
-        // TODO: Handle Cannot find variant ID request
-        this.logger.debug(`findProductVariant :: Cannot find variant ID request`);
-        throw new BadGatewayException('Invalid variant ID request');
-      }
-    } catch (error: any) {
-      this.logger.error(`findProductVariant :: error : ${error.message}`);
-      throw new NotFoundException(`Product not found :: error stack : ${error.message}`);
-=======
->>>>>>> 60f96a45 (Added SWR cache to PDP data)
     }
 
     if (!isFresh){
+      // If the data is not cached, wait for it and return it.
+      if (!cachedData){
+        return await fetchPdpData();
+      }
+      // Trigger an async process to update the data in place
       fetchPdpData();
     }
 
